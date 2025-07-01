@@ -9,7 +9,7 @@
         :label="$t('i18n.pages.auth._global.enter_a_user_name')"
         :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
       />
-      <FormPasswordInput
+      <FormTextInputPassword
         @input="handlePasswordInput"
         @blur="isPasswordFocused = false"
         @focus="isPasswordFocused = true"
@@ -24,7 +24,7 @@
         v-if="showPasswordError.tooltip"
         :rules="rules"
       />
-      <FormPasswordInput
+      <FormTextInputPassword
         @input="confirmPassword = $event.target.value"
         id="set-password-confirm-password"
         :value="confirmPassword"
@@ -49,7 +49,7 @@
             </title>
           </span>
         </template>
-      </FormPasswordInput>
+      </FormTextInputPassword>
       <div class="pt-4">
         <BtnAction
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
@@ -62,6 +62,7 @@
     </form>
   </div>
 </template>
+
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 

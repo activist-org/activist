@@ -38,7 +38,7 @@
           :label="shareButtonLabel"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          :rightIcon="IconMap.SHARE"
+          :leftIcon="IconMap.SHARE"
           iconSize="1.45em"
           ariaLabel="i18n._global.share_event_aria_label"
         />
@@ -72,14 +72,10 @@
           }"
           :event="event"
         />
-        <MediaMap
+        <MediaMapEvent
           v-if="event.offlineLocation && !textExpanded"
           class="h-[17.5rem] w-full"
-          :eventNames="[event.name]"
-          :eventTypes="[event.type]"
-          :eventLocations="[event.offlineLocation]"
-          :ids="[event.id]"
-          :type="MapType.POINT"
+          :event="event"
         />
       </div>
       <CardAboutEvent :event="event" />
@@ -97,7 +93,6 @@ import type { Event } from "~/types/events/event";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
-import { MapType } from "~/types/map";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
