@@ -4,6 +4,7 @@
     <Form
       @submit="signUp"
       id="sign-up"
+      submit-label="i18n._global.sign_up"
       :schema="signUpSchema"
       class="space-y-4"
     >
@@ -29,16 +30,23 @@
           handleBlur,
           errorMessage,
         }"
+        class-item="space-y-4"
         name="password"
       >
+        <FormTextInputPassword
+          @input="handleChange"
+          @blur="
+            () => {
+              handleBlur();
+              isPasswordFieldFocused = false;
+            }
+          "
+          @focus="isPasswordFieldFocused = true"
+          :id="id"
+          :hasError="!!errorMessage.value"
+          :label="$t('i18n._global.enter_password')"
+        />
         <div class="flex flex-col space-y-4">
-          <FormTextInputPassword
-            @input="handleChange"
-            @blur="handleBlur"
-            :id="id"
-            :hasError="!!errorMessage.value"
-            :label="$t('i18n._global.enter_password')"
-          />
           <IndicatorPasswordStrength
             id="sign-in-password-strength"
             :passwordValue="passwordRef as Ref"
@@ -47,7 +55,7 @@
             v-if="
               checkRules((passwordRef.value || '') as string).some(
                 (rule) => !rule.isValid
-              )
+              ) && isPasswordFieldFocused
             "
             :password="passwordRef as Ref"
           />
@@ -94,7 +102,11 @@
         </FormTextInputPassword>
       </FormItem>
 
-      <FormItem v-slot="{ id, handleChange, handleBlur }" name="hasRead">
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur }"
+        name="hasRead"
+        class-item="space-y-4"
+      >
         <FriendlyCaptcha />
         <div class="flex flex-row items-center">
           <FormCheckbox @input="handleChange" @blur="handleBlur" :id="id" />
@@ -132,14 +144,17 @@ import { IconMap } from "~/types/icon-map";
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
 
+const { t } = useI18n();
+
 const signUpSchema = z
   .object({
-    userName: z.string().min(1, "i18n._global.required"),
-    password: z.string().min(12, "i18n._global.required"),
-    confirmPassword: z.string().min(12, "i18n._global.required"),
-    hasRead: z.boolean().refine((val) => val, {
-      message: "i18n._global.required",
-    }),
+    userName: z.string().min(1, t("i18n._global.required")),
+    password: z.string(),
+    confirmPassword: z.string(),
+    // FIX: This is commented out because Checkbox is not implemented yet.
+    // hasRead: z.boolean().refine((val) => val, {
+    //   message: "i18n._global.required",
+    // })
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -157,6 +172,7 @@ const signUpSchema = z
       });
     }
   });
+const isPasswordFieldFocused = ref(false);
 
 const signUp = () => {
   // your sign up logic
