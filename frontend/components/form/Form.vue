@@ -3,7 +3,7 @@
   <div>
     <form @submit.prevent="onSubmit" :id="id">
       <div class="flex flex-col gap-y-4">
-        <div class="grid gap-y-2">
+        <div class="grid gap-y-4">
           <slot />
         </div>
         <BtnAction
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import type { z } from "zod"; // type import goes first
+import type { z } from "zod";
 
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
@@ -34,6 +34,7 @@ const props = defineProps<{
 
 const id = props.id || "form-id";
 const submitId = props.id ? `${props.id}-submit` : "form-submit-id";
+
 const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(props.schema),
 });

@@ -108,7 +108,7 @@
   }
 
   .error-text {
-    @apply text-action-red dark:text-action-red;
+    @apply text-action-red;
   }
 
   .focus-brand {
