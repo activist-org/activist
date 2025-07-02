@@ -92,7 +92,7 @@
 import type { Topic, TopicsTag } from "~/types/topics";
 
 import { GLOBAL_TOPICS } from "~/types/topics";
-
+// TODO: refactor this component for readability and maintainability + move logic to composables
 const props = defineProps({
   modelValue: {
     type: Array as PropType<Topic[]>,
