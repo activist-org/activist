@@ -9,6 +9,7 @@
         <BtnAction
           :id="submitId"
           class="flex items-center justify-center"
+          :class="props.classButton"
           :label="labelForSubmit"
           :cta="true"
           fontSize="lg"

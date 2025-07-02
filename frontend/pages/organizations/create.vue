@@ -24,6 +24,8 @@
         id="organization-create-form"
         :schema="schema"
         class="flex w-full flex-col items-center justify-center pt-4"
+        class-button="ml-[3.5rem] mb-4"
+        submit-label="i18n.pages.organizations.create.complete_application"
       >
         <!-- First card: Name and Location -->
         <div
@@ -109,8 +111,12 @@
 
         <!-- Topics (CardTopicSelection) -->
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <FormItem v-slot="{ id, handleChange, handleBlur }" name="topics">
+          <FormItem
+            v-slot="{ id, handleChange, handleBlur, value }"
+            name="topics"
+          >
             <CardTopicSelection
+              v-model="value.value as Topic[]"
               @input="handleChange"
               @blur="handleBlur"
               :id="id"
@@ -148,9 +154,11 @@
 </template>
 
 <script setup lang="ts">
-// import { Toaster, toast } from "vue-sonner";
-import { Toaster } from "vue-sonner";
+import { Toaster, toast } from "vue-sonner";
 import { z } from "zod";
+
+import type { OrganizationCreateFormData } from "~/types/communities/organization";
+import type { Topic } from "~/types/topics";
 
 const schema = z.object({
   name: z.string().min(1, "Organization name is required"),
@@ -161,16 +169,17 @@ const schema = z.object({
 });
 
 const localePath = useLocalePath();
-// const organizationStore = useOrganizationStore();
+const organizationStore = useOrganizationStore();
 
-const submit = async (values) => {
-  console.log("Submitting organization form with values:", values);
-  // const responseId = await organizationStore.create(values);
+const submit = async (values: unknown) => {
+  const responseId = await organizationStore.create(
+    values as OrganizationCreateFormData
+  );
 
-  // if (responseId) {
-  //   navigateTo(localePath(`/organizations/${responseId}`));
-  // } else {
-  //   toast.error("Something went wrong. Please try again later.");
-  // }
+  if (responseId) {
+    navigateTo(localePath(`/organizations/${responseId}`));
+  } else {
+    toast.error("Something went wrong. Please try again later.");
+  }
 };
 </script>
