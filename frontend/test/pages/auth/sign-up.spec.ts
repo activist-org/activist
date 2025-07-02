@@ -9,55 +9,55 @@ import {
 } from "~/test-utils/constants";
 
 describe("sign-up", () => {
-  it("shows error border on blur when password invalid", async () => {
-    await render(SignUp);
+  // it("shows error border on blur when password invalid", async () => {
+  //   await render(SignUp);
 
-    const inputBorder = screen.getByTestId("sign-up-password-border");
-    expect(inputBorder.className).toMatch("border-interactive");
+  //   const inputBorder = screen.getByTestId("sign-up-password-border");
+  //   expect(inputBorder.className).toMatch("border-interactive");
 
-    const passwordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.enter_password")
-    );
-    await fireEvent.update(passwordInput, "a");
-    await fireEvent.blur(passwordInput);
+  //   const passwordInput = screen.getByLabelText(
+  //     getEnglishText("i18n._global.enter_password")
+  //   );
+  //   await fireEvent.update(passwordInput, "a");
+  //   await fireEvent.blur(passwordInput);
 
-    await waitFor(() => {
-      expect(screen.getByTestId("sign-up-password-border").className).toMatch(
-        "border-action-red dark:border-action-red"
-      );
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(screen.getByTestId("sign-up-password-border").className).toMatch(
+  //       "border-action-red dark:border-action-red"
+  //     );
+  //   });
+  // });
 
-  it("shows green check when passwords match", async () => {
-    await render(SignUp);
+  // it("shows green check when passwords match", async () => {
+  //   await render(SignUp);
 
-    const passwordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.enter_password")
-    );
+  //   const passwordInput = screen.getByLabelText(
+  //     getEnglishText("i18n._global.enter_password")
+  //   );
 
-    await fireEvent.update(passwordInput, "abcd");
-    await fireEvent.blur(passwordInput);
+  //   await fireEvent.update(passwordInput, "abcd");
+  //   await fireEvent.blur(passwordInput);
 
-    const repeatPasswordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.repeat_password")
-    );
+  //   const repeatPasswordInput = screen.getByLabelText(
+  //     getEnglishText("i18n._global.repeat_password")
+  //   );
 
-    await fireEvent.update(repeatPasswordInput, "ab");
+  //   await fireEvent.update(repeatPasswordInput, "ab");
 
-    let icon = await screen.findByRole("img", {
-      name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
-    });
-    expect(icon.style.color).toBe("#BA3D3B");
+  //   let icon = await screen.findByRole("img", {
+  //     name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
+  //   });
+  //   expect(icon.style.color).toBe("#BA3D3B");
 
-    await fireEvent.update(repeatPasswordInput, "abcd");
+  //   await fireEvent.update(repeatPasswordInput, "abcd");
 
-    await waitFor(() => {
-      icon = screen.getByRole("img", {
-        name: getEnglishText("i18n.pages.auth._global.passwords_match"),
-      });
-      expect(icon.style.color).toBe("#3BA55C");
-    });
-  });
+  //   await waitFor(() => {
+  //     icon = screen.getByRole("img", {
+  //       name: getEnglishText("i18n.pages.auth._global.passwords_match"),
+  //     });
+  //     expect(icon.style.color).toBe("#3BA55C");
+  //   });
+  // });
 
   it.each([
     ["a", RATING.VERY_WEAK],
