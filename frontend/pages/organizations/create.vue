@@ -18,82 +18,111 @@
           {{ $t("i18n.pages.organizations.create.subtext") }}
         </p>
       </div>
-      <form
-        @submit.prevent="submit"
+
+      <Form
+        @submit="submit"
+        id="organization-create-form"
+        :schema="schema"
         class="flex w-full flex-col items-center justify-center pt-4"
       >
+        <!-- First card: Name and Location -->
         <div
           class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium">
-              {{ $t("i18n._global.organization_name") }}*
-            </label>
-            <input
-              v-model="formData.name"
-              id="name"
-              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-              type="text"
+            <FormItem
+              v-slot="{ id, handleChange, handleBlur, errorMessage }"
+              :label="$t('i18n.pages._global.create.organization_name')"
               name="name"
-              :placeholder="
-                $t(
-                  'i18n.pages.organizations.create.organization_name_placeholder'
-                )
-              "
-            />
+            >
+              <FormTextInput
+                @input="handleChange"
+                @blur="handleBlur"
+                :id="id"
+                :hasError="!!errorMessage.value"
+                :label="
+                  $t(
+                    'i18n.pages.organizations.create.organization_name_placeholder'
+                  )
+                "
+              />
+            </FormItem>
           </div>
+
           <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium">
-              {{ $t("i18n.pages._global.create.location") }}*
-            </label>
-            <input
-              v-model="formData.location"
-              id="location"
-              class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-              type="text"
+            <FormItem
+              v-slot="{ id, handleChange, handleBlur, errorMessage }"
+              :label="$t('i18n.pages._global.create.location')"
               name="location"
-              :placeholder="
-                $t('i18n.pages.organizations.create.location_placeholder')
-              "
-            />
+            >
+              <FormTextInput
+                @input="handleChange"
+                @blur="handleBlur"
+                :id="id"
+                :hasError="!!errorMessage.value"
+                :label="
+                  $t('i18n.pages.organizations.create.location_placeholder')
+                "
+              />
+            </FormItem>
           </div>
         </div>
+
+        <!-- Description card -->
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium">
-            {{ $t("i18n.pages._global.create.description") }}*
-          </label>
-          <textarea
-            v-model="formData.description"
-            id="description"
-            class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
+          <FormItem
+            v-slot="{ id, handleChange, handleBlur, errorMessage }"
+            :label="$t('i18n.pages._global.create.description')"
             name="description"
-            :placeholder="
-              $t('i18n.pages.organizations.create.description_placeholder')
-            "
-          ></textarea>
+          >
+            <FormTextArea
+              @input="handleChange"
+              @blur="handleBlur"
+              :id="id"
+              :hasError="!!errorMessage.value"
+              :label="
+                $t('i18n.pages.organizations.create.description_placeholder')
+              "
+            />
+          </FormItem>
         </div>
+
+        <!-- Tagline card -->
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t("i18n.pages._global.create.tagline")
-          }}</label>
-          <input
-            v-model="formData.tagline"
-            id="tagline"
-            class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
+          <FormItem
+            v-slot="{ id, handleChange, handleBlur, errorMessage }"
+            :label="$t('i18n.pages._global.create.tagline')"
             name="tagline"
-            :placeholder="
-              $t('i18n.pages.organizations.create.tagline_placeholder')
-            "
-          />
+          >
+            <FormTextInput
+              @input="handleChange"
+              @blur="handleBlur"
+              :id="id"
+              :hasError="!!errorMessage.value"
+              :label="$t('i18n.pages.organizations.create.tagline_placeholder')"
+            />
+          </FormItem>
         </div>
-        <CardTopicSelection
-          v-model="formData.topics"
-          class="mt-5"
-          pageType="organization"
-        />
+
+        <!-- Topics (CardTopicSelection) -->
+        <div class="card-style mx-14 mt-5 w-full px-5 py-6">
+          <FormItem v-slot="{ id, handleChange, handleBlur }" name="topics">
+            <CardTopicSelection
+              @input="handleChange"
+              @blur="handleBlur"
+              :id="id"
+              class="mt-5"
+              pageType="organization"
+            />
+          </FormItem>
+        </div>
+
+        <!-- Connect organization -->
         <div class="mx-14 mt-5 w-full">
           <CardConnectOrganization />
         </div>
+
+        <!-- Terms checkbox -->
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
             <FormCheckbox />
@@ -109,46 +138,36 @@
               <p>.</p>
             </label>
           </div>
-          <div class="my-5">
-            <BtnAction
-              type="submit"
-              :cta="true"
-              class="flex"
-              label="i18n.pages.organizations.create.complete_application"
-              fontSize="lg"
-              ariaLabel="i18n.pages.organizations.create.complete_application_aria_label"
-            />
-          </div>
         </div>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Toaster, toast } from "vue-sonner";
+// import { Toaster, toast } from "vue-sonner";
+import { Toaster } from "vue-sonner";
+import { z } from "zod";
 
-import type { OrganizationCreateFormData } from "~/types/communities/organization";
-
-const formData = ref<OrganizationCreateFormData>({
-  name: "",
-  tagline: "",
-  location: "",
-  description: "",
-  social_accounts: [],
-  topics: [],
+const schema = z.object({
+  name: z.string().min(1, "Organization name is required"),
+  tagline: z.string().optional(),
+  location: z.string().min(1, "Location is required"),
+  description: z.string().min(1, "Description is required"),
+  topics: z.array(z.string()).optional(),
 });
 
 const localePath = useLocalePath();
-const organizationStore = useOrganizationStore();
+// const organizationStore = useOrganizationStore();
 
-const submit = async () => {
-  const responseId = await organizationStore.create(formData.value);
+const submit = async (values) => {
+  console.log("Submitting organization form with values:", values);
+  // const responseId = await organizationStore.create(values);
 
-  if (responseId) {
-    navigateTo(localePath(`/organizations/${responseId}`));
-  } else {
-    toast.error("Something went wrong. Please try again later.");
-  }
+  // if (responseId) {
+  //   navigateTo(localePath(`/organizations/${responseId}`));
+  // } else {
+  //   toast.error("Something went wrong. Please try again later.");
+  // }
 };
 </script>
