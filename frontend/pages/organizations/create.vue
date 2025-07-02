@@ -169,17 +169,17 @@ const schema = z.object({
 });
 
 const localePath = useLocalePath();
-// const organizationStore = useOrganizationStore();
+const organizationStore = useOrganizationStore();
 
 const submit = async (values: unknown) => {
   const responseId = await organizationStore.create(
     values as OrganizationCreateFormData
   );
 
-  // if (responseId) {
-  //   navigateTo(localePath(`/organizations/${responseId}`));
-  // } else {
-  //   toast.error("Something went wrong. Please try again later.");
-  // }
+  if (responseId) {
+    navigateTo(localePath(`/organizations/${responseId}`));
+  } else {
+    toast.error("Something went wrong. Please try again later.");
+  }
 };
 </script>
