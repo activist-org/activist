@@ -1,14 +1,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div
-    class="flex items-center space-x-2 rounded border py-2 pl-[12px] pr-[10px] text-left text-distinct-text"
+  <textarea
+    :id="id"
+    :placeholder="placeholder"
+    rows="5"
+    class="box-content flex w-full items-center space-x-2 rounded border bg-transparent py-2 pl-[12px] pr-[10px] text-left placeholder-primary-text outline-none"
     :class="{
-      'border-action-red dark:border-action-red': error,
-      'border-interactive': !error,
+      'border-action-red dark:border-action-red': hasError,
+      'border-interactive': !hasError,
     }"
-  >
-    <textarea :id="uuid"></textarea>
-  </div>
+  />
 </template>
 
 <script setup lang="ts">
@@ -16,13 +17,13 @@ import { v4 as uuidv4 } from "uuid";
 
 export interface Props {
   placeholder?: string;
-  error?: boolean;
+  hasError?: boolean;
+  id?: string;
 }
 
-withDefaults(defineProps<Props>(), {
-  placeholder: "",
-  error: false,
+const props = withDefaults(defineProps<Props>(), {
+  hasError: false,
 });
 
-const uuid = uuidv4();
+const id = props.id ?? uuidv4();
 </script>

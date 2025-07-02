@@ -32,8 +32,9 @@
           <div class="w-1/2">
             <FormItem
               v-slot="{ id, handleChange, handleBlur, errorMessage }"
-              :label="$t('i18n.pages._global.create.organization_name')"
+              :label="$t('i18n._global.organization_name')"
               name="name"
+              :required="true"
             >
               <FormTextInput
                 @input="handleChange"
@@ -54,6 +55,7 @@
               v-slot="{ id, handleChange, handleBlur, errorMessage }"
               :label="$t('i18n.pages._global.create.location')"
               name="location"
+              :required="true"
             >
               <FormTextInput
                 @input="handleChange"
@@ -74,13 +76,14 @@
             v-slot="{ id, handleChange, handleBlur, errorMessage }"
             :label="$t('i18n.pages._global.create.description')"
             name="description"
+            :required="true"
           >
             <FormTextArea
               @input="handleChange"
               @blur="handleBlur"
               :id="id"
               :hasError="!!errorMessage.value"
-              :label="
+              :placeholder="
                 $t('i18n.pages.organizations.create.description_placeholder')
               "
             />
