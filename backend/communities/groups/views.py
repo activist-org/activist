@@ -63,7 +63,7 @@ class GroupAPIView(GenericAPIView[Group]):
         else:
             self.permission_classes = (IsAuthenticated,)
 
-        return cast(List[BasePermission], super().get_permissions())
+        return super().get_permissions()  # type: ignore
 
     def get_serializer_class(self) -> Type[GroupSerializer | GroupPOSTSerializer]:
         if self.request.method in SAFE_METHODS:
