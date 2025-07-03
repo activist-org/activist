@@ -9,55 +9,61 @@ import {
 } from "~/test-utils/constants";
 
 describe("sign-up", () => {
-  // it("shows error border on blur when password invalid", async () => {
-  //   await render(SignUp);
+  it("shows error border when password invalid", async () => {
+    await render(SignUp);
 
-  //   const inputBorder = screen.getByTestId("sign-up-password-border");
-  //   expect(inputBorder.className).toMatch("border-interactive");
+    const inputBorder = screen.getByTestId("form-item-password-border");
+    expect(inputBorder.className).toMatch("border-interactive");
 
-  //   const passwordInput = screen.getByLabelText(
-  //     getEnglishText("i18n._global.enter_password")
-  //   );
-  //   await fireEvent.update(passwordInput, "a");
-  //   await fireEvent.blur(passwordInput);
+    const submitButton = screen.getByRole("button", {
+      name: getEnglishText("i18n.components.submit_aria_label"),
+    });
 
-  //   await waitFor(() => {
-  //     expect(screen.getByTestId("sign-up-password-border").className).toMatch(
-  //       "border-action-red dark:border-action-red"
-  //     );
-  //   });
-  // });
+    await fireEvent.click(submitButton);
 
-  // it("shows green check when passwords match", async () => {
-  //   await render(SignUp);
+    await waitFor(() => {
+      expect(screen.getByTestId("form-item-password-border").className).toMatch(
+        "border-action-red dark:border-action-red"
+      );
+    });
+  });
 
-  //   const passwordInput = screen.getByLabelText(
-  //     getEnglishText("i18n._global.enter_password")
-  //   );
+  it("shows green check when passwords match", async () => {
+    await render(SignUp);
 
-  //   await fireEvent.update(passwordInput, "abcd");
-  //   await fireEvent.blur(passwordInput);
+    const userName = screen.getByLabelText(
+      getEnglishText("i18n.pages.auth._global.enter_a_user_name")
+    );
+    await fireEvent.update(userName, "testuser");
 
-  //   const repeatPasswordInput = screen.getByLabelText(
-  //     getEnglishText("i18n._global.repeat_password")
-  //   );
+    const passwordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.enter_password")
+    );
 
-  //   await fireEvent.update(repeatPasswordInput, "ab");
+    await fireEvent.update(passwordInput, "abcd");
+    await fireEvent.blur(passwordInput);
 
-  //   let icon = await screen.findByRole("img", {
-  //     name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
-  //   });
-  //   expect(icon.style.color).toBe("#BA3D3B");
+    const repeatPasswordInput = screen.getByLabelText(
+      getEnglishText("i18n._global.repeat_password")
+    );
 
-  //   await fireEvent.update(repeatPasswordInput, "abcd");
+    await fireEvent.update(repeatPasswordInput, "ab");
 
-  //   await waitFor(() => {
-  //     icon = screen.getByRole("img", {
-  //       name: getEnglishText("i18n.pages.auth._global.passwords_match"),
-  //     });
-  //     expect(icon.style.color).toBe("#3BA55C");
-  //   });
-  // });
+    let icon = await screen.findByRole("img", {
+      name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
+    });
+
+    expect(icon.style.color).toBe("#BA3D3B");
+
+    await fireEvent.update(repeatPasswordInput, "abcd");
+
+    await waitFor(() => {
+      icon = screen.getByRole("img", {
+        name: getEnglishText("i18n.pages.auth._global.passwords_match"),
+      });
+      expect(icon.style.color).toBe("#3BA55C");
+    });
+  });
 
   it.each([
     ["a", RATING.VERY_WEAK],
