@@ -77,13 +77,15 @@
             <span>
               <Icon
                 :name="
-                  errorMessage.value === 'The passwords did not match'
+                  errorMessage.value !==
+                  t('i18n.pages.auth._global.password_not_matched')
                     ? IconMap.CHECK
                     : IconMap.X_LG
                 "
                 size="1.2em"
                 :color="
-                  errorMessage.value === 'The passwords did not match'
+                  errorMessage.value !==
+                  t('i18n.pages.auth._global.password_not_matched')
                     ? '#3BA55C'
                     : '#BA3D3B'
                 "
@@ -92,9 +94,10 @@
               />
               <title id="sign-up-confirm-password-match" class="sr-only">
                 {{
-                  errorMessage.value === "The passwords did not match"
-                    ? $t("i18n.pages.auth._global.passwords_match")
-                    : $t("i18n.pages.auth._global.passwords_do_not_match")
+                  errorMessage.value ===
+                  t("i18n.pages.auth._global.password_not_matched")
+                    ? $t("i18n.pages.auth._global.passwords_do_not_match")
+                    : $t("i18n.pages.auth._global.passwords_match")
                 }}
               </title>
             </span>
@@ -151,7 +154,7 @@ const signUpSchema = z
     userName: z.string().min(1, t("i18n._global.required")),
     password: z.string(),
     confirmPassword: z.string(),
-    // FIX: This is commented out because Checkbox is not implemented yet.
+    // FIXME: This is commented out because Checkbox is not implemented yet.
     // hasRead: z.boolean().refine((val) => val, {
     //   message: "i18n._global.required",
     // })
@@ -160,14 +163,14 @@ const signUpSchema = z
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: "custom",
-        message: "The passwords did not match",
+        message: t("i18n.pages.auth._global.password_not_matched"),
         path: ["confirmPassword"],
       });
     }
     if (password && checkRules(password).some((rule) => !rule.isValid)) {
       ctx.addIssue({
         code: "custom",
-        message: "A password rule is not correct",
+        message: t("i18n.pages.auth._global.password_rule_not_correct"),
         path: ["password"],
       });
     }

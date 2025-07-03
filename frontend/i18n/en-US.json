@@ -425,6 +425,8 @@
   "i18n.pages._global.terms_of_service_pt_1": "I have read and agree to the",
   "i18n.pages._global.terms_of_service_pt_2": "activist terms and conditions",
   "i18n.pages.auth._global.enter_a_user_name": "Enter a username",
+  "i18n.pages.auth._global.password_not_matched": "Passwords do not match",
+  "i18n.pages.auth._global.password_rule_not_correct": "A password rule is not correct",
   "i18n.pages.auth._global.passwords_do_not_match": "Error: passwords do not match",
   "i18n.pages.auth._global.passwords_match": "Success: passwords match",
   "i18n.pages.auth.index.where_to_start": "Where would you like to start?",
