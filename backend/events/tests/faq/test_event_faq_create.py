@@ -3,8 +3,6 @@
 Test cases for the event social link methods.
 """
 
-from uuid import uuid4
-
 import pytest
 from django.test import Client
 
@@ -16,7 +14,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_event_faq_update(client: Client) -> None:
+def test_event_faq_create(client: Client) -> None:
     """
     Test Event FAQ updates.
 
@@ -35,60 +33,58 @@ def test_event_faq_update(client: Client) -> None:
     user = UserFactory(username=test_username, plaintext_password=test_password)
     user.is_confirmed = True
     user.verified = True
+    user.is_staff = True
     user.save()
 
     event = EventFactory()
     event.created_by = user
 
     faqs = EventFaqFactory()
-    test_id = faqs.id
     test_question = faqs.question
     test_answer = faqs.answer
     test_order = faqs.order
 
     # Login to get token.
-    login = client.post(
-        path="/v1/auth/sign_in",
+    login_response = client.post(
+        path="/v1/auth/sign_in/",
         data={"username": test_username, "password": test_password},
     )
 
-    assert login.status_code == 200
+    assert login_response.status_code == 200
 
     # MARK: Update Success
 
-    login_body = login.json()
+    login_body = login_response.json()
     token = login_body["token"]
 
-    response = client.put(
-        path=f"/v1/events/event_faqs/{test_id}/",
+    response = client.post(
+        path="/v1/events/event_faqs/",
         data={
-            "id": test_id,
             "iso": "en",
             "primary": True,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,
+            "eventId": event.id,
         },
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 201
 
     # MARK: Update Failure
 
-    test_uuid = uuid4()
-
-    response = client.put(
-        path=f"/v1/events/event_faqs/{test_uuid}",
+    response = client.post(
+        path="/v1/events/event_faqs/",
         data={
-            "id": test_id,
-            "question": test_question,
-            "answer": test_answer,
+            "question": "",
+            "answer": "",
             "order": test_order,
+            "eventId": event.id,
         },
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == 400
