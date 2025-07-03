@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Form :schema="schema" :v-model="onSubmit">
+  <Form @submit="onSubmit" :schema="schema">
     <FormItem
       v-slot="{ id, handleChange, handleBlur, errorMessage }"
       name="name"
