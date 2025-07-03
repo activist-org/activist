@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import FormTemplate from "@/components/form/FormTemplate.vue";
 import render from "@/test/render";
 import { screen, fireEvent, waitFor } from "@testing-library/vue";
