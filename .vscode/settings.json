@@ -10,4 +10,7 @@
     ".vscode/tailwind.json"
   ],
   "vitest.rootConfig": "./frontend/vitest.config.mts",
+  "cSpell.words": [
+    "viewset"
+  ],
 }
