@@ -151,7 +151,6 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             start_dt = parse_datetime(start) if isinstance(start, str) else start
             end_dt = parse_datetime(end) if isinstance(end, str) else end
 
-            
             if isinstance(start_dt, datetime) and isinstance(end_dt, datetime):
                 if start_dt > end_dt:
                     raise serializers.ValidationError(
@@ -180,8 +179,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                     raise serializers.ValidationError(
                         _("The creation date cannot be after the deletion date."),
                         code="invalid_date_order",
-            )
-
+                    )
 
         terms_checked = data.get("terms_checked")
 
