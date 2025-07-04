@@ -4,7 +4,7 @@
     :id="id"
     :placeholder="placeholder"
     rows="5"
-    class="box-content flex w-full items-center space-x-2 rounded border bg-transparent py-2 pl-[12px] pr-[10px] text-left placeholder-primary-text outline-none"
+    class="box-content flex items-center space-x-2 rounded border bg-transparent py-2 pl-[12px] pr-[10px] text-left placeholder-primary-text outline-none"
     :class="{
       'border-action-red dark:border-action-red': hasError,
       'border-interactive': !hasError,

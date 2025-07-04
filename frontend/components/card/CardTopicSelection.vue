@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<template v-model="value">
+<template>
   <div class="card-style w-full flex-col space-y-3 px-5 py-6">
     <p class="responsive-h3 font-medium text-primary-text">
       {{ $t("i18n.components.card_topic_selection.header") }}
@@ -14,11 +14,18 @@
       {{ $t("i18n.components.card_topic_selection.subtext_resource") }}
     </p>
     <input
-      v-model="query"
+      @input.stop="
+        (event) => {
+          inputValue = ((event.target || '').value as string)
+            .trim()
+            .toLowerCase();
+          event.preventDefault();
+        }
+      "
       @focus="inputFocus = true"
       @keydown="resetTabIndex()"
-      id="query"
-      :display-value="() => query"
+      id="inputValue"
+      :display-value="() => inputValue"
       :placeholder="
         $t('i18n.components.card_topic_selection.selector_placeholder')
       "
@@ -225,13 +232,12 @@ const value = computed<Topic[]>({
   },
 });
 
-const query = ref("");
+const inputValue = ref<string>("");
 
 const selectTopic = (topic: TopicsTag) => {
-  const updatedValue = [...props.modelValue];
+  const updatedValue = [...value.value];
   const index = updatedValue.indexOf(topic.value);
   const isFirst = filteredTopics.value[0]?.value === topic.value;
-
   if (index === -1) {
     updatedValue.push(topic.value);
   } else {
@@ -248,6 +254,7 @@ function isActiveTopic(topic: Topic) {
 }
 
 const selectedTopicTags = computed(() => {
+  console.log("selectedTopicTags", value.value);
   return value.value
     .map((topic) => {
       return GLOBAL_TOPICS.find((tag) => tag.value === topic);
@@ -278,7 +285,7 @@ const focusFirstTopic = () => {
 
 const filteredTopics = computed(() => {
   return topics.value.filter((topic) => {
-    return topic.value.includes(query.value.trim().toLowerCase());
+    return topic.value.includes(inputValue.value.trim().toLowerCase());
   });
 });
 </script>
