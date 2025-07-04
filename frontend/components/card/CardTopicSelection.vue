@@ -16,7 +16,7 @@
     <input
       @input.stop="
         (event) => {
-          inputValue = ((event.target || '').value as string)
+          inputValue = (event.target as HTMLInputElement)?.value
             .trim()
             .toLowerCase();
           event.preventDefault();
