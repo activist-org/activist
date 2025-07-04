@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { FaqEntry } from "~/types/content/faq-entry";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
@@ -43,6 +44,7 @@ export const useEventStore = defineStore("event", {
 
       getInvolvedUrl: "",
       socialLinks: [],
+      faqEntries: [],
       startTime: "",
       endTime: "",
       creationDate: "",
@@ -70,7 +72,7 @@ export const useEventStore = defineStore("event", {
       const token = localStorage.getItem("accessToken");
 
       const responseEvent = await useFetch(
-        `${BASE_BACKEND_URL}/events/events/`,
+        `${BASE_BACKEND_URL}/events/events`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -109,10 +111,7 @@ export const useEventStore = defineStore("event", {
 
       const { data, status } = await useAsyncData<EventResponse>(
         async () =>
-          (await fetchWithoutToken(
-            `/events/events/${id}/`,
-            {}
-          )) as EventResponse
+          (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
       );
 
       if (status.value === "success") {
@@ -130,6 +129,7 @@ export const useEventStore = defineStore("event", {
 
         this.event.getInvolvedUrl = event.getInvolvedUrl;
         this.event.socialLinks = event.socialLinks;
+        this.event.faqEntries = event.faqEntries;
         this.event.startTime = event.startTime;
         this.event.endTime = event.endTime;
         this.event.creationDate = event.creationDate;
@@ -148,7 +148,7 @@ export const useEventStore = defineStore("event", {
 
       const { data, status } = await useAsyncData<EventsResponseBody>(
         async () =>
-          (await fetchWithoutToken(`/events/events/`, {})) as EventsResponseBody
+          (await fetchWithoutToken(`/events/events`, {})) as EventsResponseBody
       );
 
       if (status.value === "success") {
@@ -166,6 +166,7 @@ export const useEventStore = defineStore("event", {
 
             getInvolvedUrl: event.getInvolvedUrl,
             socialLinks: event.socialLinks,
+            faqEntries: event.faqEntries,
             startTime: event.startTime,
             endTime: event.endTime,
             creationDate: event.creationDate,
@@ -189,7 +190,7 @@ export const useEventStore = defineStore("event", {
       const token = localStorage.getItem("accessToken");
 
       const responseEvent = await $fetch(
-        BASE_BACKEND_URL + `/events/events/${event.id}/`,
+        BASE_BACKEND_URL + `/events/events/${event.id}`,
         {
           method: "PUT",
           body: {
@@ -203,7 +204,7 @@ export const useEventStore = defineStore("event", {
       );
 
       const responseEventTexts = await $fetch(
-        BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}/`,
+        BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}`,
         {
           method: "PUT",
           body: {
@@ -245,7 +246,7 @@ export const useEventStore = defineStore("event", {
       // 'update()' in the viewset 'class EventSocialLinkViewSet' handles this
       // by using the event.id from the end of the URL.
       const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_social_links/${event.id}/`,
+        `${BASE_BACKEND_URL}/events/event_social_links/${event.id}`,
         {
           method: "PUT",
           // Send entire formData array/dict in order to make a single API request.
@@ -265,6 +266,48 @@ export const useEventStore = defineStore("event", {
       const responseSocialLinksData = responseSocialLinks.data
         .value as unknown as Event;
       if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates, to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ Entries
+
+    async updateFaqEntry(event: Event, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const token = localStorage.getItem("accessToken");
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_faqs/${event.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
         responses.push(true);
       } else {
         responses.push(false);

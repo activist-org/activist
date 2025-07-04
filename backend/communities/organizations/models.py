@@ -3,12 +3,13 @@
 Models for the communities app.
 """
 
+from typing import Any
 from uuid import uuid4
 
 from django.db import models
 
 from authentication import enums
-from content.models import SocialLink
+from content.models import Faq, SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Organization
@@ -49,12 +50,29 @@ class Organization(models.Model):
     deletion_date = models.DateTimeField(blank=True, null=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
+
     resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
 
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField(
+        "authentication.UserModel",
+        through="OrganizationFlag",
+    )
+
     def __str__(self) -> str:
         return self.name
+
+
+class OrganizationFlag(models.Model):
+    """
+    Model for flagged organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org = models.ForeignKey("communities.Organization", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
 
 
 # MARK: Bridge Tables
@@ -130,6 +148,16 @@ class OrganizationSocialLink(SocialLink):
 
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
+    )
+
+
+class OrganizationFaq(Faq):
+    """
+    Class for adding faq parameters to organizations.
+    """
+
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, null=True, related_name="faqs"
     )
 
 

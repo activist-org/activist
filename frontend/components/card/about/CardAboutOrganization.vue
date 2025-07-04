@@ -5,6 +5,7 @@
       v-if="organization && !expandText"
       :organization="organization"
       type="icon"
+      reason-for-suggesting=""
     />
     <button
       v-if="expandText"

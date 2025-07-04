@@ -118,6 +118,11 @@ export default defineNuxtConfig({
     preset: "netlify-static",
   },
 
+  plausible: {
+    // Prevent tracking on localhost.
+    ignoredHostnames: ["localhost"],
+  },
+
   security: {
     // Cross-Origin Resource Sharing (CORS) not needed for frontend.
     corsHandler: false,
@@ -154,6 +159,4 @@ export default defineNuxtConfig({
       maxUploadFileRequestInBytes: 5000000,
     },
   },
-
-  compatibilityDate: "2025-03-12",
 });

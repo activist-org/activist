@@ -9,6 +9,8 @@ from rest_framework import serializers
 
 from communities.groups.models import (
     Group,
+    GroupFaq,
+    GroupFlag,
     GroupImage,
     GroupMember,
     GroupSocialLink,
@@ -28,6 +30,16 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
 
     class Meta:
         model = GroupSocialLink
+        fields = "__all__"
+
+
+class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
+    """
+    Serializer for GroupFaq model data.
+    """
+
+    class Meta:
+        model = GroupFaq
         fields = "__all__"
 
 
@@ -68,7 +80,6 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
 
         exclude = (
             "resources",
-            "faqs",
             "topics",
             "org",
             "created_by",
@@ -88,6 +99,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     social_links = GroupSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
+    faq_entries = GroupFaqSerializer(source="faqs", many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
 
@@ -140,6 +152,16 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             GroupText.objects.create(group=group)
 
         return group
+
+
+class GroupFlagSerializer(serializers.ModelSerializer[GroupFlag]):
+    """
+    Serializers for GroupFlag model.
+    """
+
+    class Meta:
+        model = GroupFlag
+        fields = "__all__"
 
 
 # MARK: Bridge Tables

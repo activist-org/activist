@@ -14,7 +14,7 @@
       <!-- <BtnRouteInternal
         class="flex max-h-[40px] w-full"
         :cta="true"
-        label="i18n.components._global.join"
+        label="i18n.components.tooltip.menu_search_result._global.join"
         leftIcon="IconJoin"
         linkTo="/"
         fontSize="lg"
@@ -28,7 +28,7 @@
         class="flex max-h-[40px] w-full items-center"
         :cta="true"
         label="i18n._global.share"
-        :rightIcon="IconMap.SHARE"
+        :leftIcon="IconMap.SHARE"
         fontSize="lg"
         ariaLabel="i18n._global.share_organization_aria_label"
       />

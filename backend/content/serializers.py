@@ -5,7 +5,7 @@ Serializers for the content app.
 
 import logging
 from io import BytesIO
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Union
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
@@ -21,6 +21,7 @@ from content.models import (
     Image,
     Location,
     Resource,
+    ResourceFlag,
     Topic,
 )
 from events.models import Event
@@ -163,7 +164,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Any]) -> List[Image]:
+    def create(self, validated_data: Dict[str, Any]) -> Any:
         """
         Create an Image instance with privacy-enhanced processing.
 
@@ -277,6 +278,19 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
         fields = "__all__"
 
 
+# MARK: Resource Flag
+
+
+class ResourceFlagSerializer(serializers.ModelSerializer[ResourceFlag]):
+    """
+    Serializers for Resource Flag model.
+    """
+
+    class Meta:
+        model = ResourceFlag
+        fields = "__all__"
+
+
 # MARK: Topic
 
 
@@ -336,4 +350,4 @@ class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
 
     class Meta:
         model = DiscussionEntry
-        fields = "__all__"
+        exclude = "created_by", "deletion_date"

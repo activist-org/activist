@@ -25,7 +25,18 @@
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages.organizations.events.new_event_aria_label"
+          ariaLabel="i18n.pages.organizations.events.new_org_event_aria_label"
+        />
+        <BtnAction
+          @click="downloadCalendarEntries"
+          @keydown.enter="downloadCalendarEntries"
+          class="w-max"
+          :cta="true"
+          label="i18n.pages.organizations._global.subscribe_to_events"
+          fontSize="sm"
+          :leftIcon="IconMap.DATE"
+          iconSize="1.25em"
+          ariaLabel="i18n.pages.organizations._global.subscribe_to_events_aria_label"
         />
       </div>
     </HeaderAppPageOrganization>
@@ -52,4 +63,6 @@ import { IconMap } from "~/types/icon-map";
 defineProps<{
   organization: Organization;
 }>();
+
+const downloadCalendarEntries = () => {};
 </script>

@@ -12,7 +12,7 @@
         />
       </div>
       <div>
-        <FormPasswordInput
+        <FormTextInputPassword
           @input="handlePasswordInput"
           @blur="isPasswordFocused = false"
           @focus="isPasswordFocused = true"
@@ -28,7 +28,7 @@
         :rules="rules"
       />
       <div>
-        <FormPasswordInput
+        <FormTextInputPassword
           @input="confirmPassword = $event.target.value"
           id="sign-up-confirm-password"
           :value="confirmPassword"
@@ -52,7 +52,7 @@
               </title>
             </span>
           </template>
-        </FormPasswordInput>
+        </FormTextInputPassword>
       </div>
       <div class="flex flex-col space-y-3">
         <FriendlyCaptcha />

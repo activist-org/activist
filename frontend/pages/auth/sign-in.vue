@@ -12,7 +12,7 @@
         />
       </div>
       <div>
-        <FormPasswordInput
+        <FormTextInputPassword
           @input="password = $event.target.value"
           @keydown.enter.prevent="signInUser"
           id="sign-in-password"

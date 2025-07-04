@@ -11,7 +11,8 @@ from content.factories import EntityLocationFactory
 from events.factories import EventFactory
 from events.models import Event
 
-EVENTS_URL = "/v1/events/events/"
+# Endpoint used for these tests:
+EVENTS_URL = "/v1/events/events"
 
 
 class UserDict(TypedDict):
@@ -33,7 +34,7 @@ def login_user(user_data: UserDict) -> dict[Any, Any]:
     """
     client = APIClient()
     response = client.post(
-        "/v1/auth/sign_in/",
+        "/v1/auth/sign_in",
         {
             "username": user_data["user"].username,
             "password": user_data["plaintext_password"],
@@ -138,7 +139,7 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
 
     # MARK: Detail GET
 
-    response = client.get(f"{EVENTS_URL}{new_event.id}/")
+    response = client.get(f"{EVENTS_URL}/{new_event.id}")
 
     assert response.status_code == 200
     assert response.data["name"] == new_event.name
@@ -151,12 +152,12 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
         "end_time": "2020-09-18T21:39:14",
         "terms_checked": True,
     }
-    response = client.put(f"{EVENTS_URL}{new_event.id}/", data=payload, format="json")
+    response = client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
 
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.put(f"{EVENTS_URL}{new_event.id}/", data=payload, format="json")
+    response = client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
 
     assert response.status_code == 200
     assert payload["name"] == Event.objects.get(id=new_event.id).name
@@ -164,11 +165,11 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{EVENTS_URL}{new_event.id}/")
+    response = client.delete(f"{EVENTS_URL}/{new_event.id}")
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(f"{EVENTS_URL}{new_event.id}/")
+    response = client.delete(f"{EVENTS_URL}/{new_event.id}")
 
     assert response.status_code == 200
     assert not Event.objects.filter(id=new_event.id).exists()
