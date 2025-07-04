@@ -34,7 +34,7 @@ repos:
       - id: mypy-check
         name: run mypy static type checking
         files: ^backend/
-        entry: python ./pre_commit_scripts/mypy_check.py
+        entry: mypy . --config-file ./backend/pyproject.toml
         language: python
         types: [python]
         pass_filenames: false

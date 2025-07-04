@@ -5,7 +5,7 @@ API views for group management.
 """
 
 import json
-from typing import List
+from typing import List, Tuple, Type, cast
 from uuid import UUID
 
 from django.db import transaction
@@ -17,6 +17,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     SAFE_METHODS,
+    BasePermission,
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
 )
@@ -50,18 +51,21 @@ class GroupAPIView(GenericAPIView[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes: Tuple[Type[BasePermission], ...] = (IsAuthenticatedOrReadOnly,)
 
-    def get_permissions(self):
+    def get_permissions(self) -> List[BasePermission]:
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
         if self.request.method in SAFE_METHODS:
             self.permission_classes = (IsAuthenticatedOrReadOnly,)
 
         else:
             self.permission_classes = (IsAuthenticated,)
 
-        return super().get_permissions()
+        return super().get_permissions()  # type: ignore
 
-    def get_serializer_class(self) -> GroupSerializer | GroupPOSTSerializer:
+    def get_serializer_class(self) -> Type[GroupSerializer | GroupPOSTSerializer]:
         if self.request.method in SAFE_METHODS:
             return GroupSerializer
 
@@ -90,7 +94,7 @@ class GroupAPIView(GenericAPIView[Group]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer: GroupPOSTSerializer = serializer_class(data=request.data)
+        serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         location_dict = serializer.validated_data["location"]
@@ -220,7 +224,7 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
     pagination_class = CustomPagination
     http_method_names = ["get", "post", "delete"]
 
-    def create(self, request: Request):
+    def create(self, request: Request) -> Response:
         if request.user.is_authenticated:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -233,13 +237,13 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
             status=status.HTTP_401_UNAUTHORIZED,
         )
 
-    def list(self, request: Request):
+    def list(self, request: Request) -> Response:
         query = self.queryset.filter()
         serializer = self.get_serializer(query, many=True)
 
         return self.get_paginated_response(self.paginate_queryset(serializer.data))
 
-    def retrieve(self, request: Request, pk: str | None):
+    def retrieve(self, request: Request, pk: str | None) -> Response:
         if pk is not None:
             query = self.queryset.filter(id=pk).first()
 
@@ -252,7 +256,7 @@ class GroupFlagViewSet(viewsets.ModelViewSet[GroupFlag]):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request: Request):
+    def delete(self, request: Request) -> Response:
         item = self.get_object()
         if request.user.is_staff:
             self.perform_destroy(item)
@@ -303,7 +307,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                 social_links: List[GroupSocialLink] = []
                 for link_data in data:
                     if isinstance(link_data, dict):
-                        if not all(k in link_data for k in ("link", "label")):
+                        if any(k not in link_data for k in ("link", "label")):
                             raise ValueError(
                                 "Each social link must have 'link' and 'label'."
                             )
@@ -354,11 +358,13 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                faq = GroupFaq.objects.filter(id=data.get("id")).first()
+                faq_id = cast(UUID | str, data.get("id"))
+                faq = GroupFaq.objects.filter(id=faq_id).first()
                 if not faq:
                     return Response(
                         {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
                     )
+
                 faq.question = data.get("question", faq.question)
                 faq.answer = data.get("answer", faq.answer)
                 faq.save()

@@ -12,11 +12,11 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiParameter,
     OpenApiResponse,
-    OpenApiTypes,
     extend_schema,
 )
 from rest_framework import status, viewsets
@@ -238,7 +238,7 @@ class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):
     serializer_class = UserFlagSerializers
     http_method_names = ["get", "post", "delete"]
 
-    def create(self, request: Request):
+    def create(self, request: Request) -> Response:
         if request.user.is_authenticated:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -251,13 +251,13 @@ class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):
             status=status.HTTP_401_UNAUTHORIZED,
         )
 
-    def list(self, request: Request):
+    def list(self, request: Request) -> Response:
         query = self.queryset.filter()
         serializer = self.get_serializer(query, many=True)
 
         return self.get_paginated_response(self.paginate_queryset(serializer.data))
 
-    def retrieve(self, request: Request, pk: str | None):
+    def retrieve(self, request: Request, pk: str | None) -> Response:
         if pk is not None:
             query = self.queryset.filter(id=pk).first()
 
@@ -270,7 +270,7 @@ class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request: Request):
+    def delete(self, request: Request) -> Response:
         item = self.get_object()
         if request.user.is_staff:
             self.perform_destroy(item)
