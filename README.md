@@ -271,7 +271,9 @@ The following are the current and planned technologies for [activist.org](https:
 
 # Design and accessibility [`⇧`](#contents)
 
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right"></a>
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231">
+  <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right">
+</a>
 
 The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). You can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
@@ -393,7 +395,7 @@ Localization of activist is done via [Weblate](https://weblate.org). Please see 
 ### Localization coverage [`⇧`](#contents)
 
 <a href="https://hosted.weblate.org/projects/activist/activist">
-    <img src="https://hosted.weblate.org/widget/activist/activist/multi-auto.svg" alt="Translation status" />
+  <img src="https://hosted.weblate.org/widget/activist/activist/multi-auto.svg" alt="Translation status" />
 </a>
 
 <a id="supporters-partners"></a>

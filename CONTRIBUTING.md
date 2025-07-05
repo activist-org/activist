@@ -621,7 +621,9 @@ Thank you in advance for your contributions!
 
 ## Localization [`⇧`](#contents)
 
-<a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
+<a href="https://hosted.weblate.org/projects/activist/activist">
+    <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right">
+</a>
 
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
@@ -704,7 +706,9 @@ If you do need to edit the directories and files skipped by certain checks, then
 
 ## Design [`⇧`](#contents)
 
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right"></a>
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231">
+    <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right">
+</a>
 
 Designs for activist are done in the [public design file in Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in helping with activist's design are also welcome to share their ideas using the [design improvement](https://github.com/activist-org/activist/issues/new?assignees=&labels=design&template=design_improvement.yml) template that makes an issue marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
