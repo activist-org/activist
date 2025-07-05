@@ -1,7 +1,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex flex-col">
-    <FormLabel :name="name" :label="label" :required="required" :for="id" />
+  <div class="flex flex-col" :class="classItem">
+    <FormLabel
+      v-if="label"
+      :name="name"
+      :label="label"
+      :required="required"
+      :for="id"
+    />
     <slot v-bind="field" :id="id" />
     <FormErrorMessage
       v-if="field.errorMessage"
@@ -17,9 +23,10 @@ import { useField } from "vee-validate";
 
 const props = defineProps<{
   name: string;
-  label: string;
+  label?: string;
   id?: string;
   required?: boolean;
+  classItem?: string;
 }>();
 
 const id = props.id ?? `form-item-${props.name}`;
