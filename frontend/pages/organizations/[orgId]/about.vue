@@ -38,7 +38,7 @@
             :label="shareButtonLabel"
             :hideLabelOnMobile="false"
             fontSize="sm"
-            :leftIcon="IconMap.SHARE"
+            :rightIcon="IconMap.SHARE"
             iconSize="1.45em"
             ariaLabel="i18n._global.share_organization_aria_label"
           />

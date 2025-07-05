@@ -38,7 +38,7 @@
           :label="shareButtonLabel"
           :hideLabelOnMobile="false"
           fontSize="sm"
-          :leftIcon="IconMap.SHARE"
+          :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
           ariaLabel="i18n._global.share_event_aria_label"
         />
@@ -49,7 +49,7 @@
           :cta="true"
           label="i18n.pages.events.about.subscribe_to_event"
           fontSize="sm"
-          :leftIcon="IconMap.DATE"
+          :rightIcon="IconMap.DATE"
           iconSize="1.25em"
           ariaLabel="i18n._global.subscribe_to_event_aria_label"
         />
