@@ -24,7 +24,7 @@
         id="organization-create-form"
         :schema="schema"
         class="flex w-full flex-col items-center justify-center pt-4"
-        class-button="ml-[3.5rem] mb-4"
+        class-button="mb-4"
         submit-label="i18n.pages.organizations.create.complete_application"
       >
         <!-- First card: Name and Location -->

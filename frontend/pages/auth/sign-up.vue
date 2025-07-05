@@ -63,7 +63,13 @@
       </FormItem>
 
       <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage }"
+        v-slot="{
+          id,
+          value: confirmPassword,
+          handleChange,
+          handleBlur,
+          errorMessage,
+        }"
         name="confirmPassword"
       >
         <FormTextInputPassword
@@ -77,15 +83,17 @@
             <span>
               <Icon
                 :name="
+                  confirmPassword.value &&
                   errorMessage.value !==
-                  t('i18n.pages.auth._global.password_not_matched')
+                    t('i18n.pages.auth._global.password_not_matched')
                     ? IconMap.CHECK
                     : IconMap.X_LG
                 "
                 size="1.2em"
                 :color="
+                  confirmPassword.value &&
                   errorMessage.value !==
-                  t('i18n.pages.auth._global.password_not_matched')
+                    t('i18n.pages.auth._global.password_not_matched')
                     ? '#3BA55C'
                     : '#BA3D3B'
                 "
