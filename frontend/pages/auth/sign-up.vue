@@ -177,7 +177,5 @@ const signUpSchema = z
   });
 const isPasswordFieldFocused = ref(false);
 
-const signUp = () => {
-  // your sign up logic
-};
+const signUp = () => {};
 </script>

@@ -45,15 +45,18 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
+
 const props = defineProps<{
   password: string | Ref<string | undefined>;
 }>();
+
 const { checkRules } = usePasswordRules();
 
 const pass = computed(() => unref(props.password));
 const validRules = computed(() => {
   return checkRules(pass.value || "");
 });
+
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
 const passwordRequirementsDict: { [key: string]: string } = {
   "capital-letters":

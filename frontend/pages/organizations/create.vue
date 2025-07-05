@@ -10,7 +10,7 @@
     />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
-      <div class="mt-4">
+      <div class="mt-4 pb-4">
         <h1 class="responsive-h2 font-bold">
           {{ $t("i18n.pages.organizations.create.header") }}
         </h1>
@@ -28,7 +28,7 @@
         submit-label="i18n.pages.organizations.create.complete_application"
       >
         <!-- First card: Name and Location -->
-        <div class="card-style mr-8 flex justify-between gap-6 px-5 py-6">
+        <div class="card-style flex justify-between gap-6 px-5 py-6">
           <div class="w-1/2">
             <FormItem
               v-slot="{ id, handleChange, handleBlur, errorMessage }"
@@ -71,7 +71,7 @@
         </div>
 
         <!-- Description card -->
-        <div class="card-style mr-8 mt-5 px-5 py-6">
+        <div class="card-style mt-5 px-5 py-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, errorMessage }"
             :label="$t('i18n.pages._global.create.description')"
@@ -91,7 +91,7 @@
         </div>
 
         <!-- Tagline card -->
-        <div class="card-style mr-8 mt-5 px-5 py-6">
+        <div class="card-style mt-5 px-5 py-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, errorMessage }"
             :label="$t('i18n.pages._global.create.tagline')"
@@ -107,8 +107,8 @@
           </FormItem>
         </div>
 
-        <!-- Topics (CardTopicSelection) -->
-        <div class="card-style mr-8 mt-5 px-5 py-6">
+        <!-- Topics -->
+        <div class="card-style mt-5 px-5 pb-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, value }"
             name="topics"
@@ -125,12 +125,12 @@
         </div>
 
         <!-- Connect organization -->
-        <div class="mr-8 mt-5">
+        <div class="mt-5">
           <CardConnectOrganization />
         </div>
 
         <!-- Terms checkbox -->
-        <div class="mx-14 mt-5 flex flex-col">
+        <div class="mt-5 flex flex-col">
           <div class="flex space-x-2">
             <FormCheckbox />
             <label for="terms" class="flex font-medium">

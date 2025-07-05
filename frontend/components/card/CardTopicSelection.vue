@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="card-style w-full flex-col space-y-3 px-5 py-6">
+  <div class="flex-col space-y-3">
     <p class="responsive-h3 font-medium text-primary-text">
       {{ $t("i18n.components.card_topic_selection.header") }}
     </p>
@@ -99,7 +99,7 @@
 import type { Topic, TopicsTag } from "~/types/topics";
 
 import { GLOBAL_TOPICS } from "~/types/topics";
-// TODO: refactor this component for readability and maintainability + move logic to composables
+// TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {
     type: Array as PropType<Topic[]>,
