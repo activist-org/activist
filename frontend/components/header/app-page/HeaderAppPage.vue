@@ -42,11 +42,9 @@
     </div>
   </div>
   <div id="home-header" class="flex items-baseline gap-2 md:gap-4">
-    <h1
-      class="responsive-h1 pt-4 font-bold text-primary-text transition-all duration-500"
-    >
+    <Typography :variant="'h1'">
       {{ headerName }}
-    </h1>
+    </Typography>
     <!-- <IconOrganizationStatus
       v-if="headerStatus && organization"
       :status="headerStatus"
@@ -56,18 +54,12 @@
   <div
     class="flex w-full grow flex-col items-start justify-between space-y-4 pt-2 lg:flex-row lg:items-center lg:space-y-0 xl:pt-4"
   >
-    <h2
-      v-if="statusPending"
-      class="responsive-h4 text-warn-yellow transition-all duration-500"
-    >
+    <Typography v-if="statusPending" :variant="'h4'" :color="'warn'">
       {{ $t("i18n.components.header_app_page.status_pending") }}
-    </h2>
-    <h2
-      v-else-if="headerTagline"
-      class="responsive-h4 text-distinct-text transition-all duration-500"
-    >
+    </Typography>
+    <Typography v-else-if="headerTagline" :variant="'h4'" :color="'distinct'">
       {{ headerTagline }}
-    </h2>
+    </Typography>
     <!-- Slot is for Btn and Dropdown components at the top of the page. -->
     <slot />
   </div>

@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 interface Props {
-  variant?:
+  variant:
     | "h1"
     | "h2"
     | "h3"
@@ -21,6 +21,19 @@ interface Props {
     | "overline"
     | "subtitle"
     | "link";
+  color?:
+    | "primary"
+    | "primary-over-layer-2"
+    | "distinct"
+    | "distinct-over-layer-2"
+    | "link"
+    | "error"
+    | "cta"
+    | "learn"
+    | "action"
+    | "warn"
+    | "accepted"
+    | string;
   size?:
     | "xs"
     | "sm"
@@ -41,33 +54,19 @@ interface Props {
     | "bold"
     | "extrabold"
     | "black";
-  color?:
-    | "primary"
-    | "primary-over-layer-2"
-    | "distinct"
-    | "distinct-over-layer-2"
-    | "link"
-    | "error"
-    | "cta"
-    | "learn"
-    | "action"
-    | "warn"
-    | "accepted"
-    | string;
+  font?: "display" | "text";
   align?: "left" | "center" | "right" | "justify";
-  tag?: string;
-  truncate?: boolean;
   uppercase?: boolean;
   lowercase?: boolean;
   capitalize?: boolean;
-  font?: "display" | "text";
+  truncate?: boolean;
+  tag?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  variant: "body",
-});
+// Default is body, which assigns a <p> tag.
+const props = withDefaults(defineProps<Props>(), {});
 
-// Define component name for debugging
+// Define component name for debugging.
 defineOptions({
   name: "Typography",
 });
@@ -75,7 +74,7 @@ defineOptions({
 const typographyClasses = computed(() => {
   const classes: string[] = [];
 
-  // Base variant styles using your design system
+  // A variant must be provided for each Typography component.
   const variantClasses = {
     h1: "responsive-h1 pt-4 font-bold transition-all duration-500",
     h2: "responsive-h2 font-semibold",
@@ -94,24 +93,7 @@ const typographyClasses = computed(() => {
 
   classes.push(variantClasses[props.variant]);
 
-  // Font family override
-  if (props.font === "display") {
-    classes.push("font-display");
-  } else if (props.font === "text") {
-    classes.push("font-text");
-  }
-
-  // Override with custom size if provided
-  if (props.size) {
-    classes.push(`text-${props.size}`);
-  }
-
-  // Override with custom weight if provided
-  if (props.weight) {
-    classes.push(`font-${props.weight}`);
-  }
-
-  // Color using your design system
+  // Override text color based on the provided color or variant props.
   if (props.color) {
     const colorMap = {
       primary: "text-primary-text",
@@ -140,17 +122,34 @@ const typographyClasses = computed(() => {
     }
   }
 
-  // Text alignment
+  // Override custom size if provided.
+  if (props.size) {
+    classes.push(`text-${props.size}`);
+  }
+
+  // Override custom weight if provided.
+  if (props.weight) {
+    classes.push(`font-${props.weight}`);
+  }
+
+  // Override with custom font if provided or apply default.
+  if (props.font === "display") {
+    classes.push("font-display");
+  } else {
+    classes.push("font-text");
+  }
+
+  // Override custom alignment if provided.
   if (props.align) {
     classes.push(`text-${props.align}`);
   }
 
-  // Text transformations
+  // Add text transformations if provided.
   if (props.uppercase) classes.push("uppercase");
   if (props.lowercase) classes.push("lowercase");
   if (props.capitalize) classes.push("capitalize");
 
-  // Truncate
+  // Add text truncation if provided.
   if (props.truncate) {
     classes.push("truncate");
   }
@@ -158,7 +157,7 @@ const typographyClasses = computed(() => {
   return classes.join(" ");
 });
 
-// Determine the HTML tag based on variant or explicit tag prop
+// Determine the HTML tag based on variant or explicit tag prop.
 const computedTag = computed(() => {
   if (props.tag) return props.tag;
 
@@ -181,7 +180,3 @@ const computedTag = computed(() => {
   return tagMap[props.variant] || "p";
 });
 </script>
-
-<style scoped>
-/* Additional custom styles can be added here if needed */
-</style>
