@@ -1,62 +1,76 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n._global.about")
-        }}</label>
-        <textarea
-          v-model="formData.description"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
+    <Form
+      @submit="handleSubmit"
+      :schema="schema"
+      :initial-values="formData"
+      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+    >
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n.pages._global.create.description')"
+        name="description"
+        :required="true"
+      >
+        <FormTextArea
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :value="value.value"
+          :hasError="!!errorMessage.value"
         />
-      </div>
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components._global.participate")
-        }}</label>
-        <textarea
-          v-model="formData.getInvolved"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n.components._global.participate')"
+        name="getInvolved"
+      >
+        <FormTextArea
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :value="value.value"
+          :hasError="!!errorMessage.value"
         />
-      </div>
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <div class="flex flex-col space-y-2">
-          <label for="input" class="responsive-h2">{{
-            $t("i18n.components.modal_edit_text_event.offer_to_help_link")
-          }}</label>
-          <p>
-            {{ $t("i18n.components.modal.edit.text._global.remember_https") }}
-          </p>
-          <input
-            v-model="formData.getInvolvedUrl"
-            id="textarea"
-            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-layer-2 px-3 py-2"
-          />
-        </div>
-      </div>
-      <BtnAction
-        @click="handleSubmit()"
-        :cta="true"
-        label="i18n.components.modal.edit._global.update_texts"
-        fontSize="base"
-        ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
-      />
-    </div>
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n.components.modal_edit_text_event.offer_to_help_link')"
+        name="getInvolvedUrl"
+      >
+        <FormTextInput
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :value="value.value"
+          :hasError="!!errorMessage.value"
+          :label="
+            $t('i18n.components.modal_edit_text_event.offer_to_help_link')
+          "
+        />
+      </FormItem>
+    </Form>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { z } from "zod";
+
 import type { EventUpdateTextFormData } from "~/types/events/event";
+const schema = z.object({
+  description: z
+    .string()
+    .min(1, "i18n.components.modal.edit.text._global.description_required"),
+  getInvolved: z.string().optional(),
+  getInvolvedUrl: z.string().optional(),
+});
 
 const modalName = "ModalEditTextEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
 const eventStore = useEventStore();
 await eventStore.fetchById(eventId);
 
@@ -72,10 +86,14 @@ onMounted(() => {
   formData.value.description = event.texts.description;
   formData.value.getInvolved = event.texts.getInvolved;
   formData.value.getInvolvedUrl = event.getInvolvedUrl;
+  console.log("Form data initialized:", formData.value);
 });
 
-async function handleSubmit() {
-  const response = await eventStore.updateTexts(event, formData.value);
+async function handleSubmit(values: unknown) {
+  const response = await eventStore.updateTexts(
+    event,
+    values as EventUpdateTextFormData
+  );
   if (response) {
     handleCloseModal();
   }
