@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import Typography from "@/components/Typography.vue";
 import { render } from "@testing-library/vue";
 import { describe, it, expect } from "vitest";
