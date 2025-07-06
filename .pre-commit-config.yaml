@@ -51,6 +51,6 @@ repos:
       - id: prettier-eslint-checks
         name: run prettier and eslint checks
         files: ^frontend/
-        entry: python ./pre_commit_scripts/prettier_eslint_checks.py
+        entry: python -m pre_commit_scripts.prettier_eslint_checks
         language: python
         pass_filenames: false
