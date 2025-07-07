@@ -24,22 +24,19 @@ def test_group_flag_create():
     group = GroupFactory()
 
     login = client.post(
-        path='/v1/auth/sign_in',
-        data={"username":test_username, "password":test_password}
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
     )
 
     assert login.status_code == 200
     login_body = login.json()
 
-    token = login_body['token']
+    token = login_body["token"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
-        path='/v1/communities/group_flag',
-        data={
-            "group": group.id,
-            "created_by": user.id
-        }
+        path="/v1/communities/group_flag",
+        data={"group": group.id, "created_by": user.id},
     )
-    
+
     assert response.status_code == 201

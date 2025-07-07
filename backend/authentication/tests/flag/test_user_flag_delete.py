@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+from uuid import uuid4
+
 import pytest
 from rest_framework.test import APIClient
 
@@ -38,3 +40,35 @@ def test_user_flag_delete():
     response = client.delete(path=f"/v1/auth/user_flag/{flagged_user.id}")
 
     assert response.status_code == 204
+
+
+def test_user_flag_delete_doesnotexist():
+    client = APIClient()
+
+    test_username = "username"
+    test_pass = "password"
+    user = UserFactory(username=test_username, plaintext_password=test_pass)
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    flagged_user = uuid4()
+
+    # Login to get token.
+    login = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_pass},
+    )
+
+    assert login.status_code == 200
+
+    login_body = login.json()
+    token = login_body["token"]
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    response = client.delete(path=f"/v1/auth/user_flag/{flagged_user}")
+    response_body = response.json()
+
+    assert response.status_code == 404
+    assert response_body["detail"] == "Flag not found."

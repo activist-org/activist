@@ -13,7 +13,6 @@ from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     SAFE_METHODS,
@@ -203,15 +202,19 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
         )
 
+
+# MARK: Group Flags
+
+
 class GroupFlagAPIView(viewsets.ModelViewSet[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
     permission_classes = (IsAuthenticated,)
 
     @extend_schema(
-            responses={200: GroupFlagSerializer(many=True)},
+        responses={200: GroupFlagSerializer(many=True)},
     )
-    def get(self, request:Request)->Response:
+    def get(self, request: Request) -> Response:
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
 
@@ -221,25 +224,24 @@ class GroupFlagAPIView(viewsets.ModelViewSet[GroupFlag]):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
     @extend_schema(
         responses={
             201: GroupFlagSerializer,
-            400: OpenApiResponse(response={"detail": "Failed to create flag."})
+            400: OpenApiResponse(response={"detail": "Failed to create flag."}),
         }
     )
-    def post(self, request:Request)-> Response:
-        serializer_class = self.get_serializer_class() # fix test 232-245
+    def post(self, request: Request) -> Response:
+        serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         try:
             serializer.save(created_by=request.user)
 
-        except(IntegrityError, OperationalError):
+        except (IntegrityError, OperationalError):
             return Response(
-                {"detail": "Failed to create flag."},
-                status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -253,24 +255,20 @@ class GroupFlagDetailAPIView(viewsets.ModelViewSet[GroupFlag]):
 
     @extend_schema(
         responses={
-            200:GroupFlagSerializer,
-            400:OpenApiResponse(response={"detail":"Flag ID is required."}),
-            404: OpenApiResponse(response={"detail": "Failed to retrieve the group flag."})
+            200: GroupFlagSerializer,
+            404: OpenApiResponse(
+                response={"detail": "Failed to retrieve the group flag."}
+            ),
         }
     )
-    def get(self, request: Request, id: None|UUID=None) -> Response:
-        if id is None: # fix test 262-271
-            return Response(
-                {"detail": "Flag ID is required."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        try: 
+    def get(self, request: Request, id: str | UUID) -> Response:
+        try:
             flag = GroupFlag.objects.get(id=id)
-            self.check_object_permissions(request,flag)
+            self.check_object_permissions(request, flag)
         except GroupFlag.DoesNotExist:
             return Response(
                 {"detail": "Failed to retrieve the flag."},
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_404_NOT_FOUND,
             )
         serializer = GroupFlagSerializer(flag)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -278,19 +276,16 @@ class GroupFlagDetailAPIView(viewsets.ModelViewSet[GroupFlag]):
     @extend_schema(
         responses={
             204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
-            400: OpenApiResponse(response={"detail": "Group ID is required."}),
-            401: OpenApiResponse(response={"detail": "You are not authorized to delete this flag."}),
-            403: OpenApiResponse(response={"detail": "You are not authorized to delete this flag."}),
-            404: OpenApiResponse(response={"detail": "Flag not found."})
+            401: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            404: OpenApiResponse(response={"detail": "Flag not found."}),
         }
     )
-    def delete(self, request:Request, id:None | UUID=None) -> Response:
-        if id is None:
-            return Response(
-                {"detail": "Group ID is required."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
+    def delete(self, request: Request, id: str | UUID) -> Response:
         try:
             flag = GroupFlag.objects.get(id=id)
             self.check_object_permissions(request, flag)
@@ -305,6 +300,7 @@ class GroupFlagDetailAPIView(viewsets.ModelViewSet[GroupFlag]):
         return Response(
             {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )
+
 
 # MARK: Bridge Tables
 

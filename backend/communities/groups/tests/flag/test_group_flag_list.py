@@ -22,13 +22,13 @@ def test_group_flag_list():
 
     login = client.post(
         path="/v1/auth/sign_in",
-        data={"username": test_username, "password":test_password}
+        data={"username": test_username, "password": test_password},
     )
 
     assert login.status_code == 200
     login_body = login.json()
 
-    token = login_body['token']
+    token = login_body["token"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 

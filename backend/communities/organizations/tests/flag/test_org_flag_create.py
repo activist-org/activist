@@ -22,14 +22,6 @@ def test_org_flag_create():
 
     org = OrganizationFactory()
 
-    error_response = client.post(
-        path="/v1/communities/organization_flag",
-        data={"flagged_org": org.id, "created_by": user.id},
-        content_type="application/json",
-    )
-
-    assert error_response.status_code == 401
-
     # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in",

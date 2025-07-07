@@ -9,6 +9,7 @@ import uuid
 import dotenv
 from django.contrib.auth import login
 from django.core.mail import send_mail
+from django.db.utils import IntegrityError, OperationalError
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -34,6 +35,7 @@ from authentication.serializers import (
     SignUpSerializer,
     UserFlagSerializers,
 )
+from core.permissions import IsAdminStaffCreatorOrReadOnly
 
 dotenv.load_dotenv()
 
@@ -233,51 +235,93 @@ class DeleteUserView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):
+class UserFlagAPIView(viewsets.ModelViewSet[UserFlag]):
     queryset = UserFlag.objects.all()
     serializer_class = UserFlagSerializers
-    http_method_names = ["get", "post", "delete"]
+    permission_classes = (IsAuthenticated,)
 
-    def create(self, request: Request):
-        if request.user.is_authenticated:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
+    @extend_schema(responses={200: UserFlagSerializers(many=True)})
+    def get(self, request: Request) -> Response:
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-        return Response(
-            {"detail": "You are not allowed flag this user."},
-            status=status.HTTP_401_UNAUTHORIZED,
-        )
-
-    def list(self, request: Request):
-        query = self.queryset.filter()
-        serializer = self.get_serializer(query, many=True)
-
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def retrieve(self, request: Request, pk: str | None):
-        if pk is not None:
-            query = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"detail": "Invalid ID"}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = self.get_serializer(query)
-
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request: Request):
-        item = self.get_object()
-        if request.user.is_staff:
-            self.perform_destroy(item)
-            return Response(status=status.HTTP_204_NO_CONTENT)
+    @extend_schema(
+        responses={
+            201: UserFlagSerializers,
+            400: OpenApiResponse(response={"detail": "Failed to create flag."}),
+        }
+    )
+    def post(self, request: Request):
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
 
-        else:
+        try:
+            serializer.save(created_by=request.user)
+
+        except (IntegrityError, OperationalError):
             return Response(
-                {"detail": "You are authorized to delete this flag."},
-                status=status.HTTP_403_FORBIDDEN,
+                {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
             )
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class UserFlagDetailAPIView(viewsets.ModelViewSet[UserFlag]):
+    queryset = UserFlag.objects.all()
+    serializer_class = UserFlagSerializers
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+
+    @extend_schema(
+        responses={
+            200: UserFlagSerializers,
+            404: OpenApiResponse(
+                response={"detail": "Failed to retrieve the user flag."}
+            ),
+        }
+    )
+    def get(self, request: Request, id: str | uuid.UUID) -> Response:
+        try:
+            flag = UserFlag.objects.get(id=id)
+            self.check_object_permissions(request, flag)
+        except UserFlag.DoesNotExist:
+            return Response(
+                {"detail": "Failed to retrieve the flag."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        serializer = UserFlagSerializers(flag)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
+            401: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            404: OpenApiResponse(response={"detail": "Failed to retrieve flag."}),
+        }
+    )
+    def delete(self, request: Request, id: str | uuid.UUID) -> Response:
+        try:
+            flag = UserFlag.objects.get(id=id)
+            self.check_object_permissions(request, flag)
+        except UserFlag.DoesNotExist:
+            return Response(
+                {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        flag.delete()
+        return Response(
+            {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
+        )
