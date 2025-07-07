@@ -125,7 +125,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             404: OpenApiResponse(response={"detail": "Failed to retrieve the group."}),
         }
     )
-    def get(self, request: Request, id: None | UUID = None) -> Response:
+    def get(self, request: Request, id: str | UUID) -> Response:
         try:
             group = Group.objects.get(id=id)
             self.check_object_permissions(request, group)
@@ -229,7 +229,6 @@ class GroupFlagAPIView(viewsets.ModelViewSet[GroupFlag]):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
     @extend_schema(
         responses={
             201: GroupFlagSerializer,
@@ -294,7 +293,6 @@ class GroupFlagDetailAPIView(viewsets.ModelViewSet[GroupFlag]):
         try:
             flag = GroupFlag.objects.get(id=id)
             self.check_object_permissions(request, flag)
-
 
         except GroupFlag.DoesNotExist:
             return Response(
