@@ -61,7 +61,18 @@ export default {
     {
       rel: "icon",
       type: "image/svg+xml",
-      href: "icons/favicons/favicon.svg",
+      href: "/icons/favicons/favicon.svg",
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "32x32",
+      href: "/icons/favicons/faviconLight.png",
+    },
+    {
+      rel: "apple-touch-icon",
+      sizes: "180x180",
+      href: "/icons/favicons/faviconLight.png",
     },
     {
       hid: "canonical",
