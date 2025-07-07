@@ -10,7 +10,8 @@ from communities.groups.views import (
     GroupAPIView,
     GroupDetailAPIView,
     GroupFaqViewSet,
-    GroupFlagViewSet,
+    GroupFlagAPIView,
+    GroupFlagDetailAPIView,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
@@ -50,7 +51,7 @@ router.register(
     viewset=GroupTextViewSet,
     basename="group-text",
 )
-router.register(prefix=r"group_flag", viewset=GroupFlagViewSet, basename="group-flags")
+# router.register(prefix=r"group_flag", viewset=GroupFlagViewSet, basename="group-flags")
 router.register(
     prefix=r"organization_social_links",
     viewset=OrganizationSocialLinkViewSet,
@@ -83,4 +84,6 @@ urlpatterns = [
     path("groups/<uuid:id>", GroupDetailAPIView.as_view()),
     path("organizations", OrganizationAPIView.as_view()),
     path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
+    path("group_flag", GroupFlagAPIView.as_view({'post': "create"})),
+    path("group_flag/<uuid:id>", GroupFlagDetailAPIView.as_view({'get':'list'}))
 ]
