@@ -146,7 +146,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
             404: OpenApiResponse(response={"detail": "Group not found."}),
         }
     )
-    def put(self, request: Request, id: None | UUID = None) -> Response:
+    def put(self, request: Request, id: str | UUID) -> Response:
         if id is None:
             return Response(
                 {"detail": "Group ID is required."},

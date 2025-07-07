@@ -258,7 +258,7 @@ class UserFlagAPIView(viewsets.ModelViewSet[UserFlag]):
             400: OpenApiResponse(response={"detail": "Failed to create flag."}),
         }
     )
-    def post(self, request: Request):
+    def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
