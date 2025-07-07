@@ -4,7 +4,7 @@ API views for event management.
 """
 
 import json
-from typing import Any, Dict, List, Sequence, Type
+from typing import Any, Dict, List, Sequence, Type, cast
 from uuid import UUID
 
 from django.db import transaction
@@ -359,7 +359,8 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                faq = EventFaq.objects.filter(id=data.get("id")).first()
+                faq_id = cast(UUID | str, data.get("id"))
+                faq = EventFaq.objects.filter(id=faq_id).first()
                 if not faq:
                     return Response(
                         {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND

@@ -3,11 +3,15 @@
   <div class="card-style flex w-full flex-col px-3 py-4 md:flex-row">
     <div class="w-full flex-col space-y-3 pt-3 md:space-y-4 md:p-2 md:pt-0">
       <div class="flex flex-col justify-between md:flex-row">
-        <div class="flex items-center justify-center space-x-2 md:space-x-4">
+        <div
+          v-if="isMarkdown"
+          class="flex items-center justify-center space-x-2 md:space-x-4"
+        >
           <div class="w-min md:w-min">
             <BtnAction
+              @click="writePreviewSelector('Write')"
               class="w-small mt-1 flex"
-              :cta="true"
+              :cta="isMarkdownPreview === 'Write'"
               label="i18n.components.card_discussion_input.write"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.write_aria_label"
@@ -15,8 +19,9 @@
           </div>
           <div class="w-min md:w-min">
             <BtnAction
+              @click="writePreviewSelector('Preview')"
               class="w-small mt-1 flex"
-              :cta="false"
+              :cta="isMarkdownPreview === 'Preview'"
               label="i18n.components.card_discussion_input.preview"
               fontSize="sm"
               ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
@@ -24,6 +29,7 @@
           </div>
         </div>
         <div
+          v-if="!isMarkdown"
           class="mt-2 flex w-full items-center justify-center space-x-1 pt-3 md:w-fit md:flex-row md:pt-0 lg:space-x-3"
         >
           <Icon
@@ -83,11 +89,33 @@
         </div>
       </div>
       <div class="w-full md:w-full">
-        <editor-content :editor="editor" />
+        <textarea
+          v-show="isMarkdown && isMarkdownPreview === 'Write'"
+          v-model="markdown"
+          @input="
+            (event) =>
+              updateTheVariable((event.target as HTMLTextAreaElement).value)
+          "
+          ref="textarea"
+          class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
+          rows="3"
+        />
+        <editor-content
+          v-show="isMarkdownPreview === 'Preview'"
+          :editor="writeEditor"
+        />
       </div>
       <div class="flex items-center justify-between px-1">
         <p class="inline-flex items-center">
-          {{ $t("i18n.components.card_discussion_input.markdown_support") }}
+          <FormCheckbox
+            @update:modelValue="toggleIsMarkdown()"
+            class="mr-1"
+            :modelValue="isMarkdown"
+            value="yes"
+          />
+          {{
+            $t("i18n.components.card_discussion_input.enable_markdown_support")
+          }}
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>
         <div class="flex items-center space-x-3">
@@ -133,6 +161,7 @@ import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
+import { Markdown } from "tiptap-markdown";
 
 import type { DiscussionInput } from "~/types/content/discussion";
 
@@ -145,8 +174,28 @@ const props = defineProps<{
   discussionInput: DiscussionInput;
 }>();
 const i18n = useI18n();
+const markdown = ref("");
 
-const editor = useEditor({
+const isMarkdownPreview = ref("Write");
+const isMarkdown = ref(true);
+const textarea = ref<HTMLTextAreaElement | null>(null);
+
+// Note: We want to have it not just be one line when the user switches back to Markdown mode.
+// https://stackoverflow.com/questions/65997180/automatic-resizing-of-textarea-after-loading-data-in-vue
+const autoResize = () => {
+  const el = textarea.value;
+  if (!el) return;
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight - 4}px`;
+};
+
+watch(markdown, () => {
+  autoResize();
+});
+
+const writeEditor = useEditor({
+  content: markdown,
+  editable: !isMarkdownPreview.value,
   extensions: [
     StarterKit,
     Placeholder.configure({
@@ -165,6 +214,7 @@ const editor = useEditor({
       // @ts-expect-error: Ignore mismatched types.
       suggestion: Suggestion,
     }),
+    Markdown,
   ],
   editorProps: {
     attributes: {
@@ -174,29 +224,61 @@ const editor = useEditor({
   },
 });
 
+const updateTheVariable = (value: string) => {
+  markdown.value = value;
+};
+
+const toggleIsMarkdown = () => {
+  isMarkdown.value = !isMarkdown.value;
+
+  if (isMarkdownPreview.value === "Write") {
+    isMarkdownPreview.value = "Preview";
+    writeEditor.value?.commands.setContent(markdown.value);
+  }
+
+  if (isMarkdown.value && isMarkdownPreview.value === "Preview") {
+    isMarkdownPreview.value = "Write";
+  }
+
+  if (isMarkdown.value) {
+    writeEditor.value?.setEditable(false);
+  } else {
+    writeEditor.value?.setEditable(true);
+  }
+
+  markdown.value = writeEditor.value?.storage.markdown.getMarkdown();
+  autoResize();
+};
+
+const writePreviewSelector = (buttonString: string) => {
+  isMarkdownPreview.value = buttonString;
+  writeEditor.value?.setEditable(!isMarkdownPreview.value);
+  writeEditor.value?.commands.setContent(markdown.value);
+};
+
 const at = () => {
   console.log("click on at");
-  editor.value?.chain().focus().insertContent(" @").run();
+  writeEditor.value?.chain().focus().insertContent(" @").run();
 };
 const heading = () => {
   console.log("click on heading");
-  editor.value?.chain().focus().toggleHeading({ level: 1 }).run();
+  writeEditor.value?.chain().focus().toggleHeading({ level: 1 }).run();
 };
 const bold = () => {
   console.log("click on bold");
-  editor.value?.chain().focus().toggleBold().run();
+  writeEditor.value?.chain().focus().toggleBold().run();
 };
 const italic = () => {
   console.log("click on italic");
-  editor.value?.chain().focus().toggleItalic().run();
+  writeEditor.value?.chain().focus().toggleItalic().run();
 };
 const blockquote = () => {
   console.log("click on blockquote");
-  editor.value?.chain().focus().toggleBlockquote().run();
+  writeEditor.value?.chain().focus().toggleBlockquote().run();
 };
 const link = () => {
   console.log("click on link");
-  const previousUrl = editor.value?.getAttributes("link").href;
+  const previousUrl = writeEditor.value?.getAttributes("link").href;
   const url = window.prompt("URL", previousUrl);
 
   if (url === null) {
@@ -204,11 +286,16 @@ const link = () => {
   }
 
   if (url === "") {
-    editor.value?.chain().focus().extendMarkRange("link").unsetLink().run();
+    writeEditor.value
+      ?.chain()
+      .focus()
+      .extendMarkRange("link")
+      .unsetLink()
+      .run();
     return;
   }
 
-  editor.value
+  writeEditor.value
     ?.chain()
     .focus()
     .extendMarkRange("link")
@@ -223,11 +310,11 @@ const link = () => {
 
 const listul = () => {
   console.log("click on listul");
-  editor.value?.chain().focus().toggleBulletList().run();
+  writeEditor.value?.chain().focus().toggleBulletList().run();
 };
 const listol = () => {
   console.log("click on listol");
-  editor.value?.chain().focus().toggleOrderedList().run();
+  writeEditor.value?.chain().focus().toggleOrderedList().run();
 };
 </script>
 

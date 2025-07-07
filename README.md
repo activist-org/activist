@@ -85,7 +85,7 @@ Further prototypes and designs are available in the [designs for activist](https
 
 # Contributing [`⇧`](#contents)
 
-<a href="https://matrix.to/#/#activist_community:matrix.org"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/MatrixLogoGrey.png" height="50" alt="Public Matrix Chat" align="right"></a>
+<a href="https://matrix.to/#/#activist_community:matrix.org"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/MatrixLogoGrey.png" width="175" alt="Public Matrix Chat" align="right"></a>
 
 activist uses [Matrix](https://matrix.org/) for internal communication. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi to the team :)
 
@@ -271,7 +271,9 @@ The following are the current and planned technologies for [activist.org](https:
 
 # Design and accessibility [`⇧`](#contents)
 
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231">
+  <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right">
+</a>
 
 The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). You can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
@@ -379,7 +381,9 @@ We are still developing our operating principles and will always update them bas
 
 # Localization [`⇧`](#contents)
 
-<a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
+<a href="https://hosted.weblate.org/projects/activist/activist">
+  <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" width="125" alt="Visit Weblate project" align="right">
+</a>
 
 We need to break down language barriers in order to mobilize larger and more diverse coalitions. Translation requests will be available for several assets on the platform - organization profiles, events and resources - and we are growing our network of volunteer contributors to facilitate this.
 
@@ -391,7 +395,7 @@ Localization of activist is done via [Weblate](https://weblate.org). Please see 
 ### Localization coverage [`⇧`](#contents)
 
 <a href="https://hosted.weblate.org/projects/activist/activist">
-    <img src="https://hosted.weblate.org/widget/activist/activist/multi-auto.svg" alt="Translation status" />
+  <img src="https://hosted.weblate.org/widget/activist/activist/multi-auto.svg" alt="Translation status" />
 </a>
 
 <a id="supporters-partners"></a>
@@ -429,14 +433,14 @@ The following organizations have supported activist with licenses to use their t
 These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supported open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator was committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
 
 <div align="center">
-<br>
-    <a href="https://www.wikimedia.de"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
+  <br>
+    <a href="https://www.wikimedia.de"><img width="180" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs"><img width="110" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://belgrade.impacthub.net"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
+    <a href="https://belgrade.impacthub.net"><img width="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<br>
+  <br>
 </div>
 
 # Disclosure

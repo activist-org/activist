@@ -5,7 +5,7 @@ Serializers for the content app.
 
 import logging
 from io import BytesIO
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Union
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
@@ -164,7 +164,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Any]) -> List[Image]:
+    def create(self, validated_data: Dict[str, Any]) -> Any:
         """
         Create an Image instance with privacy-enhanced processing.
 

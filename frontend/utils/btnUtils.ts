@@ -5,10 +5,10 @@ export function getBtnDynamicClass(
   isDisabled: boolean
 ) {
   return computed(() => ({
-    "style-cta": cta === true && isDisabled === false,
-    "style-cta-secondary": cta === false && isDisabled === false,
-    "style-cta-disabled": cta === true && isDisabled === true,
-    "style-cta-secondary-disabled": cta === false && isDisabled === true,
+    "style-cta": cta && !isDisabled,
+    "style-cta-secondary": !cta && !isDisabled,
+    "style-cta-disabled": cta && isDisabled,
+    "style-cta-secondary-disabled": !cta && isDisabled,
     "text-xs": fontSize === "xs",
     "text-sm": fontSize === "sm",
     "text-base": fontSize === "base",

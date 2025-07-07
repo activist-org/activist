@@ -4074,6 +4074,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/linkify-it@npm:^3":
+  version: 3.0.5
+  resolution: "@types/linkify-it@npm:3.0.5"
+  checksum: 10c0/696e09975991c649ba37c5585714929fdebf5c64a8bfb99910613ef838337dbbba6c608fccdfa03d6347432586ef12e139bc0e947ae6fec569096fef5cc1c550
+  languageName: node
+  linkType: hard
+
 "@types/linkify-it@npm:^5":
   version: 5.0.0
   resolution: "@types/linkify-it@npm:5.0.0"
@@ -4106,6 +4113,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/markdown-it@npm:^13.0.7":
+  version: 13.0.9
+  resolution: "@types/markdown-it@npm:13.0.9"
+  dependencies:
+    "@types/linkify-it": "npm:^3"
+    "@types/mdurl": "npm:^1"
+  checksum: 10c0/d974b1edc52236b0ec6de20e37be9051bcb38fa87b7f36ed5d1b0f0d521918b6e0164a72d57a453ce72976002d6909ceb0c66826e0690cb5283e18a13cd56d66
+  languageName: node
+  linkType: hard
+
 "@types/markdown-it@npm:^14.0.0":
   version: 14.1.2
   resolution: "@types/markdown-it@npm:14.1.2"
@@ -4122,6 +4139,13 @@ __metadata:
   dependencies:
     "@types/unist": "npm:*"
   checksum: 10c0/84f403dbe582ee508fd9c7643ac781ad8597fcbfc9ccb8d4715a2c92e4545e5772cbd0dbdf18eda65789386d81b009967fdef01b24faf6640f817287f54d9c82
+  languageName: node
+  linkType: hard
+
+"@types/mdurl@npm:^1":
+  version: 1.0.5
+  resolution: "@types/mdurl@npm:1.0.5"
+  checksum: 10c0/8991c781eb94fb3621e48e191251a94057908fc14be60f52bdd7c48684af923ffa77559ea979450a0475f85c08f8a472f99ff9c2ca4308961b9b9d35fd7584f7
   languageName: node
   linkType: hard
 
@@ -4702,6 +4726,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vee-validate/zod@npm:^4.15.1":
+  version: 4.15.1
+  resolution: "@vee-validate/zod@npm:4.15.1"
+  dependencies:
+    type-fest: "npm:^4.8.3"
+    vee-validate: "npm:4.15.1"
+  peerDependencies:
+    zod: ^3.24.0
+  checksum: 10c0/4b6f7a542120abda0e71fded9685344f4d41ce9a09bb04b28f9e339c6b72fa43e2fd2b75156b23914f8a3f348e5edd5ee9d520cd4129fbc3bd4deec3ef9c9800
+  languageName: node
+  linkType: hard
+
 "@vercel/nft@npm:^0.29.2":
   version: 0.29.2
   resolution: "@vercel/nft@npm:0.29.2"
@@ -4995,6 +5031,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vue/devtools-api@npm:^7.5.2":
+  version: 7.7.7
+  resolution: "@vue/devtools-api@npm:7.7.7"
+  dependencies:
+    "@vue/devtools-kit": "npm:^7.7.7"
+  checksum: 10c0/9c7e754b706f54c5ace31520acb50bda398ff15eb4350b30e9dfb1c8c692094951e68ee1713c2833d79c393c53653987c65c11031a079ad391d84bf505b74264
+  languageName: node
+  linkType: hard
+
 "@vue/devtools-core@npm:7.6.8":
   version: 7.6.8
   resolution: "@vue/devtools-core@npm:7.6.8"
@@ -5057,12 +5102,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vue/devtools-kit@npm:^7.7.7":
+  version: 7.7.7
+  resolution: "@vue/devtools-kit@npm:7.7.7"
+  dependencies:
+    "@vue/devtools-shared": "npm:^7.7.7"
+    birpc: "npm:^2.3.0"
+    hookable: "npm:^5.5.3"
+    mitt: "npm:^3.0.1"
+    perfect-debounce: "npm:^1.0.0"
+    speakingurl: "npm:^14.0.1"
+    superjson: "npm:^2.2.2"
+  checksum: 10c0/78a6048af4b6b5f9c42ac2e415f3455792e20467ff9a96b3db02b6df108740e3f90c89bdf607f1bb44e13dd77ba007e6bc1f6ce44cb53b26286635a2706ecdcf
+  languageName: node
+  linkType: hard
+
 "@vue/devtools-shared@npm:^7.6.8, @vue/devtools-shared@npm:^7.7.2":
   version: 7.7.2
   resolution: "@vue/devtools-shared@npm:7.7.2"
   dependencies:
     rfdc: "npm:^1.4.1"
   checksum: 10c0/6399135da41a91f48c3db7c59cedb01ad331af7784ef0877c15c669ad5a5d1cce68f73d50d81f85a31a90b0d6323ff807ebe5b1fb041d1e86932f2c983a0cdad
+  languageName: node
+  linkType: hard
+
+"@vue/devtools-shared@npm:^7.7.7":
+  version: 7.7.7
+  resolution: "@vue/devtools-shared@npm:7.7.7"
+  dependencies:
+    rfdc: "npm:^1.4.1"
+  checksum: 10c0/f29df17a6f5e92f6c33477279e0a22cb986fc413504918b58cf7d9fb4d541ea9e3163a947cf63212dfc19dd30351abfe1de39a8907bfef446ed02f03c06a24c9
   languageName: node
   linkType: hard
 
@@ -5327,6 +5396,7 @@ __metadata:
     "@types/uuid": "npm:10.0.0"
     "@types/zxcvbn": "npm:4.4.5"
     "@unocss/reset": "npm:65.4.3"
+    "@vee-validate/zod": "npm:^4.15.1"
     "@vue/test-utils": "npm:2.4.6"
     "@vueuse/core": "npm:12.5.0"
     "@vueuse/math": "npm:12.7.0"
@@ -5367,10 +5437,12 @@ __metadata:
     tailwind-scrollbar: "npm:3.1.0"
     tailwindcss: "npm:3.4.17"
     tippy.js: "npm:6.3.7"
+    tiptap-markdown: "npm:^0.8.10"
     typescript: "npm:5.7.3"
     unocss: "npm:65.4.3"
     uuid: "npm:11.0.5"
     v-calendar: "npm:3.1.2"
+    vee-validate: "npm:^4.15.1"
     vite: "npm:6.1.6"
     vitest: "npm:3.0.5"
     vue: "npm:3.5.13"
@@ -5832,12 +5904,12 @@ __metadata:
   linkType: hard
 
 "brace-expansion@npm:^1.1.7":
-  version: 1.1.11
-  resolution: "brace-expansion@npm:1.1.11"
+  version: 1.1.12
+  resolution: "brace-expansion@npm:1.1.12"
   dependencies:
     balanced-match: "npm:^1.0.0"
     concat-map: "npm:0.0.1"
-  checksum: 10c0/695a56cd058096a7cb71fb09d9d6a7070113c7be516699ed361317aca2ec169f618e28b8af352e02ab4233fb54eb0168460a40dc320bab0034b36ab59aaad668
+  checksum: 10c0/975fecac2bb7758c062c20d0b3b6288c7cc895219ee25f0a64a9de662dbac981ff0b6e89909c3897c1f84fa353113a721923afdec5f8b2350255b097f12b1f73
   languageName: node
   linkType: hard
 
@@ -10860,7 +10932,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it@npm:^14.0.0":
+"markdown-it-task-lists@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "markdown-it-task-lists@npm:2.1.1"
+  checksum: 10c0/4061df2d27184e77fbe2fe3549bd84c33f1cd8e7962aabe0724ba16d55950267b09dc56fbf24c52daf8ed9624a662fcba50990a1603575bd197db453047e54d0
+  languageName: node
+  linkType: hard
+
+"markdown-it@npm:^14.0.0, markdown-it@npm:^14.1.0":
   version: 14.1.0
   resolution: "markdown-it@npm:14.1.0"
   dependencies:
@@ -13816,6 +13895,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prosemirror-markdown@npm:^1.11.1":
+  version: 1.13.2
+  resolution: "prosemirror-markdown@npm:1.13.2"
+  dependencies:
+    "@types/markdown-it": "npm:^14.0.0"
+    markdown-it: "npm:^14.0.0"
+    prosemirror-model: "npm:^1.25.0"
+  checksum: 10c0/53c48ef0d0d18ca0a7c39bdb18485508bfe10582f9b1d04d7114e6f6e9678a4481b318f310b19d4e95f65d947fbe6348affddcb909ad9b8c9f865cc07ceff22b
+  languageName: node
+  linkType: hard
+
 "prosemirror-markdown@npm:^1.13.1":
   version: 1.13.1
   resolution: "prosemirror-markdown@npm:1.13.1"
@@ -13845,6 +13935,15 @@ __metadata:
   dependencies:
     orderedmap: "npm:^2.0.0"
   checksum: 10c0/d09e1aac3cbd451e6a8f3927df487869b1ce0b7f21836c0c6966d401f4ab2d5984988f74d3ff98c72484a78498b9c0c3ad62cf2a06ac869664f1820c97313054
+  languageName: node
+  linkType: hard
+
+"prosemirror-model@npm:^1.25.0":
+  version: 1.25.0
+  resolution: "prosemirror-model@npm:1.25.0"
+  dependencies:
+    orderedmap: "npm:^2.0.0"
+  checksum: 10c0/5845436dfa4da6334622942d3487a6b48c1fb1be0379432733d804a6889c3fcdaf9737eb7b625c7041df56664580fad6c153d4e698778051f19e7f73afcef7b8
   languageName: node
   linkType: hard
 
@@ -15726,7 +15825,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superjson@npm:^2.2.1":
+"superjson@npm:^2.2.1, superjson@npm:^2.2.2":
   version: 2.2.2
   resolution: "superjson@npm:2.2.2"
   dependencies:
@@ -16049,6 +16148,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tiptap-markdown@npm:^0.8.10":
+  version: 0.8.10
+  resolution: "tiptap-markdown@npm:0.8.10"
+  dependencies:
+    "@types/markdown-it": "npm:^13.0.7"
+    markdown-it: "npm:^14.1.0"
+    markdown-it-task-lists: "npm:^2.1.1"
+    prosemirror-markdown: "npm:^1.11.1"
+  peerDependencies:
+    "@tiptap/core": ^2.0.3
+  checksum: 10c0/0102ce7dc2ac6d418f544265a1ed12f5fba4abb4d540837cc1c8508f43bda69521e789342936cd7609194902336df3dbb4398d9765143dcf226e07885482807a
+  languageName: node
+  linkType: hard
+
 "to-regex-range@npm:^5.0.1":
   version: 5.0.1
   resolution: "to-regex-range@npm:5.0.1"
@@ -16175,6 +16288,13 @@ __metadata:
   version: 4.37.0
   resolution: "type-fest@npm:4.37.0"
   checksum: 10c0/5bad189f66fbe3431e5d36befa08cab6010e56be68b7467530b7ef94c3cf81ef775a8ac3047c8bbda4dd3159929285870357498d7bc1df062714f9c5c3a84926
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^4.8.3":
+  version: 4.41.0
+  resolution: "type-fest@npm:4.41.0"
+  checksum: 10c0/f5ca697797ed5e88d33ac8f1fec21921839871f808dc59345c9cf67345bfb958ce41bd821165dbf3ae591cedec2bf6fe8882098dfdd8dc54320b859711a2c1e4
   languageName: node
   linkType: hard
 
@@ -16865,6 +16985,18 @@ __metadata:
   version: 1.1.2
   resolution: "vary@npm:1.1.2"
   checksum: 10c0/f15d588d79f3675135ba783c91a4083dcd290a2a5be9fcb6514220a1634e23df116847b1cc51f66bfb0644cf9353b2abb7815ae499bab06e46dd33c1a6bf1f4f
+  languageName: node
+  linkType: hard
+
+"vee-validate@npm:4.15.1, vee-validate@npm:^4.15.1":
+  version: 4.15.1
+  resolution: "vee-validate@npm:4.15.1"
+  dependencies:
+    "@vue/devtools-api": "npm:^7.5.2"
+    type-fest: "npm:^4.8.3"
+  peerDependencies:
+    vue: ^3.4.26
+  checksum: 10c0/da59a54cb17e673d89426c63a240578628de1eed1d7008e7f765d83c3f7ccbc729e0282b56a19833d725c37def30537f81960a3130755ca8b1d7771262344c00
   languageName: node
   linkType: hard
 

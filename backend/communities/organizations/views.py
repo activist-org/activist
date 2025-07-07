@@ -5,7 +5,7 @@ API views for organization management.
 """
 
 import json
-from typing import Dict, List
+from typing import Dict, List, cast
 from uuid import UUID
 
 from django.db import transaction
@@ -461,11 +461,13 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         try:
             # Use transaction.atomic() to ensure nothing is saved if an error occurs.
             with transaction.atomic():
-                faq = OrganizationFaq.objects.filter(id=data.get("id")).first()
+                faq_id = cast(UUID | str, data.get("id"))
+                faq = OrganizationFaq.objects.filter(id=faq_id).first()
                 if not faq:
                     return Response(
                         {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
                     )
+
                 faq.question = data.get("question", faq.question)
                 faq.answer = data.get("answer", faq.answer)
                 faq.save()
