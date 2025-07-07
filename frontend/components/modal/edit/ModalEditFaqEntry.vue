@@ -25,7 +25,7 @@
         :cta="true"
         label="i18n.components.modal.edit._global.update_texts"
         fontSize="base"
-        ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
+        ariaLabel="i18n.components.modal_edit_faq_entry.update_texts_aria_label"
       />
     </div>
   </ModalBase>

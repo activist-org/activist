@@ -7,9 +7,12 @@
       :initial-values="formData"
       :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
     >
+      <Typography variant="h2">
+        {{ $t("i18n.components.modal_edit_text_event.edit_event_texts") }}
+      </Typography>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.pages._global.create.description')"
+        :label="$t('i18n._global.description')"
         name="description"
         :required="true"
       >
@@ -46,7 +49,7 @@
           :value="value.value"
           :hasError="!!errorMessage.value"
           :label="
-            $t('i18n.components.modal_edit_text_event.offer_to_help_link')
+            $t('i18n.components.modal_edit_text_event.offer_to_help_link_label')
           "
         />
       </FormItem>
@@ -58,6 +61,7 @@
 import { z } from "zod";
 
 import type { EventUpdateTextFormData } from "~/types/events/event";
+
 const schema = z.object({
   description: z
     .string()

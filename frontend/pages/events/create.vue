@@ -99,7 +99,7 @@
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <label for="description" class="responsive-h3 block font-medium">
-              {{ $t("i18n.pages._global.create.description") }}*
+              {{ $t("i18n._global.description") }}*
             </label>
             <textarea
               v-model="formData.description"
