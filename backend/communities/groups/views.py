@@ -210,7 +210,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 # MARK: Group Flags
 
 
-class GroupFlagAPIView(viewsets.ModelViewSet[GroupFlag]):
+class GroupFlagAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
     permission_classes = (IsAuthenticated,)
@@ -251,7 +251,7 @@ class GroupFlagAPIView(viewsets.ModelViewSet[GroupFlag]):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class GroupFlagDetailAPIView(viewsets.ModelViewSet[GroupFlag]):
+class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
     authentication_classes = (TokenAuthentication,)

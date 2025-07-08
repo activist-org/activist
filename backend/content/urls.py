@@ -24,9 +24,9 @@ router.register(prefix=r"discussion_entries", viewset=views.DiscussionEntryViewS
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("resource_flag", view=views.ResourceFlagAPIView.as_view({"post": "post"})),
+    path("resource_flag", view=views.ResourceFlagAPIView.as_view()),
     path(
         "resource_flag/<uuid:id>",
-        view=views.ResourceFlagDetailAPIView.as_view({"get": "get"}),
+        view=views.ResourceFlagDetailAPIView.as_view(),
     ),
 ]

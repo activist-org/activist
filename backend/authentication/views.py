@@ -20,8 +20,9 @@ from drf_spectacular.utils import (
     OpenApiResponse,
     extend_schema,
 )
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -235,7 +236,7 @@ class DeleteUserView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class UserFlagAPIView(viewsets.ModelViewSet[UserFlag]):
+class UserFlagAPIView(GenericAPIView[UserFlag]):
     queryset = UserFlag.objects.all()
     serializer_class = UserFlagSerializers
     permission_classes = (IsAuthenticated,)
@@ -274,7 +275,7 @@ class UserFlagAPIView(viewsets.ModelViewSet[UserFlag]):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class UserFlagDetailAPIView(viewsets.ModelViewSet[UserFlag]):
+class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
     queryset = UserFlag.objects.all()
     serializer_class = UserFlagSerializers
     authentication_classes = (TokenAuthentication,)

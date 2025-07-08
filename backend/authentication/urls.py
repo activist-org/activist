@@ -18,9 +18,9 @@ urlpatterns = [
     path(route="delete", view=views.DeleteUserView.as_view(), name="delete"),
     path(route="sign_in", view=views.SignInView.as_view(), name="sign_in"),
     path(route="pwreset", view=views.PasswordResetView.as_view(), name="pwreset"),
-    path(route="user_flag", view=views.UserFlagAPIView.as_view({"post": "post"})),
+    path(route="user_flag", view=views.UserFlagAPIView.as_view()),
     path(
         route="user_flag/<uuid:id>",
-        view=views.UserFlagDetailAPIView.as_view({"get": "get"}),
+        view=views.UserFlagDetailAPIView.as_view(),
     ),
 ]

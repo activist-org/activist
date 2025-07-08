@@ -196,7 +196,7 @@ class EventDetailAPIView(APIView):
 # MARK: Event Flag
 
 
-class EventFlagAPIView(viewsets.ModelViewSet[EventFlag]):
+class EventFlagAPIView(GenericAPIView[EventFlag]):
     queryset = EventFlag.objects.all()
     serializer_class = EventFlagSerializers
     permission_classes = (IsAuthenticated,)
@@ -235,7 +235,7 @@ class EventFlagAPIView(viewsets.ModelViewSet[EventFlag]):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class EventFlagDetailAPIView(viewsets.ModelViewSet[EventFlag]):
+class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
     queryset = EventFlag.objects.all()
     serializer_class = EventFlagSerializers
     authentication_classes = (TokenAuthentication,)

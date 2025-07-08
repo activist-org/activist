@@ -300,7 +300,7 @@ class OrganizationDetailAPIView(APIView):
         )
 
 
-class OrganizationFlagAPIView(viewsets.ModelViewSet[OrganizationFlag]):
+class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
     permission_classes = (IsAuthenticated,)
@@ -342,7 +342,7 @@ class OrganizationFlagAPIView(viewsets.ModelViewSet[OrganizationFlag]):
 # MARK: Organization Flags
 
 
-class OrganizationFlagDetailAPIView(viewsets.ModelViewSet[OrganizationFlag]):
+class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
     authentication_classes = (TokenAuthentication,)

@@ -79,11 +79,11 @@ urlpatterns = [
     path("groups/<uuid:id>", GroupDetailAPIView.as_view()),
     path("organizations", OrganizationAPIView.as_view()),
     path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
-    path("group_flag", GroupFlagAPIView.as_view({"post": "post"})),
-    path("group_flag/<uuid:id>", GroupFlagDetailAPIView.as_view({"get": "get"})),
-    path("organization_flag", OrganizationFlagAPIView.as_view({"post": "post"})),
+    path("group_flag", GroupFlagAPIView.as_view()),
+    path("group_flag/<uuid:id>", GroupFlagDetailAPIView.as_view()),
+    path("organization_flag", OrganizationFlagAPIView.as_view()),
     path(
         "organization_flag/<uuid:id>",
-        OrganizationFlagDetailAPIView.as_view({"get": "get"}),
+        OrganizationFlagDetailAPIView.as_view(),
     ),
 ]
