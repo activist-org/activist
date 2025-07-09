@@ -16,7 +16,7 @@
       {{ label }}
     </label>
     <div
-      class="border-box relative inline-flex select-none items-center text-left text-distinct-text"
+      class="border-box relative inline-flex select-none items-center overflow-hidden text-left text-distinct-text"
     >
       <input
         @focus="shrinkLabel = true"
