@@ -1,54 +1,37 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n._global.about")
-        }}</label>
-        <textarea
-          v-model="formData.description"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
+    <Form :schema="schema" @submit="onSubmit">
+      <div class="flex flex-col space-y-7">
+        <FormItem name="description" :label="$t('i18n._global.about')" :required="true">
+          <FormTextArea v-model="formData.description" />
+        </FormItem>
+        <FormItem name="getInvolved" :label="$t('i18n.components._global.participate')">
+          <FormTextArea v-model="formData.getInvolved" />
+        </FormItem>
+        <FormItem name="getInvolvedUrl" :label="$t('i18n.components.modal_edit_text_event.offer_to_help_link')">
+          <FormTextInput v-model="formData.getInvolvedUrl" />
+          <p>{{ $t('i18n.components.modal.edit.text._global.remember_https') }}</p>
+        </FormItem>
+        <BtnAction
+          type="submit"
+          :cta="true"
+          label="i18n.components.modal.edit._global.update_texts"
+          fontSize="base"
+          ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
         />
       </div>
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components._global.participate")
-        }}</label>
-        <textarea
-          v-model="formData.getInvolved"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
-        />
-      </div>
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <div class="flex flex-col space-y-2">
-          <label for="input" class="responsive-h2">{{
-            $t("i18n.components.modal_edit_text_event.offer_to_help_link")
-          }}</label>
-          <p>
-            {{ $t("i18n.components.modal.edit.text._global.remember_https") }}
-          </p>
-          <input
-            v-model="formData.getInvolvedUrl"
-            id="textarea"
-            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-layer-2 px-3 py-2"
-          />
-        </div>
-      </div>
-      <BtnAction
-        @click="handleSubmit()"
-        :cta="true"
-        label="i18n.components.modal.edit._global.update_texts"
-        fontSize="base"
-        ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
-      />
-    </div>
+    </Form>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { z } from 'zod';
+import Form from '@/components/form/Form.vue';
+import FormItem from '@/components/form/FormItem.vue';
+import FormTextArea from '@/components/form/text/FormTextArea.vue';
+import FormTextInput from '@/components/form/text/FormTextInput.vue';
 import type { EventUpdateTextFormData } from "~/types/events/event";
 
 const modalName = "ModalEditTextEvent";
@@ -68,14 +51,24 @@ const formData = ref<EventUpdateTextFormData>({
   getInvolvedUrl: "",
 });
 
+const schema = z.object({
+  description: z.string().min(1, "About is required"),
+  getInvolved: z.string().optional(),
+  getInvolvedUrl: z.string().optional(),
+});
+
 onMounted(() => {
   formData.value.description = event.texts.description;
   formData.value.getInvolved = event.texts.getInvolved;
   formData.value.getInvolvedUrl = event.getInvolvedUrl;
 });
 
-async function handleSubmit() {
-  const response = await eventStore.updateTexts(event, formData.value);
+function onSubmit(values: EventUpdateTextFormData) {
+  handleSubmit(values);
+}
+
+async function handleSubmit(values: EventUpdateTextFormData) {
+  const response = await eventStore.updateTexts(event, values);
   if (response) {
     handleCloseModal();
   }
