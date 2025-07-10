@@ -43,11 +43,11 @@
         name="getInvolvedUrl"
       >
         <FormTextInput
-          @input="handleChange"
           @blur="handleBlur"
+          @update:modelValue="handleChange"
           :id="id"
-          :value="value.value"
           :hasError="!!errorMessage.value"
+          :modelValue="value.value as string"
           :label="
             $t('i18n.components.modal_edit_text_event.offer_to_help_link_label')
           "
@@ -87,10 +87,9 @@ const formData = ref<EventUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = event.texts.description;
-  formData.value.getInvolved = event.texts.getInvolved;
-  formData.value.getInvolvedUrl = event.getInvolvedUrl;
-  console.log("Form data initialized:", formData.value);
+  formData.value.description = event.texts.description || "";
+  formData.value.getInvolved = event.texts.getInvolved || "";
+  formData.value.getInvolvedUrl = event.getInvolvedUrl || "dsda";
 });
 
 async function handleSubmit(values: unknown) {

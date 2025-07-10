@@ -43,11 +43,11 @@
         name="getInvolvedUrl"
       >
         <FormTextInput
-          @input="handleChange"
           @blur="handleBlur"
+          @update:modelValue="handleChange"
           :id="id"
-          :value="value.value"
           :hasError="!!errorMessage.value"
+          :modelValue="value.value as string"
           :label="$t('i18n.components.modal.edit.text._global.remember_https')"
         />
       </FormItem>
@@ -86,10 +86,9 @@ const formData = ref<GroupUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = group.texts.description;
-  formData.value.getInvolved = group.texts.getInvolved;
-  formData.value.getInvolvedUrl = group.getInvolvedUrl;
-  console.log("Form data initialized:", formData.value);
+  formData.value.description = group.texts.description || "";
+  formData.value.getInvolved = group.texts.getInvolved || "";
+  formData.value.getInvolvedUrl = group.getInvolvedUrl || "";
 });
 
 async function handleSubmit(values: unknown) {
