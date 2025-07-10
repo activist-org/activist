@@ -74,7 +74,7 @@
         <div class="card-style mt-5 px-5 py-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, errorMessage }"
-            :label="$t('i18n.pages._global.create.description')"
+            :label="$t('i18n._global.description')"
             name="description"
             :required="true"
           >
