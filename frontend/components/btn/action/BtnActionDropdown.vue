@@ -63,11 +63,7 @@ import { getBtnDynamicClass } from "~/utils/btnUtils";
 
 const props = defineProps<BtnActionDropdown>();
 
-const btnDynamicClass = getBtnDynamicClass(
-  props.cta,
-  props.fontSize,
-  props.isDisabled
-);
+const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
 
 const emit = defineEmits(["main-btn-clicked"]);
 </script>

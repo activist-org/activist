@@ -173,9 +173,6 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
     - Colors are defined for light and dark mode with border width and radius also being applied
     - Used in cases like about page sections, search results, etc
 
-> [!NOTE]
-> There's also custom styles available to make development easier such as `bg-breakpoint-test` that changes the background of the element it's applied to based on the current breakpoint.
-
 <a id="formatting"></a>
 
 ## Formatting [`⇧`](#contents)
