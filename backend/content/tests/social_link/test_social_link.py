@@ -60,6 +60,7 @@ def test_organization_social_link_serializer() -> None:
     )
     serializer = OrganizationSocialLinkSerializer(social_link)
     data = serializer.data
+
     assert data["link"] == "https://example.com"
     assert data["label"] == "Example"
     assert data["order"] == 1
@@ -80,6 +81,7 @@ def test_group_social_link_serializer() -> None:
     )
     serializer = GroupSocialLinkSerializer(social_link)
     data = serializer.data
+
     assert data["link"] == "https://example.com"
     assert data["label"] == "Example"
     assert data["order"] == 1
@@ -100,6 +102,7 @@ def test_event_social_link_serializer() -> None:
     )
     serializer = EventSocialLinkSerializer(social_link)
     data = serializer.data
+
     assert data["link"] == "https://example.com"
     assert data["label"] == "Example"
     assert data["order"] == 1

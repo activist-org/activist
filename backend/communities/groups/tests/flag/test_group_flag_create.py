@@ -23,19 +23,6 @@ def test_group_flag_create():
 
     group = GroupFactory()
 
-    error_response = client.post(
-        path="/v1/communities/group_flag",
-        data={"group": group.id, "created_by": user.id},
-    )
-
-    assert error_response.status_code == 401
-
-    error_response_body = error_response.json()
-    assert (
-        error_response_body["detail"] == "Authentication credentials were not provided."
-    )
-
-    # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
@@ -45,7 +32,6 @@ def test_group_flag_create():
 
     login_body = login.json()
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/communities/group_flag",

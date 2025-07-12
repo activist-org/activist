@@ -71,9 +71,9 @@ def test_org_social_link_update(client: Client) -> None:
 
     # MARK: Update Failure
 
-    bad_uuid = uuid4()
+    bad_social_link_uuid = uuid4()
     response = client.put(
-        path=f"/v1/communities/organization_social_links/{bad_uuid}",
+        path=f"/v1/communities/organization_social_links/{bad_social_link_uuid}",
         data={"link": test_link, "label": test_label, "order": test_order},
         headers={"Authorization": f"Token {token}"},
         content_type="application/json",
