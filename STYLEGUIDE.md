@@ -255,7 +255,7 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 <h1 class="font-bold">Page Header</h1>
 ```
 
-### Text Colors
+### Text colors
 
 Text color is controlled using semantic utility classes defined in `@layer components` in `frontend/assets/css/tailwind.css`. These classes are designed to work consistently across light and dark modes, using CSS variables defined in your theme.
 
@@ -347,7 +347,7 @@ Localization keys should be defined based on the file in which they're used with
 
 <a id="images-icons"></a>
 
-## Images and Icons [`⇧`](#contents)
+## Images and icons [`⇧`](#contents)
 
 Please define all routes for images and icons in the respective [url registry utils file](frontend/utils/imageURLRegistry.s.ts) and [icon map enum](frontend/types/icon-map.ts).
 
