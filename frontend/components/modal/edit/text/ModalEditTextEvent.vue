@@ -62,10 +62,12 @@ import { z } from "zod";
 
 import type { EventUpdateTextFormData } from "~/types/events/event";
 
+const { t } = useI18n();
+
 const schema = z.object({
   description: z
     .string()
-    .min(1, "i18n.components.modal.edit.text._global.description_required"),
+    .min(1, t("i18n.components.modal.edit.text._global.description_required")),
   getInvolved: z.string().optional(),
   getInvolvedUrl: z.string().optional(),
 });
