@@ -10,29 +10,29 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
-- [Style Guidelines for activist.org](#style-guidelines-for-activistorg)
-  - [**Contents**](#contents)
-  - [Vue and Nuxt `⇧`](#vue-and-nuxt-)
-    - [Page Routing](#page-routing)
-    - [Breakpoints](#breakpoints)
-  - [TypeScript `⇧`](#typescript-)
-    - [Vue Single File Component (.vue file) Guidelines](#vue-single-file-component-vue-file-guidelines)
-  - [Tailwind `⇧`](#tailwind-)
-  - [Common styles `⇧`](#common-styles-)
-  - [Formatting `⇧`](#formatting-)
-  - [Colors `⇧`](#colors-)
-  - [Text styles `⇧`](#text-styles-)
-    - [Font `⇧`](#font-)
-    - [Text size `⇧`](#text-size-)
-    - [Text Colors](#text-colors)
-  - [Localization `⇧`](#localization-)
-  - [Images and Icons `⇧`](#images-and-icons-)
-  - [Tab size `⇧`](#tab-size-)
-  - [Padding `⇧`](#padding-)
+- [Vue and Nuxt](#vue-and-nuxt)
+  - [Page routing](#page-routing)
+  - [Breakpoints](#breakpoints)
+- [TypeScript](#typescript)
+- [Tailwind](#tailwind)
+- [Common styles](#common-styles)
+- [Formatting](#formatting)
+- [Colors](#colors)
+- [Text styles](#text-styles)
+  - [Font](#font)
+  - [Text size](#text-size)
+  - [Text colors](#text-colors)
+- [Localization](#localization)
+- [Images and icons](#images-and-icons)
+- [Tab size](#tab-size)
+- [Padding](#padding)
 
 <a id="vue-and-nuxt"></a>
 
 ## Vue and Nuxt [`⇧`](#contents)
+
+> [!NOTE]
+> For VS Code users: it is recommended to install [Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to enable in-editor type-checking:
 
 The frontend for activist is written in the framework [Vue.js](https://vuejs.org/) and specifically the meta-framework [Nuxt.js](https://nuxt.com/). The team chose Vue because of its broad usage across the development industry as well as relative ease of use and adoption for new contributors. Most of all we appreciate the structure that Vue adds to a project by leveraging the order of HTML and adding scripting and styling on top. Nuxt expands on Vue seamlessly and includes many [modules](https://nuxt.com/modules) to make development much easier.
 
@@ -96,15 +96,6 @@ activist uses Tailwind for CSS, and some parts of components will be conditional
 <a id="typescript"></a>
 
 ## TypeScript [`⇧`](#contents)
-
-PRs are always welcome to improve the developer experience and project infrastructure!
-
-> [!NOTE]
-> For VS Code users: it is recommended to install Vue extensions to enable in-editor type-checking:
->
-> - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-
-### Vue Single File Component (.vue file) Guidelines
 
 - Create general frontend types in the [frontend/types](frontend/types) directory
 - When typing Arrays, use `arrayElementType[]` rather than the generic type `Array<T>` unless [extending](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays):
@@ -209,6 +200,9 @@ Note further that Tailwind allows for alpha components for opacity to be applied
 
 ## Text styles [`⇧`](#contents)
 
+> [!IMPORTANT]
+> The examples below use plain text to be easily understandable, but note that all texts should be defined using i18n keys in the `frontend/i18n` JSON files. Please see the [Localization](#localization) section below to learn more.
+
 The activist frontend applies consistent global styles to semantic HTML tags like `h1`, `h2`, `p`, `ul`, and `ol` via Tailwind classes inside `frontend/assets/css/tailwind.css`. This ensures that text styling is predictable, accessible, and visually cohesive across the platform.
 
 These styles are **defined globally** using Tailwind’s `@layer components` and should be relied upon by all contributors instead of re-applying utility classes manually.
@@ -225,7 +219,7 @@ No need to add text classes like `text-xl` or `text-gray-800` — they’re alre
 **Don’t manually override text styles:**
 
 ```html
-<!-- Avoid this unless absolutely necessary -->
+<!-- Avoid this unless absolutely necessary. -->
 <h1 class="text-xl text-gray-700">Organize for impact</h1>
 ```
 
@@ -241,7 +235,7 @@ Only add utility overrides if absolutely necessary for a unique layout or design
 | `ul`    | `text-base text-primary-text`                     |
 | `a`     | *(opted out globally; use `link-text` as needed)* |
 
-> \[!NOTE]
+> [!NOTE]
 > Global styles for headings and body text help ensure accessibility, dark mode support, and visual consistency. Avoid duplicating or overriding them unless necessary.
 
 <a id="font"></a>
@@ -296,9 +290,8 @@ Avoid using raw Tailwind color utilities like `text-gray-500` or `text-white`. I
 
 These utility classes are responsive to theme changes (light/dark) and should be used instead of inline or raw utility colors.
 
-> \[!TIP]
+> [!NOTE]
 > Need a new text color variant? Add it to `@layer components` and ensure it maps to a CSS variable for both themes.
-
 
 <a id="localization"></a>
 
