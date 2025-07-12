@@ -1,16 +1,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex-col space-y-3">
-    <p class="responsive-h3 font-medium text-primary-text">
+    <h3 class="font-medium">
       {{ $t("i18n.components.card_topic_selection.header") }}
-    </p>
-    <p v-if="pageType == 'organization'" class="text-primary-text">
+    </h3>
+    <p v-if="pageType == 'organization'">
       {{ $t("i18n.components.card_topic_selection.subtext_organization") }}
     </p>
-    <p v-if="pageType == 'group'" class="text-primary-text">
+    <p v-if="pageType == 'group'">
       {{ $t("i18n.components.card_topic_selection.subtext_group") }}
     </p>
-    <p v-if="pageType == 'resource'" class="text-primary-text">
+    <p v-if="pageType == 'resource'">
       {{ $t("i18n.components.card_topic_selection.subtext_resource") }}
     </p>
     <input

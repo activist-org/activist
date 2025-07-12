@@ -35,7 +35,7 @@
           <DisclosurePanel
             class="mt-2 border-t border-section-div py-2 focus-within:border-0"
           >
-            <p class="select-text text-left text-primary-text">
+            <p class="select-text text-left">
               {{ faqEntry.answer }}
             </p>
           </DisclosurePanel>

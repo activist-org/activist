@@ -9,7 +9,7 @@
           class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
         />
       </div>
-      <p class="text-primary-text">
+      <p>
         {{ $t("i18n.components.footer.flex._global.activist_tagline") }}
       </p>
       <!-- Note: Platform Links -->
@@ -45,7 +45,7 @@
     >
       <!-- Note: Connect Links -->
       <div>
-        <p class="text-xl font-medium text-primary-text">
+        <p class="text-xl font-medium">
           {{ $t("i18n.components._global.connect") }}
         </p>
         <div class="mt-1 flex gap-10 sm:mt-0 sm:flex-col sm:gap-0">
@@ -69,7 +69,7 @@
       </div>
       <!-- Note: Resources Links -->
       <div>
-        <p class="mt-6 text-xl font-medium text-primary-text sm:mt-0">
+        <p class="mt-6 text-xl font-medium sm:mt-0">
           {{ $t("i18n._global.resources") }}
         </p>
         <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
@@ -97,7 +97,7 @@
       </div>
       <!-- Note: Organization Links -->
       <div>
-        <p class="mt-6 text-xl font-medium text-primary-text sm:mt-0">
+        <p class="mt-6 text-xl font-medium sm:mt-0">
           {{ $t("i18n._global.organization") }}
         </p>
         <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
@@ -152,13 +152,13 @@
       >
         {{ $t("i18n.components.footer.flex._global.powered_by_netlify") }}
       </a>
-      <div class="mt-2 text-primary-text">
+      <p class="mt-2">
         {{
           $t("i18n.components.footer.flex._global.copyright", {
             year: new Date().getFullYear(),
           })
         }}
-      </div>
+      </p>
     </div>
   </div>
 </template>

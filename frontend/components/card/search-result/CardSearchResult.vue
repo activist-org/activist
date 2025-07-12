@@ -117,9 +117,9 @@
               :to="localePath(linkUrl)"
               :aria-label="$t(ariaLabel)"
             >
-              <h2 class="responsive-h3 font-bold">
+              <h3 class="font-bold">
                 {{ name }}
-              </h2>
+              </h3>
             </NuxtLink>
             <a
               v-else-if="resource"
@@ -127,9 +127,9 @@
               target="_blank"
               :aria-label="$t(ariaLabel)"
             >
-              <h2 class="responsive-h3 font-bold">
+              <h3 class="font-bold">
                 {{ name }}
-              </h2>
+              </h3>
             </a>
             <MenuSearchResult
               v-if="organization"

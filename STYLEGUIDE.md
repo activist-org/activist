@@ -201,17 +201,17 @@ Note further that Tailwind allows for alpha components for opacity to be applied
 
 ## Font [`⇧`](#contents)
 
-The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are generally defined by `responsive-h#` custom classes that include `font-display`, it will be rare that you'll need to apply it directly. See the next section for more details.
+The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are defined by `responsive-h#` custom classes that include `font-display` being applied globally to their corresponding `h#` HTML, it will be rare that you'll need to apply it directly. See the next section for more details.
 
 <a id="text-size"></a>
 
 ## Text size [`⇧`](#contents)
 
-[frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them. The naming criteria of these headers follows that of HTML headers so that the team remembers that when a `responsive-h#` tag is used that it should be applied to a coinciding `<h#>` tag for accessibility. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
+[frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them and are globally applied to the corresponding HTML `h#` tag. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
 
 ```html
 <!-- The size and weight styles for page headers. -->
-<h1 class="font-bold responsive-h1">Page Header</h1>
+<h1 class="font-bold">Page Header</h1>
 ```
 
 <a id="localization"></a>
