@@ -8,8 +8,15 @@
     <div class="max-h-[80vh] px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
         <h2 class="font-bold">
-{{ organization.name }}'s Application
-</h2>
+          {{
+            $t(
+              "i18n.components.modal_organization_status.organization_application",
+              {
+                organization_name: organization.name,
+              }
+            )
+          }}
+        </h2>
       </DialogTitle>
       <h4 class="pt-2 text-accepted-green dark:text-accepted-green">
         {{ $t("i18n.components.modal_organization_status.status_accepted") }}
