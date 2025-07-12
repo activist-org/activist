@@ -36,7 +36,7 @@
 # **Contents**
 
 - [Our goals](#our-goals)
-- [Preview Video](#preview-video)
+- [Preview video](#preview-video)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
 - [Design and accessibility](#design-a11y)
