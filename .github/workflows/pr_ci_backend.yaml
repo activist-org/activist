@@ -8,6 +8,8 @@ on:
       - opened
       - reopened
       - synchronize
+    paths:
+      - "backend/**"
   push:
     branches:
       - main
@@ -26,7 +28,7 @@ jobs:
   backend:
     services:
       postgres:
-        image: postgres:13
+        image: postgres:15
         env:
             POSTGRES_USER: ${{ env.DATABASE_USER }}
             POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
@@ -80,4 +82,4 @@ jobs:
       - name: Run pytest - Unit Tests
         if: always()
         run: |
-          pytest ./backend --cov=backend --cov-report=term-missing --cov-fail-under=70 --cov-config=./backend/pyproject.toml
+          pytest ./backend --cov=./backend --cov-report=term-missing --cov-fail-under=85 --cov-config=./backend/pyproject.toml -vv

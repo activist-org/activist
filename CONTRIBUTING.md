@@ -14,7 +14,7 @@ If you have questions or would like to communicate with the team, please [join u
 
 - [First steps as a contributor](#first-steps-)
 - [Tech stack](#tech-stack-)
-- [Learning the tech stack](#learning-the-tech-)
+- [Learning the tech stack](#learning-the-tech-stack-)
 - [Development environment](#dev-env-)
 - [Style guide](#style-guide-)
 - [Linting](#linting-)
@@ -26,6 +26,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Localization](#localization-)
 - [Documentation](#documentation-)
 - [Accessibility](#accessibility-)
+- [Internationalization](#internationalization-)
 - [Design](#design-)
 - [Troubleshooting](#troubleshooting-)
 
@@ -36,10 +37,10 @@ If you have questions or would like to communicate with the team, please [join u
 Thank you for your interest in contributing to activist.org! We look forward to welcoming you to the community and working with you to build a global platform for political action :) The following are some suggested steps for people interested in joining our community:
 
 - Please join the [public Matrix chat](https://matrix.to/#/#activist_community:matrix.org) to connect with the community
-  - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
-  - activist would suggest that you use the [Element](https://element.io/) client
-  - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
-  - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
+    - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
+    - activist would suggest that you use the [Element](https://element.io/) client
+    - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
+    - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
 - Read through this contributing guide and the [style guide](STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
@@ -74,7 +75,7 @@ The following are the current and planned technologies for [activist.org](https:
 > [!NOTE]
 > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
-<a id="learning-the-tech-"></a>
+<a id="learning-the-tech-stack-"></a>
 
 ## Learning the tech stack [`⇧`](#contents)
 
@@ -84,9 +85,9 @@ activist is very open to contributions from people in the early stages of their 
 <p>
 
 - [Mozilla Developer Network Learning Area](https://developer.mozilla.org/en-US/docs/Learn)
-  - Doing MDN sections for HTML, CSS and JavaScript is the best ways to get into web development!
+    - Doing MDN sections for HTML, CSS and JavaScript is the best ways to get into web development!
 - [Open Source Guides](https://opensource.guide/)
-   - Guides from GitHub about open-source software including how to start and much more!
+    - Guides from GitHub about open-source software including how to start and much more!
 
 </p>
 </details>
@@ -213,13 +214,13 @@ git remote add upstream https://github.com/activist-org/activist.git
 
 5. Start your docker images with the following:
 
-   ```bash
-   # --build only necessary with new dependencies or backend model changes.
-   docker compose --env-file .env.dev up --build
+    ```bash
+    # --build only necessary with new dependencies or backend model changes.
+    docker compose --env-file .env.dev up --build
 
-   # And to stop the containers when you're done working:
-   docker compose --env-file .env.dev down
-   ```
+    # And to stop the containers when you're done working:
+    docker compose --env-file .env.dev down
+    ```
 
 6. You can visit <http://localhost:3000/> to see the development frontend once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
 
@@ -374,6 +375,12 @@ docker exec -it django_backend sh
 # Run backend tests:
 pytest
 
+# To run a specific test:
+pytest path/to/test_file.py::test_function
+
+# To run with a coverage report as is done in PRs:
+pytest --cov --cov-report=term-missing --cov-config=pyproject.toml -vv
+
 # Once tests are finished:
 exit
 ```
@@ -386,6 +393,7 @@ Please check the formatting of your code using Prettier and run the static type 
 
 ```bash
 # Within ./frontend:
+yarn install  # necessary for non-Linux users as node_modules are set via Docker
 yarn format
 yarn lint
 ```
@@ -413,6 +421,12 @@ yarn test --silent
 > [!NOTE]
 > The `--silent` flag is to suppress a lot of warnings from existing issues between Nuxt and Vitest.  If you need to see the warnings omit the `--silent` flag.
 
+If you would like to run a specific test, please run the following command:
+
+```bash
+yarn vitest FILE.spec.ts --run
+```
+
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
 
 > [!NOTE]
@@ -425,6 +439,7 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Please run the following command in the frontend:
 
 ```bash
+# This and all following steps need to be ran each time Playwright is updated.
 yarn playwright install --with-deps
 ```
 
@@ -501,9 +516,9 @@ Thank you for testing your PRs! 🎉
 The [issue tracker for activist](https://github.com/activist-org/activist/issues) is the preferred channel for [bug reports](#bug-reports), [features requests](#feature-requests) and [submitting pull requests](#pull-requests). activist also organizes related issues into [projects](https://github.com/activist-org/activist/projects).
 
 > [!NOTE]
-> Just because an issue is assigned on GitHub doesn't mean that the team isn't interested in your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
+> Just because an issue is assigned on GitHub doesn't mean the team isn't open to your contribution! Feel free to write [in the issues](https://github.com/activist-org/activist/issues) and we can potentially reassign it to you.
 
-Be sure to check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first time contributors.
+Be sure to check the [`-next release-`](https://github.com/activist-org/activist/labels/-next%20release-) and [`-priority-`](https://github.com/activist-org/activist/labels/-priority-) labels in the [issues](https://github.com/activist-org/activist/issues) for those that are most important, as well as those marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) that are tailored for first-time contributors.
 
 <a name="bug-reports"></a>
 
@@ -562,13 +577,16 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
 
 3. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
 
-   ```bash
-   # In the project root:
-   pre-commit install
-   ```
+    ```bash
+    # In the project root:
+    pre-commit install
+
+    # Then test the pre-commit hooks to see how it works:
+    pre-commit run --all-files
+    ```
 
 > [!NOTE]
-> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements.txt](backend/requirements.txt) file.
+> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements-dev.txt](backend/requirements-dev.txt) file.
 >
 > ```bash
 > pip install pre-commit
@@ -609,7 +627,9 @@ Thank you in advance for your contributions!
 
 ## Localization [`⇧`](#contents)
 
-<a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
+<a href="https://hosted.weblate.org/projects/activist/activist">
+    <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right">
+</a>
 
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
@@ -666,11 +686,35 @@ Tab focusing sadly doesn't work out of the box for many browsers. Chrome works g
 
 Once the above steps are finished you should be able to use tab to navigate web pages :)
 
+<a id="internationalization-"></a>
+
+## Internationalization [`⇧`](#contents)
+
+activist uses [i18n-check](https://github.com/activist-org/i18n-check) to validate our internationalization key-value pairs. The basic commands to check the i18n keys and values are:
+
+```bash
+# Note: You need to have installed the backend/requirements-dev.txt file in your virtual environment.
+i18n-check -a  # run all checks
+i18n-check -ki  # run key identifiers check
+i18n-check -ik  # run invalid keys check
+i18n-check -uk  # run unused keys check
+i18n-check -nsk  # run non-source keys check
+i18n-check -rk  # run repeat keys check
+i18n-check -rv  # run repeat values check
+i18n-check -nk  # run nested keys check
+```
+
+You can also run individual checks. Please see the [documentation for i18n-check](https://i18n-check.readthedocs.io/en/latest/) to learn more.
+
+If you do need to edit the directories and files skipped by certain checks, then these edits can be made in the [.i18n-check.yaml](./.i18n-check.yaml) file. If you're having issues using `i18n-check`, please feel free to contact the team for support!
+
 <a id="design-"></a>
 
 ## Design [`⇧`](#contents)
 
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231">
+    <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right">
+</a>
 
 Designs for activist are done in the [public design file in Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in helping with activist's design are also welcome to share their ideas using the [design improvement](https://github.com/activist-org/activist/issues/new?assignees=&labels=design&template=design_improvement.yml) template that makes an issue marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 

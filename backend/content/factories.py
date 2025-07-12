@@ -1,21 +1,55 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Factories for creating mock instances of models in the content app.
+"""
+
+# mypy: ignore-errors
 import datetime
 import random
 from uuid import uuid4
 
 import factory
 
-from content.models import Faq, Image, Location, Resource, Task, Topic
+from content.models import (
+    Discussion,
+    DiscussionEntry,
+    Faq,
+    Image,
+    Location,
+    Resource,
+    ResourceFlag,
+    Task,
+    Topic,
+)
 
 # MARK: Main Table
 
 
 class EntityLocationFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Location model instances for entities.
+    """
+
     class Meta:
         model = Location
 
     @factory.post_generation
     def location(self, create, extracted, **kwargs):
+        """
+        Add a location to an entity.
+
+        Parameters
+        ----------
+        create : Any
+            A boolean indicating which strategy was used.
+
+        extracted : Any
+            Arguments extracted for this method.
+            None unless a value was passed in for the PostGeneration declaration at Factory declaration time.
+
+        **kwargs : Any
+            Extra parameters passed as attr__key=value when calling the Factory.
+        """
         # Latitude, longitude, bounding box and display name for preselected locations.
         random_locations = [
             [
@@ -58,11 +92,30 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
 
 
 class EventLocationFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Location model instances for events.
+    """
+
     class Meta:
         model = Location
 
     @factory.post_generation
     def location(self, create, extracted, **kwargs):
+        """
+        Add a location to an event.
+
+        Parameters
+        ----------
+        create : Any
+            A boolean indicating which strategy was used.
+
+        extracted : Any
+            Arguments extracted for this method.
+            None unless a value was passed in for the PostGeneration declaration at Factory declaration time.
+
+        **kwargs : Any
+            Extra parameters passed as attr__key=value when calling the Factory.
+        """
         # Latitude, longitude, bounding box and display name for preselected locations.
         random_locations = [
             [
@@ -105,14 +158,25 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
 
 
 class FaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
     class Meta:
         model = Faq
 
-    name = factory.Faker("name")
-    question = factory.Faker("text")
+    iso = "en"
+    primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
+    order = factory.Faker("random_int", min=1, max=100)
 
 
 class ImageFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Image model instances.
+    """
+
     class Meta:
         model = Image
 
@@ -127,13 +191,17 @@ class ImageFactory(factory.django.DjangoModelFactory):
 
 
 class ResourceFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Resource model instances.
+    """
+
     class Meta:
         model = Resource
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("name")
-    description = factory.Faker("text")
-    location = factory.SubFactory(EntityLocationFactory)
+    description = factory.Faker(provider="text", locale="la")
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
     url = factory.Faker("url")
     is_private = factory.Faker("boolean")
     terms_checked = factory.Faker("boolean")
@@ -145,25 +213,83 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     )
 
 
+class ResourceFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating instances of ResourceFlag model.
+    """
+
+    class Meta:
+        model = ResourceFlag
+
+    resource = factory.SubFactory("content.factories.ResourceFactory")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    created_on = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
 class TaskFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Task model instances.
+    """
+
     class Meta:
         model = Task
 
     name = factory.Faker("word")
-    description = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
 
 class TopicFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Topic model instances.
+    """
+
     class Meta:
         model = Topic
 
     name = factory.Faker("word")
     active = factory.Faker("boolean")
-    description = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("date")
+
+
+class DiscussionFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Discussion model instances.
+    """
+
+    class Meta:
+        model = Discussion
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    title = factory.Faker(provider="text", locale="la")
+    category = factory.Faker(provider="text", locale="la")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+class DiscussionEntryFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Discussion Entry instances.
+    """
+
+    class Meta:
+        model = DiscussionEntry
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    discussion = factory.SubFactory("content.factories.DiscussionFactory")
+    text = factory.Faker(provider="text", locale="la")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )

@@ -1,9 +1,14 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+MARK: Colors
+*/
 
 /* Note: *-over-layer-2 texts have opacities from tailwind.config.ts included. */
 .light {
@@ -60,6 +65,10 @@
   --password-strength-strong: 147, 196, 125;
 }
 
+/*
+MARK: Base
+*/
+
 @layer base {
   body {
     @apply bg-layer-2;
@@ -70,53 +79,9 @@
 }
 
 @layer components {
-  .bg-breakpoint-test {
-    @apply bg-red-500 sm:bg-orange-500 md:bg-yellow-500 lg:bg-green-500 xl:bg-blue-500 2xl:bg-violet-500 3xl:bg-pink-500;
-  }
-
-  .btn-base-class {
-    @apply focus-brand elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
-  }
-
-  .btn-disabled {
-    @apply focus-off elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
-  }
-
-  .card-style-base {
-    @apply elem-shadow-sm rounded-md sm:rounded-lg;
-  }
-
-  .card-style {
-    @apply card-style-base bg-layer-1;
-  }
-
-  .elem-on-card-style {
-    @apply card-style-base elem-shadow-sm bg-layer-2 hover:bg-highlight active:bg-layer-2 dark:border dark:border-primary-text;
-  }
-
-  .elem-shadow-sm {
-    @apply shadow-sm shadow-zinc-700;
-  }
-
-  .elem-shadow-md {
-    @apply shadow-md shadow-zinc-700;
-  }
-
-  .elem-shadow-lg {
-    @apply shadow-lg shadow-zinc-700;
-  }
-
-  .focus-brand {
-    @apply rounded-sm focus:outline-none focus-visible:border-link-text focus-visible:ring-2 focus-visible:ring-link-text;
-  }
-
-  .focus-inside {
-    @apply rounded-sm focus-within:border-link-text focus-within:outline-none focus-within:ring-2 focus-within:ring-link-text;
-  }
-
-  .link-text {
-    @apply text-link-text hover:text-link-text-hover;
-  }
+  /*
+  MARK: Text Styling
+  */
 
   .responsive-h1 {
     @apply font-display text-2xl sm:text-3xl md:text-4xl xl:text-5xl;
@@ -137,6 +102,105 @@
   .responsive-h5 {
     @apply font-display text-base md:text-lg xl:text-xl;
   }
+
+  .responsive-h6 {
+    @apply font-display text-base xl:text-lg;
+  }
+
+  /*
+  MARK: Text Color
+  */
+
+  .distinct-text {
+    @apply text-distinct-text;
+  }
+
+  .link-text {
+    @apply text-link-text hover:text-link-text-hover;
+  }
+
+  .error-text {
+    @apply text-action-red;
+  }
+
+  .warn-text {
+    @apply text-warn-yellow;
+  }
+
+  /*
+  MARK: Focus
+  */
+
+  .focus-brand {
+    @apply rounded-sm focus:outline-none focus-visible:border-link-text focus-visible:ring-2 focus-visible:ring-link-text;
+  }
+
+  .focus-inside {
+    @apply rounded-sm focus-within:border-link-text focus-within:outline-none focus-within:ring-2 focus-within:ring-link-text;
+  }
+
+  /*
+  MARK: Buttons
+  */
+
+  .btn-base-class {
+    @apply focus-brand elem-shadow-sm w-fit select-none px-4 py-2 text-center font-semibold;
+  }
+
+  .style-btn {
+    @apply focus-brand elem-shadow-sm bg-layer-0 text-primary-text hover:bg-highlight active:bg-layer-0 dark:border dark:border-primary-text;
+  }
+
+  .style-btns-next-to-one-another {
+    @apply mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[70%] md:gap-x-6 lg:max-w-[60%] xl:max-w-[70%] xl:gap-x-8 2xl:max-w-[80%];
+  }
+
+  .style-cta {
+    @apply focus-brand border border-primary-text bg-cta-orange fill-primary-text text-primary-text hover:bg-cta-orange/70 active:bg-cta-orange dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange dark:hover:bg-cta-orange/25 dark:active:bg-cta-orange/10;
+  }
+
+  .style-cta:disabled {
+    @apply cursor-not-allowed border-primary-text/50 bg-cta-orange/50 fill-primary-text/50 text-primary-text/50 shadow-none dark:border-cta-orange/50 dark:bg-cta-orange/10 dark:fill-cta-orange/50 dark:text-cta-orange/50;
+  }
+
+  .style-cta-secondary {
+    @apply focus-brand border border-primary-text bg-layer-2 fill-primary-text text-primary-text hover:bg-highlight-darker active:bg-layer-2 dark:border-primary-text dark:hover:bg-highlight-lighter;
+  }
+
+  .style-cta-secondary:disabled {
+    @apply cursor-not-allowed border-primary-text/50 bg-layer-2/75 fill-primary-text/50 text-primary-text/50 shadow-none;
+  }
+
+  .style-menu-option {
+    @apply focus-brand focus-brand fill-primary-text text-primary-text hover:bg-cta-orange/80 dark:hover:bg-cta-orange/25 dark:hover:text-cta-orange;
+  }
+
+  .style-menu-option-cta {
+    @apply focus-brand bg-menu-selection fill-layer-1 text-layer-1 hover:bg-menu-selection/80;
+    p {
+      @apply text-layer-1;
+    }
+  }
+
+  /*
+  MARK: Cards
+  */
+
+  .card-style-base {
+    @apply elem-shadow-sm rounded-md sm:rounded-lg;
+  }
+
+  .card-style {
+    @apply card-style-base bg-layer-1;
+  }
+
+  .elem-on-card-style {
+    @apply card-style-base elem-shadow-sm bg-layer-2 hover:bg-highlight active:bg-layer-2 dark:border dark:border-primary-text;
+  }
+
+  /*
+  MARK: Padding
+  */
 
   .responsive-px-1 {
     @apply px-1 sm:px-2;
@@ -178,36 +242,20 @@
     @apply py-8 lg:py-10 xl:py-14;
   }
 
-  .style-btn {
-    @apply focus-brand elem-shadow-sm bg-layer-0 text-primary-text hover:bg-highlight active:bg-layer-0 dark:border dark:border-primary-text;
+  /*
+  MARK: Shadow
+  */
+
+  .elem-shadow-sm {
+    @apply shadow-sm shadow-zinc-700;
   }
 
-  .style-btns-next-to-one-another {
-    @apply mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[70%] md:gap-x-6 lg:max-w-[60%] xl:max-w-[70%] xl:gap-x-8 2xl:max-w-[80%];
+  .elem-shadow-md {
+    @apply shadow-md shadow-zinc-700;
   }
 
-  .style-cta {
-    @apply focus-brand border border-primary-text bg-cta-orange fill-primary-text text-primary-text hover:bg-cta-orange/70 active:bg-cta-orange dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange dark:hover:bg-cta-orange/25 dark:active:bg-cta-orange/10;
-  }
-
-  .style-cta-disabled {
-    @apply focus-brand cursor-not-allowed border border-primary-text/50 bg-cta-orange/50 fill-primary-text/50 text-primary-text/50 shadow-none dark:border-cta-orange/50 dark:bg-cta-orange/10 dark:fill-cta-orange/50 dark:text-cta-orange/50;
-  }
-
-  .style-cta-secondary {
-    @apply focus-brand border border-primary-text bg-layer-2 fill-primary-text text-primary-text hover:bg-highlight-darker active:bg-layer-2 dark:border-primary-text dark:hover:bg-highlight-lighter;
-  }
-
-  .style-cta-secondary-disabled {
-    @apply focus-brand cursor-not-allowed border border-primary-text/50 bg-layer-2/75 fill-primary-text/50 text-primary-text/50 shadow-none dark:border-primary-text/50 dark:fill-primary-text/50 dark:text-primary-text/50;
-  }
-
-  .style-menu-option {
-    @apply focus-brand focus-brand fill-primary-text text-primary-text hover:bg-cta-orange/80 dark:fill-primary-text dark:text-primary-text dark:hover:bg-cta-orange/25 dark:hover:text-cta-orange;
-  }
-
-  .style-menu-option-cta {
-    @apply focus-brand bg-menu-selection fill-layer-1 text-layer-1 hover:bg-menu-selection/80;
+  .elem-shadow-lg {
+    @apply shadow-lg shadow-zinc-700;
   }
 
   .style-learn {
@@ -222,6 +270,10 @@
     @apply focus-brand border border-primary-text bg-warn-yellow text-primary-text hover:bg-warn-yellow/80 active:bg-warn-yellow dark:border-warn-yellow dark:bg-warn-yellow/10 dark:text-warn-yellow dark:hover:bg-warn-yellow/25 dark:active:bg-warn-yellow/10;
   }
 
+  /*
+  MARK: Tooltips
+  */
+
   .tooltip {
     @apply absolute;
   }
@@ -230,6 +282,10 @@
     @apply visible z-40;
   }
 }
+
+/*
+MARK: Pulse
+*/
 
 .loading-pulse {
   animation: pulse 4s infinite;
@@ -248,3 +304,48 @@
     @apply opacity-50;
   }
 }
+
+/*
+MARK: Typography
+*/
+
+h1 {
+  @apply responsive-h1 text-primary-text;
+}
+
+h2 {
+  @apply responsive-h2 text-primary-text;
+}
+
+h3 {
+  @apply responsive-h3 text-primary-text;
+}
+
+h4 {
+  @apply responsive-h4 text-primary-text;
+}
+
+h5 {
+  @apply responsive-h5 text-primary-text;
+}
+
+h6 {
+  @apply responsive-h6 text-primary-text;
+}
+
+p {
+  @apply text-base text-primary-text;
+}
+
+ul {
+  @apply text-base text-primary-text;
+}
+
+ol {
+  @apply text-base text-primary-text;
+}
+
+/* Note: Not used because this colors all NuxtLink components. */
+/* a {
+  @apply link-text text-base;
+} */

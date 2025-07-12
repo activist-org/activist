@@ -3,7 +3,7 @@
   <CardGetInvolved>
     <div class="flex flex-col md:flex-row">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 text-left font-display">
+        <h3 class="text-left font-display">
           {{ $t("i18n.components._global.get_involved") }}
         </h3>
         <IconEdit
@@ -37,9 +37,12 @@
       <div v-if="organization.groups && organization.groups.length > 0">
         <p>
           {{
-            $t("i18n.components._global.working_groups_subtext", {
-              entity_name: organization.name,
-            })
+            $t(
+              "i18n.components.card_get_involved_organization.working_groups_subtext",
+              {
+                entity_name: organization.name,
+              }
+            )
           }}:
         </p>
         <Feed :organization="organization" />
@@ -50,9 +53,12 @@
         </p>
         <p v-else>
           {{
-            $t("i18n.components._global.join_organization_subtext", {
-              entity_name: organization.name,
-            })
+            $t(
+              "i18n.components.card_get_involved_organization.join_organization_subtext",
+              {
+                entity_name: organization.name,
+              }
+            )
           }}
         </p>
       </div>
@@ -73,7 +79,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextOrganization } = useModalHandlers(
@@ -87,6 +92,5 @@ const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
-
 const { organization } = organizationStore;
 </script>

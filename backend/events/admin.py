@@ -1,10 +1,15 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Configure Django admin for the events app.
+"""
+
 from django.contrib import admin
 
 from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventFlag,
     EventText,
     Format,
     Role,
@@ -21,3 +26,18 @@ admin.site.register(Role)
 admin.site.register(EventAttendee)
 admin.site.register(EventAttendeeStatus)
 admin.site.register(EventText)
+
+# MARK: Methods
+
+
+class EventFlagAdmin(admin.ModelAdmin[EventFlag]):
+    """
+    Admin interface for EventFlag model.
+
+    Displays the Event, User and the date of the report filed.
+    """
+
+    list_display = ["event", "created_by", "created_on"]
+
+
+admin.site.register(EventFlag, EventFlagAdmin)

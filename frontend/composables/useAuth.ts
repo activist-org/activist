@@ -8,7 +8,7 @@ export const useAuth = () => {
   const authUser = useUser();
   const tokenStore = usePersistedToken();
   const signIn = async (username: string, password: string) => {
-    await $fetch<LoginResponse>(`${BASE_BACKEND_URL}/auth/sign_in/`, {
+    await $fetch<LoginResponse>(`${BASE_BACKEND_URL}/auth/sign_in`, {
       method: "POST",
       body: JSON.stringify({ username, password }),
       onResponse: ({ response }) => {

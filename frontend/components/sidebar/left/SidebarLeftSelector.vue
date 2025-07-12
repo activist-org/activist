@@ -15,9 +15,9 @@
           <span class="sr-only">{{ $t("i18n._global.navigate_to") }}</span>
           {{ $t(label) }}
         </p>
-        <span v-else class="sr-only">
+        <p v-else class="sr-only">
           {{ $t("i18n._global.navigate_to") }} {{ $t(label) }}
-        </span>
+        </p>
       </Transition>
     </div>
   </MenuLinkWrapper>

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
         {{ organization.name }}&nbsp;{{
@@ -8,8 +8,7 @@
         }}
       </Title>
     </Head>
-    <HeaderAppPage
-      :organization="organization"
+    <HeaderAppPageOrganization
       :header="
         organization.name + ' ' + $t('i18n.pages._global.team.team_lower')
       "
@@ -27,7 +26,7 @@
           ariaLabel="i18n.pages.organizations.team.invite_someone_org_aria_label"
         />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageOrganization>
     <div class="space-y-3 py-4"></div>
     <!-- <div v-if="organization.members" class="space-y-3 py-4">
       <CardSearchResultUser
@@ -42,13 +41,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Organization } from "~/types/communities/organization";
+
 import { IconMap } from "~/types/icon-map";
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-
-const { organization } = organizationStore;
+defineProps<{
+  organization: Organization;
+}>();
 </script>

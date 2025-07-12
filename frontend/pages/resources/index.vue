@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="bg-layer-0 px-8 text-primary-text">
+  <div class="bg-layer-0 px-8">
     <Head>
       <Title>{{ $t("i18n.pages.resources.index.header_title") }}</Title>
     </Head>
@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 const { data: resources } = await useFetch(
-  `${BASE_BACKEND_URL}/content/resources/`,
+  `${BASE_BACKEND_URL}/content/resources`,
   {
     method: "GET",
   }

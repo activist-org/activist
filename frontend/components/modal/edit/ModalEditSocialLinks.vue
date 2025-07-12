@@ -2,10 +2,10 @@
 <template>
   <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_social_links.social_links")
-        }}</label>
+      <div class="flex flex-col space-y-3">
+        <h2 for="textarea">
+          {{ $t("i18n.components.modal_edit_social_links.social_links") }}
+        </h2>
         <div class="flex flex-col space-y-3">
           <div
             v-for="(socLink, index) in socialLinksRef"
@@ -38,22 +38,16 @@
         <BtnAction
           @click="addNewLink()"
           :cta="true"
-          :label="$t('i18n.components.modal_edit_social_links.add_link')"
+          label="i18n.components.modal_edit_social_links.add_link"
           fontSize="base"
-          :ariaLabel="
-            $t('i18n.components.modal_edit_social_links.add_link_aria_label')
-          "
+          ariaLabel="i18n.components.modal_edit_social_links.add_link_aria_label"
         />
         <BtnAction
           @click="handleSubmit()"
           :cta="true"
-          :label="$t('i18n.components.modal_edit_social_links.update_links')"
+          label="i18n.components.modal_edit_social_links.update_links"
           fontSize="base"
-          :ariaLabel="
-            $t(
-              'i18n.components.modal_edit_social_links.update_links_aria_label'
-            )
-          "
+          ariaLabel="i18n.components.modal_edit_social_links.update_links_aria_label"
         />
       </div>
     </div>
@@ -71,8 +65,6 @@ import type {
   SocialLinkFormData,
 } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
-
-import { useModalHandlers } from "~/composables/useModalHandlers";
 
 const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";

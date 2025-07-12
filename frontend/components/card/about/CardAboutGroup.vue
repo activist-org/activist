@@ -1,7 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardAbout>
-    <ModalQRCodeBtn v-if="group && !expandText" :group="group" type="icon" />
+    <ModalQRCodeBtn
+      v-if="group && !expandText"
+      :group="group"
+      type="icon"
+      reason-for-suggesting=""
+    />
     <button
       v-if="expandText"
       @click="
@@ -14,7 +19,7 @@
     </button>
     <div class="flex-col space-y-3">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 text-left font-display">
+        <h3 class="text-left font-display">
           {{ $t("i18n._global.about") }}
         </h3>
         <IconEdit
@@ -80,7 +85,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextGroup } =
@@ -93,7 +97,6 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
-
 const { group } = groupStore;
 
 const description = ref();

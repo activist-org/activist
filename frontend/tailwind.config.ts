@@ -11,7 +11,9 @@ export default <Partial<Config>>{
     "./app.vue",
   ],
   darkMode: "class",
-  plugins: [require("tailwind-scrollbar")({ nocompatible: true })], // eslint-disable-line
+  plugins: [
+    require("tailwind-scrollbar")({ nocompatible: true }), // eslint-disable-line
+  ],
   theme: {
     extend: {
       fontFamily: {

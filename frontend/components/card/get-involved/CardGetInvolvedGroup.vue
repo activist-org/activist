@@ -2,7 +2,7 @@
 <template>
   <CardGetInvolved>
     <div class="flex items-center gap-5">
-      <h3 class="responsive-h3 text-left font-display">
+      <h3 class="text-left font-display">
         {{ $t("i18n.components._global.get_involved") }}
       </h3>
       <IconEdit
@@ -26,7 +26,7 @@
     <div class="space-y-3 pt-3">
       <p>
         {{
-          $t("i18n.components._global.join_group_subtext", {
+          $t("i18n.components.card_get_involved_group.join_group_subtext", {
             entity_name: group.name,
           })
         }}.
@@ -36,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModalHandlers } from "~/composables/useModalHandlers";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalEditTextGroup } =
@@ -49,6 +48,5 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
-
 const { group } = groupStore;
 </script>

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <!-- organization.status === 1 means it's application is pending. -->
     <!-- <CardOrgApplicationVote
         @up-vote="upVotes++"
@@ -19,3 +19,11 @@
     </div> -->
   </div>
 </template>
+
+<script setup lang="ts">
+// import type { Organization } from "~/types/communities/organization";
+
+// defineProps<{
+//   organization: Organization;
+// }>();
+</script>

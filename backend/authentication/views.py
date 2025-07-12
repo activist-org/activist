@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+API views for authentication management.
+"""
+
 import os
 import uuid
-from uuid import UUID
 
 import dotenv
 from django.contrib.auth import login
@@ -9,19 +12,27 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from drf_spectacular.utils import OpenApiParameter, extend_schema
-from rest_framework import status
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiParameter,
+    OpenApiResponse,
+    extend_schema,
+)
+from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from authentication.models import UserModel
+from authentication.models import UserFlag, UserModel
 from authentication.serializers import (
     DeleteUserResponseSerializer,
-    LoginSerializer,
     PasswordResetSerializer,
-    SignupSerializer,
+    SignInSerializer,
+    SignUpSerializer,
+    UserFlagSerializers,
 )
 
 dotenv.load_dotenv()
@@ -35,13 +46,10 @@ ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
 class SignUpView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (AllowAny,)
-    serializer_class = SignupSerializer
+    serializer_class = SignUpSerializer
 
     def post(self, request: Request) -> Response:
-        """
-        Create a new user.
-        """
-        serializer = SignupSerializer(data=request.data)
+        serializer = SignUpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user: UserModel = serializer.save()
 
@@ -78,15 +86,12 @@ class SignUpView(APIView):
         parameters=[OpenApiParameter(name="verification_code", type=str, required=True)]
     )
     def get(self, request: Request) -> Response:
-        """
-        Confirm a user's email address.
-        """
         verification_code = request.GET.get("verification_code")
         user = UserModel.objects.filter(verification_code=verification_code).first()
 
         if user is None:
             return Response(
-                {"message": "User does not exist."},
+                {"detail": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -102,16 +107,11 @@ class SignUpView(APIView):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class SignInView(APIView):
-    serializer_class = LoginSerializer
+    serializer_class = SignInSerializer
     permission_classes = (AllowAny,)
 
     def post(self, request: Request) -> Response:
-        """
-        Sign in a user.
-
-        Sign in is possible with either email or username.
-        """
-        serializer = LoginSerializer(data=request.data)
+        serializer = SignInSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         login(request, serializer.validated_data.get("user"))
@@ -137,7 +137,7 @@ class PasswordResetView(APIView):
 
         if user is None:
             return Response(
-                {"message": "User does not exist."},
+                {"detail": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -189,19 +189,95 @@ class DeleteUserView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = DeleteUserResponseSerializer
+    authentication_classes = (TokenAuthentication,)
 
-    def delete(self, request: Request, pk: UUID | str) -> Response:
-        user = UserModel.objects.get(pk=pk)
+    @extend_schema(
+        summary="Delete own account",
+        responses={
+            204: OpenApiResponse(
+                description="Account deleted successfully",
+            ),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Bad request",
+                examples=[
+                    OpenApiExample(
+                        name="Bad request",
+                        value={"detail": "Bad request."},
+                        media_type="application/json",
+                    )
+                ],
+            ),
+            401: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="Unauthorized",
+                examples=[
+                    OpenApiExample(
+                        name="Unauthorized",
+                        value={"detail": "Invalid token."},
+                        media_type="application/json",
+                    ),
+                    OpenApiExample(
+                        name="User not authorized",
+                        value={
+                            "detail": "Authentication credentials were not provided."
+                        },
+                        media_type="application/json",
+                    ),
+                ],
+            ),
+        },
+    )
+    def delete(self, request: Request) -> Response:
+        request.user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-        if user is None:
-            return Response(
-                {"message": "User does not exist."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
 
-        user.delete()
+class UserFlagViewSets(viewsets.ModelViewSet[UserFlag]):
+    queryset = UserFlag.objects.all()
+    serializer_class = UserFlagSerializers
+    http_method_names = ["get", "post", "delete"]
+
+    def create(self, request: Request) -> Response:
+        if request.user.is_authenticated:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(
-            {"message": "User was deleted successfully."},
-            status=status.HTTP_204_NO_CONTENT,
+            {"detail": "You are not allowed flag this user."},
+            status=status.HTTP_401_UNAUTHORIZED,
         )
+
+    def list(self, request: Request) -> Response:
+        query = self.queryset.filter()
+        serializer = self.get_serializer(query, many=True)
+
+        return self.get_paginated_response(self.paginate_queryset(serializer.data))
+
+    def retrieve(self, request: Request, pk: str | None) -> Response:
+        if pk is not None:
+            query = self.queryset.filter(id=pk).first()
+
+        else:
+            return Response(
+                {"detail": "Invalid ID"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = self.get_serializer(query)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request: Request) -> Response:
+        item = self.get_object()
+        if request.user.is_staff:
+            self.perform_destroy(item)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        else:
+            return Response(
+                {"detail": "You are authorized to delete this flag."},
+                status=status.HTTP_403_FORBIDDEN,
+            )

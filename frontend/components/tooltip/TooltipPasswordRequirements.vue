@@ -7,30 +7,55 @@
       $t("i18n.components.tooltip_password_requirements.password_rules_message")
     }}</span>
     <div
-      v-for="(rule, index) in rules"
-      :key="`password-rule-${index}`"
+      v-for="rule in validRules"
+      :key="rule.rule"
+      :data-testid="rule.rule"
       class="flex items-center space-x-2 px-2"
     >
       <Icon
-        :name="rule.isValid ? IconMap.CIRCLE_CHECK_FILL : IconMap.CIRCLE_X_FILL"
+        aria-hidden="false"
+        :aria-labelledby="rule.rule"
+        :name="
+          validRules.some((ruleV) => {
+            ruleV.isValid && ruleV.rule === rule.rule;
+          })
+            ? IconMap.CIRCLE_CHECK_FILL
+            : IconMap.CIRCLE_X_FILL
+        "
         size="0.9em"
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
       />
+      <title :id="rule.rule" class="sr-only">
+        {{
+          validRules.some((ruleV) => ruleV.isValid && ruleV.rule === rule.rule)
+            ? $t(
+                "i18n.components.tooltip_password_requirements.password_passed_rule"
+              )
+            : $t(
+                "i18n.components.tooltip_password_requirements.password_failed_rule"
+              )
+        }}
+      </title>
       <span class="truncate text-sm">{{
-        $t(passwordRequirementsDict[rule.message])
+        $t(passwordRequirementsDict[rule.rule])
       }}</span>
     </div>
   </TooltipBase>
 </template>
 
 <script setup lang="ts">
-import type { PasswordRules } from "~/types/password-rules";
-
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  rules: PasswordRules[];
+const props = defineProps<{
+  password: string | Ref<string | undefined>;
 }>();
+
+const { checkRules } = usePasswordRules();
+
+const pass = computed(() => unref(props.password));
+const validRules = computed(() => {
+  return checkRules(pass.value || "");
+});
 
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
 const passwordRequirementsDict: { [key: string]: string } = {

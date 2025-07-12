@@ -3,28 +3,40 @@
 Models for the communities app.
 """
 
+from typing import Any
 from uuid import uuid4
 
 from django.db import models
 
-from content.models import SocialLink
+from content.models import Faq, SocialLink
 from utils.models import ISO_CHOICES
 
-# MARK: Main Tables
+# MARK: Group
 
 
 class Group(models.Model):
+    """
+    General group class with all base parameters.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org = models.ForeignKey(
         "communities.Organization",
         on_delete=models.CASCADE,
         related_name="groups",
-        null=True,
+        null=False,
     )
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        "authentication.UserModel",
+        on_delete=models.CASCADE,
+        related_name="created_group",
+    )
     group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
+    icon_url = models.OneToOneField(
+        "content.Image", on_delete=models.CASCADE, blank=True, null=True
+    )
     location = models.ForeignKey(
         "content.Location", on_delete=models.CASCADE, blank=False, null=False
     )
@@ -34,9 +46,12 @@ class Group(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
+
     events = models.ManyToManyField("events.Event", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
+
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField("authentication.UserModel", through="GroupFlag")
 
     def __str__(self) -> str:
         return self.name
@@ -46,6 +61,10 @@ class Group(models.Model):
 
 
 class GroupImage(models.Model):
+    """
+    Class for adding image parameters to groups.
+    """
+
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="images")
     image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
     sequence_index = models.IntegerField()
@@ -55,6 +74,10 @@ class GroupImage(models.Model):
 
 
 class GroupMember(models.Model):
+    """
+    Class for adding user membership parameters to groups.
+    """
+
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, related_name="group_members"
     )
@@ -72,12 +95,30 @@ class GroupMember(models.Model):
 
 
 class GroupSocialLink(SocialLink):
+    """
+    Class for adding social link parameters to groups.
+    """
+
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
 
+class GroupFaq(Faq):
+    """
+    Class for adding faq parameters to groups.
+    """
+
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, null=True, related_name="faqs"
+    )
+
+
 class GroupText(models.Model):
+    """
+    Class for adding text parameters to groups.
+    """
+
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="texts"
     )
@@ -89,3 +130,14 @@ class GroupText(models.Model):
 
     def __str__(self) -> str:
         return f"{self.group} - {self.iso}"
+
+
+class GroupFlag(models.Model):
+    """
+    Models for flagged groups.
+    """
+
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)

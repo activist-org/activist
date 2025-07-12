@@ -1,12 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<!-- This file doesn't use ModalBase, so we handle modal events in the script block below. -->
-
+<!-- Note: This file doesn't use ModalBase, so we handle modal events in the script block below. -->
 <template>
   <button
     v-if="type == 'icon'"
     @click="openModal()"
     @keydown.enter="openModal()"
-    class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md sm:h-16 sm:w-16"
+    class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-primary-text sm:h-16 sm:w-16"
     :aria-label="$t('i18n.components.modal_qr_code_btn.open_modal_aria_label')"
   >
     <div class="sm:hidden">
@@ -24,16 +23,24 @@
       />
     </div>
   </button>
-  <MetaTagSocialMedia
-    v-else
-    @click="openModal()"
-    @keydown.enter="openModal()"
-    class="focus-brand dark:hover:distinct-text text-primary-text hover:text-distinct-text"
-    :iconName="IconMap.QR_CODE"
-    :text="$t('i18n.components.modal_qr_code_btn.qr_code')"
-    iconSize="1.5em"
-    tabindex="0"
-  />
+  <div v-else>
+    <MetaTagSocialMedia
+      @click="openModal()"
+      @keydown.enter="openModal()"
+      class="focus-brand dark:hover:distinct-text text-primary-text hover:text-distinct-text"
+      :iconName="IconMap.QR_CODE"
+      :text="$t('i18n.components.modal_qr_code_btn.qr_code')"
+      iconSize="1.5em"
+      tabindex="0"
+    />
+    <p
+      v-if="reasonForSuggesting"
+      class="mt-0.5 text-xs italic text-distinct-text"
+      role="note"
+    >
+      {{ reasonForSuggesting }}
+    </p>
+  </div>
   <ModalQRCode
     v-if="organization"
     @closeModal="handleCloseModal"
@@ -65,6 +72,7 @@ defineProps<{
   resource?: Resource;
   user?: User;
   type: "icon" | "meta-tag";
+  reasonForSuggesting: string;
 }>();
 
 const modals = useModals();

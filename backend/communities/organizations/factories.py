@@ -1,4 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Factories for creating mock instances of Organization models in the communities app.
+"""
+
+# mypy: ignore-errors
 import datetime
 import random
 
@@ -8,6 +13,8 @@ from communities.organizations.models import (
     Organization,
     OrganizationApplication,
     OrganizationApplicationStatus,
+    OrganizationFaq,
+    OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
     OrganizationSocialLink,
@@ -15,10 +22,14 @@ from communities.organizations.models import (
     OrganizationText,
 )
 
-# MARK: Main Tables
+# MARK: Organization
 
 
 class OrganizationFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Organization model instances.
+    """
+
     class Meta:
         model = Organization
         django_get_or_create = ("created_by",)
@@ -38,10 +49,29 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     )
 
 
+class OrganizationFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating a flag for an organization.
+    """
+
+    class Meta:
+        model = OrganizationFlag
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    org = factory.SubFactory(OrganizationFactory)
+    created_at = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
 # MARK: Bridge Tables
 
 
 class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationApplication model instances.
+    """
+
     class Meta:
         model = OrganizationApplicationStatus
 
@@ -49,6 +79,10 @@ class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
 
 
 class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationApplication model instances.
+    """
+
     class Meta:
         model = OrganizationApplication
 
@@ -65,6 +99,10 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
 
 
 class OrganizationImageFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationImage model instances.
+    """
+
     class Meta:
         model = OrganizationImage
 
@@ -73,6 +111,10 @@ class OrganizationImageFactory(factory.django.DjangoModelFactory):
 
 
 class OrganizationMemberFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationMember model instances.
+    """
+
     class Meta:
         model = OrganizationMember
 
@@ -84,6 +126,10 @@ class OrganizationMemberFactory(factory.django.DjangoModelFactory):
 
 
 class OrganizationSocialLinkFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationSocialLink model instances.
+    """
+
     class Meta:
         model = OrganizationSocialLink
 
@@ -98,7 +144,26 @@ class OrganizationSocialLinkFactory(factory.django.DjangoModelFactory):
     )
 
 
+class OrganizationFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = OrganizationFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
+    order = factory.Faker("random_int", min=1, max=100)
+
+
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationTask model instances.
+    """
+
     class Meta:
         model = OrganizationTask
 
@@ -108,6 +173,10 @@ class OrganizationTaskFactory(factory.django.DjangoModelFactory):
 
 
 class OrganizationTextFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationText model instances.
+    """
+
     class Meta:
         model = OrganizationText
 

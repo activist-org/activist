@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
+    <!-- <ModalUploadImages
+      @closeModal="handleCloseModalUploadImages"
+      @upload-complete="handleUploadComplete"
+    /> -->
+    <ModalUploadImages @upload-complete="handleUploadComplete" />
     <SidebarLeft
       v-if="aboveMediumBP"
       @mouseover="sidebarHover = true"
@@ -14,7 +19,7 @@
         class="bg-layer-0 pt-8 transition-padding duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage />
+        <NuxtPage :organization="organization" />
       </div>
       <FooterWebsite
         class="pb-24 transition-padding duration-500 md:pb-12"
@@ -25,10 +30,30 @@
 </template>
 
 <script setup lang="ts">
+import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
+
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchById(orgId);
+const { organization } = organizationStore;
+
+const handleUploadComplete = async (fileUploadEntity: FileUploadEntity) => {
+  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_CAROUSEL) {
+    const { fetchOrganizationImages } = useFileManager(
+      organizationStore.organization.id
+    );
+    await fetchOrganizationImages();
+  }
+  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_ICON) {
+    console.log("OrganizationPage handleUploadComplete ORGANIZATION_ICON");
+  }
+};
 
 const aboveMediumBP = useBreakpoint("md");
 

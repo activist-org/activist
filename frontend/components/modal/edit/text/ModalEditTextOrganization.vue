@@ -1,57 +1,80 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n._global.about")
-        }}</label>
-        <textarea
-          v-model="formData.description"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
+    <Form
+      @submit="handleSubmit"
+      :schema="schema"
+      :initial-values="formData"
+      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+    >
+      <h2>
+        {{
+          $t(
+            "i18n.components.modal_edit_text_organization.edit_organization_texts"
+          )
+        }}
+      </h2>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n._global.description')"
+        name="description"
+        :required="true"
+      >
+        <FormTextArea
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :value="value.value"
+          :hasError="!!errorMessage.value"
         />
-      </div>
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components._global.get_involved")
-        }}</label>
-        <textarea
-          v-model="formData.getInvolved"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n.components._global.get_involved')"
+        name="getInvolved"
+      >
+        <FormTextArea
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :value="value.value"
+          :hasError="!!errorMessage.value"
         />
-      </div>
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <div class="flex flex-col space-y-2">
-          <label for="input" class="responsive-h2">{{
-            $t("i18n.components.modal.edit._global.join_organization_link")
-          }}</label>
-          <p>{{ $t("i18n.components.modal.edit._global.remember_https") }}</p>
-          <input
-            v-model="formData.getInvolvedUrl"
-            id="textarea"
-            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-layer-2 px-3 py-2"
-          />
-        </div>
-      </div>
-      <BtnAction
-        @click="handleSubmit()"
-        :cta="true"
-        :label="$t('i18n.components.modal.edit._global.update_texts')"
-        fontSize="base"
-        :ariaLabel="
-          $t('i18n.components.modal.edit._global.update_texts_aria_label')
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="
+          $t(
+            'i18n.components.modal_edit_text_organization.join_organization_link'
+          )
         "
-      />
-    </div>
+        name="getInvolvedUrl"
+      >
+        <FormTextInput
+          @blur="handleBlur"
+          @update:modelValue="handleChange"
+          :id="id"
+          :hasError="!!errorMessage.value"
+          :modelValue="value.value as string"
+          :label="$t('i18n.components.modal.edit.text._global.remember_https')"
+        />
+      </FormItem>
+    </Form>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { z } from "zod";
+
 import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
 
-import { useModalHandlers } from "~/composables/useModalHandlers";
+const schema = z.object({
+  description: z
+    .string()
+    .min(1, "i18n.components.modal.edit.text._global.description_required"),
+  getInvolved: z.string().optional(),
+  getInvolvedUrl: z.string().optional(),
+});
 
 const modalName = "ModalEditTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
@@ -71,15 +94,15 @@ const formData = ref<OrganizationUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = organization.texts.description;
-  formData.value.getInvolved = organization.texts.getInvolved;
-  formData.value.getInvolvedUrl = organization.getInvolvedUrl;
+  formData.value.description = organization.texts.description || "";
+  formData.value.getInvolved = organization.texts.getInvolved || "";
+  formData.value.getInvolvedUrl = organization.getInvolvedUrl || "";
 });
 
-async function handleSubmit() {
+async function handleSubmit(values: unknown) {
   const response = await organizationStore.updateTexts(
     organization,
-    formData.value
+    values as OrganizationUpdateTextFormData
   );
   if (response) {
     handleCloseModal();

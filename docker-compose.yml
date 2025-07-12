@@ -6,7 +6,11 @@ services:
       context: ./backend
     container_name: django_backend
     restart: unless-stopped
-    command: sh -c "python manage.py wait_for_db &&
+    command: sh -c "
+      if [ \"$ENVIRONMENT\" = \"development\" ]; then
+        python /app/core/management/commands/clear_dev_images.py;
+      fi;
+      python manage.py wait_for_db &&
       python manage.py makemigrations &&
       python manage.py migrate &&
       python manage.py loaddata fixtures/superuser.json &&
@@ -18,7 +22,7 @@ services:
         --groups-per-org 1 \
         --events-per-org 1 \
         --resources-per-entity 1 \
-        --faq-entries-per-entity 1 &&
+        --faq-entries-per-entity 3 &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"

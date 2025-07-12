@@ -6,17 +6,18 @@
         {{ $t("i18n.pages.auth.reset_password.index.reset_password_info") }}
       </p>
       <FormTextInput
-        @update:model-value="input = $event"
-        :placeholder="$t('i18n.pages.auth.reset_password.enter_username_mail')"
-        :model-value="input"
+        @input="input = $event.target.value"
+        id="reset-password-username"
+        :value="input"
+        :label="$t('i18n.pages.auth.reset_password.enter_username_mail')"
       />
       <div class="pt-4">
         <BtnAction
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
-          :label="$t('i18n._global.auth.reset_password')"
+          label="i18n._global.auth.reset_password"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('i18n._global.auth.reset_password')"
+          ariaLabel="i18n._global.auth.reset_password"
         />
       </div>
       <div class="link-text pt-16 text-center text-xl font-extrabold">
@@ -27,6 +28,7 @@
     </form>
   </div>
 </template>
+
 <script setup lang="ts">
 const localePath = useLocalePath();
 

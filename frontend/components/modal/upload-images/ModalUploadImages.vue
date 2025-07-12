@@ -3,12 +3,12 @@
   <ModalBase :modalName="modalName">
     <div>
       <DialogTitle>
-        <p v-if="uploadLimit > 1" class="responsive-h2 font-bold">
+        <h2 v-if="uploadLimit > 1" class="font-bold">
           {{ $t("i18n.components.modal_upload_images.upload_images") }}
-        </p>
-        <p v-else class="responsive-h2 font-bold">
+        </h2>
+        <h2 v-else class="font-bold">
           {{ $t("i18n.components.modal_upload_images.upload_an_image") }}
-        </p>
+        </h2>
       </DialogTitle>
       <div class="mt-4">
         <ModalUploadImagesFileDropZone
@@ -34,7 +34,7 @@
           {{ files.length }}
         </p>
         <p
-          v-if="uploadLimit == 1 && files.length == uploadLimit"
+          v-if="uploadLimit == 1 && files.length > uploadLimit"
           class="text-action-red"
         >
           {{ $t("i18n.components.modal_upload_images.picture_limit_1") }}
@@ -79,12 +79,12 @@
             v-if="files.length > 0"
             @click="handleUpload"
             :cta="true"
-            :label="$t('i18n.components.modal_upload_images.upload')"
+            label="i18n.components.modal_upload_images.upload"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
-            :ariaLabel="'i18n.components._global.upvote_application_aria_label'"
-            :disabled="files.length >= uploadLimit"
+            ariaLabel="i18n.components._global.upvote_application_aria_label"
+            :disabled="files.length === 0 || files.length > uploadLimit"
           />
         </div>
       </div>
@@ -100,14 +100,14 @@ import { IconMap } from "~/types/icon-map";
 
 const { files, handleFiles, removeFile, uploadFiles } = useFileManager();
 
-export interface Props {
-  uploadLimit?: number;
-  organizationId?: string;
-}
+const eventStore = useEventStore();
+const groupStore = useGroupStore();
+const organizationStore = useOrganizationStore();
 
-const props = withDefaults(defineProps<Props>(), {
-  uploadLimit: 10,
-  organizationId: undefined,
+const modals = useModals();
+
+const fileUploadEntity = computed(() => {
+  return modals.modals[modalName]?.data?.fileUploadEntity;
 });
 
 const modalName = "ModalUploadImages";
@@ -115,12 +115,48 @@ const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);
 
+const UPLOAD_LIMITS = {
+  "event-icon": 1,
+  "group-carousel": 10,
+  "group-icon": 1,
+  "organization-carousel": 10,
+  "organization-icon": 1,
+} as const;
+
+const uploadLimit = computed(
+  () => UPLOAD_LIMITS[fileUploadEntity.value as keyof typeof UPLOAD_LIMITS] ?? 0
+);
+
+const entityId = computed(() => {
+  switch (fileUploadEntity.value) {
+    case "event-icon":
+      return eventStore.event.id;
+    case "group-carousel":
+    case "group-icon":
+      return groupStore.group.id;
+    case "organization-carousel":
+    case "organization-icon":
+      return organizationStore.organization.id;
+    default:
+      return undefined;
+  }
+});
+
 const handleUpload = async () => {
+  if (!entityId.value || !fileUploadEntity.value) {
+    throw new Error(
+      `No entity ID found for fileUploadEntity: ${fileUploadEntity.value}`
+    );
+  }
+
   try {
-    await uploadFiles(props.organizationId);
+    // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
+    await uploadFiles(entityId.value, fileUploadEntity.value);
+
     const modals = useModals();
     modals.closeModal(modalName);
-    emit("upload-complete");
+
+    emit("upload-complete", fileUploadEntity.value);
     uploadError.value = false;
   } catch (error) {
     console.error("Error uploading images:", error);

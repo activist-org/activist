@@ -6,29 +6,36 @@
         class="flex gap-3"
         :class="{ 'items-center': !open, 'items-start': open }"
       >
-        <div>
+        <div class="text-primary-text">
           <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
           <Icon v-else :name="IconMap.CHEVRON_DOWN" />
         </div>
         <div class="flex-col">
-          <div class="flex select-none items-center gap-3 text-primary-text">
+          <div
+            class="flex select-text items-center gap-3 text-left text-primary-text"
+          >
             <p>{{ faqEntry.question }}</p>
-            <IconEdit @click.stop="openModal()" @keydown.enter="openModal()" />
+            <IconEdit
+              @click.stop="
+                useModalHandlers(
+                  'ModalEditFaqEntry' + props.faqEntry.id
+                ).openModal()
+              "
+              @keydown.enter="
+                useModalHandlers(
+                  'ModalEditFaqEntry' + props.faqEntry.id
+                ).openModal()
+              "
+            />
             <ModalEditFaqEntry
-              @closeModal="handleCloseModal"
               :faqEntry="faqEntry"
-              :sectionsToEdit="[
-                $t('i18n.components.card_faq_entry.question'),
-                $t('i18n.components.card_faq_entry.answer'),
-              ]"
-              :textsToEdit="[faqEntry.question, faqEntry.answer]"
-              :isOpen="modalIsOpen"
+              :pageType="props.pageType"
             />
           </div>
           <DisclosurePanel
             class="mt-2 border-t border-section-div py-2 focus-within:border-0"
           >
-            <p class="select-text text-left text-primary-text">
+            <p class="select-text text-left">
               {{ faqEntry.answer }}
             </p>
           </DisclosurePanel>
@@ -45,17 +52,8 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
+const props = defineProps<{
   faqEntry: FaqEntry;
+  pageType: "organization" | "group" | "event" | "other";
 }>();
-
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modalIsOpen.value = true;
-}
-
-const handleCloseModal = () => {
-  modalIsOpen.value = false;
-};
 </script>

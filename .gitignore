@@ -69,3 +69,6 @@ backend/media/images/*
 
 # LLMs
 .cursorrules
+
+# ZAP Security Reports
+zap-reports/

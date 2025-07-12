@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="w-full text-primary-text">
+  <div class="w-full">
     <IndicatorProcessProgress
       type="default"
       :progress="1"
@@ -10,7 +10,7 @@
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4">
-        <h1 class="responsive-h2 font-bold">
+        <h1 class="font-bold">
           {{ $t("i18n.pages.groups.create.header") }}
         </h1>
         <p class="mt-4">
@@ -25,9 +25,9 @@
           class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <label for="name" class="responsive-h3 block font-medium">
+            <h3 for="name" class="block font-medium">
               {{ $t("i18n.pages.groups.create.group_name") }}*
-            </label>
+            </h3>
             <input
               v-model="formData.name"
               id="name"
@@ -40,9 +40,9 @@
             />
           </div>
           <div class="w-1/2">
-            <label for="location" class="responsive-h3 block font-medium">
+            <h3 for="location" class="block font-medium">
               {{ $t("i18n.pages._global.create.location") }}*
-            </label>
+            </h3>
             <input
               v-model="formData.location"
               id="location"
@@ -54,9 +54,9 @@
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="description" class="responsive-h3 block font-medium">
-            {{ $t("i18n.pages._global.create.description") }}*
-          </label>
+          <h3 for="description" class="block font-medium">
+            {{ $t("i18n._global.description") }}*
+          </h3>
           <textarea
             v-model="formData.description"
             id="description"
@@ -68,9 +68,9 @@
           ></textarea>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <label for="tagline" class="responsive-h3 block font-medium">{{
-            $t("i18n.pages._global.create.tagline")
-          }}</label>
+          <h3 for="tagline" class="block font-medium">
+            {{ $t("i18n.pages._global.create.tagline") }}
+          </h3>
           <input
             v-model="formData.tagline"
             id="tagline"
@@ -85,7 +85,7 @@
           pageType="group"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnect pageType="other" />
+          <CardConnectGroup />
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">
@@ -125,7 +125,7 @@ const formData = ref({
 });
 
 const submit = async () => {
-  await useFetch(`${BASE_BACKEND_URL}/v1/communities/organizations/`, {
+  await useFetch(`${BASE_BACKEND_URL}/v1/communities/organizations`, {
     method: "POST",
     body: JSON.stringify({
       name: formData.value.name,

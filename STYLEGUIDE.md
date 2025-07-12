@@ -11,21 +11,28 @@ If you have questions or would like to communicate with the team, please [join u
 ## **Contents**
 
 - [Vue and Nuxt](#vue-and-nuxt)
+  - [Page routing](#page-routing)
+  - [Breakpoints](#breakpoints)
 - [TypeScript](#typescript)
 - [Tailwind](#tailwind)
 - [Common styles](#common-styles)
 - [Formatting](#formatting)
 - [Colors](#colors)
-- [Font](#font)
-- [Text size](#text-size)
+- [Text styles](#text-styles)
+  - [Font](#font)
+  - [Text size](#text-size)
+  - [Text colors](#text-colors)
 - [Localization](#localization)
-- [Images and Icons](#images-icons)
+- [Images and icons](#images-and-icons)
 - [Tab size](#tab-size)
 - [Padding](#padding)
 
 <a id="vue-and-nuxt"></a>
 
 ## Vue and Nuxt [`⇧`](#contents)
+
+> [!NOTE]
+> For VS Code users: it is recommended to install [Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to enable in-editor type-checking:
 
 The frontend for activist is written in the framework [Vue.js](https://vuejs.org/) and specifically the meta-framework [Nuxt.js](https://nuxt.com/). The team chose Vue because of its broad usage across the development industry as well as relative ease of use and adoption for new contributors. Most of all we appreciate the structure that Vue adds to a project by leveraging the order of HTML and adding scripting and styling on top. Nuxt expands on Vue seamlessly and includes many [modules](https://nuxt.com/modules) to make development much easier.
 
@@ -90,15 +97,6 @@ activist uses Tailwind for CSS, and some parts of components will be conditional
 
 ## TypeScript [`⇧`](#contents)
 
-PRs are always welcome to improve the developer experience and project infrastructure!
-
-> [!NOTE]
-> For VS Code users: it is recommended to install Vue extensions to enable in-editor type-checking:
->
-> - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-
-### Vue Single File Component (.vue file) Guidelines
-
 - Create general frontend types in the [frontend/types](frontend/types) directory
 - When typing Arrays, use `arrayElementType[]` rather than the generic type `Array<T>` unless [extending](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays):
 
@@ -160,21 +158,18 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
 
 - `focus-brand`
 
-  - Creates a custom brand styled orange ring around an element when it is focussed for both light and dark mode
-  - Should be used on all elements that the user can focus (buttons, links, dropdowns, menu items, etc)
+    - Creates a custom brand styled orange ring around an element when it is focussed for both light and dark mode
+    - Should be used on all elements that the user can focus (buttons, links, dropdowns, menu items, etc)
 
 - `link-text`
 
-  - Color and hover color are defined for links for both light and dark mode
+    - Color and hover color are defined for links for both light and dark mode
 
 - `card-style`
 
-  - Applies styles for consistent cards across activist's pages
-  - Colors are defined for light and dark mode with border width and radius also being applied
-  - Used in cases like about page sections, search results, etc
-
-> [!NOTE]
-> There's also custom styles available to make development easier such as `bg-breakpoint-test` that changes the background of the element it's applied to based on the current breakpoint.
+    - Applies styles for consistent cards across activist's pages
+    - Colors are defined for light and dark mode with border width and radius also being applied
+    - Used in cases like about page sections, search results, etc
 
 <a id="formatting"></a>
 
@@ -200,22 +195,103 @@ Note further that Tailwind allows for alpha components for opacity to be applied
 <div class="bg-cta-orange/40"></div>
 ```
 
+
+<a id="text-styles"></a>
+
+## Text styles [`⇧`](#contents)
+
+> [!IMPORTANT]
+> The examples below use plain text to be easily understandable, but note that all texts should be defined using i18n keys in the `frontend/i18n` JSON files. Please see the [Localization](#localization) section below to learn more.
+
+The activist frontend applies consistent global styles to semantic HTML tags like `h1`, `h2`, `p`, `ul`, and `ol` via Tailwind classes inside `frontend/assets/css/tailwind.css`. This ensures that text styling is predictable, accessible, and visually cohesive across the platform.
+
+These styles are **defined globally** using Tailwind’s `@layer components` and should be relied upon by all contributors instead of re-applying utility classes manually.
+
+**Do use semantic tags with global styles:**
+
+```html
+<h1>Organize for impact</h1>
+<p>Start building your campaign with tools built for activists.</p>
+```
+
+No need to add text classes like `text-xl` or `text-gray-800` — they’re already applied globally.
+
+**Don’t manually override text styles:**
+
+```html
+<!-- Avoid this unless absolutely necessary. -->
+<h1 class="text-xl text-gray-700">Organize for impact</h1>
+```
+
+Only add utility overrides if absolutely necessary for a unique layout or design request. In general, styling for typography should be handled globally through semantic elements and in the lower sections it will define different variation of styling that is predefined.
+
+**Example of globally applied styles:**
+
+| Element | Applied classes                                   |
+| ------- | ------------------------------------------------- |
+| `h1`    | `responsive-h1 text-primary-text`                 |
+| `h2`    | `responsive-h2 text-primary-text`                 |
+| `p`     | `text-base text-primary-text`                     |
+| `ul`    | `text-base text-primary-text`                     |
+| `a`     | *(opted out globally; use `link-text` as needed)* |
+
+> [!NOTE]
+> Global styles for headings and body text help ensure accessibility, dark mode support, and visual consistency. Avoid duplicating or overriding them unless necessary.
+
 <a id="font"></a>
 
-## Font [`⇧`](#contents)
+### Font [`⇧`](#contents)
 
-The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are generally defined by `responsive-h#` custom classes that include `font-display`, it will be rare that you'll need to apply it directly. See the next section for more details.
+The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are defined by `responsive-h#` custom classes that include `font-display` being applied globally to their corresponding `h#` HTML, it will be rare that you'll need to apply it directly. See the next section for more details.
 
 <a id="text-size"></a>
 
-## Text size [`⇧`](#contents)
+### Text size [`⇧`](#contents)
 
-[frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them. The naming criteria of these headers follows that of HTML headers so that the team remembers that when a `responsive-h#` tag is used that it should be applied to a coinciding `<h#>` tag for accessibility. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
+[frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them and are globally applied to the corresponding HTML `h#` tag. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
 
 ```html
 <!-- The size and weight styles for page headers. -->
-<h1 class="font-bold responsive-h1">Page Header</h1>
+<h1 class="font-bold">Page Header</h1>
 ```
+
+### Text colors
+
+Text color is controlled using semantic utility classes defined in `@layer components` in `frontend/assets/css/tailwind.css`. These classes are designed to work consistently across light and dark modes, using CSS variables defined in your theme.
+
+Avoid using raw Tailwind color utilities like `text-gray-500` or `text-white`. Instead, use the predefined text color classes listed below.
+
+| Utility Class       | Description                                     |
+| ------------------- | ----------------------------------------------- |
+| `text-primary-text` | Default text color (used in `p`, `ul`, etc.)    |
+| `distinct-text`     | De-emphasized text, slightly lighter or grayer  |
+| `link-text`         | Link color in both light and dark modes         |
+| `link-text-hover`   | Applied on `:hover` to links for interaction    |
+| `error-text`        | Text indicating an error (e.g. form validation) |
+| `warn-text`         | Warning or alert text                           |
+
+**Example usage:**
+
+```html
+<p>This uses the default text color.</p>
+
+<p class="distinct-text">
+  This is secondary or less prominent text.
+</p>
+
+<a href="#" class="link-text">
+  Click here
+</a>
+
+<p class="error-text">
+  Please enter a valid email.
+</p>
+```
+
+These utility classes are responsive to theme changes (light/dark) and should be used instead of inline or raw utility colors.
+
+> [!NOTE]
+> Need a new text color variant? Add it to `@layer components` and ensure it maps to a CSS variable for both themes.
 
 <a id="localization"></a>
 
@@ -235,43 +311,43 @@ activist is a global platform and must function in countless different regions a
 Localization keys should be defined based on the file in which they're used within the platform and the content that they refer to (`CONTENT_REFERENCE` below). Please use the following rules as a guide if you find yourself needing to create new localization keys:
 
 - In following [i18n-check](https://github.com/activist-org/i18n-check) standards, please prepend all i18n keys with `i18n`
-  - This allows us to check all keys that are in use against those found in the `en-US.json` file
     - ✅ `i18n._global.foo`
     - ❌ `"_global.foo"`
+    - This allows us to check all keys that are in use against those found in the `en-US.json` file
 - Separate directories and references by `.` and PascalCase/camelCase file name components by `_` in keys
-  - Ex: `i18n.components.landing_splash.CONTENT_REFERENCE` for the `LandingSplash` component
+    - Ex: `i18n.components.landing_splash.CONTENT_REFERENCE` for the `LandingSplash` component
 - Even though Nuxt allows for us to nest components in directories, avoid repetition in the directory path used to define the localization key
-  - Ex: If you're defining a key within `CardAbout`:
-    - ✅ `i18n.components.footer_flex.CONTENT_REFERENCE`
-    - ❌ `i18n.components.footer.footer_flex.CONTENT_REFERENCE`
+    - Ex: If you're defining a key within `CardAbout`:
+        - ✅ `i18n.components.footer_flex.CONTENT_REFERENCE`
+        - ❌ `i18n.components.footer.footer_flex.CONTENT_REFERENCE`
 - Define keys based on the lowest level file in which they're used
 - Use `_global` to indicate that a key is used in multiple places in a given directory
-  - Ex: You're creating a key that's used by multiple landing page components:
-    - ✅ `i18n.components.landing._global.CONTENT_REFERENCE`
-    - ❌ `i18n.components.landing.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
+    - Ex: You're creating a key that's used by multiple landing page components:
+        - ✅ `i18n.components.landing._global.CONTENT_REFERENCE`
+        - ❌ `i18n.components.landing.INDIVIDUAL_COMPONENT.CONTENT_REFERENCE`
 - Please end all aria-label keys with `_alt_text` so the localization team knows that they're for screen readers
 - If you need a capitalized and lower case version of a word, signify the lower case version with `_lower` at the end of the key
 - For pages with long texts please follow the below naming criteria:
-  - `"header"`: The main header (h1) of the given page
-  - `"section_#"`: A section that iterates by one with every header and subheader
-  - `"section_#_#"`: A subsection, with other `#_#` patterns also being possible (see below)
-  - `"section_#_subheader"`: Marks the start of a new section (h2 and beyond)
-  - `"section_#_paragraph_#"`: A paragraph with one or more sentences
-  - `"section_#_paragraph_#_#"`: A paragraph with separate parts to insert things like links
-  - `"section_#_list_#_item_#"`: An item in a list
-  - `"section_#_list_#_item_#_#"`: A subitem of the given item
+    - `"header"`: The main header (h1) of the given page
+    - `"section_#"`: A section that iterates by one with every header and subheader
+    - `"section_#_#"`: A subsection, with other `#_#` patterns also being possible (see below)
+    - `"section_#_subheader"`: Marks the start of a new section (h2 and beyond)
+    - `"section_#_paragraph_#"`: A paragraph with one or more sentences
+    - `"section_#_paragraph_#_#"`: A paragraph with separate parts to insert things like links
+    - `"section_#_list_#_item_#"`: An item in a list
+    - `"section_#_list_#_item_#_#"`: A subitem of the given item
 - If there are different uses of the same value in one file, then alphabetically combine the final keys with dashes (ex: `header_title`)
 - Please alphabetize the keys, with your code editor likely having built in functionality for this
 - Please always assign the full key as a string to assure that i18n content checks can pick up if the key has been used
-  - Eg: `section_1_2` and not `section_{var_number}_2`
-  - This makes sure that content writers and the i18n team are only working with language that's actively in use
+    - Eg: `section_1_2` and not `section_{var_number}_2`
+    - This makes sure that content writers and the i18n team are only working with language that's actively in use
 
 > [!NOTE]
 > The activist community maintains the [i18n-check project](https://github.com/activist-org/i18n-check) that enforces all of the above in pull requests. Do your best and we'll help you out during the PR process! You can also join us in the [localization room on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) if you have questions :)
 
 <a id="images-icons"></a>
 
-## Images and Icons [`⇧`](#contents)
+## Images and icons [`⇧`](#contents)
 
 Please define all routes for images and icons in the respective [url registry utils file](frontend/utils/imageURLRegistry.s.ts) and [icon map enum](frontend/types/icon-map.ts).
 

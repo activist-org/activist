@@ -1,24 +1,31 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<template v-model="value">
-  <div class="card-style w-full flex-col space-y-3 px-5 py-6">
-    <p class="responsive-h3 font-medium text-primary-text">
+<template>
+  <div class="flex-col space-y-3">
+    <h3 class="font-medium">
       {{ $t("i18n.components.card_topic_selection.header") }}
-    </p>
-    <p v-if="pageType == 'organization'" class="text-primary-text">
+    </h3>
+    <p v-if="pageType == 'organization'">
       {{ $t("i18n.components.card_topic_selection.subtext_organization") }}
     </p>
-    <p v-if="pageType == 'group'" class="text-primary-text">
+    <p v-if="pageType == 'group'">
       {{ $t("i18n.components.card_topic_selection.subtext_group") }}
     </p>
-    <p v-if="pageType == 'resource'" class="text-primary-text">
+    <p v-if="pageType == 'resource'">
       {{ $t("i18n.components.card_topic_selection.subtext_resource") }}
     </p>
     <input
-      v-model="query"
+      @input.stop="
+        (event) => {
+          inputValue = (event.target as HTMLInputElement)?.value
+            .trim()
+            .toLowerCase();
+          event.preventDefault();
+        }
+      "
       @focus="inputFocus = true"
       @keydown="resetTabIndex()"
-      id="query"
-      :display-value="() => query"
+      id="inputValue"
+      :display-value="() => inputValue"
       :placeholder="
         $t('i18n.components.card_topic_selection.selector_placeholder')
       "
@@ -92,7 +99,7 @@
 import type { Topic, TopicsTag } from "~/types/topics";
 
 import { GLOBAL_TOPICS } from "~/types/topics";
-
+// TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {
     type: Array as PropType<Topic[]>,
@@ -225,18 +232,21 @@ const value = computed<Topic[]>({
   },
 });
 
-const query = ref("");
+const inputValue = ref<string>("");
 
 const selectTopic = (topic: TopicsTag) => {
-  const updatedValue = [...props.modelValue];
+  const updatedValue = [...value.value];
   const index = updatedValue.indexOf(topic.value);
-
+  const isFirst = filteredTopics.value[0]?.value === topic.value;
   if (index === -1) {
     updatedValue.push(topic.value);
   } else {
     updatedValue.splice(index, 1);
   }
   value.value = updatedValue;
+  if (isFirst) {
+    focusFirstTopic();
+  }
 };
 
 function isActiveTopic(topic: Topic) {
@@ -244,6 +254,7 @@ function isActiveTopic(topic: Topic) {
 }
 
 const selectedTopicTags = computed(() => {
+  console.log("selectedTopicTags", value.value);
   return value.value
     .map((topic) => {
       return GLOBAL_TOPICS.find((tag) => tag.value === topic);
@@ -261,9 +272,20 @@ const topics = computed((): TopicsTag[] => {
   ];
 });
 
+const focusFirstTopic = () => {
+  nextTick(() => {
+    const firstDesktop = document.querySelector(".topic");
+    const firstMobile = document.querySelector(".mobileTopic");
+    const target = firstDesktop || firstMobile;
+    if (target instanceof HTMLElement) {
+      target.focus();
+    }
+  });
+};
+
 const filteredTopics = computed(() => {
   return topics.value.filter((topic) => {
-    return topic.value.includes(query.value.trim().toLowerCase());
+    return topic.value.includes(inputValue.value.trim().toLowerCase());
   });
 });
 </script>

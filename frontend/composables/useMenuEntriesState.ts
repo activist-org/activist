@@ -5,7 +5,10 @@ const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
   const { locale } = useI18n();
   const router = useRouter();
 
-  const { id } = router.currentRoute.value.params as { id: string };
+  const id = (router.currentRoute.value.params.groupId ||
+    router.currentRoute.value.params.orgId ||
+    router.currentRoute.value.params.eventId ||
+    router.currentRoute.value.params.id) as string;
   const routeUrl = `/${locale.value}/${basePath}/${id}/${label
     .split(".")
     .pop()!
@@ -71,6 +74,7 @@ const useMenuEntriesState = () => {
       `${IconMap.PEOPLE}`
     ),
     createMenuEntry("i18n._global.resources", "events", `${IconMap.RESOURCE}`),
+    createMenuEntry("i18n._global.faq", "events", `${IconMap.FAQ}`),
     createMenuEntry(
       "i18n.composables.use_menu_entries_state.tasks",
       "events",
