@@ -1,0 +1,46 @@
+name: pr_ci_ts_backend_check
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      - "backend/**/model.py"
+      - "frontend/types/**/*.{ts, d.ts}"
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**/model.py"
+      - "frontend/types/**/*.{ts, d.ts}"
+
+jobs:
+  ts_backend_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Create Environment and Install Dependencies
+        run: |
+          python -m pip install --upgrade uv
+          uv venv
+          . .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
+          uv pip install -r backend/requirements-dev.txt
+
+      - name: Check Django Models Against TypeScript Interfaces
+        run: |
+          # ts-backend-check -bmf backend/authentication/models.py -tsf frontend/types/auth/user.d.ts
+          # ts-backend-check -bmf backend/communities/groups/models.py -tsf frontend/types/communities/groups.d.ts
+          # ts-backend-check -bmf backend/communities/organizations/models.py -tsf frontend/types/communities/organizations.d.ts
+          # ts-backend-check -bmf backend/events/models.py -tsf frontend/types/events/events.d.ts

@@ -19,3 +19,4 @@ pytest
 pytest-cov
 pytest-django
 ruff
+ts-backend-check
