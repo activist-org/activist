@@ -35,11 +35,12 @@ jobs:
           python -m pip install --upgrade uv
           uv venv
           . .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
           uv pip install -r backend/requirements-dev.txt
-          echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
-      - name: Check the types of both Django models against Typescript interfaces.
+      - name: Check Django Models Against TypeScript Interfaces
         run: |
-          ts-backend-check \
-            -bmf "backend/**/models.py" \
-            -tsf "frontend/types/**.{ts, d.ts}"
+          ts-backend-check -bmf "backend/authentication/models.py" -tsf "frontend/types/auth/user.d.ts"
+          ts-backend-check -bmf "backend/communities/groups/models.py" -tsf "frontend/types/communities/groups.d.ts"
+          ts-backend-check -bmf "backend/communities/organizations/models.py" -tsf "frontend/types/communities/organizations.d.ts"
+          ts-backend-check -bmf "backend/events/models.py" -tsf "frontend/types/events/events.d.ts"
