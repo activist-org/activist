@@ -53,6 +53,9 @@ export function useFileManager(entityId?: string) {
     }
 
     try {
+      const { getToken } = useToken();
+      const token = await  getToken();
+
       const response = await fetch(
         `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images`,
         {
@@ -130,7 +133,7 @@ export function useFileManager(entityId?: string) {
           method: "POST",
           body: formData,
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `Token ${token}`,
           },
         }
       );

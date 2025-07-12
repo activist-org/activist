@@ -53,6 +53,22 @@ const {
 
 const { imageUrls, fetchOrganizationImages } = useFileManager(entityId.value);
 
+async function fetchOrganizationImages() {
+  if (props.organizationId) {
+    try {
+      const { getToken } = useToken();
+      const token = await  getToken();
+
+      const response = await fetch(
+        `${BASE_BACKEND_URL}/communities/organizations/${props.organizationId}/images/`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+
 const handleDeleteComplete = async (fileUploadEntity: FileUploadEntity) => {
   const orgStore = useOrganizationStore();
   //   const groupStore = useGroupStore();
@@ -68,6 +84,7 @@ const handleDeleteComplete = async (fileUploadEntity: FileUploadEntity) => {
     console.log("OrganizationPage handleUploadComplete ORGANIZATION_ICON");
   }
 };
+
 
 onMounted(async () => {
   switch (props.fileUploadEntity) {

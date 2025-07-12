@@ -7,7 +7,9 @@ import { createError } from "h3";
 
 const TOKEN = "8b27c52516b94f5bb58d8d137a5379ca";
 
-afterEach(() => {
+afterEach(async () => {
+  const { resetToken } = useToken();
+  await  resetToken();
   localStorage.removeItem("accessToken");
   vi.resetAllMocks();
 });
@@ -47,7 +49,10 @@ describe("sign-in", () => {
       expect(window.location.href).toBe("http://localhost:3000/home");
     });
 
-    expect(localStorage.getItem("accessToken")).toBe(TOKEN);
+    const { getToken } = useToken();
+    const token = await  getToken();
+
+    expect(token).toBe(TOKEN);
   });
 
   it("shows alert message when sign in fails", async () => {
@@ -81,6 +86,8 @@ describe("sign-in", () => {
       expect(alertSpy).toHaveBeenCalledWith("Invalid sign in credentials");
     });
 
-    expect(localStorage.getItem("accessToken")).toBe("undefined");
+    const { getToken } = useToken();
+    const token = await getToken();
+    expect(token).toBeNull();
   });
 });
