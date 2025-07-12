@@ -23,12 +23,10 @@ def test_resource_flag_list():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
-
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.get(path="/v1/content/resource_flag")
 
     assert response.status_code == 200

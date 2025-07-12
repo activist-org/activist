@@ -28,18 +28,16 @@ def test_event_flag_retrieve():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
-
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.get(path=f"/v1/events/event_flag/{flag.id}")
 
     assert response.status_code == 200
 
 
-def test_event_flag_retrieve_doesnotexist():
+def test_event_flag_retrieve_does_not_exist():
     client = APIClient()
 
     flag = uuid4()
@@ -57,12 +55,10 @@ def test_event_flag_retrieve_doesnotexist():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
-
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.get(path=f"/v1/events/event_flag/{flag}")
     response_body = response.json()
 

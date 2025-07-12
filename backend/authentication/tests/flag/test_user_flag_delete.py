@@ -35,14 +35,13 @@ def test_user_flag_delete():
 
     login_body = login.json()
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/auth/user_flag/{flagged_user.id}")
 
     assert response.status_code == 204
 
 
-def test_user_flag_delete_doesnotexist():
+def test_user_flag_delete_does_not_exist():
     client = APIClient()
 
     test_username = "username"
@@ -53,8 +52,6 @@ def test_user_flag_delete_doesnotexist():
     user.is_staff = True
     user.save()
 
-    flagged_user = uuid4()
-
     # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in",
@@ -63,11 +60,11 @@ def test_user_flag_delete_doesnotexist():
 
     assert login.status_code == 200
 
+    bad_flagged_user_uuid = uuid4()
     login_body = login.json()
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/auth/user_flag/{flagged_user}")
+    response = client.delete(path=f"/v1/auth/user_flag/{bad_flagged_user_uuid}")
     response_body = response.json()
 
     assert response.status_code == 404

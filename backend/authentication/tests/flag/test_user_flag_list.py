@@ -29,9 +29,7 @@ def test_user_flag_list():
     login_body = login.json()
 
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.get(path="/v1/auth/user_flag")
 
     assert response.status_code == 200

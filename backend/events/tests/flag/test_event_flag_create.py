@@ -25,11 +25,10 @@ def test_event_flag_create():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
-
     event = EventFactory()
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/events/event_flag", data={"event": event.id, "created_by": user.id}

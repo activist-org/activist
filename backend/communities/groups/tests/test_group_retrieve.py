@@ -43,9 +43,9 @@ def test_group_retrieve(client: Client) -> None:
     """
     2. Group ID does not exist in the database.
     """
-    bad_uuid = uuid4()
+    bad_group_uuid = uuid4()
 
-    response = client.get(path=f"/v1/communities/groups/{bad_uuid}")
+    response = client.get(path=f"/v1/communities/groups/{bad_group_uuid}")
     response_body = response.json()
 
     assert response.status_code == 404

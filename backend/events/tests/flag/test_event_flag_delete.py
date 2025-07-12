@@ -28,19 +28,17 @@ def test_event_flag_delete():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
-
     flag = EventFlagFactory()
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.delete(path=f"/v1/events/event_flag/{flag.id}")
 
     assert response.status_code == 204
 
 
-def test_event_flag_delete_doesnotexist():
+def test_event_flag_delete_does_not_exist():
     client = APIClient()
 
     test_username = "test_user"
@@ -58,14 +56,12 @@ def test_event_flag_delete_doesnotexist():
     )
 
     assert login.status_code == 200
+
+    bad_flagged_event_uuid = uuid4()
     login_body = login.json()
     token = login_body["token"]
-
-    flag = uuid4()
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
-    response = client.delete(path=f"/v1/events/event_flag/{flag}")
+    response = client.delete(path=f"/v1/events/event_flag/{bad_flagged_event_uuid}")
     response_body = response.json()
 
     assert response.status_code == 404

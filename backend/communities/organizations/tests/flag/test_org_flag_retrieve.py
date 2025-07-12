@@ -40,7 +40,7 @@ def test_org_flag_retrieve():
     assert response.status_code == 200
 
 
-def test_org_flag_retrieve_doesnotexist():
+def test_org_flag_retrieve_does_not_exist():
     """
     Test to retrieve a flag of an organization.
     """
@@ -61,9 +61,9 @@ def test_org_flag_retrieve_doesnotexist():
         data={"username": test_username, "password": test_password},
     )
     assert login.status_code == 200
+
     login_body = login.json()
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.get(path=f"/v1/communities/organization_flag/{flag}")
     response_body = response.json()

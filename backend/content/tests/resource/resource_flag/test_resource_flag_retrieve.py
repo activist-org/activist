@@ -40,7 +40,7 @@ def test_resource_flag_retrieve():
     assert response.status_code == 200
 
 
-def test_resource_flag_retrieve_doesnotexist():
+def test_resource_flag_retrieve_does_not_exist():
     client = APIClient()
 
     test_username = "test_user"
@@ -58,14 +58,11 @@ def test_resource_flag_retrieve_doesnotexist():
 
     assert login.status_code == 200
 
+    bad_flagged_resource_uuid = uuid4()
     login_body = login.json()
     token = login_body["token"]
-
-    flag = uuid4()
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
-    response = client.get(path=f"/v1/content/resource_flag/{flag}")
+    response = client.get(path=f"/v1/content/resource_flag/{bad_flagged_resource_uuid}")
     response_body = response.json()
 
     assert response.status_code == 404

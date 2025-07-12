@@ -30,9 +30,7 @@ def test_resource_flag_create():
 
     login_body = login.json()
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.post(
         path="/v1/content/resource_flag",
         data={"resource": resource.id, "created_by": user.id},

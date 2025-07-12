@@ -31,18 +31,16 @@ def test_user_flag_retrieve():
     )
 
     assert login.status_code == 200
+
     login_body = login.json()
-
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.get(path=f"/v1/auth/user_flag/{flagged_user.id}")
 
     assert response.status_code == 200
 
 
-def test_user_flag_retrieve_doesnotexist():
+def test_user_flag_retrieve_does_not_exist():
     client = APIClient()
 
     flagged_user = uuid4()
@@ -64,9 +62,7 @@ def test_user_flag_retrieve_doesnotexist():
     login_body = login.json()
 
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.get(path=f"/v1/auth/user_flag/{flagged_user}")
     response_body = response.json()
 

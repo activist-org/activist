@@ -30,9 +30,7 @@ def test_user_flag_create():
 
     login_body = login.json()
     token = login_body["token"]
-
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
     response = client.post(
         path="/v1/auth/user_flag",
         data={"user": flagged_user.id, "created_by": user.id},
