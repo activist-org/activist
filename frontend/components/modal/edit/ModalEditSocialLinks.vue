@@ -2,10 +2,10 @@
 <template>
   <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_social_links.social_links")
-        }}</label>
+      <div class="flex flex-col space-y-3">
+        <h2 for="textarea">
+          {{ $t("i18n.components.modal_edit_social_links.social_links") }}
+        </h2>
         <div class="flex flex-col space-y-3">
           <div
             v-for="(socLink, index) in socialLinksRef"

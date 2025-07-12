@@ -1,12 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<!-- This file doesn't use ModalBase, so we handle modal events in the script block below. -->
-
+<!-- Note: This file doesn't use ModalBase, so we handle modal events in the script block below. -->
 <template>
   <button
     v-if="type == 'icon'"
     @click="openModal()"
     @keydown.enter="openModal()"
-    class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md sm:h-16 sm:w-16"
+    class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-primary-text sm:h-16 sm:w-16"
     :aria-label="$t('i18n.components.modal_qr_code_btn.open_modal_aria_label')"
   >
     <div class="sm:hidden">
