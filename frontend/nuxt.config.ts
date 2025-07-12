@@ -13,7 +13,21 @@ export default defineNuxtConfig({
   app: {
     head,
   },
-
+  auth: {
+    baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
+    provider: {
+      type: "local",
+      isEnabled: true,
+      disableServerSideAuth: false,
+      originEnvKey: "VITE_BACKEND_URL",
+      endpoints: {
+        signIn: { path: "v1/auth/sign_in", method: "post" },
+        signOut: { path: "/auth/logout", method: "post" },
+        signUp: { path: "/auth/register", method: "post" },
+        getSession: { path: "/user/session", method: "get" },
+      },
+    },
+  },
   modules: modules,
   ssr: false,
 
@@ -159,4 +173,6 @@ export default defineNuxtConfig({
       maxUploadFileRequestInBytes: 5000000,
     },
   },
+
+  compatibilityDate: "2025-07-13",
 });

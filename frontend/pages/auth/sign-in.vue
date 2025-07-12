@@ -74,7 +74,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-
 const { t } = useI18n();
 
 const signInSchema = z.object({
@@ -90,7 +89,17 @@ const hovered = ref(false);
 const { signIn } = useAuth();
 
 const signInUser = async (values: Record<string, unknown>) => {
-  const { userName, password } = values;
-  await signIn(userName as string, password as string);
+  try {
+    const { userName, password } = values;
+    const session = await signIn({
+      username: userName as string,
+      password: password as string,
+    });
+    console.log("signInUser", session);
+  } catch (error) {
+    // Handle authentication errors
+    console.error("Sign in failed:", error);
+    // Show user-friendly error message
+  }
 };
 </script>
