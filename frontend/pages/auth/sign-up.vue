@@ -74,9 +74,10 @@
         name="confirmPassword"
       >
         <FormTextInputPassword
-          @input="handleChange"
+          @update:modelValue="handleChange"
           @blur="handleBlur"
           :id="id"
+          :modelValue="confirmPassword.value as string"
           :hasError="!!errorMessage.value"
           :label="$t('i18n._global.repeat_password')"
         >
