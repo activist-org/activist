@@ -337,6 +337,14 @@ p {
   @apply text-base text-primary-text;
 }
 
+ul {
+  @apply text-base text-primary-text;
+}
+
+ol {
+  @apply text-base text-primary-text;
+}
+
 /* Note: Not used because this colors all NuxtLink components. */
 /* a {
   @apply link-text text-base;

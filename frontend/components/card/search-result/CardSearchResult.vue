@@ -210,11 +210,14 @@
         <!-- <div v-if="!isReduced" class="flex justify-center md:justify-start">
           <ShieldTopic v-for="(t, i) in topics" :key="i" :topic="t" />
         </div> -->
-        <div v-if="entityName">
-          <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
-            @{{ entityName }}
-          </NuxtLink>
-        </div>
+        <NuxtLink
+          v-if="entityName"
+          :to="localePath(linkUrl)"
+          class="text-distinct-text hover:text-primary-text"
+          :aria-label="$t(ariaLabel)"
+        >
+          @{{ entityName }}
+        </NuxtLink>
         <p
           class="justify-center md:justify-start md:px-0 md:py-0"
           :class="{

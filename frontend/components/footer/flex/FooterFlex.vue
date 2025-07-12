@@ -106,7 +106,7 @@
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p
-            class="mt-2 text-base hover:text-primary-text"
+            class="mt-2 text-base text-distinct-text hover:text-primary-text"
             :class="{ 'mt-3': index === 0 }"
           >
             <NuxtLink
@@ -126,7 +126,7 @@
         </p>
         <template v-for="(oLink, index) in links.organizationLinks">
           <p
-            class="mt-2 text-base hover:text-primary-text"
+            class="mt-2 text-base text-distinct-text hover:text-primary-text"
             :class="{ 'mt-3': index === 0 }"
           >
             <NuxtLink

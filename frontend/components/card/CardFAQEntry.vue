@@ -6,7 +6,7 @@
         class="flex gap-3"
         :class="{ 'items-center': !open, 'items-start': open }"
       >
-        <div>
+        <div class="text-primary-text">
           <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
           <Icon v-else :name="IconMap.CHEVRON_DOWN" />
         </div>
