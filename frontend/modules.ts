@@ -24,6 +24,7 @@ const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
   "@nuxtjs/plausible",
   "@nuxtjs/tailwindcss",
   "nuxt-security",
+  "@sidebase/nuxt-auth",
 ];
 
 // This plugin may depend on Pinia.
