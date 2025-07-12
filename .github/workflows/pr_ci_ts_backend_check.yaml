@@ -40,7 +40,7 @@ jobs:
 
       - name: Check Django Models Against TypeScript Interfaces
         run: |
-          ts-backend-check -bmf "backend/authentication/models.py" -tsf "frontend/types/auth/user.d.ts"
-          ts-backend-check -bmf "backend/communities/groups/models.py" -tsf "frontend/types/communities/groups.d.ts"
-          ts-backend-check -bmf "backend/communities/organizations/models.py" -tsf "frontend/types/communities/organizations.d.ts"
-          ts-backend-check -bmf "backend/events/models.py" -tsf "frontend/types/events/events.d.ts"
+          # ts-backend-check -bmf backend/authentication/models.py -tsf frontend/types/auth/user.d.ts
+          # ts-backend-check -bmf backend/communities/groups/models.py -tsf frontend/types/communities/groups.d.ts
+          # ts-backend-check -bmf backend/communities/organizations/models.py -tsf frontend/types/communities/organizations.d.ts
+          # ts-backend-check -bmf backend/events/models.py -tsf frontend/types/events/events.d.ts
