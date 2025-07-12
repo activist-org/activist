@@ -10,18 +10,25 @@ If you have questions or would like to communicate with the team, please [join u
 
 ## **Contents**
 
-- [Vue and Nuxt](#vue-and-nuxt)
-- [TypeScript](#typescript)
-- [Tailwind](#tailwind)
-- [Common styles](#common-styles)
-- [Formatting](#formatting)
-- [Colors](#colors)
-- [Font](#font)
-- [Text size](#text-size)
-- [Localization](#localization)
-- [Images and Icons](#images-icons)
-- [Tab size](#tab-size)
-- [Padding](#padding)
+- [Style Guidelines for activist.org](#style-guidelines-for-activistorg)
+  - [**Contents**](#contents)
+  - [Vue and Nuxt `⇧`](#vue-and-nuxt-)
+    - [Page Routing](#page-routing)
+    - [Breakpoints](#breakpoints)
+  - [TypeScript `⇧`](#typescript-)
+    - [Vue Single File Component (.vue file) Guidelines](#vue-single-file-component-vue-file-guidelines)
+  - [Tailwind `⇧`](#tailwind-)
+  - [Common styles `⇧`](#common-styles-)
+  - [Formatting `⇧`](#formatting-)
+  - [Colors `⇧`](#colors-)
+  - [Text styles `⇧`](#text-styles-)
+    - [Font `⇧`](#font-)
+    - [Text size `⇧`](#text-size-)
+    - [Text Colors](#text-colors)
+  - [Localization `⇧`](#localization-)
+  - [Images and Icons `⇧`](#images-and-icons-)
+  - [Tab size `⇧`](#tab-size-)
+  - [Padding `⇧`](#padding-)
 
 <a id="vue-and-nuxt"></a>
 
@@ -197,15 +204,55 @@ Note further that Tailwind allows for alpha components for opacity to be applied
 <div class="bg-cta-orange/40"></div>
 ```
 
+
+<a id="text-styles"></a>
+
+## Text styles [`⇧`](#contents)
+
+The activist frontend applies consistent global styles to semantic HTML tags like `h1`, `h2`, `p`, `ul`, and `ol` via Tailwind classes inside `frontend/assets/css/tailwind.css`. This ensures that text styling is predictable, accessible, and visually cohesive across the platform.
+
+These styles are **defined globally** using Tailwind’s `@layer components` and should be relied upon by all contributors instead of re-applying utility classes manually.
+
+**Do use semantic tags with global styles:**
+
+```html
+<h1>Organize for impact</h1>
+<p>Start building your campaign with tools built for activists.</p>
+```
+
+No need to add text classes like `text-xl` or `text-gray-800` — they’re already applied globally.
+
+**Don’t manually override text styles:**
+
+```html
+<!-- Avoid this unless absolutely necessary -->
+<h1 class="text-xl text-gray-700">Organize for impact</h1>
+```
+
+Only add utility overrides if absolutely necessary for a unique layout or design request. In general, styling for typography should be handled globally through semantic elements and in the lower sections it will define different variation of styling that is predefined.
+
+**Example of globally applied styles:**
+
+| Element | Applied classes                                   |
+| ------- | ------------------------------------------------- |
+| `h1`    | `responsive-h1 text-primary-text`                 |
+| `h2`    | `responsive-h2 text-primary-text`                 |
+| `p`     | `text-base text-primary-text`                     |
+| `ul`    | `text-base text-primary-text`                     |
+| `a`     | *(opted out globally; use `link-text` as needed)* |
+
+> \[!NOTE]
+> Global styles for headings and body text help ensure accessibility, dark mode support, and visual consistency. Avoid duplicating or overriding them unless necessary.
+
 <a id="font"></a>
 
-## Font [`⇧`](#contents)
+### Font [`⇧`](#contents)
 
 The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are defined by `responsive-h#` custom classes that include `font-display` being applied globally to their corresponding `h#` HTML, it will be rare that you'll need to apply it directly. See the next section for more details.
 
 <a id="text-size"></a>
 
-## Text size [`⇧`](#contents)
+### Text size [`⇧`](#contents)
 
 [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them and are globally applied to the corresponding HTML `h#` tag. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
 
@@ -213,6 +260,45 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 <!-- The size and weight styles for page headers. -->
 <h1 class="font-bold">Page Header</h1>
 ```
+
+### Text Colors
+
+Text color is controlled using semantic utility classes defined in `@layer components` in `frontend/assets/css/tailwind.css`. These classes are designed to work consistently across light and dark modes, using CSS variables defined in your theme.
+
+Avoid using raw Tailwind color utilities like `text-gray-500` or `text-white`. Instead, use the predefined text color classes listed below.
+
+| Utility Class       | Description                                     |
+| ------------------- | ----------------------------------------------- |
+| `text-primary-text` | Default text color (used in `p`, `ul`, etc.)    |
+| `distinct-text`     | De-emphasized text, slightly lighter or grayer  |
+| `link-text`         | Link color in both light and dark modes         |
+| `link-text-hover`   | Applied on `:hover` to links for interaction    |
+| `error-text`        | Text indicating an error (e.g. form validation) |
+| `warn-text`         | Warning or alert text                           |
+
+**Example usage:**
+
+```html
+<p>This uses the default text color.</p>
+
+<p class="distinct-text">
+  This is secondary or less prominent text.
+</p>
+
+<a href="#" class="link-text">
+  Click here
+</a>
+
+<p class="error-text">
+  Please enter a valid email.
+</p>
+```
+
+These utility classes are responsive to theme changes (light/dark) and should be used instead of inline or raw utility colors.
+
+> \[!TIP]
+> Need a new text color variant? Add it to `@layer components` and ensure it maps to a CSS variable for both themes.
+
 
 <a id="localization"></a>
 
