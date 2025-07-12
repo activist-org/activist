@@ -284,6 +284,7 @@
   "i18n.components.modal_edit_text_organization.edit_organization_texts": "Edit organization texts",
   "i18n.components.modal_edit_text_organization.join_organization_link": "Join organization link",
   "i18n.components.modal_image_btn.open_modal_aria_label": "Open a larger version of this image",
+  "i18n.components.modal_organization_status.organization_application": "{organization_name}'s Application",
   "i18n.components.modal_organization_status.status_accepted": "Application status: Accepted",
   "i18n.components.modal_qr_code_btn.img_alt_text": "QR code scanning icon.",
   "i18n.components.modal_qr_code_btn.open_modal_aria_label": "Open a modal to download a QR code for this page",

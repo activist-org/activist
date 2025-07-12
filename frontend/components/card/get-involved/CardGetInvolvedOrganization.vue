@@ -3,7 +3,7 @@
   <CardGetInvolved>
     <div class="flex flex-col md:flex-row">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 text-left font-display">
+        <h3 class="text-left font-display">
           {{ $t("i18n.components._global.get_involved") }}
         </h3>
         <IconEdit

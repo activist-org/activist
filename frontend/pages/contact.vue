@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="bg-layer-0 text-primary-text">
+  <div class="bg-layer-0">
     <Head>
       <Title>{{ $t("i18n._global.contact") }}</Title>
     </Head>
@@ -12,7 +12,7 @@
         v-if="!emailSent"
         class="items-center space-y-4 text-left md:items-start"
       >
-        <h1 class="responsive-h1 pb-2 font-bold">
+        <h1 class="pb-2 font-bold">
           {{ $t("i18n.pages.contact.header") }}
         </h1>
         <div class="flex flex-row space-x-3 py-2">
@@ -97,7 +97,7 @@
               <label
                 :class="{
                   'text-action-red': !nameValidated,
-                  'text-primary-text': nameValidated,
+                  '': nameValidated,
                 }"
                 for="name"
                 >{{ $t("i18n.pages.contact.name") }}
@@ -109,7 +109,7 @@
                 v-model="name"
                 @blur="validateName"
                 id="name"
-                class="rounded-md bg-highlight p-2 text-primary-text placeholder-distinct-text focus:bg-layer-1"
+                class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
                   'outline outline-2 outline-action-red': !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
@@ -123,7 +123,7 @@
               <label
                 :class="{
                   'text-action-red': !emailValidated,
-                  'text-primary-text': emailValidated,
+                  '': emailValidated,
                 }"
                 for="email"
                 >{{ $t("i18n.pages.contact.email_label") }}
@@ -136,7 +136,7 @@
                 v-model="email"
                 @blur="validateEmail"
                 id="email"
-                class="rounded-md bg-highlight p-2 text-primary-text placeholder-distinct-text focus:bg-layer-1"
+                class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
                   'outline outline-2 outline-action-red': !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
@@ -150,7 +150,7 @@
               <label
                 :class="{
                   'text-action-red': !subjectValidated,
-                  'text-primary-text': subjectValidated,
+                  '': subjectValidated,
                 }"
                 for="subject"
               >
@@ -163,7 +163,7 @@
                 v-model="subject"
                 @blur="validateSubject"
                 id="subject"
-                class="rounded-md bg-highlight p-2 text-primary-text placeholder-distinct-text focus:bg-layer-1"
+                class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
                   'outline outline-2 outline-action-red': !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
@@ -177,7 +177,7 @@
               <label
                 :class="{
                   'text-action-red': !messageValidated,
-                  'text-primary-text': messageValidated,
+                  '': messageValidated,
                 }"
                 for="message"
               >
@@ -188,7 +188,7 @@
                 v-model="message"
                 @blur="validateMessage"
                 id="message"
-                class="resize-none rounded-md bg-highlight p-2 text-primary-text placeholder-distinct-text focus:bg-layer-1"
+                class="resize-none rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
                   'outline outline-2 outline-action-red': !messageValidated,
                   'outline-none focus:outline-none': messageValidated,
@@ -203,7 +203,7 @@
               <FriendlyCaptcha />
             </div>
             <button
-              class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center font-semibold text-primary-text dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange xl:rounded-lg"
+              class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center font-semibold dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange xl:rounded-lg"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-cta-orange/80 active:bg-cta-orange dark:hover:bg-cta-orange/25 dark:active:bg-cta-orange/10':
@@ -222,7 +222,7 @@
         v-else
         class="flex flex-col items-center justify-center space-y-4 pb-8 text-center md:items-start md:space-y-6 md:text-start"
       >
-        <h1 class="responsive-h1 pb-2 font-bold">
+        <h1 class="pb-2 font-bold">
           {{ $t("i18n.pages.contact.thanks_1") }}
         </h1>
         <div class="flex flex-row space-x-3 py-2 text-start">

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
-  <div class="w-full text-primary-text">
+  <div class="w-full">
     <IndicatorProcessProgress
       type="default"
       :progress="1"
@@ -11,7 +11,7 @@
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
       <div class="mt-4 pb-4">
-        <h1 class="responsive-h2 font-bold">
+        <h1 class="font-bold">
           {{ $t("i18n.pages.organizations.create.header") }}
         </h1>
         <p class="mt-4">

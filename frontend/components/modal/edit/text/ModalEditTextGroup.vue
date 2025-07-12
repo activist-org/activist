@@ -7,9 +7,9 @@
       :initial-values="formData"
       :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
     >
-      <Typography variant="h2">
+      <h2>
         {{ $t("i18n.components.modal_edit_text_group.edit_group_texts") }}
-      </Typography>
+      </h2>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         :label="$t('i18n._global.description')"

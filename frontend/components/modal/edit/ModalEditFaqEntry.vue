@@ -2,18 +2,18 @@
 <template>
   <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_faq_entry.question")
-        }}</label>
+      <div class="flex flex-col space-y-3">
+        <h2 for="textarea">
+          {{ $t("i18n.components.modal_edit_faq_entry.question") }}
+        </h2>
         <textarea
           v-model="formData.question"
           id="textarea"
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_faq_entry.answer")
-        }}</label>
+        <h2 for="textarea">
+          {{ $t("i18n.components.modal_edit_faq_entry.answer") }}
+        </h2>
         <textarea
           v-model="formData.answer"
           id="textarea"

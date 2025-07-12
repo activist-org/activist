@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-1 text-primary-text transition-all duration-500"
+    class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-1 transition-all duration-500"
   >
     <SidebarLeftFilterEvents
       v-if="sidebarTypeToDisplay === SidebarType.EVENTS_PAGE"

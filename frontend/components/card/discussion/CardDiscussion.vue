@@ -17,9 +17,9 @@
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
           <div class="flex w-full justify-between">
-            <h2 class="responsive-h3 w-full font-bold">
+            <h3 class="w-full font-bold">
               {{ discussion.title }}
-            </h2>
+            </h3>
             <div
               v-if="!aboveMediumBP"
               class="flex items-center space-x-3 md:w-fit"
