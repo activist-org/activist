@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <Form :schema="schema" @submit="onSubmit">
+    <Form @submit="onSubmit" :schema="schema">
       <div class="flex flex-col space-y-7">
         <div class="flex flex-col space-y-3">
           <h2 class="text-xl font-semibold">
@@ -67,9 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import Form from '@/components/form/Form.vue'
-import FormItem from '@/components/form/FormItem.vue'
-import FormTextInput from '@/components/form/text/FormTextInput.vue'
 import { onMounted, ref } from 'vue'
 import { z } from 'zod'
 
@@ -78,11 +75,15 @@ import type { Organization, OrganizationSocialLink } from '~/types/communities/o
 import type { SocialLink, SocialLinkFormData } from '~/types/content/social-link'
 import type { Event, EventSocialLink } from '~/types/events/event'
 
+import Form from '@/components/form/Form.vue'
+import FormItem from '@/components/form/FormItem.vue'
+import FormTextInput from '@/components/form/text/FormTextInput.vue'
+
 const props = defineProps<{
   pageType: 'organization' | 'group' | 'event' | 'other'
 }>()
 
-const i18n = useI18n()
+const _i18n = useI18n();
 const modalName = 'ModalEditSocialLinks'
 const { handleCloseModal } = useModalHandlers(modalName)
 
