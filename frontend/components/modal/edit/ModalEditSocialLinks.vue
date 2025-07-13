@@ -5,9 +5,8 @@
       <div class="flex flex-col space-y-7">
         <div class="flex flex-col space-y-3">
           <h2 class="text-xl font-semibold">
-            {{ $t("i18n.components.modal_edit_social_links.social_links") }}
+            {{ _i18n.t("i18n.components.modal_edit_social_links.social_links") }}
           </h2>
-
           <div class="flex flex-col space-y-5">
             <div
               v-for="(socLink, index) in socialLinksRef"
@@ -17,34 +16,31 @@
               <div class="flex justify-end">
                 <IconClose @click="removeLink(socLink.order)" class="cursor-pointer" />
               </div>
-
               <FormItem
                 :name="`label-${index}`"
-                :label="$t('i18n.components.modal_edit_social_links.new_link_label')"
+                :label="_i18n.t('i18n.components.modal_edit_social_links.new_link_label')"
                 :required="true"
               >
                 <FormTextInput
                   v-model="socLink.label"
                   :id="`label-input-${index}`"
-                  :label="$t('i18n.components.modal_edit_social_links.new_link_label')"
+                  :label="_i18n.t('i18n.components.modal_edit_social_links.new_link_label')"
                 />
               </FormItem>
-
               <FormItem
                 :name="`link-${index}`"
-                :label="$t('i18n.components.modal_edit_social_links.new_link_url')"
+                :label="_i18n.t('i18n.components.modal_edit_social_links.new_link_url')"
                 :required="true"
               >
                 <FormTextInput
                   v-model="socLink.link"
                   :id="`link-input-${index}`"
-                  :label="$t('i18n.components.modal_edit_social_links.new_link_url')"
+                  :label="_i18n.t('i18n.components.modal_edit_social_links.new_link_url')"
                 />
               </FormItem>
             </div>
           </div>
         </div>
-
         <div class="flex space-x-2">
           <BtnAction
             @click="addNewLink"
@@ -67,22 +63,27 @@
 </template>
 
 <script setup lang="ts">
+// External imports
 import { onMounted, ref } from 'vue'
 import { z } from 'zod'
 
+// Type imports
 import type { Group, GroupSocialLink } from '~/types/communities/group'
 import type { Organization, OrganizationSocialLink } from '~/types/communities/organization'
 import type { SocialLink, SocialLinkFormData } from '~/types/content/social-link'
 import type { Event, EventSocialLink } from '~/types/events/event'
 
+// Component imports
 import Form from '@/components/form/Form.vue'
 import FormItem from '@/components/form/FormItem.vue'
 import FormTextInput from '@/components/form/text/FormTextInput.vue'
 
+// Props
 const props = defineProps<{
   pageType: 'organization' | 'group' | 'event' | 'other'
 }>()
 
+// Stores and handlers
 const _i18n = useI18n();
 const modalName = 'ModalEditSocialLinks'
 const { handleCloseModal } = useModalHandlers(modalName)
@@ -99,21 +100,20 @@ const organizationStore = useOrganizationStore()
 const groupStore = useGroupStore()
 const eventStore = useEventStore()
 
-let organization: Organization
-let group: Group
-let event: Event
-
+// Data refs
 const defaultSocialLinks: SocialLink[] = [
   { link: '', label: '', order: 0, creationDate: '', lastUpdated: '' }
 ]
-
 const formData = ref<SocialLinkFormData[]>([
   { link: '', label: '', order: 0 }
 ])
-
 const socialLinksRef = ref<
   OrganizationSocialLink[] | GroupSocialLink[] | EventSocialLink[] | SocialLink[]
 >()
+
+let organization: Organization | undefined
+let group: Group | undefined
+let event: Event | undefined
 
 if (props.pageType === 'organization') {
   await organizationStore.fetchById(orgId)
@@ -152,19 +152,17 @@ function onSubmit() {
 
 async function handleSubmit() {
   mapSocialLinksToFormData()
-
   let updateResponse = false
-  if (props.pageType === 'organization') {
+  if (props.pageType === 'organization' && organization) {
     updateResponse = await organizationStore.updateSocialLinks(
       organization,
       formData.value
     )
-  } else if (props.pageType === 'group') {
+  } else if (props.pageType === 'group' && group) {
     updateResponse = await groupStore.updateSocialLinks(group, formData.value)
-  } else if (props.pageType === 'event') {
+  } else if (props.pageType === 'event' && event) {
     updateResponse = await eventStore.updateSocialLinks(event, formData.value)
   }
-
   if (updateResponse) {
     handleCloseModal()
   }
@@ -179,10 +177,9 @@ function addNewLink() {
 }
 
 async function removeLink(order: number): Promise<void> {
-  const indexToRemove = socialLinksRef.value?.findIndex(
+  const  indexToRemove = socialLinksRef.value?.findIndex(
     link => link.order === order
   )
-
   if (indexToRemove !== undefined && indexToRemove >= 0) {
     socialLinksRef.value?.splice(indexToRemove, 1)
     socialLinksRef.value?.forEach((link, index) => {
@@ -192,7 +189,7 @@ async function removeLink(order: number): Promise<void> {
   }
 }
 
-// Validation schema (optional in this usage since we're not using the 'values' object directly)
+// Validation schema
 const schema = z.object({
   socialLinks: z
     .array(

@@ -5,6 +5,7 @@
       v-slot="{ id, handleChange, handleBlur, errorMessage }"
       name="name"
       label="Name"
+      v-model="form.name"
       :required="true"
     >
       <FormTextInput
@@ -19,6 +20,7 @@
       v-slot="{ id, handleChange, handleBlur, errorMessage }"
       name="email"
       label="Email"
+      v-model="form.email"
       :required="true"
     >
       <FormTextInput
