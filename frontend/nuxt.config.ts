@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import type { NuxtPage } from "nuxt/schema";
-
 import { resolve } from "path";
 
 import applyMiddleware from "./applyMiddleware";
@@ -14,7 +13,7 @@ export default defineNuxtConfig({
     head,
   },
 
-  modules: modules,
+  modules,
   ssr: false,
 
   typescript: {
@@ -109,9 +108,7 @@ export default defineNuxtConfig({
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
     },
-    "app:resolve": (app) => {
-      console.log("App instance resolved:", app);
-    },
+    // Removed console.log for production readiness
   },
 
   nitro: {
@@ -119,12 +116,10 @@ export default defineNuxtConfig({
   },
 
   plausible: {
-    // Prevent tracking on localhost.
     ignoredHostnames: ["localhost"],
   },
 
   security: {
-    // Cross-Origin Resource Sharing (CORS) not needed for frontend.
     corsHandler: false,
     headers: {
       contentSecurityPolicy: {
@@ -134,26 +129,16 @@ export default defineNuxtConfig({
           "blob:",
           import.meta.env.VITE_BACKEND_URL || "",
         ],
-        /**
-         * Header: "upgrade-insecure-requests" forces http requests to use https.
-         *
-         * Disabled in local dev environments to allow http requests in Safari.
-         * https://bugs.webkit.org/show_bug.cgi?id=250776
-         *
-         * Chromium and Firefox still allow http requests to localhost even with this header.
-         */
         "upgrade-insecure-requests": !(
           import.meta.env.VITE_FRONTEND_URL === "http://localhost:3000"
         ),
       },
     },
     rateLimiter: {
-      // 150 requests per minute. Local machine is not rate limited.
       tokensPerInterval: 150,
       interval: "minute",
       whiteList: ["127.0.0.1"],
     },
-    // When true, turns off console.log output? Also look at unplugin-remove Vite Plugin by Talljack.
     removeLoggers: false,
     requestSizeLimiter: {
       maxUploadFileRequestInBytes: 5000000,
