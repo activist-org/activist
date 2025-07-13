@@ -16,10 +16,7 @@ export default defineNuxtConfig({
   modules,
   ssr: false,
 
-  typescript: {
-    // strict: true,
-    // typeCheck: true,
-  },
+  typescript: {},
 
   devtools: {
     enabled: true,
@@ -108,41 +105,10 @@ export default defineNuxtConfig({
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
     },
-    // Removed console.log for production readiness
   },
 
   nitro: {
     preset: "netlify-static",
-  },
-
-  plausible: {
-    ignoredHostnames: ["localhost"],
-  },
-
-  security: {
-    corsHandler: false,
-    headers: {
-      contentSecurityPolicy: {
-        "img-src": [
-          "'self'",
-          "data:",
-          "blob:",
-          import.meta.env.VITE_BACKEND_URL || "",
-        ],
-        "upgrade-insecure-requests": !(
-          import.meta.env.VITE_FRONTEND_URL === "http://localhost:3000"
-        ),
-      },
-    },
-    rateLimiter: {
-      tokensPerInterval: 150,
-      interval: "minute",
-      whiteList: ["127.0.0.1"],
-    },
-    removeLoggers: false,
-    requestSizeLimiter: {
-      maxUploadFileRequestInBytes: 5000000,
-    },
   },
 
   compatibilityDate: "2025-07-13",
