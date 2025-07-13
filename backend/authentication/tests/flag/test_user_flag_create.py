@@ -37,3 +37,28 @@ def test_user_flag_create():
     )
 
     assert response.status_code == 201
+
+
+def test_user_flag_create_error():
+    client = APIClient()
+
+    test_username = "test_user"
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.save()
+
+    flagged_user = UserFactory(
+        username="flagged_user", is_confirmed=True, verified=True
+    )
+
+    response = client.post(
+        path="/v1/auth/user_flag",
+        data={"user": flagged_user.id, "created_by": user.id},
+    )
+
+    response_body = response.json()
+
+    assert response.status_code == 401
+    assert response_body["detail"] == "Authentication credentials were not provided."
