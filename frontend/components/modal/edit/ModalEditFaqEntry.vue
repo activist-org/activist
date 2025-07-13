@@ -1,37 +1,32 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3">
-        <h2 for="textarea">
-          {{ $t("i18n.components.modal_edit_faq_entry.question") }}
-        </h2>
-        <textarea
-          v-model="formData.question"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
-        />
-        <h2 for="textarea">
-          {{ $t("i18n.components.modal_edit_faq_entry.answer") }}
-        </h2>
-        <textarea
-          v-model="formData.answer"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
+    <Form :schema="schema" @submit="onSubmit">
+      <div class="flex flex-col space-y-7">
+        <FormItem name="question" :label="$t('i18n.components.modal_edit_faq_entry.question')" :required="true">
+          <FormTextArea v-model="formData.question" />
+        </FormItem>
+        <FormItem name="answer" :label="$t('i18n.components.modal_edit_faq_entry.answer')" :required="true">
+          <FormTextArea v-model="formData.answer" />
+        </FormItem>
+        <BtnAction
+          type="submit"
+          :cta="true"
+          label="i18n.components.modal.edit._global.update_texts"
+          fontSize="base"
+          ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
         />
       </div>
-      <BtnAction
-        @click="handleSubmit"
-        :cta="true"
-        label="i18n.components.modal.edit._global.update_texts"
-        fontSize="base"
-        ariaLabel="i18n.components.modal_edit_faq_entry.update_texts_aria_label"
-      />
-    </div>
+    </Form>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { z } from 'zod';
+import Form from '@/components/form/Form.vue';
+import FormItem from '@/components/form/FormItem.vue';
+import FormTextArea from '@/components/form/text/FormTextArea.vue';
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -65,24 +60,38 @@ const formData = ref<FaqEntry>({
   id: props.faqEntry.id,
   iso: props.faqEntry.iso,
   order: props.faqEntry.order,
-  question: props.faqEntry.question,
-  answer: props.faqEntry.answer,
+  question: '',
+  answer: '',
 });
 
-if (props.pageType == "organization") {
-  await organizationStore.fetchById(orgId);
-  organization = organizationStore.organization;
-  console.log("organization", organization);
-} else if (props.pageType == "group") {
-  await groupStore.fetchById(groupId);
-  group = groupStore.group;
-} else if (props.pageType == "event") {
-  await eventStore.fetchById(eventId);
-  event = eventStore.event;
+const schema = z.object({
+  question: z.string().min(1, "Question is required"),
+  answer: z.string().min(1, "Answer is required"),
+});
+
+onMounted(async () => {
+  formData.value.question = props.faqEntry.question;
+  formData.value.answer = props.faqEntry.answer;
+  if (props.pageType == "organization") {
+    await organizationStore.fetchById(orgId);
+    organization = organizationStore.organization;
+  } else if (props.pageType == "group") {
+    await groupStore.fetchById(groupId);
+    group = groupStore.group;
+  } else if (props.pageType == "event") {
+    await eventStore.fetchById(eventId);
+    event = eventStore.event;
+  }
+});
+
+function onSubmit(values: { question: string; answer: string }) {
+  handleSubmit(values);
 }
 
-async function handleSubmit() {
+async function handleSubmit(values: { question: string; answer: string }) {
   let updateResponse = false;
+  formData.value.question = values.question;
+  formData.value.answer = values.answer;
   if (props.pageType === "organization") {
     updateResponse = await organizationStore.updateFaqEntry(
       organization,
