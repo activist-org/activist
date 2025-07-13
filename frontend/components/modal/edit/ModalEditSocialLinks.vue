@@ -23,7 +23,11 @@
                 :label="$t('i18n.components.modal_edit_social_links.new_link_label')"
                 :required="true"
               >
-                <FormTextInput v-model="socLink.label" />
+                <FormTextInput
+                  v-model="socLink.label"
+                  :id="`label-input-${index}`"
+                  :label="$t('i18n.components.modal_edit_social_links.new_link_label')"
+                />
               </FormItem>
 
               <FormItem
@@ -31,7 +35,11 @@
                 :label="$t('i18n.components.modal_edit_social_links.new_link_url')"
                 :required="true"
               >
-                <FormTextInput v-model="socLink.link" />
+                <FormTextInput
+                  v-model="socLink.link"
+                  :id="`link-input-${index}`"
+                  :label="$t('i18n.components.modal_edit_social_links.new_link_url')"
+                />
               </FormItem>
             </div>
           </div>
