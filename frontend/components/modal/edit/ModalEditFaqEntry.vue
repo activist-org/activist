@@ -2,8 +2,9 @@
   <ModalBase :modalName="modalName">
     <Form
       :schema="schema"
-      @submit="onSubmit"
-      submit-label="i18n.components.modal.edit._global.update_texts"
+      :initial-values="formData"
+      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+      @submit="handleSubmit"
     >
       <div class="flex flex-col space-y-7">
         <FormItem name="question" :label="$t('i18n.components.modal_edit_faq_entry.question')" :required="true">
@@ -77,16 +78,15 @@ onMounted(async () => {
   }
 });
 
-function onSubmit(values: { question: string; answer: string }) {
-  handleSubmit(values);
-}
-
 async function handleSubmit(values: { question: string; answer: string }) {
   let updateResponse = false;
   formData.value.question = values.question;
   formData.value.answer = values.answer;
   if (props.pageType === "organization") {
-    updateResponse = await organizationStore.updateFaqEntry(organization, formData.value);
+    updateResponse = await organizationStore.updateFaqEntry(
+      organization,
+      formData.value
+    );
   } else if (props.pageType === "group") {
     updateResponse = await groupStore.updateFaqEntry(group, formData.value);
   } else if (props.pageType === "event") {
