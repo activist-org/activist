@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import type { NuxtPage } from "nuxt/schema";
-
 import { resolve } from "path";
 
 import applyMiddleware from "./applyMiddleware";
