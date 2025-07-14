@@ -1,7 +1,10 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <Form :schema="schema" @submit="onSubmit">
+    <Form
+      :schema="schema"
+      @submit="onSubmit"
+      submit-label="i18n.components.modal.edit._global.update_texts"
+    >
       <div class="flex flex-col space-y-7">
         <FormItem name="question" :label="$t('i18n.components.modal_edit_faq_entry.question')" :required="true">
           <FormTextArea v-model="formData.question" />
@@ -9,13 +12,6 @@
         <FormItem name="answer" :label="$t('i18n.components.modal_edit_faq_entry.answer')" :required="true">
           <FormTextArea v-model="formData.answer" />
         </FormItem>
-        <BtnAction
-          type="submit"
-          :cta="true"
-          label="i18n.components.modal.edit._global.update_texts"
-          fontSize="base"
-          ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
-        />
       </div>
     </Form>
   </ModalBase>
@@ -24,9 +20,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { z } from 'zod';
-import Form from '@/components/form/Form.vue';
-import FormItem from '@/components/form/FormItem.vue';
-import FormTextArea from '@/components/form/text/FormTextArea.vue';
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -93,10 +86,7 @@ async function handleSubmit(values: { question: string; answer: string }) {
   formData.value.question = values.question;
   formData.value.answer = values.answer;
   if (props.pageType === "organization") {
-    updateResponse = await organizationStore.updateFaqEntry(
-      organization,
-      formData.value
-    );
+    updateResponse = await organizationStore.updateFaqEntry(organization, formData.value);
   } else if (props.pageType === "group") {
     updateResponse = await groupStore.updateFaqEntry(group, formData.value);
   } else if (props.pageType === "event") {
