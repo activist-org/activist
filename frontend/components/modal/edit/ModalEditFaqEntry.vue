@@ -7,11 +7,33 @@
       @submit="handleSubmit"
     >
       <div class="flex flex-col space-y-7">
-        <FormItem name="question" :label="$t('i18n.components.modal_edit_faq_entry.question')" :required="true">
-          <FormTextArea v-model="formData.question" />
+        <FormItem
+          v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+          name="question"
+          :label="$t('i18n.components.modal_edit_faq_entry.question')"
+          :required="true"
+        >
+          <FormTextArea
+            @input="handleChange"
+            @blur="handleBlur"
+            :id="id"
+            :value="value.value"
+            :hasError="!!errorMessage.value"
+          />
         </FormItem>
-        <FormItem name="answer" :label="$t('i18n.components.modal_edit_faq_entry.answer')" :required="true">
-          <FormTextArea v-model="formData.answer" />
+        <FormItem
+          v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+          name="answer"
+          :label="$t('i18n.components.modal_edit_faq_entry.answer')"
+          :required="true"
+        >
+          <FormTextArea
+            @input="handleChange"
+            @blur="handleBlur"
+            :id="id"
+            :value="value.value"
+            :hasError="!!errorMessage.value"
+          />
         </FormItem>
       </div>
     </Form>
