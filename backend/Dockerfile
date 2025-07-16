@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y clamav clamav-daemon
 
 
 COPY  . /app/.
-
 # ... other configurations ...
 
 CMD sh -c "python manage.py wait_for_db && \
