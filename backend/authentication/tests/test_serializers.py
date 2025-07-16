@@ -13,9 +13,9 @@ import pytest
 from authentication.factories import UserFactory
 from authentication.serializers import (
     DeleteUserResponseSerializer,
-    LoginSerializer,
     PasswordResetSerializer,
-    SignupSerializer,
+    SignInSerializer,
+    SignUpSerializer,
 )
 
 
@@ -42,7 +42,7 @@ class TestDeleteUserResponseSerializer:
 
 
 @pytest.mark.django_db
-class TestSignupSerializer:
+class TestSignUpSerializer:
     def test_valid_data(self) -> None:
         data = {
             "username": "testuser",
@@ -50,7 +50,7 @@ class TestSignupSerializer:
             "password_confirmed": "StrongPass!123",
             "email": "testuser@example.com",
         }
-        serializer = SignupSerializer(data=data)
+        serializer = SignUpSerializer(data=data)
 
         assert serializer.is_valid()
 
@@ -60,7 +60,7 @@ class TestSignupSerializer:
             "password": "StrongPass!123",
             "password_confirmed": "WrongPass!123",
         }
-        serializer = SignupSerializer(data=data)
+        serializer = SignUpSerializer(data=data)
 
         assert not serializer.is_valid()
         assert (
@@ -74,16 +74,16 @@ class TestSignupSerializer:
             "password": "weakpass",
             "password_confirmed": "weakpass",
         }
-        serializer = SignupSerializer(data=data)
+        serializer = SignUpSerializer(data=data)
 
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "invalid_password"
 
 
 @pytest.mark.django_db
-class TestLoginSerializer:
+class TestSignInSerializer:
     """
-    Test cases for LoginSerializer.
+    Test cases for SignInSerializer.
     """
 
     @pytest.fixture
@@ -99,7 +99,7 @@ class TestLoginSerializer:
     def test_valid_login_with_email(self, mock_authenticate, user) -> None:
         mock_authenticate.return_value = user
         data = {"email": "testuser@activist.com", "password": "ValidPass!123"}
-        serializer = LoginSerializer(data=data)
+        serializer = SignInSerializer(data=data)
 
         assert serializer.is_valid()
         assert serializer.validated_data["user"] == user
@@ -108,14 +108,14 @@ class TestLoginSerializer:
     def test_valid_login_with_username(self, mock_authenticate, user) -> None:
         mock_authenticate.return_value = user
         data = {"username": "testuser", "password": "ValidPass!123"}
-        serializer = LoginSerializer(data=data)
+        serializer = SignInSerializer(data=data)
 
         assert serializer.is_valid()
         assert serializer.validated_data["user"] == user
 
     def test_invalid_credentials(self, user) -> None:
         data = {"email": "wrong@activist.com", "password": "WrongPass!123"}
-        serializer = LoginSerializer(data=data)
+        serializer = SignInSerializer(data=data)
 
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "invalid_credentials"
@@ -126,7 +126,7 @@ class TestLoginSerializer:
         user.is_confirmed = False
         user.save()
         data = {"email": "testuser@activist.com", "password": "ValidPass!123"}
-        serializer = LoginSerializer(data=data)
+        serializer = SignInSerializer(data=data)
 
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "email_not_confirmed"

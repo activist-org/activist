@@ -11,7 +11,7 @@ import en from "~/i18n/en-US.json" assert { type: "json" };
 setActivePinia(createPinia());
 
 // Auto-import version of define store doesn't exist in the test env.
-// @ts-expect-error Can't type this due to conflict with Nuxt.
+// @ts-expect-error: Can't type this due to conflict with Nuxt.
 globalThis.defineStore = defineStore;
 
 // Set up Color Mode mock.
@@ -42,6 +42,6 @@ afterEach(() => {
 });
 
 afterAll(() => {
-  // @ts-expect-error type This will be present during the tests.
+  // @ts-expect-error: This will be present during the tests.
   delete globalThis.useColorModeMock;
 });

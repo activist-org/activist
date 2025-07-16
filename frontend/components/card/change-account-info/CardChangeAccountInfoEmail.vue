@@ -8,16 +8,16 @@
   >
     <div class="space-y-4 pb-1">
       <div class="flex items-center space-x-4">
-        <h3 class="responsive-h3 font-bold">
+        <h3 class="font-bold">
           {{ $t("i18n.components.card_change_account_info_email.header_cta") }}
         </h3>
       </div>
       <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div class="flex w-full flex-col lg:w-1/3">
-          <label for="old-email" class="responsive-h4 font-bold">
+          <h4 for="old-email" class="font-bold">
             {{ $t("i18n.components.card_change_account_info_email.old_email") }}
             *
-          </label>
+          </h4>
           <input
             id="old-email"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
@@ -29,10 +29,10 @@
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/3">
-          <label for="new-email" class="responsive-h4 font-bold">
+          <h4 for="new-email" class="font-bold">
             {{ $t("i18n.components.card_change_account_info_email.new_email") }}
             *
-          </label>
+          </h4>
           <input
             id="new-email"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"
@@ -44,9 +44,9 @@
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/3">
-          <label for="password" class="responsive-h4 font-bold">
+          <h4 for="password" class="font-bold">
             {{ $t("i18n._global.enter_password") }} *
-          </label>
+          </h4>
           <input
             id="password"
             class="peer rounded-sm border border-primary-text bg-transparent px-3 py-1"

@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node Environment
         uses: actions/setup-node@v4
@@ -39,12 +39,12 @@ jobs:
           echo "## Available Update ⚙️" >> reports.md
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Setup Yarn
-        working-directory: frontend
+        working-directory: ./frontend
         continue-on-error: true
         run: |
           corepack enable
@@ -52,7 +52,7 @@ jobs:
 
       - name: Install Frontend Dependencies
         id: install-frontend
-        working-directory: frontend
+        working-directory: ./frontend
         continue-on-error: true
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
@@ -61,7 +61,7 @@ jobs:
 
       - name: Update Frontend Dependencies
         id: frontend-updates
-        working-directory: frontend
+        working-directory: ./frontend
         continue-on-error: true
         run: |
           cp package.json package.old.json
@@ -104,23 +104,22 @@ jobs:
 
       - name: Create Python Virtual Environment
         id: setup-venv
-        working-directory: backend
+        working-directory: ./backend
         continue-on-error: true
         run: python -m venv .venv
 
       - name: Install Backend Dependencies
         id: install-backend
-        working-directory: backend
+        working-directory: ./backend
         continue-on-error: true
         run: |
           source .venv/bin/activate
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
-          python -m pip install mypy
+          python -m pip install -r requirements-dev.txt
 
       - name: Update Backend Dependencies
         id: backend-updates
-        working-directory: backend
+        working-directory: ./backend
         continue-on-error: true
         run: |
           source .venv/bin/activate
@@ -155,47 +154,75 @@ jobs:
 
           python compare_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
 
-      - name: Run Backend Tests
-        id: backend-tests
-        working-directory: backend
+      - name: Add Test Results Header
+        id: add-test-results-header
         continue-on-error: true
         run: |
           source .venv/bin/activate
           echo -e "\n## Test Results" >> ../reports.md
-          echo -e "\n### Mypy Results" >> ../reports.md
+
+      - name: Run Backend Tests
+        id: backend-tests
+        working-directory: ./backend
+        continue-on-error: true
+        run: |
+          # Note: Don't check formatting.
+          # echo -e "\n### Ruff Format Results" >> ../reports.md
+          # echo "\`\`\`" >> ../reports.md
+          # ruff format . 2>&1 | tee -a ../reports.md || true
+          # echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Ruff Lint Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          mypy . --config-file mypy.ini 2>&1 | tee -a ../reports.md || true
+          ruff check . 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Django Tests" >> ../reports.md
+          echo -e "\n### mypy Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          DJANGO_SETTINGS_MODULE=core.settings python manage.py test 2>&1 | tee -a ../reports.md || true
+          mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Pytest Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Run Frontend Tests
         id: frontend-tests
-        working-directory: frontend
+        working-directory: ./frontend
         continue-on-error: true
         run: |
-          echo "compare_versions.js" >> ../.prettierignore
-          echo -e "\n### Prettier Results" >> ../reports.md
+          # Note: Don't check formatting.
+          # echo "compare_versions.js" >> ../.prettierignore
+          # echo -e "\n### Prettier Results" >> ../reports.md
+          # echo "\`\`\`" >> ../reports.md
+          # yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
+          # echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### ESLint Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
+          yarn lint 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
           echo -e "\n### Type Check Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn typecheck 2>&1 | \
-            grep -E "error TS|exited with non-zero status" | \
-            sed 's/.*\/\([^/]*\.vue\)/\1/' | \
-            tee -a ../reports.md || true
+          yarn typecheck 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Vitest Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          yarn test --silent 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+      - name: Set date
+        id: date
+        run: echo "REPORT_DATE=$(date '+%B %d, %Y')" >> $GITHUB_ENV
 
       - name: Create GitHub Issue
         if: always()
         uses: peter-evans/create-issue-from-file@v4
         with:
-          title: "Dependency Update Report - $(date '+%B %d, %Y') 🤖"
+          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖"
           content-filepath: reports.md
           labels: |
             dependencies

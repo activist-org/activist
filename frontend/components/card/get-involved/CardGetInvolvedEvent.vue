@@ -2,7 +2,7 @@
 <template>
   <CardGetInvolved>
     <div class="flex items-center gap-5">
-      <h3 class="responsive-h3 text-left font-display">
+      <h3 class="text-left font-display">
         {{ $t("i18n.components._global.participate") }}
       </h3>
       <IconEdit
@@ -16,7 +16,7 @@
         {{ event.texts.getInvolved }}
       </p>
       <p v-else>
-        {{ $t("i18n.components._global.participate_subtext") }}
+        {{ $t("i18n.components.card_get_involved_event.participate_subtext") }}
       </p>
       <!-- <p>
         {{ $t("i18n.components.card_get_involved_event.legal_disclaimer_subtext") }}
@@ -51,6 +51,5 @@ const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const eventStore = useEventStore();
 await eventStore.fetchById(eventId);
-
 const { event } = eventStore;
 </script>

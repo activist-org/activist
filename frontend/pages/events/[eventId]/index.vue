@@ -2,7 +2,7 @@
 <template>
   <div
     v-if="windowWidth < BreakpointMap.SMALL"
-    class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8 text-primary-text"
+    class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8"
   >
     <Head>
       <Title>{{ event.name }} </Title>
@@ -10,7 +10,7 @@
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
         :eventType="event.type"
-        :imgUrl="event.iconUrl ? event.iconUrl : ''"
+        :imgUrl="event.iconUrl?.fileObject || ''"
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: event?.name,
@@ -19,12 +19,10 @@
       />
     </div>
     <div class="flex flex-col items-center gap-2">
-      <h1
-        class="responsive-h1 text-center text-3xl font-bold text-primary-text"
-      >
+      <h1 class="text-center text-3xl font-bold">
         {{ event.name }}
       </h1>
-      <h2 class="responsive-h2 text-lg font-bold text-distinct-text">
+      <h2 class="text-lg font-bold text-distinct-text">
         {{ event.tagline }}
       </h2>
     </div>
@@ -68,19 +66,16 @@
 </template>
 
 <script setup lang="ts">
+import type { Event } from "~/types/events/event";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = eventStore;
+const props = defineProps<{
+  event: Event;
+}>();
 
 const localPath = useLocalePath();
 
@@ -101,10 +96,10 @@ const handleResize = () => {
     const currentRoute = useRoute();
 
     if (
-      currentRoute.path !== `/${locale.value}/events/${eventId}/about` ||
-      currentRoute.path === `/${locale.value}/events/${eventId}/`
+      currentRoute.path !== `/${locale.value}/events/${props.event.id}/about` ||
+      currentRoute.path === `/${locale.value}/events/${props.event.id}/`
     ) {
-      navigateTo(`/${locale.value}/events/${eventId}/about`);
+      navigateTo(`/${locale.value}/events/${props.event.id}/about`);
     }
   }
 };

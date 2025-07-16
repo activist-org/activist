@@ -1,7 +1,6 @@
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = [
-    "*/tests.py",
     "*/migrations/*.py",
     ".bzr",
     ".direnv",
@@ -45,30 +44,32 @@ line_length = 88
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "core.settings"
-python_files = "tests.py test_*.py *_tests.py"
+python_files = "test_*.py"
 addopts = "--nomigrations"
 
 [tool.coverage.run]
 omit = [
     "*/migrations/*",
     "*/tests/*",
-    "tests.py",
     "asgi.py",
     "wsgi.py",
     "manage.py",
     "*/__init__.py",
     "*/factories.py",
+    "*/utils/type_checker/*",
 ]
 
 [tool.mypy]
 mypy_path = "backend"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 strict = true
-exclude = ["^.*/factories\\.py$"]
+exclude = ["^.*/tests/.*\\.py$", "^.*/test_.*\\.py$", "^.*/.*_tests\\.py$"]
 
 [[tool.mypy.overrides]]
 module = ["authentication.*", "content.*", "communities.*", "events.*"]
-follow_imports = "skip"
+# follow_imports = "skip"  # enable django-stubs
+ignore_errors = false
+
 
 [tool.django-stubs]
 django_settings_module = "core.settings"
@@ -79,4 +80,10 @@ checks = [
     "ES01",
     "EX01",
     "SA01",
+]
+
+exclude = [
+    "^.*\\.Meta$",    # Meta classes
+    "^.*\\.__str__$", # __str__ methods
+    "^__init__$",     # __init__ files
 ]

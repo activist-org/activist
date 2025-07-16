@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="bg-layer-0 px-8 text-primary-text">
+  <div class="bg-layer-0 px-8">
     <Head>
       <Title>{{ $t("i18n.pages.groups.index.header_title") }}</Title>
     </Head>
@@ -22,10 +22,9 @@
 </template>
 
 <script setup lang="ts">
-const { data: groups } = await useFetch(
-  `${BASE_BACKEND_URL}/communities/groups/`,
-  {
-    method: "GET",
-  }
-);
+import type { Group } from "~/types/communities/group";
+
+defineProps<{
+  groups: Group[];
+}>();
 </script>

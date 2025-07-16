@@ -35,7 +35,7 @@ export function getGroupSubPages(): SubPageSelector[] {
     selected: false,
   };
 
-  const groupEventFAQSelector: SubPageSelector = {
+  const groupEventFaqSelector: SubPageSelector = {
     id: 3,
     label: i18n.t("i18n._global.faq"),
     iconName: "IconFAQ",
@@ -47,6 +47,6 @@ export function getGroupSubPages(): SubPageSelector[] {
     groupAboutPageSelector,
     groupEventPageSelector,
     groupEventResourcesSelector,
-    groupEventFAQSelector,
+    groupEventFaqSelector,
   ];
 }

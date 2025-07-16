@@ -33,6 +33,7 @@ Not every test belongs in the E2E test suite. Tests that should go in the E2E te
 ### Where to write tests
 
 Write your tests under `frontend/test-e2e/specs`. Inside this folder are more folders based on the environment the tests are meant to run in:
+
 - `desktop` for tests that run in desktop environments
 - `mobile` for mobile environments
 - `all` for tests that run in both mobile and desktop environments

@@ -70,6 +70,7 @@
 * [Finances](organization/finances/README.md)
   * [Funding sources](organization/finances/funding-sources.md)
   * [Funding discovery](organization/finances/funding-discovery.md)
+  * [Fundraising 2025](organization/finances/fundraising-2025.md)
 * [Legal](organization/legal/README.md)
   * [Use Policy](organization/legal/use-policy.md)
   * [Trademark](organization/legal/trademark.md)

@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y clamav clamav-daemon
 
 
 COPY  . /app/.
+
+
 # ... other configurations ...
 
 CMD sh -c "python manage.py wait_for_db && \
@@ -19,3 +21,4 @@ CMD sh -c "python manage.py wait_for_db && \
     python manage.py loaddata fixtures/topics.json && \
     python manage.py populate_db --users 10 --orgs-per-user 1 --groups-per-org 1 --events-per-org 1 --resources-per-entity 1 --faq-entries-per-entity 1 && \
     python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
+  

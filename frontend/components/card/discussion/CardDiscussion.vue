@@ -11,15 +11,15 @@
       fontSize="sm"
       :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
-      :ariaLabel="'i18n.components.card.discussion._global.upvote_discussion_aria_label'"
+      ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
     />
     <div class="flex-col space-y-3 md:grow md:space-y-4 md:pl-4 lg:pl-6">
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
           <div class="flex w-full justify-between">
-            <h2 class="responsive-h3 w-full font-bold">
+            <h3 class="w-full font-bold">
               {{ discussion.title }}
-            </h2>
+            </h3>
             <div
               v-if="!aboveMediumBP"
               class="flex items-center space-x-3 md:w-fit"

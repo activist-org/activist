@@ -2,7 +2,7 @@
 <template>
   <div class="card-style flex flex-col space-y-3 px-5 py-4">
     <div class="flex w-full items-center">
-      <h3 class="responsive-h3 grow text-left font-display">
+      <h3 class="grow text-left font-display">
         {{ $t("i18n.components.card_metrics_overview.header") }}
       </h3>
       <DropdownDateFilter />

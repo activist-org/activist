@@ -6,62 +6,63 @@
         @input="userName = $event.target.value"
         id="set-password-username"
         :value="userName"
-        :placeholder="$t('i18n.pages.auth._global.enter_a_user_name')"
+        :label="$t('i18n.pages.auth._global.enter_a_user_name')"
         :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
       />
-      <FormPasswordInput
+      <FormTextInputPassword
         @input="handlePasswordInput"
         @blur="isPasswordFocused = false"
         @focus="isPasswordFocused = true"
         id="set-password-password"
         :value="password"
-        :placeholder="$t('i18n._global.enter_password')"
+        :label="$t('i18n._global.enter_password')"
         :data-testid="$t('i18n._global.enter_password')"
         :hasError="showPasswordError.border"
       />
       <IndicatorPasswordStrength :password-value="password" />
-      <TooltipPasswordRequirements
+      <!-- <TooltipPasswordRequirements
         v-if="showPasswordError.tooltip"
         :rules="rules"
-      />
-      <FormPasswordInput
+      /> -->
+      <FormTextInputPassword
         @input="confirmPassword = $event.target.value"
         id="set-password-confirm-password"
         :value="confirmPassword"
-        :placeholder="$t('i18n._global.repeat_password')"
+        :label="$t('i18n._global.repeat_password')"
         :data-testid="$t('i18n._global.repeat_password')"
       >
         <template #icons>
           <span>
             <Icon
-              v-if="doPasswordsMatch"
-              :name="IconMap.CHECK"
+              :name="doPasswordsMatch ? IconMap.CHECK : IconMap.X_LG"
               size="1.2em"
-              color="#3BA55C"
-              data-testid="extra-icon"
+              :color="doPasswordsMatch ? '#3BA55C' : '#BA3D3B'"
+              aria-hidden="false"
+              aria-labelledby="set-password-confirm-password-match"
             />
-            <Icon
-              v-else
-              :name="IconMap.X_LG"
-              size="1.2em"
-              color="#BA3D3B"
-              data-testid="extra-icon"
-            />
+            <title id="set-password-confirm-password-match" class="sr-only">
+              {{
+                doPasswordsMatch
+                  ? $t("i18n.pages.auth._global.passwords_match")
+                  : $t("i18n.pages.auth._global.passwords_do_not_match")
+              }}
+            </title>
           </span>
         </template>
-      </FormPasswordInput>
+      </FormTextInputPassword>
       <div class="pt-4">
         <BtnAction
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
-          :label="$t('i18n.pages.auth.set_password.set_password')"
+          label="i18n.pages.auth.set_password.set_password"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="$t('i18n.pages.auth.set_password.set_password')"
+          ariaLabel="i18n.pages.auth.set_password.set_password"
         />
       </div>
     </form>
   </div>
 </template>
+
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
@@ -70,8 +71,7 @@ const password = ref("");
 const confirmPassword = ref("");
 const isPasswordFocused = ref(false);
 
-const { rules, isAllRulesValid, checkRules, isPasswordMatch } =
-  usePasswordRules();
+const { isPasswordMatch } = usePasswordRules();
 
 const doPasswordsMatch = computed<boolean>(() =>
   isPasswordMatch(password.value, confirmPassword.value)
@@ -79,7 +79,7 @@ const doPasswordsMatch = computed<boolean>(() =>
 
 const showPasswordError = computed<{ border: boolean; tooltip: boolean }>(
   () => {
-    const error = password.value.length > 0 && !isAllRulesValid.value;
+    const error = password.value.length > 0;
     return {
       border: !isPasswordFocused.value && error,
       tooltip: isPasswordFocused.value && error,
@@ -89,6 +89,6 @@ const showPasswordError = computed<{ border: boolean; tooltip: boolean }>(
 
 const handlePasswordInput = (event: Event & { target: HTMLInputElement }) => {
   password.value = event.target.value;
-  checkRules(event);
+  // checkRules(event);
 };
 </script>

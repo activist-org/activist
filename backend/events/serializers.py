@@ -3,6 +3,7 @@
 Serializers for the events app.
 """
 
+from datetime import datetime
 from typing import Any, Dict, Union
 
 from django.utils.dateparse import parse_datetime
@@ -10,14 +11,18 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
-from content.serializers import LocationSerializer, ResourceSerializer
-from events.models import Event, EventSocialLink, EventText, Format
+from content.serializers import (
+    FaqSerializer,
+    ImageSerializer,
+    LocationSerializer,
+    ResourceSerializer,
+)
+from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText, Format
 from utils.utils import (
-    validate_creation_and_deletion_dates,
     validate_creation_and_deprecation_dates,
 )
 
-# MARK: Main Tables
+# MARK: Event
 
 
 class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
@@ -27,6 +32,16 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
 
     class Meta:
         model = EventSocialLink
+        fields = "__all__"
+
+
+class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
+    """
+    Serializer for EventFaq model data.
+    """
+
+    class Meta:
+        model = EventFaq
         fields = "__all__"
 
 
@@ -49,17 +64,54 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
         model = Organization
         fields = "__all__"
 
+    # def save(self, validated_data: dict[str, Any]) -> Organization:
+    #     return Organization.objects.get_or_create(validated_data)
+
+
+class EventPOSTSerializer(serializers.ModelSerializer[Event]):
+    """
+    Serializer for creating events with related fields.
+    """
+
+    texts = EventTextSerializer(write_only=True, required=False)
+    social_links = EventSocialLinkSerializer(write_only=True, required=False)
+    offline_location = LocationSerializer(write_only=True)
+    org_id = serializers.PrimaryKeyRelatedField(
+        queryset=Organization.objects.all(), source="orgs"
+    )
+
+    class Meta:
+        model = Event
+
+        exclude = (
+            "resources",
+            "discussions",
+            "formats",
+            "roles",
+            "tags",
+            "tasks",
+            "topics",
+            "orgs",
+            "created_by",
+            "get_involved_url",
+            "icon_url",
+            "deletion_date",
+        )
+
 
 class EventSerializer(serializers.ModelSerializer[Event]):
     """
-    Serializer for Event model with related fields.
+    Serializer for Event model data.
     """
 
     texts = EventTextSerializer(many=True, read_only=True)
     social_links = EventSocialLinkSerializer(many=True, read_only=True)
-    offline_location = LocationSerializer(read_only=True)
+    offline_location = LocationSerializer()
     resources = ResourceSerializer(many=True, read_only=True)
+    faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
+
+    icon_url = ImageSerializer(required=False)
 
     class Meta:
         model = Event
@@ -89,15 +141,50 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         ValidationError
             If validation fails for any field.
         """
-        if parse_datetime(data["start_time"]) > parse_datetime(data["end_time"]):  # type: ignore
-            raise serializers.ValidationError(
-                _("The start time cannot be after the end time."),
-                code="invalid_time_order",
+
+        start = data.get("start_time")
+        end = data.get("end_time")
+
+        # Only validate if both times are provided.
+        if start and end:
+            # Convert to datetime if they're strings.
+            start_dt = parse_datetime(start) if isinstance(start, str) else start
+            end_dt = parse_datetime(end) if isinstance(end, str) else end
+
+            if isinstance(start_dt, datetime) and isinstance(end_dt, datetime):
+                if start_dt > end_dt:
+                    raise serializers.ValidationError(
+                        _("The start time cannot be after the end time."),
+                        code="invalid_time_order",
+                    )
+
+        creation_date = data.get("creation_date")
+        deletion_date = data.get("deletion_date")
+
+        if creation_date and deletion_date:
+            # Convert to datetime if they're strings.
+            creation_dt = (
+                parse_datetime(creation_date)
+                if isinstance(creation_date, str)
+                else creation_date
+            )
+            deletion_dt = (
+                parse_datetime(deletion_date)
+                if isinstance(deletion_date, str)
+                else deletion_date
             )
 
-        validate_creation_and_deletion_dates(data)
+            if isinstance(creation_dt, datetime) and isinstance(deletion_dt, datetime):
+                if creation_dt > deletion_dt:
+                    raise serializers.ValidationError(
+                        _("The creation date cannot be after the deletion date."),
+                        code="invalid_date_order",
+                    )
 
-        if data.get("terms_checked") is False:
+        terms_checked = data.get("terms_checked")
+
+        # If data.get("terms_checked") is False.
+        if terms_checked and terms_checked is False:
             raise serializers.ValidationError(
                 "You must accept the terms of service to create an event."
             )
@@ -124,6 +211,22 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             EventText.objects.create(event=event)
 
         return event
+
+
+# MARK: Event Flag
+
+
+class EventFlagSerializers(serializers.ModelSerializer[EventFlag]):
+    """
+    Serializers for EventFlag Model.
+    """
+
+    class Meta:
+        model = EventFlag
+        fields = "__all__"
+
+
+# MARK: Format
 
 
 class FormatSerializer(serializers.ModelSerializer[Event]):

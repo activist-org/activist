@@ -1,87 +1,101 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalBase
-    @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
-    :modalName="modalName"
-  >
+  <ModalBase :modalName="modalName">
     <div class="flex flex-col space-y-7">
-      <div
-        v-for="(s, i) in sectionsToEdit"
-        :key="i"
-        class="flex flex-col space-y-3 text-primary-text"
-      >
-        <label for="textarea" class="responsive-h2">{{ s }}</label>
+      <div class="flex flex-col space-y-3">
+        <h2 for="textarea">
+          {{ $t("i18n.components.modal_edit_faq_entry.question") }}
+        </h2>
         <textarea
-          v-if="
-            s !==
-              $t('i18n.components.modal.edit._global.join_organization_link') &&
-            s !== $t('i18n.components.modal.edit._global.join_group_link') &&
-            s !== $t('i18n.components.modal.edit._global.offer_to_help_link')
-          "
-          v-model="translatedTexts[i]"
+          v-model="formData.question"
           id="textarea"
           class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
         />
-        <div v-else class="flex flex-col space-y-2">
-          <p>{{ $t("i18n.components.modal.edit._global.remember_https") }}</p>
-          <input
-            v-model="editedTexts[i]"
-            id="textarea"
-            class="focus-brand elem-shadow-sm min-h-12 rounded-md bg-layer-2 px-3 py-2"
-          />
-        </div>
+        <h2 for="textarea">
+          {{ $t("i18n.components.modal_edit_faq_entry.answer") }}
+        </h2>
+        <textarea
+          v-model="formData.answer"
+          id="textarea"
+          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
+        />
       </div>
       <BtnAction
-        @click="true"
+        @click="handleSubmit"
         :cta="true"
-        :label="$t('i18n.components.modal.edit._global.update_texts')"
+        label="i18n.components.modal.edit._global.update_texts"
         fontSize="base"
-        :ariaLabel="
-          $t('i18n.components.modal.edit._global.update_texts_aria_label')
-        "
+        ariaLabel="i18n.components.modal_edit_faq_entry.update_texts_aria_label"
       />
     </div>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import type { Group } from "~/types/communities/group";
+import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { Event } from "~/types/events/event";
 
 const props = defineProps<{
-  name?: string;
   faqEntry: FaqEntry;
-  sectionsToEdit: string[];
-  textsToEdit: string[];
-  isOpen: boolean;
+  pageType: "organization" | "group" | "event" | "other";
 }>();
 
-const i18n = useI18n();
-const editedTexts = computed(() => props.textsToEdit);
+const modalName = "ModalEditFaqEntry" + props.faqEntry.id;
+const { handleCloseModal } = useModalHandlers(modalName);
 
-const translatedTexts = computed(() => {
-  return editedTexts.value.map((text) => {
-    if (
-      text === "i18n.components._global.working_groups_subtext" ||
-      text === "i18n.components._global.join_organization_subtext" ||
-      text === "i18n.components._global.join_group_subtext" ||
-      text === "i18n.components._global.participate_subtext"
-    ) {
-      return i18n.t(text, { entity_name: props.name }) + ".";
-    }
-    return text;
-  });
+const paramsOrgId = useRoute().params.orgId;
+const paramsGroupId = useRoute().params.groupId;
+const paramsEventId = useRoute().params.eventId;
+
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+
+const organizationStore = useOrganizationStore();
+const groupStore = useGroupStore();
+const eventStore = useEventStore();
+
+let organization: Organization;
+let group: Group;
+let event: Event;
+
+const formData = ref<FaqEntry>({
+  id: props.faqEntry.id,
+  iso: props.faqEntry.iso,
+  order: props.faqEntry.order,
+  question: props.faqEntry.question,
+  answer: props.faqEntry.answer,
 });
 
-const modals = useModals();
-const modalName = "ModalEditFAQEntry";
-let modalIsOpen = computed(() => props.isOpen);
+if (props.pageType == "organization") {
+  await organizationStore.fetchById(orgId);
+  organization = organizationStore.organization;
+  console.log("organization", organization);
+} else if (props.pageType == "group") {
+  await groupStore.fetchById(groupId);
+  group = groupStore.group;
+} else if (props.pageType == "event") {
+  await eventStore.fetchById(eventId);
+  event = eventStore.event;
+}
 
-onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
-});
+async function handleSubmit() {
+  let updateResponse = false;
+  if (props.pageType === "organization") {
+    updateResponse = await organizationStore.updateFaqEntry(
+      organization,
+      formData.value
+    );
+  } else if (props.pageType === "group") {
+    updateResponse = await groupStore.updateFaqEntry(group, formData.value);
+  } else if (props.pageType === "event") {
+    updateResponse = await eventStore.updateFaqEntry(event, formData.value);
+  }
 
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-};
+  if (updateResponse) {
+    handleCloseModal();
+  }
+}
 </script>

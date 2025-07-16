@@ -2,7 +2,7 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      - id: trailing-whitespace
+      # - id: trailing-whitespace  # handled by Ruff and Prettier
       - id: end-of-file-fixer
         exclude: ^docs/|README.md$
       - id: check-yaml
@@ -10,29 +10,47 @@ repos:
       # - id: pretty-format-json
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.6
+    rev: v0.11.10
     hooks:
-      - id: ruff
+      - id: ruff-check
+        name: run ruff linting check
+        files: ^backend/
         args: [--fix, --exit-non-zero-on-fix]
+
       - id: ruff-format
+        name: run ruff formatting check
+        files: ^backend/
+
+  - repo: https://github.com/numpy/numpydoc
+    rev: v1.8.0
+    hooks:
+      - id: numpydoc-validation
+        name: run numpydoc docstring validation
+        files: ^backend/
+        exclude: ^backend/(.*/(tests(/.*)?|views\.py|__init__\.py))$
 
   - repo: local
     hooks:
-      - id: run-i18n-checks
-        name: Run i18n Checks
-        entry: python frontend/i18n/check/run_i18n_checks.py
+      - id: mypy-check
+        name: run mypy static type checking
+        files: ^backend/
+        entry: mypy . --config-file ./backend/pyproject.toml
         language: python
-        stages: [pre-commit]
+        types: [python]
+        pass_filenames: false
 
-  # - repo: https://github.com/tcort/markdown-link-check
-  #   rev: v3.13.6
-  #   hooks:
-  #     - id: markdown-link-check
-  #       args: [-q]
+  - repo: local
+    hooks:
+      - id: run-i18n-check
+        name: run i18n-check key-value checks
+        files: ^frontend/
+        entry: i18n-check -a
+        language: python
+        pass_filenames: false
 
-  # - repo: https://github.com/numpy/numpydoc
-  #   rev: v1.8.0
-  #   hooks:
-  #     - id: numpydoc-validation
-  #       files: ^backend/
-  #       exclude: ^backend/tests/
+      - id: prettier-eslint-checks
+        name: run prettier and eslint checks
+        files: ^frontend/
+        entry: python -m pre_commit_scripts.prettier_eslint_checks
+        language: python
+        pass_filenames: false

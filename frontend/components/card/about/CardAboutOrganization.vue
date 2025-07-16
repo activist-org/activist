@@ -5,6 +5,7 @@
       v-if="organization && !expandText"
       :organization="organization"
       type="icon"
+      reason-for-suggesting=""
     />
     <button
       v-if="expandText"
@@ -18,7 +19,7 @@
     </button>
     <div class="flex-col space-y-3">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 text-left font-display">
+        <h3 class="text-left font-display">
           {{ $t("i18n._global.about") }}
         </h3>
         <IconEdit
@@ -98,7 +99,6 @@ const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
-
 const { organization } = organizationStore;
 
 const description = ref();
