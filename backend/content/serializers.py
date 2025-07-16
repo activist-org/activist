@@ -12,6 +12,10 @@ from django.utils.translation import gettext as _
 from PIL import Image as PILImage
 from rest_framework import serializers
 
+import requests
+from django.conf import settings
+
+
 from communities.organizations.models import OrganizationImage
 from content.models import (
     Discussion,
@@ -22,6 +26,7 @@ from content.models import (
     Resource,
     Topic,
 )
+
 from utils.malware_scanner import scan_file_in_memory
 from utils.utils import validate_creation_and_deprecation_dates
 import logging
@@ -89,7 +94,7 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         return image_file  # return original file in case of error
 
 
-class ImageSerializer(serializers.ModelSerializer[Image]):
+class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ["id", "file_object", "creation_date"]
@@ -99,52 +104,45 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
 
-        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
-        # The file size limit is not being enforced. We're checking the file size here.
-        if (
-            data["file_object"].size is not None
-            and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
-        ):
+        uploaded_file = data["file_object"]
+
+        if uploaded_file.size is not None and uploaded_file.size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE:
             raise serializers.ValidationError(
-                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+                f"The file size ({uploaded_file.size} bytes) is too large. "
+                f"Maximum allowed: {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
             )
 
-        # Malware scanning integration
-        uploaded_file = data["file_object"]
-        file_content = uploaded_file.read()
-        logger.info("About to scan uploaded file in memory.")  # Add this log
-        scan_result = scan_file_in_memory(file_content)
-        logger.info(f"Scan result: {scan_result}")  # Add this log
-        uploaded_file.seek(0)  # Reset the file pointer after reading
+        logger.info("Sending file to filescan microservice...")
 
-        if scan_result:
-            raise serializers.ValidationError(f"Malware detected in the uploaded file: {scan_result}")
+        try:
+            scan_response = requests.post(
+                settings.FILESCAN_SERVICE_URL,
+                files={"file": uploaded_file},
+                timeout=10
+            )
+            scan_result = scan_response.json()
+        except Exception as e:
+            logger.exception("Failed to scan file via microservice.")
+            raise serializers.ValidationError("Could not scan the file. Try again later.")
 
+        status_result = scan_result.get("status", "")
+        if status_result != "OK":
+            raise serializers.ValidationError(
+                f"Malware scan failed: {scan_result.get('message', 'Unknown error')}"
+            )
+
+        uploaded_file.seek(0)  # Important: reset file pointer
         return data
-
     def create(self, validated_data: Dict[str, Any]) -> Image:
-        request = self.context["request"]
+        request = self.context.get("request")
 
         if file_obj := request.FILES.get("file_object"):
             validated_data["file_object"] = scrub_exif(file_obj)
 
-        logger.info("Creating a new Image object.")  # Add this log
-        image = super().create(validated_data)
-        logger.info(f"Image object created with ID: {image.id}") # Add this log
-
-        return data
-
-    # Using 'Any' type until a more correct type is determined.
-    def create(self, validated_data: Dict[str, Any]) -> Image:
-        request = self.context["request"]
-
-        if file_obj := request.FILES.get("file_object"):
-            validated_data["file_object"] = scrub_exif(file_obj)
-
-        # Create the image instance.
+        # Save the image
         image = super().create(validated_data)
 
-        # Handle organization image indexing if applicable.
+        # Optional: add to organization images if provided
         if organization_id := request.data.get("organization_id"):
             next_index = OrganizationImage.objects.filter(
                 org_id=organization_id
@@ -153,7 +151,9 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                 org_id=organization_id, image=image, sequence_index=next_index
             )
 
+        logger.info(f"Image saved successfully with ID: {image.id}")
         return image
+
 
 
 class LocationSerializer(serializers.ModelSerializer[Location]):
