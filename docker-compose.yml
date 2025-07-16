@@ -8,11 +8,10 @@ services:
       context: ./backend
     container_name: django_backend
     restart: unless-stopped
-    command: sh -c  "
+    command: sh -c "
       if [ \"$ENVIRONMENT\" = \"development\" ]; then
         python /app/backend/scripts/clear_images.py;
       fi;
-
       python manage.py wait_for_db &&
       python manage.py makemigrations &&
       python manage.py migrate &&
@@ -37,6 +36,7 @@ services:
       - ENVIRONMENT=development
     depends_on:
       - db
+      - filescan
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:${BACKEND_PORT}/health/ || exit 1"]
       interval: 10s
@@ -51,7 +51,8 @@ services:
     build:
       context: ./frontend
     container_name: nuxt_frontend
-    command: sh -c "corepack enable && yarn install && yarn dev --port ${FRONTEND_PORT}"
+    command: >
+      sh -c "corepack enable && yarn install && yarn dev --port ${FRONTEND_PORT}"
     volumes:
       - ./frontend:/app
     ports:
@@ -69,9 +70,9 @@ services:
     image: postgres:15
     container_name: postgres_db
     environment:
-      POSTGRES_DB: ${DATABASE_NAME}  # activist
-      POSTGRES_USER: ${DATABASE_USER} # postgres
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD} # postgres
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
     healthcheck:
@@ -81,22 +82,20 @@ services:
       retries: 5
 
   filescan:
-    image: clamav/clamav:latest
-    container_name: filescan
+    build: ./services/filescan
+    container_name: filescan_service
     ports:
-      - "3310:3310"
-    restart: always
+      - "8001:8001"
     volumes:
-      - clamav_db:/var/lib/clamav
-      - clamav_log:/var/log/clamav  
-    command: sh -c "freshclam -v && clamd --foreground=yes --log=/var/log/clamav/clamd.log"
-    
+      - ./services/filescan:/app
+    command: >
+      bash -c "freshclam && service clamav-daemon start && python manage.py runserver 0.0.0.0:8001"
     healthcheck:
       test: ["CMD", "nc", "-z", "localhost", "3310"]
       interval: 10s
       timeout: 5s
       retries: 5
+
 volumes:
   clamav_db:
   clamav_log:
-  
