@@ -1,10 +1,11 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
     <Form
+      @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
       :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
-      @submit="handleSubmit"
     >
       <div class="flex flex-col space-y-7">
         <FormItem
@@ -41,8 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { z } from 'zod';
+import { onMounted, ref } from "vue";
+import { z } from "zod";
+
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -72,17 +74,23 @@ let organization: Organization;
 let group: Group;
 let event: Event;
 
+const { t } = useI18n();
+
 const formData = ref<FaqEntry>({
   id: props.faqEntry.id,
   iso: props.faqEntry.iso,
   order: props.faqEntry.order,
-  question: '',
-  answer: '',
+  question: "",
+  answer: "",
 });
 
 const schema = z.object({
-  question: z.string().min(1, "Question is required"),
-  answer: z.string().min(1, "Answer is required"),
+  question: z
+    .string()
+    .min(1, t("i18n.components.modal_edit_faq_entry.question_required")),
+  answer: z
+    .string()
+    .min(1, t("i18n.components.modal_edit_faq_entry.answer_required")),
 });
 
 onMounted(async () => {
