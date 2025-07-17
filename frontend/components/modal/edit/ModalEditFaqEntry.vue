@@ -42,8 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { z } from "zod";
+
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -84,7 +85,7 @@ const formData = ref<FaqEntry>({
 });
 
 const schema = z.object({
-   question: z
+  question: z
     .string()
     .min(1, t("i18n.components.modal_edit_faq_entry.question_required")),
   answer: z

@@ -22,7 +22,7 @@
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
                 :name="'label-' + index"
-                 :label="
+                :label="
                   $t('i18n.components.modal_edit_social_links.new_link_url')
                 "
                 :required="true"
@@ -71,8 +71,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { z } from "zod";
+
 import type { Group, GroupSocialLink } from "~/types/communities/group";
 import type {
   Organization,
