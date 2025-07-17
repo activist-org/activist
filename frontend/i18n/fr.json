@@ -308,6 +308,8 @@
   "i18n.components.modal_share_page.other": "Autres",
   "i18n.components.modal_share_page.signal": "Signal",
   "i18n.components.modal_share_page.suggested": "Suggéré",
+  "i18n.components.modal_share_page.suggested_mastodon": "Microblogging décentralisé",
+  "i18n.components.modal_share_page.suggested_matrix": "Décentralisé et crypté",
   "i18n.components.modal_share_page.telegram": "Télégram",
   "i18n.components.modal_upload_images.drag_image": "Faites glisser votre image ou cliquez ici pour l’ajouter",
   "i18n.components.modal_upload_images.drag_images": "Faites glisser vos images ou cliquez ici pour les ajouter",

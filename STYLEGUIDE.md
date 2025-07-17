@@ -32,7 +32,7 @@ If you have questions or would like to communicate with the team, please [join u
 ## Vue and Nuxt [`⇧`](#contents)
 
 > [!NOTE]
-> For VS Code users: it is recommended to install [Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to enable in-editor type-checking:
+> For VS Code users: it is recommended to install [Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to enable in-editor type-checking.
 
 The frontend for activist is written in the framework [Vue.js](https://vuejs.org/) and specifically the meta-framework [Nuxt.js](https://nuxt.com/). The team chose Vue because of its broad usage across the development industry as well as relative ease of use and adoption for new contributors. Most of all we appreciate the structure that Vue adds to a project by leveraging the order of HTML and adding scripting and styling on top. Nuxt expands on Vue seamlessly and includes many [modules](https://nuxt.com/modules) to make development much easier.
 
@@ -66,11 +66,15 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 
-### Page Routing
+<a id="page-routing"></a>
+
+### Page Routing [`⇧`](#contents)
 
 Page routing should use the `<NuxtLink />` component wherever possible to assure that the platform maintains the localization path of the user. If an external link via an `<a>` tag should be set, then please include `target="_blank"` to open a new tab (unless it's an email href).
 
-### Breakpoints
+<a id="breakpoints"></a>
+
+### Breakpoints [`⇧`](#contents)
 
 activist uses Tailwind for CSS, and some parts of components will be conditionally rendered based on Tailwind breakpoints, but we want to avoid using it to show and hide whole components. The reason for this is that using CSS in this way means that unneeded TypeScript for the hidden components will still run on page load. Please use `useBreakpoint` for all conditional rendering of full components.
 
