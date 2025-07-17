@@ -32,10 +32,6 @@ export default defineNuxtConfig({
 
   plugins: ["~/plugins/i18n-head.ts"],
 
-  content: {
-    watch: { enabled: false },
-  },
-
   imports: {
     dirs: ["./stores"],
   },
