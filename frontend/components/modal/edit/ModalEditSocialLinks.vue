@@ -2,10 +2,10 @@
 <template>
   <ModalBase :modalName="modalName">
     <Form
+      @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
       :submit-label="$t('i18n.components.modal_edit_social_links.update_links')"
-      @submit="handleSubmit"
     >
       <div class="flex flex-col space-y-7">
         <div class="flex flex-col space-y-3">
@@ -22,7 +22,9 @@
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
                 :name="'label-' + index"
-                :label="$t('i18n.components.modal_edit_social_links.new_link_url')"
+                 :label="
+                  $t('i18n.components.modal_edit_social_links.new_link_url')
+                "
                 :required="true"
               >
                 <FormInput
@@ -37,7 +39,9 @@
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
                 :name="'link-' + index"
-                :label="$t('i18n.components.modal_edit_social_links.new_link_label')"
+                :label="
+                  $t('i18n.components.modal_edit_social_links.new_link_label')
+                "
                 :required="true"
               >
                 <FormInput
@@ -67,8 +71,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { z } from 'zod';
+import { ref, onMounted } from "vue";
+import { z } from "zod";
 import type { Group, GroupSocialLink } from "~/types/communities/group";
 import type {
   Organization,
@@ -84,14 +88,18 @@ const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";
 }>();
 
-const i18n = useI18n();
+const { t } = useI18n();
 
 const modalName = "ModalEditSocialLinks";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const schema = z.object({
-  label: z.string().min(1, "Label is required"),
-  link: z.string().url("Must be a valid URL"),
+  label: z
+    .string()
+    .min(1, t("i18n.components.modal_edit_social_links.label_required")),
+  link: z
+    .string()
+    .url(t("i18n.components.modal_edit_social_links.valid_url_required")),
 });
 
 const paramsOrgId = useRoute().params.orgId;
