@@ -24,5 +24,6 @@ export function getLocaleText(locale?: LOCALE_CODE): LocaleFile {
 }
 
 export const getEnglishText = (key: string) => {
-  return getLocaleText(LOCALE_CODE.ENGLISH)[key];
+  // @ts-expect-error: 'body' does not exist on type 'string'.
+  return getLocaleText(LOCALE_CODE.ENGLISH)[key].body.static;
 };
