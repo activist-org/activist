@@ -7,14 +7,13 @@ import logging
 from io import BytesIO
 from typing import Any, Dict, Optional, Union
 
+import requests
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
 from django.utils.translation import gettext as _
 from PIL import Image as PILImage
 from rest_framework import serializers
-from rest_framework.request import Request # Import Request for type hinting
-
-import requests
+from rest_framework.request import Request
 
 from communities.organizations.models import OrganizationImage
 from content.models import (
@@ -28,12 +27,12 @@ from content.models import (
 )
 from utils.utils import validate_creation_and_deprecation_dates
 
-# If you are actually using a local malware scanner function,
-# make sure the path is correct and the module exists.
-# If you are exclusively using the requests.post to a microservice,
-# then `scan_file_in_memory` is indeed unused and should be removed.
-# For now, I'll assume you don't use it, as your current code calls `requests.post`.
-# from utils.malware_scanner import scan_file_in_memory
+# Note: The 'utils.malware_scanner' import was removed because your validate
+# method currently uses 'requests.post' to an external microservice.
+# If you genuinely intend to use a local scanning function, you must:
+# 1. Ensure 'backend/utils/malware_scanner.py' exists and is correctly placed.
+# 2. Uncomment the import: 'from utils.malware_scanner import scan_file_in_memory'
+# 3. Call 'scan_file_in_memory(uploaded_file)' instead of 'requests.post(...)'.
 
 logger = logging.getLogger(__name__)
 
@@ -85,20 +84,20 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
 
         # Return a new InMemoryUploadedFile
         return InMemoryUploadedFile(
-            file=output, # Use 'file' keyword argument
-            field_name=image_file.field_name,  # use original field name
+            file=output,
+            field_name=image_file.field_name,
             name=image_file.name,
-            content_type=f"image/{output_format.lower()}", # Use 'content_type'
-            size=output.getbuffer().nbytes, # Use 'size'
-            charset=image_file.charset,  # preserve charset (if applicable)
+            content_type=f"image/{output_format.lower()}",
+            size=output.getbuffer().nbytes,
+            charset=image_file.charset,
         )
 
-    except Exception: # Removed `as e` as it was unused, logger.exception handles it
-        logger.exception("Error scrubbing EXIF metadata.") # Log with logger.exception
-        return image_file  # return original file in case of error
+    except Exception:
+        logger.exception("Error scrubbing EXIF metadata.")
+        return image_file
 
 
-class ImageSerializer(serializers.ModelSerializer[Image]): # Added [Image] for Mypy
+class ImageSerializer(serializers.ModelSerializer[Image]):
     class Meta:
         model = Image
         fields = ["id", "file_object", "creation_date"]
@@ -110,11 +109,10 @@ class ImageSerializer(serializers.ModelSerializer[Image]): # Added [Image] for M
 
         uploaded_file = data["file_object"]
 
-        # Mypy will complain if IMAGE_UPLOAD_MAX_FILE_SIZE is not typed or found.
-        # Ensure it exists in your settings.py
+        # Ensure settings are configured. Mypy will complain if these aren't present.
+        # It's crucial these are in your Django settings.py.
         if not hasattr(settings, 'IMAGE_UPLOAD_MAX_FILE_SIZE'):
             raise serializers.ValidationError("IMAGE_UPLOAD_MAX_FILE_SIZE is not configured in settings.")
-
         if uploaded_file.size is not None and uploaded_file.size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE:
             raise serializers.ValidationError(
                 f"The file size ({uploaded_file.size} bytes) is too large. "
@@ -124,7 +122,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]): # Added [Image] for M
         logger.info("Sending file to filescan microservice...")
 
         try:
-            # Ensure FILESCAN_SERVICE_URL is defined in your settings.py
+            # Ensure FILESCAN_SERVICE_URL is defined in your settings.py.
             if not hasattr(settings, 'FILESCAN_SERVICE_URL'):
                 raise serializers.ValidationError("FILESCAN_SERVICE_URL is not configured in settings.")
 
@@ -134,13 +132,12 @@ class ImageSerializer(serializers.ModelSerializer[Image]): # Added [Image] for M
                 timeout=10
             )
             scan_result = scan_response.json()
-        except requests.exceptions.RequestException: # More specific exception for requests errors
+        except requests.exceptions.RequestException:
             logger.exception("Failed to scan file via microservice due to network/request error.")
             raise serializers.ValidationError("Could not scan the file. Try again later.")
-        except Exception: # Catch any other general exceptions
+        except Exception:
             logger.exception("Failed to scan file via microservice due to an unexpected error.")
             raise serializers.ValidationError("An unexpected error occurred during file scanning. Try again later.")
-
 
         status_result = scan_result.get("status", "")
         if status_result != "OK":
@@ -148,22 +145,17 @@ class ImageSerializer(serializers.ModelSerializer[Image]): # Added [Image] for M
                 f"Malware scan failed: {scan_result.get('message', 'Unknown error')}"
             )
 
-        uploaded_file.seek(0)  # Important: reset file pointer
+        uploaded_file.seek(0)
         return data
 
     def create(self, validated_data: Dict[str, Any]) -> Image:
-        # Type hint `request` as Optional[Request] since it might not always be present
         request: Optional[Request] = self.context.get("request")
 
-        # Check if request exists and has FILES before accessing
         if request and request.FILES and (file_obj := request.FILES.get("file_object")):
             validated_data["file_object"] = scrub_exif(file_obj)
 
-        # Save the image
-        image: Image = super().create(validated_data) # Explicitly type `image`
+        image: Image = super().create(validated_data)
 
-        # Optional: add to organization images if provided
-        # Check if request exists and has data before accessing
         if request and request.data and (organization_id := request.data.get("organization_id")):
             next_index = OrganizationImage.objects.filter(
                 org_id=organization_id
@@ -193,8 +185,7 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
         model = Topic
         fields = "__all__"
 
-    def validate(self, data: Dict[str, Union[str, int, bool, Any]]) -> Dict[str, Union[str, int, bool, Any]]: # Added bool, Any for broader type handling
-        # It's better to explicitly check for the key if it's optional, and its type
+    def validate(self, data: Dict[str, Union[str, int, bool, Any]]) -> Dict[str, Union[str, int, bool, Any]]:
         active = data.get("active")
         deprecation_date = data.get("deprecation_date")
 
