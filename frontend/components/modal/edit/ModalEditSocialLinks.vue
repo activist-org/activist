@@ -142,7 +142,7 @@ const socialLinksRef = ref<
 >();
 
 const formData = computed(() => ({
-  socialLinks: socialLinksRef.value.map((socialLink) => ({
+  socialLinks: (socialLinksRef.value || []).map((socialLink) => ({
     label: socialLink.label,
     link: socialLink.link,
   })),
