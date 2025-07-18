@@ -4,8 +4,8 @@
     <Form
       @submit="handleSubmit"
       :schema="schema"
-      :initial-values="formData"
-      :submit-label="$t('i18n.components.modal_edit_social_links.update_links')"
+      :submitLabel="$t('i18n.components.modal_edit_social_links.update_links')"
+      :initialValues="formData"
     >
       <div class="flex flex-col space-y-7">
         <div class="flex flex-col space-y-3">
@@ -14,43 +14,47 @@
           </h2>
           <div class="flex flex-col space-y-3">
             <div
-              v-for="(socLink, index) in socialLinksRef"
+              v-for="(socialLink, index) in socialLinksRef"
               :key="index"
-              class="flex items-center space-x-3"
+              class="flex items-center space-x-5"
             >
-              <IconClose @click="removeLink(socLink.order)" />
+              <IconClose @click="removeLink(socialLink.order)" />
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-                :name="'label-' + index"
-                :label="
-                  $t('i18n.components.modal_edit_social_links.new_link_url')
-                "
-                :required="true"
-              >
-                <FormInput
-                  @input="handleChange"
-                  @blur="handleBlur"
-                  :id="id"
-                  :value="value.value"
-                  :hasError="!!errorMessage.value"
-                  type="text"
-                />
-              </FormItem>
-              <FormItem
-                v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-                :name="'link-' + index"
+                :name="`socialLinks.${index}.label`"
                 :label="
                   $t('i18n.components.modal_edit_social_links.new_link_label')
                 "
                 :required="true"
               >
-                <FormInput
-                  @input="handleChange"
+                <FormTextInput
                   @blur="handleBlur"
+                  @update:modelValue="handleChange"
                   :id="id"
-                  :value="value.value"
                   :hasError="!!errorMessage.value"
-                  type="text"
+                  :modelValue="value.value as string"
+                  :label="
+                    $t('i18n.components.modal_edit_social_links.new_link_label')
+                  "
+                />
+              </FormItem>
+              <FormItem
+                v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+                :name="`socialLinks.${index}.link`"
+                :label="
+                  $t('i18n.components.modal_edit_social_links.new_link_url')
+                "
+                :required="true"
+              >
+                <FormTextInput
+                  @blur="handleBlur"
+                  @update:modelValue="handleChange"
+                  :id="id"
+                  :hasError="!!errorMessage.value"
+                  :modelValue="value.value as string"
+                  :label="
+                    $t('i18n.components.modal_edit_social_links.new_link_url')
+                  "
                 />
               </FormItem>
             </div>
@@ -71,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { z } from "zod";
 
 import type { Group, GroupSocialLink } from "~/types/communities/group";
@@ -79,10 +83,7 @@ import type {
   Organization,
   OrganizationSocialLink,
 } from "~/types/communities/organization";
-import type {
-  SocialLink,
-  SocialLinkFormData,
-} from "~/types/content/social-link";
+import type { SocialLink } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
 
 const props = defineProps<{
@@ -95,12 +96,16 @@ const modalName = "ModalEditSocialLinks";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const schema = z.object({
-  label: z
-    .string()
-    .min(1, t("i18n.components.modal_edit_social_links.label_required")),
-  link: z
-    .string()
-    .url(t("i18n.components.modal_edit_social_links.valid_url_required")),
+  socialLinks: z.array(
+    z.object({
+      label: z
+        .string()
+        .min(1, t("i18n.components.modal_edit_social_links.label_required")),
+      link: z
+        .string()
+        .url(t("i18n.components.modal_edit_social_links.valid_url_required")),
+    })
+  ),
 });
 
 const paramsOrgId = useRoute().params.orgId;
@@ -129,20 +134,19 @@ const defaultSocialLinks: SocialLink[] = [
   },
 ];
 
-const formData = ref<SocialLinkFormData[]>([
-  {
-    link: "",
-    label: "",
-    order: 0,
-  },
-]);
-
 const socialLinksRef = ref<
   | OrganizationSocialLink[]
   | GroupSocialLink[]
   | EventSocialLink[]
   | SocialLink[]
 >();
+
+const formData = computed(() => ({
+  socialLinks: socialLinksRef.value.map((socialLink) => ({
+    label: socialLink.label,
+    link: socialLink.link,
+  })),
+}));
 
 if (props.pageType == "organization") {
   await organizationStore.fetchById(orgId);
@@ -160,50 +164,33 @@ if (props.pageType == "organization") {
   socialLinksRef.value = defaultSocialLinks;
 }
 
-function mapSocialLinksToFormData() {
-  formData.value =
-    socialLinksRef.value
-      ?.filter(
-        (socLink) => socLink.link?.trim() !== "" && socLink.label?.trim() !== ""
-      )
-      ?.map((socLink) => ({
-        link: socLink.link,
-        label: socLink.label,
-        order: socLink.order,
-      })) || [];
+interface SocialLinksValue {
+  socialLinks: { link: string; label: string }[];
 }
 
-onMounted(() => {
-  mapSocialLinksToFormData();
-});
-
-async function handleSubmit(values: any) {
-  const updatedFormData: SocialLinkFormData[] = [];
-
-  socialLinksRef.value?.forEach((socLink, index) => {
-    const labelKey = `label-${index}`;
-    const linkKey = `link-${index}`;
-
-    const label = values[labelKey] || "";
-    const link = values[linkKey] || "";
-
-    updatedFormData.push({
-      label: label,
-      link: link,
-      order: socLink.order,
-    });
-  });
+async function handleSubmit(values: unknown) {
+  const socialLinks = socialLinksRef.value?.map((socialLink, index) => ({
+    link: (values as SocialLinksValue).socialLinks[index].link,
+    label: (values as SocialLinksValue).socialLinks[index].label,
+    order: socialLink.order,
+  }));
 
   let updateResponse = false;
   if (props.pageType === "organization") {
     updateResponse = await organizationStore.updateSocialLinks(
       organization,
-      updatedFormData
+      socialLinks as SocialLink[]
     );
   } else if (props.pageType === "group") {
-    updateResponse = await groupStore.updateSocialLinks(group, updatedFormData);
+    updateResponse = await groupStore.updateSocialLinks(
+      group,
+      socialLinks as SocialLink[]
+    );
   } else if (props.pageType === "event") {
-    updateResponse = await eventStore.updateSocialLinks(event, updatedFormData);
+    updateResponse = await eventStore.updateSocialLinks(
+      event,
+      socialLinks as SocialLink[]
+    );
   }
 
   if (updateResponse) {
@@ -233,9 +220,6 @@ async function removeLink(order: number): Promise<void> {
     socialLinksRef.value?.forEach((link, index) => {
       link.order = index;
     });
-
-    // After removing, we can trigger the map update to sync formData.
-    mapSocialLinksToFormData();
   }
 }
 </script>

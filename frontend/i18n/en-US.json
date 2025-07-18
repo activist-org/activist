@@ -268,6 +268,7 @@
   "i18n.components.modal_command_palette.jump_to": "Jump to",
   "i18n.components.modal_edit_faq_entry.answer": "Answer",
   "i18n.components.modal_edit_faq_entry.answer_required": "Answer is required",
+  "i18n.components.modal_edit_faq_entry.edit_entry": "Edit FAQ Entry",
   "i18n.components.modal_edit_faq_entry.question": "Question",
   "i18n.components.modal_edit_faq_entry.question_required": "Question is required",
   "i18n.components.modal_edit_social_links.add_link": "Add link",
