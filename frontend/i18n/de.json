@@ -249,7 +249,6 @@
   "i18n.components.modal_command_palette.jump_to": "Springen zu",
   "i18n.components.modal_edit_faq_entry.answer": "Antwort",
   "i18n.components.modal_edit_faq_entry.question": "Frage",
-  "i18n.components.modal_edit_faq_entry.update_texts_aria_label": "Alle Texte auf der angegebenen Seite aktualisieren",
   "i18n.components.modal_edit_text_event.offer_to_help_link": "Bieten Sie an, beim Link zu helfen",
   "i18n.components.modal_edit_text_group.join_group_link": "Link zum Beitritt zur Gruppe",
   "i18n.components.modal_edit_text_organization.join_organization_link": "Link zum Beitritt zur Organisation",
