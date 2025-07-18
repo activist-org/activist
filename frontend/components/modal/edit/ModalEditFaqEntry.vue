@@ -7,6 +7,9 @@
       :initial-values="formData"
       :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
     >
+      <h2>
+        {{ $t("i18n.components.modal_edit_faq_entry.edit_entry") }}
+      </h2>
       <div class="flex flex-col space-y-7">
         <FormItem
           v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -108,19 +111,18 @@ onMounted(async () => {
   }
 });
 
-async function handleSubmit(values: { question: string; answer: string }) {
+async function handleSubmit(values: unknown) {
   let updateResponse = false;
-  formData.value.question = values.question;
-  formData.value.answer = values.answer;
+
   if (props.pageType === "organization") {
     updateResponse = await organizationStore.updateFaqEntry(
       organization,
-      formData.value
+      values as FaqEntry
     );
   } else if (props.pageType === "group") {
-    updateResponse = await groupStore.updateFaqEntry(group, formData.value);
+    updateResponse = await groupStore.updateFaqEntry(group, values as FaqEntry);
   } else if (props.pageType === "event") {
-    updateResponse = await eventStore.updateFaqEntry(event, formData.value);
+    updateResponse = await eventStore.updateFaqEntry(event, values as FaqEntry);
   }
 
   if (updateResponse) {

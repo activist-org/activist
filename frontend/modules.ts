@@ -2,7 +2,6 @@
 import type { NuxtModule } from "@nuxt/schema";
 
 const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
-  "@nuxt/content",
   "nuxt-icon",
   [
     "nuxt-mail",
