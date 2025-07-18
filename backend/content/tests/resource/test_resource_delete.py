@@ -33,6 +33,7 @@ def test_resource_delete():
     )
 
     assert login_response.status_code == 200
+
     login_body = login_response.json()
     token = login_body["token"]
 

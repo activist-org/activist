@@ -81,9 +81,9 @@ def test_org_faq_update(client: Client) -> None:
 
     # MARK: Update Failure
 
-    bad_uuid = uuid4()
+    bad_faq_uuid = uuid4()
     response = client.put(
-        path=f"/v1/communities/organization_faqs/{bad_uuid}",
+        path=f"/v1/communities/organization_faqs/{bad_faq_uuid}",
         data={
             "id": test_id,
             "question": test_question,
