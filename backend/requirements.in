@@ -16,3 +16,5 @@ gunicorn
 pillow
 psycopg2-binary
 python-dotenv
+pyclamd
+clamd
