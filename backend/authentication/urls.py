@@ -22,4 +22,5 @@ urlpatterns = [
     path(route="delete", view=views.DeleteUserView.as_view(), name="delete"),
     path(route="sign_in", view=views.SignInView.as_view(), name="sign_in"),
     path(route="pwreset", view=views.PasswordResetView.as_view(), name="pwreset"),
+    path(route="get_session", view=views.GetSessionView.as_view(), name="get_session"),
 ]

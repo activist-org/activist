@@ -47,6 +47,26 @@ class SupportFactory(factory.django.DjangoModelFactory):
         "communities.organizations.factories.OrganizationFactory"
     )
 
+    # MARK:Session
+
+    # class SessionFactory(factory.django.DjangoModelFactory):
+    """"
+    Factory for creating Session model instances.
+
+    Notes
+    -----
+    This class generates mock `Session` instances, which are used to track user sessions.
+    It requires a `UserModel` instance to be created or provided.
+    """
+
+    # class Meta:
+    #     model = SessionModel
+
+    # user = factory.SubFactory("authentication.factories.UserFactory")
+    # last_activity = factory.LazyFunction(
+    #     lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    # )
+
 
 # MARK: User
 
