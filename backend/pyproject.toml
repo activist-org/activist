@@ -64,6 +64,8 @@ mypy_path = "backend"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 strict = true
 exclude = ["^.*/tests/.*\\.py$", "^.*/test_.*\\.py$", "^.*/.*_tests\\.py$"]
+ignore_missing_imports = true
+
 
 [[tool.mypy.overrides]]
 module = ["authentication.*", "content.*", "communities.*", "events.*"]

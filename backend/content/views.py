@@ -18,9 +18,9 @@ from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
     ImageSerializer,
-    ResourceFlagSerializer,
     ResourceSerializer,
 )
+
 from core.paginator import CustomPagination
 
 # MARK: Discussion

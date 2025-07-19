@@ -139,6 +139,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             logger.exception("Failed to scan file via microservice due to an unexpected error.")
             raise serializers.ValidationError("An unexpected error occurred during file scanning. Try again later.")
 
+
         status_result = scan_result.get("status", "")
         if status_result != "OK":
             raise serializers.ValidationError(
