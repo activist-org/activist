@@ -91,10 +91,13 @@ const { signIn } = useAuth();
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
-    const session = await signIn({
-      username: userName as string,
-      password: password as string,
-    });
+    const session = await signIn(
+      {
+        username: userName as string,
+        password: password as string,
+      },
+      { callbackUrl: localePath("/home"), external: false }
+    );
     console.log("signInUser", session);
   } catch (error) {
     // Handle authentication errors

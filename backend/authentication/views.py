@@ -140,10 +140,13 @@ class GetSessionView(APIView):
 
         #     serializer = SessionSerializer(session)
         #     return Response(serializer.data, status=status.HTTP_200_OK)
-        data = {"user": {"id": "1", "username": "admin"}, "id": "1"}
+        data = {
+            "user": {"id": "1", "username": "admin", "is_admin": "false"},
+            "id": "1",
+        }
         return Response(
-            {"message": data},
-            status=status.HTTP_501_NOT_IMPLEMENTED,
+            data,
+            status=status.HTTP_200_OK,
         )
 
 
