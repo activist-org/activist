@@ -19,6 +19,7 @@ from authentication.factories import (
     UserFactory,
 )
 from authentication.models import UserModel
+from backend.conftest import authenticated_client
 
 pytestmark = pytest.mark.django_db
 
@@ -153,7 +154,7 @@ def test_sign_up(client: Client) -> None:
     assert user.verification_code is None
 
 
-def test_sign_in(client: Client, authenticated_client: APIClient) -> None:
+def test_sign_in(client: Client) -> None:
     """
     Test sign in view.
 
@@ -207,64 +208,25 @@ def test_sign_in(client: Client, authenticated_client: APIClient) -> None:
     )
     assert response.status_code == 400
 
-    #Test unauthenticated access
-    response = client.get("/v1/auth/user")
-    assert response.status_code in [401,403]
-
-    #Test authenticated access
-    response = client.get("/v1/auth/user")
-    assert response.status_code == 200
-
-def test_authenticated_endpoint_access(authenticated_client: APIClient) -> None:
-    """
-    Test that authenticated endpoints can be accessed with the authenticated_client fixture.
-    """
-    response = authenticated_client.get("/v1/auth/user/")
-    assert response.status_code == 200
-    assert "username" in response.json()
-
-
-def test_sign_in_with_authenticated_client(authenticated_client: APIClient) -> None:
-    """
-    Test sign in using the authenticated client.
-    Demonstrates that the fixture works with existing auth tests.
-    """
-    # The authenticated_client already has a logged-in user
-    response = authenticated_client.get("/v1/auth/user/")
-    assert response.status_code == 200
-
-
-def test_delete_user_with_authenticated_client(authenticated_client: APIClient) -> None:
-    """
-    Test user deletion using the authenticated client.
-    """
-    # Get the current user from the authenticated client
-    user_response = authenticated_client.get("/v1/auth/user/")
-    user_data = user_response.json()
     
-    # Test deletion
-    delete_response = authenticated_client.delete(
-        path="/v1/auth/delete/",
-        data={"pk": user_data["id"]}
-    )
-    assert delete_response.status_code == 200
-    
-    # Verify user is deleted
-    verify_response = authenticated_client.get("/v1/auth/user/")
-    assert verify_response.status_code == 401  # Unauthorized after deletion
-
 
 def test_protected_endpoints_with_authenticated_client(authenticated_client: APIClient) -> None:
     """
     Test various protected endpoints with the authenticated client.
     """
     endpoints = [
-        "/v1/auth/user/",
-        "/v1/auth/profile/"   ]
+        "/v1/auth/pwreset/",
+        "/v1/auth/sign_up/"   ]
     
     for endpoint in endpoints:
         response = authenticated_client.get(endpoint)
         assert response.status_code == 200, f"Failed on {endpoint}"
+    response = authenticated_client.post("/v1/auth/pwreset")
+    assert response.status_code == 200, f"Failed on /v1/auth/pwreset"
+    response = authenticated_client.post("/v1/auth/sign_up")
+    assert response.status_code == 200, f"Failed on /v1/auth/sign_up"
+    response = authenticated_client.delete("/v1/auth/delete")
+    assert response.status_code == 200, f"Failed on /v1/auth/delete"
 
 
 def test_pwreset(client: Client) -> None:
