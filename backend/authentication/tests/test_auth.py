@@ -323,7 +323,7 @@ def test_create_user_and_superuser():
         )
 
 
-def test_delete_user() -> None:
+def test_delete_user(authenticated_client):
     """
     Test the deletion of existing user records from the database.
 
@@ -332,26 +332,5 @@ def test_delete_user() -> None:
     client : APIClient
         An authenticated client.
     """
-    client = APIClient()
-    test_username = "test_user_123"
-    test_pass = "Activist@123!?"
-    user = UserFactory(username=test_username, plaintext_password=test_pass)
-    user.is_confirmed = True
-    user.save()
-
-    # User Login
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_pass},
-    )
-
-    assert login.status_code == 200
-
-    login_body = login.json()
-    token = login_body["token"]
-
-    # User deletes themselves.
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path="/v1/auth/delete")
-
+    response = authenticated_client.delete(path="/v1/auth/delete")
     assert response.status_code == 204
