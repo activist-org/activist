@@ -73,7 +73,9 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from "ofetch";
 import { z } from "zod";
+
 const { t } = useI18n();
 
 const signInSchema = z.object({
@@ -91,18 +93,19 @@ const { signIn } = useAuth();
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
-    const session = await signIn(
+    await signIn(
       {
         username: userName as string,
         password: password as string,
       },
       { callbackUrl: localePath("/home"), external: false }
     );
-    console.log("signInUser", session);
   } catch (error) {
-    // Handle authentication errors
-    console.error("Sign in failed:", error);
-    // Show user-friendly error message
+    if (error instanceof FetchError && error?.response?.status === 400) {
+      alert("Invalid sign in credentials");
+    } else {
+      alert("An error occurred");
+    }
   }
 };
 </script>

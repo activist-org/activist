@@ -189,6 +189,4 @@ export default defineNuxtConfig({
       maxUploadFileRequestInBytes: 5000000,
     },
   },
-
-  compatibilityDate: "2025-07-20",
 });
