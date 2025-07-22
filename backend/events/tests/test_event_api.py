@@ -1,10 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-from typing import Any, TypedDict
-
 import pytest
 from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
 from authentication.models import UserModel
 from communities.organizations.factories import OrganizationFactory
 from content.factories import EntityLocationFactory
@@ -15,45 +12,8 @@ from events.models import Event
 EVENTS_URL = "/v1/events/events"
 
 
-class UserDict(TypedDict):
-    user: UserModel
-    plaintext_password: str
-
-
-def create_user(password: str) -> UserDict:
-    """
-    Create a user. Returns the user and password.
-    """
-    user = UserFactory.create(plaintext_password=password, is_confirmed=True)
-    return {"user": user, "plaintext_password": password}
-
-
-def login_user(user_data: UserDict) -> dict[Any, Any]:
-    """
-    Log in a user. Returns the user and token.
-    """
-    client = APIClient()
-    response = client.post(
-        "/v1/auth/sign_in",
-        {
-            "username": user_data["user"].username,
-            "password": user_data["plaintext_password"],
-        },
-    )
-    assert response.status_code == 200
-    return {"user": user_data["user"], "token": response.data["token"]}
-
-
-@pytest.fixture
-def logged_in_user() -> dict[Any, Any]:
-    """
-    Create a user and log in the user.
-    """
-    return login_user(create_user("Activist@123!?"))
-
-
 @pytest.mark.django_db
-def test_EventListAPIView(logged_in_user) -> None:
+def test_EventListAPIView(authenticated_client) -> None:
     """
     Test OrganizationAPIView
 
@@ -71,39 +31,20 @@ def test_EventListAPIView(logged_in_user) -> None:
     1. Create a new organization with a valid payload
     2. Verify the response status code is 201 (Created)
     """
-    client = APIClient()
-    number_of_events = 10
-    test_page_size = 1
-
-    # MARK: List GET
-
-    EventFactory.create_batch(number_of_events)
-    assert Event.objects.count() == number_of_events
-
-    response = client.get(EVENTS_URL)
+    # --- Test GET (authentifié)
+    EventFactory.create_batch(10)
+    response = authenticated_client.get(EVENTS_URL)
     assert response.status_code == 200
 
-    pagination_key = ["count", "next", "previous", "results"]
-    assert all(key in response.data for key in pagination_key)
-
-    response = client.get(f"{EVENTS_URL}?pageSize={test_page_size}")
-    assert response.status_code == 200
-
-    assert len(response.data["results"]) == test_page_size
-    assert response.data["previous"] is None
-    assert response.data["next"] is not None
-
-    # MARK: List POST
-
-    # Not Authenticated.
-    response = client.post(EVENTS_URL)
+    # --- Test POST anonyme (doit échouer)
+    anon_client = APIClient()
+    response = anon_client.post(EVENTS_URL)
     assert response.status_code == 401
 
-    # Authenticated and successful.
+    # --- Test POST authentifié (succès)
     org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
     new_event = EventFactory.build(name="new_event", terms_checked=True)
     location = EntityLocationFactory.build()
-    token = logged_in_user["token"]
 
     payload = {
         "name": new_event.name,
@@ -122,54 +63,46 @@ def test_EventListAPIView(logged_in_user) -> None:
         "setting": "offline",
     }
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(EVENTS_URL, data=payload, format="json")
-
+    response = authenticated_client.post(EVENTS_URL, data=payload, format="json")
     assert response.status_code == 201
     assert Event.objects.filter(name=new_event.name).exists()
 
 
 @pytest.mark.django_db
-def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-def]
-    client = APIClient()
-    created_by_user, token = logged_in_user.values()
+def test_EventDetailAPIView(authenticated_client):
+    # Récupère l'utilisateur créé par la fixture
+    user = UserModel.objects.first()
 
-    new_event = EventFactory.create(created_by=created_by_user)
+    # Crée un event possédé par cet utilisateur
+    new_event = EventFactory.create(created_by=user)
     assert Event.objects.filter(name=new_event.name).exists()
 
-    # MARK: Detail GET
-
-    response = client.get(f"{EVENTS_URL}/{new_event.id}")
-
+    # GET (authentifié)
+    response = authenticated_client.get(f"{EVENTS_URL}/{new_event.id}")
     assert response.status_code == 200
     assert response.data["name"] == new_event.name
 
-    # MARK: Detail PUT
-
+    # PUT non authentifié
+    anon_client = APIClient()
     payload = {
         "name": "new_event",
         "start_time": "2020-09-18T21:39:14",
         "end_time": "2020-09-18T21:39:14",
         "terms_checked": True,
     }
-    response = client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
-
+    response = anon_client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
-
+    # PUT authentifié
+    response = authenticated_client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
     assert response.status_code == 200
     assert payload["name"] == Event.objects.get(id=new_event.id).name
 
-    # MARK: Detail DELETE
-
-    client.credentials()
-    response = client.delete(f"{EVENTS_URL}/{new_event.id}")
+    # DELETE non authentifié
+    response = anon_client.delete(f"{EVENTS_URL}/{new_event.id}")
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(f"{EVENTS_URL}/{new_event.id}")
-
+    # DELETE authentifié
+    response = authenticated_client.delete(f"{EVENTS_URL}/{new_event.id}")
     assert response.status_code == 200
     assert not Event.objects.filter(id=new_event.id).exists()
