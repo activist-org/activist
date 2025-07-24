@@ -36,6 +36,7 @@ def test_create_faq() -> None:
     faq = Faq.objects.create(
         iso="en", primary=True, question="Question", answer="Answer", order=1
     )
+
     assert faq.id is not None
     assert faq.primary
     assert faq.question is not None
@@ -63,6 +64,7 @@ def test_organization_faq_serializer() -> None:
     )
     serializer = OrganizationFaqSerializer(faq)
     data = serializer.data
+
     assert data["iso"] == "en"
     assert data["primary"]
     assert data["question"] == "Question"
@@ -86,6 +88,7 @@ def test_group_faq_serializer() -> None:
     )
     serializer = GroupFaqSerializer(faq)
     data = serializer.data
+
     assert data["iso"] == "en"
     assert data["primary"]
     assert data["question"] == "Question"
@@ -109,6 +112,7 @@ def test_event_faq_serializer() -> None:
     )
     serializer = EventFaqSerializer(faq)
     data = serializer.data
+
     assert data["iso"] == "en"
     assert data["primary"]
     assert data["question"] == "Question"
@@ -180,8 +184,8 @@ def test_organization_faq_create_view(client: APIClient) -> None:
     num_faqs = 3
     OrganizationFaqFactory.create_batch(num_faqs, org=org)
     assert OrganizationFaq.objects.count() == num_faqs
-    test_id = OrganizationFaq.objects.first().id
 
+    test_id = OrganizationFaq.objects.first().id
     formData = {
         "id": test_id,
         "iso": "en",
@@ -213,8 +217,8 @@ def test_group_faq_create_view(client: APIClient) -> None:
     num_faqs = 3
     GroupFaqFactory.create_batch(num_faqs, group=group)
     assert GroupFaq.objects.count() == num_faqs
-    test_id = GroupFaq.objects.first().id
 
+    test_id = GroupFaq.objects.first().id
     formData = {
         "id": test_id,
         "iso": "en",
@@ -232,7 +236,6 @@ def test_group_faq_create_view(client: APIClient) -> None:
 
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
-
     assert GroupFaq.objects.get(id=test_id).question == "Test Question"
 
 
@@ -246,8 +249,8 @@ def test_event_faq_create_view(client: APIClient) -> None:
     num_faqs = 3
     EventFaqFactory.create_batch(num_faqs, event=event)
     assert EventFaq.objects.count() == num_faqs
-    test_id = EventFaq.objects.first().id
 
+    test_id = EventFaq.objects.first().id
     formData = {
         "id": test_id,
         "iso": "en",
@@ -265,7 +268,6 @@ def test_event_faq_create_view(client: APIClient) -> None:
 
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
-
     assert EventFaq.objects.get(id=test_id).question == "Test Question"
 
 
