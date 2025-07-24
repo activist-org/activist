@@ -396,12 +396,10 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def create(self, request: Request) -> Response:
-        try:
-            group = Group.objects.get(id=request.data.get("group"))
-        except Group.DoesNotExist:
-            return Response(
-                {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
-            )
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        group: Group = serializer.validated_data["group"]
 
         if request.user != group.created_by:
             return Response(
@@ -409,9 +407,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        group.faqs.create(**serializer.validated_data)
+        serializer.save()
 
         return Response(
             {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED

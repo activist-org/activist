@@ -4,6 +4,7 @@ Serializers for groups in the communities app.
 """
 
 from typing import Any
+from uuid import UUID
 
 from rest_framework import serializers
 
@@ -41,6 +42,35 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
     class Meta:
         model = GroupFaq
         fields = "__all__"
+
+    def validate_group(self, value: Group | UUID | str) -> Group:
+        """
+        Validate that the group exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Group instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the group does not exist.
+
+        Returns
+        -------
+        Group
+            The validated Group instance.
+        """
+        if isinstance(value, Group):
+            return value
+
+        try:
+            group = Group.objects.get(id=value)
+        except Group.DoesNotExist:
+            raise serializers.ValidationError("Group not found.")
+
+        return group
 
 
 class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
