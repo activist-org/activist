@@ -109,6 +109,7 @@ def test_sign_up(client: APIClient) -> None:
         },
     )
     user = UserModel.objects.filter(username=username).first()
+
     assert response.status_code == 201
     assert UserModel.objects.filter(username=username)
     # Code for Email confirmation is generated and is a UUID.
@@ -185,6 +186,7 @@ def test_sign_in(client: APIClient) -> None:
         data={"email": user.email, "password": plaintext_password},
     )
     assert response.status_code == 200
+
     # Sign in via username.
     response = client.post(
         path="/v1/auth/sign_in",

@@ -9,20 +9,20 @@ import {
 } from "~/test-utils/constants";
 
 describe("sign-up", () => {
-  it("shows error border on blur when password invalid", async () => {
+  it("shows error border when password invalid", async () => {
     await render(SignUp);
 
-    const inputBorder = screen.getByTestId("sign-up-password-border");
+    const inputBorder = screen.getByTestId("form-item-password-border");
     expect(inputBorder.className).toMatch("border-interactive");
 
-    const passwordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.enter_password")
-    );
-    await fireEvent.update(passwordInput, "a");
-    await fireEvent.blur(passwordInput);
+    const submitButton = screen.getByRole("button", {
+      name: getEnglishText("i18n.components.submit_aria_label"),
+    });
+
+    await fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByTestId("sign-up-password-border").className).toMatch(
+      expect(screen.getByTestId("form-item-password-border").className).toMatch(
         "border-action-red dark:border-action-red"
       );
     });
@@ -30,6 +30,11 @@ describe("sign-up", () => {
 
   it("shows green check when passwords match", async () => {
     await render(SignUp);
+
+    const userName = screen.getByLabelText(
+      getEnglishText("i18n.pages.auth._global.enter_a_user_name")
+    );
+    await fireEvent.update(userName, "testuser");
 
     const passwordInput = screen.getByLabelText(
       getEnglishText("i18n._global.enter_password")
@@ -47,6 +52,7 @@ describe("sign-up", () => {
     let icon = await screen.findByRole("img", {
       name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
     });
+
     expect(icon.style.color).toBe("#BA3D3B");
 
     await fireEvent.update(repeatPasswordInput, "abcd");

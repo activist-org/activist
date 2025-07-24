@@ -2,9 +2,9 @@
 <template>
   <div class="card-style px-5 py-5">
     <div class="flex flex-col gap-3">
-      <label for="feedback" class="responsive-h3 text-left font-display">
+      <h3 for="feedback" class="text-left font-display">
         {{ header }}
-      </label>
+      </h3>
       <p v-if="description">
         {{ description }}
       </p>

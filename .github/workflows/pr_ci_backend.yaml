@@ -28,7 +28,7 @@ jobs:
   backend:
     services:
       postgres:
-        image: postgres:13
+        image: postgres:15
         env:
             POSTGRES_USER: ${{ env.DATABASE_USER }}
             POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}

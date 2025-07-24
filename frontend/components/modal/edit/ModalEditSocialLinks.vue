@@ -1,79 +1,112 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_social_links.social_links")
-        }}</label>
+    <Form
+      @submit="handleSubmit"
+      :schema="schema"
+      :submitLabel="$t('i18n.components.modal_edit_social_links.update_links')"
+      :initialValues="formData"
+    >
+      <div class="flex flex-col space-y-7">
         <div class="flex flex-col space-y-3">
-          <div
-            v-for="(socLink, index) in socialLinksRef"
-            :key="index"
-            class="flex items-center space-x-3"
-          >
-            <IconClose @click="removeLink(socLink.order)" />
-            <!-- Bind to 'socLink.label' -->
-            <input
-              v-model="socLink.label"
-              class="focus-brand w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-              type="text"
-              :placeholder="
-                i18n.t('i18n.components.modal_edit_social_links.new_link_url')
-              "
-            />
-            <!-- Bind to 'socLink.link' -->
-            <input
-              v-model="socLink.link"
-              class="focus-brand w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-              type="text"
-              :placeholder="
-                i18n.t('i18n.components.modal_edit_social_links.new_link_label')
-              "
-            />
+          <h2 for="textarea">
+            {{ $t("i18n.components.modal_edit_social_links.social_links") }}
+          </h2>
+          <div class="flex flex-col space-y-3">
+            <div
+              v-for="(socialLink, index) in socialLinksRef"
+              :key="index"
+              class="flex items-center space-x-5"
+            >
+              <IconClose @click="removeLink(socialLink.order)" />
+              <FormItem
+                v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+                :name="`socialLinks.${index}.label`"
+                :label="
+                  $t('i18n.components.modal_edit_social_links.new_link_label')
+                "
+                :required="true"
+              >
+                <FormTextInput
+                  @blur="handleBlur"
+                  @update:modelValue="handleChange"
+                  :id="id"
+                  :hasError="!!errorMessage.value"
+                  :modelValue="value.value as string"
+                  :label="
+                    $t('i18n.components.modal_edit_social_links.new_link_label')
+                  "
+                />
+              </FormItem>
+              <FormItem
+                v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+                :name="`socialLinks.${index}.link`"
+                :label="
+                  $t('i18n.components.modal_edit_social_links.new_link_url')
+                "
+                :required="true"
+              >
+                <FormTextInput
+                  @blur="handleBlur"
+                  @update:modelValue="handleChange"
+                  :id="id"
+                  :hasError="!!errorMessage.value"
+                  :modelValue="value.value as string"
+                  :label="
+                    $t('i18n.components.modal_edit_social_links.new_link_url')
+                  "
+                />
+              </FormItem>
+            </div>
           </div>
         </div>
+        <div class="flex space-x-2">
+          <BtnAction
+            @click="addNewLink()"
+            :cta="true"
+            label="i18n.components.modal_edit_social_links.add_link"
+            fontSize="base"
+            ariaLabel="i18n.components.modal_edit_social_links.add_link_aria_label"
+          />
+        </div>
       </div>
-      <div class="flex space-x-2">
-        <BtnAction
-          @click="addNewLink()"
-          :cta="true"
-          label="i18n.components.modal_edit_social_links.add_link"
-          fontSize="base"
-          ariaLabel="i18n.components.modal_edit_social_links.add_link_aria_label"
-        />
-        <BtnAction
-          @click="handleSubmit()"
-          :cta="true"
-          label="i18n.components.modal_edit_social_links.update_links"
-          fontSize="base"
-          ariaLabel="i18n.components.modal_edit_social_links.update_links_aria_label"
-        />
-      </div>
-    </div>
+    </Form>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import { z } from "zod";
+
 import type { Group, GroupSocialLink } from "~/types/communities/group";
 import type {
   Organization,
   OrganizationSocialLink,
 } from "~/types/communities/organization";
-import type {
-  SocialLink,
-  SocialLinkFormData,
-} from "~/types/content/social-link";
+import type { SocialLink } from "~/types/content/social-link";
 import type { Event, EventSocialLink } from "~/types/events/event";
 
 const props = defineProps<{
   pageType: "organization" | "group" | "event" | "other";
 }>();
 
-const i18n = useI18n();
+const { t } = useI18n();
 
 const modalName = "ModalEditSocialLinks";
 const { handleCloseModal } = useModalHandlers(modalName);
+
+const schema = z.object({
+  socialLinks: z.array(
+    z.object({
+      label: z
+        .string()
+        .min(1, t("i18n.components.modal_edit_social_links.label_required")),
+      link: z
+        .string()
+        .url(t("i18n.components.modal_edit_social_links.valid_url_required")),
+    })
+  ),
+});
 
 const paramsOrgId = useRoute().params.orgId;
 const paramsGroupId = useRoute().params.groupId;
@@ -101,20 +134,19 @@ const defaultSocialLinks: SocialLink[] = [
   },
 ];
 
-const formData = ref<SocialLinkFormData[]>([
-  {
-    link: "",
-    label: "",
-    order: 0,
-  },
-]);
-
 const socialLinksRef = ref<
   | OrganizationSocialLink[]
   | GroupSocialLink[]
   | EventSocialLink[]
   | SocialLink[]
 >();
+
+const formData = computed(() => ({
+  socialLinks: (socialLinksRef.value || []).map((socialLink) => ({
+    label: socialLink.label,
+    link: socialLink.link,
+  })),
+}));
 
 if (props.pageType == "organization") {
   await organizationStore.fetchById(orgId);
@@ -132,37 +164,33 @@ if (props.pageType == "organization") {
   socialLinksRef.value = defaultSocialLinks;
 }
 
-function mapSocialLinksToFormData() {
-  formData.value =
-    socialLinksRef.value
-      ?.filter(
-        (socLink) => socLink.link?.trim() !== "" && socLink.label?.trim() !== ""
-      )
-      ?.map((socLink) => ({
-        link: socLink.link,
-        label: socLink.label,
-        order: socLink.order,
-      })) || [];
+interface SocialLinksValue {
+  socialLinks: { link: string; label: string }[];
 }
 
-onMounted(() => {
-  mapSocialLinksToFormData();
-});
-
-async function handleSubmit() {
-  // Sync formData with socialLinksRef.
-  mapSocialLinksToFormData();
+async function handleSubmit(values: unknown) {
+  const socialLinks = socialLinksRef.value?.map((socialLink, index) => ({
+    link: (values as SocialLinksValue).socialLinks[index].link,
+    label: (values as SocialLinksValue).socialLinks[index].label,
+    order: socialLink.order,
+  }));
 
   let updateResponse = false;
   if (props.pageType === "organization") {
     updateResponse = await organizationStore.updateSocialLinks(
       organization,
-      formData.value
+      socialLinks as SocialLink[]
     );
   } else if (props.pageType === "group") {
-    updateResponse = await groupStore.updateSocialLinks(group, formData.value);
+    updateResponse = await groupStore.updateSocialLinks(
+      group,
+      socialLinks as SocialLink[]
+    );
   } else if (props.pageType === "event") {
-    updateResponse = await eventStore.updateSocialLinks(event, formData.value);
+    updateResponse = await eventStore.updateSocialLinks(
+      event,
+      socialLinks as SocialLink[]
+    );
   }
 
   if (updateResponse) {
@@ -192,9 +220,6 @@ async function removeLink(order: number): Promise<void> {
     socialLinksRef.value?.forEach((link, index) => {
       link.order = index;
     });
-
-    // After removing, we can trigger the map update to sync formData.
-    mapSocialLinksToFormData();
   }
 }
 </script>

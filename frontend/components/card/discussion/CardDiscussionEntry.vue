@@ -7,9 +7,9 @@
       <!-- Image Logic Not Yet Implemented. For now placeholder image is a circle colored using placeholder colors.-->
       <div class="h-8 w-8 rounded-full bg-distinct-text"></div>
       <div class="flex items-baseline space-x-1">
-        <h1 class="responsive-h5 pl-2 font-bold">
+        <h5 class="pl-2 font-bold">
           {{ discussionEntry.author }}
-        </h1>
+        </h5>
         <p>{{ $t("i18n.components.card_discussion_entry.on") }}</p>
         <p>
           {{ discussionEntry.date.toLocaleDateString() }}

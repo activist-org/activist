@@ -97,7 +97,7 @@
               updateTheVariable((event.target as HTMLTextAreaElement).value)
           "
           ref="textarea"
-          class="focus-brand prose block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text dark:prose-invert"
+          class="focus-brand prose dark:prose-invert block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text"
           rows="3"
         />
         <editor-content

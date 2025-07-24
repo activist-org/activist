@@ -6,7 +6,7 @@
         class="flex gap-3"
         :class="{ 'items-center': !open, 'items-start': open }"
       >
-        <div>
+        <div class="text-primary-text">
           <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
           <Icon v-else :name="IconMap.CHEVRON_DOWN" />
         </div>
@@ -35,7 +35,7 @@
           <DisclosurePanel
             class="mt-2 border-t border-section-div py-2 focus-within:border-0"
           >
-            <p class="select-text text-left text-primary-text">
+            <p class="select-text text-left">
               {{ faqEntry.answer }}
             </p>
           </DisclosurePanel>

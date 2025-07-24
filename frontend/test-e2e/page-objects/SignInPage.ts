@@ -11,7 +11,7 @@ export const newSignInPage = (page: Page) => ({
     getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
   ),
   passwordInput: page.getByLabel(getEnglishText("i18n._global.enter_password")),
-  showPasswordToggle: page.locator("#sign-in-password-show-password"),
+  showPasswordToggle: page.locator("#form-item-password-show-password"),
   captcha: page.locator("#sign-in-captcha"),
 
   // Currently a button but should be a link
@@ -23,6 +23,6 @@ export const newSignInPage = (page: Page) => ({
   }),
 
   signInButton: page.getByRole("button", {
-    name: new RegExp(getEnglishText("i18n._global.sign_in_aria_label"), "i"),
+    name: getEnglishText("i18n.components.submit_aria_label"),
   }),
 });

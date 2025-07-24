@@ -11,6 +11,7 @@
 -r requirements.txt
 
 factory-boy
+i18n-check
 mypy
 pip-tools
 pre-commit
@@ -18,3 +19,4 @@ pytest
 pytest-cov
 pytest-django
 ruff
+ts-backend-check

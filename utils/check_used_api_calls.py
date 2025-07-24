@@ -20,7 +20,7 @@ API_PATTERNS = [
 
 def search_for_api_calls(
     file_path: str, api_pattern: list[Pattern[str]]
-) -> dict | None:
+) -> dict[str, list[str]] | None:
     """
     Searches for API calls in a given file and returns a list of the API calls found.
 
@@ -36,7 +36,7 @@ def search_for_api_calls(
     """
     file_name = os.path.basename(file_path)
 
-    api_calls = {file_name: []}
+    api_calls: dict[str, list[str]] = {file_name: []}
     with open(file_path, "r", encoding="utf-8") as file:
         try:
             for line in file:
@@ -50,7 +50,9 @@ def search_for_api_calls(
     return None if len(api_calls[file_name]) == 0 else api_calls
 
 
-def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) -> list:
+def search_for_api_calls_in_directory(
+    dir_path: pathlib.Path, exclude: None | list[str]
+) -> list[dict[str, list[str]]]:
     """
     Searches for API calls in all files in a given directory and its subdirectories, and returns a list of the API calls found.
 
@@ -64,7 +66,7 @@ def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) 
     list
         A list of the API calls found in the files in the directory and its subdirectories.
     """
-    api_calls = []
+    api_calls: list[dict[str, list[str]]] = []
     for root, dirs, files in os.walk(dir_path, topdown=True):
         if exclude:
             dirs[:] = [d for d in dirs if d not in exclude]
@@ -82,7 +84,7 @@ def search_for_api_calls_in_directory(dir_path: str, exclude: None | list[str]) 
     return api_calls
 
 
-def print_results(results: list[str]) -> None:
+def print_results(results: list[dict[str, list[str]]]) -> None:
     """
     Displays the results of the API call check to the user.
     """

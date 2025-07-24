@@ -9,7 +9,7 @@
         :label="$t('i18n.pages.auth._global.enter_a_user_name')"
         :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
       />
-      <FormPasswordInput
+      <FormTextInputPassword
         @input="handlePasswordInput"
         @blur="isPasswordFocused = false"
         @focus="isPasswordFocused = true"
@@ -20,11 +20,11 @@
         :hasError="showPasswordError.border"
       />
       <IndicatorPasswordStrength :password-value="password" />
-      <TooltipPasswordRequirements
+      <!-- <TooltipPasswordRequirements
         v-if="showPasswordError.tooltip"
         :rules="rules"
-      />
-      <FormPasswordInput
+      /> -->
+      <FormTextInputPassword
         @input="confirmPassword = $event.target.value"
         id="set-password-confirm-password"
         :value="confirmPassword"
@@ -49,7 +49,7 @@
             </title>
           </span>
         </template>
-      </FormPasswordInput>
+      </FormTextInputPassword>
       <div class="pt-4">
         <BtnAction
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
@@ -62,6 +62,7 @@
     </form>
   </div>
 </template>
+
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
@@ -70,8 +71,7 @@ const password = ref("");
 const confirmPassword = ref("");
 const isPasswordFocused = ref(false);
 
-const { rules, isAllRulesValid, checkRules, isPasswordMatch } =
-  usePasswordRules();
+const { isPasswordMatch } = usePasswordRules();
 
 const doPasswordsMatch = computed<boolean>(() =>
   isPasswordMatch(password.value, confirmPassword.value)
@@ -79,7 +79,7 @@ const doPasswordsMatch = computed<boolean>(() =>
 
 const showPasswordError = computed<{ border: boolean; tooltip: boolean }>(
   () => {
-    const error = password.value.length > 0 && !isAllRulesValid.value;
+    const error = password.value.length > 0;
     return {
       border: !isPasswordFocused.value && error,
       tooltip: isPasswordFocused.value && error,
@@ -89,6 +89,6 @@ const showPasswordError = computed<{ border: boolean; tooltip: boolean }>(
 
 const handlePasswordInput = (event: Event & { target: HTMLInputElement }) => {
   password.value = event.target.value;
-  checkRules(event);
+  // checkRules(event);
 };
 </script>

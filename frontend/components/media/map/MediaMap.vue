@@ -9,23 +9,27 @@
 <script setup lang="ts">
 import type { LayerSpecification } from "maplibre-gl";
 
-import { useMap } from "@/composables/useMap";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import type { Location } from "~/types/content/location";
-import type { Event, EventType } from "~/types/events/event";
-
 import { useClusterMap } from "~/composables/useClusterMap";
+import { useMap } from "~/composables/useMap";
+import { usePointerMap } from "~/composables/usePointerMap";
 import { useRouting } from "~/composables/useRoutingMap";
-import { MapType } from "~/types/map";
+import {
+  MapType,
+  type ClusterProperties,
+  type Pointer,
+  type PointerCluster,
+  type PopupContent,
+} from "~/types/map";
 
 const props = defineProps<{
-  eventNames?: string[];
-  eventTypes?: EventType[];
-  eventLocations?: Location[];
-  events?: Event[];
+  pointer?: Pointer;
   type: MapType;
-  ids?: string[];
+  pointers?: PointerCluster[];
+  clusterProperties?: ClusterProperties;
+  clusterTooltipCreate?: (pointer: unknown) => PopupContent;
+  pointerTooltipCreate?: (pointer: Pointer) => PopupContent;
 }>();
 
 const { createMap, isWebglSupported, addDefaultControls } = useMap();
@@ -40,9 +44,6 @@ const { createMapForPointerTypeMap } = usePointerMap();
 const i18n = useI18n();
 const colorMode = useColorMode();
 const { setMapLayers, setMap } = useRouting();
-
-const attendLabelKey = "i18n.components._global.attend";
-const attendLabel = i18n.t(attendLabelKey) as string;
 
 const isTouchDevice =
   // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
@@ -81,7 +82,6 @@ const mapLayers: LayerSpecification[] = [
 ];
 
 // MARK: Map Creation
-
 onMounted(() => {
   if (!isWebglSupported()) {
     alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
@@ -92,22 +92,28 @@ onMounted(() => {
     setMap(map);
 
     if (props.type === MapType.POINT) {
-      createMapForPointerTypeMap(
+      if (!props.pointer) {
+        console.error("Pointer is required for MapType.POINT");
+        return;
+      }
+      const pointer: Pointer = props.pointer;
+      createMapForPointerTypeMap(map, pointer, isTouchDevice);
+    }
+    if (props.type === MapType.CLUSTER) {
+      if (!props.pointers || props.pointers.length === 0) {
+        console.error("Pointers are required for MapType.CLUSTER");
+        return;
+      }
+      const { pointers } = props;
+      createMapForClusterTypeMap(
         map,
-        {
-          name: props.eventNames ? props.eventNames[0] : "",
-          type: props.eventTypes ? props.eventTypes[0] : "learn",
-          location: props.eventLocations
-            ? props.eventLocations[0]
-            : ({} as Location),
-          id: props.ids ? props.ids[0] : "",
-        },
+        pointers || [],
         isTouchDevice,
-        attendLabel
+        props.clusterProperties as ClusterProperties,
+        props?.clusterTooltipCreate as (pointer: unknown) => PopupContent,
+        props?.pointerTooltipCreate as (pointer: unknown) => PopupContent
       );
     }
-    if (props.type === MapType.CLUSTER)
-      createMapForClusterTypeMap(map, props.events || [], isTouchDevice);
   }
 });
 </script>

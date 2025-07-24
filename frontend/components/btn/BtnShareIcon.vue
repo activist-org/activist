@@ -14,11 +14,17 @@
     :native-behavior-options="nativeBehaviorOptions"
   >
     <MetaTagSocialMedia
-      class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
       :iconName="iconName"
       :text="text"
       :iconSize="iconSize"
     />
+    <p
+      v-if="reasonForSuggesting"
+      class="mt-0.5 text-xs italic text-distinct-text"
+      role="note"
+    >
+      {{ reasonForSuggesting }}
+    </p>
   </component>
   <div
     v-else-if="type == 'redirect'"
@@ -43,6 +49,13 @@
       :text="$t('i18n.components.btn_share_icon.url_copied')"
       :iconSize="iconSize"
     />
+    <p
+      v-if="reasonForSuggesting"
+      class="mt-0.5 text-xs italic text-distinct-text"
+      role="note"
+    >
+      {{ reasonForSuggesting }}
+    </p>
   </div>
 </template>
 
@@ -104,6 +117,7 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  reasonForSuggesting: String,
 });
 
 const { t } = useI18n();

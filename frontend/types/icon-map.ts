@@ -51,6 +51,8 @@ export enum IconMap {
   LEGAL = "IconLegal",
   LINK = "bi:link-45deg",
   LIST_ORDERED = "bi:list-ol",
+  CALENDAR_DATE_FILL = "bi:calendar-date-fill",
+  PIN_MAP_FILL = "bi:pin-map-fill",
   LIST_UNORDERED = "bi:list-ul",
   MARKDOWN = "bi:markdown",
   MASTODON = "simple-icons:mastodon",
