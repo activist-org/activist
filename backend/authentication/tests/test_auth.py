@@ -322,7 +322,7 @@ def test_create_user_and_superuser():
             is_superuser=False,
         )
 
-
+@pytest.mark.django_db
 def test_delete_user(authenticated_client):
     """
     Test the deletion of existing user records from the database.
