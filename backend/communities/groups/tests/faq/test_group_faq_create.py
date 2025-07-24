@@ -49,7 +49,7 @@ def test_group_faq_create() -> None:
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
 
@@ -62,14 +62,14 @@ def test_group_faq_create() -> None:
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
-        path="/v1/communities/group_faqs/",
+        path="/v1/communities/group_faqs",
         data={
             "iso": "en",
             "primary": True,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,
-            "groupId": group.id,
+            "group": group.id,
         },
         format="json",
     )
@@ -87,14 +87,18 @@ def test_group_faq_create() -> None:
     # MARK: Update Failure
 
     response = client.post(
-        path="/v1/communities/group_faqs/",
+        path="/v1/communities/group_faqs",
         data={
             "question": "",
             "answer": "",
             "order": test_order,
-            "groupId": group.id,
+            "group": group.id,
         },
         format="json",
     )
+
+    print(
+        f"Response: {response.status_code}, Body: {response.json()}"
+    )  # Debugging output
 
     assert response.status_code == 400

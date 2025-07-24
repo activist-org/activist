@@ -39,10 +39,9 @@ def test_group_faq_update() -> None:
     user.is_staff = True
     user.save()
 
-    group = GroupFactory()
-    group.created_by = user
+    group = GroupFactory(created_by=user)
 
-    faqs = GroupFaqFactory()
+    faqs = GroupFaqFactory(group=group)
     test_id = faqs.id
     test_question = faqs.question
     test_answer = faqs.answer
@@ -63,7 +62,7 @@ def test_group_faq_update() -> None:
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
-        path=f"/v1/communities/group_faqs/{test_id}/",
+        path=f"/v1/communities/group_faqs/{test_id}",
         data={
             "id": test_id,
             "iso": "en",
@@ -75,7 +74,11 @@ def test_group_faq_update() -> None:
         format="json",
     )
 
-    assert response.status_code == 400  # 200
+    print(
+        f"Response: {response.status_code}, Body: {response.json()}"
+    )  # Debugging output
+
+    assert response.status_code == 200
 
     # MARK: Update Failure
 

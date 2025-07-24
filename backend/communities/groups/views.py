@@ -6,7 +6,7 @@ API views for group management.
 
 import json
 import logging
-from typing import List, Tuple, Type, cast
+from typing import List, Tuple, Type
 from uuid import UUID
 
 from django.db import transaction
@@ -397,7 +397,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
 
     def create(self, request: Request) -> Response:
         try:
-            group = Group.objects.get(id=request.data.get("group_id"))
+            group = Group.objects.get(id=request.data.get("group"))
         except Group.DoesNotExist:
             return Response(
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
@@ -412,20 +412,6 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         group.faqs.create(**serializer.validated_data)
-
-        try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                faq_id = cast(UUID | str, data.get("id"))
-                faq = GroupFaq.objects.filter(id=faq_id).first()
-                if not faq:
-                    return Response(
-                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
-                    )
-
-                faq.question = data.get("question", faq.question)
-                faq.answer = data.get("answer", faq.answer)
-                faq.save()
 
         return Response(
             {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
