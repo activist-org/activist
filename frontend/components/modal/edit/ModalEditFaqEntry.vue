@@ -14,7 +14,7 @@
         <FormItem
           v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
           name="question"
-          :label="$t('i18n.components.modal_edit_faq_entry.question')"
+          :label="$t('i18n.components.modal._global.question')"
           :required="true"
         >
           <FormTextArea
@@ -28,7 +28,7 @@
         <FormItem
           v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
           name="answer"
-          :label="$t('i18n.components.modal_edit_faq_entry.answer')"
+          :label="$t('i18n.components.modal._global.answer')"
           :required="true"
         >
           <FormTextArea
@@ -45,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
 import { z } from "zod";
 
 import type { Group } from "~/types/communities/group";
@@ -77,8 +76,6 @@ let organization: Organization;
 let group: Group;
 let event: Event;
 
-const { t } = useI18n();
-
 const formData = ref<FaqEntry>({
   id: props.faqEntry.id,
   iso: props.faqEntry.iso,
@@ -87,13 +84,13 @@ const formData = ref<FaqEntry>({
   answer: "",
 });
 
+const { t } = useI18n();
+
 const schema = z.object({
   question: z
     .string()
-    .min(1, t("i18n.components.modal_edit_faq_entry.question_required")),
-  answer: z
-    .string()
-    .min(1, t("i18n.components.modal_edit_faq_entry.answer_required")),
+    .min(1, t("i18n.components.modal._global.question_required")),
+  answer: z.string().min(1, t("i18n.components.modal._global.answer_required")),
 });
 
 onMounted(async () => {

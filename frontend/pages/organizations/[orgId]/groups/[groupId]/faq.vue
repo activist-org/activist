@@ -12,7 +12,7 @@
     <HeaderAppPageGroup
       :header="group.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
-      :underDevelopment="true"
+      :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnAction
@@ -24,9 +24,9 @@
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n._global.new_faq_aria_label"
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
         />
-        <ModalAddFaqEntry :pageType="'group'" />
+        <ModalAddFaqEntry pageType="group" />
       </div>
     </HeaderAppPageGroup>
     <div v-if="group.faqEntries!.length > 0" class="py-4">

@@ -1,37 +1,52 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal._global.question")
-        }}</label>
-        <textarea
-          v-model="formData.question"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
-        />
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal._global.answer")
-        }}</label>
-        <textarea
-          v-model="formData.answer"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
-        />
+    <Form
+      @submit="handleSubmit"
+      :schema="schema"
+      :initial-values="formData"
+      :submit-label="$t('i18n.components.modal_add_faq_entry.add_faq_entry')"
+    >
+      <h2>
+        {{ $t("i18n._global.new_faq") }}
+      </h2>
+      <div class="flex flex-col space-y-7">
+        <FormItem
+          v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+          name="question"
+          :label="$t('i18n.components.modal._global.question')"
+          :required="true"
+        >
+          <FormTextArea
+            @input="handleChange"
+            @blur="handleBlur"
+            :id="id"
+            :value="value.value"
+            :hasError="!!errorMessage.value"
+          />
+        </FormItem>
+        <FormItem
+          v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+          name="answer"
+          :label="$t('i18n.components.modal._global.answer')"
+          :required="true"
+        >
+          <FormTextArea
+            @input="handleChange"
+            @blur="handleBlur"
+            :id="id"
+            :value="value.value"
+            :hasError="!!errorMessage.value"
+          />
+        </FormItem>
       </div>
-      <BtnAction
-        @click="handleSubmit"
-        :cta="true"
-        label="i18n._global.new_faq"
-        fontSize="sm"
-        ariaLabel="i18n._global.new_faq_aria_label"
-      />
-    </div>
+    </Form>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { z } from "zod";
+
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -68,10 +83,18 @@ const formData = ref<FaqEntry>({
   answer: "",
 });
 
+const { t } = useI18n();
+
+const schema = z.object({
+  question: z
+    .string()
+    .min(1, t("i18n.components.modal._global.question_required")),
+  answer: z.string().min(1, t("i18n.components.modal._global.answer_required")),
+});
+
 if (props.pageType == "organization") {
   await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
-  console.log("organization", organization);
 } else if (props.pageType == "group") {
   await groupStore.fetchById(groupId);
   group = groupStore.group;
