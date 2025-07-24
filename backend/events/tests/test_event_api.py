@@ -31,17 +31,15 @@ def test_EventListAPIView(authenticated_client) -> None:
     1. Create a new organization with a valid payload
     2. Verify the response status code is 201 (Created)
     """
-    # --- Test GET (authentifié)
+   
     EventFactory.create_batch(10)
     response = authenticated_client.get(EVENTS_URL)
     assert response.status_code == 200
 
-    # --- Test POST anonyme (doit échouer)
     anon_client = APIClient()
     response = anon_client.post(EVENTS_URL)
     assert response.status_code == 401
 
-    # --- Test POST authentifié (succès)
     org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
     new_event = EventFactory.build(name="new_event", terms_checked=True)
     location = EntityLocationFactory.build()
@@ -70,19 +68,16 @@ def test_EventListAPIView(authenticated_client) -> None:
 
 @pytest.mark.django_db
 def test_EventDetailAPIView(authenticated_client):
-    # Récupère l'utilisateur créé par la fixture
+    
     user = UserModel.objects.first()
-
-    # Crée un event possédé par cet utilisateur
+ 
     new_event = EventFactory.create(created_by=user)
     assert Event.objects.filter(name=new_event.name).exists()
 
-    # GET (authentifié)
     response = authenticated_client.get(f"{EVENTS_URL}/{new_event.id}")
     assert response.status_code == 200
     assert response.data["name"] == new_event.name
 
-    # PUT non authentifié
     anon_client = APIClient()
     payload = {
         "name": "new_event",
@@ -93,16 +88,13 @@ def test_EventDetailAPIView(authenticated_client):
     response = anon_client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
     assert response.status_code == 401
 
-    # PUT authentifié
     response = authenticated_client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
     assert response.status_code == 200
     assert payload["name"] == Event.objects.get(id=new_event.id).name
 
-    # DELETE non authentifié
     response = anon_client.delete(f"{EVENTS_URL}/{new_event.id}")
     assert response.status_code == 401
 
-    # DELETE authentifié
     response = authenticated_client.delete(f"{EVENTS_URL}/{new_event.id}")
     assert response.status_code == 200
     assert not Event.objects.filter(id=new_event.id).exists()
