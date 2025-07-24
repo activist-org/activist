@@ -15,6 +15,7 @@ interface EventStore {
   events: Event[];
 }
 const { token } = useAuth();
+
 export const useEventStore = defineStore("event", {
   // MARK: Properties
 
@@ -68,8 +69,6 @@ export const useEventStore = defineStore("event", {
 
     async create(formData: EventCreateFormData) {
       this.loading = true;
-
-      const token = localStorage.getItem("accessToken");
 
       const responseEvent = await useFetch(
         `${BASE_BACKEND_URL}/events/events`,
