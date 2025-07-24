@@ -1,9 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex-col">
-    <p class="responsive-h4 font-bold">
+    <h4 class="font-bold">
       {{ $t(headerText) }}
-    </p>
+    </h4>
     <ul v-if="!helpNeeded" class="list-disc space-y-1 pb-1 pl-4 pt-3">
       <li>
         {{ $t("i18n.components.page_community_footer.invite_text_2_1") }}

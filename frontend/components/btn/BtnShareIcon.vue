@@ -14,7 +14,6 @@
     :native-behavior-options="nativeBehaviorOptions"
   >
     <MetaTagSocialMedia
-      class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
       :iconName="iconName"
       :text="text"
       :iconSize="iconSize"

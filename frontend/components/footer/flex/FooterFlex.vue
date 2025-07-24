@@ -10,7 +10,7 @@
           class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
         />
       </div>
-      <p class="mt-3 text-primary-text">
+      <p class="mt-3">
         {{ $t("i18n.components.footer.flex._global.activist_tagline") }}
       </p>
       <!-- Note: Platform Links -->
@@ -65,13 +65,13 @@
       >
         {{ $t("i18n.components.footer.flex._global.powered_by_netlify") }}
       </a>
-      <div class="mt-2 text-primary-text">
+      <p class="mt-2">
         {{
           $t("i18n.components.footer.flex._global.copyright", {
             year: new Date().getFullYear(),
           })
         }}
-      </div>
+      </p>
     </div>
     <!-- Note: Content Sections Right -->
     <div
@@ -79,7 +79,7 @@
     >
       <!-- Note: Connect Links -->
       <div>
-        <p class="text-xl font-medium text-primary-text">
+        <p class="text-xl font-medium">
           {{ $t("i18n.components._global.connect") }}
         </p>
         <template v-for="(connect, index) in links.connectLinks">
@@ -101,12 +101,12 @@
       </div>
       <!-- Note: Resources Links -->
       <div>
-        <p class="text-xl font-medium text-primary-text">
+        <p class="text-xl font-medium">
           {{ $t("i18n._global.resources") }}
         </p>
         <template v-for="(resource, index) in links.resourcesLinks">
           <p
-            class="mt-2 text-base hover:text-primary-text"
+            class="mt-2 text-base text-distinct-text hover:text-primary-text"
             :class="{ 'mt-3': index === 0 }"
           >
             <NuxtLink
@@ -121,12 +121,12 @@
       </div>
       <!-- Note: Organization Links -->
       <div>
-        <p class="text-xl font-medium text-primary-text">
+        <p class="text-xl font-medium">
           {{ $t("i18n._global.organization") }}
         </p>
         <template v-for="(oLink, index) in links.organizationLinks">
           <p
-            class="mt-2 text-base hover:text-primary-text"
+            class="mt-2 text-base text-distinct-text hover:text-primary-text"
             :class="{ 'mt-3': index === 0 }"
           >
             <NuxtLink

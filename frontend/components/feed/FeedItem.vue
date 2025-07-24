@@ -28,9 +28,9 @@
           :name="IconMap.INSTAGRAM"
           size="1.5em"
         />
-        <h4 class="responsive-h5 font-bold">
+        <h5 class="font-bold">
           {{ item.title }}
-        </h4>
+        </h5>
       </div>
       <div
         class="flex h-32 items-center justify-center rounded-md bg-distinct-text"

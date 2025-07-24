@@ -3,12 +3,12 @@
   <ModalBase :modalName="modalName">
     <div>
       <DialogTitle>
-        <p v-if="uploadLimit > 1" class="responsive-h2 font-bold">
+        <h2 v-if="uploadLimit > 1" class="font-bold">
           {{ $t("i18n.components.modal_upload_images.upload_images") }}
-        </p>
-        <p v-else class="responsive-h2 font-bold">
+        </h2>
+        <h2 v-else class="font-bold">
           {{ $t("i18n.components.modal_upload_images.upload_an_image") }}
-        </p>
+        </h2>
       </DialogTitle>
       <div class="mt-4">
         <ModalUploadImagesFileDropZone

@@ -32,6 +32,7 @@ const props = defineProps<{
   id?: string;
   classButton?: string;
   submitLabel?: string;
+  initialValues?: Record<string, unknown>;
 }>();
 
 const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
@@ -39,9 +40,13 @@ const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
 const id = props.id || "form-id";
 const submitId = props.id ? `${props.id}-submit` : "form-submit-id";
 
-const { handleSubmit } = useForm({
+const { handleSubmit, errors } = useForm({
   validationSchema: toTypedSchema(props.schema),
+  initialValues: props.initialValues,
 });
+
+console.log(props.initialValues);
+console.log(errors);
 
 const emit = defineEmits<{
   (e: "submit", values: Record<string, unknown>): void;

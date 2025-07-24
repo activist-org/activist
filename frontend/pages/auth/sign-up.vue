@@ -34,7 +34,7 @@
         name="password"
       >
         <FormTextInputPassword
-          @input="handleChange"
+          @update:modelValue="handleChange"
           @blur="
             () => {
               handleBlur();
@@ -43,6 +43,7 @@
           "
           @focus="isPasswordFieldFocused = true"
           :id="id"
+          :modelValue="passwordRef.value as string"
           :hasError="!!errorMessage.value"
           :label="$t('i18n._global.enter_password')"
         />
@@ -73,9 +74,10 @@
         name="confirmPassword"
       >
         <FormTextInputPassword
-          @input="handleChange"
+          @update:modelValue="handleChange"
           @blur="handleBlur"
           :id="id"
+          :modelValue="confirmPassword.value as string"
           :hasError="!!errorMessage.value"
           :label="$t('i18n._global.repeat_password')"
         >

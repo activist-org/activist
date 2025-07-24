@@ -16,14 +16,19 @@
       {{ label }}
     </label>
     <div
-      class="border-box relative inline-flex select-none items-center text-left text-distinct-text"
+      class="border-box relative inline-flex select-none items-center overflow-hidden text-left text-distinct-text"
     >
       <input
+        @input="
+          (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
+        "
         @focus="shrinkLabel = true"
         @blur="handleBlur"
         :id="id"
-        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text outline-none"
+        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text placeholder-distinct-text outline-none"
         type="text"
+        :placeholder="label"
+        :value="modelValue"
         v-bind="$attrs"
       />
       <span v-if="$slots.icons" class="flex items-center gap-2 px-[10px]">
@@ -63,14 +68,19 @@ defineOptions({
 export interface Props {
   id: string;
   label: string;
+  modelValue?: string;
   hasError?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: "",
   hasError: false,
 });
 
-const shrinkLabel = ref<boolean>(false);
+const emit = defineEmits<{
+  (e: "update:modelValue", value: string): void;
+}>();
+const shrinkLabel = ref<boolean>(!!props.modelValue);
 
 const handleBlur = (event: FocusEvent) => {
   const target = event.target as HTMLInputElement | null;
@@ -78,4 +88,12 @@ const handleBlur = (event: FocusEvent) => {
     shrinkLabel.value = false;
   }
 };
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    console.log("Model value changed:", value);
+    shrinkLabel.value = !!value;
+  }
+);
 </script>

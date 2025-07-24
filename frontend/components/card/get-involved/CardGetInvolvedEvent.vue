@@ -2,7 +2,7 @@
 <template>
   <CardGetInvolved>
     <div class="flex items-center gap-5">
-      <h3 class="responsive-h3 text-left font-display">
+      <h3 class="text-left font-display">
         {{ $t("i18n.components._global.participate") }}
       </h3>
       <IconEdit

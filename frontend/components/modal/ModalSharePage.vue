@@ -4,14 +4,14 @@
   <ModalBase :modalName="modalName">
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
-        <p class="responsive-h2 font-bold">
+        <h2 class="font-bold">
           {{ $t("i18n.components.modal_share_page.header") }}
-        </p>
+        </h2>
       </DialogTitle>
       <div class="pt-6">
-        <p class="responsive-h4 font-bold">
+        <h4 class="font-bold">
           {{ $t("i18n.components.modal_share_page.suggested") }}
-        </p>
+        </h4>
         <div
           class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8"
         >
@@ -135,9 +135,9 @@
         </div>
       </div>
       <div class="pt-12">
-        <p class="responsive-h4 font-bold">
+        <h4 class="font-bold">
           {{ $t("i18n.components.modal_share_page.other") }}
-        </p>
+        </h4>
         <div
           class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
         >
