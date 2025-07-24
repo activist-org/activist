@@ -5,10 +5,15 @@ export const useUser = () => {
   const userIsSignedIn = !!data.value;
   const userIsAdmin = data.value?.user?.isAdmin === "true";
   const roles: unknown[] = [];
+  const signOutUser = () => {
+    const { signOut } = useAuth();
+    signOut();
+  };
 
   return {
     userIsSignedIn,
     userIsAdmin,
     roles,
+    signOutUser,
   };
 };
