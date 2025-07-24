@@ -98,7 +98,7 @@ const signInUser = async (values: Record<string, unknown>) => {
         username: userName as string,
         password: password as string,
       },
-      { callbackUrl: localePath("/home"), external: false }
+      { callbackUrl: "/home", external: false }
     );
   } catch (error) {
     if (error instanceof FetchError && error?.response?.status === 400) {

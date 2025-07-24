@@ -88,7 +88,7 @@ export const useEventStore = defineStore("event", {
             acceptance_date: new Date(),
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
