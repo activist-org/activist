@@ -359,6 +359,7 @@ class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     def get(self, request: Request, id: str | UUID) -> Response:
         try:
             flag = OrganizationFlag.objects.get(id=id)
+
         except OrganizationFlag.DoesNotExist:
             return Response(
                 {"detail": "Failed to retrieve the flag."},
@@ -366,6 +367,7 @@ class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
             )
 
         self.check_object_permissions(request, flag)
+
         serializer = OrganizationFlagSerializer(flag)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -384,6 +386,7 @@ class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     def delete(self, request: Request, id: str | UUID) -> Response:
         try:
             flag = OrganizationFlag.objects.get(id=id)
+
         except OrganizationFlag.DoesNotExist:
             return Response(
                 {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND

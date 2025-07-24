@@ -252,6 +252,7 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
     def get(self, request: Request, id: UUID | str) -> Response:
         try:
             flag = EventFlag.objects.get(id=id)
+
         except EventFlag.DoesNotExist:
             return Response(
                 {"detail": "Failed to retrieve the flag."},
@@ -259,6 +260,7 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
             )
 
         self.check_object_permissions(request, flag)
+
         serializer = EventFlagSerializers(flag)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -277,12 +279,14 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
     def delete(self, request: Request, id: UUID | str) -> Response:
         try:
             flag = EventFlag.objects.get(id=id)
+
         except EventFlag.DoesNotExist:
             return Response(
                 {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         self.check_object_permissions(request, flag)
+
         flag.delete()
         return Response(
             {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT

@@ -358,6 +358,7 @@ class ResourceFlagDetailAPIView(GenericAPIView[ResourceFlag]):
     def get(self, request: Request, id: str | UUID) -> Response:
         try:
             flag = ResourceFlag.objects.get(id=id)
+
         except ResourceFlag.DoesNotExist:
             return Response(
                 {"detail": "Failed to retrieve the flag."},
@@ -365,6 +366,7 @@ class ResourceFlagDetailAPIView(GenericAPIView[ResourceFlag]):
             )
 
         self.check_object_permissions(request, flag)
+
         serializer = ResourceFlagSerializer(flag)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -383,12 +385,14 @@ class ResourceFlagDetailAPIView(GenericAPIView[ResourceFlag]):
     def delete(self, request: Request, id: UUID | str) -> Response:
         try:
             flag = ResourceFlag.objects.get(id=id)
+
         except ResourceFlag.DoesNotExist:
             return Response(
                 {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         self.check_object_permissions(request, flag)
+
         flag.delete()
         return Response(
             {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT

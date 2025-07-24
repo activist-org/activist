@@ -128,6 +128,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
     def get(self, request: Request, id: str | UUID) -> Response:
         try:
             group = Group.objects.get(id=id)
+
         except Group.DoesNotExist:
             return Response(
                 {"detail": "Failed to retrieve the group."},
@@ -161,6 +162,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 
         try:
             group = Group.objects.get(id=id)
+
         except Group.DoesNotExist:
             return Response(
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
@@ -196,12 +198,14 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 
         try:
             group = Group.objects.select_related("created_by").get(id=id)
+
         except Group.DoesNotExist:
             return Response(
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         self.check_object_permissions(request, group)
+
         group.delete()
 
         return Response(
@@ -270,6 +274,7 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     def get(self, request: Request, id: str | UUID) -> Response:
         try:
             flag = GroupFlag.objects.get(id=id)
+
         except GroupFlag.DoesNotExist:
             return Response(
                 {"detail": "Failed to retrieve the flag."},
@@ -277,6 +282,7 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
             )
 
         self.check_object_permissions(request, flag)
+
         serializer = GroupFlagSerializer(flag)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -295,12 +301,14 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     def delete(self, request: Request, id: str | UUID) -> Response:
         try:
             flag = GroupFlag.objects.get(id=id)
+
         except GroupFlag.DoesNotExist:
             return Response(
                 {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         self.check_object_permissions(request, flag)
+
         flag.delete()
 
         return Response(

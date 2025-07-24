@@ -298,6 +298,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
                 {"detail": "Failed to retrieve the flag."},
                 status=status.HTTP_404_NOT_FOUND,
             )
+
         self.check_object_permissions(request, flag)
 
         serializer = UserFlagSerializers(flag)
@@ -318,6 +319,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
     def delete(self, request: Request, id: str | uuid.UUID) -> Response:
         try:
             flag = UserFlag.objects.get(id=id)
+
         except UserFlag.DoesNotExist:
             return Response(
                 {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
