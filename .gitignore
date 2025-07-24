@@ -72,3 +72,6 @@ backend/media/images/*
 
 # ZAP Security Reports
 zap-reports/
+
+# Heric docs
+mdocs/
