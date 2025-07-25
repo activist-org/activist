@@ -124,8 +124,7 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
 
     await page.waitForURL("**/home");
     expect(page.url()).toContain("/home");
-
-    // should be redirected to the home page AND sidebar left should have create button
+    // Should be redirected to the home page AND sidebar left should have create button.
   });
 
   test("Page shows error for invalid credentials", async ({ page }) => {
@@ -154,7 +153,7 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
     const cookies = await page.context().cookies();
     const sessionCookie = cookies.find((c) => c.name === "auth.token");
     expect(sessionCookie).toBeDefined();
-    // should be redirected to the home page AND sidebar left should have create button
+    // Should be redirected to the home page AND sidebar left should have create button.
   });
 
   test.fail(
