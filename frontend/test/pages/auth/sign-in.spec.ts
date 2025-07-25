@@ -18,7 +18,7 @@
 //   handler: signInMock,
 // });
 /**
- * *NOTE: This test is currently disabled because it authentication is handled by @sidebase/nuxt-auth
+ * *NOTE: This test is currently disabled because authentication is handled by @sidebase/nuxt-auth
  * * and I have moved parts of the test to playwright tests.
  * * This test will be re-enabled once I have a better understanding of how to test the authentication flow with @sidebase/nuxt-auth in vitest.
  */
