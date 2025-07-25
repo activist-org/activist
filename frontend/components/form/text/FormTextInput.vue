@@ -27,7 +27,7 @@
         :id="id"
         class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text placeholder-distinct-text outline-none"
         type="text"
-        :placeholder="label"
+        :placeholder="shrinkLabel ? '' : label"
         :value="modelValue"
         v-bind="$attrs"
       />

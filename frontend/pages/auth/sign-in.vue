@@ -9,13 +9,14 @@
       submit-label="i18n._global.sign_in"
     >
       <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage }"
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="userName"
       >
         <FormTextInput
           @input="handleChange"
           @blur="handleBlur"
           :id="id"
+          :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth.sign_in.enter_user_name')"
         />
@@ -29,6 +30,7 @@
             @input="handleChange"
             @blur="handleBlur"
             :id="id"
+            :modelValue="value.value as string"
             :hasError="!!errorMessage.value"
             :label="$t('i18n._global.enter_password')"
           />

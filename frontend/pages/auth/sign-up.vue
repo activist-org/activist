@@ -9,13 +9,14 @@
       class="space-y-4"
     >
       <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage }"
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="userName"
       >
         <FormTextInput
           @input="handleChange"
           @blur="handleBlur"
           :id="id"
+          :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth._global.enter_a_user_name')"
           :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
