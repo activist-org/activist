@@ -9,13 +9,14 @@
       submit-label="i18n._global.sign_in"
     >
       <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage }"
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="userName"
       >
         <FormTextInput
           @input="handleChange"
           @blur="handleBlur"
           :id="id"
+          :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth.sign_in.enter_user_name')"
         />
@@ -29,6 +30,7 @@
             @input="handleChange"
             @blur="handleBlur"
             :id="id"
+            :modelValue="value.value as string"
             :hasError="!!errorMessage.value"
             :label="$t('i18n._global.enter_password')"
           />
@@ -73,6 +75,7 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from "ofetch";
 import { z } from "zod";
 
 const { t } = useI18n();
@@ -90,7 +93,21 @@ const hovered = ref(false);
 const { signIn } = useAuth();
 
 const signInUser = async (values: Record<string, unknown>) => {
-  const { userName, password } = values;
-  await signIn(userName as string, password as string);
+  try {
+    const { userName, password } = values;
+    await signIn(
+      {
+        username: userName as string,
+        password: password as string,
+      },
+      { callbackUrl: "/home", external: false }
+    );
+  } catch (error) {
+    if (error instanceof FetchError && error?.response?.status === 400) {
+      alert("Invalid sign in credentials");
+    } else {
+      alert("An error occurred");
+    }
+  }
 };
 </script>

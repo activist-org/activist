@@ -23,4 +23,5 @@ urlpatterns = [
         route="user_flag/<uuid:id>",
         view=views.UserFlagDetailAPIView.as_view(),
     ),
+    path(route="get_session", view=views.GetSessionView.as_view(), name="get_session"),
 ]

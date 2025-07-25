@@ -46,8 +46,8 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :id="id"
-          :hasError="!!errorMessage.value"
           :modelValue="value.value as string"
+          :hasError="!!errorMessage.value"
           :label="
             $t('i18n.components.modal_edit_text_event.offer_to_help_link_label')
           "

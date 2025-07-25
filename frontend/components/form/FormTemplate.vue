@@ -2,7 +2,7 @@
 <template>
   <Form @submit="onSubmit" :schema="schema">
     <FormItem
-      v-slot="{ id, handleChange, handleBlur, errorMessage }"
+      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
       name="name"
       label="Name"
       :required="true"
@@ -11,6 +11,7 @@
         @input="handleChange"
         @blur="handleBlur"
         :id="id"
+        :modelValue="value.value as string"
         :hasError="!!errorMessage.value"
         :label="'Name'"
       />

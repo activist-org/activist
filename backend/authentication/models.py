@@ -162,6 +162,28 @@ class Support(models.Model):
         return str(self.id)
 
 
+# MARK: Session
+
+
+class SessionModel(models.Model):
+    """
+    Represents a user session.
+
+    Notes
+    -----
+    This model is used to track user sessions for authentication and activity logging.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    session_key = models.CharField(max_length=40, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_activity = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"Session {self.id} for {self.user.username}"
+
+
 # MARK: User
 
 
