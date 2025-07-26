@@ -5,6 +5,7 @@
     :id="id"
     :label="label"
     :modelValue="localValue"
+    iconLocation="left"
   >
     <template #icons>
       <slot name="icons"></slot>

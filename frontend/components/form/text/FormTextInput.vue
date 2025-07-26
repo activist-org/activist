@@ -9,7 +9,10 @@
       class="z-1 absolute"
       :class="{
         'translate-x-4 text-sm text-distinct-text': shrinkLabel,
-        'translate-y-[1.125rem] pl-[12px]': !shrinkLabel,
+        'translate-y-[1.125rem] pl-[12px]':
+          !shrinkLabel && iconLocation === 'right',
+        'translate-y-[1.125rem] pl-[3.4rem]':
+          !shrinkLabel && iconLocation === 'left',
       }"
       :for="id"
     >
@@ -18,6 +21,12 @@
     <div
       class="border-box relative inline-flex select-none items-center overflow-hidden text-left text-distinct-text"
     >
+      <span
+        v-if="$slots.icons && iconLocation === 'left'"
+        class="flex items-center gap-2 px-[10px]"
+      >
+        <slot name="icons"></slot>
+      </span>
       <input
         @input="
           (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
@@ -31,7 +40,10 @@
         :value="modelValue"
         v-bind="$attrs"
       />
-      <span v-if="$slots.icons" class="flex items-center gap-2 px-[10px]">
+      <span
+        v-if="$slots.icons && iconLocation === 'right'"
+        class="flex items-center gap-2 px-[10px]"
+      >
         <slot name="icons"></slot>
       </span>
 
@@ -70,11 +82,13 @@ export interface Props {
   label: string;
   modelValue?: string;
   hasError?: boolean;
+  iconLocation?: "left" | "right";
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: "",
   hasError: false,
+  iconLocation: "right",
 });
 
 const emit = defineEmits<{
@@ -88,7 +102,7 @@ const handleBlur = (event: FocusEvent) => {
     shrinkLabel.value = false;
   }
 };
-
+console.log(shrinkLabel.value, props.modelValue);
 watch(
   () => props.modelValue,
   (value) => {
