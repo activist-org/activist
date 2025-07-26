@@ -32,16 +32,17 @@
       class="topicInput elem-shadow-sm focus-brand w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
-      <ShieldTopic
+      <Shield
         v-for="t of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="keydownEvent($event)"
         :key="t.value"
-        :topic="t.label"
+        :label="t.label"
         class="topic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
+        :icon="IconMap.GLOBE"
       />
     </ul>
     <ul
@@ -50,19 +51,20 @@
         'pb-2': moreOptionsShown || inputFocus || filteredTopics.length,
       }"
     >
-      <ShieldTopic
+      <Shield
         v-if="moreOptionsShown || inputFocus"
         v-for="t of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="mobileKeyboardEvent($event)"
         :key="t.value + '-selected-only'"
-        :topic="t.label"
+        :label="t.label"
         class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
+        :icon="IconMap.GLOBE"
       />
-      <ShieldTopic
+      <Shield
         v-else
         v-for="t of selectedTopicTags.sort((a, b) =>
           a.value.localeCompare(b.value)
@@ -71,10 +73,11 @@
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="mobileKeyboardEvent($event)"
         :key="t.value"
-        :topic="t.label"
+        :label="t.label"
         class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
+        :icon="IconMap.GLOBE"
       />
     </ul>
     <button
@@ -98,6 +101,7 @@
 <script setup lang="ts">
 import type { Topic, TopicsTag } from "~/types/topics";
 
+import { IconMap } from "~/types/icon-map";
 import { GLOBAL_TOPICS } from "~/types/topics";
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({

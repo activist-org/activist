@@ -110,6 +110,9 @@ MARK: Base
   /*
   MARK: Text Color
   */
+  .primary-text {
+    @apply text-primary-text;
+  }
 
   .distinct-text {
     @apply text-distinct-text;
@@ -181,6 +184,10 @@ MARK: Base
       @apply text-layer-1;
     }
   }
+
+  /*
+  MARK: Collapsable
+  */
 
   /*
   MARK: Cards
