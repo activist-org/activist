@@ -335,6 +335,7 @@ def test_delete_user() -> None:
         An authenticated client.
     """
     client = APIClient()
+
     test_username = "test_user_123"
     test_pass = "Activist@123!?"
     user = UserFactory(username=test_username, plaintext_password=test_pass)

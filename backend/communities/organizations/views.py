@@ -5,7 +5,8 @@ API views for organization management.
 """
 
 import json
-from typing import Dict, List, cast
+import logging
+from typing import Dict, List
 from uuid import UUID
 
 from django.db import transaction
@@ -44,6 +45,8 @@ from content.models import Image, Location
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
+
+logger = logging.getLogger("django")
 
 # MARK: Organization
 
@@ -403,6 +406,55 @@ class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
 # MARK: Bridge Tables
 
 
+class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
+    queryset = OrganizationFaq.objects.all()
+    serializer_class = OrganizationFaqSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create FAQs for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = OrganizationFaq.objects.get(id=pk)
+
+        except OrganizationFaq.DoesNotExist:
+            return Response(
+                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.org.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
 class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
     queryset = OrganizationSocialLink.objects.all()
     serializer_class = OrganizationSocialLinkSerializer
@@ -443,46 +495,6 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
         except Exception as e:
             return Response(
                 {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-
-class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
-    queryset = OrganizationFaq.objects.all()
-    serializer_class = OrganizationFaqSerializer
-
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        org = Organization.objects.filter(id=pk).first()
-        if not org:
-            return Response(
-                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
-        try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                faq_id = cast(UUID | str, data.get("id"))
-                faq = OrganizationFaq.objects.filter(id=faq_id).first()
-                if not faq:
-                    return Response(
-                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
-                    )
-
-                faq.question = data.get("question", faq.question)
-                faq.answer = data.get("answer", faq.answer)
-                faq.save()
-
-            return Response(
-                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
-            )
-
-        except Exception as e:
-            return Response(
-                {"detail": f"Failed to update faqs: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

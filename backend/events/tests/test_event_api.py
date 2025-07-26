@@ -33,6 +33,7 @@ def login_user(user_data: UserDict) -> dict[Any, Any]:
     Log in a user. Returns the user and token.
     """
     client = APIClient()
+
     response = client.post(
         "/v1/auth/sign_in",
         {
@@ -72,6 +73,7 @@ def test_EventListAPIView(logged_in_user) -> None:
     2. Verify the response status code is 201 (Created)
     """
     client = APIClient()
+
     number_of_events = 10
     test_page_size = 1
 
@@ -132,6 +134,7 @@ def test_EventListAPIView(logged_in_user) -> None:
 @pytest.mark.django_db
 def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-def]
     client = APIClient()
+
     created_by_user, token = logged_in_user.values()
 
     new_event = EventFactory.create(created_by=created_by_user)

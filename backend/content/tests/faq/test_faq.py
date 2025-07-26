@@ -11,6 +11,7 @@ from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupFaqFactory
 from communities.groups.models import GroupFaq
 from communities.groups.serializers import GroupFaqSerializer
@@ -175,29 +176,54 @@ def test_event_faq_list_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_organization_faq_create_view(client: APIClient) -> None:
+def test_organization_faq_create_view() -> None:
     """
     Test the creation of FAQs for an organization.
     The API uses PUT method instead of POST.
     """
-    org = OrganizationFactory()
+    client = APIClient()
+
+    test_username = "test_user"
+    test_password = "test_password"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    org = OrganizationFactory(created_by=user)
+
     num_faqs = 3
     OrganizationFaqFactory.create_batch(num_faqs, org=org)
     assert OrganizationFaq.objects.count() == num_faqs
 
     test_id = OrganizationFaq.objects.first().id
-    formData = {
-        "id": test_id,
-        "iso": "en",
-        "primary": True,
-        "question": "Test Question",
-        "answer": "Answer",
-        "order": 1,
-    }
+
+    # Login to get token.
+    login_response = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
+    )
+
+    assert login_response.status_code == 200
+
+    # MARK: Update Success
+
+    login_body = login_response.json()
+    token = login_body["token"]
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     response = client.put(
-        f"/v1/communities/organization_faqs/{org.id}",
-        formData,
+        path=f"/v1/communities/organization_faqs/{test_id}",
+        data={
+            "id": test_id,
+            "iso": "en",
+            "primary": True,
+            "question": "Test Question",
+            "answer": "Answer",
+            "order": 1,
+        },
         content_type="application/json",
     )
 
@@ -208,29 +234,54 @@ def test_organization_faq_create_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_group_faq_create_view(client: APIClient) -> None:
+def test_group_faq_create_view() -> None:
     """
     Test the creation of FAQs for a group.
     The API uses PUT method instead of POST.
     """
-    group = GroupFactory()
+    client = APIClient()
+
+    test_username = "test_user"
+    test_password = "test_password"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    group = GroupFactory(created_by=user)
+
     num_faqs = 3
     GroupFaqFactory.create_batch(num_faqs, group=group)
     assert GroupFaq.objects.count() == num_faqs
 
     test_id = GroupFaq.objects.first().id
-    formData = {
-        "id": test_id,
-        "iso": "en",
-        "primary": True,
-        "question": "Test Question",
-        "answer": "Answer",
-        "order": 1,
-    }
+
+    # Login to get token.
+    login_response = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
+    )
+
+    assert login_response.status_code == 200
+
+    # MARK: Update Success
+
+    login_body = login_response.json()
+    token = login_body["token"]
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     response = client.put(
-        f"/v1/communities/group_faqs/{group.id}",
-        formData,
+        path=f"/v1/communities/group_faqs/{test_id}",
+        data={
+            "id": test_id,
+            "iso": "en",
+            "primary": True,
+            "question": "Test Question",
+            "answer": "Answer",
+            "order": 1,
+        },
         content_type="application/json",
     )
 
@@ -240,29 +291,54 @@ def test_group_faq_create_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_event_faq_create_view(client: APIClient) -> None:
+def test_event_faq_create_view() -> None:
     """
     Test the creation of FAQs for an event.
     The API uses PUT method instead of POST.
     """
-    event = EventFactory()
+    client = APIClient()
+
+    test_username = "test_user"
+    test_password = "test_password"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    event = EventFactory(created_by=user)
+
     num_faqs = 3
     EventFaqFactory.create_batch(num_faqs, event=event)
     assert EventFaq.objects.count() == num_faqs
 
     test_id = EventFaq.objects.first().id
-    formData = {
-        "id": test_id,
-        "iso": "en",
-        "primary": True,
-        "question": "Test Question",
-        "answer": "Answer",
-        "order": 1,
-    }
+
+    # Login to get token.
+    login_response = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
+    )
+
+    assert login_response.status_code == 200
+
+    # MARK: Update Success
+
+    login_body = login_response.json()
+    token = login_body["token"]
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     response = client.put(
-        f"/v1/events/event_faqs/{event.id}",
-        formData,
+        path=f"/v1/events/event_faqs/{test_id}",
+        data={
+            "id": test_id,
+            "iso": "en",
+            "primary": True,
+            "question": "Test Question",
+            "answer": "Answer",
+            "order": 1,
+        },
         content_type="application/json",
     )
 

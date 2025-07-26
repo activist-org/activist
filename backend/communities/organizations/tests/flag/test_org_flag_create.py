@@ -13,6 +13,7 @@ def test_org_flag_create():
     Test to create a flag for an organization.
     """
     client = APIClient()
+
     test_username = "test_user"
     test_pass = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_pass)
@@ -46,6 +47,7 @@ def test_org_flag_create_error():
     Test to create a flag for an organization as an unauthorized user.
     """
     client = APIClient()
+
     test_username = "test_user"
     test_pass = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_pass)
