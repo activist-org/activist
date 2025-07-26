@@ -14,6 +14,7 @@ interface EventStore {
   event: Event;
   events: Event[];
 }
+const { token } = useAuth();
 
 export const useEventStore = defineStore("event", {
   // MARK: Properties
@@ -69,8 +70,6 @@ export const useEventStore = defineStore("event", {
     async create(formData: EventCreateFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
       const responseEvent = await useFetch(
         `${BASE_BACKEND_URL}/events/events`,
         {
@@ -88,7 +87,7 @@ export const useEventStore = defineStore("event", {
             acceptance_date: new Date(),
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -108,7 +107,6 @@ export const useEventStore = defineStore("event", {
 
     async fetchById(id: string | undefined) {
       this.loading = true;
-
       const { data, status } = await useAsyncData<EventResponse>(
         async () =>
           (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
@@ -187,8 +185,6 @@ export const useEventStore = defineStore("event", {
     async updateTexts(event: Event, formData: EventUpdateTextFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
       const responseEvent = await $fetch(
         BASE_BACKEND_URL + `/events/events/${event.id}`,
         {
@@ -198,7 +194,7 @@ export const useEventStore = defineStore("event", {
             getInvolvedUrl: formData.getInvolvedUrl,
           },
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -216,7 +212,7 @@ export const useEventStore = defineStore("event", {
             iso: "en",
           },
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -240,8 +236,6 @@ export const useEventStore = defineStore("event", {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
-
       // Endpoint needs socialLink id's but they are not available here.
       // 'update()' in the viewset 'class EventSocialLinkViewSet' handles this
       // by using the event.id from the end of the URL.
@@ -258,7 +252,7 @@ export const useEventStore = defineStore("event", {
             }))
           ),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -331,8 +325,6 @@ export const useEventStore = defineStore("event", {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
-
       const responseFaqEntries = await useFetch(
         `${BASE_BACKEND_URL}/events/event_faqs/${formData.id}/`,
         {
@@ -343,7 +335,7 @@ export const useEventStore = defineStore("event", {
             answer: formData.answer,
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );

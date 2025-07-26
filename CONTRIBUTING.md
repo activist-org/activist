@@ -196,7 +196,7 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a virtual environment for the backend, activate it and install dependencies:
+4. Create a virtual environment for the backend (Python `>=3.11`), activate it and install dependencies:
 
     ```bash
     # Unix or MacOS:

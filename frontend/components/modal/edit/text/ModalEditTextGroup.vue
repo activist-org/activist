@@ -46,8 +46,8 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :id="id"
-          :hasError="!!errorMessage.value"
           :modelValue="value.value as string"
+          :hasError="!!errorMessage.value"
           :label="$t('i18n.components.modal.edit.text._global.remember_https')"
         />
       </FormItem>

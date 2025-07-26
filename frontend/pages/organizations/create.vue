@@ -31,7 +31,7 @@
         <div class="card-style flex justify-between gap-6 px-5 py-6">
           <div class="w-1/2">
             <FormItem
-              v-slot="{ id, handleChange, handleBlur, errorMessage }"
+              v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
               :label="$t('i18n._global.organization_name')"
               name="name"
               :required="true"
@@ -40,6 +40,7 @@
                 @input="handleChange"
                 @blur="handleBlur"
                 :id="id"
+                :modelValue="value.value as string"
                 :hasError="!!errorMessage.value"
                 :label="
                   $t(
@@ -52,7 +53,7 @@
 
           <div class="w-1/2">
             <FormItem
-              v-slot="{ id, handleChange, handleBlur, errorMessage }"
+              v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
               :label="$t('i18n.pages._global.create.location')"
               name="location"
               :required="true"
@@ -61,6 +62,7 @@
                 @input="handleChange"
                 @blur="handleBlur"
                 :id="id"
+                :modelValue="value.value as string"
                 :hasError="!!errorMessage.value"
                 :label="
                   $t('i18n.pages.organizations.create.location_placeholder')
@@ -93,7 +95,7 @@
         <!-- Tagline card -->
         <div class="card-style mt-5 px-5 py-6">
           <FormItem
-            v-slot="{ id, handleChange, handleBlur, errorMessage }"
+            v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
             :label="$t('i18n.pages._global.create.tagline')"
             name="tagline"
           >
@@ -101,6 +103,7 @@
               @input="handleChange"
               @blur="handleBlur"
               :id="id"
+              :modelValue="value.value as string"
               :hasError="!!errorMessage.value"
               :label="$t('i18n.pages.organizations.create.tagline_placeholder')"
             />

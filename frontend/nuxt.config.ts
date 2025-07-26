@@ -13,7 +13,42 @@ export default defineNuxtConfig({
   app: {
     head,
   },
-
+  auth: {
+    baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
+    provider: {
+      type: "local",
+      isEnabled: true,
+      disableServerSideAuth: false,
+      originEnvKey: "VITE_BACKEND_URL",
+      pages: {
+        login: "/auth/sign-in",
+      },
+      endpoints: {
+        signIn: { path: "v1/auth/sign_in", method: "post" },
+        signOut: { path: "v1/auth/sign_out", method: "post" },
+        signUp: { path: "/auth/register", method: "post" },
+        getSession: { path: "v1/auth/get_session", method: "get" },
+      },
+      session: {
+        dataType: {
+          id: "string | number",
+          user: {
+            id: "string | number",
+            username: "string",
+            isAdmin: "string",
+          },
+        },
+      },
+      token: {
+        signInResponseTokenPointer: "/token",
+        type: "Token",
+        headerName: "Authorization",
+        maxAgeInSeconds: 1800,
+        secureCookieAttribute: false,
+        httpOnlyCookieAttribute: false,
+      },
+    },
+  },
   modules: modules,
   ssr: false,
 

@@ -128,6 +128,31 @@ class SignInView(APIView):
         )
 
 
+class GetSessionView(APIView):
+    # serializer_class = SessionSerializer
+    # permission_classes = (IsAuthenticated,)
+    # queryset = UserModel.objects.all()
+    # authentication_classes = (TokenAuthentication,)
+    def get(self, request: Request) -> Response:
+        #     session = request.user.session_set.first()
+        #     if not session:
+        #         return Response(
+        #             {"detail": "No active session found."},
+        #             status=status.HTTP_404_NOT_FOUND,
+        #         )
+
+        #     serializer = SessionSerializer(session)
+        #     return Response(serializer.data, status=status.HTTP_200_OK)
+        data = {
+            "user": {"id": "1", "username": "admin", "is_admin": "false"},
+            "id": "1",
+        }
+        return Response(
+            data,
+            status=status.HTTP_200_OK,
+        )
+
+
 class PasswordResetView(APIView):
     serializer_class = PasswordResetSerializer
     permission_classes = (AllowAny,)
