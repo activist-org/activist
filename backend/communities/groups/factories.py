@@ -96,7 +96,6 @@ class GroupFaqFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = GroupFaq
-        django_get_or_create = ("group",)
 
     iso = "en"
     primary = factory.Faker("boolean")

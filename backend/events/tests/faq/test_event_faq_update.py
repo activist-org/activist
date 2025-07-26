@@ -37,10 +37,9 @@ def test_event_faq_update(client: Client) -> None:
     user.verified = True
     user.save()
 
-    event = EventFactory()
-    event.created_by = user
+    event = EventFactory(created_by=user)
 
-    faqs = EventFaqFactory()
+    faqs = EventFaqFactory(event=event)
     test_id = faqs.id
     test_question = faqs.question
     test_answer = faqs.answer
@@ -60,7 +59,7 @@ def test_event_faq_update(client: Client) -> None:
     token = login_body["token"]
 
     response = client.put(
-        path=f"/v1/events/event_faqs/{test_id}/",
+        path=f"/v1/events/event_faqs/{test_id}",
         data={
             "id": test_id,
             "iso": "en",

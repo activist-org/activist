@@ -263,7 +263,7 @@ export const useGroupStore = defineStore("group", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated group data after successful updates, to update the frontend.
+        // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id);
         this.loading = false;
         return true;
@@ -273,13 +273,11 @@ export const useGroupStore = defineStore("group", {
       }
     },
 
-    // MARK: Create FAQ Entries
+    // MARK: Create FAQ
 
     async createFaqEntry(group: Group, formData: FaqEntry) {
       this.loading = true;
       const responses: boolean[] = [];
-
-      const token = localStorage.getItem("accessToken");
 
       const responseFaqEntries = await useFetch(
         `${BASE_BACKEND_URL}/communities/group_faqs/`,
@@ -287,12 +285,13 @@ export const useGroupStore = defineStore("group", {
           method: "POST",
           body: JSON.stringify({
             iso: formData.iso,
+            order: formData.order,
             question: formData.question,
             answer: formData.answer,
-            groupId: group.id,
+            group: group.id,
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -306,7 +305,7 @@ export const useGroupStore = defineStore("group", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated group data after successful updates, to update the frontend.
+        // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id);
         this.loading = false;
         return true;
@@ -316,14 +315,14 @@ export const useGroupStore = defineStore("group", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Update FAQ
 
     async updateFaqEntry(group: Group, formData: FaqEntry) {
       this.loading = true;
       const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/group_faqs/${formData.id}/`,
+        `${BASE_BACKEND_URL}/communities/group_faqs/${formData.id}`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -346,7 +345,7 @@ export const useGroupStore = defineStore("group", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated group data after successful updates, to update the frontend.
+        // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id);
         this.loading = false;
         return true;

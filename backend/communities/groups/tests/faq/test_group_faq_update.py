@@ -31,6 +31,7 @@ def test_group_faq_update() -> None:
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
     client = APIClient()
+
     test_username = "test_user"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -73,10 +74,6 @@ def test_group_faq_update() -> None:
         },
         format="json",
     )
-
-    print(
-        f"Response: {response.status_code}, Body: {response.json()}"
-    )  # Debugging output
 
     assert response.status_code == 200
 

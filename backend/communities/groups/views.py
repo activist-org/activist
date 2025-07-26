@@ -322,6 +322,53 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
 # MARK: Bridge Tables
 
 
+class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
+    queryset = GroupFaq.objects.all()
+    serializer_class = GroupFaqSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        group: Group = serializer.validated_data["group"]
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to create FAQs for this group."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = GroupFaq.objects.get(id=pk)
+
+        except GroupFaq.DoesNotExist:
+            return Response(
+                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
@@ -388,52 +435,6 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                 {"detail": f"Failed to update social links: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-
-class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
-    queryset = GroupFaq.objects.all()
-    serializer_class = GroupFaqSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def create(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        group: Group = serializer.validated_data["group"]
-
-        if request.user != group.created_by:
-            return Response(
-                {"detail": "You are not authorized to create FAQs for this group."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer.save()
-
-        return Response(
-            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
-        )
-
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        try:
-            faq = GroupFaq.objects.get(id=pk)
-        except GroupFaq.DoesNotExist:
-            return Response(
-                {"error": "FAQ not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        if request.user != faq.group.created_by:
-            return Response(
-                {"detail": "You are not authorized to update this FAQ."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = self.get_serializer(faq, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(
-            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
-        )
 
 
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):

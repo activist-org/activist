@@ -67,8 +67,9 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
 
         try:
             group = Group.objects.get(id=value)
-        except Group.DoesNotExist:
-            raise serializers.ValidationError("Group not found.")
+
+        except Group.DoesNotExist as e:
+            raise serializers.ValidationError("Group not found.") from e
 
         return group
 

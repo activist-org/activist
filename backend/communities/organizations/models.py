@@ -163,9 +163,7 @@ class OrganizationFaq(models.Model):
     answer = models.TextField(max_length=500)
     order = models.IntegerField()
     last_updated = models.DateTimeField(auto_now=True)
-    org = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, null=True, related_name="faqs"
-    )
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="faqs")
 
     def __str__(self) -> str:
         return self.question

@@ -4,7 +4,7 @@ Test cases for the organization social link methods.
 """
 
 import pytest
-from django.test import Client
+from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from communities.organizations.factories import (
@@ -17,7 +17,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_org_faq_create(client: Client) -> None:
+def test_org_faq_create() -> None:
     """
     Test Organization FAQ updates.
 
@@ -31,6 +31,8 @@ def test_org_faq_create(client: Client) -> None:
     None
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
+    client = APIClient()
+
     test_username = "test_user"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -39,8 +41,7 @@ def test_org_faq_create(client: Client) -> None:
     user.is_staff = True
     user.save()
 
-    org = OrganizationFactory()
-    org.created_by = user
+    org = OrganizationFactory(created_by=user)
 
     faqs = OrganizationFaqFactory()
     test_question = faqs.question
@@ -49,7 +50,7 @@ def test_org_faq_create(client: Client) -> None:
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
 
@@ -60,18 +61,19 @@ def test_org_faq_create(client: Client) -> None:
     login_body = login_response.json()
     token = login_body["token"]
 
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+
     response = client.post(
-        path="/v1/communities/organization_faqs/",
+        path="/v1/communities/organization_faqs",
         data={
             "iso": "en",
             "primary": True,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,
-            "orgId": org.id,
+            "org": org.id,
         },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        format="json",
     )
 
     assert response.status_code == 201
@@ -79,15 +81,14 @@ def test_org_faq_create(client: Client) -> None:
     # MARK: Update Failure
 
     response = client.post(
-        path="/v1/communities/organization_faqs/",
+        path="/v1/communities/organization_faqs",
         data={
             "question": "",
             "answer": "",
             "order": test_order,
-            "orgId": org.id,
+            "org": org.id,
         },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        format="json",
     )
 
     assert response.status_code == 400

@@ -4,7 +4,7 @@ Test cases for the event social link methods.
 """
 
 import pytest
-from django.test import Client
+from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from events.factories import EventFactory, EventFaqFactory
@@ -14,7 +14,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_event_faq_create(client: Client) -> None:
+def test_event_faq_create() -> None:
     """
     Test Event FAQ updates.
 
@@ -28,6 +28,8 @@ def test_event_faq_create(client: Client) -> None:
     None
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
+    client = APIClient()
+
     test_username = "test_user"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -36,8 +38,7 @@ def test_event_faq_create(client: Client) -> None:
     user.is_staff = True
     user.save()
 
-    event = EventFactory()
-    event.created_by = user
+    event = EventFactory(created_by=user)
 
     faqs = EventFaqFactory()
     test_question = faqs.question
@@ -46,7 +47,7 @@ def test_event_faq_create(client: Client) -> None:
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
 
@@ -57,18 +58,19 @@ def test_event_faq_create(client: Client) -> None:
     login_body = login_response.json()
     token = login_body["token"]
 
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+
     response = client.post(
-        path="/v1/events/event_faqs/",
+        path="/v1/events/event_faqs",
         data={
             "iso": "en",
             "primary": True,
             "question": test_question,
             "answer": test_answer,
             "order": test_order,
-            "eventId": event.id,
+            "event": event.id,
         },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        format="json",
     )
 
     assert response.status_code == 201
@@ -76,15 +78,14 @@ def test_event_faq_create(client: Client) -> None:
     # MARK: Update Failure
 
     response = client.post(
-        path="/v1/events/event_faqs/",
+        path="/v1/events/event_faqs",
         data={
             "question": "",
             "answer": "",
             "order": test_order,
-            "eventId": event.id,
+            "event": event.id,
         },
-        headers={"Authorization": f"Token {token}"},
-        content_type="application/json",
+        format="json",
     )
 
     assert response.status_code == 400

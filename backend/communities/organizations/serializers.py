@@ -3,9 +3,9 @@
 Serializers for organizations in the communities app.
 """
 
-from typing import Any, Dict, Union
+from typing import Any
+from uuid import UUID
 
-from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.groups.serializers import GroupSerializer
@@ -47,39 +47,39 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
     Serializer for OrganizationFaq model data.
     """
 
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
-        """
-        Validate event data including time constraints and terms.
-
-        Parameters
-        ----------
-        data : Dict[str, Union[str, int]]
-            Event data dictionary to validate.
-
-        Returns
-        -------
-        Dict[str, Union[str, int]]
-            Validated data dictionary.
-
-        Raises
-        ------
-        ValidationError
-            If validation fails for any field.
-        """
-        question = data.get("question")
-        answer = data.get("answer")
-
-        if not question or not answer:
-            raise serializers.ValidationError(
-                _("Both question and answer fields are required."),
-                code="missing_fields",
-            )
-
-        return data
-
     class Meta:
         model = OrganizationFaq
         fields = "__all__"
+
+    def validate_org(self, value: Organization | UUID | str) -> Organization:
+        """
+        Validate that the organization exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Organization instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the organization does not exist.
+
+        Returns
+        -------
+        Organization
+            The validated Organization instance.
+        """
+        if isinstance(value, Organization):
+            return value
+
+        try:
+            org = Organization.objects.get(id=value)
+
+        except Organization.DoesNotExist as e:
+            raise serializers.ValidationError("Organization not found.") from e
+
+        return org
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):

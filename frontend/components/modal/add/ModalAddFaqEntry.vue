@@ -103,17 +103,25 @@ if (props.pageType == "organization") {
   event = eventStore.event;
 }
 
-async function handleSubmit() {
+async function handleSubmit(values: unknown) {
   let updateResponse = false;
+  const newValues = { ...formData.value, ...(values as FaqEntry) };
+
   if (props.pageType === "organization") {
     updateResponse = await organizationStore.createFaqEntry(
       organization,
-      formData.value
+      newValues as FaqEntry
     );
   } else if (props.pageType === "group") {
-    updateResponse = await groupStore.createFaqEntry(group, formData.value);
+    updateResponse = await groupStore.createFaqEntry(
+      group,
+      newValues as FaqEntry
+    );
   } else if (props.pageType === "event") {
-    updateResponse = await eventStore.createFaqEntry(event, formData.value);
+    updateResponse = await eventStore.createFaqEntry(
+      event,
+      newValues as FaqEntry
+    );
   }
 
   if (updateResponse) {

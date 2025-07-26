@@ -94,6 +94,7 @@ const schema = z.object({
 });
 
 onMounted(async () => {
+  formData.value.id = props.faqEntry.id;
   formData.value.question = props.faqEntry.question;
   formData.value.answer = props.faqEntry.answer;
   if (props.pageType == "organization") {
@@ -110,16 +111,23 @@ onMounted(async () => {
 
 async function handleSubmit(values: unknown) {
   let updateResponse = false;
+  const newValues = { ...formData.value, ...(values as FaqEntry) };
 
   if (props.pageType === "organization") {
     updateResponse = await organizationStore.updateFaqEntry(
       organization,
-      values as FaqEntry
+      newValues as FaqEntry
     );
   } else if (props.pageType === "group") {
-    updateResponse = await groupStore.updateFaqEntry(group, values as FaqEntry);
+    updateResponse = await groupStore.updateFaqEntry(
+      group,
+      newValues as FaqEntry
+    );
   } else if (props.pageType === "event") {
-    updateResponse = await eventStore.updateFaqEntry(event, values as FaqEntry);
+    updateResponse = await eventStore.updateFaqEntry(
+      event,
+      newValues as FaqEntry
+    );
   }
 
   if (updateResponse) {

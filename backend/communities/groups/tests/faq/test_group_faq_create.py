@@ -32,6 +32,7 @@ def test_group_faq_create() -> None:
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
     client = APIClient()
+
     test_username = "test_user"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -61,6 +62,7 @@ def test_group_faq_create() -> None:
     token = login_body["token"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+
     response = client.post(
         path="/v1/communities/group_faqs",
         data={
@@ -96,9 +98,5 @@ def test_group_faq_create() -> None:
         },
         format="json",
     )
-
-    print(
-        f"Response: {response.status_code}, Body: {response.json()}"
-    )  # Debugging output
 
     assert response.status_code == 400
