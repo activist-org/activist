@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   backend:
     env_file:
@@ -8,7 +10,7 @@ services:
     restart: unless-stopped
     command: sh -c "
       if [ \"$ENVIRONMENT\" = \"development\" ]; then
-        python /app/core/management/commands/clear_dev_images.py;
+        python /app/backend/scripts/clear_images.py;
       fi;
       python manage.py wait_for_db &&
       python manage.py makemigrations &&
@@ -16,13 +18,7 @@ services:
       python manage.py loaddata fixtures/superuser.json &&
       python manage.py loaddata fixtures/status_types.json &&
       python manage.py loaddata fixtures/topics.json &&
-      python manage.py populate_db \
-        --users 10 \
-        --orgs-per-user 1 \
-        --groups-per-org 1 \
-        --events-per-org 1 \
-        --resources-per-entity 1 \
-        --faq-entries-per-entity 3 &&
+      python manage.py populate_db --users 10 --orgs-per-user 1 --groups-per-org 1 --events-per-org 1 --resources-per-entity 1 --faq-entries-per-entity 1 &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
@@ -37,8 +33,10 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - VITE_FRONTEND_URL=${VITE_FRONTEND_URL}
       - VITE_BACKEND_URL=${VITE_BACKEND_URL}
+      - ENVIRONMENT=development
     depends_on:
       - db
+      - filescan
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:${BACKEND_PORT}/health/ || exit 1"]
       interval: 10s
@@ -53,7 +51,8 @@ services:
     build:
       context: ./frontend
     container_name: nuxt_frontend
-    command: sh -c "corepack enable && yarn install && yarn dev --port ${FRONTEND_PORT}"
+    command: >
+      sh -c "corepack enable && yarn install && yarn dev --port ${FRONTEND_PORT}"
     volumes:
       - ./frontend:/app
     ports:
@@ -71,9 +70,9 @@ services:
     image: postgres:15
     container_name: postgres_db
     environment:
-      - POSTGRES_DB=${DATABASE_NAME}
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
     healthcheck:
@@ -81,3 +80,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  filescan:
+    build: ./services/filescan
+    container_name: filescan_service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./services/filescan:/app
+    command: >
+      bash -c "freshclam && service clamav-daemon start && python manage.py runserver 0.0.0.0:8001"
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "3310"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  clamav_db:
+  clamav_log:

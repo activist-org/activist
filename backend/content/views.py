@@ -26,9 +26,9 @@ from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
     ImageSerializer,
-    ResourceFlagSerializer,
     ResourceSerializer,
 )
+
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
@@ -424,3 +424,4 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
 
     # Use the default destroy() provided by DRF / ModelViewSet. No need to write destroy() code here.
     # The model uses a signal to delete the file from the filesystem when the Image instance is deleted.
+
