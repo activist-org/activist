@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 export const useDebounce = () => {
   const debounce = <T extends (...args: unknown[]) => void>(
     callback: T,

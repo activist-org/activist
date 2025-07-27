@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Combobox v-model="selectedOptions" :id="id" multiple as="div">
     <ComboboxInput v-slot="{ id: inputId, onBlur }" as="div" class="flex">

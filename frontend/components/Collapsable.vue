@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     class="focus-brand rounded-md bg-section-div fill-layer-1 p-2 text-primary-text"
