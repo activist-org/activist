@@ -15,12 +15,18 @@
     >
       <button
         class="flex-1 rounded-none"
-        :class="{
-          'style-menu-option-cta': checked,
-          'style-menu-option bg-layer-2': !checked,
-          'rounded-l-lg': idx === 0,
-          'rounded-r-lg': idx === options.length - 1,
-        }"
+        :class="[
+          {
+            'style-menu-option-cta': checked,
+            'style-menu-option bg-layer-2': !checked,
+            'rounded-l-lg': idx === 0,
+            'rounded-r-lg': idx === options.length - 1,
+          },
+          option.class,
+          {
+            [option.checkedClass || '']: checked,
+          },
+        ]"
         :aria-label="$t(option.aria_label)"
       >
         <Icon
@@ -43,6 +49,8 @@ type Option = {
   aria_label: string;
   label?: string;
   isIcon?: boolean;
+  class?: string;
+  checkedClass?: string;
 };
 
 const props = defineProps<{

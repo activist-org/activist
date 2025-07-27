@@ -1,22 +1,23 @@
 <template>
-  <Combobox v-model="selectedPeople" multiple>
-    <ComboboxInput as="template">
-      <ComboboxInput as="template">
-        <FormTextInput
-          @update:modelValue="(val) => (query = val)"
-          label="People"
-          placeholder="People"
-          :modelValue="query"
-        />
-      </ComboboxInput>
+  <Combobox v-model="selectedOptions" :id="id" multiple as="div">
+    <ComboboxInput v-slot="{ id: inputId, onBlur }" as="div" class="flex">
+      >
+      <FormTextInput
+        @update:modelValue="(val) => (query = val)"
+        :id="inputId"
+        :label="label"
+        :placeholder="label"
+        :onBlur="onBlur"
+        :modelValue="query"
+      />
     </ComboboxInput>
     <ComboboxOptions>
       <ComboboxOption
-        v-for="person in filteredPeople"
+        v-for="option in filteredOptions"
         v-slot="{ selected, active }"
-        :key="person.id"
+        :key="option.id"
         as="template"
-        :value="person"
+        :value="option"
       >
         <li
           class="relative cursor-default select-none py-2 pl-10 pr-4"
@@ -27,7 +28,7 @@
           }"
         >
           <span class="block truncate">
-            {{ $t(person.name) }}
+            {{ $t(option.label) }}
           </span>
           <span
             v-if="selected"
@@ -42,12 +43,12 @@
         </li>
       </ComboboxOption>
     </ComboboxOptions>
-    <ul v-if="selectedPeople.length > 0" class="mt-4 flex flex-col space-y-2">
-      <li v-for="person in selectedPeople" :key="person.id">
+    <ul v-if="selectedOptions.length > 0" class="mt-4 flex flex-col space-y-2">
+      <li v-for="option in selectedOptions" :key="option.id">
         <Shield
-          @click="() => onClick(person)"
-          :key="person.id + '-selected-only'"
-          :label="person.name"
+          @click="() => onClick(option)"
+          :key="option.id + '-selected-only'"
+          :label="option.label"
           class="mobileTopic max-sm:w-full"
           :active="true"
           :isSelector="true"
@@ -58,7 +59,7 @@
   </Combobox>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {
   Combobox,
   ComboboxInput,
@@ -67,23 +68,36 @@ import {
 } from "@headlessui/vue";
 
 import { IconMap } from "~/types/icon-map";
-const people = [
-  { id: 1, name: "Durward Reynolds" },
-  { id: 2, name: "Kenton Towne" },
-  { id: 3, name: "Therese Wunsch" },
-  { id: 4, name: "Benedict Kessler" },
-  { id: 5, name: "Katelyn Rohan" },
-];
-const selectedPeople = ref([people[0]]);
+interface Option {
+  id: number;
+  label: string;
+  value: unknown;
+}
+interface Props {
+  options: Option[];
+  id: string;
+  label: string;
+}
+const props = defineProps<Props>();
+const selectedOptions = ref<Option[]>([]);
 const query = ref("");
-const onClick = (person) => {
-  selectedPeople.value = selectedPeople.value.filter((p) => p !== person);
+const onClick = (option: Option) => {
+  selectedOptions.value = selectedOptions.value.filter(
+    (o) => o.id !== option.id
+  );
 };
-const filteredPeople = computed(() =>
+const emit = defineEmits<{
+  (e: "update:selectedOptions", value: unknown[]): void;
+}>();
+watch(selectedOptions, (newValue: unknown) => {
+  const values = (newValue as Option[]).map((option) => option.value);
+  emit("update:selectedOptions", values);
+});
+const filteredOptions = computed(() =>
   query.value !== ""
-    ? people.filter((person) =>
-        person.name.toLowerCase().includes(query.value.toLowerCase())
+    ? props.options.filter((option) =>
+        option.label.toLowerCase().includes(query.value.toLowerCase())
       )
-    : people
+    : props.options
 );
 </script>
