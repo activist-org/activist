@@ -2,7 +2,6 @@
 <template>
   <Combobox v-model="selectedOptions" :id="id" multiple as="div">
     <ComboboxInput v-slot="{ id: inputId, onBlur }" as="div" class="flex">
-      >
       <FormTextInput
         @update:modelValue="(val) => (query = val)"
         :id="inputId"
