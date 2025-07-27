@@ -35,6 +35,7 @@ def login_user(user_data: UserDict) -> dict:
     Log in a user and return the user and token.
     """
     client = APIClient()
+
     response = client.post(
         "/v1/auth/sign_in",
         {
@@ -102,6 +103,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     2. Verify the response status code is 201 (Created)
     """
     client = APIClient()
+
     number_of_orgs = 10
     test_page_size = 1
 
@@ -181,6 +183,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     1. Delete the organization with the created_by user and verify it is removed from the database.
     """
     client = APIClient()
+
     created_by_user, token_created_by = logged_in_created_by_user.values()
 
     new_org = OrganizationFactory.create(created_by=created_by_user)

@@ -4,6 +4,7 @@ Serializers for organizations in the communities app.
 """
 
 from typing import Any
+from uuid import UUID
 
 from rest_framework import serializers
 
@@ -49,6 +50,36 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
     class Meta:
         model = OrganizationFaq
         fields = "__all__"
+
+    def validate_org(self, value: Organization | UUID | str) -> Organization:
+        """
+        Validate that the organization exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Organization instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the organization does not exist.
+
+        Returns
+        -------
+        Organization
+            The validated Organization instance.
+        """
+        if isinstance(value, Organization):
+            return value
+
+        try:
+            org = Organization.objects.get(id=value)
+
+        except Organization.DoesNotExist as e:
+            raise serializers.ValidationError("Organization not found.") from e
+
+        return org
 
 
 class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):

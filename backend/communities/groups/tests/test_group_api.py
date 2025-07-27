@@ -36,6 +36,7 @@ def login_user(user_data: UserDict) -> dict[Any, Any]:
     Log in a user. Returns the user and token.
     """
     client = APIClient()
+
     response = client.post(
         "/v1/auth/sign_in",
         {
@@ -103,6 +104,7 @@ def test_GroupAPIView(logged_in_user, status_types):
     2. Verify the response status code is 201 (Created)
     """
     client = APIClient()
+
     number_of_groups = 10
     test_page_size = 1
 
@@ -182,6 +184,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     2. Delete the group with the created_by user and verify it is removed from the database.
     """
     client = APIClient()
+
     created_by_user, token_created_by = logged_in_created_by_user.values()
 
     new_group = GroupFactory.create(created_by=created_by_user)

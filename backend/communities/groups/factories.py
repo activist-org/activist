@@ -102,6 +102,7 @@ class GroupFaqFactory(factory.django.DjangoModelFactory):
     question = factory.Faker(provider="text", locale="la")
     answer = factory.Faker(provider="text", locale="la")
     order = factory.Faker("random_int", min=1, max=100)
+    group = factory.SubFactory(GroupFactory)
 
 
 class GroupTextFactory(factory.django.DjangoModelFactory):

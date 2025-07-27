@@ -4,7 +4,8 @@ API views for event management.
 """
 
 import json
-from typing import Any, Dict, List, Sequence, Type, cast
+import logging
+from typing import Any, Dict, List, Sequence, Type
 from uuid import UUID
 
 from django.db import transaction
@@ -30,6 +31,8 @@ from events.serializers import (
     EventSocialLinkSerializer,
     EventTextSerializer,
 )
+
+logger = logging.getLogger("django")
 
 # MARK: Event
 
@@ -296,6 +299,53 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
 # MARK: Bridge Tables
 
 
+class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
+    queryset = EventFaq.objects.all()
+    serializer_class = EventFaqSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        event: Event = serializer.validated_data["event"]
+
+        if request.user != event.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to create FAQs for this event."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = EventFaq.objects.get(id=pk)
+
+        except EventFaq.DoesNotExist:
+            return Response(
+                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.event.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
 class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
     queryset = EventSocialLink.objects.all()
     serializer_class = EventSocialLinkSerializer
@@ -342,45 +392,6 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
         except Exception as e:
             return Response(
                 {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-
-class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
-    queryset = EventFaq.objects.all()
-    serializer_class = EventFaqSerializer
-
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        event = Event.objects.filter(id=pk).first()
-        if not event:
-            return Response(
-                {"detail": "Event not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
-        try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                faq_id = cast(UUID | str, data.get("id"))
-                faq = EventFaq.objects.filter(id=faq_id).first()
-                if not faq:
-                    return Response(
-                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
-                    )
-                faq.question = data.get("question", faq.question)
-                faq.answer = data.get("answer", faq.answer)
-                faq.save()
-
-            return Response(
-                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
-            )
-
-        except Exception as e:
-            return Response(
-                {"detail": f"Failed to update faqs: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

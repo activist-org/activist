@@ -9,7 +9,7 @@
     <HeaderAppPageEvent
       :header="event.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.events.resources.tagline')"
-      :underDevelopment="true"
+      :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
