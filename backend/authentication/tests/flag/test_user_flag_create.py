@@ -2,6 +2,7 @@
 
 import pytest
 from rest_framework.test import APIClient
+
 from authentication.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
