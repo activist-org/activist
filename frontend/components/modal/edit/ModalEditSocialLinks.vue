@@ -75,7 +75,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { z } from "zod";
 
 import type { Group, GroupSocialLink } from "~/types/communities/group";

@@ -60,7 +60,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Component } from "vue";
+import type { Component } from "vue";
+
 import { useI18n } from "vue-i18n";
 import {
   SEmail,

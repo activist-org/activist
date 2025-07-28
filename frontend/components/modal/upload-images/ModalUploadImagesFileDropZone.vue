@@ -26,8 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-
 const isDropZoneActive = ref(false);
 const fileInputRef = ref<HTMLInputElement | null>(null);
 

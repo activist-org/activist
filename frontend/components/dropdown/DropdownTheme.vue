@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
-import { computed } from "vue";
 
 import type { DropdownLocation } from "~/types/location";
 

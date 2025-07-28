@@ -130,7 +130,6 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
-import { ref } from "vue";
 
 import { IconMap } from "~/types/icon-map";
 
