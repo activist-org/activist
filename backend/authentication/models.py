@@ -5,6 +5,7 @@ Models for the authentication app.
 
 from __future__ import annotations
 
+import logging
 from typing import Any
 from uuid import uuid4
 
@@ -14,6 +15,8 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
+
+logger = logging.getLogger(__name__)
 
 # MARK: Account Manager
 
@@ -59,18 +62,28 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         Any
             The created superuser.
         """
+        logger.info(f"Creating superuser with username: {username}, email: {email}")
+        
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
         other_fields.setdefault("is_active", True)
 
         if other_fields.get("is_staff") is not True:
+            logger.error(f"Superuser creation failed for {username}: is_staff must be True")
             raise ValueError("Superuser must be assigned to is_staff=True.")
         if other_fields.get("is_superuser") is not True:
+            logger.error(f"Superuser creation failed for {username}: is_superuser must be True")
             raise ValueError("Superuser must be assigned to is_superuser=True.")
 
-        return self.create_user(
-            email=email, username=username, password=password, **other_fields
-        )
+        try:
+            superuser = self.create_user(
+                email=email, username=username, password=password, **other_fields
+            )
+            logger.info(f"Superuser created successfully: {username}")
+            return superuser
+        except Exception as e:
+            logger.exception(f"Failed to create superuser {username}: {str(e)}")
+            raise
 
     def create_user(
         self,
@@ -101,13 +114,20 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         UserModel
             The created user.
         """
+        logger.info(f"Creating user with username: {username}, email: {email}")
+        
         if email != "":
             email = self.normalize_email(email)
 
-        user = self.model(email=email, username=username, **other_fields)
-        user.set_password(password)
-        user.save()
-        return user
+        try:
+            user = self.model(email=email, username=username, **other_fields)
+            user.set_password(password)
+            user.save()
+            logger.info(f"User created successfully: {username}")
+            return user
+        except Exception as e:
+            logger.exception(f"Failed to create user {username}: {str(e)}")
+            raise
 
 
 # MARK: Support
