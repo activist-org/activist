@@ -54,7 +54,7 @@
           <div class="w-1/2">
             <FormItem
               v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-              :label="$t('i18n.pages._global.create.location')"
+              :label="$t('i18n._global.location')"
               name="location"
               :required="true"
             >
