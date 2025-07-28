@@ -127,7 +127,7 @@
   "i18n.components.card_get_involved_organization.view_all_groups_aria_label": "View all groups within this organization",
   "i18n.components.card_get_involved_organization.working_groups_subtext": "The following are working groups within {entity_name}",
   "i18n.components.card_legal_disclaimer.header": "Legal Disclaimer",
-  "i18n.components._global.action":"Action",
+  "i18n.components._global.action": "Action",
   "i18n.components.card_metrics_overview.header": "Recent activity",
   "i18n.components._global.learn": "Learn",
   "i18n.components.card_metrics_overview.new_organizations": "New orgs",

@@ -149,14 +149,15 @@ const optionEventTypes = [
   {
     value: "LEARN",
     key: "LEARN",
-    content: t("i18n.components.sidebar_left_filter_events.event_type_learn"),
-    aria_label: "i18n.components._global.learn",
+    content: t("i18n.components._global.learn"),
+    aria_label:
+      "i18n.components.sidebar_left_filter_events.event_type_learn_aria_label",
     checkedClass: "style-learn",
   },
   {
     value: "ACTION",
     key: "ACTION",
-    content: t("i18n.components.sidebar_left_filter_events.event_type_action"),
+    content: t("i18n.components._global.action"),
     aria_label:
       "i18n.components.sidebar_left_filter_events.event_type_action_aria_label",
     checkedClass: "style-action",
