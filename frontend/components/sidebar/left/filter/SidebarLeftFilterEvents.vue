@@ -150,8 +150,7 @@ const optionEventTypes = [
     value: "LEARN",
     key: "LEARN",
     content: t("i18n.components.sidebar_left_filter_events.event_type_learn"),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_learn_aria_label",
+    aria_label: "i18n.components._global.learn",
     checkedClass: "style-learn",
   },
   {
