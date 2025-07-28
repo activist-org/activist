@@ -270,7 +270,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated organization data after successful updates, to update the frontend.
+        // Fetch updated organization data after successful updates to update the frontend.
         await this.fetchById(org.id);
         this.loading = false;
         return true;
@@ -280,14 +280,56 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Create FAQ
+
+    async createFaqEntry(org: Organization, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_faqs`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            iso: formData.iso,
+            order: formData.order,
+            question: formData.question,
+            answer: formData.answer,
+            org: org.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Organization;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ
 
     async updateFaqEntry(org: Organization, formData: FaqEntry) {
       this.loading = true;
       const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organization_faqs/${org.id}`,
+        `${BASE_BACKEND_URL}/communities/organization_faqs/${formData.id}`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -310,7 +352,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated org data after successful updates, to update the frontend.
+        // Fetch updated org data after successful updates to update the frontend.
         await this.fetchById(org.id);
         this.loading = false;
         return true;

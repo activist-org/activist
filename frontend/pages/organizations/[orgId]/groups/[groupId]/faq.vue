@@ -12,19 +12,21 @@
     <HeaderAppPageGroup
       :header="group.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
-      :underDevelopment="true"
+      :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <!-- <BtnAction
+        <BtnAction
+          @click.stop="useModalHandlers('ModalAddFaqEntry').openModal()"
+          @keydown.enter="useModalHandlers('ModalAddFaqEntry').openModal()"
           class="w-max"
           :cta="true"
-          :label="i18n._global.support"
+          label="i18n._global.new_faq"
           fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.45em"
-          :counter="group.supportingUsers"
-          ariaLabel="i18n.pages.organizations.groups._global.support_group_aria_label"
-        /> -->
+          :leftIcon="IconMap.PLUS"
+          iconSize="1.35em"
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
+        />
+        <ModalAddFaqEntry pageType="group" />
       </div>
     </HeaderAppPageGroup>
     <div v-if="group.faqEntries!.length > 0" class="py-4">
@@ -38,6 +40,8 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
+
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   group: Group;

@@ -10,6 +10,7 @@ pytestmark = pytest.mark.django_db
 
 def test_discussion_update():
     client = APIClient()
+
     test_username = "test_user"
     test_pass = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_pass)

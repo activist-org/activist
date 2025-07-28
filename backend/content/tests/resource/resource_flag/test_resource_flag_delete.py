@@ -12,6 +12,7 @@ pytestmark = pytest.mark.django_db
 
 def test_resource_flag_delete():
     client = APIClient()
+
     test_username = "test_user"
     test_password = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -41,6 +42,7 @@ def test_resource_flag_delete():
 
 def test_resource_flag_delete_does_not_exist():
     client = APIClient()
+
     test_username = "test_user"
     test_password = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_password)

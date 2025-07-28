@@ -5,7 +5,8 @@ API views for group management.
 """
 
 import json
-from typing import List, Tuple, Type, cast
+import logging
+from typing import List, Tuple, Type
 from uuid import UUID
 
 from django.db import transaction
@@ -41,6 +42,8 @@ from communities.groups.serializers import (
 from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
+
+logger = logging.getLogger("django")
 
 # MARK: Group
 
@@ -319,6 +322,53 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
 # MARK: Bridge Tables
 
 
+class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
+    queryset = GroupFaq.objects.all()
+    serializer_class = GroupFaqSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        group: Group = serializer.validated_data["group"]
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to create FAQs for this group."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = GroupFaq.objects.get(id=pk)
+
+        except GroupFaq.DoesNotExist:
+            return Response(
+                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
@@ -383,46 +433,6 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
         except Exception as e:
             return Response(
                 {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-
-class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
-    queryset = GroupFaq.objects.all()
-    serializer_class = GroupFaqSerializer
-
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        group = Group.objects.filter(id=pk).first()
-        if not group:
-            return Response(
-                {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
-        try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                faq_id = cast(UUID | str, data.get("id"))
-                faq = GroupFaq.objects.filter(id=faq_id).first()
-                if not faq:
-                    return Response(
-                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
-                    )
-
-                faq.question = data.get("question", faq.question)
-                faq.answer = data.get("answer", faq.answer)
-                faq.save()
-
-            return Response(
-                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
-            )
-
-        except Exception as e:
-            return Response(
-                {"detail": f"Failed to update faqs: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

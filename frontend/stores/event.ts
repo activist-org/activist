@@ -266,7 +266,7 @@ export const useEventStore = defineStore("event", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates, to update the frontend.
+        // Fetch updated event data after successful updates to update the frontend.
         await this.fetchById(event.id);
         this.loading = false;
         return true;
@@ -276,14 +276,56 @@ export const useEventStore = defineStore("event", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Create FAQ
+
+    async createFaqEntry(event: Event, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_faqs/`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            iso: formData.iso,
+            order: formData.order,
+            question: formData.question,
+            answer: formData.answer,
+            event: event.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ
 
     async updateFaqEntry(event: Event, formData: FaqEntry) {
       this.loading = true;
       const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_faqs/${event.id}`,
+        `${BASE_BACKEND_URL}/events/event_faqs/${formData.id}`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -306,7 +348,7 @@ export const useEventStore = defineStore("event", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates, to update the frontend.
+        // Fetch updated event data after successful updates to update the frontend.
         await this.fetchById(event.id);
         this.loading = false;
         return true;

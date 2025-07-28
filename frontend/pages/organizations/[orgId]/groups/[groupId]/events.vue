@@ -18,7 +18,7 @@
         group.name + ' ' + $t('i18n.pages.organizations._global.events_lower')
       "
       :tagline="$t('i18n.pages.organizations._global.events_tagline')"
-      :underDevelopment="true"
+      :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteInternal

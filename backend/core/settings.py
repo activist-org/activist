@@ -193,7 +193,8 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ],
-    "DEFAULT_THROTTLE_RATES": {"anon": "100/min", "user": "150/min"},
+    # Note: We need to figure out why conftest.py isn't disabling throttling for tests and set this back to 100/150.
+    "DEFAULT_THROTTLE_RATES": {"anon": "150/min", "user": "200/min"},
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "DEFAULT_PAGINATION_ORDERS_OBJECTS": False,

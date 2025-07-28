@@ -14,7 +14,7 @@
     <HeaderAppPageGroup
       :header="group.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
-      :underDevelopment="true"
+      :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <!-- <BtnAction
