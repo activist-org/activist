@@ -43,7 +43,7 @@
         </li>
       </ComboboxOption>
     </ComboboxOptions>
-    <ul v-if="selectedOptions.length > 0" class="mt-4 flex flex-col space-y-2">
+    <ul v-if="selectedOptions.length > 0" class="mt-2 flex flex-col space-y-2">
       <li v-for="option in selectedOptions" :key="option.id">
         <Shield
           @click="() => onClick(option)"
@@ -63,8 +63,8 @@
 import {
   Combobox,
   ComboboxInput,
-  ComboboxOptions,
   ComboboxOption,
+  ComboboxOptions,
 } from "@headlessui/vue";
 
 import { IconMap } from "~/types/icon-map";

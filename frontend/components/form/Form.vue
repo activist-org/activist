@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div>
+  <div :class="props.class">
     <form @submit.prevent="onSubmit" :id="id">
       <div class="flex flex-col gap-y-4">
         <div class="grid gap-y-4">
@@ -56,8 +56,8 @@ const emit = defineEmits<{
   (e: "submit", values: Record<string, unknown>): void;
 }>();
 if (props.sendOnChange) {
-  // This will emit the submit event on every change
-  // Useful for forms that need to be submitted on every change
+  // This will emit the submit event on every change.
+  // Useful for forms that need to be submitted on every change.
   watch(
     values,
     (newValues) => {

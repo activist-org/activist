@@ -2,13 +2,14 @@
 <template>
   <Form
     @submit="handleSubmit"
+    class="px-1"
     :schema="schema"
     :send-on-change="true"
     :is-there-submit-button="false"
   >
     <FormItem
       v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-      :label="$t('i18n.components.sidebar_left_filter_organization.location')"
+      :label="$t('i18n._global.location')"
       name="location"
     >
       <FormTextInputSearch
@@ -22,7 +23,7 @@
     </FormItem>
     <FormItem
       v-slot="{ id, handleChange }"
-      :label="$t('i18n.components.sidebar_left_filter_organization.topics')"
+      :label="$t('i18n.components._global.topics')"
       name="topics"
     >
       <FormSelectorCombobox
@@ -40,18 +41,22 @@ import { z } from "zod";
 import type { Topic } from "~/types/topics";
 
 import { GLOBAL_TOPICS } from "~/types/topics";
+
 const { t } = useI18n();
+
 const options = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
   value: topic.value,
   id: index,
 }));
+
 const schema = z.object({
   location: z.string().optional(),
   topics: z.array(z.string()).optional(),
 });
+
 const handleSubmit = (values: unknown) => {
-  // Handle form submission
+  // Handle form submission.
   console.log("Form submitted with values:", values);
 };
 </script>

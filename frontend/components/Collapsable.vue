@@ -20,13 +20,16 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
+
 interface Props {
   isOpen?: boolean;
   label: string;
 }
+
 const props = withDefaults(defineProps<Props>(), {
   isOpen: false,
 });
+
 const isOpen = ref(props.isOpen);
 const toggle = () => {
   isOpen.value = !isOpen.value;

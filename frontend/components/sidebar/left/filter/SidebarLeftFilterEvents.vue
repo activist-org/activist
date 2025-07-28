@@ -11,6 +11,7 @@
     </div>
     <Form
       @submit="handleSubmit"
+      class="px-1"
       :schema="schema"
       :send-on-change="true"
       :is-there-submit-button="false"
@@ -66,7 +67,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange }"
-        :label="$t('i18n.components.sidebar_left_filter_events.topics')"
+        :label="$t('i18n.components._global.topics')"
         name="topics"
       >
         <FormSelectorCombobox
@@ -75,7 +76,7 @@
           "
           :id="id"
           :options="optionsTopics"
-          :label="$t('i18n.components.sidebar_left_filter_events.topics')"
+          :label="$t('i18n.components._global.topics')"
         />
       </FormItem>
     </Form>
@@ -90,6 +91,7 @@ import type { Topic } from "~/types/topics";
 import { IconMap } from "~/types/icon-map";
 import { GLOBAL_TOPICS } from "~/types/topics";
 import { ViewType } from "~/types/view-types";
+
 const { t } = useI18n();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
@@ -125,6 +127,7 @@ const optionViews = [
     isIcon: true,
   },
 ];
+
 const optionDays = [
   {
     value: "1",
@@ -145,6 +148,7 @@ const optionDays = [
     aria_label: "i18n.components.sidebar_left_filter_events.days_30_aria_label",
   },
 ];
+
 const optionEventTypes = [
   {
     value: "LEARN",
@@ -163,6 +167,7 @@ const optionEventTypes = [
     checkedClass: "style-action",
   },
 ];
+
 const optionLocations = [
   {
     value: "IN_PERSON",
@@ -172,6 +177,7 @@ const optionLocations = [
     ),
     aria_label:
       "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label",
+    class: "text-nowrap text-left pl-4",
   },
   {
     value: "ONLINE",
@@ -183,6 +189,7 @@ const optionLocations = [
       "i18n.components.sidebar_left_filter_events.location_type_online_aria_label",
   },
 ];
+
 const route = useRoute();
 const router = useRouter();
 const updateViewType = (
@@ -210,7 +217,7 @@ if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
   viewType.value = q as ViewType;
 }
 const handleSubmit = (values: unknown) => {
-  // Handle form submission
+  // Handle form submission.
   console.log("Form submitted with values:", values);
 };
 </script>

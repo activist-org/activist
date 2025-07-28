@@ -2,7 +2,7 @@
 <template>
   <div class="flex-col space-y-3">
     <h3 class="font-medium">
-      {{ $t("i18n.components.card_topic_selection.header") }}
+      {{ $t("i18n.components._global.topics") }}
     </h3>
     <p v-if="pageType == 'organization'">
       {{ $t("i18n.components.card_topic_selection.subtext_organization") }}

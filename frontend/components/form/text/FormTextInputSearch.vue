@@ -46,7 +46,7 @@ watch(
   }
 );
 
-// Create one debounced function instance only
+// Create one debounced function instance only.
 const { debounce } = useDebounce();
 const emitDebouncedUpdate = debounce((value: unknown) => {
   emit("update:modelValue", value as string);
