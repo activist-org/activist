@@ -116,7 +116,8 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         )
 
     except Exception as e:
-        print(f"Error scrubbing EXIF: {e}")
+        logger.error(f"Error scrubbing EXIF: {e}")
+
         return image_file  # return original file in case of error
 
 
