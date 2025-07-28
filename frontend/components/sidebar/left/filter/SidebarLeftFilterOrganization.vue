@@ -26,7 +26,7 @@
       name="topics"
     >
       <FormSelectorCombobox
-        @update:selectedOptions="(val) => handleChange(val as Topic[])"
+        @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
         :id="id"
         :options="options"
         label="Topics"

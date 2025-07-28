@@ -70,7 +70,9 @@
         name="topics"
       >
         <FormSelectorCombobox
-          @update:selectedOptions="(val) => handleChange(val as Topic[])"
+          @update:selectedOptions="
+            (val: unknown) => handleChange(val as Topic[])
+          "
           :id="id"
           :options="optionsTopics"
           :label="$t('i18n.components.sidebar_left_filter_events.topics')"
@@ -157,7 +159,7 @@ const optionEventTypes = [
     key: "ACTION",
     content: t("i18n.components.sidebar_left_filter_events.event_type_action"),
     aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_online_aria_label",
+      "i18n.components.sidebar_left_filter_events.event_type_action_aria_label",
     checkedClass: "style-action",
   },
 ];
@@ -169,7 +171,7 @@ const optionLocations = [
       "i18n.components.sidebar_left_filter_events.location_type_in_person"
     ),
     aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_in_person_aria_label",
+      "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label",
   },
   {
     value: "ONLINE",
@@ -178,7 +180,7 @@ const optionLocations = [
       "i18n.components.sidebar_left_filter_events.location_type_online"
     ),
     aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_online_aria_label",
+      "i18n.components.sidebar_left_filter_events.location_type_online_aria_label",
   },
 ];
 const route = useRoute();
