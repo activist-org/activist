@@ -1,6 +1,6 @@
 {
   "*.{vue,js,ts}": [
-    "prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore --write",
-    "eslint . --fix"
+    "prettier --check --config ../.prettierrc --ignore-path ../.prettierignore --write",
+    "eslint --fix"
   ]
 }
