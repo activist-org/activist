@@ -110,6 +110,9 @@ MARK: Base
   /*
   MARK: Text Color
   */
+  .primary-text {
+    @apply text-primary-text;
+  }
 
   .distinct-text {
     @apply text-distinct-text;

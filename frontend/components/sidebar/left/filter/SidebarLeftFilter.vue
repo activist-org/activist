@@ -7,6 +7,10 @@
       v-if="sidebarTypeToDisplay === SidebarType.EVENTS_PAGE"
       :logo-url="logoUrl"
     />
+    <SidebarLeftFilterOrganization
+      v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATIONS_PAGE"
+      :logo-url="logoUrl"
+    />
   </div>
 </template>
 

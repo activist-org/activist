@@ -70,7 +70,7 @@
         <div class="card-style mx-14 mt-5 flex w-full">
           <div class="flex-1 px-5 py-6">
             <h3 for="location" class="block font-medium">
-              {{ $t("i18n.pages._global.create.location") }}
+              {{ $t("i18n._global.location") }}
             </h3>
             <textarea
               v-model="formData.location"

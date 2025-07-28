@@ -41,7 +41,7 @@
           </div>
           <div class="w-1/2">
             <h3 for="location" class="block font-medium">
-              {{ $t("i18n.pages._global.create.location") }}*
+              {{ $t("i18n._global.location") }}*
             </h3>
             <input
               v-model="formData.location"
