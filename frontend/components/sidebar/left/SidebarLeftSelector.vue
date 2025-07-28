@@ -9,7 +9,7 @@
           v-if="iconUrl"
           class="h-5 w-5 flex-shrink-0"
           :class="{
-            'dark:group-hover:fill-cta-orange': !selected, 
+            'dark:group-hover:fill-cta-orange': !selected,
             'fill-layer-1': selected,
           }"
           :name="iconUrl"
