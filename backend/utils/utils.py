@@ -3,10 +3,14 @@
 Utility functions for date formatting and logic validation as well as other common operations.
 """
 
+import logging
+
 from typing import Any
 
 from django.utils.translation import gettext as _
 from rest_framework import serializers
+
+logger = logging.getLogger(__name__)
 
 
 def validate_creation_and_deletion_dates(data: Any) -> None:
@@ -28,6 +32,7 @@ def validate_creation_and_deletion_dates(data: Any) -> None:
     """
 
     if data.get("deletion_date") and data.get("deletion_date") < data["creation_date"]:
+        logger.error("deletion_date (%s) is before creation_date (%s)", data.get("deletion_date"), data["creation_date"])
         raise serializers.ValidationError(
             _("The field deletion_date cannot be before creation_date."),
             code="invalid_date_order",
@@ -55,6 +60,7 @@ def validate_creation_and_deprecation_dates(data: Any) -> None:
         data.get("deprecation_date")
         and data.get("deprecation_date") < data["creation_date"]
     ):
+        logger.error("deprecation_date (%s) is before creation_date (%s)", data.get("deprecation_date"), data["creation_date"])
         raise serializers.ValidationError(
             _("The field deprecation_date cannot be before creation_date."),
             code="invalid_date_order",
