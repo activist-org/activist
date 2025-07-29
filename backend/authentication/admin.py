@@ -12,6 +12,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
+from django.http import HttpRequest
+from django.forms import ModelForm
 
 from authentication.models import Support, SupportEntityType, UserFlag, UserModel
 
@@ -116,7 +118,7 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request: HttpRequest, obj: UserModel, form: ModelForm[Any], change: bool) -> None:
         """Override to add logging for user updates."""
         super().save_model(request, obj, form, change)
         if change:
@@ -124,7 +126,7 @@ class UserAdmin(BaseUserAdmin[UserModel]):
         else:
             logger.info("Created user via admin: %s (by %s)", obj.email, request.user)
 
-    def delete_model(self, request, obj):
+    def delete_model(self, request: HttpRequest, obj: UserModel) -> None:
         """Override to add logging for user deletions."""
         logger.warning("Deleting user via admin: %s (by %s)", obj.email, request.user)
         super().delete_model(request, obj)
@@ -180,7 +182,7 @@ class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
 
     list_display = ["user", "created_by", "created_on"]
 
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request: HttpRequest, obj: UserFlag, form: ModelForm[Any], change: bool) -> None:
         """Override to add logging for user flag operations."""
         super().save_model(request, obj, form, change)
         if change:
@@ -188,7 +190,7 @@ class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
         else:
             logger.warning("Created user flag: %s -> %s (by %s)", obj.user.email, obj.created_by, request.user)
 
-    def delete_model(self, request, obj):
+    def delete_model(self, request: HttpRequest, obj: UserFlag) -> None:
         """Override to add logging for user flag deletions."""
         logger.info("Deleted user flag: %s -> %s (by %s)", obj.user.email, obj.created_by, request.user)
         super().delete_model(request, obj)
