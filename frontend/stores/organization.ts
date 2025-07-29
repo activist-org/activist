@@ -14,6 +14,7 @@ interface OrganizationStore {
   organization: Organization;
   organizations: Organization[];
 }
+const { token } = useAuth();
 
 export const useOrganizationStore = defineStore("organization", {
   // MARK: Properties
@@ -63,8 +64,6 @@ export const useOrganizationStore = defineStore("organization", {
     async create(formData: OrganizationCreateFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
       const responseOrg = await useFetch(
         `${BASE_BACKEND_URL}/communities/organizations`,
         {
@@ -82,7 +81,7 @@ export const useOrganizationStore = defineStore("organization", {
             acceptance_date: new Date(),
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -190,8 +189,6 @@ export const useOrganizationStore = defineStore("organization", {
     ) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
       const responseOrg = await $fetch(
         BASE_BACKEND_URL + `/communities/organizations/${org.id}`,
         {
@@ -201,7 +198,7 @@ export const useOrganizationStore = defineStore("organization", {
             getInvolvedUrl: formData.getInvolvedUrl,
           },
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -219,7 +216,7 @@ export const useOrganizationStore = defineStore("organization", {
             iso: "en",
           },
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -243,8 +240,6 @@ export const useOrganizationStore = defineStore("organization", {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
-
       // Endpoint needs socialLink id's but they are not available here.
       // 'update()' in the viewset 'class OrganizationSocialLinkViewSet' handles this
       // by using the org.id from the end of the URL.
@@ -261,7 +256,7 @@ export const useOrganizationStore = defineStore("organization", {
             }))
           ),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -275,7 +270,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated organization data after successful updates, to update the frontend.
+        // Fetch updated organization data after successful updates to update the frontend.
         await this.fetchById(org.id);
         this.loading = false;
         return true;
@@ -285,25 +280,25 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Create FAQ
 
-    async updateFaqEntry(org: Organization, formData: FaqEntry) {
+    async createFaqEntry(org: Organization, formData: FaqEntry) {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
-
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organization_faqs/${org.id}`,
+        `${BASE_BACKEND_URL}/communities/organization_faqs`,
         {
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify({
-            id: formData.id,
+            iso: formData.iso,
+            order: formData.order,
             question: formData.question,
             answer: formData.answer,
+            org: org.id,
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -317,7 +312,47 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated org data after successful updates, to update the frontend.
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ
+
+    async updateFaqEntry(org: Organization, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_faqs/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Organization;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
         await this.fetchById(org.id);
         this.loading = false;
         return true;

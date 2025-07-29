@@ -4,20 +4,19 @@
 #
 #    pip-compile requirements.in
 #
-asgiref==3.8.1
+asgiref==3.9.1
     # via
     #   django
     #   django-cors-headers
-    #   django-stubs
-attrs==24.3.0
+attrs==25.3.0
     # via
     #   jsonschema
     #   referencing
-certifi==2024.12.14
+certifi==2025.7.14
     # via requests
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
-django==5.1.7
+django==5.2.4
     # via
     #   -r requirements.in
     #   django-cors-headers
@@ -25,23 +24,23 @@ django==5.1.7
     #   django-stubs-ext
     #   djangorestframework
     #   drf-spectacular
-django-cors-headers==4.6.0
+django-cors-headers==4.7.0
     # via -r requirements.in
-django-stubs==5.1.1
+django-stubs==5.2.2
     # via
     #   -r requirements.in
     #   djangorestframework-stubs
-django-stubs-ext==5.1.1
+django-stubs-ext==5.2.2
     # via
     #   -r requirements.in
     #   django-stubs
-djangorestframework==3.15.2
+djangorestframework==3.16.0
     # via
     #   -r requirements.in
     #   drf-spectacular
 djangorestframework-camel-case==1.4.2
     # via -r requirements.in
-djangorestframework-stubs==3.15.2
+djangorestframework-stubs==3.16.1
     # via -r requirements.in
 drf-spectacular==0.28.0
     # via -r requirements.in
@@ -51,46 +50,47 @@ idna==3.10
     # via requests
 inflection==0.5.1
     # via drf-spectacular
-jsonschema==4.23.0
+jsonschema==4.25.0
     # via drf-spectacular
-jsonschema-specifications==2024.10.1
+jsonschema-specifications==2025.4.1
     # via jsonschema
-packaging==24.2
+packaging==25.0
     # via gunicorn
-pillow==11.1.0
+pillow==11.3.0
     # via -r requirements.in
 psycopg2-binary==2.9.10
     # via -r requirements.in
-python-dotenv==1.0.1
+python-dotenv==1.1.1
     # via -r requirements.in
 pyyaml==6.0.2
     # via drf-spectacular
-referencing==0.35.1
+referencing==0.36.2
     # via
     #   jsonschema
     #   jsonschema-specifications
-requests==2.32.3
+requests==2.32.4
     # via djangorestframework-stubs
-rpds-py==0.22.3
+rpds-py==0.26.0
     # via
     #   jsonschema
     #   referencing
 sqlparse==0.5.3
     # via django
-types-pyyaml==6.0.12.20241230
+types-pyyaml==6.0.12.20250516
     # via
     #   django-stubs
     #   djangorestframework-stubs
-types-requests==2.32.0.20241016
+types-requests==2.32.4.20250611
     # via djangorestframework-stubs
-typing-extensions==4.12.2
+typing-extensions==4.14.1
     # via
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework-stubs
-uritemplate==4.1.1
+    #   referencing
+uritemplate==4.2.0
     # via drf-spectacular
-urllib3==2.3.0
+urllib3==2.5.0
     # via
     #   requests
     #   types-requests

@@ -157,6 +157,7 @@ class OrganizationFaqFactory(factory.django.DjangoModelFactory):
     question = factory.Faker(provider="text", locale="la")
     answer = factory.Faker(provider="text", locale="la")
     order = factory.Faker("random_int", min=1, max=100)
+    org = factory.SubFactory(OrganizationFactory)
 
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):

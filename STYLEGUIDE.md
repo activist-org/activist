@@ -11,21 +11,28 @@ If you have questions or would like to communicate with the team, please [join u
 ## **Contents**
 
 - [Vue and Nuxt](#vue-and-nuxt)
+  - [Page routing](#page-routing)
+  - [Breakpoints](#breakpoints)
 - [TypeScript](#typescript)
 - [Tailwind](#tailwind)
 - [Common styles](#common-styles)
 - [Formatting](#formatting)
 - [Colors](#colors)
-- [Font](#font)
-- [Text size](#text-size)
+- [Text styles](#text-styles)
+  - [Font](#font)
+  - [Text size](#text-size)
+  - [Text colors](#text-colors)
 - [Localization](#localization)
-- [Images and Icons](#images-icons)
+- [Images and icons](#images-and-icons)
 - [Tab size](#tab-size)
 - [Padding](#padding)
 
 <a id="vue-and-nuxt"></a>
 
 ## Vue and Nuxt [`⇧`](#contents)
+
+> [!NOTE]
+> For VS Code users: it is recommended to install [Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to enable in-editor type-checking.
 
 The frontend for activist is written in the framework [Vue.js](https://vuejs.org/) and specifically the meta-framework [Nuxt.js](https://nuxt.com/). The team chose Vue because of its broad usage across the development industry as well as relative ease of use and adoption for new contributors. Most of all we appreciate the structure that Vue adds to a project by leveraging the order of HTML and adding scripting and styling on top. Nuxt expands on Vue seamlessly and includes many [modules](https://nuxt.com/modules) to make development much easier.
 
@@ -59,11 +66,15 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 
-### Page Routing
+<a id="page-routing"></a>
+
+### Page Routing [`⇧`](#contents)
 
 Page routing should use the `<NuxtLink />` component wherever possible to assure that the platform maintains the localization path of the user. If an external link via an `<a>` tag should be set, then please include `target="_blank"` to open a new tab (unless it's an email href).
 
-### Breakpoints
+<a id="breakpoints"></a>
+
+### Breakpoints [`⇧`](#contents)
 
 activist uses Tailwind for CSS, and some parts of components will be conditionally rendered based on Tailwind breakpoints, but we want to avoid using it to show and hide whole components. The reason for this is that using CSS in this way means that unneeded TypeScript for the hidden components will still run on page load. Please use `useBreakpoint` for all conditional rendering of full components.
 
@@ -89,15 +100,6 @@ activist uses Tailwind for CSS, and some parts of components will be conditional
 <a id="typescript"></a>
 
 ## TypeScript [`⇧`](#contents)
-
-PRs are always welcome to improve the developer experience and project infrastructure!
-
-> [!NOTE]
-> For VS Code users: it is recommended to install Vue extensions to enable in-editor type-checking:
->
-> - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-
-### Vue Single File Component (.vue file) Guidelines
 
 - Create general frontend types in the [frontend/types](frontend/types) directory
 - When typing Arrays, use `arrayElementType[]` rather than the generic type `Array<T>` unless [extending](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays):
@@ -173,9 +175,6 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
     - Colors are defined for light and dark mode with border width and radius also being applied
     - Used in cases like about page sections, search results, etc
 
-> [!NOTE]
-> There's also custom styles available to make development easier such as `bg-breakpoint-test` that changes the background of the element it's applied to based on the current breakpoint.
-
 <a id="formatting"></a>
 
 ## Formatting [`⇧`](#contents)
@@ -200,22 +199,103 @@ Note further that Tailwind allows for alpha components for opacity to be applied
 <div class="bg-cta-orange/40"></div>
 ```
 
+
+<a id="text-styles"></a>
+
+## Text styles [`⇧`](#contents)
+
+> [!IMPORTANT]
+> The examples below use plain text to be easily understandable, but note that all texts should be defined using i18n keys in the `frontend/i18n` JSON files. Please see the [Localization](#localization) section below to learn more.
+
+The activist frontend applies consistent global styles to semantic HTML tags like `h1`, `h2`, `p`, `ul`, and `ol` via Tailwind classes inside `frontend/assets/css/tailwind.css`. This ensures that text styling is predictable, accessible, and visually cohesive across the platform.
+
+These styles are **defined globally** using Tailwind’s `@layer components` and should be relied upon by all contributors instead of re-applying utility classes manually.
+
+**Do use semantic tags with global styles:**
+
+```html
+<h1>Organize for impact</h1>
+<p>Start building your campaign with tools built for activists.</p>
+```
+
+No need to add text classes like `text-xl` or `text-gray-800` — they’re already applied globally.
+
+**Don’t manually override text styles:**
+
+```html
+<!-- Avoid this unless absolutely necessary. -->
+<h1 class="text-xl text-gray-700">Organize for impact</h1>
+```
+
+Only add utility overrides if absolutely necessary for a unique layout or design request. In general, styling for typography should be handled globally through semantic elements and in the lower sections it will define different variation of styling that is predefined.
+
+**Example of globally applied styles:**
+
+| Element | Applied classes                                   |
+| ------- | ------------------------------------------------- |
+| `h1`    | `responsive-h1 text-primary-text`                 |
+| `h2`    | `responsive-h2 text-primary-text`                 |
+| `p`     | `text-base text-primary-text`                     |
+| `ul`    | `text-base text-primary-text`                     |
+| `a`     | *(opted out globally; use `link-text` as needed)* |
+
+> [!NOTE]
+> Global styles for headings and body text help ensure accessibility, dark mode support, and visual consistency. Avoid duplicating or overriding them unless necessary.
+
 <a id="font"></a>
 
-## Font [`⇧`](#contents)
+### Font [`⇧`](#contents)
 
-The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are generally defined by `responsive-h#` custom classes that include `font-display`, it will be rare that you'll need to apply it directly. See the next section for more details.
+The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are defined by `responsive-h#` custom classes that include `font-display` being applied globally to their corresponding `h#` HTML, it will be rare that you'll need to apply it directly. See the next section for more details.
 
 <a id="text-size"></a>
 
-## Text size [`⇧`](#contents)
+### Text size [`⇧`](#contents)
 
-[frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them. The naming criteria of these headers follows that of HTML headers so that the team remembers that when a `responsive-h#` tag is used that it should be applied to a coinciding `<h#>` tag for accessibility. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
+[frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them and are globally applied to the corresponding HTML `h#` tag. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
 
 ```html
 <!-- The size and weight styles for page headers. -->
-<h1 class="font-bold responsive-h1">Page Header</h1>
+<h1 class="font-bold">Page Header</h1>
 ```
+
+### Text colors
+
+Text color is controlled using semantic utility classes defined in `@layer components` in `frontend/assets/css/tailwind.css`. These classes are designed to work consistently across light and dark modes, using CSS variables defined in your theme.
+
+Avoid using raw Tailwind color utilities like `text-gray-500` or `text-white`. Instead, use the predefined text color classes listed below.
+
+| Utility Class       | Description                                     |
+| ------------------- | ----------------------------------------------- |
+| `text-primary-text` | Default text color (used in `p`, `ul`, etc.)    |
+| `distinct-text`     | De-emphasized text, slightly lighter or grayer  |
+| `link-text`         | Link color in both light and dark modes         |
+| `link-text-hover`   | Applied on `:hover` to links for interaction    |
+| `error-text`        | Text indicating an error (e.g. form validation) |
+| `warn-text`         | Warning or alert text                           |
+
+**Example usage:**
+
+```html
+<p>This uses the default text color.</p>
+
+<p class="distinct-text">
+  This is secondary or less prominent text.
+</p>
+
+<a href="#" class="link-text">
+  Click here
+</a>
+
+<p class="error-text">
+  Please enter a valid email.
+</p>
+```
+
+These utility classes are responsive to theme changes (light/dark) and should be used instead of inline or raw utility colors.
+
+> [!NOTE]
+> Need a new text color variant? Add it to `@layer components` and ensure it maps to a CSS variable for both themes.
 
 <a id="localization"></a>
 
@@ -271,7 +351,7 @@ Localization keys should be defined based on the file in which they're used with
 
 <a id="images-icons"></a>
 
-## Images and Icons [`⇧`](#contents)
+## Images and icons [`⇧`](#contents)
 
 Please define all routes for images and icons in the respective [url registry utils file](frontend/utils/imageURLRegistry.s.ts) and [icon map enum](frontend/types/icon-map.ts).
 

@@ -2,7 +2,7 @@
 <template>
   <div class="card-style flex flex-col space-y-3 px-5 py-5">
     <div class="flex items-center gap-5">
-      <h3 class="responsive-h3 text-left font-display">
+      <h3 class="text-left font-display">
         {{ $t("i18n.components.card_donate.donate") }}
       </h3>
       <div

@@ -2,7 +2,7 @@
 <template>
   <div
     v-if="contentPosition === 'left'"
-    class="flex items-center justify-center py-8 text-primary-text sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
+    class="flex items-center justify-center py-8 sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
   >
     <div
       class="flex w-full flex-col items-center space-y-3 sm:w-10/12 lg:max-w-sm lg:items-start xl:max-w-md xl:space-y-4"
@@ -60,7 +60,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'right'"
-    class="flex items-center justify-center bg-layer-2 py-8 text-primary-text sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
+    class="flex items-center justify-center bg-layer-2 py-8 sm:py-12 md:py-16 lg:space-x-20 lg:py-24 xl:space-x-32 xl:py-28 2xl:space-x-40"
   >
     <!-- Note: image left of content. -->
     <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
@@ -118,7 +118,7 @@
   </div>
   <div
     v-else-if="contentPosition === 'top'"
-    class="flex items-center justify-center pb-10 pt-16 text-primary-text sm:pb-16 md:pb-20 xl:py-24"
+    class="flex items-center justify-center pb-10 pt-16 sm:pb-16 md:pb-20 xl:py-24"
   >
     <div class="flex flex-col items-center space-y-3 xl:space-y-4">
       <h2

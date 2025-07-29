@@ -1,5 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
+  <NuxtLoadingIndicator color="#F0A14C" />
   <HeaderWebsite v-if="!aboveMediumBP" />
   <div class="grid h-screen grid-cols-1 md:grid-cols-2">
     <Head>
@@ -16,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="h-full bg-layer-1 text-primary-text">
+    <div class="h-full bg-layer-1">
       <div v-if="aboveMediumBP" class="flex justify-end space-x-6 px-8 py-4">
         <DropdownLanguage />
         <BtnRouteInternal
@@ -31,7 +32,7 @@
       </div>
       <div class="w-full flex-1 space-y-4 pb-4 pt-16 md:pb-8 md:pt-28">
         <div class="flex items-center justify-center p-4">
-          <h1 class="responsive-h1 text-center font-display font-bold">
+          <h1 class="text-center font-display font-bold">
             {{ $t(page.message) }}
           </h1>
         </div>

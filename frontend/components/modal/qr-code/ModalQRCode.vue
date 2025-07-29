@@ -2,9 +2,9 @@
 <template>
   <ModalBase :modalName="modalName">
     <DialogTitle class="flex justify-between font-display">
-      <p class="md:responsive-h2 text-3xl font-bold">
+      <h2 class="font-bold">
         {{ $t("i18n.components.modal_qr_code.header") }}
-      </p>
+      </h2>
     </DialogTitle>
     <div
       class="flex flex-col items-center space-y-6 pb-6 md:grid md:grid-cols-2 md:grid-rows-1 lg:mr-14 lg:grid-cols-3 lg:grid-rows-1 lg:space-x-6 lg:space-y-0 lg:pr-8"

@@ -6,7 +6,7 @@
         id="password-strength-indicator-progress"
         data-testid="password-strength-indicator-progress"
         class="h-1 rounded-md transition-width duration-500 ease-in"
-        :class="!!passwordValue.length ? `${color}` : ''"
+        :class="!!(password || []).length ? `${color}` : ''"
         :style="`width: ${width}%;`"
       ></div>
     </div>
@@ -22,7 +22,7 @@
       {{ $t("i18n.components.indicator_password_strength.title") }}:
       {{
         $t(
-          !!passwordValue.length
+          !!(password || []).length
             ? text
             : "i18n.components.indicator_password_strength.invalid"
         )
@@ -34,16 +34,14 @@
 <script setup lang="ts">
 import zxcvbn from "zxcvbn";
 
-const props = defineProps({
-  passwordValue: {
-    type: String,
-    default: "",
-  },
-});
+const props = defineProps<{
+  passwordValue?: string | Ref<string | undefined>;
+}>();
 
 const width = computed(() => (score.value + 1) * 20);
 const color = computed(() => passwordStrengthMap[score.value].color);
 const text = computed(() => passwordStrengthMap[score.value].text);
+const password = computed(() => unref(props.passwordValue));
 
 const passwordStrengthMap: Record<number, { color: string; text: string }> = {
   0: {
@@ -72,11 +70,11 @@ const SCORE_THRESHOLDS: number[] = [6, 9, 11.5, 13.5, 15];
 
 // Finds the case where guessLog is less than the value among the values specified in the SCORE_THRESHOLDS array and returns its index.
 const score = computed(() => {
-  const guessLog: number = zxcvbn(props.passwordValue).guesses_log10;
+  if (!password.value) return 0;
+  const guessLog: number = zxcvbn(password.value as string).guesses_log10;
   const scoreIndex = SCORE_THRESHOLDS.findIndex(
     (threshold) => guessLog < threshold
   );
-
   return scoreIndex >= 0 ? scoreIndex : SCORE_THRESHOLDS.length - 1;
 });
 </script>

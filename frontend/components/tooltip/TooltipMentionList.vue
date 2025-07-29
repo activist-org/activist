@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="relative flex flex-col gap-0.5 overflow-auto rounded-lg border border-section-div bg-layer-2 p-2 text-primary-text shadow-md"
+    class="relative flex flex-col gap-0.5 overflow-auto rounded-lg border border-section-div bg-layer-2 p-2 shadow-md"
   >
     <template v-if="items.length">
       <button

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div
+  <p
     v-if="iconName === 'IconOrganization' || iconName === 'IconSupport'"
     class="flex items-center gap-1 fill-primary-text"
   >
@@ -16,24 +16,24 @@
       name="IconSupport"
     />
     {{ value }}
-    <p v-if="label">
+    <span v-if="label">
       {{ $t(label) }}
-    </p>
-  </div>
-  <div v-else class="flex items-center gap-1">
+    </span>
+  </p>
+  <p v-else class="flex items-center gap-1">
     <Icon
       class="mr-1"
       :name="iconName"
       :size="iconSize ? iconSize : '1.25em'"
     />
     <a v-if="iconName === IconMap.VIDEO" :href="value">{{ value }}</a>
-    <p v-else>
+    <span v-else>
       {{ value }}
-    </p>
-    <p v-if="label">
+    </span>
+    <span v-if="label">
       {{ $t(label) }}
-    </p>
-  </div>
+    </span>
+  </p>
 </template>
 
 <script setup lang="ts">

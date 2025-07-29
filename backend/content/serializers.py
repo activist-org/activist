@@ -5,7 +5,7 @@ Serializers for the content app.
 
 import logging
 from io import BytesIO
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Union
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
@@ -116,7 +116,8 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         )
 
     except Exception as e:
-        print(f"Error scrubbing EXIF: {e}")
+        logger.error(f"Error scrubbing EXIF: {e}")
+
         return image_file  # return original file in case of error
 
 
@@ -164,7 +165,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Any]) -> List[Image]:
+    def create(self, validated_data: Dict[str, Any]) -> Any:
         """
         Create an Image instance with privacy-enhanced processing.
 

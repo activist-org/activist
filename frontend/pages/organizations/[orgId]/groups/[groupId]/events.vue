@@ -5,7 +5,7 @@
     :selectors="groupSubPages"
     :selectedRoute="1"
   />
-  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
         {{ group.name }}&nbsp;{{
@@ -18,7 +18,7 @@
         group.name + ' ' + $t('i18n.pages.organizations._global.events_lower')
       "
       :tagline="$t('i18n.pages.organizations._global.events_tagline')"
-      :underDevelopment="true"
+      :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteInternal

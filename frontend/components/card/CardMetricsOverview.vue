@@ -2,7 +2,7 @@
 <template>
   <div class="card-style flex flex-col space-y-3 px-5 py-4">
     <div class="flex w-full items-center">
-      <h3 class="responsive-h3 grow text-left font-display">
+      <h3 class="grow text-left font-display">
         {{ $t("i18n.components.card_metrics_overview.header") }}
       </h3>
       <DropdownDateFilter />
@@ -16,14 +16,14 @@
         backgroundColor="bg-layer-1 hover:bg-highlight active:bg-layer-1 active:dark:bg-layer-1"
       />
       <CardMetric
-        :text="$t('i18n.components.card_metrics_overview.action')"
+        :text="$t('i18n.components._global.action')"
         :number="metrics['action events']"
         textColor="text-primary-text dark:text-action-red"
         borderColor="border-primary-text dark:border-action-red"
         backgroundColor="bg-action-red/60 dark:bg-action-red/20 hover:bg-action-red/50 hover:dark:bg-action-red/30 active:bg-action-red/60 active:dark:bg-action-red/20"
       />
       <CardMetric
-        :text="$t('i18n.components.card_metrics_overview.learn')"
+        :text="$t('i18n.components._global.learn')"
         :number="metrics['learn events']"
         textColor="text-primary-text dark:text-learn-blue"
         borderColor="border-primary-text dark:border-learn-blue"

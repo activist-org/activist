@@ -104,6 +104,7 @@ class SignInSerializer(serializers.Serializer[UserModel]):
     email = serializers.EmailField(required=False)
     username = serializers.CharField(required=False)
     password = serializers.CharField(write_only=True)
+    session_id = serializers.UUIDField(required=False, allow_null=True)
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         """
@@ -147,14 +148,30 @@ class SignInSerializer(serializers.Serializer[UserModel]):
                 ("Please confirm your email address."),
                 code="email_not_confirmed",
             )
-
         data["user"] = authenticated_user
 
         token, _ = Token.objects.get_or_create(user=user)
         data["token"] = token.key
         data["user"] = user
+        # session_key = secrets.token_hex(20)
+        # session = SessionModel.objects.create(
+        #     user=data["user"],
+        #     session_key=session_key,
+        # )
+        # session.save()
 
         return data
+
+
+# class SessionSerializer(serializers.ModelSerializer[SessionModel]):
+#     """
+#     Serializer for the session model.
+#     """
+
+#     class Meta:
+#         model = SessionModel
+#         fields = ("id", "user", "session_key", "created_at")
+#         read_only_fields = ("id", "created_at")
 
 
 class PasswordResetSerializer(serializers.Serializer[UserModel]):

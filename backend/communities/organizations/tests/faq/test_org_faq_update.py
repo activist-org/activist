@@ -6,7 +6,7 @@ Test cases for the organization social link methods.
 from uuid import uuid4
 
 import pytest
-from django.test import Client
+from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from communities.organizations.factories import (
@@ -19,7 +19,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_org_faq_update(client: Client) -> None:
+def test_org_faq_update() -> None:
     """
     Test Organization FAQ updates.
 
@@ -33,6 +33,8 @@ def test_org_faq_update(client: Client) -> None:
     None
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
+    client = APIClient()
+
     test_username = "test_user"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -41,10 +43,9 @@ def test_org_faq_update(client: Client) -> None:
     user.is_staff = True
     user.save()
 
-    org = OrganizationFactory()
-    org.created_by = user
+    org = OrganizationFactory(created_by=user)
 
-    faqs = OrganizationFaqFactory()
+    faqs = OrganizationFaqFactory(org=org)
     test_id = faqs.id
     test_question = faqs.question
     test_answer = faqs.answer
@@ -64,7 +65,7 @@ def test_org_faq_update(client: Client) -> None:
     token = login_body["token"]
 
     response = client.put(
-        path=f"/v1/communities/organization_faqs/{org.id}",
+        path=f"/v1/communities/organization_faqs/{test_id}",
         data={
             "id": test_id,
             "iso": "en",
@@ -81,9 +82,9 @@ def test_org_faq_update(client: Client) -> None:
 
     # MARK: Update Failure
 
-    bad_uuid = uuid4()
+    bad_faq_uuid = uuid4()
     response = client.put(
-        path=f"/v1/communities/organization_faqs/{bad_uuid}",
+        path=f"/v1/communities/organization_faqs/{bad_faq_uuid}",
         data={
             "id": test_id,
             "question": test_question,
@@ -97,4 +98,4 @@ def test_org_faq_update(client: Client) -> None:
     assert response.status_code == 404
 
     response_body = response.json()
-    assert response_body["detail"] == "Organization not found."
+    assert response_body["error"] == "FAQ not found."

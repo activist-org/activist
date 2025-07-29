@@ -1,7 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <script setup lang="ts">
-import { onMounted } from "vue";
-
 import { BreakpointMap } from "~/types/breakpoint-map";
 
 const { orgId } = useRoute().params;

@@ -5,6 +5,7 @@ API views for organization management.
 """
 
 import json
+import logging
 from typing import Dict, List
 from uuid import UUID
 
@@ -20,7 +21,7 @@ from drf_spectacular.utils import (
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -43,6 +44,9 @@ from communities.organizations.serializers import (
 from content.models import Image, Location
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
+from core.permissions import IsAdminStaffCreatorOrReadOnly
+
+logger = logging.getLogger("django")
 
 # MARK: Organization
 
@@ -299,59 +303,156 @@ class OrganizationDetailAPIView(APIView):
         )
 
 
-class OrganizationFlagViewSet(viewsets.ModelViewSet[OrganizationFlag]):
+class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    pagination_class = CustomPagination
-    http_method_names = ["get", "post", "delete"]
+    permission_classes = (IsAuthenticated,)
 
-    def create(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
+    @extend_schema(responses={200: OrganizationFlagSerializer(many=True)})
+    def get(self, request: Request) -> Response:
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-        return Response(
-            {"detail": "You are not allowed to flag this organization."},
-            status=status.HTTP_401_UNAUTHORIZED,
-        )
-
-    def list(self, request: Request) -> Response:
-        query = self.queryset.filter()
-        serializer = self.get_serializer(query, many=True)
-
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def retrieve(self, request: Request, pk: str | None):
-        if pk is not None:
-            query = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = self.get_serializer(query)
-
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request: Request):
-        item = self.get_object()
-        if request.user.is_staff:
-            self.perform_destroy(item)
-            return Response(status=status.HTTP_204_NO_CONTENT)
+    @extend_schema(
+        responses={
+            201: OrganizationFlagSerializer,
+            400: OpenApiResponse(response={"detail": "Failed to create flag."}),
+        }
+    )
+    def post(self, request: Request) -> Response:
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        else:
+        try:
+            serializer.save(created_by=request.user)
+
+        except (IntegrityError, OperationalError):
             return Response(
-                {"detail": "You are not allowed to delete this flag report."},
-                status=status.HTTP_403_FORBIDDEN,
+                {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
             )
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Organization Flags
+
+
+class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
+    queryset = OrganizationFlag.objects.all()
+    serializer_class = OrganizationFlagSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+
+    @extend_schema(
+        responses={
+            200: OrganizationFlagSerializer,
+            404: OpenApiResponse(
+                response={"detail": "Failed to retrieve the organization flag."}
+            ),
+        }
+    )
+    def get(self, request: Request, id: str | UUID) -> Response:
+        try:
+            flag = OrganizationFlag.objects.get(id=id)
+
+        except OrganizationFlag.DoesNotExist:
+            return Response(
+                {"detail": "Failed to retrieve the flag."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        self.check_object_permissions(request, flag)
+
+        serializer = OrganizationFlagSerializer(flag)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
+            401: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            404: OpenApiResponse(response={"detail": "Failed to retrieve flag."}),
+        }
+    )
+    def delete(self, request: Request, id: str | UUID) -> Response:
+        try:
+            flag = OrganizationFlag.objects.get(id=id)
+
+        except OrganizationFlag.DoesNotExist:
+            return Response(
+                {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        self.check_object_permissions(request, flag)
+
+        flag.delete()
+        return Response(
+            {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
+        )
 
 
 # MARK: Bridge Tables
+
+
+class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
+    queryset = OrganizationFaq.objects.all()
+    serializer_class = OrganizationFaqSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create FAQs for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = OrganizationFaq.objects.get(id=pk)
+
+        except OrganizationFaq.DoesNotExist:
+            return Response(
+                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.org.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
 
 
 class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
@@ -394,44 +495,6 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
         except Exception as e:
             return Response(
                 {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-
-class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
-    queryset = OrganizationFaq.objects.all()
-    serializer_class = OrganizationFaqSerializer
-
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        org = Organization.objects.filter(id=pk).first()
-        if not org:
-            return Response(
-                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
-        try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                faq = OrganizationFaq.objects.filter(id=data.get("id")).first()
-                if not faq:
-                    return Response(
-                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
-                    )
-                faq.question = data.get("question", faq.question)
-                faq.answer = data.get("answer", faq.answer)
-                faq.save()
-
-            return Response(
-                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
-            )
-
-        except Exception as e:
-            return Response(
-                {"detail": f"Failed to update faqs: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
