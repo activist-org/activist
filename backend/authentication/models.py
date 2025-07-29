@@ -63,16 +63,20 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
             The created superuser.
         """
         logger.info(f"Creating superuser with username: {username}, email: {email}")
-        
+
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
         other_fields.setdefault("is_active", True)
 
         if other_fields.get("is_staff") is not True:
-            logger.error(f"Superuser creation failed for {username}: is_staff must be True")
+            logger.error(
+                f"Superuser creation failed for {username}: is_staff must be True"
+            )
             raise ValueError("Superuser must be assigned to is_staff=True.")
         if other_fields.get("is_superuser") is not True:
-            logger.error(f"Superuser creation failed for {username}: is_superuser must be True")
+            logger.error(
+                f"Superuser creation failed for {username}: is_superuser must be True"
+            )
             raise ValueError("Superuser must be assigned to is_superuser=True.")
 
         try:
@@ -115,7 +119,7 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
             The created user.
         """
         logger.info(f"Creating user with username: {username}, email: {email}")
-        
+
         if email != "":
             email = self.normalize_email(email)
 

@@ -77,7 +77,9 @@ def test_user_flag_delete_does_not_exist():
     logger.debug("User login successful")
 
     bad_flagged_user_uuid = uuid4()
-    logger.debug(f"Attempting to delete non-existent user flag with UUID: {bad_flagged_user_uuid}")
+    logger.debug(
+        f"Attempting to delete non-existent user flag with UUID: {bad_flagged_user_uuid}"
+    )
     login_body = login.json()
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")

@@ -60,7 +60,7 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
         if not re.match(pattern, data["password"]):
             logger.warning(
                 "Password validation failed for username: %s - password does not meet complexity requirements",
-                data.get("username", "unknown")
+                data.get("username", "unknown"),
             )
             raise serializers.ValidationError(
                 _(
@@ -72,14 +72,16 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
         if data["password"] != data["password_confirmed"]:
             logger.warning(
                 "Password confirmation failed for username: %s - passwords do not match",
-                data.get("username", "unknown")
+                data.get("username", "unknown"),
             )
             raise serializers.ValidationError(
                 _("The passwords did not match. Please try again."),
                 code="invalid_password_confirmation",
             )
 
-        logger.info("User signup validation successful for username: %s", data.get("username"))
+        logger.info(
+            "User signup validation successful for username: %s", data.get("username")
+        )
         return data
 
     def create(self, validated_data: Dict[str, Union[str, Any]]) -> UserModel:
@@ -101,13 +103,15 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
         try:
             user: UserModel = UserModel.objects.create_user(**validated_data)
             user.save()
-            logger.info("New user created successfully: %s (ID: %s)", user.username, user.id)
+            logger.info(
+                "New user created successfully: %s (ID: %s)", user.username, user.id
+            )
             return user
         except Exception as e:
             logger.exception(
                 "Failed to create user with username: %s - %s",
                 validated_data.get("username", "unknown"),
-                str(e)
+                str(e),
             )
             raise
 
@@ -140,7 +144,7 @@ class SignInSerializer(serializers.Serializer[UserModel]):
             Validated data for processing.
         """
         identifier = data.get("email") or data.get("username", "unknown")
-        
+
         if not data.get("email"):
             user = UserModel.objects.filter(username=data.get("username")).first()
         else:
@@ -159,30 +163,42 @@ class SignInSerializer(serializers.Serializer[UserModel]):
         )  # type: ignore
 
         if authenticated_user is None:
-            logger.warning("Sign in attempt failed - invalid password for user: %s (ID: %s)", user.username, user.id)
+            logger.warning(
+                "Sign in attempt failed - invalid password for user: %s (ID: %s)",
+                user.username,
+                user.id,
+            )
             raise serializers.ValidationError(
                 ("Invalid credentials. Please try again."),
                 code="invalid_credentials",
             )
 
         if authenticated_user.email != "" and authenticated_user.is_confirmed is False:
-            logger.warning("Sign in attempt failed - email not confirmed for user: %s (ID: %s)", user.username, user.id)
+            logger.warning(
+                "Sign in attempt failed - email not confirmed for user: %s (ID: %s)",
+                user.username,
+                user.id,
+            )
             raise serializers.ValidationError(
                 ("Please confirm your email address."),
                 code="email_not_confirmed",
             )
-        
+
         data["user"] = authenticated_user
 
         try:
             token, _ = Token.objects.get_or_create(user=user)
             data["token"] = token.key
             data["user"] = user
-            logger.info("User signed in successfully: %s (ID: %s)", user.username, user.id)
+            logger.info(
+                "User signed in successfully: %s (ID: %s)", user.username, user.id
+            )
         except Exception as e:
             logger.exception(
                 "Failed to create/get authentication token for user: %s (ID: %s) - %s",
-                user.username, user.id, str(e)
+                user.username,
+                user.id,
+                str(e),
             )
             raise
 
@@ -231,13 +247,19 @@ class PasswordResetSerializer(serializers.Serializer[UserModel]):
             identifier = f"email: {data.get('email')}"
 
         if user is None:
-            logger.warning("Password reset attempt failed - user not found: %s", identifier)
+            logger.warning(
+                "Password reset attempt failed - user not found: %s", identifier
+            )
             raise serializers.ValidationError(
                 _("Invalid email address. Please try again."),
                 code="invalid_email",
             )
 
-        logger.info("Password reset validation successful for user: %s (ID: %s)", user.username, user.id)
+        logger.info(
+            "Password reset validation successful for user: %s (ID: %s)",
+            user.username,
+            user.id,
+        )
         return user
 
 

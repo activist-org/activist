@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
+
 import pytest
 from rest_framework.test import APIClient
 
@@ -38,7 +39,7 @@ def test_user_flag_list():
     token = login_body["token"]
     logger.debug("Setting authorization token for subsequent requests")
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    
+
     logger.debug("Making request to user flag endpoint")
     response = client.get(path="/v1/auth/user_flag")
 

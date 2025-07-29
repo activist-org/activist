@@ -206,10 +206,14 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                         organization = Organization.objects.get(id=organization_id)
                         organization.icon_url = image
                         organization.save()
-                        logger.info(f"Updated Organization {organization_id} with icon {image.id}")
+                        logger.info(
+                            f"Updated Organization {organization_id} with icon {image.id}"
+                        )
 
                     except Exception as e:
-                        logger.exception(f"An unexpected error occurred while updating the organization: {str(e)}")
+                        logger.exception(
+                            f"An unexpected error occurred while updating the organization: {str(e)}"
+                        )
                         raise serializers.ValidationError(
                             f"An unexpected error occurred while updating the event: {str(e)}"
                         )
@@ -221,7 +225,9 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                     OrganizationImage.objects.create(
                         org_id=organization_id, image=image, sequence_index=next_index
                     )
-                    logger.info(f"Added image {image.id} to organization {organization_id} carousel at index {next_index}")
+                    logger.info(
+                        f"Added image {image.id} to organization {organization_id} carousel at index {next_index}"
+                    )
 
             if group_id := request.data.get("group_id"):
                 if request.data.get("entity") == "group-icon":
@@ -250,7 +256,9 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                         logger.info("Updated Event %s with icon %s", event_id, image.id)
 
                     except Exception as e:
-                        logger.exception(f"An unexpected error occurred while updating the event: {str(e)}")
+                        logger.exception(
+                            f"An unexpected error occurred while updating the event: {str(e)}"
+                        )
                         raise serializers.ValidationError(
                             f"An unexpected error occurred while updating the event: {str(e)}"
                         )

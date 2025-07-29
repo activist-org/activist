@@ -104,7 +104,9 @@ class GroupAPIView(GenericAPIView[Group]):
 
         try:
             serializer.save(created_by=request.user, location=location)
-            logger.info(f"Group created by user {request.user} with location {location.id}")
+            logger.info(
+                f"Group created by user {request.user} with location {location.id}"
+            )
 
         except (IntegrityError, OperationalError) as e:
             logger.exception(f"Failed to create group for user {request.user}: {e}")
@@ -433,7 +435,9 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                         )
 
             serializer = self.get_serializer(social_links, many=True)
-            logger.info(f"Updated social links for group {group.id} by user {request.user}")
+            logger.info(
+                f"Updated social links for group {group.id} by user {request.user}"
+            )
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 

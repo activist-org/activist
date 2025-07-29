@@ -85,7 +85,9 @@ class EventAPIView(GenericAPIView[Event]):
 
         try:
             serializer.save(created_by=request.user, offline_location=location)
-            logger.info(f"Event created by user {request.user.id} with location {location.id}")
+            logger.info(
+                f"Event created by user {request.user.id} with location {location.id}"
+            )
 
         except (IntegrityError, OperationalError) as e:
             logger.exception(f"Failed to create event for user {request.user.id}: {e}")
@@ -122,7 +124,7 @@ class EventDetailAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Event.DoesNotExist as e:
-            logger.exception(f"Event with id {id} does not exist for get.")
+            logger.exception(f"Event with id {id} does not exist for get: {e}")
             return Response(
                 {"detail": "Event Not Found."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -147,7 +149,7 @@ class EventDetailAPIView(APIView):
             event = self.queryset.get(id=id)
 
         except Event.DoesNotExist as e:
-            logger.exception(f"Event with id {id} does not exist for update.")
+            logger.exception(f"Event with id {id} does not exist for update: {e}")
             return Response(
                 {"detail": "Event Not Found."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -184,7 +186,7 @@ class EventDetailAPIView(APIView):
             event = self.queryset.get(id=id)
 
         except Event.DoesNotExist as e:
-            logger.exception(f"Event with id {id} does not exist for delete.")
+            logger.exception(f"Event with id {id} does not exist for delete: {e}")
             return Response(
                 {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -237,7 +239,9 @@ class EventFlagAPIView(GenericAPIView[EventFlag]):
             logger.info(f"Event flag created by user {request.user.id}")
 
         except (IntegrityError, OperationalError) as e:
-            logger.exception(f"Failed to create event flag for user {request.user.id}: {e}")
+            logger.exception(
+                f"Failed to create event flag for user {request.user.id}: {e}"
+            )
             return Response(
                 {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -264,7 +268,7 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
             flag = EventFlag.objects.get(id=id)
 
         except EventFlag.DoesNotExist as e:
-            logger.exception(f"EventFlag with id {id} does not exist for get.")
+            logger.exception(f"EventFlag with id {id} does not exist for get: {e}")
             return Response(
                 {"detail": "Failed to retrieve the flag."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -292,7 +296,7 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
             flag = EventFlag.objects.get(id=id)
 
         except EventFlag.DoesNotExist as e:
-            logger.exception(f"EventFlag with id {id} does not exist for delete.")
+            logger.exception(f"EventFlag with id {id} does not exist for delete: {e}")
             return Response(
                 {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -337,7 +341,7 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
             faq = EventFaq.objects.get(id=pk)
 
         except EventFaq.DoesNotExist as e:
-            logger.exception(f"FAQ with id {pk} does not exist for update.")
+            logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
             return Response(
                 {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -396,7 +400,9 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
                         )
                         social_links.append(social_link)
 
-            logger.info(f"Updated social links for event {event.id} by user {request.user.id}")
+            logger.info(
+                f"Updated social links for event {event.id} by user {request.user.id}"
+            )
             serializer = self.get_serializer(social_links, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)

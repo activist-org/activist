@@ -43,7 +43,7 @@ def test_user_flag_retrieve():
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     logger.debug("Set authorization token for API client")
-    
+
     logger.debug(f"Making API request to retrieve user flag: {flagged_user.id}")
     response = client.get(path=f"/v1/auth/user_flag/{flagged_user.id}")
 
@@ -75,16 +75,20 @@ def test_user_flag_retrieve_does_not_exist():
 
     assert login.status_code == 200
     logger.debug("User login successful")
-    
+
     login_body = login.json()
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     logger.debug("Set authorization token for API client")
-    
-    logger.debug(f"Making API request to retrieve non-existent user flag: {flagged_user}")
+
+    logger.debug(
+        f"Making API request to retrieve non-existent user flag: {flagged_user}"
+    )
     response = client.get(path=f"/v1/auth/user_flag/{flagged_user}")
     response_body = response.json()
 
     assert response.status_code == 404
     assert response_body["detail"] == "Failed to retrieve the flag."
-    logger.info("test_user_flag_retrieve_does_not_exist completed successfully - 404 error as expected")
+    logger.info(
+        "test_user_flag_retrieve_does_not_exist completed successfully - 404 error as expected"
+    )

@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
+
 import pytest
 from rest_framework.test import APIClient
 
@@ -38,7 +39,7 @@ def test_user_flag_create():
     login_body = login.json()
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    
+
     logger.debug("Creating user flag")
     response = client.post(
         path="/v1/auth/user_flag",
@@ -76,4 +77,6 @@ def test_user_flag_create_error():
 
     assert response.status_code == 401
     assert response_body["detail"] == "Authentication credentials were not provided."
-    logger.info(f"Authentication error correctly returned, status: {response.status_code}")
+    logger.info(
+        f"Authentication error correctly returned, status: {response.status_code}"
+    )

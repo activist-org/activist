@@ -105,7 +105,9 @@ class OrganizationAPIView(GenericAPIView[Organization]):
             logger.info(f"Organization created successfully: {org.id}")
 
         except (IntegrityError, OperationalError):
-            logger.exception(f"Failed to create organization for user {request.user.id}")
+            logger.exception(
+                f"Failed to create organization for user {request.user.id}"
+            )
             Location.objects.filter(id=location.id).delete()
             return Response(
                 {"detail": "Failed to create organization."},

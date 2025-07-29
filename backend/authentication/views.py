@@ -102,11 +102,13 @@ class SignUpView(APIView):
     def get(self, request: Request) -> Response:
         verification_code = request.GET.get("verification_code")
         logger.info(f"Email verification attempt with code: {verification_code}")
-        
+
         user = UserModel.objects.filter(verification_code=verification_code).first()
 
         if user is None:
-            logger.warning(f"Email verification failed: invalid code {verification_code}")
+            logger.warning(
+                f"Email verification failed: invalid code {verification_code}"
+            )
             return Response(
                 {"detail": "User does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -115,8 +117,10 @@ class SignUpView(APIView):
         user.is_confirmed = True
         user.verification_code = ""
         user.save()
-        
-        logger.info(f"Email verified successfully for user: {user.username} (ID: {user.id})")
+
+        logger.info(
+            f"Email verified successfully for user: {user.username} (ID: {user.id})"
+        )
 
         return Response(
             {"message": "Email is confirmed. You can now log in."},
@@ -136,7 +140,7 @@ class SignInView(APIView):
 
         user = serializer.validated_data.get("user")
         login(request, user)
-        
+
         logger.info(f"User logged in successfully: {user.username} (ID: {user.id})")
 
         return Response(
@@ -182,7 +186,7 @@ class PasswordResetView(APIView):
     def get(self, request: Request) -> Response:
         email = request.query_params.get("email")
         logger.info(f"Password reset request for email: {email}")
-        
+
         user = UserModel.objects.filter(email=email).first()
 
         if user is None:
@@ -228,7 +232,7 @@ class PasswordResetView(APIView):
     def post(self, request: Request) -> Response:
         code = request.query_params.get("code")
         logger.info(f"Password reset attempt with code: {code}")
-        
+
         data = {
             "password": request.data.get("password"),
             "code": code,
@@ -240,8 +244,10 @@ class PasswordResetView(APIView):
 
         user.set_password(request.data.get("password"))
         user.save()
-        
-        logger.info(f"Password reset successfully for user: {user.username} (ID: {user.id})")
+
+        logger.info(
+            f"Password reset successfully for user: {user.username} (ID: {user.id})"
+        )
 
         return Response(
             {"message": "Password was reset successfully."},
@@ -296,9 +302,9 @@ class DeleteUserView(APIView):
         user_id = request.user.id
         username = request.user.username
         logger.info(f"User account deletion requested: {username} (ID: {user_id})")
-        
+
         request.user.delete()
-        
+
         logger.info(f"User account deleted successfully: {username} (ID: {user_id})")
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -335,10 +341,14 @@ class UserFlagAPIView(GenericAPIView[UserFlag]):
 
         try:
             serializer.save(created_by=request.user)
-            logger.info(f"User flag(s) created successfully by user: {request.user.username}")
+            logger.info(
+                f"User flag(s) created successfully by user: {request.user.username}"
+            )
 
         except (IntegrityError, OperationalError) as e:
-            logger.error(f"Failed to create user flag(s) by {request.user.username}: {e}")
+            logger.error(
+                f"Failed to create user flag(s) by {request.user.username}: {e}"
+            )
             return Response(
                 {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -361,7 +371,9 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         }
     )
     def get(self, request: Request, id: str | uuid.UUID) -> Response:
-        logger.info(f"User flag detail requested: ID {id} by user {request.user.username}")
+        logger.info(
+            f"User flag detail requested: ID {id} by user {request.user.username}"
+        )
         try:
             flag = UserFlag.objects.get(id=id)
 
@@ -390,7 +402,9 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         }
     )
     def delete(self, request: Request, id: str | uuid.UUID) -> Response:
-        logger.info(f"User flag deletion requested: ID {id} by user {request.user.username}")
+        logger.info(
+            f"User flag deletion requested: ID {id} by user {request.user.username}"
+        )
         try:
             flag = UserFlag.objects.get(id=id)
 
@@ -403,7 +417,9 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         self.check_object_permissions(request, flag)
 
         flag.delete()
-        logger.info(f"User flag deleted successfully: ID {id} by user {request.user.username}")
+        logger.info(
+            f"User flag deleted successfully: ID {id} by user {request.user.username}"
+        )
         return Response(
             {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )

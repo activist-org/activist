@@ -125,7 +125,9 @@ def test_sign_up(client: APIClient) -> None:
     assert len(mail.outbox) == 1
     # Assert that the password within the dashboard is hashed and not the original string.
     assert user.password != strong_password
-    logger.info(f"Successfully created user: {username} with verification code: {user.verification_code}")
+    logger.info(
+        f"Successfully created user: {username} with verification code: {user.verification_code}"
+    )
 
     # 4. User already exists.
     response = client.post(
@@ -202,7 +204,9 @@ def test_sign_in(client: APIClient) -> None:
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 200
-    logger.info(f"Successfully signed in user: {user.username} via both email and username")
+    logger.info(
+        f"Successfully signed in user: {user.username} via both email and username"
+    )
 
     # 3. User exists but password is incorrect.
     response = client.post(

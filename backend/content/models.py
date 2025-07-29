@@ -3,11 +3,10 @@
 Models for the content app.
 """
 
+import logging
 import os
 from typing import Any, Type
 from uuid import uuid4
-
-import logging
 
 from django.contrib.postgres.fields import ArrayField
 from django.core.validators import validate_image_file_extension
@@ -138,7 +137,9 @@ def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> No
             instance.file_object.delete(save=False)
             logger.info(f"Deleted image file for Image instance {instance.id}")
         except Exception:
-            logger.exception(f"Failed to delete image file for Image instance {instance.id}")
+            logger.exception(
+                f"Failed to delete image file for Image instance {instance.id}"
+            )
 
 
 # MARK: Location

@@ -32,7 +32,9 @@ class TestDeleteUserResponseSerializer:
         assert serializer.validated_data == data
 
     def test_message_max_length_exceeded(self) -> None:
-        logger.info("Testing DeleteUserResponseSerializer with message exceeding max length")
+        logger.info(
+            "Testing DeleteUserResponseSerializer with message exceeding max length"
+        )
         long_message = "A" * 201  # exceeding 200 characters
         data = {"message": long_message}
         serializer = DeleteUserResponseSerializer(data=data)
@@ -154,7 +156,9 @@ class TestPasswordResetSerializer:
 
     @pytest.fixture
     def user_with_verification(self):
-        logger.info("Creating test user with verification code for PasswordResetSerializer tests")
+        logger.info(
+            "Creating test user with verification code for PasswordResetSerializer tests"
+        )
         user = UserFactory.create(
             email="testuser@activist.com", password="oldpassword123"
         )
