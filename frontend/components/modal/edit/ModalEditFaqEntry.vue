@@ -1,37 +1,52 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <div class="flex flex-col space-y-7">
-      <div class="flex flex-col space-y-3 text-primary-text">
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_faq_entry.question")
-        }}</label>
-        <textarea
-          v-model="formData.question"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
-        />
-        <label for="textarea" class="responsive-h2">{{
-          $t("i18n.components.modal_edit_faq_entry.answer")
-        }}</label>
-        <textarea
-          v-model="formData.answer"
-          id="textarea"
-          class="focus-brand elem-shadow-sm min-h-32 rounded-md bg-layer-2 px-3 py-2"
-        />
+    <Form
+      @submit="handleSubmit"
+      :schema="schema"
+      :initial-values="formData"
+      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+    >
+      <h2>
+        {{ $t("i18n.components.modal_edit_faq_entry.edit_entry") }}
+      </h2>
+      <div class="flex flex-col space-y-7">
+        <FormItem
+          v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+          name="question"
+          :label="$t('i18n.components.modal._global.question')"
+          :required="true"
+        >
+          <FormTextArea
+            @input="handleChange"
+            @blur="handleBlur"
+            :id="id"
+            :value="value.value"
+            :hasError="!!errorMessage.value"
+          />
+        </FormItem>
+        <FormItem
+          v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+          name="answer"
+          :label="$t('i18n.components.modal._global.answer')"
+          :required="true"
+        >
+          <FormTextArea
+            @input="handleChange"
+            @blur="handleBlur"
+            :id="id"
+            :value="value.value"
+            :hasError="!!errorMessage.value"
+          />
+        </FormItem>
       </div>
-      <BtnAction
-        @click="handleSubmit"
-        :cta="true"
-        label="i18n.components.modal.edit._global.update_texts"
-        fontSize="base"
-        ariaLabel="i18n.components.modal.edit._global.update_texts_aria_label"
-      />
-    </div>
+    </Form>
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { z } from "zod";
+
 import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -65,33 +80,54 @@ const formData = ref<FaqEntry>({
   id: props.faqEntry.id,
   iso: props.faqEntry.iso,
   order: props.faqEntry.order,
-  question: props.faqEntry.question,
-  answer: props.faqEntry.answer,
+  question: "",
+  answer: "",
 });
 
-if (props.pageType == "organization") {
-  await organizationStore.fetchById(orgId);
-  organization = organizationStore.organization;
-  console.log("organization", organization);
-} else if (props.pageType == "group") {
-  await groupStore.fetchById(groupId);
-  group = groupStore.group;
-} else if (props.pageType == "event") {
-  await eventStore.fetchById(eventId);
-  event = eventStore.event;
-}
+const { t } = useI18n();
 
-async function handleSubmit() {
+const schema = z.object({
+  question: z
+    .string()
+    .min(1, t("i18n.components.modal._global.question_required")),
+  answer: z.string().min(1, t("i18n.components.modal._global.answer_required")),
+});
+
+onMounted(async () => {
+  formData.value.id = props.faqEntry.id;
+  formData.value.question = props.faqEntry.question;
+  formData.value.answer = props.faqEntry.answer;
+  if (props.pageType == "organization") {
+    await organizationStore.fetchById(orgId);
+    organization = organizationStore.organization;
+  } else if (props.pageType == "group") {
+    await groupStore.fetchById(groupId);
+    group = groupStore.group;
+  } else if (props.pageType == "event") {
+    await eventStore.fetchById(eventId);
+    event = eventStore.event;
+  }
+});
+
+async function handleSubmit(values: unknown) {
   let updateResponse = false;
+  const newValues = { ...formData.value, ...(values as FaqEntry) };
+
   if (props.pageType === "organization") {
     updateResponse = await organizationStore.updateFaqEntry(
       organization,
-      formData.value
+      newValues as FaqEntry
     );
   } else if (props.pageType === "group") {
-    updateResponse = await groupStore.updateFaqEntry(group, formData.value);
+    updateResponse = await groupStore.updateFaqEntry(
+      group,
+      newValues as FaqEntry
+    );
   } else if (props.pageType === "event") {
-    updateResponse = await eventStore.updateFaqEntry(event, formData.value);
+    updateResponse = await eventStore.updateFaqEntry(
+      event,
+      newValues as FaqEntry
+    );
   }
 
   if (updateResponse) {

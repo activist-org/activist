@@ -7,6 +7,7 @@ from django.contrib import admin
 
 from communities.groups.models import (
     Group,
+    GroupFaq,
     GroupFlag,
     GroupImage,
     GroupMember,
@@ -16,6 +17,7 @@ from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
     OrganizationApplication,
+    OrganizationFaq,
     OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
@@ -28,10 +30,12 @@ from communities.organizations.models import (
 
 admin.site.register(GroupImage)
 admin.site.register(GroupMember)
+admin.site.register(GroupFaq)
 admin.site.register(OrganizationApplication)
 admin.site.register(OrganizationImage)
 admin.site.register(OrganizationMember)
 admin.site.register(OrganizationTask)
+admin.site.register(OrganizationFaq)
 admin.site.register(StatusType)
 
 # MARK: Methods

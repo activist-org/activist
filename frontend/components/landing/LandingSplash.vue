@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="2xl:pb-18 w-full flex-1 space-y-4 bg-layer-1 pb-8 pt-10 text-primary-text sm:space-y-9 sm:pb-10 sm:pt-12 md:pb-12 md:pt-16 lg:pb-14 lg:pt-20 xl:space-y-10 xl:pb-16 xl:pt-24 2xl:pt-28"
+    class="2xl:pb-18 w-full flex-1 space-y-4 bg-layer-1 pb-8 pt-10 sm:space-y-9 sm:pb-10 sm:pt-12 md:pb-12 md:pt-16 lg:pb-14 lg:pt-20 xl:space-y-10 xl:pb-16 xl:pt-24 2xl:pt-28"
   >
     <div class="flex justify-center">
       <h1
@@ -12,18 +12,16 @@
       </h1>
     </div>
     <div class="flex justify-center">
-      <div
-        class="w-10/12 text-center text-base sm:text-xl md:w-3/4 md:text-lg xl:text-2xl"
-      >
+      <div class="w-10/12 text-center">
         <div v-if="aboveMediumBP" class="block flex-col space-y-1 xl:space-y-2">
-          <p>{{ $t("i18n.components.landing_splash.message_1") }}</p>
-          <p>{{ $t("i18n.components.landing_splash.message_2") }}</p>
+          <h4>{{ $t("i18n.components.landing_splash.message_1") }}</h4>
+          <h4>{{ $t("i18n.components.landing_splash.message_2") }}</h4>
         </div>
-        <p v-else>
+        <h4 v-else>
           {{ $t("i18n.components.landing_splash.message_1") }}&nbsp;{{
             $t("i18n.components.landing_splash.message_2")
           }}
-        </p>
+        </h4>
       </div>
     </div>
     <div class="flex justify-center rounded-md">

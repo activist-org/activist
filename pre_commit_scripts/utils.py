@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 
-def run_shell_command(command: str):
+def run_shell_command(command: str) -> None:
     """
     Run a command from the shell to have it function across operating systems.
 

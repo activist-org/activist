@@ -177,7 +177,8 @@ class Resource(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
-    flags = models.ManyToManyField(
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="ResourceFlag",
     )

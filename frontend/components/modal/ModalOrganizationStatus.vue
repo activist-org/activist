@@ -7,15 +7,20 @@
   >
     <div class="max-h-[80vh] px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
-        <p class="responsive-h2 font-bold">
-          {{ organization.name }}'s Application
-        </p>
+        <h2 class="font-bold">
+          {{
+            $t(
+              "i18n.components.modal_organization_status.organization_application",
+              {
+                organization_name: organization.name,
+              }
+            )
+          }}
+        </h2>
       </DialogTitle>
-      <p
-        class="responsive-h4 pt-2 text-accepted-green dark:text-accepted-green"
-      >
+      <h4 class="pt-2 text-accepted-green dark:text-accepted-green">
         {{ $t("i18n.components.modal_organization_status.status_accepted") }}
-      </p>
+      </h4>
       <div class="space-y-6 py-6">
         <CardOrgApplicationVote
           title="Votes in favor"

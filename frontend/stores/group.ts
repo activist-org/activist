@@ -14,6 +14,7 @@ interface GroupStore {
   group: Group;
   groups: Group[];
 }
+const { token } = useAuth();
 
 export const useGroupStore = defineStore("group", {
   // MARK: Properties
@@ -67,8 +68,6 @@ export const useGroupStore = defineStore("group", {
     async create(formData: GroupCreateFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
       const responseGroup = await useFetch(
         `${BASE_BACKEND_URL}/communities/groups`,
         {
@@ -86,7 +85,7 @@ export const useGroupStore = defineStore("group", {
             acceptance_date: new Date(),
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -183,8 +182,6 @@ export const useGroupStore = defineStore("group", {
     async updateTexts(group: Group, formData: GroupUpdateTextFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
       const responseOrg = await $fetch(
         BASE_BACKEND_URL + `/communities/groups/${group.id}`,
         {
@@ -194,7 +191,7 @@ export const useGroupStore = defineStore("group", {
             getInvolvedUrl: formData.getInvolvedUrl,
           },
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -212,7 +209,7 @@ export const useGroupStore = defineStore("group", {
             iso: "en",
           },
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -236,8 +233,6 @@ export const useGroupStore = defineStore("group", {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
-
       // Endpoint needs socialLink id's but they are not available here.
       // 'update()' in the viewset 'class GroupSocialLinkViewSet' handles this
       // by using the group.id from the end of the URL.
@@ -254,7 +249,7 @@ export const useGroupStore = defineStore("group", {
             }))
           ),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -268,7 +263,7 @@ export const useGroupStore = defineStore("group", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated group data after successful updates, to update the frontend.
+        // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id);
         this.loading = false;
         return true;
@@ -278,25 +273,25 @@ export const useGroupStore = defineStore("group", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Create FAQ
 
-    async updateFaqEntry(group: Group, formData: FaqEntry) {
+    async createFaqEntry(group: Group, formData: FaqEntry) {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
-
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/group_faqs/${group.id}`,
+        `${BASE_BACKEND_URL}/communities/group_faqs/`,
         {
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify({
-            id: formData.id,
+            iso: formData.iso,
+            order: formData.order,
             question: formData.question,
             answer: formData.answer,
+            group: group.id,
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -310,7 +305,47 @@ export const useGroupStore = defineStore("group", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated group data after successful updates, to update the frontend.
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ
+
+    async updateFaqEntry(group: Group, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_faqs/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Group;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id);
         this.loading = false;
         return true;

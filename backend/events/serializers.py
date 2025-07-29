@@ -3,10 +3,11 @@
 Serializers for the events app.
 """
 
+from datetime import datetime
 from typing import Any, Dict, Union
+from uuid import UUID
 
 from django.utils.dateparse import parse_datetime
-from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
@@ -42,6 +43,36 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
     class Meta:
         model = EventFaq
         fields = "__all__"
+
+    def validate_event(self, value: Event | UUID | str) -> Event:
+        """
+        Validate that the event exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Event instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the event does not exist.
+
+        Returns
+        -------
+        Event
+            The validated Event instance.
+        """
+        if isinstance(value, Event):
+            return value
+
+        try:
+            event = Event.objects.get(id=value)
+
+        except Event.DoesNotExist as e:
+            raise serializers.ValidationError("Event not found.") from e
+
+        return event
 
 
 class EventTextSerializer(serializers.ModelSerializer[EventText]):
@@ -150,9 +181,13 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             start_dt = parse_datetime(start) if isinstance(start, str) else start
             end_dt = parse_datetime(end) if isinstance(end, str) else end
 
-            if end_dt and start_dt > end_dt:
+            if (
+                isinstance(start_dt, datetime)
+                and isinstance(end_dt, datetime)
+                and start_dt > end_dt
+            ):
                 raise serializers.ValidationError(
-                    _("The start time cannot be after the end time."),
+                    ("The start time cannot be after the end time."),
                     code="invalid_time_order",
                 )
 
@@ -172,9 +207,13 @@ class EventSerializer(serializers.ModelSerializer[Event]):
                 else deletion_date
             )
 
-            if deletion_dt and creation_dt > deletion_dt:
+            if (
+                isinstance(creation_dt, datetime)
+                and isinstance(deletion_dt, datetime)
+                and creation_dt > deletion_dt
+            ):
                 raise serializers.ValidationError(
-                    _("The creation date cannot be after the deletion date."),
+                    ("The creation date cannot be after the deletion date."),
                     code="invalid_date_order",
                 )
 

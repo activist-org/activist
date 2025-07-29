@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
         {{ event.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
@@ -9,7 +9,7 @@
     <HeaderAppPageEvent
       :header="event.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.events.resources.tagline')"
-      :underDevelopment="true"
+      :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal

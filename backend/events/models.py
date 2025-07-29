@@ -3,11 +3,12 @@
 Models for the events app.
 """
 
+from typing import Any
 from uuid import uuid4
 
 from django.db import models
 
-from content.models import Faq, SocialLink
+from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Event
@@ -61,7 +62,9 @@ class Event(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
-    flags = models.ManyToManyField("authentication.UserModel", through="EventFlag")
+
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
 
     def __str__(self) -> str:
         return self.name
@@ -165,14 +168,22 @@ class EventSocialLink(SocialLink):
     )
 
 
-class EventFaq(Faq):
+class EventFaq(models.Model):
     """
-    Class for adding faq parameters to events.
+    Event Frequently Asked Questions model.
     """
 
-    event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, null=True, related_name="faqs"
-    )
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
+    primary = models.BooleanField(default=False)
+    question = models.TextField(max_length=500)
+    answer = models.TextField(max_length=500)
+    order = models.IntegerField()
+    last_updated = models.DateTimeField(auto_now=True)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="faqs")
+
+    def __str__(self) -> str:
+        return self.question
 
 
 class EventText(models.Model):

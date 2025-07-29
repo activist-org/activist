@@ -67,18 +67,18 @@ const infoLabel = computed(() => {
   return props.isButton
     ? {
         is: "p",
-        class: "pl-2 pr-2",
+        class: "px-2 dark:group-hover:text-cta-orange",
       }
     : props.isSideLeftMenu
       ? {
           is: "p",
           class:
-            "select-none whitespace-nowrap hover:menu-selection dark:hover:menu-selection",
+            "select-none whitespace-nowrap hover:menu-selection dark:group-hover:text-cta-orange",
         }
       : props.iconName
         ? {
             is: "p",
-            class: "pl-2 pr-2",
+            class: "px-2 dark:group-hover:text-cta-orange",
           }
         : {
             is: "span",

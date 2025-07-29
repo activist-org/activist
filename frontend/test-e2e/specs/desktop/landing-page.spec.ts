@@ -309,24 +309,21 @@ test.describe("Landing Page", { tag: "@desktop" }, () => {
   // MARK: Accessibility
 
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test.fail(
-    "Landing Page has no detectable accessibility issues",
-    async ({ page }, testInfo) => {
-      const violations = await runAccessibilityTest(
-        "Landing Page",
-        page,
-        testInfo
-      );
-      expect
-        .soft(violations, "Accessibility violations found:")
-        .toHaveLength(0);
+  test("Landing Page has no detectable accessibility issues", async ({
+    page,
+  }, testInfo) => {
+    const violations = await runAccessibilityTest(
+      "Landing Page",
+      page,
+      testInfo
+    );
+    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
 
-      if (violations.length > 0) {
-        console.log(
-          "Accessibility violations:",
-          JSON.stringify(violations, null, 2)
-        );
-      }
+    if (violations.length > 0) {
+      console.log(
+        "Accessibility violations:",
+        JSON.stringify(violations, null, 2)
+      );
     }
-  );
+  });
 });

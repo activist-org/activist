@@ -27,9 +27,5 @@ import type { BtnAction } from "~/types/btn-props";
 import { getBtnDynamicClass } from "~/utils/btnUtils";
 
 const props = defineProps<BtnAction>();
-const btnDynamicClass = getBtnDynamicClass(
-  props.cta,
-  props.fontSize,
-  props.isDisabled
-);
+const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
 </script>

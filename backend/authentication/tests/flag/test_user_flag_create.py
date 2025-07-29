@@ -8,7 +8,7 @@ from authentication.factories import UserFactory
 pytestmark = pytest.mark.django_db
 
 def test_user_flag_create(authenticated_client):
-    # Partie non authentifiée
+    # Not authenticated
     client = APIClient()
     user = UserFactory(is_confirmed=True, verified=True)
     flagged_user = UserFactory(is_confirmed=True, verified=True)
@@ -21,10 +21,9 @@ def test_user_flag_create(authenticated_client):
     error_response_body = error_response.json()
     assert error_response_body["detail"] == "You are not allowed flag this user."
 
-    # Partie authentifiée : on utilise la fixture
+    # Authenticated part: fixture is used
     response = authenticated_client.post(
         path="/v1/auth/user_flag",
         data={"user": flagged_user.id, "created_by": authenticated_client.handler._force_user.id},
     )
     assert response.status_code == 201
-
