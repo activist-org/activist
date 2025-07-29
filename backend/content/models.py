@@ -7,6 +7,8 @@ import os
 from typing import Any, Type
 from uuid import uuid4
 
+import logging
+
 from django.contrib.postgres.fields import ArrayField
 from django.core.validators import validate_image_file_extension
 from django.db import models
@@ -80,11 +82,17 @@ def set_filename_to_uuid(instance: Any, filename: str) -> str:
     This function is used to maintain unique filenames and prevent collisions.
     File extensions are forced to lowercase for consistency.
     """
-    ext = os.path.splitext(filename)[1]  # extract file extension
-    # Note: Force extension to lowercase.
-    new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename
-
-    return os.path.join("images/", new_filename)  # store in 'images/' folder
+    logger = logging.getLogger(__name__)
+    try:
+        ext = os.path.splitext(filename)[1]  # extract file extension
+        # Note: Force extension to lowercase.
+        new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename
+        result = os.path.join("images/", new_filename)  # store in 'images/' folder
+        logger.debug(f"Generated new filename for upload: {result}")
+        return result
+    except Exception as e:
+        logger.exception(f"Failed to generate filename for upload: {filename}")
+        raise
 
 
 class Image(models.Model):
@@ -124,8 +132,13 @@ def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> No
     This signal handler prevents orphaned files in the filesystem
     when Image model instances are deleted.
     """
+    logger = logging.getLogger(__name__)
     if instance.file_object:
-        instance.file_object.delete(save=False)
+        try:
+            instance.file_object.delete(save=False)
+            logger.info(f"Deleted image file for Image instance {instance.id}")
+        except Exception:
+            logger.exception(f"Failed to delete image file for Image instance {instance.id}")
 
 
 # MARK: Location
