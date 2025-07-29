@@ -46,7 +46,7 @@ from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
-logger = logging.getLogger("django")
+logger = logging.getLogger(__name__)
 
 # MARK: Organization
 
@@ -102,8 +102,10 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         # This is necessary because of a not null constraint on the location field.
         try:
             org = serializer.save(created_by=request.user)
+            logger.info(f"Organization created successfully: {org.id}")
 
         except (IntegrityError, OperationalError):
+            logger.exception(f"Failed to create organization for user {request.user.id}")
             Location.objects.filter(id=location.id).delete()
             return Response(
                 {"detail": "Failed to create organization."},
@@ -160,6 +162,7 @@ class OrganizationDetailAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Organization.DoesNotExist:
+            logger.exception(f"Organization with id {id} does not exist.")
             return Response(
                 {"detail": "Failed to retrieve the organization."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -203,6 +206,7 @@ class OrganizationDetailAPIView(APIView):
             org = Organization.objects.get(id=id)
 
         except Organization.DoesNotExist:
+            logger.exception(f"Organization with id {id} does not exist for update.")
             return Response(
                 {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -281,6 +285,7 @@ class OrganizationDetailAPIView(APIView):
             org = Organization.objects.select_related("created_by").get(id=id)
 
         except Organization.DoesNotExist:
+            logger.exception(f"Organization with id {id} does not exist for delete.")
             return Response(
                 {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -297,6 +302,7 @@ class OrganizationDetailAPIView(APIView):
         org.status_updated = None
         org.tagline = ""
         org.save()
+        logger.info(f"Organization deleted (soft): {org.id}")
 
         return Response(
             {"message": "Organization deleted successfully."}, status.HTTP_200_OK
@@ -333,8 +339,10 @@ class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
 
         try:
             serializer.save(created_by=request.user)
+            logger.info(f"OrganizationFlag created by user {request.user.id}")
 
         except (IntegrityError, OperationalError):
+            logger.exception(f"Failed to create flag for user {request.user.id}")
             return Response(
                 {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -364,6 +372,7 @@ class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
             flag = OrganizationFlag.objects.get(id=id)
 
         except OrganizationFlag.DoesNotExist:
+            logger.exception(f"OrganizationFlag with id {id} does not exist.")
             return Response(
                 {"detail": "Failed to retrieve the flag."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -391,6 +400,7 @@ class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
             flag = OrganizationFlag.objects.get(id=id)
 
         except OrganizationFlag.DoesNotExist:
+            logger.exception(f"OrganizationFlag with id {id} does not exist.")
             return Response(
                 {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -398,6 +408,7 @@ class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
         self.check_object_permissions(request, flag)
 
         flag.delete()
+        logger.info(f"OrganizationFlag deleted: {id}")
         return Response(
             {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )
@@ -426,6 +437,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
             )
 
         serializer.save()
+        logger.info(f"FAQ created for org {org.id}")
 
         return Response(
             {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
@@ -449,6 +461,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         serializer = self.get_serializer(faq, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        logger.info(f"FAQ updated: {faq.id}")
 
         return Response(
             {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
@@ -487,12 +500,14 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
                             label=link_data.get("label"),
                         )
                         social_links.append(social_link)
+            logger.info(f"Social links updated for org {org.id}")
 
             serializer = self.get_serializer(social_links, many=True)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
+            logger.exception(f"Failed to update social links for org {org.id}")
             return Response(
                 {"detail": f"Failed to update social links: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
