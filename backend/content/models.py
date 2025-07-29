@@ -90,7 +90,7 @@ def set_filename_to_uuid(instance: Any, filename: str) -> str:
         result = os.path.join("images/", new_filename)  # store in 'images/' folder
         logger.debug(f"Generated new filename for upload: {result}")
         return result
-    except Exception as e:
+    except Exception:
         logger.exception(f"Failed to generate filename for upload: {filename}")
         raise
 
