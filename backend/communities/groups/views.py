@@ -104,8 +104,10 @@ class GroupAPIView(GenericAPIView[Group]):
 
         try:
             serializer.save(created_by=request.user, location=location)
+            logger.info(f"Group created by user {request.user} with location {location.id}")
 
-        except (IntegrityError, OperationalError):
+        except (IntegrityError, OperationalError) as e:
+            logger.exception(f"Failed to create group for user {request.user}: {e}")
             Location.objects.filter(id=location.id).delete()
             return Response(
                 {"detail": "Failed to create group."},
@@ -132,7 +134,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         try:
             group = Group.objects.get(id=id)
 
-        except Group.DoesNotExist:
+        except Group.DoesNotExist as e:
+            logger.exception(f"Failed to retrieve group with id {id}: {e}")
             return Response(
                 {"detail": "Failed to retrieve the group."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -166,7 +169,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         try:
             group = Group.objects.get(id=id)
 
-        except Group.DoesNotExist:
+        except Group.DoesNotExist as e:
+            logger.exception(f"Group not found for update with id {id}: {e}")
             return Response(
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -202,7 +206,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         try:
             group = Group.objects.select_related("created_by").get(id=id)
 
-        except Group.DoesNotExist:
+        except Group.DoesNotExist as e:
+            logger.exception(f"Group not found for delete with id {id}: {e}")
             return Response(
                 {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -252,7 +257,8 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
         try:
             serializer.save(created_by=request.user)
 
-        except (IntegrityError, OperationalError):
+        except (IntegrityError, OperationalError) as e:
+            logger.exception(f"Failed to create flag for user {request.user}: {e}")
             return Response(
                 {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -278,7 +284,8 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
         try:
             flag = GroupFlag.objects.get(id=id)
 
-        except GroupFlag.DoesNotExist:
+        except GroupFlag.DoesNotExist as e:
+            logger.exception(f"Failed to retrieve flag with id {id}: {e}")
             return Response(
                 {"detail": "Failed to retrieve the flag."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -305,7 +312,8 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
         try:
             flag = GroupFlag.objects.get(id=id)
 
-        except GroupFlag.DoesNotExist:
+        except GroupFlag.DoesNotExist as e:
+            logger.exception(f"Flag not found for delete with id {id}: {e}")
             return Response(
                 {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -340,6 +348,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
             )
 
         serializer.save()
+        logger.info(f"FAQ created for group {group.id} by user {request.user}")
 
         return Response(
             {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
@@ -349,7 +358,8 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         try:
             faq = GroupFaq.objects.get(id=pk)
 
-        except GroupFaq.DoesNotExist:
+        except GroupFaq.DoesNotExist as e:
+            logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
                 {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -385,7 +395,8 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             try:
                 data = json.loads(data)
 
-            except json.JSONDecodeError:
+            except json.JSONDecodeError as e:
+                logger.exception(f"Invalid JSON format for social links update: {e}")
                 return Response(
                     {"detail": "Invalid JSON format."},
                     status=status.HTTP_400_BAD_REQUEST,
@@ -422,15 +433,18 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                         )
 
             serializer = self.get_serializer(social_links, many=True)
+            logger.info(f"Updated social links for group {group.id} by user {request.user}")
 
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except ValueError as ve:
+            logger.exception(f"Invalid data for social links update: {ve}")
             return Response(
                 {"detail": f"Invalid data for social links: {str(ve)}."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except Exception as e:
+            logger.exception(f"Failed to update social links for group {group.id}: {e}")
             return Response(
                 {"detail": f"Failed to update social links: {str(e)}."},
                 status=status.HTTP_400_BAD_REQUEST,
