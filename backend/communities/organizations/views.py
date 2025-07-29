@@ -4,12 +4,9 @@
 API views for organization management.
 """
 
-import json
 import logging
-from typing import Dict, List
 from uuid import UUID
 
-from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
@@ -455,48 +452,54 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         )
 
 
-class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
+class OrganizationSocialLinkViewSet(GenericAPIView[OrganizationSocialLink]):
     queryset = OrganizationSocialLink.objects.all()
     serializer_class = OrganizationSocialLinkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        org = Organization.objects.filter(id=pk).first()
-        if not org:
-            return Response(
-                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
+    @extend_schema(
+        responses={
+            200: {"message: Social links updated successfully."},
+            403: {
+                "detail": "You are not authorized to update the social links for this organization."
+            },
+            404: {"detail": "Social links not found."},
+        }
+    )
+    def put(self, request: Request, id: UUID | str) -> Response:
         try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                # Delete all existing social links for this org.
-                OrganizationSocialLink.objects.filter(org=org).delete()
-
-                # Create new social links from the submitted data.
-                social_links: List[Dict[str, str]] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        social_link = OrganizationSocialLink.objects.create(
-                            org=org,
-                            order=link_data.get("order"),
-                            link=link_data.get("link"),
-                            label=link_data.get("label"),
-                        )
-                        social_links.append(social_link)
-
-            serializer = self.get_serializer(social_links, many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except Exception as e:
+            social_links = OrganizationSocialLink.objects.get(id=id)
+        except OrganizationSocialLink.DoesNotExist:
             return Response(
-                {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "Social links not found."}, status=status.HTTP_404_NOT_FOUND
             )
+
+        org = social_links.org
+        if org is not None:
+            creator = org.created_by
+        else:
+            raise ValueError("Org is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to update the social links for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        OrganizationSocialLink.objects.filter(org=org).delete()
+
+        serializer = self.get_serializer(social_links, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(org=org)
+            return Response(
+                {"message": "Social links updated successfully."},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):

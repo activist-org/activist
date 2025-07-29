@@ -4,12 +4,10 @@
 API views for group management.
 """
 
-import json
 import logging
 from typing import List, Tuple, Type
 from uuid import UUID
 
-from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
@@ -369,72 +367,55 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         )
 
 
-class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
+class GroupSocialLinkViewSet(GenericAPIView[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
-        group = Group.objects.filter(id=pk).first()
-        if not group:
-            return Response(
-                {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            try:
-                data = json.loads(data)
-
-            except json.JSONDecodeError:
-                return Response(
-                    {"detail": "Invalid JSON format."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-        if not isinstance(data, list):
-            return Response(
-                {"detail": "Expected a list of social links."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
+    @extend_schema(
+        responses={
+            200: {"message": "Group social links updated successfully."},
+            403: {
+                "detail": "You are not authorized to update this groups social links."
+            },
+            404: {"detail": "Social links not found."},
+        }
+    )
+    def put(self, request: Request, id: UUID | str) -> Response:
         try:
-            with transaction.atomic():
-                GroupSocialLink.objects.filter(group=group).delete()
-
-                social_links: List[GroupSocialLink] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        if any(k not in link_data for k in ("link", "label")):
-                            raise ValueError(
-                                "Each social link must have 'link' and 'label'."
-                            )
-
-                        social_link = GroupSocialLink.objects.create(
-                            group=group,
-                            order=link_data.get("order"),
-                            link=link_data.get("link"),
-                            label=link_data.get("label"),
-                        )
-                        social_links.append(social_link)
-                    else:
-                        raise ValueError(
-                            "Each item in the social links list must be a dictionary."
-                        )
-
-            serializer = self.get_serializer(social_links, many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except ValueError as ve:
+            social_links = GroupSocialLink.objects.get(id=id)
+        except GroupSocialLink.DoesNotExist:
             return Response(
-                {"detail": f"Invalid data for social links: {str(ve)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "Social links not found."}, status=status.HTTP_404_NOT_FOUND
             )
-        except Exception as e:
+
+        group = social_links.group
+
+        if group is not None:
+            creator = group.created_by
+        else:
+            raise ValueError("Group is None.")
+
+        if request.user != creator and not request.user.is_staff:
             return Response(
-                {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {
+                    "detail": "You are not authorized to update the social links for this group."
+                },
+                status=status.HTTP_403_FORBIDDEN,
             )
+
+        GroupSocialLink.objects.filter(group=group).delete()
+
+        serializer = self.get_serializer(social_links, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(group=group)
+            return Response(
+                {"message": "Social links updated successfully."},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):

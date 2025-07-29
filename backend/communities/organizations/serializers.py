@@ -41,6 +41,36 @@ class OrganizationSocialLinkSerializer(
         model = OrganizationSocialLink
         fields = "__all__"
 
+    def validate_org(self, value: Organization | UUID | str) -> Organization:
+        """
+        Validate that the organization exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Organization instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the organization does not exist.
+
+        Returns
+        -------
+        Organization
+            The validated Organization instance.
+        """
+        if isinstance(value, Organization):
+            return value
+
+        try:
+            org = Organization.objects.get(id=value)
+
+        except Organization.DoesNotExist as e:
+            raise serializers.ValidationError("Organization not found.") from e
+
+        return org
+
 
 class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
     """

@@ -3,12 +3,10 @@
 API views for event management.
 """
 
-import json
 import logging
-from typing import Any, Dict, List, Sequence, Type
+from typing import Any, Sequence, Type
 from uuid import UUID
 
-from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
@@ -346,54 +344,56 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         )
 
 
-class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
+class EventSocialLinkViewSet(GenericAPIView[EventSocialLink]):
     queryset = EventSocialLink.objects.all()
     serializer_class = EventSocialLinkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def update(self, request: Request, *args: Any, **kwargs: Any) -> Response:
-        pk = kwargs.get("pk")
-        if not isinstance(pk, (str, UUID)):
-            return Response(
-                {"detail": "Invalid ID format."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        event = Event.objects.filter(id=pk).first()
-        if not event:
-            return Response(
-                {"detail": "Event not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
+    @extend_schema(
+        responses={
+            200: {"message": "Social links updated successfully."},
+            400: {"detail": "Invalid request."},
+            403: {
+                "detail": "You are not authorized to update the social links for this event."
+            },
+            404: {"detail": "Social links not found."},
+        }
+    )
+    def put(self, request: Request, id: UUID | str) -> Response:
         try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                # Delete all existing social links for this event.
-                EventSocialLink.objects.filter(event=event).delete()
-
-                # Create new social links from the submitted data.
-                social_links: List[Dict[str, str]] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        social_link = EventSocialLink.objects.create(
-                            event=event,
-                            order=link_data.get("order"),
-                            link=link_data.get("link"),
-                            label=link_data.get("label"),
-                        )
-                        social_links.append(social_link)
-
-            serializer = self.get_serializer(social_links, many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except Exception as e:
+            social_link = EventSocialLink.objects.get(id=id)
+        except EventSocialLink.DoesNotExist:
             return Response(
-                {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "Social links not found."}, status=status.HTTP_404_NOT_FOUND
             )
+
+        event = social_link.event
+
+        if event is not None:
+            creator = event.created_by
+        else:
+            raise ValueError("Event is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to update the social links for this event."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        EventSocialLink.objects.filter(event=event).delete()
+
+        serializer = self.get_serializer(social_link, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(event=event)
+            return Response(
+                {"message": "Social links updated successfully."},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class EventTextViewSet(viewsets.ModelViewSet[EventText]):
