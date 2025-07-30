@@ -257,27 +257,21 @@ const writePreviewSelector = (buttonString: string) => {
 };
 
 const at = () => {
-  console.log("click on at");
   writeEditor.value?.chain().focus().insertContent(" @").run();
 };
 const heading = () => {
-  console.log("click on heading");
   writeEditor.value?.chain().focus().toggleHeading({ level: 1 }).run();
 };
 const bold = () => {
-  console.log("click on bold");
   writeEditor.value?.chain().focus().toggleBold().run();
 };
 const italic = () => {
-  console.log("click on italic");
   writeEditor.value?.chain().focus().toggleItalic().run();
 };
 const blockquote = () => {
-  console.log("click on blockquote");
   writeEditor.value?.chain().focus().toggleBlockquote().run();
 };
 const link = () => {
-  console.log("click on link");
   const previousUrl = writeEditor.value?.getAttributes("link").href;
   const url = window.prompt("URL", previousUrl);
 
@@ -305,15 +299,13 @@ const link = () => {
 
 // Note: There is as of now no plan to add in attachments.
 // const attach = () => {
-//   console.log("click on attach");
+//   // For future implementation
 // };
 
 const listul = () => {
-  console.log("click on listul");
   writeEditor.value?.chain().focus().toggleBulletList().run();
 };
 const listol = () => {
-  console.log("click on listol");
   writeEditor.value?.chain().focus().toggleOrderedList().run();
 };
 </script>

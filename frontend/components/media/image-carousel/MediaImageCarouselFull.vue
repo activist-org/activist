@@ -41,7 +41,6 @@ const entityId = computed(() => {
     case FileUploadEntity.GROUP_CAROUSEL:
       return groupStore.group.id;
     default:
-      console.log("Invalid file upload entity: ", props.fileUploadEntity);
       return undefined;
   }
 });
@@ -65,7 +64,7 @@ const handleDeleteComplete = async (fileUploadEntity: FileUploadEntity) => {
     await fetchOrganizationImages();
   }
   if (fileUploadEntity === FileUploadEntity.ORGANIZATION_ICON) {
-    console.log("OrganizationPage handleUploadComplete ORGANIZATION_ICON");
+    // For future implementation
   }
 };
 
@@ -79,7 +78,6 @@ onMounted(async () => {
     case FileUploadEntity.GROUP_CAROUSEL:
       return groupStore.group?.id;
     default:
-      console.log("Invalid file upload entity: ", props.fileUploadEntity);
       return null;
   }
 });

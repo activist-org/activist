@@ -320,10 +320,7 @@ test.describe("Landing Page", { tag: "@desktop" }, () => {
     expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
 
     if (violations.length > 0) {
-      console.log(
-        "Accessibility violations:",
-        JSON.stringify(violations, null, 2)
-      );
+      // Placeholder
     }
   });
 });

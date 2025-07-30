@@ -106,7 +106,6 @@ const handleBlur = (event: FocusEvent) => {
 watch(
   () => props.modelValue,
   (value) => {
-    console.log("Model value changed:", value);
     shrinkLabel.value = !!value;
   }
 );
