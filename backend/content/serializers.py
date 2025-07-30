@@ -116,7 +116,7 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         )
 
     except Exception as e:
-        logger.error(f"Error scrubbing EXIF: {e}")
+        logger.exception(f"Error scrubbing EXIF: {e}")
 
         return image_file  # return original file in case of error
 
@@ -198,6 +198,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             image = super().create(file_data)
 
             images.append(image)
+            logger.info(f"Created Image instance with ID {image.id}")
 
             if organization_id := request.data.get("organization_id"):
                 if request.data.get("entity") == "organization-icon":
@@ -205,8 +206,14 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                         organization = Organization.objects.get(id=organization_id)
                         organization.icon_url = image
                         organization.save()
+                        logger.info(
+                            f"Updated Organization {organization_id} with icon {image.id}"
+                        )
 
                     except Exception as e:
+                        logger.exception(
+                            f"An unexpected error occurred while updating the organization: {str(e)}"
+                        )
                         raise serializers.ValidationError(
                             f"An unexpected error occurred while updating the event: {str(e)}"
                         )
@@ -217,6 +224,9 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                     ).count()
                     OrganizationImage.objects.create(
                         org_id=organization_id, image=image, sequence_index=next_index
+                    )
+                    logger.info(
+                        f"Added image {image.id} to organization {organization_id} carousel at index {next_index}"
                     )
 
             if group_id := request.data.get("group_id"):
@@ -246,6 +256,9 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                         logger.info("Updated Event %s with icon %s", event_id, image.id)
 
                     except Exception as e:
+                        logger.exception(
+                            f"An unexpected error occurred while updating the event: {str(e)}"
+                        )
                         raise serializers.ValidationError(
                             f"An unexpected error occurred while updating the event: {str(e)}"
                         )

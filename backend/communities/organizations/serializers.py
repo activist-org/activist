@@ -3,6 +3,7 @@
 Serializers for organizations in the communities app.
 """
 
+import logging
 from typing import Any
 from uuid import UUID
 
@@ -26,6 +27,8 @@ from content.serializers import (
     ResourceSerializer,
 )
 from events.serializers import EventSerializer
+
+logger = logging.getLogger(__name__)
 
 # MARK: Organization
 
@@ -105,8 +108,10 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
 
         try:
             org = Organization.objects.get(id=value)
+            logger.info("Organization found for value: %s", value)
 
         except Organization.DoesNotExist as e:
+            logger.exception("Organization not found for value: %s", value)
             raise serializers.ValidationError("Organization not found.") from e
 
         return org
@@ -184,9 +189,11 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             A new  Organization instance.
         """
         org = Organization.objects.create(**validated_data)
+        logger.info("Created Organization with id: %s", org.id)
 
         if org:
             OrganizationText.objects.create(org=org)
+            logger.info("Created OrganizationText for Organization id: %s", org.id)
 
         return org
 

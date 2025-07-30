@@ -3,6 +3,7 @@
 Serializers for the events app.
 """
 
+import logging
 from datetime import datetime
 from typing import Any, Dict, Union
 from uuid import UUID
@@ -21,6 +22,8 @@ from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText
 from utils.utils import (
     validate_creation_and_deprecation_dates,
 )
+
+logger = logging.getLogger(__name__)
 
 # MARK: Event
 
@@ -100,6 +103,7 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
             event = Event.objects.get(id=value)
 
         except Event.DoesNotExist as e:
+            logger.exception(f"Event with id {value} not found.")
             raise serializers.ValidationError("Event not found.") from e
 
         return event
@@ -272,9 +276,11 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             Created Event instance.
         """
         event = Event.objects.create(**validated_data)
+        logger.info(f"Created Event with id {event.id}")
 
         if event:
             EventText.objects.create(event=event)
+            logger.info(f"Created EventText for Event id {event.id}")
 
         return event
 
