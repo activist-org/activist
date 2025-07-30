@@ -15,9 +15,12 @@
     <div v-if="events.length > 0">
       <EventsList v-if="viewType === ViewType.LIST" :events="events" />
       <EventsMap v-else-if="viewType === ViewType.MAP" :events="events" />
-      <EmptyState v-else pageType="events" :permission="false" />
+      <EventsCalendar
+        v-else-if="viewType === ViewType.CALENDAR"
+        :events="events"
+      />
     </div>
-    <EmptyState v-else pageType="events" :permission="false" />
+    <EmptyState v-else pageType="events" :permission="false" /> -->
   </div>
 </template>
 

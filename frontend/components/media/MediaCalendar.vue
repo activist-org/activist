@@ -1,4 +1,3 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <form class="elem-shadow-sm h-full w-full rounded-[0.45em]">
     <Calendar
@@ -6,39 +5,54 @@
       :color="colorModePreference"
       trim-weeks
       expanded
-      :attributes="attributes"
-    ></Calendar>
+      :attributes="calendarArgs"
+    >
+      <template #day-popover="{ day, customData }">
+        <slot v-bind="{ day, customData }" />
+      </template>
+    </Calendar>
   </form>
 </template>
 
 <script setup lang="ts">
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
+type CalendarAttribute<T = unknown> = {
+  key?: string | number;
+  dates: Date[] | { start: Date; end?: Date }[] | undefined;
+  customData?: T;
+  popover?: {
+    label?: string;
+    visibility?: "click" | "hover" | "hover-focus" | "focus";
+  };
+  dot?: {
+    color?: string;
+    class?: string;
+    dates: Date[] | { start: Date; end?: Date }[] | undefined;
+  };
+  highlight?: {
+    start?: { fillMode?: string; color?: string };
+    end?: { fillMode?: string; color?: string };
+    base?: { fillMode?: string; color?: string };
+    class?: string;
+    dates: Date[] | { start: Date; end?: Date }[] | undefined;
+  };
+  bar?: {
+    color?: string;
+    class?: string;
+    dates: Date[] | { start: Date; end?: Date }[] | undefined;
+  };
+  order?: number;
+  pinPage?: boolean;
+};
 
-const date = new Date();
-const year = date.getFullYear();
-const month = date.getMonth();
+interface Props {
+  calendarArgs: CalendarAttribute[];
+}
+defineProps<Props>();
 
 const colorMode = useColorMode();
 const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
-
-const attributes = ref([
-  {
-    key: "today",
-    dot: "orange",
-    dates: [new Date()],
-  },
-  {
-    highlight: {
-      color: "orange",
-    },
-    dates: [
-      //Put the dates that should be highlighted here.
-      new Date(year, month, 13),
-      new Date(year, month, 14),
-    ],
-  },
-]);
 </script>
 
 <style>

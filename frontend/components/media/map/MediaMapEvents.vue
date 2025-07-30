@@ -21,7 +21,7 @@ import {
   type PointerCluster,
   type PopupContent,
 } from "~/types/map";
-import { colorByType } from "~/utils/mapUtils";
+import { colorByType } from "~/utils/utils";
 
 const props = defineProps<{
   events: Event[];

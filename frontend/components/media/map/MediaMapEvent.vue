@@ -11,7 +11,7 @@
 import type { Event, EventType } from "~/types/events/event";
 
 import { MapType, type Pointer } from "~/types/map";
-import { colorByType } from "~/utils/mapUtils";
+import { colorByType } from "~/utils/utils";
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
