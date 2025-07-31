@@ -55,8 +55,8 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
         responses={200: OrganizationSerializer(many=True)},
@@ -314,7 +314,7 @@ class OrganizationDetailAPIView(APIView):
 class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(responses={200: OrganizationFlagSerializer(many=True)})
     def get(self, request: Request) -> Response:
@@ -358,8 +358,8 @@ class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
 class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={

@@ -41,8 +41,8 @@ class EventAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all().order_by("id")
     serializer_class = EventSerializer
     pagination_class = CustomPagination
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":
@@ -209,7 +209,7 @@ class EventDetailAPIView(APIView):
 class EventFlagAPIView(GenericAPIView[EventFlag]):
     queryset = EventFlag.objects.all()
     serializer_class = EventFlagSerializers
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(responses={200: EventFlagSerializers(many=True)})
     def get(self, request: Request) -> Response:
@@ -252,8 +252,8 @@ class EventFlagAPIView(GenericAPIView[EventFlag]):
 class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
     queryset = EventFlag.objects.all()
     serializer_class = EventFlagSerializers
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={
