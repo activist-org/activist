@@ -305,7 +305,7 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
 class ResourceFlagAPIView(GenericAPIView[ResourceFlag]):
     queryset = ResourceFlag.objects.all()
     serializer_class = ResourceFlagSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(responses={200: ResourceSerializer(many=True)})
     def get(self, request: Request) -> Response:
@@ -344,8 +344,8 @@ class ResourceFlagAPIView(GenericAPIView[ResourceFlag]):
 class ResourceFlagDetailAPIView(GenericAPIView[ResourceFlag]):
     queryset = ResourceFlag.objects.all()
     serializer_class = ResourceFlagSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={
@@ -405,7 +405,7 @@ class ResourceFlagDetailAPIView(GenericAPIView[ResourceFlag]):
 class ImageViewSet(viewsets.ModelViewSet[Image]):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = [MultiPartParser, FormParser]
 
     def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
         serializer = self.get_serializer(
