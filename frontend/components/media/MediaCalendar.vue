@@ -5,10 +5,18 @@
       :color="colorModePreference"
       trim-weeks
       expanded
-      :attributes="calendarArgs"
+      :attributes="calendar"
     >
-      <template #day-popover="{ day, customData }">
-        <slot v-bind="{ day, customData }" />
+      <template #day-popover="{ dayTitle, attributes }">
+        <ul class="flex flex-col space-y-1">
+          <li
+            v-for="{ key, customData } in attributes"
+            :key="key"
+            class="block bg-red-100 text-xs text-gray-700 dark:text-gray-300"
+          >
+            <slot v-bind="{ dayTitle, customData }" />
+          </li>
+        </ul>
       </template>
     </Calendar>
   </form>
@@ -17,40 +25,25 @@
 <script setup lang="ts">
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
-type CalendarAttribute<T = unknown> = {
-  key?: string | number;
-  dates: Date[] | { start: Date; end?: Date }[] | undefined;
-  customData?: T;
-  popover?: {
-    label?: string;
-    visibility?: "click" | "hover" | "hover-focus" | "focus";
-  };
-  dot?: {
-    color?: string;
-    class?: string;
-    dates: Date[] | { start: Date; end?: Date }[] | undefined;
-  };
-  highlight?: {
-    start?: { fillMode?: string; color?: string };
-    end?: { fillMode?: string; color?: string };
-    base?: { fillMode?: string; color?: string };
-    class?: string;
-    dates: Date[] | { start: Date; end?: Date }[] | undefined;
-  };
-  bar?: {
-    color?: string;
-    class?: string;
-    dates: Date[] | { start: Date; end?: Date }[] | undefined;
-  };
-  order?: number;
-  pinPage?: boolean;
-};
+type CalendarProps = InstanceType<typeof Calendar>["$props"];
+type InferredAttributes = CalendarProps extends { attributes?: infer A }
+  ? A
+  : never;
+type CalendarAttribute = InferredAttributes extends Array<infer U> ? U : never;
 
 interface Props {
   calendarArgs: CalendarAttribute[];
 }
-defineProps<Props>();
+const props = defineProps<Props>();
 
+const calendar = ref<CalendarAttribute[]>(props.calendarArgs || []);
+watch(
+  () => props.calendarArgs,
+  (newArgs) => {
+    calendar.value = newArgs;
+  },
+  { immediate: true }
+);
 const colorMode = useColorMode();
 const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
 </script>

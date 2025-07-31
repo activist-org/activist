@@ -1,89 +1,85 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="space-y-6 pb-6 pt-3 md:pt-4">
-    <MediaCalendar
-      class="h-[calc(50vh-1rem)] w-full"
-      :calendar-args="calendar"
-    />
+    <MediaCalendar class="h-[calc(50vh-1rem)] w-full" :calendar-args="calendar">
+      <template #default="{ customData }">
+        <div class="bg-[#1e293b] hover:bg-[#334155]">
+          <NuxtLink
+            :to="localePath(`/events/${customData.id}`)"
+            class="flex items-center space-x-1 px-2 py-1"
+          >
+            <span
+              class="text-sm leading-none"
+              :style="{
+                color:
+                  customData.type === 'learn'
+                    ? colorByType.learn
+                    : colorByType.action,
+              }"
+            >
+              ●
+            </span>
+            <span>{{ customData.name }}</span>
+          </NuxtLink>
+        </div>
+      </template>
+    </MediaCalendar>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { PopoverVisibility } from "v-calendar/dist/types/src/utils/popovers.js";
+
 import type { Event } from "~/types/events/event";
 
 import { colorByType, getAllDaysInRange } from "~/utils/utils";
+
 const props = defineProps<{
   events: Event[];
 }>();
+const localePath = useLocalePath();
 const actionEvents = props.events.filter((event) => {
   return event.type === "action";
 });
 const learnEvents = props.events.filter((event) => {
   return event.type === "learn";
 });
-const learnEventsDates = learnEvents.flatMap((event) => {
-  return getAllDaysInRange({
-    start: new Date(event.startTime),
-    end: new Date(event.endTime),
-  });
-});
-const actionEventsDates = actionEvents.flatMap((event) => {
-  return getAllDaysInRange({
-    start: new Date(event.startTime),
-    end: new Date(event.endTime),
-  });
-});
-const learnEventsRange = learnEvents.map((event) => {
-  return {
-    start: new Date(event.startTime),
-    end: new Date(event.endTime),
-  };
-});
-const actionEventsRange = actionEvents.map((event) => {
-  return {
-    start: new Date(event.startTime),
-    end: new Date(event.endTime),
-  };
-});
-const calendar = [
-  {
-    dot: {
-      color: colorByType["action"],
-      dates: actionEventsDates,
+const learnEventsDates = learnEvents.map((event) => ({
+  key: `${event.id}-learn`,
+  customData: event,
+  dot: {
+    style: {
+      backgroundColor: colorByType["learn"],
     },
   },
-  {
-    dot: {
-      color: colorByType["learn"],
-      dates: learnEventsDates,
+  dates: getAllDaysInRange({
+    start: new Date(event.startTime),
+    end: event.endTime ? new Date(event.endTime) : new Date(event.startTime),
+  }),
+  popover: {
+    visibility: "hover-focus" as PopoverVisibility,
+    hideIndicator: true,
+    isInteractive: true,
+  },
+}));
+
+const actionEventsDates = actionEvents.map((event) => ({
+  key: `${event.id}-action`,
+  customData: event,
+  dot: {
+    style: {
+      backgroundColor: colorByType["action"],
     },
   },
-  {
-    highlight: {
-      start: { fillMode: "solid", color: colorByType["action"] },
-      end: { fillMode: "solid", color: colorByType["action"] },
-      base: { fillMode: "solid", color: colorByType["action"] },
-      dates: actionEventsRange,
-    },
+  dates: getAllDaysInRange({
+    start: new Date(event.startTime),
+    end: event.endTime ? new Date(event.endTime) : new Date(event.startTime),
+  }),
+  popover: {
+    visibility: "hover-focus" as PopoverVisibility,
+    hideIndicator: true,
+    isInteractive: true,
   },
-  {
-    highlight: {
-      start: { fillMode: "solid", color: colorByType["learn"] },
-      end: { fillMode: "solid", color: colorByType["learn"] },
-      base: { fillMode: "solid", color: colorByType["learn"] },
-      dates: learnEventsRange,
-    },
-  },
-];
-console.log(calendar);
-// const eventDates = props.events.map((event) => {
-//   return {
-//     start: event.startTime,
-//     end: event.endTime,
-//     title: event.name,
-//     description: event.texts.description,
-//     location: event.offlineLocation?.displayName,
-//     id: event.id,
-//   };
-// });
+}));
+const calendar = [...actionEventsDates, ...learnEventsDates];
 </script>
