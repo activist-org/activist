@@ -20,7 +20,7 @@
         :events="events"
       />
     </div>
-    <EmptyState v-else pageType="events" :permission="false" /> -->
+    <EmptyState v-else pageType="events" :permission="false" />
   </div>
 </template>
 
