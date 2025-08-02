@@ -16,8 +16,6 @@ export async function runAccessibilityTest(
     body: JSON.stringify(results, null, 2),
     contentType: "application/json",
   });
-  console.log(`Accessibility test completed for: ${pageName}`);
-  console.log(`Violations found: ${results.violations.length}`);
 
   const formattedViolations = results.violations.map((violation) => ({
     id: violation.id,

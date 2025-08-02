@@ -18,32 +18,26 @@ class AxeReporter implements Reporter {
     this.outputDirPath = options?.outputDirPath || RESULTS_PATH;
   }
 
-  onTestBegin(test: TestCase) {
-    console.log(`Starting test ${test.title}`);
+  onTestBegin(_test: TestCase) {
+    // Note: For future implementation.
   }
 
   onTestEnd(test: TestCase, result: TestResult) {
-    console.log(`Test ended: ${test.title}, Status: ${result.status}`);
-
     const axeResults = result.attachments.find(
       (a) => a.name === "accessibility-scan-results"
     );
     if (axeResults && axeResults.body) {
       const results = JSON.parse(axeResults.body.toString());
-      console.log(`Violations found: ${results.violations.length}`);
 
       if (results.violations.length > 0) {
-        console.log(`Generating report for: ${test.title}`);
         const pageName = this.extractPageName(test);
         const { browserName, deviceName } = this.extractProjectInfo(test);
         this.generateAxeReport(results, pageName, browserName, deviceName);
       } else {
-        console.log(
-          `Skipping report generation for test with no violations: ${test.title}`
-        );
+        // Note: For future implementation.
       }
     } else {
-      console.log(`No accessibility results found for: ${test.title}`);
+      // Note: For future implementation.
     }
   }
 

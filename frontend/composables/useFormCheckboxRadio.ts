@@ -9,8 +9,6 @@ export default function useFormCheckboxRadio(
   const showAdditionalInput = ref<boolean>(false);
 
   const updateValue = (value: string | string[]) => {
-    console.log(value, "updateValue");
-
     selectedValue.value = value;
     emitValue();
   };

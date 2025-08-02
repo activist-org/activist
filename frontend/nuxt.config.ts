@@ -139,8 +139,8 @@ export default defineNuxtConfig({
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
     },
-    "app:resolve": (app) => {
-      console.log("App instance resolved:", app);
+    "app:resolve": (_app) => {
+      // Note: For future implementation.
     },
   },
 
