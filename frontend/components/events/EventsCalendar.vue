@@ -3,7 +3,9 @@
   <div class="space-y-6 pb-6 pt-3 md:pt-4">
     <MediaCalendar class="h-[calc(50vh-1rem)] w-full" :calendar-args="calendar">
       <template #default="{ customData }">
-        <div class="bg-[#1e293b] hover:bg-[#334155]">
+        <div
+          class="rounded-sm bg-[#F8FAFC] hover:bg-layer-2 dark:bg-[#1e293b] dark:hover:bg-layer-2"
+        >
           <NuxtLink
             :to="localePath(`/events/${customData.id}`)"
             class="flex items-center space-x-1 px-2 py-1"
@@ -13,8 +15,8 @@
               :style="{
                 color:
                   customData.type === 'learn'
-                    ? colorByType.learn
-                    : colorByType.action,
+                    ? getEventColorByType('learn')
+                    : getEventColorByType('action'),
               }"
             >
               ●
@@ -32,11 +34,12 @@ import type { PopoverVisibility } from "v-calendar/dist/types/src/utils/popovers
 
 import type { Event } from "~/types/events/event";
 
-import { colorByType, getAllDaysInRange } from "~/utils/utils";
+import { getAllDaysInRange } from "~/utils/utils";
 
 const props = defineProps<{
   events: Event[];
 }>();
+const { getEventColorByType } = useColor();
 const localePath = useLocalePath();
 const actionEvents = props.events.filter((event) => {
   return event.type === "action";
@@ -49,7 +52,7 @@ const learnEventsDates = learnEvents.map((event) => ({
   customData: event,
   dot: {
     style: {
-      backgroundColor: colorByType["learn"],
+      backgroundColor: getEventColorByType("learn"),
     },
   },
   dates: getAllDaysInRange({
@@ -68,7 +71,7 @@ const actionEventsDates = actionEvents.map((event) => ({
   customData: event,
   dot: {
     style: {
-      backgroundColor: colorByType["action"],
+      backgroundColor: getEventColorByType("action"),
     },
   },
   dates: getAllDaysInRange({

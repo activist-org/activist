@@ -1,9 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { ColorByEventType } from "~/types/color";
-export const colorByType = {
-  learn: ColorByEventType.LEARN,
-  action: ColorByEventType.ACTION,
-};
 export const getAllDaysInRange = (range: {
   start: Date;
   end: Date;

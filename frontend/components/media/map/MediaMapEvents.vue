@@ -21,7 +21,6 @@ import {
   type PointerCluster,
   type PopupContent,
 } from "~/types/map";
-import { colorByType } from "~/utils/utils";
 
 const props = defineProps<{
   events: Event[];
@@ -33,6 +32,7 @@ const locationIcon = `/icons/map/tooltip_location.png`;
 
 const { events } = props;
 const i18n = useI18n();
+const { getEventColorByType } = useColor();
 
 const buildExpandedTooltipPointer = (pointer: unknown) => {
   const root = document.createElement("div");
@@ -134,7 +134,7 @@ const buildExpandedTooltipCluster = (pointer: unknown) => {
 const pointers: PointerCluster[] = events.map((event) => {
   return {
     id: event.id,
-    color: colorByType[event.type as EventType],
+    color: getEventColorByType(event.type as EventType),
     location: event.offlineLocation || {
       displayName: event.name,
       lat: "0",
@@ -154,11 +154,11 @@ const pointers: PointerCluster[] = events.map((event) => {
 const clusterProperties: ClusterProperties = {
   cluster: {
     learn: {
+      color: getEventColorByType("learn"),
       logic: ["+", ["case", ["==", ["get", "type"], "learn"], 1, 0]],
-      color: colorByType.learn,
     },
     action: {
-      color: colorByType.action,
+      color: getEventColorByType("action"),
       logic: ["+", ["case", ["==", ["get", "type"], "action"], 1, 0]],
     },
   },
@@ -167,7 +167,7 @@ const clusterProperties: ClusterProperties = {
       return "";
     }
     // This function is used to get the pointer color when there is only one in the cluster.
-    return colorByType[props.type as EventType];
+    return getEventColorByType(props.type as EventType);
   },
   getIndividualDonutProps: (props: GeoJsonProperties) => {
     if (!props) {
@@ -175,10 +175,13 @@ const clusterProperties: ClusterProperties = {
     }
     // This function is used to get the individual donut props when there is only one in the cluster.
     return [
-      { value: +(props.type === "learn"), color: colorByType.learn as string },
+      {
+        value: +(props.type === "learn"),
+        color: getEventColorByType("learn") as string,
+      },
       {
         value: +(props.type === "action"),
-        color: colorByType.action as string,
+        color: getEventColorByType("action") as string,
       },
     ];
   },
@@ -187,8 +190,8 @@ const clusterProperties: ClusterProperties = {
       return [];
     }
     return [
-      { value: props.learn, color: colorByType.learn as string },
-      { value: props.action, color: colorByType.action as string },
+      { value: props.learn, color: getEventColorByType("learn") as string },
+      { value: props.action, color: getEventColorByType("action") as string },
     ];
   },
 };

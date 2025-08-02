@@ -10,11 +10,7 @@
     >
       <template #day-popover="{ dayTitle, attributes }">
         <ul class="flex flex-col space-y-1">
-          <li
-            v-for="{ key, customData } in attributes"
-            :key="key"
-            class="block bg-red-100 text-xs text-gray-700 dark:text-gray-300"
-          >
+          <li v-for="{ key, customData } in attributes" :key="key">
             <slot v-bind="{ dayTitle, customData }" />
           </li>
         </ul>
