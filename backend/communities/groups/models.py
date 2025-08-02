@@ -8,7 +8,6 @@ from uuid import uuid4
 
 from django.db import models
 
-from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Group
@@ -94,11 +93,17 @@ class GroupMember(models.Model):
         return str(self.id)
 
 
-class GroupSocialLink(SocialLink):
+class GroupSocialLink(models.Model):
     """
     Class for adding social link parameters to groups.
     """
 
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    link = models.URLField(max_length=255)
+    label = models.CharField(max_length=255)
+    order = models.IntegerField(default=0)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
