@@ -1,22 +1,22 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <FormTextInput
+    @update:modelValue="$emit('update:modelValue', $event)"
+    @input="$emit('input', $event)"
+    @blur="$emit('blur', $event)"
     :id="id"
     :label="label"
     :hasError="hasError"
     :type="isPassword ? 'password' : 'text'"
     :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
-    @input="$emit('input', $event)"
-    @blur="$emit('blur', $event)"
-    @keydown.enter="handleEnterKey"
   >
     <template #icons>
       <slot name="icons"></slot>
       <button
-        type="button"
         @click="changeInputType"
+        @mousedown.prevent
         :id="`${id}-show-password`"
+        type="button"
       >
         <Icon
           :name="isPassword ? IconMap.VISIBLE : IconMap.HIDDEN"
@@ -43,8 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 defineEmits<{
-  (e: "update:modelValue", value: string): void;
-  (e: "input", value: string): void;
+  (e: "update:modelValue" | "input", value: string): void;
   (e: "blur", event: FocusEvent): void;
 }>();
 
@@ -54,12 +53,7 @@ const changeInputType = () => {
   isPassword.value = !isPassword.value;
 };
 
-const handleEnterKey = () => {
-  // Ensure password stays hidden when Enter is pressed
-  isPassword.value = true;
-};
-
-// Reset to password type when value changes or component unmounts
+// Reset to password type when value is cleared
 watch(
   () => props.modelValue,
   () => {
@@ -69,17 +63,14 @@ watch(
   }
 );
 
-// Force password type on any form submission attempt
+// Reset password visibility before form submission
 onMounted(() => {
-  const form = document.getElementById(props.id)?.closest("form");
+  const inputElement = document.getElementById(props.id);
+  const form = inputElement?.closest("form");
   if (form) {
     form.addEventListener("submit", () => {
       isPassword.value = true;
     });
   }
-});
-
-onUnmounted(() => {
-  isPassword.value = true;
 });
 </script>

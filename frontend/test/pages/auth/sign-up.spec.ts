@@ -1,8 +1,8 @@
+import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
+
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import SignUp from "@/pages/auth/sign-up.vue";
 import render from "@/test/render";
-import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
-
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_RATING as RATING,
