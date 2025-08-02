@@ -8,7 +8,7 @@
   >
     <template #icons>
       <slot name="icons"></slot>
-      <button @click="changeInputType" :id="`${id}-show-password`">
+      <button type="button" @click="changeInputType" :id="`${id}-show-password`">
         <Icon
           :name="isPassword ? IconMap.VISIBLE : IconMap.HIDDEN"
           size="1.4em"
