@@ -5,10 +5,19 @@
     :label="label"
     :hasError="hasError"
     :type="isPassword ? 'password' : 'text'"
+    :modelValue="modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
+    @input="$emit('input', $event)"
+    @blur="$emit('blur', $event)"
+    @keydown.enter="handleEnterKey"
   >
     <template #icons>
       <slot name="icons"></slot>
-      <button @click="changeInputType" :id="`${id}-show-password`">
+      <button
+        type="button"
+        @click="changeInputType"
+        :id="`${id}-show-password`"
+      >
         <Icon
           :name="isPassword ? IconMap.VISIBLE : IconMap.HIDDEN"
           size="1.4em"
@@ -25,15 +34,52 @@ export interface Props {
   id: string;
   label: string;
   hasError?: boolean;
+  modelValue?: string;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   hasError: false,
+  modelValue: "",
 });
+
+defineEmits<{
+  (e: "update:modelValue", value: string): void;
+  (e: "input", value: string): void;
+  (e: "blur", event: FocusEvent): void;
+}>();
 
 const isPassword = ref<boolean>(true);
 
 const changeInputType = () => {
   isPassword.value = !isPassword.value;
 };
+
+const handleEnterKey = () => {
+  // Ensure password stays hidden when Enter is pressed
+  isPassword.value = true;
+};
+
+// Reset to password type when value changes or component unmounts
+watch(
+  () => props.modelValue,
+  () => {
+    if (!props.modelValue) {
+      isPassword.value = true;
+    }
+  }
+);
+
+// Force password type on any form submission attempt
+onMounted(() => {
+  const form = document.getElementById(props.id)?.closest("form");
+  if (form) {
+    form.addEventListener("submit", () => {
+      isPassword.value = true;
+    });
+  }
+});
+
+onUnmounted(() => {
+  isPassword.value = true;
+});
 </script>
