@@ -63,14 +63,30 @@ watch(
   }
 );
 
-// Reset password visibility before form submission
+// Reset password visibility on form submission
+let formSubmitHandler: (() => void) | null = null;
+
 onMounted(() => {
-  const inputElement = document.getElementById(props.id);
-  const form = inputElement?.closest("form");
-  if (form) {
-    form.addEventListener("submit", () => {
-      isPassword.value = true;
-    });
+  nextTick(() => {
+    const inputElement = document.getElementById(props.id);
+    const form = inputElement?.closest("form");
+    if (form) {
+      formSubmitHandler = () => {
+        isPassword.value = true;
+      };
+      // Use capture phase to ensure this runs before form submission
+      form.addEventListener("submit", formSubmitHandler, true);
+    }
+  });
+});
+
+onUnmounted(() => {
+  if (formSubmitHandler) {
+    const inputElement = document.getElementById(props.id);
+    const form = inputElement?.closest("form");
+    if (form) {
+      form.removeEventListener("submit", formSubmitHandler, true);
+    }
   }
 });
 </script>
