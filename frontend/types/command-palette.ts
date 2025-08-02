@@ -9,7 +9,7 @@ export const commandPaletteData = [
     iconName: "HOME",
     displayName: "i18n._global.home",
     action: () => {
-      // For future implementation
+      // Note: For future implementation.
     },
   },
   {
@@ -19,7 +19,7 @@ export const commandPaletteData = [
     iconName: "DISCUSSION",
     displayName: "i18n._global.discussions",
     action: () => {
-      // For future implementation
+      // Note: For future implementation.
     },
   },
   {
@@ -29,7 +29,7 @@ export const commandPaletteData = [
     iconName: "EVENT",
     displayName: "i18n._global.events",
     action: () => {
-      // For future implementation
+      // Note: For future implementation.
     },
   },
   {
@@ -39,7 +39,7 @@ export const commandPaletteData = [
     iconName: "BELL",
     displayName: "i18n._global.notifications",
     action: () => {
-      // For future implementation
+      // Note: For future implementation.
     },
   },
   {
@@ -49,7 +49,7 @@ export const commandPaletteData = [
     iconName: "ORGANIZATION",
     displayName: "i18n._global.organization_name",
     action: () => {
-      // For future implementation
+      // Note: For future implementation.
     },
   },
   // {
@@ -59,7 +59,7 @@ export const commandPaletteData = [
   //   iconName: "RESOURCE",
   //   displayName: "i18n._global.resources_lower",
   //   action: () => {
-  //     // For future implementation
+  //     // Note: For future implementation.
   //   }
   // },
   {
@@ -69,7 +69,7 @@ export const commandPaletteData = [
     iconName: "EVENT",
     displayName: "i18n.types.command_palette.upcoming_events",
     action: () => {
-      // For future implementation
+      // Note: For future implementation.
     },
   },
 ];

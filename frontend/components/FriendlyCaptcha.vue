@@ -35,7 +35,7 @@ const devMode = useDevMode();
 devMode.check();
 
 const verifyCaptcha = (_response: boolean) => {
-  // For future implementation
+  // Note: For future implementation.
 };
 
 const { locale } = useI18n();

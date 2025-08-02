@@ -299,7 +299,7 @@ const link = () => {
 
 // Note: There is as of now no plan to add in attachments.
 // const attach = () => {
-//   // For future implementation
+//   // Note: For future implementation.
 // };
 
 const listul = () => {

@@ -42,7 +42,7 @@ const { handleCloseModal: handleCloseModalUploadImages } =
   useModalHandlers("ModalUploadImages");
 
 const handleUploadComplete = () => {
-  // For future implementation
+  // Note: For future implementation.
 };
 const aboveMediumBP = useBreakpoint("md");
 
