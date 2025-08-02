@@ -2,8 +2,6 @@
 <template>
   <FormTextInput
     @update:modelValue="$emit('update:modelValue', $event)"
-    @input="$emit('input', $event)"
-    @blur="$emit('blur', $event)"
     :id="id"
     :label="label"
     :hasError="hasError"
@@ -42,8 +40,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 defineEmits<{
-  (e: "update:modelValue" | "input", value: string): void;
-  (e: "blur", event: FocusEvent): void;
+  (e: "update:modelValue", value: string): void;
 }>();
 
 const isPassword = ref<boolean>(true);
