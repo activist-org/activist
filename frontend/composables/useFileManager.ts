@@ -48,7 +48,6 @@ export function useFileManager(entityId?: string) {
   // TODO: Refactor this to fetchEntityImages (group, org, etc.)
   async function fetchOrganizationImages() {
     if (!entityId) {
-      console.error("useFileManager fetchOrganizationImages: Missing entityId");
       return;
     }
 
@@ -74,14 +73,13 @@ export function useFileManager(entityId?: string) {
         uploadError.value = true;
       }
     } catch (error) {
-      console.error("Error fetching organization images:", error);
       uploadError.value = true;
+      void error;
     }
   }
 
   async function fetchIconImage(id: string, entity: ImageUploadEntity) {
     if (!id || !entity) {
-      console.error("Missing id or entity");
       return;
     }
 
@@ -100,13 +98,12 @@ export function useFileManager(entityId?: string) {
         return data;
       }
     } catch (error) {
-      console.error("Error fetching icon image:", error);
+      void error;
     }
   }
 
   async function uploadFiles(id: string, entity: ImageUploadEntity) {
     if (!id || !entity) {
-      console.error("Missing id or entity");
       return;
     }
 
@@ -153,7 +150,7 @@ export function useFileManager(entityId?: string) {
         return data;
       }
     } catch (error) {
-      console.error("Upload failed:", error);
+      void error;
     }
   }
 
@@ -173,7 +170,7 @@ export function useFileManager(entityId?: string) {
         }
       );
     } catch (error) {
-      console.error("Delete image failed:", error);
+      void error;
     }
   }
 

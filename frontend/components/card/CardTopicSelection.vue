@@ -258,7 +258,6 @@ function isActiveTopic(topic: Topic) {
 }
 
 const selectedTopicTags = computed(() => {
-  console.log("selectedTopicTags", value.value);
   return value.value
     .map((topic) => {
       return GLOBAL_TOPICS.find((tag) => tag.value === topic);

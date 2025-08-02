@@ -42,7 +42,7 @@ const { handleCloseModal: handleCloseModalUploadImages } =
   useModalHandlers("ModalUploadImages");
 
 const handleUploadComplete = () => {
-  console.log("EventPage handleUploadComplete");
+  // For future implementation
 };
 const aboveMediumBP = useBreakpoint("md");
 

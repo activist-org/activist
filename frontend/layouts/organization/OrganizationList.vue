@@ -48,7 +48,7 @@ const handleUploadComplete = async (fileUploadEntity: FileUploadEntity) => {
     await fetchOrganizationImages();
   }
   if (fileUploadEntity === FileUploadEntity.ORGANIZATION_ICON) {
-    console.log("OrganizationPage handleUploadComplete ORGANIZATION_ICON");
+    // For future implementation
   }
 };
 

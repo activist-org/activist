@@ -21,7 +21,7 @@ export const useMap = () => {
         }
       } catch (e) {
         // WebGL is supported, but disabled.
-        console.log(e);
+        void e;
       }
       return false;
     }

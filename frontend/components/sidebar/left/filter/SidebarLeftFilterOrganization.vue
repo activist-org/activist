@@ -55,8 +55,7 @@ const schema = z.object({
   topics: z.array(z.string()).optional(),
 });
 
-const handleSubmit = (values: unknown) => {
+const handleSubmit = (_values: unknown) => {
   // Handle form submission.
-  console.log("Form submitted with values:", values);
 };
 </script>

@@ -46,7 +46,6 @@ const emit = defineEmits<{
 }>();
 
 const onSubmit = (values: Record<string, unknown>) => {
-  console.log("Form submitted with values:", values);
   emit("submit", values);
 };
 </script>

@@ -17,6 +17,7 @@ export default withNuxt(...vue.configs["flat/essential"], {
   rules: {
     ...vue.configs.recommended.rules,
 
+    "no-console": "error",
     "valid-v-for": "off",
     "vue/attribute-hyphenation": [
       "off",

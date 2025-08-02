@@ -21,7 +21,6 @@ export default {
     const { $i18n } = useNuxtApp();
 
     if (!$i18n) {
-      console.error("$i18n is not available from useNuxtApp().");
       return;
     }
 

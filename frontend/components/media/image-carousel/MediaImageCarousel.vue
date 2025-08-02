@@ -112,7 +112,7 @@ const handleDeleteClick = async () => {
 
     emit("delete-complete", props.fileUploadEntity);
   } catch (error) {
-    console.error("Delete image failed:", error);
+    void error;
   }
 };
 </script>

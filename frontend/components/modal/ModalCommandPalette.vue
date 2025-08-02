@@ -120,10 +120,7 @@ const handleCommand = () => {
     // if (command && typeof command.action === "function") {
     //   command.action();
     // } else {
-    //   console.error(
-    //     "Command action is not a function or command is null",
-    //     command
-    //   );
+    //   // Placeholder
     // }
     router.push(`/${selectedCommand.value.path}`);
   }

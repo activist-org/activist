@@ -208,7 +208,6 @@ const updateViewType = (
     });
     return;
   }
-  console.warn("Invalid view type:", value);
 };
 
 const viewType = ref(ViewType.MAP);
@@ -216,8 +215,7 @@ const q = route.query.view;
 if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
   viewType.value = q as ViewType;
 }
-const handleSubmit = (values: unknown) => {
+const handleSubmit = (_values: unknown) => {
   // Handle form submission.
-  console.log("Form submitted with values:", values);
 };
 </script>

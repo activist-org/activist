@@ -395,7 +395,7 @@ const formData = ref({
 });
 
 const submit = async () => {
-  const { data: responseData } = await useFetch(
+  const { data: _responseData } = await useFetch(
     BASE_BACKEND_URL + "/communities/events",
     {
       method: "POST",
@@ -409,8 +409,6 @@ const submit = async () => {
       }),
     }
   );
-
-  console.log(responseData);
 
   // window.location.href = "/events";
 };

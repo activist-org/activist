@@ -93,7 +93,6 @@ onMounted(() => {
 
     if (props.type === MapType.POINT) {
       if (!props.pointer) {
-        console.error("Pointer is required for MapType.POINT");
         return;
       }
       const pointer: Pointer = props.pointer;
@@ -101,7 +100,6 @@ onMounted(() => {
     }
     if (props.type === MapType.CLUSTER) {
       if (!props.pointers || props.pointers.length === 0) {
-        console.error("Pointers are required for MapType.CLUSTER");
         return;
       }
       const { pointers } = props;

@@ -34,8 +34,8 @@ import { IconMap } from "~/types/icon-map";
 const devMode = useDevMode();
 devMode.check();
 
-const verifyCaptcha = (response: boolean) => {
-  console.log("Captcha response:", response);
+const verifyCaptcha = (_response: boolean) => {
+  // For future implementation
 };
 
 const { locale } = useI18n();

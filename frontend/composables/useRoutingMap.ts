@@ -126,7 +126,6 @@ export const useRouting = () => {
   };
 
   const resetRouteProfileControl = () => {
-    console.log("Resetting route profile control");
     const existing = document.getElementById("route-profile-control");
     if (existing) existing.remove();
 

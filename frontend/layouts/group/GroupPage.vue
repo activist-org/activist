@@ -45,7 +45,7 @@ const { handleCloseModal: handleCloseModalUploadImages } =
   useModalHandlers("ModalUploadImages");
 
 const handleUploadComplete = () => {
-  console.log("GroupPage handleUploadComplete");
+  // For future implementation
 };
 
 const aboveMediumBP = useBreakpoint("md");
