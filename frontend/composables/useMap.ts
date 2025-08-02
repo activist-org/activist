@@ -4,6 +4,7 @@ import maplibregl, { type LayerSpecification } from "maplibre-gl";
 
 import { useClusterMap } from "./useClusterMap";
 import { usePointerMap } from "./usePointerMap";
+
 export const useMap = () => {
   const { createMapForPointerTypeMap } = usePointerMap();
   const { createMapForClusterTypeMap } = useClusterMap();

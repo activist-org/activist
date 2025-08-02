@@ -43,9 +43,9 @@ defineProps<{
 const colorMode = useColorMode();
 
 const menuButtonIcon = computed(() => {
-  if (colorMode.preference == "system") {
+  if (colorMode.preference === "system") {
     return `${IconMap.COLOR_MODE_SYSTEM}`;
-  } else if (colorMode.preference == "light") {
+  } else if (colorMode.preference === "light") {
     return `${IconMap.COLOR_MODE_LIGHT}`;
   } else return `${IconMap.COLOR_MODE_DARK}`;
 });
