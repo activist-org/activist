@@ -5,7 +5,7 @@ API views for group management.
 """
 
 import logging
-from typing import List, Tuple, Type
+from typing import List, Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
@@ -50,18 +50,18 @@ class GroupAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
-    authentication_classes = (TokenAuthentication,)
-    permission_classes: Tuple[Type[BasePermission], ...] = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> List[BasePermission]:
         """
         Instantiates and returns the list of permissions that this view requires.
         """
         if self.request.method in SAFE_METHODS:
-            self.permission_classes = (IsAuthenticatedOrReadOnly,)
+            self.permission_classes = [IsAuthenticatedOrReadOnly]
 
         else:
-            self.permission_classes = (IsAuthenticated,)
+            self.permission_classes = [IsAuthenticated]
 
         return super().get_permissions()  # type: ignore
 
@@ -120,8 +120,8 @@ class GroupAPIView(GenericAPIView[Group]):
 class GroupDetailAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={
@@ -227,7 +227,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 class GroupFlagAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         responses={200: GroupFlagSerializer(many=True)},
@@ -269,8 +269,8 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
 class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={

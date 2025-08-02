@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import useColorModeImages from "@/composables/useColorModeImages";
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 
 mockNuxtImport("useColorMode", () => useColorModeMock);
@@ -11,8 +10,8 @@ describe("useColorModeImage", () => {
       value: "light",
     }));
 
-    const getImage = useColorModeImages();
-    expect(getImage("/path/to/image", ".png")).toEqual(
+    const { getColorModeImages } = useColor();
+    expect(getColorModeImages("/path/to/image", ".png")).toEqual(
       "/path/to/image_light.png"
     );
   });
@@ -20,8 +19,8 @@ describe("useColorModeImage", () => {
   it("adds _dark to image path", () => {
     // window.useColorModeMock.mockImplementation(() => ({ value: 'dark' }));
 
-    const getImage = useColorModeImages();
-    expect(getImage("/path/to/image", ".png")).toEqual(
+    const { getColorModeImages } = useColor();
+    expect(getColorModeImages("/path/to/image", ".png")).toEqual(
       "/path/to/image_dark.png"
     );
   });
@@ -32,7 +31,9 @@ describe("useColorModeImage", () => {
       value: "light",
     }));
 
-    const getImage = useColorModeImages();
-    expect(getImage("/path/to/image")).toEqual("/path/to/image_light.png");
+    const { getColorModeImages } = useColor();
+    expect(getColorModeImages("/path/to/image")).toEqual(
+      "/path/to/image_light.png"
+    );
   });
 });

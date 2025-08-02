@@ -11,10 +11,12 @@
 import type { Event, EventType } from "~/types/events/event";
 
 import { MapType, type Pointer } from "~/types/map";
-import { colorByType } from "~/utils/mapUtils";
+
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
+const { getEventColorByType } = useColor();
+
 const props = defineProps<{
   event: Event;
 }>();
@@ -64,7 +66,7 @@ const buildExpandedTooltip = () => {
 };
 const pointer: Pointer = {
   id: event.id,
-  color: colorByType[event.type as EventType],
+  color: getEventColorByType(event.type as EventType),
   location: event.offlineLocation || {
     displayName: event.name,
     lat: "0",
