@@ -140,7 +140,7 @@ export default defineNuxtConfig({
       applyMiddleware(pages);
     },
     "app:resolve": (_app) => {
-      // Placeholder
+      // Note: For future implementation.
     },
   },
 

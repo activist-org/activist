@@ -19,7 +19,7 @@ class AxeReporter implements Reporter {
   }
 
   onTestBegin(_test: TestCase) {
-    // Placeholder
+    // Note: For future implementation.
   }
 
   onTestEnd(test: TestCase, result: TestResult) {
@@ -34,10 +34,10 @@ class AxeReporter implements Reporter {
         const { browserName, deviceName } = this.extractProjectInfo(test);
         this.generateAxeReport(results, pageName, browserName, deviceName);
       } else {
-        // Placeholder
+        // Note: For future implementation.
       }
     } else {
-      // Placeholder
+      // Note: For future implementation.
     }
   }
 

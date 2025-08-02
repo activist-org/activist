@@ -120,7 +120,7 @@ const handleCommand = () => {
     // if (command && typeof command.action === "function") {
     //   command.action();
     // } else {
-    //   // Placeholder
+    //   // Note: For future implementation.
     // }
     router.push(`/${selectedCommand.value.path}`);
   }
