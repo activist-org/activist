@@ -446,7 +446,8 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         try:
             faq = OrganizationFaq.objects.get(id=pk)
 
-        except OrganizationFaq.DoesNotExist:
+        except OrganizationFaq.DoesNotExist as e:
+            logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
                 {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -494,22 +495,14 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
             status=status.HTTP_201_CREATED,
         )
 
-    @extend_schema(
-        responses={
-            200: {"message: Social links updated successfully."},
-            403: {
-                "detail": "You are not authorized to update the social links for this organization."
-            },
-            404: {"detail": "Social links not found."},
-        }
-    )
-    def put(self, request: Request, id: UUID | str) -> Response:
+    def update(self, request: Request, pk: UUID | str) -> Response:
         try:
-            social_link = OrganizationSocialLink.objects.get(id=id)
+            social_link = OrganizationSocialLink.objects.get(id=pk)
 
-        except OrganizationSocialLink.DoesNotExist:
+        except OrganizationSocialLink.DoesNotExist as e:
+            logger.exception(f"Social link with id {pk} does not exist for update: {e}")
             return Response(
-                {"detail": "Social links not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         org = social_link.org

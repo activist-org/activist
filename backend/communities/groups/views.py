@@ -406,22 +406,14 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             status=status.HTTP_201_CREATED,
         )
 
-    @extend_schema(
-        responses={
-            200: {"message": "Group social links updated successfully."},
-            403: {
-                "detail": "You are not authorized to update this groups social links."
-            },
-            404: {"detail": "Social links not found."},
-        }
-    )
-    def put(self, request: Request, id: UUID | str) -> Response:
+    def update(self, request: Request, pk: UUID | str) -> Response:
         try:
-            social_links = GroupSocialLink.objects.get(id=id)
+            social_links = GroupSocialLink.objects.get(id=pk)
 
-        except GroupSocialLink.DoesNotExist:
+        except GroupSocialLink.DoesNotExist as e:
+            logger.exception(f"Social link with id {pk} does not exist for update: {e}")
             return Response(
-                {"detail": "Social links not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         group = social_links.group

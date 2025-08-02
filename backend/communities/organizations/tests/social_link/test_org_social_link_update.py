@@ -83,7 +83,7 @@ def test_org_social_link_update(client: Client) -> None:
     response_body = response.json()
 
     assert response.status_code == 404
-    assert response_body["detail"] == "Social links not found."
+    assert response_body["detail"] == "Social link not found."
 
 
 def test_org_social_link_not_creator_or_admin():
@@ -111,7 +111,7 @@ def test_org_social_link_not_creator_or_admin():
 
     assert login_response.status_code == 200
 
-    # MARK: Update Success
+    # MARK: Access Failure
 
     login_body = login_response.json()
     token = login_body["token"]
