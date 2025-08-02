@@ -38,14 +38,14 @@ router.register(prefix=r"statuses", viewset=StatusViewSet)
 # MARK: Bridge Tables
 
 router.register(
-    prefix=r"group_social_links",
-    viewset=GroupSocialLinkViewSet,
-    basename="group-social-links",
-)
-router.register(
     prefix=r"group_faqs",
     viewset=GroupFaqViewSet,
     basename="group-faqs",
+)
+router.register(
+    prefix=r"group_social_links",
+    viewset=GroupSocialLinkViewSet,
+    basename="group-social-links",
 )
 router.register(
     prefix=r"group_texts",
@@ -53,14 +53,14 @@ router.register(
     basename="group-text",
 )
 router.register(
-    prefix=r"organization_social_links",
-    viewset=OrganizationSocialLinkViewSet,
-    basename="organization-social-links",
-)
-router.register(
     prefix=r"organization_faqs",
     viewset=OrganizationFaqViewSet,
     basename="organization-faqs",
+)
+router.register(
+    prefix=r"organization_social_links",
+    viewset=OrganizationSocialLinkViewSet,
+    basename="organization-social-links",
 )
 router.register(
     prefix=r"organization_texts",
@@ -77,10 +77,10 @@ urlpatterns = [
     path("", include(router.urls)),
     path("groups", GroupAPIView.as_view()),
     path("groups/<uuid:id>", GroupDetailAPIView.as_view()),
-    path("organizations", OrganizationAPIView.as_view()),
-    path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
     path("group_flag", GroupFlagAPIView.as_view()),
     path("group_flag/<uuid:id>", GroupFlagDetailAPIView.as_view()),
+    path("organizations", OrganizationAPIView.as_view()),
+    path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
     path("organization_flag", OrganizationFlagAPIView.as_view()),
     path(
         "organization_flag/<uuid:id>",
