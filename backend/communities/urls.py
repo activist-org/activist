@@ -37,11 +37,11 @@ router.register(prefix=r"statuses", viewset=StatusViewSet)
 
 # MARK: Bridge Tables
 
-router.register(
-    prefix=r"group_social_links",
-    viewset=GroupSocialLinkViewSet,
-    basename="group-social-links",
-)
+# router.register(
+#     prefix=r"group_social_links",
+#     viewset=GroupSocialLinkViewSet,
+#     basename="group-social-links",
+# )
 router.register(
     prefix=r"group_faqs",
     viewset=GroupFaqViewSet,
@@ -51,11 +51,6 @@ router.register(
     prefix=r"group_texts",
     viewset=GroupTextViewSet,
     basename="group-text",
-)
-router.register(
-    prefix=r"organization_social_links",
-    viewset=OrganizationSocialLinkViewSet,
-    basename="organization-social-links",
 )
 router.register(
     prefix=r"organization_faqs",
@@ -85,5 +80,9 @@ urlpatterns = [
     path(
         "organization_flag/<uuid:id>",
         OrganizationFlagDetailAPIView.as_view(),
+    ),
+    path("group_social_links/<uuid:id>", GroupSocialLinkViewSet.as_view()),
+    path(
+        "organization_social_links/<uuid:id>", OrganizationSocialLinkViewSet.as_view()
     ),
 ]

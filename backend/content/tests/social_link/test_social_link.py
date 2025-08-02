@@ -11,6 +11,7 @@ from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupSocialLinkFactory
 from communities.groups.models import GroupSocialLink
 from communities.groups.serializers import GroupSocialLinkSerializer
@@ -168,16 +169,34 @@ def test_organization_social_link_create_view(client: APIClient) -> None:
     Test the creation of social links for an organization.
     The API uses PUT method instead of POST.
     """
-    org = OrganizationFactory()
+
+    test_username = "test_user"
+    test_password = "test_password"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    org = OrganizationFactory(created_by=user)
     num_links = 3
     OrganizationSocialLinkFactory.create_batch(num_links, org=org)
     assert OrganizationSocialLink.objects.count() == num_links
 
-    formData = [{"link": "https://example.com", "label": "Example", "order": 1}]
+    test_id = OrganizationSocialLink.objects.first().id
+    login = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
+    )
+    login_body = login.json()
+    token = login_body["token"]
+
+    formData = {"link": "https://example.com", "label": "Example", "order": 1}
 
     response = client.put(
-        f"/v1/communities/organization_social_links/{org.id}",
+        f"/v1/communities/organization_social_links/{test_id}",
         formData,
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -194,16 +213,34 @@ def test_group_social_link_create_view(client: APIClient) -> None:
     Test the creation of social links for a group.
     The API uses PUT method instead of POST.
     """
-    group = GroupFactory()
+
+    test_username = "test_user"
+    test_password = "test_password"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    group = GroupFactory(created_by=user)
     num_links = 3
     GroupSocialLinkFactory.create_batch(num_links, group=group)
     assert GroupSocialLink.objects.count() == num_links
 
-    formData = [{"link": "https://example.com", "label": "Example", "order": 1}]
+    test_id = GroupSocialLink.objects.first().id
+    login = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
+    )
+    login_body = login.json()
+    token = login_body["token"]
+
+    formData = {"link": "https://example.com", "label": "Example", "order": 1}
 
     response = client.put(
-        f"/v1/communities/group_social_links/{group.id}",
+        f"/v1/communities/group_social_links/{test_id}",
         formData,
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -220,16 +257,34 @@ def test_event_social_link_create_view(client: APIClient) -> None:
     Test the creation of social links for an event.
     The API uses PUT method instead of POST.
     """
-    event = EventFactory()
+
+    test_username = "test_user"
+    test_password = "test_password"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    event = EventFactory(created_by=user)
     num_links = 3
     EventSocialLinkFactory.create_batch(num_links, event=event)
     assert EventSocialLink.objects.count() == num_links
 
-    formData = [{"link": "https://example.com", "label": "Example", "order": 1}]
+    test_id = EventSocialLink.objects.first().id
+    login = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
+    )
+    login_body = login.json()
+    token = login_body["token"]
+
+    formData = {"link": "https://example.com", "label": "Example", "order": 1}
 
     response = client.put(
-        f"/v1/events/event_social_links/{event.id}",
+        f"/v1/events/event_social_links/{test_id}",
         formData,
+        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 

@@ -33,6 +33,36 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
         model = GroupSocialLink
         fields = "__all__"
 
+    def validate_group(self, value: Group | UUID | str) -> Group:
+        """
+        Validate that the group exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Group instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the group does not exist.
+
+        Returns
+        -------
+        Group
+            The validated Group instance.
+        """
+        if isinstance(value, Group):
+            return value
+
+        try:
+            group = Group.objects.get(id=value)
+
+        except Group.DoesNotExist as e:
+            raise serializers.ValidationError("Group not found.") from e
+
+        return group
+
 
 class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
     """

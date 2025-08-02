@@ -37,6 +37,36 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
         model = EventSocialLink
         fields = "__all__"
 
+    def validate_event(self, value: Event | UUID | str) -> Event:
+        """
+        Validate that the event exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Event instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the event does not exist.
+
+        Returns
+        -------
+        Event
+            The validated Event instance.
+        """
+        if isinstance(value, Event):
+            return value
+
+        try:
+            event = Event.objects.get(id=value)
+
+        except Event.DoesNotExist as e:
+            raise serializers.ValidationError("Event not found.") from e
+
+        return event
+
 
 class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
     """
