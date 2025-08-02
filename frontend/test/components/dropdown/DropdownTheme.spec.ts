@@ -1,7 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { fireEvent, screen } from "@testing-library/vue";
 
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import DropdownTheme from "@/components/dropdown/DropdownTheme.vue";
 import render from "@/test/render";
 
