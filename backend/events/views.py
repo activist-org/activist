@@ -359,10 +359,32 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         )
 
 
-class EventSocialLinkViewSet(GenericAPIView[EventSocialLink]):
+class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
     queryset = EventSocialLink.objects.all()
     serializer_class = EventSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        event: Event = serializer.validated_data["event"]
+
+        if request.user != event.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create social links for this event."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"Social link created for event {event.id}")
+
+        return Response(
+            {"message": "Social link created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     @extend_schema(
         responses={
@@ -377,6 +399,7 @@ class EventSocialLinkViewSet(GenericAPIView[EventSocialLink]):
     def put(self, request: Request, id: UUID | str) -> Response:
         try:
             social_link = EventSocialLink.objects.get(id=id)
+
         except EventSocialLink.DoesNotExist:
             return Response(
                 {"detail": "Social links not found."}, status=status.HTTP_404_NOT_FOUND
@@ -386,6 +409,7 @@ class EventSocialLinkViewSet(GenericAPIView[EventSocialLink]):
 
         if event is not None:
             creator = event.created_by
+
         else:
             raise ValueError("Event is None.")
 
@@ -407,6 +431,7 @@ class EventSocialLinkViewSet(GenericAPIView[EventSocialLink]):
                 {"message": "Social links updated successfully."},
                 status=status.HTTP_200_OK,
             )
+
         return Response(
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )

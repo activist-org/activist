@@ -467,10 +467,32 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         )
 
 
-class OrganizationSocialLinkViewSet(GenericAPIView[OrganizationSocialLink]):
+class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
     queryset = OrganizationSocialLink.objects.all()
     serializer_class = OrganizationSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create social links for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"Social link created for org {org.id}")
+
+        return Response(
+            {"message": "Social link created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     @extend_schema(
         responses={
@@ -483,15 +505,17 @@ class OrganizationSocialLinkViewSet(GenericAPIView[OrganizationSocialLink]):
     )
     def put(self, request: Request, id: UUID | str) -> Response:
         try:
-            social_links = OrganizationSocialLink.objects.get(id=id)
+            social_link = OrganizationSocialLink.objects.get(id=id)
+
         except OrganizationSocialLink.DoesNotExist:
             return Response(
                 {"detail": "Social links not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        org = social_links.org
+        org = social_link.org
         if org is not None:
             creator = org.created_by
+
         else:
             raise ValueError("Org is None.")
 
@@ -505,8 +529,7 @@ class OrganizationSocialLinkViewSet(GenericAPIView[OrganizationSocialLink]):
 
         OrganizationSocialLink.objects.filter(org=org).delete()
 
-
-        serializer = self.get_serializer(social_links, request.data, partial=True)
+        serializer = self.get_serializer(social_link, request.data, partial=True)
         if serializer.is_valid():
             serializer.save(org=org)
 
@@ -514,6 +537,7 @@ class OrganizationSocialLinkViewSet(GenericAPIView[OrganizationSocialLink]):
                 {"message": "Social links updated successfully."},
                 status=status.HTTP_200_OK,
             )
+
         return Response(
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )

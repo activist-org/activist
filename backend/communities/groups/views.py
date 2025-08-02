@@ -379,10 +379,32 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         )
 
 
-class GroupSocialLinkViewSet(GenericAPIView[GroupSocialLink]):
+class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        group: Group = serializer.validated_data["group"]
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create social links for this group."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"Social link created for group {group.id}")
+
+        return Response(
+            {"message": "Social link created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     @extend_schema(
         responses={
@@ -396,6 +418,7 @@ class GroupSocialLinkViewSet(GenericAPIView[GroupSocialLink]):
     def put(self, request: Request, id: UUID | str) -> Response:
         try:
             social_links = GroupSocialLink.objects.get(id=id)
+
         except GroupSocialLink.DoesNotExist:
             return Response(
                 {"detail": "Social links not found."}, status=status.HTTP_404_NOT_FOUND
@@ -405,6 +428,7 @@ class GroupSocialLinkViewSet(GenericAPIView[GroupSocialLink]):
 
         if group is not None:
             creator = group.created_by
+
         else:
             raise ValueError("Group is None.")
 
@@ -421,11 +445,12 @@ class GroupSocialLinkViewSet(GenericAPIView[GroupSocialLink]):
         serializer = self.get_serializer(social_links, request.data, partial=True)
         if serializer.is_valid():
             serializer.save(group=group)
-          
+
             return Response(
                 {"message": "Social links updated successfully."},
                 status=status.HTTP_200_OK,
             )
+
         return Response(
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
