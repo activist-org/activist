@@ -13,8 +13,7 @@
     <template #icons>
       <slot name="icons"></slot>
       <button
-        @click="changeInputType"
-        @mousedown.prevent
+        @click="togglePassword"
         :id="`${id}-show-password`"
         type="button"
       >
@@ -49,7 +48,7 @@ defineEmits<{
 
 const isPassword = ref<boolean>(true);
 
-const changeInputType = () => {
+const togglePassword = () => {
   isPassword.value = !isPassword.value;
 };
 
@@ -63,30 +62,13 @@ watch(
   }
 );
 
-// Reset password visibility on form submission
-let formSubmitHandler: (() => void) | null = null;
-
+// Reset password visibility before form submission
 onMounted(() => {
-  nextTick(() => {
-    const inputElement = document.getElementById(props.id);
-    const form = inputElement?.closest("form");
-    if (form) {
-      formSubmitHandler = () => {
-        isPassword.value = true;
-      };
-      // Use capture phase to ensure this runs before form submission
-      form.addEventListener("submit", formSubmitHandler, true);
-    }
-  });
-});
-
-onUnmounted(() => {
-  if (formSubmitHandler) {
-    const inputElement = document.getElementById(props.id);
-    const form = inputElement?.closest("form");
-    if (form) {
-      form.removeEventListener("submit", formSubmitHandler, true);
-    }
+  const form = document.getElementById(props.id)?.closest("form");
+  if (form) {
+    form.addEventListener("submit", () => {
+      isPassword.value = true;
+    });
   }
 });
 </script>
