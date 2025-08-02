@@ -7,6 +7,7 @@
     :hasError="hasError"
     :type="isPassword ? 'password' : 'text'"
     :modelValue="modelValue"
+    v-bind="$attrs"
   >
     <template #icons>
       <slot name="icons"></slot>
@@ -22,6 +23,10 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 export interface Props {
   id: string;
