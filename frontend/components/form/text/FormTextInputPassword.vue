@@ -10,11 +10,7 @@
   >
     <template #icons>
       <slot name="icons"></slot>
-      <button
-        @click="togglePassword"
-        :id="`${id}-show-password`"
-        type="button"
-      >
+      <button @click="togglePassword" :id="`${id}-show-password`" type="button">
         <Icon
           :name="isPassword ? IconMap.VISIBLE : IconMap.HIDDEN"
           size="1.4em"
