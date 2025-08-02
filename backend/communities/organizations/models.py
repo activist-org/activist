@@ -9,7 +9,6 @@ from uuid import uuid4
 from django.db import models
 
 from authentication import enums
-from content.models import SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Organization
@@ -141,11 +140,17 @@ class OrganizationMember(models.Model):
         return str(self.id)
 
 
-class OrganizationSocialLink(SocialLink):
+class OrganizationSocialLink(models.Model):
     """
     Class for adding social link parameters to organizations.
     """
 
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    link = models.URLField(max_length=255)
+    label = models.CharField(max_length=255)
+    order = models.IntegerField(default=0)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
     )

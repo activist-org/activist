@@ -6,39 +6,43 @@
       :color="colorModePreference"
       trim-weeks
       expanded
-      :attributes="attributes"
-    ></Calendar>
+      :attributes="calendar"
+    >
+      <template #day-popover="{ dayTitle, attributes }">
+        <ul class="flex flex-col space-y-1">
+          <li v-for="{ key, customData } in attributes" :key="key">
+            <slot v-bind="{ dayTitle, customData }" />
+          </li>
+        </ul>
+      </template>
+    </Calendar>
   </form>
 </template>
 
 <script setup lang="ts">
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
+type CalendarProps = InstanceType<typeof Calendar>["$props"];
+type InferredAttributes = CalendarProps extends { attributes?: infer A }
+  ? A
+  : never;
+type CalendarAttribute = InferredAttributes extends Array<infer U> ? U : never;
 
-const date = new Date();
-const year = date.getFullYear();
-const month = date.getMonth();
+interface Props {
+  calendarArgs: CalendarAttribute[];
+}
+const props = defineProps<Props>();
 
+const calendar = ref<CalendarAttribute[]>(props.calendarArgs || []);
+watch(
+  () => props.calendarArgs,
+  (newArgs) => {
+    calendar.value = newArgs;
+  },
+  { immediate: true }
+);
 const colorMode = useColorMode();
 const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
-
-const attributes = ref([
-  {
-    key: "today",
-    dot: "orange",
-    dates: [new Date()],
-  },
-  {
-    highlight: {
-      color: "orange",
-    },
-    dates: [
-      //Put the dates that should be highlighted here.
-      new Date(year, month, 13),
-      new Date(year, month, 14),
-    ],
-  },
-]);
 </script>
 
 <style>

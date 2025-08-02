@@ -137,7 +137,7 @@ class Command(BaseCommand):
                         )
 
                         user_org_event = EventFactory(
-                            name=f"{user_topic.name} Event [o{o}:e{e}]",
+                            name=f"{user_topic.name} Event [u{u}:o{o}:e{e}]",
                             tagline=f"{event_type_verb} {user_topic.name}",
                             type=event_type,
                             created_by=user,

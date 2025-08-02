@@ -51,7 +51,7 @@ ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
 
 class SignUpView(APIView):
     queryset = UserModel.objects.all()
-    permission_classes = (AllowAny,)
+    permission_classes = [AllowAny]
     serializer_class = SignUpSerializer
 
     def post(self, request: Request) -> Response:
@@ -131,7 +131,7 @@ class SignUpView(APIView):
 @method_decorator(csrf_exempt, name="dispatch")
 class SignInView(APIView):
     serializer_class = SignInSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = [AllowAny]
 
     def post(self, request: Request) -> Response:
         logger.info("User login attempt")
@@ -179,7 +179,7 @@ class GetSessionView(APIView):
 
 class PasswordResetView(APIView):
     serializer_class = PasswordResetSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = [AllowAny]
     queryset = UserModel.objects.all()
 
     @extend_schema(parameters=[OpenApiParameter(name="email", type=str, required=True)])
@@ -257,9 +257,9 @@ class PasswordResetView(APIView):
 
 class DeleteUserView(APIView):
     queryset = UserModel.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
     serializer_class = DeleteUserResponseSerializer
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = [TokenAuthentication]
 
     @extend_schema(
         summary="Delete own account",
@@ -312,7 +312,7 @@ class DeleteUserView(APIView):
 class UserFlagAPIView(GenericAPIView[UserFlag]):
     queryset = UserFlag.objects.all()
     serializer_class = UserFlagSerializers
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(responses={200: UserFlagSerializers(many=True)})
     def get(self, request: Request) -> Response:
@@ -359,8 +359,8 @@ class UserFlagAPIView(GenericAPIView[UserFlag]):
 class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
     queryset = UserFlag.objects.all()
     serializer_class = UserFlagSerializers
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={

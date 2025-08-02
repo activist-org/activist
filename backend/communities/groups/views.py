@@ -4,12 +4,10 @@
 API views for group management.
 """
 
-import json
 import logging
-from typing import List, Tuple, Type
+from typing import List, Type
 from uuid import UUID
 
-from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
@@ -52,18 +50,18 @@ class GroupAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
-    authentication_classes = (TokenAuthentication,)
-    permission_classes: Tuple[Type[BasePermission], ...] = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> List[BasePermission]:
         """
         Instantiates and returns the list of permissions that this view requires.
         """
         if self.request.method in SAFE_METHODS:
-            self.permission_classes = (IsAuthenticatedOrReadOnly,)
+            self.permission_classes = [IsAuthenticatedOrReadOnly]
 
         else:
-            self.permission_classes = (IsAuthenticated,)
+            self.permission_classes = [IsAuthenticated]
 
         return super().get_permissions()  # type: ignore
 
@@ -122,8 +120,8 @@ class GroupAPIView(GenericAPIView[Group]):
 class GroupDetailAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={
@@ -229,7 +227,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 class GroupFlagAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         responses={200: GroupFlagSerializer(many=True)},
@@ -271,8 +269,8 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
 class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={
@@ -384,75 +382,70 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        group: Group = serializer.validated_data["group"]
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create social links for this group."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"Social link created for group {group.id}")
+
+        return Response(
+            {"message": "Social link created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     def update(self, request: Request, pk: UUID | str) -> Response:
-        group = Group.objects.filter(id=pk).first()
-        if not group:
-            return Response(
-                {"detail": "Group not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            try:
-                data = json.loads(data)
-
-            except json.JSONDecodeError as e:
-                logger.exception(f"Invalid JSON format for social links update: {e}")
-                return Response(
-                    {"detail": "Invalid JSON format."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-        if not isinstance(data, list):
-            return Response(
-                {"detail": "Expected a list of social links."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
         try:
-            with transaction.atomic():
-                GroupSocialLink.objects.filter(group=group).delete()
+            social_links = GroupSocialLink.objects.get(id=pk)
 
-                social_links: List[GroupSocialLink] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        if any(k not in link_data for k in ("link", "label")):
-                            raise ValueError(
-                                "Each social link must have 'link' and 'label'."
-                            )
-
-                        social_link = GroupSocialLink.objects.create(
-                            group=group,
-                            order=link_data.get("order"),
-                            link=link_data.get("link"),
-                            label=link_data.get("label"),
-                        )
-                        social_links.append(social_link)
-                    else:
-                        raise ValueError(
-                            "Each item in the social links list must be a dictionary."
-                        )
-
-            serializer = self.get_serializer(social_links, many=True)
-            logger.info(
-                f"Updated social links for group {group.id} by user {request.user}"
-            )
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except ValueError as ve:
-            logger.exception(f"Invalid data for social links update: {ve}")
+        except GroupSocialLink.DoesNotExist as e:
+            logger.exception(f"Social link with id {pk} does not exist for update: {e}")
             return Response(
-                {"detail": f"Invalid data for social links: {str(ve)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
             )
-        except Exception as e:
-            logger.exception(f"Failed to update social links for group {group.id}: {e}")
+
+        group = social_links.group
+
+        if group is not None:
+            creator = group.created_by
+
+        else:
+            raise ValueError("Group is None.")
+
+        if request.user != creator and not request.user.is_staff:
             return Response(
-                {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {
+                    "detail": "You are not authorized to update the social links for this group."
+                },
+                status=status.HTTP_403_FORBIDDEN,
             )
+
+        GroupSocialLink.objects.filter(group=group).delete()
+
+        serializer = self.get_serializer(social_links, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(group=group)
+
+            return Response(
+                {"message": "Social links updated successfully."},
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(
+            {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):

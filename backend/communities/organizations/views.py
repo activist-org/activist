@@ -4,12 +4,9 @@
 API views for organization management.
 """
 
-import json
 import logging
-from typing import Dict, List
 from uuid import UUID
 
-from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
@@ -55,8 +52,8 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
         responses={200: OrganizationSerializer(many=True)},
@@ -314,7 +311,7 @@ class OrganizationDetailAPIView(APIView):
 class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(responses={200: OrganizationFlagSerializer(many=True)})
     def get(self, request: Request) -> Response:
@@ -358,8 +355,8 @@ class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
 class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminStaffCreatorOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
         responses={
@@ -449,7 +446,8 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         try:
             faq = OrganizationFaq.objects.get(id=pk)
 
-        except OrganizationFaq.DoesNotExist:
+        except OrganizationFaq.DoesNotExist as e:
+            logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
                 {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -473,47 +471,69 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
 class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
     queryset = OrganizationSocialLink.objects.all()
     serializer_class = OrganizationSocialLinkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create social links for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"Social link created for org {org.id}")
+
+        return Response(
+            {"message": "Social link created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     def update(self, request: Request, pk: UUID | str) -> Response:
-        org = Organization.objects.filter(id=pk).first()
-        if not org:
-            return Response(
-                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
         try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                # Delete all existing social links for this org.
-                OrganizationSocialLink.objects.filter(org=org).delete()
+            social_link = OrganizationSocialLink.objects.get(id=pk)
 
-                # Create new social links from the submitted data.
-                social_links: List[Dict[str, str]] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        social_link = OrganizationSocialLink.objects.create(
-                            org=org,
-                            order=link_data.get("order"),
-                            link=link_data.get("link"),
-                            label=link_data.get("label"),
-                        )
-                        social_links.append(social_link)
-            logger.info(f"Social links updated for org {org.id}")
-
-            serializer = self.get_serializer(social_links, many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            logger.exception(f"Failed to update social links for org {org.id}")
+        except OrganizationSocialLink.DoesNotExist as e:
+            logger.exception(f"Social link with id {pk} does not exist for update: {e}")
             return Response(
-                {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
             )
+
+        org = social_link.org
+        if org is not None:
+            creator = org.created_by
+
+        else:
+            raise ValueError("Org is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to update the social links for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        OrganizationSocialLink.objects.filter(org=org).delete()
+
+        serializer = self.get_serializer(social_link, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(org=org)
+
+            return Response(
+                {"message": "Social links updated successfully."},
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(
+            {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):

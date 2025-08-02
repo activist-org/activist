@@ -35,7 +35,7 @@
         @blur="handleBlur"
         :id="id"
         class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text placeholder-distinct-text outline-none"
-        type="text"
+        :type="type"
         :placeholder="shrinkLabel ? '' : label"
         :value="modelValue"
         v-bind="$attrs"
@@ -83,12 +83,14 @@ export interface Props {
   modelValue?: string;
   hasError?: boolean;
   iconLocation?: "left" | "right";
+  type?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modelValue: "",
   hasError: false,
   iconLocation: "right",
+  type: "text",
 });
 
 const emit = defineEmits<{

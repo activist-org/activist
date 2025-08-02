@@ -230,35 +230,79 @@ export const useEventStore = defineStore("event", {
       return false;
     },
 
-    // MARK: Update Social Links
+    // MARK: Create Links
+
+    async createSocialLinks(event: Event, formData: SocialLinkFormData[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      // Note: Map of the request sends individual requests for each social link to  create the entry in the table.
+      const responseSocialLinks = await Promise.all(
+        formData.map((data) =>
+          useFetch(`${BASE_BACKEND_URL}/communities/event_social_links`, {
+            method: "POST",
+            body: JSON.stringify({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+              event: event.id,
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          })
+        )
+      );
+
+      const responseSocialLinksData = responseSocialLinks.map(
+        (item) => item.data.value as unknown as Event
+      );
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update Links
 
     async updateSocialLinks(event: Event, formData: SocialLinkFormData[]) {
       this.loading = true;
       const responses: boolean[] = [];
 
-      // Endpoint needs socialLink id's but they are not available here.
-      // 'update()' in the viewset 'class EventSocialLinkViewSet' handles this
-      // by using the event.id from the end of the URL.
-      const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_social_links/${event.id}`,
-        {
-          method: "PUT",
-          // Send entire formData array/dict in order to make a single API request.
-          body: JSON.stringify(
-            formData.map((data) => ({
-              link: data.link,
-              label: data.label,
-              order: data.order,
-            }))
-          ),
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
+      // Note: Map of the request sends individual requests for each social link to the correct entry in the table.
+      const responseSocialLinks = await Promise.all(
+        formData.map((data) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/event_social_links/${data.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                link: data.link,
+                label: data.label,
+                order: data.order,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
       );
 
-      const responseSocialLinksData = responseSocialLinks.data
-        .value as unknown as Event;
+      const responseSocialLinksData = responseSocialLinks.map(
+        (item) => item.data.value as unknown as Event
+      );
       if (responseSocialLinksData) {
         responses.push(true);
       } else {
