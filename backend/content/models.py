@@ -36,6 +36,28 @@ class Discussion(models.Model):
         return str(self.id)
 
 
+# MARK: Discussion Entry
+
+
+class DiscussionEntry(models.Model):
+    """
+    DiscussionEntry model for individual posts within a discussion.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    discussion = models.ForeignKey(
+        "content.Discussion", on_delete=models.CASCADE, related_name="discussion_entry"
+    )
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    text = models.CharField(max_length=255, blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
 # MARK: FAQ
 
 
@@ -288,25 +310,3 @@ class Topic(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-
-# MARK: Bridge Tables
-
-
-class DiscussionEntry(models.Model):
-    """
-    DiscussionEntry model for individual posts within a discussion.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    discussion = models.ForeignKey(
-        "content.Discussion", on_delete=models.CASCADE, related_name="discussion_entry"
-    )
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    text = models.CharField(max_length=255, blank=True)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deletion_date = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self) -> str:
-        return str(self.id)

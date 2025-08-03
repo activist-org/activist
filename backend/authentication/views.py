@@ -46,7 +46,7 @@ dotenv.load_dotenv()
 FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
 ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
 
-# MARK: Methods
+# MARK: Sign Up
 
 
 class SignUpView(APIView):
@@ -128,6 +128,9 @@ class SignUpView(APIView):
         )
 
 
+# MARK: Sign In
+
+
 @method_decorator(csrf_exempt, name="dispatch")
 class SignInView(APIView):
     serializer_class = SignInSerializer
@@ -150,6 +153,9 @@ class SignInView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+# MARK: Get Session
 
 
 class GetSessionView(APIView):
@@ -175,6 +181,9 @@ class GetSessionView(APIView):
             data,
             status=status.HTTP_200_OK,
         )
+
+
+# MARK: Pass Reset
 
 
 class PasswordResetView(APIView):
@@ -255,6 +264,9 @@ class PasswordResetView(APIView):
         )
 
 
+# MARK: Delete User
+
+
 class DeleteUserView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = [IsAuthenticated]
@@ -309,6 +321,9 @@ class DeleteUserView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# MARK: Flag
+
+
 class UserFlagAPIView(GenericAPIView[UserFlag]):
     queryset = UserFlag.objects.all()
     serializer_class = UserFlagSerializers
@@ -354,6 +369,9 @@ class UserFlagAPIView(GenericAPIView[UserFlag]):
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Flag Detail
 
 
 class UserFlagDetailAPIView(GenericAPIView[UserFlag]):

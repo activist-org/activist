@@ -63,18 +63,7 @@ class Organization(models.Model):
         return self.name
 
 
-class OrganizationFlag(models.Model):
-    """
-    Model for flagged organizations.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    org = models.ForeignKey("communities.Organization", on_delete=models.CASCADE)
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True)
-
-
-# MARK: Bridge Tables
+# MARK: Application
 
 
 class OrganizationApplication(models.Model):
@@ -112,48 +101,7 @@ class OrganizationApplicationStatus(models.Model):
         return self.status_name
 
 
-class OrganizationImage(models.Model):
-    """
-    Class for adding image parameters to organizations.
-    """
-
-    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
-    sequence_index = models.IntegerField()
-
-    def __str__(self) -> str:
-        return str(self.id)
-
-
-class OrganizationMember(models.Model):
-    """
-    Class for adding user membership parameters to organizations.
-    """
-
-    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    is_owner = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_comms = models.BooleanField(default=False)
-
-    def __str__(self) -> str:
-        return str(self.id)
-
-
-class OrganizationSocialLink(models.Model):
-    """
-    Class for adding social link parameters to organizations.
-    """
-
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    link = models.URLField(max_length=255)
-    label = models.CharField(max_length=255)
-    order = models.IntegerField(default=0)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    org = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
-    )
+# MARK: FAQ
 
 
 class OrganizationFaq(models.Model):
@@ -174,6 +122,79 @@ class OrganizationFaq(models.Model):
         return self.question
 
 
+# MARK: Flag
+
+
+class OrganizationFlag(models.Model):
+    """
+    Model for flagged organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org = models.ForeignKey("communities.Organization", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
+
+
+# MARK: Image
+
+
+class OrganizationImage(models.Model):
+    """
+    Class for adding image parameters to organizations.
+    """
+
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    image = models.ForeignKey("content.Image", on_delete=models.CASCADE)
+    sequence_index = models.IntegerField()
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+# MARK: Member
+
+
+class OrganizationMember(models.Model):
+    """
+    Class for adding user membership parameters to organizations.
+    """
+
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    is_owner = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_comms = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+# MARK: Social Links
+
+
+class OrganizationSocialLink(models.Model):
+    """
+    Class for adding social link parameters to organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    link = models.URLField(max_length=255)
+    label = models.CharField(max_length=255)
+    order = models.PositiveIntegerField(default=0)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
+    )
+
+    class Meta:
+        ordering = ["order"]
+
+
+# MARK: Task
+
+
 class OrganizationTask(models.Model):
     """
     Class for adding task parameters to organizations.
@@ -188,6 +209,9 @@ class OrganizationTask(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
+
+# MARK: Text
 
 
 class OrganizationText(models.Model):

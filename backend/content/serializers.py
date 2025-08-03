@@ -42,6 +42,19 @@ class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
         exclude = "created_by", "deletion_date"
 
 
+# MARK: Discussion Entry
+
+
+class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    """
+    Serializer for DiscussionEntry model data.
+    """
+
+    class Meta:
+        model = DiscussionEntry
+        exclude = "created_by", "deletion_date"
+
+
 # MARK: FAQ
 
 
@@ -352,16 +365,3 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
         validate_creation_and_deprecation_dates(data)
 
         return data
-
-
-# MARK: Bridge Tables
-
-
-class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
-    """
-    Serializer for DiscussionEntry model data.
-    """
-
-    class Meta:
-        model = DiscussionEntry
-        exclude = "created_by", "deletion_date"

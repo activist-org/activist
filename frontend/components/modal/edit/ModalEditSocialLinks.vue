@@ -148,33 +148,27 @@ const formData = computed(() => ({
   })),
 }));
 
-let countOfLinksBeforeEdit: number;
-
 if (props.pageType == "organization") {
   await organizationStore.fetchById(orgId);
   organization = organizationStore.organization;
   socialLinksRef.value = organization.socialLinks;
-  countOfLinksBeforeEdit = socialLinksRef.value.length;
 } else if (props.pageType == "group") {
   await groupStore.fetchById(groupId);
   group = groupStore.group;
   socialLinksRef.value = group.socialLinks;
-  countOfLinksBeforeEdit = socialLinksRef.value.length;
 } else if (props.pageType == "event") {
   await eventStore.fetchById(eventId);
   event = eventStore.event;
   socialLinksRef.value = event.socialLinks;
-  countOfLinksBeforeEdit = socialLinksRef.value.length;
 } else {
   socialLinksRef.value = defaultSocialLinks;
-  countOfLinksBeforeEdit = defaultSocialLinks.length;
 }
 
 interface SocialLinksValue {
   socialLinks: { link: string; label: string }[];
 }
 
-// Note: If the length is the same, then do update, and if it's more than also call create on all the extra ones.
+// Attn: Currently we're deleting the social links and rewriting all of them.
 async function handleSubmit(values: unknown) {
   const socialLinks = socialLinksRef.value?.map((socialLink, index) => ({
     id: socialLink.id,
@@ -185,45 +179,42 @@ async function handleSubmit(values: unknown) {
 
   let updateResponse = false;
   if (props.pageType === "organization" && socialLinks) {
-    updateResponse = await organizationStore.updateSocialLinks(
+    updateResponse = await organizationStore.deleteSocialLinks(organization);
+    updateResponse = await organizationStore.createSocialLinks(
       organization,
-      socialLinks?.slice(0, countOfLinksBeforeEdit) as SocialLink[]
+      socialLinks as SocialLink[]
     );
-
-    if (socialLinks?.length > countOfLinksBeforeEdit) {
-      updateResponse = await organizationStore.createSocialLinks(
-        organization,
-        socialLinks?.slice(countOfLinksBeforeEdit) as SocialLink[]
-      );
-    }
   } else if (props.pageType === "group" && socialLinks) {
-    updateResponse = await groupStore.updateSocialLinks(
+    updateResponse = await groupStore.deleteSocialLinks(group);
+    updateResponse = await groupStore.createSocialLinks(
       group,
-      socialLinks?.slice(0, countOfLinksBeforeEdit) as SocialLink[]
+      socialLinks as SocialLink[]
     );
-
-    if (socialLinks?.length > countOfLinksBeforeEdit) {
-      updateResponse = await groupStore.createSocialLinks(
-        group,
-        socialLinks?.slice(countOfLinksBeforeEdit) as SocialLink[]
-      );
-    }
   } else if (props.pageType === "event" && socialLinks) {
-    updateResponse = await eventStore.updateSocialLinks(
+    updateResponse = await eventStore.deleteSocialLinks(event);
+    updateResponse = await eventStore.createSocialLinks(
       event,
-      socialLinks?.slice(0, countOfLinksBeforeEdit) as SocialLink[]
+      socialLinks as SocialLink[]
     );
-
-    if (socialLinks?.length > countOfLinksBeforeEdit) {
-      updateResponse = await eventStore.createSocialLinks(
-        event,
-        socialLinks?.slice(countOfLinksBeforeEdit) as SocialLink[]
-      );
-    }
   }
 
   if (updateResponse) {
     handleCloseModal();
+    if (props.pageType == "organization") {
+      await organizationStore.fetchById(orgId);
+      organization = organizationStore.organization;
+      socialLinksRef.value = organization.socialLinks;
+    } else if (props.pageType == "group") {
+      await groupStore.fetchById(groupId);
+      group = groupStore.group;
+      socialLinksRef.value = group.socialLinks;
+    } else if (props.pageType == "event") {
+      await eventStore.fetchById(eventId);
+      event = eventStore.event;
+      socialLinksRef.value = event.socialLinks;
+    } else {
+      socialLinksRef.value = defaultSocialLinks;
+    }
   }
 }
 

@@ -216,6 +216,9 @@ class SignInSerializer(serializers.Serializer[UserModel]):
 #         read_only_fields = ("id", "created_at")
 
 
+# MARK: Pass Reset
+
+
 class PasswordResetSerializer(serializers.Serializer[UserModel]):
     """
     Serializer for the password reset flow data.

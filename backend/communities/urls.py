@@ -31,12 +31,10 @@ app_name = "communities"
 
 router = DefaultRouter(trailing_slash=False)
 
-# MARK: Main Tables
-
-router.register(prefix=r"statuses", viewset=StatusViewSet)
-
-# MARK: Bridge Tables
-
+router.register(
+    prefix=r"statuses",
+    viewset=StatusViewSet,
+)
 router.register(
     prefix=r"group_faqs",
     viewset=GroupFaqViewSet,
