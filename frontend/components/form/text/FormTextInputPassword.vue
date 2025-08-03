@@ -10,8 +10,8 @@
       <slot name="icons"></slot>
       <button
         :id="`${id}-show-password`"
-        type="button"
         @click="changeInputType"
+        type="button"
       >
         <Icon
           :name="isPassword ? IconMap.VISIBLE : IconMap.HIDDEN"
