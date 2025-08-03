@@ -19,8 +19,6 @@ from content.models import (
     Topic,
 )
 
-# MARK: Main Tables
-
 admin.site.register(Discussion)
 admin.site.register(Faq)
 admin.site.register(Image)
@@ -30,12 +28,9 @@ admin.site.register(SocialLink)
 admin.site.register(Tag)
 admin.site.register(Task)
 admin.site.register(Topic)
-
-# MARK: Bridge Tables
-
 admin.site.register(DiscussionEntry)
 
-# MARK: Methods
+# MARK: Resource Flag
 
 
 class ResourceFlagAdmin(admin.ModelAdmin[ResourceFlag]):

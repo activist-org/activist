@@ -22,7 +22,7 @@ from content.models import (
     Topic,
 )
 
-# MARK: Main Table
+# MARK: Community Loc
 
 
 class EntityLocationFactory(factory.django.DjangoModelFactory):
@@ -91,6 +91,9 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
         self.display_name = random_locations[self.location_idx][3]
 
 
+# MARK: Event Loc
+
+
 class EventLocationFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating Location model instances for events.
@@ -157,6 +160,50 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
         self.display_name = random_locations[self.location_idx][3]
 
 
+# MARK: Discussion
+
+
+class DiscussionFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Discussion model instances.
+    """
+
+    class Meta:
+        model = Discussion
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    title = factory.Faker(provider="text", locale="la")
+    category = factory.Faker(provider="text", locale="la")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+# MARK: Discussion Entry
+
+
+class DiscussionEntryFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Discussion Entry instances.
+    """
+
+    class Meta:
+        model = DiscussionEntry
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    discussion = factory.SubFactory("content.factories.DiscussionFactory")
+    text = factory.Faker(provider="text", locale="la")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+# MARK: FAQ
+
+
 class FaqFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating Faq model instances.
@@ -170,6 +217,9 @@ class FaqFactory(factory.django.DjangoModelFactory):
     question = factory.Faker(provider="text", locale="la")
     answer = factory.Faker(provider="text", locale="la")
     order = factory.Faker("random_int", min=1, max=100)
+
+
+# MARK: Image
 
 
 class ImageFactory(factory.django.DjangoModelFactory):
@@ -188,6 +238,9 @@ class ImageFactory(factory.django.DjangoModelFactory):
 
     # Use Faker to generate a random creation date within the last 10 years.
     creation_date = factory.Faker("date_time_this_decade")
+
+
+# MARK: Resource
 
 
 class ResourceFactory(factory.django.DjangoModelFactory):
@@ -213,6 +266,9 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     )
 
 
+# MARK: Resource Flag
+
+
 class ResourceFlagFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating instances of ResourceFlag model.
@@ -226,6 +282,9 @@ class ResourceFlagFactory(factory.django.DjangoModelFactory):
     created_on = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+
+
+# MARK: Task
 
 
 class TaskFactory(factory.django.DjangoModelFactory):
@@ -243,6 +302,9 @@ class TaskFactory(factory.django.DjangoModelFactory):
     )
 
 
+# MARK: Topic
+
+
 class TopicFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating Topic model instances.
@@ -258,38 +320,3 @@ class TopicFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("date")
-
-
-class DiscussionFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating Discussion model instances.
-    """
-
-    class Meta:
-        model = Discussion
-
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
-    title = factory.Faker(provider="text", locale="la")
-    category = factory.Faker(provider="text", locale="la")
-    creation_date = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-
-
-class DiscussionEntryFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating Discussion Entry instances.
-    """
-
-    class Meta:
-        model = DiscussionEntry
-
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
-    discussion = factory.SubFactory("content.factories.DiscussionFactory")
-    text = factory.Faker(provider="text", locale="la")
-    creation_date = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    last_updated = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )

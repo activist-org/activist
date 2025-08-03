@@ -19,17 +19,14 @@ from authentication.models import Support, SupportEntityType, UserFlag, UserMode
 
 logger = logging.getLogger(__name__)
 
-# MARK: Main Tables
+# MARK: Tables
 
 # Remove default Group.
 admin.site.unregister(Group)
 admin.site.register(Support)
-
-# MARK: Bridge Tables
-
 admin.site.register(SupportEntityType)
 
-# MARK: Methods
+# MARK: User Creation
 
 
 class UserCreationForm(forms.ModelForm[UserModel]):
@@ -92,6 +89,9 @@ class UserCreationForm(forms.ModelForm[UserModel]):
         return user
 
 
+# MARK: User Change
+
+
 class UserChangeForm(forms.ModelForm[UserModel]):
     """
     A form for updating users.
@@ -105,6 +105,9 @@ class UserChangeForm(forms.ModelForm[UserModel]):
     class Meta:
         model = UserModel
         fields = "__all__"
+
+
+# MARK: User
 
 
 class UserAdmin(BaseUserAdmin[UserModel]):
@@ -202,6 +205,9 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     search_fields = ["email"]
     ordering = ["email"]
     filter_horizontal = []
+
+
+# MARK: Flag
 
 
 class UserFlagAdmin(admin.ModelAdmin[UserFlag]):

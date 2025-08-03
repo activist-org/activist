@@ -25,47 +25,7 @@ from utils.utils import (
 
 logger = logging.getLogger(__name__)
 
-# MARK: Event
-
-
-class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
-    """
-    Serializer for EventSocialLink model data.
-    """
-
-    class Meta:
-        model = EventSocialLink
-        fields = "__all__"
-
-    def validate_event(self, value: Event | UUID | str) -> Event:
-        """
-        Validate that the event exists.
-
-        Parameters
-        ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
-
-        Returns
-        -------
-        Event
-            The validated Event instance.
-        """
-        if isinstance(value, Event):
-            return value
-
-        try:
-            event = Event.objects.get(id=value)
-
-        except Event.DoesNotExist as e:
-            raise serializers.ValidationError("Event not found.") from e
-
-        return event
+# MARK: FAQ
 
 
 class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
@@ -109,6 +69,52 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
         return event
 
 
+# MARK: Social Link
+
+
+class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
+    """
+    Serializer for EventSocialLink model data.
+    """
+
+    class Meta:
+        model = EventSocialLink
+        fields = "__all__"
+
+    def validate_event(self, value: Event | UUID | str) -> Event:
+        """
+        Validate that the event exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Event instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the event does not exist.
+
+        Returns
+        -------
+        Event
+            The validated Event instance.
+        """
+        if isinstance(value, Event):
+            return value
+
+        try:
+            event = Event.objects.get(id=value)
+
+        except Event.DoesNotExist as e:
+            raise serializers.ValidationError("Event not found.") from e
+
+        return event
+
+
+# MARK: Text
+
+
 class EventTextSerializer(serializers.ModelSerializer[EventText]):
     """
     Serializer for EventText model data.
@@ -117,6 +123,9 @@ class EventTextSerializer(serializers.ModelSerializer[EventText]):
     class Meta:
         model = EventText
         fields = "__all__"
+
+
+# MARK: Organization
 
 
 class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
@@ -130,6 +139,9 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
 
     # def save(self, validated_data: dict[str, Any]) -> Organization:
     #     return Organization.objects.get_or_create(validated_data)
+
+
+# MARK: POST
 
 
 class EventPOSTSerializer(serializers.ModelSerializer[Event]):
@@ -161,6 +173,9 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
             "icon_url",
             "deletion_date",
         )
+
+
+# MARK: Event
 
 
 class EventSerializer(serializers.ModelSerializer[Event]):
@@ -285,7 +300,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         return event
 
 
-# MARK: Event Flag
+# MARK: Flag
 
 
 class EventFlagSerializers(serializers.ModelSerializer[EventFlag]):

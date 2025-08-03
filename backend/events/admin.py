@@ -16,20 +16,16 @@ from events.models import (
     Role,
 )
 
-# MARK: Main Tables
-
 admin.site.register(Event)
 admin.site.register(Format)
 admin.site.register(Role)
 admin.site.register(EventFaq)
 
-# MARK: Bridge Tables
-
 admin.site.register(EventAttendee)
 admin.site.register(EventAttendeeStatus)
 admin.site.register(EventText)
 
-# MARK: Methods
+# MARK: Event Flag
 
 
 class EventFlagAdmin(admin.ModelAdmin[EventFlag]):

@@ -62,7 +62,80 @@ class EventFactory(factory.django.DjangoModelFactory):
     setting = random.choice(["online", "offline"])
 
 
-# MARK: Event Flag
+# MARK: Role
+
+
+class RoleFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Role model instances.
+    """
+
+    class Meta:
+        model = Role
+
+    name = factory.Faker("word")
+    is_custom = factory.Faker("boolean")
+    description = factory.Faker(provider="text", locale="la")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    deprecation_date = factory.Faker("future_date", end_date="+30d")
+
+
+# MARK: Attendee
+
+
+class EventAttendeeFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventAttendee model instances.
+    """
+
+    class Meta:
+        model = EventAttendee
+
+    event = factory.SubFactory(EventFactory)
+    user = factory.SubFactory("authentication.factories.UserFactory")
+    role = factory.SubFactory(RoleFactory)
+    attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
+
+
+# MARK: Attendee Status
+
+
+class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventAttendeeStatus model instances.
+    """
+
+    class Meta:
+        model = EventAttendeeStatus
+
+    status_name = factory.Faker("word")
+
+
+# MARK: FAQ
+
+
+class EventFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = EventFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
+    order = factory.Faker("random_int", min=1, max=100)
+    event = factory.SubFactory(EventFactory)
+
+
+# MARK: Flag
 
 
 class EventFlagFactory(factory.django.DjangoModelFactory):
@@ -102,55 +175,7 @@ class FormatFactory(factory.django.DjangoModelFactory):
     deprecation_date = factory.Faker("future_date", end_date="+30d")
 
 
-# MARK: Role
-
-
-class RoleFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating Role model instances.
-    """
-
-    class Meta:
-        model = Role
-
-    name = factory.Faker("word")
-    is_custom = factory.Faker("boolean")
-    description = factory.Faker(provider="text", locale="la")
-    creation_date = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    last_updated = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    deprecation_date = factory.Faker("future_date", end_date="+30d")
-
-
-# MARK: Bridge Tables
-
-
-class EventAttendeeFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating EventAttendee model instances.
-    """
-
-    class Meta:
-        model = EventAttendee
-
-    event = factory.SubFactory(EventFactory)
-    user = factory.SubFactory("authentication.factories.UserFactory")
-    role = factory.SubFactory(RoleFactory)
-    attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
-
-
-class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating EventAttendeeStatus model instances.
-    """
-
-    class Meta:
-        model = EventAttendeeStatus
-
-    status_name = factory.Faker("word")
+# MARK: Social Link
 
 
 class EventSocialLinkFactory(factory.django.DjangoModelFactory):
@@ -172,20 +197,7 @@ class EventSocialLinkFactory(factory.django.DjangoModelFactory):
     )
 
 
-class EventFaqFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating Faq model instances.
-    """
-
-    class Meta:
-        model = EventFaq
-
-    iso = "en"
-    primary = factory.Faker("boolean")
-    question = factory.Faker(provider="text", locale="la")
-    answer = factory.Faker(provider="text", locale="la")
-    order = factory.Faker("random_int", min=1, max=100)
-    event = factory.SubFactory(EventFactory)
+# MARK: Text
 
 
 class EventTextFactory(factory.django.DjangoModelFactory):

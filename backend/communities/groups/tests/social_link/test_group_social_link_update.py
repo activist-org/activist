@@ -70,7 +70,7 @@ def test_group_social_link_update(client: Client) -> None:
     response_body = response.json()
 
     assert response.status_code == 200
-    assert response_body["message"] == "Social links updated successfully."
+    assert response_body["message"] == "Social link updated successfully."
 
     # MARK: Update Failure
 

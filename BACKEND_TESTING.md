@@ -14,7 +14,7 @@ This documentation details standards for writing pytest based backend testing fi
 
 - All tests for backend applications should be in a `tests` sub directory
 - Testing files should be named `test_ENTITY_{MODEL_SUB_CLASS}_CRUD_METHOD`, with the `MODEL_SUB_CLASS` being optional
-  - Model sub classes are bridge table methods that are serialized into the base model
+  - Model sub classes are "bridge table" methods that are serialized into the base model
     - Ex: `flag` as a sub class of `event`
   - Model sub classes should always be singular in the base model, and should thus be singular in the test file name
   - The tests for the specific entity, model sub class and CRUD method should all be included in this file
