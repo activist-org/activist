@@ -9,8 +9,8 @@
     <template #icons>
       <slot name="icons"></slot>
       <button
-        type="button"
         :id="`${id}-show-password`"
+        type="button"
         @click="changeInputType"
       >
         <Icon
