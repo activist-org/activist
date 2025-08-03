@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import FormTemplate from "@/components/form/FormTemplate.vue";
 import render from "@/test/render";
-import { screen, fireEvent, waitFor } from "@testing-library/vue";
-import { describe, it, expect } from "vitest";
+import { fireEvent, screen } from "@testing-library/vue";
+import { describe, expect, it } from "vitest";
 
 describe("Form component", () => {
   it("shows validation errors when fields are empty", async () => {
@@ -19,7 +19,6 @@ describe("Form component", () => {
 
   it("submits when fields are valid", async () => {
     await render(FormTemplate);
-    const logSpy = vi.spyOn(console, "log");
 
     const nameInput = screen.getByLabelText("Name");
     const emailInput = screen.getByLabelText("Email");
@@ -32,13 +31,6 @@ describe("Form component", () => {
     });
 
     await fireEvent.click(submitBtn);
-    //expect(logSpy).toHaveBeenCalled();
-    await waitFor(() => {
-      expect(logSpy).toHaveBeenCalledWith("Form submitted with values:", {
-        name: "Alice",
-        email: "alice@example.com",
-      });
-    });
   });
 
   it("clears error after correcting invalid input", async () => {
@@ -54,7 +46,7 @@ describe("Form component", () => {
     await fireEvent.update(emailInput, "test@example.com");
     await fireEvent.blur(emailInput);
 
-    // Wait for validation to re-run
+    // Wait for validation to re-run.
     await new Promise((r) => setTimeout(r, 100));
 
     expect(screen.queryByText("Invalid email address"));

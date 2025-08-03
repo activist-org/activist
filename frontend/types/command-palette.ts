@@ -8,7 +8,9 @@ export const commandPaletteData = [
     path: "home",
     iconName: "HOME",
     displayName: "i18n._global.home",
-    action: () => console.log("home"),
+    action: () => {
+      // Note: For future implementation.
+    },
   },
   {
     id: 1,
@@ -16,7 +18,9 @@ export const commandPaletteData = [
     path: "discussions",
     iconName: "DISCUSSION",
     displayName: "i18n._global.discussions",
-    action: () => console.log("discussions"),
+    action: () => {
+      // Note: For future implementation.
+    },
   },
   {
     id: 2,
@@ -24,7 +28,9 @@ export const commandPaletteData = [
     path: "events",
     iconName: "EVENT",
     displayName: "i18n._global.events",
-    action: () => console.log("events"),
+    action: () => {
+      // Note: For future implementation.
+    },
   },
   {
     id: 3,
@@ -32,7 +38,9 @@ export const commandPaletteData = [
     path: "notifications",
     iconName: "BELL",
     displayName: "i18n._global.notifications",
-    action: () => console.log("notifications"),
+    action: () => {
+      // Note: For future implementation.
+    },
   },
   {
     id: 4,
@@ -40,15 +48,19 @@ export const commandPaletteData = [
     path: "organizations",
     iconName: "ORGANIZATION",
     displayName: "i18n._global.organization_name",
-    action: () => console.log("organizations"),
+    action: () => {
+      // Note: For future implementation.
+    },
   },
   // {
   //   id: 5,
   //   category: "resources",
   //   path: "resources",
   //   iconName: "RESOURCE",
-  //   displayName: "i18n._global.resources_lower,
-  //   action: () => console.log('resources')
+  //   displayName: "i18n._global.resources_lower",
+  //   action: () => {
+  //     // Note: For future implementation.
+  //   }
   // },
   {
     id: 6,
@@ -56,6 +68,8 @@ export const commandPaletteData = [
     path: "upcoming-events",
     iconName: "EVENT",
     displayName: "i18n.types.command_palette.upcoming_events",
-    action: () => console.log("upcoming-events"),
+    action: () => {
+      // Note: For future implementation.
+    },
   },
 ];

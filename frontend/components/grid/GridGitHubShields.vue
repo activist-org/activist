@@ -60,7 +60,7 @@ async function fetchDataFromGitHubAPI() {
     GitHubData.forks_count = data.forks_count;
     GitHubData.stargazers_count = data.stargazers_count;
   } catch (error) {
-    console.error(error);
+    void error;
   } finally {
     isLoading.value = false;
   }

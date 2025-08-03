@@ -159,8 +159,8 @@ const handleUpload = async () => {
     emit("upload-complete", fileUploadEntity.value);
     uploadError.value = false;
   } catch (error) {
-    console.error("Error uploading images:", error);
     emit("upload-error");
+    void error;
   }
 };
 </script>
