@@ -17,7 +17,10 @@
       v-if="iconName"
       :name="iconName"
       size="1em"
-      :class="{ 'h-5 w-5 flex-shrink-0': isSideLeftMenu }"
+      :class="{
+        'h-5 w-5 flex-shrink-0': isSideLeftMenu,
+        'dark:group-hover:fill-cta-orange': !active,
+      }"
     />
     <Transition>
       <component
