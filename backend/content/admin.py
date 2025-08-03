@@ -19,6 +19,8 @@ from content.models import (
     Topic,
 )
 
+# MARK: Register
+
 admin.site.register(Discussion)
 admin.site.register(Faq)
 admin.site.register(Image)
@@ -40,5 +42,7 @@ class ResourceFlagAdmin(admin.ModelAdmin[ResourceFlag]):
 
     list_display = ["resource", "created_by", "created_on"]
 
+
+# MARK: Register Admin
 
 admin.site.register(ResourceFlag, ResourceFlagAdmin)

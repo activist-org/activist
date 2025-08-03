@@ -25,6 +25,8 @@ from communities.organizations.models import (
     OrganizationText,
 )
 
+# MARK: Register
+
 admin.site.register(GroupImage)
 admin.site.register(GroupMember)
 admin.site.register(GroupFaq)
@@ -116,6 +118,8 @@ class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
         "created_at",
     ]
 
+
+# MARK: Register Admin
 
 admin.site.register(Group, GroupAdmin)
 admin.site.register(GroupText, GroupTextAdmin)

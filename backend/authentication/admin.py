@@ -19,7 +19,7 @@ from authentication.models import Support, SupportEntityType, UserFlag, UserMode
 
 logger = logging.getLogger(__name__)
 
-# MARK: Tables
+# MARK: Register
 
 # Remove default Group.
 admin.site.unregister(Group)
@@ -274,6 +274,7 @@ class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
         super().delete_model(request, obj)
 
 
-# Register the new UserAdmin.
+# MARK: Register Admin
+
 admin.site.register(UserModel, UserAdmin)
 admin.site.register(UserFlag, UserFlagAdmin)
