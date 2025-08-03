@@ -32,7 +32,7 @@ from events.serializers import (
 
 logger = logging.getLogger("django")
 
-# MARK: Event
+# MARK: API
 
 
 class EventAPIView(GenericAPIView[Event]):
@@ -96,6 +96,9 @@ class EventAPIView(GenericAPIView[Event]):
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Detail API
 
 
 class EventDetailAPIView(APIView):
@@ -201,7 +204,7 @@ class EventDetailAPIView(APIView):
         )
 
 
-# MARK: Event Flag
+# MARK: Flag
 
 
 class EventFlagAPIView(GenericAPIView[EventFlag]):
@@ -245,6 +248,9 @@ class EventFlagAPIView(GenericAPIView[EventFlag]):
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Flag Detail
 
 
 class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
@@ -307,7 +313,7 @@ class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
         )
 
 
-# MARK: Bridge Tables
+# MARK: FAQ
 
 
 class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
@@ -359,10 +365,35 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         )
 
 
+# MARK: Social Link
+
+
 class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
     queryset = EventSocialLink.objects.all()
     serializer_class = EventSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def delete(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        event: Event = serializer.validated_data["event"]
+
+        if request.user != event.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to delete social links for this event."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        EventSocialLink.objects.filter(event=event).delete()
+        logger.info(f"Social links deleted for event {event.id}")
+
+        return Response(
+            {"message": "Social links deleted successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
@@ -397,7 +428,6 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             )
 
         event = social_link.event
-
         if event is not None:
             creator = event.created_by
 
@@ -412,20 +442,21 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        EventSocialLink.objects.filter(event=event).delete()
-
         serializer = self.get_serializer(social_link, request.data, partial=True)
         if serializer.is_valid():
             serializer.save(event=event)
 
             return Response(
-                {"message": "Social links updated successfully."},
+                {"message": "Social link updated successfully."},
                 status=status.HTTP_200_OK,
             )
 
         return Response(
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
+
+
+# MARK: Text
 
 
 class EventTextViewSet(viewsets.ModelViewSet[EventText]):

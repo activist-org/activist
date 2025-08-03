@@ -43,7 +43,7 @@ from core.permissions import IsAdminStaffCreatorOrReadOnly
 
 logger = logging.getLogger("django")
 
-# MARK: Group
+# MARK: API
 
 
 class GroupAPIView(GenericAPIView[Group]):
@@ -115,6 +115,9 @@ class GroupAPIView(GenericAPIView[Group]):
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Detail API
 
 
 class GroupDetailAPIView(GenericAPIView[Group]):
@@ -221,7 +224,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         )
 
 
-# MARK: Group Flags
+# MARK: Flag
 
 
 class GroupFlagAPIView(GenericAPIView[GroupFlag]):
@@ -264,6 +267,9 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Flag Detail
 
 
 class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
@@ -327,7 +333,7 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
         )
 
 
-# MARK: Bridge Tables
+# MARK: FAQ
 
 
 class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
@@ -379,10 +385,35 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         )
 
 
+# MARK: Social Link
+
+
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def delete(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        group: Group = serializer.validated_data["group"]
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to delete social links for this group."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        GroupSocialLink.objects.filter(group=group).delete()
+        logger.info(f"Social links deleted for group {group.id}")
+
+        return Response(
+            {"message": "Social links deleted successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
@@ -417,7 +448,6 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             )
 
         group = social_links.group
-
         if group is not None:
             creator = group.created_by
 
@@ -432,20 +462,21 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        GroupSocialLink.objects.filter(group=group).delete()
-
         serializer = self.get_serializer(social_links, request.data, partial=True)
         if serializer.is_valid():
             serializer.save(group=group)
 
             return Response(
-                {"message": "Social links updated successfully."},
+                {"message": "Social link updated successfully."},
                 status=status.HTTP_200_OK,
             )
 
         return Response(
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
+
+
+# MARK: Text
 
 
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):

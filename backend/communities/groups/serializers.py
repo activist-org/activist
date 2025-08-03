@@ -21,47 +21,7 @@ from communities.organizations.models import Organization
 from content.serializers import LocationSerializer, ResourceSerializer
 from events.serializers import EventSerializer
 
-# MARK: Group
-
-
-class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
-    """
-    Serializer for GroupSocialLink model data.
-    """
-
-    class Meta:
-        model = GroupSocialLink
-        fields = "__all__"
-
-    def validate_group(self, value: Group | UUID | str) -> Group:
-        """
-        Validate that the group exists.
-
-        Parameters
-        ----------
-        value : Any
-            The value to validate, expected to be a Group instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the group does not exist.
-
-        Returns
-        -------
-        Group
-            The validated Group instance.
-        """
-        if isinstance(value, Group):
-            return value
-
-        try:
-            group = Group.objects.get(id=value)
-
-        except Group.DoesNotExist as e:
-            raise serializers.ValidationError("Group not found.") from e
-
-        return group
+# MARK: FAQ
 
 
 class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
@@ -104,6 +64,52 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
         return group
 
 
+# MARK: Social Link
+
+
+class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
+    """
+    Serializer for GroupSocialLink model data.
+    """
+
+    class Meta:
+        model = GroupSocialLink
+        fields = "__all__"
+
+    def validate_group(self, value: Group | UUID | str) -> Group:
+        """
+        Validate that the group exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Group instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the group does not exist.
+
+        Returns
+        -------
+        Group
+            The validated Group instance.
+        """
+        if isinstance(value, Group):
+            return value
+
+        try:
+            group = Group.objects.get(id=value)
+
+        except Group.DoesNotExist as e:
+            raise serializers.ValidationError("Group not found.") from e
+
+        return group
+
+
+# MARK: Text
+
+
 class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
     """
     Serializer for GroupText model data.
@@ -114,6 +120,9 @@ class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
         fields = "__all__"
 
 
+# MARK: Organization
+
+
 class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
     """
     Serializer for GroupOrganization model data.
@@ -122,6 +131,9 @@ class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
         fields = "__all__"
+
+
+# MARK: POST
 
 
 class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
@@ -149,6 +161,9 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
             "icon_url",
             "events",
         )
+
+
+# MARK: Group
 
 
 class GroupSerializer(serializers.ModelSerializer[Group]):
@@ -215,6 +230,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         return group
 
 
+# MARK: Flag
+
+
 class GroupFlagSerializer(serializers.ModelSerializer[GroupFlag]):
     """
     Serializers for GroupFlag model.
@@ -225,7 +243,7 @@ class GroupFlagSerializer(serializers.ModelSerializer[GroupFlag]):
         fields = "__all__"
 
 
-# MARK: Bridge Tables
+# MARK: Image
 
 
 class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
@@ -236,6 +254,9 @@ class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
     class Meta:
         model = GroupImage
         fields = "__all__"
+
+
+# MARK: Member
 
 
 class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):

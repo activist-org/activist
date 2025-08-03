@@ -16,20 +16,17 @@ from events.models import (
     Role,
 )
 
-# MARK: Main Tables
+# MARK: Register
 
 admin.site.register(Event)
 admin.site.register(Format)
 admin.site.register(Role)
 admin.site.register(EventFaq)
-
-# MARK: Bridge Tables
-
 admin.site.register(EventAttendee)
 admin.site.register(EventAttendeeStatus)
 admin.site.register(EventText)
 
-# MARK: Methods
+# MARK: Event Flag
 
 
 class EventFlagAdmin(admin.ModelAdmin[EventFlag]):
@@ -41,5 +38,7 @@ class EventFlagAdmin(admin.ModelAdmin[EventFlag]):
 
     list_display = ["event", "created_by", "created_on"]
 
+
+# MARK: Register Admin
 
 admin.site.register(EventFlag, EventFlagAdmin)

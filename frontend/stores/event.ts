@@ -230,6 +230,47 @@ export const useEventStore = defineStore("event", {
       return false;
     },
 
+    // MARK: Delete Links
+
+    // ATTN: Currently we're deleting the social links and rewriting all of them.
+    async deleteSocialLinks(event: Event) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseSocialLinks = useFetch(
+        `${BASE_BACKEND_URL}/communities/event_social_links`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({
+            link: "https://www.example.com",
+            label: "placeholder",
+            event: event.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data
+        .value as unknown as Event;
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
     // MARK: Create Links
 
     async createSocialLinks(event: Event, formData: SocialLinkFormData[]) {

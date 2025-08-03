@@ -182,12 +182,12 @@ git remote add upstream https://github.com/activist-org/activist.git
 4. Create a virtual environment for the backend (Python `>=3.11`), activate it and install dependencies:
 
     ```bash
-    # Unix or MacOS:
     python3 -m venv venv
+
+    # Unix or MacOS:
     source venv/bin/activate
 
     # Windows:
-    python -m venv venv
     venv\Scripts\activate.bat
 
     # After activating venv:

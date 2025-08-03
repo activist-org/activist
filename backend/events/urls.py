@@ -19,8 +19,6 @@ from events.views import (
 app_name = "events"
 router = DefaultRouter(trailing_slash=False)
 
-# MARK: Bridge Tables
-
 router.register(
     prefix=r"event_faqs",
     viewset=EventFaqViewSet,

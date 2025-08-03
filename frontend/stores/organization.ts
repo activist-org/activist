@@ -235,6 +235,47 @@ export const useOrganizationStore = defineStore("organization", {
       return false;
     },
 
+    // MARK: Delete Links
+
+    // ATTN: Currently we're deleting the social links and rewriting all of them.
+    async deleteSocialLinks(org: Organization) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseSocialLinks = useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_social_links`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({
+            link: "https://www.example.com",
+            label: "placeholder",
+            org: org.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data
+        .value as unknown as Organization;
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
     // MARK: Create Links
 
     async createSocialLinks(org: Organization, formData: SocialLinkFormData[]) {
