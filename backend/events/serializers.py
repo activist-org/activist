@@ -137,9 +137,6 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
         model = Organization
         fields = "__all__"
 
-    # def save(self, validated_data: dict[str, Any]) -> Organization:
-    #     return Organization.objects.get_or_create(validated_data)
-
 
 # MARK: POST
 
