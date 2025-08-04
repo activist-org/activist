@@ -9,7 +9,8 @@
     :class="{
       'group py-2 pl-4 pr-3': !isSideLeftMenu,
       'bg-cta-orange/80 dark:bg-cta-orange/25 dark:text-cta-orange': active,
-      'text-primary-text': !active,
+      'text-primary-text hover:bg-cta-orange/80 dark:hover:bg-cta-orange/25 dark:hover:fill-cta-orange dark:hover:text-cta-orange':
+        !active,
       'relative z-0 space-x-2 p-2 text-left font-medium': isSideLeftMenu,
     }"
   >
@@ -19,7 +20,6 @@
       size="1em"
       :class="{
         'h-5 w-5 flex-shrink-0': isSideLeftMenu,
-        'dark:group-hover:fill-cta-orange': !active,
       }"
     />
     <Transition>
