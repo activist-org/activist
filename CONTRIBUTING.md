@@ -742,3 +742,44 @@ Please run [frontend/reset_local_env.sh](frontend/reset_local_env.sh) to reset t
     # Windows:
     # Run the commands below found in frontend/reset_local_env.sh.
     ```
+
+### 🛠️ PostgreSQL Port Conflict with PgAdmin or Local PostgreSQL Installation
+
+If you have **PgAdmin** or a local **PostgreSQL server** installed and it's already listening on **port `5432`**, you may encounter a conflict when trying to run the Docker-based `postgres_db` service. Docker will fail to bind to port `5432`, showing an error like:
+
+> `Error starting userland proxy: listen tcp4 0.0.0.0:5432: bind: address already in use`
+
+**❗ Important: Do _not_ change `DATABASE_PORT` in `.env.dev` to fix this.**
+
+Changing this port will cause **test failures**, specifically `TypeError: can only concatenate str (not "NoneType") to str` errors in authentication and serializer tests (see example below):
+
+```
+TypeError: can only concatenate str (not "NoneType") to str
+```
+
+This happens because your app expects PostgreSQL on port `5432`. Changing the port in `.env.dev` breaks database connections during testing.
+
+### ✅ Correct Solution: Stop Local PostgreSQL Service
+
+To resolve the port conflict, **stop** your local PostgreSQL service instead:
+
+#### Linux:
+```bash
+sudo systemctl stop postgresql
+```
+
+#### macOS (Homebrew-based PostgreSQL):
+```bash
+brew services stop postgresql
+```
+
+#### Windows:
+1. Open **Services** (search *"Services"* in the Start Menu).
+2. Locate **PostgreSQL** in the list.
+3. Right-click and choose **Stop**.
+
+Once stopped, you can safely run Docker services:
+
+```bash
+docker compose --env-file .env.dev up --build -d
+```
