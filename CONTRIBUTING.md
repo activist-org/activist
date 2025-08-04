@@ -743,43 +743,45 @@ Please run [frontend/reset_local_env.sh](frontend/reset_local_env.sh) to reset t
     # Run the commands below found in frontend/reset_local_env.sh.
     ```
 
-### 🛠️ PostgreSQL Port Conflict with PgAdmin or Local PostgreSQL Installation
+### PostgreSQL Port Conflict with PgAdmin or Local PostgreSQL Installation
 
-If you have **PgAdmin** or a local **PostgreSQL server** installed and it's already listening on **port `5432`**, you may encounter a conflict when trying to run the Docker-based `postgres_db` service. Docker will fail to bind to port `5432`, showing an error like:
+#### The Problem
+
+If you have **PgAdmin** or a local **PostgreSQL** server installed and it's already listening on **port `5432`**, you may encounter a conflict when trying to run the Docker-based `postgres_db` service. Docker will fail to bind to port `5432`, showing an error like:
 
 > `Error starting userland proxy: listen tcp4 0.0.0.0:5432: bind: address already in use`
 
-**❗ Important: Do _not_ change `DATABASE_PORT` in `.env.dev` to fix this.**
+> [!IMPORTANT]
+> **Do _not_ change `DATABASE_PORT` in `.env.dev` to fix this. Please see details below.**
 
-Changing this port will cause **test failures**, specifically `TypeError: can only concatenate str (not "NoneType") to str` errors in authentication and serializer tests (see example below):
-
-```
-TypeError: can only concatenate str (not "NoneType") to str
-```
+Changing this port will cause test failures, specifically `TypeError: can only concatenate str (not "NoneType") to str` errors in authentication and serializer tests.
 
 This happens because your app expects PostgreSQL on port `5432`. Changing the port in `.env.dev` breaks database connections during testing.
 
-### ✅ Correct Solution: Stop Local PostgreSQL Service
+#### The Solution
 
-To resolve the port conflict, **stop** your local PostgreSQL service instead:
+To resolve the port conflict, please stop your local PostgreSQL service instead with one of the following commands:
 
-#### Linux:
+**Linux**
+
 ```bash
 sudo systemctl stop postgresql
 ```
 
-#### macOS (Homebrew-based PostgreSQL):
+**macOS (Homebrew-based PostgreSQL)**
+
 ```bash
 brew services stop postgresql
 ```
 
-#### Windows:
-1. Open **Services** (search *"Services"* in the Start Menu).
-2. Locate **PostgreSQL** in the list.
-3. Right-click and choose **Stop**.
+**Windows**
 
-Once stopped, you can safely run Docker services:
+1. Open **Services** (search *"Services"* in the Start Menu)
+2. Locate **PostgreSQL** in the list
+3. Right-click and choose **Stop**
 
-```bash
-docker compose --env-file .env.dev up --build -d
-```
+Once stopped, you can safely run Docker services like the Docker Compose commands in the [Development Environment](#dev-env-) section.
+
+### Still experiencing problems?
+
+Please feel free to reach out to the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=systemli.org&via=librezo.fr) if you have a question!
