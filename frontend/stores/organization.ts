@@ -190,20 +190,6 @@ export const useOrganizationStore = defineStore("organization", {
     ) {
       this.loading = true;
 
-      const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/communities/organizations/${org.id}`,
-        {
-          method: "PUT",
-          body: {
-            ...org,
-            getInvolvedUrl: formData.getInvolvedUrl,
-          },
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
-      );
-
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}`,
         {
@@ -222,7 +208,7 @@ export const useOrganizationStore = defineStore("organization", {
         }
       );
 
-      if (responseOrg && responseOrgTexts) {
+      if (responseOrgTexts) {
         this.organization.texts.description = formData.description;
         this.organization.texts.getInvolved = formData.getInvolved;
         this.organization.getInvolvedUrl = formData.getInvolvedUrl;

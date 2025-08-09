@@ -182,20 +182,6 @@ export const useGroupStore = defineStore("group", {
     async updateTexts(group: Group, formData: GroupUpdateTextFormData) {
       this.loading = true;
 
-      const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/communities/groups/${group.id}`,
-        {
-          method: "PUT",
-          body: {
-            ...group,
-            getInvolvedUrl: formData.getInvolvedUrl,
-          },
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
-      );
-
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL + `/communities/group_texts/${group.texts.id}`,
         {
@@ -214,7 +200,7 @@ export const useGroupStore = defineStore("group", {
         }
       );
 
-      if (responseOrg && responseOrgTexts) {
+      if (responseOrgTexts) {
         this.group.texts.description = formData.description;
         this.group.texts.getInvolved = formData.getInvolved;
         this.group.getInvolvedUrl = formData.getInvolvedUrl;
@@ -365,7 +351,7 @@ export const useGroupStore = defineStore("group", {
       const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/group_faqs/`,
+        `${BASE_BACKEND_URL}/communities/group_faqs`,
         {
           method: "POST",
           body: JSON.stringify({

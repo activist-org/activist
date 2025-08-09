@@ -9,7 +9,7 @@
     </Head>
     <div class="mx-auto h-[260px] w-3/4">
       <ImageOrganization
-        :imgUrl="organization?.iconUrl.fileObject"
+        :imgUrl="organization?.iconUrl?.fileObject"
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: organization?.name,

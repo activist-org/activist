@@ -14,7 +14,7 @@
         <FormItem
           v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
           name="question"
-          :label="$t('i18n.components.modal._global.question')"
+          :label="$t('i18n.components._global.question')"
           :required="true"
         >
           <FormTextArea
@@ -28,7 +28,7 @@
         <FormItem
           v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
           name="answer"
-          :label="$t('i18n.components.modal._global.answer')"
+          :label="$t('i18n.components._global.answer')"
           :required="true"
         >
           <FormTextArea
@@ -86,10 +86,8 @@ const formData = ref<FaqEntry>({
 const { t } = useI18n();
 
 const schema = z.object({
-  question: z
-    .string()
-    .min(1, t("i18n.components.modal._global.question_required")),
-  answer: z.string().min(1, t("i18n.components.modal._global.answer_required")),
+  question: z.string().min(1, t("i18n.components._global.question_required")),
+  answer: z.string().min(1, t("i18n.components._global.answer_required")),
 });
 
 if (props.pageType == "organization") {

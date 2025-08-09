@@ -185,20 +185,6 @@ export const useEventStore = defineStore("event", {
     async updateTexts(event: Event, formData: EventUpdateTextFormData) {
       this.loading = true;
 
-      const responseEvent = await $fetch(
-        BASE_BACKEND_URL + `/events/events/${event.id}`,
-        {
-          method: "PUT",
-          body: {
-            ...event,
-            getInvolvedUrl: formData.getInvolvedUrl,
-          },
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
-      );
-
       const responseEventTexts = await $fetch(
         BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}`,
         {
@@ -217,7 +203,7 @@ export const useEventStore = defineStore("event", {
         }
       );
 
-      if (responseEvent && responseEventTexts) {
+      if (responseEventTexts) {
         this.event.texts.description = formData.description;
         this.event.texts.getInvolved = formData.getInvolved;
         this.event.getInvolvedUrl = formData.getInvolvedUrl;
@@ -368,7 +354,7 @@ export const useEventStore = defineStore("event", {
       const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_faqs/`,
+        `${BASE_BACKEND_URL}/events/event_faqs`,
         {
           method: "POST",
           body: JSON.stringify({

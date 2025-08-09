@@ -12,7 +12,7 @@ interface OrganizationBase {
   name: string;
   tagline: string;
   createdBy: string;
-  iconUrl: ContentImage;
+  iconUrl?: ContentImage;
   location: Location;
   getInvolvedUrl: string;
   socialLinks: OrganizationSocialLink[];

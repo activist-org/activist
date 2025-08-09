@@ -5,7 +5,7 @@
       @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
-      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+      :submit-label="$t('i18n.components._global.update_texts')"
     >
       <h2>
         {{ $t("i18n.components.modal_edit_text_group.edit_group_texts") }}
@@ -92,6 +92,18 @@ onMounted(() => {
   formData.value.getInvolved = group.texts.getInvolved || "";
   formData.value.getInvolvedUrl = group.getInvolvedUrl || "";
 });
+
+watch(
+  group,
+  (newValues) => {
+    formData.value.description = newValues.texts.description || "";
+    formData.value.getInvolved = newValues.texts.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues.getInvolvedUrl || "";
+  },
+  {
+    deep: true,
+  }
+);
 
 async function handleSubmit(values: unknown) {
   const response = await groupStore.updateTexts(
