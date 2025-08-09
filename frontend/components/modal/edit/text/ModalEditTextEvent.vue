@@ -5,7 +5,7 @@
       @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
-      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+      :submit-label="$t('i18n.components._global.update_texts')"
     >
       <h2>
         {{ $t("i18n.components.modal_edit_text_event.edit_event_texts") }}
@@ -91,8 +91,20 @@ const formData = ref<EventUpdateTextFormData>({
 onMounted(() => {
   formData.value.description = event.texts.description || "";
   formData.value.getInvolved = event.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = event.getInvolvedUrl || "dsda";
+  formData.value.getInvolvedUrl = event.getInvolvedUrl || "";
 });
+
+watch(
+  event,
+  (newValues) => {
+    formData.value.description = newValues.texts.description || "";
+    formData.value.getInvolved = newValues.texts.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues.getInvolvedUrl || "";
+  },
+  {
+    deep: true,
+  }
+);
 
 async function handleSubmit(values: unknown) {
   const response = await eventStore.updateTexts(

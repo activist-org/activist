@@ -5,7 +5,7 @@
       @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
-      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+      :submit-label="$t('i18n.components._global.update_texts')"
     >
       <h2>
         {{
@@ -100,6 +100,18 @@ onMounted(() => {
   formData.value.getInvolved = organization.texts.getInvolved || "";
   formData.value.getInvolvedUrl = organization.getInvolvedUrl || "";
 });
+
+watch(
+  organization,
+  (newValues) => {
+    formData.value.description = newValues.texts.description || "";
+    formData.value.getInvolved = newValues.texts.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues.getInvolvedUrl || "";
+  },
+  {
+    deep: true,
+  }
+);
 
 async function handleSubmit(values: unknown) {
   const response = await organizationStore.updateTexts(

@@ -18,18 +18,28 @@
             <IconEdit
               @click.stop="
                 useModalHandlers(
-                  'ModalEditFaqEntry' + props.faqEntry.id
+                  `ModalEditFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                    props.faqEntry.id
                 ).openModal()
               "
               @keydown.enter="
                 useModalHandlers(
-                  'ModalEditFaqEntry' + props.faqEntry.id
+                  `ModalEditFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                    props.faqEntry.id
                 ).openModal()
               "
             />
-            <ModalEditFaqEntry
+            <ModalEditFaqEntryOrganization
+              v-if="pageType === 'organization'"
               :faqEntry="faqEntry"
-              :pageType="props.pageType"
+            />
+            <ModalEditFaqEntryGroup
+              v-else-if="pageType === 'group'"
+              :faqEntry="faqEntry"
+            />
+            <ModalEditFaqEntryEvent
+              v-else-if="pageType === 'event'"
+              :faqEntry="faqEntry"
             />
           </div>
           <DisclosurePanel
@@ -54,6 +64,6 @@ import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   faqEntry: FaqEntry;
-  pageType: "organization" | "group" | "event" | "other";
+  pageType: "organization" | "group" | "event";
 }>();
 </script>
