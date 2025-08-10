@@ -293,7 +293,6 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             True if the start is after the end (invalid).
             False otherwise (valid).
         """
-
         # Convert to datetime if they're strings.
         start_dt = parse_datetime(start) if isinstance(start, str) else start
         end_dt = parse_datetime(end) if isinstance(end, str) else end
