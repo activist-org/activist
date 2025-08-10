@@ -272,7 +272,7 @@
   "i18n.components.media_map_events.events_in_this_area": "Événements dans cette zone",
   "i18n.components.media_map_events.learn_events": "Apprendre événements",
   "i18n.components.media_map.maplibre_gl_alert": "Votre navigateur ne prend pas en charge notre service de cartographie MapLibre GL, nous ne pourrons donc pas afficher les cartes.",
-  "i18n.components.modal_add_faq_entry.add_faq_entry": "Ajouter entrée FAQ",
+  "i18n.components.modal.add.faq_entry._global.add_faq_entry": "Ajouter entrée FAQ",
   "i18n.components.modal_base.close_modal_aria_label": "Fermer la version agrandie de cette image",
   "i18n.components.modal_command_palette.jump_to": "Sauter vers",
   "i18n.components.modal_edit_text_event.edit_event_texts": "Modif textes d'événement",

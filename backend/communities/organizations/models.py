@@ -121,6 +121,9 @@ class OrganizationFaq(models.Model):
     def __str__(self) -> str:
         return self.question
 
+    class Meta:
+        ordering = ["order"]
+
 
 # MARK: Flag
 
