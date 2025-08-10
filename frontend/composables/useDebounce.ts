@@ -8,7 +8,10 @@ export const useDebounce = () => {
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     return (...args: Parameters<T>) => {
-      if (timeoutId) clearTimeout(timeoutId);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
       timeoutId = setTimeout(() => {
         callback(...args);
         timeoutId = null;
