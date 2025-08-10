@@ -221,25 +221,26 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         start = data.get("start_time")
         end = data.get("end_time")
 
-        # Only validate if both times are provided.
-        if start and end:
-            # Verify start is before end
-            if self._invalid_dates(start, end):
-                raise serializers.ValidationError(
-                    ("The start time cannot be after the end time."),
-                    code="invalid_time_order",
-                )
+        # Verify start is before end if both times are provided.
+        if start and end and self._invalid_dates(start, end):
+            raise serializers.ValidationError(
+                ("The start time cannot be after the end time."),
+                code="invalid_time_order",
+            )
 
         creation_date = data.get("creation_date")
         deletion_date = data.get("deletion_date")
 
-        if creation_date and deletion_date:
-            # Verify creation_date is before deletion_date
-            if self._invalid_dates(creation_date, deletion_date):
-                raise serializers.ValidationError(
-                    ("The creation date cannot be after the deletion date."),
-                    code="invalid_date_order",
-                )
+        # Verify creation_date is before deletion_date if both times are provided.
+        if (
+            creation_date
+            and deletion_date
+            and self._invalid_dates(creation_date, deletion_date)
+        ):
+            raise serializers.ValidationError(
+                ("The creation date cannot be after the deletion date."),
+                code="invalid_date_order",
+            )
 
         terms_checked = data.get("terms_checked")
 
@@ -297,14 +298,11 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         start_dt = parse_datetime(start) if isinstance(start, str) else start
         end_dt = parse_datetime(end) if isinstance(end, str) else end
 
-        if (
+        return (
             isinstance(start_dt, datetime)
             and isinstance(end_dt, datetime)
             and start_dt > end_dt
-        ):
-            return True
-
-        return False
+        )
 
 
 # MARK: Flag
