@@ -2,7 +2,7 @@
 <template>
   <ul
     :class="{
-      'space-y-1': isSideLeftMenu,
+      'space-y-1': isSidebarLeftMenu,
       'px-2 py-2': isSideMenu,
     }"
   >
@@ -16,7 +16,7 @@
     >
       <MenuItem v-slot="{ active }" class="flex">
         <MenuItemLabel
-          :isSideLeftMenu="isSideLeftMenu"
+          :isSidebarLeftMenu="isSidebarLeftMenu"
           :isButton="false"
           :label="$t(`${opt.label}`)"
           :iconName="opt.iconUrl"
@@ -39,7 +39,7 @@ const props = defineProps<{
   options: MenuSelector[];
 }>();
 
-const isSideLeftMenu = computed(() => {
+const isSidebarLeftMenu = computed(() => {
   return props.location === DropdownLocation.SIDE_LEFT_MENU;
 });
 
