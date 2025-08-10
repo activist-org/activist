@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import type { Feature, GeoJsonProperties, Point } from "geojson";
 
@@ -144,7 +143,7 @@ export const useClusterMap = () => {
             source.getClusterLeaves(id, props.point_count, 0).then((leaves) => {
               leaves?.forEach((leaf) => {
                 const leafProps = leaf.properties!;
-                const color = leafProps.color;
+                const { color } = leafProps;
                 const markerId = leafProps.id;
                 const coords = (leaf.geometry as Point).coordinates;
                 const leafCoords = coords as [number, number];

@@ -28,6 +28,7 @@ const ENTITY_ID_FIELDS = {
 } as const;
 
 const colorMode = useColorMode();
+const { token } = useAuth();
 
 const defaultImageUrls = computed(() => {
   const imageColor = colorMode?.preference == "light" ? "light" : "dark";
@@ -38,7 +39,6 @@ const defaultImageUrls = computed(() => {
   ];
 });
 
-// const imageUrls = ref(defaultImageUrls.value);
 const imageUrls = ref<string[]>([...defaultImageUrls.value]);
 
 export function useFileManager(entityId?: string) {
@@ -56,7 +56,7 @@ export function useFileManager(entityId?: string) {
         `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images`,
         {
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -88,14 +88,13 @@ export function useFileManager(entityId?: string) {
         `${BASE_BACKEND_URL as string}/content/images/${id}`,
         {
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `${token.value}`,
           },
         }
       );
 
       if (response.ok) {
-        const data = (await response.json()) as ContentImage[];
-        return data;
+        return (await response.json()) as ContentImage[];
       }
     } catch (error) {
       void error;
@@ -112,7 +111,7 @@ export function useFileManager(entityId?: string) {
     const entityIdField =
       ENTITY_ID_FIELDS[entity as keyof typeof ENTITY_ID_FIELDS]?.id_field ?? "";
 
-    // Entities are sorted out in backend/content/serializers.py ImageSerializer.create()
+    // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
     formData.append(entityIdField, id);
     formData.append("entity", entity);
 
@@ -127,7 +126,7 @@ export function useFileManager(entityId?: string) {
           method: "POST",
           body: formData,
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -165,7 +164,7 @@ export function useFileManager(entityId?: string) {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `${token.value}`,
           },
         }
       );
