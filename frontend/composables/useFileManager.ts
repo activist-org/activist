@@ -28,6 +28,7 @@ const ENTITY_ID_FIELDS = {
 } as const;
 
 const colorMode = useColorMode();
+const { token } = useAuth();
 
 const defaultImageUrls = computed(() => {
   const imageColor = colorMode?.preference == "light" ? "light" : "dark";
@@ -56,7 +57,7 @@ export function useFileManager(entityId?: string) {
         `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images`,
         {
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -88,7 +89,7 @@ export function useFileManager(entityId?: string) {
         `${BASE_BACKEND_URL as string}/content/images/${id}`,
         {
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -127,7 +128,7 @@ export function useFileManager(entityId?: string) {
           method: "POST",
           body: formData,
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -165,7 +166,7 @@ export function useFileManager(entityId?: string) {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Token ${localStorage.getItem("accessToken")}`,
+            Authorization: `${token.value}`,
           },
         }
       );
