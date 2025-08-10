@@ -155,7 +155,7 @@ MARK: Base
   }
 
   .style-btns-next-to-one-another {
-    @apply mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[70%] md:gap-x-6 lg:max-w-[60%] xl:max-w-[70%] xl:gap-x-8 2xl:max-w-[80%];
+    @apply mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[80%] md:gap-x-6 xl:gap-x-8;
   }
 
   .style-cta {

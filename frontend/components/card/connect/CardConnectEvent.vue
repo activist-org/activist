@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <CardConnect :socialLinks="event.socialLinks" />
+  <CardConnect :socialLinks="event.socialLinks" pageType="event" />
 </template>
 
 <script setup lang="ts">
