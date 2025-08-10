@@ -1,7 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <FormFAQEntry :formData="formData" :handleSubmit="handleSubmit" />
+    <FormFAQEntry
+      :formData="formData"
+      :handleSubmit="handleSubmit"
+      submitLabel="i18n.components.modal.edit._global.update_texts"
+    />
   </ModalBase>
 </template>
 

@@ -15,7 +15,7 @@
           @keydown.enter="useModalHandlers('ModalAddFaqEntryEvent').openModal()"
           class="w-max"
           :cta="true"
-          label="i18n._global.new_faq"
+          label="i18n.pages._global.new_faq"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
