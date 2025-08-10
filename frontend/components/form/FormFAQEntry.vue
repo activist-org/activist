@@ -4,7 +4,7 @@
     @submit="handleSubmit"
     :schema="schema"
     :initial-values="formData as undefined"
-    :submit-label="$t('i18n.components._global.update_texts')"
+    :submit-label="$t(submitLabel)"
   >
     <h2>
       {{ $t("i18n.components.form_faq_entry.edit_entry") }}
@@ -13,7 +13,7 @@
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="question"
-        :label="$t('i18n.components._global.question')"
+        :label="$t('i18n.components.form_faq_entry.question')"
         :required="true"
       >
         <FormTextArea
@@ -27,7 +27,7 @@
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="answer"
-        :label="$t('i18n.components._global.answer')"
+        :label="$t('i18n.components.form_faq_entry.answer')"
         :required="true"
       >
         <FormTextArea
@@ -50,12 +50,17 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 defineProps<{
   formData?: FaqEntry;
   handleSubmit: (values: unknown) => Promise<void>;
+  submitLabel: string;
 }>();
 
 const { t } = useI18n();
 
 const schema = z.object({
-  question: z.string().min(1, t("i18n.components._global.question_required")),
-  answer: z.string().min(1, t("i18n.components._global.answer_required")),
+  question: z
+    .string()
+    .min(1, t("i18n.components.form_faq_entry.question_required")),
+  answer: z
+    .string()
+    .min(1, t("i18n.components.form_faq_entry.answer_required")),
 });
 </script>
