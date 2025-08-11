@@ -20,7 +20,7 @@ export function getSidebarContentDynamicClass(
 
 export function getSidebarFooterDynamicClass(sidebarHover: Ref<boolean>) {
   return computed(() => ({
-    "md:pl-24 xl:pl-64": sidebar.collapsed || sidebar.collapsedSwitch,
+    "md:pl-24 xl:pl-64": !sidebar.collapsed || !sidebar.collapsedSwitch,
     "md:pl-24 xl:pl-24": sidebar.collapsed && sidebar.collapsedSwitch,
     "blur-sm xl:blur-none":
       sidebar.collapsedSwitch && !sidebar.collapsed && sidebarHover.value,

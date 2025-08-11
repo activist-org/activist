@@ -217,13 +217,11 @@ class UserModel(AbstractUser, PermissionsMixin):
 
     Notes
     -----
-    Extends Django's `AbstractUser` and adds platform-specific fields.
+    Extends Django's `AbstractUser` and adds platform-specific fields (default username and password used).
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, blank=True)
-    password = models.CharField(max_length=255)
     location = models.CharField(max_length=100, blank=True)
     description = models.TextField(max_length=500, blank=True)
     verified = models.BooleanField(default=False)
