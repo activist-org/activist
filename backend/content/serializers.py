@@ -9,7 +9,6 @@ from typing import Any, Dict, Union
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
-from django.utils.translation import gettext as _
 from PIL import Image as PILImage
 from rest_framework import serializers
 
@@ -352,13 +351,13 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
         """
         if data["active"] is True and data.get("deprecation_date") is not None:
             raise serializers.ValidationError(
-                _("Active topics cannot have a deprecation date."),
+                ("Active topics cannot have a deprecation date."),
                 code="active_topic_with_deprecation_error",
             )
 
         if data["active"] is False and data.get("deprecation_date") is None:
             raise serializers.ValidationError(
-                _("Deprecated topics must have a deprecation date."),
+                ("Deprecated topics must have a deprecation date."),
                 code="inactive_topic_no_deprecation_error",
             )
 

@@ -73,6 +73,7 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
                 f"Superuser creation failed for {username}: is_staff must be True"
             )
             raise ValueError("Superuser must be assigned to is_staff=True.")
+
         if other_fields.get("is_superuser") is not True:
             logger.error(
                 f"Superuser creation failed for {username}: is_superuser must be True"
@@ -85,6 +86,7 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
             )
             logger.info(f"Superuser created successfully: {username}")
             return superuser
+
         except Exception as e:
             logger.exception(f"Failed to create superuser {username}: {str(e)}")
             raise
@@ -217,7 +219,7 @@ class UserModel(AbstractUser, PermissionsMixin):
 
     Notes
     -----
-    Extends Django's `AbstractUser` and adds platform-specific fields (default username and password used).
+    Extends Django's `AbstractUser` and adds platform-specific fields (default username, password and email used).
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -233,13 +235,12 @@ class UserModel(AbstractUser, PermissionsMixin):
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.SET_NULL, blank=True, null=True
     )
-    email = models.EmailField(blank=True)
     is_confirmed = models.BooleanField(default=False)
     is_private = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
 
-    # Django specific fields
+    # Django specific fields.
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
