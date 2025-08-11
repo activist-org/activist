@@ -39,7 +39,6 @@ const defaultImageUrls = computed(() => {
   ];
 });
 
-// const imageUrls = ref(defaultImageUrls.value);
 const imageUrls = ref<string[]>([...defaultImageUrls.value]);
 
 export function useFileManager(entityId?: string) {
@@ -95,8 +94,7 @@ export function useFileManager(entityId?: string) {
       );
 
       if (response.ok) {
-        const data = (await response.json()) as ContentImage[];
-        return data;
+        return (await response.json()) as ContentImage[];
       }
     } catch (error) {
       void error;
@@ -113,7 +111,7 @@ export function useFileManager(entityId?: string) {
     const entityIdField =
       ENTITY_ID_FIELDS[entity as keyof typeof ENTITY_ID_FIELDS]?.id_field ?? "";
 
-    // Entities are sorted out in backend/content/serializers.py ImageSerializer.create()
+    // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
     formData.append(entityIdField, id);
     formData.append("entity", entity);
 

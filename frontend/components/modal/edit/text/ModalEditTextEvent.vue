@@ -5,7 +5,7 @@
       @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
-      :submit-label="$t('i18n.components._global.update_texts')"
+      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
     >
       <h2>
         {{ $t("i18n.components.modal_edit_text_event.edit_event_texts") }}
