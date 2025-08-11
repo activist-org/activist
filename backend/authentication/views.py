@@ -85,9 +85,10 @@ class SignUpView(APIView):
                     fail_silently=False,
                 )
                 logger.info(f"Verification email sent to {user.email}")
+
             except Exception as e:
                 logger.error(f"Failed to send verification email to {user.email}: {e}")
-                # Continue with user creation even if email fails
+                # Continue with user creation even if email fails.
 
             user.save()
 

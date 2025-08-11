@@ -6,7 +6,6 @@ Utility functions for date formatting and logic validation as well as other comm
 import logging
 from typing import Any
 
-from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 logger = logging.getLogger(__name__)
@@ -37,7 +36,7 @@ def validate_creation_and_deletion_dates(data: Any) -> None:
             data["creation_date"],
         )
         raise serializers.ValidationError(
-            _("The field deletion_date cannot be before creation_date."),
+            ("The field deletion_date cannot be before creation_date."),
             code="invalid_date_order",
         )
 
@@ -69,6 +68,6 @@ def validate_creation_and_deprecation_dates(data: Any) -> None:
             data["creation_date"],
         )
         raise serializers.ValidationError(
-            _("The field deprecation_date cannot be before creation_date."),
+            ("The field deprecation_date cannot be before creation_date."),
             code="invalid_date_order",
         )
