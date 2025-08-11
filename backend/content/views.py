@@ -25,6 +25,7 @@ from content.models import Discussion, DiscussionEntry, Image, Resource, Resourc
 from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
+    ImageIconSerializer,
     ImageSerializer,
     ResourceFlagSerializer,
     ResourceSerializer,
@@ -399,7 +400,7 @@ class ResourceFlagDetailAPIView(GenericAPIView[ResourceFlag]):
         )
 
 
-# MARK: Image
+# MARK: Images
 
 
 class ImageViewSet(viewsets.ModelViewSet[Image]):
@@ -417,6 +418,33 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
 
             # We need to serialize the list of images.
             response_serializer = self.get_serializer(images, many=True)
+
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Use the default destroy() provided by DRF / ModelViewSet. No need to write destroy() code here.
+    # The model uses a signal to delete the file from the filesystem when the Image instance is deleted.
+
+
+# MARK: Image Icon
+
+
+class ImageIconViewSet(viewsets.ModelViewSet[Image]):
+    queryset = Image.objects.all()
+    serializer_class = ImageIconSerializer
+    parser_classes = [MultiPartParser, FormParser]
+
+    def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        serializer = self.get_serializer(
+            data=request.data,
+            context={"request": request},
+        )
+        if serializer.is_valid():
+            image = serializer.save()  # returns an image
+
+            # We need to serialize the list of images.
+            response_serializer = self.get_serializer(image)
 
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 

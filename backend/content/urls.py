@@ -29,6 +29,11 @@ router.register(
     viewset=views.ImageViewSet,
 )
 
+router.register(
+    prefix=r"image_icon",
+    viewset=views.ImageIconViewSet,
+)
+
 urlpatterns = [
     path("", include(router.urls)),
     path("resource_flag", view=views.ResourceFlagAPIView.as_view()),
