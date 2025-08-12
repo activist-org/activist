@@ -32,6 +32,7 @@ router.register(
 router.register(
     prefix=r"image_icon",
     viewset=views.ImageIconViewSet,
+    basename="image_icon",
 )
 
 urlpatterns = [

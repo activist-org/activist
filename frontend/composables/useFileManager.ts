@@ -1,35 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import type { ContentImage } from "~/types/content/image";
-
-type ImageUploadEntity =
-  | "event-icon"
-  | "group-carousel"
-  | "group-icon"
-  | "organization-carousel"
-  | "organization-icon";
-
-const ENTITY_ID_FIELDS = {
-  "event-icon": {
-    id_field: "event_id",
-  },
-  "group-carousel": {
-    id_field: "group_id",
-  },
-  "group-icon": {
-    id_field: "group_id",
-  },
-  "organization-carousel": {
-    id_field: "organization_id",
-  },
-  "organization-icon": {
-    id_field: "organization_id",
-  },
-} as const;
+import type { EntityType } from "~/types/entity";
 
 const colorMode = useColorMode();
 const { token } = useAuth();
-
 const defaultImageUrls = computed(() => {
   const imageColor = colorMode?.preference == "light" ? "light" : "dark";
   return [
@@ -78,15 +53,23 @@ export function useFileManager(entityId?: string) {
     }
   }
 
-  async function fetchIconImage(id: string, entity: ImageUploadEntity) {
-    if (!id || !entity) {
+  async function uploadIconImage(id: string, entityType:EntityType ) {
+    if (!id || !entityType) {
       return;
     }
 
     try {
+      const formData = new FormData();
+    formData.append('entity_id', id);
+    formData.append("entity", entityType );
+    files.value.forEach((uploadableFile: UploadableFile) => {
+      formData.append("file_object", uploadableFile.file);
+    });
       const response = await fetch(
-        `${BASE_BACKEND_URL as string}/content/images/${id}`,
+        `${BASE_BACKEND_URL as string}/content/image_icon`,
         {
+          method: "POST",
+          body: formData,
           headers: {
             Authorization: `${token.value}`,
           },
@@ -101,19 +84,16 @@ export function useFileManager(entityId?: string) {
     }
   }
 
-  async function uploadFiles(id: string, entity: ImageUploadEntity) {
-    if (!id || !entity) {
+  async function uploadFiles(id: string, entityType: EntityType) {
+    if (!id || !entityType) {
       return;
     }
 
     const formData = new FormData();
 
-    const entityIdField =
-      ENTITY_ID_FIELDS[entity as keyof typeof ENTITY_ID_FIELDS]?.id_field ?? "";
-
     // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
-    formData.append(entityIdField, id);
-    formData.append("entity", entity);
+    formData.append('entity_id', id);
+    formData.append("entity", entityType );
 
     files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_object", uploadableFile.file);
@@ -201,7 +181,7 @@ export function useFileManager(entityId?: string) {
     imageUrls,
     uploadError,
     files,
-    fetchIconImage,
+    uploadIconImage,
     fetchOrganizationImages,
     uploadFiles,
     deleteImage,

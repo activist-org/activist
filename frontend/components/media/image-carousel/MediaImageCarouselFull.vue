@@ -49,7 +49,6 @@ const {
   openModal: openMediaImageCarousel,
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
-
 const { imageUrls, fetchOrganizationImages } = useFileManager(entityId.value);
 
 const handleDeleteComplete = async (fileUploadEntity: FileUploadEntity) => {

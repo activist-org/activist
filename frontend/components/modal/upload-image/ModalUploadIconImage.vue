@@ -1,0 +1,90 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<template>
+  <ModalBase :modalName="modalName">
+    <div>
+      <DialogTitle>
+        <h2 class="font-bold">
+          {{ $t("i18n.components.modal_upload_images.upload_an_image") }}
+        </h2>
+      </DialogTitle>
+      <div class="mt-4">
+        <ImageFileDropZone
+          v-if="files.length === 0"
+          @files-dropped="handleFiles"
+        >
+          <span>{{
+            $t("i18n.components.modal_upload_images.drop_image")
+          }}</span>
+        </ImageFileDropZone>
+        <div class="mb-4">
+        <span v-if="files.length > 0" class="pb-4 relative block">
+          <button @click="removeFile(files[0])" class="text-action-red absolute top-0 right-0 z-10">
+            <Icon :name="IconMap.X_SM" size="1.5em" />
+          </button>
+          <img
+            :key="files[0].name"
+            :src="files[0].url"
+            class="h-full w-full object-contain"
+            :alt="
+              $t('i18n.components.modal_upload_images.upload_image') +
+              ' ' +
+              files[0].name
+            "
+          />
+        </span>
+      </div>
+        <div>
+          <BtnAction
+            v-if="files.length > 0"
+            @click="handleUpload"
+            :cta="true"
+            label="i18n.components.modal_upload_images.upload"
+            fontSize="sm"
+            :leftIcon="IconMap.ARROW_UP"
+            iconSize="1.25em"
+            ariaLabel="i18n.components._global.upvote_application_aria_label"
+            :disabled="files.length === 0"
+          />
+        </div>
+      </div>
+    </div>
+  </ModalBase>
+</template>
+
+<script setup lang="ts">
+import { DialogTitle } from "@headlessui/vue";
+
+import type { EntityType } from "~/types/entity";
+
+import { IconMap } from "~/types/icon-map";
+
+const { files, handleFiles, uploadIconImage, removeFile } = useFileManager();
+
+const modals = useModals();
+
+interface Props {
+  entityId: string;
+  entityType: EntityType;
+}
+const props = defineProps<Props>();
+
+const modalName = "ModalUploadIconImage";
+const uploadError = ref(false);
+
+const emit = defineEmits(["upload-complete", "upload-error"]);
+
+const handleUpload = async () => {
+  try {
+    // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
+    await uploadIconImage(props.entityId, props.entityType);
+
+    modals.closeModal(modalName);
+
+    emit("upload-complete", props.entityId);
+    uploadError.value = false;
+  } catch (error) {
+    emit("upload-error");
+    void error;
+  }
+};
+</script>

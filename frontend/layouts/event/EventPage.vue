@@ -4,6 +4,14 @@
     <ModalUploadImages
       @closeModal="handleCloseModalUploadImages"
       @upload-complete="handleUploadComplete"
+      :entityId="eventId"
+      :entityType="EntityType.EVENT"
+    />
+    <ModalUploadIconImage
+      @closeModal="handleCloseModalUploadIconImage"
+      @upload-complete="handleUploadComplete"
+      :entityId="eventId || ''"
+      :entityType="EntityType.EVENT"
     />
     <SidebarLeft
       v-if="aboveMediumBP"
@@ -29,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import ModalUploadIconImage from "~/components/modal/upload-image/ModalUploadIconImage.vue";
+import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
@@ -43,6 +53,8 @@ const { event } = eventStore;
 
 const { handleCloseModal: handleCloseModalUploadImages } =
   useModalHandlers("ModalUploadImages");
+const { handleCloseModal: handleCloseModalUploadIconImage } =
+  useModalHandlers("ModalUploadIconImage");
 
 const handleUploadComplete = () => {
   // Note: For future implementation.
