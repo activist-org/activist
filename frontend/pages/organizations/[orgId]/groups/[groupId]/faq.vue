@@ -26,7 +26,7 @@
           iconSize="1.35em"
           ariaLabel="i18n.pages._global.new_faq_aria_label"
         />
-        <ModalAddFaqEntryGroup />
+        <ModalEditFaqEntryGroup />
       </div>
     </HeaderAppPageGroup>
     <div v-if="group.faqEntries!.length > 0" class="py-4">

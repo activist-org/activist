@@ -25,7 +25,7 @@
           iconSize="1.35em"
           ariaLabel="i18n.pages._global.new_faq_aria_label"
         />
-        <ModalAddFaqEntryOrganization />
+        <ModalEditFaqEntryOrganization />
       </div>
     </HeaderAppPageOrganization>
     <div v-if="organization.faqEntries!.length > 0" class="py-4">
