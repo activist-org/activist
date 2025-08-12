@@ -51,6 +51,7 @@ defineProps<{
   formData?: FaqEntry;
   handleSubmit: (values: unknown) => Promise<void>;
   submitLabel: string;
+  title?: string;
 }>();
 
 const { t } = useI18n();

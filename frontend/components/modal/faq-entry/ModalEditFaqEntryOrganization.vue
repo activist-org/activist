@@ -29,49 +29,41 @@ await organizationStore.fetchById(orgId);
 
 const { organization } = organizationStore;
 
-const formData = ref<FaqEntry>(
-  isAddMode
-    ? {
-        id: "",
-        iso: "en",
-        order: organization.faqEntries.length,
-        question: "",
-        answer: "",
-      }
-    : {
-        id: props.faqEntry!.id,
-        iso: props.faqEntry!.iso,
-        order: props.faqEntry!.order,
-        question: "",
-        answer: "",
-      }
-);
+const formData = ref({
+  id: "",
+  iso: "en",
+  order: organization.faqEntries.length,
+  question: "",
+  answer: "",
+});
 
 const submitLabel = isAddMode
   ? "i18n.components.modal.add.faq_entry._global.add_faq_entry"
   : "i18n.components.modal.edit._global.update_texts";
 
-onMounted(async () => {
-  if (!isAddMode && props.faqEntry) {
-    formData.value.id = props.faqEntry.id;
-    formData.value.question = props.faqEntry.question;
-    formData.value.answer = props.faqEntry.answer;
-  }
-});
-
-watch(
-  props,
-  (newValues) => {
-    if (!isAddMode && newValues.faqEntry) {
-      formData.value.id = newValues.faqEntry.id;
-      formData.value.question = newValues.faqEntry.question;
-      formData.value.answer = newValues.faqEntry.answer;
+if (!isAddMode) {
+  onMounted(async () => {
+    if (props.faqEntry) {
+      formData.value.id = props.faqEntry.id;
+      formData.value.question = props.faqEntry.question;
+      formData.value.answer = props.faqEntry.answer;
     }
-  },
-  {
-    deep: true,
-  }
-);
+  });
+
+  watch(
+    props,
+    (newValues) => {
+      if (newValues.faqEntry) {
+        formData.value.id = newValues.faqEntry.id;
+        formData.value.question = newValues.faqEntry.question;
+        formData.value.answer = newValues.faqEntry.answer;
+      }
+    },
+    {
+      deep: true,
+    }
+  );
+}
 
 async function handleSubmit(values: unknown) {
   let updateResponse = false;
