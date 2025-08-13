@@ -8,8 +8,8 @@
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalEditTextEvent"
-          @keydown.enter="openModalEditTextEvent"
+          @click="openModalTextEvent"
+          @keydown.enter="openModalTextEvent"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -60,8 +60,7 @@
 </template>
 
 <script setup lang="ts">
-const { openModal: openModalEditTextEvent } =
-  useModalHandlers("ModalEditTextEvent");
+const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const { userIsSignedIn } = useUser();
 

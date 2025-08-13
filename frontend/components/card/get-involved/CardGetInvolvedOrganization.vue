@@ -8,8 +8,8 @@
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalEditTextOrganization()"
-          @keydown.enter="openModalEditTextOrganization()"
+          @click="openModalTextOrganization()"
+          @keydown.enter="openModalTextOrganization()"
         />
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
@@ -81,8 +81,8 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditTextOrganization } = useModalHandlers(
-  "ModalEditTextOrganization"
+const { openModal: openModalTextOrganization } = useModalHandlers(
+  "ModalTextOrganization"
 );
 
 const { userIsSignedIn } = useUser();

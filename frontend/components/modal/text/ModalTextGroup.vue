@@ -5,14 +5,10 @@
       @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
-      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+      :submit-label="$t('i18n.components.modal._global.update_texts')"
     >
       <h2>
-        {{
-          $t(
-            "i18n.components.modal_edit_text_organization.edit_organization_texts"
-          )
-        }}
+        {{ $t("i18n.components.modal_text_group.edit_group_texts") }}
       </h2>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -43,11 +39,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="
-          $t(
-            'i18n.components.modal_edit_text_organization.join_organization_link'
-          )
-        "
+        :label="$t('i18n.components.modal_text_group.join_group_link')"
         name="getInvolvedUrl"
       >
         <FormTextInput
@@ -56,7 +48,7 @@
           :id="id"
           :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.modal.edit.text._global.remember_https')"
+          :label="$t('i18n.components.modal.text._global.remember_https')"
         />
       </FormItem>
     </Form>
@@ -66,43 +58,43 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
+import type { GroupUpdateTextFormData } from "~/types/communities/group";
 
 const { t } = useI18n();
 
 const schema = z.object({
   description: z
     .string()
-    .min(1, t("i18n.components.modal.edit.text._global.description_required")),
+    .min(1, t("i18n.components.modal.text._global.description_required")),
   getInvolved: z.string().optional(),
   getInvolvedUrl: z.string().optional(),
 });
 
-const modalName = "ModalEditTextOrganization";
+const modalName = "ModalTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
+const groupStore = useGroupStore();
+await groupStore.fetchById(groupId);
 
-const { organization } = organizationStore;
+const { group } = groupStore;
 
-const formData = ref<OrganizationUpdateTextFormData>({
+const formData = ref<GroupUpdateTextFormData>({
   description: "",
   getInvolved: "",
   getInvolvedUrl: "",
 });
 
 onMounted(() => {
-  formData.value.description = organization.texts.description || "";
-  formData.value.getInvolved = organization.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = organization.getInvolvedUrl || "";
+  formData.value.description = group.texts.description || "";
+  formData.value.getInvolved = group.texts.getInvolved || "";
+  formData.value.getInvolvedUrl = group.getInvolvedUrl || "";
 });
 
 watch(
-  organization,
+  group,
   (newValues) => {
     formData.value.description = newValues.texts.description || "";
     formData.value.getInvolved = newValues.texts.getInvolved || "";
@@ -114,9 +106,9 @@ watch(
 );
 
 async function handleSubmit(values: unknown) {
-  const response = await organizationStore.updateTexts(
-    organization,
-    values as OrganizationUpdateTextFormData
+  const response = await groupStore.updateTexts(
+    group,
+    values as GroupUpdateTextFormData
   );
   if (response) {
     handleCloseModal();

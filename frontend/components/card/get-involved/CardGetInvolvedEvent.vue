@@ -7,8 +7,8 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        @click="openModalEditTextEvent"
-        @keydown.enter="openModalEditTextEvent"
+        @click="openModalTextEvent"
+        @keydown.enter="openModalTextEvent"
       />
     </div>
     <div class="space-y-3 pt-3">
@@ -41,8 +41,7 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditTextEvent } =
-  useModalHandlers("ModalEditTextEvent");
+const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const { userIsSignedIn } = useUser();
 

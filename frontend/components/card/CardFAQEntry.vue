@@ -18,26 +18,26 @@
             <IconEdit
               @click.stop="
                 useModalHandlers(
-                  `ModalEditFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                  `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
                     props.faqEntry.id
                 ).openModal()
               "
               @keydown.enter="
                 useModalHandlers(
-                  `ModalEditFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                  `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
                     props.faqEntry.id
                 ).openModal()
               "
             />
-            <ModalEditFaqEntryOrganization
+            <ModalFaqEntryOrganization
               v-if="pageType === 'organization'"
               :faqEntry="faqEntry"
             />
-            <ModalEditFaqEntryGroup
+            <ModalFaqEntryGroup
               v-else-if="pageType === 'group'"
               :faqEntry="faqEntry"
             />
-            <ModalEditFaqEntryEvent
+            <ModalFaqEntryEvent
               v-else-if="pageType === 'event'"
               :faqEntry="faqEntry"
             />
