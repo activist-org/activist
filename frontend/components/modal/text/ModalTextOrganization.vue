@@ -5,10 +5,12 @@
       @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
-      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+      :submit-label="$t('i18n.components.modal._global.update_texts')"
     >
       <h2>
-        {{ $t("i18n.components.modal_edit_text_event.edit_event_texts") }}
+        {{
+          $t("i18n.components.modal_text_organization.edit_organization_texts")
+        }}
       </h2>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -26,7 +28,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components._global.participate')"
+        :label="$t('i18n.components._global.get_involved')"
         name="getInvolved"
       >
         <FormTextArea
@@ -39,7 +41,9 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.modal_edit_text_event.offer_to_help_link')"
+        :label="
+          $t('i18n.components.modal_text_organization.join_organization_link')
+        "
         name="getInvolvedUrl"
       >
         <FormTextInput
@@ -48,9 +52,7 @@
           :id="id"
           :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
-          :label="
-            $t('i18n.components.modal_edit_text_event.offer_to_help_link_label')
-          "
+          :label="$t('i18n.components.modal.text._global.remember_https')"
         />
       </FormItem>
     </Form>
@@ -60,42 +62,43 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { EventUpdateTextFormData } from "~/types/events/event";
+import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
 
 const { t } = useI18n();
 
 const schema = z.object({
   description: z
     .string()
-    .min(1, t("i18n.components.modal.edit.text._global.description_required")),
+    .min(1, t("i18n.components.modal.text._global.description_required")),
   getInvolved: z.string().optional(),
   getInvolvedUrl: z.string().optional(),
 });
 
-const modalName = "ModalEditTextEvent";
+const modalName = "ModalTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const { event } = eventStore;
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchById(orgId);
 
-const formData = ref<EventUpdateTextFormData>({
+const { organization } = organizationStore;
+
+const formData = ref<OrganizationUpdateTextFormData>({
   description: "",
   getInvolved: "",
   getInvolvedUrl: "",
 });
 
 onMounted(() => {
-  formData.value.description = event.texts.description || "";
-  formData.value.getInvolved = event.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = event.getInvolvedUrl || "";
+  formData.value.description = organization.texts.description || "";
+  formData.value.getInvolved = organization.texts.getInvolved || "";
+  formData.value.getInvolvedUrl = organization.getInvolvedUrl || "";
 });
 
 watch(
-  event,
+  organization,
   (newValues) => {
     formData.value.description = newValues.texts.description || "";
     formData.value.getInvolved = newValues.texts.getInvolved || "";
@@ -107,9 +110,9 @@ watch(
 );
 
 async function handleSubmit(values: unknown) {
-  const response = await eventStore.updateTexts(
-    event,
-    values as EventUpdateTextFormData
+  const response = await organizationStore.updateTexts(
+    organization,
+    values as OrganizationUpdateTextFormData
   );
   if (response) {
     handleCloseModal();

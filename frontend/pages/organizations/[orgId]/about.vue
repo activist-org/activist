@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalEditSocialLinksOrganization />
-  <ModalEditTextOrganization />
+  <ModalSocialLinksOrganization />
+  <ModalTextOrganization />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ organization.name }}</Title>
@@ -82,7 +82,6 @@
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
 
-import ModalEditSocialLinksOrganization from "~/components/modal/edit/social-links/ModalEditSocialLinksOrganization.vue";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";

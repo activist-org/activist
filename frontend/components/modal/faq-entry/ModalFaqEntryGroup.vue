@@ -5,6 +5,7 @@
       :formData="formData"
       :handleSubmit="handleSubmit"
       :submitLabel="submitLabel"
+      :title="title"
     />
   </ModalBase>
 </template>
@@ -19,7 +20,7 @@ const props = defineProps<{
 const isAddMode = !props.faqEntry;
 const modalName = isAddMode
   ? "ModalAddFaqEntryGroup"
-  : "ModalEditFaqEntryGroup" + props.faqEntry!.id;
+  : "ModalFaqEntryGroup" + props.faqEntry!.id;
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsGroupId = useRoute().params.groupId;
@@ -38,8 +39,12 @@ const formData = ref({
 });
 
 const submitLabel = isAddMode
-  ? "i18n.components.modal.add.faq_entry._global.add_faq_entry"
-  : "i18n.components.modal.edit._global.update_texts";
+  ? "i18n.components.modal.faq_entry._global.add_faq_entry"
+  : "i18n.components.modal._global.update_texts";
+
+const title = isAddMode
+  ? "i18n.components.modal.faq_entry._global.add_faq_entry"
+  : "i18n.components.modal.faq_entry._global.edit_entry";
 
 if (!isAddMode) {
   onMounted(async () => {

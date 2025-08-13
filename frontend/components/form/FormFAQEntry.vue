@@ -6,8 +6,8 @@
     :initial-values="formData as undefined"
     :submit-label="$t(submitLabel)"
   >
-    <h2>
-      {{ $t("i18n.components.form_faq_entry.edit_entry") }}
+    <h2 v-if="title">
+      {{ $t(title) }}
     </h2>
     <div class="flex flex-col space-y-7">
       <FormItem

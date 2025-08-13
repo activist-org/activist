@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalEditSocialLinksGroup />
-  <ModalEditTextGroup />
+  <ModalSocialLinksGroup />
+  <ModalTextGroup />
   <MenuSubPageSelector
     class="pt-2 md:pt-0"
     :selectors="groupSubPages"
@@ -87,7 +87,6 @@
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
 
-import ModalEditSocialLinksGroup from "~/components/modal/edit/social-links/ModalEditSocialLinksGroup.vue";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
