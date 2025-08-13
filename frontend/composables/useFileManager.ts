@@ -38,7 +38,7 @@ export function useFileManager(entityId?: string) {
 
       if (response.ok) {
         const data = (await response.json()) as ContentImage[];
-
+        console.log(data.length, "images fetched");
         imageUrls.value =
           data.length > 0
             ? data.map((img: ContentImage) => img.fileObject)
@@ -98,7 +98,6 @@ export function useFileManager(entityId?: string) {
     files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_object", uploadableFile.file);
     });
-
     try {
       const response = await fetch(
         `${BASE_BACKEND_URL as string}/content/images`,

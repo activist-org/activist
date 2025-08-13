@@ -33,20 +33,10 @@
       {{ $t("i18n.components.media_image_carousel.upload_error") }}
     </p>
     <button
-      @click="handleDeleteClick"
-      class="focus-brand absolute bottom-12 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-    >
-      <Icon :name="IconMap.MINUS" size="1.5em" />
-    </button>
-    <button
-      @click="
-        openModalUploadImages({
-          fileUploadEntity: props.fileUploadEntity,
-        })
-      "
+      @click="openModalUploadImage()"
       class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
-      <Icon :name="IconMap.PLUS" size="1.5em" />
+      <Icon :name="IconMap.EDIT" size="1.5em" />
     </button>
   </div>
 </template>
@@ -56,15 +46,10 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
-import type { FileUploadEntity } from "~/types/content/file-upload-entity";
-
 import { IconMap } from "~/types/icon-map";
-
-const { deleteImage } = useFileManager();
 
 interface Props {
   fullscreen: boolean;
-  fileUploadEntity: FileUploadEntity;
   imageUrls: string[];
 }
 
@@ -75,8 +60,8 @@ register();
 const uploadError = ref(false);
 const currentImageId = ref<string>("");
 
-const { openModal: openModalUploadImages } =
-  useModalHandlers("ModalUploadImages");
+const { openModal: openModalUploadImage } =
+  useModalHandlers("ModalUploadImage");
 
 // Get the swiper instance. Use this instance to listen for the slideChange event.
 const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);
@@ -99,22 +84,6 @@ onMounted(() => {
     });
   }
 });
-
-const emit = defineEmits(["delete-complete"]);
-
-const handleDeleteClick = async () => {
-  try {
-    await deleteImage(currentImageId.value);
-
-    // Update Swiper after deleting an image.
-    const swiper = swiperRef.value?.swiper;
-    swiper?.update();
-
-    emit("delete-complete", props.fileUploadEntity);
-  } catch (error) {
-    void error;
-  }
-};
 </script>
 
 <style>

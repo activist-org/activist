@@ -102,7 +102,6 @@ export const useOrganizationStore = defineStore("organization", {
 
     async fetchById(id: string | undefined) {
       this.loading = true;
-
       const { data, status } = await useAsyncData<OrganizationResponse>(
         async () =>
           (await fetchWithoutToken(

@@ -13,7 +13,11 @@
       <ImageEvent
         class="elem-shadow-sm"
         eventType="action"
-        :imgUrl="event.iconUrl?.fileObject?`${BASE_BACKEND_URL_NO_V1}${event.iconUrl?.fileObject}`:logoUrl"
+        :imgUrl="
+          event.iconUrl?.fileObject
+            ? `${BASE_BACKEND_URL_NO_V1}${event.iconUrl?.fileObject}`
+            : logoUrl
+        "
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: name,
@@ -25,9 +29,7 @@
           showButton &&
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
         "
-        @click="
-          openModal()
-        "
+        @click="openModal()"
         class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         ariaLabel="i18n.components.sidebar_left_content_event.edit_aria_label"
       >
@@ -56,7 +58,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -69,9 +70,7 @@ const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
 const eventStore = useEventStore();
 const { event } = eventStore;
-console.log("Event:", event.iconUrl?.fileObject);
-const { openModal } =
-  useModalHandlers("ModalUploadIconImage");
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
 
 const showButton = true;
 </script>

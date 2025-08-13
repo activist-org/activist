@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <!-- <ModalUploadImages
-      @closeModal="handleCloseModalUploadImages"
+    <!-- <ModalUploadImage
+      @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
     /> -->
-    <ModalUploadImages @upload-complete="handleUploadComplete" />
+    <!-- <ModalUploadImage @upload-complete="handleUploadComplete" /> -->
     <SidebarLeft
       v-if="aboveMediumBP"
       @mouseover="sidebarHover = true"
@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
@@ -39,18 +38,6 @@ import {
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchAll();
 const { organizations } = organizationStore;
-
-const handleUploadComplete = async (fileUploadEntity: FileUploadEntity) => {
-  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_CAROUSEL) {
-    const { fetchOrganizationImages } = useFileManager(
-      organizationStore.organization.id
-    );
-    await fetchOrganizationImages();
-  }
-  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_ICON) {
-    // Note: For future implementation.
-  }
-};
 
 const aboveMediumBP = useBreakpoint("md");
 

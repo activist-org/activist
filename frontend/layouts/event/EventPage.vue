@@ -1,15 +1,14 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImages
-      @closeModal="handleCloseModalUploadImages"
-      @upload-complete="handleUploadComplete"
-      :entityId="eventId"
+    <ModalUploadImage
+      @closeModal="handleCloseModalUploadImage"
+      :entityId="eventId || ''"
       :entityType="EntityType.EVENT"
     />
-    <ModalUploadIconImage
-      @closeModal="handleCloseModalUploadIconImage"
-      @upload-complete="handleUploadComplete"
+    <ModalUploadImageIcon
+      @upload-complete="eventStore.fetchById(eventId)"
+      @closeModal="handleCloseModalUploadImageIcon"
       :entityId="eventId || ''"
       :entityType="EntityType.EVENT"
     />
@@ -37,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import ModalUploadIconImage from "~/components/modal/upload-image/ModalUploadIconImage.vue";
 import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
@@ -51,14 +49,12 @@ const eventStore = useEventStore();
 await eventStore.fetchById(eventId);
 const { event } = eventStore;
 
-const { handleCloseModal: handleCloseModalUploadImages } =
-  useModalHandlers("ModalUploadImages");
-const { handleCloseModal: handleCloseModalUploadIconImage } =
-  useModalHandlers("ModalUploadIconImage");
+const { handleCloseModal: handleCloseModalUploadImage } =
+  useModalHandlers("ModalUploadImage");
+const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
+  "ModalUploadImageIcon"
+);
 
-const handleUploadComplete = () => {
-  // Note: For future implementation.
-};
 const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);

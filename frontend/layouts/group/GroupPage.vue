@@ -1,9 +1,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImages
-      @closeModal="handleCloseModalUploadImages"
+    <ModalUploadImage
+      @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
+      :entityId="group.id || ''"
+      :entityType="EntityType.GROUP"
+    />
+    <ModalUploadImageIcon
+      @upload-complete="groupStore.fetchById(group.id)"
+      @closeModal="handleCloseModalUploadImageIcon"
+      :entityId="group.id || ''"
+      :entityType="EntityType.GROUP"
     />
     <SidebarLeft
       v-if="aboveMediumBP"
@@ -29,11 +37,11 @@
 </template>
 
 <script setup lang="ts">
+import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
-
 const paramsGroupId = useRoute().params.groupid;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
@@ -41,8 +49,10 @@ const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
 const { group } = groupStore;
 
-const { handleCloseModal: handleCloseModalUploadImages } =
-  useModalHandlers("ModalUploadImages");
+const { handleCloseModal: handleCloseModalUploadImage } =
+  useModalHandlers("ModalUploadImage");
+const { handleCloseModal: handleCloseModalUploadImageIcon } =
+  useModalHandlers("ModalUploadImageIcon");
 
 const handleUploadComplete = () => {
   // Note: For future implementation.

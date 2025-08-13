@@ -4,7 +4,7 @@
     <div>
       <DialogTitle>
         <h2 class="font-bold">
-          {{ $t("i18n.components.modal_upload_images.upload_an_image") }}
+          {{ $t("i18n.components.modal.upload_image._global.upload_an_image") }}
         </h2>
       </DialogTitle>
       <div class="mt-4">
@@ -13,32 +13,35 @@
           @files-dropped="handleFiles"
         >
           <span>{{
-            $t("i18n.components.modal_upload_images.drop_image")
+            $t("i18n.components.modal.upload_image._global.drop_image")
           }}</span>
         </ImageFileDropZone>
         <div class="mb-4">
-        <span v-if="files.length > 0" class="pb-4 relative block">
-          <button @click="removeFile(files[0])" class="text-action-red absolute top-0 right-0 z-10">
-            <Icon :name="IconMap.X_SM" size="1.5em" />
-          </button>
-          <img
-            :key="files[0].name"
-            :src="files[0].url"
-            class="h-full w-full object-contain"
-            :alt="
-              $t('i18n.components.modal_upload_images.upload_image') +
-              ' ' +
-              files[0].name
-            "
-          />
-        </span>
-      </div>
+          <span v-if="files.length > 0" class="relative block pb-4">
+            <button
+              @click="removeFile(files[0])"
+              class="absolute right-0 top-0 z-10 text-action-red"
+            >
+              <Icon :name="IconMap.X_SM" size="1.5em" />
+            </button>
+            <img
+              :key="files[0].name"
+              :src="files[0].url"
+              class="h-full w-full object-contain"
+              :alt="
+                $t('i18n.components.modal.upload_image._global.upload_image') +
+                ' ' +
+                files[0].name
+              "
+            />
+          </span>
+        </div>
         <div>
           <BtnAction
             v-if="files.length > 0"
             @click="handleUpload"
             :cta="true"
-            label="i18n.components.modal_upload_images.upload"
+            label="i18n.components.modal.upload_image._global.upload"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
@@ -67,8 +70,7 @@ interface Props {
   entityType: EntityType;
 }
 const props = defineProps<Props>();
-
-const modalName = "ModalUploadIconImage";
+const modalName = "ModalUploadImageIcon";
 const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);

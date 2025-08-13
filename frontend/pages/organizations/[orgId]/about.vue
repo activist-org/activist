@@ -64,7 +64,8 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :fileUploadEntity="FileUploadEntity.ORGANIZATION_CAROUSEL"
+            :entityType ="'organization' as EntityType"
+            :entityId="organization.id"
           />
         </div>
       </div>
@@ -81,10 +82,9 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
+import type { EntityType } from "~/types/entity";
 
-import ModalEditSocialLinksOrganization from "~/components/modal/edit/social-links/ModalEditSocialLinksOrganization.vue";
 import { BreakpointMap } from "~/types/breakpoint-map";
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{

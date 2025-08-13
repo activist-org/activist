@@ -2,9 +2,7 @@
 <template>
   <div class="relative">
     <MediaImageCarousel
-      @delete-complete="handleDeleteComplete"
       :fullscreen="false"
-      :fileUploadEntity="props.fileUploadEntity"
       :imageUrls="imageUrls"
     />
     <button
@@ -15,69 +13,25 @@
       <Icon :name="IconMap.FULL_SCREEN" size="1.5em" />
     </button>
     <ModalMediaImageCarousel
-      @upload-complete="fetchOrganizationImages"
-      @closeModal="handleCloseMediaImageCarousel"
-      :imageUrls="imageUrls"
-      :fileUploadEntity="props.fileUploadEntity"
+    @closeModal="handleCloseMediaImageCarousel"
+    :imageUrls="imageUrls"
+    :entityId="props.entityId"
+    :entityType="props.entityType"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
+import type { EntityType } from "~/types/entity";
+
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{ fileUploadEntity: FileUploadEntity }>();
-
-const orgStore = useOrganizationStore();
-const groupStore = useGroupStore();
-
-// TODO: Refactor this. ModalUploadImages also figures ids out.
-// Needed here because of the useFileManager hook, to get the initial image set on mount.
-const entityId = computed(() => {
-  switch (props.fileUploadEntity) {
-    case FileUploadEntity.ORGANIZATION_CAROUSEL:
-      return orgStore.organization.id;
-    case FileUploadEntity.GROUP_CAROUSEL:
-      return groupStore.group.id;
-    default:
-      return undefined;
-  }
-});
+const props = defineProps<{ entityType: EntityType, entityId:string }>();
 
 const {
   openModal: openMediaImageCarousel,
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
-const { imageUrls, fetchOrganizationImages } = useFileManager(entityId.value);
+const { imageUrls } = useFileManager(props.entityId);
 
-const handleDeleteComplete = async (fileUploadEntity: FileUploadEntity) => {
-  const orgStore = useOrganizationStore();
-  //   const groupStore = useGroupStore();
-  //   const eventStore = useEventStore();
-  //
-  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_CAROUSEL) {
-    const { fetchOrganizationImages } = useFileManager(
-      orgStore.organization.id
-    );
-    await fetchOrganizationImages();
-  }
-  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_ICON) {
-    // Note: For future implementation.
-  }
-};
-
-onMounted(async () => {
-  switch (props.fileUploadEntity) {
-    case FileUploadEntity.ORGANIZATION_CAROUSEL:
-      if (entityId.value) {
-        await fetchOrganizationImages();
-      }
-      break;
-    case FileUploadEntity.GROUP_CAROUSEL:
-      return groupStore.group?.id;
-    default:
-      return null;
-  }
-});
 </script>

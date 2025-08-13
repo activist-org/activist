@@ -89,7 +89,7 @@ import type { Group } from "~/types/communities/group";
 
 import ModalEditSocialLinksGroup from "~/components/modal/edit/social-links/ModalEditSocialLinksGroup.vue";
 import { BreakpointMap } from "~/types/breakpoint-map";
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
+import { FileUploadEntity } from "~/types/content/file";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 
