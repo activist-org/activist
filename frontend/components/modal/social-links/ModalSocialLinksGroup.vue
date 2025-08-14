@@ -14,59 +14,73 @@
           <h2 for="textarea">
             {{ $t("i18n.components.modal.social_links._global.social_links") }}
           </h2>
-          <div class="flex flex-col space-y-3">
-            <div
-              v-for="(socialLink, index) in socialLinksRef"
-              :key="index"
-              class="flex items-center space-x-5"
-            >
-              <IconClose @click="removeLink(socialLink.order)" />
-              <FormItem
-                v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-                :name="`socialLinks.${index}.label`"
-                :label="
-                  $t(
-                    'i18n.components.modal.social_links._global.new_link_label'
-                  )
-                "
-                :required="true"
-              >
-                <FormTextInput
-                  @blur="handleBlur"
-                  @update:modelValue="handleChange"
-                  :id="id"
-                  :hasError="!!errorMessage.value"
-                  :modelValue="value.value as string"
+          <draggable
+            v-model="socialLinksRef"
+            @end="reindex"
+            item-key="__key"
+            tag="div"
+            class="flex flex-col space-y-3"
+            animation="300"
+            ghost-class="opacity-0"
+            :handle="'.drag-handle'"
+          >
+            <template #item="{ index }">
+              <div class="flex items-center space-x-5">
+                <span
+                  class="drag-handle cursor-grab select-none"
+                  title="Drag to reorder"
+                  >⋮⋮</span
+                >
+                <IconClose @click="removeByIndex(index)" />
+                <FormItem
+                  v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+                  :name="`socialLinks.${index}.label`"
                   :label="
                     $t(
                       'i18n.components.modal.social_links._global.new_link_label'
                     )
                   "
-                />
-              </FormItem>
-              <FormItem
-                v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-                :name="`socialLinks.${index}.link`"
-                :label="
-                  $t('i18n.components.modal.social_links._global.new_link_url')
-                "
-                :required="true"
-              >
-                <FormTextInput
-                  @blur="handleBlur"
-                  @update:modelValue="handleChange"
-                  :id="id"
-                  :hasError="!!errorMessage.value"
-                  :modelValue="value.value as string"
+                  :required="true"
+                >
+                  <FormTextInput
+                    @blur="handleBlur"
+                    @update:modelValue="handleChange"
+                    :id="id"
+                    :hasError="!!errorMessage.value"
+                    :modelValue="value.value as string"
+                    :label="
+                      $t(
+                        'i18n.components.modal.social_links._global.new_link_label'
+                      )
+                    "
+                  />
+                </FormItem>
+                <FormItem
+                  v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+                  :name="`socialLinks.${index}.link`"
                   :label="
                     $t(
                       'i18n.components.modal.social_links._global.new_link_url'
                     )
                   "
-                />
-              </FormItem>
-            </div>
-          </div>
+                  :required="true"
+                >
+                  <FormTextInput
+                    @blur="handleBlur"
+                    @update:modelValue="handleChange"
+                    :id="id"
+                    :hasError="!!errorMessage.value"
+                    :modelValue="value.value as string"
+                    :label="
+                      $t(
+                        'i18n.components.modal.social_links._global.new_link_url'
+                      )
+                    "
+                  />
+                </FormItem>
+              </div>
+            </template>
+          </draggable>
         </div>
         <div class="flex space-x-2">
           <BtnAction
@@ -83,10 +97,13 @@
 </template>
 
 <script setup lang="ts">
+import draggable from "vuedraggable";
 import { z } from "zod";
 
 import type { GroupSocialLink } from "~/types/communities/group";
 import type { SocialLink } from "~/types/content/social-link";
+
+import { useSortableList } from "~/composables/useSortableList";
 
 const { t } = useI18n();
 
@@ -113,10 +130,17 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
 
-const socialLinksRef = ref<GroupSocialLink[] | SocialLink[]>();
+type GroupLinkRow = (GroupSocialLink | SocialLink) & { __key: string };
+const socialLinksRef = ref<GroupLinkRow[]>(
+  (groupStore.group.socialLinks || []).map((l, idx) => ({
+    ...l,
+    __key: (l as GroupSocialLink).id ?? String(idx),
+  })) as GroupLinkRow[]
+);
+
+const { reindex, removeByIndex } = useSortableList(socialLinksRef);
 
 let { group } = groupStore;
-socialLinksRef.value = group.socialLinks;
 
 const formData = computed(() => ({
   socialLinks: (socialLinksRef.value || []).map((socialLink) => ({
@@ -131,19 +155,41 @@ interface SocialLinksValue {
 
 // Attn: Currently we're deleting the social links and rewriting all of them.
 async function handleSubmit(values: unknown) {
-  const socialLinks = socialLinksRef.value?.map((socialLink, index) => ({
-    id: socialLink.id,
-    link: (values as SocialLinksValue).socialLinks[index].link,
-    label: (values as SocialLinksValue).socialLinks[index].label,
-    order: socialLink.order,
-  }));
+  reindex();
+
+  const formValues = values as SocialLinksValue;
+  const socialLinks = socialLinksRef.value?.map((socialLink, index) => {
+    // For existing items with IDs, find their original position in the initial data
+    // For new items without IDs, use the current form position
+    let formIndex = index; // Default to current position for new items
+
+    if (socialLink.id) {
+      // Find the original index of this item by matching IDs
+      const originalSocialLinks = groupStore.group.socialLinks || [];
+      formIndex = originalSocialLinks.findIndex(
+        (original) => original.id === socialLink.id
+      );
+    }
+
+    return {
+      id: socialLink.id,
+      // Use form values for the correct form position, fallback to socialLink values
+      link: formValues.socialLinks[formIndex]?.link || socialLink.link,
+      label: formValues.socialLinks[formIndex]?.label || socialLink.label,
+      order: index,
+    };
+  });
+
+  // Filter out items with empty link or label (validation should catch this, but just in case)
+  const validSocialLinks =
+    socialLinks?.filter((link) => link.link && link.label) || [];
 
   let updateResponse = false;
-  if (socialLinks) {
+  if (validSocialLinks.length > 0) {
     updateResponse = await groupStore.deleteSocialLinks(group);
     updateResponse = await groupStore.createSocialLinks(
       group,
-      socialLinks as SocialLink[]
+      validSocialLinks as SocialLink[]
     );
   }
 
@@ -152,7 +198,10 @@ async function handleSubmit(values: unknown) {
 
     await groupStore.fetchById(groupId);
     group = groupStore.group;
-    socialLinksRef.value = group.socialLinks;
+    socialLinksRef.value = (group.socialLinks || []).map((l, idx) => ({
+      ...l,
+      __key: (l as GroupSocialLink).id ?? String(idx),
+    })) as GroupLinkRow[];
   }
 }
 
@@ -161,23 +210,7 @@ async function addNewLink() {
     link: "",
     label: "",
     order: socialLinksRef.value.length,
-  } as GroupSocialLink & SocialLink);
-}
-
-async function removeLink(order: number): Promise<void> {
-  const indexToRemove = socialLinksRef.value?.findIndex(
-    (link) => link.order === order
-  );
-
-  if (indexToRemove !== undefined && indexToRemove >= 0) {
-    // Remove the item directly from the array.
-    // This will mutate the original array and signal a reactivity update.
-    socialLinksRef.value?.splice(indexToRemove, 1);
-
-    // Re-index the remaining items to ensure the 'order' field is correct.
-    socialLinksRef.value?.forEach((link, index) => {
-      link.order = index;
-    });
-  }
+    __key: String(Date.now()) + "-" + socialLinksRef.value.length,
+  } as GroupLinkRow);
 }
 </script>
