@@ -74,7 +74,8 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :fileUploadEntity="FileUploadEntity.GROUP_CAROUSEL"
+            :entityType="'group' as EntityType"
+            :entityId="group.id"
           />
         </div>
       </div>
@@ -86,9 +87,9 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
+import type { EntityType } from "~/types/entity";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
-import { FileUploadEntity } from "~/types/content/file";
 import { IconMap } from "~/types/icon-map";
 import { getGroupSubPages } from "~/utils/groupSubPages";
 

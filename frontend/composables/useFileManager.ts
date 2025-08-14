@@ -38,7 +38,6 @@ export function useFileManager(entityId?: string) {
 
       if (response.ok) {
         const data = (await response.json()) as ContentImage[];
-        console.log(data.length, "images fetched");
         imageUrls.value =
           data.length > 0
             ? data.map((img: ContentImage) => img.fileObject)
