@@ -400,7 +400,7 @@ class ResourceFlagDetailAPIView(GenericAPIView[ResourceFlag]):
         )
 
 
-# MARK: Images
+# MARK: Image
 
 
 class ImageViewSet(viewsets.ModelViewSet[Image]):
@@ -427,7 +427,7 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
     # The model uses a signal to delete the file from the filesystem when the Image instance is deleted.
 
 
-# MARK: Image Icon
+# MARK: Icon
 
 
 class ImageIconViewSet(viewsets.ModelViewSet[Image]):

@@ -27,7 +27,7 @@
             <img
               :key="files[0].name"
               :src="files[0].url"
-              class="h-full w-full object-contain"
+              class="h-[50%] w-[50%] object-contain"
               :alt="
                 $t('i18n.components.modal.upload_image._global.upload_image') +
                 ' ' +

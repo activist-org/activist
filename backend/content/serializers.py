@@ -164,12 +164,15 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         """
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
+
         if "entity" not in self.context["request"].data:
             raise serializers.ValidationError("No entity was specified for the image.")
+
         if "entity_id" not in self.context["request"].data:
             raise serializers.ValidationError(
                 "No entity_id was specified for the image."
             )
+
         # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
         # The file size limit is not being enforced. We're checking the file size here.
         if (
@@ -216,6 +219,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             image = super().create(file_data)
             images.append(image)
             logger.info(f"Created Image instance with ID {image.id}")
+
             if request.data.get("entity") == "organization":
                 next_index = OrganizationImage.objects.filter(org_id=entity_id).count()
                 OrganizationImage.objects.create(
@@ -224,6 +228,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                 logger.info(
                     f"Added image {image.id} to organization {entity_id} carousel at index {next_index}"
                 )
+
             if entity == "group":
                 logger.warning("ENTITY:", request.data.get("entity"))
                 logger.warning("GROUP-CAROUSEL group_id:", entity_id)
@@ -233,7 +238,11 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             #       GroupImage.objects.create(
             #           group_id=group_id, image=image, sequence_index=next_index
             #       )
+
         return images
+
+
+# MARK: Icon
 
 
 class ImageIconSerializer(serializers.ModelSerializer[Image]):
@@ -267,12 +276,15 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         """
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
+
         if "entity" not in self.context["request"].data:
             raise serializers.ValidationError("No entity was specified for the image.")
+
         if "entity_id" not in self.context["request"].data:
             raise serializers.ValidationError(
                 "No entity_id was specified for the image."
             )
+
         # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
         # The file size limit is not being enforced. We're checking the file size here.
         if (
@@ -282,6 +294,7 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
             raise serializers.ValidationError(
                 f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
             )
+
         return data
 
     def create(self, validated_data: Dict[str, Any]) -> Any:
@@ -317,6 +330,7 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         file_data["file_object"] = scrub_exif(file_obj)
         image = super().create(file_data)
         logger.info(f"Created Image instance with ID {image.id}")
+
         if entity == "organization":
             try:
                 organization = Organization.objects.get(id=entity_id)
@@ -341,12 +355,13 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
             #       GroupImage.objects.create(
             #           group_id=group_id, image=image, sequence_index=next_index
             #       )
+
         if entity == "event":
             try:
                 event = Event.objects.get(id=entity_id)
                 event.icon_url = image
                 event.save()
-                logger.info("Updated Event %s with icon %s", entity_id, image.id)
+                logger.info(f"Updated Event {entity_id} with icon {image.id}")
 
             except Exception as e:
                 logger.exception(
@@ -354,21 +369,8 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
                 )
                 raise serializers.ValidationError(
                     f"An unexpected error occurred while updating the event: {str(e)}"
-                )
-        if entity == "organization":
-            try:
-                organization = Organization.objects.get(id=entity_id)
-                organization.icon_url = image
-                organization.save()
-                logger.info("Updated Organization %s with icon %s", entity_id, image.id)
+                ) from e
 
-            except Exception as e:
-                logger.exception(
-                    f"An unexpected error occurred while updating the organization: {str(e)}"
-                )
-                raise serializers.ValidationError(
-                    f"An unexpected error occurred while updating the organization: {str(e)}"
-                )
         return image
 
 

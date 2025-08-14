@@ -4,10 +4,10 @@
     <div>
       <DialogTitle>
         <h2 v-if="uploadLimit > 1" class="font-bold">
-          {{ $t("i18n.components.modal_upload_images.upload_images") }}
+          {{ $t("i18n.components.modal.upload_image._global.upload_images") }}
         </h2>
         <h2 v-else class="font-bold">
-          {{ $t("i18n.components.modal_upload_images.upload_an_image") }}
+          {{ $t("i18n.components.modal.upload_image._global.upload_an_image") }}
         </h2>
       </DialogTitle>
       <div class="mt-4">
@@ -17,36 +17,41 @@
           v-slot="{ isDropZoneActive }"
         >
           <span v-if="isDropZoneActive && uploadLimit > 1">{{
-            $t("i18n.components.modal_upload_images.drop_images")
+            $t("i18n.components.modal.upload_image._global.drop_images")
           }}</span>
           <span v-else-if="isDropZoneActive && uploadLimit === 1">{{
-            $t("i18n.components.modal_upload_images.drop_image")
+            $t("i18n.components.modal.upload_image._global.drop_image")
           }}</span>
           <span v-else-if="!isDropZoneActive && uploadLimit > 1">{{
-            $t("i18n.components.modal_upload_images.drag_images")
+            $t("i18n.components.modal.upload_image._global.drag_images")
           }}</span>
           <span v-else-if="!isDropZoneActive && uploadLimit === 1">{{
-            $t("i18n.components.modal_upload_images.drag_image")
+            $t("i18n.components.modal.upload_image._global.drag_image")
           }}</span>
         </ImageFileDropZone>
         <p class="py-2">
-          {{ $t("i18n.components.modal_upload_images.number_of_files") }}:
+          {{
+            $t("i18n.components.modal.upload_image._global.number_of_files")
+          }}:
           {{ files.length }}
         </p>
         <p
           v-if="uploadLimit === 1 && files.length > uploadLimit"
           class="text-action-red"
         >
-          {{ $t("i18n.components.modal_upload_images.picture_limit_1") }}
+          {{ $t("i18n.components.modal.upload_image._global.picture_limit_1") }}
         </p>
         <p
           v-if="uploadLimit !== 1 && files.length >= uploadLimit"
           class="text-action-red"
         >
           {{
-            $t("i18n.components.modal_upload_images.picture_limit_multiple", {
-              limit: uploadLimit,
-            })
+            $t(
+              "i18n.components.modal.upload_image._global.picture_limit_multiple",
+              {
+                limit: uploadLimit,
+              }
+            )
           }}
         </p>
         <div>
@@ -67,7 +72,9 @@
                   :src="file.url"
                   class="h-20 w-20 object-contain"
                   :alt="
-                    $t('i18n.components.modal_upload_images.upload_image') +
+                    $t(
+                      'i18n.components.modal.upload_image._global.upload_image'
+                    ) +
                     ' ' +
                     file.name
                   "
@@ -79,7 +86,7 @@
             v-if="files.length > 0"
             @click="handleUpload"
             :cta="true"
-            label="i18n.components.modal_upload_images.upload"
+            label="i18n.components.modal.upload_image._global.upload"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
