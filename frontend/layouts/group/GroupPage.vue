@@ -51,8 +51,9 @@ const { group } = groupStore;
 
 const { handleCloseModal: handleCloseModalUploadImage } =
   useModalHandlers("ModalUploadImage");
-const { handleCloseModal: handleCloseModalUploadImageIcon } =
-  useModalHandlers("ModalUploadImageIcon");
+const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
+  "ModalUploadImageIcon"
+);
 
 const handleUploadComplete = () => {
   // Note: For future implementation.

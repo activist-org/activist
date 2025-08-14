@@ -28,10 +28,7 @@ export const useModals = defineStore("modals", {
     // The following are called in useModalHandlers.ts.
     // They allow for multiple modal handlers on a page / component.
     // We can rename the modal handlers so that the code is a little more self-documenting and readable.
-    openModalAndUpdateState(
-      modalName: string,
-      params?: unknown
-    ) {
+    openModalAndUpdateState(modalName: string, params?: unknown) {
       this.openModal(modalName);
 
       this.modals[modalName] = {

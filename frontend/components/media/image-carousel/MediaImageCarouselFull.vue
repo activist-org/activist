@@ -1,10 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="relative">
-    <MediaImageCarousel
-      :fullscreen="false"
-      :imageUrls="imageUrls"
-    />
+    <MediaImageCarousel :fullscreen="false" :imageUrls="imageUrls" />
     <button
       @click="openMediaImageCarousel()"
       @keydown.enter="openMediaImageCarousel()"
@@ -13,10 +10,10 @@
       <Icon :name="IconMap.FULL_SCREEN" size="1.5em" />
     </button>
     <ModalMediaImageCarousel
-    @closeModal="handleCloseMediaImageCarousel"
-    :imageUrls="imageUrls"
-    :entityId="props.entityId"
-    :entityType="props.entityType"
+      @closeModal="handleCloseMediaImageCarousel"
+      :imageUrls="imageUrls"
+      :entityId="props.entityId"
+      :entityType="props.entityType"
     />
   </div>
 </template>
@@ -26,12 +23,11 @@ import type { EntityType } from "~/types/entity";
 
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{ entityType: EntityType, entityId:string }>();
+const props = defineProps<{ entityType: EntityType; entityId: string }>();
 
 const {
   openModal: openMediaImageCarousel,
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
 const { imageUrls } = useFileManager(props.entityId);
-
 </script>

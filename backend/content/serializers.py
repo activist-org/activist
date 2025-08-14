@@ -330,7 +330,7 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
                 )
                 raise serializers.ValidationError(
                     f"An unexpected error occurred while updating the event: {str(e)}"
-                )
+                ) from e
 
         if entity == "group":
             logger.warning("ENTITY:", request.data.get("entity"))

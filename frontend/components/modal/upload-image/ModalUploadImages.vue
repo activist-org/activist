@@ -108,19 +108,16 @@ interface Props {
   entityId: string;
   uploadLimit?: number;
 }
-const props = withDefaults(defineProps<Props>(),{
+const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
-
 
 const modalName = "ModalUploadImages";
 const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);
 
-
 const handleUpload = async () => {
-
   try {
     // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
     await uploadFiles(props.entityId, props.entityType);

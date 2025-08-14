@@ -12,9 +12,11 @@
     >
       <ImageOrganization
         class="elem-shadow-sm"
-        :imgUrl="organization.iconUrl?.fileObject
+        :imgUrl="
+          organization.iconUrl?.fileObject
             ? `${BASE_BACKEND_URL_NO_V1}${organization.iconUrl?.fileObject}`
-            : logoUrl"
+            : logoUrl
+        "
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: name,
@@ -27,9 +29,7 @@
           showButton &&
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
         "
-        @click="
-            openModal();
-        "
+        @click="openModal()"
         class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         ariaLabel="i18n.components.sidebar_left_content_organization.edit_aria_label"
       >

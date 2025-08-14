@@ -24,9 +24,7 @@
           showButton &&
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
         "
-        @click="
-          openModalUploadImage()
-        "
+        @click="openModalUploadImage()"
         class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         ariaLabel="i18n.components.sidebar_left_content_group_page.edit_aria_label"
       >
@@ -47,8 +45,9 @@ const props = defineProps<{
 const { name } = toRefs(props);
 
 const sidebar = useSidebar();
-const { openModal: openModalUploadImage } =
-  useModalHandlers("ModalUploadImageIcon");
+const { openModal: openModalUploadImage } = useModalHandlers(
+  "ModalUploadImageIcon"
+);
 
 const showButton = true;
 </script>

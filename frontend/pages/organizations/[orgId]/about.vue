@@ -64,7 +64,7 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :entityType ="'organization' as EntityType"
+            :entityType="'organization' as EntityType"
             :entityId="organization.id"
           />
         </div>
