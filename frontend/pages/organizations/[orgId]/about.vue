@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalEditSocialLinksOrganization />
-  <ModalEditTextOrganization />
+  <ModalSocialLinksOrganization />
+  <ModalTextOrganization />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ organization.name }}</Title>

@@ -5,10 +5,10 @@
       @submit="handleSubmit"
       :schema="schema"
       :initial-values="formData"
-      :submit-label="$t('i18n.components.modal.edit._global.update_texts')"
+      :submit-label="$t('i18n.components.modal._global.update_texts')"
     >
       <h2>
-        {{ $t("i18n.components.modal_edit_text_group.edit_group_texts") }}
+        {{ $t("i18n.components.modal_text_event.edit_event_texts") }}
       </h2>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -26,7 +26,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components._global.get_involved')"
+        :label="$t('i18n.components._global.participate')"
         name="getInvolved"
       >
         <FormTextArea
@@ -39,7 +39,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.modal_edit_text_group.join_group_link')"
+        :label="$t('i18n.components.modal_text_event.offer_to_help_link')"
         name="getInvolvedUrl"
       >
         <FormTextInput
@@ -48,7 +48,9 @@
           :id="id"
           :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.modal.edit.text._global.remember_https')"
+          :label="
+            $t('i18n.components.modal_text_event.offer_to_help_link_label')
+          "
         />
       </FormItem>
     </Form>
@@ -58,43 +60,42 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { GroupUpdateTextFormData } from "~/types/communities/group";
+import type { EventUpdateTextFormData } from "~/types/events/event";
 
 const { t } = useI18n();
 
 const schema = z.object({
   description: z
     .string()
-    .min(1, t("i18n.components.modal.edit.text._global.description_required")),
+    .min(1, t("i18n.components.modal.text._global.description_required")),
   getInvolved: z.string().optional(),
   getInvolvedUrl: z.string().optional(),
 });
 
-const modalName = "ModalEditTextGroup";
+const modalName = "ModalTextEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventStore = useEventStore();
+await eventStore.fetchById(eventId);
 
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
+const { event } = eventStore;
 
-const { group } = groupStore;
-
-const formData = ref<GroupUpdateTextFormData>({
+const formData = ref<EventUpdateTextFormData>({
   description: "",
   getInvolved: "",
   getInvolvedUrl: "",
 });
 
 onMounted(() => {
-  formData.value.description = group.texts.description || "";
-  formData.value.getInvolved = group.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = group.getInvolvedUrl || "";
+  formData.value.description = event.texts.description || "";
+  formData.value.getInvolved = event.texts.getInvolved || "";
+  formData.value.getInvolvedUrl = event.getInvolvedUrl || "";
 });
 
 watch(
-  group,
+  event,
   (newValues) => {
     formData.value.description = newValues.texts.description || "";
     formData.value.getInvolved = newValues.texts.getInvolved || "";
@@ -106,9 +107,9 @@ watch(
 );
 
 async function handleSubmit(values: unknown) {
-  const response = await groupStore.updateTexts(
-    group,
-    values as GroupUpdateTextFormData
+  const response = await eventStore.updateTexts(
+    event,
+    values as EventUpdateTextFormData
   );
   if (response) {
     handleCloseModal();

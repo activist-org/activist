@@ -5,16 +5,14 @@
       @submit="handleSubmit"
       :schema="schema"
       :submitLabel="
-        $t('i18n.components.modal.edit.social_links._global.update_links')
+        $t('i18n.components.modal.social_links._global.update_links')
       "
       :initialValues="formData"
     >
       <div class="flex flex-col space-y-7">
         <div class="flex flex-col space-y-3">
           <h2 for="textarea">
-            {{
-              $t("i18n.components.modal.edit.social_links._global.social_links")
-            }}
+            {{ $t("i18n.components.modal.social_links._global.social_links") }}
           </h2>
           <div class="flex flex-col space-y-3">
             <div
@@ -28,7 +26,7 @@
                 :name="`socialLinks.${index}.label`"
                 :label="
                   $t(
-                    'i18n.components.modal.edit.social_links._global.new_link_label'
+                    'i18n.components.modal.social_links._global.new_link_label'
                   )
                 "
                 :required="true"
@@ -41,7 +39,7 @@
                   :modelValue="value.value as string"
                   :label="
                     $t(
-                      'i18n.components.modal.edit.social_links._global.new_link_label'
+                      'i18n.components.modal.social_links._global.new_link_label'
                     )
                   "
                 />
@@ -50,9 +48,7 @@
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
                 :name="`socialLinks.${index}.link`"
                 :label="
-                  $t(
-                    'i18n.components.modal.edit.social_links._global.new_link_url'
-                  )
+                  $t('i18n.components.modal.social_links._global.new_link_url')
                 "
                 :required="true"
               >
@@ -64,7 +60,7 @@
                   :modelValue="value.value as string"
                   :label="
                     $t(
-                      'i18n.components.modal.edit.social_links._global.new_link_url'
+                      'i18n.components.modal.social_links._global.new_link_url'
                     )
                   "
                 />
@@ -76,9 +72,9 @@
           <BtnAction
             @click="addNewLink()"
             :cta="true"
-            label="i18n.components.modal.edit.social_links._global.add_link"
+            label="i18n.components.modal.social_links._global.add_link"
             fontSize="base"
-            ariaLabel="i18n.components.modal.edit.social_links._global.add_link_aria_label"
+            ariaLabel="i18n.components.modal.social_links._global.add_link_aria_label"
           />
         </div>
       </div>
@@ -89,12 +85,12 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { GroupSocialLink } from "~/types/communities/group";
+import type { OrganizationSocialLink } from "~/types/communities/organization";
 import type { SocialLink } from "~/types/content/social-link";
 
 const { t } = useI18n();
 
-const modalName = "ModalEditSocialLinksGroup";
+const modalName = "ModalSocialLinksOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const schema = z.object({
@@ -102,29 +98,25 @@ const schema = z.object({
     z.object({
       label: z
         .string()
-        .min(
-          1,
-          t("i18n.components.modal.edit.social_links._global.label_required")
-        ),
+        .min(1, t("i18n.components.modal.social_links._global.label_required")),
       link: z
         .string()
         .url(
-          t(
-            "i18n.components.modal.edit.social_links._global.valid_url_required"
-          )
+          t("i18n.components.modal.social_links._global.valid_url_required")
         ),
     })
   ),
 });
 
-const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-const groupStore = useGroupStore();
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const organizationStore = useOrganizationStore();
+await organizationStore.fetchById(orgId);
 
-const socialLinksRef = ref<GroupSocialLink[] | SocialLink[]>();
+const socialLinksRef = ref<OrganizationSocialLink[] | SocialLink[]>();
 
-let { group } = groupStore;
-socialLinksRef.value = group.socialLinks;
+let { organization } = organizationStore;
+socialLinksRef.value = organization.socialLinks;
 
 const formData = computed(() => ({
   socialLinks: (socialLinksRef.value || []).map((socialLink) => ({
@@ -148,9 +140,9 @@ async function handleSubmit(values: unknown) {
 
   let updateResponse = false;
   if (socialLinks) {
-    updateResponse = await groupStore.deleteSocialLinks(group);
-    updateResponse = await groupStore.createSocialLinks(
-      group,
+    updateResponse = await organizationStore.deleteSocialLinks(organization);
+    updateResponse = await organizationStore.createSocialLinks(
+      organization,
       socialLinks as SocialLink[]
     );
   }
@@ -158,9 +150,9 @@ async function handleSubmit(values: unknown) {
   if (updateResponse) {
     handleCloseModal();
 
-    await groupStore.fetchById(groupId);
-    group = groupStore.group;
-    socialLinksRef.value = group.socialLinks;
+    await organizationStore.fetchById(orgId);
+    organization = organizationStore.organization;
+    socialLinksRef.value = organization.socialLinks;
   }
 }
 
@@ -169,7 +161,7 @@ async function addNewLink() {
     link: "",
     label: "",
     order: socialLinksRef.value.length,
-  } as GroupSocialLink & SocialLink);
+  } as OrganizationSocialLink & SocialLink);
 }
 
 async function removeLink(order: number): Promise<void> {
