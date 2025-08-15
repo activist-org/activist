@@ -2,8 +2,6 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormSocialLink
-      @addLink="addNewLink"
-      @removeLink="removeLink"
       :formData="formData"
       :handleSubmit="handleSubmit"
       :submitLabel="submitLabel"
@@ -40,7 +38,7 @@ const formData = computed(() => ({
 }));
 
 const submitLabel = "i18n.components.modal.social_links._global.update_links";
-const title = "i18n.components.modal.social_links._global.social_links";
+const title = "i18n.components._global.social_links";
 
 interface SocialLinksValue {
   socialLinks: { link: string; label: string }[];
@@ -48,10 +46,10 @@ interface SocialLinksValue {
 
 // Attn: Currently we're deleting the social links and rewriting all of them.
 async function handleSubmit(values: unknown) {
-  const socialLinks = socialLinksRef.value?.map((socialLink, _index) => ({
+  const socialLinks = socialLinksRef.value?.map((socialLink, index) => ({
     id: socialLink.id,
-    link: (values as SocialLinksValue).socialLinks[_index].link,
-    label: (values as SocialLinksValue).socialLinks[_index].label,
+    link: (values as SocialLinksValue).socialLinks[index].link,
+    label: (values as SocialLinksValue).socialLinks[index].label,
     order: socialLink.order,
   }));
 
@@ -70,34 +68,6 @@ async function handleSubmit(values: unknown) {
     await organizationStore.fetchById(orgId);
     organization = organizationStore.organization;
     socialLinksRef.value = organization.socialLinks;
-  }
-}
-
-async function addNewLink(newLink: {
-  link: string;
-  label: string;
-  order: number;
-}) {
-  socialLinksRef.value?.push({
-    ...newLink,
-    id: "",
-  } as OrganizationSocialLink & SocialLink);
-}
-
-async function removeLink(order: number): Promise<void> {
-  const indexToRemove = socialLinksRef.value?.findIndex(
-    (link) => link.order === order
-  );
-
-  if (indexToRemove !== undefined && indexToRemove >= 0) {
-    // Remove the item directly from the array.
-    // This will mutate the original array and signal a reactivity update.
-    socialLinksRef.value?.splice(indexToRemove, 1);
-
-    // Re-index the remaining items to ensure the 'order' field is correct.
-    socialLinksRef.value?.forEach((link, index) => {
-      link.order = index;
-    });
   }
 }
 </script>

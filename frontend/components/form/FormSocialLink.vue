@@ -12,21 +12,19 @@
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3">
         <h2 for="textarea">
-          {{ $t("i18n.components.modal.social_links._global.social_links") }}
+          {{ $t("i18n.components._global.social_links") }}
         </h2>
         <div class="flex flex-col space-y-3">
           <div
             v-for="(socialLink, index) in props.socialLinksRef"
-            :key="String(index)"
+            :key="socialLink.id ?? index"
             class="flex items-center space-x-5"
           >
             <IconClose @click="removeLink(socialLink.order)" />
             <FormItem
               v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-              :name="`socialLinks.${String(index)}.label`"
-              :label="
-                $t('i18n.components.modal.social_links._global.new_link_label')
-              "
+              :name="`socialLinks.${index}.label`"
+              :label="$t('i18n.components.form_social_link.new_link_label')"
               :required="true"
             >
               <FormTextInput
@@ -35,19 +33,13 @@
                 :id="id"
                 :hasError="!!errorMessage.value"
                 :modelValue="value.value as string"
-                :label="
-                  $t(
-                    'i18n.components.modal.social_links._global.new_link_label'
-                  )
-                "
+                :label="$t('i18n.components.form_social_link.new_link_label')"
               />
             </FormItem>
             <FormItem
               v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-              :name="`socialLinks.${String(index)}.link`"
-              :label="
-                $t('i18n.components.modal.social_links._global.new_link_url')
-              "
+              :name="`socialLinks.${index}.link`"
+              :label="$t('i18n.components.form_social_link.new_link_url')"
               :required="true"
             >
               <FormTextInput
@@ -56,9 +48,7 @@
                 :id="id"
                 :hasError="!!errorMessage.value"
                 :modelValue="value.value as string"
-                :label="
-                  $t('i18n.components.modal.social_links._global.new_link_url')
-                "
+                :label="$t('i18n.components.form_social_link.new_link_url')"
               />
             </FormItem>
           </div>
@@ -68,9 +58,9 @@
         <BtnAction
           @click="addNewLink()"
           :cta="true"
-          label="i18n.components.modal.social_links._global.add_link"
+          label="i18n.components.form_social_link.add_link"
           fontSize="base"
-          ariaLabel="i18n.components.modal.social_links._global.add_link_aria_label"
+          ariaLabel="i18n.components.form_social_link.add_link_aria_label"
         />
       </div>
     </div>
@@ -79,6 +69,8 @@
 
 <script setup lang="ts">
 import { z } from "zod";
+
+import type { SocialLink } from "~/types/content/social-link";
 
 interface SocialLinkItem {
   link: string;
@@ -111,26 +103,47 @@ const schema = z.object({
     z.object({
       label: z
         .string()
-        .min(1, t("i18n.components.modal.social_links._global.label_required")),
+        .min(1, t("i18n.components.form_social_link.label_required")),
       link: z
         .string()
-        .url(
-          t("i18n.components.modal.social_links._global.valid_url_required")
-        ),
+        .url(t("i18n.components.form_social_link.valid_url_required")),
     })
   ),
 });
 
-async function addNewLink() {
-  const newLink: SocialLinkItem = {
+const socialLinks = ref(props.socialLinksRef);
+
+function addNewLink() {
+  const newLink = {
     link: "",
     label: "",
-    order: props.socialLinksRef.length,
+    order: socialLinks.value.length,
   };
+
+  socialLinks.value?.push({
+    ...newLink,
+    id: "",
+  } as SocialLink);
+
   emit("addLink", newLink);
 }
 
-async function removeLink(order: number): Promise<void> {
+function removeLink(order: number): void {
+  const indexToRemove = socialLinks.value?.findIndex(
+    (link) => link.order === order
+  );
+
+  if (indexToRemove && indexToRemove >= 0) {
+    // Remove the item directly from the array.
+    // This will mutate the original array and signal a reactivity update.
+    socialLinks.value?.splice(indexToRemove, 1);
+
+    // Re-index the remaining items to ensure the 'order' field is correct.
+    socialLinks.value?.forEach((link, index) => {
+      link.order = index;
+    });
+  }
+
   emit("removeLink", order);
 }
 </script>
