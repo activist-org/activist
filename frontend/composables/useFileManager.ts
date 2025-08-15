@@ -60,7 +60,7 @@ export function useFileManager(entityId?: string) {
     try {
       const formData = new FormData();
       formData.append("entity_id", id);
-      formData.append("entity", entityType);
+      formData.append("entity_type", entityType);
       files.value.forEach((uploadableFile: UploadableFile) => {
         formData.append("file_object", uploadableFile.file);
       });
@@ -92,7 +92,7 @@ export function useFileManager(entityId?: string) {
 
     // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
     formData.append("entity_id", id);
-    formData.append("entity", entityType);
+    formData.append("entity_type", entityType);
 
     files.value.forEach((uploadableFile: UploadableFile) => {
       formData.append("file_object", uploadableFile.file);

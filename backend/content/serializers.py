@@ -165,7 +165,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
 
-        if "entity" not in self.context["request"].data:
+        if "entity_type" not in self.context["request"].data:
             raise serializers.ValidationError("No entity was specified for the image.")
 
         if "entity_id" not in self.context["request"].data:
@@ -211,7 +211,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         images = []
 
         files = request.FILES.getlist("file_object")
-        entity = request.data.get("entity")
+        entity = request.data.get("entity_type")
         entity_id = request.data.get("entity_id")
         for file_obj in files:
             file_data = validated_data.copy()
@@ -220,7 +220,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             images.append(image)
             logger.info(f"Created Image instance with ID {image.id}")
 
-            if request.data.get("entity") == "organization":
+            if request.data.get("entity_type") == "organization":
                 next_index = OrganizationImage.objects.filter(org_id=entity_id).count()
                 OrganizationImage.objects.create(
                     org_id=entity_id, image=image, sequence_index=next_index
@@ -230,7 +230,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
                 )
 
             if entity == "group":
-                logger.warning("ENTITY:", request.data.get("entity"))
+                logger.warning("ENTITY:", request.data.get("entity_type"))
                 logger.warning("GROUP-CAROUSEL group_id:", entity_id)
             #       next_index = GroupImage.objects.filter(
             #           group_id=group_id
@@ -277,7 +277,7 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
 
-        if "entity" not in self.context["request"].data:
+        if "entity_type" not in self.context["request"].data:
             raise serializers.ValidationError("No entity was specified for the image.")
 
         if "entity_id" not in self.context["request"].data:
@@ -321,7 +321,7 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         request = self.context["request"]
 
         file_obj = request.FILES.get("file_object")
-        entity = request.data.get("entity")
+        entity = request.data.get("entity_type")
         entity_id = request.data.get("entity_id")
         if file_obj is None:
             raise serializers.ValidationError("No file was submitted.")
@@ -347,7 +347,7 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
                 ) from e
 
         if entity == "group":
-            logger.warning("ENTITY:", request.data.get("entity"))
+            logger.warning("ENTITY:", request.data.get("entity_type"))
             logger.warning("GROUP-CAROUSEL group_id:", entity_id)
             #       next_index = GroupImage.objects.filter(
             #           group_id=group_id
