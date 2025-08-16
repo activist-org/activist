@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { UploadableFile } from "~/types/content/file";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
@@ -8,6 +9,8 @@ import type {
   EventsResponseBody,
   EventUpdateTextFormData,
 } from "~/types/events/event";
+
+import { EntityType } from "~/types/entity";
 
 interface EventStore {
   loading: boolean;
@@ -101,6 +104,38 @@ export const useEventStore = defineStore("event", {
 
       this.loading = false;
       return false;
+    },
+
+    // MARK: Update Icon
+
+    uploadIconImage: async function (id: string, file: UploadableFile) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const formData = new FormData();
+        formData.append("entity_id", id);
+        formData.append("entity_type", EntityType.EVENT);
+        formData.append("file_object", file.file);
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/image_icon`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          await this.fetchById(id);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
     },
 
     // MARK: Fetch By ID

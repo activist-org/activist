@@ -1,11 +1,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <!-- <ModalUploadImages
-      @closeModal="handleCloseModalUploadImages"
-      @upload-complete="handleUploadComplete"
-    /> -->
-    <ModalUploadImages @upload-complete="handleUploadComplete" />
+    <ModalUploadImage
+      @closeModal="handleCloseModalUploadImage"
+      :entityId="organization.id || ''"
+      :entityType="EntityType.ORGANIZATION"
+      :images="organization.images || []"
+    />
+    <ModalUploadImageIcon
+      @closeModal="handleCloseModalUploadImageIcon"
+      :entityId="organization.id || ''"
+      :entityType="EntityType.ORGANIZATION"
+    />
     <SidebarLeft
       v-if="aboveMediumBP"
       @mouseover="sidebarHover = true"
@@ -30,36 +36,32 @@
 </template>
 
 <script setup lang="ts">
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
+import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
+
+const aboveMediumBP = useBreakpoint("md");
+
+const { handleCloseModal: handleCloseModalUploadImage } =
+  useModalHandlers("ModalUploadImage");
+const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
+  "ModalUploadImageIcon"
+);
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
+
 const { organization } = organizationStore;
 
-const handleUploadComplete = async (fileUploadEntity: FileUploadEntity) => {
-  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_CAROUSEL) {
-    const { fetchOrganizationImages } = useFileManager(
-      organizationStore.organization.id
-    );
-    await fetchOrganizationImages();
-  }
-  if (fileUploadEntity === FileUploadEntity.ORGANIZATION_ICON) {
-    // Note: For future implementation.
-  }
-};
-
-const aboveMediumBP = useBreakpoint("md");
+await organizationStore.fetchImages(orgId as string);
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
-
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
   sidebarContentScrollable.value,
   sidebarHover

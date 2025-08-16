@@ -8,7 +8,10 @@ import type {
   OrganizationUpdateTextFormData,
 } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { ContentImage, UploadableFile } from "~/types/content/file";
 import type { SocialLinkFormData } from "~/types/content/social-link";
+
+import { EntityType } from "~/types/entity";
 
 interface OrganizationStore {
   loading: boolean;
@@ -41,7 +44,7 @@ export const useOrganizationStore = defineStore("organization", {
       socialLinks: [],
       status: 1,
       creationDate: "",
-
+      images: [],
       groups: [],
       events: [],
       faqEntries: [],
@@ -102,7 +105,6 @@ export const useOrganizationStore = defineStore("organization", {
 
     async fetchById(id: string | undefined) {
       this.loading = true;
-
       const { data, status } = await useAsyncData<OrganizationResponse>(
         async () =>
           (await fetchWithoutToken(
@@ -134,6 +136,104 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       this.loading = false;
+    },
+
+    // MARK: Update Icon
+
+    uploadIconImage: async function (id: string, file: UploadableFile) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const formData = new FormData();
+        formData.append("entity_id", id);
+        formData.append("entity_type", EntityType.ORGANIZATION);
+        formData.append("file_object", file.file);
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/image_icon`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+        if (response.data?.value) {
+          this.fetchById(id);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
+    // MARK: Upload Files
+
+    uploadFiles: async function (id: string, files: UploadableFile[]) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      const formData = new FormData();
+
+      // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
+      formData.append("entity_id", id);
+      formData.append("entity_type", EntityType.ORGANIZATION);
+
+      files.forEach((uploadableFile: UploadableFile) => {
+        formData.append("file_object", uploadableFile.file);
+      });
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/images`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          const data = response.data.value as ContentImage[];
+          if (data.length > 0) {
+            await this.fetchImages(id);
+            this.loading = false;
+          }
+          return data;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
+    // MARK: Fetch Images
+
+    fetchImages: async function (entityId: string) {
+      if (!entityId) {
+        return;
+      }
+
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images`,
+          {
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          const data = response.data.value as ContentImage[];
+          this.organization.images = data;
+        }
+      } catch (error) {
+        void error;
+      }
     },
 
     // MARK: Fetch All

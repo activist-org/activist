@@ -20,12 +20,14 @@ const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
 
+let { organization } = organizationStore;
+
 const socialLinksRef = ref<OrganizationSocialLink[] | SocialLink[]>();
 
-let { organization } = organizationStore;
 socialLinksRef.value = organization.socialLinks;
 
 const formData = computed(() => ({
