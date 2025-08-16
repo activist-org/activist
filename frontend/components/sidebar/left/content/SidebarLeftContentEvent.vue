@@ -65,16 +65,15 @@ const props = defineProps<{
   logoUrl?: string;
 }>();
 
-const logoUrl = ref(props.logoUrl);
 const sidebar = useSidebar();
+
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
+const logoUrl = ref(props.logoUrl);
 const menuEntriesState = useMenuEntriesState();
+
 const eventStore = useEventStore();
 const { event } = eventStore;
-const { openModal } = useModalHandlers("ModalUploadImageIcon");
-watch(
-  event,
-  (newValue) => console.log("Event changed:", newValue.iconUrl),
-  { immediate: true, deep: true }
-);
+
 const showButton = true;
 </script>

@@ -27,7 +27,11 @@ import type { EntityType } from "~/types/entity";
 
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{ entityType: EntityType; entityId: string, images:ContentImage[] }>();
+const props = defineProps<{
+  entityType: EntityType;
+  entityId: string;
+  images: ContentImage[];
+}>();
 
 const {
   openModal: openMediaImageCarousel,
@@ -44,7 +48,7 @@ watch(
       );
       return;
     }
-      imageUrls.value = defaultImageUrls.value;
+    imageUrls.value = defaultImageUrls.value;
   },
   { immediate: true, deep: true }
 );

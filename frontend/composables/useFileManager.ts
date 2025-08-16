@@ -72,16 +72,14 @@ export function useFileManager() {
     files: FileImageMix[],
     file: UploadableFile | ContentImage
   ) {
-    console.log("Removing file:", file);
-    if ( file instanceof UploadableFile) {
+    if (file instanceof UploadableFile) {
       const index = files.findIndex(
         (f) => f.type === "upload" && f.data === file
       );
       if (index > -1) {
         files.splice(index, 1);
       }
-    }
-    else {
+    } else {
       const index = files.findIndex(
         (f) => f.type === "image" && f.data.id === file.id
       );

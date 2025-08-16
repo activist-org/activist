@@ -4,7 +4,7 @@
     <div>
       <DialogTitle>
         <h2 class="font-bold">
-          {{ $t("i18n.components.modal.upload_image.upload_an_image") }}
+          {{ $t("i18n.components.modal.upload_image._global.upload_an_image") }}
         </h2>
       </DialogTitle>
       <div class="mt-4">
@@ -12,7 +12,9 @@
           v-if="fileImageIcon ? false : true"
           @files-dropped="(file) => handleFiles(file, true)"
         >
-          <span>{{ $t("i18n.components.modal.upload_image.drop_image") }}</span>
+          <span>{{
+            $t("i18n.components.modal.upload_image._global.drop_image")
+          }}</span>
         </ImageFileDropZone>
         <div class="mb-4">
           <span v-if="fileImageIcon" class="relative block pb-4">
@@ -27,7 +29,7 @@
               :src="fileImageIcon.url"
               class="h-[50%] w-[50%] object-contain"
               :alt="
-                $t('i18n.components.modal.upload_image.upload_image') +
+                $t('i18n.components.modal.upload_image._global.upload_image') +
                 ' ' +
                 fileImageIcon.name
               "
@@ -39,7 +41,7 @@
             v-if="fileImageIcon"
             @click="handleUpload"
             :cta="true"
-            label="i18n.components.modal.upload_image.upload"
+            label="i18n.components.modal.upload_image._global.upload"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
@@ -54,22 +56,24 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
+
 import type { UploadableFile } from "~/types/content/file";
 
 import { EntityType } from "~/types/entity";
-
 import { IconMap } from "~/types/icon-map";
 
-const { fileImageIcon, handleFiles, removeFileImageIcon } = useFileManager();
 const modals = useModals();
+const modalName = "ModalUploadImageIcon";
+const uploadError = ref(false);
+
+const { fileImageIcon, handleFiles, removeFileImageIcon } = useFileManager();
 
 interface Props {
   entityId: string;
   entityType: EntityType;
 }
+
 const props = defineProps<Props>();
-const modalName = "ModalUploadImageIcon";
-const uploadError = ref(false);
 
 const eventStore = useEventStore();
 const organizationStore = useOrganizationStore();

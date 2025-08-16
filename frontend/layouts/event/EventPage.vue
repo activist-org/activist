@@ -46,8 +46,6 @@ await eventStore.fetchById(eventId);
 
 const { event } = eventStore;
 
-const { handleCloseModal: handleCloseModalUploadImage } =
-  useModalHandlers("ModalUploadImage");
 const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
   "ModalUploadImageIcon"
 );

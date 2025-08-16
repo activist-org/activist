@@ -78,6 +78,7 @@ defineProps<{
   status: number;
   organization: Organization;
 }>();
+
 const modals = useModals();
 const modalName = "ModalOrganizationStatus";
 const modalIsOpen = ref(false);

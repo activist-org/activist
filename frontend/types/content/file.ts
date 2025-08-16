@@ -21,5 +21,5 @@ export class UploadableFile {
 
 export interface FileImageMix {
   type: "image" | "upload";
-  data:UploadableFile| ContentImage;
+  data: UploadableFile | ContentImage;
 }

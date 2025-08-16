@@ -28,7 +28,7 @@ interface OrganizationBase {
   groups?: Group[];
   events?: Event[];
   resources?: Resource[];
-  images?:ContentImage[];
+  images?: ContentImage[];
   // task?: Task[];
   // topics?: Topic[];
   // supportingOrgs?: Organization[];
