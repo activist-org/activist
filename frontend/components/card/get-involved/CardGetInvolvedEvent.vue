@@ -47,8 +47,8 @@ const { userIsSignedIn } = useUser();
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-
 const eventStore = useEventStore();
 await eventStore.fetchById(eventId);
+
 const { event } = eventStore;
 </script>
