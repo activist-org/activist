@@ -37,8 +37,10 @@ const {
   openModal: openMediaImageCarousel,
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
+
 const { defaultImageUrls } = useFileManager();
 const imageUrls = ref<string[]>([]);
+
 watch(
   props,
   (newValue) => {
