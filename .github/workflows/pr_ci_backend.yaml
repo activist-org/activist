@@ -83,3 +83,44 @@ jobs:
         if: always()
         run: |
           pytest ./backend --cov=./backend --cov-report=term-missing --cov-fail-under=80 --cov-config=./backend/pyproject.toml -vv
+
+      - name: Login to Docker Hub
+        if: ${{ github.ref == 'refs/heads/main' && success() }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        if: ${{ github.ref == 'refs/heads/main' && success() }}
+        run: |
+          git_short_sha = %{git rev-parse --short HEAD}
+
+          echo "Building ativist backend image."
+          docker build --build-arg env=prod -t activist_backend:latest -t activist_backend:${git_short_sha} .
+
+          echo "Tagging image with ${git_short_sha}, latest."
+          docker tag activist_backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/activist-backend:latest
+          docker tag activist_backend:${git_short_sha} ${{ secrets.DOCKERHUB_USERNAME }}/activist-backend:${git_short_sha}
+
+          echo "Pushing image to docker repo."
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/activist-backend:latest
+
+      # - name: Build and push Docker image
+      #   if: ${{ github.ref == 'refs/heads/main' && success() }}
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./backend
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/activist-backend:latest
+      #     build-args: |
+      #       ENV=prod
+
+      - name: Create Tag
+        if: ${{ github.ref == 'refs/heads/main' && success() }}
+        run: |
+          git_short_sha = %{git rev-parse --short HEAD}
+
+          echo "Creating git tag with ${git_short_sha}."
+          git tag v${git_short_sha}
+          git push origin v${git_short_sha}
