@@ -190,7 +190,7 @@ export const useOrganizationStore = defineStore("organization", {
     ) {
       this.loading = true;
 
-      const responseOrgTexts = await $fetch(
+      const responseOrgTexts = await useFetch(
         BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}`,
         {
           method: "PUT",
@@ -444,5 +444,46 @@ export const useOrganizationStore = defineStore("organization", {
 
       this.loading = false;
     },
+
+    // MARK: Reorder FAQ entries
+    async reorderFaqEntries(org: Organization, reorderedFaqs: FaqEntry[]) {
+      this.loading = true;
+
+      const responses: boolean[] = [];
+
+      for (const faq of reorderedFaqs) {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL}/communities/organization_faqs/${faq.id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              id: faq.id,
+              order: faq.order, 
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        const responseData = response.data.value as unknown as Organization;
+        if (responseData) {
+          responses.push(true);
+        } else {
+          responses.push(false);
+        }
+      }
+
+      if (responses.every((r) => r === true)) {
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    }
+
+    
   },
 });

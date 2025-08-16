@@ -185,7 +185,7 @@ export const useEventStore = defineStore("event", {
     async updateTexts(event: Event, formData: EventUpdateTextFormData) {
       this.loading = true;
 
-      const responseEventTexts = await $fetch(
+      const responseEventTexts = await useFetch(
         BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}`,
         {
           method: "PUT",
@@ -436,5 +436,50 @@ export const useEventStore = defineStore("event", {
 
       this.loading = false;
     },
+
+    // MARK: Reorder FAQ entries
+    async reorderFaqEntries(event: Event, faqEntries: FaqEntry[]) {
+      this.loading = true;
+      try {
+        const responses: boolean[] = [];
+
+        for (let i = 0; i < faqEntries.length; i++) {
+          const faq = faqEntries[i];
+          const response = await useFetch(
+            `${BASE_BACKEND_URL}/events/event_faqs/${faq.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id: faq.id,
+                order: i + 1,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          );
+
+          if (response.data.value) {
+            responses.push(true);
+          } else {
+            responses.push(false);
+          }
+        }
+
+        if (responses.every(Boolean)) {
+          await this.fetchById(event.id);
+          this.loading = false;
+          return true;
+        } else {
+          this.loading = false;
+          return false;
+        }
+      } catch (error) {
+        console.error("Error reordering event FAQs:", error);
+        this.loading = false;
+        return false;
+      }
+    }
+
   },
 });

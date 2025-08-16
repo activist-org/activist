@@ -4,6 +4,7 @@
     <Head>
       <Title>{{ event.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
+
     <HeaderAppPageOrganization
       :header="event.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
@@ -24,21 +25,49 @@
         <ModalAddFaqEntryEvent />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="event.faqEntries!.length > 0" class="py-4">
-      <div v-for="f in event.faqEntries" class="mb-4">
-        <CardFAQEntry :pageType="'event'" :faqEntry="f" />
-      </div>
+
+    <div v-if="faqList.length > 0" class="py-4">
+      <draggable
+        v-model="faqList"
+        item-key="id"
+        @end="onDragEnd"
+        class="space-y-4"
+      >
+        <template #item="{ element }">
+          <CardFAQEntry :pageType="'event'" :faqEntry="element" />
+        </template>
+      </draggable>
     </div>
+
     <EmptyState v-else pageType="faq" :permission="false" class="py-4" />
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Event } from "~/types/events/event";
+import type { FaqEntry } from "~/types/content/faq-entry";
 
+import draggable from "vuedraggable";
+import { ref, watch } from "vue";
 import { IconMap } from "~/types/icon-map";
+import { useEventStore } from "~/stores/event";
 
-defineProps<{
-  event: Event;
-}>();
+const props = defineProps<{ event: Event }>();
+const eventStore = useEventStore();
+
+const faqList = ref<FaqEntry[]>([...(props.event?.faqEntries || [])]);
+
+watch(
+  () => props.event?.faqEntries,
+  (newVal) => {
+    if (faqList.value.length === 0) {
+      faqList.value = newVal?.slice() ?? [];
+    }
+  },
+  { immediate: true }
+);
+
+async function onDragEnd() {
+  await eventStore.reorderFaqEntries(props.event, faqList.value);
+}
 </script>
