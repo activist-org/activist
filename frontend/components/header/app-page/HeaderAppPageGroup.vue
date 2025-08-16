@@ -21,7 +21,6 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
-
 const { group } = groupStore;
 
 const headerName = computed<string>(() => {

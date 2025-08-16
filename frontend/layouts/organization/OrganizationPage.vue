@@ -55,7 +55,6 @@ const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
-
 const { organization } = organizationStore;
 
 await organizationStore.fetchImages(orgId as string);

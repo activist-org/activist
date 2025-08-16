@@ -21,7 +21,6 @@ const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const eventStore = useEventStore();
 await eventStore.fetchById(eventId);
-
 const { event } = eventStore;
 
 const headerName = computed<string>(() => {

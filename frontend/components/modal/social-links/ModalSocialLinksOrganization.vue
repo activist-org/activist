@@ -23,7 +23,6 @@ const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
-
 let { organization } = organizationStore;
 
 const socialLinksRef = ref<OrganizationSocialLink[] | SocialLink[]>();
