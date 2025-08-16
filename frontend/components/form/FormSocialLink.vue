@@ -106,7 +106,7 @@ const schema = z.object({
         .min(1, t("i18n.components.form_social_link.label_required")),
       link: z
         .string()
-        .url(t("i18n.components.form_social_link.valid_url_required")),
+        .url(t("i18n.components.form._global.valid_url_required")),
     })
   ),
 });

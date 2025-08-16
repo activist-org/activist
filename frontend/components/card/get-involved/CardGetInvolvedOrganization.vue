@@ -35,7 +35,10 @@
     </div>
     <div class="mt-4">
       <div v-if="organization.groups && organization.groups.length > 0">
-        <p>
+        <p v-if="organization.texts.getInvolved">
+          {{ organization.texts.getInvolved }}
+        </p>
+        <p v-else>
           {{
             $t(
               "i18n.components.card_get_involved_organization.working_groups_subtext",
@@ -89,8 +92,8 @@ const { userIsSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
+
 const { organization } = organizationStore;
 </script>

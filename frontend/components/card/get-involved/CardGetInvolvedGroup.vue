@@ -24,7 +24,10 @@
       </div>
     </div>
     <div class="space-y-3 pt-3">
-      <p>
+      <p v-if="group.texts.getInvolved">
+        {{ group.texts.getInvolved }}
+      </p>
+      <p v-else>
         {{
           $t("i18n.components.card_get_involved_group.join_group_subtext", {
             entity_name: group.name,
@@ -44,8 +47,8 @@ const { userIsSignedIn } = useUser();
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
+
 const { group } = groupStore;
 </script>
