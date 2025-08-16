@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { UploadableFile } from "~/types/content/file";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
@@ -8,6 +9,8 @@ import type {
   EventsResponseBody,
   EventUpdateTextFormData,
 } from "~/types/events/event";
+
+import { EntityType } from "~/types/entity";
 
 interface EventStore {
   loading: boolean;
@@ -101,6 +104,38 @@ export const useEventStore = defineStore("event", {
 
       this.loading = false;
       return false;
+    },
+
+    // MARK: Update Icon
+
+    uploadIconImage: async function (id: string, file: UploadableFile) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const formData = new FormData();
+        formData.append("entity_id", id);
+        formData.append("entity_type", EntityType.EVENT);
+        formData.append("file_object", file.file);
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/image_icon`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          await this.fetchById(id);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
     },
 
     // MARK: Fetch By ID
@@ -224,7 +259,7 @@ export const useEventStore = defineStore("event", {
       const responses: boolean[] = [];
 
       const responseSocialLinks = useFetch(
-        `${BASE_BACKEND_URL}/communities/event_social_links`,
+        `${BASE_BACKEND_URL}/events/event_social_links`,
         {
           method: "DELETE",
           body: JSON.stringify({
@@ -266,7 +301,7 @@ export const useEventStore = defineStore("event", {
       // Note: Map of the request sends individual requests for each social link to  create the entry in the table.
       const responseSocialLinks = await Promise.all(
         formData.map((data) =>
-          useFetch(`${BASE_BACKEND_URL}/communities/event_social_links`, {
+          useFetch(`${BASE_BACKEND_URL}/events/event_social_links`, {
             method: "POST",
             body: JSON.stringify({
               link: data.link,
@@ -310,20 +345,17 @@ export const useEventStore = defineStore("event", {
       // Note: Map of the request sends individual requests for each social link to the correct entry in the table.
       const responseSocialLinks = await Promise.all(
         formData.map((data) =>
-          useFetch(
-            `${BASE_BACKEND_URL}/communities/event_social_links/${data.id}`,
-            {
-              method: "PUT",
-              body: JSON.stringify({
-                link: data.link,
-                label: data.label,
-                order: data.order,
-              }),
-              headers: {
-                Authorization: `${token.value}`,
-              },
-            }
-          )
+          useFetch(`${BASE_BACKEND_URL}/events/event_social_links/${data.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          })
         )
       );
 

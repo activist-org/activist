@@ -1,10 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImages
-      @closeModal="handleCloseModalUploadImages"
+    <!-- <ModalUploadImage
+      @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
-    />
+    /> -->
     <SidebarLeft
       v-if="aboveMediumBP"
       @mouseover="sidebarHover = true"
@@ -34,17 +34,12 @@ import {
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
+const aboveMediumBP = useBreakpoint("md");
+
 const eventStore = useEventStore();
 await eventStore.fetchAll();
+
 const { events } = eventStore;
-
-const { handleCloseModal: handleCloseModalUploadImages } =
-  useModalHandlers("ModalUploadImages");
-
-const handleUploadComplete = () => {
-  // Note: For future implementation.
-};
-const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

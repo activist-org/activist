@@ -169,7 +169,7 @@ class GroupText(models.Model):
     )
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)
     donate_prompt = models.TextField(max_length=500, blank=True)
 

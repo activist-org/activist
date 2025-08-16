@@ -7,8 +7,8 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        @click="openModalEditSocialLinks"
-        @keydown.enter="openModalEditSocialLinks"
+        @click="openModalSocialLinks"
+        @keydown.enter="openModalSocialLinks"
       />
     </div>
     <ul
@@ -61,8 +61,8 @@ const props = defineProps<{
   pageType: "organization" | "group" | "event";
 }>();
 
-const { openModal: openModalEditSocialLinks } = useModalHandlers(
-  `ModalEditSocialLinks${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}`
+const { openModal: openModalSocialLinks } = useModalHandlers(
+  `ModalSocialLinks${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}`
 );
 
 const { userIsSignedIn } = useUser();
