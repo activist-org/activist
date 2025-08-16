@@ -446,7 +446,7 @@ yarn playwright install --with-deps
 To run the end to end tests locally, please run the following commands:
 
 ```bash
-docker-compose --env-file .env.dev up backend db # run backend and db in docker
+docker compose --env-file .env.dev up backend db # run backend and db in docker
 ```
 
 In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).
