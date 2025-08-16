@@ -92,6 +92,7 @@ const { userIsSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(orgId);
 

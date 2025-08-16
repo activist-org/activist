@@ -75,6 +75,7 @@
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
             :entityType="'group' as EntityType"
+            :images="[]"
             :entityId="group.id"
           />
         </div>

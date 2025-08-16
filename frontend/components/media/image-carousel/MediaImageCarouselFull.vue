@@ -22,15 +22,30 @@
 </template>
 
 <script setup lang="ts">
+import type { ContentImage } from "~/types/content/file";
 import type { EntityType } from "~/types/entity";
 
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{ entityType: EntityType; entityId: string }>();
+const props = defineProps<{ entityType: EntityType; entityId: string, images:ContentImage[] }>();
 
 const {
   openModal: openMediaImageCarousel,
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
-const { imageUrls } = useFileManager(props.entityId);
+const { defaultImageUrls } = useFileManager();
+const imageUrls = ref<string[]>([]);
+watch(
+  props,
+  (newValue) => {
+    if (newValue.images && newValue.images.length > 0) {
+      imageUrls.value = newValue.images.map(
+        (image: ContentImage) => `${image.fileObject}`
+      );
+      return;
+    }
+      imageUrls.value = defaultImageUrls.value;
+  },
+  { immediate: true, deep: true }
+);
 </script>

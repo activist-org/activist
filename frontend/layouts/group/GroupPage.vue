@@ -6,6 +6,7 @@
       @upload-complete="handleUploadComplete"
       :entityId="group.id || ''"
       :entityType="EntityType.GROUP"
+      :images="[]"
     />
     <ModalUploadImageIcon
       @upload-complete="groupStore.fetchById(group.id)"
@@ -42,11 +43,15 @@ import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
+
+const aboveMediumBP = useBreakpoint("md");
+
 const paramsGroupId = useRoute().params.groupid;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
+
 const { group } = groupStore;
 
 const { handleCloseModal: handleCloseModalUploadImage } =
@@ -58,8 +63,6 @@ const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
 const handleUploadComplete = () => {
   // Note: For future implementation.
 };
-
-const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

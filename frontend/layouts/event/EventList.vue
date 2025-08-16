@@ -34,10 +34,12 @@ import {
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
+const aboveMediumBP = useBreakpoint("md");
+
 const eventStore = useEventStore();
 await eventStore.fetchAll();
+
 const { events } = eventStore;
-const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

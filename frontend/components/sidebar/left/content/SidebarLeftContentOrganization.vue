@@ -72,6 +72,10 @@ const menuEntriesState = useMenuEntriesState();
 const { openModal } = useModalHandlers("ModalUploadImageIcon");
 const organizationStore = useOrganizationStore();
 const { organization } = organizationStore;
-
+watch(
+  organization,
+  (newValue) => console.log("Organization changed:", newValue.iconUrl),
+  { immediate: true, deep: true }
+);
 const showButton = true;
 </script>

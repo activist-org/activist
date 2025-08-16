@@ -2,13 +2,12 @@
 <template>
   <NuxtLayout name="app">
     <ModalUploadImage
-      @upload-complete="fetchOrganizationImages()"
       @closeModal="handleCloseModalUploadImage"
       :entityId="organization.id || ''"
       :entityType="EntityType.ORGANIZATION"
+      :images="organization.images || []"
     />
     <ModalUploadImageIcon
-      @upload-complete="organizationStore.fetchById(organization.id)"
       @closeModal="handleCloseModalUploadImageIcon"
       :entityId="organization.id || ''"
       :entityType="EntityType.ORGANIZATION"
@@ -43,24 +42,23 @@ import {
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
+const aboveMediumBP = useBreakpoint("md");
+
 const { handleCloseModal: handleCloseModalUploadImage } =
   useModalHandlers("ModalUploadImage");
 const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
   "ModalUploadImageIcon"
 );
+
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+
 const organizationStore = useOrganizationStore();
+await organizationStore.fetchById(orgId);
+
 const { organization } = organizationStore;
-const { fetchOrganizationImages } = useFileManager(organization.id);
-watch(
-  () => organization.id,
-  async (newId, oldId) => {
-    if (newId && newId !== oldId) {
-      const { fetchOrganizationImages } = useFileManager(organization.id);
-      await fetchOrganizationImages();
-    }
-  }
-);
-const aboveMediumBP = useBreakpoint("md");
+
+await organizationStore.fetchImages(orgId as string);
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

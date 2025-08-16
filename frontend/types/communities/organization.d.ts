@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Note: We need to import here to overwrite base types.
-import type { ContentImage } from "~/types/content/image";
+import type { ContentImage } from "~/types/content/file";
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event } from "~/types/events/event";
@@ -28,6 +28,7 @@ interface OrganizationBase {
   groups?: Group[];
   events?: Event[];
   resources?: Resource[];
+  images?:ContentImage[];
   // task?: Task[];
   // topics?: Topic[];
   // supportingOrgs?: Organization[];

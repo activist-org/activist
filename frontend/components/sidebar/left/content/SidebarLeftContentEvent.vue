@@ -71,6 +71,10 @@ const menuEntriesState = useMenuEntriesState();
 const eventStore = useEventStore();
 const { event } = eventStore;
 const { openModal } = useModalHandlers("ModalUploadImageIcon");
-
+watch(
+  event,
+  (newValue) => console.log("Event changed:", newValue.iconUrl),
+  { immediate: true, deep: true }
+);
 const showButton = true;
 </script>

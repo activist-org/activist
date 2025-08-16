@@ -1,13 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImage
-      @closeModal="handleCloseModalUploadImage"
-      :entityId="eventId || ''"
-      :entityType="EntityType.EVENT"
-    />
     <ModalUploadImageIcon
-      @upload-complete="eventStore.fetchById(eventId)"
       @closeModal="handleCloseModalUploadImageIcon"
       :entityId="eventId || ''"
       :entityType="EntityType.EVENT"
@@ -42,11 +36,14 @@ import {
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
+const aboveMediumBP = useBreakpoint("md");
+
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const eventStore = useEventStore();
 await eventStore.fetchById(eventId);
+
 const { event } = eventStore;
 
 const { handleCloseModal: handleCloseModalUploadImage } =
@@ -54,8 +51,6 @@ const { handleCloseModal: handleCloseModalUploadImage } =
 const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
   "ModalUploadImageIcon"
 );
-
-const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

@@ -35,11 +35,12 @@ import {
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
+const aboveMediumBP = useBreakpoint("md");
+
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchAll();
-const { organizations } = organizationStore;
 
-const aboveMediumBP = useBreakpoint("md");
+const { organizations } = organizationStore;
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

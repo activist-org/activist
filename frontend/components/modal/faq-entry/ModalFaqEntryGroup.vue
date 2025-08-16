@@ -25,6 +25,7 @@ const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
 

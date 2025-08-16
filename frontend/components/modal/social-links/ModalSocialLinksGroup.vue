@@ -20,12 +20,14 @@ const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
 
+let { group } = groupStore;
+
 const socialLinksRef = ref<GroupSocialLink[] | SocialLink[]>();
 
-let { group } = groupStore;
 socialLinksRef.value = group.socialLinks;
 
 const formData = computed(() => ({

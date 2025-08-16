@@ -66,6 +66,7 @@
             v-if="!textExpanded || !aboveLargeBP"
             :entityType="'organization' as EntityType"
             :entityId="organization.id"
+            :images="organization.images || []"
           />
         </div>
       </div>
@@ -91,9 +92,9 @@ defineProps<{
   organization: Organization;
 }>();
 
-const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
-
 const aboveLargeBP = useBreakpoint("lg");
+
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const textExpanded = ref(false);
 const expandReduceText = () => {
