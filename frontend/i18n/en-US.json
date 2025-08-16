@@ -338,7 +338,7 @@
   "i18n.components.modal.faq_entry._global.add_faq_entry": "Add FAQ entry",
   "i18n.components.modal.faq_entry._global.edit_entry": "Edit FAQ Entry",
   "i18n.components.modal.social_links._global.update_links": "Update links",
-  "i18n.components.modal.text._global.description_required": "A description is required",
+  "i18n.components.form_text_entity.description_required": "A description is required",
   "i18n.components.modal.text._global.remember_https": "This is the full URL including https that the join button will link to",
   "i18n.components.page_breadcrumbs.aria_label": "Page breadcrumb navigation",
   "i18n.components.page_community_footer.invite_text_1": "Do you share our goals? Please join our community!",

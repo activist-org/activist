@@ -338,7 +338,7 @@
   "i18n.components.modal.faq_entry._global.add_faq_entry": "Ajouter entrée FAQ",
   "i18n.components.modal.faq_entry._global.edit_entry": "Éditer entrée FAQ",
   "i18n.components.modal.social_links._global.update_links": "Mettre à jour liens",
-  "i18n.components.modal.text._global.description_required": "Une description est requise",
+  "i18n.components.form_text_entity.description_required": "Une description est requise",
   "i18n.components.modal.text._global.remember_https": "Il s’agit de l’URL complète, y compris https, vers laquelle le bouton de connexion se liera",
   "i18n.components.page_breadcrumbs.aria_label": "Navigation dans le fil d'Ariane des pages",
   "i18n.components.page_community_footer.invite_text_1": "Partagez-vous nos objectifs ? Rejoignez notre communauté !",

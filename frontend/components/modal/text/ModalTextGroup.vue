@@ -1,74 +1,24 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <Form
-      @submit="handleSubmit"
-      :schema="schema"
-      :initial-values="formData"
-      :submit-label="$t('i18n.components.modal._global.update_texts')"
-    >
-      <h2>
-        {{ $t("i18n.components.modal_text_group.edit_group_texts") }}
-      </h2>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.description')"
-        name="description"
-        :required="true"
-      >
-        <FormTextArea
-          @input="handleChange"
-          @blur="handleBlur"
-          :id="id"
-          :value="value.value"
-          :hasError="!!errorMessage.value"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components._global.get_involved')"
-        name="getInvolved"
-      >
-        <FormTextArea
-          @input="handleChange"
-          @blur="handleBlur"
-          :id="id"
-          :value="value.value"
-          :hasError="!!errorMessage.value"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.modal_text_group.join_group_link')"
-        name="getInvolvedUrl"
-      >
-        <FormTextInput
-          @blur="handleBlur"
-          @update:modelValue="handleChange"
-          :id="id"
-          :modelValue="value.value as string"
-          :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.modal.text._global.remember_https')"
-        />
-      </FormItem>
-    </Form>
+    <FormTextEntity
+      :formData="formData"
+      :handleSubmit="handleSubmit"
+      :submitLabel="'i18n.components.modal._global.update_texts'"
+      :title="'i18n.components.modal_text_group.edit_group_texts'"
+      :getInvolvedLabel="$t('i18n.components._global.get_involved')"
+      :getInvolvedUrlLabel="
+        $t('i18n.components.modal_text_group.join_group_link')
+      "
+      :rememberHttpsLabel="
+        $t('i18n.components.modal.text._global.remember_https')
+      "
+    />
   </ModalBase>
 </template>
 
 <script setup lang="ts">
-import { z } from "zod";
-
 import type { GroupUpdateTextFormData } from "~/types/communities/group";
-
-const { t } = useI18n();
-
-const schema = z.object({
-  description: z
-    .string()
-    .min(1, t("i18n.components.modal.text._global.description_required")),
-  getInvolved: z.string().optional(),
-  getInvolvedUrl: z.string().optional(),
-});
 
 const modalName = "ModalTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
