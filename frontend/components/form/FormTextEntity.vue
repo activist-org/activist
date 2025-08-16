@@ -82,8 +82,25 @@ const { t } = useI18n();
 const schema = z.object({
   description: z
     .string()
-    .min(1, t("i18n.components.form_text_entity.description_required")),
-  getInvolved: z.string().optional(),
-  getInvolvedUrl: z.string().optional(),
+    .min(1, t("i18n.components.form_text_entity.description_required"))
+    .max(
+      2500,
+      t("i18n.components.form_text_entity.max_text_length", {
+        max_text_length: 25000,
+      })
+    ),
+  getInvolved: z
+    .string()
+    .max(
+      500,
+      t("i18n.components.form_text_entity.max_text_length", {
+        max_text_length: 500,
+      })
+    )
+    .optional(),
+  getInvolvedUrl: z
+    .string()
+    .url(t("i18n.components.form._global.valid_url_required"))
+    .optional(),
 });
 </script>
