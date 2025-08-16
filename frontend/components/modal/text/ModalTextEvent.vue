@@ -4,15 +4,11 @@
     <FormTextEntity
       :formData="formData"
       :handleSubmit="handleSubmit"
-      :submitLabel="'i18n.components.modal._global.update_texts'"
-      :title="'i18n.components.modal_text_event.edit_event_texts'"
-      :getInvolvedLabel="$t('i18n.components._global.participate')"
-      :getInvolvedUrlLabel="
-        $t('i18n.components.modal_text_event.offer_to_help_link')
-      "
-      :rememberHttpsLabel="
-        $t('i18n.components.modal_text_event.offer_to_help_link_label')
-      "
+      submitLabel="i18n.components.modal._global.update_texts"
+      title="i18n.components.modal_text_event.edit_event_texts"
+      getInvolvedLabel="i18n.components._global.participate"
+      getInvolvedUrlLabel="i18n.components.modal_text_event.offer_to_help_link"
+      rememberHttpsLabel="i18n.components.modal_text_event.offer_to_help_link_label"
     />
   </ModalBase>
 </template>

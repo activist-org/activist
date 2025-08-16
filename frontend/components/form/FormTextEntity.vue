@@ -26,7 +26,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="getInvolvedLabel"
+        :label="$t(getInvolvedLabel)"
         name="getInvolved"
       >
         <FormTextArea
@@ -39,7 +39,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="getInvolvedUrlLabel"
+        :label="$t(getInvolvedUrlLabel)"
         name="getInvolvedUrl"
       >
         <FormTextInput
@@ -48,7 +48,7 @@
           :id="id"
           :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
-          :label="rememberHttpsLabel || ''"
+          :label="rememberHttpsLabel ? $t(rememberHttpsLabel) : ''"
         />
       </FormItem>
     </div>

@@ -4,15 +4,11 @@
     <FormTextEntity
       :formData="formData"
       :handleSubmit="handleSubmit"
-      :submitLabel="'i18n.components.modal._global.update_texts'"
-      :title="'i18n.components.modal_text_group.edit_group_texts'"
-      :getInvolvedLabel="$t('i18n.components._global.get_involved')"
-      :getInvolvedUrlLabel="
-        $t('i18n.components.modal_text_group.join_group_link')
-      "
-      :rememberHttpsLabel="
-        $t('i18n.components.modal.text._global.remember_https')
-      "
+      submitLabel="i18n.components.modal._global.update_texts"
+      title="i18n.components.modal_text_group.edit_group_texts"
+      getInvolvedLabel="i18n.components._global.get_involved"
+      getInvolvedUrlLabel="i18n.components.modal_text_group.join_group_link"
+      rememberHttpsLabel="i18n.components.modal.text._global.remember_https"
     />
   </ModalBase>
 </template>
