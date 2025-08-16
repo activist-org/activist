@@ -38,11 +38,9 @@ const {
   handleCloseModal: handleCloseMediaImageCarousel,
 } = useModalHandlers("ModalMediaImage");
 
-// use the dedicated composable for default images
-const { defaultImageUrls } = useDefaultCarouselImages();
+const { defaultImageUrls } = useFileManager();
 const imageUrls = ref<string[]>([]);
 
-// watch for the prop changes
 watch(
   props,
   (newValue) => {
@@ -52,15 +50,8 @@ watch(
       );
       return;
     }
-    imageUrls.value = [...defaultImageUrls.value];
+    imageUrls.value = defaultImageUrls.value;
   },
   { immediate: true, deep: true }
 );
-
-watch(defaultImageUrls, (newUrls) => {
-  // Only update if we're using default images (no organization images)
-  if (!props.images || props.images.length === 0) {
-    imageUrls.value = [...newUrls];
-  }
-});
 </script>

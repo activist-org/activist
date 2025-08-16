@@ -4,10 +4,11 @@ import type { ContentImage, FileImageMix } from "~/types/content/file";
 
 import { UploadableFile } from "~/types/content/file";
 
-const colorMode = useColorMode();
 const { token } = useAuth();
+
 const defaultImageUrls = computed(() => {
-  const imageColor = colorMode?.preference == "light" ? "light" : "dark";
+  const colorMode = useColorMode();
+  const imageColor = colorMode.value === "light" ? "light" : "dark";
   return [
     `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
     `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
