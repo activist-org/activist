@@ -68,7 +68,7 @@ You can also run the scan using Docker Compose:
 
 ```bash
 cd .zap
-docker-compose up
+docker compose up
 ```
 
 ### Testing GitHub Actions Locally with Act

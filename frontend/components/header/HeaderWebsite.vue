@@ -141,13 +141,13 @@
 <script setup lang="ts">
 import { DropdownLocation } from "~/types/location";
 
+const aboveMediumBP = useBreakpoint("md");
+const aboveLargeBP = useBreakpoint("lg");
+
 const devMode = useDevMode();
 devMode.check();
 
 const { userIsSignedIn } = useUser();
-
-const aboveMediumBP = useBreakpoint("md");
-const aboveLargeBP = useBreakpoint("lg");
 
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
