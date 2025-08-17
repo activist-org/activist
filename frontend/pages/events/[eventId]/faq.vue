@@ -29,8 +29,8 @@
     <div v-if="faqList.length > 0" class="py-4">
       <draggable
         v-model="faqList"
-        item-key="id"
         @end="onDragEnd"
+        item-key="id"
         class="space-y-4"
       >
         <template #item="{ element }">
@@ -44,13 +44,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
-import type { FaqEntry } from "~/types/content/faq-entry";
-
-import draggable from "vuedraggable";
 import { ref, watch } from "vue";
-import { IconMap } from "~/types/icon-map";
+import draggable from "vuedraggable";
+
+import type { FaqEntry } from "~/types/content/faq-entry";
+import type { Event } from "~/types/events/event";
+
 import { useEventStore } from "~/stores/event";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{ event: Event }>();
 const eventStore = useEventStore();

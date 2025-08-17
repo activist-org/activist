@@ -2,11 +2,10 @@
 <template>
   <Disclosure v-slot="{ open }" as="div" class="card-style flex items-start">
     <div
+      @mousedown.stop
       class="cursor-grab p-2 text-gray-400 hover:text-gray-600"
       title="Drag to reorder"
-      @mousedown.stop
-    >
-    </div>
+    ></div>
 
     <div class="flex-1">
       <DisclosureButton class="focus-brand w-full rounded-md px-4 py-2">
@@ -26,26 +25,26 @@
               <IconEdit
                 @click.stop="
                   useModalHandlers(
-                    `ModalEditFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                    `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
                       props.faqEntry.id
                   ).openModal()
                 "
                 @keydown.enter="
                   useModalHandlers(
-                    `ModalEditFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                    `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
                       props.faqEntry.id
                   ).openModal()
                 "
               />
-              <ModalEditFaqEntryOrganization
+              <ModalFaqEntryOrganization
                 v-if="pageType === 'organization'"
                 :faqEntry="faqEntry"
               />
-              <ModalEditFaqEntryGroup
+              <ModalFaqEntryGroup
                 v-else-if="pageType === 'group'"
                 :faqEntry="faqEntry"
               />
-              <ModalEditFaqEntryEvent
+              <ModalFaqEntryEvent
                 v-else-if="pageType === 'event'"
                 :faqEntry="faqEntry"
               />
@@ -66,7 +65,9 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+
 import type { FaqEntry } from "~/types/content/faq-entry";
+
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
