@@ -41,10 +41,14 @@ describe("FormTextEntity component", () => {
     );
 
     expect(getInvolvedError.textContent).toBe(
-      getEnglishText("i18n.components.form_text_entity.get_involved_required")
+      getEnglishText(
+        "i18n.components.form_text_entity.get_involved_text_or_url_required"
+      )
     );
     expect(getInvolvedUrlError.textContent).toBe(
-      getEnglishText("i18n.components.form_text_entity.get_involved_required")
+      getEnglishText(
+        "i18n.components.form_text_entity.get_involved_text_or_url_required"
+      )
     );
   });
 
@@ -163,10 +167,14 @@ describe("FormTextEntity component", () => {
     );
 
     expect(getInvolvedError.textContent).toBe(
-      getEnglishText("i18n.components.form_text_entity.get_involved_required")
+      getEnglishText(
+        "i18n.components.form_text_entity.get_involved_text_or_url_required"
+      )
     );
     expect(getInvolvedUrlError.textContent).toBe(
-      getEnglishText("i18n.components.form_text_entity.get_involved_required")
+      getEnglishText(
+        "i18n.components.form_text_entity.get_involved_text_or_url_required"
+      )
     );
   });
 });
