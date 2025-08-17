@@ -433,5 +433,49 @@ export const useGroupStore = defineStore("group", {
 
       this.loading = false;
     },
+
+    // MARK: Reorder FAQ entries
+    async reorderFaqEntries(group: Group, faqEntries: FaqEntry[]) {
+      this.loading = true;
+      try {
+        const responses: boolean[] = [];
+
+        for (let i = 0; i < faqEntries.length; i++) {
+          const faq = faqEntries[i];
+
+          const response = await useFetch(
+            `${BASE_BACKEND_URL}/communities/group_faqs/${faq.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id: faq.id,
+                order: i + 1,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          );
+
+          if (response.data.value) {
+            responses.push(true);
+          } else {
+            responses.push(false);
+          }
+        }
+
+        if (responses.every((r) => r)) {
+          await this.fetchById(group.id);
+          this.loading = false;
+          return true;
+        } else {
+          this.loading = false;
+          return false;
+        }
+      } catch (error) {
+        this.loading = false;
+        throw new Error(`Error reordering group FAQs: ${error}`);
+      }
+    },
   },
 });

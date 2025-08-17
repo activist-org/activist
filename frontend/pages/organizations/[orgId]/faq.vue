@@ -29,20 +29,51 @@
       </div>
     </HeaderAppPageOrganization>
     <div v-if="organization.faqEntries!.length > 0" class="py-4">
-      <div v-for="f in organization.faqEntries" class="mb-4">
-        <CardFAQEntry :pageType="'organization'" :faqEntry="f" />
-      </div>
+      <!-- Draggable list -->
+      <draggable
+        v-model="faqList"
+        @end="onDragEnd"
+        item-key="id"
+        class="space-y-4"
+      >
+        <template #item="{ element }">
+          <CardFAQEntry :pageType="'organization'" :faqEntry="element" />
+        </template>
+      </draggable>
     </div>
     <EmptyState v-else pageType="faq" :permission="false" class="py-4" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
+import { ref, watch } from "vue";
+import draggable from "vuedraggable";
 
+import type { Organization } from "~/types/communities/organization";
+import type { FaqEntry } from "~/types/content/faq-entry";
+
+import { useOrganizationStore } from "~/stores/organization";
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  organization: Organization;
-}>();
+const props = defineProps<{ organization: Organization }>();
+
+const orgStore = useOrganizationStore();
+
+const faqList = ref<FaqEntry[]>([...(props.organization.faqEntries || [])]);
+
+watch(
+  () => props.organization.faqEntries,
+  (newVal) => {
+    faqList.value = newVal?.slice() ?? [];
+  },
+  { immediate: true }
+);
+
+const onDragEnd = async () => {
+  faqList.value.forEach((faq, index) => {
+    faq.order = index;
+  });
+
+  await orgStore.reorderFaqEntries(props.organization, faqList.value);
+};
 </script>
