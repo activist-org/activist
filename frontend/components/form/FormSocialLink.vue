@@ -14,45 +14,56 @@
         <h2 for="textarea">
           {{ $t("i18n.components._global.social_links") }}
         </h2>
-        <div class="flex flex-col space-y-3">
-          <div
-            v-for="(socialLink, index) in props.socialLinksRef"
-            :key="socialLink.id ?? index"
-            class="flex items-center space-x-5"
-          >
-            <IconClose @click="removeLink(socialLink.order)" />
-            <FormItem
-              v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-              :name="`socialLinks.${index}.label`"
-              :label="$t('i18n.components.form_social_link.new_link_label')"
-              :required="true"
-            >
-              <FormTextInput
-                @blur="handleBlur"
-                @update:modelValue="handleChange"
-                :id="id"
-                :hasError="!!errorMessage.value"
-                :modelValue="value.value as string"
+        <draggable
+          v-model="socialLinks"
+          @end="handleReindex"
+          item-key="__key"
+          tag="div"
+          class="flex flex-col space-y-3"
+          animation="300"
+          ghost-class="opacity-0"
+          :handle="'.drag-handle'"
+        >
+          <template #item="{ index }">
+            <div class="flex items-center space-x-5">
+              <span
+                class="drag-handle cursor-grab select-none"
+                title="Drag to reorder"
+                >⋮⋮</span>
+              <IconClose @click="handleRemoveByIndex(index)" />
+              <FormItem
+                v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+                :name="`socialLinks.${index}.label`"
                 :label="$t('i18n.components.form_social_link.new_link_label')"
-              />
-            </FormItem>
-            <FormItem
-              v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-              :name="`socialLinks.${index}.link`"
-              :label="$t('i18n.components.form_social_link.new_link_url')"
-              :required="true"
-            >
-              <FormTextInput
-                @blur="handleBlur"
-                @update:modelValue="handleChange"
-                :id="id"
-                :hasError="!!errorMessage.value"
-                :modelValue="value.value as string"
+                :required="true"
+              >
+                <FormTextInput
+                  @blur="handleBlur"
+                  @update:modelValue="handleChange"
+                  :id="id"
+                  :hasError="!!errorMessage.value"
+                  :modelValue="value.value as string"
+                  :label="$t('i18n.components.form_social_link.new_link_label')"
+                />
+              </FormItem>
+              <FormItem
+                v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+                :name="`socialLinks.${index}.link`"
                 :label="$t('i18n.components.form_social_link.new_link_url')"
-              />
-            </FormItem>
-          </div>
-        </div>
+                :required="true"
+              >
+                <FormTextInput
+                  @blur="handleBlur"
+                  @update:modelValue="handleChange"
+                  :id="id"
+                  :hasError="!!errorMessage.value"
+                  :modelValue="value.value as string"
+                  :label="$t('i18n.components.form_social_link.new_link_url')"
+                />
+              </FormItem>
+            </div>
+          </template>
+        </draggable>
       </div>
       <div class="flex space-x-2">
         <BtnAction
@@ -68,15 +79,22 @@
 </template>
 
 <script setup lang="ts">
+import draggable from "vuedraggable";
 import { z } from "zod";
 
-import type { SocialLink } from "~/types/content/social-link";
+import { useSortableList } from "~/composables/useSortableList";
 
-interface SocialLinkItem {
+export interface SocialLinkItem {
   link: string;
   label: string;
   order: number;
   id?: string;
+  __key?: string;
+  creationDate?: string;
+  lastUpdated?: string;
+  groupId?: string;
+  orgId?: string;
+  eventId?: string;
 }
 
 interface SocialLinkFormData {
@@ -93,7 +111,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   addLink: [link: SocialLinkItem];
-  removeLink: [order: number];
+  updateList: [list: SocialLinkItem[]];
 }>();
 
 const { t } = useI18n();
@@ -111,39 +129,37 @@ const schema = z.object({
   ),
 });
 
-const socialLinks = ref(props.socialLinksRef);
+const socialLinks = ref(
+  props.socialLinksRef.map((l, idx) => ({
+    ...l,
+    __key: l.__key ?? l.id ?? String(idx),
+  }))
+);
+
+const { reindex, removeByIndex } = useSortableList(socialLinks);
+
+// Wrapper functions to emit changes back to parent
+const handleReindex = () => {
+  reindex();
+  emit("updateList", socialLinks.value);
+};
+
+const handleRemoveByIndex = (index: number) => {
+  removeByIndex(index);
+  emit("updateList", socialLinks.value);
+};
 
 function addNewLink() {
   const newLink = {
     link: "",
     label: "",
     order: socialLinks.value.length,
+    id: "",
+    __key: String(Date.now()) + "-" + socialLinks.value.length,
   };
 
-  socialLinks.value?.push({
-    ...newLink,
-    id: "",
-  } as SocialLink);
-
+  socialLinks.value?.push(newLink);
   emit("addLink", newLink);
-}
-
-function removeLink(order: number): void {
-  const indexToRemove = socialLinks.value?.findIndex(
-    (link) => link.order === order
-  );
-
-  if (indexToRemove && indexToRemove >= 0) {
-    // Remove the item directly from the array.
-    // This will mutate the original array and signal a reactivity update.
-    socialLinks.value?.splice(indexToRemove, 1);
-
-    // Re-index the remaining items to ensure the 'order' field is correct.
-    socialLinks.value?.forEach((link, index) => {
-      link.order = index;
-    });
-  }
-
-  emit("removeLink", order);
+  emit("updateList", socialLinks.value);
 }
 </script>
