@@ -79,28 +79,51 @@ defineProps<{
 
 const { t } = useI18n();
 
-const schema = z.object({
-  description: z
-    .string()
-    .min(1, t("i18n.components.form_text_entity.description_required"))
-    .max(
-      2500,
-      t("i18n.components.form_text_entity.max_text_length", {
-        max_text_length: 25000,
-      })
-    ),
-  getInvolved: z
-    .string()
-    .max(
-      500,
-      t("i18n.components.form_text_entity.max_text_length", {
-        max_text_length: 500,
-      })
-    )
-    .optional(),
-  getInvolvedUrl: z
-    .string()
-    .url(t("i18n.components.form._global.valid_url_required"))
-    .optional(),
-});
+const schema = z
+  .object({
+    description: z
+      .string()
+      .min(1, t("i18n.components.form_text_entity.description_required"))
+      .max(
+        2500,
+        t("i18n.components.form_text_entity.max_text_length", {
+          max_text_length: 25000,
+        })
+      ),
+    getInvolved: z
+      .string()
+      .max(
+        500,
+        t("i18n.components.form_text_entity.max_text_length", {
+          max_text_length: 500,
+        })
+      )
+      .optional(),
+    getInvolvedUrl: z
+      .string()
+      .url(t("i18n.components.form._global.valid_url_required"))
+      .optional(),
+  })
+  .superRefine(({ getInvolved, getInvolvedUrl }, ctx) => {
+    const hasGetInvolvedText = getInvolved && getInvolved.trim().length > 0;
+    const hasGetInvolvedUrl =
+      getInvolvedUrl && getInvolvedUrl.trim().length > 0;
+
+    if (!hasGetInvolvedText && !hasGetInvolvedUrl) {
+      ctx.addIssue({
+        code: "custom",
+        message: t(
+          "i18n.components.form_text_entity.get_involved_text_or_url_required"
+        ),
+        path: ["getInvolved"],
+      });
+      ctx.addIssue({
+        code: "custom",
+        message: t(
+          "i18n.components.form_text_entity.get_involved_text_or_url_required"
+        ),
+        path: ["getInvolvedUrl"],
+      });
+    }
+  });
 </script>
