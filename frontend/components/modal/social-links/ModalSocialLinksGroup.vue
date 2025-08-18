@@ -25,13 +25,13 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
 
-type SocialLinkWithKey = (GroupSocialLink | SocialLink) & { __key: string };
+type SocialLinkWithKey = (GroupSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
 let { group } = groupStore;
 socialLinksRef.value = (group.socialLinks || []).map((l, idx) => ({
   ...l,
-  __key: l.id ?? String(idx),
+  key: l.id ?? String(idx),
 }));
 
 const formData = computed(() => ({
@@ -45,14 +45,14 @@ const formData = computed(() => ({
 
 const submitLabel = "i18n.components.modal.social_links._global.update_links";
 
-// Reactive key to force form reset when dragging
+// Reactive key to force form reset when dragging.
 const formKey = ref(0);
 
 interface SocialLinksValue {
   socialLinks: { link: string; label: string }[];
 }
 
-// Handle updates from FormSocialLink (dragging, removing, adding)
+// Handle updates from FormSocialLink (dragging, removing, adding).
 function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
   const oldLength = socialLinksRef.value?.length || 0;
   const newLength = updatedList.length;
@@ -60,7 +60,7 @@ function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
 
   socialLinksRef.value = updatedList as SocialLinkWithKey[];
 
-  // Only reset form for drag/remove operations, not for add operations
+  // Only reset form for drag/remove operations, not for add operations.
   if (!isAddOperation) {
     formKey.value++;
   }
@@ -72,7 +72,7 @@ async function handleSubmit(values: unknown) {
     const formLink = (values as SocialLinksValue).socialLinks[index];
     return {
       id: socialLink.id,
-      // Use form values if they exist in the form, otherwise use socialLink values
+      // Use form values if they exist in the form, otherwise use socialLink values.
       link: formLink ? formLink.link : socialLink.link,
       label: formLink ? formLink.label : socialLink.label,
       order: socialLink.order,
@@ -95,7 +95,7 @@ async function handleSubmit(values: unknown) {
     group = groupStore.group;
     socialLinksRef.value = (group.socialLinks || []).map((l, idx) => ({
       ...l,
-      __key: l.id ?? String(idx),
+      key: l.id ?? String(idx),
     }));
   }
 }

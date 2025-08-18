@@ -12,12 +12,12 @@
     <div class="flex flex-col space-y-7">
       <div class="flex flex-col space-y-3">
         <h2 for="textarea">
-          {{ $t("i18n.components._global.social_links") }}
+          {{ $t("i18n.components.form_social_link.social_links") }}
         </h2>
         <draggable
           v-model="socialLinks"
           @end="handleReindex"
-          item-key="__key"
+          item-key="key"
           tag="div"
           class="flex flex-col space-y-3"
           animation="300"
@@ -27,9 +27,11 @@
           <template #item="{ index }">
             <div class="flex items-center space-x-5">
               <span
-                class="drag-handle cursor-grab select-none"
+                class="drag-handle -mr-2 cursor-grab select-none"
                 title="Drag to reorder"
-                >⋮⋮</span>
+              >
+                <Icon :name="IconMap.GRIP" size="1em" />
+              </span>
               <IconClose @click="handleRemoveByIndex(index)" />
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -83,13 +85,14 @@ import draggable from "vuedraggable";
 import { z } from "zod";
 
 import { useSortableList } from "~/composables/useSortableList";
+import { IconMap } from "~/types/icon-map";
 
 export interface SocialLinkItem {
   link: string;
   label: string;
   order: number;
   id?: string;
-  __key?: string;
+  key?: string;
   creationDate?: string;
   lastUpdated?: string;
   groupId?: string;
@@ -132,13 +135,13 @@ const schema = z.object({
 const socialLinks = ref(
   props.socialLinksRef.map((l, idx) => ({
     ...l,
-    __key: l.__key ?? l.id ?? String(idx),
+    key: l.key ?? l.id ?? String(idx),
   }))
 );
 
 const { reindex, removeByIndex } = useSortableList(socialLinks);
 
-// Wrapper functions to emit changes back to parent
+// Wrapper functions to emit changes back to parent.
 const handleReindex = () => {
   reindex();
   emit("updateList", socialLinks.value);
@@ -155,7 +158,7 @@ function addNewLink() {
     label: "",
     order: socialLinks.value.length,
     id: "",
-    __key: String(Date.now()) + "-" + socialLinks.value.length,
+    key: String(Date.now()) + "-" + socialLinks.value.length,
   };
 
   socialLinks.value?.push(newLink);
