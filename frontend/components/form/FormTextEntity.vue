@@ -101,8 +101,10 @@ const schema = z
       .optional(),
     getInvolvedUrl: z
       .string()
-      .url(t("i18n.components.form._global.valid_url_required"))
-      .optional(),
+      .optional()
+      .refine((value) => !value || z.string().url().safeParse(value).success, {
+        message: t("i18n.components.form._global.valid_url_required"),
+      }),
   })
   .superRefine(({ getInvolved, getInvolvedUrl }, ctx) => {
     const hasGetInvolvedText = getInvolved && getInvolved.trim().length > 0;

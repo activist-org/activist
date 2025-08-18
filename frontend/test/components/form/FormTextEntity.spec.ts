@@ -57,7 +57,7 @@ describe("FormTextEntity component", () => {
       props: defaultProps,
     });
 
-    // fill in thr required fields
+    // Fill in thr required fields.
     const descriptionInput = screen.getByLabelText(
       getEnglishText("i18n._global.description")
     );
@@ -74,7 +74,7 @@ describe("FormTextEntity component", () => {
 
     await fireEvent.click(submitBtn);
 
-    // shouldn't show validation errors
+    // Shouldn't show validation errors.
     expect(screen.queryByTestId("form-item-getInvolved-error")).toBeNull();
     expect(screen.queryByTestId("form-item-getInvolvedUrl-error")).toBeNull();
   });
