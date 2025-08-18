@@ -7,7 +7,10 @@ import type {
   GroupUpdateTextFormData,
 } from "~/types/communities/group";
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { ContentImage, UploadableFile } from "~/types/content/file";
 import type { SocialLinkFormData } from "~/types/content/social-link";
+
+import { EntityType } from "~/types/entity";
 
 interface GroupStore {
   loading: boolean;
@@ -25,6 +28,7 @@ export const useGroupStore = defineStore("group", {
     group: {
       // group
       id: "",
+      images: [],
       groupName: "",
       name: "",
       tagline: "",
@@ -251,6 +255,105 @@ export const useGroupStore = defineStore("group", {
       } else {
         this.loading = false;
         return false;
+      }
+    },
+
+    // MARK: Upload Files
+
+    uploadFiles: async function (
+      id: string,
+      files: UploadableFile[],
+      sequences: number[] = []
+    ) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      const formData = new FormData();
+
+      // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
+      formData.append("entity_id", id);
+      formData.append("entity_type", EntityType.GROUP);
+      sequences.forEach((sequence) =>
+        formData.append("sequences", sequence.toString())
+      );
+
+      files.forEach((uploadableFile: UploadableFile) => {
+        formData.append("file_object", uploadableFile.file);
+      });
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/images`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          const data = response.data.value as ContentImage[];
+          if (data.length > 0) {
+            await this.fetchImages(id);
+            this.loading = false;
+          }
+          return data;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+    // MARK: Update Images
+    updateImage: async function (entityId: string, image: ContentImage) {
+      if (!entityId) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/communities/group/${entityId}/images/${image.id}`,
+          {
+            method: "PUT",
+            body: image,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          await this.fetchImages(entityId);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
+    // MARK: Fetch Images
+
+    fetchImages: async function (entityId: string) {
+      if (!entityId) {
+        return;
+      }
+
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/communities/group/${entityId}/images`,
+          {
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+        if (response.data?.value) {
+          const data = response.data.value as ContentImage[];
+          this.group.images = data;
+        }
+      } catch (error) {
+        void error;
       }
     },
 

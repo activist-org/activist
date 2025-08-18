@@ -493,15 +493,29 @@ class GroupImageViewSet(viewsets.ModelViewSet[Image]):
     serializer_class = ImageSerializer
 
     def list(self, request: Request, group_id: UUID) -> Response:
-        images = self.queryset.filter(groupimage__org_id=group_id).order_by(
+        images = Image.objects.filter(groupimage__group_id=group_id).order_by(
             "groupimage__sequence_index"
         )
         serializer = self.get_serializer(images, many=True)
         return Response(serializer.data)
 
-    def update(self, request: Request, group_id: UUID) -> Response:
-        images = self.queryset.filter(groupimage__org_id=group_id)
-        serializer = self.get_serializer(images, data=request.data, many=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def update(self, request: Request, group_id: UUID, pk: UUID | str) -> Response:
+        sequence_index = request.data.get("sequence_index", None)
+        if sequence_index is not None:
+            # Update GroupImage, not the Image itself
+            from .models import GroupImage  # or your import path
+
+            try:
+                group_image = GroupImage.objects.get(group_id=group_id, image_id=pk)
+                group_image.sequence_index = sequence_index
+                group_image.save()
+                return Response(
+                    {"detail": "Sequence index updated."}, status=status.HTTP_200_OK
+                )
+            except GroupImage.DoesNotExist:
+                return Response(
+                    {"detail": "GroupImage relation not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        # fallback to default image update if needed
+        return super().update(request)

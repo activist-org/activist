@@ -127,6 +127,9 @@ const props = withDefaults(defineProps<Props>(), {
 const organizationStore = useOrganizationStore();
 const { organization } = useOrganizationStore();
 
+const groupStore = useGroupStore();
+const { group } = useGroupStore();
+
 const files = ref<FileImageMix[]>([]);
 watch(
   [fileImages, props],
@@ -168,7 +171,7 @@ const modalName = "ModalUploadImage";
 const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);
-
+// TODO: REFACTOR: This is a lot of code, and it should be in a composable
 const handleUpload = async () => {
   try {
     resetFiles();
@@ -178,7 +181,6 @@ const handleUpload = async () => {
     }));
     const uploadFiles = reIndexedFiles.filter((file) => file.type === "upload");
     const imageFiles = reIndexedFiles.filter((file) => file.type === "image");
-    // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
     if (props.entityType === EntityType.ORGANIZATION) {
       if (imageFiles && imageFiles.length > 0) {
         await Promise.all(
@@ -197,14 +199,40 @@ const handleUpload = async () => {
           uploadFiles.map((file) => file.sequence)
         );
       }
+    } else if (props.entityType === EntityType.GROUP) {
+      if (imageFiles && imageFiles.length > 0) {
+        await Promise.all(
+          imageFiles.map((image) =>
+            groupStore.updateImage(props.entityId, {
+              ...image.data,
+              sequence_index: image.sequence,
+            } as ContentImage)
+          )
+        );
+      }
+      if (uploadFiles && uploadFiles.length > 0) {
+        await groupStore.uploadFiles(
+          props.entityId,
+          uploadFiles.map((file) => file.data as UploadableFile),
+          uploadFiles.map((file) => file.sequence)
+        );
+      }
     } else {
       throw new Error("Unsupported entity type");
     }
-    files.value = (organization.images || []).map((image, index) => ({
-      type: "image",
-      data: image,
-      sequence: index,
-    })) as FileImageMix[];
+    if (props.entityType === EntityType.ORGANIZATION) {
+      files.value = (organization.images || []).map((image, index) => ({
+        type: "image",
+        data: image,
+        sequence: index,
+      })) as FileImageMix[];
+    } else if (props.entityType === EntityType.GROUP) {
+      files.value = (group.images || []).map((image, index) => ({
+        type: "image",
+        data: image,
+        sequence: index,
+      })) as FileImageMix[];
+    }
     modals.closeModal(modalName);
 
     emit("upload-complete", props.entityId);
