@@ -1,373 +1,462 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# mypy: disable-error-code="override"
 """
-API views for content management.
+Serializers for the content app.
 """
 
-from typing import Any
+import logging
+from io import BytesIO
+from typing import Any, Dict, Optional, Union
 
-from django.db.models import Q
-from rest_framework import status, viewsets
-from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+import requests
+from django.conf import settings
+from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
+from PIL import Image as PILImage
+from rest_framework import serializers
 from rest_framework.request import Request
-from rest_framework.response import Response
+from content.models import ResourceFlag
 
-from content.models import Discussion, DiscussionEntry, Image, Resource, ResourceFlag
-from content.serializers import (
-    DiscussionEntrySerializer,
-    DiscussionSerializer,
-    ImageSerializer,
-    ResourceSerializer,
+from communities.organizations.models import OrganizationImage
+from content.models import (
+    Discussion,
+    DiscussionEntry,
+    Faq,
+    Image,
+    Location,
+    Resource,
+    Topic,
 )
+from utils.utils import validate_creation_and_deprecation_dates
 
-from core.paginator import CustomPagination
+# Note: The 'utils.malware_scanner' import was removed because your validate
+# method currently uses 'requests.post' to an external microservice.
+# If you genuinely intend to use a local scanning function, you must:
+# 1. Ensure 'backend/utils/malware_scanner.py' exists and is correctly placed.
+# 2. Uncomment the import: 'from utils.malware_scanner import scan_file_in_memory'
+# 3. Call 'scan_file_in_memory(uploaded_file)' instead of 'requests.post(...)'.
 
-# MARK: Discussion
+logger = logging.getLogger(__name__)
 
+# MARK: Main Tables
 
-class DiscussionViewSet(viewsets.ModelViewSet[Discussion]):
-    queryset = Discussion.objects.all()
-    serializer_class = DiscussionSerializer
-    pagination_class = CustomPagination
-    permission_classes = [IsAuthenticatedOrReadOnly]
+class ResourceFlagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResourceFlag
+        fields = "__all__"
 
-    def create(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save(created_by=request.user)
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(
-            {"detail": "You are not allowed to create a discussion."},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-
-    def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        queryset = self.get_queryset()
-        if pk is not None:
-            item = queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = self.get_serializer(item)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def list(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            query = self.queryset.filter(
-                Q(is_private=False) | Q(is_private=True, created_by=request.user)
-            )
-
-        else:
-            query = self.queryset.filter()
-
-        serializer = self.get_serializer(query, many=True)
-
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to update this discussion."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-        serializer = self.get_serializer(item, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(created_by=request.user)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to update this discussion."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = self.get_serializer(item, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def destroy(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to delete this discussion."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        self.perform_destroy(item)
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
+    class Meta:
+        model = Discussion
+<<<<<<< Malware_Scanning
+        fields = "__all__"
+=======
+        exclude = "created_by", "deletion_date"
 
 
 # MARK: Discussion Entry
 
 
-class DiscussionEntryViewSet(viewsets.ModelViewSet[DiscussionEntry]):
-    queryset = DiscussionEntry.objects.all()
-    serializer_class = DiscussionEntrySerializer
-    pagination_class = CustomPagination
-    permission_classes = [IsAuthenticatedOrReadOnly]
+class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    """
+    Serializer for DiscussionEntry model data.
+    """
 
-    def create(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save(created_by=request.user)
+    class Meta:
+        model = DiscussionEntry
+        exclude = "created_by", "deletion_date"
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        return Response(
-            {"detail": "You are not allowed to create a discussion entry."},
-            status=status.HTTP_403_FORBIDDEN,
-        )
+# MARK: FAQ
+>>>>>>> main
 
-    def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        queryset = self.get_queryset()
-        if pk is not None:
-            item = queryset.filter(id=pk).first()
+
+class FaqSerializer(serializers.ModelSerializer[Faq]):
+    class Meta:
+        model = Faq
+        fields = "__all__"
+
+
+# MARK: Clear Metadata
+
+
+def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
+    """
+    Remove EXIF metadata from JPEGs and text metadata from PNGs.
+    """
+    try:
+        img: PILImage.Image = PILImage.open(image_file)
+        output_format = img.format
+
+        if output_format == "JPEG":
+            img = img.convert("RGB")
+
+        elif output_format == "PNG":
+            img = img.copy()
+            img.info = {}
 
         else:
-            return Response(
-                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
+            return image_file  # return as-is if it's not JPEG or PNG
 
-        serializer = self.get_serializer(item)
+        # Save the cleaned image into a buffer.
+        output = BytesIO()
+        img.save(
+            output,
+            format=output_format,
+            quality=95 if output_format == "JPEG" else None,  # set JPEG quality
+            optimize=output_format == "JPEG",  # optimize JPEG
+        )
+        output.seek(0)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def list(self, request: Request) -> Response:
-        query = self.queryset.filter()
-        serializer = self.get_serializer(query, many=True)
-
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to update this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = self.get_serializer(item, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to update this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = self.get_serializer(item, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def destroy(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to delete this discussion entry."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        self.perform_destroy(item)
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-# MARK: Resource
-
-
-class ResourceViewSet(viewsets.ModelViewSet[Resource]):
-    queryset = Resource.objects.all()
-    serializer_class = ResourceSerializer
-    pagination_class = CustomPagination
-
-    def create(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save(created_by=request.user)
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(
-            {"detail": "You are not allowed to create a resource."},
-            status=status.HTTP_403_FORBIDDEN,
+        # Return a new InMemoryUploadedFile
+        return InMemoryUploadedFile(
+            file=output,
+            field_name=image_file.field_name,
+            name=image_file.name,
+            content_type=f"image/{output_format.lower()}",
+            size=output.getbuffer().nbytes,
+            charset=image_file.charset,
         )
 
-    def retrieve(self, request: Request, pk: str | None = None) -> Response:
-        if not request.user.is_authenticated:
-            return Response(
-                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+<<<<<<< Malware_Scanning
+    except Exception:
+        logger.exception("Error scrubbing EXIF metadata.")
+        return image_file
+=======
+    except Exception as e:
+        logger.exception(f"Error scrubbing EXIF: {e}")
+
+        return image_file  # return original file in case of error
+>>>>>>> main
+
+
+class ImageSerializer(serializers.ModelSerializer[Image]):
+    class Meta:
+        model = Image
+        fields = ["id", "file_object", "creation_date"]
+        read_only_fields = ["id", "creation_date"]
+
+    def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
+        if "file_object" not in data:
+            raise serializers.ValidationError("No file was submitted.")
+
+<<<<<<< Malware_Scanning
+        uploaded_file = data["file_object"]
+
+        # Ensure settings are configured. Mypy will complain if these aren't present.
+        # It's crucial these are in your Django settings.py.
+        if not hasattr(settings, 'IMAGE_UPLOAD_MAX_FILE_SIZE'):
+            raise serializers.ValidationError("IMAGE_UPLOAD_MAX_FILE_SIZE is not configured in settings.")
+        if uploaded_file.size is not None and uploaded_file.size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE:
+=======
+        if "entity_type" not in self.context["request"].data:
+            raise serializers.ValidationError("No entity was specified for the image.")
+
+        if "entity_id" not in self.context["request"].data:
+            raise serializers.ValidationError(
+                "No entity_id was specified for the image."
             )
 
-        if pk is not None:
+        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
+        # The file size limit is not being enforced. We're checking the file size here.
+        if (
+            data["file_object"].size is not None
+            and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
+        ):
+>>>>>>> main
+            raise serializers.ValidationError(
+                f"The file size ({uploaded_file.size} bytes) is too large. "
+                f"Maximum allowed: {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+            )
+
+<<<<<<< Malware_Scanning
+        logger.info("Sending file to filescan microservice...")
+=======
+        return data
+
+    def create(self, validated_data: Dict[str, Any]) -> Any:
+        """
+        Create an Image instance with privacy-enhanced processing.
+
+        Parameters
+        ----------
+        validated_data : Dict[str, Any]
+            Dictionary containing validated data for creating the image.
+
+        Returns
+        -------
+        Image
+            Created Image instance.
+
+        Notes
+        -----
+        This method:
+        1. Processes the uploaded file to remove metadata
+        2. Creates the image record
+        3. Links the image to an organization if specified
+        """
+        request = self.context["request"]
+
+        images = []
+
+        files = request.FILES.getlist("file_object")
+        entity = request.data.get("entity_type")
+        entity_id = request.data.get("entity_id")
+        for file_obj in files:
+            file_data = validated_data.copy()
+            file_data["file_object"] = scrub_exif(file_obj)
+            image = super().create(file_data)
+            images.append(image)
+            logger.info(f"Created Image instance with ID {image.id}")
+
+            if request.data.get("entity_type") == "organization":
+                next_index = OrganizationImage.objects.filter(org_id=entity_id).count()
+                OrganizationImage.objects.create(
+                    org_id=entity_id, image=image, sequence_index=next_index
+                )
+                logger.info(
+                    f"Added image {image.id} to organization {entity_id} carousel at index {next_index}"
+                )
+
+            if entity == "group":
+                logger.warning("ENTITY:", request.data.get("entity_type"))
+                logger.warning("GROUP-CAROUSEL group_id:", entity_id)
+            #       next_index = GroupImage.objects.filter(
+            #           group_id=group_id
+            #       ).count()
+            #       GroupImage.objects.create(
+            #           group_id=group_id, image=image, sequence_index=next_index
+            #       )
+
+        return images
+
+
+# MARK: Icon
+
+
+class ImageIconSerializer(serializers.ModelSerializer[Image]):
+    """
+    Serializer for Image model data.
+    """
+
+    class Meta:
+        model = Image
+        fields = ["id", "file_object", "creation_date"]
+        read_only_fields = ["id", "creation_date"]
+
+    def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
+        """
+        Validate uploaded image files.
+
+        Parameters
+        ----------
+        data : Dict[str, UploadedFile]
+            Dictionary containing the file_object.
+
+        Returns
+        -------
+        Dict[str, UploadedFile]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If no file was submitted or if the file size exceeds the maximum limit.
+        """
+        if "file_object" not in data:
+            raise serializers.ValidationError("No file was submitted.")
+
+        if "entity_type" not in self.context["request"].data:
+            raise serializers.ValidationError("No entity was specified for the image.")
+
+        if "entity_id" not in self.context["request"].data:
+            raise serializers.ValidationError(
+                "No entity_id was specified for the image."
+            )
+
+        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
+        # The file size limit is not being enforced. We're checking the file size here.
+        if (
+            data["file_object"].size is not None
+            and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
+        ):
+            raise serializers.ValidationError(
+                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+            )
+
+        return data
+
+    def create(self, validated_data: Dict[str, Any]) -> Any:
+        """
+        Create an Image instance with privacy-enhanced processing.
+
+        Parameters
+        ----------
+        validated_data : Dict[str, Any]
+            Dictionary containing validated data for creating the image.
+
+        Returns
+        -------
+        Image
+            Created Image instance.
+
+        Notes
+        -----
+        This method:
+        1. Processes the uploaded file to remove metadata
+        2. Creates the image record
+        3. Links the image to an organization if specified
+        """
+        request = self.context["request"]
+
+        file_obj = request.FILES.get("file_object")
+        entity = request.data.get("entity_type")
+        entity_id = request.data.get("entity_id")
+        if file_obj is None:
+            raise serializers.ValidationError("No file was submitted.")
+
+        file_data = validated_data.copy()
+        file_data["file_object"] = scrub_exif(file_obj)
+        image = super().create(file_data)
+        logger.info(f"Created Image instance with ID {image.id}")
+
+        if entity == "organization":
             try:
-                query = self.queryset.get(
-                    Q(is_private=False) | Q(is_private=True, created_by=request.user),
-                    id=pk,
+                organization = Organization.objects.get(id=entity_id)
+                organization.icon_url = image
+                organization.save()
+                logger.info(f"Updated Organization {entity_id} with icon {image.id}")
+
+            except Exception as e:
+                logger.exception(
+                    f"An unexpected error occurred while updating the organization: {str(e)}"
                 )
-            except Resource.DoesNotExist:
-                return Response(
-                    {"detail": "Resource not found."},
-                    status=status.HTTP_404_NOT_FOUND,
+                raise serializers.ValidationError(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
+                ) from e
+
+        if entity == "group":
+            logger.warning("ENTITY:", request.data.get("entity_type"))
+            logger.warning("GROUP-CAROUSEL group_id:", entity_id)
+            #       next_index = GroupImage.objects.filter(
+            #           group_id=group_id
+            #       ).count()
+            #       GroupImage.objects.create(
+            #           group_id=group_id, image=image, sequence_index=next_index
+            #       )
+
+        if entity == "event":
+            try:
+                event = Event.objects.get(id=entity_id)
+                event.icon_url = image
+                event.save()
+                logger.info(f"Updated Event {entity_id} with icon {image.id}")
+
+            except Exception as e:
+                logger.exception(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
                 )
+                raise serializers.ValidationError(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
+                ) from e
 
-        serializer = self.get_serializer(query)
-        return Response(serializer.data)
+        return image
 
-    def list(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            query = self.queryset.filter(
-                Q(is_private=False) | Q(is_private=True, created_by=request.user)
+
+# MARK: Location
+>>>>>>> main
+
+        try:
+            # Ensure FILESCAN_SERVICE_URL is defined in your settings.py.
+            if not hasattr(settings, 'FILESCAN_SERVICE_URL'):
+                raise serializers.ValidationError("FILESCAN_SERVICE_URL is not configured in settings.")
+
+            scan_response = requests.post(
+                settings.FILESCAN_SERVICE_URL,
+                files={"file": uploaded_file},
+                timeout=10
             )
-        else:
-            query = self.queryset.filter(is_private=False)
+            scan_result = scan_response.json()
+        except requests.exceptions.RequestException:
+            logger.exception("Failed to scan file via microservice due to network/request error.")
+            raise serializers.ValidationError("Could not scan the file. Try again later.")
+        except Exception:
+            logger.exception("Failed to scan file via microservice due to an unexpected error.")
+            raise serializers.ValidationError("An unexpected error occurred during file scanning. Try again later.")
 
-        serializer = self.get_serializer(query, many=True)
 
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to update this resource."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = self.get_serializer(item, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def partial_update(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to update this resource."},
-                status=status.HTTP_403_FORBIDDEN,
+        status_result = scan_result.get("status", "")
+        if status_result != "OK":
+            raise serializers.ValidationError(
+                f"Malware scan failed: {scan_result.get('message', 'Unknown error')}"
             )
 
-        serializer = self.get_serializer(item, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        uploaded_file.seek(0)
+        return data
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def create(self, validated_data: Dict[str, Any]) -> Image:
+        request: Optional[Request] = self.context.get("request")
 
-    def destroy(self, request: Request, pk: str | None = None) -> Response:
-        item = self.get_object()
-        if item.created_by != request.user:
-            return Response(
-                {"detail": "You are not allowed to delete this resource."},
-                status=status.HTTP_403_FORBIDDEN,
+        if request and request.FILES and (file_obj := request.FILES.get("file_object")):
+            validated_data["file_object"] = scrub_exif(file_obj)
+
+        image: Image = super().create(validated_data)
+
+        if request and request.data and (organization_id := request.data.get("organization_id")):
+            next_index = OrganizationImage.objects.filter(
+                org_id=organization_id
+            ).count()
+            OrganizationImage.objects.create(
+                org_id=organization_id, image=image, sequence_index=next_index
             )
 
-        self.perform_destroy(item)
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-# MARK: Resource Flag
+        logger.info(f"Image saved successfully with ID: {image.id}")
+        return image
 
 
-class ResourceFlagViewSet(viewsets.ModelViewSet[ResourceFlag]):
-    queryset = ResourceFlag.objects.all()
-    serializer_class = ResourceFlagSerializer
-    pagination_class = CustomPagination
-    http_method_names = ["get", "post", "delete"]
+class LocationSerializer(serializers.ModelSerializer[Location]):
+    class Meta:
+        model = Location
+        fields = "__all__"
 
-    def create(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+class ResourceSerializer(serializers.ModelSerializer[Resource]):
+    class Meta:
+        model = Resource
+        fields = "__all__"
 
-        else:
-            return Response(
-                {"detail": "You are not allowed to flag this Resource."},
-                status=status.HTTP_401_UNAUTHORIZED,
+
+class TopicSerializer(serializers.ModelSerializer[Topic]):
+    class Meta:
+        model = Topic
+        fields = "__all__"
+
+    def validate(self, data: Dict[str, Union[str, int, bool, Any]]) -> Dict[str, Union[str, int, bool, Any]]:
+        active = data.get("active")
+        deprecation_date = data.get("deprecation_date")
+
+        if active is True and deprecation_date is not None:
+            raise serializers.ValidationError(
+                ("Active topics cannot have a deprecation date."),
+                code="active_topic_with_deprecation_error",
             )
 
-    def list(self, request: Request) -> Response:
-        query = self.queryset.filter()
-        serializer = self.get_serializer(query, many=True)
-
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def retrieve(self, request: Request, pk: str | None) -> Response:
-        if pk is not None:
-            query = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
+        if active is False and deprecation_date is None:
+            raise serializers.ValidationError(
+                ("Deprecated topics must have a deprecation date."),
+                code="inactive_topic_no_deprecation_error",
             )
 
-        serializer = self.get_serializer(query)
+        validate_creation_and_deprecation_dates(data)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def delete(self, request: Request) -> Response:
-        item = self.get_object()
-        if request.user.is_staff:
-            self.perform_destroy(item)
-            return Response(status=status.HTTP_204_NO_CONTENT)
-
-        else:
-            return Response(
-                {"detail": "You are not allowed to delete this resource."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
+        return data
+<<<<<<< Malware_Scanning
 
 
-# MARK: Image
+# MARK: Bridge Tables
 
 
-class ImageViewSet(viewsets.ModelViewSet[Image]):
-    queryset = Image.objects.all()
-    serializer_class = ImageSerializer
-    parser_classes = (MultiPartParser, FormParser)
-
-    def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
-        serializer = self.get_serializer(
-            data=request.data,
-            context={"request": request},
-        )
-        if serializer.is_valid():
-            images = serializer.save()  # returns a list of images
-
-            # We need to serialize the list of images.
-            response_serializer = self.get_serializer(images, many=True)
-
-            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # Use the default destroy() provided by DRF / ModelViewSet. No need to write destroy() code here.
-    # The model uses a signal to delete the file from the filesystem when the Image instance is deleted.
-
+class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    class Meta:
+        model = DiscussionEntry
+        fields = "__all__"
+=======
+>>>>>>> main
