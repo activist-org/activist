@@ -13,5 +13,5 @@ checks:
     active: True
     directories-to-skip: [frontend/.nuxt, frontend/.output, frontend/dist, frontend/node_modules]
     files-to-skip: []
-  key-identifiers:
+  invalid-keys:
     directories-to-skip: [frontend/test, frontend/test-e2e, frontend/test-utils]
