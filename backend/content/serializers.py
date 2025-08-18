@@ -5,12 +5,11 @@ Serializers for the content app.
 
 import logging
 from io import BytesIO
-from typing import Dict, Optional, Union
+from typing import Any, Dict, Optional, Union
 
 import requests
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
-from django.utils.translation import gettext as _
 from PIL import Image as PILImage
 from rest_framework import serializers
 from rest_framework.request import Request
@@ -42,7 +41,27 @@ logger = logging.getLogger(__name__)
 class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
     class Meta:
         model = Discussion
+<<<<<<< Malware_Scanning
         fields = "__all__"
+=======
+        exclude = "created_by", "deletion_date"
+
+
+# MARK: Discussion Entry
+
+
+class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    """
+    Serializer for DiscussionEntry model data.
+    """
+
+    class Meta:
+        model = DiscussionEntry
+        exclude = "created_by", "deletion_date"
+
+
+# MARK: FAQ
+>>>>>>> main
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):
@@ -92,9 +111,16 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
             charset=image_file.charset,
         )
 
+<<<<<<< Malware_Scanning
     except Exception:
         logger.exception("Error scrubbing EXIF metadata.")
         return image_file
+=======
+    except Exception as e:
+        logger.exception(f"Error scrubbing EXIF: {e}")
+
+        return image_file  # return original file in case of error
+>>>>>>> main
 
 
 class ImageSerializer(serializers.ModelSerializer[Image]):
@@ -107,6 +133,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
 
+<<<<<<< Malware_Scanning
         uploaded_file = data["file_object"]
 
         # Ensure settings are configured. Mypy will complain if these aren't present.
@@ -114,12 +141,223 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         if not hasattr(settings, 'IMAGE_UPLOAD_MAX_FILE_SIZE'):
             raise serializers.ValidationError("IMAGE_UPLOAD_MAX_FILE_SIZE is not configured in settings.")
         if uploaded_file.size is not None and uploaded_file.size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE:
+=======
+        if "entity_type" not in self.context["request"].data:
+            raise serializers.ValidationError("No entity was specified for the image.")
+
+        if "entity_id" not in self.context["request"].data:
+            raise serializers.ValidationError(
+                "No entity_id was specified for the image."
+            )
+
+        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
+        # The file size limit is not being enforced. We're checking the file size here.
+        if (
+            data["file_object"].size is not None
+            and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
+        ):
+>>>>>>> main
             raise serializers.ValidationError(
                 f"The file size ({uploaded_file.size} bytes) is too large. "
                 f"Maximum allowed: {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
             )
 
+<<<<<<< Malware_Scanning
         logger.info("Sending file to filescan microservice...")
+=======
+        return data
+
+    def create(self, validated_data: Dict[str, Any]) -> Any:
+        """
+        Create an Image instance with privacy-enhanced processing.
+
+        Parameters
+        ----------
+        validated_data : Dict[str, Any]
+            Dictionary containing validated data for creating the image.
+
+        Returns
+        -------
+        Image
+            Created Image instance.
+
+        Notes
+        -----
+        This method:
+        1. Processes the uploaded file to remove metadata
+        2. Creates the image record
+        3. Links the image to an organization if specified
+        """
+        request = self.context["request"]
+
+        images = []
+
+        files = request.FILES.getlist("file_object")
+        entity = request.data.get("entity_type")
+        entity_id = request.data.get("entity_id")
+        for file_obj in files:
+            file_data = validated_data.copy()
+            file_data["file_object"] = scrub_exif(file_obj)
+            image = super().create(file_data)
+            images.append(image)
+            logger.info(f"Created Image instance with ID {image.id}")
+
+            if request.data.get("entity_type") == "organization":
+                next_index = OrganizationImage.objects.filter(org_id=entity_id).count()
+                OrganizationImage.objects.create(
+                    org_id=entity_id, image=image, sequence_index=next_index
+                )
+                logger.info(
+                    f"Added image {image.id} to organization {entity_id} carousel at index {next_index}"
+                )
+
+            if entity == "group":
+                logger.warning("ENTITY:", request.data.get("entity_type"))
+                logger.warning("GROUP-CAROUSEL group_id:", entity_id)
+            #       next_index = GroupImage.objects.filter(
+            #           group_id=group_id
+            #       ).count()
+            #       GroupImage.objects.create(
+            #           group_id=group_id, image=image, sequence_index=next_index
+            #       )
+
+        return images
+
+
+# MARK: Icon
+
+
+class ImageIconSerializer(serializers.ModelSerializer[Image]):
+    """
+    Serializer for Image model data.
+    """
+
+    class Meta:
+        model = Image
+        fields = ["id", "file_object", "creation_date"]
+        read_only_fields = ["id", "creation_date"]
+
+    def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
+        """
+        Validate uploaded image files.
+
+        Parameters
+        ----------
+        data : Dict[str, UploadedFile]
+            Dictionary containing the file_object.
+
+        Returns
+        -------
+        Dict[str, UploadedFile]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If no file was submitted or if the file size exceeds the maximum limit.
+        """
+        if "file_object" not in data:
+            raise serializers.ValidationError("No file was submitted.")
+
+        if "entity_type" not in self.context["request"].data:
+            raise serializers.ValidationError("No entity was specified for the image.")
+
+        if "entity_id" not in self.context["request"].data:
+            raise serializers.ValidationError(
+                "No entity_id was specified for the image."
+            )
+
+        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
+        # The file size limit is not being enforced. We're checking the file size here.
+        if (
+            data["file_object"].size is not None
+            and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
+        ):
+            raise serializers.ValidationError(
+                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+            )
+
+        return data
+
+    def create(self, validated_data: Dict[str, Any]) -> Any:
+        """
+        Create an Image instance with privacy-enhanced processing.
+
+        Parameters
+        ----------
+        validated_data : Dict[str, Any]
+            Dictionary containing validated data for creating the image.
+
+        Returns
+        -------
+        Image
+            Created Image instance.
+
+        Notes
+        -----
+        This method:
+        1. Processes the uploaded file to remove metadata
+        2. Creates the image record
+        3. Links the image to an organization if specified
+        """
+        request = self.context["request"]
+
+        file_obj = request.FILES.get("file_object")
+        entity = request.data.get("entity_type")
+        entity_id = request.data.get("entity_id")
+        if file_obj is None:
+            raise serializers.ValidationError("No file was submitted.")
+
+        file_data = validated_data.copy()
+        file_data["file_object"] = scrub_exif(file_obj)
+        image = super().create(file_data)
+        logger.info(f"Created Image instance with ID {image.id}")
+
+        if entity == "organization":
+            try:
+                organization = Organization.objects.get(id=entity_id)
+                organization.icon_url = image
+                organization.save()
+                logger.info(f"Updated Organization {entity_id} with icon {image.id}")
+
+            except Exception as e:
+                logger.exception(
+                    f"An unexpected error occurred while updating the organization: {str(e)}"
+                )
+                raise serializers.ValidationError(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
+                ) from e
+
+        if entity == "group":
+            logger.warning("ENTITY:", request.data.get("entity_type"))
+            logger.warning("GROUP-CAROUSEL group_id:", entity_id)
+            #       next_index = GroupImage.objects.filter(
+            #           group_id=group_id
+            #       ).count()
+            #       GroupImage.objects.create(
+            #           group_id=group_id, image=image, sequence_index=next_index
+            #       )
+
+        if entity == "event":
+            try:
+                event = Event.objects.get(id=entity_id)
+                event.icon_url = image
+                event.save()
+                logger.info(f"Updated Event {entity_id} with icon {image.id}")
+
+            except Exception as e:
+                logger.exception(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
+                )
+                raise serializers.ValidationError(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
+                ) from e
+
+        return image
+
+
+# MARK: Location
+>>>>>>> main
 
         try:
             # Ensure FILESCAN_SERVICE_URL is defined in your settings.py.
@@ -192,19 +430,20 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
 
         if active is True and deprecation_date is not None:
             raise serializers.ValidationError(
-                _("Active topics cannot have a deprecation date."),
+                ("Active topics cannot have a deprecation date."),
                 code="active_topic_with_deprecation_error",
             )
 
         if active is False and deprecation_date is None:
             raise serializers.ValidationError(
-                _("Deprecated topics must have a deprecation date."),
+                ("Deprecated topics must have a deprecation date."),
                 code="inactive_topic_no_deprecation_error",
             )
 
         validate_creation_and_deprecation_dates(data)
 
         return data
+<<<<<<< Malware_Scanning
 
 
 # MARK: Bridge Tables
@@ -214,3 +453,5 @@ class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
     class Meta:
         model = DiscussionEntry
         fields = "__all__"
+=======
+>>>>>>> main
