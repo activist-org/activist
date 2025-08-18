@@ -171,7 +171,11 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Upload Files
 
-    uploadFiles: async function (id: string, files: UploadableFile[]) {
+    uploadFiles: async function (
+      id: string,
+      files: UploadableFile[],
+      sequences: number[] = []
+    ) {
       if (!id) {
         return;
       }
@@ -181,6 +185,9 @@ export const useOrganizationStore = defineStore("organization", {
       // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
       formData.append("entity_id", id);
       formData.append("entity_type", EntityType.ORGANIZATION);
+      sequences.forEach((sequence) =>
+        formData.append("sequences", sequence.toString())
+      );
 
       files.forEach((uploadableFile: UploadableFile) => {
         formData.append("file_object", uploadableFile.file);
@@ -209,6 +216,32 @@ export const useOrganizationStore = defineStore("organization", {
         void error;
       }
     },
+    // MARK: Update Images
+    updateImage: async function (entityId: string, image: ContentImage) {
+      if (!entityId) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/communities/organization/${entityId}/images/${image.id}`,
+          {
+            method: "PUT",
+            body: image,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          await this.fetchImages(entityId);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
 
     // MARK: Fetch Images
 
@@ -219,7 +252,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       try {
         const response = await useFetch(
-          `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images`,
+          `${BASE_BACKEND_URL as string}/communities/organization/${entityId}/images`,
           {
             headers: {
               Authorization: `${token.value}`,

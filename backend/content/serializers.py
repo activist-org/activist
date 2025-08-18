@@ -12,6 +12,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
 from PIL import Image as PILImage
 from rest_framework import serializers
 
+from communities.groups.models import GroupImage
 from communities.organizations.models import Organization, OrganizationImage
 from content.models import (
     Discussion,
@@ -133,6 +134,7 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         return image_file  # return original file in case of error
 
 
+# MARK: Image
 class ImageSerializer(serializers.ModelSerializer[Image]):
     """
     Serializer for Image model data.
@@ -211,8 +213,10 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         images = []
 
         files = request.FILES.getlist("file_object")
-        entity = request.data.get("entity_type")
+        sequences = request.data.getlist("sequences", [])
+        entity_type = request.data.get("entity_type")
         entity_id = request.data.get("entity_id")
+        index = 0
         for file_obj in files:
             file_data = validated_data.copy()
             file_data["file_object"] = scrub_exif(file_obj)
@@ -220,25 +224,24 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             images.append(image)
             logger.info(f"Created Image instance with ID {image.id}")
 
-            if request.data.get("entity_type") == "organization":
-                next_index = OrganizationImage.objects.filter(org_id=entity_id).count()
+            if entity_type == "organization":
+                sequence_index = sequences[index] if sequences else index
                 OrganizationImage.objects.create(
-                    org_id=entity_id, image=image, sequence_index=next_index
+                    org_id=entity_id, image=image, sequence_index=sequence_index
                 )
                 logger.info(
-                    f"Added image {image.id} to organization {entity_id} carousel at index {next_index}"
+                    f"Added image {image.id} to organization {entity_id} carousel at index {index}"
                 )
 
-            if entity == "group":
-                logger.warning("ENTITY:", request.data.get("entity_type"))
-                logger.warning("GROUP-CAROUSEL group_id:", entity_id)
-            #       next_index = GroupImage.objects.filter(
-            #           group_id=group_id
-            #       ).count()
-            #       GroupImage.objects.create(
-            #           group_id=group_id, image=image, sequence_index=next_index
-            #       )
-
+            if entity_type == "group":
+                sequence_index = sequences[index] if sequences else index
+                GroupImage.objects.create(
+                    group_id=entity_id, image=image, sequence_index=sequence_index
+                )
+                logger.info(
+                    f"Added image {image.id} to group {entity_id} carousel at index {index}"
+                )
+            index += 1
         return images
 
 

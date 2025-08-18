@@ -37,7 +37,8 @@ from communities.groups.serializers import (
     GroupSocialLinkSerializer,
     GroupTextSerializer,
 )
-from content.models import Location
+from content.models import Image, Location
+from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
@@ -482,3 +483,25 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):
     queryset = GroupText.objects.all()
     serializer_class = GroupTextSerializer
+
+
+# MARK: Image
+
+
+class GroupImageViewSet(viewsets.ModelViewSet[Image]):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+
+    def list(self, request: Request, group_id: UUID) -> Response:
+        images = self.queryset.filter(groupimage__org_id=group_id).order_by(
+            "groupimage__sequence_index"
+        )
+        serializer = self.get_serializer(images, many=True)
+        return Response(serializer.data)
+
+    def update(self, request: Request, group_id: UUID) -> Response:
+        images = self.queryset.filter(groupimage__org_id=group_id)
+        serializer = self.get_serializer(images, data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

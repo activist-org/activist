@@ -586,3 +586,24 @@ class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
         )
         serializer = self.get_serializer(images, many=True)
         return Response(serializer.data)
+
+    def update(self, request: Request, org_id: UUID, pk: UUID | str) -> Response:
+        sequence_index = request.data.get("sequence_index", None)
+        if sequence_index is not None:
+            # Update OrganizationImage, not the Image itself
+            from .models import OrganizationImage  # or your import path
+
+            try:
+                org_image = OrganizationImage.objects.get(org_id=org_id, image_id=pk)
+                org_image.sequence_index = sequence_index
+                org_image.save()
+                return Response(
+                    {"detail": "Sequence index updated."}, status=status.HTTP_200_OK
+                )
+            except OrganizationImage.DoesNotExist:
+                return Response(
+                    {"detail": "OrganizationImage relation not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        # fallback to default image update if needed
+        return super().update(request)

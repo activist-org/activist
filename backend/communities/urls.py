@@ -12,6 +12,7 @@ from communities.groups.views import (
     GroupFaqViewSet,
     GroupFlagAPIView,
     GroupFlagDetailAPIView,
+    GroupImageViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
@@ -66,11 +67,15 @@ router.register(
     basename="organization-text",
 )
 router.register(
-    prefix=r"organizations/(?P<org_id>[^/.]+)/images",
+    prefix=r"group/(?P<group_id>[^/.]+)/images",
+    viewset=GroupImageViewSet,
+    basename="group-images",
+)
+router.register(
+    prefix=r"organization/(?P<org_id>[^/.]+)/images",
     viewset=OrganizationImageViewSet,
     basename="organization-images",
 )
-
 urlpatterns = [
     path("", include(router.urls)),
     path("groups", GroupAPIView.as_view()),
