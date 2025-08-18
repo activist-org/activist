@@ -57,7 +57,7 @@ faker==37.4.2
 filelock==3.18.0
     # via virtualenv
 gunicorn==23.0.0
-i18n-check==1.7.1
+i18n-check==1.8.1
     # via -r requirements-dev.in
 identify==2.6.12
     # via pre-commit
