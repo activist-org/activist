@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
     class Meta:
         model = Discussion
-        fields = "__all__"
+        exclude = "created_by", "deletion_date"
 
 
 class FaqSerializer(serializers.ModelSerializer[Faq]):
@@ -103,26 +103,34 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
-    def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
+   def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
 
         uploaded_file = data["file_object"]
 
-        # Ensure settings are configured. Mypy will complain if these aren't present.
-        # It's crucial these are in your Django settings.py.
-        if not hasattr(settings, 'IMAGE_UPLOAD_MAX_FILE_SIZE'):
-            raise serializers.ValidationError("IMAGE_UPLOAD_MAX_FILE_SIZE is not configured in settings.")
-        if uploaded_file.size is not None and uploaded_file.size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE:
+        # Checks from the 'main' branch
+        if "entity_type" not in self.context["request"].data:
+            raise serializers.ValidationError("No entity was specified for the image.")
+
+        if "entity_id" not in self.context["request"].data:
+            raise serializers.ValidationError(
+                "No entity_id was specified for the image."
+            )
+
+        # File size check from both branches
+        if (
+            uploaded_file.size is not None
+            and uploaded_file.size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
+        ):
             raise serializers.ValidationError(
                 f"The file size ({uploaded_file.size} bytes) is too large. "
                 f"Maximum allowed: {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
             )
 
+        # Malware scanning logic from the 'Malware_Scanning' branch
         logger.info("Sending file to filescan microservice...")
-
         try:
-            # Ensure FILESCAN_SERVICE_URL is defined in your settings.py.
             if not hasattr(settings, 'FILESCAN_SERVICE_URL'):
                 raise serializers.ValidationError("FILESCAN_SERVICE_URL is not configured in settings.")
 
@@ -139,7 +147,6 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             logger.exception("Failed to scan file via microservice due to an unexpected error.")
             raise serializers.ValidationError("An unexpected error occurred during file scanning. Try again later.")
 
-
         status_result = scan_result.get("status", "")
         if status_result != "OK":
             raise serializers.ValidationError(
@@ -148,26 +155,38 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         uploaded_file.seek(0)
         return data
+    def create(self, validated_data: Dict[str, Any]) -> Any:
+        request = self.context["request"]
+        images = []
+        files = request.FILES.getlist("file_object")
+        entity = request.data.get("entity_type")
+        entity_id = request.data.get("entity_id")
 
-    def create(self, validated_data: Dict[str, Any]) -> Image:
-        request: Optional[Request] = self.context.get("request")
-
-        if request and request.FILES and (file_obj := request.FILES.get("file_object")):
+        for file_obj in files:
+            # Process the file to remove metadata
             validated_data["file_object"] = scrub_exif(file_obj)
 
-        image: Image = super().create(validated_data)
+            # Create the Image instance
+            image = super().create(validated_data)
+            images.append(image)
+            logger.info(f"Created Image instance with ID {image.id}")
 
-        if request and request.data and (organization_id := request.data.get("organization_id")):
-            next_index = OrganizationImage.objects.filter(
-                org_id=organization_id
-            ).count()
-            OrganizationImage.objects.create(
-                org_id=organization_id, image=image, sequence_index=next_index
-            )
+            # Link the image to the specified entity (from 'main' branch logic)
+            if entity == "organization":
+                next_index = OrganizationImage.objects.filter(org_id=entity_id).count()
+                OrganizationImage.objects.create(
+                    org_id=entity_id, image=image, sequence_index=next_index
+                )
+                logger.info(
+                    f"Added image {image.id} to organization {entity_id} carousel at index {next_index}"
+                )
 
-        logger.info(f"Image saved successfully with ID: {image.id}")
-        return image
+            if entity == "group":
+                logger.warning("ENTITY:", request.data.get("entity_type"))
+                logger.warning("GROUP-CAROUSEL group_id:", entity_id)
+            # You might need to implement GroupImage logic here.
 
+        return images
 
 class LocationSerializer(serializers.ModelSerializer[Location]):
     class Meta:
