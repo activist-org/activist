@@ -231,6 +231,7 @@
   "i18n.components.form_social_link.new_link_label": "New link label",
   "i18n.components.form_social_link.new_link_url": "New link URL",
   "i18n.components.form_text_entity.description_required": "A description is required",
+  "i18n.components.form_text_entity.get_involved_text_or_url_required": "Either get involved text or URL is required",
   "i18n.components.form_text_entity.max_text_length": "The text must be less than {max_text_length} characters.",
   "i18n.components.form._global.valid_url_required": "Must be a valid URL",
   "i18n.components.friendly_captcha.captcha_disabled": "Captcha disabled in dev mode",
