@@ -4,13 +4,14 @@ API views for event management.
 """
 
 import logging
+import re
 from typing import Any, Sequence, Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
-from icalendar import Calendar
+from icalendar import Calendar  # type: ignore
 from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
@@ -494,6 +495,7 @@ class EventCalenderAPIView(APIView):
 
         try:
             event = self.queryset.get(id=event_id)
+
         except Event.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -516,6 +518,15 @@ class EventCalenderAPIView(APIView):
         ical_event.add("uid", event.id)
         cal.add_component(ical_event)
 
+        # Convert to lower camel case.
+        event_name = re.sub(r"[\t\n\r\f\v]+", " ", event.name)
+        event_file_identifier = (
+            "".join(filter(str.isalnum, event_name)).replace(" ", "_").lower()
+        )
+
         response = HttpResponse(cal.to_ical(), content_type="text/calendar")
-        response["Content-Disposition"] = "attachment; filename=activist.ics"
+        response["Content-Disposition"] = (
+            f"attachment; filename=activist_event_{event_file_identifier}.ics"
+        )
+
         return response

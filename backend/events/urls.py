@@ -36,7 +36,6 @@ router.register(
     basename="event-text",
 )
 
-
 urlpatterns = [
     path("", include(router.urls)),
     path("events", EventAPIView.as_view()),
