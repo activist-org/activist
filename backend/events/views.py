@@ -3,25 +3,27 @@
 API views for event management.
 """
 
-import json
 import logging
-from typing import Any, Dict, List, Optional, Sequence, Type
+from typing import Any, Sequence, Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
-from drf_spectacular.utils import OpenApiResponse, extend_schema
+from django.http import HttpResponse
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from icalendar import Calendar
 from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from communities.groups.models import Group
-from communities.organizations.models import Organization
 from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
@@ -468,44 +470,52 @@ class EventTextViewSet(viewsets.ModelViewSet[EventText]):
     queryset = EventText.objects.all()
     serializer_class = EventTextSerializer
 
-class EventCalendarViewSet(viewsets.ModelViewSet[EventText]):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
 
-    def get(self, request: Request, event_id: Optional[str] = None, org_id: Optional[str] = None, group_id: Optional[str] = None) -> Response:
-        if not any([event_id, org_id, group_id]):
-            return Response({
-                "detail": "Required data not provided"},
-                status=status.HTTP_400_BAD_REQUEST
+class EventCalenderAPIView(APIView):
+    queryset = Event.objects.all()
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="event_id",
+                type=UUID,
+                required=True,
             )
-        events = []
-        if event_id:
-            events.append(Event.objects.get(id=event_id))
-        elif org_id and group_id:
-            org = Organization.objects.get(id=org_id)
-            group = Group.objects.get(id=org_id)
-            events = Event.objects.filter(orgs = org, group_id = group)
-        elif org_id:
-            org = Organization.objects.get(id=org_id)
-            events = Event.objects.filter(orgs=org)
+        ]
+    )
+    def get(self, request: Request) -> HttpResponse | Response:
+        event_id = request.query_params.get("event_id")
+        if not event_id:
+            return Response(
+                {"detail": "Event ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            event = self.queryset.get(id=event_id)
+        except Event.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         cal = Calendar()
         cal.add("prodid", "-//Activist//EN")
         cal.add("version", "2.0")
-        for event in events:
-            ical_event = ICalEvent()
-            ical_event.add("summary", event.name)
-            ical_event.add("description", event.tagline or "")
-            ical_event.add("dtstart", event.start_time)
-            ical_event.add("dtend", event.end_time)
-            ical_event.add(
-                "location",
+        ical_event = ICalEvent()
+        ical_event.add("summary", event.name)
+        ical_event.add("description", event.tagline or "")
+        ical_event.add("dtstart", event.start_time)
+        ical_event.add("dtend", event.end_time)
+        ical_event.add(
+            "location",
+            (
                 event.online_location_link
                 if event.setting == "online"
-                else str(event.offline_location),
-            )
-            ical_event.add("uid", str(event.id))
-            cal.add_component(ical_event)
+                else event.offline_location
+            ),
+        )
+        ical_event.add("uid", event.id)
+        cal.add_component(ical_event)
 
-        response = Response(cal.to_ical(), content_type="text/calendar")
-        response["Content-Disposition"] = 'attachment; filename="activist.ics"'
+        response = HttpResponse(cal.to_ical(), content_type="text/calendar")
+        response["Content-Disposition"] = "attachment; filename=activist.ics"
         return response

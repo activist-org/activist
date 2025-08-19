@@ -8,7 +8,7 @@ from rest_framework.routers import DefaultRouter
 
 from events.views import (
     EventAPIView,
-    EventCalendarViewSet,
+    EventCalenderAPIView,
     EventDetailAPIView,
     EventFaqViewSet,
     EventFlagAPIView,
@@ -36,11 +36,6 @@ router.register(
     basename="event-text",
 )
 
-router.register(
-    prefix=r"calendar",
-    viewset = EventCalendarViewSet,
-    basename="calendar"
-)
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -48,4 +43,5 @@ urlpatterns = [
     path("events/<uuid:id>", EventDetailAPIView.as_view()),
     path("event_flag", EventFlagAPIView.as_view()),
     path("event_flag/<uuid:id>", EventFlagDetailAPIView.as_view()),
+    path("event_calendar", EventCalenderAPIView.as_view()),
 ]
