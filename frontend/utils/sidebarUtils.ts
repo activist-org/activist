@@ -6,33 +6,23 @@ export function getSidebarContentDynamicClass(
   sidebarHover: Ref<boolean>
 ) {
   return computed(() => ({
-    "md:pl-16 xl:pl-56":
-      sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-    "md:pl-16 xl:pl-16":
-      sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+    "md:pl-16 xl:pl-56": !sidebar.collapsed || !sidebar.collapsedSwitch,
+    "md:pl-16 xl:pl-16": sidebar.collapsed && sidebar.collapsedSwitch,
     "md:pl-20 xl:pl-60":
-      (sidebar.collapsed == false || sidebar.collapsedSwitch == false) &&
+      (!sidebar.collapsed || !sidebar.collapsedSwitch) &&
       sidebarContentScrollable,
     "md:pl-20 xl:pl-20":
-      sidebar.collapsed == true &&
-      sidebar.collapsedSwitch == true &&
-      sidebarContentScrollable,
+      sidebar.collapsed && sidebar.collapsedSwitch && sidebarContentScrollable,
     "blur-sm xl:blur-none":
-      sidebar.collapsedSwitch == true &&
-      sidebar.collapsed == false &&
-      sidebarHover.value == true,
+      sidebar.collapsedSwitch && !sidebar.collapsed && sidebarHover.value,
   }));
 }
 
 export function getSidebarFooterDynamicClass(sidebarHover: Ref<boolean>) {
   return computed(() => ({
-    "md:pl-24 xl:pl-64":
-      sidebar.collapsed == false || sidebar.collapsedSwitch == false,
-    "md:pl-24 xl:pl-24":
-      sidebar.collapsed == true && sidebar.collapsedSwitch == true,
+    "md:pl-24 xl:pl-64": !sidebar.collapsed || !sidebar.collapsedSwitch,
+    "md:pl-24 xl:pl-24": sidebar.collapsed && sidebar.collapsedSwitch,
     "blur-sm xl:blur-none":
-      sidebar.collapsedSwitch == true &&
-      sidebar.collapsed == false &&
-      sidebarHover.value == true,
+      sidebar.collapsedSwitch && !sidebar.collapsed && sidebarHover.value,
   }));
 }

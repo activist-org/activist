@@ -1,7 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardAbout>
-    <ModalQRCodeBtn v-if="group && !expandText" :group="group" type="icon" />
+    <ModalQRCodeBtn
+      v-if="group && !expandText"
+      :group="group"
+      type="icon"
+      reason-for-suggesting=""
+    />
     <button
       v-if="expandText"
       @click="
@@ -14,13 +19,13 @@
     </button>
     <div class="flex-col space-y-3">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 text-left font-display">
+        <h3 class="text-left font-display">
           {{ $t("i18n._global.about") }}
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalEditTextGroup"
-          @keydown.enter="openModalEditTextGroup"
+          @click="openModalTextGroup"
+          @keydown.enter="openModalTextGroup"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -82,8 +87,7 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditTextGroup } =
-  useModalHandlers("ModalEditTextGroup");
+const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const { userIsSignedIn } = useUser();
 

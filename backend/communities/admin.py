@@ -7,6 +7,7 @@ from django.contrib import admin
 
 from communities.groups.models import (
     Group,
+    GroupFaq,
     GroupFlag,
     GroupImage,
     GroupMember,
@@ -16,6 +17,7 @@ from communities.models import StatusType
 from communities.organizations.models import (
     Organization,
     OrganizationApplication,
+    OrganizationFaq,
     OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
@@ -23,18 +25,19 @@ from communities.organizations.models import (
     OrganizationText,
 )
 
-# MARK: Bridge Tables
-
+# MARK: Register
 
 admin.site.register(GroupImage)
 admin.site.register(GroupMember)
+admin.site.register(GroupFaq)
 admin.site.register(OrganizationApplication)
 admin.site.register(OrganizationImage)
 admin.site.register(OrganizationMember)
 admin.site.register(OrganizationTask)
+admin.site.register(OrganizationFaq)
 admin.site.register(StatusType)
 
-# MARK: Methods
+# MARK: Group
 
 
 class GroupAdmin(admin.ModelAdmin[Group]):
@@ -47,6 +50,9 @@ class GroupAdmin(admin.ModelAdmin[Group]):
     list_display = ["group_name", "name"]
 
 
+# MARK: Group Text
+
+
 class GroupTextAdmin(admin.ModelAdmin[GroupText]):
     """
     Admin interface for the GroupText model.
@@ -55,6 +61,9 @@ class GroupTextAdmin(admin.ModelAdmin[GroupText]):
     """
 
     list_display = ["id", "group"]
+
+
+# MARK: Group Flag
 
 
 class GroupFlagAdmin(admin.ModelAdmin[GroupFlag]):
@@ -67,6 +76,9 @@ class GroupFlagAdmin(admin.ModelAdmin[GroupFlag]):
     list_display = ["group", "created_by", "created_on"]
 
 
+# MARK: Org
+
+
 class OrganizationAdmin(admin.ModelAdmin[Organization]):
     """
     Admin interface for the Organization model.
@@ -77,6 +89,9 @@ class OrganizationAdmin(admin.ModelAdmin[Organization]):
     list_display = ["org_name", "name"]
 
 
+# MARK: Org Text
+
+
 class OrganizationTextAdmin(admin.ModelAdmin[OrganizationText]):
     """
     Admin interface for the OrganizationText model.
@@ -85,6 +100,9 @@ class OrganizationTextAdmin(admin.ModelAdmin[OrganizationText]):
     """
 
     list_display = ["id"]
+
+
+# MARK: Org Flag
 
 
 class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
@@ -100,6 +118,8 @@ class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
         "created_at",
     ]
 
+
+# MARK: Register Admin
 
 admin.site.register(Group, GroupAdmin)
 admin.site.register(GroupText, GroupTextAdmin)

@@ -19,7 +19,7 @@ from content.models import (
     Topic,
 )
 
-# MARK: Main Tables
+# MARK: Register
 
 admin.site.register(Discussion)
 admin.site.register(Faq)
@@ -30,12 +30,9 @@ admin.site.register(SocialLink)
 admin.site.register(Tag)
 admin.site.register(Task)
 admin.site.register(Topic)
-
-# MARK: Bridge Tables
-
 admin.site.register(DiscussionEntry)
 
-# MARK: Methods
+# MARK: Resource Flag
 
 
 class ResourceFlagAdmin(admin.ModelAdmin[ResourceFlag]):
@@ -45,5 +42,7 @@ class ResourceFlagAdmin(admin.ModelAdmin[ResourceFlag]):
 
     list_display = ["resource", "created_by", "created_on"]
 
+
+# MARK: Register Admin
 
 admin.site.register(ResourceFlag, ResourceFlagAdmin)

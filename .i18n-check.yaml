@@ -1,0 +1,17 @@
+# Configuration file for i18n-check validation.
+# See https://github.com/activist-org/i18n-check for details.
+
+src-dir: frontend
+i18n-dir: frontend/i18n
+i18n-src: frontend/i18n/en-US.json
+
+file-types-to-check: [.js, .ts, .vue]
+
+checks:
+  # Global configurations are applied to all checks.
+  global:
+    active: True
+    directories-to-skip: [frontend/.nuxt, frontend/.output, frontend/dist, frontend/node_modules]
+    files-to-skip: []
+  invalid-keys:
+    directories-to-skip: [frontend/test, frontend/test-e2e, frontend/test-utils]

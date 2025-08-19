@@ -2,15 +2,20 @@
 <template>
   <div class="card-style px-5 py-5">
     <div class="relative w-full flex-col">
-      <ModalQRCodeBtn v-if="event" :event="event" type="icon" />
+      <ModalQRCodeBtn
+        v-if="event"
+        :event="event"
+        type="icon"
+        reason-for-suggesting=""
+      />
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
-          <h3 class="responsive-h3 text-left font-display">
+          <h3 class="text-left font-display">
             {{ $t("i18n.components.card_details.header") }}
           </h3>
           <IconEdit
-            @click="openModalEditTextEvent()"
-            @keydown.enter="openModalEditTextEvent()"
+            @click="openModalTextEvent()"
+            @keydown.enter="openModalTextEvent()"
           />
         </div>
         <div v-if="event" class="flex-col space-y-6 py-2">
@@ -52,8 +57,7 @@
 </template>
 
 <script setup lang="ts">
-const { openModal: openModalEditTextEvent } =
-  useModalHandlers("ModalEditTextEvent");
+const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const { openModal: openModalOrganizationOverview } = useModalHandlers(
   "ModalOrganizationOverview"
 );

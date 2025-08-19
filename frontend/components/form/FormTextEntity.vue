@@ -1,0 +1,131 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<template>
+  <Form
+    @submit="handleSubmit"
+    :schema="schema"
+    :initial-values="formData as undefined"
+    :submit-label="$t(submitLabel)"
+  >
+    <h2 v-if="title">
+      {{ $t(title) }}
+    </h2>
+    <div class="flex flex-col space-y-7">
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n._global.description')"
+        name="description"
+        :required="true"
+      >
+        <FormTextArea
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :value="value.value"
+          :hasError="!!errorMessage.value"
+        />
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t(getInvolvedLabel)"
+        name="getInvolved"
+      >
+        <FormTextArea
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :value="value.value"
+          :hasError="!!errorMessage.value"
+        />
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t(getInvolvedUrlLabel)"
+        name="getInvolvedUrl"
+      >
+        <FormTextInput
+          @blur="handleBlur"
+          @update:modelValue="handleChange"
+          :id="id"
+          :modelValue="value.value as string"
+          :hasError="!!errorMessage.value"
+          :label="rememberHttpsLabel ? $t(rememberHttpsLabel) : ''"
+        />
+      </FormItem>
+    </div>
+  </Form>
+</template>
+
+<script setup lang="ts">
+import { z } from "zod";
+
+import type { GroupUpdateTextFormData } from "~/types/communities/group";
+import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
+import type { EventUpdateTextFormData } from "~/types/events/event";
+
+type TextEntityFormData =
+  | OrganizationUpdateTextFormData
+  | GroupUpdateTextFormData
+  | EventUpdateTextFormData;
+
+defineProps<{
+  formData?: TextEntityFormData;
+  handleSubmit: (values: unknown) => Promise<void>;
+  submitLabel: string;
+  title?: string;
+  getInvolvedLabel: string;
+  getInvolvedUrlLabel: string;
+  rememberHttpsLabel?: string;
+}>();
+
+const { t } = useI18n();
+
+const schema = z
+  .object({
+    description: z
+      .string()
+      .min(1, t("i18n.components.form_text_entity.description_required"))
+      .max(
+        2500,
+        t("i18n.components.form_text_entity.max_text_length", {
+          max_text_length: 25000,
+        })
+      ),
+    getInvolved: z
+      .string()
+      .max(
+        500,
+        t("i18n.components.form_text_entity.max_text_length", {
+          max_text_length: 500,
+        })
+      )
+      .optional(),
+    getInvolvedUrl: z
+      .string()
+      .optional()
+      .refine((value) => !value || z.string().url().safeParse(value).success, {
+        message: t("i18n.components.form._global.valid_url_required"),
+      }),
+  })
+  .superRefine(({ getInvolved, getInvolvedUrl }, ctx) => {
+    const hasGetInvolvedText = getInvolved && getInvolved.trim().length > 0;
+    const hasGetInvolvedUrl =
+      getInvolvedUrl && getInvolvedUrl.trim().length > 0;
+
+    if (!hasGetInvolvedText && !hasGetInvolvedUrl) {
+      ctx.addIssue({
+        code: "custom",
+        message: t(
+          "i18n.components.form_text_entity.get_involved_text_or_url_required"
+        ),
+        path: ["getInvolved"],
+      });
+      ctx.addIssue({
+        code: "custom",
+        message: t(
+          "i18n.components.form_text_entity.get_involved_text_or_url_required"
+        ),
+        path: ["getInvolvedUrl"],
+      });
+    }
+  });
+</script>

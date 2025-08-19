@@ -4,10 +4,10 @@ API views for event management.
 """
 
 import json
+import logging
 from typing import Any, Dict, List, Optional, Sequence, Type
 from uuid import UUID
 
-from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from icalendar import Calendar
@@ -24,6 +24,7 @@ from communities.groups.models import Group
 from communities.organizations.models import Organization
 from content.models import Location
 from core.paginator import CustomPagination
+from core.permissions import IsAdminStaffCreatorOrReadOnly
 from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText
 from events.serializers import (
     EventFaqSerializer,
@@ -34,15 +35,17 @@ from events.serializers import (
     EventTextSerializer,
 )
 
-# MARK: Event
+logger = logging.getLogger("django")
+
+# MARK: API
 
 
 class EventAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all().order_by("id")
     serializer_class = EventSerializer
     pagination_class = CustomPagination
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":
@@ -85,8 +88,12 @@ class EventAPIView(GenericAPIView[Event]):
 
         try:
             serializer.save(created_by=request.user, offline_location=location)
+            logger.info(
+                f"Event created by user {request.user.id} with location {location.id}"
+            )
 
-        except (IntegrityError, OperationalError):
+        except (IntegrityError, OperationalError) as e:
+            logger.exception(f"Failed to create event for user {request.user.id}: {e}")
             Location.objects.filter(id=location.id).delete()
             return Response(
                 {"detail": "Failed to create event."},
@@ -94,6 +101,9 @@ class EventAPIView(GenericAPIView[Event]):
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Detail API
 
 
 class EventDetailAPIView(APIView):
@@ -119,7 +129,8 @@ class EventDetailAPIView(APIView):
             serializer = self.serializer_class(event)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        except Event.DoesNotExist:
+        except Event.DoesNotExist as e:
+            logger.exception(f"Event with id {id} does not exist for get: {e}")
             return Response(
                 {"detail": "Event Not Found."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -143,7 +154,8 @@ class EventDetailAPIView(APIView):
         try:
             event = self.queryset.get(id=id)
 
-        except Event.DoesNotExist:
+        except Event.DoesNotExist as e:
+            logger.exception(f"Event with id {id} does not exist for update: {e}")
             return Response(
                 {"detail": "Event Not Found."},
                 status=status.HTTP_404_NOT_FOUND,
@@ -179,7 +191,8 @@ class EventDetailAPIView(APIView):
         try:
             event = self.queryset.get(id=id)
 
-        except Event.DoesNotExist:
+        except Event.DoesNotExist as e:
+            logger.exception(f"Event with id {id} does not exist for delete: {e}")
             return Response(
                 {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -196,151 +209,259 @@ class EventDetailAPIView(APIView):
         )
 
 
-# MARK: Event Flag
+# MARK: Flag
 
 
-class EventFlagViewSet(viewsets.ModelViewSet[EventFlag]):
+class EventFlagAPIView(GenericAPIView[EventFlag]):
     queryset = EventFlag.objects.all()
     serializer_class = EventFlagSerializers
-    pagination_class = CustomPagination
-    http_method_names = ["get", "post", "delete"]
+    permission_classes = [IsAuthenticated]
 
-    def create(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
+    @extend_schema(responses={200: EventFlagSerializers(many=True)})
+    def get(self, request: Request) -> Response:
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-        else:
-            return Response(
-                {"detail": "You are not allowed to flag this event."},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-    def list(self, request: Request) -> Response:
-        query = self.queryset.filter()
-        serializer = self.get_serializer(query, many=True)
-
-        return self.get_paginated_response(self.paginate_queryset(serializer.data))
-
-    def retrieve(self, request: Request, pk: str | None) -> Response:
-        if pk is not None:
-            query = self.queryset.filter(id=pk).first()
-
-        else:
-            return Response(
-                {"detail": "Invalid ID."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        serializer = self.get_serializer(query)
-
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request: Request) -> Response:
-        query = self.get_object()
-        if request.user.is_staff:
-            self.perform_destroy(query)
-
-            return Response(status=status.HTTP_204_NO_CONTENT)
-
-        else:
-            return Response(
-                {"detail": "You are not authorized to delete this event flag."},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-
-# MARK: Bridge Tables
-
-
-class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
-    queryset = EventSocialLink.objects.all()
-    serializer_class = EventSocialLinkSerializer
-
-    def update(self, request: Request, *args: Any, **kwargs: Any) -> Response:
-        pk = kwargs.get("pk")
-        if not isinstance(pk, (str, UUID)):
-            return Response(
-                {"detail": "Invalid ID format."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        event = Event.objects.filter(id=pk).first()
-        if not event:
-            return Response(
-                {"detail": "Event not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
+    @extend_schema(
+        responses={
+            201: EventFlagSerializers,
+            400: OpenApiResponse(response={"detail": "Failed to create flag."}),
+        }
+    )
+    def post(self, request: Request) -> Response:
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
         try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                # Delete all existing social links for this event.
-                EventSocialLink.objects.filter(event=event).delete()
+            serializer.save(created_by=request.user)
+            logger.info(f"Event flag created by user {request.user.id}")
 
-                # Create new social links from the submitted data.
-                social_links: List[Dict[str, str]] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        social_link = EventSocialLink.objects.create(
-                            event=event,
-                            order=link_data.get("order"),
-                            link=link_data.get("link"),
-                            label=link_data.get("label"),
-                        )
-                        social_links.append(social_link)
-
-            serializer = self.get_serializer(social_links, many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            return Response(
-                {"detail": f"Failed to update social links: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+        except (IntegrityError, OperationalError) as e:
+            logger.exception(
+                f"Failed to create event flag for user {request.user.id}: {e}"
             )
+            return Response(
+                {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Flag Detail
+
+
+class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
+    queryset = EventFlag.objects.all()
+    serializer_class = EventFlagSerializers
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
+
+    @extend_schema(
+        responses={
+            200: EventFlagSerializers,
+            404: OpenApiResponse(
+                response={"detail": "Failed to retrieve the event flag."}
+            ),
+        }
+    )
+    def get(self, request: Request, id: UUID | str) -> Response:
+        try:
+            flag = EventFlag.objects.get(id=id)
+
+        except EventFlag.DoesNotExist as e:
+            logger.exception(f"EventFlag with id {id} does not exist for get: {e}")
+            return Response(
+                {"detail": "Failed to retrieve the flag."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        self.check_object_permissions(request, flag)
+
+        serializer = EventFlagSerializers(flag)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
+            401: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            404: OpenApiResponse(response={"detail": "Failed to retrieve flag."}),
+        }
+    )
+    def delete(self, request: Request, id: UUID | str) -> Response:
+        try:
+            flag = EventFlag.objects.get(id=id)
+
+        except EventFlag.DoesNotExist as e:
+            logger.exception(f"EventFlag with id {id} does not exist for delete: {e}")
+            return Response(
+                {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        self.check_object_permissions(request, flag)
+
+        flag.delete()
+        return Response(
+            {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
+        )
+
+
+# MARK: FAQ
 
 
 class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
     queryset = EventFaq.objects.all()
     serializer_class = EventFaqSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        event: Event = serializer.validated_data["event"]
+
+        if request.user != event.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to create FAQs for this event."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"FAQ created for event {event.id} by user {request.user.id}")
+
+        return Response(
+            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+        )
 
     def update(self, request: Request, pk: UUID | str) -> Response:
-        event = Event.objects.filter(id=pk).first()
-        if not event:
-            return Response(
-                {"detail": "Event not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
         try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                faq = EventFaq.objects.filter(id=data.get("id")).first()
-                if not faq:
-                    return Response(
-                        {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
-                    )
-                faq.question = data.get("question", faq.question)
-                faq.answer = data.get("answer", faq.answer)
-                faq.save()
+            faq = EventFaq.objects.get(id=pk)
 
+        except EventFaq.DoesNotExist as e:
+            logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
             return Response(
-                {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        except Exception as e:
+        if request.user != faq.event.created_by and not request.user.is_staff:
             return Response(
-                {"detail": f"Failed to update faqs: {str(e)}."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
             )
+
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
+# MARK: Social Link
+
+
+class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
+    queryset = EventSocialLink.objects.all()
+    serializer_class = EventSocialLinkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def delete(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        event: Event = serializer.validated_data["event"]
+
+        if request.user != event.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to delete social links for this event."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        EventSocialLink.objects.filter(event=event).delete()
+        logger.info(f"Social links deleted for event {event.id}")
+
+        return Response(
+            {"message": "Social links deleted successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        event: Event = serializer.validated_data["event"]
+
+        if request.user != event.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create social links for this event."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"Social link created for event {event.id}")
+
+        return Response(
+            {"message": "Social link created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            social_link = EventSocialLink.objects.get(id=pk)
+
+        except EventSocialLink.DoesNotExist as e:
+            logger.exception(f"Social link with id {pk} does not exist for update: {e}")
+            return Response(
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        event = social_link.event
+        if event is not None:
+            creator = event.created_by
+
+        else:
+            raise ValueError("Event is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to update the social links for this event."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(social_link, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(event=event)
+
+            return Response(
+                {"message": "Social link updated successfully."},
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(
+            {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+# MARK: Text
 
 
 class EventTextViewSet(viewsets.ModelViewSet[EventText]):

@@ -1,40 +1,48 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<template v-model="value">
-  <div class="card-style w-full flex-col space-y-3 px-5 py-6">
-    <p class="responsive-h3 font-medium text-primary-text">
-      {{ $t("i18n.components.card_topic_selection.header") }}
-    </p>
-    <p v-if="pageType == 'organization'" class="text-primary-text">
+<template>
+  <div class="flex-col space-y-3">
+    <h3 class="font-medium">
+      {{ $t("i18n.components._global.topics") }}
+    </h3>
+    <p v-if="pageType == 'organization'">
       {{ $t("i18n.components.card_topic_selection.subtext_organization") }}
     </p>
-    <p v-if="pageType == 'group'" class="text-primary-text">
+    <p v-if="pageType == 'group'">
       {{ $t("i18n.components.card_topic_selection.subtext_group") }}
     </p>
-    <p v-if="pageType == 'resource'" class="text-primary-text">
+    <p v-if="pageType == 'resource'">
       {{ $t("i18n.components.card_topic_selection.subtext_resource") }}
     </p>
     <input
-      v-model="query"
+      @input.stop="
+        (event) => {
+          inputValue = (event.target as HTMLInputElement)?.value
+            .trim()
+            .toLowerCase();
+          event.preventDefault();
+        }
+      "
       @focus="inputFocus = true"
       @keydown="resetTabIndex()"
-      id="query"
-      :display-value="() => query"
+      id="inputValue"
+      :display-value="() => inputValue"
       :placeholder="
         $t('i18n.components.card_topic_selection.selector_placeholder')
       "
       class="topicInput elem-shadow-sm focus-brand w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
-      <ShieldTopic
+      <Shield
         v-for="t of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="keydownEvent($event)"
         :key="t.value"
-        :topic="t.label"
+        :label="t.label"
         class="topic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
+        :icon="IconMap.GLOBE"
       />
     </ul>
     <ul
@@ -43,19 +51,20 @@
         'pb-2': moreOptionsShown || inputFocus || filteredTopics.length,
       }"
     >
-      <ShieldTopic
+      <Shield
         v-if="moreOptionsShown || inputFocus"
         v-for="t of filteredTopics"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="mobileKeyboardEvent($event)"
         :key="t.value + '-selected-only'"
-        :topic="t.label"
+        :label="t.label"
         class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
+        :icon="IconMap.GLOBE"
       />
-      <ShieldTopic
+      <Shield
         v-else
         v-for="t of selectedTopicTags.sort((a, b) =>
           a.value.localeCompare(b.value)
@@ -64,10 +73,11 @@
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="mobileKeyboardEvent($event)"
         :key="t.value"
-        :topic="t.label"
+        :label="t.label"
         class="mobileTopic max-sm:w-full"
         :active="isActiveTopic(t.value)"
         :isSelector="true"
+        :icon="IconMap.GLOBE"
       />
     </ul>
     <button
@@ -91,8 +101,9 @@
 <script setup lang="ts">
 import type { Topic, TopicsTag } from "~/types/topics";
 
+import { IconMap } from "~/types/icon-map";
 import { GLOBAL_TOPICS } from "~/types/topics";
-
+// TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {
     type: Array as PropType<Topic[]>,
@@ -225,13 +236,12 @@ const value = computed<Topic[]>({
   },
 });
 
-const query = ref("");
+const inputValue = ref<string>("");
 
 const selectTopic = (topic: TopicsTag) => {
-  const updatedValue = [...props.modelValue];
+  const updatedValue = [...value.value];
   const index = updatedValue.indexOf(topic.value);
   const isFirst = filteredTopics.value[0]?.value === topic.value;
-
   if (index === -1) {
     updatedValue.push(topic.value);
   } else {
@@ -278,7 +288,7 @@ const focusFirstTopic = () => {
 
 const filteredTopics = computed(() => {
   return topics.value.filter((topic) => {
-    return topic.value.includes(query.value.trim().toLowerCase());
+    return topic.value.includes(inputValue.value.trim().toLowerCase());
   });
 });
 </script>

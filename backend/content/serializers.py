@@ -5,11 +5,10 @@ Serializers for the content app.
 
 import logging
 from io import BytesIO
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Union
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
-from django.utils.translation import gettext as _
 from PIL import Image as PILImage
 from rest_framework import serializers
 
@@ -39,6 +38,19 @@ class DiscussionSerializer(serializers.ModelSerializer[Discussion]):
 
     class Meta:
         model = Discussion
+        exclude = "created_by", "deletion_date"
+
+
+# MARK: Discussion Entry
+
+
+class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
+    """
+    Serializer for DiscussionEntry model data.
+    """
+
+    class Meta:
+        model = DiscussionEntry
         exclude = "created_by", "deletion_date"
 
 
@@ -116,7 +128,8 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
         )
 
     except Exception as e:
-        print(f"Error scrubbing EXIF: {e}")
+        logger.exception(f"Error scrubbing EXIF: {e}")
+
         return image_file  # return original file in case of error
 
 
@@ -152,6 +165,14 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         if "file_object" not in data:
             raise serializers.ValidationError("No file was submitted.")
 
+        if "entity_type" not in self.context["request"].data:
+            raise serializers.ValidationError("No entity was specified for the image.")
+
+        if "entity_id" not in self.context["request"].data:
+            raise serializers.ValidationError(
+                "No entity_id was specified for the image."
+            )
+
         # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
         # The file size limit is not being enforced. We're checking the file size here.
         if (
@@ -164,7 +185,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Any]) -> List[Image]:
+    def create(self, validated_data: Dict[str, Any]) -> Any:
         """
         Create an Image instance with privacy-enhanced processing.
 
@@ -190,45 +211,27 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         images = []
 
         files = request.FILES.getlist("file_object")
-
+        entity = request.data.get("entity_type")
+        entity_id = request.data.get("entity_id")
         for file_obj in files:
             file_data = validated_data.copy()
             file_data["file_object"] = scrub_exif(file_obj)
             image = super().create(file_data)
-
             images.append(image)
+            logger.info(f"Created Image instance with ID {image.id}")
 
-            if organization_id := request.data.get("organization_id"):
-                if request.data.get("entity") == "organization-icon":
-                    try:
-                        organization = Organization.objects.get(id=organization_id)
-                        organization.icon_url = image
-                        organization.save()
+            if request.data.get("entity_type") == "organization":
+                next_index = OrganizationImage.objects.filter(org_id=entity_id).count()
+                OrganizationImage.objects.create(
+                    org_id=entity_id, image=image, sequence_index=next_index
+                )
+                logger.info(
+                    f"Added image {image.id} to organization {entity_id} carousel at index {next_index}"
+                )
 
-                    except Exception as e:
-                        raise serializers.ValidationError(
-                            f"An unexpected error occurred while updating the event: {str(e)}"
-                        )
-
-                elif request.data.get("entity") == "organization-carousel":
-                    next_index = OrganizationImage.objects.filter(
-                        org_id=organization_id
-                    ).count()
-                    OrganizationImage.objects.create(
-                        org_id=organization_id, image=image, sequence_index=next_index
-                    )
-
-            if group_id := request.data.get("group_id"):
-                if request.data.get("entity") == "group-icon":
-                    logger.warning("ENTITY:", request.data.get("entity"))
-                    logger.warning("GROUP-ICON group_id:", group_id)
-                #         group = Group.objects.get(id=group_id)
-                #         group.iconUrl = image.file_object.url
-                #         group.save()
-
-                elif request.data.get("entity") == "group-carousel":
-                    logger.warning("ENTITY:", request.data.get("entity"))
-                    logger.warning("GROUP-CAROUSEL group_id:", group_id)
+            if entity == "group":
+                logger.warning("ENTITY:", request.data.get("entity_type"))
+                logger.warning("GROUP-CAROUSEL group_id:", entity_id)
             #       next_index = GroupImage.objects.filter(
             #           group_id=group_id
             #       ).count()
@@ -236,20 +239,139 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             #           group_id=group_id, image=image, sequence_index=next_index
             #       )
 
-            if event_id := request.data.get("event_id"):
-                if request.data.get("entity") == "event-icon":
-                    try:
-                        event = Event.objects.get(id=event_id)
-                        event.icon_url = image
-                        event.save()
-                        logger.info("Updated Event %s with icon %s", event_id, image.id)
-
-                    except Exception as e:
-                        raise serializers.ValidationError(
-                            f"An unexpected error occurred while updating the event: {str(e)}"
-                        )
-
         return images
+
+
+# MARK: Icon
+
+
+class ImageIconSerializer(serializers.ModelSerializer[Image]):
+    """
+    Serializer for Image model data.
+    """
+
+    class Meta:
+        model = Image
+        fields = ["id", "file_object", "creation_date"]
+        read_only_fields = ["id", "creation_date"]
+
+    def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
+        """
+        Validate uploaded image files.
+
+        Parameters
+        ----------
+        data : Dict[str, UploadedFile]
+            Dictionary containing the file_object.
+
+        Returns
+        -------
+        Dict[str, UploadedFile]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If no file was submitted or if the file size exceeds the maximum limit.
+        """
+        if "file_object" not in data:
+            raise serializers.ValidationError("No file was submitted.")
+
+        if "entity_type" not in self.context["request"].data:
+            raise serializers.ValidationError("No entity was specified for the image.")
+
+        if "entity_id" not in self.context["request"].data:
+            raise serializers.ValidationError(
+                "No entity_id was specified for the image."
+            )
+
+        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
+        # The file size limit is not being enforced. We're checking the file size here.
+        if (
+            data["file_object"].size is not None
+            and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
+        ):
+            raise serializers.ValidationError(
+                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+            )
+
+        return data
+
+    def create(self, validated_data: Dict[str, Any]) -> Any:
+        """
+        Create an Image instance with privacy-enhanced processing.
+
+        Parameters
+        ----------
+        validated_data : Dict[str, Any]
+            Dictionary containing validated data for creating the image.
+
+        Returns
+        -------
+        Image
+            Created Image instance.
+
+        Notes
+        -----
+        This method:
+        1. Processes the uploaded file to remove metadata
+        2. Creates the image record
+        3. Links the image to an organization if specified
+        """
+        request = self.context["request"]
+
+        file_obj = request.FILES.get("file_object")
+        entity = request.data.get("entity_type")
+        entity_id = request.data.get("entity_id")
+        if file_obj is None:
+            raise serializers.ValidationError("No file was submitted.")
+
+        file_data = validated_data.copy()
+        file_data["file_object"] = scrub_exif(file_obj)
+        image = super().create(file_data)
+        logger.info(f"Created Image instance with ID {image.id}")
+
+        if entity == "organization":
+            try:
+                organization = Organization.objects.get(id=entity_id)
+                organization.icon_url = image
+                organization.save()
+                logger.info(f"Updated Organization {entity_id} with icon {image.id}")
+
+            except Exception as e:
+                logger.exception(
+                    f"An unexpected error occurred while updating the organization: {str(e)}"
+                )
+                raise serializers.ValidationError(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
+                ) from e
+
+        if entity == "group":
+            logger.warning("ENTITY:", request.data.get("entity_type"))
+            logger.warning("GROUP-CAROUSEL group_id:", entity_id)
+            #       next_index = GroupImage.objects.filter(
+            #           group_id=group_id
+            #       ).count()
+            #       GroupImage.objects.create(
+            #           group_id=group_id, image=image, sequence_index=next_index
+            #       )
+
+        if entity == "event":
+            try:
+                event = Event.objects.get(id=entity_id)
+                event.icon_url = image
+                event.save()
+                logger.info(f"Updated Event {entity_id} with icon {image.id}")
+
+            except Exception as e:
+                logger.exception(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
+                )
+                raise serializers.ValidationError(
+                    f"An unexpected error occurred while updating the event: {str(e)}"
+                ) from e
+
+        return image
 
 
 # MARK: Location
@@ -325,29 +447,16 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
         """
         if data["active"] is True and data.get("deprecation_date") is not None:
             raise serializers.ValidationError(
-                _("Active topics cannot have a deprecation date."),
+                ("Active topics cannot have a deprecation date."),
                 code="active_topic_with_deprecation_error",
             )
 
         if data["active"] is False and data.get("deprecation_date") is None:
             raise serializers.ValidationError(
-                _("Deprecated topics must have a deprecation date."),
+                ("Deprecated topics must have a deprecation date."),
                 code="inactive_topic_no_deprecation_error",
             )
 
         validate_creation_and_deprecation_dates(data)
 
         return data
-
-
-# MARK: Bridge Tables
-
-
-class DiscussionEntrySerializer(serializers.ModelSerializer[DiscussionEntry]):
-    """
-    Serializer for DiscussionEntry model data.
-    """
-
-    class Meta:
-        model = DiscussionEntry
-        exclude = "created_by", "deletion_date"

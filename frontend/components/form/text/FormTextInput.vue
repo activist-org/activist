@@ -9,24 +9,41 @@
       class="z-1 absolute"
       :class="{
         'translate-x-4 text-sm text-distinct-text': shrinkLabel,
-        'translate-y-[1.125rem] pl-[12px]': !shrinkLabel,
+        'translate-y-[1.125rem] pl-[12px]':
+          !shrinkLabel && iconLocation === 'right',
+        'translate-y-[1.125rem] pl-[3.4rem]':
+          !shrinkLabel && iconLocation === 'left',
       }"
       :for="id"
     >
       {{ label }}
     </label>
     <div
-      class="border-box relative inline-flex select-none items-center text-left text-distinct-text"
+      class="border-box relative inline-flex select-none items-center overflow-hidden text-left text-distinct-text"
     >
+      <span
+        v-if="$slots.icons && iconLocation === 'left'"
+        class="flex items-center gap-2 px-[10px]"
+      >
+        <slot name="icons"></slot>
+      </span>
       <input
+        @input="
+          (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
+        "
         @focus="shrinkLabel = true"
         @blur="handleBlur"
         :id="id"
-        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text outline-none"
-        type="text"
+        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text placeholder-distinct-text outline-none"
+        :type="type"
+        :placeholder="shrinkLabel ? '' : label"
+        :value="modelValue"
         v-bind="$attrs"
       />
-      <span v-if="$slots.icons" class="flex items-center gap-2 px-[10px]">
+      <span
+        v-if="$slots.icons && iconLocation === 'right'"
+        class="flex items-center gap-2 px-[10px]"
+      >
         <slot name="icons"></slot>
       </span>
 
@@ -63,14 +80,23 @@ defineOptions({
 export interface Props {
   id: string;
   label: string;
+  modelValue?: string;
   hasError?: boolean;
+  iconLocation?: "left" | "right";
+  type?: string;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: "",
   hasError: false,
+  iconLocation: "right",
+  type: "text",
 });
 
-const shrinkLabel = ref<boolean>(false);
+const emit = defineEmits<{
+  (e: "update:modelValue", value: string): void;
+}>();
+const shrinkLabel = ref<boolean>(!!props.modelValue);
 
 const handleBlur = (event: FocusEvent) => {
   const target = event.target as HTMLInputElement | null;
@@ -78,4 +104,11 @@ const handleBlur = (event: FocusEvent) => {
     shrinkLabel.value = false;
   }
 };
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    shrinkLabel.value = !!value;
+  }
+);
 </script>

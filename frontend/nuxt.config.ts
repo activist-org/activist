@@ -13,7 +13,42 @@ export default defineNuxtConfig({
   app: {
     head,
   },
-
+  auth: {
+    baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
+    provider: {
+      type: "local",
+      isEnabled: true,
+      disableServerSideAuth: false,
+      originEnvKey: "VITE_BACKEND_URL",
+      pages: {
+        login: "/auth/sign-in",
+      },
+      endpoints: {
+        signIn: { path: "v1/auth/sign_in", method: "post" },
+        signOut: { path: "v1/auth/sign_out", method: "post" },
+        signUp: { path: "/auth/register", method: "post" },
+        getSession: { path: "v1/auth/get_session", method: "get" },
+      },
+      session: {
+        dataType: {
+          id: "string | number",
+          user: {
+            id: "string | number",
+            username: "string",
+            isAdmin: "string",
+          },
+        },
+      },
+      token: {
+        signInResponseTokenPointer: "/token",
+        type: "Token",
+        headerName: "Authorization",
+        maxAgeInSeconds: 1800,
+        secureCookieAttribute: false,
+        httpOnlyCookieAttribute: false,
+      },
+    },
+  },
   modules: modules,
   ssr: false,
 
@@ -31,10 +66,6 @@ export default defineNuxtConfig({
   },
 
   plugins: ["~/plugins/i18n-head.ts"],
-
-  content: {
-    watch: { enabled: false },
-  },
 
   imports: {
     dirs: ["./stores"],
@@ -76,13 +107,12 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    lazy: true,
     strategy: "prefix_and_default",
     langDir: "./i18n",
     vueI18n: "./i18n.config.ts",
     baseUrl: "https://activist.org",
-    locales,
     defaultLocale: "en",
+    locales,
     customRoutes: "config",
     pages: {},
     detectBrowserLanguage: {
@@ -109,13 +139,18 @@ export default defineNuxtConfig({
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
     },
-    "app:resolve": (app) => {
-      console.log("App instance resolved:", app);
+    "app:resolve": (_app) => {
+      // Note: For future implementation.
     },
   },
 
   nitro: {
     preset: "netlify-static",
+  },
+
+  plausible: {
+    // Prevent tracking on localhost.
+    ignoredHostnames: ["localhost"],
   },
 
   security: {
@@ -154,6 +189,4 @@ export default defineNuxtConfig({
       maxUploadFileRequestInBytes: 5000000,
     },
   },
-
-  compatibilityDate: "2025-03-12",
 });

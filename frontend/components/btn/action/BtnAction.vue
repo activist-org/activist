@@ -24,9 +24,13 @@ import { getBtnDynamicClass } from "~/utils/btnUtils";
 
 const props = defineProps<BtnAction>();
 
-const btnDynamicClass = getBtnDynamicClass(
-  props.cta,
-  props.fontSize,
-  props.isDisabled
-);
+function loadBtnDynamicClass() {
+  return getBtnDynamicClass(props.cta, props.fontSize);
+}
+
+let btnDynamicClass = loadBtnDynamicClass();
+
+watchEffect(() => {
+  btnDynamicClass = loadBtnDynamicClass();
+});
 </script>

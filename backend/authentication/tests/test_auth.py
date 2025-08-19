@@ -4,6 +4,7 @@ Testing for the authentication app.
 """
 
 # mypy: ignore-errors
+import logging
 import uuid
 from uuid import UUID
 
@@ -18,6 +19,8 @@ from authentication.factories import (
     UserFactory,
 )
 from authentication.models import UserModel
+
+logger = logging.getLogger(__name__)
 
 pytestmark = pytest.mark.django_db
 
@@ -56,9 +59,10 @@ def test_sign_up(client: APIClient) -> None:
     client : Client
         An authenticated client.
     """
+    logger.info("Starting sign-up test with various scenarios")
     fake = Faker()
-    username = fake.name()
-    second_username = fake.name()
+    username = fake.user_name()
+    second_username = fake.user_name()
     email = fake.email()
     strong_password = fake.password(
         length=12, special_chars=True, digits=True, upper_case=True
@@ -71,6 +75,7 @@ def test_sign_up(client: APIClient) -> None:
     )
 
     # 1. Password strength fails.
+    logger.info("Testing password strength validation")
     response = client.post(
         path="/v1/auth/sign_up",
         data={
@@ -99,6 +104,7 @@ def test_sign_up(client: APIClient) -> None:
     assert not UserModel.objects.filter(username=username).exists()
 
     # 3. User is created successfully.
+    logger.info("Testing successful user creation")
     response = client.post(
         path="/v1/auth/sign_up",
         data={
@@ -109,6 +115,7 @@ def test_sign_up(client: APIClient) -> None:
         },
     )
     user = UserModel.objects.filter(username=username).first()
+
     assert response.status_code == 201
     assert UserModel.objects.filter(username=username)
     # Code for Email confirmation is generated and is a UUID.
@@ -118,6 +125,9 @@ def test_sign_up(client: APIClient) -> None:
     assert len(mail.outbox) == 1
     # Assert that the password within the dashboard is hashed and not the original string.
     assert user.password != strong_password
+    logger.info(
+        f"Successfully created user: {username} with verification code: {user.verification_code}"
+    )
 
     # 4. User already exists.
     response = client.post(
@@ -167,6 +177,7 @@ def test_sign_in(client: APIClient) -> None:
     client : APIClient
         An authenticated client.
     """
+    logger.info("Starting sign-in test with various scenarios")
     plaintext_password = "Activist@123!?"
     user = UserFactory(plaintext_password=plaintext_password)
 
@@ -178,6 +189,7 @@ def test_sign_in(client: APIClient) -> None:
     assert response.status_code == 400
 
     # 2. User that signed up with email, confirmed email address. Is logged in successfully.
+    logger.info("Testing successful sign-in with confirmed user")
     user.is_confirmed = True
     user.save()
     response = client.post(
@@ -185,12 +197,16 @@ def test_sign_in(client: APIClient) -> None:
         data={"email": user.email, "password": plaintext_password},
     )
     assert response.status_code == 200
+
     # Sign in via username.
     response = client.post(
         path="/v1/auth/sign_in",
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 200
+    logger.info(
+        f"Successfully signed in user: {user.username} via both email and username"
+    )
 
     # 3. User exists but password is incorrect.
     response = client.post(
@@ -222,12 +238,14 @@ def test_pwreset(client: APIClient) -> None:
     client : APIClient
         An authenticated client.
     """
+    logger.info("Starting password reset test with various scenarios")
 
     # Setup
     old_password = "password123!?"
     new_password = "Activist@123!?"
 
     # 1. User exists and password reset is successful.
+    logger.info("Testing password reset email request")
     user = UserFactory(plaintext_password=old_password)
     response = client.get(
         path="/v1/auth/pwreset",
@@ -235,6 +253,7 @@ def test_pwreset(client: APIClient) -> None:
     )
     assert response.status_code == 200
     assert len(mail.outbox) == 1
+    logger.info(f"Password reset email sent successfully to: {user.email}")
 
     # 2. Password reset with invalid email.
     response = client.get(
@@ -243,6 +262,7 @@ def test_pwreset(client: APIClient) -> None:
     assert response.status_code == 404
 
     # 3. Password reset is performed successfully.
+    logger.info("Testing successful password reset with valid verification code")
     user.verification_code = uuid.uuid4()
     user.save()
     response = client.post(
@@ -252,6 +272,7 @@ def test_pwreset(client: APIClient) -> None:
     assert response.status_code == 200
     user.refresh_from_db()
     assert user.check_password(new_password)
+    logger.info(f"Password reset completed successfully for user: {user.username}")
 
     # 4. Password reset with invalid verification code.
     response = client.post(
@@ -265,9 +286,11 @@ def test_create_user_and_superuser():
     """
     Test create_user and create_superuser methods of the CustomAccountManager.
     """
+    logger.info("Starting user and superuser creation tests")
     manager = UserModel.objects
 
     # Test creating a user with email.
+    logger.info("Testing user creation with email")
     user = manager.create_user(
         username="testuser1",
         password="StrongPassword123$",
@@ -279,6 +302,7 @@ def test_create_user_and_superuser():
     assert not user.is_staff
     assert not user.is_superuser
     assert user.is_active
+    logger.info(f"Successfully created user: {user.username} with email: {user.email}")
 
     # Test creating a user without email.
     user_no_email = manager.create_user(
@@ -289,6 +313,7 @@ def test_create_user_and_superuser():
     assert user_no_email.email == ""
 
     # Test creating a superuser with all required flags.
+    logger.info("Testing superuser creation")
     superuser = manager.create_superuser(
         email="admin@example.com",
         username="admin",
@@ -299,6 +324,7 @@ def test_create_user_and_superuser():
     assert superuser.is_staff
     assert superuser.is_superuser
     assert superuser.is_active
+    logger.info(f"Successfully created superuser: {superuser.username}")
 
     # Test that creating a superuser with is_staff=False raises the expected error.
     with pytest.raises(
@@ -332,7 +358,9 @@ def test_delete_user() -> None:
     client : APIClient
         An authenticated client.
     """
+    logger.info("Starting user deletion test")
     client = APIClient()
+
     test_username = "test_user_123"
     test_pass = "Activist@123!?"
     user = UserFactory(username=test_username, plaintext_password=test_pass)
@@ -340,6 +368,7 @@ def test_delete_user() -> None:
     user.save()
 
     # User Login
+    logger.info("Authenticating user for deletion test")
     login = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
@@ -351,7 +380,9 @@ def test_delete_user() -> None:
     token = login_body["token"]
 
     # User deletes themselves.
+    logger.info("Testing user self-deletion")
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path="/v1/auth/delete")
 
     assert response.status_code == 204
+    logger.info(f"Successfully deleted user: {test_username}")

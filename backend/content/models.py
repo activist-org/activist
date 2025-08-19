@@ -3,6 +3,7 @@
 Models for the content app.
 """
 
+import logging
 import os
 from typing import Any, Type
 from uuid import uuid4
@@ -30,6 +31,28 @@ class Discussion(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
     tags = models.ManyToManyField("content.Tag", blank=True)
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+# MARK: Discussion Entry
+
+
+class DiscussionEntry(models.Model):
+    """
+    DiscussionEntry model for individual posts within a discussion.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    discussion = models.ForeignKey(
+        "content.Discussion", on_delete=models.CASCADE, related_name="discussion_entry"
+    )
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    text = models.CharField(max_length=255, blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return str(self.id)
@@ -80,11 +103,17 @@ def set_filename_to_uuid(instance: Any, filename: str) -> str:
     This function is used to maintain unique filenames and prevent collisions.
     File extensions are forced to lowercase for consistency.
     """
-    ext = os.path.splitext(filename)[1]  # extract file extension
-    # Note: Force extension to lowercase.
-    new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename
-
-    return os.path.join("images/", new_filename)  # store in 'images/' folder
+    logger = logging.getLogger(__name__)
+    try:
+        ext = os.path.splitext(filename)[1]  # extract file extension
+        # Note: Force extension to lowercase.
+        new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename
+        result = os.path.join("images/", new_filename)  # store in 'images/' folder
+        logger.debug(f"Generated new filename for upload: {result}")
+        return result
+    except Exception:
+        logger.exception(f"Failed to generate filename for upload: {filename}")
+        raise
 
 
 class Image(models.Model):
@@ -124,8 +153,15 @@ def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> No
     This signal handler prevents orphaned files in the filesystem
     when Image model instances are deleted.
     """
+    logger = logging.getLogger(__name__)
     if instance.file_object:
-        instance.file_object.delete(save=False)
+        try:
+            instance.file_object.delete(save=False)
+            logger.info(f"Deleted image file for Image instance {instance.id}")
+        except Exception:
+            logger.exception(
+                f"Failed to delete image file for Image instance {instance.id}"
+            )
 
 
 # MARK: Location
@@ -177,7 +213,8 @@ class Resource(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
-    flags = models.ManyToManyField(
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="ResourceFlag",
     )
@@ -273,25 +310,3 @@ class Topic(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-
-# MARK: Bridge Tables
-
-
-class DiscussionEntry(models.Model):
-    """
-    DiscussionEntry model for individual posts within a discussion.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    discussion = models.ForeignKey(
-        "content.Discussion", on_delete=models.CASCADE, related_name="discussion_entry"
-    )
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    text = models.CharField(max_length=255, blank=True)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deletion_date = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self) -> str:
-        return str(self.id)

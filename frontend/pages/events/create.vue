@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="w-full text-primary-text">
+  <div class="w-full">
     <IndicatorProcessProgress
       type="default"
       :progress="page + 1"
@@ -10,7 +10,7 @@
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
       <div v-if="page === 0" class="mt-4">
-        <h1 class="responsive-h2 font-bold">
+        <h1 class="font-bold">
           {{ $t("i18n.pages._global.create.information") }}
         </h1>
         <p class="mt-4">
@@ -18,7 +18,7 @@
         </p>
       </div>
       <div v-if="page === 1" class="mt-4">
-        <h1 class="responsive-h2 font-bold">
+        <h1 class="font-bold">
           {{ $t("i18n.pages.events.create.header_1") }}
         </h1>
         <p class="mt-4">
@@ -26,7 +26,7 @@
         </p>
       </div>
       <div v-if="page === 2" class="mt-4">
-        <h1 class="responsive-h2 font-bold">
+        <h1 class="font-bold">
           {{ $t("i18n.pages.events.create.header_2") }}
         </h1>
         <p class="mt-4">
@@ -45,9 +45,9 @@
             class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
           >
             <div class="w-1/2">
-              <label for="name" class="responsive-h3 block font-medium">
+              <h3 for="name" class="block font-medium">
                 {{ $t("i18n.pages.events.create.events_name") }}*
-              </label>
+              </h3>
               <input
                 v-model="formData.name"
                 id="name"
@@ -60,9 +60,9 @@
               />
             </div>
             <div class="w-1/2">
-              <label for="tagline" class="responsive-h3 block font-medium">{{
-                $t("i18n.pages._global.create.tagline")
-              }}</label>
+              <h3 for="tagline" class="block font-medium">
+                {{ $t("i18n.pages._global.create.tagline") }}
+              </h3>
               <input
                 v-model="formData.tagline"
                 id="tagline"
@@ -76,9 +76,9 @@
             </div>
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-            <label for="organizer" class="responsive-h3 block font-medium">
+            <h3 for="organizer" class="block font-medium">
               {{ $t("i18n.pages.events.create.organizer") }}*
-            </label>
+            </h3>
             <span id="organizer-instructions" class="block font-medium">{{
               $t("i18n.pages.events.create.organizer_instructions")
             }}</span>
@@ -98,9 +98,9 @@
             <CardConnectEvent />
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-            <label for="description" class="responsive-h3 block font-medium">
-              {{ $t("i18n.pages._global.create.description") }}*
-            </label>
+            <h3 for="description" class="block font-medium">
+              {{ $t("i18n._global.description") }}*
+            </h3>
             <textarea
               v-model="formData.description"
               id="description"
@@ -117,9 +117,9 @@
             class="card-style mx-14 flex w-full justify-start gap-6 px-5 py-6"
           >
             <div class="w-1/5">
-              <label for="event-type" class="responsive-h3 block font-medium">
+              <h3 for="event-type" class="block font-medium">
                 {{ $t("i18n.pages.events.create.event_type") }}*
-              </label>
+              </h3>
               <FormRadioGroup
                 @update:modelValue="updateEventType"
                 id="event-type"
@@ -130,9 +130,9 @@
               />
             </div>
             <div class="w-3/5">
-              <label for="format" class="responsive-h3 block font-medium">{{
-                $t("i18n.pages.events.create.format")
-              }}</label>
+              <h3 for="format" class="block font-medium">
+                {{ $t("i18n.pages.events.create.format") }}
+              </h3>
               <input
                 v-model="formData.format"
                 id="format"
@@ -155,9 +155,9 @@
             class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
           >
             <div class="w-full">
-              <label for="roles" class="responsive-h3 block font-medium">
+              <h3 for="roles" class="block font-medium">
                 {{ $t("i18n.pages.events.create.roles") }}*
-              </label>
+              </h3>
               <!-- TODO: replace this input with something that lets you make
                 roles and such -->
               <input
@@ -179,9 +179,9 @@
             class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
           >
             <div class="w-1/5">
-              <label for="setting" class="responsive-h3 block font-medium">
+              <h3 for="setting" class="block font-medium">
                 {{ $t("i18n.pages.events.create.setting") }}*
-              </label>
+              </h3>
               <FormRadioGroup
                 @update:modelValue="updateSetting"
                 id="setting"
@@ -192,9 +192,9 @@
               />
             </div>
             <div class="w-2/5">
-              <label for="location" class="responsive-h3 block font-medium">
-                {{ $t("i18n.pages._global.create.location") }}*
-              </label>
+              <h3 for="location" class="block font-medium">
+                {{ $t("i18n._global.location") }}*
+              </h3>
               <input
                 v-model="formData.location"
                 id="location"
@@ -207,9 +207,9 @@
               />
             </div>
             <div class="w-2/5">
-              <label for="link" class="responsive-h3 block font-medium">
+              <h3 for="link" class="block font-medium">
                 {{ $t("i18n.pages._global.create.link") }}*
-              </label>
+              </h3>
               <input
                 v-model="formData.link"
                 id="link"
@@ -395,7 +395,7 @@ const formData = ref({
 });
 
 const submit = async () => {
-  const { data: responseData } = await useFetch(
+  const { data: _responseData } = await useFetch(
     BASE_BACKEND_URL + "/communities/events",
     {
       method: "POST",
@@ -409,8 +409,6 @@ const submit = async () => {
       }),
     }
   );
-
-  console.log(responseData);
 
   // window.location.href = "/events";
 };

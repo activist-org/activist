@@ -2,13 +2,13 @@
 <template>
   <div class="card-style px-5 py-5">
     <div class="flex items-center gap-5">
-      <h3 class="responsive-h3 text-left font-display">
+      <h3 class="text-left font-display">
         {{ $t("i18n.components._global.connect") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        @click="openModalEditSocialLinks"
-        @keydown.enter="openModalEditSocialLinks"
+        @click="openModalSocialLinks"
+        @keydown.enter="openModalSocialLinks"
       />
     </div>
     <ul
@@ -52,16 +52,17 @@ import type { EventSocialLink } from "~/types/events/event";
 
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
+const props = defineProps<{
   socialLinks:
     | SocialLink[]
     | EventSocialLink[]
     | GroupSocialLink[]
     | OrganizationSocialLink[];
+  pageType: "organization" | "group" | "event";
 }>();
 
-const { openModal: openModalEditSocialLinks } = useModalHandlers(
-  "ModalEditSocialLinks"
+const { openModal: openModalSocialLinks } = useModalHandlers(
+  `ModalSocialLinks${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}`
 );
 
 const { userIsSignedIn } = useUser();

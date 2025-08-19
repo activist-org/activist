@@ -10,7 +10,8 @@ from communities.groups.views import (
     GroupAPIView,
     GroupDetailAPIView,
     GroupFaqViewSet,
-    GroupFlagViewSet,
+    GroupFlagAPIView,
+    GroupFlagDetailAPIView,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
@@ -18,7 +19,8 @@ from communities.organizations.views import (
     OrganizationAPIView,
     OrganizationDetailAPIView,
     OrganizationFaqViewSet,
-    OrganizationFlagViewSet,
+    OrganizationFlagAPIView,
+    OrganizationFlagDetailAPIView,
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
@@ -29,16 +31,9 @@ app_name = "communities"
 
 router = DefaultRouter(trailing_slash=False)
 
-# MARK: Main Tables
-
-router.register(prefix=r"statuses", viewset=StatusViewSet)
-
-# MARK: Bridge Tables
-
 router.register(
-    prefix=r"group_social_links",
-    viewset=GroupSocialLinkViewSet,
-    basename="group-social-links",
+    prefix=r"statuses",
+    viewset=StatusViewSet,
 )
 router.register(
     prefix=r"group_faqs",
@@ -46,20 +41,24 @@ router.register(
     basename="group-faqs",
 )
 router.register(
+    prefix=r"group_social_links",
+    viewset=GroupSocialLinkViewSet,
+    basename="group-social-links",
+)
+router.register(
     prefix=r"group_texts",
     viewset=GroupTextViewSet,
     basename="group-text",
-)
-router.register(prefix=r"group_flag", viewset=GroupFlagViewSet, basename="group-flags")
-router.register(
-    prefix=r"organization_social_links",
-    viewset=OrganizationSocialLinkViewSet,
-    basename="organization-social-links",
 )
 router.register(
     prefix=r"organization_faqs",
     viewset=OrganizationFaqViewSet,
     basename="organization-faqs",
+)
+router.register(
+    prefix=r"organization_social_links",
+    viewset=OrganizationSocialLinkViewSet,
+    basename="organization-social-links",
 )
 router.register(
     prefix=r"organization_texts",
@@ -71,16 +70,18 @@ router.register(
     viewset=OrganizationImageViewSet,
     basename="organization-images",
 )
-router.register(
-    prefix=r"organization_flag",
-    viewset=OrganizationFlagViewSet,
-    basename="organization-flag",
-)
 
 urlpatterns = [
     path("", include(router.urls)),
     path("groups", GroupAPIView.as_view()),
     path("groups/<uuid:id>", GroupDetailAPIView.as_view()),
+    path("group_flag", GroupFlagAPIView.as_view()),
+    path("group_flag/<uuid:id>", GroupFlagDetailAPIView.as_view()),
     path("organizations", OrganizationAPIView.as_view()),
     path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
+    path("organization_flag", OrganizationFlagAPIView.as_view()),
+    path(
+        "organization_flag/<uuid:id>",
+        OrganizationFlagDetailAPIView.as_view(),
+    ),
 ]

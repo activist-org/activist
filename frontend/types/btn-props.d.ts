@@ -6,7 +6,6 @@ export interface BtnBase {
   hideLabelOnMobile?: boolean;
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   iconSize?: string;
-  isDisabled?: boolean;
   ariaLabel: string;
 }
 

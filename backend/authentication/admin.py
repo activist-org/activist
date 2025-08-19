@@ -3,6 +3,7 @@
 Admin module for managing user-related models in the authentication app.
 """
 
+import logging
 from typing import Any
 
 from django import forms
@@ -11,20 +12,21 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
+from django.forms import ModelForm
+from django.http import HttpRequest
 
 from authentication.models import Support, SupportEntityType, UserFlag, UserModel
 
-# MARK: Main Tables
+logger = logging.getLogger(__name__)
+
+# MARK: Register
 
 # Remove default Group.
 admin.site.unregister(Group)
 admin.site.register(Support)
-
-# MARK: Bridge Tables
-
 admin.site.register(SupportEntityType)
 
-# MARK: Methods
+# MARK: User Creation
 
 
 class UserCreationForm(forms.ModelForm[UserModel]):
@@ -82,8 +84,12 @@ class UserCreationForm(forms.ModelForm[UserModel]):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+            logger.info("Created new user via admin: %s", user.email)
 
         return user
+
+
+# MARK: User Change
 
 
 class UserChangeForm(forms.ModelForm[UserModel]):
@@ -101,6 +107,9 @@ class UserChangeForm(forms.ModelForm[UserModel]):
         fields = "__all__"
 
 
+# MARK: User
+
+
 class UserAdmin(BaseUserAdmin[UserModel]):
     # The forms to add and change user instances.
     """
@@ -111,6 +120,48 @@ class UserAdmin(BaseUserAdmin[UserModel]):
 
     form = UserChangeForm
     add_form = UserCreationForm
+
+    def save_model(
+        self, request: HttpRequest, obj: UserModel, form: ModelForm[Any], change: bool
+    ) -> None:
+        """
+        Override to add logging for user updates.
+
+        Parameters
+        ----------
+        request : HttpRequest
+            The request made.
+
+        obj : UserModel
+            The user model associated with the request.
+
+        form : ModelForm[Any]
+            An array of model forms.
+
+        change : bool
+            Whether the user was updated (true) or created.
+        """
+        super().save_model(request, obj, form, change)
+        if change:
+            logger.info("Updated user via admin: %s (by %s)", obj.email, request.user)
+
+        else:
+            logger.info("Created user via admin: %s (by %s)", obj.email, request.user)
+
+    def delete_model(self, request: HttpRequest, obj: UserModel) -> None:
+        """
+        Override to add logging for user deletions.
+
+        Parameters
+        ----------
+        request : HttpRequest
+            The request made.
+
+        obj : UserModel
+            The user model associated with the request.
+        """
+        logger.warning("Deleting user via admin: %s (by %s)", obj.email, request.user)
+        super().delete_model(request, obj)
 
     # The fields to be used in displaying the User model.
     list_display = ["username", "email", "is_admin"]
@@ -156,6 +207,9 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     filter_horizontal = []
 
 
+# MARK: Flag
+
+
 class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
     """
     Admin table for displaying User flags.
@@ -163,7 +217,64 @@ class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
 
     list_display = ["user", "created_by", "created_on"]
 
+    def save_model(
+        self, request: HttpRequest, obj: UserFlag, form: ModelForm[Any], change: bool
+    ) -> None:
+        """
+        Override to add logging for user flag operations.
 
-# Register the new UserAdmin.
+        Parameters
+        ----------
+        request : HttpRequest
+            The request made.
+
+        obj : UserFlag
+            The user flag model associated with the request.
+
+        form : ModelForm[Any]
+            An array of model forms.
+
+        change : bool
+            Whether the user was updated (true) or created.
+        """
+        super().save_model(request, obj, form, change)
+        if change:
+            logger.info(
+                "Updated user flag: %s -> %s (by %s)",
+                obj.user.email,
+                obj.created_by,
+                request.user,
+            )
+        else:
+            logger.warning(
+                "Created user flag: %s -> %s (by %s)",
+                obj.user.email,
+                obj.created_by,
+                request.user,
+            )
+
+    def delete_model(self, request: HttpRequest, obj: UserFlag) -> None:
+        """
+        Override to add logging for user flag deletions.
+
+        Parameters
+        ----------
+        request : HttpRequest
+            The request made.
+
+        obj : UserFlag
+            The user flag model associated with the request.
+        """
+        logger.info(
+            "Deleted user flag: %s -> %s (by %s)",
+            obj.user.email,
+            obj.created_by,
+            request.user,
+        )
+        super().delete_model(request, obj)
+
+
+# MARK: Register Admin
+
 admin.site.register(UserModel, UserAdmin)
 admin.site.register(UserFlag, UserFlagAdmin)

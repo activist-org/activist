@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex flex-col bg-layer-0 px-4 text-primary-text xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
         {{ event.name }}&nbsp;{{ $t("i18n.pages._global.discussions_lower") }}
@@ -33,8 +33,8 @@
         :discussionEntries="[event.discussion?.entries]"
         :organizations="event.orgs"
       />
-    </div>
-    <EmptyState v-else pageType="discussions" :permission="false" /> -->
+    </div> -->
+    <!-- <EmptyState v-else pageType="discussions" :permission="false" /> -->
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { UploadableFile } from "~/types/content/file";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
@@ -9,11 +10,14 @@ import type {
   EventUpdateTextFormData,
 } from "~/types/events/event";
 
+import { EntityType } from "~/types/entity";
+
 interface EventStore {
   loading: boolean;
   event: Event;
   events: Event[];
 }
+const { token } = useAuth();
 
 export const useEventStore = defineStore("event", {
   // MARK: Properties
@@ -69,8 +73,6 @@ export const useEventStore = defineStore("event", {
     async create(formData: EventCreateFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
       const responseEvent = await useFetch(
         `${BASE_BACKEND_URL}/events/events`,
         {
@@ -88,7 +90,7 @@ export const useEventStore = defineStore("event", {
             acceptance_date: new Date(),
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -104,11 +106,42 @@ export const useEventStore = defineStore("event", {
       return false;
     },
 
+    // MARK: Update Icon
+
+    uploadIconImage: async function (id: string, file: UploadableFile) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const formData = new FormData();
+        formData.append("entity_id", id);
+        formData.append("entity_type", EntityType.EVENT);
+        formData.append("file_object", file.file);
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/image_icon`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          await this.fetchById(id);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
     // MARK: Fetch By ID
 
     async fetchById(id: string | undefined) {
       this.loading = true;
-
       const { data, status } = await useAsyncData<EventResponse>(
         async () =>
           (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
@@ -187,22 +220,6 @@ export const useEventStore = defineStore("event", {
     async updateTexts(event: Event, formData: EventUpdateTextFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
-      const responseEvent = await $fetch(
-        BASE_BACKEND_URL + `/events/events/${event.id}`,
-        {
-          method: "PUT",
-          body: {
-            ...event,
-            getInvolvedUrl: formData.getInvolvedUrl,
-          },
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-
       const responseEventTexts = await $fetch(
         BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}`,
         {
@@ -216,12 +233,12 @@ export const useEventStore = defineStore("event", {
             iso: "en",
           },
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
 
-      if (responseEvent && responseEventTexts) {
+      if (responseEventTexts) {
         this.event.texts.description = formData.description;
         this.event.texts.getInvolved = formData.getInvolved;
         this.event.getInvolvedUrl = formData.getInvolvedUrl;
@@ -234,31 +251,24 @@ export const useEventStore = defineStore("event", {
       return false;
     },
 
-    // MARK: Update Social Links
+    // MARK: Delete Links
 
-    async updateSocialLinks(event: Event, formData: SocialLinkFormData[]) {
+    // ATTN: Currently we're deleting the social links and rewriting all of them.
+    async deleteSocialLinks(event: Event) {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
-
-      // Endpoint needs socialLink id's but they are not available here.
-      // 'update()' in the viewset 'class EventSocialLinkViewSet' handles this
-      // by using the event.id from the end of the URL.
-      const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_social_links/${event.id}`,
+      const responseSocialLinks = useFetch(
+        `${BASE_BACKEND_URL}/events/event_social_links`,
         {
-          method: "PUT",
-          // Send entire formData array/dict in order to make a single API request.
-          body: JSON.stringify(
-            formData.map((data) => ({
-              link: data.link,
-              label: data.label,
-              order: data.order,
-            }))
-          ),
+          method: "DELETE",
+          body: JSON.stringify({
+            link: "https://www.example.com",
+            label: "placeholder",
+            event: event.id,
+          }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -272,7 +282,7 @@ export const useEventStore = defineStore("event", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates, to update the frontend.
+        // Fetch updated org data after successful updates to update the frontend.
         await this.fetchById(event.id);
         this.loading = false;
         return true;
@@ -282,25 +292,112 @@ export const useEventStore = defineStore("event", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Create Links
 
-    async updateFaqEntry(event: Event, formData: FaqEntry) {
+    async createSocialLinks(event: Event, formData: SocialLinkFormData[]) {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
+      // Note: Map of the request sends individual requests for each social link to  create the entry in the table.
+      const responseSocialLinks = await Promise.all(
+        formData.map((data) =>
+          useFetch(`${BASE_BACKEND_URL}/events/event_social_links`, {
+            method: "POST",
+            body: JSON.stringify({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+              event: event.id,
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          })
+        )
+      );
+
+      const responseSocialLinksData = responseSocialLinks.map(
+        (item) => item.data.value as unknown as Event
+      );
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update Links
+
+    async updateSocialLinks(event: Event, formData: SocialLinkFormData[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      // Note: Map of the request sends individual requests for each social link to the correct entry in the table.
+      const responseSocialLinks = await Promise.all(
+        formData.map((data) =>
+          useFetch(`${BASE_BACKEND_URL}/events/event_social_links/${data.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          })
+        )
+      );
+
+      const responseSocialLinksData = responseSocialLinks.map(
+        (item) => item.data.value as unknown as Event
+      );
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Create FAQ
+
+    async createFaqEntry(event: Event, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_faqs/${event.id}`,
+        `${BASE_BACKEND_URL}/events/event_faqs`,
         {
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify({
-            id: formData.id,
+            iso: formData.iso,
+            order: formData.order,
             question: formData.question,
             answer: formData.answer,
+            event: event.id,
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -314,7 +411,47 @@ export const useEventStore = defineStore("event", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates, to update the frontend.
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ
+
+    async updateFaqEntry(event: Event, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_faqs/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
         await this.fetchById(event.id);
         this.loading = false;
         return true;

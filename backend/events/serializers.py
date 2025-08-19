@@ -3,10 +3,12 @@
 Serializers for the events app.
 """
 
+import logging
+from datetime import datetime
 from typing import Any, Dict, Union
+from uuid import UUID
 
 from django.utils.dateparse import parse_datetime
-from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
@@ -21,7 +23,53 @@ from utils.utils import (
     validate_creation_and_deprecation_dates,
 )
 
-# MARK: Event
+logger = logging.getLogger(__name__)
+
+# MARK: FAQ
+
+
+class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
+    """
+    Serializer for EventFaq model data.
+    """
+
+    class Meta:
+        model = EventFaq
+        fields = "__all__"
+
+    def validate_event(self, value: Event | UUID | str) -> Event:
+        """
+        Validate that the event exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Event instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the event does not exist.
+
+        Returns
+        -------
+        Event
+            The validated Event instance.
+        """
+        if isinstance(value, Event):
+            return value
+
+        try:
+            event = Event.objects.get(id=value)
+
+        except Event.DoesNotExist as e:
+            logger.exception(f"Event with id {value} not found.")
+            raise serializers.ValidationError("Event not found.") from e
+
+        return event
+
+
+# MARK: Social Link
 
 
 class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
@@ -33,15 +81,38 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
         model = EventSocialLink
         fields = "__all__"
 
+    def validate_event(self, value: Event | UUID | str) -> Event:
+        """
+        Validate that the event exists.
 
-class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
-    """
-    Serializer for EventFaq model data.
-    """
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Event instance, UUID or str.
 
-    class Meta:
-        model = EventFaq
-        fields = "__all__"
+        Raises
+        -------
+        serializers.ValidationError
+            If the event does not exist.
+
+        Returns
+        -------
+        Event
+            The validated Event instance.
+        """
+        if isinstance(value, Event):
+            return value
+
+        try:
+            event = Event.objects.get(id=value)
+
+        except Event.DoesNotExist as e:
+            raise serializers.ValidationError("Event not found.") from e
+
+        return event
+
+
+# MARK: Text
 
 
 class EventTextSerializer(serializers.ModelSerializer[EventText]):
@@ -54,6 +125,9 @@ class EventTextSerializer(serializers.ModelSerializer[EventText]):
         fields = "__all__"
 
 
+# MARK: Organization
+
+
 class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
     """
     Serializer for Organization model data specific to events.
@@ -63,8 +137,8 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
         model = Organization
         fields = "__all__"
 
-    # def save(self, validated_data: dict[str, Any]) -> Organization:
-    #     return Organization.objects.get_or_create(validated_data)
+
+# MARK: POST
 
 
 class EventPOSTSerializer(serializers.ModelSerializer[Event]):
@@ -96,6 +170,9 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
             "icon_url",
             "deletion_date",
         )
+
+
+# MARK: Event
 
 
 class EventSerializer(serializers.ModelSerializer[Event]):
@@ -144,39 +221,26 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         start = data.get("start_time")
         end = data.get("end_time")
 
-        # Only validate if both times are provided.
-        if start and end:
-            # Convert to datetime if they're strings.
-            start_dt = parse_datetime(start) if isinstance(start, str) else start
-            end_dt = parse_datetime(end) if isinstance(end, str) else end
-
-            if end_dt and start_dt > end_dt:
-                raise serializers.ValidationError(
-                    _("The start time cannot be after the end time."),
-                    code="invalid_time_order",
-                )
+        # Verify start is before end if both times are provided.
+        if start and end and self._invalid_dates(start, end):
+            raise serializers.ValidationError(
+                ("The start time cannot be after the end time."),
+                code="invalid_time_order",
+            )
 
         creation_date = data.get("creation_date")
         deletion_date = data.get("deletion_date")
 
-        if creation_date and deletion_date:
-            # Convert to datetime if they're strings.
-            creation_dt = (
-                parse_datetime(creation_date)
-                if isinstance(creation_date, str)
-                else creation_date
+        # Verify creation_date is before deletion_date if both times are provided.
+        if (
+            creation_date
+            and deletion_date
+            and self._invalid_dates(creation_date, deletion_date)
+        ):
+            raise serializers.ValidationError(
+                ("The creation date cannot be after the deletion date."),
+                code="invalid_date_order",
             )
-            deletion_dt = (
-                parse_datetime(deletion_date)
-                if isinstance(deletion_date, str)
-                else deletion_date
-            )
-
-            if deletion_dt and creation_dt > deletion_dt:
-                raise serializers.ValidationError(
-                    _("The creation date cannot be after the deletion date."),
-                    code="invalid_date_order",
-                )
 
         terms_checked = data.get("terms_checked")
 
@@ -203,14 +267,44 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             Created Event instance.
         """
         event = Event.objects.create(**validated_data)
+        logger.info(f"Created Event with id {event.id}")
 
         if event:
             EventText.objects.create(event=event)
+            logger.info(f"Created EventText for Event id {event.id}")
 
         return event
 
+    def _invalid_dates(self, start: Union[int, str], end: Union[int, str]) -> bool:
+        """
+        Validate that start date is before end date.
 
-# MARK: Event Flag
+        Parameters
+        ----------
+        start : int, str
+            A datetime or string for the start of a time period.
+
+        end : int, str
+            A datetime or string for the end of a time period.
+
+        Returns
+        -------
+        bool
+            True if the start is after the end (invalid).
+            False otherwise (valid).
+        """
+        # Convert to datetime if they're strings.
+        start_dt = parse_datetime(start) if isinstance(start, str) else start
+        end_dt = parse_datetime(end) if isinstance(end, str) else end
+
+        return (
+            isinstance(start_dt, datetime)
+            and isinstance(end_dt, datetime)
+            and start_dt > end_dt
+        )
+
+
+# MARK: Flag
 
 
 class EventFlagSerializers(serializers.ModelSerializer[EventFlag]):

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
 import type {
   Organization,
   OrganizationCreateFormData,
@@ -7,13 +8,17 @@ import type {
   OrganizationUpdateTextFormData,
 } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { ContentImage, UploadableFile } from "~/types/content/file";
 import type { SocialLinkFormData } from "~/types/content/social-link";
+
+import { EntityType } from "~/types/entity";
 
 interface OrganizationStore {
   loading: boolean;
   organization: Organization;
   organizations: Organization[];
 }
+const { token } = useAuth();
 
 export const useOrganizationStore = defineStore("organization", {
   // MARK: Properties
@@ -39,7 +44,7 @@ export const useOrganizationStore = defineStore("organization", {
       socialLinks: [],
       status: 1,
       creationDate: "",
-
+      images: [],
       groups: [],
       events: [],
       faqEntries: [],
@@ -63,8 +68,6 @@ export const useOrganizationStore = defineStore("organization", {
     async create(formData: OrganizationCreateFormData) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
       const responseOrg = await useFetch(
         `${BASE_BACKEND_URL}/communities/organizations`,
         {
@@ -82,7 +85,7 @@ export const useOrganizationStore = defineStore("organization", {
             acceptance_date: new Date(),
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -102,7 +105,6 @@ export const useOrganizationStore = defineStore("organization", {
 
     async fetchById(id: string | undefined) {
       this.loading = true;
-
       const { data, status } = await useAsyncData<OrganizationResponse>(
         async () =>
           (await fetchWithoutToken(
@@ -134,6 +136,104 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       this.loading = false;
+    },
+
+    // MARK: Update Icon
+
+    uploadIconImage: async function (id: string, file: UploadableFile) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const formData = new FormData();
+        formData.append("entity_id", id);
+        formData.append("entity_type", EntityType.ORGANIZATION);
+        formData.append("file_object", file.file);
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/image_icon`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+        if (response.data?.value) {
+          this.fetchById(id);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
+    // MARK: Upload Files
+
+    uploadFiles: async function (id: string, files: UploadableFile[]) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      const formData = new FormData();
+
+      // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
+      formData.append("entity_id", id);
+      formData.append("entity_type", EntityType.ORGANIZATION);
+
+      files.forEach((uploadableFile: UploadableFile) => {
+        formData.append("file_object", uploadableFile.file);
+      });
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/images`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          const data = response.data.value as ContentImage[];
+          if (data.length > 0) {
+            await this.fetchImages(id);
+            this.loading = false;
+          }
+          return data;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
+    // MARK: Fetch Images
+
+    fetchImages: async function (entityId: string) {
+      if (!entityId) {
+        return;
+      }
+
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/communities/organizations/${entityId}/images`,
+          {
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          const data = response.data.value as ContentImage[];
+          this.organization.images = data;
+        }
+      } catch (error) {
+        void error;
+      }
     },
 
     // MARK: Fetch All
@@ -190,22 +290,6 @@ export const useOrganizationStore = defineStore("organization", {
     ) {
       this.loading = true;
 
-      const token = localStorage.getItem("accessToken");
-
-      const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/communities/organizations/${org.id}`,
-        {
-          method: "PUT",
-          body: {
-            ...org,
-            getInvolvedUrl: formData.getInvolvedUrl,
-          },
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}`,
         {
@@ -219,12 +303,12 @@ export const useOrganizationStore = defineStore("organization", {
             iso: "en",
           },
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
 
-      if (responseOrg && responseOrgTexts) {
+      if (responseOrgTexts) {
         this.organization.texts.description = formData.description;
         this.organization.texts.getInvolved = formData.getInvolved;
         this.organization.getInvolvedUrl = formData.getInvolvedUrl;
@@ -237,31 +321,24 @@ export const useOrganizationStore = defineStore("organization", {
       return false;
     },
 
-    // MARK: Update Social Links
+    // MARK: Delete Links
 
-    async updateSocialLinks(org: Organization, formData: SocialLinkFormData[]) {
+    // ATTN: Currently we're deleting the social links and rewriting all of them.
+    async deleteSocialLinks(org: Organization) {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
-
-      // Endpoint needs socialLink id's but they are not available here.
-      // 'update()' in the viewset 'class OrganizationSocialLinkViewSet' handles this
-      // by using the org.id from the end of the URL.
-      const responseSocialLinks = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organization_social_links/${org.id}`,
+      const responseSocialLinks = useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_social_links`,
         {
-          method: "PUT",
-          // Send entire formData array/dict in order to make a single API request.
-          body: JSON.stringify(
-            formData.map((data) => ({
-              link: data.link,
-              label: data.label,
-              order: data.order,
-            }))
-          ),
+          method: "DELETE",
+          body: JSON.stringify({
+            link: "https://www.example.com",
+            label: "placeholder",
+            org: org.id,
+          }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -275,7 +352,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated organization data after successful updates, to update the frontend.
+        // Fetch updated org data after successful updates to update the frontend.
         await this.fetchById(org.id);
         this.loading = false;
         return true;
@@ -285,25 +362,118 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Update FAQ Entries
+    // MARK: Create Links
 
-    async updateFaqEntry(org: Organization, formData: FaqEntry) {
+    async createSocialLinks(org: Organization, formData: SocialLinkFormData[]) {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const token = localStorage.getItem("accessToken");
+      // Note: Map of the request sends individual requests for each social link to create the entry in the table.
+      const responseSocialLinks = await Promise.all(
+        formData.map((data) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/organization_social_links`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                link: data.link,
+                label: data.label,
+                order: data.order,
+                org: org.id,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
+      );
+
+      const responseSocialLinksData = responseSocialLinks.map(
+        (item) => item.data.value as unknown as Organization
+      );
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update Links
+
+    async updateSocialLinks(org: Organization, formData: SocialLinkFormData[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      // Note: Map of the request sends individual requests for each social link to the correct entry in the table.
+      const responseSocialLinks = await Promise.all(
+        formData.map((data) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/organization_social_links/${data.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                link: data.link,
+                label: data.label,
+                order: data.order,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
+      );
+
+      const responseSocialLinksData = responseSocialLinks.map(
+        (item) => item.data.value as unknown as Organization
+      );
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated organization data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Create FAQ
+
+    async createFaqEntry(org: Organization, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/organization_faqs/${org.id}`,
+        `${BASE_BACKEND_URL}/communities/organization_faqs`,
         {
-          method: "PUT",
+          method: "POST",
           body: JSON.stringify({
-            id: formData.id,
+            iso: formData.iso,
+            order: formData.order,
             question: formData.question,
             answer: formData.answer,
+            org: org.id,
           }),
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `${token.value}`,
           },
         }
       );
@@ -317,7 +487,47 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated org data after successful updates, to update the frontend.
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update FAQ
+
+    async updateFaqEntry(org: Organization, formData: FaqEntry) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_faqs/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            id: formData.id,
+            question: formData.question,
+            answer: formData.answer,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Organization;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
         await this.fetchById(org.id);
         this.loading = false;
         return true;

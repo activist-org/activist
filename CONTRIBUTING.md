@@ -26,6 +26,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Localization](#localization-)
 - [Documentation](#documentation-)
 - [Accessibility](#accessibility-)
+- [Internationalization](#internationalization-)
 - [Design](#design-)
 - [Troubleshooting](#troubleshooting-)
 
@@ -37,7 +38,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 
 - Please join the [public Matrix chat](https://matrix.to/#/#activist_community:matrix.org) to connect with the community
     - [Matrix](https://matrix.org/) is a network for secure, decentralized communication
-    - activist would suggest that you use the [Element](https://element.io/) client
+    - We'd suggest that you use the [Element](https://element.io/) client and [Element X](https://element.io/app) for a mobile app
     - The [General](https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org&via=effektio.org&via=acter.global) and [Development](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) channels would be great places to start!
     - Feel free to introduce yourself and tell us what your interests are if you're comfortable :)
 - Read through this contributing guide and the [style guide](STYLEGUIDE.md) for all the information you need to contribute
@@ -195,15 +196,15 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a virtual environment for the backend, activate it and install dependencies:
+4. Create a virtual environment for the backend (Python `>=3.11`), activate it and install dependencies:
 
     ```bash
-    # Unix or MacOS:
     python3 -m venv venv
+
+    # Unix or MacOS:
     source venv/bin/activate
 
     # Windows:
-    python -m venv venv
     venv\Scripts\activate.bat
 
     # After activating venv:
@@ -420,6 +421,12 @@ yarn test --silent
 > [!NOTE]
 > The `--silent` flag is to suppress a lot of warnings from existing issues between Nuxt and Vitest.  If you need to see the warnings omit the `--silent` flag.
 
+If you would like to run a specific test, please run the following command:
+
+```bash
+yarn vitest FILE.spec.ts --run
+```
+
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
 
 > [!NOTE]
@@ -439,7 +446,7 @@ yarn playwright install --with-deps
 To run the end to end tests locally, please run the following commands:
 
 ```bash
-docker-compose --env-file .env.dev up backend db # run backend and db in docker
+docker compose --env-file .env.dev up backend db # run backend and db in docker
 ```
 
 In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).
@@ -620,7 +627,9 @@ Thank you in advance for your contributions!
 
 ## Localization [`⇧`](#contents)
 
-<a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
+<a href="https://hosted.weblate.org/projects/activist/activist">
+    <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right">
+</a>
 
 Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
 
@@ -677,11 +686,35 @@ Tab focusing sadly doesn't work out of the box for many browsers. Chrome works g
 
 Once the above steps are finished you should be able to use tab to navigate web pages :)
 
+<a id="internationalization-"></a>
+
+## Internationalization [`⇧`](#contents)
+
+activist uses [i18n-check](https://github.com/activist-org/i18n-check) to validate our internationalization key-value pairs. The basic commands to check the i18n keys and values are:
+
+```bash
+# Note: You need to have installed the backend/requirements-dev.txt file in your virtual environment.
+i18n-check -a  # run all checks
+i18n-check -ki  # run key identifiers check
+i18n-check -ik  # run invalid keys check
+i18n-check -uk  # run unused keys check
+i18n-check -nsk  # run non-source keys check
+i18n-check -rk  # run repeat keys check
+i18n-check -rv  # run repeat values check
+i18n-check -nk  # run nested keys check
+```
+
+You can also run individual checks. Please see the [documentation for i18n-check](https://i18n-check.readthedocs.io/en/latest/) to learn more.
+
+If you do need to edit the directories and files skipped by certain checks, then these edits can be made in the [.i18n-check.yaml](./.i18n-check.yaml) file. If you're having issues using `i18n-check`, please feel free to contact the team for support!
+
 <a id="design-"></a>
 
 ## Design [`⇧`](#contents)
 
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231">
+    <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right">
+</a>
 
 Designs for activist are done in the [public design file in Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231). Those interested in helping with activist's design are also welcome to share their ideas using the [design improvement](https://github.com/activist-org/activist/issues/new?assignees=&labels=design&template=design_improvement.yml) template that makes an issue marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
@@ -709,3 +742,46 @@ Please run [frontend/reset_local_env.sh](frontend/reset_local_env.sh) to reset t
     # Windows:
     # Run the commands below found in frontend/reset_local_env.sh.
     ```
+
+### PostgreSQL Port Conflict with PgAdmin or Local PostgreSQL Installation
+
+#### The Problem
+
+If you have **PgAdmin** or a local **PostgreSQL** server installed and it's already listening on **port `5432`**, you may encounter a conflict when trying to run the Docker-based `postgres_db` service. Docker will fail to bind to port `5432`, showing an error like:
+
+> `Error starting userland proxy: listen tcp4 0.0.0.0:5432: bind: address already in use`
+
+> [!IMPORTANT]
+> **Do _not_ change `DATABASE_PORT` in `.env.dev` to fix this. Please see details below.**
+
+Changing this port will cause test failures, specifically `TypeError: can only concatenate str (not "NoneType") to str` errors in authentication and serializer tests.
+
+This happens because your app expects PostgreSQL on port `5432`. Changing the port in `.env.dev` breaks database connections during testing.
+
+#### The Solution
+
+To resolve the port conflict, please stop your local PostgreSQL service instead with one of the following commands:
+
+**Linux**
+
+```bash
+sudo systemctl stop postgresql
+```
+
+**macOS (Homebrew-based PostgreSQL)**
+
+```bash
+brew services stop postgresql
+```
+
+**Windows**
+
+1. Open **Services** (search *"Services"* in the Start Menu)
+2. Locate **PostgreSQL** in the list
+3. Right-click and choose **Stop**
+
+Once stopped, you can safely run Docker services like the Docker Compose commands in the [Development Environment](#dev-env-) section.
+
+### Still experiencing problems?
+
+Please feel free to reach out to the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=systemli.org&via=librezo.fr) if you have a question!

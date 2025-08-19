@@ -3,11 +3,11 @@
 Models for the events app.
 """
 
+from typing import Any
 from uuid import uuid4
 
 from django.db import models
 
-from content.models import Faq, SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Event
@@ -61,13 +61,77 @@ class Event(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
-    flags = models.ManyToManyField("authentication.UserModel", through="EventFlag")
+
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
 
     def __str__(self) -> str:
         return self.name
 
 
-# MARK: Event Flag
+# MARK: Attendee
+
+
+class EventAttendee(models.Model):
+    """
+    Link events and users including roles and attendance status.
+    """
+
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, related_name="event_attendees"
+    )
+    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    role = models.ForeignKey(
+        "events.Role", on_delete=models.CASCADE, blank=True, null=True
+    )
+    attendee_status = models.ForeignKey(
+        "EventAttendeeStatus", on_delete=models.CASCADE, default=1
+    )
+
+    def __str__(self) -> str:
+        return f"{self.user} - {self.event}"
+
+
+# MARK: Attendee Status
+
+
+class EventAttendeeStatus(models.Model):
+    """
+    Attendance statuses for users to events.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    status_name = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.status_name
+
+
+# MARK: FAQ
+
+
+class EventFaq(models.Model):
+    """
+    Event Frequently Asked Questions model.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
+    primary = models.BooleanField(default=False)
+    question = models.TextField(max_length=500)
+    answer = models.TextField(max_length=500)
+    order = models.IntegerField()
+    last_updated = models.DateTimeField(auto_now=True)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="faqs")
+
+    def __str__(self) -> str:
+        return self.question
+
+    class Meta:
+        ordering = ["order"]
+
+
+# MARK: Flag
 
 
 class EventFlag(models.Model):
@@ -120,59 +184,29 @@ class Role(models.Model):
         return self.name
 
 
-# MARK: Bridge Tables
+# MARK: Social Link
 
 
-class EventAttendee(models.Model):
-    """
-    Link events and users including roles and attendance status.
-    """
-
-    event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, related_name="event_attendees"
-    )
-    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    role = models.ForeignKey(
-        "events.Role", on_delete=models.CASCADE, blank=True, null=True
-    )
-    attendee_status = models.ForeignKey(
-        "EventAttendeeStatus", on_delete=models.CASCADE, default=1
-    )
-
-    def __str__(self) -> str:
-        return f"{self.user} - {self.event}"
-
-
-class EventAttendeeStatus(models.Model):
-    """
-    Attendance statuses for users to events.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    status_name = models.CharField(max_length=255)
-
-    def __str__(self) -> str:
-        return self.status_name
-
-
-class EventSocialLink(SocialLink):
+class EventSocialLink(models.Model):
     """
     Extension of the base SocialLink model for events.
     """
 
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    link = models.URLField(max_length=255)
+    label = models.CharField(max_length=255)
+    order = models.PositiveIntegerField(default=0)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
+    class Meta:
+        ordering = ["order"]
 
-class EventFaq(Faq):
-    """
-    Class for adding faq parameters to events.
-    """
 
-    event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, null=True, related_name="faqs"
-    )
+# MARK: Text
 
 
 class EventText(models.Model):

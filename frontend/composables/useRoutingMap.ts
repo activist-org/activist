@@ -126,12 +126,15 @@ export const useRouting = () => {
   };
 
   const resetRouteProfileControl = () => {
-    console.log("Resetting route profile control");
     const existing = document.getElementById("route-profile-control");
-    if (existing) existing.remove();
+    if (existing) {
+      existing.remove();
+    }
 
     const map = mapRef.value as unknown as maplibregl.Map;
-    if (!map) return;
+    if (!map) {
+      return;
+    }
 
     map.addControl(
       {
@@ -144,7 +147,10 @@ export const useRouting = () => {
           const updateSelectedProfile = () => {
             toggleLayerHandler(map);
 
-            if (directionsRef.value) directionsRef.value.destroy();
+            if (directionsRef.value) {
+              directionsRef.value.destroy();
+            }
+
             div.innerHTML = routeProfileHandler();
             selectedRoute.value = setSelectedRoute() as RouteProfile;
             const mapLayers =
@@ -158,7 +164,10 @@ export const useRouting = () => {
             newDirections.interactive = true;
 
             const marker = markerRef.value as unknown as maplibregl.Marker;
-            if (!marker) return;
+            if (!marker) {
+              return;
+            }
+
             marker.getElement().addEventListener("mouseenter", () => {
               newDirections.interactive = false;
             });
@@ -172,7 +181,9 @@ export const useRouting = () => {
             div.addEventListener("touchend", updateSelectedProfile);
           } else {
             document.addEventListener("keydown", (event) => {
-              if (event.key === "p") updateSelectedProfile();
+              if (event.key === "p") {
+                updateSelectedProfile();
+              }
             });
           }
 
@@ -187,10 +198,14 @@ export const useRouting = () => {
   const resetDirectionsControl = () => {
     const map = mapRef.value;
     const directions = directionsRef.value;
-    if (!map || !directions) return;
+    if (!map || !directions) {
+      return;
+    }
 
     const existing = document.getElementById("directions-control");
-    if (existing) existing.remove();
+    if (existing) {
+      existing.remove();
+    }
 
     map.addControl(
       {

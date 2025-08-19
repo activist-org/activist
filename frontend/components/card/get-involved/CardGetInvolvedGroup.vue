@@ -2,13 +2,13 @@
 <template>
   <CardGetInvolved>
     <div class="flex items-center gap-5">
-      <h3 class="responsive-h3 text-left font-display">
+      <h3 class="text-left font-display">
         {{ $t("i18n.components._global.get_involved") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        @click="openModalEditTextGroup"
-        @keydown.enter="openModalEditTextGroup"
+        @click="openModalTextGroup"
+        @keydown.enter="openModalTextGroup"
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
@@ -24,7 +24,10 @@
       </div>
     </div>
     <div class="space-y-3 pt-3">
-      <p>
+      <p v-if="group.texts.getInvolved">
+        {{ group.texts.getInvolved }}
+      </p>
+      <p v-else>
         {{
           $t("i18n.components.card_get_involved_group.join_group_subtext", {
             entity_name: group.name,
@@ -38,8 +41,7 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditTextGroup } =
-  useModalHandlers("ModalEditTextGroup");
+const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const { userIsSignedIn } = useUser();
 

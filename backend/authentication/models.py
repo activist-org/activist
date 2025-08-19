@@ -5,6 +5,7 @@ Models for the authentication app.
 
 from __future__ import annotations
 
+import logging
 from typing import Any
 from uuid import uuid4
 
@@ -14,6 +15,8 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
+
+logger = logging.getLogger(__name__)
 
 # MARK: Account Manager
 
@@ -59,18 +62,34 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         Any
             The created superuser.
         """
+        logger.info(f"Creating superuser with username: {username}, email: {email}")
+
         other_fields.setdefault("is_staff", True)
         other_fields.setdefault("is_superuser", True)
         other_fields.setdefault("is_active", True)
 
         if other_fields.get("is_staff") is not True:
+            logger.error(
+                f"Superuser creation failed for {username}: is_staff must be True"
+            )
             raise ValueError("Superuser must be assigned to is_staff=True.")
+
         if other_fields.get("is_superuser") is not True:
+            logger.error(
+                f"Superuser creation failed for {username}: is_superuser must be True"
+            )
             raise ValueError("Superuser must be assigned to is_superuser=True.")
 
-        return self.create_user(
-            email=email, username=username, password=password, **other_fields
-        )
+        try:
+            superuser = self.create_user(
+                email=email, username=username, password=password, **other_fields
+            )
+            logger.info(f"Superuser created successfully: {username}")
+            return superuser
+
+        except Exception as e:
+            logger.exception(f"Failed to create superuser {username}: {str(e)}")
+            raise
 
     def create_user(
         self,
@@ -101,13 +120,20 @@ class CustomAccountManager(BaseUserManager["UserModel"]):
         UserModel
             The created user.
         """
+        logger.info(f"Creating user with username: {username}, email: {email}")
+
         if email != "":
             email = self.normalize_email(email)
 
-        user = self.model(email=email, username=username, **other_fields)
-        user.set_password(password)
-        user.save()
-        return user
+        try:
+            user = self.model(email=email, username=username, **other_fields)
+            user.set_password(password)
+            user.save()
+            logger.info(f"User created successfully: {username}")
+            return user
+        except Exception as e:
+            logger.exception(f"Failed to create user {username}: {str(e)}")
+            raise
 
 
 # MARK: Support
@@ -162,6 +188,28 @@ class Support(models.Model):
         return str(self.id)
 
 
+# MARK: Session
+
+
+class SessionModel(models.Model):
+    """
+    Represents a user session.
+
+    Notes
+    -----
+    This model is used to track user sessions for authentication and activity logging.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    session_key = models.CharField(max_length=40, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_activity = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"Session {self.id} for {self.user.username}"
+
+
 # MARK: User
 
 
@@ -171,13 +219,11 @@ class UserModel(AbstractUser, PermissionsMixin):
 
     Notes
     -----
-    Extends Django's `AbstractUser` and adds platform-specific fields.
+    Extends Django's `AbstractUser` and adds platform-specific fields (default username, password and email used).
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255, blank=True)
-    password = models.CharField(max_length=255)
     location = models.CharField(max_length=100, blank=True)
     description = models.TextField(max_length=500, blank=True)
     verified = models.BooleanField(default=False)
@@ -189,13 +235,12 @@ class UserModel(AbstractUser, PermissionsMixin):
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.SET_NULL, blank=True, null=True
     )
-    email = models.EmailField(blank=True)
     is_confirmed = models.BooleanField(default=False)
     is_private = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
 
-    # Django specific fields
+    # Django specific fields.
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 

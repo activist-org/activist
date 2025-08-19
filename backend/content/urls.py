@@ -12,17 +12,34 @@ app_name = "content"
 
 router = DefaultRouter(trailing_slash=False)
 
-# MARK: Main Tables
+router.register(
+    prefix=r"discussions",
+    viewset=views.DiscussionViewSet,
+)
+router.register(
+    prefix=r"discussion_entries",
+    viewset=views.DiscussionEntryViewSet,
+)
+router.register(
+    prefix=r"resources",
+    viewset=views.ResourceViewSet,
+)
+router.register(
+    prefix=r"images",
+    viewset=views.ImageViewSet,
+)
 
-router.register(prefix=r"discussions", viewset=views.DiscussionViewSet)
-router.register(prefix=r"resources", viewset=views.ResourceViewSet)
-router.register(prefix=r"images", viewset=views.ImageViewSet)
-router.register(prefix=r"resource_flag", viewset=views.ResourceFlagViewSet)
-
-# MARK: Bridge Tables
-
-router.register(prefix=r"discussion_entries", viewset=views.DiscussionEntryViewSet)
+router.register(
+    prefix=r"image_icon",
+    viewset=views.ImageIconViewSet,
+    basename="image_icon",
+)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("resource_flag", view=views.ResourceFlagAPIView.as_view()),
+    path(
+        "resource_flag/<uuid:id>",
+        view=views.ResourceFlagDetailAPIView.as_view(),
+    ),
 ]

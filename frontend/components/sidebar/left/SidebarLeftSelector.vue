@@ -2,22 +2,34 @@
 <template>
   <MenuLinkWrapper :id="id" :to="routeUrl" :selected="selected">
     <div
-      class="relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
+      class="group relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
     >
       <span class="pl-1">
-        <Icon v-if="iconUrl" class="h-5 w-5 flex-shrink-0" :name="iconUrl" />
+        <Icon
+          v-if="iconUrl"
+          class="h-5 w-5 flex-shrink-0"
+          :class="{
+            'dark:group-hover:fill-cta-orange': !selected,
+            'fill-layer-1': selected,
+          }"
+          :name="iconUrl"
+        />
       </span>
       <Transition>
         <p
           v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
           class="select-none whitespace-nowrap"
+          :class="{
+            'dark:group-hover:text-cta-orange': !selected,
+            'text-layer-1': selected,
+          }"
         >
           <span class="sr-only">{{ $t("i18n._global.navigate_to") }}</span>
           {{ $t(label) }}
         </p>
-        <span v-else class="sr-only">
+        <p v-else class="sr-only">
           {{ $t("i18n._global.navigate_to") }} {{ $t(label) }}
-        </span>
+        </p>
       </Transition>
     </div>
   </MenuLinkWrapper>

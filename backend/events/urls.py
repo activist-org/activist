@@ -11,7 +11,8 @@ from events.views import (
     EventCalendarViewSet,
     EventDetailAPIView,
     EventFaqViewSet,
-    EventFlagViewSet,
+    EventFlagAPIView,
+    EventFlagDetailAPIView,
     EventSocialLinkViewSet,
     EventTextViewSet,
 )
@@ -19,22 +20,21 @@ from events.views import (
 app_name = "events"
 router = DefaultRouter(trailing_slash=False)
 
-# MARK: Bridge Tables
-
-router.register(
-    prefix=r"event_social_links",
-    viewset=EventSocialLinkViewSet,
-    basename="event-social-links",
-)
-router.register(prefix=r"event_texts", viewset=EventTextViewSet, basename="event-text")
-
 router.register(
     prefix=r"event_faqs",
     viewset=EventFaqViewSet,
     basename="event-faqs",
 )
-
-router.register(prefix=r"event_flag", viewset=EventFlagViewSet, basename="event-flags")
+router.register(
+    prefix=r"event_social_links",
+    viewset=EventSocialLinkViewSet,
+    basename="event-social-links",
+)
+router.register(
+    prefix=r"event_texts",
+    viewset=EventTextViewSet,
+    basename="event-text",
+)
 
 router.register(
     prefix=r"calendar",
@@ -46,4 +46,6 @@ urlpatterns = [
     path("", include(router.urls)),
     path("events", EventAPIView.as_view()),
     path("events/<uuid:id>", EventDetailAPIView.as_view()),
+    path("event_flag", EventFlagAPIView.as_view()),
+    path("event_flag/<uuid:id>", EventFlagDetailAPIView.as_view()),
 ]

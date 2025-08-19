@@ -3,11 +3,11 @@
 Models for the communities app.
 """
 
+from typing import Any
 from uuid import uuid4
 
 from django.db import models
 
-from content.models import Faq, SocialLink
 from utils.models import ISO_CHOICES
 
 # MARK: Group
@@ -49,13 +49,52 @@ class Group(models.Model):
     events = models.ManyToManyField("events.Event", blank=True)
     resources = models.ManyToManyField("content.Resource", blank=True)
 
-    flags = models.ManyToManyField("authentication.UserModel", through="GroupFlag")
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField("authentication.UserModel", through="GroupFlag")
 
     def __str__(self) -> str:
         return self.name
 
 
-# MARK: Bridge Tables
+# MARK: FAQ
+
+
+class GroupFaq(models.Model):
+    """
+    Frequently Asked Questions model.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
+    primary = models.BooleanField(default=False)
+    question = models.TextField(max_length=500, blank=False)
+    answer = models.TextField(max_length=500, blank=False)
+    order = models.IntegerField()
+    last_updated = models.DateTimeField(auto_now=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="faqs")
+
+    def __str__(self) -> str:
+        return self.question
+
+    class Meta:
+        ordering = ["order"]
+
+
+# MARK: Flag
+
+
+class GroupFlag(models.Model):
+    """
+    Models for flagged groups.
+    """
+
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now=True)
+
+
+# MARK: Image
 
 
 class GroupImage(models.Model):
@@ -69,6 +108,9 @@ class GroupImage(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
+
+# MARK: Member
 
 
 class GroupMember(models.Model):
@@ -92,24 +134,29 @@ class GroupMember(models.Model):
         return str(self.id)
 
 
-class GroupSocialLink(SocialLink):
+# MARK: Social Link
+
+
+class GroupSocialLink(models.Model):
     """
     Class for adding social link parameters to groups.
     """
 
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    link = models.URLField(max_length=255)
+    label = models.CharField(max_length=255)
+    order = models.PositiveIntegerField(default=0)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
+    class Meta:
+        ordering = ["order"]
 
-class GroupFaq(Faq):
-    """
-    Class for adding faq parameters to groups.
-    """
 
-    group = models.ForeignKey(
-        Group, on_delete=models.CASCADE, null=True, related_name="faqs"
-    )
+# MARK: Text
 
 
 class GroupText(models.Model):
@@ -122,20 +169,9 @@ class GroupText(models.Model):
     )
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
     primary = models.BooleanField(default=False)
-    description = models.TextField(max_length=500)
+    description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)
     donate_prompt = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
         return f"{self.group} - {self.iso}"
-
-
-class GroupFlag(models.Model):
-    """
-    Models for flagged groups.
-    """
-
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)

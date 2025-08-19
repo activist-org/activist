@@ -1,4 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- * NOTE: THIS COMPONENT WILL BE REMOVED AND REPLACED WITH A REFACTORED VERSION USING LISTBOX HEADLESS/UI -->
 <template>
   <div id="topics-dropdown" class="z-10 flex">
     <Combobox v-model="selectedTopic">

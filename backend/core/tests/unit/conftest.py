@@ -9,7 +9,7 @@ def api_client() -> APIClient:
 
 
 @pytest.fixture(autouse=True)
-def turn_off_throttling(settings, request: pytest.FixtureRequest):
+def disable_throttling(settings, request: pytest.FixtureRequest):
     """
     Automatically disables API throttling for all tests unless the test is marked with 'enable_throttling'.
 

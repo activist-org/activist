@@ -3,13 +3,13 @@
   <CardGetInvolved>
     <div class="flex flex-col md:flex-row">
       <div class="flex items-center gap-5">
-        <h3 class="responsive-h3 text-left font-display">
+        <h3 class="text-left font-display">
           {{ $t("i18n.components._global.get_involved") }}
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalEditTextOrganization()"
-          @keydown.enter="openModalEditTextOrganization()"
+          @click="openModalTextOrganization()"
+          @keydown.enter="openModalTextOrganization()"
         />
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
@@ -35,7 +35,10 @@
     </div>
     <div class="mt-4">
       <div v-if="organization.groups && organization.groups.length > 0">
-        <p>
+        <p v-if="organization.texts.getInvolved">
+          {{ organization.texts.getInvolved }}
+        </p>
+        <p v-else>
           {{
             $t(
               "i18n.components.card_get_involved_organization.working_groups_subtext",
@@ -81,8 +84,8 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
-const { openModal: openModalEditTextOrganization } = useModalHandlers(
-  "ModalEditTextOrganization"
+const { openModal: openModalTextOrganization } = useModalHandlers(
+  "ModalTextOrganization"
 );
 
 const { userIsSignedIn } = useUser();
