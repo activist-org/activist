@@ -6,6 +6,7 @@
 
 Django
 django-cors-headers
+django-ical
 django-stubs
 django-stubs-ext
 djangorestframework
@@ -13,6 +14,7 @@ djangorestframework-camel-case
 djangorestframework-stubs
 drf-spectacular
 gunicorn
+icalendar
 pillow
 psycopg2-binary
 python-dotenv
