@@ -271,7 +271,7 @@ export const useGroupStore = defineStore("group", {
       this.loading = true;
       const formData = new FormData();
 
-      // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
+      // Entities are handled in backend/content/serializers.py ImageSerializer.create().
       formData.append("entity_id", id);
       formData.append("entity_type", EntityType.GROUP);
       sequences.forEach((sequence) =>
@@ -305,7 +305,9 @@ export const useGroupStore = defineStore("group", {
         void error;
       }
     },
+
     // MARK: Update Images
+
     updateImage: async function (entityId: string, image: ContentImage) {
       if (!entityId) {
         return;

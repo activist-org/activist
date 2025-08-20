@@ -171,7 +171,7 @@ const modalName = "ModalUploadImage";
 const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);
-// TODO: REFACTOR: This is a lot of code, and it should be in a composable
+// TODO: This is a lot of code, and it should be in a composable.
 const handleUpload = async () => {
   try {
     resetFiles();

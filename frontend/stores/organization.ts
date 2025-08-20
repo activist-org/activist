@@ -182,7 +182,7 @@ export const useOrganizationStore = defineStore("organization", {
       this.loading = true;
       const formData = new FormData();
 
-      // Entities are sorted out in backend/content/serializers.py ImageSerializer.create().
+      // Entities are handled in backend/content/serializers.py ImageSerializer.create().
       formData.append("entity_id", id);
       formData.append("entity_type", EntityType.ORGANIZATION);
       sequences.forEach((sequence) =>
@@ -216,7 +216,9 @@ export const useOrganizationStore = defineStore("organization", {
         void error;
       }
     },
+
     // MARK: Update Images
+
     updateImage: async function (entityId: string, image: ContentImage) {
       if (!entityId) {
         return;
