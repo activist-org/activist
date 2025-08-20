@@ -2,7 +2,7 @@
 import pytest
 from django.test import Client
 
-from communities.organization.factories import (
+from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationImageFactory,
 )
@@ -22,9 +22,7 @@ def test_org_update_sequence_index(client: Client) -> None:
     organization = OrganizationFactory()
     # Associate images with the organization
     for i, image in enumerate(images):
-        OrganizationImageFactory(
-            organization=organization, image=image, sequence_index=i
-        )
+        OrganizationImageFactory(org=organization, image=image, sequence_index=i)
     sequences = [1, 2, 0]
     # Update the sequence index of each image.
     for i, image in enumerate(images):
