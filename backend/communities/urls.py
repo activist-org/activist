@@ -76,6 +76,7 @@ router.register(
     viewset=OrganizationImageViewSet,
     basename="organization-images",
 )
+
 urlpatterns = [
     path("", include(router.urls)),
     path("groups", GroupAPIView.as_view()),

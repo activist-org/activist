@@ -135,6 +135,8 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
 
 
 # MARK: Image
+
+
 class ImageSerializer(serializers.ModelSerializer[Image]):
     """
     Serializer for Image model data.
