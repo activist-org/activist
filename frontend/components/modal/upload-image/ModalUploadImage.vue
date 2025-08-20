@@ -114,7 +114,7 @@ import type {
 import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
-const { fileImages, handleFiles, removeFile } = useFileManager();
+const { fileImages, handleFiles, removeFile, resetFiles } = useFileManager();
 interface Props {
   entityType: EntityType;
   entityId: string;
@@ -125,6 +125,10 @@ const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 const organizationStore = useOrganizationStore();
+const { organization } = useOrganizationStore();
+
+const groupStore = useGroupStore();
+const { group } = useGroupStore();
 
 const files = ref<FileImageMix[]>([]);
 watch(
@@ -135,21 +139,27 @@ watch(
       newValuesImages.images.length > 0 &&
       files.value.length === 0
     ) {
-      const images = newValuesImages.images.map((image) => ({
+      const images = newValuesImages.images.map((image, index) => ({
         type: "image",
         data: image,
+        sequence: index,
       })) as FileImageMix[];
       files.value = images.concat(
-        (newValueFilesImages || []).map((file) => ({
+        (newValueFilesImages || []).map((file, index) => ({
           type: "upload",
           data: file,
+          sequence: index + images.length,
         }))
       );
       return;
     } else {
       const newFile = newValueFilesImages[newValueFilesImages.length - 1];
       if (newFile) {
-        files.value.push({ type: "upload", data: newFile });
+        files.value.push({
+          type: "upload",
+          data: newFile,
+          sequence: files.value.length,
+        });
       }
     }
   },
@@ -161,21 +171,68 @@ const modalName = "ModalUploadImage";
 const uploadError = ref(false);
 
 const emit = defineEmits(["upload-complete", "upload-error"]);
-
+// TODO: This is a lot of code, and it should be in a composable.
 const handleUpload = async () => {
   try {
-    // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
+    resetFiles();
+    const reIndexedFiles = files.value.map((file, index) => ({
+      ...file,
+      sequence: index,
+    }));
+    const uploadFiles = reIndexedFiles.filter((file) => file.type === "upload");
+    const imageFiles = reIndexedFiles.filter((file) => file.type === "image");
     if (props.entityType === EntityType.ORGANIZATION) {
-      await organizationStore.uploadFiles(
-        props.entityId,
-        files.value
-          .filter((file) => file.type === "upload")
-          .map((file) => file.data as UploadableFile)
-      );
+      if (imageFiles && imageFiles.length > 0) {
+        await Promise.all(
+          imageFiles.map((image) =>
+            organizationStore.updateImage(props.entityId, {
+              ...image.data,
+              sequence_index: image.sequence,
+            } as ContentImage)
+          )
+        );
+      }
+      if (uploadFiles && uploadFiles.length > 0) {
+        await organizationStore.uploadFiles(
+          props.entityId,
+          uploadFiles.map((file) => file.data as UploadableFile),
+          uploadFiles.map((file) => file.sequence)
+        );
+      }
+    } else if (props.entityType === EntityType.GROUP) {
+      if (imageFiles && imageFiles.length > 0) {
+        await Promise.all(
+          imageFiles.map((image) =>
+            groupStore.updateImage(props.entityId, {
+              ...image.data,
+              sequence_index: image.sequence,
+            } as ContentImage)
+          )
+        );
+      }
+      if (uploadFiles && uploadFiles.length > 0) {
+        await groupStore.uploadFiles(
+          props.entityId,
+          uploadFiles.map((file) => file.data as UploadableFile),
+          uploadFiles.map((file) => file.sequence)
+        );
+      }
     } else {
       throw new Error("Unsupported entity type");
     }
-
+    if (props.entityType === EntityType.ORGANIZATION) {
+      files.value = (organization.images || []).map((image, index) => ({
+        type: "image",
+        data: image,
+        sequence: index,
+      })) as FileImageMix[];
+    } else if (props.entityType === EntityType.GROUP) {
+      files.value = (group.images || []).map((image, index) => ({
+        type: "image",
+        data: image,
+        sequence: index,
+      })) as FileImageMix[];
+    }
     modals.closeModal(modalName);
 
     emit("upload-complete", props.entityId);

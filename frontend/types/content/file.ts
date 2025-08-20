@@ -3,6 +3,7 @@ export interface ContentImage {
   id: string;
   fileObject: string;
   creation_date: string;
+  sequence_index?: number;
 }
 export class UploadableFile {
   file: File;
@@ -22,4 +23,5 @@ export class UploadableFile {
 export interface FileImageMix {
   type: "image" | "upload";
   data: UploadableFile | ContentImage;
+  sequence: number;
 }

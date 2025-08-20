@@ -41,6 +41,11 @@ export function useFileManager() {
     }
   }
 
+  function resetFiles() {
+    fileImages.value = [];
+    fileImageIcon.value = null;
+  }
+
   function handleFiles(newFiles: File[], isIconImage: boolean = false) {
     const allowedTypes = ["image/jpeg", "image/png"];
     const validFiles = [...newFiles].filter((file) =>
@@ -100,5 +105,6 @@ export function useFileManager() {
     deleteImage,
     handleFiles,
     removeFile,
+    resetFiles,
   };
 }
