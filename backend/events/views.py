@@ -471,6 +471,32 @@ class EventTextViewSet(viewsets.ModelViewSet[EventText]):
     queryset = EventText.objects.all()
     serializer_class = EventTextSerializer
 
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            event_text = self.queryset.get(id=pk)
+
+        except Event.DoesNotExist as e:
+            logger.exception(f"Event text not found for update with id {pk}: {e}")
+            return Response(
+                {"detail": "Event text Not Found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if (
+            request.user != getattr(event_text.event, "created_by", None)
+            and not request.user.is_staff
+        ):
+            return Response(
+                {"detail": "User not authorized."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.serializer_class(event_text, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class EventCalenderAPIView(APIView):
     queryset = Event.objects.all()
