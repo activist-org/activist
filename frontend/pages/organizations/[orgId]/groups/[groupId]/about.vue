@@ -2,7 +2,7 @@
 <template>
   <ModalSocialLinksGroup />
   <ModalTextGroup />
-  <Tabs class="pt-2 md:pt-0" :selectors="groupSubPages" :selectedRoute="0" />
+  <Tabs class="pt-2 md:pt-0" :tabs="groupTabs" :selectedTab="0" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ group.name }}</Title>
@@ -88,7 +88,6 @@ import type { EntityType } from "~/types/entity";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
-import { getGroupTabs } from "~/utils/groupSubPages";
 
 defineProps<{
   group: Group;
@@ -96,7 +95,7 @@ defineProps<{
 
 const aboveLargeBP = useBreakpoint("lg");
 
-const groupSubPages = getGroupTabs();
+const groupTabs = getGroupTabs();
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

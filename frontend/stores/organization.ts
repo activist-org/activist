@@ -579,5 +579,49 @@ export const useOrganizationStore = defineStore("organization", {
 
       this.loading = false;
     },
+
+    // MARK: Reorder FAQ
+
+    async reorderFaqEntries(org: Organization, faqEntries: FaqEntry[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFAQs = await Promise.all(
+        faqEntries.map((faq) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/organization_faqs/${faq.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id: faq.id,
+                order: faq.order,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
+      );
+
+      const responseFAQsData = responseFAQs.map(
+        (item) => item.data.value as unknown as Organization
+      );
+      if (responseFAQsData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
   },
 });

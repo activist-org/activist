@@ -59,6 +59,7 @@
   "i18n.components._global.connect": "Connect",
   "i18n.components._global.control_tooltip_label": "Press \"^ + k\" to jump to a page",
   "i18n.components._global.documentation": "Documentation",
+  "i18n.components._global.draggable_element": "Draggable page element",
   "i18n.components._global.get_involved": "Get involved",
   "i18n.components._global.github": "GitHub",
   "i18n.components._global.github_aria_label": "Visit the activist GitHub repository",
