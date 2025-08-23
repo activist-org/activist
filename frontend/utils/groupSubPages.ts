@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { SubPageSelector } from "~/types/sub-page-selector";
+import type { TabPage } from "~/types/tab";
 
 import { IconMap } from "~/types/icon-map";
 
-export function getGroupSubPages(): SubPageSelector[] {
+export function getGroupTabs(): TabPage[] {
   const i18n = useI18n();
   const route = useRoute();
 
   const { orgId, groupId } = route.params;
 
-  const groupAboutPageSelector: SubPageSelector = {
+  const groupAboutPageSelector: TabPage = {
     id: 0,
     label: i18n.t("i18n._global.about"),
     iconName: `${IconMap.ABOUT}`,
@@ -17,7 +17,7 @@ export function getGroupSubPages(): SubPageSelector[] {
     selected: false,
   };
 
-  const groupEventPageSelector: SubPageSelector = {
+  const groupEventPageSelector: TabPage = {
     id: 1,
     label: i18n.t("i18n._global.events"),
     iconName: `${IconMap.EVENT}`,
@@ -25,7 +25,7 @@ export function getGroupSubPages(): SubPageSelector[] {
     selected: false,
   };
 
-  const groupEventResourcesSelector: SubPageSelector = {
+  const groupEventResourcesSelector: TabPage = {
     id: 2,
     label: i18n.t("i18n._global.resources"),
     iconName: "IconResource",
@@ -33,7 +33,7 @@ export function getGroupSubPages(): SubPageSelector[] {
     selected: false,
   };
 
-  const groupEventFaqSelector: SubPageSelector = {
+  const groupEventFaqSelector: TabPage = {
     id: 3,
     label: i18n.t("i18n._global.faq"),
     iconName: "IconFAQ",
