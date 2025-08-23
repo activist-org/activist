@@ -6,7 +6,7 @@
       @upload-complete="handleUploadComplete"
       :entityId="group.id || ''"
       :entityType="EntityType.GROUP"
-      :images="[]"
+      :images="group.images || []"
     />
     <ModalUploadImageIcon
       @upload-complete="groupStore.fetchById(group.id)"
@@ -46,13 +46,12 @@ import {
 
 const aboveMediumBP = useBreakpoint("md");
 
-const paramsGroupId = useRoute().params.groupid;
+const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-
 const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
+await groupStore.fetchImages(groupId as string);
 const { group } = groupStore;
-
 const { handleCloseModal: handleCloseModalUploadImage } =
   useModalHandlers("ModalUploadImage");
 const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(

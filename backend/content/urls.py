@@ -28,7 +28,6 @@ router.register(
     prefix=r"images",
     viewset=views.ImageViewSet,
 )
-
 router.register(
     prefix=r"image_icon",
     viewset=views.ImageIconViewSet,

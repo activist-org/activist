@@ -21,6 +21,7 @@ interface GroupBase {
   events?: Event[];
   faqEntries?: FaqEntry[];
   resources?: Resource[];
+  images?: ContentImage[];
   // topics?: Topic[];
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];

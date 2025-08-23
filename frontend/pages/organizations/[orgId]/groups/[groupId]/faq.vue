@@ -1,11 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <MenuSubPageSelector
-    class="pt-2 md:pt-0"
-    :selectors="groupSubPages"
-    :selectedRoute="3"
-  />
-
+  <Tabs class="pt-2 md:pt-0" :selectors="groupSubPages" :selectedRoute="3" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ props.group.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
@@ -61,7 +56,7 @@ import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{ group: Group }>();
 
-const groupSubPages = getGroupSubPages();
+const groupSubPages = getGroupTabs();
 const groupStore = useGroupStore();
 
 const faqList = ref<FaqEntry[]>([...(props.group.faqEntries || [])]);

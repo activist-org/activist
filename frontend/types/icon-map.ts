@@ -29,6 +29,7 @@ export enum IconMap {
   DISCUSSION = "octicon:comment-discussion-24",
   DOCS = "bi:layout-text-sidebar-reverse",
   DOTS_THREE_VERTICAL = "bi:three-dots-vertical",
+  GRIP = "bi:grip-vertical",
   EDIT = "bi:pencil-square",
   ENVELOPE = "bi:envelope",
   EVENT = "bi:calendar-check",

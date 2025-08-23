@@ -26,14 +26,6 @@
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <DropdownTheme
-            class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
-          />
-          <DropdownLanguage
-            class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
-          />
           <DropdownCreate
             v-if="userIsSignedIn && devMode.active"
             id="create"
@@ -43,6 +35,14 @@
           <DropdownInfo
             v-if="devMode.active"
             id="info"
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
+          <DropdownTheme
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
+          <DropdownLanguage
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />

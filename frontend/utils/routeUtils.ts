@@ -7,7 +7,7 @@ const localCodes = locales.map((l) => l.code);
  * Normalize a given path by removing leading and trailing slashes.
  */
 function normalizePath(path: string): string {
-  return path.replace(/^\/|\/$/g, "");
+  return path.replace(/^\/+/g, "").replace(/\/+$/g, "");
 }
 
 /**

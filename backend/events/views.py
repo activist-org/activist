@@ -4,15 +4,23 @@ API views for event management.
 """
 
 import logging
+import re
 from typing import Any, Sequence, Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
-from drf_spectacular.utils import OpenApiResponse, extend_schema
+from django.http import HttpResponse
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
+from icalendar import Calendar  # type: ignore
+from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -462,3 +470,89 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 class EventTextViewSet(viewsets.ModelViewSet[EventText]):
     queryset = EventText.objects.all()
     serializer_class = EventTextSerializer
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            event_text = self.queryset.get(id=pk)
+
+        except Event.DoesNotExist as e:
+            logger.exception(f"Event text not found for update with id {pk}: {e}")
+            return Response(
+                {"detail": "Event text Not Found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if (
+            request.user != getattr(event_text.event, "created_by", None)
+            and not request.user.is_staff
+        ):
+            return Response(
+                {"detail": "User not authorized."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.serializer_class(event_text, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class EventCalenderAPIView(APIView):
+    queryset = Event.objects.all()
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="event_id",
+                type=UUID,
+                required=True,
+            )
+        ]
+    )
+    def get(self, request: Request) -> HttpResponse | Response:
+        event_id = request.query_params.get("event_id")
+        if not event_id:
+            return Response(
+                {"detail": "Event ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            event = self.queryset.get(id=event_id)
+
+        except Event.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        cal = Calendar()
+        cal.add("prodid", "-//Activist//EN")
+        cal.add("version", "2.0")
+        ical_event = ICalEvent()
+        ical_event.add("summary", event.name)
+        ical_event.add("description", event.tagline or "")
+        ical_event.add("dtstart", event.start_time)
+        ical_event.add("dtend", event.end_time)
+        ical_event.add(
+            "location",
+            (
+                event.online_location_link
+                if event.setting == "online"
+                else event.offline_location
+            ),
+        )
+        ical_event.add("uid", event.id)
+        cal.add_component(ical_event)
+
+        # Convert to lower camel case.
+        event_name = re.sub(r"[\t\n\r\f\v]+", " ", event.name)
+        event_file_identifier = (
+            "".join(filter(str.isalnum, event_name)).replace(" ", "_").lower()
+        )
+
+        response = HttpResponse(cal.to_ical(), content_type="text/calendar")
+        response["Content-Disposition"] = (
+            f"attachment; filename=activist_event_{event_file_identifier}.ics"
+        )
+
+        return response
