@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Tabs class="pt-2 md:pt-0" :selectors="groupSubPages" :selectedRoute="3" />
+  <Tabs class="pt-2 md:pt-0" :tabs="groupTabs" :selectedTab="3" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ props.group.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
@@ -13,8 +13,8 @@
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnAction
-          @click.stop="useModalHandlers('ModalAddFaqEntryGroup').openModal()"
-          @keydown.enter="useModalHandlers('ModalAddFaqEntryGroup').openModal()"
+          @click.stop="useModalHandlers('ModalFaqEntryGroup').openModal()"
+          @keydown.enter="useModalHandlers('ModalFaqEntryGroup').openModal()"
           class="w-max"
           :cta="true"
           label="i18n.pages._global.new_faq"
@@ -23,7 +23,7 @@
           iconSize="1.35em"
           ariaLabel="i18n.pages._global.new_faq_aria_label"
         />
-        <ModalAddFaqEntryGroup />
+        <ModalFaqEntryGroup />
       </div>
     </HeaderAppPageGroup>
 
@@ -56,7 +56,7 @@ import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{ group: Group }>();
 
-const groupSubPages = getGroupTabs();
+const groupTabs = getGroupTabs();
 const groupStore = useGroupStore();
 
 const faqList = ref<FaqEntry[]>([...(props.group.faqEntries || [])]);

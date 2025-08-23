@@ -12,8 +12,8 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
-          @click.stop="useModalHandlers('ModalAddFaqEntryEvent').openModal()"
-          @keydown.enter="useModalHandlers('ModalAddFaqEntryEvent').openModal()"
+          @click.stop="useModalHandlers('ModalFaqEntryEvent').openModal()"
+          @keydown.enter="useModalHandlers('ModalFaqEntryEvent').openModal()"
           class="w-max"
           :cta="true"
           label="i18n.pages._global.new_faq"
@@ -22,7 +22,7 @@
           iconSize="1.35em"
           ariaLabel="i18n.pages._global.new_faq_aria_label"
         />
-        <ModalAddFaqEntryEvent />
+        <ModalFaqEntryEvent />
       </div>
     </HeaderAppPageOrganization>
 
@@ -55,6 +55,7 @@ import { useEventStore } from "~/stores/event";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{ event: Event }>();
+
 const eventStore = useEventStore();
 
 const faqList = ref<FaqEntry[]>([]);

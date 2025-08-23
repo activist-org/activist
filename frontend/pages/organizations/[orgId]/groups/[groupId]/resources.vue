@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Tabs class="pt-2 md:pt-0" :selectors="groupSubPages" :selectedRoute="2" />
+  <Tabs class="pt-2 md:pt-0" :tabs="groupTabs" :selectedTab="2" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
@@ -44,5 +44,5 @@ defineProps<{
   group: Group;
 }>();
 
-const groupSubPages = getGroupTabs();
+const groupTabs = getGroupTabs();
 </script>

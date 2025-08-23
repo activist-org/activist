@@ -6,6 +6,12 @@
         class="flex gap-3"
         :class="{ 'items-center': !open, 'items-start': open }"
       >
+        <Icon
+          class="drag-handle -mr-2 cursor-grab select-none"
+          :name="IconMap.GRIP"
+          size="1em"
+          :aria-label="$t('i18n.components._global.draggable_element')"
+        />
         <div class="text-primary-text">
           <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
           <Icon v-else :name="IconMap.CHEVRON_DOWN" />

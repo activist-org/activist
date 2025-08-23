@@ -26,12 +26,12 @@
         >
           <template #item="{ index }">
             <div class="flex items-center space-x-5">
-              <span
+              <Icon
                 class="drag-handle -mr-2 cursor-grab select-none"
-                title="Drag to reorder"
-              >
-                <Icon :name="IconMap.GRIP" size="1em" />
-              </span>
+                :name="IconMap.GRIP"
+                size="1em"
+                :aria-label="$t('i18n.components._global.draggable_element')"
+              />
               <IconClose @click="handleRemoveByIndex(index)" />
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"

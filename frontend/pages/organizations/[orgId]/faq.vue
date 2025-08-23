@@ -12,10 +12,10 @@
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
           @click.stop="
-            useModalHandlers('ModalAddFaqEntryOrganization').openModal()
+            useModalHandlers('ModalFaqEntryOrganization').openModal()
           "
           @keydown.enter="
-            useModalHandlers('ModalAddFaqEntryOrganization').openModal()
+            useModalHandlers('ModalFaqEntryOrganization').openModal()
           "
           class="w-max"
           :cta="true"

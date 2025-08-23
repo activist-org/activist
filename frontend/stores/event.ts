@@ -469,46 +469,44 @@ export const useEventStore = defineStore("event", {
       this.loading = false;
     },
 
-    // MARK: Reorder FAQ entries
+    // MARK: Reorder FAQs
+
     async reorderFaqEntries(event: Event, faqEntries: FaqEntry[]) {
       this.loading = true;
-      try {
-        const responses: boolean[] = [];
+      const responses: boolean[] = [];
 
-        for (let i = 0; i < faqEntries.length; i++) {
-          const faq = faqEntries[i];
-          const response = await useFetch(
-            `${BASE_BACKEND_URL}/events/event_faqs/${faq.id}`,
-            {
-              method: "PUT",
-              body: JSON.stringify({
-                id: faq.id,
-                order: i + 1,
-              }),
-              headers: {
-                Authorization: `${token.value}`,
-              },
-            }
-          );
+      const responseFAQs = await Promise.all(
+        faqEntries.map((faq) =>
+          useFetch(`${BASE_BACKEND_URL}/events/event_faqs/${faq.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              id: faq.id,
+              order: faq.order,
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          })
+        )
+      );
 
-          if (response.data.value) {
-            responses.push(true);
-          } else {
-            responses.push(false);
-          }
-        }
+      const responseFAQsData = responseFAQs.map(
+        (item) => item.data.value as unknown as Event
+      );
+      if (responseFAQsData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
 
-        if (responses.every(Boolean)) {
-          await this.fetchById(event.id);
-          this.loading = false;
-          return true;
-        } else {
-          this.loading = false;
-          return false;
-        }
-      } catch (error) {
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(event.id);
         this.loading = false;
-        throw new Error(`Error reordering event FAQs: ${error}`);
+        return true;
+      } else {
+        this.loading = false;
+        return false;
       }
     },
   },
