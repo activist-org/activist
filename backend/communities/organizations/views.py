@@ -573,6 +573,34 @@ class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
     queryset = OrganizationText.objects.all()
     serializer_class = OrganizationTextSerializer
 
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            org_text = self.queryset.get(id=pk)
+
+        except OrganizationText.DoesNotExist as e:
+            logger.exception(
+                f"Organization text not found for update with id {pk}: {e}"
+            )
+            return Response(
+                {"detail": "Organization text not found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if (
+            request.user != getattr(org_text.org, "created_by", None)
+            and not request.user.is_staff
+        ):
+            return Response(
+                {"detail": "User not authorized."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.serializer_class(org_text, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 # MARK: Image
 

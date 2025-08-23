@@ -214,6 +214,7 @@ class EventText(models.Model):
     Translatable text content for events in different languages.
     """
 
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="texts"
     )

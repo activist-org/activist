@@ -164,6 +164,7 @@ class GroupText(models.Model):
     Class for adding text parameters to groups.
     """
 
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="texts"
     )

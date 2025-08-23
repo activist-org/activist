@@ -222,6 +222,7 @@ class OrganizationText(models.Model):
     Class for adding text parameters to organizations.
     """
 
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="texts"
     )
