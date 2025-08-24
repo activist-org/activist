@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from django.db import models
 
+from content.models import Resource
 from utils.models import ISO_CHOICES
 
 # MARK: Event
@@ -54,7 +55,6 @@ class Event(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
 
-    resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
     formats = models.ManyToManyField("events.Format", blank=True)
     roles = models.ManyToManyField("events.Role", blank=True)
@@ -162,6 +162,23 @@ class Format(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Resource
+
+
+class EventResource(Resource):
+    """
+    Event resource model.
+    """
+
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="resources")
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["order"]
 
 
 # MARK: Role

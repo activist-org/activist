@@ -341,8 +341,8 @@ const location = computed<string>(() => {
     return props.group.location.displayName.split(",")[0];
   } else if (props.event && props.event.offlineLocation) {
     return props.event.offlineLocation.displayName.split(",")[0];
-  } else if (props.resource && props.resource.location) {
-    return props.resource.location.displayName.split(",")[0];
+    // } else if (props.resource && props.resource.location) {
+    //   return props.resource.location.displayName.split(",")[0];
   } else if (props.user && props.user.location) {
     return props.user.location;
   } else {

@@ -5,8 +5,7 @@ Test cases for GroupResource model.
 
 import pytest
 
-from communities.groups.factories import GroupFactory
-from content.factories import ResourceFactory
+from communities.groups.factories import GroupFactory, GroupResourceFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -16,7 +15,7 @@ def test_group_resource_multiple_resources() -> None:
     Test multiple resources for a single group.
     """
     group = GroupFactory()
-    resources = ResourceFactory.create_batch(3)
+    resources = [GroupResourceFactory(group=group) for _ in range(3)]
 
     group.resources.set(resources)
 

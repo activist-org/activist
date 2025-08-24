@@ -39,7 +39,7 @@ def test_disc_entry_create():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/content/discussion_entries",
-        data={"discussion": discussion_thread, "createdBy": user},
+        data={"discussion": discussion_thread, "created_by": user},
     )
 
     assert response.status_code == 201

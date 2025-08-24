@@ -47,6 +47,7 @@ export const useOrganizationStore = defineStore("organization", {
       images: [],
       groups: [],
       events: [],
+      resources: [],
       faqEntries: [],
 
       texts: {
@@ -132,6 +133,8 @@ export const useOrganizationStore = defineStore("organization", {
 
         this.organization.groups = organization.groups;
         this.organization.events = organization.events;
+
+        this.organization.resources = organization.resources;
         this.organization.faqEntries = organization.faqEntries;
       }
 

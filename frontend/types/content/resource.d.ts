@@ -11,9 +11,9 @@ export interface Resource {
   createdBy: User;
   description: string;
   // category: string;
-  org: Organization;
-  location: Location;
-  resourceUrl: string;
+  org?: Organization;
+  location?: Location;
+  url: string;
   // isPrivate?: boolean;
   creationDate?: string;
   // lastUpdated?: string;
