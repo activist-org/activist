@@ -481,16 +481,28 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
 # MARK: Text
 
 
-class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):
+class GroupTextViewSet(GenericAPIView[GroupText]):
     queryset = GroupText.objects.all()
     serializer_class = GroupTextSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
+    @extend_schema(
+        responses={
+            200: GroupTextSerializer,
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to update this group's texts."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Group text not found."}),
+        }
+    )
+    def put(self, request: Request, id: UUID | str) -> Response:
         try:
-            group_text = self.queryset.get(id=pk)
+            group_text = self.queryset.get(id=id)
 
         except GroupText.DoesNotExist as e:
-            logger.exception(f"Group text not found for update with id {pk}: {e}")
+            logger.exception(f"Group text not found for update with id {id}: {e}")
             return Response(
                 {"detail": "Group text not found."}, status=status.HTTP_404_NOT_FOUND
             )
@@ -500,7 +512,7 @@ class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):
             and not request.user.is_staff
         ):
             return Response(
-                {"detail": "User not authorized."},
+                {"detail": "You are not authorized to update to this group's text."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
