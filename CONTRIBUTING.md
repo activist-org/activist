@@ -459,7 +459,7 @@ cd frontend
 # Set the environment variables:
 set -a && source ../.env.dev && set +a
 
-# Install and run the project:
+# Install and run the project in production mode:
 corepack enable
 yarn install
 yarn build  # answer no to all package installation prompts
