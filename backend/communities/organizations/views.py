@@ -569,17 +569,29 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
 # MARK: Text
 
 
-class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
+class OrganizationTextViewSet(GenericAPIView[OrganizationText]):
     queryset = OrganizationText.objects.all()
     serializer_class = OrganizationTextSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
+    @extend_schema(
+        responses={
+            200: OrganizationTextSerializer,
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to update this organization's texts."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Organization text not found."}),
+        }
+    )
+    def put(self, request: Request, id: UUID | str) -> Response:
         try:
-            org_text = self.queryset.get(id=pk)
+            org_text = self.queryset.get(id=id)
 
         except OrganizationText.DoesNotExist as e:
             logger.exception(
-                f"Organization text not found for update with id {pk}: {e}"
+                f"Organization text not found for update with id {id}: {e}"
             )
             return Response(
                 {"detail": "Organization text not found."},
@@ -591,7 +603,9 @@ class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
             and not request.user.is_staff
         ):
             return Response(
-                {"detail": "User not authorized."},
+                {
+                    "detail": "You are not authorized to update this organization's text."
+                },
                 status=status.HTTP_403_FORBIDDEN,
             )
 

@@ -467,18 +467,30 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 # MARK: Text
 
 
-class EventTextViewSet(viewsets.ModelViewSet[EventText]):
+class EventTextViewSet(GenericAPIView[EventText]):
     queryset = EventText.objects.all()
     serializer_class = EventTextSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
+    @extend_schema(
+        responses={
+            200: EventTextSerializer,
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to update to this event's text."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Event text not found."}),
+        }
+    )
+    def put(self, request: Request, id: UUID | str) -> Response:
         try:
-            event_text = self.queryset.get(id=pk)
+            event_text = EventText.objects.get(id=id)
 
-        except Event.DoesNotExist as e:
-            logger.exception(f"Event text not found for update with id {pk}: {e}")
+        except EventText.DoesNotExist as e:
+            logger.exception(f"Event text not found for update with id {id}: {e}")
             return Response(
-                {"detail": "Event text Not Found."},
+                {"detail": "Event text not found."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -487,7 +499,7 @@ class EventTextViewSet(viewsets.ModelViewSet[EventText]):
             and not request.user.is_staff
         ):
             return Response(
-                {"detail": "User not authorized."},
+                {"detail": "You are not authorized to update to this event's text."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 

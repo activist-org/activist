@@ -47,11 +47,6 @@ router.register(
     basename="group-social-links",
 )
 router.register(
-    prefix=r"group_texts",
-    viewset=GroupTextViewSet,
-    basename="group-text",
-)
-router.register(
     prefix=r"organization_faqs",
     viewset=OrganizationFaqViewSet,
     basename="organization-faqs",
@@ -60,11 +55,6 @@ router.register(
     prefix=r"organization_social_links",
     viewset=OrganizationSocialLinkViewSet,
     basename="organization-social-links",
-)
-router.register(
-    prefix=r"organization_texts",
-    viewset=OrganizationTextViewSet,
-    basename="organization-text",
 )
 router.register(
     prefix=r"group/(?P<group_id>[^/.]+)/images",
@@ -83,6 +73,7 @@ urlpatterns = [
     path("groups/<uuid:id>", GroupDetailAPIView.as_view()),
     path("group_flag", GroupFlagAPIView.as_view()),
     path("group_flag/<uuid:id>", GroupFlagDetailAPIView.as_view()),
+    path("group_texts/<uuid:id>", GroupTextViewSet.as_view()),
     path("organizations", OrganizationAPIView.as_view()),
     path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
     path("organization_flag", OrganizationFlagAPIView.as_view()),
@@ -90,4 +81,5 @@ urlpatterns = [
         "organization_flag/<uuid:id>",
         OrganizationFlagDetailAPIView.as_view(),
     ),
+    path("organization_texts/<uuid:id>", OrganizationTextViewSet.as_view()),
 ]
