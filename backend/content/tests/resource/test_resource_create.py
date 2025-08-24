@@ -41,11 +41,12 @@ def test_resource_create():
         "name": resource_instance.name,
         "description": resource_instance.description,
         "url": resource_instance.url,
+        "order": resource_instance.order,
+        "location": location.id,
         "category": resource_instance.category,
         "created_by": user.id,
-        "termsChecked": True,
-        "isPrivate": False,
-        "location": location.id,
+        "is_private": False,
+        "terms_checked": True,
     }
 
     # Authorized user creates resource.

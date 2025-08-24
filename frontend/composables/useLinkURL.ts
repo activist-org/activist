@@ -23,14 +23,14 @@ export function useLinkURL(props: {
     } else if (props.event) {
       url = `/events/${props.event.id}`;
     } else if (props.resource) {
-      url = props.resource.resourceUrl;
+      url = props.resource.url;
     } else if (props.user) {
       url = `/users/${props.user.id}`;
     } else {
       url = "";
     }
 
-    if (aboveMediumBP) {
+    if (aboveMediumBP && !props.resource) {
       return `${url}/about`;
     } else {
       return url;

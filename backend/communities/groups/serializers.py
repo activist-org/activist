@@ -3,6 +3,7 @@
 Serializers for groups in the communities app.
 """
 
+import logging
 from typing import Any
 from uuid import UUID
 
@@ -14,12 +15,15 @@ from communities.groups.models import (
     GroupFlag,
     GroupImage,
     GroupMember,
+    GroupResource,
     GroupSocialLink,
     GroupText,
 )
 from communities.organizations.models import Organization
-from content.serializers import LocationSerializer, ResourceSerializer
+from content.serializers import LocationSerializer
 from events.serializers import EventSerializer
+
+logger = logging.getLogger(__name__)
 
 # MARK: FAQ
 
@@ -57,6 +61,51 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
 
         try:
             group = Group.objects.get(id=value)
+            logger.info("Group found for value: %s", value)
+
+        except Group.DoesNotExist as e:
+            raise serializers.ValidationError("Group not found.") from e
+
+        return group
+
+
+# MARK: Resource
+
+
+class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
+    """
+    Serializer for GroupResource model data.
+    """
+
+    class Meta:
+        model = GroupResource
+        fields = "__all__"
+
+    def validate_group(self, value: Group | UUID | str) -> Group:
+        """
+        Validate that the group exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Group instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the group does not exist.
+
+        Returns
+        -------
+        Group
+            The validated Group instance.
+        """
+        if isinstance(value, Group):
+            return value
+
+        try:
+            group = Group.objects.get(id=value)
+            logger.info("Group found for value: %s", value)
 
         except Group.DoesNotExist as e:
             raise serializers.ValidationError("Group not found.") from e
@@ -100,6 +149,7 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
 
         try:
             group = Group.objects.get(id=value)
+            logger.info("Group found for value: %s", value)
 
         except Group.DoesNotExist as e:
             raise serializers.ValidationError("Group not found.") from e
@@ -152,7 +202,6 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
         model = Group
 
         exclude = (
-            "resources",
             "topics",
             "org",
             "created_by",
@@ -174,7 +223,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     texts = GroupTextSerializer(many=True, read_only=True)
     social_links = GroupSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer()
-    resources = ResourceSerializer(many=True, read_only=True)
+    resources = GroupResourceSerializer(many=True, read_only=True)
     faq_entries = GroupFaqSerializer(source="faqs", many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)

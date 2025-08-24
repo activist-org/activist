@@ -24,9 +24,12 @@
         />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="orgResources.length > 0" class="space-y-3 py-4">
+    <div
+      v-if="(organization.resources ?? []).length > 0"
+      class="space-y-3 py-4"
+    >
       <CardSearchResultResource
-        v-for="(r, i) in orgResources"
+        v-for="(r, i) in organization.resources"
         :key="i"
         :isReduced="true"
         :resource="r"
@@ -38,13 +41,10 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
-import type { Resource } from "~/types/content/resource";
 
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   organization: Organization;
 }>();
-
-const orgResources: Resource[] = [];
 </script>

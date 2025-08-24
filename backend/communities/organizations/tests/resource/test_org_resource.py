@@ -5,8 +5,10 @@ Test cases for OrganizationResource model.
 
 import pytest
 
-from communities.organizations.factories import OrganizationFactory
-from content.factories import ResourceFactory
+from communities.organizations.factories import (
+    OrganizationFactory,
+    OrganizationResourceFactory,
+)
 
 pytestmark = pytest.mark.django_db
 
@@ -16,7 +18,7 @@ def test_org_resource_multiple_resources() -> None:
     Test multiple resources for a single organization.
     """
     org = OrganizationFactory()
-    resources = ResourceFactory.create_batch(3)
+    resources = [OrganizationResourceFactory(org=org) for _ in range(3)]
 
     org.resources.set(resources)
 

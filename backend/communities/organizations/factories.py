@@ -17,6 +17,7 @@ from communities.organizations.models import (
     OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
+    OrganizationResource,
     OrganizationSocialLink,
     OrganizationTask,
     OrganizationText,
@@ -98,7 +99,7 @@ class OrganizationFaqFactory(factory.django.DjangoModelFactory):
     primary = factory.Faker("boolean")
     question = factory.Faker(provider="text", locale="la")
     answer = factory.Faker(provider="text", locale="la")
-    order = factory.Faker("random_int", min=1, max=100)
+    order = factory.Faker("random_int", min=0, max=100)
     org = factory.SubFactory(OrganizationFactory)
 
 
@@ -151,6 +152,33 @@ class OrganizationMemberFactory(factory.django.DjangoModelFactory):
     is_owner = factory.Faker("boolean")
     is_admin = factory.Faker("boolean")
     is_comms = factory.Faker("boolean")
+
+
+# MARK: Resource
+
+
+class OrganizationResourceFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationResource model instances.
+    """
+
+    class Meta:
+        model = OrganizationResource
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    name = factory.Faker(provider="text", locale="la", max_nb_chars=50)
+    description = factory.Faker(provider="text", locale="la")
+    url = "https://www.activist.org"
+    order = factory.Faker("random_int", min=0, max=100)
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
+    is_private = factory.Faker("boolean")
+    terms_checked = factory.Faker("boolean")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 # MARK: Social Link

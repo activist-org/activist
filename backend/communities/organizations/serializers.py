@@ -17,15 +17,12 @@ from communities.organizations.models import (
     OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
+    OrganizationResource,
     OrganizationSocialLink,
     OrganizationTask,
     OrganizationText,
 )
-from content.serializers import (
-    ImageSerializer,
-    LocationSerializer,
-    ResourceSerializer,
-)
+from content.serializers import ImageSerializer, LocationSerializer
 from events.serializers import EventSerializer
 
 logger = logging.getLogger(__name__)
@@ -69,7 +66,50 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
             logger.info("Organization found for value: %s", value)
 
         except Organization.DoesNotExist as e:
-            logger.exception("Organization not found for value: %s", value)
+            raise serializers.ValidationError("Organization not found.") from e
+
+        return org
+
+
+# MARK: Resource
+
+
+class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationResource]):
+    """
+    Serializer for OrganizationResource model data.
+    """
+
+    class Meta:
+        model = OrganizationResource
+        fields = "__all__"
+
+    def validate_org(self, value: Organization | UUID | str) -> Organization:
+        """
+        Validate that the organization exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Organization instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the organization does not exist.
+
+        Returns
+        -------
+        Organization
+            The validated Organization instance.
+        """
+        if isinstance(value, Organization):
+            return value
+
+        try:
+            org = Organization.objects.get(id=value)
+            logger.info("Organization found for value: %s", value)
+
+        except Organization.DoesNotExist as e:
             raise serializers.ValidationError("Organization not found.") from e
 
         return org
@@ -113,6 +153,7 @@ class OrganizationSocialLinkSerializer(
 
         try:
             org = Organization.objects.get(id=value)
+            logger.info("Organization found for value: %s", value)
 
         except Organization.DoesNotExist as e:
             raise serializers.ValidationError("Organization not found.") from e
@@ -144,7 +185,7 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     texts = OrganizationTextSerializer(many=True, read_only=True)
     social_links = OrganizationSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer()
-    resources = ResourceSerializer(many=True, read_only=True)
+    resources = OrganizationResourceSerializer(many=True, read_only=True)
     faq_entries = OrganizationFaqSerializer(source="faqs", many=True, read_only=True)
     groups = GroupSerializer(many=True, read_only=True)
     events = EventSerializer(many=True, read_only=True)
