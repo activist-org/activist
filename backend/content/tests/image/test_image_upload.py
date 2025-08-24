@@ -44,7 +44,7 @@ def create_organization_and_image() -> Dict[str, Any]:
     Helper function to create a test organization and a simple test image.
     """
     org = OrganizationFactory()
-    assert org is not None, "Organization was not created"
+    assert org is not None, "Entity was not created"
 
     img = TestImage.new("RGB", (100, 100), color="red")
     img_file = io.BytesIO()
@@ -55,7 +55,11 @@ def create_organization_and_image() -> Dict[str, Any]:
         "test_create_image.jpg", img_file.getvalue(), content_type="image/jpeg"
     )
 
-    return {"organization_id": str(org.id), "file_object": file}
+    return {
+        "entity_id": str(org.id),
+        "entity_type": "organization",
+        "file_object": file,
+    }
 
 
 @pytest.mark.django_db
@@ -205,7 +209,11 @@ def test_image_create_multiple_files_view(client: APIClient) -> None:
         )
         files.append(file)
 
-    data = {"organization_id": str(org.id), "file_object": files}
+    data = {
+        "entity_id": str(org.id),
+        "entity_type": "organization",
+        "file_object": files,
+    }
 
     response = client.post("/v1/content/images", data, format="multipart")
 
@@ -301,7 +309,11 @@ def test_image_create_large_file(client: APIClient) -> None:
         "large_image.bmp", img_file.getvalue(), content_type="image/bmp"
     )
 
-    data = {"organization_id": str(org.id), "file_object": file}
+    data = {
+        "entity_id": str(org.id),
+        "entity_type": "organization",
+        "file_object": file,
+    }
 
     response = client.post("/v1/content/images", data, format="multipart")
 

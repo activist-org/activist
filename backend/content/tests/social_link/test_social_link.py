@@ -202,9 +202,7 @@ def test_organization_social_link_create_view(client: APIClient) -> None:
 
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
-
-    # The PUT method will delete all existing social links and replace them with the ones in formData.
-    assert OrganizationSocialLink.objects.count() == 1
+    assert OrganizationSocialLink.objects.count() == num_links
 
 
 @pytest.mark.django_db
@@ -246,9 +244,7 @@ def test_group_social_link_create_view(client: APIClient) -> None:
 
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
-
-    # The PUT method will delete all existing social links and replace them with the ones in formData.
-    assert GroupSocialLink.objects.count() == 1
+    assert GroupSocialLink.objects.count() == num_links
 
 
 @pytest.mark.django_db
@@ -290,9 +286,7 @@ def test_event_social_link_create_view(client: APIClient) -> None:
 
     # PUT in this case returns 200 OK instead of 201 Created.
     assert response.status_code == status.HTTP_200_OK
-
-    # The PUT method will delete all existing social links and replace them with the ones in formData.
-    assert EventSocialLink.objects.count() == 1
+    assert EventSocialLink.objects.count() == num_links
 
 
 def test_social_link_str_method():

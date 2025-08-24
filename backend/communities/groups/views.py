@@ -26,6 +26,7 @@ from communities.groups.models import (
     Group,
     GroupFaq,
     GroupFlag,
+    GroupImage,
     GroupSocialLink,
     GroupText,
 )
@@ -37,13 +38,14 @@ from communities.groups.serializers import (
     GroupSocialLinkSerializer,
     GroupTextSerializer,
 )
-from content.models import Location
+from content.models import Image, Location
+from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
 logger = logging.getLogger("django")
 
-# MARK: Group
+# MARK: API
 
 
 class GroupAPIView(GenericAPIView[Group]):
@@ -115,6 +117,9 @@ class GroupAPIView(GenericAPIView[Group]):
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Detail API
 
 
 class GroupDetailAPIView(GenericAPIView[Group]):
@@ -221,7 +226,7 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         )
 
 
-# MARK: Group Flags
+# MARK: Flag
 
 
 class GroupFlagAPIView(GenericAPIView[GroupFlag]):
@@ -264,6 +269,9 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Flag Detail
 
 
 class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
@@ -327,7 +335,7 @@ class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
         )
 
 
-# MARK: Bridge Tables
+# MARK: FAQ
 
 
 class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
@@ -379,10 +387,35 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         )
 
 
+# MARK: Social Link
+
+
 class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def delete(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        group: Group = serializer.validated_data["group"]
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to delete social links for this group."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        GroupSocialLink.objects.filter(group=group).delete()
+        logger.info(f"Social links deleted for group {group.id}")
+
+        return Response(
+            {"message": "Social links deleted successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
@@ -417,7 +450,6 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             )
 
         group = social_links.group
-
         if group is not None:
             creator = group.created_by
 
@@ -432,14 +464,12 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        GroupSocialLink.objects.filter(group=group).delete()
-
         serializer = self.get_serializer(social_links, request.data, partial=True)
         if serializer.is_valid():
             serializer.save(group=group)
 
             return Response(
-                {"message": "Social links updated successfully."},
+                {"message": "Social link updated successfully."},
                 status=status.HTTP_200_OK,
             )
 
@@ -448,6 +478,70 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
         )
 
 
+# MARK: Text
+
+
 class GroupTextViewSet(viewsets.ModelViewSet[GroupText]):
     queryset = GroupText.objects.all()
     serializer_class = GroupTextSerializer
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            group_text = self.queryset.get(id=pk)
+
+        except GroupText.DoesNotExist as e:
+            logger.exception(f"Group text not found for update with id {pk}: {e}")
+            return Response(
+                {"detail": "Group text not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if (
+            request.user != getattr(group_text.group, "created_by", None)
+            and not request.user.is_staff
+        ):
+            return Response(
+                {"detail": "User not authorized."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.serializer_class(group_text, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# MARK: Image
+
+
+class GroupImageViewSet(viewsets.ModelViewSet[Image]):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+
+    def list(self, request: Request, group_id: UUID) -> Response:
+        images = Image.objects.filter(groupimage__group_id=group_id).order_by(
+            "groupimage__sequence_index"
+        )
+        serializer = self.get_serializer(images, many=True)
+        return Response(serializer.data)
+
+    def update(self, request: Request, group_id: UUID, pk: UUID | str) -> Response:
+        sequence_index = request.data.get("sequence_index", None)
+        if sequence_index is not None:
+            # Update GroupImage, not the Image itself.
+            try:
+                group_image = GroupImage.objects.get(group_id=group_id, image_id=pk)
+                group_image.sequence_index = sequence_index
+                group_image.save()
+                return Response(
+                    {"detail": "Sequence index updated."}, status=status.HTTP_200_OK
+                )
+
+            except GroupImage.DoesNotExist:
+                return Response(
+                    {"detail": "GroupImage relation not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+        # Fallback to default image update if needed.
+        return super().update(request)

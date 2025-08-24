@@ -12,6 +12,7 @@ from communities.groups.views import (
     GroupFaqViewSet,
     GroupFlagAPIView,
     GroupFlagDetailAPIView,
+    GroupImageViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
@@ -31,12 +32,10 @@ app_name = "communities"
 
 router = DefaultRouter(trailing_slash=False)
 
-# MARK: Main Tables
-
-router.register(prefix=r"statuses", viewset=StatusViewSet)
-
-# MARK: Bridge Tables
-
+router.register(
+    prefix=r"statuses",
+    viewset=StatusViewSet,
+)
 router.register(
     prefix=r"group_faqs",
     viewset=GroupFaqViewSet,
@@ -68,7 +67,12 @@ router.register(
     basename="organization-text",
 )
 router.register(
-    prefix=r"organizations/(?P<org_id>[^/.]+)/images",
+    prefix=r"group/(?P<group_id>[^/.]+)/images",
+    viewset=GroupImageViewSet,
+    basename="group-images",
+)
+router.register(
+    prefix=r"organization/(?P<org_id>[^/.]+)/images",
     viewset=OrganizationImageViewSet,
     basename="organization-images",
 )

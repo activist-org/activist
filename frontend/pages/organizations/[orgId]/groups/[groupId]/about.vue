@@ -1,12 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalEditSocialLinks pageType="group" />
-  <ModalEditTextGroup />
-  <MenuSubPageSelector
-    class="pt-2 md:pt-0"
-    :selectors="groupSubPages"
-    :selectedRoute="0"
-  />
+  <ModalSocialLinksGroup />
+  <ModalTextGroup />
+  <Tabs class="pt-2 md:pt-0" :tabs="groupTabs" :selectedTab="0" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ group.name }}</Title>
@@ -74,7 +70,9 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :fileUploadEntity="FileUploadEntity.GROUP_CAROUSEL"
+            :entityType="'group' as EntityType"
+            :images="group.images || []"
+            :entityId="group.id"
           />
         </div>
       </div>
@@ -86,11 +84,10 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
+import type { EntityType } from "~/types/entity";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
-import { getGroupSubPages } from "~/utils/groupSubPages";
 
 defineProps<{
   group: Group;
@@ -98,7 +95,7 @@ defineProps<{
 
 const aboveLargeBP = useBreakpoint("lg");
 
-const groupSubPages = getGroupSubPages();
+const groupTabs = getGroupTabs();
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

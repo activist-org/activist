@@ -13,7 +13,11 @@
       <ImageEvent
         class="elem-shadow-sm"
         eventType="action"
-        :imgUrl="logoUrl"
+        :imgUrl="
+          event.iconUrl?.fileObject
+            ? `${BASE_BACKEND_URL_NO_V1}${event.iconUrl?.fileObject}`
+            : logoUrl
+        "
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: name,
@@ -25,11 +29,7 @@
           showButton &&
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
         "
-        @click="
-          openModalUploadImages({
-            fileUploadEntity: FileUploadEntity.EVENT_ICON,
-          })
-        "
+        @click="openModal()"
         class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         ariaLabel="i18n.components.sidebar_left_content_event.edit_aria_label"
       >
@@ -58,7 +58,6 @@
 </template>
 
 <script setup lang="ts">
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -66,11 +65,15 @@ const props = defineProps<{
   logoUrl?: string;
 }>();
 
-const logoUrl = ref(props.logoUrl);
 const sidebar = useSidebar();
+
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
+const logoUrl = ref(props.logoUrl);
 const menuEntriesState = useMenuEntriesState();
-const { openModal: openModalUploadImages } =
-  useModalHandlers("ModalUploadImages");
+
+const eventStore = useEventStore();
+const { event } = eventStore;
 
 const showButton = true;
 </script>

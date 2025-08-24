@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { ContentImage } from "~/types/content/image";
+import type { ContentImage } from "~/types/content/file";
 
 // MARK: Main Table
 

@@ -20,12 +20,18 @@ django==5.2.4
     # via
     #   -r requirements.in
     #   django-cors-headers
+    #   django-ical
+    #   django-recurrence
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework
     #   drf-spectacular
 django-cors-headers==4.7.0
     # via -r requirements.in
+django-ical==1.9.2
+    # via -r requirements.in
+django-recurrence==1.11.1
+    # via django-ical
 django-stubs==5.2.2
     # via
     #   -r requirements.in
@@ -46,6 +52,10 @@ drf-spectacular==0.28.0
     # via -r requirements.in
 gunicorn==23.0.0
     # via -r requirements.in
+icalendar==6.3.1
+    # via
+    #   -r requirements.in
+    #   django-ical
 idna==3.10
     # via requests
 inflection==0.5.1
@@ -60,6 +70,10 @@ pillow==11.3.0
     # via -r requirements.in
 psycopg2-binary==2.9.10
     # via -r requirements.in
+python-dateutil==2.9.0.post0
+    # via
+    #   django-recurrence
+    #   icalendar
 python-dotenv==1.1.1
     # via -r requirements.in
 pyyaml==6.0.2
@@ -74,6 +88,8 @@ rpds-py==0.26.0
     # via
     #   jsonschema
     #   referencing
+six==1.17.0
+    # via python-dateutil
 sqlparse==0.5.3
     # via django
 types-pyyaml==6.0.12.20250516
@@ -88,6 +104,8 @@ typing-extensions==4.14.1
     #   django-stubs-ext
     #   djangorestframework-stubs
     #   referencing
+tzdata==2025.2
+    # via icalendar
 uritemplate==4.2.0
     # via drf-spectacular
 urllib3==2.5.0

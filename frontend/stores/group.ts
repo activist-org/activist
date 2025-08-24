@@ -7,7 +7,10 @@ import type {
   GroupUpdateTextFormData,
 } from "~/types/communities/group";
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { ContentImage, UploadableFile } from "~/types/content/file";
 import type { SocialLinkFormData } from "~/types/content/social-link";
+
+import { EntityType } from "~/types/entity";
 
 interface GroupStore {
   loading: boolean;
@@ -25,6 +28,7 @@ export const useGroupStore = defineStore("group", {
     group: {
       // group
       id: "",
+      images: [],
       groupName: "",
       name: "",
       tagline: "",
@@ -182,20 +186,6 @@ export const useGroupStore = defineStore("group", {
     async updateTexts(group: Group, formData: GroupUpdateTextFormData) {
       this.loading = true;
 
-      const responseOrg = await $fetch(
-        BASE_BACKEND_URL + `/communities/groups/${group.id}`,
-        {
-          method: "PUT",
-          body: {
-            ...group,
-            getInvolvedUrl: formData.getInvolvedUrl,
-          },
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
-      );
-
       const responseOrgTexts = await $fetch(
         BASE_BACKEND_URL + `/communities/group_texts/${group.texts.id}`,
         {
@@ -214,7 +204,7 @@ export const useGroupStore = defineStore("group", {
         }
       );
 
-      if (responseOrg && responseOrgTexts) {
+      if (responseOrgTexts) {
         this.group.texts.description = formData.description;
         this.group.texts.getInvolved = formData.getInvolved;
         this.group.getInvolvedUrl = formData.getInvolvedUrl;
@@ -225,6 +215,148 @@ export const useGroupStore = defineStore("group", {
       }
 
       return false;
+    },
+
+    // MARK: Delete Links
+
+    // ATTN: Currently we're deleting the social links and rewriting all of them.
+    async deleteSocialLinks(group: Group) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseSocialLinks = useFetch(
+        `${BASE_BACKEND_URL}/communities/group_social_links`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({
+            link: "https://www.example.com",
+            label: "placeholder",
+            group: group.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data
+        .value as unknown as Group;
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Upload Files
+
+    uploadFiles: async function (
+      id: string,
+      files: UploadableFile[],
+      sequences: number[] = []
+    ) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      const formData = new FormData();
+
+      // Entities are handled in backend/content/serializers.py ImageSerializer.create().
+      formData.append("entity_id", id);
+      formData.append("entity_type", EntityType.GROUP);
+      sequences.forEach((sequence) =>
+        formData.append("sequences", sequence.toString())
+      );
+
+      files.forEach((uploadableFile: UploadableFile) => {
+        formData.append("file_object", uploadableFile.file);
+      });
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/images`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          const data = response.data.value as ContentImage[];
+          if (data.length > 0) {
+            await this.fetchImages(id);
+            this.loading = false;
+          }
+          return data;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
+    // MARK: Update Images
+
+    updateImage: async function (entityId: string, image: ContentImage) {
+      if (!entityId) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/communities/group/${entityId}/images/${image.id}`,
+          {
+            method: "PUT",
+            body: image,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          await this.fetchImages(entityId);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
+    // MARK: Fetch Images
+
+    fetchImages: async function (entityId: string) {
+      if (!entityId) {
+        return;
+      }
+
+      try {
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/communities/group/${entityId}/images`,
+          {
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+        if (response.data?.value) {
+          const data = response.data.value as ContentImage[];
+          this.group.images = data;
+        }
+      } catch (error) {
+        void error;
+      }
     },
 
     // MARK: Create Links
@@ -324,7 +456,7 @@ export const useGroupStore = defineStore("group", {
       const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/communities/group_faqs/`,
+        `${BASE_BACKEND_URL}/communities/group_faqs`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -405,6 +537,47 @@ export const useGroupStore = defineStore("group", {
       this.loading = true;
 
       this.loading = false;
+    },
+
+    // MARK: Reorder FAQs
+
+    async reorderFaqEntries(group: Group, faqEntries: FaqEntry[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFAQs = await Promise.all(
+        faqEntries.map((faq) =>
+          useFetch(`${BASE_BACKEND_URL}/communities/group_faqs/${faq.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              id: faq.id,
+              order: faq.order,
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          })
+        )
+      );
+
+      const responseFAQsData = responseFAQs.map(
+        (item) => item.data.value as unknown as Group
+      );
+      if (responseFAQsData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
   },
 });

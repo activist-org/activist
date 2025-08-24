@@ -26,14 +26,6 @@
       </div>
       <SidebarRight>
         <div class="flex-col space-y-2">
-          <DropdownTheme
-            class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
-          />
-          <DropdownLanguage
-            class="w-full"
-            :location="DropdownLocation.SIDE_MENU"
-          />
           <DropdownCreate
             v-if="userIsSignedIn && devMode.active"
             id="create"
@@ -43,6 +35,14 @@
           <DropdownInfo
             v-if="devMode.active"
             id="info"
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
+          <DropdownTheme
+            class="w-full"
+            :location="DropdownLocation.SIDE_MENU"
+          />
+          <DropdownLanguage
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
@@ -141,13 +141,13 @@
 <script setup lang="ts">
 import { DropdownLocation } from "~/types/location";
 
+const aboveMediumBP = useBreakpoint("md");
+const aboveLargeBP = useBreakpoint("lg");
+
 const devMode = useDevMode();
 devMode.check();
 
 const { userIsSignedIn } = useUser();
-
-const aboveMediumBP = useBreakpoint("md");
-const aboveLargeBP = useBreakpoint("lg");
 
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);

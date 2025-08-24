@@ -7,22 +7,25 @@
     v-bind="infoComponent"
     class="flex w-full items-center rounded-md text-sm"
     :class="{
-      'group py-2 pl-4 pr-3': !isSideLeftMenu,
+      'group py-2 pl-4 pr-3': !isSidebarLeftMenu,
       'bg-cta-orange/80 dark:bg-cta-orange/25 dark:text-cta-orange': active,
-      'text-primary-text': !active,
-      'relative z-0 space-x-2 p-2 text-left font-medium': isSideLeftMenu,
+      'text-primary-text hover:bg-cta-orange/80 dark:hover:bg-cta-orange/25 dark:hover:fill-cta-orange dark:hover:text-cta-orange':
+        !active,
+      'relative z-0 space-x-2 p-2 text-left font-medium': isSidebarLeftMenu,
     }"
   >
     <Icon
       v-if="iconName"
       :name="iconName"
       size="1em"
-      :class="{ 'h-5 w-5 flex-shrink-0': isSideLeftMenu }"
+      :class="{
+        'h-5 w-5 flex-shrink-0': isSidebarLeftMenu,
+      }"
     />
     <Transition>
       <component
         v-if="
-          !isSideLeftMenu ||
+          !isSidebarLeftMenu ||
           sidebar.collapsed == false ||
           sidebar.collapsedSwitch == false
         "
@@ -39,7 +42,7 @@
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
-  isSideLeftMenu?: boolean | undefined;
+  isSidebarLeftMenu?: boolean | undefined;
   isButton: boolean;
   handlerClick?: () => void;
   iconName?: string | undefined;
@@ -69,7 +72,7 @@ const infoLabel = computed(() => {
         is: "p",
         class: "px-2 dark:group-hover:text-cta-orange",
       }
-    : props.isSideLeftMenu
+    : props.isSidebarLeftMenu
       ? {
           is: "p",
           class:

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalEditSocialLinks pageType="organization" />
-  <ModalEditTextOrganization />
+  <ModalSocialLinksOrganization />
+  <ModalTextOrganization />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ organization.name }}</Title>
@@ -64,7 +64,9 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :fileUploadEntity="FileUploadEntity.ORGANIZATION_CAROUSEL"
+            :entityType="'organization' as EntityType"
+            :entityId="organization.id"
+            :images="organization.images || []"
           />
         </div>
       </div>
@@ -81,18 +83,18 @@
 
 <script setup lang="ts">
 import type { Organization } from "~/types/communities/organization";
+import type { EntityType } from "~/types/entity";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
-import { FileUploadEntity } from "~/types/content/file-upload-entity";
 import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   organization: Organization;
 }>();
 
-const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
-
 const aboveLargeBP = useBreakpoint("lg");
+
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

@@ -4,6 +4,7 @@
     <Head>
       <Title>{{ event.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
+
     <HeaderAppPageOrganization
       :header="event.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
@@ -11,34 +12,63 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
-          @click.stop="useModalHandlers('ModalAddFaqEntry').openModal()"
-          @keydown.enter="useModalHandlers('ModalAddFaqEntry').openModal()"
+          @click.stop="useModalHandlers('ModalFaqEntryEvent').openModal()"
+          @keydown.enter="useModalHandlers('ModalFaqEntryEvent').openModal()"
           class="w-max"
           :cta="true"
-          label="i18n._global.new_faq"
+          label="i18n.pages._global.new_faq"
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
           ariaLabel="i18n.pages._global.new_faq_aria_label"
         />
-        <ModalAddFaqEntry pageType="event" />
+        <ModalFaqEntryEvent />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="event.faqEntries!.length > 0" class="py-4">
-      <div v-for="f in event.faqEntries" class="mb-4">
-        <CardFAQEntry :pageType="'event'" :faqEntry="f" />
-      </div>
+
+    <!-- FAQ list with drag-and-drop -->
+    <div v-if="faqList.length > 0" class="py-4">
+      <draggable
+        v-model="faqList"
+        @end="onDragEnd"
+        item-key="id"
+        class="space-y-4"
+      >
+        <template #item="{ element }">
+          <CardFAQEntry :pageType="'event'" :faqEntry="element" />
+        </template>
+      </draggable>
     </div>
+
     <EmptyState v-else pageType="faq" :permission="false" class="py-4" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from "vue";
+import draggable from "vuedraggable";
+
+import type { FaqEntry } from "~/types/content/faq-entry";
 import type { Event } from "~/types/events/event";
 
+import { useEventStore } from "~/stores/event";
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  event: Event;
-}>();
+const props = defineProps<{ event: Event }>();
+
+const eventStore = useEventStore();
+
+const faqList = ref<FaqEntry[]>([]);
+
+watch(
+  () => props.event?.faqEntries,
+  (newVal) => {
+    faqList.value = newVal?.slice() ?? [];
+  },
+  { immediate: true }
+);
+
+async function onDragEnd() {
+  await eventStore.reorderFaqEntries(props.event, faqList.value);
+}
 </script>

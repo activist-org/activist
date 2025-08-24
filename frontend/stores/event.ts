@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { UploadableFile } from "~/types/content/file";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
@@ -8,6 +9,8 @@ import type {
   EventsResponseBody,
   EventUpdateTextFormData,
 } from "~/types/events/event";
+
+import { EntityType } from "~/types/entity";
 
 interface EventStore {
   loading: boolean;
@@ -103,6 +106,38 @@ export const useEventStore = defineStore("event", {
       return false;
     },
 
+    // MARK: Update Icon
+
+    uploadIconImage: async function (id: string, file: UploadableFile) {
+      if (!id) {
+        return;
+      }
+      this.loading = true;
+      try {
+        const formData = new FormData();
+        formData.append("entity_id", id);
+        formData.append("entity_type", EntityType.EVENT);
+        formData.append("file_object", file.file);
+        const response = await useFetch(
+          `${BASE_BACKEND_URL as string}/content/image_icon`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          }
+        );
+
+        if (response.data?.value) {
+          await this.fetchById(id);
+          this.loading = false;
+        }
+      } catch (error) {
+        void error;
+      }
+    },
+
     // MARK: Fetch By ID
 
     async fetchById(id: string | undefined) {
@@ -185,20 +220,6 @@ export const useEventStore = defineStore("event", {
     async updateTexts(event: Event, formData: EventUpdateTextFormData) {
       this.loading = true;
 
-      const responseEvent = await $fetch(
-        BASE_BACKEND_URL + `/events/events/${event.id}`,
-        {
-          method: "PUT",
-          body: {
-            ...event,
-            getInvolvedUrl: formData.getInvolvedUrl,
-          },
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
-      );
-
       const responseEventTexts = await $fetch(
         BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}`,
         {
@@ -217,7 +238,7 @@ export const useEventStore = defineStore("event", {
         }
       );
 
-      if (responseEvent && responseEventTexts) {
+      if (responseEventTexts) {
         this.event.texts.description = formData.description;
         this.event.texts.getInvolved = formData.getInvolved;
         this.event.getInvolvedUrl = formData.getInvolvedUrl;
@@ -230,6 +251,47 @@ export const useEventStore = defineStore("event", {
       return false;
     },
 
+    // MARK: Delete Links
+
+    // ATTN: Currently we're deleting the social links and rewriting all of them.
+    async deleteSocialLinks(event: Event) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseSocialLinks = useFetch(
+        `${BASE_BACKEND_URL}/events/event_social_links`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({
+            link: "https://www.example.com",
+            label: "placeholder",
+            event: event.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseSocialLinksData = responseSocialLinks.data
+        .value as unknown as Event;
+      if (responseSocialLinksData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
     // MARK: Create Links
 
     async createSocialLinks(event: Event, formData: SocialLinkFormData[]) {
@@ -239,7 +301,7 @@ export const useEventStore = defineStore("event", {
       // Note: Map of the request sends individual requests for each social link to  create the entry in the table.
       const responseSocialLinks = await Promise.all(
         formData.map((data) =>
-          useFetch(`${BASE_BACKEND_URL}/communities/event_social_links`, {
+          useFetch(`${BASE_BACKEND_URL}/events/event_social_links`, {
             method: "POST",
             body: JSON.stringify({
               link: data.link,
@@ -283,20 +345,17 @@ export const useEventStore = defineStore("event", {
       // Note: Map of the request sends individual requests for each social link to the correct entry in the table.
       const responseSocialLinks = await Promise.all(
         formData.map((data) =>
-          useFetch(
-            `${BASE_BACKEND_URL}/communities/event_social_links/${data.id}`,
-            {
-              method: "PUT",
-              body: JSON.stringify({
-                link: data.link,
-                label: data.label,
-                order: data.order,
-              }),
-              headers: {
-                Authorization: `${token.value}`,
-              },
-            }
-          )
+          useFetch(`${BASE_BACKEND_URL}/events/event_social_links/${data.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              link: data.link,
+              label: data.label,
+              order: data.order,
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          })
         )
       );
 
@@ -327,7 +386,7 @@ export const useEventStore = defineStore("event", {
       const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/events/event_faqs/`,
+        `${BASE_BACKEND_URL}/events/event_faqs`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -408,6 +467,47 @@ export const useEventStore = defineStore("event", {
       this.loading = true;
 
       this.loading = false;
+    },
+
+    // MARK: Reorder FAQs
+
+    async reorderFaqEntries(event: Event, faqEntries: FaqEntry[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFAQs = await Promise.all(
+        faqEntries.map((faq) =>
+          useFetch(`${BASE_BACKEND_URL}/events/event_faqs/${faq.id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+              id: faq.id,
+              order: faq.order,
+            }),
+            headers: {
+              Authorization: `${token.value}`,
+            },
+          })
+        )
+      );
+
+      const responseFAQsData = responseFAQs.map(
+        (item) => item.data.value as unknown as Event
+      );
+      if (responseFAQsData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
   },
 });

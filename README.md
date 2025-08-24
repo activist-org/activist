@@ -182,12 +182,12 @@ git remote add upstream https://github.com/activist-org/activist.git
 4. Create a virtual environment for the backend (Python `>=3.11`), activate it and install dependencies:
 
     ```bash
-    # Unix or MacOS:
     python3 -m venv venv
+
+    # Unix or MacOS:
     source venv/bin/activate
 
     # Windows:
-    python -m venv venv
     venv\Scripts\activate.bat
 
     # After activating venv:
@@ -208,8 +208,8 @@ git remote add upstream https://github.com/activist-org/activist.git
    Sometimes changes to the database can cause the database population to fail in your environment. If this happens, you can destroy the deployment and rebuild it:
 
     ```bash
-    # Destroy your current docker-compose deployment:
-    docker-compose rm -f -v --env-file .env.dev
+    # Destroy your current docker compose deployment:
+    docker compose rm -f -v --env-file .env.dev
     ```
 
 6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.

@@ -14,8 +14,8 @@
             {{ $t("i18n.components.card_details.header") }}
           </h3>
           <IconEdit
-            @click="openModalEditTextEvent()"
-            @keydown.enter="openModalEditTextEvent()"
+            @click="openModalTextEvent()"
+            @keydown.enter="openModalTextEvent()"
           />
         </div>
         <div v-if="event" class="flex-col space-y-6 py-2">
@@ -57,8 +57,7 @@
 </template>
 
 <script setup lang="ts">
-const { openModal: openModalEditTextEvent } =
-  useModalHandlers("ModalEditTextEvent");
+const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const { openModal: openModalOrganizationOverview } = useModalHandlers(
   "ModalOrganizationOverview"
 );

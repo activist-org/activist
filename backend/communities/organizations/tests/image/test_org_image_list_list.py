@@ -13,7 +13,7 @@ def test_org_image_list(client: Client) -> None:
     org = OrganizationFactory()
 
     response = client.get(
-        path=f"/v1/communities/organizations/{org.id}/images",
+        path=f"/v1/communities/organization/{org.id}/images",
     )
 
     assert response.status_code == 200

@@ -8,7 +8,6 @@ import re
 from typing import Any, Dict, Union
 
 from django.contrib.auth import authenticate, get_user_model
-from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
@@ -63,7 +62,7 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
                 data.get("username", "unknown"),
             )
             raise serializers.ValidationError(
-                _(
+                (
                     "The field password must be at least 12 characters long and contain at least one special character."
                 ),
                 code="invalid_password",
@@ -75,7 +74,7 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
                 data.get("username", "unknown"),
             )
             raise serializers.ValidationError(
-                _("The passwords did not match. Please try again."),
+                ("The passwords did not match. Please try again."),
                 code="invalid_password_confirmation",
             )
 
@@ -216,6 +215,9 @@ class SignInSerializer(serializers.Serializer[UserModel]):
 #         read_only_fields = ("id", "created_at")
 
 
+# MARK: Pass Reset
+
+
 class PasswordResetSerializer(serializers.Serializer[UserModel]):
     """
     Serializer for the password reset flow data.
@@ -251,7 +253,7 @@ class PasswordResetSerializer(serializers.Serializer[UserModel]):
                 "Password reset attempt failed - user not found: %s", identifier
             )
             raise serializers.ValidationError(
-                _("Invalid email address. Please try again."),
+                ("Invalid email address. Please try again."),
                 code="invalid_email",
             )
 
