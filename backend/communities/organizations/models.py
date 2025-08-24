@@ -9,6 +9,7 @@ from uuid import uuid4
 from django.db import models
 
 from authentication import enums
+from content.models import Resource
 from utils.models import ISO_CHOICES
 
 # MARK: Organization
@@ -50,7 +51,6 @@ class Organization(models.Model):
 
     topics = models.ManyToManyField("content.Topic", blank=True)
 
-    resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
@@ -173,7 +173,26 @@ class OrganizationMember(models.Model):
         return str(self.id)
 
 
-# MARK: Social Links
+# MARK: Resource
+
+
+class OrganizationResource(Resource):
+    """
+    Organization resource model.
+    """
+
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="resources"
+    )
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["order"]
+
+
+# MARK: Social Link
 
 
 class OrganizationSocialLink(models.Model):

@@ -15,6 +15,7 @@ from events.models import (
     EventAttendeeStatus,
     EventFaq,
     EventFlag,
+    EventResource,
     EventSocialLink,
     EventText,
     Format,
@@ -131,7 +132,7 @@ class EventFaqFactory(factory.django.DjangoModelFactory):
     primary = factory.Faker("boolean")
     question = factory.Faker(provider="text", locale="la")
     answer = factory.Faker(provider="text", locale="la")
-    order = factory.Faker("random_int", min=1, max=100)
+    order = factory.Faker("random_int", min=0, max=100)
     event = factory.SubFactory(EventFactory)
 
 
@@ -173,6 +174,32 @@ class FormatFactory(factory.django.DjangoModelFactory):
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("future_date", end_date="+30d")
+
+
+# MARK: Resource
+
+
+class EventResourceFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventResource model instances.
+    """
+
+    class Meta:
+        model = EventResource
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    name = factory.Faker(provider="text", locale="la", max_nb_chars=50)
+    description = factory.Faker(provider="text", locale="la")
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
+    url = "https://www.activist.org"
+    is_private = factory.Faker("boolean")
+    terms_checked = factory.Faker("boolean")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 # MARK: Social Link

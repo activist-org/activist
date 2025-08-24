@@ -12,13 +12,16 @@ from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
-from content.serializers import (
-    FaqSerializer,
-    ImageSerializer,
-    LocationSerializer,
-    ResourceSerializer,
+from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer
+from events.models import (
+    Event,
+    EventFaq,
+    EventFlag,
+    EventResource,
+    EventSocialLink,
+    EventText,
+    Format,
 )
-from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText, Format
 from utils.utils import (
     validate_creation_and_deprecation_dates,
 )
@@ -61,9 +64,53 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
 
         try:
             event = Event.objects.get(id=value)
+            logger.info("Event found for value: %s", value)
 
         except Event.DoesNotExist as e:
-            logger.exception(f"Event with id {value} not found.")
+            raise serializers.ValidationError("Event not found.") from e
+
+        return event
+
+
+# MARK: Resource
+
+
+class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
+    """
+    Serializer for EventResource model data.
+    """
+
+    class Meta:
+        model = EventResource
+        fields = "__all__"
+
+    def validate_event(self, value: Event | UUID | str) -> Event:
+        """
+        Validate that the event exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Event instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the event does not exist.
+
+        Returns
+        -------
+        Event
+            The validated Event instance.
+        """
+        if isinstance(value, Event):
+            return value
+
+        try:
+            event = Event.objects.get(id=value)
+            logger.info("Event found for value: %s", value)
+
+        except Event.DoesNotExist as e:
             raise serializers.ValidationError("Event not found.") from e
 
         return event
@@ -105,6 +152,7 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
 
         try:
             event = Event.objects.get(id=value)
+            logger.info("Event found for value: %s", value)
 
         except Event.DoesNotExist as e:
             raise serializers.ValidationError("Event not found.") from e
@@ -183,7 +231,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     texts = EventTextSerializer(many=True, read_only=True)
     social_links = EventSocialLinkSerializer(many=True, read_only=True)
     offline_location = LocationSerializer()
-    resources = ResourceSerializer(many=True, read_only=True)
+    resources = EventResourceSerializer(many=True, read_only=True)
     faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
 

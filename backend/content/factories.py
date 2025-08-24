@@ -255,7 +255,7 @@ class ResourceFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("name")
     description = factory.Faker(provider="text", locale="la")
     location = factory.SubFactory("content.factories.EntityLocationFactory")
-    url = factory.Faker("url")
+    url = "https://www.activist.org"
     is_private = factory.Faker("boolean")
     terms_checked = factory.Faker("boolean")
     creation_date = factory.LazyFunction(

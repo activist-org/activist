@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from django.db import models
 
+from content.models import Resource
 from utils.models import ISO_CHOICES
 
 # MARK: Group
@@ -47,7 +48,6 @@ class Group(models.Model):
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     events = models.ManyToManyField("events.Event", blank=True)
-    resources = models.ManyToManyField("content.Resource", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="GroupFlag")
@@ -132,6 +132,23 @@ class GroupMember(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
+
+# MARK: Resource
+
+
+class GroupResource(Resource):
+    """
+    Group resource model.
+    """
+
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="resources")
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["order"]
 
 
 # MARK: Social Link

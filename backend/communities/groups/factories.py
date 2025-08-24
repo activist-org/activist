@@ -15,6 +15,7 @@ from communities.groups.models import (
     GroupFlag,
     GroupImage,
     GroupMember,
+    GroupResource,
     GroupSocialLink,
     GroupText,
 )
@@ -57,7 +58,7 @@ class GroupFaqFactory(factory.django.DjangoModelFactory):
     primary = factory.Faker("boolean")
     question = factory.Faker(provider="text", locale="la")
     answer = factory.Faker(provider="text", locale="la")
-    order = factory.Faker("random_int", min=1, max=100)
+    order = factory.Faker("random_int", min=0, max=100)
     group = factory.SubFactory(GroupFactory)
 
 
@@ -108,6 +109,32 @@ class GroupMemberFactory(factory.django.DjangoModelFactory):
     group = factory.SubFactory(GroupFactory)
     user = factory.SubFactory("authentication.factories.UserFactory")
     is_admin = factory.Faker("boolean")
+
+
+# MARK: Resource
+
+
+class GroupResourceFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating GroupResource model instances.
+    """
+
+    class Meta:
+        model = GroupResource
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    name = factory.Faker(provider="text", locale="la", max_nb_chars=50)
+    description = factory.Faker(provider="text", locale="la")
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
+    url = "https://www.activist.org"
+    is_private = factory.Faker("boolean")
+    terms_checked = factory.Faker("boolean")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 # MARK: Social Link

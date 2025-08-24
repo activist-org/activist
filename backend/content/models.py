@@ -207,6 +207,7 @@ class Resource(models.Model):
     url = models.URLField(max_length=255)
     is_private = models.BooleanField(default=True)
     terms_checked = models.BooleanField(default=False)
+    order = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 

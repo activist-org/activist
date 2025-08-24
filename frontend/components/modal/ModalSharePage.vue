@@ -276,7 +276,7 @@ const getCurrentUrl = () => {
   } else if (props.event) {
     return `${BASE_FRONTEND_URL}/events/${props.event.id}`;
   } else if (props.resource) {
-    return props.resource.resourceUrl;
+    return props.resource.url;
   } else if (props.user) {
     return `${BASE_FRONTEND_URL}/users/${props.user.id}`;
   }

@@ -16,6 +16,7 @@ from authentication.models import UserModel
 from communities.groups.factories import (
     GroupFactory,
     GroupFaqFactory,
+    GroupResourceFactory,
     GroupSocialLinkFactory,
     GroupTextFactory,
 )
@@ -23,6 +24,7 @@ from communities.groups.models import Group
 from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationFaqFactory,
+    OrganizationResourceFactory,
     OrganizationSocialLinkFactory,
     OrganizationTextFactory,
 )
@@ -31,6 +33,7 @@ from content.models import Topic
 from events.factories import (
     EventFactory,
     EventFaqFactory,
+    EventResourceFactory,
     EventSocialLinkFactory,
     EventTextFactory,
 )
@@ -128,6 +131,16 @@ class Command(BaseCommand):
                     user_org.texts.set([org_texts])
                     user_org.social_links.set(org_social_links)
 
+                    for f in range(num_faq_entries_per_entity):
+                        user_org_faq = OrganizationFaqFactory(org=user_org, order=f)
+                        user_org.faqs.add(user_org_faq)
+
+                    for r in range(num_resources_per_entity):
+                        user_org_resource = OrganizationResourceFactory(
+                            org=user_org, order=r
+                        )
+                        user_org.resources.add(user_org_resource)
+
                     for e in range(num_events_per_org):
                         event_type = random.choice(["learn", "action"])
                         event_type_verb = (
@@ -160,6 +173,12 @@ class Command(BaseCommand):
                             )
                             user_org_event.faqs.add(user_org_event_faq)
 
+                        for r in range(num_resources_per_entity):
+                            user_org_event_resource = EventResourceFactory(
+                                event=user_org_event, order=r
+                            )
+                            user_org_event.resources.add(user_org_event_resource)
+
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
                             created_by=user,
@@ -178,15 +197,18 @@ class Command(BaseCommand):
 
                         user_org_group.texts.set([group_texts])
                         user_org_group.social_links.set(group_social_links)
+
                         for f in range(num_faq_entries_per_entity):
                             user_org_group_faq = GroupFaqFactory(
                                 group=user_org_group, order=f
                             )
                             user_org_group.faqs.add(user_org_group_faq)
 
-                    for f in range(num_faq_entries_per_entity):
-                        user_org_faq = OrganizationFaqFactory(org=user_org, order=f)
-                        user_org.faqs.add(user_org_faq)
+                        for r in range(num_resources_per_entity):
+                            user_org_group_resource = GroupResourceFactory(
+                                group=user_org_group, order=r
+                            )
+                            user_org_group.resources.add(user_org_group_resource)
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org
