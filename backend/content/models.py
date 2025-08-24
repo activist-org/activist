@@ -200,14 +200,14 @@ class Resource(models.Model):
     )
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
+    url = models.URLField(max_length=255)
+    order = models.IntegerField()
     category = models.CharField(max_length=255, blank=True)
     location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
     )
-    url = models.URLField(max_length=255)
     is_private = models.BooleanField(default=True)
     terms_checked = models.BooleanField(default=False)
-    order = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 

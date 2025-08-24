@@ -40,9 +40,9 @@ def test_resource_partial_update():
 
     payload = {
         "name": "new_resource",
-        "isPrivate": True,
-        "termsChecked": True,
-        "createdBy": user.id,
+        "is_private": True,
+        "terms_checked": True,
+        "created_by": user.id,
         "location": location.id,
     }
 

@@ -42,10 +42,11 @@ def test_resource_update():
         "name": "new_resource",
         "description": "New Description",
         "url": "https://activist.org/",
-        "isPrivate": True,
-        "termsChecked": True,
-        "createdBy": user.id,
+        "order": 0,
         "location": location.id,
+        "is_private": True,
+        "terms_checked": True,
+        "created_by": user.id,
     }
 
     # Authorized owner tries to update the resources.
