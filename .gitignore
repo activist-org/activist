@@ -24,6 +24,7 @@ venv/
 # Testing
 .coverage
 cov_html/
+
 # For Docker testing add ./tmp:/tmp to the needed container.
 /tmp
 
@@ -51,6 +52,7 @@ node_modules
 
 # Vue/Nuxt
 frontend/.data
+
 # i18n fix
 vue-i18n.d.ts
 
@@ -72,3 +74,6 @@ backend/media/images/*
 
 # ZAP Security Reports
 zap-reports/
+
+# Workflows test (act)
+*.secrets
