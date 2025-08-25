@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ImageFileDropZone
     v-if="localFiles.length !== uploadLimit"
