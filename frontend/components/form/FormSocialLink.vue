@@ -114,7 +114,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   addLink: [link: SocialLinkItem];
-  updateList: [list: SocialLinkItem[]];
+  updateList: [
+    list: SocialLinkItem[],
+    operationType: "drag" | "remove" | "add",
+  ];
 }>();
 
 const { t } = useI18n();
@@ -144,12 +147,12 @@ const { reindex, removeByIndex } = useSortableList(socialLinks);
 // Wrapper functions to emit changes back to parent.
 const handleReindex = () => {
   reindex();
-  emit("updateList", socialLinks.value);
+  emit("updateList", socialLinks.value, "drag");
 };
 
 const handleRemoveByIndex = (index: number) => {
   removeByIndex(index);
-  emit("updateList", socialLinks.value);
+  emit("updateList", socialLinks.value, "remove");
 };
 
 function addNewLink() {
@@ -158,11 +161,9 @@ function addNewLink() {
     label: "",
     order: socialLinks.value.length,
     id: "",
-    key: String(Date.now()) + "-" + socialLinks.value.length,
+    key: `new-${Date.now()}`,
   };
-
-  socialLinks.value?.push(newLink);
-  emit("addLink", newLink);
-  emit("updateList", socialLinks.value);
+  socialLinks.value.push(newLink);
+  emit("updateList", socialLinks.value, "add");
 }
 </script>

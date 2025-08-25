@@ -53,29 +53,51 @@ interface SocialLinksValue {
 }
 
 // Handle updates from FormSocialLink (dragging, removing, adding).
-function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
-  const oldLength = socialLinksRef.value?.length || 0;
-  const newLength = updatedList.length;
-  const isAddOperation = newLength > oldLength;
-
+function updateSocialLinksRef(
+  updatedList: SocialLinkItem[],
+  operationType: "drag" | "remove" | "add"
+) {
   socialLinksRef.value = updatedList as SocialLinkWithKey[];
 
-  // Only reset form for drag/remove operations, not for add operations.
-  if (!isAddOperation) {
-    formKey.value++;
+  // Only reset form for drag/remove operations involving saved links only
+  // This preserves user input for new links while allowing order changes to be saved
+  if (operationType === "drag" || operationType === "remove") {
+    const hasUnsavedLinks = updatedList.some((link) => !link.id);
+    if (!hasUnsavedLinks) {
+      formKey.value++;
+    }
   }
 }
 
 // Attn: Currently we're deleting the social links and rewriting all of them.
 async function handleSubmit(values: unknown) {
   const socialLinks = socialLinksRef.value?.map((socialLink, index) => {
-    const formLink = (values as SocialLinksValue).socialLinks[index];
+    let formLink;
+    const formValues = (values as SocialLinksValue).socialLinks;
+
+    if (!socialLink.id) {
+      // For new links (no id), find the form entry that doesn't match any existing socialLink
+      const existingSocialLinks =
+        socialLinksRef.value?.filter((sl) => sl.id) || [];
+      formLink = formValues.find((fv) => {
+        // Find form value that doesn't match any existing socialLink
+        return !existingSocialLinks.some(
+          (esl) => esl.label === fv.label && esl.link === fv.link
+        );
+      });
+    } else {
+      // For existing links, find the form entry that matches this socialLink's label and link
+      formLink = formValues.find(
+        (fv) => fv.label === socialLink.label && fv.link === socialLink.link
+      );
+    }
+
     return {
       id: socialLink.id,
-      // Use form values if they exist in the form, otherwise use socialLink values.
-      link: formLink ? formLink.link : socialLink.link,
-      label: formLink ? formLink.label : socialLink.label,
-      order: socialLink.order,
+      // Use form values if they exist, otherwise use socialLink values
+      link: formLink?.link || socialLink.link,
+      label: formLink?.label || socialLink.label,
+      order: index, // Use current array position as order
     };
   });
 
