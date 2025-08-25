@@ -1,10 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImage
+    <ModalUploadImageOrganization
       @closeModal="handleCloseModalUploadImage"
       :entityId="organization.id || ''"
-      :entityType="EntityType.ORGANIZATION"
       :images="organization.images || []"
     />
     <ModalUploadImageIcon
@@ -36,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import ModalUploadImageOrganization from "~/components/modal/upload-image/ModalUploadImageOrganization.vue";
 import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
@@ -44,8 +44,9 @@ import {
 
 const aboveMediumBP = useBreakpoint("md");
 
-const { handleCloseModal: handleCloseModalUploadImage } =
-  useModalHandlers("ModalUploadImage");
+const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
+  "ModalUploadImageOrganization"
+);
 const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
   "ModalUploadImageIcon"
 );

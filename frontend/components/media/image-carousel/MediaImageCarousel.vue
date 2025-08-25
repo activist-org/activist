@@ -33,7 +33,7 @@
       {{ $t("i18n.components.media_image_carousel.upload_error") }}
     </p>
     <button
-      @click="openModalUploadImage()"
+      @click="handleOpenModalUploadImage()"
       class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
       <Icon :name="IconMap.EDIT" size="1.5em" />
@@ -46,11 +46,13 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
+import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
 interface Props {
   fullscreen: boolean;
   imageUrls: string[];
+  entityType: EntityType;
 }
 
 const props = defineProps<Props>();
@@ -59,10 +61,17 @@ register();
 
 const uploadError = ref(false);
 const currentImageId = ref<string>("");
-
-const { openModal: openModalUploadImage } =
-  useModalHandlers("ModalUploadImage");
-
+const { openModal: openModalUploadImageOrganization } = useModalHandlers(
+  "ModalUploadImageOrganization"
+);
+const { openModal: openModalUploadImageGroup } = useModalHandlers(
+  "ModalUploadImageGroup"
+);
+const handleOpenModalUploadImage = () => {
+  if (props.entityType === EntityType.GROUP) openModalUploadImageGroup();
+  if (props.entityType === EntityType.ORGANIZATION)
+    openModalUploadImageOrganization();
+};
 // Get the swiper instance. Use this instance to listen for the slideChange event.
 const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);
 
