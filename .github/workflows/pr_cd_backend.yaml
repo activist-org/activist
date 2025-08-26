@@ -1,0 +1,42 @@
+name: pr_ci_backend
+on:
+  workflow_dispatch:
+    pull_request:
+      branches:
+        - main
+      types:
+        - closed
+      paths:
+        - "backend/**"
+
+jobs:
+  backend_cd:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Docker Hub
+        if: success()
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Run django container
+        run: |
+          echo "Starting activist backend."
+          echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+          echo "DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }}" >> .env
+
+          echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}" >> .env
+          echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
+          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+
+          echo "Pull latest image."
+          docker pull activist-backend:latest
+
+          echo "Run container."
+          docker run --env-file .env activist_backend:latest
+
+          rm -f .env

@@ -25,7 +25,7 @@ env:
   DATABASE_PASSWORD: postgres
 
 jobs:
-  backend:
+  backend_ci:
     services:
       postgres:
         image: postgres:15
@@ -42,7 +42,6 @@ jobs:
       checks: write
       pull-requests: write
 
-    name: Run PR Backend Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
@@ -83,3 +82,36 @@ jobs:
         if: always()
         run: |
           pytest ./backend --cov=./backend --cov-report=term-missing --cov-fail-under=80 --cov-config=./backend/pyproject.toml -vv
+
+      - name: Login to Docker Hub
+        if: ${{ github.ref == 'refs/heads/main' && success() }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        if: ${{ github.ref == 'refs/heads/main' && success() }}
+        run: |
+          git_short_sha=$(git rev-parse --short HEAD)
+
+          echo "Building ativist backend image."
+          cd backend
+          docker build --build-arg env=prod -t activist-backend:latest -t activist-backend:$git_short_sha .
+
+          echo "Tagging image with gitsha-$git_short_sha, latest."
+          docker tag activist-backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/activist-backend:latest
+          docker tag activist-backend:$git_short_sha ${{ secrets.DOCKERHUB_USERNAME }}/activist-backend:$git_short_sha
+
+          echo "Pushing image to docker repo."
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/activist-backend:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/activist-backend:$git_short_sha
+
+      - name: Create Tag
+        if: ${{ github.ref == 'refs/heads/main' && success() }}
+        run: |
+          git_short_sha=$(git rev-parse --short HEAD)
+
+          echo "Creating git tag with v-$git_short_sha."
+          git tag v-$git_short_sha
+          git push origin v-$git_short_sha
