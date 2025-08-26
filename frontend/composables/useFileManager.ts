@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { ContentImage, FileImageMix } from "~/types/content/file";
+import type { ContentImage, FileUploadMix } from "~/types/content/file";
 
 import { UploadableFile } from "~/types/content/file";
 
@@ -18,8 +18,6 @@ const defaultImageUrls = computed(() => {
 
 export function useFileManager() {
   const uploadError = ref(false);
-  const fileImages = ref<UploadableFile[]>([]);
-  const fileImageIcon = ref<UploadableFile | null>(null);
 
   async function deleteImage(imageId: string) {
     if (!imageId) {
@@ -41,41 +39,32 @@ export function useFileManager() {
     }
   }
 
-  function resetFiles() {
-    fileImages.value = [];
-    fileImageIcon.value = null;
+  function getIconImage(files: File[]) {
+    return new UploadableFile(files[0]);
   }
 
-  function handleFiles(newFiles: File[], isIconImage: boolean = false) {
+  function handleAddFiles(newFiles: File[], files: FileUploadMix[]) {
     const allowedTypes = ["image/jpeg", "image/png"];
     const validFiles = [...newFiles].filter((file) =>
       allowedTypes.includes(file.type)
     );
-    if (isIconImage) {
-      if (validFiles.length > 0) {
-        fileImageIcon.value = new UploadableFile(validFiles[0]);
-      } else {
-        fileImageIcon.value = null;
-      }
-      return;
-    }
     const newUploadableFiles = validFiles
-      .map((file) => new UploadableFile(file))
-      .filter((file) => !fileExists(file.id));
+      .map((file, index) => ({
+        type: "upload",
+        data: new UploadableFile(file),
+        sequence: index + files.length,
+      }))
+      .filter((file) => !fileExists(file.data.id, files)) as FileUploadMix[];
 
-    fileImages.value = [...fileImages.value, ...newUploadableFiles];
+    return [...files, ...newUploadableFiles];
   }
 
-  function fileExists(otherId: string) {
-    return fileImages.value.some((file: UploadableFile) => file.id === otherId);
-  }
-
-  function removeFileImageIcon() {
-    fileImageIcon.value = null;
+  function fileExists(otherId: string, files: FileUploadMix[]) {
+    return files.some((file: FileUploadMix) => file.data.id === otherId);
   }
 
   async function removeFile(
-    files: FileImageMix[],
+    files: FileUploadMix[],
     file: UploadableFile | ContentImage
   ) {
     if (file instanceof UploadableFile) {
@@ -87,7 +76,7 @@ export function useFileManager() {
       }
     } else {
       const index = files.findIndex(
-        (f) => f.type === "image" && f.data.id === file.id
+        (f) => f.type === "file" && f.data.id === file.id
       );
       await deleteImage(file.id);
       if (index > -1) {
@@ -98,13 +87,10 @@ export function useFileManager() {
 
   return {
     uploadError,
-    fileImageIcon,
-    fileImages,
     defaultImageUrls,
-    removeFileImageIcon,
     deleteImage,
-    handleFiles,
+    handleAddFiles,
     removeFile,
-    resetFiles,
+    getIconImage,
   };
 }

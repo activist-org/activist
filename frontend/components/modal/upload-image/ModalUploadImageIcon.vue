@@ -10,16 +10,14 @@
       <div class="mt-4">
         <ImageFileDropZone
           v-if="fileImageIcon ? false : true"
-          @files-dropped="(file) => handleFiles(file, true)"
+          @files-dropped="(file) => (fileImageIcon = getIconImage(file))"
         >
-          <span>{{
-            $t("i18n.components.modal.upload_image._global.drop_image")
-          }}</span>
+          <span>{{ $t("i18n.components._global.drop_image") }}</span>
         </ImageFileDropZone>
         <div class="mb-4">
           <span v-if="fileImageIcon" class="relative block pb-4">
             <button
-              @click="removeFileImageIcon()"
+              @click="fileImageIcon = null"
               class="absolute right-0 top-0 z-10 text-action-red"
             >
               <Icon :name="IconMap.X_SM" size="1.5em" />
@@ -29,7 +27,7 @@
               :src="fileImageIcon.url"
               class="h-[50%] w-[50%] object-contain"
               :alt="
-                $t('i18n.components.modal.upload_image._global.upload_image') +
+                $t('i18n.components._global.upload_image') +
                 ' ' +
                 fileImageIcon.name
               "
@@ -41,7 +39,7 @@
             v-if="fileImageIcon"
             @click="handleUpload"
             :cta="true"
-            label="i18n.components.modal.upload_image._global.upload"
+            label="i18n.components._global.upload"
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
@@ -66,8 +64,6 @@ const modals = useModals();
 const modalName = "ModalUploadImageIcon";
 const uploadError = ref(false);
 
-const { fileImageIcon, handleFiles, removeFileImageIcon } = useFileManager();
-
 interface Props {
   entityId: string;
   entityType: EntityType;
@@ -78,7 +74,8 @@ const props = defineProps<Props>();
 const eventStore = useEventStore();
 const organizationStore = useOrganizationStore();
 const emit = defineEmits(["upload-complete", "upload-error"]);
-
+const fileImageIcon = ref();
+const { getIconImage } = useFileManager();
 const handleUpload = async () => {
   try {
     // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().

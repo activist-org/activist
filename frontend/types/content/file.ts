@@ -20,8 +20,8 @@ export class UploadableFile {
   }
 }
 
-export interface FileImageMix {
-  type: "image" | "upload";
+export interface FileUploadMix {
+  type: "file" | "upload";
   data: UploadableFile | ContentImage;
   sequence: number;
 }
