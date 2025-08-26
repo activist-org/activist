@@ -115,7 +115,7 @@ class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
     list_display = [
         "org",
         "created_by",
-        "created_at",
+        "created_on",
     ]
 
 
