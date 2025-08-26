@@ -80,4 +80,7 @@ def test_social_link_create_403():
     )
 
     assert response.status_code == 403
-    assert response.json()["detail"] == "You are not authorized to create social links for this event."
+    assert (
+        response.json()["detail"]
+        == "You are not authorized to create social links for this event."
+    )
