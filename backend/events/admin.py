@@ -36,7 +36,7 @@ class EventFlagAdmin(admin.ModelAdmin[EventFlag]):
     Displays the Event, User and the date of the report filed.
     """
 
-    list_display = ["event", "created_by", "created_on"]
+    list_display = ["event", "created_by", "creation_date"]
 
 
 # MARK: Register Admin

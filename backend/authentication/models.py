@@ -274,4 +274,4 @@ class UserFlag(models.Model):
         related_name="flagged_user",
     )
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now=True)

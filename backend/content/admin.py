@@ -40,7 +40,7 @@ class ResourceFlagAdmin(admin.ModelAdmin[ResourceFlag]):
     Displays the flagged resources and the users who flagged it in the admin table.
     """
 
-    list_display = ["resource", "created_by", "created_on"]
+    list_display = ["resource", "created_by", "creation_date"]
 
 
 # MARK: Register Admin

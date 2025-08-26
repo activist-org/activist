@@ -280,7 +280,7 @@ class ResourceFlagFactory(factory.django.DjangoModelFactory):
 
     resource = factory.SubFactory("content.factories.ResourceFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    created_on = factory.LazyFunction(
+    creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
