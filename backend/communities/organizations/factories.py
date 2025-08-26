@@ -116,7 +116,7 @@ class OrganizationFlagFactory(factory.django.DjangoModelFactory):
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     org = factory.SubFactory(OrganizationFactory)
-    created_on = factory.LazyFunction(
+    creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 

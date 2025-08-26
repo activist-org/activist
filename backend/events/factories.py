@@ -149,7 +149,7 @@ class EventFlagFactory(factory.django.DjangoModelFactory):
 
     event = factory.SubFactory("events.factories.EventFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    created_on = factory.LazyFunction(
+    creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 

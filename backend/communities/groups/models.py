@@ -83,7 +83,7 @@ class GroupFlag(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now=True)
 
 
 # MARK: Image

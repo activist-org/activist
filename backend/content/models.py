@@ -232,7 +232,7 @@ class ResourceFlag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     resource = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now=True)
 
 
 # MARK: Social Link

@@ -215,7 +215,7 @@ class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
     Admin table for displaying User flags.
     """
 
-    list_display = ["user", "created_by", "created_on"]
+    list_display = ["user", "created_by", "creation_date"]
 
     def save_model(
         self, request: HttpRequest, obj: UserFlag, form: ModelForm[Any], change: bool

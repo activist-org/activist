@@ -134,7 +134,7 @@ class EventFlag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     event = models.ForeignKey("Event", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now=True)
 
 
 # MARK: Format
