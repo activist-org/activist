@@ -8,8 +8,7 @@ from uuid import uuid4
 
 from django.db import models
 
-from content.models import Faq, Resource, SocialLink
-from utils.models import ISO_CHOICES
+from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Group
 
@@ -163,19 +162,14 @@ class GroupSocialLink(SocialLink):
 # MARK: Text
 
 
-class GroupText(models.Model):
+class GroupText(Text):
     """
     Class for adding text parameters to groups.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="texts"
     )
-    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField(default=False)
-    description = models.TextField(max_length=2500)
-    get_involved = models.TextField(max_length=500, blank=True)
     donate_prompt = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:

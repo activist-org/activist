@@ -8,8 +8,7 @@ from uuid import uuid4
 
 from django.db import models
 
-from content.models import Faq, Resource, SocialLink
-from utils.models import ISO_CHOICES
+from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Event
 
@@ -213,19 +212,14 @@ class EventSocialLink(SocialLink):
 # MARK: Text
 
 
-class EventText(models.Model):
+class EventText(Text):
     """
     Translatable text content for events in different languages.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="texts"
     )
-    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField(default=False)
-    description = models.TextField(max_length=2500)
-    get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
         return f"{self.event} - {self.iso}"

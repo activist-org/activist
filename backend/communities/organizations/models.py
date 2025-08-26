@@ -9,8 +9,7 @@ from uuid import uuid4
 from django.db import models
 
 from authentication import enums
-from content.models import Faq, Resource, SocialLink
-from utils.models import ISO_CHOICES
+from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Organization
 
@@ -223,19 +222,14 @@ class OrganizationTask(models.Model):
 # MARK: Text
 
 
-class OrganizationText(models.Model):
+class OrganizationText(Text):
     """
     Class for adding text parameters to organizations.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="texts"
     )
-    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField(default=False)
-    description = models.TextField(max_length=2500)
-    get_involved = models.TextField(max_length=500, blank=True)
     donate_prompt = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
