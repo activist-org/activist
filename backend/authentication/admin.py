@@ -220,7 +220,7 @@ class UserFlagAdmin(admin.ModelAdmin):
     """
 
     class Meta:
-        model = UserModel
+        model = UserFlag
         fields = "__all__"
 
     list_display = ["user", "created_by", "creation_date"]
