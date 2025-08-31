@@ -25,6 +25,7 @@ django==5.2.4
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework
+    #   djangorestframework-simplejwt
     #   drf-spectacular
 django-cors-headers==4.7.0
     # via -r requirements.in
@@ -43,8 +44,11 @@ django-stubs-ext==5.2.2
 djangorestframework==3.16.0
     # via
     #   -r requirements.in
+    #   djangorestframework-simplejwt
     #   drf-spectacular
 djangorestframework-camel-case==1.4.2
+    # via -r requirements.in
+djangorestframework-simplejwt==5.5.1
     # via -r requirements.in
 djangorestframework-stubs==3.16.1
     # via -r requirements.in
@@ -70,6 +74,8 @@ pillow==11.3.0
     # via -r requirements.in
 psycopg2-binary==2.9.10
     # via -r requirements.in
+pyjwt==2.10.1
+    # via djangorestframework-simplejwt
 python-dateutil==2.9.0.post0
     # via
     #   django-recurrence

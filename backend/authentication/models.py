@@ -202,7 +202,7 @@ class SessionModel(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    session_key = models.CharField(max_length=40, unique=True)
+    # session_key = models.CharField(max_length=40, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_activity = models.DateTimeField(auto_now=True)
 

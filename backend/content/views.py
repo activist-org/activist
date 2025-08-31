@@ -11,7 +11,6 @@ from django.db import IntegrityError, OperationalError
 from django.db.models import Q
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import (
@@ -345,7 +344,6 @@ class ResourceFlagAPIView(GenericAPIView[ResourceFlag]):
 class ResourceFlagDetailAPIView(GenericAPIView[ResourceFlag]):
     queryset = ResourceFlag.objects.all()
     serializer_class = ResourceFlagSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(

@@ -29,7 +29,7 @@ admin.site.register(SupportEntityType)
 # MARK: User Creation
 
 
-class UserCreationForm(forms.ModelForm[UserModel]):
+class UserCreationForm(forms.ModelForm):
     """
     A form for creating new users.
 
@@ -92,7 +92,7 @@ class UserCreationForm(forms.ModelForm[UserModel]):
 # MARK: User Change
 
 
-class UserChangeForm(forms.ModelForm[UserModel]):
+class UserChangeForm(forms.ModelForm):
     """
     A form for updating users.
 
@@ -110,7 +110,7 @@ class UserChangeForm(forms.ModelForm[UserModel]):
 # MARK: User
 
 
-class UserAdmin(BaseUserAdmin[UserModel]):
+class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances.
     """
     Custom admin interface for the UserModel.
@@ -118,11 +118,15 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     This class configures the fields, filters, and forms displayed in the Django admin panel.
     """
 
+    class Meta:
+        model = UserModel
+        fields = "__all__"
+
     form = UserChangeForm
     add_form = UserCreationForm
 
     def save_model(
-        self, request: HttpRequest, obj: UserModel, form: ModelForm[Any], change: bool
+        self, request: HttpRequest, obj: UserModel, form: ModelForm, change: bool
     ) -> None:
         """
         Override to add logging for user updates.
@@ -210,15 +214,19 @@ class UserAdmin(BaseUserAdmin[UserModel]):
 # MARK: Flag
 
 
-class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
+class UserFlagAdmin(admin.ModelAdmin):
     """
     Admin table for displaying User flags.
     """
 
+    class Meta:
+        model = UserModel
+        fields = "__all__"
+
     list_display = ["user", "created_by", "creation_date"]
 
     def save_model(
-        self, request: HttpRequest, obj: UserFlag, form: ModelForm[Any], change: bool
+        self, request: HttpRequest, obj: UserFlag, form: ModelForm, change: bool
     ) -> None:
         """
         Override to add logging for user flag operations.

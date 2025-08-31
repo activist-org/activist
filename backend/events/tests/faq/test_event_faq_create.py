@@ -56,7 +56,7 @@ def test_event_faq_create() -> None:
     # MARK: Update Success
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 

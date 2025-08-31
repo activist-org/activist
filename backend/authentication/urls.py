@@ -5,6 +5,7 @@ URL configuration for the authentication app.
 
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from authentication import views
 
@@ -23,5 +24,6 @@ urlpatterns = [
         route="user_flag/<uuid:id>",
         view=views.UserFlagDetailAPIView.as_view(),
     ),
-    path(route="get_session", view=views.GetSessionView.as_view(), name="get_session"),
+    path(route="session", view=views.SessionView.as_view(), name="get_session"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

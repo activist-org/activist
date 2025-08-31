@@ -32,7 +32,7 @@ def test_resource_create():
     assert login_response.status_code == 200
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     resource_instance = ResourceFactory(created_by=user)
     location = EntityLocationFactory()

@@ -40,12 +40,15 @@ admin.site.register(StatusType)
 # MARK: Group
 
 
-class GroupAdmin(admin.ModelAdmin[Group]):
+class GroupAdmin(admin.ModelAdmin):
     """
     Admin interface for the Group model.
 
     Displays the group's internal name and display name in the admin list view.
     """
+
+    class Meta:
+        model = Group
 
     list_display = ["group_name", "name"]
 
@@ -53,12 +56,15 @@ class GroupAdmin(admin.ModelAdmin[Group]):
 # MARK: Group Text
 
 
-class GroupTextAdmin(admin.ModelAdmin[GroupText]):
+class GroupTextAdmin(admin.ModelAdmin):
     """
     Admin interface for the GroupText model.
 
     Displays the ID and associated Group in the admin list view.
     """
+
+    class Meta:
+        model = GroupText
 
     list_display = ["id", "group"]
 
@@ -66,12 +72,15 @@ class GroupTextAdmin(admin.ModelAdmin[GroupText]):
 # MARK: Group Flag
 
 
-class GroupFlagAdmin(admin.ModelAdmin[GroupFlag]):
+class GroupFlagAdmin(admin.ModelAdmin):
     """
     Admin panel for the GroupFlag model.
 
     Displays the Groups which have been flagged and the users who flagged it.
     """
+
+    class Meta:
+        model = GroupFlag
 
     list_display = ["group", "created_by", "creation_date"]
 
@@ -79,12 +88,15 @@ class GroupFlagAdmin(admin.ModelAdmin[GroupFlag]):
 # MARK: Org
 
 
-class OrganizationAdmin(admin.ModelAdmin[Organization]):
+class OrganizationAdmin(admin.ModelAdmin):
     """
     Admin interface for the Organization model.
 
     Displays the organization's internal name and display name in the admin list view.
     """
+
+    class Meta:
+        model = Organization
 
     list_display = ["org_name", "name"]
 
@@ -92,12 +104,15 @@ class OrganizationAdmin(admin.ModelAdmin[Organization]):
 # MARK: Org Text
 
 
-class OrganizationTextAdmin(admin.ModelAdmin[OrganizationText]):
+class OrganizationTextAdmin(admin.ModelAdmin):
     """
     Admin interface for the OrganizationText model.
 
     Displays only the ID in the admin list view.
     """
+
+    class Meta:
+        model = OrganizationText
 
     list_display = ["id"]
 
@@ -105,12 +120,15 @@ class OrganizationTextAdmin(admin.ModelAdmin[OrganizationText]):
 # MARK: Org Flag
 
 
-class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
+class OrganizationFlagAdmin(admin.ModelAdmin):
     """
     Admin interface for OrganizationFlag model.
 
     Displays only the Organization and users who flagged it.
     """
+
+    class Meta:
+        model = OrganizationFlag
 
     list_display = [
         "org",
