@@ -41,9 +41,9 @@ def test_group_resource_multiple_resources() -> None:
 def test_group_resource_serializer() -> None:
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
-    location = EntityLocationFactory()  # Reuse this for Group's location
+    location = EntityLocationFactory()
 
-    # Create VALID Group with ALL required fields
+    # Create VALID Group with ALL required fields.
     group = Group.objects.create(
         id=uuid4(),
         org=org,
@@ -74,7 +74,6 @@ def test_group_resource_serializer() -> None:
     serializer = GroupResourceSerializer(resource)
     data = serializer.data
 
-    # Assertions (unchanged)
     assert data["name"] == "Test Resource"
     assert data["description"] == "A useful resource"
     assert data["url"] == "http://example.com"
@@ -86,7 +85,9 @@ def test_group_resource_serializer() -> None:
 
 @pytest.mark.django_db
 def test_validate_group_with_group_instance_resource_serializer():
-    """Should return the same group when a Group instance is passed."""
+    """
+    Should return the same group when a Group instance is passed.
+    """
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
     location = EntityLocationFactory()
@@ -111,7 +112,9 @@ def test_validate_group_with_group_instance_resource_serializer():
 
 @pytest.mark.django_db
 def test_validate_group_with_valid_uuid_resource_serializer():
-    """Should fetch and return the group when a valid UUID is given."""
+    """
+    Should fetch and return the group when a valid UUID is given.
+    """
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
     location = EntityLocationFactory()
@@ -136,7 +139,9 @@ def test_validate_group_with_valid_uuid_resource_serializer():
 
 @pytest.mark.django_db
 def test_validate_group_with_invalid_uuid_resource_serializer():
-    """Should raise ValidationError when group does not exist."""
+    """
+    Should raise ValidationError when group does not exist.
+    """
     group_faq_serializer = GroupResourceSerializer()
     fake_uuid = uuid4()
 

@@ -92,7 +92,9 @@ def test_group_social_link_serializer() -> None:
 
 @pytest.mark.django_db
 def test_validate_group_with_group_instance():
-    """Should return the same group when a Group instance is passed."""
+    """
+    Should return the same group when a Group instance is passed.
+    """
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
     location = EntityLocationFactory()
@@ -117,7 +119,9 @@ def test_validate_group_with_group_instance():
 
 @pytest.mark.django_db
 def test_validate_group_with_valid_uuid():
-    """Should fetch and return the group when a valid UUID is given."""
+    """
+    Should fetch and return the group when a valid UUID is given.
+    """
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
     location = EntityLocationFactory()
@@ -142,7 +146,9 @@ def test_validate_group_with_valid_uuid():
 
 @pytest.mark.django_db
 def test_validate_group_with_invalid_uuid():
-    """Should raise ValidationError when group does not exist."""
+    """
+    Should raise ValidationError when group does not exist.
+    """
     group_faq_serializer = GroupSocialLinkSerializer()
     fake_uuid = uuid4()
 
