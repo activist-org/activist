@@ -6,7 +6,7 @@ export enum LOCALE_NAME {
   ENGLISH = "English",
   FRENCH = "Français",
   GERMAN = "Deutsch",
-  ITALIAN = "Italian",
+  ITALIAN = "Italiano",
   PORTUGUESE = "Português",
   SPANISH = "Español",
 }
