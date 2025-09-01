@@ -133,6 +133,6 @@ class UserFlagFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory("authentication.factories.UserFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    created_on = factory.LazyFunction(
+    creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )

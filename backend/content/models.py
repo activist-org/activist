@@ -232,7 +232,7 @@ class ResourceFlag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     resource = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now=True)
 
 
 # MARK: Social Link
@@ -311,3 +311,24 @@ class Topic(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+# MARK: Text
+
+
+class Text(models.Model):
+    """
+    Text model for translatable content in different languages.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
+    primary = models.BooleanField(default=False)
+    description = models.TextField(max_length=2500)
+    get_involved = models.TextField(max_length=500, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.iso} - {self.description[:50]}..."
+
+    class Meta:
+        abstract = False

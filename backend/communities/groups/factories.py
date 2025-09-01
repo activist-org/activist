@@ -75,7 +75,7 @@ class GroupFlagFactory(factory.django.DjangoModelFactory):
 
     group = factory.SubFactory(GroupFactory)
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    created_on = factory.LazyFunction(
+    creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 

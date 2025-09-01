@@ -73,7 +73,7 @@ class GroupFlagAdmin(admin.ModelAdmin[GroupFlag]):
     Displays the Groups which have been flagged and the users who flagged it.
     """
 
-    list_display = ["group", "created_by", "created_on"]
+    list_display = ["group", "created_by", "creation_date"]
 
 
 # MARK: Org
@@ -115,7 +115,7 @@ class OrganizationFlagAdmin(admin.ModelAdmin[OrganizationFlag]):
     list_display = [
         "org",
         "created_by",
-        "created_at",
+        "creation_date",
     ]
 
 
