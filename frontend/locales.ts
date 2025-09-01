@@ -6,6 +6,7 @@ export enum LOCALE_NAME {
   ENGLISH = "English",
   FRENCH = "Français",
   GERMAN = "Deutsch",
+  ITALIAN = "Italian",
   PORTUGUESE = "Português",
   SPANISH = "Español",
 }
@@ -15,6 +16,7 @@ export enum LOCALE_CODE {
   ENGLISH = "en",
   FRENCH = "fr",
   GERMAN = "de",
+  ITALIAN = "it",
   PORTUGUESE = "pt",
   SPANISH = "es",
 }
@@ -39,6 +41,11 @@ export const locales: LocaleObject<string>[] = [
     code: LOCALE_CODE.GERMAN,
     name: LOCALE_NAME.GERMAN,
     file: "../de.json",
+  },
+  {
+    code: LOCALE_CODE.ITALIAN,
+    name: LOCALE_NAME.ITALIAN,
+    file: "../it.json",
   },
   {
     code: LOCALE_CODE.PORTUGUESE,
