@@ -35,7 +35,7 @@ admin.site.register(DiscussionEntry)
 # MARK: Resource Flag
 
 
-class ResourceFlagAdmin(admin.ModelAdmin):
+class ResourceFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Displays the flagged resources and the users who flagged it in the admin table.
     """

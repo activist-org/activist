@@ -29,7 +29,7 @@ admin.site.register(EventText)
 # MARK: Event Flag
 
 
-class EventFlagAdmin(admin.ModelAdmin):
+class EventFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin interface for EventFlag model.
 

@@ -40,7 +40,7 @@ admin.site.register(StatusType)
 # MARK: Group
 
 
-class GroupAdmin(admin.ModelAdmin):
+class GroupAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin interface for the Group model.
 
@@ -56,7 +56,7 @@ class GroupAdmin(admin.ModelAdmin):
 # MARK: Group Text
 
 
-class GroupTextAdmin(admin.ModelAdmin):
+class GroupTextAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin interface for the GroupText model.
 
@@ -72,7 +72,7 @@ class GroupTextAdmin(admin.ModelAdmin):
 # MARK: Group Flag
 
 
-class GroupFlagAdmin(admin.ModelAdmin):
+class GroupFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin panel for the GroupFlag model.
 
@@ -88,7 +88,7 @@ class GroupFlagAdmin(admin.ModelAdmin):
 # MARK: Org
 
 
-class OrganizationAdmin(admin.ModelAdmin):
+class OrganizationAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin interface for the Organization model.
 
@@ -104,7 +104,7 @@ class OrganizationAdmin(admin.ModelAdmin):
 # MARK: Org Text
 
 
-class OrganizationTextAdmin(admin.ModelAdmin):
+class OrganizationTextAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin interface for the OrganizationText model.
 
@@ -120,7 +120,7 @@ class OrganizationTextAdmin(admin.ModelAdmin):
 # MARK: Org Flag
 
 
-class OrganizationFlagAdmin(admin.ModelAdmin):
+class OrganizationFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin interface for OrganizationFlag model.
 

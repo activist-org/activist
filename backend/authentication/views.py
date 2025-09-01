@@ -174,7 +174,7 @@ class SessionView(APIView):
             404: OpenApiResponse(response={"detail": "User not found."}),
         }
     )
-    def get(self, request: Request, id: uuid.UUID | str) -> Response:
+    def get(self, request: Request, id: UserModel | uuid.UUID | None) -> Response:
         if request.user.is_authenticated:
             try:
                 session = SessionModel.objects.get(user=id)
@@ -250,7 +250,7 @@ class SessionView(APIView):
             404: OpenApiResponse(response={"detail": "User session not found."}),
         }
     )
-    def delete(self, request: Request, id: uuid.UUID | str) -> Response:
+    def delete(self, request: Request, id: UserModel | uuid.UUID | None) -> Response:
         if request.user.is_authenticated:
             if id is None:
                 return Response(
