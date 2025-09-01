@@ -24,6 +24,6 @@ urlpatterns = [
         route="user_flag/<uuid:id>",
         view=views.UserFlagDetailAPIView.as_view(),
     ),
-    path(route="session", view=views.SessionView.as_view(), name="get_session"),
+    path(route="session/<uuid:id>", view=views.SessionView.as_view(), name="session"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
