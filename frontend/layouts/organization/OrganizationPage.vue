@@ -35,7 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import ModalUploadImageOrganization from "~/components/modal/upload-image/ModalUploadImageOrganization.vue";
 import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,

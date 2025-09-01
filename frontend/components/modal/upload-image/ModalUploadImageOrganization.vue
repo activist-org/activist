@@ -1,5 +1,4 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
     <div>
@@ -38,8 +37,8 @@ import { DialogTitle } from "@headlessui/vue";
 
 import type {
   ContentImage,
-  UploadableFile,
   FileUploadMix,
+  UploadableFile,
 } from "~/types/content/file";
 
 import { IconMap } from "~/types/icon-map";
@@ -52,9 +51,12 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
+
 const organizationStore = useOrganizationStore();
 const { organization } = useOrganizationStore();
+
 const files = ref<FileUploadMix[]>([]);
+
 watch(
   props,
   (newValueFilesImages) => {
@@ -68,6 +70,7 @@ watch(
   },
   { immediate: true, deep: true }
 );
+
 const modals = useModals();
 const modalName = "ModalUploadImageOrganization";
 const uploadError = ref(false);

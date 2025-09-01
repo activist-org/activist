@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import FileDropZone from "@/components/image/ImageFileDropZone.vue";
 import { mount } from "@vue/test-utils";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { h } from "vue";
 
 function createFiles() {
@@ -38,8 +38,7 @@ describe("FileDropZone", () => {
     const root = wrapper.get("div");
     const active = () => wrapper.get('[data-test="active"]').text();
 
-    // initial state
-    expect(active()).toBe("false");
+    expect(active()).toBe("false"); // initial state
 
     await root.trigger("dragenter");
     expect(active()).toBe("true");
@@ -53,7 +52,7 @@ describe("FileDropZone", () => {
     await root.trigger("dragenter");
     expect(active()).toBe("true");
 
-    // drop should emit and reset active = false
+    // Drop should emit and reset active = false.
     const files = createFiles();
     await root.trigger("drop", { dataTransfer: { files } });
     expect(active()).toBe("false");

@@ -91,10 +91,10 @@ const emit = defineEmits([
 ]);
 const { handleAddFiles, removeFile } = useFileManager();
 
-// 1. Local copy
+// Local copy of file.
 const localFiles = ref<FileUploadMix[]>([]);
 
-// 3. Emit changes
+// Emit file changes.
 function emitFiles() {
   emit("update:modelValue", localFiles.value);
 }
@@ -106,8 +106,9 @@ watch(
   },
   { immediate: true }
 );
+
 function handleAdd(files: File[]) {
-  localFiles.value = handleAddFiles(files, localFiles.value); // This should mutate localFiles
+  localFiles.value = handleAddFiles(files, localFiles.value); // this should mutate localFiles
   emitFiles();
   emit("files-dropped", localFiles.value);
 }
