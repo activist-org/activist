@@ -8,12 +8,13 @@ from uuid import uuid4
 import pytest
 from django.utils import timezone
 from django.utils.timezone import now
-from rest_framework import status
+from faker import Faker
+from rest_framework import serializers, status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupFaqFactory
-from communities.groups.models import GroupFaq
+from communities.groups.models import Group, GroupFaq
 from communities.groups.serializers import GroupFaqSerializer
 from communities.organizations.factories import (
     OrganizationFactory,
@@ -21,6 +22,7 @@ from communities.organizations.factories import (
 )
 from communities.organizations.models import OrganizationFaq
 from communities.organizations.serializers import OrganizationFaqSerializer
+from content.factories import EntityLocationFactory
 from content.models import Faq
 from events.factories import EventFactory, EventFaqFactory
 from events.models import EventFaq
@@ -95,6 +97,66 @@ def test_group_faq_serializer() -> None:
     assert data["question"] == "Question"
     assert data["answer"] == "Answer"
     assert data["order"] == 1
+
+
+@pytest.mark.django_db
+def test_validate_group_with_group_instance():
+    """Should return the same group when a Group instance is passed."""
+    user = UserFactory()
+    org = OrganizationFactory(created_by=user)
+    location = EntityLocationFactory()
+    fake = Faker()
+
+    group = Group.objects.create(
+        org=org,
+        created_by=user,
+        group_name=fake.company(),
+        name=fake.company(),
+        tagline=fake.catch_phrase(),
+        location=location,
+        category=fake.word(),
+        get_involved_url=fake.url(),
+        terms_checked=True,
+    )
+
+    serializer = GroupFaqSerializer()
+    result = serializer.validate_group(group)
+    assert result == group
+
+
+@pytest.mark.django_db
+def test_validate_group_with_valid_uuid():
+    """Should fetch and return the group when a valid UUID is given."""
+    user = UserFactory()
+    org = OrganizationFactory(created_by=user)
+    location = EntityLocationFactory()
+    fake = Faker()
+
+    group = Group.objects.create(
+        org=org,
+        created_by=user,
+        group_name=fake.company(),
+        name=fake.company(),
+        tagline=fake.catch_phrase(),
+        location=location,
+        category=fake.word(),
+        get_involved_url=fake.url(),
+        terms_checked=True,
+    )
+
+    serializer = GroupFaqSerializer()
+    result = serializer.validate_group(group.id)
+    assert result == group
+
+
+@pytest.mark.django_db
+def test_validate_group_with_invalid_uuid():
+    """Should raise ValidationError when group does not exist."""
+    group_faq_serializer = GroupFaqSerializer()
+    fake_uuid = uuid4()
+
+    with pytest.raises(serializers.ValidationError, match="Group not found."):
+        group_faq_serializer.validate_group(fake_uuid)
 
 
 @pytest.mark.django_db
