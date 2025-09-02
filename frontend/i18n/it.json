@@ -1,1 +1,4 @@
-{}
+{
+  "i18n.components.card_search_result_resource.resource_img_alt_text": "Il logo della risorsa di",
+  "i18n.components.card_search_result_user.user_img_alt_text": "L'immagine del profilo utente di"
+}
