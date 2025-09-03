@@ -33,7 +33,7 @@ def test_session_get():
     token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path=f"/v1/auth/session/{session.user.id}")
+    response = client.get(path=f"/v1/auth/sessions/{session.user.id}")
 
     assert response.status_code == 200
 
@@ -51,7 +51,7 @@ def test_session_get_401():
     SessionFactory.create_batch(5)
     session = SessionModel.objects.all().first()
 
-    response = client.get(path=f"/v1/auth/session/{session.user.id}")
+    response = client.get(path=f"/v1/auth/sessions/{session.user.id}")
 
     assert response.status_code == 401
 
@@ -86,7 +86,7 @@ def test_session_get_403():
     token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path=f"/v1/auth/session/{session.user.id}")
+    response = client.get(path=f"/v1/auth/sessions/{session.user.id}")
 
     assert response.status_code == 403
 
@@ -114,6 +114,6 @@ def test_session_get_404():
     token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path=f"/v1/auth/session/{bad_uuid}")
+    response = client.get(path=f"/v1/auth/sessions/{bad_uuid}")
 
     assert response.status_code == 404

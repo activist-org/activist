@@ -33,7 +33,7 @@ def test_session_delete():
     token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/auth/session/{session.user.id}")
+    response = client.delete(path=f"/v1/auth/sessions/{session.user.id}")
 
     assert response.status_code == 204
 
@@ -50,7 +50,7 @@ def test_session_delete_401():
 
     session = SessionModel.objects.create(user=user)
 
-    response = client.delete(path=f"/v1/auth/session/{session.user.id}")
+    response = client.delete(path=f"/v1/auth/sessions/{session.user.id}")
 
     assert response.status_code == 401
 
@@ -85,7 +85,7 @@ def test_session_delete_403():
     token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/auth/session/{session.user.id}")
+    response = client.delete(path=f"/v1/auth/sessions/{session.user.id}")
 
     assert response.status_code == 403
 
@@ -113,6 +113,6 @@ def test_session_delete_404():
     token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/auth/session/{session}")
+    response = client.delete(path=f"/v1/auth/sessions/{session}")
 
     assert response.status_code == 404

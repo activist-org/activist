@@ -30,7 +30,7 @@ def test_session_post():
     token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(path=f"/v1/auth/session/{user.id}")
+    response = client.post(path=f"/v1/auth/sessions/{user.id}")
 
     print(user.id)
     assert response.status_code == 201
@@ -45,7 +45,7 @@ def test_session_post_401():
     user.is_confirmed = True
     user.verified = True
 
-    response = client.post(path=f"/v1/auth/session/{user.id}")
+    response = client.post(path=f"/v1/auth/sessions/{user.id}")
 
     assert response.status_code == 401
 
@@ -80,6 +80,6 @@ def test_session_post_403():
     token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(path=f"/v1/auth/session/{session.user.id}")
+    response = client.post(path=f"/v1/auth/sessions/{session.user.id}")
 
     assert response.status_code == 403
