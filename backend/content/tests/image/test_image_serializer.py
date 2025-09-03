@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Testing for Image Serialzers.
+Testing for Image Serializers.
 """
 
 import io
@@ -102,7 +102,7 @@ def test_image_icon_serializer_validate_file_too_large():
     """
     Test validate method raises error for oversized files.
     """
-    # Create file larger than max size
+    # Create file larger than max size.
     large_file = SimpleUploadedFile(
         "large.jpg",
         b"0" * (settings.IMAGE_UPLOAD_MAX_FILE_SIZE + 1),
@@ -125,12 +125,12 @@ def test_image_icon_serializer_create_organization(caplog):
     """
     Test create method links image to organization.
     """
-    # Set log level to INFO to capture the expected log messages
+    # Set log level to INFO to capture the expected log messages.
     caplog.set_level(logging.INFO)
 
     org = OrganizationFactory()
 
-    # Create a valid image using PIL
+    # Create a valid image using PIL.
     img = TestImage.new("RGB", (100, 100), color="red")
     img_file = io.BytesIO()
     img.save(img_file, format="JPEG")
@@ -154,9 +154,9 @@ def test_image_icon_serializer_create_organization(caplog):
     org.refresh_from_db()
     assert org.icon_url == image
 
-    # Check if the expected log message exists in any log record
+    # Check if the expected log message exists in any log record.
     assert any("Updated Organization" in record.message for record in caplog.records)
-    # Alternative check if the message format is different
+    # Alternative check if the message format is different.
     assert any(
         f"Updated Organization {org.id} with icon {image.id}" in record.message
         for record in caplog.records
@@ -168,26 +168,26 @@ def test_image_icon_serializer_create_event(caplog):
     """
     Test create method links image to event.
     """
-    # Set log level to INFO
+    # Set log level to INFO.
     caplog.set_level(logging.INFO)
 
-    # Create required entities
+    # Create required entities.
     user = UserFactory()
     org = OrganizationFactory()
-    # Create a location - this was missing before
-    location = EntityLocationFactory()  # Use the factory mentioned in the warnings
+    # Create a location - this was missing before.
+    location = EntityLocationFactory()  # use the factory mentioned in the warnings
 
-    # Create event with ALL required fields
+    # Create event with ALL required fields.
     event = Event.objects.create(
         name="Test Event",
         start_time=timezone.now(),
         end_time=timezone.now() + timedelta(hours=1),
         created_by=user,
         orgs=org,
-        offline_location=location,  # Associate with location
+        offline_location=location,  # associate with location
     )
 
-    # Create a valid image
+    # Create a valid image.
     img = TestImage.new("RGB", (100, 100), color="red")
     img_file = io.BytesIO()
     img.save(img_file, format="JPEG")
@@ -211,7 +211,7 @@ def test_image_icon_serializer_create_event(caplog):
     event.refresh_from_db()
     assert event.icon_url == image
 
-    # Check log message using the proper approach
+    # Check log message using the proper approach.
     assert any("Updated Event" in record.message for record in caplog.records)
 
 
@@ -233,7 +233,7 @@ def test_image_icon_serializer_create_unknown_entity():
     serializer = ImageIconSerializer(context={"request": request})
     image = serializer.create({"file_object": file})
 
-    # Verify no entity was updated
+    # Verify no entity was updated.
     assert not Organization.objects.filter(icon_url=image).exists()
     assert not Event.objects.filter(icon_url=image).exists()
 
@@ -278,7 +278,7 @@ def test_image_icon_serializer_create_organization_save_failure(caplog):
         },
     )()
 
-    # Mock save to fail
+    # Mock save to fail.
     with patch.object(Organization, "save", side_effect=Exception("DB Error")):
         serializer = ImageIconSerializer(context={"request": request})
         with pytest.raises(

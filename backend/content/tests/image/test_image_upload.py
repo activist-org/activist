@@ -399,7 +399,7 @@ def test_destroy_non_existent_file_view(client: APIClient) -> None:
     This is expected.
     """
 
-    non_existent_file_uuid = uuid.uuid4()  # Generates a random UUID
+    non_existent_file_uuid = uuid.uuid4()
 
     response = client.delete(f"/v1/content/images/{non_existent_file_uuid}")
     assert response.status_code == 404

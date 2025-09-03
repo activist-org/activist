@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Testing for topic Serialzers.
+Testing for topic Serializers.
 """
 
 from datetime import timedelta
@@ -20,12 +20,12 @@ def test_topic_serializer_valid_active_topic():
     """
     Test validation of an active topic with no deprecation date (valid case).
     """
-    # Create valid active topic data
+    # Create valid active topic data.
     data = {
         "name": "Technology",
         "description": "All about technology",
         "active": True,
-        # No deprecation_date for active topic
+        # No deprecation_date for active topic.
     }
 
     serializer = TopicSerializer(data=data)
@@ -42,7 +42,7 @@ def test_topic_serializer_active_with_deprecation_date():
     """
     Test validation fails when active topic has a deprecation date.
     """
-    # Create invalid active topic with deprecation date
+    # Create invalid active topic with deprecation date.
     data = {
         "name": "Technology",
         "description": "All about technology",
@@ -62,7 +62,7 @@ def test_topic_serializer_active_with_deprecation_date():
     )
 
 
-# TODO Write Test validation of an inactive topic with deprecation date (valid case).
+# TODO: Write Test validation of an inactive topic with deprecation date (valid case).
 
 
 @pytest.mark.django_db
@@ -70,12 +70,12 @@ def test_topic_serializer_inactive_without_deprecation_date():
     """
     Test validation fails when inactive topic lacks deprecation date.
     """
-    # Create invalid inactive topic without deprecation date
+    # Create invalid inactive topic without deprecation date.
     data = {
         "name": "Old Technology",
         "description": "Deprecated technology topics",
         "active": False,
-        # Missing deprecation_date for inactive topic
+        # Missing deprecation_date for inactive topic.
     }
 
     serializer = TopicSerializer(data=data)
@@ -95,7 +95,7 @@ def test_topic_serializer_creation_date_after_deprecation_date():
     """
     Test validation fails when creation date is after deprecation date.
     """
-    # Mock validate_creation_and_deprecation_dates to raise error
+    # Mock validate_creation_and_deprecation_dates to raise error.
     with patch(
         "content.serializers.validate_creation_and_deprecation_dates"
     ) as mock_validate:
@@ -123,7 +123,7 @@ def test_topic_serializer_valid_dates():
     """
     Test validation succeeds with valid creation and deprecation dates.
     """
-    # Mock validate_creation_and_deprecation_dates to do nothing (success)
+    # Mock validate_creation_and_deprecation_dates to do nothing (success).
     with patch(
         "content.serializers.validate_creation_and_deprecation_dates"
     ) as mock_validate:
@@ -138,7 +138,7 @@ def test_topic_serializer_valid_dates():
 
         serializer = TopicSerializer(data=data)
         assert serializer.is_valid(), f"Serializer errors: {serializer.errors}"
-        # The key fix: creation_date is NOT in the data passed to validation
+        # The key fix: creation_date is NOT in the data passed to validation.
         expected_data = {
             "name": "Test Topic",
             "description": "Test description",
@@ -169,4 +169,4 @@ def test_topic_serializer_create():
     assert topic.deprecation_date is None
 
 
-# TODO write test for update method of TopicSerializer if needed
+# TODO: write test for update method of TopicSerializer if needed.
