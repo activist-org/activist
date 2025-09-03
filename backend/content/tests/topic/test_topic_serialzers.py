@@ -1,3 +1,8 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Testing for topic Serialzers.
+"""
+
 from datetime import timedelta
 from unittest.mock import patch
 

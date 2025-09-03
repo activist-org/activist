@@ -1,3 +1,8 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Testing for Image Serialzers.
+"""
+
 import io
 import logging
 from datetime import timedelta
