@@ -150,6 +150,7 @@ class SignInView(APIView):
         return Response(
             {
                 "access": serializer.validated_data.get("access"),
+                "refresh": serializer.validated_data.get("refresh"),
                 "message": "User was logged in successfully.",
             },
             status=status.HTTP_200_OK,
