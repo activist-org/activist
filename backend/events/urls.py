@@ -13,9 +13,9 @@ from events.views import (
     EventFaqViewSet,
     EventFlagAPIView,
     EventFlagDetailAPIView,
+    EventResourceViewSet,
     EventSocialLinkViewSet,
     EventTextViewSet,
-    EventResourceViewSet
 )
 
 app_name = "events"

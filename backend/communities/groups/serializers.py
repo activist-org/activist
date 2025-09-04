@@ -291,7 +291,49 @@ class GroupFlagSerializer(serializers.ModelSerializer[GroupFlag]):
         model = GroupFlag
         fields = "__all__"
 
+# MARK: Resource
 
+
+class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
+    """
+    Serializer for GroupResource model data.
+    """
+
+    class Meta:
+        model = GroupResource
+        fields = "__all__"
+        read_only_fields = ("created_by",)
+
+    def validate_event(self, value: Group | UUID | str) -> Group:
+        """
+        Validate that the event exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Group instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the event does not exist.
+
+        Returns
+        -------
+        Group
+            The validated Group instance.
+        """
+        if isinstance(value, Group):
+            return value
+
+        try:
+            event = Group.objects.get(id=value)
+            logger.info("Group found for value: %s", value)
+
+        except Group.DoesNotExist as e:
+            raise serializers.ValidationError("Group not found.") from e
+
+        return event
 # MARK: Image
 
 

@@ -403,7 +403,7 @@ class ResourceSerializer(serializers.ModelSerializer[Resource]):
     class Meta:
         model = Resource
         fields = "__all__"
-        
+
 
 # MARK: Resource Flag
 

@@ -471,7 +471,6 @@ export const useEventStore = defineStore("event", {
     async createResource(event: Event, formData: Resource) {
       this.loading = true;
       const responses: boolean[] = [];
-      console.log('aca estoy')
       const responseFaqEntries = await useFetch(
         `${BASE_BACKEND_URL}/events/event_resources`,
         {

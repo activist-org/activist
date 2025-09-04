@@ -15,6 +15,7 @@ from communities.groups.views import (
     GroupImageViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
+    GroupResourceViewSet
 )
 from communities.organizations.views import (
     OrganizationAPIView,
@@ -25,6 +26,7 @@ from communities.organizations.views import (
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
+    OrganizationResourceSerializer
 )
 from communities.views import StatusViewSet
 
@@ -50,6 +52,16 @@ router.register(
     prefix=r"organization_faqs",
     viewset=OrganizationFaqViewSet,
     basename="organization-faqs",
+)
+router.register(
+    prefix=r"organization_resources",
+    viewset=OrganizationResourceSerializer,
+    basename="organization-resources",
+)
+router.register(
+    prefix=r"group_resources",
+    viewset=GroupResourceViewSet,
+    basename="group-resources",
 )
 router.register(
     prefix=r"organization_social_links",

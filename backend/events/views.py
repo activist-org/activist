@@ -28,15 +28,22 @@ from rest_framework.views import APIView
 from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
-from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText, EventResource
+from events.models import (
+    Event,
+    EventFaq,
+    EventFlag,
+    EventResource,
+    EventSocialLink,
+    EventText,
+)
 from events.serializers import (
     EventFaqSerializer,
     EventFlagSerializers,
     EventPOSTSerializer,
+    EventResourceSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
     EventTextSerializer,
-    EventResourceSerializer
 )
 
 logger = logging.getLogger("django")
@@ -372,7 +379,9 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         return Response(
             {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
         )
-# MARK: FAQ
+
+
+# MARK: Resource
 
 
 class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
@@ -396,7 +405,8 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
         logger.info(f"Resource created for event {event.id} by user {request.user.id}")
 
         return Response(
-            {"message": "Resource created successfully."}, status=status.HTTP_201_CREATED
+            {"message": "Resource created successfully."},
+            status=status.HTTP_201_CREATED,
         )
 
     def update(self, request: Request, pk: UUID | str) -> Response:
@@ -422,6 +432,7 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
         return Response(
             {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
         )
+
 
 # MARK: Social Link
 
