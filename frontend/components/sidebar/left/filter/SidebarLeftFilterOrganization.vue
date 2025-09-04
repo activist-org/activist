@@ -26,11 +26,10 @@
       :label="$t('i18n.components._global.topics')"
       name="topics"
     >
-      <FormSelectorCombobox
+      <FormSelectorComboboxTopics
         @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
         :id="id"
-        :options="options"
-        label="Topics"
+        :label="$t('i18n.components._global.topics')"
       />
     </FormItem>
   </Form>
@@ -39,16 +38,6 @@
 import { z } from "zod";
 
 import type { Topic } from "~/types/topics";
-
-import { GLOBAL_TOPICS } from "~/types/topics";
-
-const { t } = useI18n();
-
-const options = GLOBAL_TOPICS.map((topic, index) => ({
-  label: t(topic.label),
-  value: topic.value,
-  id: index,
-}));
 
 const schema = z.object({
   location: z.string().optional(),

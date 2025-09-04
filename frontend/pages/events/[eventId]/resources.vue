@@ -12,7 +12,13 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnRouteInternal
+        <BtnAction
+          @click.stop="
+            openModal()
+          "
+          @keydown.enter="
+            openModal()
+          "
           class="w-max"
           :cta="true"
           linkTo="/"
@@ -23,6 +29,7 @@
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
         />
       </div>
+      <ModalResourceEvent/>
     </HeaderAppPageEvent>
     <div v-if="event.resources" class="space-y-3 py-4">
       <CardSearchResultResource
@@ -41,6 +48,7 @@ import type { Event } from "~/types/events/event";
 
 import { IconMap } from "~/types/icon-map";
 
+const { openModal } = useModalHandlers('ModalResourceEvent')
 defineProps<{
   event: Event;
 }>();

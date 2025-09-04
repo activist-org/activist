@@ -2,6 +2,7 @@
 import type { Location } from "~/types/content/location";
 
 import type { Organization } from "../communities/organization";
+import type { Topic } from "../topics";
 
 // MARK: Main Table
 
@@ -14,7 +15,10 @@ export interface Resource {
   org?: Organization;
   location?: Location;
   url: string;
+  topics?:Topic[];
+  category?:string;
   // isPrivate?: boolean;
   creationDate?: string;
+  order: number;
   // lastUpdated?: string;
 }

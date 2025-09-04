@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { UploadableFile } from "~/types/content/file";
+import type { Resource } from "~/types/content/resource";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
@@ -464,6 +465,84 @@ export const useEventStore = defineStore("event", {
         return false;
       }
     },
+
+    // MARK: Create Resource
+
+    async createResource(event: Event, formData: Resource) {
+      this.loading = true;
+      const responses: boolean[] = [];
+      console.log('aca estoy')
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_resources`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...formData,
+            event: event.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseResourcesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update resource
+
+    async updateResource(event: Event, formData: Resource) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_resources/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            ...formData
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
 
     // MARK: Delete
 

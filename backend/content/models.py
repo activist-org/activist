@@ -204,7 +204,7 @@ class Resource(models.Model):
     order = models.IntegerField()
     category = models.CharField(max_length=255, blank=True)
     location = models.OneToOneField(
-        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+        "content.Location", on_delete=models.CASCADE, null=True, blank=True
     )
     is_private = models.BooleanField(default=True)
     terms_checked = models.BooleanField(default=False)
