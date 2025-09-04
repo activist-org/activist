@@ -8,6 +8,7 @@ import type {
 } from "~/types/communities/group";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
+import type { Resource } from "~/types/content/resource";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 import { EntityType } from "~/types/entity";
@@ -219,6 +220,82 @@ export const useGroupStore = defineStore("group", {
 
       return false;
     },
+
+        // MARK: Create Resource
+
+        async createResource(group: Group, formData: Resource) {
+          this.loading = true;
+          const responses: boolean[] = [];
+          const responseFaqEntries = await useFetch(
+            `${BASE_BACKEND_URL}/communities/group_resources`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                ...formData,
+                group: group.id,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          );
+
+          const responseResourcesData = responseFaqEntries.data
+            .value as unknown as Event;
+          if (responseResourcesData) {
+            responses.push(true);
+          } else {
+            responses.push(false);
+          }
+
+          if (responses.every((r) => r === true)) {
+            // Fetch updated event data after successful updates to update the frontend.
+            await this.fetchById(group.id);
+            this.loading = false;
+            return true;
+          } else {
+            this.loading = false;
+            return false;
+          }
+        },
+
+        // MARK: Update resource
+
+        async updateResource(group: Group, formData: Resource) {
+          this.loading = true;
+          const responses: boolean[] = [];
+
+          const responseFaqEntries = await useFetch(
+            `${BASE_BACKEND_URL}/communities/group_resources/${formData.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                ...formData
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          );
+
+          const responseFaqEntriesData = responseFaqEntries.data
+            .value as unknown as Event;
+          if (responseFaqEntriesData) {
+            responses.push(true);
+          } else {
+            responses.push(false);
+          }
+
+          if (responses.every((r) => r === true)) {
+            // Fetch updated event data after successful updates to update the frontend.
+            await this.fetchById(group.id);
+            this.loading = false;
+            return true;
+          } else {
+            this.loading = false;
+            return false;
+          }
+        },
 
     // MARK: Delete Links
 

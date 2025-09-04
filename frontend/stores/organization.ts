@@ -9,6 +9,7 @@ import type {
 } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
+import type { Resource } from "~/types/content/resource";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 import { EntityType } from "~/types/entity";
@@ -140,6 +141,83 @@ export const useOrganizationStore = defineStore("organization", {
 
       this.loading = false;
     },
+
+    // MARK: Create Resource
+
+    async createResource(organization: Organization, formData: Resource) {
+      this.loading = true;
+      const responses: boolean[] = [];
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/organizations/organization_resources`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...formData,
+            organization: organization.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseResourcesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(organization.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update resource
+
+    async updateResource(organization: Organization, formData: Resource) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/organizations/organization_resources/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            ...formData
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(organization.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
 
     // MARK: Update Icon
 
