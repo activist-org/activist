@@ -580,7 +580,6 @@
   "i18n.pages.organizations.create.tagline_placeholder": "Uno slogan corto per la tua organizzazione (facoltativo)",
   "i18n.pages.organizations.discussions.index.tagline": "Discussioni di comunità",
   "i18n.pages.organizations.events.new_org_event_aria_label": "Crea un nuovo evento per questa organizzazione",
-  "i18n.pages.organizations.groups._global.support_group_aria_label": "Sostieni questo gruppo",
   "i18n.pages.organizations.groups.about.share_group": "Condividi gruppo",
   "i18n.pages.organizations.groups.about.share_group_aria_label": "Vedi opzioni per condividere questo gruppo con altri",
   "i18n.pages.organizations.groups.events.new_group_event_aria_label": "Crea un nuovo evento per questo gruppo",

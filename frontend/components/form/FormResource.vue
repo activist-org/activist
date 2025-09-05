@@ -55,17 +55,19 @@
         />
       </FormItem>
       <FormItem
-      v-slot="{ id, handleChange,value }"
-      :label="$t('i18n.components._global.topics')"
-      name="topics"
-    >
-      <FormSelectorComboboxTopics
-        @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
-        :id="id"
-        :selected-topics="value.value as Topic[]"
+        v-slot="{ id, handleChange, value }"
         :label="$t('i18n.components._global.topics')"
-      />
-    </FormItem>
+        name="topics"
+      >
+        <FormSelectorComboboxTopics
+          @update:selectedOptions="
+            (val: unknown) => handleChange(val as Topic[])
+          "
+          :id="id"
+          :selected-topics="value.value as Topic[]"
+          :label="$t('i18n.components._global.topics')"
+        />
+      </FormItem>
     </div>
   </Form>
 </template>
@@ -87,8 +89,13 @@ const { t } = useI18n();
 
 const schema = z.object({
   name: z.string().min(1, t("i18n.components.form_resource.name_required")),
-  description: z.string().min(1, t("i18n.components.form_faq_entry.question_required")),
-  url: z.string().min(1, t("i18n.components.form_resource.url_required")).url(t("i18n.components.form_resource.url_must_be_valid")),
+  description: z
+    .string()
+    .min(1, t("i18n.components.form_resource.description_required")),
+  url: z
+    .string()
+    .min(1, t("i18n.components.form_resource.link_required"))
+    .url(t("i18n.components.form_resource.url_must_be_valid")),
   topics: z.array(z.string()).optional(),
 });
 </script>

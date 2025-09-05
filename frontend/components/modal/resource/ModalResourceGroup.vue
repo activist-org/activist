@@ -32,11 +32,11 @@ const formData = ref<Resource | undefined>();
 
 const submitLabel = isAddMode
   ? "i18n.components.modal.resource._global.add_resource"
-  : "i18n.components.modal._global.update_texts";
+  : "i18n.components.modal.resource._global.update_resource";
 
 const title = isAddMode
   ? "i18n.components.modal.resource._global.add_resource"
-  : "i18n.components.modal.faq_entry._global.edit_entry";
+  : "i18n.components.modal.resource._global.edit_resource";
 if (!isAddMode) {
   onMounted(async () => {
     if (props.resource) {

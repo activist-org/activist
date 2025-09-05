@@ -22,7 +22,8 @@ const modalName = "ModalResourceOrganization" + (props.resource?.id ?? "");
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsOrganizationId = useRoute().params.organizationId;
-const organizationId = typeof paramsOrganizationId === "string" ? paramsOrganizationId : undefined;
+const organizationId =
+  typeof paramsOrganizationId === "string" ? paramsOrganizationId : undefined;
 
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchById(organizationId);
@@ -32,11 +33,11 @@ const formData = ref<Resource | undefined>();
 
 const submitLabel = isAddMode
   ? "i18n.components.modal.resource._global.add_resource"
-  : "i18n.components.modal._global.update_texts";
+  : "i18n.components.modal.resource._global.update_resource";
 
 const title = isAddMode
   ? "i18n.components.modal.resource._global.add_resource"
-  : "i18n.components.modal.faq_entry._global.edit_entry";
+  : "i18n.components.modal.resource._global.edit_resource";
 if (!isAddMode) {
   onMounted(async () => {
     if (props.resource) {
@@ -70,8 +71,10 @@ async function handleSubmit(values: unknown) {
     ...(values as Resource),
     order: formData.value?.order || organization.resources.length,
   };
-  if (isAddMode) await organizationStore.createResource(organization, newValues as Resource);
-  else await organizationStore.updateResource(organization, newValues as Resource);
+  if (isAddMode)
+    await organizationStore.createResource(organization, newValues as Resource);
+  else
+    await organizationStore.updateResource(organization, newValues as Resource);
   handleCloseModal();
 }
 </script>
