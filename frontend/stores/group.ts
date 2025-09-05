@@ -221,81 +221,125 @@ export const useGroupStore = defineStore("group", {
       return false;
     },
 
-        // MARK: Create Resource
+    // MARK: Reorder resource
 
-        async createResource(group: Group, formData: Resource) {
-          this.loading = true;
-          const responses: boolean[] = [];
-          const responseFaqEntries = await useFetch(
-            `${BASE_BACKEND_URL}/communities/group_resources`,
-            {
-              method: "POST",
-              body: JSON.stringify({
-                ...formData,
-                group: group.id,
-              }),
-              headers: {
-                Authorization: `${token.value}`,
-              },
-            }
-          );
+    async reorderResource(group: Group, resources: Resource[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
 
-          const responseResourcesData = responseFaqEntries.data
-            .value as unknown as Event;
-          if (responseResourcesData) {
-            responses.push(true);
-          } else {
-            responses.push(false);
-          }
-
-          if (responses.every((r) => r === true)) {
-            // Fetch updated event data after successful updates to update the frontend.
-            await this.fetchById(group.id);
-            this.loading = false;
-            return true;
-          } else {
-            this.loading = false;
-            return false;
-          }
-        },
-
-        // MARK: Update resource
-
-        async updateResource(group: Group, formData: Resource) {
-          this.loading = true;
-          const responses: boolean[] = [];
-
-          const responseFaqEntries = await useFetch(
-            `${BASE_BACKEND_URL}/communities/group_resources/${formData.id}`,
+      const responseResources = await Promise.all(
+        resources.map((resource) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/group_resources/${resource.id}`,
             {
               method: "PUT",
               body: JSON.stringify({
-                ...formData
+                id: resource.id,
+                order: resource.order,
               }),
               headers: {
                 Authorization: `${token.value}`,
               },
             }
-          );
+          )
+        )
+      );
 
-          const responseFaqEntriesData = responseFaqEntries.data
-            .value as unknown as Event;
-          if (responseFaqEntriesData) {
-            responses.push(true);
-          } else {
-            responses.push(false);
-          }
+      const responseResourcesData = responseResources.map(
+        (item) => item.data.value as unknown as Group
+      );
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
 
-          if (responses.every((r) => r === true)) {
-            // Fetch updated event data after successful updates to update the frontend.
-            await this.fetchById(group.id);
-            this.loading = false;
-            return true;
-          } else {
-            this.loading = false;
-            return false;
-          }
-        },
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Create Resource
+
+    async createResource(group: Group, formData: Resource) {
+      this.loading = true;
+      const responses: boolean[] = [];
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_resources`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...formData,
+            group: group.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseResourcesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update resource
+
+    async updateResource(group: Group, formData: Resource) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_resources/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            ...formData,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated event data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
 
     // MARK: Delete Links
 

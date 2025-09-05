@@ -29,6 +29,7 @@ from communities.groups.models import (
     GroupImage,
     GroupSocialLink,
     GroupText,
+    GroupResource
 )
 from communities.groups.serializers import (
     GroupFaqSerializer,
@@ -37,6 +38,7 @@ from communities.groups.serializers import (
     GroupSerializer,
     GroupSocialLinkSerializer,
     GroupTextSerializer,
+    GroupResourceSerializer
 )
 from content.models import Image, Location
 from content.serializers import ImageSerializer
@@ -486,16 +488,16 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        event: Group = serializer.validated_data["organization"]
+        group: Group = serializer.validated_data["group"]
 
-        if request.user != event.created_by and not request.user.is_staff:
+        if request.user != group.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to create resource for this organization."},
                 status=status.HTTP_403_FORBIDDEN,
             )
         print(request.user)
         serializer.save(created_by=request.user)
-        logger.info(f"Resource created for organization {event.id} by user {request.user.id}")
+        logger.info(f"Resource created for group {group.id} by user {request.user.id}")
 
         return Response(
             {"message": "Resource created successfully."},
@@ -504,7 +506,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
 
     def update(self, request: Request, pk: UUID | str) -> Response:
         try:
-            faq = GroupResource.objects.get(id=pk)
+            resource = GroupResource.objects.get(id=pk)
 
         except GroupResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
@@ -512,13 +514,13 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
                 {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != faq.event.created_by and not request.user.is_staff:
+        if request.user != resource.group.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to update this FAQ."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer = self.get_serializer(resource, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

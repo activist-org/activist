@@ -148,12 +148,12 @@ export const useOrganizationStore = defineStore("organization", {
       this.loading = true;
       const responses: boolean[] = [];
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/organizations/organization_resources`,
+        `${BASE_BACKEND_URL}/communities/organization_resources`,
         {
           method: "POST",
           body: JSON.stringify({
             ...formData,
-            organization: organization.id,
+            org: organization.id,
           }),
           headers: {
             Authorization: `${token.value}`,
@@ -187,11 +187,11 @@ export const useOrganizationStore = defineStore("organization", {
       const responses: boolean[] = [];
 
       const responseFaqEntries = await useFetch(
-        `${BASE_BACKEND_URL}/organizations/organization_resources/${formData.id}`,
+        `${BASE_BACKEND_URL}/communities/organization_resources/${formData.id}`,
         {
           method: "PUT",
           body: JSON.stringify({
-            ...formData
+            ...formData,
           }),
           headers: {
             Authorization: `${token.value}`,
@@ -217,7 +217,6 @@ export const useOrganizationStore = defineStore("organization", {
         return false;
       }
     },
-
 
     // MARK: Update Icon
 
@@ -689,6 +688,50 @@ export const useOrganizationStore = defineStore("organization", {
         (item) => item.data.value as unknown as Organization
       );
       if (responseFAQsData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+    
+    // MARK: Reorder resource
+
+    async reorderResource(org: Organization, resources: Resource[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseResources = await Promise.all(
+        resources.map((resource) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/organization_resources/${resource.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id: resource.id,
+                order: resource.order,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
+      );
+
+      const responseResourcesData = responseResources.map(
+        (item) => item.data.value as unknown as Organization
+      );
+      if (responseResourcesData) {
         responses.push(true);
       } else {
         responses.push(false);

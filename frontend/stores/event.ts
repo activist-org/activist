@@ -515,7 +515,7 @@ export const useEventStore = defineStore("event", {
         {
           method: "PUT",
           body: JSON.stringify({
-            ...formData
+            ...formData,
           }),
           headers: {
             Authorization: `${token.value}`,
@@ -542,6 +542,49 @@ export const useEventStore = defineStore("event", {
       }
     },
 
+    // MARK: Reorder resource
+
+    async reorderResource(event: Event, resources: Resource[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseResources = await Promise.all(
+        resources.map((resource) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/events/event_resources/${resource.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id: resource.id,
+                order: resource.order,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
+      );
+
+      const responseResourcesData = responseResources.map(
+        (item) => item.data.value as unknown as Event
+      );
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
 
     // MARK: Delete
 

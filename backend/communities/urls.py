@@ -26,7 +26,7 @@ from communities.organizations.views import (
     OrganizationImageViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
-    OrganizationResourceSerializer
+    OrganizationResourceViewSet
 )
 from communities.views import StatusViewSet
 
@@ -55,7 +55,7 @@ router.register(
 )
 router.register(
     prefix=r"organization_resources",
-    viewset=OrganizationResourceSerializer,
+    viewset=OrganizationResourceViewSet,
     basename="organization-resources",
 )
 router.register(

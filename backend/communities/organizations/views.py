@@ -629,16 +629,15 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        event: Organization = serializer.validated_data["organization"]
+        org: Organization = serializer.validated_data["org"]
 
-        if request.user != event.created_by and not request.user.is_staff:
+        if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to create resource for this organization."},
                 status=status.HTTP_403_FORBIDDEN,
             )
-        print(request.user)
         serializer.save(created_by=request.user)
-        logger.info(f"Resource created for organization {event.id} by user {request.user.id}")
+        logger.info(f"Resource created for organization {org.id} by user {request.user.id}")
 
         return Response(
             {"message": "Resource created successfully."},
@@ -647,7 +646,7 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
 
     def update(self, request: Request, pk: UUID | str) -> Response:
         try:
-            faq = OrganizationResource.objects.get(id=pk)
+            resource = OrganizationResource.objects.get(id=pk)
 
         except OrganizationResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
@@ -655,13 +654,13 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
                 {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != faq.event.created_by and not request.user.is_staff:
+        if request.user != resource.org.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to update this FAQ."},
+                {"detail": "You are not authorized to update this resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer = self.get_serializer(resource, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
