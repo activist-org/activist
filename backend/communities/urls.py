@@ -38,16 +38,32 @@ router.register(
     prefix=r"statuses",
     viewset=StatusViewSet,
 )
+
+# MARK: Group
+
+router.register(
+    prefix=r"group/(?P<group_id>[^/.]+)/images",
+    viewset=GroupImageViewSet,
+    basename="group-images",
+)
 router.register(
     prefix=r"group_faqs",
     viewset=GroupFaqViewSet,
     basename="group-faqs",
 )
 router.register(
+    prefix=r"group_resources",
+    viewset=GroupResourceViewSet,
+    basename="group-resources",
+)
+router.register(
     prefix=r"group_social_links",
     viewset=GroupSocialLinkViewSet,
     basename="group-social-links",
 )
+
+# MARK: Organization
+
 router.register(
     prefix=r"organization_faqs",
     viewset=OrganizationFaqViewSet,
@@ -59,25 +75,17 @@ router.register(
     basename="organization-resources",
 )
 router.register(
-    prefix=r"group_resources",
-    viewset=GroupResourceViewSet,
-    basename="group-resources",
-)
-router.register(
     prefix=r"organization_social_links",
     viewset=OrganizationSocialLinkViewSet,
     basename="organization-social-links",
-)
-router.register(
-    prefix=r"group/(?P<group_id>[^/.]+)/images",
-    viewset=GroupImageViewSet,
-    basename="group-images",
 )
 router.register(
     prefix=r"organization/(?P<org_id>[^/.]+)/images",
     viewset=OrganizationImageViewSet,
     basename="organization-images",
 )
+
+# MARK: URL Patterns
 
 urlpatterns = [
     path("", include(router.urls)),
