@@ -29,12 +29,15 @@ admin.site.register(EventText)
 # MARK: Event Flag
 
 
-class EventFlagAdmin(admin.ModelAdmin[EventFlag]):
+class EventFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin interface for EventFlag model.
 
     Displays the Event, User and the date of the report filed.
     """
+
+    class Meta:
+        model = EventFlag
 
     list_display = ["event", "created_by", "creation_date"]
 

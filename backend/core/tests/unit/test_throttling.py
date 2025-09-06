@@ -60,7 +60,7 @@ def test_auth_throttle():
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    token = login_response.json()["token"]
+    token = login_response.json()["access"]
 
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["user"] = "5/min"
     endpoint = "/v1/communities/organizations"

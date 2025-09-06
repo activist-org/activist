@@ -54,7 +54,7 @@ def test_group_delete(client: Client) -> None:
     assert login_response.status_code == 200
 
     login_response_body = login_response.json()
-    token = login_response_body.get("token")
+    token = login_response_body.get("access")
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}",
@@ -93,7 +93,7 @@ def test_group_delete(client: Client) -> None:
     assert login_response.status_code == 200
 
     login_response_body = login_response.json()
-    token = login_response_body.get("token")
+    token = login_response_body.get("access")
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{test_uuid}",
@@ -126,7 +126,7 @@ def test_group_delete(client: Client) -> None:
     assert login_response.status_code == 200
 
     login_response_body = login_response.json()
-    token = login_response_body.get("token")
+    token = login_response_body.get("access")
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}",

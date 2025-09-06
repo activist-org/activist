@@ -43,6 +43,7 @@ django==5.2.4
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework
+    #   djangorestframework-simplejwt
     #   drf-spectacular
 django-cors-headers==4.7.0
     # via -r requirements.txt
@@ -63,9 +64,12 @@ django-stubs-ext==5.2.2
 djangorestframework==3.16.0
     # via
     #   -r requirements.txt
+    #   djangorestframework-simplejwt
     #   drf-spectacular
 djangorestframework-camel-case==1.4.2
     # via -r requirements.txt
+djangorestframework-simplejwt==5.5.1
+    # via -r requirements-dev.in
 djangorestframework-stubs==3.16.1
     # via -r requirements.txt
 drf-spectacular==0.28.0
@@ -146,6 +150,8 @@ pygments==2.19.2
     #   i18n-check
     #   pytest
     #   rich
+pyjwt==2.10.1
+    # via djangorestframework-simplejwt
 pyproject-hooks==1.2.0
     # via
     #   build

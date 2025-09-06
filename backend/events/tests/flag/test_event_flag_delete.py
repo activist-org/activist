@@ -30,7 +30,7 @@ def test_event_flag_delete():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     flag = EventFlagFactory()
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/events/event_flag/{flag.id}")
@@ -59,7 +59,7 @@ def test_event_flag_delete_does_not_exist():
 
     bad_flagged_event_uuid = uuid4()
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/events/event_flag/{bad_flagged_event_uuid}")
     response_body = response.json()

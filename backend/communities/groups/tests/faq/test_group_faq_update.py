@@ -59,7 +59,7 @@ def test_group_faq_update() -> None:
     # MARK: Update Success
 
     login_response = login.json()
-    token = login_response["token"]
+    token = login_response["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(

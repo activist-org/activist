@@ -20,3 +20,4 @@ pytest-cov
 pytest-django
 ruff
 ts-backend-check
+djangorestframework-simplejwt

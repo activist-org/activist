@@ -55,7 +55,7 @@ def test_group_partial_update(client: Client) -> None:
     assert login_response.status_code == 200
 
     login_response_body = login_response.json()
-    token = login_response_body.get("token")
+    token = login_response_body.get("access")
 
     group.created_by = user
 

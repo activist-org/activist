@@ -35,7 +35,7 @@ def test_org_text_update():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
@@ -71,7 +71,7 @@ def test_org_text_update_403():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
@@ -108,7 +108,7 @@ def test_org_text_update_404():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(

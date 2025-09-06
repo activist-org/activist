@@ -36,7 +36,7 @@ def test_user_flag_list():
     logger.debug(f"Login successful with status code: {login.status_code}")
     login_body = login.json()
 
-    token = login_body["token"]
+    token = login_body["access"]
     logger.debug("Setting authorization token for subsequent requests")
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 

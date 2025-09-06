@@ -314,7 +314,7 @@ def test_organization_social_link_create_view(client: APIClient) -> None:
         data={"username": test_username, "password": test_password},
     )
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     formData = {"link": "https://example.com", "label": "Example", "order": 1}
 
@@ -356,7 +356,7 @@ def test_group_social_link_create_view(client: APIClient) -> None:
         data={"username": test_username, "password": test_password},
     )
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     formData = {"link": "https://example.com", "label": "Example", "order": 1}
 
@@ -398,7 +398,7 @@ def test_event_social_link_create_view(client: APIClient) -> None:
         data={"username": test_username, "password": test_password},
     )
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     formData = {"link": "https://example.com", "label": "Example", "order": 1}
 

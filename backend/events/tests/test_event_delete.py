@@ -28,7 +28,7 @@ def test_event_delete(client: Client) -> None:
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     event = EventFactory.create()
 

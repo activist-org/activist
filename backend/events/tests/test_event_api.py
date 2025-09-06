@@ -42,7 +42,7 @@ def login_user(user_data: UserDict) -> dict[Any, Any]:
         },
     )
     assert response.status_code == 200
-    return {"user": user_data["user"], "token": response.data["token"]}
+    return {"user": user_data["user"], "access": response.data["access"]}
 
 
 @pytest.fixture
@@ -105,7 +105,7 @@ def test_EventListAPIView(logged_in_user) -> None:
     org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
     new_event = EventFactory.build(name="new_event", terms_checked=True)
     location = EntityLocationFactory.build()
-    token = logged_in_user["token"]
+    token = logged_in_user["access"]
 
     payload = {
         "name": new_event.name,
@@ -135,7 +135,7 @@ def test_EventListAPIView(logged_in_user) -> None:
 def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-def]
     client = APIClient()
 
-    created_by_user, token = logged_in_user.values()
+    created_by_user, access = logged_in_user.values()
 
     new_event = EventFactory.create(created_by=created_by_user)
     assert Event.objects.filter(name=new_event.name).exists()
@@ -159,7 +159,7 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
 
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
 
     assert response.status_code == 200
@@ -171,7 +171,7 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
     response = client.delete(f"{EVENTS_URL}/{new_event.id}")
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.delete(f"{EVENTS_URL}/{new_event.id}")
 
     assert response.status_code == 200
