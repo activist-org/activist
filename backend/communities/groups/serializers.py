@@ -80,11 +80,11 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
     class Meta:
         model = GroupResource
         fields = "__all__"
-        read_only_fields = ("created_by",)
+        read_only_fields = ["created_by"]
 
-    def validate_event(self, value: Group | UUID | str) -> Group:
+    def validate_group(self, value: Group | UUID | str) -> Group:
         """
-        Validate that the event exists.
+        Validate that the group exists.
 
         Parameters
         ----------
@@ -94,7 +94,7 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
         Raises
         -------
         serializers.ValidationError
-            If the event does not exist.
+            If the group does not exist.
 
         Returns
         -------
@@ -105,13 +105,13 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
             return value
 
         try:
-            event = Group.objects.get(id=value)
+            group = Group.objects.get(id=value)
             logger.info("Group found for value: %s", value)
 
         except Group.DoesNotExist as e:
             raise serializers.ValidationError("Group not found.") from e
 
-        return event
+        return group
 
 
 # MARK: Social Link

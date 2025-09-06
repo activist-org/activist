@@ -58,15 +58,13 @@ The activist community is creating a global platform where movements grow and pe
 
 The following are the working topics that activist could include:
 
-|                       |                             |                            |
-| :-------------------- | :-------------------------- | :------------------------- |
-| Environment           | Housing                     | Refugees and Migration     |
-| LGTBQIA+              | Racial Justice              | Women's Rights             |
-| Children's Rights     | Elder Rights                | Education                  |
-| Health and Wellbeing  | Animal Rights               | Democracy                  |
-| Labor Rights          | Technology and Privacy      | Peace and Resolution       |
-| Nutrition             | Accessibility and Inclusion | Institutional Transparency |
-| Freedom of Expression | Infrastructure and Mobility | Emergency Relief           |
+|                        |                        |                          |
+| :--------------------- | :--------------------- | :----------------------- |
+| Accessibility          | Animal Rights          | Democracy and Governance |
+| Education              | Emergency Relief       | Environment              |
+| Health                 | Housing                | Labor Rights             |
+| LGBTQIA+               | Peace and Resolution   | Racial Justice           |
+| Refugees and Migration | Technology and Privacy | Women's Rights           |
 
 <br/>
 Beyond clustering by topics, tags will also be used to draw community attention to more specific issues.

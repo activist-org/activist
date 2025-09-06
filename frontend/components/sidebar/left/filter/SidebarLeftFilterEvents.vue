@@ -86,10 +86,10 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { Topic } from "~/types/topics";
+import type { Topic } from "~/types/content/topics";
 
+import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
-import { GLOBAL_TOPICS } from "~/types/topics";
 import { ViewType } from "~/types/view-types";
 
 const { t } = useI18n();

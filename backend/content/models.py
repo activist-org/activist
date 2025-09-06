@@ -300,17 +300,14 @@ class Topic(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    constant = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
-    description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateTimeField(blank=True, null=True)
 
-    format = models.ManyToManyField("events.Format", blank=True)
-
     def __str__(self) -> str:
-        return self.name
+        return self.constant
 
 
 # MARK: Text

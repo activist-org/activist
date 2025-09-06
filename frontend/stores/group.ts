@@ -27,7 +27,6 @@ export const useGroupStore = defineStore("group", {
     loading: false,
 
     group: {
-      // group
       id: "",
       images: [],
       groupName: "",
@@ -293,7 +292,7 @@ export const useGroupStore = defineStore("group", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates to update the frontend.
+        // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id);
         this.loading = false;
         return true;
@@ -331,7 +330,7 @@ export const useGroupStore = defineStore("group", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates to update the frontend.
+        // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id);
         this.loading = false;
         return true;

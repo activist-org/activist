@@ -1,98 +1,167 @@
 [
-{
-  "model": "content.topic",
-  "pk": "24b970c6-5231-403b-9e9d-7de8375193ef",
-  "fields": {
-    "name": "Democracy",
-    "active": true,
-    "description": "Democracy",
-    "creation_date": "2024-09-21T20:21:47.121Z",
-    "last_updated": "2024-09-21T20:21:47.121Z",
-    "deprecation_date": null
+  {
+    "model": "content.topic",
+    "pk": "8efbbbc1-5ed8-4718-bd65-487893c03c82",
+    "fields": {
+      "constant": "ACCESSIBILITY",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "b8a71e64-60d5-4352-9220-d18778298f1e",
+    "fields": {
+      "constant": "ANIMAL_RIGHTS",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "a2845101-6e40-4917-a63e-e25385f3f0fb",
+    "fields": {
+      "constant": "DEMOCRACY_AND_GOVERNANCE",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "2815b1c9-ee37-47e3-b8f5-64f0e2a06753",
+    "fields": {
+      "constant": "EDUCATION",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "b41cea3e-984d-4eee-8fdf-8e42b9c541e2",
+    "fields": {
+      "constant": "EMERGENCY_RELIEF",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "27ed62b3-5bf8-46ac-878c-8b2a6fb973d1",
+    "fields": {
+      "constant": "ENVIRONMENT",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "410fe38f-c0a1-47ac-a4b8-a9649182f4d0",
+    "fields": {
+      "constant": "HEALTH",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "645f50dc-14a4-415e-8971-5ae60bd53a3c",
+    "fields": {
+      "constant": "HOUSING",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "fe0bc918-23f2-44d1-9ebc-d1a2b014dba0",
+    "fields": {
+      "constant": "LABOR_RIGHTS",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "106e82c5-a7c0-47db-ab2e-e6ef5fc1b1de",
+    "fields": {
+      "constant": "LGTBQIA",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "b3a4147d-ca45-4f84-8794-b336e57c5acf",
+    "fields": {
+      "constant": "PEACE_AND_RESOLUTION",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "2b4b32a0-fd61-4546-b28c-33e09ae111fe",
+    "fields": {
+      "constant": "RACIAL_JUSTICE",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "810b4ecf-6aab-4a77-9bdd-6b05d6e90cfd",
+    "fields": {
+      "constant": "REFUGEES_AND_MIGRATION",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "a10c3c29-7314-468b-bc89-0f5592b054c7",
+    "fields": {
+      "constant": "TECHNOLOGY_AND_PRIVACY",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
+  },
+  {
+    "model": "content.topic",
+    "pk": "503f9702-4e35-4b08-b905-1d8393673213",
+    "fields": {
+      "constant": "WOMENS_RIGHTS",
+      "active": true,
+      "creation_date": "1970-01-01T00:00:00.000Z",
+      "last_updated": "1970-01-01T00:00:00.000Z",
+      "deprecation_date": null
+    }
   }
-},
-{
-  "model": "content.topic",
-  "pk": "2c649964-f64c-4693-be31-0a9fdf981974",
-  "fields": {
-    "name": "Women's Rights",
-    "active": true,
-    "description": "Women's Rights",
-    "creation_date": "2024-09-21T20:24:41.462Z",
-    "last_updated": "2024-09-21T20:24:41.462Z",
-    "deprecation_date": null
-  }
-},
-{
-  "model": "content.topic",
-  "pk": "2d49b6e2-8916-4543-83f3-9782e8a9680a",
-  "fields": {
-    "name": "Animal Rights",
-    "active": true,
-    "description": "Animal Rights",
-    "creation_date": "2024-09-21T20:22:07.547Z",
-    "last_updated": "2024-09-21T20:22:07.547Z",
-    "deprecation_date": null
-  }
-},
-{
-  "model": "content.topic",
-  "pk": "b3c6c355-a084-4766-9963-3e54e1af3004",
-  "fields": {
-    "name": "Racial Justice",
-    "active": true,
-    "description": "Racial Justice",
-    "creation_date": "2024-09-21T20:24:28.226Z",
-    "last_updated": "2024-09-21T20:24:28.226Z",
-    "deprecation_date": null
-  }
-},
-{
-  "model": "content.topic",
-  "pk": "b8d8c9c2-e75b-4d49-aca7-c22cfb1f8b77",
-  "fields": {
-    "name": "Housing",
-    "active": true,
-    "description": "Housing",
-    "creation_date": "2024-09-21T20:22:46.519Z",
-    "last_updated": "2024-09-21T20:22:46.519Z",
-    "deprecation_date": null
-  }
-},
-{
-  "model": "content.topic",
-  "pk": "d13860c9-4467-4810-a2d5-7826f3769913",
-  "fields": {
-    "name": "Education",
-    "active": true,
-    "description": "Education",
-    "creation_date": "2024-09-21T20:22:23.446Z",
-    "last_updated": "2024-09-21T20:22:23.446Z",
-    "deprecation_date": null
-  }
-},
-{
-  "model": "content.topic",
-  "pk": "e3715e45-153d-4cce-b957-d68f5a6d4256",
-  "fields": {
-    "name": "Climate",
-    "active": true,
-    "description": "Climate",
-    "creation_date": "2024-09-21T20:20:33.450Z",
-    "last_updated": "2024-09-21T20:20:33.450Z",
-    "deprecation_date": null
-  }
-},
-{
-  "model": "content.topic",
-  "pk": "ec635e18-a89c-46d3-9a14-8f84be96af9b",
-  "fields": {
-    "name": "LGTBQIA+",
-    "active": true,
-    "description": "LGTBQIA+",
-    "creation_date": "2024-09-21T20:23:58.389Z",
-    "last_updated": "2024-09-21T20:23:58.389Z",
-    "deprecation_date": null
-  }
-}
 ]

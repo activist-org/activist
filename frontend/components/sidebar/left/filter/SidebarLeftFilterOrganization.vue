@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { Topic } from "~/types/topics";
+import type { Topic } from "~/types/content/topics";
 
 const schema = z.object({
   location: z.string().optional(),

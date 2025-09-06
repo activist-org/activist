@@ -21,7 +21,14 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from content.models import Discussion, DiscussionEntry, Image, Resource, ResourceFlag
+from content.models import (
+    Discussion,
+    DiscussionEntry,
+    Image,
+    Resource,
+    ResourceFlag,
+    Topic,
+)
 from content.serializers import (
     DiscussionEntrySerializer,
     DiscussionSerializer,
@@ -29,6 +36,7 @@ from content.serializers import (
     ImageSerializer,
     ResourceFlagSerializer,
     ResourceSerializer,
+    TopicSerializer,
 )
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
@@ -452,3 +460,18 @@ class ImageIconViewSet(viewsets.ModelViewSet[Image]):
 
     # Use the default destroy() provided by DRF / ModelViewSet. No need to write destroy() code here.
     # The model uses a signal to delete the file from the filesystem when the Image instance is deleted.
+
+
+# MARK: Topic
+
+
+class TopicAPIView(GenericAPIView[Topic]):
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
+
+    @extend_schema(responses={200: TopicSerializer(many=True)})
+    def get(self, request: Request) -> Response:
+        queryset = self.filter_queryset(self.get_queryset())
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

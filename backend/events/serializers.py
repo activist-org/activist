@@ -83,7 +83,7 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
     class Meta:
         model = EventResource
         fields = "__all__"
-        read_only_fields = ("created_by",)
+        read_only_fields = ["created_by"]
 
     def validate_event(self, value: Event | UUID | str) -> Event:
         """

@@ -211,8 +211,8 @@ class SignInSerializer(serializers.Serializer[UserModel]):
 
 #     class Meta:
 #         model = SessionModel
-#         fields = ("id", "user", "session_key", "created_at")
-#         read_only_fields = ("id", "created_at")
+#         fields = ["id", "user", "session_key", "created_at"]
+#         read_only_fields = ["id", "created_at"]
 
 
 # MARK: Pass Reset

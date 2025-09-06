@@ -76,7 +76,7 @@
 import { z } from "zod";
 
 import type { Resource } from "~/types/content/resource";
-import type { Topic } from "~/types/topics";
+import type { Topic } from "~/types/content/topics";
 
 defineProps<{
   formData?: Resource;

@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { FileUploadMix, UploadableFile } from "~/types/content/file";
 
-// Helpers to generate mock files and FileUploadMix objects
+// Helpers to generate mock files and FileUploadMix objects.
 function createFiles() {
   const png = new File(["png-bytes"], "a.png", { type: "image/png" });
   const jpg = new File(["jpg-bytes"], "b.jpg", { type: "image/jpeg" });
@@ -34,7 +34,7 @@ function createFileUploadMix(
   };
 }
 
-// Mock the composable at the top level
+// Mock the composable at the top level.
 const mockHandleAddFiles = vi.fn();
 const mockRemoveFile = vi.fn();
 
@@ -47,7 +47,7 @@ vi.mock("@/composables/useFileManager", () => ({
 
 describe("MultipleImageDropzone", () => {
   beforeEach(() => {
-    // Reset and configure mocks for each test
+    // Reset and configure mocks for each test.
     mockHandleAddFiles.mockReset();
     mockRemoveFile.mockReset();
 
@@ -62,7 +62,9 @@ describe("MultipleImageDropzone", () => {
       const idx = localFiles.findIndex(
         (f: FileUploadMix) => (f.data as UploadableFile)?.name === data.name
       );
-      if (idx !== -1) localFiles.splice(idx, 1);
+      if (idx !== -1) {
+        localFiles.splice(idx, 1);
+      }
       return localFiles;
     });
   });
@@ -85,10 +87,10 @@ describe("MultipleImageDropzone", () => {
       },
     });
 
-    // Dropzone should be visible
+    // Dropzone should be visible.
     expect(wrapper.findComponent(FileDropZone).exists()).toBe(true);
 
-    // Number of files shown as 0 initially
+    // Number of files shown as 0 initially.
     expect(wrapper.text()).toContain("0");
   });
 
@@ -106,20 +108,20 @@ describe("MultipleImageDropzone", () => {
       },
     });
 
-    // Simulate handleAdd (call from FileDropZone)
+    // Simulate handleAdd (call from FileDropZone).
     const files = createFiles();
     const fileDropZone = wrapper.findComponent(FileDropZone);
 
-    // Emit the files-dropped event as the component would in production
+    // Emit the files-dropped event as the component would in production.
     await fileDropZone.vm.$emit("files-dropped", files);
 
-    // Wait for reactivity to flush
+    // Wait for reactivity to flush.
     await wrapper.vm.$nextTick();
 
-    // The handleAddFiles is called
+    // The handleAddFiles is called.
     expect(mockHandleAddFiles).toHaveBeenCalledWith(files, []);
 
-    // Should emit update:modelValue and files-dropped
+    // Should emit update:modelValue and files-dropped.
     const updateEmits = wrapper.emitted("update:modelValue");
     const filesDroppedEmits = wrapper.emitted("files-dropped");
     expect(updateEmits).toBeTruthy();
@@ -145,7 +147,7 @@ describe("MultipleImageDropzone", () => {
         },
       },
     });
-    // Should show multiple limit warning
+    // Should show multiple limit warning.
     expect(wrapper.text()).toMatch(/2/i);
   });
 
@@ -181,16 +183,16 @@ describe("MultipleImageDropzone", () => {
       },
     });
 
-    // Wait for component to render
+    // Wait for component to render.
     await wrapper.vm.$nextTick();
 
-    // Look for delete buttons
+    // Look for delete buttons.
     const deleteButtons = wrapper.findAll("button.text-action-red");
 
     expect(deleteButtons.length).toBeGreaterThan(0);
     await deleteButtons[0].trigger("click");
 
-    // Now check emitted events
+    // Now check emitted events.
     const deletedEmits = wrapper.emitted("file-deleted");
     expect(deletedEmits).toBeTruthy();
     expect(deletedEmits![0][0] as FileUploadMix).toEqual(files[0]);

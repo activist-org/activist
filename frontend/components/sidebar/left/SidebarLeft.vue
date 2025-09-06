@@ -77,10 +77,10 @@
 </template>
 
 <script setup lang="ts">
+import { Topic } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
-import { Topic } from "~/types/topics";
 import {
   currentRoutePathIncludes,
   isCurrentRoutePathSubpageOf,

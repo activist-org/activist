@@ -170,7 +170,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates to update the frontend.
+        // Fetch updated organization data after successful updates to update the frontend.
         await this.fetchById(organization.id);
         this.loading = false;
         return true;
@@ -208,7 +208,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       if (responses.every((r) => r === true)) {
-        // Fetch updated event data after successful updates to update the frontend.
+        // Fetch updated organization data after successful updates to update the frontend.
         await this.fetchById(organization.id);
         this.loading = false;
         return true;

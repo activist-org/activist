@@ -9,9 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Topic } from "~/types/topics";
+import type { Topic } from "~/types/content/topics";
 
-import { GLOBAL_TOPICS } from "~/types/topics";
+import { GLOBAL_TOPICS } from "~/types/content/topics";
 
 const { t } = useI18n();
 

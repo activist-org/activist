@@ -2,7 +2,7 @@
 import type { Location } from "~/types/content/location";
 
 import type { Organization } from "../communities/organization";
-import type { Topic } from "../topics";
+import type { Topic } from "./topics";
 
 // MARK: Main Table
 

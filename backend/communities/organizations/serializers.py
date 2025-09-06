@@ -82,7 +82,7 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
     class Meta:
         model = OrganizationResource
         fields = "__all__"
-        read_only_fields = ("created_by",)
+        read_only_fields = ["created_by"]
 
     def validate_org(self, value: Organization | UUID | str) -> Organization:
         """

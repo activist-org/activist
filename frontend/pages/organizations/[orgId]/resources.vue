@@ -33,7 +33,7 @@
         v-model="resourceList"
         @end="onDragEnd"
         item-key="id"
-        class="py-4"
+        class="flex flex-col gap-4"
       >
         <template #item="{ element }">
           <CardSearchResultResource :isReduced="true" :resource="element" />
