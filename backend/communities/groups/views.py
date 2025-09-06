@@ -5,22 +5,29 @@ API views for group management.
 """
 
 import logging
+import re
+from datetime import date
 from typing import List, Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
+from django.http import HttpResponse
 from drf_spectacular.utils import OpenApiResponse, extend_schema
+from icalendar import Calendar  # type: ignore
+from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     SAFE_METHODS,
+    AllowAny,
     BasePermission,
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
 )
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from communities.groups.models import (
     Group,
@@ -557,3 +564,68 @@ class GroupImageViewSet(viewsets.ModelViewSet[Image]):
 
         # Fallback to default image update if needed.
         return super().update(request)
+
+
+# MARK: Calendar
+
+
+class GroupEventsCalenderAPIView(APIView):
+    queryset = Group.objects.all()
+    permission_classes = [AllowAny]
+
+    def get(self, request: Request, id: None | UUID = None) -> HttpResponse | Response:
+        if not id:
+            return Response(
+                {"detail": "Organization ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            group = self.queryset.get(id=id)
+            events = group.events.filter(start_time__gte=date.today())
+
+        except Group.DoesNotExist:
+            return Response(
+                {"detail": "No Group with this id found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not events.exists():
+            return Response(
+                {"detail": "No upcoming events found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        cal = Calendar()
+        cal.add("prodid", "-//Activist//EN")
+        cal.add("version", "2.0")
+
+        for event in events:
+            ical_event = ICalEvent()
+            ical_event.add("summary", event.name)
+            ical_event.add("description", event.tagline or "")
+            ical_event.add("dtstart", event.start_time)
+            ical_event.add("dtend", event.end_time)
+            ical_event.add(
+                "location",
+                (
+                    event.online_location_link
+                    if event.setting == "online"
+                    else event.offline_location
+                ),
+            )
+            ical_event.add("uid", event.id)
+            cal.add_component(ical_event)
+
+        # Convert to lower camel case.
+        group_name = re.sub(r"[\t\n\r\f\v]+", " ", group.name)
+        group_file_identifier = (
+            "".join(filter(str.isalnum, group_name)).replace(" ", "_").lower()
+        )
+
+        response = HttpResponse(cal.to_ical(), content_type="text/calendar")
+        response["Content-Disposition"] = (
+            f"attachment; filename=activist_group_{group_file_identifier}_events.ics"
+        )
+
+        return response

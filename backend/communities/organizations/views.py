@@ -5,9 +5,12 @@ API views for organization management.
 """
 
 import logging
+import re
+from datetime import date
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
+from django.http import HttpResponse
 from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
@@ -15,10 +18,16 @@ from drf_spectacular.utils import (
     OpenApiResponse,
     extend_schema,
 )
+from icalendar import Calendar  # type: ignore
+from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -650,3 +659,68 @@ class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
 
         # Fallback to default image update if needed.
         return super().update(request)
+
+
+# MARK: Calendar
+
+
+class OrganizationEventsCalenderAPIView(APIView):
+    queryset = Organization.objects.all()
+    permission_classes = [AllowAny]
+
+    def get(self, request: Request, id: None | UUID = None) -> HttpResponse | Response:
+        if not id:
+            return Response(
+                {"detail": "Organization ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            organization = self.queryset.get(id=id)
+            events = organization.events.filter(start_time__gte=date.today())
+
+        except Organization.DoesNotExist:
+            return Response(
+                {"detail": "No Organization with this id found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not events.exists():
+            return Response(
+                {"detail": "No upcoming events found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        cal = Calendar()
+        cal.add("prodid", "-//Activist//EN")
+        cal.add("version", "2.0")
+
+        for event in events:
+            ical_event = ICalEvent()
+            ical_event.add("summary", event.name)
+            ical_event.add("description", event.tagline or "")
+            ical_event.add("dtstart", event.start_time)
+            ical_event.add("dtend", event.end_time)
+            ical_event.add(
+                "location",
+                (
+                    event.online_location_link
+                    if event.setting == "online"
+                    else event.offline_location
+                ),
+            )
+            ical_event.add("uid", event.id)
+            cal.add_component(ical_event)
+
+        # Convert to lower camel case.
+        organization_name = re.sub(r"[\t\n\r\f\v]+", " ", organization.name)
+        organization_file_identifier = (
+            "".join(filter(str.isalnum, organization_name)).replace(" ", "_").lower()
+        )
+
+        response = HttpResponse(cal.to_ical(), content_type="text/calendar")
+        response["Content-Disposition"] = (
+            f"attachment; filename=activist_org_{organization_file_identifier}_events.ics"
+        )
+
+        return response
