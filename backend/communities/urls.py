@@ -13,9 +13,9 @@ from communities.groups.views import (
     GroupFlagAPIView,
     GroupFlagDetailAPIView,
     GroupImageViewSet,
+    GroupResourceViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
-    GroupResourceViewSet
 )
 from communities.organizations.views import (
     OrganizationAPIView,
@@ -24,9 +24,9 @@ from communities.organizations.views import (
     OrganizationFlagAPIView,
     OrganizationFlagDetailAPIView,
     OrganizationImageViewSet,
+    OrganizationResourceViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
-    OrganizationResourceViewSet
 )
 from communities.views import StatusViewSet
 

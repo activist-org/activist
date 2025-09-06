@@ -29,17 +29,17 @@ from communities.organizations.models import (
     OrganizationFaq,
     OrganizationFlag,
     OrganizationImage,
+    OrganizationResource,
     OrganizationSocialLink,
     OrganizationText,
-    OrganizationResource
 )
 from communities.organizations.serializers import (
     OrganizationFaqSerializer,
     OrganizationFlagSerializer,
+    OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
-    OrganizationResourceSerializer
 )
 from content.models import Image, Location
 from content.serializers import ImageSerializer
@@ -617,6 +617,7 @@ class OrganizationTextViewSet(GenericAPIView[OrganizationText]):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 # MARK: Resource
 
 
@@ -633,11 +634,15 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
 
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to create resource for this organization."},
+                {
+                    "detail": "You are not authorized to create resource for this organization."
+                },
                 status=status.HTTP_403_FORBIDDEN,
             )
         serializer.save(created_by=request.user)
-        logger.info(f"Resource created for organization {org.id} by user {request.user.id}")
+        logger.info(
+            f"Resource created for organization {org.id} by user {request.user.id}"
+        )
 
         return Response(
             {"message": "Resource created successfully."},
@@ -667,6 +672,7 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
         return Response(
             {"message": "Resource updated successfully."}, status=status.HTTP_200_OK
         )
+
 
 # MARK: Image
 
