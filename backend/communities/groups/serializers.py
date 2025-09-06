@@ -81,37 +81,6 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
         model = GroupResource
         fields = "__all__"
 
-    def validate_group(self, value: Group | UUID | str) -> Group:
-        """
-        Validate that the group exists.
-
-        Parameters
-        ----------
-        value : Any
-            The value to validate, expected to be a Group instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the group does not exist.
-
-        Returns
-        -------
-        Group
-            The validated Group instance.
-        """
-        if isinstance(value, Group):
-            return value
-
-        try:
-            group = Group.objects.get(id=value)
-            logger.info("Group found for value: %s", value)
-
-        except Group.DoesNotExist as e:
-            raise serializers.ValidationError("Group not found.") from e
-
-        return group
-
 
 # MARK: Social Link
 
@@ -291,6 +260,7 @@ class GroupFlagSerializer(serializers.ModelSerializer[GroupFlag]):
         model = GroupFlag
         fields = "__all__"
 
+
 # MARK: Resource
 
 
@@ -334,6 +304,8 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
             raise serializers.ValidationError("Group not found.") from e
 
         return event
+
+
 # MARK: Image
 
 

@@ -703,7 +703,7 @@ export const useOrganizationStore = defineStore("organization", {
         return false;
       }
     },
-    
+
     // MARK: Reorder resource
 
     async reorderResource(org: Organization, resources: Resource[]) {
