@@ -96,7 +96,7 @@ const { t } = useI18n();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
-  value: topic.value,
+  value: topic.topic,
   id: index,
 }));
 const schema = z.object({

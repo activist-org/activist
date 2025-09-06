@@ -17,9 +17,10 @@ const { t } = useI18n();
 
 const options = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
-  value: topic.value,
+  value: topic.topic,
   id: index,
 }));
+
 interface Props {
   id: string;
   selectedTopics: TopicEnum[];

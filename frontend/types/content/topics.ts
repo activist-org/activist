@@ -39,7 +39,7 @@ export const GLOBAL_TOPICS: TopicTag[] = [
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
-    label: "i18n.types.content.topics.accessibility",
+    label: "i18n.types.content.topics.accessibility_and_inclusion",
     topic: TopicEnum.ACCESSIBILITY,
   },
   {
