@@ -13,6 +13,7 @@ from communities.groups.views import (
     GroupFlagAPIView,
     GroupFlagDetailAPIView,
     GroupImageViewSet,
+    GroupResourceViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
@@ -23,6 +24,7 @@ from communities.organizations.views import (
     OrganizationFlagAPIView,
     OrganizationFlagDetailAPIView,
     OrganizationImageViewSet,
+    OrganizationResourceViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
 )
@@ -50,6 +52,16 @@ router.register(
     prefix=r"organization_faqs",
     viewset=OrganizationFaqViewSet,
     basename="organization-faqs",
+)
+router.register(
+    prefix=r"organization_resources",
+    viewset=OrganizationResourceViewSet,
+    basename="organization-resources",
+)
+router.register(
+    prefix=r"group_resources",
+    viewset=GroupResourceViewSet,
+    basename="group-resources",
 )
 router.register(
     prefix=r"organization_social_links",

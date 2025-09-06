@@ -577,7 +577,6 @@
   "i18n.pages.organizations.create.tagline_placeholder": "شعار قصير للمنظمة (اختياري)",
   "i18n.pages.organizations.discussions.index.tagline": "نقاشات المجتمع",
   "i18n.pages.organizations.events.new_org_event_aria_label": "إنشاء فعالية جديدة لهذه المنظمة",
-  "i18n.pages.organizations.groups._global.support_group_aria_label": "دعم هذه المجموعة",
   "i18n.pages.organizations.groups.about.share_group": "مشاركة المجموعة",
   "i18n.pages.organizations.groups.about.share_group_aria_label": "عرض خيارات مشاركة هذه المجموعة مع الآخرين",
   "i18n.pages.organizations.groups.events.new_group_event_aria_label": "إنشاء فعالية جديدة لهذه المجموعة",
