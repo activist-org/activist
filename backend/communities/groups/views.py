@@ -27,18 +27,18 @@ from communities.groups.models import (
     GroupFaq,
     GroupFlag,
     GroupImage,
+    GroupResource,
     GroupSocialLink,
     GroupText,
-    GroupResource
 )
 from communities.groups.serializers import (
     GroupFaqSerializer,
     GroupFlagSerializer,
     GroupPOSTSerializer,
+    GroupResourceSerializer,
     GroupSerializer,
     GroupSocialLinkSerializer,
     GroupTextSerializer,
-    GroupResourceSerializer
 )
 from content.models import Image, Location
 from content.serializers import ImageSerializer
@@ -479,6 +479,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+
 class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
     queryset = GroupResource.objects.all()
     serializer_class = GroupResourceSerializer
@@ -492,7 +493,9 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
 
         if request.user != group.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to create resource for this organization."},
+                {
+                    "detail": "You are not authorized to create resource for this organization."
+                },
                 status=status.HTTP_403_FORBIDDEN,
             )
         print(request.user)
@@ -527,7 +530,6 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
         return Response(
             {"message": "Resource updated successfully."}, status=status.HTTP_200_OK
         )
-
 
 
 # MARK: Text

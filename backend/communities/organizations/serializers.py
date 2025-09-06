@@ -82,6 +82,7 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
     class Meta:
         model = OrganizationResource
         fields = "__all__"
+        read_only_fields = ("created_by",)
 
     def validate_org(self, value: Organization | UUID | str) -> Organization:
         """
@@ -247,49 +248,6 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
 
         return org
 
-# MARK: Resource
-
-
-class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationResource]):
-    """
-    Serializer for OrganizationResource model data.
-    """
-
-    class Meta:
-        model = OrganizationResource
-        fields = "__all__"
-        read_only_fields = ("created_by",)
-
-    def validate_event(self, value: Organization | UUID | str) -> Organization:
-        """
-        Validate that the event exists.
-
-        Parameters
-        ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
-
-        Returns
-        -------
-        Organization
-            The validated Organization instance.
-        """
-        if isinstance(value, Organization):
-            return value
-
-        try:
-            event = Organization.objects.get(id=value)
-            logger.info("Organization found for value: %s", value)
-
-        except Organization.DoesNotExist as e:
-            raise serializers.ValidationError("Organization not found.") from e
-
-        return event
 
 # MARK: Flag
 
