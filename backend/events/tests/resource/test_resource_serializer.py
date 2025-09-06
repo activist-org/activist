@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import uuid
-
-# from content.factories import LocationFactory
 from datetime import datetime
 from uuid import uuid4
 
@@ -21,17 +19,17 @@ def test_event_resource_serializer_serialization() -> None:
     """
     Test serialization of EventResource model data.
     """
-    # Create required dependencies
+    # Create required dependencies.
     user = UserFactory()
     location = EntityLocationFactory()
     event = EventFactory()
 
-    # Create EventResource instance
+    # Create EventResource instance.
     event_resource = EventResource.objects.create(
         created_by=user,
         name="Test Resource",
         description="Resource description",
-        url="https://example.com    ",
+        url="https://example.com",
         order=1,
         location=location,
         event=event,
@@ -39,17 +37,18 @@ def test_event_resource_serializer_serialization() -> None:
         terms_checked=True,
     )
 
-    # Serialize and validate output
+    # Serialize and validate output.
     serializer = EventResourceSerializer(event_resource)
     data = serializer.data
 
     assert data["name"] == "Test Resource"
     assert data["description"] == "Resource description"
-    assert data["url"] == "https://example.com    "
+    assert data["url"] == "https://example.com"
     assert data["order"] == 1
     assert data["is_private"] is False
     assert data["terms_checked"] is True
-    # FIX: Compare UUID objects directly (not string to UUID)
+
+    # FIX: Compare UUID objects directly (not string to UUID).
     assert data["event"] == event.id
     assert data["id"] == str(event_resource.id)
     assert datetime.fromisoformat(data["creation_date"]).tzinfo is not None
@@ -112,7 +111,6 @@ def test_validate_event_with_invalid_uuid_string() -> None:
     Should raise ValidationError when a valid UUID format but non-existent event is provided.
     """
     serializer = EventResourceSerializer()
-    # Use uuid4() directly as requested
     non_existent_uuid = uuid4()
 
     with pytest.raises(serializers.ValidationError, match="Event not found."):
