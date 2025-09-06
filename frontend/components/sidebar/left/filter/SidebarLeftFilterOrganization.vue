@@ -22,7 +22,7 @@
       />
     </FormItem>
     <FormItem
-      v-slot="{ id, handleChange }"
+      v-slot="{ id, handleChange, value }"
       :label="$t('i18n.components._global.topics')"
       name="topics"
     >
@@ -30,6 +30,7 @@
         @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
         :id="id"
         :label="$t('i18n.components._global.topics')"
+        :selected-topics="value.value as Topic[]"
       />
     </FormItem>
   </Form>

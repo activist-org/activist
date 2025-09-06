@@ -15,8 +15,8 @@ export interface Resource {
   org?: Organization;
   location?: Location;
   url: string;
-  topics?:Topic[];
-  category?:string;
+  topics?: Topic[];
+  category?: string;
   // isPrivate?: boolean;
   creationDate?: string;
   order: number;

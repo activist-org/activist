@@ -30,7 +30,12 @@
     </HeaderAppPageGroup>
     <!-- Draggable list -->
     <div v-if="props.group.resources?.length" class="py-4">
-      <draggable v-model="resourceList" @end="onDragEnd" item-key="id" class="py-4">
+      <draggable
+        v-model="resourceList"
+        @end="onDragEnd"
+        item-key="id"
+        class="py-4"
+      >
         <template #item="{ element }">
           <CardSearchResultResource :isReduced="true" :resource="element" />
         </template>
@@ -55,12 +60,12 @@ const props = defineProps<{
 }>();
 const resourceList = ref<Resource[]>([...(props.group.resources || [])]);
 const groupTabs = getGroupTabs();
-const groupStore = useGroupStore()
-const onDragEnd = () =>{
+const groupStore = useGroupStore();
+const onDragEnd = () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
   });
 
   groupStore.reorderResource(props.group, resourceList.value);
-}
+};
 </script>

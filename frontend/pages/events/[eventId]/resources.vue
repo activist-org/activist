@@ -13,12 +13,8 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
-          @click.stop="
-            openModal()
-          "
-          @keydown.enter="
-            openModal()
-          "
+          @click.stop="openModal()"
+          @keydown.enter="openModal()"
           class="w-max"
           :cta="true"
           linkTo="/"
@@ -29,7 +25,7 @@
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
         />
       </div>
-      <ModalResourceEvent/>
+      <ModalResourceEvent />
     </HeaderAppPageEvent>
     <!-- Draggable list -->
     <div v-if="props.event.resources?.length" class="py-4">
@@ -56,7 +52,7 @@ import type { Event } from "~/types/events/event";
 
 import { IconMap } from "~/types/icon-map";
 
-const { openModal } = useModalHandlers('ModalResourceEvent')
+const { openModal } = useModalHandlers("ModalResourceEvent");
 const props = defineProps<{
   event: Event;
 }>();
