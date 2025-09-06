@@ -61,10 +61,10 @@
       >
         <FormSelectorComboboxTopics
           @update:selectedOptions="
-            (val: unknown) => handleChange(val as Topic[])
+            (val: unknown) => handleChange(val as TopicEnum[])
           "
           :id="id"
-          :selected-topics="value.value as Topic[]"
+          :selected-topics="value.value as TopicEnum[]"
           :label="$t('i18n.components._global.topics')"
         />
       </FormItem>
@@ -76,7 +76,7 @@
 import { z } from "zod";
 
 import type { Resource } from "~/types/content/resource";
-import type { Topic } from "~/types/content/topics";
+import type { TopicEnum } from "~/types/content/topics";
 
 defineProps<{
   formData?: Resource;

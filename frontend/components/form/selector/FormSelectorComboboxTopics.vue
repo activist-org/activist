@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <FormSelectorCombobox
-    @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
+    @update:selectedOptions="(val: unknown) => handleChange(val as TopicEnum[])"
     :id="id"
     :options="options"
     :label="label"
@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Topic } from "~/types/content/topics";
+import type { TopicEnum } from "~/types/content/topics";
 
 import { GLOBAL_TOPICS } from "~/types/content/topics";
 
@@ -22,14 +22,14 @@ const options = GLOBAL_TOPICS.map((topic, index) => ({
 }));
 interface Props {
   id: string;
-  selectedTopics: Topic[];
+  selectedTopics: TopicEnum[];
   label: string;
 }
 
 const emit = defineEmits<{
-  (e: "update:selectedTopics", value: Topic[]): void;
+  (e: "update:selectedTopics", value: TopicEnum[]): void;
 }>();
-const handleChange = (newValue: Topic[]) => {
+const handleChange = (newValue: TopicEnum[]) => {
   emit("update:selectedTopics", newValue);
 };
 defineProps<Props>();

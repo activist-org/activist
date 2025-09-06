@@ -72,7 +72,7 @@
       >
         <FormSelectorCombobox
           @update:selectedOptions="
-            (val: unknown) => handleChange(val as Topic[])
+            (val: unknown) => handleChange(val as TopicEnum[])
           "
           :id="id"
           :options="optionsTopics"
@@ -86,7 +86,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { Topic } from "~/types/content/topics";
+import type { TopicEnum } from "~/types/content/topics";
 
 import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";

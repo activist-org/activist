@@ -27,10 +27,12 @@
       name="topics"
     >
       <FormSelectorComboboxTopics
-        @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
+        @update:selectedOptions="
+          (val: unknown) => handleChange(val as TopicEnum[])
+        "
         :id="id"
         :label="$t('i18n.components._global.topics')"
-        :selected-topics="value.value as Topic[]"
+        :selected-topics="value.value as TopicEnum[]"
       />
     </FormItem>
   </Form>
@@ -38,7 +40,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { Topic } from "~/types/content/topics";
+import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
   location: z.string().optional(),

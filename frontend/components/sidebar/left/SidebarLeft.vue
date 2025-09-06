@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { Topic } from "~/types/content/topics";
+import { TopicEnum } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
@@ -140,9 +140,9 @@ const placeholderLogo = "";
 
 const topicsArray: { label: string; value: string }[] = [];
 
-for (const key in Topic) {
-  if (Object.prototype.hasOwnProperty.call(Topic, key)) {
-    const value = Topic[key as keyof typeof Topic];
+for (const key in TopicEnum) {
+  if (Object.prototype.hasOwnProperty.call(TopicEnum, key)) {
+    const value = TopicEnum[key as keyof typeof TopicEnum];
     topicsArray.push({ label: key.toLowerCase(), value });
   }
 }

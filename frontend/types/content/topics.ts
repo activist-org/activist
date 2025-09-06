@@ -2,7 +2,7 @@
 
 import { IconMap } from "~/types/icon-map";
 
-export enum TopicOption {
+export enum TopicEnum {
   ACCESSIBILITY = "ACCESSIBILITY",
   ANIMAL_RIGHTS = "ANIMAL_RIGHTS",
   DEMOCRACY_AND_GOVERNANCE = "DEMOCRACY_AND_GOVERNANCE",
@@ -32,7 +32,7 @@ export interface TopicTag {
   icon: string;
   description: string;
   label: string;
-  topic: TopicOption;
+  topic: TopicEnum;
 }
 
 export const GLOBAL_TOPICS: TopicTag[] = [
@@ -40,91 +40,91 @@ export const GLOBAL_TOPICS: TopicTag[] = [
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.accessibility",
-    topic: TopicOption.ACCESSIBILITY,
+    topic: TopicEnum.ACCESSIBILITY,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.animal_rights",
-    topic: TopicOption.ANIMAL_RIGHTS,
+    topic: TopicEnum.ANIMAL_RIGHTS,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.democracy_and_governance",
-    topic: TopicOption.DEMOCRACY_AND_GOVERNANCE,
+    topic: TopicEnum.DEMOCRACY_AND_GOVERNANCE,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.education",
-    topic: TopicOption.EDUCATION,
+    topic: TopicEnum.EDUCATION,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.emergency_relief",
-    topic: TopicOption.EMERGENCY_RELIEF,
+    topic: TopicEnum.EMERGENCY_RELIEF,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.environment",
-    topic: TopicOption.ENVIRONMENT,
+    topic: TopicEnum.ENVIRONMENT,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.health",
-    topic: TopicOption.HEALTH,
+    topic: TopicEnum.HEALTH,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.housing",
-    topic: TopicOption.HOUSING,
+    topic: TopicEnum.HOUSING,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.labor_rights",
-    topic: TopicOption.LABOR_RIGHTS,
+    topic: TopicEnum.LABOR_RIGHTS,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.lgbtqia",
-    topic: TopicOption.LGTBQIA,
+    topic: TopicEnum.LGTBQIA,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.peace_and_resolution",
-    topic: TopicOption.PEACE_AND_RESOLUTION,
+    topic: TopicEnum.PEACE_AND_RESOLUTION,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.racial_justice",
-    topic: TopicOption.RACIAL_JUSTICE,
+    topic: TopicEnum.RACIAL_JUSTICE,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.refugees_and_migration",
-    topic: TopicOption.REFUGEES_AND_MIGRATION,
+    topic: TopicEnum.REFUGEES_AND_MIGRATION,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.technology_privacy",
-    topic: TopicOption.TECHNOLOGY_AND_PRIVACY,
+    topic: TopicEnum.TECHNOLOGY_AND_PRIVACY,
   },
   {
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.womens_rights",
-    topic: TopicOption.WOMENS_RIGHTS,
+    topic: TopicEnum.WOMENS_RIGHTS,
   },
 ];
 

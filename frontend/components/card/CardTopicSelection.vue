@@ -99,14 +99,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Topic, TopicsTag } from "~/types/content/topics";
+import type { TopicEnum, TopicTag } from "~/types/content/topics";
 
 import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {
-    type: Array as PropType<Topic[]>,
+    type: Array as PropType<TopicEnum[]>,
     required: false,
     default: () => [],
   },
@@ -227,18 +227,18 @@ const mobileKeyboardEvent = (e: KeyboardEvent) => {
   topics[index].focus();
 };
 
-const value = computed<Topic[]>({
+const value = computed<TopicEnum[]>({
   get() {
     return props.modelValue;
   },
-  set(value: Topic[]) {
+  set(value: TopicEnum[]) {
     emit("update:modelValue", value);
   },
 });
 
 const inputValue = ref<string>("");
 
-const selectTopic = (topic: TopicsTag) => {
+const selectTopic = (topic: TopicTag) => {
   const updatedValue = [...value.value];
   const index = updatedValue.indexOf(topic.value);
   const isFirst = filteredTopics.value[0]?.value === topic.value;
@@ -253,7 +253,7 @@ const selectTopic = (topic: TopicsTag) => {
   }
 };
 
-function isActiveTopic(topic: Topic) {
+function isActiveTopic(topic: TopicEnum) {
   return value.value.includes(topic);
 }
 
@@ -262,10 +262,10 @@ const selectedTopicTags = computed(() => {
     .map((topic) => {
       return GLOBAL_TOPICS.find((tag) => tag.value === topic);
     })
-    .filter((tag) => tag) as TopicsTag[];
+    .filter((tag) => tag) as TopicTag[];
 });
 
-const topics = computed((): TopicsTag[] => {
+const topics = computed((): TopicTag[] => {
   return [
     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
     ...selectedTopicTags.value.sort((a, b) => a.value.localeCompare(b.value)),
