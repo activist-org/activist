@@ -462,6 +462,6 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
                 code="inactive_topic_no_deprecation_error",
             )
 
-        validate_creation_and_deprecation_dates(data)
+        validate_creation_and_deprecation_dates(data=data)
 
         return data
