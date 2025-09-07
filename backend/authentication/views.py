@@ -145,6 +145,8 @@ class SignInView(APIView):
         user = serializer.validated_data.get("user")
         login(request, user)
 
+        SessionModel.objects.create(user=user)
+
         logger.info(f"User logged in successfully: {user.username} (ID: {user.id})")
 
         return Response(
@@ -169,119 +171,20 @@ class SessionView(APIView):
         responses={
             200: SessionSerializer,
             401: OpenApiResponse(response={"detail": "You are not authenticated."}),
-            403: OpenApiResponse(
-                response={"detail": "You are not authorized to obtain this session."}
-            ),
-            404: OpenApiResponse(response={"detail": "User not found."}),
         }
     )
-    def get(self, request: Request, id: UserModel | uuid.UUID | None) -> Response:
-        if request.user.is_authenticated:
-            try:
-                session = SessionModel.objects.get(user=id)
-            except SessionModel.DoesNotExist:
-                return Response(
-                    {"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND
-                )
-
-            serializer = SessionSerializer(session)
-            if session.user.id == request.user.id:
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(
-                    {"detail": "You are not authorized to obtain this session."},
-                    status=status.HTTP_403_FORBIDDEN,
-                )
-
-        else:
+    def get(self, request: Request) -> Response:
+        if not request.user.is_authenticated:
             return Response(
                 {"detail": "You are not authenticated."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+        user_id = request.user.id
 
-    @extend_schema(
-        responses={
-            201: OpenApiResponse(response={"message": "Session created."}),
-            400: OpenApiResponse(
-                response={"detail": "Failed to create session within the database."}
-            ),
-            401: OpenApiResponse(response={"detail": "You are not authorized."}),
-            403: OpenApiResponse(
-                response={"detail": "You are not authorized to create this session."}
-            ),
-        },
-    )
-    def post(self, request: Request, id: uuid.UUID | str) -> Response:
-        if request.user.is_authenticated:
-            # session_key = request.query_params.get("session_key")
+        session = SessionModel.objects.filter(user=user_id).latest("created_at")
 
-            try:
-                user_instance = UserModel.objects.get(id=id)
-                if user_instance.id == request.user.id:
-                    SessionModel.objects.create(user=user_instance)
-                else:
-                    return Response(
-                        {"detail": "You are not authorized to create this session."},
-                        status=status.HTTP_403_FORBIDDEN,
-                    )
-            except (IntegrityError, OperationalError):
-                return Response(
-                    {"detail": "Failed to create session within the database."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            return Response(
-                {"message": "Session created."}, status=status.HTTP_201_CREATED
-            )
-
-        else:
-            return Response(
-                {"detail": "You are not authorized."},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-    @extend_schema(
-        responses={
-            204: OpenApiResponse(response={"message": "User session deleted."}),
-            400: OpenApiResponse(response={"detail": "Invalid request."}),
-            401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this session"}
-            ),
-            403: OpenApiResponse(response={"detail": "You cannot delete this session"}),
-            404: OpenApiResponse(response={"detail": "User session not found."}),
-        }
-    )
-    def delete(self, request: Request, id: UserModel | uuid.UUID | None) -> Response:
-        if request.user.is_authenticated:
-            if id is None:
-                return Response(
-                    {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
-                )
-            try:
-                session = SessionModel.objects.get(user=id)
-            except SessionModel.DoesNotExist:
-                return Response(
-                    {"detail": "User session not found."},
-                    status=status.HTTP_404_NOT_FOUND,
-                )
-
-            if session.user.id == request.user.id:
-                session.delete()
-                return Response(
-                    {"message": "User session deleted."},
-                    status=status.HTTP_204_NO_CONTENT,
-                )
-            else:
-                return Response(
-                    {"detail": "You cannot delete this session"},
-                    status=status.HTTP_403_FORBIDDEN,
-                )
-
-        else:
-            return Response(
-                {"detail": "You are not authorized to delete this session"},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
+        serializer = SessionSerializer(session)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # MARK: Pass Reset
