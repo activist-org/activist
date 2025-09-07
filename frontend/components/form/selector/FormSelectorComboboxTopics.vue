@@ -5,6 +5,7 @@
     :id="id"
     :options="options"
     :label="label"
+    :hasColOptions="hasColOptions"
   />
 </template>
 
@@ -28,7 +29,12 @@ interface Props {
   id: string;
   selectedTopics: Topic[];
   label: string;
+  hasColOptions?: boolean;
 }
+
+withDefaults(defineProps<Props>(), {
+  hasColOptions: true,
+});
 
 const emit = defineEmits<{
   (e: "update:selectedTopics", value: Topic[]): void;
@@ -36,5 +42,4 @@ const emit = defineEmits<{
 const handleChange = (newValue: Topic[]) => {
   emit("update:selectedTopics", newValue);
 };
-defineProps<Props>();
 </script>

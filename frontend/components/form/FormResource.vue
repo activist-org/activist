@@ -66,6 +66,7 @@
           :id="id"
           :selected-topics="value.value as Topic[]"
           :label="$t('i18n.components._global.topics')"
+          :hasColOptions="false"
         />
       </FormItem>
     </div>
