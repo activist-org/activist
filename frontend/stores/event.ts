@@ -504,7 +504,7 @@ export const useEventStore = defineStore("event", {
       }
     },
 
-    // MARK: Update resource
+    // MARK: Update Resource
 
     async updateResource(event: Event, formData: ResourceInput) {
       this.loading = true;
@@ -542,7 +542,7 @@ export const useEventStore = defineStore("event", {
       }
     },
 
-    // MARK: Reorder resource
+    // MARK: Reorder Resource
 
     async reorderResource(event: Event, resources: Resource[]) {
       this.loading = true;

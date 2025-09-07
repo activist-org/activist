@@ -498,7 +498,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
                 },
                 status=status.HTTP_403_FORBIDDEN,
             )
-        print(request.user)
+
         serializer.save(created_by=request.user)
         logger.info(f"Resource created for group {group.id} by user {request.user.id}")
 

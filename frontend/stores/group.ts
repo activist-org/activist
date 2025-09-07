@@ -220,7 +220,7 @@ export const useGroupStore = defineStore("group", {
       return false;
     },
 
-    // MARK: Reorder resource
+    // MARK: Reorder Resource
 
     async reorderResource(group: Group, resources: Resource[]) {
       this.loading = true;
@@ -302,7 +302,7 @@ export const useGroupStore = defineStore("group", {
       }
     },
 
-    // MARK: Update resource
+    // MARK: Update Resource
 
     async updateResource(group: Group, formData: ResourceInput) {
       this.loading = true;

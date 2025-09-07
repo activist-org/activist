@@ -400,7 +400,7 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
                 {"detail": "You are not authorized to create FAQs for this event."},
                 status=status.HTTP_403_FORBIDDEN,
             )
-        print(request.user)
+
         serializer.save(created_by=request.user)
         logger.info(f"Resource created for event {event.id} by user {request.user.id}")
 

@@ -180,7 +180,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Update resource
+    // MARK: Update Resource
 
     async updateResource(organization: Organization, formData: ResourceInput) {
       this.loading = true;
@@ -704,7 +704,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Reorder resource
+    // MARK: Reorder Resource
 
     async reorderResource(org: Organization, resources: Resource[]) {
       this.loading = true;
