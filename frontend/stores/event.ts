@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { UploadableFile } from "~/types/content/file";
-import type { Resource } from "~/types/content/resource";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
@@ -468,7 +468,7 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Create Resource
 
-    async createResource(event: Event, formData: Resource) {
+    async createResource(event: Event, formData: ResourceInput) {
       this.loading = true;
       const responses: boolean[] = [];
       const responseFaqEntries = await useFetch(
@@ -506,7 +506,7 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Update resource
 
-    async updateResource(event: Event, formData: Resource) {
+    async updateResource(event: Event, formData: ResourceInput) {
       this.loading = true;
       const responses: boolean[] = [];
 

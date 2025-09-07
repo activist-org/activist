@@ -300,14 +300,14 @@ class Topic(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    constant = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, unique=True)
     active = models.BooleanField(default=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return self.constant
+        return self.type
 
 
 # MARK: Text

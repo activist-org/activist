@@ -66,4 +66,10 @@ const onDragEnd = () => {
 
   eventStore.reorderResource(props.event, resourceList.value);
 };
+watch(
+  () => eventStore.event.resources,
+  (newResources) => {
+    resourceList.value = [...(newResources || [])];
+  }
+);
 </script>

@@ -68,4 +68,10 @@ const onDragEnd = () => {
 
   groupStore.reorderResource(props.group, resourceList.value);
 };
+watch(
+  () => groupStore.group.resources,
+  (newResources) => {
+    resourceList.value = [...(newResources || [])];
+  }
+);
 </script>

@@ -20,6 +20,7 @@ from communities.groups.models import (
     GroupText,
 )
 from communities.organizations.models import Organization
+from content.models import Topic
 from content.serializers import LocationSerializer
 from events.serializers import EventSerializer
 
@@ -76,6 +77,12 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
     """
     Serializer for GroupResource model data.
     """
+
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+    )
 
     class Meta:
         model = GroupResource

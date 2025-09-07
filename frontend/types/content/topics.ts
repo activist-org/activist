@@ -21,11 +21,12 @@ export enum TopicEnum {
 }
 
 export interface Topic {
-  constant: string;
+  type: TopicEnum;
   active: boolean;
   creation_date: Date;
   last_updated: Date;
   deprecation_date?: Date;
+  id: string;
 }
 
 export interface TopicTag {

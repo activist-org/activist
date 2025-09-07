@@ -12,6 +12,7 @@ from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
 
 from communities.organizations.models import Organization
+from content.models import Topic
 from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer
 from events.models import (
     Event,
@@ -79,6 +80,12 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
     """
     Serializer for EventResource model data.
     """
+
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+    )
 
     class Meta:
         model = EventResource

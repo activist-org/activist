@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <FormSelectorCombobox
-    @update:selectedOptions="(val: unknown) => handleChange(val as TopicEnum[])"
+    @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
     :id="id"
     :options="options"
     :label="label"
@@ -9,28 +9,28 @@
 </template>
 
 <script setup lang="ts">
-import type { TopicEnum } from "~/types/content/topics";
-
-import { GLOBAL_TOPICS } from "~/types/content/topics";
+import { GLOBAL_TOPICS, type Topic } from "~/types/content/topics";
 
 const { t } = useI18n();
-
-const options = GLOBAL_TOPICS.map((topic, index) => ({
-  label: t(topic.label),
-  value: topic.topic,
-  id: index,
+const topicsStore = useTopics();
+await topicsStore.fetchAll();
+const topics = topicsStore.topics || [];
+const options = ref<{ label: string; value: Topic; id: string }[]>([]);
+options.value = topics.map((topic: Topic) => ({
+  label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
+  value: topic,
+  id: topic.id,
 }));
-
 interface Props {
   id: string;
-  selectedTopics: TopicEnum[];
+  selectedTopics: Topic[];
   label: string;
 }
 
 const emit = defineEmits<{
-  (e: "update:selectedTopics", value: TopicEnum[]): void;
+  (e: "update:selectedTopics", value: Topic[]): void;
 }>();
-const handleChange = (newValue: TopicEnum[]) => {
+const handleChange = (newValue: Topic[]) => {
   emit("update:selectedTopics", newValue);
 };
 defineProps<Props>();

@@ -22,6 +22,7 @@ from communities.organizations.models import (
     OrganizationTask,
     OrganizationText,
 )
+from content.models import Topic
 from content.serializers import ImageSerializer, LocationSerializer
 from events.serializers import EventSerializer
 
@@ -78,6 +79,12 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
     """
     Serializer for OrganizationResource model data.
     """
+
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+    )
 
     class Meta:
         model = OrganizationResource

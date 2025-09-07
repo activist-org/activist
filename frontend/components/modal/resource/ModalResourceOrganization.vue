@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "~/types/content/resource";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 
 const props = defineProps<{
   resource?: Resource;
@@ -69,12 +69,19 @@ async function handleSubmit(values: unknown) {
   const newValues = {
     ...formData.value,
     ...(values as Resource),
+    topics: formData.value?.topics?.map((t) => t.type) || [],
     order: formData.value?.order || organization.resources.length,
   };
   if (isAddMode)
-    await organizationStore.createResource(organization, newValues as Resource);
+    await organizationStore.createResource(
+      organization,
+      newValues as ResourceInput
+    );
   else
-    await organizationStore.updateResource(organization, newValues as Resource);
+    await organizationStore.updateResource(
+      organization,
+      newValues as ResourceInput
+    );
   handleCloseModal();
 }
 </script>

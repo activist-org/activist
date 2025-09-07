@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Topic, TopicsResponseBody } from "~/types/content/topics";
+import type { Topic } from "~/types/content/topics";
 
 interface TopicStore {
   loading: boolean;
@@ -21,19 +21,19 @@ export const useTopics = defineStore("topics", {
     async fetchAll() {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<TopicsResponseBody>(
-        async () =>
-          (await fetchWithoutToken(`/content/topics`, [])) as TopicsResponseBody
+      const { data, status } = await useAsyncData<Topic[]>(
+        async () => (await fetchWithoutToken(`/content/topics`, [])) as Topic[]
       );
 
       if (status.value === "success") {
-        const topics = data.value!.results.map((topic: Topic) => {
+        const topics = (data.value ?? []).map((topic: Topic) => {
           return {
-            constant: topic.constant,
+            type: topic.type,
             active: topic.active,
             creation_date: topic.creation_date,
             last_updated: topic.last_updated,
             deprecation_date: topic.deprecation_date,
+            id: topic.id,
           };
         });
 

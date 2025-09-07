@@ -65,4 +65,10 @@ const onDragEnd = () => {
 
   orgStore.reorderResource(props.organization, resourceList.value);
 };
+watch(
+  () => orgStore.organization.resources,
+  (newResources) => {
+    resourceList.value = [...(newResources || [])];
+  }
+);
 </script>

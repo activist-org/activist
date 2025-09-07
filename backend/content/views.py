@@ -471,7 +471,7 @@ class TopicAPIView(GenericAPIView[Topic]):
 
     @extend_schema(responses={200: TopicSerializer(many=True)})
     def get(self, request: Request) -> Response:
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = self.filter_queryset(self.get_queryset()).filter(active=True)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

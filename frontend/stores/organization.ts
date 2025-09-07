@@ -9,7 +9,7 @@ import type {
 } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
-import type { Resource } from "~/types/content/resource";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 import { EntityType } from "~/types/entity";
@@ -144,7 +144,7 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Create Resource
 
-    async createResource(organization: Organization, formData: Resource) {
+    async createResource(organization: Organization, formData: ResourceInput) {
       this.loading = true;
       const responses: boolean[] = [];
       const responseFaqEntries = await useFetch(
@@ -182,7 +182,7 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Update resource
 
-    async updateResource(organization: Organization, formData: Resource) {
+    async updateResource(organization: Organization, formData: ResourceInput) {
       this.loading = true;
       const responses: boolean[] = [];
 

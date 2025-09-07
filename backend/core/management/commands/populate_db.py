@@ -55,7 +55,7 @@ def get_topic_label(topic: Topic) -> str:
         The human readable name of the topic.
     """
     return (
-        " ".join([t[0] + t[1:].lower() for t in topic.constant.split("_")])
+        " ".join([t[0] + t[1:].lower() for t in topic.type.split("_")])
         .replace("Womens", "Women's")
         .replace("Lgbtqia", "LGBTQIA+")
     )
