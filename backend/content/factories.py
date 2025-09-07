@@ -314,7 +314,7 @@ class TopicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Topic
 
-    constant = factory.Faker("word")
+    type = factory.Faker("word")
     active = factory.Faker("boolean")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
