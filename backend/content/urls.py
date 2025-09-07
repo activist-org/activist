@@ -36,9 +36,9 @@ router.register(
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("resource_flag", view=views.ResourceFlagAPIView.as_view()),
+    path("resource_flags", view=views.ResourceFlagAPIView.as_view()),
     path(
-        "resource_flag/<uuid:id>",
+        "resource_flags/<uuid:id>",
         view=views.ResourceFlagDetailAPIView.as_view(),
     ),
 ]

@@ -35,8 +35,8 @@ urlpatterns = [
     path("", include(router.urls)),
     path("events", EventAPIView.as_view()),
     path("events/<uuid:id>", EventDetailAPIView.as_view()),
-    path("event_flag", EventFlagAPIView.as_view()),
-    path("event_flag/<uuid:id>", EventFlagDetailAPIView.as_view()),
+    path("event_flags", EventFlagAPIView.as_view()),
+    path("event_flags/<uuid:id>", EventFlagDetailAPIView.as_view()),
     path("event_calendar", EventCalenderAPIView.as_view()),
     path("event_texts/<uuid:id>", EventTextViewSet.as_view()),
 ]

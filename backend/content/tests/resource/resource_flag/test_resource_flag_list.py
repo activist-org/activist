@@ -27,6 +27,6 @@ def test_resource_flag_list():
     login_body = login.json()
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path="/v1/content/resource_flag")
+    response = client.get(path="/v1/content/resource_flags")
 
     assert response.status_code == 200

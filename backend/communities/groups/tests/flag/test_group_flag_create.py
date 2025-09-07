@@ -34,7 +34,7 @@ def test_group_flag_create():
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
-        path="/v1/communities/group_flag",
+        path="/v1/communities/group_flags",
         data={"group": group.id, "created_by": user.id},
     )
 
@@ -57,7 +57,7 @@ def test_group_flag_create_error():
     group = GroupFactory()
 
     response = client.post(
-        path="/v1/communities/group_flag",
+        path="/v1/communities/group_flags",
         data={"group": group.id, "created_by": user.id},
     )
     response_body = response.json()

@@ -46,7 +46,7 @@ def test_user_flag_delete():
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     logger.debug(f"Attempting to delete user flag with ID: {flagged_user.id}")
-    response = client.delete(path=f"/v1/auth/user_flag/{flagged_user.id}")
+    response = client.delete(path=f"/v1/auth/user_flags/{flagged_user.id}")
 
     assert response.status_code == 204
     logger.info("User flag deletion test completed successfully")
@@ -83,7 +83,7 @@ def test_user_flag_delete_does_not_exist():
     login_body = login.json()
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/auth/user_flag/{bad_flagged_user_uuid}")
+    response = client.delete(path=f"/v1/auth/user_flags/{bad_flagged_user_uuid}")
     response_body = response.json()
 
     assert response.status_code == 404

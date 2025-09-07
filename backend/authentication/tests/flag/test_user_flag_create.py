@@ -42,7 +42,7 @@ def test_user_flag_create():
 
     logger.debug("Creating user flag")
     response = client.post(
-        path="/v1/auth/user_flag",
+        path="/v1/auth/user_flags",
         data={"user": flagged_user.id, "created_by": user.id},
     )
 
@@ -69,7 +69,7 @@ def test_user_flag_create_error():
 
     logger.debug("Attempting user flag creation without authentication")
     response = client.post(
-        path="/v1/auth/user_flag",
+        path="/v1/auth/user_flags",
         data={"user": flagged_user.id, "created_by": user.id},
     )
 

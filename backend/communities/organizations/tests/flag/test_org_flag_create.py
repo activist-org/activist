@@ -35,7 +35,7 @@ def test_org_flag_create():
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
-        path="/v1/communities/organization_flag",
+        path="/v1/communities/organization_flags",
         data={"created_by": user.id, "org": org.id},
     )
 
@@ -58,7 +58,7 @@ def test_org_flag_create_error():
     org = OrganizationFactory()
 
     response = client.post(
-        path="/v1/communities/organization_flag",
+        path="/v1/communities/organization_flags",
         data={"created_by": user.id, "org": org.id},
     )
     response_body = response.json()

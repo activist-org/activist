@@ -41,7 +41,7 @@ def test_user_flag_list():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     logger.debug("Making request to user flag endpoint")
-    response = client.get(path="/v1/auth/user_flag")
+    response = client.get(path="/v1/auth/user_flags")
 
     assert response.status_code == 200
     logger.info("User flag list test completed successfully")

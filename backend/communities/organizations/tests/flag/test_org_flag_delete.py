@@ -37,7 +37,7 @@ def test_org_flag_delete():
     login_body = login.json()
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/communities/organization_flag/{flag.id}")
+    response = client.delete(path=f"/v1/communities/organization_flags/{flag.id}")
 
     assert response.status_code == 204
 
@@ -66,7 +66,7 @@ def test_org_flag_delete_does_not_exist():
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
-        path=f"/v1/communities/organization_flag/{bad_flagged_org_uuid}"
+        path=f"/v1/communities/organization_flags/{bad_flagged_org_uuid}"
     )
     response_body = response.json()
 

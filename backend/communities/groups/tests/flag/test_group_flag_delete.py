@@ -39,7 +39,7 @@ def test_group_flag_delete():
     token = login_body["token"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/communities/group_flag/{flag.id}")
+    response = client.delete(path=f"/v1/communities/group_flags/{flag.id}")
 
     assert response.status_code == 204
 
@@ -68,7 +68,7 @@ def test_group_flag_does_not_exist():
     token = login_body["token"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
-        path=f"/v1/communities/group_flag/{bad_flagged_group_uuid}"
+        path=f"/v1/communities/group_flags/{bad_flagged_group_uuid}"
     )
     response_body = response.json()
 
