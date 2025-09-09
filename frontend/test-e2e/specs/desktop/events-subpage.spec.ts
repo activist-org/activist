@@ -1,6 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
+import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
-import { getEnglishText } from "~/utils/i18n";
 
 const MODAL_BUTTON_NAMES = ["View options to share this event with others",
   "Open a modal to download a QR code for this page"
@@ -9,12 +10,20 @@ const MODAL_BUTTON_NAMES = ["View options to share this event with others",
 const EVENT_SUBPAGES = ["team", "resources", "faq", "tasks", "discussion", "settings"]
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/events/02275d0f-0f79-4478-a147-2cb1b50b3f22/about");
+  // Navigate to events page first, then to an event's about page
+  await page.goto("/events?view=list");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/events/i);
+  
+  // Click on the first event to navigate to its about page
+  const firstEventLink = page.getByLabel('Navigate to the page for this event').first();
+  await firstEventLink.click();
+  await page.waitForURL("**/events/**/about");
+  
   const sidebar = newSidebarLeft(page);
   await expect(sidebar.root).toBeVisible();
 });
 
-test.describe("Test modal and sidebar functionality", { tag: "@desktop" }, () => {
+test.describe("Test modal and sidebar functionality, also accessibility and hydration", { tag: "@desktop" }, () => {
   test("Test closing and opening of modals", async ({ page }) => {
     for(const buttonName of MODAL_BUTTON_NAMES){
       const qrButton = page.getByRole("button", { name: buttonName });
@@ -44,8 +53,7 @@ test.describe("Test modal and sidebar functionality", { tag: "@desktop" }, () =>
       await expect(sidebarButton).toBeVisible();
       
       await sidebarButton.click();
-      
-      await expect(page).toHaveURL('/events/02275d0f-0f79-4478-a147-2cb1b50b3f22/'+text);
+      await expect(page).toHaveURL(new RegExp(`/${text}$`));
     }
   });
 
@@ -100,15 +108,13 @@ test.describe("Test modal and sidebar functionality", { tag: "@desktop" }, () =>
     await expect( async () => {
       await expect(shareButton).toBeVisible();
       await expect(shareButton).toBeEnabled();
-    timeout: 500
-    }).toPass()
+    }).toPass({ timeout: 500 })
 
     const subscribeButton = page.getByLabel('Download the calendar entry for this event')
     await expect( async () => {
       await expect(subscribeButton).toBeVisible();
       await expect(subscribeButton).toBeEnabled();
-      timeout: 500
-    }).toPass()
+    }).toPass({ timeout: 500 })
   });
 
   test("Test keyboard navigation and focus management", async ({ page }) => {
@@ -137,6 +143,18 @@ test.describe("Test modal and sidebar functionality", { tag: "@desktop" }, () =>
     
     const mainContent = page.locator('main, [role="main"], h1').first();
     await expect(mainContent).toBeVisible();
+  });
+
+  test("Run accessibility scan", async ({ page }, testInfo) => {
+    await page.waitForLoadState('networkidle');
+    
+    const violations = await runAccessibilityTest(
+      "events-subpage",
+      page,
+      testInfo
+    );
+    
+    expect(violations).toHaveLength(0);
   });
 })
 
