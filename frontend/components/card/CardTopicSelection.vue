@@ -37,10 +37,10 @@
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="keydownEvent($event)"
-        :key="t.value"
+        :key="t.topic"
         :label="t.label"
         class="topic max-sm:w-full"
-        :active="isActiveTopic(t.value)"
+        :active="isActiveTopic(t.topic)"
         :isSelector="true"
         :icon="IconMap.GLOBE"
       />
@@ -57,25 +57,25 @@
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="mobileKeyboardEvent($event)"
-        :key="t.value + '-selected-only'"
+        :key="t.topic + '-selected-only'"
         :label="t.label"
         class="mobileTopic max-sm:w-full"
-        :active="isActiveTopic(t.value)"
+        :active="isActiveTopic(t.topic)"
         :isSelector="true"
         :icon="IconMap.GLOBE"
       />
       <Shield
         v-else
         v-for="t of selectedTopicTags.sort((a, b) =>
-          a.value.localeCompare(b.value)
+          a.topic.localeCompare(b.topic)
         )"
         @click="selectTopic(t)"
         @keydown.enter.prevent="selectTopic(t)"
         @keydown="mobileKeyboardEvent($event)"
-        :key="t.value"
+        :key="t.topic"
         :label="t.label"
         class="mobileTopic max-sm:w-full"
-        :active="isActiveTopic(t.value)"
+        :active="isActiveTopic(t.topic)"
         :isSelector="true"
         :icon="IconMap.GLOBE"
       />
@@ -99,14 +99,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Topic, TopicsTag } from "~/types/topics";
+import type { TopicEnum, TopicTag } from "~/types/content/topics";
 
+import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
-import { GLOBAL_TOPICS } from "~/types/topics";
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {
-    type: Array as PropType<Topic[]>,
+    type: Array as PropType<TopicEnum[]>,
     required: false,
     default: () => [],
   },
@@ -227,23 +227,23 @@ const mobileKeyboardEvent = (e: KeyboardEvent) => {
   topics[index].focus();
 };
 
-const value = computed<Topic[]>({
+const value = computed<TopicEnum[]>({
   get() {
     return props.modelValue;
   },
-  set(value: Topic[]) {
+  set(value: TopicEnum[]) {
     emit("update:modelValue", value);
   },
 });
 
 const inputValue = ref<string>("");
 
-const selectTopic = (topic: TopicsTag) => {
+const selectTopic = (topic: TopicTag) => {
   const updatedValue = [...value.value];
-  const index = updatedValue.indexOf(topic.value);
-  const isFirst = filteredTopics.value[0]?.value === topic.value;
+  const index = updatedValue.indexOf(topic.topic);
+  const isFirst = filteredTopics.value[0]?.topic === topic.topic;
   if (index === -1) {
-    updatedValue.push(topic.value);
+    updatedValue.push(topic.topic);
   } else {
     updatedValue.splice(index, 1);
   }
@@ -253,24 +253,24 @@ const selectTopic = (topic: TopicsTag) => {
   }
 };
 
-function isActiveTopic(topic: Topic) {
+function isActiveTopic(topic: TopicEnum) {
   return value.value.includes(topic);
 }
 
 const selectedTopicTags = computed(() => {
   return value.value
     .map((topic) => {
-      return GLOBAL_TOPICS.find((tag) => tag.value === topic);
+      return GLOBAL_TOPICS.find((tag) => tag.topic === topic);
     })
-    .filter((tag) => tag) as TopicsTag[];
+    .filter((tag) => tag) as TopicTag[];
 });
 
-const topics = computed((): TopicsTag[] => {
+const topics = computed((): TopicTag[] => {
   return [
     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    ...selectedTopicTags.value.sort((a, b) => a.value.localeCompare(b.value)),
-    ...GLOBAL_TOPICS.filter((topic) => !isActiveTopic(topic.value)).sort(
-      (a, b) => a.value.localeCompare(b.value)
+    ...selectedTopicTags.value.sort((a, b) => a.topic.localeCompare(b.topic)),
+    ...GLOBAL_TOPICS.filter((topic) => !isActiveTopic(topic.topic)).sort(
+      (a, b) => a.topic.localeCompare(b.topic)
     ),
   ];
 });
@@ -288,7 +288,7 @@ const focusFirstTopic = () => {
 
 const filteredTopics = computed(() => {
   return topics.value.filter((topic) => {
-    return topic.value.includes(inputValue.value.trim().toLowerCase());
+    return topic.topic.includes(inputValue.value.trim().toLowerCase());
   });
 });
 </script>

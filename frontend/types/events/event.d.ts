@@ -2,6 +2,7 @@
 import type { ContentImage } from "~/types/content/file";
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
+
 // MARK: Main Table
 
 interface EventBase {

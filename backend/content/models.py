@@ -204,7 +204,7 @@ class Resource(models.Model):
     order = models.IntegerField()
     category = models.CharField(max_length=255, blank=True)
     location = models.OneToOneField(
-        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+        "content.Location", on_delete=models.CASCADE, null=True, blank=True
     )
     is_private = models.BooleanField(default=True)
     terms_checked = models.BooleanField(default=False)
@@ -300,17 +300,14 @@ class Topic(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, unique=True)
     active = models.BooleanField(default=True)
-    description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateTimeField(blank=True, null=True)
 
-    format = models.ManyToManyField("events.Format", blank=True)
-
     def __str__(self) -> str:
-        return self.name
+        return self.type
 
 
 # MARK: Text
