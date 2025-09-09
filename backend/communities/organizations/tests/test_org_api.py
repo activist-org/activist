@@ -211,7 +211,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
         data=updated_payload,
         format="json",
     )
-    assert response.status_code == 200  # MARK:Fix
+    assert response.status_code == 200
 
     updated_org = Organization.objects.get(id=new_org.id)
     assert updated_org.org_name == "updated_org_name"

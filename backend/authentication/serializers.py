@@ -208,10 +208,30 @@ class SignInSerializer(serializers.Serializer[UserModel]):
         return data
 
 
+class UserSerializer(serializers.ModelSerializer[UserModel]):
+    """
+    Serializer for the user model.
+    """
+
+    class Meta:
+        model = UserModel
+        fields = [
+            "id",
+            "username",
+            "email",
+            "is_admin",
+            "is_active",
+            "is_staff",
+            "is_superuser",
+        ]
+
+
 class SessionSerializer(serializers.ModelSerializer[SessionModel]):
     """
     Serializer for the session model.
     """
+
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = SessionModel

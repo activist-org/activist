@@ -25,5 +25,5 @@ urlpatterns = [
         view=views.UserFlagDetailAPIView.as_view(),
     ),
     path(route="sessions", view=views.SessionView.as_view(), name="session"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
 ]
