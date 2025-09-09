@@ -79,6 +79,65 @@ test.describe("Test modal and sidebar functionality", { tag: "@desktop" }, () =>
     await expect(paragraph).toHaveText(newRandomText);
 
   })
+
+  test("Test hydration of event title and key elements", async ({ page }) => {
+    await page.waitForLoadState('networkidle');
+    
+    const eventTitle = page.locator('h1');
+    await expect(eventTitle).toBeVisible();
+    await expect(eventTitle).toHaveText(/./);
+    
+    const getInvolvedButton = page.getByRole('button', { name: /offer to help/i });
+    if (await getInvolvedButton.isVisible()) {
+      await expect(getInvolvedButton).toBeEnabled();
+    }
+  });
+
+  test("Test hydration of interactive components", async ({ page }) => {
+    await page.waitForLoadState('networkidle');
+    
+    const shareButton = page.getByRole('button', { name: /share/i });
+    await expect( async () => {
+      await expect(shareButton).toBeVisible();
+      await expect(shareButton).toBeEnabled();
+    timeout: 500
+    }).toPass()
+
+    const subscribeButton = page.getByLabel('Download the calendar entry for this event')
+    await expect( async () => {
+      await expect(subscribeButton).toBeVisible();
+      await expect(subscribeButton).toBeEnabled();
+      timeout: 500
+    }).toPass()
+  });
+
+  test("Test keyboard navigation and focus management", async ({ page }) => {
+    await page.waitForLoadState('networkidle');
+    
+    const shareButton = page.getByRole('button', { name: /share/i });
+    await shareButton.focus();
+    await expect(shareButton).toBeFocused();
+    
+    await page.keyboard.press('Tab');
+    const subscribeButton = page.getByLabel('Download the calendar entry for this event')
+    await expect(subscribeButton).toBeFocused();
+    
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(500);
+  });
+
+  test("Test ARIA labels and semantic structure", async ({ page }) => {
+    await page.waitForLoadState('networkidle');
+    
+    const shareButton = page.getByRole('button', { name: /share/i });
+    await expect(shareButton).toHaveAttribute('aria-label');
+    
+    const subscribeButton = page.getByLabel('Download the calendar entry for this event')
+    await expect(subscribeButton).toHaveAttribute('aria-label');
+    
+    const mainContent = page.locator('main, [role="main"], h1').first();
+    await expect(mainContent).toBeVisible();
+  });
 })
 
 
