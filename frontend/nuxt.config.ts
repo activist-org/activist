@@ -172,8 +172,8 @@ export default defineNuxtConfig({
          *
          * Chromium and Firefox still allow http requests to localhost even with this header.
          */
-        "upgrade-insecure-requests": !(
-          import.meta.env.VITE_FRONTEND_URL === "http://localhost:3000"
+        "upgrade-insecure-requests": (
+          import.meta.env.VITE_FRONTEND_URL !== "http://localhost:3000"
         ),
       },
     },
