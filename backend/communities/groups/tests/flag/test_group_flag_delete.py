@@ -36,7 +36,7 @@ def test_group_flag_delete():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/communities/group_flag/{flag.id}")
@@ -65,7 +65,7 @@ def test_group_flag_does_not_exist():
 
     bad_flagged_group_uuid = uuid4()
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
         path=f"/v1/communities/group_flag/{bad_flagged_group_uuid}"

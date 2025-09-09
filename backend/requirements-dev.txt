@@ -14,27 +14,27 @@ attrs==25.3.0
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-build==1.2.2.post1
+build==1.3.0
     # via pip-tools
-certifi==2025.7.14
+certifi==2025.8.3
     # via
     #   -r requirements.txt
     #   i18n-check
     #   requests
 cfgv==3.4.0
     # via pre-commit
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
     # via
     #   -r requirements.txt
     #   i18n-check
     #   requests
 click==8.2.1
     # via pip-tools
-coverage[toml]==7.9.2
+coverage[toml]==7.10.6
     # via pytest-cov
 distlib==0.4.0
     # via virtualenv
-django==5.2.4
+django==5.2.6
     # via
     #   -r requirements.txt
     #   django-cors-headers
@@ -43,8 +43,9 @@ django==5.2.4
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework
+    #   djangorestframework-simplejwt
     #   drf-spectacular
-django-cors-headers==4.7.0
+django-cors-headers==4.8.0
     # via -r requirements.txt
 django-ical==1.9.2
     # via -r requirements.txt
@@ -60,31 +61,36 @@ django-stubs-ext==5.2.2
     # via
     #   -r requirements.txt
     #   django-stubs
-djangorestframework==3.16.0
+djangorestframework==3.16.1
     # via
     #   -r requirements.txt
+    #   djangorestframework-simplejwt
     #   drf-spectacular
 djangorestframework-camel-case==1.4.2
     # via -r requirements.txt
-djangorestframework-stubs==3.16.1
+djangorestframework-simplejwt==5.5.1
+    # via
+    #   -r requirements-dev.in
+    #   -r requirements.txt
+djangorestframework-stubs==3.16.2
     # via -r requirements.txt
 drf-spectacular==0.28.0
     # via -r requirements.txt
 factory-boy==3.3.3
     # via -r requirements-dev.in
-faker==37.4.2
+faker==37.6.0
     # via factory-boy
-filelock==3.18.0
+filelock==3.19.1
     # via virtualenv
 gunicorn==23.0.0
     # via -r requirements.txt
-i18n-check==1.8.1
+i18n-check==1.10.1
     # via -r requirements-dev.in
 icalendar==6.3.1
     # via
     #   -r requirements.txt
     #   django-ical
-identify==2.6.12
+identify==2.6.14
     # via pre-commit
 idna==3.10
     # via
@@ -97,15 +103,15 @@ inflection==0.5.1
     #   drf-spectacular
 iniconfig==2.1.0
     # via pytest
-jsonschema==4.25.0
+jsonschema==4.25.1
     # via
     #   -r requirements.txt
     #   drf-spectacular
-jsonschema-specifications==2025.4.1
+jsonschema-specifications==2025.9.1
     # via
     #   -r requirements.txt
     #   jsonschema
-markdown-it-py==3.0.0
+markdown-it-py==4.0.0
     # via
     #   i18n-check
     #   rich
@@ -113,7 +119,7 @@ mdurl==0.1.2
     # via
     #   i18n-check
     #   markdown-it-py
-mypy==1.17.0
+mypy==1.17.1
     # via -r requirements-dev.in
 mypy-extensions==1.1.0
     # via mypy
@@ -131,13 +137,13 @@ pillow==11.3.0
     # via -r requirements.txt
 pip-tools==7.5.0
     # via -r requirements-dev.in
-platformdirs==4.3.8
+platformdirs==4.4.0
     # via virtualenv
 pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-pre-commit==4.2.0
+pre-commit==4.3.0
     # via -r requirements-dev.in
 psycopg2-binary==2.9.10
     # via -r requirements.txt
@@ -146,16 +152,20 @@ pygments==2.19.2
     #   i18n-check
     #   pytest
     #   rich
+pyjwt==2.10.1
+    # via
+    #   -r requirements.txt
+    #   djangorestframework-simplejwt
 pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pytest==8.4.1
+pytest==8.4.2
     # via
     #   -r requirements-dev.in
     #   pytest-cov
     #   pytest-django
-pytest-cov==6.2.1
+pytest-cov==7.0.0
     # via -r requirements-dev.in
 pytest-django==4.11.1
     # via -r requirements-dev.in
@@ -177,19 +187,19 @@ referencing==0.36.2
     #   -r requirements.txt
     #   jsonschema
     #   jsonschema-specifications
-requests==2.32.4
+requests==2.32.5
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
     #   i18n-check
-rich==14.0.0
+rich==14.1.0
     # via i18n-check
-rpds-py==0.26.0
+rpds-py==0.27.1
     # via
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-ruff==0.12.4
+ruff==0.12.12
     # via -r requirements-dev.in
 six==1.17.0
     # via
@@ -201,16 +211,16 @@ sqlparse==0.5.3
     #   django
 ts-backend-check==1.1.0
     # via -r requirements-dev.in
-types-pyyaml==6.0.12.20250516
+types-pyyaml==6.0.12.20250822
     # via
     #   -r requirements.txt
     #   django-stubs
     #   djangorestframework-stubs
-types-requests==2.32.4.20250611
+types-requests==2.32.4.20250809
     # via
     #   -r requirements.txt
     #   djangorestframework-stubs
-typing-extensions==4.14.1
+typing-extensions==4.15.0
     # via
     #   -r requirements.txt
     #   django-stubs
@@ -233,7 +243,7 @@ urllib3==2.5.0
     #   i18n-check
     #   requests
     #   types-requests
-virtualenv==20.32.0
+virtualenv==20.34.0
     # via pre-commit
 wheel==0.45.1
     # via pip-tools

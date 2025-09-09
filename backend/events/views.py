@@ -14,7 +14,6 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_sche
 from icalendar import Calendar  # type: ignore
 from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     AllowAny,
@@ -55,7 +54,6 @@ class EventAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all().order_by("id")
     serializer_class = EventSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> Sequence[Any]:
@@ -272,7 +270,6 @@ class EventFlagAPIView(GenericAPIView[EventFlag]):
 class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
     queryset = EventFlag.objects.all()
     serializer_class = EventFlagSerializers
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
