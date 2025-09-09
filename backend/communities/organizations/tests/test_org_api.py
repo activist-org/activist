@@ -44,7 +44,7 @@ def login_user(user_data: UserDict) -> dict:
         },
     )
     assert response.status_code == 200
-    return {"user": user_data["user"], "token": response.data["token"]}
+    return {"user": user_data["user"], "access": response.data["access"]}
 
 
 @pytest.fixture(scope="session")
@@ -134,7 +134,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     # Authenticated and successful.
     new_org = OrganizationFactory.build(org_name="new_org", terms_checked=True)
     location = EntityLocationFactory.build()
-    token = logged_in_user["token"]
+    access = logged_in_user["access"]
 
     payload = {
         "location": {
@@ -151,7 +151,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
         "is_high_risk": new_org.is_high_risk,
     }
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.post(ORGS_URL, data=payload, format="json")
 
     assert response.status_code == 201
@@ -184,7 +184,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     """
     client = APIClient()
 
-    created_by_user, token_created_by = logged_in_created_by_user.values()
+    created_by_user, access = logged_in_created_by_user.values()
 
     new_org = OrganizationFactory.create(created_by=created_by_user)
     assert Organization.objects.filter(org_name=new_org.org_name).exists()
@@ -205,7 +205,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     )
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.put(
         f"{ORGS_URL}/{new_org.id}",
         data=updated_payload,
@@ -222,7 +222,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     response = client.delete(f"{ORGS_URL}/{new_org.id}")
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.delete(f"{ORGS_URL}/{new_org.id}")
 
     assert response.status_code == 200

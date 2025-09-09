@@ -204,7 +204,7 @@ class Resource(models.Model):
     order = models.IntegerField()
     category = models.CharField(max_length=255, blank=True)
     location = models.OneToOneField(
-        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+        "content.Location", on_delete=models.CASCADE, null=True, blank=True
     )
     is_private = models.BooleanField(default=True)
     terms_checked = models.BooleanField(default=False)
@@ -232,7 +232,7 @@ class ResourceFlag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     resource = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now=True)
 
 
 # MARK: Social Link
@@ -300,14 +300,32 @@ class Topic(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, unique=True)
     active = models.BooleanField(default=True)
-    description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateTimeField(blank=True, null=True)
 
-    format = models.ManyToManyField("events.Format", blank=True)
+    def __str__(self) -> str:
+        return self.type
+
+
+# MARK: Text
+
+
+class Text(models.Model):
+    """
+    Text model for translatable content in different languages.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
+    primary = models.BooleanField(default=False)
+    description = models.TextField(max_length=2500)
+    get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.iso} - {self.description[:50]}..."
+
+    class Meta:
+        abstract = False

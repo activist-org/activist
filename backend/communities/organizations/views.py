@@ -16,7 +16,6 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
@@ -29,12 +28,14 @@ from communities.organizations.models import (
     OrganizationFaq,
     OrganizationFlag,
     OrganizationImage,
+    OrganizationResource,
     OrganizationSocialLink,
     OrganizationText,
 )
 from communities.organizations.serializers import (
     OrganizationFaqSerializer,
     OrganizationFlagSerializer,
+    OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
@@ -53,7 +54,6 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
@@ -362,7 +362,6 @@ class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
 class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -614,6 +613,62 @@ class OrganizationTextViewSet(GenericAPIView[OrganizationText]):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# MARK: Resource
+
+
+class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
+    queryset = OrganizationResource.objects.all()
+    serializer_class = OrganizationResourceSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create resource for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer.save(created_by=request.user)
+        logger.info(
+            f"Resource created for organization {org.id} by user {request.user.id}"
+        )
+
+        return Response(
+            {"message": "Resource created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            resource = OrganizationResource.objects.get(id=pk)
+
+        except OrganizationResource.DoesNotExist as e:
+            logger.exception(f"Resource with id {pk} does not exist for update: {e}")
+            return Response(
+                {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != resource.org.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this resource."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(resource, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "Resource updated successfully."}, status=status.HTTP_200_OK
+        )
 
 
 # MARK: Image

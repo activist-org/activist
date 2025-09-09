@@ -60,7 +60,8 @@ def validate_creation_and_deprecation_dates(data: Any) -> None:
 
     if (
         data.get("deprecation_date")
-        and data.get("deprecation_date") < data["creation_date"]
+        and data.get("creation_date")
+        and data.get("deprecation_date") < data.get("creation_date")
     ):
         logger.error(
             "deprecation_date (%s) is before creation_date (%s)",

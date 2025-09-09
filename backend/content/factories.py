@@ -280,7 +280,7 @@ class ResourceFlagFactory(factory.django.DjangoModelFactory):
 
     resource = factory.SubFactory("content.factories.ResourceFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    created_on = factory.LazyFunction(
+    creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
@@ -314,10 +314,12 @@ class TopicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Topic
 
-    name = factory.Faker("word")
+    type = factory.Faker("word")
     active = factory.Faker("boolean")
-    description = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
     deprecation_date = factory.Faker("date")

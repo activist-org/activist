@@ -1,11 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImage
+    <ModalUploadImageGroup
       @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
       :entityId="group.id || ''"
-      :entityType="EntityType.GROUP"
       :images="group.images || []"
     />
     <ModalUploadImageIcon
@@ -52,8 +51,9 @@ const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
 await groupStore.fetchImages(groupId as string);
 const { group } = groupStore;
-const { handleCloseModal: handleCloseModalUploadImage } =
-  useModalHandlers("ModalUploadImage");
+const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
+  "ModalUploadImageGroup"
+);
 const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
   "ModalUploadImageIcon"
 );

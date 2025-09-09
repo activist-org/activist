@@ -29,7 +29,7 @@ admin.site.register(SupportEntityType)
 # MARK: User Creation
 
 
-class UserCreationForm(forms.ModelForm[UserModel]):
+class UserCreationForm(forms.ModelForm):  # type: ignore[type-arg]
     """
     A form for creating new users.
 
@@ -66,7 +66,7 @@ class UserCreationForm(forms.ModelForm[UserModel]):
 
         return password2
 
-    def save(self, commit: bool = True) -> UserModel:
+    def save(self, commit: bool = True) -> UserModel | Any:
         """
         Save the user instance with a hashed password.
 
@@ -92,7 +92,7 @@ class UserCreationForm(forms.ModelForm[UserModel]):
 # MARK: User Change
 
 
-class UserChangeForm(forms.ModelForm[UserModel]):
+class UserChangeForm(forms.ModelForm):  # type: ignore[type-arg]
     """
     A form for updating users.
 
@@ -110,7 +110,7 @@ class UserChangeForm(forms.ModelForm[UserModel]):
 # MARK: User
 
 
-class UserAdmin(BaseUserAdmin[UserModel]):
+class UserAdmin(BaseUserAdmin):  # type: ignore[type-arg]
     # The forms to add and change user instances.
     """
     Custom admin interface for the UserModel.
@@ -118,11 +118,19 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     This class configures the fields, filters, and forms displayed in the Django admin panel.
     """
 
+    class Meta:
+        model = UserModel
+        fields = "__all__"
+
     form = UserChangeForm
     add_form = UserCreationForm
 
     def save_model(
-        self, request: HttpRequest, obj: UserModel, form: ModelForm[Any], change: bool
+        self,
+        request: HttpRequest,
+        obj: UserModel,
+        form: ModelForm,  # type: ignore[type-arg]
+        change: bool,
     ) -> None:
         """
         Override to add logging for user updates.
@@ -210,15 +218,23 @@ class UserAdmin(BaseUserAdmin[UserModel]):
 # MARK: Flag
 
 
-class UserFlagAdmin(admin.ModelAdmin[UserFlag]):
+class UserFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Admin table for displaying User flags.
     """
 
-    list_display = ["user", "created_by", "created_on"]
+    class Meta:
+        model = UserFlag
+        fields = "__all__"
+
+    list_display = ["user", "created_by", "creation_date"]
 
     def save_model(
-        self, request: HttpRequest, obj: UserFlag, form: ModelForm[Any], change: bool
+        self,
+        request: HttpRequest,
+        obj: UserFlag,
+        form: ModelForm,  # type: ignore[type-arg]
+        change: bool,
     ) -> None:
         """
         Override to add logging for user flag operations.

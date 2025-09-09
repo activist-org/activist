@@ -8,8 +8,7 @@ from uuid import uuid4
 
 from django.db import models
 
-from content.models import Resource
-from utils.models import ISO_CHOICES
+from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Group
 
@@ -59,18 +58,11 @@ class Group(models.Model):
 # MARK: FAQ
 
 
-class GroupFaq(models.Model):
+class GroupFaq(Faq):
     """
     Frequently Asked Questions model.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField(default=False)
-    question = models.TextField(max_length=500, blank=False)
-    answer = models.TextField(max_length=500, blank=False)
-    order = models.IntegerField()
-    last_updated = models.DateTimeField(auto_now=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="faqs")
 
     def __str__(self) -> str:
@@ -91,7 +83,7 @@ class GroupFlag(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     group = models.ForeignKey("communities.Group", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now=True)
 
 
 # MARK: Image
@@ -154,17 +146,11 @@ class GroupResource(Resource):
 # MARK: Social Link
 
 
-class GroupSocialLink(models.Model):
+class GroupSocialLink(SocialLink):
     """
     Class for adding social link parameters to groups.
     """
 
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    link = models.URLField(max_length=255)
-    label = models.CharField(max_length=255)
-    order = models.PositiveIntegerField(default=0)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
@@ -176,19 +162,14 @@ class GroupSocialLink(models.Model):
 # MARK: Text
 
 
-class GroupText(models.Model):
+class GroupText(Text):
     """
     Class for adding text parameters to groups.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, null=True, related_name="texts"
     )
-    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField(default=False)
-    description = models.TextField(max_length=2500)
-    get_involved = models.TextField(max_length=500, blank=True)
     donate_prompt = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:

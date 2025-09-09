@@ -45,7 +45,7 @@ def login_user(user_data: UserDict) -> dict[Any, Any]:
         },
     )
     assert response.status_code == 200
-    return {"user": user_data["user"], "token": response.data["token"]}
+    return {"user": user_data["user"], "access": response.data["access"]}
 
 
 @pytest.fixture(scope="session")
@@ -136,7 +136,7 @@ def test_GroupAPIView(logged_in_user, status_types):
     org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
     new_group = GroupFactory.build(group_name="new_group", terms_checked=True)
     location = EntityLocationFactory.build()
-    token = logged_in_user["token"]
+    token = logged_in_user["access"]
 
     payload = {
         "org_id": org.id,
@@ -185,7 +185,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     """
     client = APIClient()
 
-    created_by_user, token_created_by = logged_in_created_by_user.values()
+    created_by_user, access = logged_in_created_by_user.values()
 
     new_group = GroupFactory.create(created_by=created_by_user)
     assert Group.objects.filter(group_name=new_group.group_name).exists()
@@ -206,7 +206,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     )
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.put(
         f"{GROUPS_URL}/{new_group.id}",
         data=updated_payload,
@@ -223,7 +223,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     response = client.delete(f"{GROUPS_URL}/{new_group.id}")
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.delete(f"{GROUPS_URL}/{new_group.id}")
 
     assert response.status_code == 200

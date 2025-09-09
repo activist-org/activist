@@ -11,7 +11,6 @@ from uuid import UUID
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     SAFE_METHODS,
@@ -27,6 +26,7 @@ from communities.groups.models import (
     GroupFaq,
     GroupFlag,
     GroupImage,
+    GroupResource,
     GroupSocialLink,
     GroupText,
 )
@@ -34,6 +34,7 @@ from communities.groups.serializers import (
     GroupFaqSerializer,
     GroupFlagSerializer,
     GroupPOSTSerializer,
+    GroupResourceSerializer,
     GroupSerializer,
     GroupSocialLinkSerializer,
     GroupTextSerializer,
@@ -52,7 +53,6 @@ class GroupAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> List[BasePermission]:
@@ -125,7 +125,6 @@ class GroupAPIView(GenericAPIView[Group]):
 class GroupDetailAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -277,7 +276,6 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
 class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -475,6 +473,58 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
 
         return Response(
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
+    queryset = GroupResource.objects.all()
+    serializer_class = GroupResourceSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        group: Group = serializer.validated_data["group"]
+
+        if request.user != group.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create resource for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save(created_by=request.user)
+        logger.info(f"Resource created for group {group.id} by user {request.user.id}")
+
+        return Response(
+            {"message": "Resource created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            resource = GroupResource.objects.get(id=pk)
+
+        except GroupResource.DoesNotExist as e:
+            logger.exception(f"Resource with id {pk} does not exist for update: {e}")
+            return Response(
+                {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != resource.group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(resource, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "Resource updated successfully."}, status=status.HTTP_200_OK
         )
 
 

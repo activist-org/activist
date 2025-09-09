@@ -9,7 +9,13 @@ from typing import Any
 
 import factory
 
-from authentication.models import Support, SupportEntityType, UserFlag, UserModel
+from authentication.models import (
+    SessionModel,
+    Support,
+    SupportEntityType,
+    UserFlag,
+    UserModel,
+)
 
 # MARK: Support
 
@@ -49,8 +55,9 @@ class SupportFactory(factory.django.DjangoModelFactory):
 
     # MARK: Session
 
-    # class SessionFactory(factory.django.DjangoModelFactory):
-    """"
+
+class SessionFactory(factory.django.DjangoModelFactory):
+    """
     Factory for creating Session model instances.
 
     Notes
@@ -59,13 +66,13 @@ class SupportFactory(factory.django.DjangoModelFactory):
     It requires a `UserModel` instance to be created or provided.
     """
 
-    # class Meta:
-    #     model = SessionModel
+    class Meta:
+        model = SessionModel
 
-    # user = factory.SubFactory("authentication.factories.UserFactory")
-    # last_activity = factory.LazyFunction(
-    #     lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    # )
+    user = factory.SubFactory("authentication.factories.UserFactory")
+    last_activity = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
 
 
 # MARK: User
@@ -133,6 +140,6 @@ class UserFlagFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory("authentication.factories.UserFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
-    created_on = factory.LazyFunction(
+    creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )

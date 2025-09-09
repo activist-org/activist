@@ -35,7 +35,7 @@ def test_resource_delete():
     assert login_response.status_code == 200
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     # Authorized owner tried to delete the resource.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")

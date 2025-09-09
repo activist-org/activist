@@ -40,6 +40,27 @@ from events.factories import (
 from events.models import Event
 
 
+def get_topic_label(topic: Topic) -> str:
+    """
+    Return the label of a topic from the object.
+
+    Parameters
+    ----------
+    topic : Topic
+        The topic object that the label should be derived for.
+
+    Returns
+    -------
+    str
+        The human readable name of the topic.
+    """
+    return (
+        " ".join([t[0] + t[1:].lower() for t in topic.type.split("_")])
+        .replace("Womens", "Women's")
+        .replace("Lgbtqia", "LGBTQIA+")
+    )
+
+
 class Options(TypedDict):
     """
     Options available to the populate_db management CLI command.
@@ -112,13 +133,14 @@ class Command(BaseCommand):
             for u, user in enumerate(users):
                 user_topic = random.choice(topics)
                 user.topics.set([user_topic])
+                user_topic_name = get_topic_label(topic=user_topic)
 
                 for o in range(num_orgs_per_user):
                     user_org = OrganizationFactory(
                         created_by=user,
                         org_name=f"organization_u{u}_o{o}",
-                        name=f"{user_topic.name} Organization",
-                        tagline=f"Fighting for {user_topic.name.lower()}",
+                        name=f"{user_topic_name} Organization",
+                        tagline=f"Fighting for {user_topic_name.lower()}",
                     )
 
                     org_texts = OrganizationTextFactory(iso="en", primary=True)
@@ -150,8 +172,8 @@ class Command(BaseCommand):
                         )
 
                         user_org_event = EventFactory(
-                            name=f"{user_topic.name} Event [u{u}:o{o}:e{e}]",
-                            tagline=f"{event_type_verb} {user_topic.name}",
+                            name=f"{user_topic_name} Event [u{u}:o{o}:e{e}]",
+                            tagline=f"{event_type_verb} {user_topic_name}",
                             type=event_type,
                             created_by=user,
                             orgs=user_org,
@@ -183,9 +205,9 @@ class Command(BaseCommand):
                         user_org_group = GroupFactory(
                             created_by=user,
                             group_name=f"group_u{u}_o{o}_g{g}",
-                            name=f"{user_topic.name} Group",
+                            name=f"{user_topic_name} Group",
                             org=user_org,
-                            tagline=f"Fighting for {user_topic.name.lower()}",
+                            tagline=f"Fighting for {user_topic_name.lower()}",
                         )
 
                         group_texts = GroupTextFactory(iso="en", primary=True)
