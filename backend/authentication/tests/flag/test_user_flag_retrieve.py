@@ -40,7 +40,7 @@ def test_user_flag_retrieve():
     logger.debug("User login successful")
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     logger.debug("Set authorization token for API client")
 
@@ -77,7 +77,7 @@ def test_user_flag_retrieve_does_not_exist():
     logger.debug("User login successful")
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     logger.debug("Set authorization token for API client")
 
