@@ -360,7 +360,7 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         except EventFaq.DoesNotExist as e:
             logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.event.created_by and not request.user.is_staff:
@@ -413,7 +413,7 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
         except EventResource.DoesNotExist as e:
             logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.event.created_by and not request.user.is_staff:

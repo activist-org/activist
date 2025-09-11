@@ -367,7 +367,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         except GroupFaq.DoesNotExist as e:
             logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.group.created_by and not request.user.is_staff:
@@ -510,7 +510,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
         except GroupResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != resource.group.created_by and not request.user.is_staff:

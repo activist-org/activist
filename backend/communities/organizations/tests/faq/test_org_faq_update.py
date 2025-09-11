@@ -98,4 +98,4 @@ def test_org_faq_update() -> None:
     assert response.status_code == 404
 
     response_body = response.json()
-    assert response_body["error"] == "FAQ not found."
+    assert response_body["detail"] == "FAQ not found."

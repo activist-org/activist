@@ -81,7 +81,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
                 examples=[
                     OpenApiExample(
                         name="Failed to create organization",
-                        value={"error": "Failed to create organization"},
+                        value={"detail": "Failed to create organization"},
                         media_type="application/json",
                     )
                 ],
@@ -455,7 +455,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         except OrganizationFaq.DoesNotExist as e:
             logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.org.created_by and not request.user.is_staff:
@@ -653,7 +653,7 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
         except OrganizationResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != resource.org.created_by and not request.user.is_staff:
