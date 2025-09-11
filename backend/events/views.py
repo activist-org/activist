@@ -214,7 +214,8 @@ class EventDetailAPIView(APIView):
 
         event.delete()
         return Response(
-            {"message": "Event deleted successfully."}, status=status.HTTP_200_OK
+            {"message": "Event deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -458,7 +459,7 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:

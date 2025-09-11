@@ -125,7 +125,7 @@ class SignUpView(APIView):
 
         return Response(
             {"message": "Email is confirmed. You can now log in."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_200_OK,
         )
 
 
