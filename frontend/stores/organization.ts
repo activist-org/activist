@@ -69,25 +69,38 @@ export const useOrganizationStore = defineStore("organization", {
 
     async create(formData: OrganizationCreateFormData) {
       this.loading = true;
+      let createdBy: string | undefined;
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const authState: any = useAuthState?.();
+        createdBy = authState?.data?.value?.user?.id;
+      } catch (e) {
+        void e;
+      }
+
+      const payload: Record<string, unknown> = {
+        name: formData.name,
+        location: formData.location,
+        tagline: formData.tagline,
+        social_accounts: formData.social_accounts,
+        description: formData.description,
+        topics: formData.topics,
+        high_risk: false,
+        total_flags: 0,
+        acceptance_date: new Date(),
+      };
+      if (createdBy) {
+        payload.created_by = createdBy;
+      }
 
       const responseOrg = await useFetch(
         `${BASE_BACKEND_URL}/communities/organizations`,
         {
           method: "POST",
-          body: JSON.stringify({
-            name: formData.name,
-            location: formData.location,
-            tagline: formData.tagline,
-            social_accounts: formData.social_accounts,
-            created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-            description: formData.description,
-            topics: formData.topics,
-            high_risk: false,
-            total_flags: 0,
-            acceptance_date: new Date(),
-          }),
+          body: JSON.stringify(payload),
           headers: {
             Authorization: `${token.value}`,
+            "Content-Type": "application/json",
           },
         }
       );
