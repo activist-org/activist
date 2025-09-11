@@ -28,11 +28,12 @@ def test_anon_throttle():
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_200_OK
 
+    print("Request 4")
     response = client.get(endpoint)
     assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
 
     # Reset the throttle rates.
-    # This is necessary to ensure that the test does not affect other tests.
+    # This is necessary to ensure that this test does not affect other tests.
     cache.clear()
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"] = None
 
@@ -71,8 +72,8 @@ def test_auth_throttle():
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_200_OK
 
-    response = client.get(endpoint)
     print("Request 6")
+    response = client.get(endpoint)
     assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
 
     # Reset the throttle rates.

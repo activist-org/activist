@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Tests for the wait_for_db management command.
+
+Note: This test is in this directory to assure that the DB resets don't affect other tests.
 """
 
 from unittest.mock import patch
