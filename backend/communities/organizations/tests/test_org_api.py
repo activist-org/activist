@@ -225,4 +225,4 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.delete(f"{ORGS_URL}/{new_org.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == 204

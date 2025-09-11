@@ -174,5 +174,5 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.delete(f"{EVENTS_URL}/{new_event.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == 204
     assert not Event.objects.filter(id=new_event.id).exists()
