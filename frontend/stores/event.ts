@@ -74,18 +74,6 @@ export const useEventStore = defineStore("event", {
 
     async create(formData: EventCreateFormData) {
       this.loading = true;
-      // Attempt to derive the authenticated user's id; if present include created_by
-      // Otherwise rely on backend to infer from request.user (preferred secure behavior).
-      let createdBy: string | undefined;
-      try {
-        // useAuthState is used in useUser composable; access directly to avoid circular import.
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const authState: any = useAuthState?.();
-        createdBy = authState?.data?.value?.user?.id;
-      } catch (e) {
-        void e;
-      }
-
       const payload: Record<string, unknown> = {
         name: formData.name,
         location: formData.location,
@@ -97,9 +85,7 @@ export const useEventStore = defineStore("event", {
         total_flags: 0,
         acceptance_date: new Date(),
       };
-      if (createdBy) {
-        payload.created_by = createdBy;
-      }
+      // Security: do not send created_by; backend should infer from authenticated request
 
       const responseEvent = await useFetch(
         `${BASE_BACKEND_URL}/events/events`,

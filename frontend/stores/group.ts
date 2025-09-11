@@ -73,15 +73,6 @@ export const useGroupStore = defineStore("group", {
 
     async create(formData: GroupCreateFormData) {
       this.loading = true;
-      let createdBy: string | undefined;
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const authState: any = useAuthState?.();
-        createdBy = authState?.data?.value?.user?.id;
-      } catch (e) {
-        void e;
-      }
-
       const payload: Record<string, unknown> = {
         name: formData.name,
         location: formData.location,
@@ -93,9 +84,7 @@ export const useGroupStore = defineStore("group", {
         total_flags: 0,
         acceptance_date: new Date(),
       };
-      if (createdBy) {
-        payload.created_by = createdBy;
-      }
+      // Security: do not send created_by; backend should infer from authenticated request
 
       const responseGroup = await useFetch(
         `${BASE_BACKEND_URL}/communities/groups`,

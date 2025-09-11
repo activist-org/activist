@@ -125,14 +125,6 @@ const formData = ref({
 });
 
 const submit = async () => {
-  let createdBy: string | undefined;
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const authState: any = useAuthState?.();
-    createdBy = authState?.data?.value?.user?.id;
-  } catch (e) {
-    void e;
-  }
   const payload: Record<string, unknown> = {
     name: formData.value.name,
     location: formData.value.location,
@@ -143,7 +135,7 @@ const submit = async () => {
     high_risk: false,
     total_flags: 0,
   };
-  if (createdBy) payload.created_by = createdBy;
+  // Security: do not send created_by; backend should infer from authenticated request
   await useFetch(`${BASE_BACKEND_URL}/v1/communities/organizations`, {
     method: "POST",
     body: JSON.stringify(payload),
