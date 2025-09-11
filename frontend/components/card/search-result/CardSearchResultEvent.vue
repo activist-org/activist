@@ -34,7 +34,6 @@
         :event="event"
       />
     </template>
-
     <template #desktop-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
       <MetaTagVideo
@@ -44,7 +43,6 @@
       />
       <MetaTagDate v-if="event.id != ''" :date="date" />
     </template>
-
     <template #mobile-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
       <MetaTagVideo
@@ -54,7 +52,6 @@
       />
       <MetaTagDate v-if="event.id != ''" :date="date" />
     </template>
-
     <template #organizations>
       <MetaTagOrganization
         v-if="!isReduced && event.orgs"
