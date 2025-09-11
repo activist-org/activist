@@ -10,7 +10,6 @@
     :entityName="entityName"
     :isExternalLink="false"
     :isReduced="isReduced"
-    :isPrivate="isPrivate"
   >
     <template #image="{ imageUrl: slotImageUrl }">
       <div

@@ -5,16 +5,9 @@
   >
     <div class="relative flex w-full flex-col md:flex-row">
       <div class="flex w-full justify-center md:w-fit">
-        <component
-          :is="isExternalLink ? 'a' : 'NuxtLink'"
-          :to="isExternalLink ? undefined : localePath(linkUrl)"
-          :href="isExternalLink ? linkUrl : undefined"
-          :target="isExternalLink ? '_blank' : undefined"
-          :aria-label="$t(ariaLabel)"
-        >
+        <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
           <div
-            :class="imageContainerClass"
-            class="h-min border border-section-div bg-layer-0"
+            class="h-min w-max rounded-md border border-section-div bg-layer-0"
           >
             <slot name="image" :imageUrl="imageUrl" :imageAlt="imageAlt">
               <img
@@ -26,36 +19,28 @@
               />
               <div
                 v-else
-                :class="[imageSizeClass, iconContainerClass]"
-                class="flex items-center justify-center"
+                :class="[imageSizeClass]"
+                class="flex items-center justify-center text-primary-text"
               >
                 <Icon :name="iconName || 'default'" class="h-[75%] w-[75%]" />
               </div>
             </slot>
           </div>
-        </component>
+        </NuxtLink>
       </div>
       <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
         <div class="-mb-2 flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
-            <component
-              :is="isExternalLink ? 'a' : 'NuxtLink'"
-              :to="isExternalLink ? undefined : localePath(linkUrl)"
-              :href="isExternalLink ? linkUrl : undefined"
-              :target="isExternalLink ? '_blank' : undefined"
-              :aria-label="$t(ariaLabel)"
-            >
+            <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
               <h3 class="font-bold">
                 {{ title }}
               </h3>
-            </component>
-
+            </NuxtLink>
             <slot
               name="menu"
               class="max-md:absolute max-md:right-0 max-md:top-0"
             />
           </div>
-
           <div
             v-if="aboveMediumBP"
             class="flex items-center space-x-3 lg:space-x-5"
@@ -63,7 +48,6 @@
             <slot name="desktop-meta-tags" />
           </div>
         </div>
-
         <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
           <div
             v-if="!aboveMediumBP"
@@ -78,17 +62,14 @@
             <slot name="organizations" />
           </div>
         </div>
-        <component
+        <NuxtLink
           v-if="entityName"
-          :is="isExternalLink ? 'a' : 'NuxtLink'"
-          :to="isExternalLink ? undefined : localePath(linkUrl)"
-          :href="isExternalLink ? linkUrl : undefined"
-          :target="isExternalLink ? '_blank' : undefined"
+          :to="localePath(linkUrl)"
           class="text-distinct-text hover:text-primary-text"
           :aria-label="$t(ariaLabel)"
         >
           @{{ entityName }}
-        </component>
+        </NuxtLink>
         <p
           class="justify-center md:justify-start md:px-0 md:py-0"
           :class="{
@@ -113,9 +94,7 @@ const props = defineProps<{
   imageAlt?: string;
   iconName?: string;
   entityName?: string;
-  isExternalLink?: boolean;
   isReduced?: boolean;
-  isPrivate?: boolean;
 }>();
 
 const aboveMediumBP = useBreakpoint("md");
@@ -124,15 +103,5 @@ const localePath = useLocalePath();
 const imageSizeClass = computed(() => ({
   "h-[150px] w-[150px]": props.isReduced,
   "h-[200px] w-[200px]": !props.isReduced,
-}));
-
-const imageContainerClass = computed(() => ({
-  "w-max rounded-md": !props.isExternalLink,
-  "rounded-full": props.isExternalLink,
-}));
-
-const iconContainerClass = computed(() => ({
-  "text-primary-text": !props.isExternalLink,
-  "fill-primary-text": props.isExternalLink,
 }));
 </script>

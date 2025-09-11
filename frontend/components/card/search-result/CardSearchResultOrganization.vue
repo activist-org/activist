@@ -11,7 +11,6 @@
     :entityName="organization.orgName"
     :isExternalLink="false"
     :isReduced="isReduced"
-    :isPrivate="isPrivate"
   >
     <template #menu>
       <MenuSearchResult
