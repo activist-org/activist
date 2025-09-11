@@ -41,7 +41,12 @@
               >
                 <FormTextInput
                   @blur="handleBlur"
-                  @update:modelValue="handleChange"
+                  @update:modelValue="
+                    (val: string) => {
+                      handleChange(val);
+                      updateLocalValueAt(index, 'label', val);
+                    }
+                  "
                   :id="id"
                   :hasError="!!errorMessage.value"
                   :modelValue="value.value as string"
@@ -56,7 +61,12 @@
               >
                 <FormTextInput
                   @blur="handleBlur"
-                  @update:modelValue="handleChange"
+                  @update:modelValue="
+                    (val: string) => {
+                      handleChange(val);
+                      updateLocalValueAt(index, 'link', val);
+                    }
+                  "
                   :id="id"
                   :hasError="!!errorMessage.value"
                   :modelValue="value.value as string"
@@ -164,5 +174,18 @@ function addNewLink() {
   socialLinks.value?.push(newLink);
   emit("addLink", newLink);
   emit("updateList", socialLinks.value);
+}
+
+// Keep local list in sync with input typing so that if parent resets the form
+// (e.g., after a removal or reorder), initial values include in-progress edits.
+function updateLocalValueAt(
+  index: number,
+  field: "label" | "link",
+  newValue: string
+) {
+  const item = socialLinks.value?.[index];
+  if (!item) return;
+  // Mutate reactively; no emission here to avoid triggering parent resets per keystroke.
+  item[field] = newValue;
 }
 </script>

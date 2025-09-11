@@ -16,7 +16,6 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
@@ -55,7 +54,6 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
@@ -364,7 +362,6 @@ class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
 class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(

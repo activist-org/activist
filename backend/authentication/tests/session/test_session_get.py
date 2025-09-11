@@ -3,12 +3,11 @@ import pytest
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
-from events.factories import EventFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_event_flag_create():
+def test_session_get():
     client = APIClient()
 
     test_username = "test_user"
@@ -18,7 +17,6 @@ def test_event_flag_create():
     user.verified = True
     user.save()
 
-    # Login to get token.
     login = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
@@ -28,16 +26,14 @@ def test_event_flag_create():
 
     login_body = login.json()
     token = login_body["access"]
-    event = EventFactory()
+
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(
-        path="/v1/events/event_flag", data={"event": event.id, "created_by": user.id}
-    )
+    response = client.get(path="/v1/auth/sessions")
 
-    assert response.status_code == 201
+    assert response.status_code == 200
 
 
-def test_event_flag_create_error():
+def test_session_get_401():
     client = APIClient()
 
     test_username = "test_user"
@@ -47,12 +43,6 @@ def test_event_flag_create_error():
     user.verified = True
     user.save()
 
-    event = EventFactory()
-
-    response = client.post(
-        path="/v1/events/event_flag", data={"event": event.id, "created_by": user.id}
-    )
-    response_body = response.json()
+    response = client.get(path="/v1/auth/sessions")
 
     assert response.status_code == 401
-    assert response_body["detail"] == "Authentication credentials were not provided."

@@ -3,7 +3,7 @@ export const useUser = () => {
   const { data } = useAuthState();
 
   const userIsSignedIn = !!data.value;
-  const userIsAdmin = data.value?.user?.isAdmin === "true";
+  const userIsAdmin = data.value?.user?.isAdmin;
   const roles: unknown[] = [];
   const signOutUser = () => {
     const { signOut } = useAuth();

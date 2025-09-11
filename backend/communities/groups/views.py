@@ -11,7 +11,6 @@ from uuid import UUID
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     SAFE_METHODS,
@@ -54,7 +53,6 @@ class GroupAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> List[BasePermission]:
@@ -127,7 +125,6 @@ class GroupAPIView(GenericAPIView[Group]):
 class GroupDetailAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -279,7 +276,6 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
 class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(

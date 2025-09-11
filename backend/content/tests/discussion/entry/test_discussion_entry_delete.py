@@ -31,7 +31,7 @@ def test_disc_entry_delete():
 
     assert login_response.status_code == 200
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     discussion_entry = DiscussionEntryFactory(created_by=user)
 
