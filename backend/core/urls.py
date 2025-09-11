@@ -73,7 +73,7 @@ urlpatterns = [
         name="swagger-ui-content",
     ),
     path(
-        "v1/schema/swagger-ui/enticommunitiesties/",
+        "v1/schema/swagger-ui/communities/",
         SpectacularSwaggerView.as_view(url_name="schema-communities"),
         name="swagger-ui-communities",
     ),

@@ -6,7 +6,7 @@ This documentation details standards for writing pytest based backend testing fi
 
 ## **Contents**
 
-- [Standards](#standatds-)
+- [Standards](#standards-)
 
 <a id="standards-"></a>
 

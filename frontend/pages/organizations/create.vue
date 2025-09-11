@@ -117,7 +117,7 @@
             name="topics"
           >
             <CardTopicSelection
-              v-model="value.value as Topic[]"
+              v-model="value.value as TopicEnum[]"
               @input="handleChange"
               @blur="handleBlur"
               :id="id"
@@ -159,7 +159,7 @@ import { Toaster, toast } from "vue-sonner";
 import { z } from "zod";
 
 import type { OrganizationCreateFormData } from "~/types/communities/organization";
-import type { Topic } from "~/types/topics";
+import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
   name: z.string().min(1, "Organization name is required"),

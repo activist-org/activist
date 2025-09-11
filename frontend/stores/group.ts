@@ -8,6 +8,7 @@ import type {
 } from "~/types/communities/group";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 import { EntityType } from "~/types/entity";
@@ -26,7 +27,6 @@ export const useGroupStore = defineStore("group", {
     loading: false,
 
     group: {
-      // group
       id: "",
       images: [],
       groupName: "",
@@ -218,6 +218,126 @@ export const useGroupStore = defineStore("group", {
       }
 
       return false;
+    },
+
+    // MARK: Reorder Resource
+
+    async reorderResource(group: Group, resources: Resource[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseResources = await Promise.all(
+        resources.map((resource) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/group_resources/${resource.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id: resource.id,
+                order: resource.order,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
+      );
+
+      const responseResourcesData = responseResources.map(
+        (item) => item.data.value as unknown as Group
+      );
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Create Resource
+
+    async createResource(group: Group, formData: ResourceInput) {
+      this.loading = true;
+      const responses: boolean[] = [];
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_resources`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...formData,
+            group: group.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseResourcesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update Resource
+
+    async updateResource(group: Group, formData: ResourceInput) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_resources/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            ...formData,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
 
     // MARK: Delete Links

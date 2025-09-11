@@ -41,4 +41,8 @@ urlpatterns = [
         "resource_flag/<uuid:id>",
         view=views.ResourceFlagDetailAPIView.as_view(),
     ),
+    path(
+        "topics",
+        view=views.TopicAPIView.as_view(),
+    ),
 ]

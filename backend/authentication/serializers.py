@@ -5,13 +5,14 @@ Serializers for the authentication app.
 
 import logging
 import re
+from datetime import timedelta
 from typing import Any, Dict, Union
 
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from authentication.models import UserFlag, UserModel
+from authentication.models import SessionModel, UserFlag, UserModel
 
 logger = logging.getLogger(__name__)
 USER = get_user_model()
@@ -126,7 +127,6 @@ class SignInSerializer(serializers.Serializer[UserModel]):
     email = serializers.EmailField(required=False)
     username = serializers.CharField(required=False)
     password = serializers.CharField(write_only=True)
-    session_id = serializers.UUIDField(required=False, allow_null=True)
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         """
@@ -186,8 +186,12 @@ class SignInSerializer(serializers.Serializer[UserModel]):
         data["user"] = authenticated_user
 
         try:
-            token, _ = Token.objects.get_or_create(user=user)
-            data["token"] = token.key
+            refresh_token = RefreshToken.for_user(authenticated_user)
+            access_token = refresh_token.access_token
+            access_token.set_exp(lifetime=timedelta(minutes=5))
+
+            data["access"] = str(access_token)
+            data["refresh"] = str(refresh_token)
             data["user"] = user
             logger.info(
                 "User signed in successfully: %s (ID: %s)", user.username, user.id
@@ -204,15 +208,34 @@ class SignInSerializer(serializers.Serializer[UserModel]):
         return data
 
 
-# class SessionSerializer(serializers.ModelSerializer[SessionModel]):
-#     """
-#     Serializer for the session model.
-#     """
+class UserSerializer(serializers.ModelSerializer[UserModel]):
+    """
+    Serializer for the user model.
+    """
 
-#     class Meta:
-#         model = SessionModel
-#         fields = ("id", "user", "session_key", "created_at")
-#         read_only_fields = ("id", "created_at")
+    class Meta:
+        model = UserModel
+        fields = [
+            "id",
+            "username",
+            "email",
+            "is_admin",
+            "is_active",
+            "is_staff",
+            "is_superuser",
+        ]
+
+
+class SessionSerializer(serializers.ModelSerializer[SessionModel]):
+    """
+    Serializer for the session model.
+    """
+
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = SessionModel
+        fields = "__all__"
 
 
 # MARK: Pass Reset

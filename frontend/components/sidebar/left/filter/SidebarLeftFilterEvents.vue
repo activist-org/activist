@@ -72,7 +72,7 @@
       >
         <FormSelectorCombobox
           @update:selectedOptions="
-            (val: unknown) => handleChange(val as Topic[])
+            (val: unknown) => handleChange(val as TopicEnum[])
           "
           :id="id"
           :options="optionsTopics"
@@ -86,17 +86,17 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { Topic } from "~/types/topics";
+import type { TopicEnum } from "~/types/content/topics";
 
+import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
-import { GLOBAL_TOPICS } from "~/types/topics";
 import { ViewType } from "~/types/view-types";
 
 const { t } = useI18n();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
-  value: topic.value,
+  value: topic.topic,
   id: index,
 }));
 const schema = z.object({

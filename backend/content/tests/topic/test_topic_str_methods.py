@@ -13,4 +13,4 @@ pytestmark = pytest.mark.django_db
 def test_topic_str_methods() -> None:
     topics = TopicFactory.build()
 
-    assert str(topics) == topics.name
+    assert str(topics) == topics.type

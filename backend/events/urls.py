@@ -13,6 +13,7 @@ from events.views import (
     EventFaqViewSet,
     EventFlagAPIView,
     EventFlagDetailAPIView,
+    EventResourceViewSet,
     EventSocialLinkViewSet,
     EventTextViewSet,
 )
@@ -24,6 +25,11 @@ router.register(
     prefix=r"event_faqs",
     viewset=EventFaqViewSet,
     basename="event-faqs",
+)
+router.register(
+    prefix=r"event_resources",
+    viewset=EventResourceViewSet,
+    basename="event-resources",
 )
 router.register(
     prefix=r"event_social_links",

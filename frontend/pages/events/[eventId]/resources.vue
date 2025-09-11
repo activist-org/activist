@@ -12,7 +12,9 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnRouteInternal
+        <BtnAction
+          @click.stop="openModal()"
+          @keydown.enter="openModal()"
           class="w-max"
           :cta="true"
           linkTo="/"
@@ -23,25 +25,51 @@
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
         />
       </div>
+      <ModalResourceEvent />
     </HeaderAppPageEvent>
-    <div v-if="event.resources" class="space-y-3 py-4">
-      <CardSearchResultResource
-        v-for="(r, i) in event.resources"
-        :key="i"
-        :isReduced="true"
-        :resource="r"
-      />
+    <!-- Draggable list -->
+    <div v-if="props.event.resources?.length" class="py-4">
+      <draggable
+        v-model="resourceList"
+        @end="onDragEnd"
+        item-key="id"
+        class="flex flex-col gap-4"
+      >
+        <template #item="{ element }">
+          <CardSearchResultResource :isReduced="true" :resource="element" />
+        </template>
+      </draggable>
     </div>
     <EmptyState v-else pageType="resources" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
+import draggable from "vuedraggable";
+
+import type { Resource } from "~/types/content/resource";
 import type { Event } from "~/types/events/event";
 
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
+const { openModal } = useModalHandlers("ModalResourceEvent");
+const props = defineProps<{
   event: Event;
 }>();
+
+const resourceList = ref<Resource[]>([...(props.event.resources || [])]);
+const eventStore = useEventStore();
+const onDragEnd = () => {
+  resourceList.value.forEach((resource, index) => {
+    resource.order = index;
+  });
+
+  eventStore.reorderResource(props.event, resourceList.value);
+};
+watch(
+  () => eventStore.event.resources,
+  (newResources) => {
+    resourceList.value = [...(newResources || [])];
+  }
+);
 </script>

@@ -13,6 +13,7 @@ import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image as TestImage
+from rest_framework.exceptions import ValidationError
 from rest_framework.test import APIClient
 
 from communities.organizations.factories import OrganizationFactory
@@ -102,6 +103,19 @@ def test_image_serializer_missing_file() -> None:
     serializer = ImageSerializer(data={})
     assert not serializer.is_valid()
     assert "file_object" in serializer.errors
+
+
+@pytest.mark.django_db
+def test_image_serializer_missing_file_object() -> None:
+    """
+    Ensure serializer raises ValidationError when file_object is missing.
+    """
+    request = type(
+        "Request", (), {"data": {"entity_type": "group", "entity_id": "123"}}
+    )()
+    serializer = ImageSerializer(context={"request": request})
+    with pytest.raises(ValidationError, match="No file was submitted."):
+        serializer.validate({})
 
 
 @pytest.mark.django_db
@@ -385,7 +399,7 @@ def test_destroy_non_existent_file_view(client: APIClient) -> None:
     This is expected.
     """
 
-    non_existent_file_uuid = uuid.uuid4()  # Generates a random UUID
+    non_existent_file_uuid = uuid.uuid4()
 
     response = client.delete(f"/v1/content/images/{non_existent_file_uuid}")
     assert response.status_code == 404

@@ -35,7 +35,6 @@
           </div>
         </component>
       </div>
-
       <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
         <div class="-mb-2 flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
@@ -79,7 +78,6 @@
             <slot name="organizations" />
           </div>
         </div>
-
         <component
           v-if="entityName"
           :is="isExternalLink ? 'a' : 'NuxtLink'"
@@ -91,7 +89,6 @@
         >
           @{{ entityName }}
         </component>
-
         <p
           class="justify-center md:justify-start md:px-0 md:py-0"
           :class="{

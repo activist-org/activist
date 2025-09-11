@@ -55,7 +55,7 @@ def test_group_social_link_update(client: Client) -> None:
     # MARK: Update Success
 
     login_response = login.json()
-    token = login_response["token"]
+    token = login_response["access"]
 
     response = client.put(
         path=f"/v1/communities/group_social_links/{social_links.id}",
@@ -120,7 +120,7 @@ def test_group_social_link_not_creator_or_admin():
     # MARK: Access Failure
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
