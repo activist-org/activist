@@ -14,7 +14,6 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_sche
 from icalendar import Calendar  # type: ignore
 from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     AllowAny,
@@ -55,7 +54,6 @@ class EventAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all().order_by("id")
     serializer_class = EventSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> Sequence[Any]:
@@ -216,7 +214,8 @@ class EventDetailAPIView(APIView):
 
         event.delete()
         return Response(
-            {"message": "Event deleted successfully."}, status=status.HTTP_200_OK
+            {"message": "Event deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -272,7 +271,6 @@ class EventFlagAPIView(GenericAPIView[EventFlag]):
 class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
     queryset = EventFlag.objects.all()
     serializer_class = EventFlagSerializers
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -363,7 +361,7 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         except EventFaq.DoesNotExist as e:
             logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.event.created_by and not request.user.is_staff:
@@ -416,7 +414,7 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
         except EventResource.DoesNotExist as e:
             logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.event.created_by and not request.user.is_staff:
@@ -461,7 +459,7 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:

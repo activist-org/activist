@@ -377,7 +377,7 @@ def test_delete_user() -> None:
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     # User deletes themselves.
     logger.info("Testing user self-deletion")

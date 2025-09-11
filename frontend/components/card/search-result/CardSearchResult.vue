@@ -24,10 +24,11 @@
               :src="imageUrl"
               :alt="
                 $t(
-                  'i18n.components.card_search_result.organization_img_alt_text'
-                ) +
-                ' ' +
-                organization.name
+                  'i18n.components.card_search_result.organization_img_alt_text',
+                  {
+                    entity_name: organization.name,
+                  }
+                )
               "
             />
             <img
@@ -39,9 +40,9 @@
               }"
               :src="imageUrl"
               :alt="
-                $t('i18n.components.card_search_result.group_img_alt_text') +
-                ' ' +
-                group.name
+                $t('i18n.components.card_search_result.group_img_alt_text', {
+                  entity_name: group.name,
+                })
               "
             />
             <div
