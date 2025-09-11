@@ -308,7 +308,8 @@ class OrganizationDetailAPIView(APIView):
         logger.info(f"Organization deleted (soft): {org.id}")
 
         return Response(
-            {"message": "Organization deleted successfully."}, status.HTTP_200_OK
+            {"message": "Organization deleted successfully."},
+            status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -501,7 +502,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:
