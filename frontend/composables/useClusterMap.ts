@@ -126,11 +126,11 @@ export const useClusterMap = () => {
     // Add this at the top of your updateMarkers function.
     const currentZoom = map.getZoom();
 
-    for (let i = 0; i < features.length; i++) {
-      const { geometry } = features[i];
+    for (const feature of features) {
+      const { geometry } = feature;
       if (geometry.type === "Point") {
         const coords = geometry.coordinates as [number, number];
-        const props = features[i].properties;
+        const props = feature.properties;
         if (props.cluster) {
           // Cluster handling with zoom-based declustering.
           const id = props.cluster_id;
