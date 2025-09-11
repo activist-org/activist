@@ -34,9 +34,9 @@ export const useClusterMap = () => {
     const offsets = [];
     const counts = props.map((item) => item.value as number);
     let total: number = 0;
-    for (let i = 0; i < counts.length; i++) {
+    for (const count of counts) {
       offsets.push(total);
-      total += counts[i];
+      total += count;
     }
     const r = 20;
     const r0 = Math.round(r * 0.6);
