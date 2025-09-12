@@ -67,13 +67,11 @@ if (!isAddMode) {
   );
 }
 async function handleSubmit(values: unknown) {
-  console.log("handleSubmit values", values);
   const newValues = {
     ...formData.value,
     ...(values as Resource),
     order: formData.value?.order || event.resources.length,
   };
-  console.log("newValues", newValues);
   if (isAddMode)
     await eventStore.createResource(event, newValues as ResourceInput);
   else await eventStore.updateResource(event, newValues as ResourceInput);

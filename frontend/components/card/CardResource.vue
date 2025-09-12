@@ -3,9 +3,13 @@
   <div
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
   >
-  <div class="flex items-center">
-    <Icon :name="IconMap.GRIP" :class="dragIconSizeClass" class="cursor-grab" />
-    <div class="flex flex-col md:flex-row">
+    <div class="flex items-center">
+      <Icon
+        :name="IconMap.GRIP"
+        :class="dragIconSizeClass"
+        class="cursor-grab"
+      />
+      <div class="flex flex-col md:flex-row">
         <NuxtLink
           :to="localePath(linkUrl)"
           :aria-label="$t(ariaLabel)"
@@ -20,78 +24,84 @@
           </div>
         </NuxtLink>
       </div>
-  </div>
-      <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
-        <div class="-mb-2 flex flex-col justify-between md:flex-row">
-          <div class="flex items-center justify-center space-x-2 md:space-x-4">
-            <NuxtLink
-              :to="localePath(linkUrl)"
-              :aria-label="$t(ariaLabel)"
-              target="_blank"
-            >
-              <h3 class="font-bold">
-                {{ resource.name }}
-              </h3>
-            </NuxtLink>
-            <MenuSearchResult
-              class="max-md:absolute max-md:right-0 max-md:top-0"
-              :resource="resource"
-            />
-          </div>
-          <div
-            v-if="aboveMediumBP"
-            class="flex items-center space-x-3 lg:space-x-5"
+    </div>
+    <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
+      <div class="-mb-2 flex flex-col justify-between md:flex-row">
+        <div class="flex items-center justify-center space-x-2 md:space-x-4">
+          <NuxtLink
+            :to="localePath(linkUrl)"
+            :aria-label="$t(ariaLabel)"
+            target="_blank"
           >
-            <slot name="desktop-meta-tags" />
-          </div>
+            <h3 class="font-bold">
+              {{ resource.name }}
+            </h3>
+          </NuxtLink>
+          <MenuSearchResult
+            class="max-md:absolute max-md:right-0 max-md:top-0"
+            :resource="resource"
+          />
         </div>
-        <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
-          <div
-            v-if="!aboveMediumBP"
-            class="flex items-center justify-center space-x-4"
-          >
-            <slot name="mobile-meta-tags" />
-          </div>
-          <div
-            v-if="!isReduced"
-            class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
-          >
-            <MetaTagOrganization
-              v-if="!isReduced && resource.org"
-              class="pt-2"
-              :organization="resource.org"
-            />
-          </div>
-        </div>
-        <p
-          class="justify-center md:justify-start md:px-0 md:py-0"
-          :class="{
-            'line-clamp-3': isReduced,
-            'line-clamp-4 lg:line-clamp-5': !isReduced,
-          }"
+        <div
+          v-if="aboveMediumBP"
+          class="flex items-center space-x-3 lg:space-x-5"
         >
-          {{ description }}
-        </p>
+          <slot name="desktop-meta-tags" />
+        </div>
       </div>
-    <IconEdit
-      @click.stop="openModalEdit()"
-      @keydown.enter="openModalEdit()"
-    />
+      <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
+        <div
+          v-if="!aboveMediumBP"
+          class="flex items-center justify-center space-x-4"
+        >
+          <slot name="mobile-meta-tags" />
+        </div>
+        <div
+          v-if="!isReduced"
+          class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
+        >
+          <MetaTagOrganization
+            v-if="!isReduced && resource.org"
+            class="pt-2"
+            :organization="resource.org"
+          />
+        </div>
+      </div>
+      <p
+        class="justify-center md:justify-start md:px-0 md:py-0"
+        :class="{
+          'line-clamp-3': isReduced,
+          'line-clamp-4 lg:line-clamp-5': !isReduced,
+        }"
+      >
+        {{ description }}
+      </p>
+    </div>
+    <IconEdit @click.stop="openModalEdit()" @keydown.enter="openModalEdit()" />
   </div>
-  <ModalResourceGroup v-if="EntityType.GROUP === entityType" :resource="resource" />
-  <ModalResourceEvent v-if="EntityType.EVENT === entityType" :resource="resource" />
-  <ModalResourceOrganization v-if="EntityType.ORGANIZATION === entityType" :resource="resource" />
+  <ModalResourceGroup
+    v-if="EntityType.GROUP === entityType"
+    :resource="resource"
+  />
+  <ModalResourceEvent
+    v-if="EntityType.EVENT === entityType"
+    :resource="resource"
+  />
+  <ModalResourceOrganization
+    v-if="EntityType.ORGANIZATION === entityType"
+    :resource="resource"
+  />
 </template>
 
 <script setup lang="ts">
 import type { Resource } from "~/types/content/resource";
-import { EntityType } from "~/types/entity";
 
+import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 const i18n = useI18n();
 const props = defineProps<{
   resource: Resource;
-  entityType:EntityType;
+  entityType: EntityType;
   isReduced?: boolean;
 }>();
 const description = computed(() => {
@@ -118,8 +128,7 @@ const dragIconSizeClass = computed(() => ({
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 const openModalEdit = () => {
-  const name = `ModalResource${props.entityType.charAt(0).toUpperCase()+props.entityType.slice(1)}${props.resource.id}`;
+  const name = `ModalResource${props.entityType.charAt(0).toUpperCase() + props.entityType.slice(1)}${props.resource.id}`;
   useModalHandlers(name).openModal();
 };
 </script>
-

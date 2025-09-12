@@ -89,7 +89,7 @@ interface Props {
   hasColOptions?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   hasColOptions: true,
 });
 const query = ref("");

@@ -55,9 +55,12 @@ const ariaLabel = computed(() => {
 });
 
 const imageAlt = computed(() => {
-  return i18n.t("i18n.components.card_search_result_entity_user.user_img_alt_text", {
-    entity_name: props.user.name,
-  });
+  return i18n.t(
+    "i18n.components.card_search_result_entity_user.user_img_alt_text",
+    {
+      entity_name: props.user.name,
+    }
+  );
 });
 
 const defaultIconName = computed(() => {

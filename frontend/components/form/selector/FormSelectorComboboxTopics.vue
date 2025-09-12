@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { GLOBAL_TOPICS, TopicEnum, type Topic } from "~/types/content/topics";
+import type { TopicEnum, GLOBAL_TOPICS, type Topic } from "~/types/content/topics";
 
 const { t } = useI18n();
 const topicsStore = useTopics();
@@ -32,7 +32,7 @@ interface Props {
   label: string;
   hasColOptions?: boolean;
 }
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   hasColOptions: true,
 });
 

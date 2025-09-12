@@ -87,9 +87,12 @@ const ariaLabel = computed(() => {
 });
 
 const imageAlt = computed(() => {
-  return i18n.t("i18n.components.card_search_result_entity_event.event_img_alt_text", {
-    entity_name: props.event.name,
-  });
+  return i18n.t(
+    "i18n.components.card_search_result_entity_event.event_img_alt_text",
+    {
+      entity_name: props.event.name,
+    }
+  );
 });
 
 const entityName = computed(() => {
