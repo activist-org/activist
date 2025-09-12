@@ -89,13 +89,13 @@ interface Props {
   hasColOptions?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,
 });
 const query = ref("");
 const onClick = (option: Option) => {
   internalSelectedOptions.value = internalSelectedOptions.value.filter(
-    (o) => o.id !== option.id
+    (o:Option) => o.id !== option.id
   );
 };
 
@@ -104,7 +104,7 @@ const emit = defineEmits<{
 }>();
 const filteredOptions = computed(() =>
   query.value !== ""
-    ? props.options.filter((option) =>
+    ? props.options.filter((option:Option) =>
         option.label.toLowerCase().includes(query.value.toLowerCase())
       )
     : props.options
@@ -113,7 +113,7 @@ const filteredOptions = computed(() =>
 const internalSelectedOptions = computed({
   get() {
     // Always compute from prop
-    return props.options.filter((option) =>
+    return props.options.filter((option:Option) =>
       (props.selectedOptions as unknown[]).includes(option.value)
     );
   },

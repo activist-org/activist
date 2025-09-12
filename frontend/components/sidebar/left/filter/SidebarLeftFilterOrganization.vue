@@ -27,7 +27,9 @@
       name="topics"
     >
       <FormSelectorComboboxTopics
-        @update:selectedOptions="(val: unknown) => handleChange(val as TopicEnum[])"
+        @update:selectedOptions="
+          (val: unknown) => handleChange(val as TopicEnum[])
+        "
         :id="id"
         :label="$t('i18n.components._global.topics')"
         :selected-topics="value.value as TopicEnum[]"
@@ -42,11 +44,7 @@ import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
   location: z.string().optional(),
-  topics: z
-    .array(
-      z.string()
-    )
-    .optional(),
+  topics: z.array(z.string()).optional(),
 });
 
 const handleSubmit = (_values: unknown) => {
