@@ -38,7 +38,7 @@
       <MetaTagVideo
         v-else-if="onlineLocation"
         :link="onlineLocation"
-        label="i18n.components.card._global.view_video"
+        label="i18n.components.card_search_result_entity_event.view_video"
       />
       <MetaTagDate v-if="event.id != ''" :date="date" />
     </template>
@@ -47,7 +47,7 @@
       <MetaTagVideo
         v-if="onlineLocation"
         :link="onlineLocation"
-        label="i18n.components.card._global.view_video"
+        label="i18n.components.card_search_result_entity_event.view_video"
       />
       <MetaTagDate v-if="event.id != ''" :date="date" />
     </template>
@@ -82,12 +82,12 @@ const description = computed(() => {
 
 const ariaLabel = computed(() => {
   return i18n.t(
-    "i18n.components.card._global.navigate_to_event_aria_label"
+    "i18n.components.card_search_result_entity_event.navigate_to_event_aria_label"
   );
 });
 
 const imageAlt = computed(() => {
-  return i18n.t("i18n.components.card._global.event_img_alt_text", {
+  return i18n.t("i18n.components.card_search_result_entity_event.event_img_alt_text", {
     entity_name: props.event.name,
   });
 });

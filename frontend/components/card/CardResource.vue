@@ -104,7 +104,7 @@ const linkUrl = computed(() => {
 
 const ariaLabel = computed(() => {
   return i18n.t(
-    "i18n.components.card._global.navigate_to_resource_aria_label"
+    "i18n.components.card_resource.navigate_to_resource_aria_label"
   );
 });
 const imageSizeClass = computed(() => ({

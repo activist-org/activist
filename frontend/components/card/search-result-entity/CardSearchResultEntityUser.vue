@@ -50,12 +50,12 @@ const description = computed(() => {
 
 const ariaLabel = computed(() => {
   return i18n.t(
-    "i18n.components.card._global.navigate_to_user_aria_label"
+    "i18n.components.card_search_result_entity_user.navigate_to_user_aria_label"
   );
 });
 
 const imageAlt = computed(() => {
-  return i18n.t("i18n.components.card._global.user_img_alt_text", {
+  return i18n.t("i18n.components.card_search_result_entity_user.user_img_alt_text", {
     entity_name: props.user.name,
   });
 });
