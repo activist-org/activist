@@ -18,7 +18,6 @@
           {{ $t("i18n.pages.organizations.create.subtext") }}
         </p>
       </div>
-
       <Form
         @submit="submit"
         id="organization-create-form"
@@ -27,7 +26,7 @@
         class-button="mb-4"
         submit-label="i18n.pages.organizations.create.complete_application"
       >
-        <!-- First card: Name and Location -->
+        <!-- MARK: Name and Location -->
         <div class="card-style flex justify-between gap-6 px-5 py-6">
           <div class="w-1/2">
             <FormItem
@@ -50,7 +49,6 @@
               />
             </FormItem>
           </div>
-
           <div class="w-1/2">
             <FormItem
               v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -71,8 +69,7 @@
             </FormItem>
           </div>
         </div>
-
-        <!-- Description card -->
+        <!-- MARK: Description -->
         <div class="card-style mt-5 px-5 py-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, errorMessage }"
@@ -91,8 +88,7 @@
             />
           </FormItem>
         </div>
-
-        <!-- Tagline card -->
+        <!-- MARK: Tagline -->
         <div class="card-style mt-5 px-5 py-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -109,8 +105,7 @@
             />
           </FormItem>
         </div>
-
-        <!-- Topics -->
+        <!-- MARK: Topics -->
         <div class="card-style mt-5 px-5 pb-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, value }"
@@ -126,13 +121,11 @@
             />
           </FormItem>
         </div>
-
-        <!-- Connect organization -->
+        <!-- MARK: Connect -->
         <div class="mt-5">
           <CardConnectOrganization />
         </div>
-
-        <!-- Terms checkbox -->
+        <!-- MARK: Terms -->
         <div class="mt-5 flex flex-col">
           <div class="flex space-x-2">
             <FormCheckbox />
