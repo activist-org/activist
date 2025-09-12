@@ -413,7 +413,7 @@ export const useClusterMap = () => {
       const markers: { [key: string]: maplibregl.Marker } = {};
       let markersOnScreen: { [key: string]: maplibregl.Marker } = {};
 
-      map.on("zoomed", () => {
+      map.on("zoomend", () => {
         const currentZoom = map.getZoom();
 
         if (currentZoom < DECLUSTER_ZOOM) {
