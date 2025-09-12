@@ -95,7 +95,7 @@ const props = withDefaults(defineProps<Props>(), {
 const query = ref("");
 const onClick = (option: Option) => {
   internalSelectedOptions.value = internalSelectedOptions.value.filter(
-    (o:Option) => o.id !== option.id
+    (o: Option) => o.id !== option.id
   );
 };
 
@@ -104,7 +104,7 @@ const emit = defineEmits<{
 }>();
 const filteredOptions = computed(() =>
   query.value !== ""
-    ? props.options.filter((option:Option) =>
+    ? props.options.filter((option: Option) =>
         option.label.toLowerCase().includes(query.value.toLowerCase())
       )
     : props.options
@@ -113,7 +113,7 @@ const filteredOptions = computed(() =>
 const internalSelectedOptions = computed({
   get() {
     // Always compute from prop
-    return props.options.filter((option:Option) =>
+    return props.options.filter((option: Option) =>
       (props.selectedOptions as unknown[]).includes(option.value)
     );
   },
