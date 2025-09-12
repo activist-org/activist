@@ -56,7 +56,7 @@ def test_event_faq_update(client: Client) -> None:
     # MARK: Update Success
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     response = client.put(
         path=f"/v1/events/event_faqs/{test_id}",

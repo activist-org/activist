@@ -54,7 +54,7 @@ def test_event_social_link_update(client: Client) -> None:
     # MARK: Update Success
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     response = client.put(
         path=f"/v1/events/event_social_links/{social_links.id}",
@@ -119,7 +119,7 @@ def test_event_social_link_not_creator_or_admin():
     # MARK: Access Failure
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(

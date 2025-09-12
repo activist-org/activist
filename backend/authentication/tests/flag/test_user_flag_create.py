@@ -37,7 +37,7 @@ def test_user_flag_create():
     logger.debug(f"Login successful, status: {login.status_code}")
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     logger.debug("Creating user flag")

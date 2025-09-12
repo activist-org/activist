@@ -27,20 +27,40 @@ export default defineNuxtConfig({
         signIn: { path: "v1/auth/sign_in", method: "post" },
         signOut: { path: "v1/auth/sign_out", method: "post" },
         signUp: { path: "/auth/register", method: "post" },
-        getSession: { path: "v1/auth/get_session", method: "get" },
+        getSession: { path: "v1/auth/sessions", method: "get" },
+      },
+      refresh: {
+        isEnabled: true,
+        endpoint: { path: "v1/auth/token/refresh", method: "post" },
+        refreshOnlyToken: true,
+        token: {
+          signInResponseRefreshTokenPointer: "/refresh",
+          refreshRequestTokenPointer: "/refresh",
+          cookieName: "auth.refresh",
+          maxAgeInSeconds: 1800,
+          secureCookieAttribute: false,
+          httpOnlyCookieAttribute: false,
+        },
       },
       session: {
         dataType: {
           id: "string | number",
+          access: "string",
+          refresh: "string",
           user: {
             id: "string | number",
             username: "string",
-            isAdmin: "string",
+            isAdmin: "boolean",
+            isActive: "boolean",
+            isStaff: "boolean",
+            isSuperuser: "boolean",
+            email: "string",
           },
         },
       },
       token: {
-        signInResponseTokenPointer: "/token",
+        signInResponseTokenPointer: "/access",
+        signInResponseRefreshTokenPointer: "/refresh",
         type: "Token",
         headerName: "Authorization",
         maxAgeInSeconds: 1800,
@@ -172,9 +192,8 @@ export default defineNuxtConfig({
          *
          * Chromium and Firefox still allow http requests to localhost even with this header.
          */
-        "upgrade-insecure-requests": !(
-          import.meta.env.VITE_FRONTEND_URL === "http://localhost:3000"
-        ),
+        "upgrade-insecure-requests":
+          import.meta.env.VITE_FRONTEND_URL !== "http://localhost:3000",
       },
     },
     rateLimiter: {

@@ -143,14 +143,13 @@
               />
             </div>
           </div>
-          <!-- TOOD: add events to CardTopicSelection -->
+          <!-- TODO: Add events to CardTopicSelection. -->
           <CardTopicSelection
             v-model="formData.topics"
             class="mt-5"
             pageType="event"
           />
           <div class="py-3"></div>
-          <!-- for spacing -->
           <div
             class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
           >
@@ -158,8 +157,7 @@
               <h3 for="roles" class="block font-medium">
                 {{ $t("i18n.pages.events.create.roles") }}*
               </h3>
-              <!-- TODO: replace this input with something that lets you make
-                roles and such -->
+              <!-- TODO: replace this input with something that lets you make roles. -->
               <input
                 v-model="formData.roles"
                 id="roles"
@@ -354,23 +352,21 @@ const eventTypeOptions = [
 
 const page = ref(0);
 
-// TODO: count the number of pages dynamically
-// or at least correct the hard coded value when needed
+// TODO: Count the number of pages dynamically.
 const pageCount = computed(() => 3);
 
 const hasNextPage = computed(() => page.value < pageCount.value - 1);
 const hasPreviousPage = computed(() => page.value > 0);
 
 function nextPage() {
-  // TODO: check validation before moving
+  // TODO: check validation before moving.
   if (hasNextPage.value) {
     page.value++;
   }
 }
 
 function previousPage() {
-  // TODO: check validation before moving
-  // may not be necessary for previous page move though
+  // TODO: Check validation before moving.
   if (hasPreviousPage.value) {
     page.value--;
   }
@@ -409,7 +405,5 @@ const submit = async () => {
       }),
     }
   );
-
-  // window.location.href = "/events";
 };
 </script>

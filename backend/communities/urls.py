@@ -13,6 +13,7 @@ from communities.groups.views import (
     GroupFlagAPIView,
     GroupFlagDetailAPIView,
     GroupImageViewSet,
+    GroupResourceViewSet,
     GroupSocialLinkViewSet,
     GroupTextViewSet,
 )
@@ -23,6 +24,7 @@ from communities.organizations.views import (
     OrganizationFlagAPIView,
     OrganizationFlagDetailAPIView,
     OrganizationImageViewSet,
+    OrganizationResourceViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
 )
@@ -36,20 +38,41 @@ router.register(
     prefix=r"statuses",
     viewset=StatusViewSet,
 )
+
+# MARK: Group
+
+router.register(
+    prefix=r"group/(?P<group_id>[^/.]+)/images",
+    viewset=GroupImageViewSet,
+    basename="group-images",
+)
 router.register(
     prefix=r"group_faqs",
     viewset=GroupFaqViewSet,
     basename="group-faqs",
 )
 router.register(
+    prefix=r"group_resources",
+    viewset=GroupResourceViewSet,
+    basename="group-resources",
+)
+router.register(
     prefix=r"group_social_links",
     viewset=GroupSocialLinkViewSet,
     basename="group-social-links",
 )
+
+# MARK: Organization
+
 router.register(
     prefix=r"organization_faqs",
     viewset=OrganizationFaqViewSet,
     basename="organization-faqs",
+)
+router.register(
+    prefix=r"organization_resources",
+    viewset=OrganizationResourceViewSet,
+    basename="organization-resources",
 )
 router.register(
     prefix=r"organization_social_links",
@@ -57,15 +80,12 @@ router.register(
     basename="organization-social-links",
 )
 router.register(
-    prefix=r"group/(?P<group_id>[^/.]+)/images",
-    viewset=GroupImageViewSet,
-    basename="group-images",
-)
-router.register(
     prefix=r"organization/(?P<org_id>[^/.]+)/images",
     viewset=OrganizationImageViewSet,
     basename="organization-images",
 )
+
+# MARK: URL Patterns
 
 urlpatterns = [
     path("", include(router.urls)),
