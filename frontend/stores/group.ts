@@ -481,9 +481,10 @@ export const useGroupStore = defineStore("group", {
           const data = response.data.value as ContentImage[];
           this.group.images = data;
         }
-      } catch (error) {
-        void error;
-      }
+      }catch (error) {
+  console.error("An error occurred:", error);
+  // Additional error handling logic can be added here
+}
     },
 
     // MARK: Create Links
