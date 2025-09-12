@@ -26,12 +26,13 @@ const props = defineProps<{
   events: Event[];
 }>();
 
+const { t } = useI18n();
+
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
 
 const { events } = props;
-const i18n = useI18n();
 const { getEventColorByType } = useColor();
 
 const buildExpandedTooltipPointer = (pointer: unknown) => {
@@ -95,7 +96,7 @@ const buildExpandedTooltipCluster = (pointer: unknown) => {
     tooltipClass += "-[#2176AE]";
   }
 
-  const eventsInThisArea = i18n.t(
+  const eventsInThisArea = t(
     "i18n.components.media_map_events.events_in_this_area"
   );
   let clusterTooltipHTML = `
@@ -104,7 +105,7 @@ const buildExpandedTooltipCluster = (pointer: unknown) => {
           <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">${eventsInThisArea}:</h3>
     `;
 
-  const learnEvents = i18n.t("i18n.components.media_map_events.learn_events");
+  const learnEvents = t("i18n.components.media_map_events.learn_events");
   if (opts.learn > 0) {
     clusterTooltipHTML += `
         <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
@@ -113,7 +114,7 @@ const buildExpandedTooltipCluster = (pointer: unknown) => {
       `;
   }
 
-  const actionEvents = i18n.t("i18n.components.media_map_events.action_events");
+  const actionEvents = t("i18n.components.media_map_events.action_events");
   if (opts.action > 0) {
     clusterTooltipHTML += `
         <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">

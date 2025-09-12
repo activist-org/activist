@@ -41,7 +41,7 @@ const { createMapForPointerTypeMap } = usePointerMap();
 
 // Returns a <div> containing the whole card so we can pass it to popup.setDOMContent().
 
-const i18n = useI18n();
+const { t } = useI18n();
 const colorMode = useColorMode();
 const { setMapLayers, setMap } = useRouting();
 
@@ -84,7 +84,7 @@ const mapLayers: LayerSpecification[] = [
 // MARK: Map Creation
 onMounted(() => {
   if (!isWebglSupported()) {
-    alert(i18n.t("i18n.components.media_map.maplibre_gl_alert"));
+    alert(t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
     const map = createMap(mapLayers);
     addDefaultControls(map);

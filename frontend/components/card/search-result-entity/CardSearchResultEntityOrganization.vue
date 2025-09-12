@@ -41,7 +41,7 @@ const props = defineProps<{
   isReduced?: boolean;
 }>();
 
-const i18n = useI18n();
+const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
 
 const description = computed(() => {
@@ -49,18 +49,14 @@ const description = computed(() => {
 });
 
 const ariaLabel = computed(() => {
-  return i18n.t("i18n.components._global.navigate_to_organization_aria_label");
+  return t("i18n.components._global.navigate_to_organization_aria_label");
 });
 
 const imageAlt = computed(() => {
-  return i18n.t(
+  return t(
     "i18n.components.card_search_result_entity_organization.organization_img_alt_text",
     { entity_name: props.organization.name }
   );
-});
-
-const defaultIconName = computed(() => {
-  return IconMap.ORGANIZATION;
 });
 
 const imageUrl = computed(() => {
@@ -68,6 +64,10 @@ const imageUrl = computed(() => {
     return props.organization.iconUrl.fileObject;
   }
   return "";
+});
+
+const defaultIconName = computed(() => {
+  return IconMap.ORGANIZATION;
 });
 
 const location = computed(() => {

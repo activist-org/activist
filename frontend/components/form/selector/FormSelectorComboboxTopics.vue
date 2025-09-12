@@ -14,6 +14,7 @@
 import type { Topic, TopicEnum } from "~/types/content/topics";
 
 import { GLOBAL_TOPICS } from "~/types/content/topics";
+
 const { t } = useI18n();
 const topicsStore = useTopics();
 await topicsStore.fetchAll();

@@ -98,12 +98,17 @@ import type { Resource } from "~/types/content/resource";
 
 import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
-const i18n = useI18n();
+
 const props = defineProps<{
   resource: Resource;
   entityType: EntityType;
   isReduced?: boolean;
 }>();
+
+const { t } = useI18n();
+const aboveMediumBP = useBreakpoint("md");
+const localePath = useLocalePath();
+
 const description = computed(() => {
   return props.resource.description || "";
 });
@@ -113,10 +118,9 @@ const linkUrl = computed(() => {
 });
 
 const ariaLabel = computed(() => {
-  return i18n.t(
-    "i18n.components.card_resource.navigate_to_resource_aria_label"
-  );
+  return t("i18n.components.card_resource.navigate_to_resource_aria_label");
 });
+
 const imageSizeClass = computed(() => ({
   "h-[150px] w-[150px]": props.isReduced,
   "h-[200px] w-[200px]": !props.isReduced,
@@ -125,8 +129,7 @@ const dragIconSizeClass = computed(() => ({
   "h-[75px] w-[75px]": props.isReduced,
   "h-[100px] w-[100px]": !props.isReduced,
 }));
-const aboveMediumBP = useBreakpoint("md");
-const localePath = useLocalePath();
+
 const openModalEdit = () => {
   const name = `ModalResource${props.entityType.charAt(0).toUpperCase() + props.entityType.slice(1)}${props.resource.id}`;
   useModalHandlers(name).openModal();

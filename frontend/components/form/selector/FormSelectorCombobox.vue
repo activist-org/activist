@@ -112,14 +112,14 @@ const filteredOptions = computed(() =>
 
 const internalSelectedOptions = computed({
   get() {
-    // Always compute from prop
+    // Always compute from prop.
     return props.options.filter((option: Option) =>
       (props.selectedOptions as unknown[]).includes(option.value)
     );
   },
   set(newOptions) {
     const values = (newOptions as Option[]).map((option) => option.value);
-    // Only emit if value actually changed
+    // Only emit if value actually changed.
     if (JSON.stringify(values) !== JSON.stringify(props.selectedOptions)) {
       emit("update:selectedOptions", values);
     }
