@@ -3,7 +3,7 @@
   <div
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
   >
-    <div class="flex items-center">
+    <div class="flex items-center space-x-2">
       <Icon
         :name="IconMap.GRIP"
         :class="dragIconSizeClass"
@@ -15,7 +15,7 @@
           :aria-label="$t(ariaLabel)"
           target="_blank"
         >
-          <div class="h-min w-max rounded-md border border-section-div">
+          <div class="h-min w-max rounded-md border border-section-div p-2">
             <Icon
               :name="IconMap.RESOURCE"
               :class="imageSizeClass"
@@ -122,12 +122,12 @@ const ariaLabel = computed(() => {
 });
 
 const imageSizeClass = computed(() => ({
-  "h-[150px] w-[150px]": props.isReduced,
-  "h-[200px] w-[200px]": !props.isReduced,
+  "h-[125px] w-[125px]": props.isReduced,
+  "h-[150px] w-[150px]": !props.isReduced,
 }));
 const dragIconSizeClass = computed(() => ({
-  "h-[75px] w-[75px]": props.isReduced,
-  "h-[100px] w-[100px]": !props.isReduced,
+  "h-[25px] w-[25px]": props.isReduced,
+  "h-[50px] w-[50px]": !props.isReduced,
 }));
 
 const openModalEdit = () => {
