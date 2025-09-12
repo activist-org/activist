@@ -23,7 +23,7 @@ def test_auth_email_verification_get_valid_code():
 
     response = client.get("/v1/auth/sign_up", {"verification_code": verification_code})
 
-    assert response.status_code == 201
+    assert response.status_code == 200
     assert response.data["message"] == "Email is confirmed. You can now log in."
 
     user.refresh_from_db()
@@ -97,7 +97,7 @@ def test_auth_email_verification_get_already_confirmed():
 
     response = client.get("/v1/auth/sign_up", {"verification_code": verification_code})
 
-    assert response.status_code == 201
+    assert response.status_code == 200
     assert response.data["message"] == "Email is confirmed. You can now log in."
 
     user.refresh_from_db()
