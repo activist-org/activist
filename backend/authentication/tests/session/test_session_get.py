@@ -7,14 +7,11 @@ from authentication.factories import UserFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_list():
-    """
-    Test to list all organization flags.
-    """
+def test_session_get():
     client = APIClient()
 
-    test_username = "username"
-    test_password = "password"
+    test_username = "test_user"
+    test_password = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_password)
     user.is_confirmed = True
     user.verified = True
@@ -29,7 +26,23 @@ def test_org_flag_list():
 
     login_body = login.json()
     token = login_body["access"]
+
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path="/v1/communities/organization_flags")
+    response = client.get(path="/v1/auth/sessions")
 
     assert response.status_code == 200
+
+
+def test_session_get_401():
+    client = APIClient()
+
+    test_username = "test_user"
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.save()
+
+    response = client.get(path="/v1/auth/sessions")
+
+    assert response.status_code == 401

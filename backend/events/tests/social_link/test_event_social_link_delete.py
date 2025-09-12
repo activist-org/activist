@@ -32,7 +32,7 @@ def test_social_link_delete():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
@@ -62,7 +62,7 @@ def test_social_link_delete_404():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(

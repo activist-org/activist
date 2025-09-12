@@ -16,7 +16,6 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
@@ -55,7 +54,6 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
@@ -83,7 +81,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
                 examples=[
                     OpenApiExample(
                         name="Failed to create organization",
-                        value={"error": "Failed to create organization"},
+                        value={"detail": "Failed to create organization"},
                         media_type="application/json",
                     )
                 ],
@@ -310,7 +308,8 @@ class OrganizationDetailAPIView(APIView):
         logger.info(f"Organization deleted (soft): {org.id}")
 
         return Response(
-            {"message": "Organization deleted successfully."}, status.HTTP_200_OK
+            {"message": "Organization deleted successfully."},
+            status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -364,7 +363,6 @@ class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
 class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -458,7 +456,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         except OrganizationFaq.DoesNotExist as e:
             logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.org.created_by and not request.user.is_staff:
@@ -504,7 +502,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:
@@ -656,7 +654,7 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
         except OrganizationResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != resource.org.created_by and not request.user.is_staff:

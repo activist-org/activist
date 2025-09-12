@@ -11,7 +11,6 @@ from uuid import UUID
 from django.db.utils import IntegrityError, OperationalError
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     SAFE_METHODS,
@@ -54,7 +53,6 @@ class GroupAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> List[BasePermission]:
@@ -127,7 +125,6 @@ class GroupAPIView(GenericAPIView[Group]):
 class GroupDetailAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -224,7 +221,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         group.delete()
 
         return Response(
-            {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
+            {"message": "Group deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -279,7 +277,6 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
 class GroupFlagDetailAPIView(GenericAPIView[GroupFlag]):
     queryset = GroupFlag.objects.all()
     serializer_class = GroupFlagSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -371,7 +368,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         except GroupFaq.DoesNotExist as e:
             logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.group.created_by and not request.user.is_staff:
@@ -416,7 +413,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:
@@ -514,7 +511,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
         except GroupResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != resource.group.created_by and not request.user.is_staff:
