@@ -21,7 +21,6 @@ from drf_spectacular.utils import (
 from icalendar import Calendar  # type: ignore
 from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     AllowAny,
@@ -38,12 +37,14 @@ from communities.organizations.models import (
     OrganizationFaq,
     OrganizationFlag,
     OrganizationImage,
+    OrganizationResource,
     OrganizationSocialLink,
     OrganizationText,
 )
 from communities.organizations.serializers import (
     OrganizationFaqSerializer,
     OrganizationFlagSerializer,
+    OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
@@ -62,7 +63,6 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
@@ -90,7 +90,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
                 examples=[
                     OpenApiExample(
                         name="Failed to create organization",
-                        value={"error": "Failed to create organization"},
+                        value={"detail": "Failed to create organization"},
                         media_type="application/json",
                     )
                 ],
@@ -317,7 +317,8 @@ class OrganizationDetailAPIView(APIView):
         logger.info(f"Organization deleted (soft): {org.id}")
 
         return Response(
-            {"message": "Organization deleted successfully."}, status.HTTP_200_OK
+            {"message": "Organization deleted successfully."},
+            status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -371,7 +372,6 @@ class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
 class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
     queryset = OrganizationFlag.objects.all()
     serializer_class = OrganizationFlagSerializer
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -465,7 +465,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         except OrganizationFaq.DoesNotExist as e:
             logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.org.created_by and not request.user.is_staff:
@@ -511,7 +511,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:
@@ -623,6 +623,62 @@ class OrganizationTextViewSet(GenericAPIView[OrganizationText]):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# MARK: Resource
+
+
+class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
+    queryset = OrganizationResource.objects.all()
+    serializer_class = OrganizationResourceSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create resource for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer.save(created_by=request.user)
+        logger.info(
+            f"Resource created for organization {org.id} by user {request.user.id}"
+        )
+
+        return Response(
+            {"message": "Resource created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            resource = OrganizationResource.objects.get(id=pk)
+
+        except OrganizationResource.DoesNotExist as e:
+            logger.exception(f"Resource with id {pk} does not exist for update: {e}")
+            return Response(
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != resource.org.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this resource."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(resource, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "Resource updated successfully."}, status=status.HTTP_200_OK
+        )
 
 
 # MARK: Image

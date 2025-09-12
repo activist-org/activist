@@ -34,9 +34,9 @@ def test_group_flag_retrieve():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path=f"/v1/communities/group_flag/{flag.id}")
+    response = client.get(path=f"/v1/communities/group_flags/{flag.id}")
 
     assert response.status_code == 200
 
@@ -61,9 +61,9 @@ def test_group_flag_retrieve_error():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path=f"/v1/communities/group_flag/{flag}")
+    response = client.get(path=f"/v1/communities/group_flags/{flag}")
     response_body = response.json()
 
     assert response.status_code == 404

@@ -15,7 +15,6 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema
 from icalendar import Calendar  # type: ignore
 from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
     AllowAny,
@@ -29,11 +28,19 @@ from rest_framework.views import APIView
 from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
-from events.models import Event, EventFaq, EventFlag, EventSocialLink, EventText
+from events.models import (
+    Event,
+    EventFaq,
+    EventFlag,
+    EventResource,
+    EventSocialLink,
+    EventText,
+)
 from events.serializers import (
     EventFaqSerializer,
     EventFlagSerializers,
     EventPOSTSerializer,
+    EventResourceSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
     EventTextSerializer,
@@ -48,7 +55,6 @@ class EventAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all().order_by("id")
     serializer_class = EventSerializer
     pagination_class = CustomPagination
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> Sequence[Any]:
@@ -209,7 +215,8 @@ class EventDetailAPIView(APIView):
 
         event.delete()
         return Response(
-            {"message": "Event deleted successfully."}, status=status.HTTP_200_OK
+            {"message": "Event deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -265,7 +272,6 @@ class EventFlagAPIView(GenericAPIView[EventFlag]):
 class EventFlagDetailAPIView(GenericAPIView[EventFlag]):
     queryset = EventFlag.objects.all()
     serializer_class = EventFlagSerializers
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminStaffCreatorOrReadOnly]
 
     @extend_schema(
@@ -356,7 +362,60 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
         except EventFaq.DoesNotExist as e:
             logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.event.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
+# MARK: Resource
+
+
+class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
+    queryset = EventResource.objects.all()
+    serializer_class = EventResourceSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        event: Event = serializer.validated_data["event"]
+
+        if request.user != event.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to create FAQs for this event."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save(created_by=request.user)
+        logger.info(f"Resource created for event {event.id} by user {request.user.id}")
+
+        return Response(
+            {"message": "Resource created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = EventResource.objects.get(id=pk)
+
+        except EventResource.DoesNotExist as e:
+            logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
+            return Response(
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.event.created_by and not request.user.is_staff:
@@ -401,7 +460,7 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:

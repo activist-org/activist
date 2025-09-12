@@ -53,7 +53,7 @@ def test_org_delete(client: Client) -> None:
     assert login_response.status_code == 200
 
     login_response_json = login_response.json()
-    token = login_response_json["token"]
+    token = login_response_json["access"]
 
     bad_org_id = uuid4()
     org.created_by = user

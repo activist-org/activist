@@ -189,6 +189,63 @@ def test_event_faq_serializer() -> None:
     assert data["order"] == 1
 
 
+@pytest.mark.django_db
+def test_validate_event_with_event_instance():
+    """
+    Should return the same event when an Event instance is passed.
+    """
+    event = EventFactory()
+    serializer = EventFaqSerializer()
+    result = serializer.validate_event(event)
+    assert result == event
+
+
+@pytest.mark.django_db
+def test_validate_event_with_valid_uuid():
+    """
+    Should fetch and return the event when a valid UUID is given.
+    """
+    event = EventFactory()
+    serializer = EventFaqSerializer()
+    result = serializer.validate_event(event.id)
+    assert result == event
+
+
+@pytest.mark.django_db
+def test_validate_event_with_valid_uuid_string():
+    """
+    Should fetch and return the event when a valid UUID string is given.
+    """
+    event = EventFactory()
+    serializer = EventFaqSerializer()
+    result = serializer.validate_event(str(event.id))
+    assert result == event
+
+
+@pytest.mark.django_db
+def test_validate_event_with_nonexistent_uuid():
+    """
+    Should raise ValidationError when a valid UUID format but non-existent event is provided.
+    """
+    serializer = EventFaqSerializer()
+    non_existent_uuid = uuid4()
+
+    with pytest.raises(serializers.ValidationError, match="Event not found."):
+        serializer.validate_event(non_existent_uuid)
+
+
+@pytest.mark.django_db
+def test_validate_event_with_nonexistent_uuid_string():
+    """
+    Should raise ValidationError when a valid UUID string format but non-existent event is provided.
+    """
+    serializer = EventFaqSerializer()
+    non_existent_uuid = uuid4()
+
+    with pytest.raises(serializers.ValidationError, match="Event not found."):
+        serializer.validate_event(str(non_existent_uuid))
+
+
 # MARK: Views - List
 
 
@@ -278,7 +335,7 @@ def test_organization_faq_create_view() -> None:
     # MARK: Update Success
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
@@ -336,7 +393,7 @@ def test_group_faq_create_view() -> None:
     # MARK: Update Success
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
@@ -393,7 +450,7 @@ def test_event_faq_create_view() -> None:
     # MARK: Update Success
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 

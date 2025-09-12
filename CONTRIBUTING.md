@@ -310,7 +310,7 @@ pip install --upgrade pip  # make sure that pip is at the latest version
 pip install -r backend/requirements-dev.txt  # install dependencies
 ```
 
-Now you can apply database migrations and start the local server.
+Now you can apply the database migrations and fixtures, populate it with sample data, and start the local development server.
 
 ```bash
 # In the root activist directory:
@@ -318,6 +318,16 @@ cd backend
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
+python manage.py loaddata fixtures/superuser.json 
+python manage.py loaddata fixtures/status_types.json 
+python manage.py loaddata fixtures/topics.json 
+python manage.py populate_db \
+--users 10 \
+--orgs-per-user 1 \
+--groups-per-org 1 \
+--events-per-org 1 \
+--resources-per-entity 2 \
+--faq-entries-per-entity 3 
 ```
 
 You can then visit <http://localhost:8000/admin> to see the development backend admin UI as well as <http://localhost:8000/v1/schema/swagger-ui/> for the Swagger UI once the server is up and running.

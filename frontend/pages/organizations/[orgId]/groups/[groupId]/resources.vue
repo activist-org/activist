@@ -13,36 +13,65 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <!-- <BtnAction
+        <BtnAction
+          @click.stop="openModal()"
+          @keydown.enter="openModal()"
           class="w-max"
           :cta="true"
-          :label="i18n._global.support"
+          linkTo="/"
+          label="i18n._global.new_resource"
           fontSize="sm"
-          leftIcon="IconSupport"
-          iconSize="1.45em"
-          :counter="group.supportingUsers"
-          ariaLabel="i18n.pages.organizations.groups._global.support_group_aria_label"
-        /> -->
+          :leftIcon="IconMap.PLUS"
+          iconSize="1.35em"
+          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
+        />
+        <ModalResourceGroup />
       </div>
     </HeaderAppPageGroup>
-    <div v-if="group.resources" class="space-y-3 py-4">
-      <CardSearchResultResource
-        v-for="(r, i) in group.resources"
-        :key="i"
-        :isReduced="true"
-        :resource="r"
-      />
+    <!-- Draggable list -->
+    <div v-if="props.group.resources?.length" class="py-4">
+      <draggable
+        v-model="resourceList"
+        @end="onDragEnd"
+        item-key="id"
+        class="flex flex-col gap-4"
+      >
+        <template #item="{ element }">
+          <CardSearchResultResource :isReduced="true" :resource="element" />
+        </template>
+      </draggable>
     </div>
     <EmptyState v-else pageType="resources" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
+import draggable from "vuedraggable";
 
-defineProps<{
+import type { Group } from "~/types/communities/group";
+import type { Resource } from "~/types/content/resource";
+
+import { IconMap } from "~/types/icon-map";
+
+const { openModal } = useModalHandlers("ModalResourceGroup");
+
+const props = defineProps<{
   group: Group;
 }>();
-
+const resourceList = ref<Resource[]>([...(props.group.resources || [])]);
 const groupTabs = getGroupTabs();
+const groupStore = useGroupStore();
+const onDragEnd = () => {
+  resourceList.value.forEach((resource, index) => {
+    resource.order = index;
+  });
+
+  groupStore.reorderResource(props.group, resourceList.value);
+};
+watch(
+  () => groupStore.group.resources,
+  (newResources) => {
+    resourceList.value = [...(newResources || [])];
+  }
+);
 </script>
