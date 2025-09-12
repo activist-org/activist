@@ -53,7 +53,7 @@ const ariaLabel = computed(() => {
 });
 
 const imageAlt = computed(() => {
-  return i18n.t("i18n.components.card_search_result_group.group_img_alt_text", {
+  return i18n.t("i18n.components.card._global.group_img_alt_text", {
     entity_name: props.group.name,
   });
 });
