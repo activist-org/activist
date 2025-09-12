@@ -126,23 +126,24 @@ const formData = ref({
 });
 
 const submit = async () => {
+  // Note: created_by not included as the backend infers the user from the token.
   const payload: Record<string, unknown> = {
     name: formData.value.name,
     location: formData.value.location,
     url: formData.value.link,
     description: formData.value.description,
-    social_accounts: ["https://twitter.com/activist_hq"],
+    social_accounts: [],
     topics: formData.value.topics,
     high_risk: false,
     total_flags: 0,
   };
-  // Security: do not send created_by; backend should infer from authenticated request
+
   await useFetch(`${BASE_BACKEND_URL}/v1/content/resources`, {
     method: "POST",
     body: JSON.stringify(payload),
   });
 
-  //TODO: FEATURE - push notification with toast should be added here
+  //TODO: Push notification with toast should be added here.
 
   window.location.href = "/resources";
 };

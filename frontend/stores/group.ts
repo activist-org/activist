@@ -73,6 +73,8 @@ export const useGroupStore = defineStore("group", {
 
     async create(formData: GroupCreateFormData) {
       this.loading = true;
+
+      // Note: created_by not included as the backend infers the user from the token.
       const payload: Record<string, unknown> = {
         name: formData.name,
         location: formData.location,
@@ -84,7 +86,6 @@ export const useGroupStore = defineStore("group", {
         total_flags: 0,
         acceptance_date: new Date(),
       };
-      // Security: do not send created_by; backend should infer from authenticated request
 
       const responseGroup = await useFetch(
         `${BASE_BACKEND_URL}/communities/groups`,
@@ -271,6 +272,7 @@ export const useGroupStore = defineStore("group", {
     async createResource(group: Group, formData: ResourceInput) {
       this.loading = true;
       const responses: boolean[] = [];
+
       const responseFaqEntries = await useFetch(
         `${BASE_BACKEND_URL}/communities/group_resources`,
         {

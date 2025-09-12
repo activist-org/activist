@@ -74,6 +74,8 @@ export const useEventStore = defineStore("event", {
 
     async create(formData: EventCreateFormData) {
       this.loading = true;
+
+      // Note: created_by not included as the backend infers the user from the token.
       const payload: Record<string, unknown> = {
         name: formData.name,
         location: formData.location,
@@ -85,7 +87,6 @@ export const useEventStore = defineStore("event", {
         total_flags: 0,
         acceptance_date: new Date(),
       };
-      // Security: do not send created_by; backend should infer from authenticated request
 
       const responseEvent = await useFetch(
         `${BASE_BACKEND_URL}/events/events`,
@@ -473,6 +474,7 @@ export const useEventStore = defineStore("event", {
     async createResource(event: Event, formData: ResourceInput) {
       this.loading = true;
       const responses: boolean[] = [];
+
       const responseFaqEntries = await useFetch(
         `${BASE_BACKEND_URL}/events/event_resources`,
         {
