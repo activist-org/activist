@@ -61,10 +61,10 @@
       >
         <FormSelectorComboboxTopics
           @update:selectedOptions="
-            (val: unknown) => handleChange(val as Topic[])
+            (val: unknown) => handleChange(val as TopicEnum[])
           "
           :id="id"
-          :selected-topics="value.value as Topic[]"
+          :selected-topics="value.value as TopicEnum[]"
           :label="$t('i18n.components._global.topics')"
           :hasColOptions="false"
         />
@@ -77,7 +77,7 @@
 import { z } from "zod";
 
 import type { Resource } from "~/types/content/resource";
-import type { Topic } from "~/types/content/topics";
+import {  TopicEnum } from "~/types/content/topics";
 
 defineProps<{
   formData?: Resource;
@@ -99,11 +99,9 @@ const schema = z.object({
     .url(t("i18n.components.form_resource.url_must_be_valid")),
   topics: z
     .array(
-      z.object({
-        id: z.string(),
-        type: z.string(),
-      })
-    )
+      z.string().refine((val) => Object.values(TopicEnum).includes(val as TopicEnum), {
+        message: t("i18n.components.form_resource.invalid_topic"),
+      }))
     .optional(),
 });
 </script>

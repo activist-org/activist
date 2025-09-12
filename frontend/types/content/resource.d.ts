@@ -14,7 +14,7 @@ export interface Resource {
   org?: Organization;
   location?: Location;
   url: string;
-  topics?: Topic[];
+  topics?: TopicEnum[];
   category?: string;
   // isPrivate?: boolean;
   creationDate?: string;

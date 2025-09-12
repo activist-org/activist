@@ -37,7 +37,7 @@
         class="flex flex-col gap-4"
       >
         <template #item="{ element }">
-          <CardSearchResultResource :isReduced="true" :resource="element" />
+          <CardResource :isReduced="true" :resource="element" :entityType="EntityType.GROUP" />
         </template>
       </draggable>
     </div>
@@ -50,6 +50,7 @@ import draggable from "vuedraggable";
 
 import type { Group } from "~/types/communities/group";
 import type { Resource } from "~/types/content/resource";
+import { EntityType } from "~/types/entity";
 
 import { IconMap } from "~/types/icon-map";
 

@@ -395,7 +395,7 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
 
         if request.user != event.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to create FAQs for this event."},
+                {"detail": "You are not authorized to create Resources for this event."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -412,14 +412,14 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
             faq = EventResource.objects.get(id=pk)
 
         except EventResource.DoesNotExist as e:
-            logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
+            logger.exception(f"Resource with id {pk} does not exist for update: {e}")
             return Response(
-                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.event.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to update this FAQ."},
+                {"detail": "You are not authorized to update this Resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -428,7 +428,7 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
         serializer.save()
 
         return Response(
-            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            {"message": "Resource updated successfully."}, status=status.HTTP_200_OK
         )
 
 

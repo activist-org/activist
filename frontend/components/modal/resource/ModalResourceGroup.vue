@@ -45,6 +45,7 @@ if (!isAddMode) {
       formData.value.name = props.resource.name;
       formData.value.description = props.resource.description;
       formData.value.url = props.resource.url;
+      formData.value.topics = props.resource.topics || [];
     }
   });
 
@@ -57,6 +58,7 @@ if (!isAddMode) {
         formData.value.id = newValues.resource.id;
         formData.value.description = newValues.resource.description;
         formData.value.url = newValues.resource.url;
+        formData.value.topics = newValues.resource.topics || [];
       }
     },
     {
@@ -68,7 +70,6 @@ async function handleSubmit(values: unknown) {
   const newValues = {
     ...formData.value,
     ...(values as Resource),
-    topics: formData.value?.topics?.map((t) => t.type) || [],
     order: formData.value?.order || group.resources.length,
   };
   if (isAddMode)
