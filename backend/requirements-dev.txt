@@ -84,7 +84,7 @@ filelock==3.19.1
     # via virtualenv
 gunicorn==23.0.0
     # via -r requirements.txt
-i18n-check==1.10.1
+i18n-check==1.11.0
     # via -r requirements-dev.in
 icalendar==6.3.1
     # via
