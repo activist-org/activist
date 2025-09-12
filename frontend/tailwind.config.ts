@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Config } from "tailwindcss";
 
-export default <Partial<Config>>{
+const config: Partial<Config> = {
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
@@ -29,9 +29,11 @@ export default <Partial<Config>>{
         "layer-2": "rgba(var(--layer-2))",
         "section-div": "rgba(var(--section-div))",
         "primary-text": "rgba(var(--primary-text), 0.85)",
-        "primary-text-over-layer-2": "rgba(var(--primary-text-over-layer-2))",
+        "primary-text-over-layer-2":
+          "rgba(var(--primary-text-over-layer-2))",
         "distinct-text": "rgba(var(--distinct-text), 0.90)",
-        "distinct-text-over-layer-2": "rgba(var(--distinct-text-over-layer-2))",
+        "distinct-text-over-layer-2":
+          "rgba(var(--distinct-text-over-layer-2))",
         "link-text": "rgba(var(--link-text), 0.9)",
         "link-text-hover": "rgba(var(--link-text-hover), 0.9)",
         "menu-selection": "rgba(var(--menu-selection))",
@@ -46,9 +48,12 @@ export default <Partial<Config>>{
         "warn-yellow": "rgba(var(--warn-yellow))",
         "password-strength-very-weak":
           "rgba(var(--password-strength-very-weak))",
-        "password-strength-weak": "rgba(var(--password-strength-weak))",
-        "password-strength-medium": "rgba(var(--password-strength-medium))",
-        "password-strength-strong": "rgba(var(--password-strength-strong))",
+        "password-strength-weak":
+          "rgba(var(--password-strength-weak))",
+        "password-strength-medium":
+          "rgba(var(--password-strength-medium))",
+        "password-strength-strong":
+          "rgba(var(--password-strength-strong))",
       },
       transitionProperty: {
         width: "width",
@@ -57,3 +62,5 @@ export default <Partial<Config>>{
     },
   },
 };
+
+export default config;
