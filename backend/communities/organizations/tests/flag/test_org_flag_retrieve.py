@@ -32,10 +32,10 @@ def test_org_flag_retrieve():
     )
     assert login.status_code == 200
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path=f"/v1/communities/organization_flag/{flag.id}")
+    response = client.get(path=f"/v1/communities/organization_flags/{flag.id}")
 
     assert response.status_code == 200
 
@@ -63,9 +63,9 @@ def test_org_flag_retrieve_does_not_exist():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.get(path=f"/v1/communities/organization_flag/{flag}")
+    response = client.get(path=f"/v1/communities/organization_flags/{flag}")
     response_body = response.json()
 
     assert response.status_code == 404

@@ -27,7 +27,7 @@ const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
 const useMenuEntriesState = () => {
   const router = useRouter();
   const currentPath = ref(router.currentRoute.value.fullPath);
-  let removeGuard = () => {};
+  let removeGuard: (() => void) | null = null;
 
   const organizationEntries = ref([
     createMenuEntry("i18n._global.about", "organizations", `${IconMap.ABOUT}`),
@@ -120,7 +120,7 @@ const useMenuEntriesState = () => {
   });
 
   onUnmounted(() => {
-    removeGuard();
+    removeGuard?.();
   });
 
   return {

@@ -8,6 +8,7 @@ import type {
 } from "~/types/communities/group";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 import { EntityType } from "~/types/entity";
@@ -26,7 +27,6 @@ export const useGroupStore = defineStore("group", {
     loading: false,
 
     group: {
-      // group
       id: "",
       images: [],
       groupName: "",
@@ -74,24 +74,27 @@ export const useGroupStore = defineStore("group", {
     async create(formData: GroupCreateFormData) {
       this.loading = true;
 
+      // Note: created_by not included as the backend infers the user from the token.
+      const payload: Record<string, unknown> = {
+        name: formData.name,
+        location: formData.location,
+        tagline: formData.tagline,
+        social_accounts: formData.social_accounts,
+        description: formData.description,
+        topics: formData.topics,
+        high_risk: false,
+        total_flags: 0,
+        acceptance_date: new Date(),
+      };
+
       const responseGroup = await useFetch(
         `${BASE_BACKEND_URL}/communities/groups`,
         {
           method: "POST",
-          body: JSON.stringify({
-            name: formData.name,
-            location: formData.location,
-            tagline: formData.tagline,
-            social_accounts: formData.social_accounts,
-            created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-            description: formData.description,
-            topics: formData.topics,
-            high_risk: false,
-            total_flags: 0,
-            acceptance_date: new Date(),
-          }),
+          body: JSON.stringify(payload),
           headers: {
             Authorization: `${token.value}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -218,6 +221,127 @@ export const useGroupStore = defineStore("group", {
       }
 
       return false;
+    },
+
+    // MARK: Reorder Resource
+
+    async reorderResource(group: Group, resources: Resource[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseResources = await Promise.all(
+        resources.map((resource) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/group_resources/${resource.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id: resource.id,
+                order: resource.order,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
+      );
+
+      const responseResourcesData = responseResources.map(
+        (item) => item.data.value as unknown as Group
+      );
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Create Resource
+
+    async createResource(group: Group, formData: ResourceInput) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_resources`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...formData,
+            group: group.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseResourcesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update Resource
+
+    async updateResource(group: Group, formData: ResourceInput) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_resources/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            ...formData,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(group.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
 
     // MARK: Delete Links

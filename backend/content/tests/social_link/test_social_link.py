@@ -70,6 +70,63 @@ def test_organization_social_link_serializer() -> None:
 
 
 @pytest.mark.django_db
+def test_validate_org_with_org_instance():
+    """
+    Should return the same organization when an Organization instance is passed.
+    """
+    org = OrganizationFactory()
+    serializer = OrganizationSocialLinkSerializer()
+    result = serializer.validate_org(org)
+    assert result == org
+
+
+@pytest.mark.django_db
+def test_validate_org_with_valid_uuid():
+    """
+    Should fetch and return the organization when a valid UUID is given.
+    """
+    org = OrganizationFactory()
+    serializer = OrganizationSocialLinkSerializer()
+    result = serializer.validate_org(org.id)
+    assert result == org
+
+
+@pytest.mark.django_db
+def test_validate_org_with_valid_uuid_string():
+    """
+    Should fetch and return the organization when a valid UUID string is given.
+    """
+    org = OrganizationFactory()
+    serializer = OrganizationSocialLinkSerializer()
+    result = serializer.validate_org(str(org.id))
+    assert result == org
+
+
+@pytest.mark.django_db
+def test_validate_org_with_nonexistent_uuid():
+    """
+    Should raise ValidationError when a valid UUID format but non-existent organization is provided.
+    """
+    serializer = OrganizationSocialLinkSerializer()
+    non_existent_uuid = uuid4()
+
+    with pytest.raises(serializers.ValidationError, match="Organization not found."):
+        serializer.validate_org(non_existent_uuid)
+
+
+@pytest.mark.django_db
+def test_validate_org_with_nonexistent_uuid_string():
+    """
+    Should raise ValidationError when a valid UUID string format but non-existent organization is provided.
+    """
+    serializer = OrganizationSocialLinkSerializer()
+    non_existent_uuid = uuid4()
+
+    with pytest.raises(serializers.ValidationError, match="Organization not found."):
+        serializer.validate_org(str(non_existent_uuid))
+
+
+@pytest.mark.django_db
 def test_group_social_link_serializer() -> None:
     """
     Test the serializer of a group social link.
@@ -314,7 +371,7 @@ def test_organization_social_link_create_view(client: APIClient) -> None:
         data={"username": test_username, "password": test_password},
     )
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     formData = {"link": "https://example.com", "label": "Example", "order": 1}
 
@@ -356,7 +413,7 @@ def test_group_social_link_create_view(client: APIClient) -> None:
         data={"username": test_username, "password": test_password},
     )
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     formData = {"link": "https://example.com", "label": "Example", "order": 1}
 
@@ -398,7 +455,7 @@ def test_event_social_link_create_view(client: APIClient) -> None:
         data={"username": test_username, "password": test_password},
     )
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     formData = {"link": "https://example.com", "label": "Example", "order": 1}
 

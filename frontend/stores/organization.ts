@@ -9,6 +9,7 @@ import type {
 } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 import type { SocialLinkFormData } from "~/types/content/social-link";
 
 import { EntityType } from "~/types/entity";
@@ -69,24 +70,27 @@ export const useOrganizationStore = defineStore("organization", {
     async create(formData: OrganizationCreateFormData) {
       this.loading = true;
 
+      // Note: created_by not included as the backend infers the user from the token.
+      const payload: Record<string, unknown> = {
+        name: formData.name,
+        location: formData.location,
+        tagline: formData.tagline,
+        social_accounts: formData.social_accounts,
+        description: formData.description,
+        topics: formData.topics,
+        high_risk: false,
+        total_flags: 0,
+        acceptance_date: new Date(),
+      };
+
       const responseOrg = await useFetch(
         `${BASE_BACKEND_URL}/communities/organizations`,
         {
           method: "POST",
-          body: JSON.stringify({
-            name: formData.name,
-            location: formData.location,
-            tagline: formData.tagline,
-            social_accounts: formData.social_accounts,
-            created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-            description: formData.description,
-            topics: formData.topics,
-            high_risk: false,
-            total_flags: 0,
-            acceptance_date: new Date(),
-          }),
+          body: JSON.stringify(payload),
           headers: {
             Authorization: `${token.value}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -139,6 +143,83 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       this.loading = false;
+    },
+
+    // MARK: Create Resource
+
+    async createResource(organization: Organization, formData: ResourceInput) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_resources`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            ...formData,
+            org: organization.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseResourcesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseResourcesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated organization data after successful updates to update the frontend.
+        await this.fetchById(organization.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update Resource
+
+    async updateResource(organization: Organization, formData: ResourceInput) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseFaqEntries = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_resources/${formData.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            ...formData,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseFaqEntriesData = responseFaqEntries.data
+        .value as unknown as Event;
+      if (responseFaqEntriesData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated organization data after successful updates to update the frontend.
+        await this.fetchById(organization.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
     },
 
     // MARK: Update Icon
@@ -611,6 +692,50 @@ export const useOrganizationStore = defineStore("organization", {
         (item) => item.data.value as unknown as Organization
       );
       if (responseFAQsData) {
+        responses.push(true);
+      } else {
+        responses.push(false);
+      }
+
+      if (responses.every((r) => r === true)) {
+        // Fetch updated group data after successful updates to update the frontend.
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Reorder Resource
+
+    async reorderResource(org: Organization, resources: Resource[]) {
+      this.loading = true;
+      const responses: boolean[] = [];
+
+      const responseResources = await Promise.all(
+        resources.map((resource) =>
+          useFetch(
+            `${BASE_BACKEND_URL}/communities/organization_resources/${resource.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify({
+                id: resource.id,
+                order: resource.order,
+              }),
+              headers: {
+                Authorization: `${token.value}`,
+              },
+            }
+          )
+        )
+      );
+
+      const responseResourcesData = responseResources.map(
+        (item) => item.data.value as unknown as Organization
+      );
+      if (responseResourcesData) {
         responses.push(true);
       } else {
         responses.push(false);

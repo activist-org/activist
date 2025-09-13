@@ -31,7 +31,7 @@ def test_resource_retrieve():
     assert login_response.status_code == 200
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     # Passing authorization header.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")

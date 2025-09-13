@@ -88,8 +88,8 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 
+import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
-import { GLOBAL_TOPICS } from "~/types/topics";
 
 const i18n = useI18n();
 
