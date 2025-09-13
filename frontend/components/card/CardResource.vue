@@ -78,19 +78,19 @@
       </p>
     </div>
     <IconEdit @click.stop="openModalEdit()" @keydown.enter="openModalEdit()" />
+    <ModalResourceGroup
+      v-if="EntityType.GROUP === entityType"
+      :resource="resource"
+    />
+    <ModalResourceEvent
+      v-if="EntityType.EVENT === entityType"
+      :resource="resource"
+    />
+    <ModalResourceOrganization
+      v-if="EntityType.ORGANIZATION === entityType"
+      :resource="resource"
+    />
   </div>
-  <ModalResourceGroup
-    v-if="EntityType.GROUP === entityType"
-    :resource="resource"
-  />
-  <ModalResourceEvent
-    v-if="EntityType.EVENT === entityType"
-    :resource="resource"
-  />
-  <ModalResourceOrganization
-    v-if="EntityType.ORGANIZATION === entityType"
-    :resource="resource"
-  />
 </template>
 
 <script setup lang="ts">

@@ -75,7 +75,7 @@
             (val: unknown) => handleChange(val as TopicEnum[])
           "
           :id="id"
-          :selected-options="value.value as TopicEnum[]"
+          :selected-options="(value.value ?? []) as TopicEnum[]"
           :options="optionsTopics"
           :label="$t('i18n.components._global.topics')"
         />

@@ -46,6 +46,7 @@ if (!isAddMode) {
       formData.value.description = props.resource.description;
       formData.value.url = props.resource.url;
       formData.value.topics = props.resource.topics || [];
+      formData.value.order = props.resource.order;
     }
   });
 
@@ -59,6 +60,7 @@ if (!isAddMode) {
         formData.value.description = newValues.resource.description;
         formData.value.url = newValues.resource.url;
         formData.value.topics = newValues.resource.topics || [];
+        formData.value.order = newValues.resource.order;
       }
     },
     {

@@ -112,6 +112,9 @@ const filteredOptions = computed(() =>
 
 const internalSelectedOptions = computed({
   get() {
+    if (props.selectedOptions && props.selectedOptions.length === 0) {
+      return [];
+    }
     // Always compute from prop.
     return props.options.filter((option: Option) =>
       (props.selectedOptions as unknown[]).includes(option.value)

@@ -32,7 +32,7 @@
         "
         :id="id"
         :label="$t('i18n.components._global.topics')"
-        :selected-topics="value.value as TopicEnum[]"
+        :selected-topics="(value.value ?? []) as TopicEnum[]"
       />
     </FormItem>
   </Form>
