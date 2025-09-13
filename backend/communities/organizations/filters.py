@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import django_filters
 from communities.organizations.models import Organization
 from content.models import Topic, Location

@@ -1,5 +1,7 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 import django_filters
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from events.models import Event
 from content.models import Topic
