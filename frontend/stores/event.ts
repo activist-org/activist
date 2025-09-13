@@ -185,12 +185,15 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Fetch All
 
-    async fetchAll(filters:EventFilters={}) {
+    async fetchAll(filters: EventFilters = {}) {
       this.loading = true;
       const query = new URLSearchParams(filters as Record<string, string>);
       const { data, status } = await useAsyncData<EventsResponseBody>(
         async () =>
-          (await fetchWithoutToken(`/events/events?${query.toString()}`, {})) as EventsResponseBody
+          (await fetchWithoutToken(
+            `/events/events?${query.toString()}`,
+            {}
+          )) as EventsResponseBody
       );
 
       if (status.value === "success") {
