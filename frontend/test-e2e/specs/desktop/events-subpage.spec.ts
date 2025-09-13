@@ -28,7 +28,7 @@ test.beforeEach(async ({ page }) => {
   const firstEventLink = page
     .getByLabel(
       getEnglishText(
-        "i18n.components.card_search_result.navigate_to_event_aria_label"
+        "i18n.components.card_search_result_event.navigate_to_event_aria_label"
       )
     )
     .first();
