@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "content",
     "events",
     "rest_framework_simplejwt",
+    "django_filters"
 ]
 
 # MARK: Middleware

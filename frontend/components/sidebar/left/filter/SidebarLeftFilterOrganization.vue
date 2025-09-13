@@ -40,14 +40,22 @@
 <script setup lang="ts">
 import { z } from "zod";
 
+import type { OrganizationFilters } from "~/types/communities/organization";
 import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
   location: z.string().optional(),
   topics: z.array(z.string()).optional(),
 });
-
+const organizationStore = useOrganizationStore();
 const handleSubmit = (_values: unknown) => {
-  // Handle form submission.
+  console.log('aca estoy', _values);
+  let values = {};
+  Object.keys(_values).forEach((key) => {
+    if (_values[key] && _values[key] !== "") {
+      values[key] = _values[key];
+    }
+  });
+  organizationStore.fetchAll(values as OrganizationFilters);
 };
 </script>
