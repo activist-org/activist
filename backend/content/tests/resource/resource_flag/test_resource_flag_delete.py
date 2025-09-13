@@ -30,12 +30,12 @@ def test_resource_flag_delete():
     assert login.status_code == 200
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     flag = ResourceFlagFactory()
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/content/resource_flag/{flag.id}")
+    response = client.delete(path=f"/v1/content/resource_flags/{flag.id}")
 
     assert response.status_code == 204
 
@@ -61,10 +61,10 @@ def test_resource_flag_delete_does_not_exist():
 
     bad_flagged_resource_uuid = uuid4()
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
-        path=f"/v1/content/resource_flag/{bad_flagged_resource_uuid}"
+        path=f"/v1/content/resource_flags/{bad_flagged_resource_uuid}"
     )
     response_body = response.json()
 

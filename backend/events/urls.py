@@ -13,6 +13,7 @@ from events.views import (
     EventFaqViewSet,
     EventFlagAPIView,
     EventFlagDetailAPIView,
+    EventResourceViewSet,
     EventSocialLinkViewSet,
     EventTextViewSet,
 )
@@ -26,6 +27,11 @@ router.register(
     basename="event-faqs",
 )
 router.register(
+    prefix=r"event_resources",
+    viewset=EventResourceViewSet,
+    basename="event-resources",
+)
+router.register(
     prefix=r"event_social_links",
     viewset=EventSocialLinkViewSet,
     basename="event-social-links",
@@ -35,8 +41,8 @@ urlpatterns = [
     path("", include(router.urls)),
     path("events", EventAPIView.as_view()),
     path("events/<uuid:id>", EventDetailAPIView.as_view()),
-    path("event_flag", EventFlagAPIView.as_view()),
-    path("event_flag/<uuid:id>", EventFlagDetailAPIView.as_view()),
+    path("event_flags", EventFlagAPIView.as_view()),
+    path("event_flags/<uuid:id>", EventFlagDetailAPIView.as_view()),
     path("event_calendar", EventCalenderAPIView.as_view()),
     path("event_texts/<uuid:id>", EventTextViewSet.as_view()),
 ]

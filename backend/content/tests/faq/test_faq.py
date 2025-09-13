@@ -335,7 +335,7 @@ def test_organization_faq_create_view() -> None:
     # MARK: Update Success
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
@@ -393,7 +393,7 @@ def test_group_faq_create_view() -> None:
     # MARK: Update Success
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
@@ -450,7 +450,7 @@ def test_event_faq_create_view() -> None:
     # MARK: Update Success
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 

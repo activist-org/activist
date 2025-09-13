@@ -62,7 +62,7 @@ def test_org_faq_update() -> None:
     # MARK: Update Success
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     response = client.put(
         path=f"/v1/communities/organization_faqs/{test_id}",
@@ -98,4 +98,4 @@ def test_org_faq_update() -> None:
     assert response.status_code == 404
 
     response_body = response.json()
-    assert response_body["error"] == "FAQ not found."
+    assert response_body["detail"] == "FAQ not found."

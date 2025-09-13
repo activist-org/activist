@@ -43,7 +43,14 @@
         </li>
       </ComboboxOption>
     </ComboboxOptions>
-    <ul v-if="selectedOptions.length > 0" class="mt-2 flex flex-col space-y-2">
+    <ul
+      v-if="selectedOptions.length > 0"
+      class="mt-2 flex"
+      :class="{
+        'flex-col space-y-2': hasColOptions,
+        'space-x-1': !hasColOptions,
+      }"
+    >
       <li v-for="option in selectedOptions" :key="option.id">
         <Shield
           @click="() => onClick(option)"
@@ -69,16 +76,22 @@ import {
 
 import { IconMap } from "~/types/icon-map";
 interface Option {
-  id: number;
+  id: number | string;
   label: string;
   value: unknown;
 }
+
 interface Props {
   options: Option[];
   id: string;
   label: string;
+  hasColOptions?: boolean;
 }
-const props = defineProps<Props>();
+
+const props = withDefaults(defineProps<Props>(), {
+  hasColOptions: true,
+});
+
 const selectedOptions = ref<Option[]>([]);
 const query = ref("");
 const onClick = (option: Option) => {
