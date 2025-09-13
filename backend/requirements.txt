@@ -118,3 +118,7 @@ urllib3==2.5.0
     # via
     #   requests
     #   types-requests
+django-filter==24.2.0
+    # via
+    #   djangorestframework
+    #   djangorestframework-stubs
