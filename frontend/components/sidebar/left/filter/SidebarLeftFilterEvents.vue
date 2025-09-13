@@ -30,7 +30,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        name="eventType"
+        name="type"
         :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
       >
         <FormSelectorRadio
@@ -42,7 +42,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        name="locationType"
+        name="setting"
         :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
       >
         <FormSelectorRadio
@@ -54,6 +54,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n._global.location')"
         name="location"
       >
         <FormTextInputSearch
@@ -102,6 +103,11 @@ const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
 }));
 const schema = z.object({
   days: z.string().optional(),
+  location: z.string().optional(),
+  topics: z.array(z.string()).optional(),
+  type: z.string().optional(),
+  setting: z.string().optional(),
+  viewType: z.string().optional(),
 });
 const sidebar = useSidebar();
 
@@ -210,13 +216,29 @@ const updateViewType = (
     return;
   }
 };
-
+const eventStore = useEventStore();
 const viewType = ref(ViewType.MAP);
 const q = route.query.view;
 if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
   viewType.value = q as ViewType;
 }
 const handleSubmit = (_values: unknown) => {
-  // Handle form submission.
+  let values = {};
+  Object.keys(_values).forEach((key) => {
+    if (_values[key] && _values[key] !== "") {
+      if (key === "days") {
+        values["active_on"] = new Date(
+          new Date().setDate(new Date().getDate() + +_values[key])
+        ).toISOString();
+      }
+      if (key === "type" || key === "setting") {
+        values[key] = _values[key].toLowerCase();
+        console.log(values);
+      }
+      if (key === "viewType") return;
+      values[key] = _values[key];
+    }
+  });
+  eventStore.fetchAll(values);
 };
 </script>

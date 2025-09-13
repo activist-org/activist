@@ -21,6 +21,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
 
 from communities.models import StatusType
 from communities.organizations.models import (
@@ -45,6 +46,8 @@ from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
+from communities.organizations.filters import OrganizationFilter
+
 logger = logging.getLogger(__name__)
 
 # MARK: API
@@ -55,6 +58,8 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filterset_class = OrganizationFilter
+    filter_backends = [DjangoFilterBackend]
 
     @extend_schema(
         responses={200: OrganizationSerializer(many=True)},

@@ -6,6 +6,7 @@ import type {
   OrganizationResponse,
   OrganizationsResponseBody,
   OrganizationUpdateTextFormData,
+  OrganizationFilters
 } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
@@ -357,13 +358,13 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Fetch All
 
-    async fetchAll() {
+    async fetchAll(filters: OrganizationFilters = {}) {
       this.loading = true;
-
+      const searchParams = new URLSearchParams(filters as Record<string, string>);
       const { data, status } = await useAsyncData<OrganizationsResponseBody>(
         async () =>
           (await fetchWithoutToken(
-            `/communities/organizations`,
+            `/communities/organizations?${searchParams.toString()}`,
             {}
           )) as OrganizationsResponseBody
       );
