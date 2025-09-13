@@ -66,7 +66,7 @@
         />
       </FormItem>
       <FormItem
-        v-slot="{ id, handleChange }"
+        v-slot="{ id, handleChange, value }"
         :label="$t('i18n.components._global.topics')"
         name="topics"
       >
@@ -75,6 +75,7 @@
             (val: unknown) => handleChange(val as TopicEnum[])
           "
           :id="id"
+          :selected-options="(value.value ?? []) as TopicEnum[]"
           :options="optionsTopics"
           :label="$t('i18n.components._global.topics')"
         />

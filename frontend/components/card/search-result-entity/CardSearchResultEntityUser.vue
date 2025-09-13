@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <CardSearchResult
+  <CardSearchResultEntity
     :title="user.name"
     :description="description"
     :linkUrl="linkUrl"
@@ -26,7 +26,7 @@
     <template #mobile-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
     </template>
-  </CardSearchResult>
+  </CardSearchResultEntity>
 </template>
 
 <script setup lang="ts">
@@ -41,7 +41,7 @@ const props = defineProps<{
   isReduced?: boolean;
 }>();
 
-const i18n = useI18n();
+const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
 
 const description = computed(() => {
@@ -49,19 +49,15 @@ const description = computed(() => {
 });
 
 const ariaLabel = computed(() => {
-  return i18n.t(
-    "i18n.components.card_search_result_user.navigate_to_user_aria_label"
+  return t(
+    "i18n.components.card_search_result_entity_user.navigate_to_user_aria_label"
   );
 });
 
 const imageAlt = computed(() => {
-  return i18n.t("i18n.components.card_search_result_user.user_img_alt_text", {
+  return t("i18n.components.card_search_result_entity_user.user_img_alt_text", {
     entity_name: props.user.name,
   });
-});
-
-const defaultIconName = computed(() => {
-  return IconMap.PERSON;
 });
 
 const imageUrl = computed(() => {
@@ -71,12 +67,16 @@ const imageUrl = computed(() => {
   return "";
 });
 
+const defaultIconName = computed(() => {
+  return IconMap.PERSON;
+});
+
 const location = computed(() => {
   return props.user.location || "";
 });
 
 const entityName = computed(() => {
-  // Users don't have entity names like organizations (@org_name)
+  // Users don't have entity names like organizations (@org_name).
   return "";
 });
 </script>

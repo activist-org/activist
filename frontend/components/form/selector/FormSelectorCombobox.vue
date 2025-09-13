@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Combobox v-model="selectedOptions" :id="id" multiple as="div">
+  <Combobox v-model="internalSelectedOptions" :id="id" multiple as="div">
     <ComboboxInput v-slot="{ id: inputId, onBlur }" as="div" class="flex">
       <FormTextInput
         @update:modelValue="(val) => (query = val)"
@@ -44,14 +44,14 @@
       </ComboboxOption>
     </ComboboxOptions>
     <ul
-      v-if="selectedOptions.length > 0"
+      v-if="internalSelectedOptions.length > 0"
       class="mt-2 flex"
       :class="{
         'flex-col space-y-2': hasColOptions,
         'space-x-1': !hasColOptions,
       }"
     >
-      <li v-for="option in selectedOptions" :key="option.id">
+      <li v-for="option in internalSelectedOptions" :key="option.id">
         <Shield
           @click="() => onClick(option)"
           :key="option.id + '-selected-only'"
@@ -83,6 +83,7 @@ interface Option {
 
 interface Props {
   options: Option[];
+  selectedOptions: unknown[];
   id: string;
   label: string;
   hasColOptions?: boolean;
@@ -91,26 +92,40 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,
 });
-
-const selectedOptions = ref<Option[]>([]);
 const query = ref("");
 const onClick = (option: Option) => {
-  selectedOptions.value = selectedOptions.value.filter(
-    (o) => o.id !== option.id
+  internalSelectedOptions.value = internalSelectedOptions.value.filter(
+    (o: Option) => o.id !== option.id
   );
 };
+
 const emit = defineEmits<{
   (e: "update:selectedOptions", value: unknown[]): void;
 }>();
-watch(selectedOptions, (newValue: unknown) => {
-  const values = (newValue as Option[]).map((option) => option.value);
-  emit("update:selectedOptions", values);
-});
 const filteredOptions = computed(() =>
   query.value !== ""
-    ? props.options.filter((option) =>
+    ? props.options.filter((option: Option) =>
         option.label.toLowerCase().includes(query.value.toLowerCase())
       )
     : props.options
 );
+
+const internalSelectedOptions = computed({
+  get() {
+    if (props.selectedOptions && props.selectedOptions.length === 0) {
+      return [];
+    }
+    // Always compute from prop.
+    return props.options.filter((option: Option) =>
+      (props.selectedOptions as unknown[]).includes(option.value)
+    );
+  },
+  set(newOptions) {
+    const values = (newOptions as Option[]).map((option) => option.value);
+    // Only emit if value actually changed.
+    if (JSON.stringify(values) !== JSON.stringify(props.selectedOptions)) {
+      emit("update:selectedOptions", values);
+    }
+  },
+});
 </script>
