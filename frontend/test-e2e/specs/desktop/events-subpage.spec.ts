@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
-import { getEnglishText } from "~/utils/i18n";
-
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
+import { getEnglishText } from "~/utils/i18n";
 
 const MODAL_BUTTON_NAMES = [
   getEnglishText("i18n._global.share_event_aria_label"),
@@ -27,7 +26,11 @@ test.beforeEach(async ({ page }) => {
 
   // Click on the first event to navigate to its about page
   const firstEventLink = page
-    .getByLabel(getEnglishText("i18n.components.card_search_result.navigate_to_event_aria_label"))
+    .getByLabel(
+      getEnglishText(
+        "i18n.components.card_search_result.navigate_to_event_aria_label"
+      )
+    )
     .first();
   await firstEventLink.click();
   await page.waitForURL("**/events/**/about");
@@ -56,14 +59,18 @@ test.describe(
     test("QR code download works correctly", async ({ page }) => {
       await page
         .getByRole("button", {
-          name: getEnglishText("i18n.components.modal_qr_code_btn.open_modal_aria_label"),
+          name: getEnglishText(
+            "i18n.components.modal_qr_code_btn.open_modal_aria_label"
+          ),
         })
         .click();
       const downloadPromise = page.waitForEvent("download");
 
       await page
         .getByRole("button", {
-          name: getEnglishText("i18n.components.modal_qr_code.download_qr_code_aria_label"),
+          name: getEnglishText(
+            "i18n.components.modal_qr_code.download_qr_code_aria_label"
+          ),
         })
         .click();
 
@@ -135,7 +142,7 @@ test.describe(
       await page.waitForLoadState("networkidle");
 
       const shareButton = page.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n._global.share"), "i")
+        name: new RegExp(getEnglishText("i18n._global.share"), "i"),
       });
       await expect(async () => {
         await expect(shareButton).toBeVisible();
@@ -155,7 +162,7 @@ test.describe(
       await page.waitForLoadState("networkidle");
 
       const shareButton = page.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n._global.share"), "i")
+        name: new RegExp(getEnglishText("i18n._global.share"), "i"),
       });
       await shareButton.focus();
       await expect(shareButton).toBeFocused();
@@ -174,7 +181,7 @@ test.describe(
       await page.waitForLoadState("networkidle");
 
       const shareButton = page.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n._global.share"), "i")
+        name: new RegExp(getEnglishText("i18n._global.share"), "i"),
       });
       await expect(shareButton).toHaveAttribute("aria-label");
 
