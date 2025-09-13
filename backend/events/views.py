@@ -10,6 +10,7 @@ from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from icalendar import Calendar  # type: ignore
 from icalendar import Event as ICalEvent
@@ -23,11 +24,11 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django_filters.rest_framework import DjangoFilterBackend
 
 from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
+from events.filters import EventFilters
 from events.models import (
     Event,
     EventFaq,
@@ -45,8 +46,6 @@ from events.serializers import (
     EventSocialLinkSerializer,
     EventTextSerializer,
 )
-
-from events.filters import EventFilters
 
 logger = logging.getLogger("django")
 

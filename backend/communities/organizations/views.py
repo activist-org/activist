@@ -9,6 +9,7 @@ from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -21,9 +22,9 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django_filters.rest_framework import DjangoFilterBackend
 
 from communities.models import StatusType
+from communities.organizations.filters import OrganizationFilter
 from communities.organizations.models import (
     Organization,
     OrganizationFaq,
@@ -45,8 +46,6 @@ from content.models import Image, Location
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
-
-from communities.organizations.filters import OrganizationFilter
 
 logger = logging.getLogger(__name__)
 

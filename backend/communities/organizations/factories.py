@@ -23,8 +23,6 @@ from communities.organizations.models import (
     OrganizationText,
 )
 
-from content.factories import TopicFactory
-
 # MARK: Organization
 
 

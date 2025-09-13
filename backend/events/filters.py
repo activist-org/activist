@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import django_filters
 from datetime import datetime
 
-from events.models import Event
+import django_filters
+
 from content.models import Topic
+from events.models import Event
 
 
 class EventFilters(django_filters.FilterSet):

@@ -22,8 +22,6 @@ from events.models import (
     Role,
 )
 
-from content.factories import TopicFactory
-
 # MARK: Event
 
 
