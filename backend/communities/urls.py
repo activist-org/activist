@@ -9,6 +9,7 @@ from rest_framework.routers import DefaultRouter
 from communities.groups.views import (
     GroupAPIView,
     GroupDetailAPIView,
+    GroupEventsCalenderAPIView,
     GroupFaqViewSet,
     GroupFlagAPIView,
     GroupFlagDetailAPIView,
@@ -20,6 +21,7 @@ from communities.groups.views import (
 from communities.organizations.views import (
     OrganizationAPIView,
     OrganizationDetailAPIView,
+    OrganizationEventsCalenderAPIView,
     OrganizationFaqViewSet,
     OrganizationFlagAPIView,
     OrganizationFlagDetailAPIView,
@@ -94,6 +96,9 @@ urlpatterns = [
     path("group_flags", GroupFlagAPIView.as_view()),
     path("group_flags/<uuid:id>", GroupFlagDetailAPIView.as_view()),
     path("group_texts/<uuid:id>", GroupTextViewSet.as_view()),
+    path(
+        "groups/<uuid:id>/events/event_calendar", GroupEventsCalenderAPIView.as_view()
+    ),
     path("organizations", OrganizationAPIView.as_view()),
     path("organizations/<uuid:id>", OrganizationDetailAPIView.as_view()),
     path("organization_flags", OrganizationFlagAPIView.as_view()),
@@ -102,4 +107,8 @@ urlpatterns = [
         OrganizationFlagDetailAPIView.as_view(),
     ),
     path("organization_texts/<uuid:id>", OrganizationTextViewSet.as_view()),
+    path(
+        "organizations/<uuid:id>/events/event_calendar",
+        OrganizationEventsCalenderAPIView.as_view(),
+    ),
 ]
