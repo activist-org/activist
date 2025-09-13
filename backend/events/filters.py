@@ -32,7 +32,7 @@ class EventFilters(django_filters.FilterSet):
         label="Active on (exact datetime)",
     )
 
-    def filter_active_on_day(queryset, _, day):
+    def filter_active_on(queryset, _, day):
         start = datetime.combine(day, datetime.min.time())
         end = datetime.combine(day, datetime.max.time())
         return queryset.filter(start_time__lte=end, end_time__gte=start)

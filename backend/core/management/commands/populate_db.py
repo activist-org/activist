@@ -142,7 +142,7 @@ class Command(BaseCommand):
                         name=f"{user_topic_name} Organization",
                         tagline=f"Fighting for {user_topic_name.lower()}",
                     )
-
+                    user_org.topics.set([user_topic])
                     org_texts = OrganizationTextFactory(iso="en", primary=True)
                     org_social_links: List[OrganizationSocialLinkFactory] = []
                     org_social_links.extend(
@@ -162,7 +162,7 @@ class Command(BaseCommand):
                             org=user_org, order=r
                         )
                         user_org.resources.add(user_org_resource)
-
+                        user_org_resource.topics.set([user_topic])
                     for e in range(num_events_per_org):
                         event_type = random.choice(["learn", "action"])
                         event_type_verb = (
@@ -178,7 +178,7 @@ class Command(BaseCommand):
                             created_by=user,
                             orgs=user_org,
                         )
-
+                        user_org_event.topics.set([user_topic])
                         event_texts = EventTextFactory(iso="en", primary=True)
                         event_social_links: List[EventSocialLinkFactory] = []
                         event_social_links.extend(
@@ -200,6 +200,7 @@ class Command(BaseCommand):
                                 event=user_org_event, order=r
                             )
                             user_org_event.resources.add(user_org_event_resource)
+                            user_org_event_resource.topics.set([user_topic])
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
@@ -231,6 +232,7 @@ class Command(BaseCommand):
                                 group=user_org_group, order=r
                             )
                             user_org_group.resources.add(user_org_group_resource)
+                            user_org_group_resource.topics.set([user_topic])
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org

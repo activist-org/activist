@@ -63,18 +63,6 @@ class EventFactory(factory.django.DjangoModelFactory):
         ]
     )
     setting = random.choice(["online", "offline"])
-    @factory.post_generation
-    def topics(self, create, extracted, **kwargs):
-        if not create:
-            return
-        if extracted:
-            # Add provided topics
-            for topic in extracted:
-                self.topics.add(topic)
-        else:
-            # Optionally add a default topic
-            self.topics.add(TopicFactory())
-
 # MARK: Role
 
 

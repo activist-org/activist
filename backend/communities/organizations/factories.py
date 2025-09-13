@@ -50,17 +50,6 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     acceptance_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
-    @factory.post_generation
-    def topics(self, create, extracted, **kwargs):
-        if not create:
-            return
-        if extracted:
-            # Add provided topics
-            for topic in extracted:
-                self.topics.add(topic)
-        else:
-            # Optionally add a default topic
-            self.topics.add(TopicFactory())
 # MARK: Application
 
 

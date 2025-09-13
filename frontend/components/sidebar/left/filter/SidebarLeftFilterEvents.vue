@@ -15,6 +15,7 @@
       :schema="schema"
       :send-on-change="true"
       :is-there-submit-button="false"
+      :initial-values="formData"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
@@ -86,6 +87,8 @@
 </template>
 
 <script setup lang="ts">
+import type { LocationQueryRaw } from "vue-router";
+
 import { z } from "zod";
 
 import type { TopicEnum } from "~/types/content/topics";
@@ -93,7 +96,6 @@ import type { TopicEnum } from "~/types/content/topics";
 import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
 import { ViewType } from "~/types/view-types";
-
 const { t } = useI18n();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
@@ -177,8 +179,8 @@ const optionEventTypes = [
 
 const optionLocations = [
   {
-    value: "IN_PERSON",
-    key: "IN_PERSON",
+    value: "OFFLINE",
+    key: "OFFLINE",
     content: t(
       "i18n.components.sidebar_left_filter_events.location_type_in_person"
     ),
@@ -222,23 +224,43 @@ const q = route.query.view;
 if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
   viewType.value = q as ViewType;
 }
+const formData = ref({});
+watch(
+  route.query,
+  (form) => {
+    formData.value = { ...form };
+  },
+  { immediate: true }
+);
 const handleSubmit = (_values: unknown) => {
-  let values = {};
-  Object.keys(_values).forEach((key) => {
-    if (_values[key] && _values[key] !== "") {
-      if (key === "days") {
-        values["active_on"] = new Date(
-          new Date().setDate(new Date().getDate() + +_values[key])
-        ).toISOString();
+  const values: Record<string, unknown> = {};
+  const input = _values as Record<string, unknown>;
+  if (
+    input &&
+    Object.keys(input).some((key) => input[key] && input[key] !== "")
+  ) {
+    Object.keys(input).forEach((key) => {
+      if (input[key] && input[key] !== "") {
+        if (key === "days") {
+          values["active_on"] = new Date(
+            new Date().setDate(new Date().getDate() + +(input[key] as string))
+          ).toISOString();
+          return;
+        }
+        if (key === "type" || key === "setting") {
+          values[key] = (input[key] as string).toLowerCase();
+          return;
+        }
+        if (key === "viewType") return;
+        values[key] = input[key];
       }
-      if (key === "type" || key === "setting") {
-        values[key] = _values[key].toLowerCase();
-        console.log(values);
-      }
-      if (key === "viewType") return;
-      values[key] = _values[key];
-    }
-  });
-  eventStore.fetchAll(values);
+    });
+    router.push({
+      query: {
+        ...(input as LocationQueryRaw),
+      },
+    });
+    eventStore.fetchAll(values);
+  }
 };
 </script>

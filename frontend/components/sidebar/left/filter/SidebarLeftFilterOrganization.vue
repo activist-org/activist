@@ -36,8 +36,10 @@
       />
     </FormItem>
   </Form>
-</template>
-<script setup lang="ts">
+  </template>
+  <script setup lang="ts">
+import type { LocationQueryRaw } from 'vue-router';
+
 import { z } from "zod";
 
 import type { OrganizationFilters } from "~/types/communities/organization";
@@ -47,15 +49,34 @@ const schema = z.object({
   location: z.string().optional(),
   topics: z.array(z.string()).optional(),
 });
+const route = useRoute();
+const router = useRouter();
+const formData = ref({});
+watch(
+  route.query,
+  (form) => {
+    formData.value = { ...form };
+  },
+  { immediate: true }
+);
 const organizationStore = useOrganizationStore();
+
 const handleSubmit = (_values: unknown) => {
-  console.log('aca estoy', _values);
-  let values = {};
-  Object.keys(_values).forEach((key) => {
-    if (_values[key] && _values[key] !== "") {
-      values[key] = _values[key];
-    }
-  });
-  organizationStore.fetchAll(values as OrganizationFilters);
+  const values: LocationQueryRaw = {};
+  const input = _values as Record<string, LocationQueryRaw[string]>;
+  if (
+    input &&
+    Object.keys(input).some((key) => input[key] && input[key] !== "")
+  ) {
+    Object.keys(input).forEach((key) => {
+      if (input[key] && input[key] !== "") {
+        values[key] = input[key];
+      }
+    });
+    router.push({
+      query: values, // Use the normalized values object
+    });
+    organizationStore.fetchAll(values as OrganizationFilters);
+  }
 };
 </script>
