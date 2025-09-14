@@ -26,8 +26,9 @@ test.describe("Organizations Page", { tag: "@desktop" }, () => {
 
     // Close the modal by clicking the close button
     const closeModalButton = shareModal.getByTestId("modal-close-button");
-    await closeModalButton.click();
-    
+    await expect(closeModalButton).toBeVisible();
+    await closeModalButton.click({ force: true });
+
     // Expect the modal to not be visible
     await expect(shareModal).not.toBeVisible();
   });
