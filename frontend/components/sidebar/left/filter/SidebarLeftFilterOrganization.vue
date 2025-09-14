@@ -6,6 +6,7 @@
     :schema="schema"
     :send-on-change="true"
     :is-there-submit-button="false"
+    :initial-values="formData"
   >
     <FormItem
       v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -53,9 +54,9 @@ const route = useRoute();
 const router = useRouter();
 const formData = ref({});
 watch(
-  route.query,
+  route,
   (form) => {
-    formData.value = { ...form };
+    formData.value = { ...form.query };
   },
   { immediate: true }
 );

@@ -226,9 +226,9 @@ if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
 }
 const formData = ref({});
 watch(
-  route.query,
+  route,
   (form) => {
-    formData.value = { ...form };
+    formData.value = { ...form.query };
   },
   { immediate: true }
 );
