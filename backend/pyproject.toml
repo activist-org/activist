@@ -70,6 +70,10 @@ module = ["authentication.*", "content.*", "communities.*", "events.*"]
 # follow_imports = "skip"  # enable django-stubs
 ignore_errors = false
 
+[[tool.mypy.overrides]]
+module = ["django_filters.*"]
+ignore_missing_imports = true
+ignore_errors = true
 
 [tool.django-stubs]
 django_settings_module = "core.settings"
@@ -81,6 +85,7 @@ checks = [
     "EX01",
     "SA01",
 ]
+
 
 exclude = [
     "^.*\\.Meta$",    # Meta classes

@@ -1,14 +1,13 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
-from datetime import datetime
-
 import django_filters
+from datetime import date, datetime
+from django.db.models.query import QuerySet
+from typing import Any, Union
 
-from content.models import Topic
 from events.models import Event
+from content.models import Topic
 
 
-class EventFilters(django_filters.FilterSet):
+class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
     name = django_filters.CharFilter(field_name="name", lookup_expr="icontains")
     topics = django_filters.ModelMultipleChoiceFilter(
         field_name="topics__type",  # Or simply "topics" if you want to filter by ID
@@ -35,11 +34,15 @@ class EventFilters(django_filters.FilterSet):
         label="Active on (exact datetime)",
     )
 
-    def filter_active_on(queryset, _, day) -> django_filters.QuerySet:
+    def filter_active_on_day(
+        self,
+        queryset: QuerySet[Any, Any],
+        name: str,
+        day: Union[date, datetime]
+    ) -> QuerySet[Any, Any]:
         start = datetime.combine(day, datetime.min.time())
         end = datetime.combine(day, datetime.max.time())
         return queryset.filter(start_time__lte=end, end_time__gte=start)
-
     class Meta:
         model = Event
         fields = ["name", "topics", "type", "setting", "active_on", "location"]
