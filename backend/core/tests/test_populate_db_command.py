@@ -8,28 +8,60 @@ import pytest
 from django.core.management import call_command
 
 from authentication.models import UserModel
-from communities.groups.models import Group
-from communities.organizations.models import Organization
-from events.models import Event
+from communities.groups.models import Group, GroupFaq, GroupResource, GroupSocialLink
+from communities.organizations.models import (
+    Organization,
+    OrganizationFaq,
+    OrganizationResource,
+    OrganizationSocialLink,
+)
+from events.models import Event, EventFaq, EventResource, EventSocialLink
 
 
 @pytest.mark.django_db
 def test_populate_db_command_basic():
-    """Test that the populate_db command creates the expected number of entities."""
+    """Test that the populate_db command creates the expected number of entities and content."""
     call_command(
-        "populate_db", users=2, orgs_per_user=1, groups_per_org=1, events_per_org=1
+        "populate_db", users=2, orgs_per_user=1, groups_per_org=1, events_per_org=1, resources_per_entity=1, faq_entries_per_entity=1
     )
     assert UserModel.objects.count() == 2
+    # check number of entities
     assert Organization.objects.count() == 2
     assert Group.objects.count() == 2
     assert Event.objects.count() == 2
-
+    # check number of contents
+    # resources
+    assert OrganizationResource.objects.count() == 6
+    assert EventResource.objects.count() == 6
+    assert GroupResource.objects.count() == 6
+    # FAQ
+    assert OrganizationFaq.objects.count() == 6
+    assert EventFaq.objects.count() == 6
+    assert GroupFaq.objects.count() == 6
+    # social links
+    assert OrganizationSocialLink.objects.count() == 6
+    assert GroupSocialLink.objects.count() == 6
+    assert EventSocialLink.objects.count() == 6
 
 @pytest.mark.django_db
 def test_populate_db_command_zero_users():
     """Test that the populate_db command handles zero users correctly."""
     call_command("populate_db", users=0)
     assert UserModel.objects.count() == 0
+    # check number of entities
     assert Organization.objects.count() == 0
     assert Group.objects.count() == 0
     assert Event.objects.count() == 0
+    # check number of contents
+    # resources
+    assert OrganizationResource.objects.count() == 0
+    assert EventResource.objects.count() == 0
+    assert GroupResource.objects.count() == 0
+    # FAQ
+    assert OrganizationFaq.objects.count() == 0
+    assert EventFaq.objects.count() == 0
+    assert GroupFaq.objects.count() == 0
+    # social links
+    assert OrganizationSocialLink.objects.count() == 0
+    assert GroupSocialLink.objects.count() == 0
+    assert EventSocialLink.objects.count() == 0
