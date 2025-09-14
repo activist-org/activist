@@ -26,6 +26,8 @@
           v-if="imageModal"
           @click="closeModal()"
           id="close-search-modal"
+          data-testid="modal-close-button"
+          role="button"
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text hover:text-primary-text"
           :aria-label="
             $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
@@ -36,7 +38,13 @@
         <div v-else class="relative">
           <button
             @click="closeModal()"
+            id="modal-close-button"
+            data-testid="modal-close-button"
+            role="button"
             class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
+            :aria-label="
+              $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
+            "
           >
             <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
           </button>
