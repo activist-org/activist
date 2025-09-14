@@ -23,5 +23,12 @@ test.describe("Organizations Page", { tag: "@desktop" }, () => {
 
     const shareModal = page.locator("#search-modal").first();
     await expect(shareModal).toBeVisible();
+
+    // Close the modal by clicking the close button
+    const closeModalButton = shareModal.getByTestId("modal-close-button");
+    await closeModalButton.click();
+    
+    // Expect the modal to not be visible
+    await expect(shareModal).not.toBeVisible();
   });
 });
