@@ -15,7 +15,7 @@
       }"
     >
       <DialogPanel
-        id="search-modal"
+        id="modal"
         :class="{
           'flex flex-col items-center': imageModal,
           'card-style-base container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text md:h-auto':
@@ -25,7 +25,7 @@
         <button
           v-if="imageModal"
           @click="closeModal()"
-          id="close-search-modal"
+          id="modal-close-button"
           data-testid="modal-close-button"
           role="button"
           class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text hover:text-primary-text"

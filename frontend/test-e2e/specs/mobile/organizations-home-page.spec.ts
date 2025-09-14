@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
+import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/organizations");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /organizations/i
-  );
+  const organizationsHomePage = newOrganizationsHomePage(page);
+  await expect(organizationsHomePage.heading).toHaveText(/organizations/i);
 });
 
-test.describe("Organizations Page", { tag: "@mobile" }, () => {
+test.describe("Organizations Home Page", { tag: "@mobile" }, () => {
   test("Share button opens in mobile share sheet", async ({ page }) => {
     const shareButton = page
       .getByRole("link", {
@@ -22,7 +23,7 @@ test.describe("Organizations Page", { tag: "@mobile" }, () => {
     await expect(shareButton.locator("div.tooltip")).toBeVisible();
     await shareButton.locator("div.tooltip").locator("button").click();
 
-    const shareModal = page.locator("#search-modal").first();
+    const shareModal = page.locator("#modal").first();
     await expect(shareModal).toBeVisible();
   });
 });
