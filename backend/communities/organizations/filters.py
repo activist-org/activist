@@ -1,6 +1,9 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import django_filters
+
 from communities.organizations.models import Organization
-from content.models import Topic, Location
+from content.models import Topic
+
 
 class OrganizationFilter(django_filters.FilterSet): # type: ignore[misc]
     name = django_filters.CharFilter(field_name="name", lookup_expr="icontains")

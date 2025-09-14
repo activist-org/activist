@@ -1,10 +1,12 @@
-import django_filters
+# SPDX-License-Identifier: AGPL-3.0-or-later
 from datetime import date, datetime
-from django.db.models.query import QuerySet
 from typing import Any, Union
 
-from events.models import Event
+import django_filters
+from django.db.models.query import QuerySet
+
 from content.models import Topic
+from events.models import Event
 
 
 class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
@@ -34,7 +36,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         label="Active on (exact datetime)",
     )
 
-    def filter_active_on_day(
+    def filter_active_on(
         self,
         queryset: QuerySet[Any, Any],
         name: str,
