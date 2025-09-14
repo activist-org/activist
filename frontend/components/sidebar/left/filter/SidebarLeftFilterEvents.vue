@@ -229,6 +229,11 @@ watch(
   route,
   (form) => {
     formData.value = { ...form.query };
+    if (form.query.name && form.query.name !== "")
+      eventStore.fetchAll({
+        name: form.query.name as string,
+        ...formData.value,
+      });
   },
   { immediate: true }
 );
@@ -254,6 +259,8 @@ const handleSubmit = (_values: unknown) => {
         if (key === "viewType") return;
         values[key] = input[key];
       }
+      if (route.query.name && route.query.name !== "")
+        values["name"] = route.query.name;
     });
     router.push({
       query: {

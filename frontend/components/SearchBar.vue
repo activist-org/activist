@@ -13,7 +13,9 @@
       />
       <Transition name="search">
         <div
-          v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+          v-show="
+            sidebar.collapsed == false || sidebar.collapsedSwitch == false
+          "
         >
           <label for="input-search" class="sr-only">{{
             $t("i18n._global.search")
@@ -21,8 +23,9 @@
           <input
             @focus="onFocus"
             @blur="onFocusLost"
-            ref="input"
+            @input="handleChange"
             id="input-search"
+            :value="localValue"
             class="h-5 w-16 bg-transparent outline-none"
             :class="{ 'focus:w-5/6': isInputFocused }"
             type="text"
@@ -33,7 +36,7 @@
     </div>
     <Transition name="shortcuts">
       <div
-        v-if="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
+        v-show="sidebar.collapsed == false || sidebar.collapsedSwitch == false"
         ref="hotkeyIndicators"
         class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
@@ -88,11 +91,13 @@
       $t("i18n._global.search")
     }}</label>
     <input
+      @input="handleChange"
       id="input-search"
       class="bg-transparent focus:outline-none"
       :class="{ hidden: !expanded }"
       type="text"
       :placeholder="$t('i18n._global.search')"
+      :value="localValue"
     />
     <Icon v-if="expanded" class="absolute right-3" :name="IconMap.FILTER" />
   </div>
@@ -107,12 +112,21 @@ import { SearchBarLocation } from "~/types/location";
 export interface Props {
   location: SearchBarLocation;
   expanded?: boolean;
+  modelValue?: string;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   expanded: false,
 });
 
+const localValue = ref(props.modelValue || "");
+watch(
+  props,
+  (newVal) => {
+    localValue.value = newVal.modelValue || "";
+  },
+  { immediate: true }
+);
 const sidebar = useSidebar();
 const { isMacOS } = useDevice();
 
@@ -121,15 +135,16 @@ const activeElement = useActiveElement();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
 const notUsingEditor = computed(
-  () => !activeElement.value?.classList.contains("tiptap")
+  () => !activeElement.value?.classList?.contains("tiptap")
 );
+
 const { slash } = useMagicKeys({
   passive: false,
   onEventFired(e) {
     if (
       e.key === "/" &&
       e.type === "keydown" &&
-      !activeElement.value?.classList.contains("tiptap")
+      !activeElement.value?.classList?.contains("tiptap")
     )
       e.preventDefault();
   },
@@ -162,7 +177,11 @@ const onFocusLost = () => {
   }, 200);
 };
 
-const emit = defineEmits(["on-search-toggle"]);
+const emit = defineEmits(["on-search-toggle", "update:modelValue"]);
+const handleChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  emit("update:modelValue", target.value);
+};
 </script>
 
 <style>

@@ -53,14 +53,19 @@ const schema = z.object({
 const route = useRoute();
 const router = useRouter();
 const formData = ref({});
+const organizationStore = useOrganizationStore();
 watch(
   route,
   (form) => {
     formData.value = { ...form.query };
+    if (form.query.name && form.query.name !== "")
+      organizationStore.fetchAll({
+        name: form.query.name as string,
+        ...formData.value,
+      });
   },
   { immediate: true }
 );
-const organizationStore = useOrganizationStore();
 
 const handleSubmit = (_values: unknown) => {
   const values: LocationQueryRaw = {};
@@ -73,6 +78,8 @@ const handleSubmit = (_values: unknown) => {
       if (input[key] && input[key] !== "") {
         values[key] = input[key];
       }
+      if (route.query.name && route.query.name !== "")
+        values["name"] = route.query.name;
     });
     router.push({
       query: values, // Use the normalized values object
