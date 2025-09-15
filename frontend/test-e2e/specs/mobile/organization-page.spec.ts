@@ -24,7 +24,7 @@ test.beforeEach(async ({ page }) => {
   await expect(organizationPage.heading).toBeVisible();
 });
 
-test.describe("Organization Page", { tag: "@desktop" }, () => {
+test.describe("Organization Page", { tag: "@mobile" }, () => {
   // User can share the organization page
   test("User can share the organization page", async ({ page }) => {
     const organizationPage = newOrganizationPage(page);

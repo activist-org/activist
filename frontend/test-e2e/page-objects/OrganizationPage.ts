@@ -1,17 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page } from "@playwright/test";
+import type { Page, Locator } from "@playwright/test";
 
 export const newOrganizationPage = (page: Page) => ({
   heading: page.getByRole("heading", { level: 1 }),
-  shareButton: page
-    .getByRole("link", {
-      name: /Navigate to the page for this organization/i,
-    })
-    .locator("xpath=following-sibling::div")
-    .getByRole("button")
-    .first(),
-  tooltip: (shareButton: any) => shareButton.locator("div.tooltip"),
-  tooltipButton: (shareButton: any) => shareButton.locator("div.tooltip").locator("button"),
+  shareButton: page.getByRole("button", {
+    name: /View options to share this organization with others/i,
+  }),
   shareModal: page.locator("#modal").first(),
-  closeModalButton: (shareModal: any) => shareModal.getByTestId("modal-close-button"),
+  closeModalButton: (shareModal: Locator) =>
+    shareModal.getByTestId("modal-close-button"),
 });
