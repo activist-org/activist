@@ -19,7 +19,7 @@
         :id="id"
         :modelValue="value.value as string"
         :hasError="!!errorMessage.value"
-        label="Filter by location"
+        :label="$t('i18n.components.sidebar.left.filter._global.filter_by_location')"
       />
     </FormItem>
     <FormItem
@@ -69,13 +69,12 @@ watch(
 
 const handleSubmit = (_values: unknown) => {
   const values: LocationQueryRaw = {};
-  const input = _values as Record<string, LocationQueryRaw[string]>;
-  if (
-    input &&
-    Object.keys(input).some((key) => input[key] && input[key] !== "")
-  ) {
+  const input = (_values || {}) as Record<string, LocationQueryRaw[string]>;
     Object.keys(input).forEach((key) => {
       if (input[key] && input[key] !== "") {
+        if (key === 'topics' && Array.isArray(input[key]) && input[key].length === 0) {
+          return;
+        }
         values[key] = input[key];
       }
       if (route.query.name && route.query.name !== "")
@@ -86,5 +85,4 @@ const handleSubmit = (_values: unknown) => {
     });
     organizationStore.fetchAll(values as OrganizationFilters);
   }
-};
 </script>

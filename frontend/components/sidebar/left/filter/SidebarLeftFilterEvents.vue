@@ -64,7 +64,7 @@
           :id="id"
           :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
-          label="Filter by location"
+          :label="$t('i18n.components.sidebar.left.filter._global.filter_by_location')"
         />
       </FormItem>
       <FormItem
@@ -160,7 +160,7 @@ const optionDays = [
 
 const optionEventTypes = [
   {
-    value: "LEARN",
+    value: "learn",
     key: "LEARN",
     content: t("i18n.components._global.learn"),
     aria_label:
@@ -168,7 +168,7 @@ const optionEventTypes = [
     checkedClass: "style-learn",
   },
   {
-    value: "ACTION",
+    value: "action",
     key: "ACTION",
     content: t("i18n.components._global.action"),
     aria_label:
@@ -179,7 +179,7 @@ const optionEventTypes = [
 
 const optionLocations = [
   {
-    value: "OFFLINE",
+    value: "offline",
     key: "OFFLINE",
     content: t(
       "i18n.components.sidebar_left_filter_events.location_type_in_person"
@@ -189,7 +189,7 @@ const optionLocations = [
     class: "text-nowrap text-left pl-4",
   },
   {
-    value: "ONLINE",
+    value: "online",
     key: "ONLINE",
     content: t(
       "i18n.components.sidebar_left_filter_events.location_type_online"
@@ -239,11 +239,7 @@ watch(
 );
 const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
-  const input = _values as Record<string, unknown>;
-  if (
-    input &&
-    Object.keys(input).some((key) => input[key] && input[key] !== "")
-  ) {
+  const input = (_values || {}) as Record<string, unknown>;
     Object.keys(input).forEach((key) => {
       if (input[key] && input[key] !== "") {
         if (key === "days") {
@@ -252,8 +248,7 @@ const handleSubmit = (_values: unknown) => {
           ).toISOString();
           return;
         }
-        if (key === "type" || key === "setting") {
-          values[key] = (input[key] as string).toLowerCase();
+        if (key === 'topics' && Array.isArray(input[key]) && input[key].length === 0) {
           return;
         }
         if (key === "viewType") return;
@@ -264,10 +259,9 @@ const handleSubmit = (_values: unknown) => {
     });
     router.push({
       query: {
-        ...(input as LocationQueryRaw),
+        ...(values as LocationQueryRaw),
       },
     });
     eventStore.fetchAll(values);
-  }
 };
 </script>
