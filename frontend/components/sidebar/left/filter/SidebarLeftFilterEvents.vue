@@ -64,7 +64,9 @@
           :id="id"
           :modelValue="value.value as string"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.sidebar.left.filter._global.filter_by_location')"
+          :label="
+            $t('i18n.components.sidebar.left.filter._global.filter_by_location')
+          "
         />
       </FormItem>
       <FormItem
@@ -240,28 +242,32 @@ watch(
 const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
-    Object.keys(input).forEach((key) => {
-      if (input[key] && input[key] !== "") {
-        if (key === "days") {
-          values["active_on"] = new Date(
-            new Date().setDate(new Date().getDate() + +(input[key] as string))
-          ).toISOString();
-          return;
-        }
-        if (key === 'topics' && Array.isArray(input[key]) && input[key].length === 0) {
-          return;
-        }
-        if (key === "viewType") return;
-        values[key] = input[key];
+  Object.keys(input).forEach((key) => {
+    if (input[key] && input[key] !== "") {
+      if (key === "days") {
+        values["active_on"] = new Date(
+          new Date().setDate(new Date().getDate() + +(input[key] as string))
+        ).toISOString();
+        return;
       }
-      if (route.query.name && route.query.name !== "")
-        values["name"] = route.query.name;
-    });
-    router.push({
-      query: {
-        ...(values as LocationQueryRaw),
-      },
-    });
-    eventStore.fetchAll(values);
+      if (
+        key === "topics" &&
+        Array.isArray(input[key]) &&
+        input[key].length === 0
+      ) {
+        return;
+      }
+      if (key === "viewType") return;
+      values[key] = input[key];
+    }
+    if (route.query.name && route.query.name !== "")
+      values["name"] = route.query.name;
+  });
+  router.push({
+    query: {
+      ...(values as LocationQueryRaw),
+    },
+  });
+  eventStore.fetchAll(values);
 };
 </script>
