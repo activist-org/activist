@@ -387,8 +387,6 @@
   "i18n.components.sidebar_left_filter_events.view_type_list": "List view",
   "i18n.components.sidebar_left_filter_events.view_type_map": "Map list",
   "i18n.components.sidebar_left_header.sidebar_collapse_aria_label": "Expand or collapse the left sidebar",
-  "i18n.components.sidebar_left.location_search_placeholder": "Filter by location",
-  "i18n.components.sidebar_left.orgs_search_placeholder": "Filter by orgs",
   "i18n.components.sidebar_right_hamburger.collapse_aria_label": "Expand or collapse the right sidebar",
   "i18n.components.submit": "Submit",
   "i18n.components.submit_aria_label": "Submit the form",

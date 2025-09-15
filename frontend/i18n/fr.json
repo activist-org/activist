@@ -366,8 +366,6 @@
   "i18n.components.page_community_footer.visit_our": "Visiter notre",
   "i18n.components.page_filter.filter": "Filtrer",
   "i18n.components.shield_private.private": "Privé",
-  "i18n.components.sidebar_left.location_search_placeholder": "Filtrer par emplacement",
-  "i18n.components.sidebar_left.orgs_search_placeholder": "filtrer par orgs",
   "i18n.components.sidebar_left_content_event.edit_aria_label": "Modifier l’image de cet événement",
   "i18n.components.sidebar_left_content_group_page.edit_aria_label": "Modifier l’image de ce groupe",
   "i18n.components.sidebar_left_content_organization.edit_aria_label": "Modifier l’image de cette organisation",
