@@ -375,8 +375,6 @@
   "i18n.components.sidebar_left_filter_events.view_type_list": "vedi come lista",
   "i18n.components.sidebar_left_filter_events.view_type_map": "vedi come mappa",
   "i18n.components.sidebar_left_header.sidebar_collapse_aria_label": "Espandi o chiudi la barra laterale a sinistra",
-  "i18n.components.sidebar_left.location_search_placeholder": "Filtra per luogo",
-  "i18n.components.sidebar_left.orgs_search_placeholder": "Filtra per organizzazione",
   "i18n.components.sidebar_right_hamburger.collapse_aria_label": "Espandi o chiudi la barra laterale a destra",
   "i18n.components.submit": "Invia",
   "i18n.components.submit_aria_label": "Invia il form",
