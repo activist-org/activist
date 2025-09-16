@@ -93,7 +93,6 @@ test.describe("Organization Page", { tag: "@desktop" }, () => {
     const organizationPage = newOrganizationPage(page);
     const currentUrl = page.url();
     const orgId = currentUrl.match(/\/organizations\/([^/]+)/)?.[1];
-
     if (orgId) {
       await page.goto(`/organizations/${orgId}`);
       // Should auto-redirect to /about on desktop
