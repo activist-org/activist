@@ -87,7 +87,7 @@ const handleSubmit = (_values: unknown) => {
       values["name"] = route.query.name;
   });
   router.push({
-    query: values, // Use the normalized values object
+    query: values, // use the normalized values object
   });
   organizationStore.fetchAll(values as OrganizationFilters);
 };

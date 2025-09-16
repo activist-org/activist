@@ -6,6 +6,7 @@ import type { SocialLink } from "~/types/content/social-link";
 import type { Event } from "~/types/events/event";
 
 import type { TopicEnum } from "../content/topics";
+
 // MARK: Main Table
 
 interface OrganizationBase {
@@ -54,6 +55,7 @@ export interface OrganizationFilters {
   location?: string;
   topics?: TopicEnum[];
 }
+
 export interface OrganizationMember {
   orgId: string;
   userId: string;

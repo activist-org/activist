@@ -61,6 +61,8 @@ class EventFactory(factory.django.DjangoModelFactory):
         ]
     )
     setting = random.choice(["online", "offline"])
+
+
 # MARK: Role
 
 

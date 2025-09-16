@@ -48,6 +48,8 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     acceptance_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+
+
 # MARK: Application
 
 

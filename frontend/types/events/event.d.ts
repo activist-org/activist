@@ -52,9 +52,10 @@ export interface EventFilters {
   setting?: EventType;
   locationType?: "online" | "offline";
   active_on?: string; // ISO date string
-  topics?: TopicEnum[]; // Array of topic IDs
-  name?: string; // Search term for event name
+  topics?: TopicEnum[]; // array of topic IDs
+  name?: string; // search term for event name
 }
+
 export interface EventSocialLink extends SocialLink {
   eventId: string;
 }
