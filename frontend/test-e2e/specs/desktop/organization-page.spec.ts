@@ -25,7 +25,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Organization Page", { tag: "@desktop" }, () => {
-  // User can share the organization page
   test("User can share the organization page", async ({ page }) => {
     const organizationPage = newOrganizationPage(page);
 
@@ -42,5 +41,64 @@ test.describe("Organization Page", { tag: "@desktop" }, () => {
 
     // Expect the modal to not be visible
     await expect(organizationPage.shareModal).not.toBeVisible();
+  });
+
+  test("User can navigate through organization sections on desktop", async ({
+    page,
+  }) => {
+    const organizationPage = newOrganizationPage(page);
+
+    // Ensure sidebar is open for navigation
+    await organizationPage.sidebar.open();
+
+    // Verify we start on the About page (desktop auto-redirects to /about)
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
+    await expect(organizationPage.aboutPage.aboutCard).toBeVisible();
+    await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible();
+    await expect(organizationPage.aboutPage.connectCard).toBeVisible();
+
+    // Navigate to Events section using existing component object
+    await organizationPage.menu.eventsOption.click();
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/events/);
+    await expect(page.getByText(/events/i)).toBeVisible();
+
+    // Navigate to Groups section
+    await organizationPage.menu.groupsOption.click();
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/groups/);
+
+    // Navigate to Resources section
+    await organizationPage.menu.resourcesOption.click();
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/resources/);
+
+    // Navigate to FAQ section
+    await organizationPage.menu.questionsOption.click();
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/faq/);
+
+    // Navigate to Discussions section
+    await organizationPage.menu.discussionsOption.click();
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/discussions/);
+
+    // Navigate to Affiliates section
+    await organizationPage.menu.affiliatesOption.click();
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/affiliates/);
+
+    // Navigate back to About section
+    await organizationPage.menu.aboutOption.click();
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
+    await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible();
+  });
+
+  test("Desktop automatically redirects to About page", async ({ page }) => {
+    // Navigate directly to organization root URL
+    const organizationPage = newOrganizationPage(page);
+    const currentUrl = page.url();
+    const orgId = currentUrl.match(/\/organizations\/([^/]+)/)?.[1];
+
+    if (orgId) {
+      await page.goto(`/organizations/${orgId}`);
+      // Should auto-redirect to /about on desktop
+      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
+      await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible();
+    }
   });
 });
