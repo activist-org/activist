@@ -33,6 +33,35 @@ test.describe("Organizations Home Page", { tag: "@mobile" }, () => {
     // Expect the modal to not be visible
     await expect(organizationsHomePage.shareModal).not.toBeVisible();
   });
+
+  test("Organizations page displays either empty state or organization cards on mobile", async ({
+    page,
+  }) => {
+    // Check if there are organization cards
+    const organizationCards = page.locator('[data-testid="organization-card"]');
+    const emptyState = page.getByTestId("empty-state");
+
+    // Wait for either organizations to load or empty state to appear
+    await expect(async () => {
+      const cardCount = await organizationCards.count();
+      const emptyStateVisible = await emptyState.isVisible();
+
+      // Should have either organization cards OR empty state, but not both
+      expect(cardCount > 0 || emptyStateVisible).toBe(true);
+
+      if (cardCount > 0) {
+        // If there are cards, empty state should not be visible
+        expect(emptyStateVisible).toBe(false);
+        // Verify all cards have proper data-testid
+        await expect(organizationCards.first()).toBeVisible();
+      } else {
+        // If no cards, empty state should be visible
+        await expect(emptyState).toBeVisible();
+        expect(cardCount).toBe(0);
+      }
+    }).toPass({ timeout: 10000 });
+  });
+
   // Skip this test until topic filtering functionality is implemented
   // Currently the combobox UI works but doesn't actually filter the organizations displayed
   test.skip("User can filter organizations by topic on mobile", async ({

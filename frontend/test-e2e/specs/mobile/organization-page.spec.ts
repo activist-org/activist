@@ -64,28 +64,28 @@ test.describe("Organization Page", { tag: "@mobile" }, () => {
     page,
   }) => {
     const organizationPage = newOrganizationPage(page);
+    await organizationPage.menu.toggleOpenButton.click();
 
     // Navigate to About section using existing component object
     await organizationPage.menu.aboutOption.click();
     await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
     await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible();
 
-    // Navigate back to mobile menu (if auto-redirect doesn't happen)
-    await page.goBack();
+    await organizationPage.menu.toggleOpenButton.click();
 
     // Navigate to Events section
     await organizationPage.menu.eventsOption.click();
     await expect(page).toHaveURL(/.*\/organizations\/.*\/events/);
+    await expect(organizationPage.eventsPage.newEventButton).toBeVisible();
+    await expect(organizationPage.eventsPage.subscribeButton).toBeVisible();
 
-    // Navigate back to mobile menu
-    await page.goBack();
+    await organizationPage.menu.toggleOpenButton.click();
 
     // Navigate to Resources section
     await organizationPage.menu.resourcesOption.click();
     await expect(page).toHaveURL(/.*\/organizations\/.*\/resources/);
 
-    // Navigate back to mobile menu
-    await page.goBack();
+    await organizationPage.menu.toggleOpenButton.click();
 
     // Navigate to FAQ section
     await organizationPage.menu.questionsOption.click();
@@ -95,7 +95,9 @@ test.describe("Organization Page", { tag: "@mobile" }, () => {
   test("Mobile navigation preserves organization context", async ({ page }) => {
     const organizationPage = newOrganizationPage(page);
 
-    // Get organization name from mobile view
+    // Get current organization ID and name from mobile view
+    const currentUrl = page.url();
+    const orgId = currentUrl.match(/\/organizations\/([^/]+)/)?.[1];
     const orgName = await organizationPage.heading.textContent();
 
     // Navigate to different sections and verify org name consistency using existing component object
@@ -104,7 +106,8 @@ test.describe("Organization Page", { tag: "@mobile" }, () => {
       page.getByRole("heading", { name: new RegExp(orgName!, "i") })
     ).toBeVisible();
 
-    await page.goBack();
+    // Navigate back to organization root page instead of using browser back
+    await page.goto(`/organizations/${orgId}`);
     await organizationPage.menu.eventsOption.click();
     await expect(page.getByText(new RegExp(orgName!, "i"))).toBeVisible();
   });

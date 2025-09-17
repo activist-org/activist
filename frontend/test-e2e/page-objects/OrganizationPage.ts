@@ -35,4 +35,12 @@ export const newOrganizationPage = (page: Page) => ({
     expandTextButton: page.getByTestId("expand-text-button"),
     collapseTextButton: page.getByTestId("collapse-text-button"),
   },
+
+  eventsPage: {
+    // New event button
+    newEventButton: page.getByRole("link", { name: /new event/i }),
+    subscribeButton: page.getByRole("button", {
+      name: /download the calendar/i,
+    }),
+  },
 });
