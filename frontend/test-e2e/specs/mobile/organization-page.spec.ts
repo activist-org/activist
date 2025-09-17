@@ -47,11 +47,11 @@ test.describe("Organization Page", { tag: "@mobile" }, () => {
     page,
   }) => {
     const organizationPage = newOrganizationPage(page);
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
     await organizationPage.menu.toggleOpenButton.click();
 
     // Navigate to About section using existing component object
     await organizationPage.menu.aboutOption.click();
-    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
     await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible();
 
     await organizationPage.menu.toggleOpenButton.click();
