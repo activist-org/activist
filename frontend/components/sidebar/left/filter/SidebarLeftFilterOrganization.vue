@@ -45,7 +45,6 @@ import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
 
-import type { OrganizationFilters } from "~/types/communities/organization";
 import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
@@ -55,20 +54,13 @@ const schema = z.object({
 const route = useRoute();
 const router = useRouter();
 const formData = ref({});
-const organizationStore = useOrganizationStore();
 watch(
   route,
   (form) => {
     formData.value = { ...form.query };
-    if (form.query.name && form.query.name !== "")
-      organizationStore.fetchAll({
-        name: form.query.name as string,
-        ...formData.value,
-      });
   },
   { immediate: true }
 );
-
 const handleSubmit = (_values: unknown) => {
   const values: LocationQueryRaw = {};
   const input = (_values || {}) as Record<string, LocationQueryRaw[string]>;
@@ -89,6 +81,5 @@ const handleSubmit = (_values: unknown) => {
   router.push({
     query: values, // use the normalized values object
   });
-  organizationStore.fetchAll(values as OrganizationFilters);
 };
 </script>

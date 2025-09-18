@@ -231,11 +231,6 @@ watch(
   route,
   (form) => {
     formData.value = { ...form.query };
-    if (form.query.name && form.query.name !== "")
-      eventStore.fetchAll({
-        name: form.query.name as string,
-        ...formData.value,
-      });
   },
   { immediate: true }
 );
@@ -268,6 +263,5 @@ const handleSubmit = (_values: unknown) => {
       ...(values as LocationQueryRaw),
     },
   });
-  eventStore.fetchAll(values);
 };
 </script>

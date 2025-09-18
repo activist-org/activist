@@ -29,7 +29,7 @@ defineProps<{
   location?: DropdownLocation;
   userIsSignedIn: boolean;
 }>();
-
+const { signOut } = useAuth();
 const userOptionsSignedIn: MenuSelector[] = [
   {
     id: 1,
@@ -72,6 +72,11 @@ const userOptionsSignedIn: MenuSelector[] = [
     routeUrl: "/",
     iconUrl: `${IconMap.SIGN_OUT}`,
     selected: false,
+    onClick: () => {
+      signOut(
+        { callbackUrl: '/', external: false }
+      );
+    },
   },
 ];
 

@@ -2,7 +2,7 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
-      @submit="signUp"
+      @submit="handleSignUp"
       id="sign-up"
       submit-label="i18n._global.sign_up"
       :schema="signUpSchema"
@@ -22,7 +22,20 @@
           :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
         />
       </FormItem>
-
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        name="email"
+      >
+        <FormTextInput
+          @input="handleChange"
+          @blur="handleBlur"
+          :id="id"
+          :modelValue="value.value as string"
+          :hasError="!!errorMessage.value"
+          :label="$t('i18n.pages.auth.sign_up.enter_email')"
+          :data-testid="$t('i18n.pages.auth.sign_up.enter_email')"
+        />
+      </FormItem>
       <FormItem
         v-slot="{
           id,
@@ -165,6 +178,7 @@ const signUpSchema = z
     userName: z.string().min(1, t("i18n.pages.auth._global.required")),
     password: z.string(),
     confirmPassword: z.string(),
+    email: z.string().email(t("i18n.pages.auth.sign_up.invalid_email")),
     // FIXME: This is commented out because Checkbox is not implemented yet.
     // hasRead: z.boolean().refine((val) => val, {
     //   message: "i18n.pages.auth._global.required",
@@ -187,6 +201,18 @@ const signUpSchema = z
     }
   });
 const isPasswordFieldFocused = ref(false);
+const { signUp } = useAuth();
+const handleSignUp = (values: unknown) => {
+  signUp(
+    {
+      username: (values as Record<string, unknown>).userName as string,
+      password: (values as Record<string, unknown>).password as string,
+      email: (values as Record<string, unknown>).email as string,
+      passwordConfirmed: (values as Record<string, unknown>)
+        .confirmPassword as string,
+    },
+    { callbackUrl: "/auth/email", external: false }
+  );
 
-const signUp = () => {};
+};
 </script>

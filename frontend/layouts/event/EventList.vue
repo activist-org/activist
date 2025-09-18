@@ -52,4 +52,16 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+
+const route = useRoute();
+
+watch(
+  route,
+  (form) => {
+      eventStore.fetchAll({
+        ...form.query,
+      });
+  },
+  { immediate: true }
+);
 </script>
