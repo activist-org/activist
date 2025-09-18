@@ -32,7 +32,7 @@ export async function navigateToFirstOrganization(page: Page) {
   await page.waitForURL(`**/organizations/${organizationId}/**`);
 
   const organizationPage = newOrganizationPage(page);
-  await expect(organizationPage.heading).toBeVisible();
+  await expect(organizationPage.pageHeading).toBeVisible();
 
   return {
     organizationId,
@@ -54,7 +54,7 @@ export async function navigateToOrganization(
   await page.waitForURL(`**/organizations/${organizationId}/**`);
 
   const organizationPage = newOrganizationPage(page);
-  await expect(organizationPage.heading).toBeVisible();
+  await expect(organizationPage.pageHeading).toBeVisible();
 
   return organizationPage;
 }
