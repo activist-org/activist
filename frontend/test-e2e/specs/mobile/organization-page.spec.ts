@@ -48,6 +48,7 @@ test.describe("Organization Page", { tag: "@mobile" }, () => {
   }) => {
     const organizationPage = newOrganizationPage(page);
     await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
+    await expect(organizationPage.shareButton).toBeVisible();
     await organizationPage.menu.toggleOpenButton.click();
 
     // Navigate to About section using existing component object
