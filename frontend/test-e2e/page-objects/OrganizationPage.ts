@@ -13,6 +13,16 @@ export const newOrganizationPage = (page: Page) => ({
   shareModal: page.locator("#modal").first(),
   closeModalButton: (shareModal: Locator) =>
     shareModal.getByTestId("modal-close-button"),
+  editModal: page.locator("#modal").first(),
+  editModalSubmitButton: (editModal: Locator) =>
+    editModal.locator("#form-submit-id"),
+  editModalForm: (editModal: Locator) => editModal.locator("#form-id"),
+  editModalDescriptionField: (editModal: Locator) =>
+    editModal.locator("#form-item-description"),
+  editModalGetInvolvedField: (editModal: Locator) =>
+    editModal.locator("#form-item-getInvolved"),
+  editModalJoinUrlField: (editModal: Locator) =>
+    editModal.locator("#form-item-getInvolvedUrl"),
 
   // Navigation components
   sidebar: newSidebarLeft(page),
@@ -27,6 +37,24 @@ export const newOrganizationPage = (page: Page) => ({
     imageCarousel: page.getByTestId("image-carousel"),
     expandTextButton: page.getByTestId("expand-text-button"),
     collapseTextButton: page.getByTestId("collapse-text-button"),
+    editAboutIcon: page
+      .getByTestId("card-about")
+      .locator("div.cursor-pointer")
+      .first(),
+    // Get Involved card specific elements
+    getInvolvedEditIcon: page
+      .getByTestId("card-get-involved")
+      .locator("div.cursor-pointer")
+      .first(),
+    getInvolvedText: page.getByTestId("card-get-involved").locator("p").first(),
+    getInvolvedViewGroupsButton: page
+      .getByTestId("card-get-involved")
+      .getByRole("link", { name: /view all groups/i }),
+    getInvolvedJoinButton: page
+      .getByTestId("card-get-involved")
+      .getByRole("link", {
+        name: /Start the process of joining the organization/i,
+      }),
   },
 
   // Events page content

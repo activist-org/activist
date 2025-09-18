@@ -69,7 +69,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  modules: modules,
+  modules: process.env.VITEST ? [] : modules,
   ssr: false,
 
   typescript: {
@@ -150,7 +150,7 @@ export default defineNuxtConfig({
 
   vue: {
     compilerOptions: {
-      isCustomElement: (tag) =>
+      isCustomElement: (tag: string) =>
         ["swiper-slide", "swiper-container"].includes(tag),
     },
   },
@@ -159,7 +159,7 @@ export default defineNuxtConfig({
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
     },
-    "app:resolve": (_app) => {
+    "app:resolve": (_app: unknown) => {
       // Note: For future implementation.
     },
   },
@@ -208,4 +208,4 @@ export default defineNuxtConfig({
       maxUploadFileRequestInBytes: 5000000,
     },
   },
-});
+} as unknown as Parameters<typeof defineNuxtConfig>[0]);

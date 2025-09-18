@@ -2,27 +2,12 @@
 import { expect, test } from "playwright/test";
 
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
-import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
-import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
+import { signInAsAdmin } from "~/test-e2e/actions/authentication";
+import { navigateToFirstOrganization } from "~/test-e2e/actions/navigation";
 
 test.beforeEach(async ({ page }) => {
-  // Navigate to organizations home page first
-  await page.goto("/organizations");
-  const organizationsHomePage = newOrganizationsHomePage(page);
-  await expect(organizationsHomePage.heading).toHaveText(/organizations/i);
-
-  // Get the href attribute to extract the organization UUID
-  const href =
-    await organizationsHomePage.organizationLink.getAttribute("href");
-  const organizationId = href?.match(/\/organizations\/([a-f0-9-]{36})/)?.[1];
-
-  // Click on the first organization to navigate to its page
-  await organizationsHomePage.organizationLink.click();
-  // Wait for navigation to the specific organization page
-  await page.waitForURL(`**/organizations/${organizationId}/**`);
-
-  const organizationPage = newOrganizationPage(page);
-  await expect(organizationPage.heading).toBeVisible();
+  await signInAsAdmin(page);
+  await navigateToFirstOrganization(page);
 });
 
 test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
