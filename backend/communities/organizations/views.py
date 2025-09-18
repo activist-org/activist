@@ -9,6 +9,7 @@ from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -23,6 +24,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from communities.models import StatusType
+from communities.organizations.filters import OrganizationFilter
 from communities.organizations.models import (
     Organization,
     OrganizationFaq,
@@ -55,6 +57,8 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filterset_class = OrganizationFilter
+    filter_backends = [DjangoFilterBackend]
 
     @extend_schema(
         responses={200: OrganizationSerializer(many=True)},

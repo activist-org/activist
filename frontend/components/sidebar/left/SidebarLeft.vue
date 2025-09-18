@@ -37,7 +37,12 @@
           !sidebar.collapsed || sidebar.collapsedSwitch == false,
       }"
     >
-      <SearchBar class="mt-1" :location="SearchBarLocation.SIDEBAR" />
+      <SearchBar
+        @update:model-value="handleChange"
+        class="mt-1"
+        :location="SearchBarLocation.SIDEBAR"
+        :model-value="modelValue"
+      />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftContent
         v-if="
@@ -77,7 +82,6 @@
 </template>
 
 <script setup lang="ts">
-import { TopicEnum } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
 import { SearchBarLocation } from "~/types/location";
 import { SidebarType } from "~/types/sidebar-type";
@@ -96,7 +100,26 @@ const routeName = computed(() => {
   }
   return "";
 });
-
+const modelValue = ref(route.query.name as string | undefined);
+watch(
+  route,
+  (newName) => {
+    if (newName.query.name && newName.query.name !== modelValue.value) {
+      modelValue.value = newName.query.name as string | undefined;
+    }
+  },
+  { immediate: true }
+);
+onMounted(() => {
+  if (route.query.name && route.query.name !== modelValue.value) {
+    modelValue.value = route.query.name as string | undefined;
+  }
+});
+const handleChange = (value: string) => {
+  modelValue.value = value;
+  const query = { ...route.query, name: modelValue.value };
+  useRouter().push({ query });
+};
 const isOrgPage = computed(() =>
   isCurrentRoutePathSubpageOf("organizations", routeName.value.toString())
 );
@@ -137,125 +160,6 @@ const sidebarType = computed(() => {
 // TODO: Use real name of organization / event when available from backend.
 const placeholderName = route.path.split("/").at(-2)?.replaceAll("-", " ");
 const placeholderLogo = "";
-
-const topicsArray: { label: string; value: string }[] = [];
-
-for (const key in TopicEnum) {
-  if (Object.prototype.hasOwnProperty.call(TopicEnum, key)) {
-    const value = TopicEnum[key as keyof typeof TopicEnum];
-    topicsArray.push({ label: key.toLowerCase(), value });
-  }
-}
-
-// const filters = {
-//   daysAhead: {
-//     sidebarType: [SidebarType.EVENTS_PAGE],
-//     title: "Days ahead",
-//     name: "daysAhead",
-//     type: "radio",
-//     style: "btn",
-//     allowCustomValue: true,
-//     items: [
-//       {
-//         label: "1",
-//         value: "1",
-//       },
-//       {
-//         label: "7",
-//         value: "7",
-//       },
-//       {
-//         label: "30",
-//         value: "30",
-//       },
-//     ],
-//   },
-//   eventType: {
-//     sidebarType: [SidebarType.EVENTS_PAGE],
-//     title: "Event type",
-//     name: "eventType",
-//     type: "checkbox",
-//     style: "btn",
-//     items: [
-//       {
-//         label: "Learn",
-//         value: "learn",
-//         customColor: "learn-blue",
-//       },
-//       {
-//         label: "Action",
-//         value: "action",
-//         customColor: "action-red",
-//       },
-//     ],
-//   },
-//   locationType: {
-//     sidebarType: [SidebarType.EVENTS_PAGE],
-//     title: "Location",
-//     name: "locationType",
-//     type: "checkbox",
-//     style: "btn",
-//     searchInput: true,
-//     items: [
-//       {
-//         label: "In person",
-//         value: "in-person",
-//       },
-//       {
-//         label: "Online",
-//         value: "online",
-//       },
-//     ],
-//   },
-//   eventLocationSearch: {
-//     sidebarType: [SidebarType.EVENTS_PAGE],
-//     title: "",
-//     name: "eventLocationSearch",
-//     type: "search",
-//     placeholder: "i18n.components.sidebar_left.location_search_placeholder",
-//   },
-//   locationSearch: {
-//     sidebarType: [SidebarType.ORGANIZATIONS_PAGE, SidebarType.SEARCH],
-//     title: "Location",
-//     name: "locationSearch",
-//     type: "search",
-//     placeholder: "i18n.components.sidebar_left.location_search_placeholder",
-//   },
-//   organizationSearch: {
-//     sidebarType: [SidebarType.EVENTS_PAGE],
-//     title: "Organization",
-//     name: "organizationSearch",
-//     type: "search",
-//     placeholder: "i18n.components.sidebar_left.orgs_search_placeholder",
-//   },
-//   topic: {
-//     sidebarType: [
-//       SidebarType.EVENTS_PAGE,
-//       SidebarType.ORGANIZATIONS_PAGE,
-//       SidebarType.RESOURCES_PAGE,
-//       SidebarType.SEARCH,
-//     ],
-//     title: "Topic",
-//     type: "checkbox",
-//     name: "topic",
-//     style: "simple",
-//     expandable: true,
-//     items: topicsArray,
-//   },
-// };
-
-// const getFiltersByPageType = computed<Filters>(() => {
-//   const filteredFilters: Filters = {};
-//   for (const filter in filters) {
-//     const f = filters[filter as keyof typeof filters];
-//     if (!f.sidebarType.includes(sidebarType.value)) {
-//       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-//       delete filteredFilters[filter as keyof typeof filters];
-//     }
-//   }
-
-//   return filteredFilters;
-// });
 
 const content = ref();
 
