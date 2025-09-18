@@ -246,11 +246,8 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
     } catch {
       // CREATE might have failed, check if any links exist at all
       allSocialLinks = await connectCard.locator("a[href]").count();
-      // console.log(`CREATE operation may have failed. Current social links count: ${allSocialLinks}`);
 
       if (allSocialLinks === 0) {
-        // console.log("No social links found after CREATE operation - this suggests the CREATE failed");
-        // console.log("Current Connect card content:", await connectCard.textContent());
         throw new Error("No social links found after CREATE operation");
       }
     }
@@ -284,8 +281,6 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
     // Get the current values (whatever they are)
     const currentLabel = await editLabelField.inputValue();
     const currentUrl = await editUrlField.inputValue();
-    // console.log(`Current values before UPDATE: label="${currentLabel}", url="${currentUrl}"`);
-
     // No need to verify specific values - just ensure fields have some content
     expect(currentLabel).toBeTruthy();
     expect(currentUrl).toBeTruthy();
@@ -295,8 +290,6 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
       await organizationPage.socialLinksModal.modal
         .locator('input[id^="form-item-socialLinks."][id$=".label"]')
         .count();
-    // console.log(`Form entries before UPDATE: ${_formEntriesBeforeUpdate}`);
-
     // Update the values
     await editLabelField.clear();
     await editLabelField.fill(updatedLabel);
@@ -335,8 +328,6 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
         updateModalClosed = true;
       } catch (error) {
         updateAttempts++;
-        // console.log(`UPDATE modal close attempt ${updateAttempts} failed, retrying...`);
-
         if (updateAttempts < maxUpdateAttempts) {
           // Try clicking the submit button again
           const retryUpdateSubmitButton =
@@ -360,12 +351,8 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
       .getByText(updatedLabel, { exact: false })
       .count();
     if (updatedContentExists === 0) {
-      // console.log(`WARNING: Updated label "${updatedLabel}" not found on Connect card after UPDATE`);
-      // console.log(`Current Connect card content: ${await connectCard.textContent()}`);
-      // Take a screenshot to help debug
-      await page.screenshot({ path: `update-failed-${Date.now()}.png` });
+      // UPDATE operation may have failed
     } else {
-      // console.log(`Successfully updated social link to: "${updatedLabel}"`);
       const updatedSocialLink = connectCard.getByRole("link", {
         name: new RegExp(updatedLabel, "i"),
       });
@@ -383,9 +370,7 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
       .all();
 
     if (allLabelInputs.length === 0) {
-      // console.log("WARNING: No social links available to delete - UPDATE operation may have deleted the link");
-      // console.log("This suggests the UPDATE operation is incorrectly deleting links instead of updating them");
-
+      // No social links available to delete - UPDATE operation may have deleted the link
       // Close the modal and end the test gracefully
       const closeButton =
         organizationPage.socialLinksModal.modal.getByTestId(
@@ -396,13 +381,11 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
       }
       await expect(organizationPage.socialLinksModal.modal).not.toBeVisible();
 
-      // console.log("Test completed - UPDATE appears to be deleting links instead of updating them");
       return; // Exit the test gracefully instead of throwing an error
     }
 
     // Get the label of the first entry (whatever it is) for verification after deletion
     const firstLabelValue = await allLabelInputs[0].inputValue();
-    // console.log(`Deleting social link with label: "${firstLabelValue}"`);
 
     // Delete the first social link (index 0)
     const deleteButton = organizationPage.socialLinksModal.removeButton(
@@ -446,8 +429,6 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
         deleteModalClosed = true;
       } catch (error) {
         deleteAttempts++;
-        // console.log(`DELETE modal close attempt ${deleteAttempts} failed, retrying...`);
-
         if (deleteAttempts < maxDeleteAttempts) {
           // Try clicking the submit button again
           const retryDeleteSubmitButton =
@@ -472,21 +453,17 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
         .getByText(firstLabelValue, { exact: false })
         .count();
       if (labelStillExists > 0) {
-        // console.log(`WARNING: Social link "${firstLabelValue}" still appears on Connect card after deletion`);
-        // Take a screenshot to help debug
-        await page.screenshot({ path: `delete-failed-${Date.now()}.png` });
+        // Social link still appears after deletion
       } else {
-        // console.log(`Successfully deleted social link: "${firstLabelValue}"`);
+        // Social link successfully deleted
       }
 
       // Also check the total count decreased
       const _finalLinkCount = await connectCard.locator("a[href]").count();
-      // console.log(`Final social links count: ${_finalLinkCount}`);
     }
 
     // Final verification: ensure at least the DELETE operation was attempted
     // by checking that we have fewer total social links than we started with
     const _finalSocialLinks = await connectCard.locator("a[href]").count();
-    // console.log(`Social links remaining after all operations: ${_finalSocialLinks}`);
   });
 });
