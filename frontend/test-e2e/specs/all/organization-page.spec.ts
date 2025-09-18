@@ -5,6 +5,7 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 import { navigateToFirstOrganization } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+import { submitModalWithRetry } from "~/test-e2e/utils/modalHelpers";
 
 test.beforeEach(async ({ page }) => {
   await signInAsAdmin(page);
@@ -194,44 +195,12 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
     const submitButton = organizationPage.socialLinksModal.submitButton(
       organizationPage.socialLinksModal.modal
     );
-    await expect(submitButton).toBeVisible();
-    await expect(submitButton).toBeEnabled();
-
-    // Wait for form to be fully interactive (button enabled and stable)
-    await expect(submitButton).toBeEnabled();
-    await expect(submitButton).toBeVisible();
-    await submitButton.waitFor({ state: "attached", timeout: 10000 });
-
-    await submitButton.click({ force: true });
-
-    // Wait for the modal to close after successful save, with retry logic
-    let modalClosed = false;
-    let attempts = 0;
-    const maxAttempts = 3;
-
-    while (!modalClosed && attempts < maxAttempts) {
-      try {
-        await expect(organizationPage.socialLinksModal.modal).not.toBeVisible({
-          timeout: 10000,
-        });
-        modalClosed = true;
-      } catch (error) {
-        attempts++;
-
-        if (attempts < maxAttempts) {
-          // Try clicking the submit button again
-          const retrySubmitButton =
-            organizationPage.socialLinksModal.submitButton(
-              organizationPage.socialLinksModal.modal
-            );
-          if (await retrySubmitButton.isVisible()) {
-            await retrySubmitButton.click({ force: true });
-          }
-        } else {
-          throw error;
-        }
-      }
-    }
+    await submitModalWithRetry(
+      page,
+      organizationPage.socialLinksModal.modal,
+      submitButton,
+      "CREATE"
+    );
 
     // Verify the new social link appears on the Connect card
     const connectCard = organizationPage.aboutPage.connectCard;
@@ -285,11 +254,6 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
     expect(currentLabel).toBeTruthy();
     expect(currentUrl).toBeTruthy();
 
-    // Debug: Log the form state before updating
-    const _formEntriesBeforeUpdate =
-      await organizationPage.socialLinksModal.modal
-        .locator('input[id^="form-item-socialLinks."][id$=".label"]')
-        .count();
     // Update the values
     await editLabelField.clear();
     await editLabelField.fill(updatedLabel);
@@ -305,60 +269,19 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
     const updateSubmitButton = organizationPage.socialLinksModal.submitButton(
       organizationPage.socialLinksModal.modal
     );
-    await expect(updateSubmitButton).toBeVisible();
-    await expect(updateSubmitButton).toBeEnabled();
+    await submitModalWithRetry(
+      page,
+      organizationPage.socialLinksModal.modal,
+      updateSubmitButton,
+      "UPDATE"
+    );
 
-    // Wait for form to be fully interactive (button enabled and stable)
-    await expect(updateSubmitButton).toBeEnabled();
-    await expect(updateSubmitButton).toBeVisible();
-    await updateSubmitButton.waitFor({ state: "attached", timeout: 10000 });
-
-    await updateSubmitButton.click({ force: true });
-
-    // Wait for the modal to close after successful save, with retry logic
-    let updateModalClosed = false;
-    let updateAttempts = 0;
-    const maxUpdateAttempts = 3;
-
-    while (!updateModalClosed && updateAttempts < maxUpdateAttempts) {
-      try {
-        await expect(organizationPage.socialLinksModal.modal).not.toBeVisible({
-          timeout: 10000,
-        });
-        updateModalClosed = true;
-      } catch (error) {
-        updateAttempts++;
-        if (updateAttempts < maxUpdateAttempts) {
-          // Try clicking the submit button again
-          const retryUpdateSubmitButton =
-            organizationPage.socialLinksModal.submitButton(
-              organizationPage.socialLinksModal.modal
-            );
-          if (await retryUpdateSubmitButton.isVisible()) {
-            await retryUpdateSubmitButton.click({ force: true });
-          }
-        } else {
-          throw error;
-        }
-      }
-    }
-
-    // Wait for the Connect card to be updated after UPDATE operation
-    await page.waitForLoadState("networkidle");
-
-    // Check if the updated content actually appears
-    const updatedContentExists = await connectCard
-      .getByText(updatedLabel, { exact: false })
-      .count();
-    if (updatedContentExists === 0) {
-      // UPDATE operation may have failed
-    } else {
-      const updatedSocialLink = connectCard.getByRole("link", {
-        name: new RegExp(updatedLabel, "i"),
-      });
-      await expect(updatedSocialLink).toBeVisible();
-      await expect(updatedSocialLink).toHaveAttribute("href", updatedUrl);
-    }
+    // Verify the updated social link appears on the Connect card
+    const updatedSocialLink = connectCard.getByRole("link", {
+      name: new RegExp(updatedLabel, "i"),
+    });
+    await expect(updatedSocialLink).toBeVisible();
+    await expect(updatedSocialLink).toHaveAttribute("href", updatedUrl);
 
     // PHASE 3: DELETE - Remove the first available social link (if any remain)
     await organizationPage.aboutPage.connectCardEditIcon.click();
@@ -370,18 +293,7 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
       .all();
 
     if (allLabelInputs.length === 0) {
-      // No social links available to delete - UPDATE operation may have deleted the link
-      // Close the modal and end the test gracefully
-      const closeButton =
-        organizationPage.socialLinksModal.modal.getByTestId(
-          "modal-close-button"
-        );
-      if (await closeButton.isVisible()) {
-        await closeButton.click();
-      }
-      await expect(organizationPage.socialLinksModal.modal).not.toBeVisible();
-
-      return; // Exit the test gracefully instead of throwing an error
+      throw new Error("No social links available to delete");
     }
 
     // Get the label of the first entry (whatever it is) for verification after deletion
@@ -395,13 +307,6 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
     await expect(deleteButton).toBeVisible();
     await deleteButton.click();
 
-    // Verify the entry was removed from the form
-    await expect(
-      organizationPage.socialLinksModal.modal.locator(
-        'input[id^="form-item-socialLinks."][id$=".label"]'
-      )
-    ).toHaveCount(allLabelInputs.length - 1);
-
     // Save the deletion with retry logic
     const deleteSubmitButton = organizationPage.socialLinksModal.submitButton(
       organizationPage.socialLinksModal.modal
@@ -409,61 +314,18 @@ test.describe("Organization Page", { tag: ["@desktop", "@mobile"] }, () => {
     await expect(deleteSubmitButton).toBeVisible();
     await expect(deleteSubmitButton).toBeEnabled();
 
-    // Wait for form to be fully interactive (button enabled and stable)
-    await expect(deleteSubmitButton).toBeEnabled();
-    await expect(deleteSubmitButton).toBeVisible();
-    await deleteSubmitButton.waitFor({ state: "attached", timeout: 10000 });
+    await submitModalWithRetry(
+      page,
+      organizationPage.socialLinksModal.modal,
+      deleteSubmitButton,
+      "DELETE"
+    );
 
-    await deleteSubmitButton.click({ force: true });
-
-    // Wait for the modal to close after successful deletion, with retry logic
-    let deleteModalClosed = false;
-    let deleteAttempts = 0;
-    const maxDeleteAttempts = 3;
-
-    while (!deleteModalClosed && deleteAttempts < maxDeleteAttempts) {
-      try {
-        await expect(organizationPage.socialLinksModal.modal).not.toBeVisible({
-          timeout: 10000,
-        });
-        deleteModalClosed = true;
-      } catch (error) {
-        deleteAttempts++;
-        if (deleteAttempts < maxDeleteAttempts) {
-          // Try clicking the submit button again
-          const retryDeleteSubmitButton =
-            organizationPage.socialLinksModal.submitButton(
-              organizationPage.socialLinksModal.modal
-            );
-          if (await retryDeleteSubmitButton.isVisible()) {
-            await retryDeleteSubmitButton.click({ force: true });
-          }
-        } else {
-          throw error;
-        }
-      }
-    }
-
-    // Wait for the Connect card to be updated after DELETE operation
-    await page.waitForLoadState("networkidle");
-
+    // Verify the deleted social link no longer appears on the Connect card
     if (firstLabelValue) {
-      // Check if the specific label is gone
-      const labelStillExists = await connectCard
-        .getByText(firstLabelValue, { exact: false })
-        .count();
-      if (labelStillExists > 0) {
-        // Social link still appears after deletion
-      } else {
-        // Social link successfully deleted
-      }
-
-      // Also check the total count decreased
-      const _finalLinkCount = await connectCard.locator("a[href]").count();
+      await expect(connectCard).not.toContainText(firstLabelValue, {
+        timeout: 10000,
+      });
     }
-
-    // Final verification: ensure at least the DELETE operation was attempted
-    // by checking that we have fewer total social links than we started with
-    const _finalSocialLinks = await connectCard.locator("a[href]").count();
   });
 });
