@@ -11,7 +11,6 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
-// Enable attribute inheritance
 defineOptions({
   inheritAttrs: false,
 });
