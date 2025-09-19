@@ -2,11 +2,15 @@
 import { expect, test } from "playwright/test";
 
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
+import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
+import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
+  const organizationsHomePage = newOrganizationsHomePage(page);
+
   await page.goto("/organizations");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /organizations/i
+  await expect(organizationsHomePage.heading).toHaveText(
+    getEnglishText("i18n.pages.organizations.index.header_title")
   );
 });
 

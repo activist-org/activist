@@ -2,11 +2,14 @@
 import { expect, test } from "playwright/test";
 
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
+import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/organizations");
   const organizationsHomePage = newOrganizationsHomePage(page);
-  await expect(organizationsHomePage.heading).toHaveText(/organizations/i);
+  await expect(organizationsHomePage.heading).toHaveText(
+    getEnglishText("i18n.pages.organizations.index.header_title")
+  );
 });
 
 test.describe("Organizations Home Page", { tag: "@mobile" }, () => {
@@ -85,7 +88,14 @@ test.describe("Organizations Home Page", { tag: "@mobile" }, () => {
 
     // Reset filter to show all organizations again
     await organizationsHomePage.comboboxButton.click();
-    await page.getByRole("option", { name: /all topics/i }).click();
+    await page
+      .getByRole("option", {
+        name: new RegExp(
+          getEnglishText("i18n.components.combobox_topics.all_topics"),
+          "i"
+        ),
+      })
+      .click();
     await expect(page.locator('[data-testid="organization-card"]')).toHaveCount(
       9
     );

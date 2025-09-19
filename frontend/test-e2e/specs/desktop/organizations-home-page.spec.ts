@@ -2,11 +2,14 @@
 import { expect, test } from "playwright/test";
 
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
+import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/organizations");
   const organizationsHomePage = newOrganizationsHomePage(page);
-  await expect(organizationsHomePage.heading).toHaveText(/organizations/i);
+  await expect(organizationsHomePage.heading).toHaveText(
+    getEnglishText("i18n.pages.organizations.index.header_title")
+  );
 });
 
 test.describe("Organizations Home Page", { tag: "@desktop" }, () => {
