@@ -20,15 +20,15 @@ const EVENT_SUBPAGES = [
 ];
 
 test.beforeEach(async ({ page }) => {
-  // Navigate to events page first, then to an event's about page
+  // Navigate to events page first, then to an event's about page.
   await page.goto("/events?view=list");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(/events/i);
 
-  // Click on the first event to navigate to its about page
+  // Click on the first event to navigate to its about page.
   const firstEventLink = page
     .getByLabel(
       getEnglishText(
-        "i18n.components.card_search_result_event.navigate_to_event_aria_label"
+        "i18n.components.card_search_result_entity_event.navigate_to_event_aria_label"
       )
     )
     .first();
@@ -106,16 +106,17 @@ test.describe(
 
       const textarea = page.locator("#form-item-description");
       await textarea.waitFor({ state: "visible" });
-      //modify event description
+
+      // Modify event description.
       await textarea.clear();
       const newRandomText = "This is random text";
       await textarea.fill(newRandomText);
       await page.click("#form-submit-id");
 
-      //close modal
+      // Close modal.
       await page.click('button:has(svg path[d*="M16 8A8 8 0 1 1 0 8"])');
 
-      //check if about event description changed
+      // Check if about event description changed.
       const aboutSection = page.locator(
         `.card-style .flex-col:has(h3:text("${getEnglishText("i18n._global.about")}"))`
       );
