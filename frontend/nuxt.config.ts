@@ -35,7 +35,6 @@ export default defineNuxtConfig({
         refreshOnlyToken: true,
         token: {
           signInResponseRefreshTokenPointer: "/refresh",
-          signUpResponseRefreshTokenPointer: "/refresh",
           refreshRequestTokenPointer: "/refresh",
           cookieName: "auth.refresh",
           maxAgeInSeconds: 1800,
@@ -61,10 +60,8 @@ export default defineNuxtConfig({
       },
       token: {
         signInResponseTokenPointer: "/access",
-        signUpResponseTokenPointer: "/access",
         signInResponseRefreshTokenPointer: "/refresh",
         refreshRequestTokenPointer: "/access",
-        signUpResponseRefreshTokenPointer: "/refresh",
         type: "Token",
         headerName: "Authorization",
         maxAgeInSeconds: 1800,

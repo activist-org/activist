@@ -225,7 +225,9 @@ const handleSignUp = (values: unknown) => {
       passwordConfirmed: (values as Record<string, unknown>)
         .confirmPassword as string,
     },
-    { callbackUrl: "/auth/email", external: false }
+    { preventLoginFlow: true }
   );
+  navigateTo(localePath("/auth/confirm/email"));
+
 };
 </script>
