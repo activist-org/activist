@@ -1,21 +1,21 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <CardSearchResult
-    :title="group.name"
+  <CardSearchResultEntity
+    :title="organization.name"
     :description="description"
     :linkUrl="linkUrl"
     :ariaLabel="ariaLabel"
     :imageUrl="imageUrl"
     :imageAlt="imageAlt"
     :iconName="defaultIconName"
-    :entityName="group.groupName"
+    :entityName="organization.orgName"
     :isExternalLink="false"
     :isReduced="isReduced"
   >
     <template #menu>
       <MenuSearchResult
         class="max-md:absolute max-md:right-0 max-md:top-0"
-        :group="group"
+        :organization="organization"
       />
     </template>
 
@@ -26,52 +26,53 @@
     <template #mobile-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
     </template>
-  </CardSearchResult>
+  </CardSearchResultEntity>
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
+import type { Organization } from "~/types/communities/organization";
 
 import { useLinkURL } from "~/composables/useLinkURL";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
-  group: Group;
+  organization: Organization;
   isPrivate?: boolean;
   isReduced?: boolean;
 }>();
 
-const i18n = useI18n();
+const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
 
 const description = computed(() => {
-  return props.group.texts.description || "";
+  return props.organization.texts.description || "";
 });
 
 const ariaLabel = computed(() => {
-  return i18n.t("i18n.components._global.navigate_to_group_aria_label");
+  return t("i18n.components._global.navigate_to_organization_aria_label");
 });
 
 const imageAlt = computed(() => {
-  return i18n.t("i18n.components.card_search_result_group.group_img_alt_text", {
-    entity_name: props.group.name,
-  });
+  return t(
+    "i18n.components.card_search_result_entity_organization.organization_img_alt_text",
+    { entity_name: props.organization.name }
+  );
+});
+
+const imageUrl = computed(() => {
+  if (props.organization.iconUrl?.fileObject) {
+    return props.organization.iconUrl.fileObject;
+  }
+  return "";
 });
 
 const defaultIconName = computed(() => {
   return IconMap.ORGANIZATION;
 });
 
-const imageUrl = computed(() => {
-  if (props.group.iconUrl?.fileObject) {
-    return props.group.iconUrl.fileObject;
-  }
-  return "";
-});
-
 const location = computed(() => {
-  if (props.group.location) {
-    return props.group.location.displayName.split(",")[0];
+  if (props.organization.location) {
+    return props.organization.location.displayName.split(",")[0];
   }
   return "";
 });

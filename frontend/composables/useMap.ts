@@ -6,9 +6,10 @@ import { useClusterMap } from "./useClusterMap";
 import { usePointerMap } from "./usePointerMap";
 
 export const useMap = () => {
+  const { t } = useI18n();
+
   const { createMapForPointerTypeMap } = usePointerMap();
   const { createMapForClusterTypeMap } = useClusterMap();
-  const i18n = useI18n();
 
   function isWebglSupported() {
     if (window.WebGLRenderingContext) {
@@ -44,25 +45,25 @@ export const useMap = () => {
       .getContainer()
       .querySelector(".maplibregl-ctrl-zoom-in");
     if (zoomInButton) {
-      zoomInButton.title = i18n.t("i18n.composables.use_map.zoom_in");
+      zoomInButton.title = t("i18n.composables.use_map.zoom_in");
     }
 
     const zoomOutButton: HTMLElement | null = map
       .getContainer()
       .querySelector(".maplibregl-ctrl-zoom-out");
     if (zoomOutButton) {
-      zoomOutButton.title = i18n.t("i18n.composables.use_map.zoom_out");
+      zoomOutButton.title = t("i18n.composables.use_map.zoom_out");
     }
 
     const compassButton: HTMLElement | null = map
       .getContainer()
       .querySelector(".maplibregl-ctrl-compass");
     if (compassButton) {
-      compassButton.title = i18n.t("i18n.composables.use_map.reset_north");
+      compassButton.title = t("i18n.composables.use_map.reset_north");
     }
 
     if (fullscreenButton) {
-      fullscreenButton.title = i18n.t("i18n.composables.use_map.fullscreen");
+      fullscreenButton.title = t("i18n.composables.use_map.fullscreen");
     }
     const navigationControl = createNavigationControl();
 
@@ -76,7 +77,7 @@ export const useMap = () => {
       .getContainer()
       .querySelector(".maplibregl-ctrl-geolocate");
     if (geolocateButton) {
-      geolocateButton.title = i18n.t("i18n.composables.use_map.geolocate");
+      geolocateButton.title = t("i18n.composables.use_map.geolocate");
     }
 
     // Arrow icon for directions.

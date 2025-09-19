@@ -85,6 +85,8 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
         queryset=Topic.objects.filter(active=True),
         many=True,
         slug_field="type",
+        required=False,
+        allow_null=True,
     )
 
     class Meta:

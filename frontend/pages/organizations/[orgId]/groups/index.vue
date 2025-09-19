@@ -30,7 +30,7 @@
       </div>
     </HeaderAppPageOrganization>
     <div v-if="organization.groups!.length > 0" class="space-y-3 py-4">
-      <CardSearchResultGroup
+      <CardSearchResultEntityGroup
         v-for="(g, i) in organization.groups"
         :key="i"
         :group="g"

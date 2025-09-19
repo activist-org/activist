@@ -6,9 +6,7 @@
     <div class="relative flex w-full flex-col md:flex-row">
       <div class="flex w-full justify-center md:w-fit">
         <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
-          <div
-            class="h-min w-max rounded-md border border-section-div bg-layer-0"
-          >
+          <div class="h-min w-max rounded-md border border-section-div">
             <slot name="image" :imageUrl="imageUrl" :imageAlt="imageAlt">
               <img
                 v-if="imageUrl"

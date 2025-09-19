@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <CardSearchResult
+  <CardSearchResultEntity
     :title="event.name"
     :description="description"
     :linkUrl="linkUrl"
@@ -38,7 +38,7 @@
       <MetaTagVideo
         v-else-if="onlineLocation"
         :link="onlineLocation"
-        label="i18n.components.card_search_result_event.view_video"
+        label="i18n.components.card_search_result_entity_event.view_video"
       />
       <MetaTagDate v-if="event.id != ''" :date="date" />
     </template>
@@ -47,7 +47,7 @@
       <MetaTagVideo
         v-if="onlineLocation"
         :link="onlineLocation"
-        label="i18n.components.card_search_result_event.view_video"
+        label="i18n.components.card_search_result_entity_event.view_video"
       />
       <MetaTagDate v-if="event.id != ''" :date="date" />
     </template>
@@ -58,7 +58,7 @@
         :organization="event.orgs"
       />
     </template>
-  </CardSearchResult>
+  </CardSearchResultEntity>
 </template>
 
 <script setup lang="ts">
@@ -73,7 +73,7 @@ const props = defineProps<{
   isReduced?: boolean;
 }>();
 
-const i18n = useI18n();
+const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
 
 const description = computed(() => {
@@ -81,24 +81,18 @@ const description = computed(() => {
 });
 
 const ariaLabel = computed(() => {
-  return i18n.t(
-    "i18n.components.card_search_result_event.navigate_to_event_aria_label"
+  return t(
+    "i18n.components.card_search_result_entity_event.navigate_to_event_aria_label"
   );
 });
 
 const imageAlt = computed(() => {
-  return i18n.t("i18n.components.card_search_result_event.event_img_alt_text", {
-    entity_name: props.event.name,
-  });
-});
-
-const entityName = computed(() => {
-  // Events don't have entity names like organizations (@org_name)
-  return "";
-});
-
-const eventType = computed<"action" | "learn">(() => {
-  return props.event.type;
+  return t(
+    "i18n.components.card_search_result_entity_event.event_img_alt_text",
+    {
+      entity_name: props.event.name,
+    }
+  );
 });
 
 const imageUrl = computed(() => {
@@ -124,5 +118,14 @@ const date = computed(() => {
     return props.event.startTime.split("T")[0];
   }
   return "";
+});
+
+const entityName = computed(() => {
+  // Events don't have entity names like organizations (@org_name).
+  return "";
+});
+
+const eventType = computed<"action" | "learn">(() => {
+  return props.event.type;
 });
 </script>

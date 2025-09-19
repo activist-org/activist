@@ -4,6 +4,9 @@ import type { ContentImage } from "~/types/content/file";
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Event } from "~/types/events/event";
+
+import type { TopicEnum } from "../content/topics";
+
 // MARK: Main Table
 
 interface OrganizationBase {
@@ -45,6 +48,12 @@ export interface OrganizationImage {
   orgId: string;
   imageId: string;
   sequenceIndex: number;
+}
+
+export interface OrganizationFilters {
+  name?: string;
+  location?: string;
+  topics?: TopicEnum[];
 }
 
 export interface OrganizationMember {
