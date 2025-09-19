@@ -6,6 +6,7 @@ import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
   EventCreateFormData,
+  EventFilters,
   EventResponse,
   EventsResponseBody,
   EventUpdateTextFormData,
@@ -184,12 +185,15 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Fetch All
 
-    async fetchAll() {
+    async fetchAll(filters: EventFilters = {}) {
       this.loading = true;
-
+      const query = new URLSearchParams(filters as Record<string, string>);
       const { data, status } = await useAsyncData<EventsResponseBody>(
         async () =>
-          (await fetchWithoutToken(`/events/events`, {})) as EventsResponseBody
+          (await fetchWithoutToken(
+            `/events/events?${query.toString()}`,
+            {}
+          )) as EventsResponseBody
       );
 
       if (status.value === "success") {

@@ -212,7 +212,7 @@ class Resource(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
 
     tags = models.ManyToManyField("content.Tag", blank=True)
-    topics = models.ManyToManyField("content.Topic", blank=True, null=True)
+    topics = models.ManyToManyField("content.Topic", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField(

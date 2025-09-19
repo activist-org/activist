@@ -37,9 +37,11 @@ import {
 const aboveMediumBP = useBreakpoint("md");
 
 const eventStore = useEventStore();
-await eventStore.fetchAll();
+onMounted(() => {
+  eventStore.fetchAll();
+});
 
-const { events } = eventStore;
+const events = toRef(eventStore, "events");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
