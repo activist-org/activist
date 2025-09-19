@@ -318,16 +318,16 @@ cd backend
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
-python manage.py loaddata fixtures/superuser.json 
-python manage.py loaddata fixtures/status_types.json 
-python manage.py loaddata fixtures/topics.json 
+python manage.py loaddata fixtures/superuser.json
+python manage.py loaddata fixtures/status_types.json
+python manage.py loaddata fixtures/topics.json
 python manage.py populate_db \
 --users 10 \
 --orgs-per-user 1 \
 --groups-per-org 1 \
 --events-per-org 1 \
 --resources-per-entity 2 \
---faq-entries-per-entity 3 
+--faq-entries-per-entity 3
 ```
 
 You can then visit <http://localhost:8000/admin> to see the development backend admin UI as well as <http://localhost:8000/v1/schema/swagger-ui/> for the Swagger UI once the server is up and running.
@@ -475,6 +475,7 @@ yarn install
 yarn build  # answer no to all package installation prompts
 # Note that there may be an installation prompt high in the build logs. Hit 'n' to say no.
 
+# Note that you may be asked to install extra dependencies in the next command.
 npx serve dist/  # start the frontend
 ```
 
