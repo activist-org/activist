@@ -19,7 +19,7 @@ from events.models import Event, EventFaq, EventResource, EventSocialLink
 
 
 @pytest.mark.django_db
-def test_populate_db_command_basic():
+def test_populate_db_command_with_arguments():
     """
     Test that the populate_db command creates the expected number of entities and content.
     """
