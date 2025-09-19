@@ -6,6 +6,8 @@ import { describe, expect, it, vi } from "vitest";
 
 import { getEnglishText } from "~/utils/i18n";
 
+// Note: Auto-import mocks (useI18n, etc.) are handled globally in test/setup.ts
+
 describe("FormTextEntity component", () => {
   const mockHandleSubmit = vi.fn();
 
