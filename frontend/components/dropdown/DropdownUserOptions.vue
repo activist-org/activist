@@ -73,9 +73,7 @@ const userOptionsSignedIn: MenuSelector[] = [
     iconUrl: `${IconMap.SIGN_OUT}`,
     selected: false,
     onClick: () => {
-      signOut(
-        { callbackUrl: '/', external: false }
-      );
+      signOut({ callbackUrl: "/", external: false });
     },
   },
 ];

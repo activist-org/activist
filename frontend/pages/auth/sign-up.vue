@@ -133,7 +133,10 @@
         name="verifyCaptcha"
         class-item="space-y-4"
       >
-      <FriendlyCaptcha v-model="value.value as boolean" @update:model-value="handleChange"  />
+        <FriendlyCaptcha
+          v-model="value.value as boolean"
+          @update:model-value="handleChange"
+        />
       </FormItem>
       <div class="flex flex-row items-center">
         <FormItem
@@ -141,7 +144,11 @@
           name="hasRead"
           class-item="space-y-4"
         >
-          <FormCheckbox @update:model-value="handleChange" @blur="handleBlur" :id="id" />
+          <FormCheckbox
+            @update:model-value="handleChange"
+            @blur="handleBlur"
+            :id="id"
+          />
         </FormItem>
         <p class="flex flex-wrap pl-2">
           {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
@@ -189,7 +196,7 @@ const signUpSchema = z
     }),
     verifyCaptcha: z.boolean().refine((val) => val, {
       message: t("i18n.pages.auth.sign_up.captcha_required"),
-    })
+    }),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {

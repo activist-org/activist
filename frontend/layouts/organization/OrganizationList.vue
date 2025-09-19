@@ -56,9 +56,9 @@ const route = useRoute();
 watch(
   route,
   (form) => {
-      organizationStore.fetchAll({
-        ...form.query,
-      });
+    organizationStore.fetchAll({
+      ...form.query,
+    });
   },
   { immediate: true }
 );

@@ -58,9 +58,9 @@ const route = useRoute();
 watch(
   route,
   (form) => {
-      eventStore.fetchAll({
-        ...form.query,
-      });
+    eventStore.fetchAll({
+      ...form.query,
+    });
   },
   { immediate: true }
 );

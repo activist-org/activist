@@ -34,7 +34,7 @@ import { IconMap } from "~/types/icon-map";
 
 const devMode = useDevMode();
 devMode.check();
-const localeValue = ref(false)
+const localeValue = ref(false);
 
 interface Props {
   modelValue: boolean;
