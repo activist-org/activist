@@ -159,10 +159,11 @@ class Command(BaseCommand):
 
                     for r in range(num_resources_per_entity):
                         user_org_resource = OrganizationResourceFactory(
-                            org=user_org, order=r
+                            created_by=user, org=user_org, order=r
                         )
                         user_org.resources.add(user_org_resource)
                         user_org_resource.topics.set([user_topic])
+
                     for e in range(num_events_per_org):
                         event_type = random.choice(["learn", "action"])
                         event_type_verb = (
@@ -197,7 +198,7 @@ class Command(BaseCommand):
 
                         for r in range(num_resources_per_entity):
                             user_org_event_resource = EventResourceFactory(
-                                event=user_org_event, order=r
+                                created_by=user, event=user_org_event, order=r
                             )
                             user_org_event.resources.add(user_org_event_resource)
                             user_org_event_resource.topics.set([user_topic])
@@ -229,7 +230,7 @@ class Command(BaseCommand):
 
                         for r in range(num_resources_per_entity):
                             user_org_group_resource = GroupResourceFactory(
-                                group=user_org_group, order=r
+                                created_by=user, group=user_org_group, order=r
                             )
                             user_org_group.resources.add(user_org_group_resource)
                             user_org_group_resource.topics.set([user_topic])
@@ -247,6 +248,11 @@ class Command(BaseCommand):
                 + num_orgs_per_user * num_events_per_org * num_faq_entries_per_entity
                 + num_orgs_per_user * num_groups_per_org * num_faq_entries_per_entity
             )
+            num_social_links = 3 * (
+                num_orgs_per_user
+                + num_orgs_per_user * num_groups_per_org
+                + num_orgs_per_user * num_events_per_org
+            )
 
             self.stdout.write(
                 self.style.ERROR(
@@ -256,6 +262,7 @@ class Command(BaseCommand):
                     f"Number of events created: {num_events}\n"
                     f"Number of resources created: {num_resources}\n"
                     f"Number of FAQ entries created: {num_faq_entries}\n"
+                    f"Number of social links created: {num_social_links}\n"
                 )
             )
 
