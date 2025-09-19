@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page, Locator } from "@playwright/test";
 
+import { getEnglishText } from "~/utils/i18n";
+
 export const newOrganizationsHomePage = (page: Page) => ({
   // Page elements
   heading: page.getByRole("heading", { level: 1 }),
@@ -9,14 +11,24 @@ export const newOrganizationsHomePage = (page: Page) => ({
   // Organization cards
   organizationLink: page
     .getByRole("link", {
-      name: /Navigate to the page for this organization/i,
+      name: new RegExp(
+        getEnglishText(
+          "i18n.components._global.navigate_to_organization_aria_label"
+        ),
+        "i"
+      ),
     })
     .first(),
 
   // Share functionality
   shareButton: page
     .getByRole("link", {
-      name: /Navigate to the page for this organization/i,
+      name: new RegExp(
+        getEnglishText(
+          "i18n.components._global.navigate_to_organization_aria_label"
+        ),
+        "i"
+      ),
     })
     .locator("xpath=following-sibling::div")
     .getByRole("button")

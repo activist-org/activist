@@ -6,12 +6,16 @@ import { newOrganizationMenu } from "~/test-e2e/component-objects/OrganizationMe
 import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSocialLinksModal } from "~/test-e2e/component-objects/SocialLinksModal";
+import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationPage = (page: Page) => ({
   // Main page elements
   pageHeading: page.getByRole("heading", { level: 1 }),
   shareButton: page.getByRole("button", {
-    name: /View options to share this organization with others/i,
+    name: new RegExp(
+      getEnglishText("i18n._global.share_organization_aria_label"),
+      "i"
+    ),
   }),
 
   // Navigation components
@@ -25,7 +29,12 @@ export const newOrganizationPage = (page: Page) => ({
 
   // About page content
   aboutPage: {
-    aboutJoinButton: page.getByRole("link", { name: /join organization/i }),
+    aboutJoinButton: page.getByRole("link", {
+      name: new RegExp(
+        getEnglishText("i18n._global.join_organization_aria_label"),
+        "i"
+      ),
+    }),
     aboutCard: page.getByTestId("card-about"),
     aboutCardEditIcon: page
       .getByTestId("card-about")
@@ -44,11 +53,21 @@ export const newOrganizationPage = (page: Page) => ({
       .first(),
     getInvolvedViewGroupsButton: page
       .getByTestId("card-get-involved")
-      .getByRole("link", { name: /view all groups/i }),
+      .getByRole("link", {
+        name: new RegExp(
+          getEnglishText(
+            "i18n.components.card_get_involved_organization.view_all_groups_aria_label"
+          ),
+          "i"
+        ),
+      }),
     getInvolvedJoinButton: page
       .getByTestId("card-get-involved")
       .getByRole("link", {
-        name: /Start the process of joining the organization/i,
+        name: new RegExp(
+          getEnglishText("i18n._global.join_organization_aria_label"),
+          "i"
+        ),
       }),
     connectCard: page.getByTestId("card-connect"),
     connectCardEditIcon: page
@@ -60,9 +79,21 @@ export const newOrganizationPage = (page: Page) => ({
 
   // Events page content
   eventsPage: {
-    eventsNewButton: page.getByRole("link", { name: /new event/i }),
+    eventsNewButton: page.getByRole("link", {
+      name: new RegExp(
+        getEnglishText(
+          "i18n.pages.organizations.events.new_org_event_aria_label"
+        ),
+        "i"
+      ),
+    }),
     eventsSubscribeButton: page.getByRole("button", {
-      name: /download the calendar/i,
+      name: new RegExp(
+        getEnglishText(
+          "i18n.pages.organizations._global.subscribe_to_events_aria_label"
+        ),
+        "i"
+      ),
     }),
   },
 });
