@@ -41,7 +41,12 @@
         </div>
       </FormItem>
       <div class="flex flex-col space-y-3">
-        <FriendlyCaptcha id="sign-in-captcha" />
+      <FormItem
+        v-slot="{ id, handleChange, value }"
+        name="verifyCaptcha"
+      >
+        <FriendlyCaptcha :id="id" v-model="value.value as boolean" @update:model-value="handleChange" />
+      </FormItem>
         <button
           @click="navigateTo(localePath('/auth/reset-password'))"
           @mouseover="hovered = true"
@@ -83,6 +88,9 @@ const { t } = useI18n();
 const signInSchema = z.object({
   userName: z.string().min(1, t("i18n.pages.auth._global.required")),
   password: z.string().min(1, t("i18n.pages.auth._global.required")),
+  verifyCaptcha: z.boolean().refine((val) => val, {
+    message: t("i18n.pages.auth.sign_in.captcha_required"),
+  })
 });
 const localePath = useLocalePath();
 

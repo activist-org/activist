@@ -128,27 +128,32 @@
           </template>
         </FormTextInputPassword>
       </FormItem>
-
       <FormItem
-        v-slot="{ id, handleChange, handleBlur }"
-        name="hasRead"
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        name="verifyCaptcha"
         class-item="space-y-4"
       >
-        <FriendlyCaptcha />
-        <div class="flex flex-row items-center">
-          <FormCheckbox @input="handleChange" @blur="handleBlur" :id="id" />
-          <p class="flex flex-wrap pl-2">
-            {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
-            <NuxtLink
-              :to="localePath('/legal/privacy-policy')"
-              target="_blank"
-              class="link-text ml-1 sm:block"
-            >
-              {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
-            </NuxtLink>
-          </p>
-        </div>
+      <FriendlyCaptcha v-model="value.value as boolean" @update:model-value="handleChange"  />
       </FormItem>
+      <div class="flex flex-row items-center">
+        <FormItem
+          v-slot="{ id, handleChange, handleBlur }"
+          name="hasRead"
+          class-item="space-y-4"
+        >
+          <FormCheckbox @update:model-value="handleChange" @blur="handleBlur" :id="id" />
+        </FormItem>
+        <p class="flex flex-wrap pl-2">
+          {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
+          <NuxtLink
+            :to="localePath('/legal/privacy-policy')"
+            target="_blank"
+            class="link-text ml-1 sm:block"
+          >
+            {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
+          </NuxtLink>
+        </p>
+      </div>
     </Form>
 
     <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
@@ -179,10 +184,12 @@ const signUpSchema = z
     password: z.string(),
     confirmPassword: z.string(),
     email: z.string().email(t("i18n.pages.auth.sign_up.invalid_email")),
-    // FIXME: This is commented out because Checkbox is not implemented yet.
-    // hasRead: z.boolean().refine((val) => val, {
-    //   message: "i18n.pages.auth._global.required",
-    // })
+    hasRead: z.boolean().refine((val) => val, {
+      message: "i18n.pages.auth._global.required",
+    }),
+    verifyCaptcha: z.boolean().refine((val) => val, {
+      message: t("i18n.pages.auth.sign_up.captcha_required"),
+    })
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -213,6 +220,5 @@ const handleSignUp = (values: unknown) => {
     },
     { callbackUrl: "/auth/email", external: false }
   );
-
 };
 </script>

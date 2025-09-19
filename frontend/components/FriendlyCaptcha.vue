@@ -12,8 +12,9 @@
     />
     <button
       v-else
-      class="style-btn flex w-full cursor-not-allowed items-center space-x-4 rounded-md border-none p-1 px-3 text-lg shadow-none"
-      :disabled="true"
+      type="button"
+      @click="verifyCaptcha(true)"
+      class="style-btn flex w-full cursor-pointer items-center space-x-4 rounded-md border-none p-1 px-3 text-lg shadow-none"
       :aria-label="
         $t('i18n.components.friendly_captcha.captcha_disabled_aria_label')
       "
@@ -33,9 +34,18 @@ import { IconMap } from "~/types/icon-map";
 
 const devMode = useDevMode();
 devMode.check();
+const localeValue = ref(false)
 
+interface Props {
+  modelValue: boolean;
+}
+defineProps<Props>();
+const emit = defineEmits<{
+  (e: "update:modelValue", value: boolean): void;
+}>();
 const verifyCaptcha = (_response: boolean) => {
-  // Note: For future implementation.
+  emit("update:modelValue", true);
+  localeValue.value = true;
 };
 
 const { locale } = useI18n();
