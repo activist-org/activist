@@ -32,7 +32,10 @@
                 size="1em"
                 :aria-label="$t('i18n.components._global.draggable_element')"
               />
-              <IconClose @click="handleRemoveByIndex(index)" />
+              <IconClose
+                @click="handleRemoveByIndex(index)"
+                data-testid="remove-button"
+              />
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
                 :name="`socialLinks.${index}.label`"

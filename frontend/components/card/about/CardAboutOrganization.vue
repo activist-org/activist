@@ -58,6 +58,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
+              data-testid="expand-text-button"
               class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
@@ -71,6 +72,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
+              data-testid="collapse-text-button"
               class="focus-brand mt-1 font-semibold text-link-text"
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
