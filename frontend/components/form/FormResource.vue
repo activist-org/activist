@@ -16,12 +16,13 @@
         :label="$t('i18n.components.form_resource.name')"
         :required="true"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :id="id"
           :hasError="!!errorMessage.value"
-          :modelValue="value.value as string"
+          :modelValue="(value.value as string)"
           :label="$t('i18n.components.form_resource.name')"
         />
       </FormItem>
@@ -45,12 +46,13 @@
         :label="$t('i18n.components.form_resource.link')"
         :required="true"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :id="id"
           :hasError="!!errorMessage.value"
-          :modelValue="value.value as string"
+          :modelValue="(value.value as string)"
           :label="$t('i18n.components.form_resource.link')"
         />
       </FormItem>
@@ -59,12 +61,13 @@
         :label="$t('i18n.components._global.topics')"
         name="topics"
       >
+        <!-- prettier-ignore-attribute :selected-topics -->
         <FormSelectorComboboxTopics
           @update:selectedOptions="
             (val: unknown) => handleChange(val as TopicEnum[])
           "
           :id="id"
-          :selected-topics="value.value as TopicEnum[]"
+          :selected-topics="(value.value as TopicEnum[])"
           :label="$t('i18n.components._global.topics')"
           :hasColOptions="false"
         />

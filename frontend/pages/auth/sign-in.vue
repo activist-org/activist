@@ -12,11 +12,12 @@
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="userName"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
           @input="handleChange"
           @blur="handleBlur"
           :id="id"
-          :modelValue="value.value as string"
+          :modelValue="(value.value as string)"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth.sign_in.enter_user_name')"
         />
@@ -26,11 +27,12 @@
         name="password"
       >
         <div class="flex flex-col space-y-4">
+          <!-- prettier-ignore-attribute :modelValue -->
           <FormTextInputPassword
             @input="handleChange"
             @blur="handleBlur"
             :id="id"
-            :modelValue="value.value as string"
+            :modelValue="(value.value as string)"
             :hasError="!!errorMessage.value"
             :label="$t('i18n._global.enter_password')"
           />
@@ -42,10 +44,11 @@
       </FormItem>
       <div class="flex flex-col space-y-3">
         <FormItem v-slot="{ id, handleChange, value }" name="verifyCaptcha">
+          <!-- prettier-ignore-attribute v-model -->
           <FriendlyCaptcha
-            :id="id"
-            v-model="value.value as boolean"
+            v-model="(value.value as boolean)"
             @update:model-value="handleChange"
+            :id="id"
           />
         </FormItem>
         <button
@@ -90,7 +93,7 @@ const signInSchema = z.object({
   userName: z.string().min(1, t("i18n.pages.auth._global.required")),
   password: z.string().min(1, t("i18n.pages.auth._global.required")),
   verifyCaptcha: z.boolean().refine((val) => val, {
-    message: t("i18n.pages.auth.sign_in.captcha_required"),
+    message: t("i18n.pages.auth._global.required"),
   }),
 });
 const localePath = useLocalePath();

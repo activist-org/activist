@@ -13,11 +13,12 @@
       :label="$t('i18n._global.location')"
       name="location"
     >
+      <!-- prettier-ignore-attribute :modelValue -->
       <FormTextInputSearch
         @blur="handleBlur"
         @update:modelValue="handleChange"
         :id="id"
-        :modelValue="value.value as string"
+        :modelValue="(value.value as string)"
         :hasError="!!errorMessage.value"
         :label="
           $t('i18n.components.sidebar.left.filter._global.filter_by_location')
@@ -29,13 +30,14 @@
       :label="$t('i18n.components._global.topics')"
       name="topics"
     >
+      <!-- prettier-ignore-attribute :selected-topics -->
       <FormSelectorComboboxTopics
         @update:selectedOptions="
           (val: unknown) => handleChange(val as TopicEnum[])
         "
         :id="id"
         :label="$t('i18n.components._global.topics')"
-        :selected-topics="(value.value ?? []) as TopicEnum[]"
+        :selected-topics="((value.value ?? []) as TopicEnum[])"
       />
     </FormItem>
   </Form>

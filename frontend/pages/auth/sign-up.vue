@@ -12,11 +12,12 @@
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="userName"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
           @input="handleChange"
           @blur="handleBlur"
           :id="id"
-          :modelValue="value.value as string"
+          :modelValue="(value.value as string)"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth._global.enter_a_user_name')"
           :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
@@ -26,11 +27,12 @@
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="email"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
           @input="handleChange"
           @blur="handleBlur"
           :id="id"
-          :modelValue="value.value as string"
+          :modelValue="(value.value as string)"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth.sign_up.enter_email')"
           :data-testid="$t('i18n.pages.auth.sign_up.enter_email')"
@@ -47,6 +49,7 @@
         class-item="space-y-4"
         name="password"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInputPassword
           @update:modelValue="handleChange"
           @blur="
@@ -57,26 +60,27 @@
           "
           @focus="isPasswordFieldFocused = true"
           :id="id"
-          :modelValue="passwordRef.value as string"
+          :modelValue="(passwordRef.value as string)"
           :hasError="!!errorMessage.value"
           :label="$t('i18n._global.enter_password')"
         />
         <div class="flex flex-col space-y-4">
+          <!-- prettier-ignore-attribute :passwordValue -->
           <IndicatorPasswordStrength
             id="sign-in-password-strength"
-            :passwordValue="passwordRef as Ref"
+            :passwordValue="(passwordRef as Ref)"
           />
+          <!-- prettier-ignore-attribute :password -->
           <TooltipPasswordRequirements
             v-if="
               checkRules((passwordRef.value || '') as string).some(
                 (rule) => !rule.isValid
               ) && isPasswordFieldFocused
             "
-            :password="passwordRef as Ref"
+            :password="(passwordRef as Ref)"
           />
         </div>
       </FormItem>
-
       <FormItem
         v-slot="{
           id,
@@ -87,11 +91,12 @@
         }"
         name="confirmPassword"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInputPassword
           @update:modelValue="handleChange"
           @blur="handleBlur"
           :id="id"
-          :modelValue="confirmPassword.value as string"
+          :modelValue="(confirmPassword.value as string)"
           :hasError="!!errorMessage.value"
           :label="$t('i18n._global.repeat_password')"
         >
@@ -101,7 +106,7 @@
                 :name="
                   confirmPassword.value &&
                   errorMessage.value !==
-                    t('i18n.pages.auth.sign_up.password_not_matched')
+                    $t('i18n.pages.auth.sign_up.password_not_matched')
                     ? IconMap.CHECK
                     : IconMap.X_LG
                 "
@@ -109,7 +114,7 @@
                 :color="
                   confirmPassword.value &&
                   errorMessage.value !==
-                    t('i18n.pages.auth.sign_up.password_not_matched')
+                    $t('i18n.pages.auth.sign_up.password_not_matched')
                     ? '#3BA55C'
                     : '#BA3D3B'
                 "
@@ -119,7 +124,7 @@
               <title id="sign-up-confirm-password-match" class="sr-only">
                 {{
                   errorMessage.value ===
-                  t("i18n.pages.auth.sign_up.password_not_matched")
+                  $t("i18n.pages.auth.sign_up.password_not_matched")
                     ? $t("i18n.pages.auth._global.passwords_do_not_match")
                     : $t("i18n.pages.auth._global.passwords_match")
                 }}
@@ -129,12 +134,13 @@
         </FormTextInputPassword>
       </FormItem>
       <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        v-slot="{ handleChange, value }"
         name="verifyCaptcha"
         class-item="space-y-4"
       >
+        <!-- prettier-ignore-attribute v-model -->
         <FriendlyCaptcha
-          v-model="value.value as boolean"
+          v-model="(value.value as boolean)"
           @update:model-value="handleChange"
         />
       </FormItem>
@@ -162,7 +168,6 @@
         </p>
       </div>
     </Form>
-
     <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
       <h6>{{ $t("i18n.pages.auth.sign_up.have_account") }}</h6>
       <NuxtLink
@@ -195,7 +200,7 @@ const signUpSchema = z
       message: "i18n.pages.auth._global.required",
     }),
     verifyCaptcha: z.boolean().refine((val) => val, {
-      message: t("i18n.pages.auth.sign_up.captcha_required"),
+      message: t("i18n.pages.auth._global.required"),
     }),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
@@ -228,6 +233,5 @@ const handleSignUp = (values: unknown) => {
     { preventLoginFlow: true }
   );
   navigateTo(localePath("/auth/confirm/email"));
-
 };
 </script>

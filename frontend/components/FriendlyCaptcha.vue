@@ -12,8 +12,8 @@
     />
     <button
       v-else
-      type="button"
       @click="verifyCaptcha(true)"
+      type="button"
       class="style-btn flex w-full cursor-pointer items-center space-x-4 rounded-md border-none p-1 px-3 text-lg shadow-none"
       :aria-label="
         $t('i18n.components.friendly_captcha.captcha_disabled_aria_label')

@@ -22,10 +22,11 @@
         name="days"
         :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
           @update:modelValue="handleChange"
           :id="id"
-          :model-value="value.value as string"
+          :modelValue="(value.value as string)"
           :options="optionDays"
         />
       </FormItem>
@@ -34,10 +35,11 @@
         name="type"
         :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
           @update:modelValue="handleChange"
           :id="id"
-          :model-value="value.value as string"
+          :modelValue="(value.value as string)"
           :options="optionEventTypes"
         />
       </FormItem>
@@ -46,10 +48,11 @@
         name="setting"
         :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
           @update:modelValue="handleChange"
           :id="id"
-          :model-value="value.value as string"
+          :modelValue="(value.value as string)"
           :options="optionLocations"
         />
       </FormItem>
@@ -58,11 +61,12 @@
         :label="$t('i18n._global.location')"
         name="location"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInputSearch
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :id="id"
-          :modelValue="value.value as string"
+          :modelValue="(value.value as string)"
           :hasError="!!errorMessage.value"
           :label="
             $t('i18n.components.sidebar.left.filter._global.filter_by_location')
@@ -74,12 +78,13 @@
         :label="$t('i18n.components._global.topics')"
         name="topics"
       >
+        <!-- prettier-ignore-attribute :selected-options -->
         <FormSelectorCombobox
           @update:selectedOptions="
             (val: unknown) => handleChange(val as TopicEnum[])
           "
           :id="id"
-          :selected-options="(value.value ?? []) as TopicEnum[]"
+          :selected-options="((value.value ?? []) as TopicEnum[])"
           :options="optionsTopics"
           :label="$t('i18n.components._global.topics')"
         />
@@ -220,7 +225,7 @@ const updateViewType = (
     return;
   }
 };
-const eventStore = useEventStore();
+
 const viewType = ref(ViewType.MAP);
 const q = route.query.view;
 if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
