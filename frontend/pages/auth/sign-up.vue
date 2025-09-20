@@ -142,6 +142,7 @@
         <FriendlyCaptcha
           v-model="(value.value as boolean)"
           @update:model-value="handleChange"
+          data-testid="sign-up-captcha"
         />
       </FormItem>
       <div class="flex flex-row items-center">
@@ -150,6 +151,7 @@
             @update:model-value="handleChange"
             @blur="handleBlur"
             :id="id"
+            data-testid="sign-up-terms-checkbox"
           />
         </FormItem>
         <p class="flex flex-wrap pl-2">
@@ -238,7 +240,7 @@ const handleSignUp = async (values: unknown) => {
         showError(error.response?._data as string);
         return;
       }
-      // Join all error messages into a single string
+      // Join all error messages into a single string.
       const message =
         Object.values(error.response?._data).join(", ") ||
         t("i18n.pages.auth._global.error_occurred");

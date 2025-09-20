@@ -53,6 +53,12 @@ describe("sign-up", () => {
       name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
     });
 
+    const captcha = screen.getByTestId("sign-up-captcha");
+    fireEvent.click(captcha);
+
+    const termsCheckbox = screen.getByTestId("sign-up-terms-checkbox");
+    fireEvent.click(termsCheckbox);
+
     expect(icon.style.color).toBe("#BA3D3B");
 
     await fireEvent.update(repeatPasswordInput, "abcd");

@@ -47,7 +47,9 @@ dotenv.load_dotenv()
 FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
 ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
 
-# MARK: Verify Email    
+# MARK: Verify Email
+
+
 class VerifyEmailView(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
@@ -55,19 +57,23 @@ class VerifyEmailView(APIView):
     def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
         user = UserModel.objects.filter(verification_code=code).first()
         if not user:
-            return Response({"detail": "Invalid code."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Invalid code."}, status=status.HTTP_400_BAD_REQUEST
+            )
         user.is_confirmed = True
         user.verification_code = None
         user.save()
 
         serializer = self.serializer_class(user)
 
-        return Response({
-            "message": "Email confirmed is verified.",
-            "user": serializer.data
-        }, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Email confirmed is verified.", "user": serializer.data},
+            status=status.HTTP_200_OK,
+        )
+
 
 # MARK: Sign out
+
 
 class SignOutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -84,7 +90,7 @@ class SignOutView(APIView):
 
         logout(request)
 
-        SessionModel.objects.filter(user=user).delete()
+        SessionModel.objects.filter(user=user.id).delete()
 
         logger.info(f"User logged out successfully: {user.username} (ID: {user.id})")
 
@@ -93,7 +99,10 @@ class SignOutView(APIView):
             status=status.HTTP_200_OK,
         )
 
+
 # MARK: Sign Up
+
+
 class SignUpView(APIView):
     queryset = UserModel.objects.all()
     permission_classes = [AllowAny]
@@ -110,7 +119,9 @@ class SignUpView(APIView):
         if user.email != "":
             user.verification_code = uuid.uuid4()
 
-            confirmation_link = f"{FRONTEND_BASE_URL}/auth/confirm/{user.verification_code}"
+            confirmation_link = (
+                f"{FRONTEND_BASE_URL}/auth/confirm/{user.verification_code}"
+            )
             message = f"Welcome to activist.org, {user.username}!, Please confirm your email address by clicking the link: {confirmation_link}"
             html_message = render_to_string(
                 template_name="signup_email.html",
