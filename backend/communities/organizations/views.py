@@ -9,6 +9,7 @@ from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -23,6 +24,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from communities.models import StatusType
+from communities.organizations.filters import OrganizationFilter
 from communities.organizations.models import (
     Organization,
     OrganizationFaq,
@@ -55,6 +57,8 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filterset_class = OrganizationFilter
+    filter_backends = [DjangoFilterBackend]
 
     @extend_schema(
         responses={200: OrganizationSerializer(many=True)},
@@ -81,7 +85,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
                 examples=[
                     OpenApiExample(
                         name="Failed to create organization",
-                        value={"error": "Failed to create organization"},
+                        value={"detail": "Failed to create organization"},
                         media_type="application/json",
                     )
                 ],
@@ -308,7 +312,8 @@ class OrganizationDetailAPIView(APIView):
         logger.info(f"Organization deleted (soft): {org.id}")
 
         return Response(
-            {"message": "Organization deleted successfully."}, status.HTTP_200_OK
+            {"message": "Organization deleted successfully."},
+            status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -455,7 +460,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         except OrganizationFaq.DoesNotExist as e:
             logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.org.created_by and not request.user.is_staff:
@@ -501,7 +506,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:
@@ -653,7 +658,7 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
         except OrganizationResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != resource.org.created_by and not request.user.is_staff:

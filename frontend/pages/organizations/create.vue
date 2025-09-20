@@ -18,7 +18,6 @@
           {{ $t("i18n.pages.organizations.create.subtext") }}
         </p>
       </div>
-
       <Form
         @submit="submit"
         id="organization-create-form"
@@ -27,7 +26,7 @@
         class-button="mb-4"
         submit-label="i18n.pages.organizations.create.complete_application"
       >
-        <!-- First card: Name and Location -->
+        <!-- MARK: Name and Location -->
         <div class="card-style flex justify-between gap-6 px-5 py-6">
           <div class="w-1/2">
             <FormItem
@@ -36,11 +35,12 @@
               name="name"
               :required="true"
             >
+              <!-- prettier-ignore-attribute :modelValue -->
               <FormTextInput
                 @input="handleChange"
                 @blur="handleBlur"
                 :id="id"
-                :modelValue="value.value as string"
+                :modelValue="(value.value as string)"
                 :hasError="!!errorMessage.value"
                 :label="
                   $t(
@@ -50,7 +50,6 @@
               />
             </FormItem>
           </div>
-
           <div class="w-1/2">
             <FormItem
               v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -58,11 +57,12 @@
               name="location"
               :required="true"
             >
+              <!-- prettier-ignore-attribute :modelValue -->
               <FormTextInput
                 @input="handleChange"
                 @blur="handleBlur"
                 :id="id"
-                :modelValue="value.value as string"
+                :modelValue="(value.value as string)"
                 :hasError="!!errorMessage.value"
                 :label="
                   $t('i18n.pages.organizations.create.location_placeholder')
@@ -71,8 +71,7 @@
             </FormItem>
           </div>
         </div>
-
-        <!-- Description card -->
+        <!-- MARK: Description -->
         <div class="card-style mt-5 px-5 py-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, errorMessage }"
@@ -91,33 +90,33 @@
             />
           </FormItem>
         </div>
-
-        <!-- Tagline card -->
+        <!-- MARK: Tagline -->
         <div class="card-style mt-5 px-5 py-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
             :label="$t('i18n.pages._global.create.tagline')"
             name="tagline"
           >
+            <!-- prettier-ignore-attribute :modelValue -->
             <FormTextInput
               @input="handleChange"
               @blur="handleBlur"
               :id="id"
-              :modelValue="value.value as string"
+              :modelValue="(value.value as string)"
               :hasError="!!errorMessage.value"
               :label="$t('i18n.pages.organizations.create.tagline_placeholder')"
             />
           </FormItem>
         </div>
-
-        <!-- Topics -->
+        <!-- MARK: Topics -->
         <div class="card-style mt-5 px-5 pb-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, value }"
             name="topics"
           >
+            <!-- prettier-ignore-attribute v-model -->
             <CardTopicSelection
-              v-model="value.value as TopicEnum[]"
+              v-model="(value.value as TopicEnum[])"
               @input="handleChange"
               @blur="handleBlur"
               :id="id"
@@ -126,13 +125,11 @@
             />
           </FormItem>
         </div>
-
-        <!-- Connect organization -->
+        <!-- MARK: Connect -->
         <div class="mt-5">
           <CardConnectOrganization />
         </div>
-
-        <!-- Terms checkbox -->
+        <!-- MARK: Terms -->
         <div class="mt-5 flex flex-col">
           <div class="flex space-x-2">
             <FormCheckbox />

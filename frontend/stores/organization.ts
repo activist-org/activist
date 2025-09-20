@@ -6,6 +6,7 @@ import type {
   OrganizationResponse,
   OrganizationsResponseBody,
   OrganizationUpdateTextFormData,
+  OrganizationFilters,
 } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
@@ -70,24 +71,27 @@ export const useOrganizationStore = defineStore("organization", {
     async create(formData: OrganizationCreateFormData) {
       this.loading = true;
 
+      // Note: created_by not included as the backend infers the user from the token.
+      const payload: Record<string, unknown> = {
+        name: formData.name,
+        location: formData.location,
+        tagline: formData.tagline,
+        social_accounts: formData.social_accounts,
+        description: formData.description,
+        topics: formData.topics,
+        high_risk: false,
+        total_flags: 0,
+        acceptance_date: new Date(),
+      };
+
       const responseOrg = await useFetch(
         `${BASE_BACKEND_URL}/communities/organizations`,
         {
           method: "POST",
-          body: JSON.stringify({
-            name: formData.name,
-            location: formData.location,
-            tagline: formData.tagline,
-            social_accounts: formData.social_accounts,
-            created_by: "cdfecc96-2dd5-435b-baba-a7610afee70e",
-            description: formData.description,
-            topics: formData.topics,
-            high_risk: false,
-            total_flags: 0,
-            acceptance_date: new Date(),
-          }),
+          body: JSON.stringify(payload),
           headers: {
             Authorization: `${token.value}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -147,6 +151,7 @@ export const useOrganizationStore = defineStore("organization", {
     async createResource(organization: Organization, formData: ResourceInput) {
       this.loading = true;
       const responses: boolean[] = [];
+
       const responseFaqEntries = await useFetch(
         `${BASE_BACKEND_URL}/communities/organization_resources`,
         {
@@ -353,13 +358,15 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Fetch All
 
-    async fetchAll() {
+    async fetchAll(filters: OrganizationFilters = {}) {
       this.loading = true;
-
+      const searchParams = new URLSearchParams(
+        filters as Record<string, string>
+      );
       const { data, status } = await useAsyncData<OrganizationsResponseBody>(
         async () =>
           (await fetchWithoutToken(
-            `/communities/organizations`,
+            `/communities/organizations?${searchParams.toString()}`,
             {}
           )) as OrganizationsResponseBody
       );

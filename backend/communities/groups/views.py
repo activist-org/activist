@@ -221,7 +221,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         group.delete()
 
         return Response(
-            {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
+            {"message": "Group deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -367,7 +368,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
         except GroupFaq.DoesNotExist as e:
             logger.exception(f"FAQ not found for update with id {pk}: {e}")
             return Response(
-                {"error": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.group.created_by and not request.user.is_staff:
@@ -412,7 +413,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:
@@ -510,7 +511,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
         except GroupResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != resource.group.created_by and not request.user.is_staff:

@@ -91,7 +91,7 @@ import {
 import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
 
-const i18n = useI18n();
+const { t } = useI18n();
 
 const topics = [{ id: 1, name: "i18n.components.combobox_topics.all_topics" }];
 
@@ -120,13 +120,13 @@ function displayValue() {
     return "";
   } else {
     return selectedTopic.value.id == 1
-      ? i18n.t("i18n.components.combobox_topics.filter_by_topic")
+      ? t("i18n.components.combobox_topics.filter_by_topic")
       : selectedTopic.value.name;
   }
 }
 
 const displayValueHandler = () => {
-  return i18n.t(displayValue());
+  return t(displayValue());
 };
 
 function handleInputFocus(e: Event) {

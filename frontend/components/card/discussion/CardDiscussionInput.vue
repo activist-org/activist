@@ -173,7 +173,8 @@ const showTooltip = ref(false);
 const props = defineProps<{
   discussionInput: DiscussionInput;
 }>();
-const i18n = useI18n();
+
+const { t } = useI18n();
 const markdown = ref("");
 
 const isMarkdownPreview = ref("Write");
@@ -200,10 +201,8 @@ const writeEditor = useEditor({
     StarterKit,
     Placeholder.configure({
       placeholder: props.discussionInput.highRisk
-        ? i18n.t(
-            "i18n.components.card_discussion_input.leave_comment_high_risk"
-          )
-        : i18n.t("i18n.components.card_discussion_input.leave_comment"),
+        ? t("i18n.components.card_discussion_input.leave_comment_high_risk")
+        : t("i18n.components.card_discussion_input.leave_comment"),
     }),
     Link,
     Mention.configure({

@@ -133,4 +133,4 @@ def test_group_delete(client: Client) -> None:
         headers={"Authorization": f"Token {token}"},
     )
 
-    assert delete_response.status_code == 200
+    assert delete_response.status_code == 204
