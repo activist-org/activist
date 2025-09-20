@@ -3,6 +3,7 @@
   <LoadingScreen />
   <div>
     <NuxtLayout>
+      <Toaster :theme="isDark ? 'dark' : 'light'" :richColors="true" />
       <ModalCommandPalette :paletteData="commandPaletteData" />
       <NuxtPage />
     </NuxtLayout>
@@ -11,6 +12,7 @@
 
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { Toaster } from "vue-sonner";
 
 import { commandPaletteData } from "~/types/command-palette";
 
@@ -34,6 +36,9 @@ const { meta_k, ctrl_k } = useMagicKeys({
       e.preventDefault();
   },
 });
+
+const colorMode = useColorMode();
+const isDark = computed(() => colorMode.value === "dark");
 
 whenever(meta_k, () => {
   if (isMacOS) {
