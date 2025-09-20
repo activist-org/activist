@@ -42,6 +42,7 @@
     </HeaderAppPageOrganization>
     <div
       v-if="organization.events && organization.events.length > 0"
+      data-testid="organization-events-list"
       class="space-y-3 py-4"
     >
       <CardSearchResultEntityEvent

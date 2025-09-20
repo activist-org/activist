@@ -20,22 +20,30 @@ export const newOrganizationsHomePage = (page: Page) => ({
     })
     .first(),
 
-  // Share functionality
-  shareButton: page
-    .getByRole("link", {
-      name: new RegExp(
-        getEnglishText(
-          "i18n.components._global.navigate_to_organization_aria_label"
+  // Organization menu functionality (using the new generic menu selectors)
+  getOrganizationMenuButton: (index: number) =>
+    page.getByTestId("organization-card").nth(index).getByTestId("menu-button"),
+  getOrganizationMenuTooltip: (index: number) =>
+    page
+      .getByTestId("organization-card")
+      .nth(index)
+      .getByTestId("menu-tooltip"),
+  getOrganizationShareButton: (index: number) =>
+    page
+      .getByTestId("organization-card")
+      .nth(index)
+      .getByRole("button", {
+        name: new RegExp(
+          getEnglishText("i18n._global.share_organization_aria_label"),
+          "i"
         ),
-        "i"
-      ),
-    })
-    .locator("xpath=following-sibling::div")
-    .getByRole("button")
-    .first(),
-  tooltip: (shareButton: Locator) => shareButton.locator("div.tooltip"),
-  tooltipButton: (shareButton: Locator) =>
-    shareButton.locator("div.tooltip").locator("button"),
+      }),
+
+  // Legacy shareButton for backward compatibility (first organization card)
+  shareButton: page
+    .getByTestId("organization-card")
+    .first()
+    .getByTestId("menu-button"),
 
   // Modal elements
   shareModal: page.locator("#modal").first(),

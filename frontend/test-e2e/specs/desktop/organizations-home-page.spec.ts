@@ -16,13 +16,11 @@ test.describe("Organizations Home Page", { tag: "@desktop" }, () => {
   test("User can share the organization page", async ({ page }) => {
     const organizationsHomePage = newOrganizationsHomePage(page);
 
-    await organizationsHomePage.shareButton.click();
+    await organizationsHomePage.getOrganizationMenuButton(0).click();
     await expect(
-      organizationsHomePage.tooltip(organizationsHomePage.shareButton)
+      organizationsHomePage.getOrganizationMenuTooltip(0)
     ).toBeVisible();
-    await organizationsHomePage
-      .tooltipButton(organizationsHomePage.shareButton)
-      .click();
+    await organizationsHomePage.getOrganizationShareButton(0).click();
 
     await expect(organizationsHomePage.shareModal).toBeVisible();
 

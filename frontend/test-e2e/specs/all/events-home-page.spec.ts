@@ -8,13 +8,13 @@ test.beforeEach(async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(/events/i);
 });
 
-test.describe("Events Page", { tag: ["@desktop", "@mobile"] }, () => {
+test.describe("Events Home Page", { tag: ["@desktop", "@mobile"] }, () => {
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test.skip("Events Page has no detectable accessibility issues", async ({
+  test.skip("Events Home Page has no detectable accessibility issues", async ({
     page,
   }, testInfo) => {
     const violations = await runAccessibilityTest(
-      "Events Page",
+      "Events Home Page",
       page,
       testInfo
     );
@@ -23,5 +23,21 @@ test.describe("Events Page", { tag: ["@desktop", "@mobile"] }, () => {
     if (violations.length > 0) {
       // Note: For future implementation.
     }
+  });
+
+  test("User can navigate to an event about page", async ({ page }) => {
+    const eventImage = page
+      .getByRole("link", {
+        name: getEnglishText(
+          "i18n.components.card_search_result_entity_event.navigate_to_event_aria_label"
+        ),
+      })
+      .first();
+
+    await eventImage.click();
+
+    // Verify navigation to event about page
+    await expect(page).toHaveURL(/.*\/events\/.*\/about/);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 });

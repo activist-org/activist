@@ -8,6 +8,7 @@
     <button
       @click="toggleTooltip"
       @keydown.shift.tab="onShiftTab"
+      data-testid="menu-button"
       class="style-cta elem-shadow-sm relative flex h-8 w-8 items-center justify-center rounded-full md:h-6 md:w-6"
     >
       <Icon :name="IconMap.DOTS_THREE_VERTICAL" size="1.25em" />
