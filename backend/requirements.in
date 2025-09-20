@@ -6,6 +6,7 @@
 
 Django
 django-cors-headers
+django-filter
 django-ical
 django-stubs
 django-stubs-ext
