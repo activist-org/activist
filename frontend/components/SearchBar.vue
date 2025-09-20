@@ -24,6 +24,7 @@
             @focus="onFocus"
             @blur="onFocusLost"
             @input="handleChange"
+            ref="input"
             id="input-search"
             :value="localValue"
             class="h-5 w-16 bg-transparent outline-none"
@@ -135,7 +136,10 @@ const activeElement = useActiveElement();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
 const notUsingEditor = computed(
-  () => !activeElement.value?.classList?.contains("tiptap")
+  () =>
+    !activeElement.value?.classList?.contains("tiptap") &&
+    activeElement.value?.tagName !== "INPUT" &&
+    activeElement.value?.tagName !== "TEXTAREA"
 );
 
 const { slash } = useMagicKeys({
@@ -144,7 +148,9 @@ const { slash } = useMagicKeys({
     if (
       e.key === "/" &&
       e.type === "keydown" &&
-      !activeElement.value?.classList?.contains("tiptap")
+      !activeElement.value?.classList?.contains("tiptap") &&
+      activeElement.value?.tagName !== "INPUT" &&
+      activeElement.value?.tagName !== "TEXTAREA"
     )
       e.preventDefault();
   },
