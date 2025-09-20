@@ -62,7 +62,6 @@ def test_sign_up(client: APIClient) -> None:
     logger.info("Starting sign-up test with various scenarios")
     fake = Faker()
     username = fake.user_name()
-    second_username = fake.user_name()
     email = fake.email()
     strong_password = fake.password(
         length=12, special_chars=True, digits=True, upper_case=True
