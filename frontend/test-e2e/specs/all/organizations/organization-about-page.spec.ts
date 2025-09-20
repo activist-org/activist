@@ -189,8 +189,8 @@ test.describe(
       await expect(newLabelField).toBeVisible();
       await expect(newUrlField).toBeVisible();
 
-      await newLabelField.fill(newLabel);
-      await newUrlField.fill(newUrl);
+      await newLabelField.type(newLabel);
+      await newUrlField.type(newUrl);
 
       // Verify the fields contain the entered text
       await expect(newLabelField).toHaveValue(newLabel);
@@ -261,10 +261,10 @@ test.describe(
 
       // Update the values
       await editLabelField.clear();
-      await editLabelField.fill(updatedLabel);
+      await editLabelField.type(updatedLabel);
 
       await editUrlField.clear();
-      await editUrlField.fill(updatedUrl);
+      await editUrlField.type(updatedUrl);
 
       // Verify the fields contain the updated text
       await expect(editLabelField).toHaveValue(updatedLabel);
