@@ -39,7 +39,7 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
     class Meta:
         model = USER
         fields = ("username", "password", "password_confirmed", "email")
-        extra_kwargs = {"password": {"write_only": True}, "email": {"required": False}}
+        extra_kwargs = {"password": {"write_only": True}, "email": {"required": True}}
 
     def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
         """

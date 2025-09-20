@@ -42,11 +42,12 @@
         :label="$t(getInvolvedUrlLabel)"
         name="getInvolvedUrl"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :id="id"
-          :modelValue="value.value as string"
+          :modelValue="(value.value as string)"
           :hasError="!!errorMessage.value"
           :label="rememberHttpsLabel ? $t(rememberHttpsLabel) : ''"
         />

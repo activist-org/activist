@@ -21,6 +21,7 @@
           :label="$t(`${opt.label}`)"
           :iconName="opt.iconUrl"
           :active="active"
+          :handlerClick="opt?.onClick"
         />
       </MenuItem>
     </MenuLinkWrapper>

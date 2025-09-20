@@ -35,11 +35,12 @@
               name="name"
               :required="true"
             >
+              <!-- prettier-ignore-attribute :modelValue -->
               <FormTextInput
                 @input="handleChange"
                 @blur="handleBlur"
                 :id="id"
-                :modelValue="value.value as string"
+                :modelValue="(value.value as string)"
                 :hasError="!!errorMessage.value"
                 :label="
                   $t(
@@ -56,11 +57,12 @@
               name="location"
               :required="true"
             >
+              <!-- prettier-ignore-attribute :modelValue -->
               <FormTextInput
                 @input="handleChange"
                 @blur="handleBlur"
                 :id="id"
-                :modelValue="value.value as string"
+                :modelValue="(value.value as string)"
                 :hasError="!!errorMessage.value"
                 :label="
                   $t('i18n.pages.organizations.create.location_placeholder')
@@ -95,11 +97,12 @@
             :label="$t('i18n.pages._global.create.tagline')"
             name="tagline"
           >
+            <!-- prettier-ignore-attribute :modelValue -->
             <FormTextInput
               @input="handleChange"
               @blur="handleBlur"
               :id="id"
-              :modelValue="value.value as string"
+              :modelValue="(value.value as string)"
               :hasError="!!errorMessage.value"
               :label="$t('i18n.pages.organizations.create.tagline_placeholder')"
             />
@@ -111,8 +114,9 @@
             v-slot="{ id, handleChange, handleBlur, value }"
             name="topics"
           >
+            <!-- prettier-ignore-attribute v-model -->
             <CardTopicSelection
-              v-model="value.value as TopicEnum[]"
+              v-model="(value.value as TopicEnum[])"
               @input="handleChange"
               @blur="handleBlur"
               :id="id"

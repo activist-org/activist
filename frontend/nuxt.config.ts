@@ -26,7 +26,7 @@ export default defineNuxtConfig({
       endpoints: {
         signIn: { path: "v1/auth/sign_in", method: "post" },
         signOut: { path: "v1/auth/sign_out", method: "post" },
-        signUp: { path: "/auth/register", method: "post" },
+        signUp: { path: "/v1/auth/sign_up", method: "post" },
         getSession: { path: "v1/auth/sessions", method: "get" },
       },
       refresh: {
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
           signInResponseRefreshTokenPointer: "/refresh",
           refreshRequestTokenPointer: "/refresh",
           cookieName: "auth.refresh",
-          maxAgeInSeconds: 1800,
+          maxAgeInSeconds: 300,
           secureCookieAttribute: false,
           httpOnlyCookieAttribute: false,
         },
@@ -61,9 +61,10 @@ export default defineNuxtConfig({
       token: {
         signInResponseTokenPointer: "/access",
         signInResponseRefreshTokenPointer: "/refresh",
+        refreshRequestTokenPointer: "/access",
         type: "Token",
         headerName: "Authorization",
-        maxAgeInSeconds: 1800,
+        maxAgeInSeconds: 300,
         secureCookieAttribute: false,
         httpOnlyCookieAttribute: false,
       },
