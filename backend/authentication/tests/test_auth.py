@@ -102,7 +102,20 @@ def test_sign_up(client: APIClient) -> None:
 
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=username).exists()
+    # 5. User is not created without an email.
+    response = client.post(
+        path="/v1/auth/sign_up",
+        data={
+            "username": username,
+            "password": strong_password,
+            "password_confirmed": strong_password,
+        },
+    )
 
+    user = UserModel.objects.filter(username=username).first()
+    assert user is None
+    assert response.status_code == 400
+    assert not UserModel.objects.filter(username=username).exists()
     # 3. User is created successfully.
     logger.info("Testing successful user creation")
     response = client.post(
@@ -143,25 +156,55 @@ def test_sign_up(client: APIClient) -> None:
     assert response.status_code == 400
     assert UserModel.objects.filter(username=username).count() == 1
 
-    # 5. User is created without an email.
-    response = client.post(
-        path="/v1/auth/sign_up",
-        data={
-            "username": second_username,
-            "password": strong_password,
-            "password_confirmed": strong_password,
-        },
+def test_verify_email(client: APIClient) -> None:
+    """
+    Test email verification view.
+
+    This test covers several email verification scenarios:
+    1. Valid verification code.
+    2. Invalid verification code.
+    3. Reusing an already used verification code.
+
+    Parameters
+    ----------
+    client : APIClient
+        An authenticated client.
+    """
+    logger.info("Starting email verification test with various scenarios")
+    fake = Faker()
+    username = fake.user_name()
+    email = fake.email()
+    password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
     )
 
-    user = UserModel.objects.filter(username=second_username).first()
+    user = UserFactory(
+        username=username,
+        email=email,
+        plaintext_password=password,
+        is_confirmed=False,
+        verification_code=uuid.uuid4(),
+    )
 
-    assert response.status_code == 201
-    assert UserModel.objects.filter(username=second_username).exists()
-    assert user.email == ""
-    assert user.is_confirmed is False
+    # 1. Valid verification code.
+    logger.info("Testing valid email verification")
+    response = client.post(path=f"/v1/auth/verify_email/{user.verification_code}")
+    assert response.status_code == 200
+
+    user.refresh_from_db()
+    assert user.is_confirmed is True
     assert user.verification_code is None
+    logger.info(f"Successfully verified email for user: {username}")
 
+    # 2. Invalid verification code.
+    logger.info("Testing invalid email verification")
+    response = client.post(path="/v1/auth/verify_email/invalid_code")
+    assert response.status_code == 404
 
+    # 3. Reusing an already used verification code.
+    logger.info("Testing reuse of already used verification code")
+    response = client.post(path=f"/v1/auth/verify_email/{user.verification_code}")
+    assert response.status_code == 404
 def test_sign_in(client: APIClient) -> None:
     """
     Test sign in view.

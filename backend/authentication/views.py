@@ -46,6 +46,7 @@ dotenv.load_dotenv()
 FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
 ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
 
+# MARK: Verify Email    
 class VerifyEmailView(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserSerializer

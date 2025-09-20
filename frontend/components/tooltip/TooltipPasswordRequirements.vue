@@ -3,7 +3,7 @@
   <TooltipBase
     class="z-20 min-w-[200px] pb-4 pt-2 transition delay-150 ease-in-out md:min-w-[450px]"
   >
-    <span class="mb-2 px-2">{{
+    <span class="mb-2 px-2 text-distinct-text">{{
       $t("i18n.components.tooltip_password_requirements.password_rules_message")
     }}</span>
     <div
@@ -36,7 +36,7 @@
               )
         }}
       </title>
-      <span class="truncate text-sm">{{
+      <span class="truncate text-sm text-distinct-text">{{
         $t(passwordRequirementsDict[rule.rule])
       }}</span>
     </div>

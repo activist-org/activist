@@ -145,11 +145,7 @@
         />
       </FormItem>
       <div class="flex flex-row items-center">
-        <FormItem
-          v-slot="{ id, handleChange, handleBlur }"
-          name="hasRead"
-          class-item="space-y-4"
-        >
+        <FormItem v-slot="{ id, handleChange, handleBlur }" name="hasRead">
           <FormCheckbox
             @update:model-value="handleChange"
             @blur="handleBlur"
@@ -181,6 +177,7 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from "ofetch";
 import { z } from "zod";
 
 import { IconMap } from "~/types/icon-map";
@@ -219,19 +216,32 @@ const signUpSchema = z
       });
     }
   });
+const { showError } = useToaster();
 const isPasswordFieldFocused = ref(false);
 const { signUp } = useAuth();
-const handleSignUp = (values: unknown) => {
-  signUp(
-    {
-      username: (values as Record<string, unknown>).userName as string,
-      password: (values as Record<string, unknown>).password as string,
-      email: (values as Record<string, unknown>).email as string,
-      passwordConfirmed: (values as Record<string, unknown>)
-        .confirmPassword as string,
-    },
-    { preventLoginFlow: true }
-  );
-  navigateTo(localePath("/auth/confirm/email"));
+const handleSignUp = async (values: unknown) => {
+  try {
+    await signUp(
+      {
+        username: (values as Record<string, unknown>).userName as string,
+        password: (values as Record<string, unknown>).password as string,
+        email: (values as Record<string, unknown>).email as string,
+        passwordConfirmed: (values as Record<string, unknown>)
+          .confirmPassword as string,
+      },
+      { preventLoginFlow: true }
+    );
+    navigateTo(localePath("/auth/confirm/email"));
+  } catch (error) {
+    if (error && error instanceof FetchError) {
+      if(error.response?._data instanceof String) {
+        showError(error.response?._data as string);
+        return;
+      }
+      // Join all error messages into a single string
+      const message = Object.values(error.response?._data).join(", ") || t("i18n._global.error_occurred");
+      showError(message);
+    }
+  }
 };
 </script>

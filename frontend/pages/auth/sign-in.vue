@@ -103,7 +103,7 @@ const isForgotPasswordDisabled = false;
 const hovered = ref(false);
 
 const { signIn } = useAuth();
-
+const { showError } = useToaster()
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
@@ -116,9 +116,9 @@ const signInUser = async (values: Record<string, unknown>) => {
     );
   } catch (error) {
     if (error instanceof FetchError && error?.response?.status === 400) {
-      alert("Invalid sign in credentials");
+      showError(t("i18n.pages.auth.sign_in.invalid_credentials"));
     } else {
-      alert("An error occurred");
+      showError(t("i18n._global.error_occurred"));
     }
   }
 };
