@@ -161,11 +161,12 @@ class SignUpView(APIView):
         verification_code = request.GET.get("verification_code")
         logger.info(f"Email verification attempt with code: {verification_code}")
 
-        # Handle invalid UUIDs gracefully
+        # Handle invalid UUIDs gracefully.
         try:
             user = UserModel.objects.filter(verification_code=verification_code).first()
+
         except (ValueError, ValidationError):
-            # Invalid UUID format - treat as user not found
+            # Invalid UUID format - treat as user not found.
             logger.warning(
                 f"Email verification failed: invalid UUID format {verification_code}"
             )
@@ -184,7 +185,7 @@ class SignUpView(APIView):
             )
 
         user.is_confirmed = True
-        user.verification_code = None  # Use None instead of empty string for UUIDField
+        user.verification_code = None  # None instead of empty string for UUIDField
         user.save()
 
         logger.info(
@@ -296,6 +297,7 @@ class PasswordResetView(APIView):
                 fail_silently=False,
             )
             logger.info(f"Password reset email sent to {user.email}")
+
         except Exception as e:
             logger.error(f"Failed to send password reset email to {user.email}: {e}")
             return Response(

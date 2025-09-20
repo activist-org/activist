@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Tests for email verification methods.
+"""
 
 import uuid
 
@@ -11,7 +14,9 @@ pytestmark = pytest.mark.django_db  # noqa: N999
 
 
 def test_auth_email_verification_get_valid_code():
-    """Test email verification with valid code."""
+    """
+    Test email verification with valid code.
+    """
     client = APIClient()
 
     verification_code = str(uuid.uuid4())
@@ -32,7 +37,9 @@ def test_auth_email_verification_get_valid_code():
 
 
 def test_auth_email_verification_get_invalid_code():
-    """Test email verification with invalid code."""
+    """
+    Test email verification with invalid code.
+    """
     client = APIClient()
 
     verification_code = str(uuid.uuid4())
@@ -54,7 +61,9 @@ def test_auth_email_verification_get_invalid_code():
 
 
 def test_auth_email_verification_get_nonexistent_code():
-    """Test email verification with code that doesn't exist."""
+    """
+    Test email verification with code that doesn't exist.
+    """
     client = APIClient()
 
     nonexistent_code = str(uuid.uuid4())
@@ -65,7 +74,9 @@ def test_auth_email_verification_get_nonexistent_code():
 
 
 def test_auth_email_verification_get_empty_code():
-    """Test email verification with empty code."""
+    """
+    Test email verification with empty code.
+    """
     client = APIClient()
 
     response = client.get("/v1/auth/sign_up", {"verification_code": ""})
@@ -75,7 +86,9 @@ def test_auth_email_verification_get_empty_code():
 
 
 def test_auth_email_verification_get_malformed_code():
-    """Test email verification with malformed UUID."""
+    """
+    Test email verification with malformed UUID.
+    """
     client = APIClient()
 
     response = client.get("/v1/auth/sign_up", {"verification_code": "not-a-uuid"})
@@ -85,14 +98,16 @@ def test_auth_email_verification_get_malformed_code():
 
 
 def test_auth_email_verification_get_already_confirmed():
-    """Test email verification for already confirmed user."""
+    """
+    Test email verification for already confirmed user.
+    """
     client = APIClient()
 
     verification_code = str(uuid.uuid4())
     user = UserFactory(
         email="test@example.com",
         verification_code=verification_code,
-        is_confirmed=True,  # Already confirmed
+        is_confirmed=True,  # already confirmed
     )
 
     response = client.get("/v1/auth/sign_up", {"verification_code": verification_code})
@@ -106,12 +121,14 @@ def test_auth_email_verification_get_already_confirmed():
 
 
 def test_auth_email_verification_get_user_with_empty_code():
-    """Test email verification for user with empty verification code."""
+    """
+    Test email verification for user with empty verification code.
+    """
     client = APIClient()
 
     UserFactory(
         email="test@example.com",
-        verification_code=None,  # Use None instead of empty string
+        verification_code=None,  # None instead of empty string
         is_confirmed=False,
     )
 
@@ -122,7 +139,9 @@ def test_auth_email_verification_get_user_with_empty_code():
 
 
 def test_auth_email_verification_get_sql_injection_attempt():
-    """Test email verification with SQL injection attempt."""
+    """
+    Test email verification with SQL injection attempt.
+    """
     client = APIClient()
 
     malicious_code = "'; DROP TABLE auth_user; --"
@@ -133,7 +152,9 @@ def test_auth_email_verification_get_sql_injection_attempt():
 
 
 def test_auth_email_verification_get_unicode_characters():
-    """Test email verification with unicode/emoji characters."""
+    """
+    Test email verification with unicode/emoji characters.
+    """
     client = APIClient()
 
     unicode_code = "🔐🚀💻🎉"
@@ -144,7 +165,9 @@ def test_auth_email_verification_get_unicode_characters():
 
 
 def test_auth_email_verification_get_whitespace_handling():
-    """Test email verification with whitespace in code."""
+    """
+    Test email verification with whitespace in code.
+    """
     client = APIClient()
 
     verification_code = str(uuid.uuid4())
@@ -154,7 +177,7 @@ def test_auth_email_verification_get_whitespace_handling():
         is_confirmed=False,
     )
 
-    # Test with leading/trailing whitespace
+    # Test with leading/trailing whitespace.
     response = client.get(
         "/v1/auth/sign_up", {"verification_code": f"  {verification_code}  "}
     )
