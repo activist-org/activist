@@ -6,6 +6,7 @@ API views for authentication management.
 import logging
 import os
 import uuid
+
 import dotenv
 from django.contrib.auth import login, logout
 from django.core.mail import send_mail
