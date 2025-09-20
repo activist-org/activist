@@ -485,6 +485,7 @@
   "i18n.pages.contact.message_label": "Message",
   "i18n.pages.contact.message_placeholder": "Hey activist team...",
   "i18n.pages.contact.name": "Name",
+  "i18n.pages.auth._global.error_occurred": "An error occurred. Please try again later.",
   "i18n.pages.contact.name_placeholder": "Your name",
   "i18n.pages.contact.section_1_paragraph_1_1": "Thanks for your interest in connecting with the activist.org team. Please consider joining the",
   "i18n.pages.contact.section_1_paragraph_1_3": "for simple inquiries and suggestions. The community including the development team would be happy to help! Feature requests should also be sent via our open-source codebase",

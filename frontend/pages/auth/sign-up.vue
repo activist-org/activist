@@ -239,7 +239,7 @@ const handleSignUp = async (values: unknown) => {
         return;
       }
       // Join all error messages into a single string
-      const message = Object.values(error.response?._data).join(", ") || t("i18n._global.error_occurred");
+      const message = Object.values(error.response?._data).join(", ") || t("i18n.pages.auth._global.error_occurred");
       showError(message);
     }
   }

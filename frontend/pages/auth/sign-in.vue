@@ -118,7 +118,7 @@ const signInUser = async (values: Record<string, unknown>) => {
     if (error instanceof FetchError && error?.response?.status === 400) {
       showError(t("i18n.pages.auth.sign_in.invalid_credentials"));
     } else {
-      showError(t("i18n._global.error_occurred"));
+      showError(t("i18n.pages.auth._global.error_occurred"));
     }
   }
 };
