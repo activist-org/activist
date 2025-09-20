@@ -63,6 +63,13 @@ globalThis.useAuthState = () => ({
 });
 
 // @ts-expect-error: Adding global mocks for auto-imports
+globalThis.useAuth = () => ({
+  signUp: () => Promise.resolve(),
+  signIn: () => Promise.resolve(),
+  signOut: () => Promise.resolve(),
+});
+
+// @ts-expect-error: Adding global mocks for auto-imports
 globalThis.useDebounceFn = <T extends (...args: unknown[]) => unknown>(
   fn: T,
   _delay: number
