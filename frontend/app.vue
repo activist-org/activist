@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
+
 import { commandPaletteData } from "~/types/command-palette";
 
 const { openModal: openModalCommandPalette } = useModalHandlers(

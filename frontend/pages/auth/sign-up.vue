@@ -234,12 +234,14 @@ const handleSignUp = async (values: unknown) => {
     navigateTo(localePath("/auth/confirm/email"));
   } catch (error) {
     if (error && error instanceof FetchError) {
-      if(error.response?._data instanceof String) {
+      if (error.response?._data instanceof String) {
         showError(error.response?._data as string);
         return;
       }
       // Join all error messages into a single string
-      const message = Object.values(error.response?._data).join(", ") || t("i18n.pages.auth._global.error_occurred");
+      const message =
+        Object.values(error.response?._data).join(", ") ||
+        t("i18n.pages.auth._global.error_occurred");
       showError(message);
     }
   }

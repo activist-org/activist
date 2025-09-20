@@ -103,7 +103,7 @@ const isForgotPasswordDisabled = false;
 const hovered = ref(false);
 
 const { signIn } = useAuth();
-const { showError } = useToaster()
+const { showError } = useToaster();
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
