@@ -7,15 +7,15 @@
     <div class="flex grow">
       <div class="flex w-[50%] flex-row space-x-2">
         <FormCheckbox />
-        <label for="All Day">{{
-          $t("i18n.components.card_date_picker.all_day")
-        }}</label>
+        <label for="All Day">
+          {{ $t("i18n.components.card_date_picker.all_day") }}
+        </label>
       </div>
       <div class="flex w-[50%] flex-row space-x-2 pl-1">
         <FormCheckbox />
-        <label for="Multiple Days">{{
-          $t("i18n.components.card_date_picker.multiple_days")
-        }}</label>
+        <label for="Multiple Days">
+          {{ $t("i18n.components.card_date_picker.multiple_days") }}
+        </label>
       </div>
     </div>
     <div class="flex flex-row space-x-2">
