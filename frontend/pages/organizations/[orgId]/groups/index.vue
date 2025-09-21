@@ -29,7 +29,11 @@
         />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="organization.groups!.length > 0" class="space-y-3 py-4">
+    <div
+      v-if="organization.groups!.length > 0"
+      data-testid="organization-groups-list"
+      class="space-y-3 py-4"
+    >
       <CardSearchResultEntityGroup
         v-for="(g, i) in organization.groups"
         :key="i"
