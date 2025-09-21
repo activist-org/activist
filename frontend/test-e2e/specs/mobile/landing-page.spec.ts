@@ -68,7 +68,7 @@ test.describe("Landing Page", { tag: "@mobile" }, () => {
     expect(page.url()).toContain("/activist");
   });
 
-  test("User can go to Learn More page from Activist section learn more link", async ({
+  test("User can go to Learn More page from activist section learn more link", async ({
     page,
   }) => {
     await page
