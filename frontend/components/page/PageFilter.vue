@@ -2,7 +2,7 @@
 <template>
   <div class="card-style flex flex-col px-3 py-4 md:px-5">
     <div class="relative flex w-full flex-col">
-      <!-- Header with Tabs -->
+      <!-- Note: Header with Tabs -->
       <div class="mb-4 flex items-center justify-between">
         <h2 class="text-2xl font-semibold">
           {{ $t("i18n.components.page_filter.filter") }}
@@ -26,8 +26,7 @@
           </button>
         </div>
       </div>
-
-      <!-- Search Input -->
+      <!-- Note: Search Input -->
       <div
         class="elem-shadow-sm flex select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
       >
@@ -38,9 +37,9 @@
             size="1em"
           />
           <div class="min-w-0 flex-1">
-            <label for="input-search" class="sr-only">{{
-              "Search to filter"
-            }}</label>
+            <label for="input-search" class="sr-only">
+              {{ $t("i18n.components.page_filter.search_to_filer") }}
+            </label>
             <input
               v-model="searchQuery"
               @focus="onFocus"
@@ -49,7 +48,7 @@
               id="input-search"
               class="w-full text-ellipsis bg-transparent py-2 outline-none"
               type="text"
-              placeholder="Search to filter"
+              :placeholder="$t('i18n.components.page_filter.search_to_filer')"
             />
           </div>
         </div>

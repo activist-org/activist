@@ -13,11 +13,12 @@
       :label="$t('i18n._global.location')"
       name="location"
     >
+      <!-- prettier-ignore-attribute :modelValue -->
       <FormTextInputSearch
         @blur="handleBlur"
         @update:modelValue="handleChange"
         :id="id"
-        :modelValue="value.value as string"
+        :modelValue="(value.value as string)"
         :hasError="!!errorMessage.value"
         :label="
           $t('i18n.components.sidebar.left.filter._global.filter_by_location')
@@ -29,13 +30,14 @@
       :label="$t('i18n.components._global.topics')"
       name="topics"
     >
+      <!-- prettier-ignore-attribute :selected-topics -->
       <FormSelectorComboboxTopics
         @update:selectedOptions="
           (val: unknown) => handleChange(val as TopicEnum[])
         "
         :id="id"
         :label="$t('i18n.components._global.topics')"
-        :selected-topics="(value.value ?? []) as TopicEnum[]"
+        :selected-topics="((value.value ?? []) as TopicEnum[])"
       />
     </FormItem>
   </Form>
@@ -45,7 +47,6 @@ import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
 
-import type { OrganizationFilters } from "~/types/communities/organization";
 import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
@@ -55,20 +56,13 @@ const schema = z.object({
 const route = useRoute();
 const router = useRouter();
 const formData = ref({});
-const organizationStore = useOrganizationStore();
 watch(
   route,
   (form) => {
     formData.value = { ...form.query };
-    if (form.query.name && form.query.name !== "")
-      organizationStore.fetchAll({
-        name: form.query.name as string,
-        ...formData.value,
-      });
   },
   { immediate: true }
 );
-
 const handleSubmit = (_values: unknown) => {
   const values: LocationQueryRaw = {};
   const input = (_values || {}) as Record<string, LocationQueryRaw[string]>;
@@ -89,6 +83,5 @@ const handleSubmit = (_values: unknown) => {
   router.push({
     query: values, // use the normalized values object
   });
-  organizationStore.fetchAll(values as OrganizationFilters);
 };
 </script>

@@ -22,9 +22,9 @@
       "
     >
       <Icon :name="IconMap.X_LG" />
-      <span>{{
-        $t("i18n.components.indicator_process_progress.close_process")
-      }}</span>
+      <span>
+        {{ $t("i18n.components.indicator_process_progress.close_process") }}
+      </span>
     </NuxtLink>
   </div>
 </template>

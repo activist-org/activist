@@ -10,6 +10,7 @@
 
 -r requirements.txt
 
+djangorestframework-simplejwt
 factory-boy
 i18n-check
 mypy
@@ -20,4 +21,4 @@ pytest-cov
 pytest-django
 ruff
 ts-backend-check
-djangorestframework-simplejwt
+types-icalendar

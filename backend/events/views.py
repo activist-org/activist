@@ -12,7 +12,7 @@ from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
-from icalendar import Calendar  # type: ignore
+from icalendar import Calendar
 from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
 from rest_framework.generics import GenericAPIView
@@ -400,7 +400,9 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
 
         if request.user != event.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to create Resources for this event."},
+                {
+                    "detail": "You are not authorized to create Resources for this event."
+                },
                 status=status.HTTP_403_FORBIDDEN,
             )
 

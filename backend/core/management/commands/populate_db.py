@@ -248,10 +248,14 @@ class Command(BaseCommand):
                 + num_orgs_per_user * num_events_per_org * num_faq_entries_per_entity
                 + num_orgs_per_user * num_groups_per_org * num_faq_entries_per_entity
             )
-            num_social_links = 3 * (
-                num_orgs_per_user
-                + num_orgs_per_user * num_groups_per_org
-                + num_orgs_per_user * num_events_per_org
+            num_social_links = (
+                3
+                * num_users
+                * (
+                    num_orgs_per_user
+                    + num_orgs_per_user * num_groups_per_org
+                    + num_orgs_per_user * num_events_per_org
+                )
             )
 
             self.stdout.write(

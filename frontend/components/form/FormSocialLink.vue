@@ -42,6 +42,7 @@
                 :label="$t('i18n.components.form_social_link.new_link_label')"
                 :required="true"
               >
+                <!-- prettier-ignore-attribute :modelValue -->
                 <FormTextInput
                   @blur="handleBlur"
                   @update:modelValue="
@@ -52,7 +53,7 @@
                   "
                   :id="id"
                   :hasError="!!errorMessage.value"
-                  :modelValue="value.value as string"
+                  :modelValue="(value.value as string)"
                   :label="$t('i18n.components.form_social_link.new_link_label')"
                 />
               </FormItem>
@@ -62,6 +63,7 @@
                 :label="$t('i18n.components.form_social_link.new_link_url')"
                 :required="true"
               >
+                <!-- prettier-ignore-attribute :modelValue -->
                 <FormTextInput
                   @blur="handleBlur"
                   @update:modelValue="
@@ -72,7 +74,7 @@
                   "
                   :id="id"
                   :hasError="!!errorMessage.value"
-                  :modelValue="value.value as string"
+                  :modelValue="(value.value as string)"
                   :label="$t('i18n.components.form_social_link.new_link_url')"
                 />
               </FormItem>

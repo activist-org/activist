@@ -100,10 +100,11 @@
                   '': nameValidated,
                 }"
                 for="name"
-                >{{ $t("i18n.pages.contact.name") }}
-                <span v-if="!nameValidated">{{
-                  $t("i18n.pages.contact.error_empty")
-                }}</span>
+              >
+                {{ $t("i18n.pages.contact.name") }}
+                <span v-if="!nameValidated">
+                  {{ $t("i18n.pages.contact.error_empty") }}
+                </span>
               </label>
               <input
                 v-model="name"
@@ -200,7 +201,7 @@
               ></textarea>
             </div>
             <div class="flex flex-col space-y-2">
-              <FriendlyCaptcha />
+              <!-- <FriendlyCaptcha /> -->
             </div>
             <button
               class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center font-semibold dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange xl:rounded-lg"

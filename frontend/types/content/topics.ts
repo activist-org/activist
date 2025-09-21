@@ -12,7 +12,7 @@ export enum TopicEnum {
   HEALTH = "HEALTH",
   HOUSING = "HOUSING",
   LABOR_RIGHTS = "LABOR_RIGHTS",
-  LGTBQIA = "LGTBQIA",
+  LGBTQIA = "LGBTQIA",
   PEACE_AND_RESOLUTION = "PEACE_AND_RESOLUTION",
   RACIAL_JUSTICE = "RACIAL_JUSTICE",
   REFUGEES_AND_MIGRATION = "REFUGEES_AND_MIGRATION",
@@ -95,7 +95,7 @@ export const GLOBAL_TOPICS: TopicTag[] = [
     icon: `${IconMap.GLOBE}`,
     description: "",
     label: "i18n.types.content.topics.lgbtqia",
-    topic: TopicEnum.LGTBQIA,
+    topic: TopicEnum.LGBTQIA,
   },
   {
     icon: `${IconMap.GLOBE}`,

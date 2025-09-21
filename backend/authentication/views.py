@@ -8,7 +8,8 @@ import os
 import uuid
 
 import dotenv
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.db.utils import IntegrityError, OperationalError
 from django.template.loader import render_to_string
@@ -36,6 +37,7 @@ from authentication.serializers import (
     SignInSerializer,
     SignUpSerializer,
     UserFlagSerializers,
+    UserSerializer,
 )
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
@@ -45,6 +47,59 @@ dotenv.load_dotenv()
 
 FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
 ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
+
+# MARK: Verify Email
+
+
+class VerifyEmailView(APIView):
+    permission_classes = [AllowAny]
+    serializer_class = UserSerializer
+
+    def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
+        user = UserModel.objects.filter(verification_code=code).first()
+        if not user:
+            return Response(
+                {"detail": "Invalid code."}, status=status.HTTP_400_BAD_REQUEST
+            )
+        user.is_confirmed = True
+        user.verification_code = None
+        user.save()
+
+        serializer = self.serializer_class(user)
+
+        return Response(
+            {"message": "Email confirmed is verified.", "user": serializer.data},
+            status=status.HTTP_200_OK,
+        )
+
+
+# MARK: Sign out
+
+
+class SignOutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        responses={
+            200: OpenApiResponse(response={"message": "User logged out successfully."}),
+            401: OpenApiResponse(response={"detail": "You are not authenticated."}),
+        }
+    )
+    def post(self, request: Request) -> Response:
+        user = request.user
+        logger.info(f"User logout attempt: {user.username} (ID: {user.id})")
+
+        logout(request)
+
+        SessionModel.objects.filter(user=user.id).delete()
+
+        logger.info(f"User logged out successfully: {user.username} (ID: {user.id})")
+
+        return Response(
+            {"message": "User was logged out successfully."},
+            status=status.HTTP_200_OK,
+        )
+
 
 # MARK: Sign Up
 
@@ -65,13 +120,15 @@ class SignUpView(APIView):
         if user.email != "":
             user.verification_code = uuid.uuid4()
 
-            confirmation_link = f"{FRONTEND_BASE_URL}/confirm/{user.verification_code}"
+            confirmation_link = (
+                f"{FRONTEND_BASE_URL}/auth/confirm/{user.verification_code}"
+            )
             message = f"Welcome to activist.org, {user.username}!, Please confirm your email address by clicking the link: {confirmation_link}"
             html_message = render_to_string(
                 template_name="signup_email.html",
                 context={
                     "username": user.username,
-                    confirmation_link: confirmation_link,
+                    "confirmation_link": confirmation_link,
                 },
             )
 
@@ -104,7 +161,19 @@ class SignUpView(APIView):
         verification_code = request.GET.get("verification_code")
         logger.info(f"Email verification attempt with code: {verification_code}")
 
-        user = UserModel.objects.filter(verification_code=verification_code).first()
+        # Handle invalid UUIDs gracefully.
+        try:
+            user = UserModel.objects.filter(verification_code=verification_code).first()
+
+        except (ValueError, ValidationError):
+            # Invalid UUID format - treat as user not found.
+            logger.warning(
+                f"Email verification failed: invalid UUID format {verification_code}"
+            )
+            return Response(
+                {"detail": "User does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         if user is None:
             logger.warning(
@@ -116,7 +185,7 @@ class SignUpView(APIView):
             )
 
         user.is_confirmed = True
-        user.verification_code = ""
+        user.verification_code = None  # None instead of empty string for UUIDField
         user.save()
 
         logger.info(
@@ -228,6 +297,7 @@ class PasswordResetView(APIView):
                 fail_silently=False,
             )
             logger.info(f"Password reset email sent to {user.email}")
+
         except Exception as e:
             logger.error(f"Failed to send password reset email to {user.email}: {e}")
             return Response(
