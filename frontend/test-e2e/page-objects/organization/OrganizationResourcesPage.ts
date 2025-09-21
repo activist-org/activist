@@ -41,6 +41,8 @@ export const newOrganizationResourcesPage = (page: Page) => ({
       .getByRole("button", {
         name: new RegExp(getEnglishText("i18n._global.share"), "i"),
       }),
+  getResourceEditButton: (index: number) =>
+    page.getByTestId("resource-card").nth(index).getByTestId("icon-edit"),
 
   // Empty state
   emptyState: page.getByTestId("empty-state"),
@@ -50,6 +52,18 @@ export const newOrganizationResourcesPage = (page: Page) => ({
   resourceModal: page.locator("#modal").first(),
   resourceModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
+
+  // Edit modal elements (opened by edit button)
+  editResourceModal: page.locator("#modal").first(),
+  editResourceModalCloseButton: (modal: Locator) =>
+    modal.getByTestId("modal-close-button"),
+
+  // Form elements within edit modal (using specific IDs from the form)
+  resourceNameInput: (modal: Locator) => modal.locator("#form-item-name"),
+  resourceDescriptionInput: (modal: Locator) =>
+    modal.locator("#form-item-description"),
+  resourceUrlInput: (modal: Locator) => modal.locator("#form-item-url"),
+  resourceSubmitButton: (modal: Locator) => modal.locator("#form-submit-id"),
 
   // Utility methods
   getResourceCount: async () => {
