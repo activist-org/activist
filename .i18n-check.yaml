@@ -17,7 +17,5 @@ checks:
     directories-to-skip: [frontend/test, frontend/test-e2e, frontend/test-utils]
   missing-keys:
     active: False
-  aria-labels:
-    active: False
   alt-texts:
     active: False

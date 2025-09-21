@@ -456,7 +456,7 @@
   "i18n.pages.events.create.roles": "Roles",
   "i18n.pages.events.create.setting": "Configuración",
   "i18n.pages.events.create.submit": "Entregar",
-  "i18n.pages.events.create.submit_aria_label": "Envíe su evento para guardarlo y compartirlo con otros.",
+  "i18n.pages.events.create.submit_aria_label": "Envíe su evento para guardarlo y compartirlo con otros",
   "i18n.pages.events.create.subtext_0": "¡Gracias por crear su evento en activist! Proporcione toda la información del evento a continuación y tenga en cuenta que algunos campos son obligatorios (*). Primero, agregue un nombre y elija un eslogan opcional para que las personas sepan cuál es el objetivo principal antes de seleccionar la(s) organización(es) anfitriona(s). Luego, añada cuentas importantes en las redes sociales y proporcione una descripción para preparar el escenario y decirles a las personas qué esperar.",
   "i18n.pages.events.create.subtext_1": "¿Qué tipo de evento es este? Diga a las personas si su evento es para tomar acción o para aprender qué hacer a continuación, y añada un formato y temas para que sea fácil encontrarlo. Luego, diga a las personas exactamente qué harán en tu evento enumerando los roles que estarán disponibles para los posibles participantes. ¡No olvide agregar una descripción en el campo (i) si puede resultar confuso!",
   "i18n.pages.events.create.subtext_2": "En esta sección, puede definir la hora y el lugar de su evento. ¿Será presencial o en línea? ¿Será una reunión regular o una acción única? Establezca la hora del evento para que los asistentes sepan cuándo pueden participar. El tipo de ubicación puede ser presencial, en línea o ambos. En el caso de la ubicación, informe a los asistentes dónde reunirse para el evento.",
