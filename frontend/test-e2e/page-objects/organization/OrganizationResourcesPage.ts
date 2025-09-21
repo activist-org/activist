@@ -13,23 +13,34 @@ export const newOrganizationResourcesPage = (page: Page) => ({
   }),
 
   // Resource list elements
-  resourcesList: page.locator(".flex.flex-col.gap-4"),
-  resourceCards: page.locator(".card-style"),
+  resourcesList: page.getByTestId("organization-resources-list"),
+  resourceCards: page.getByTestId("resource-card"),
 
   // Individual resource card elements
-  getResourceCard: (index: number) => page.locator(".card-style").nth(index),
+  getResourceCard: (index: number) =>
+    page.getByTestId("resource-card").nth(index),
   getResourceDragHandle: (index: number) =>
     page
-      .locator(".card-style")
+      .getByTestId("resource-card")
       .nth(index)
-      .locator("[name='bi:grip-horizontal']"),
+      .getByTestId("resource-drag-handle"),
   getResourceLink: (index: number) =>
-    page.locator(".card-style").nth(index).locator("a").first(),
+    page.getByTestId("resource-card").nth(index).getByTestId("resource-link"),
   getResourceIcon: (index: number) =>
+    page.getByTestId("resource-card").nth(index).getByTestId("resource-icon"),
+
+  // Resource menu interactions
+  getResourceMenuButton: (index: number) =>
+    page.getByTestId("resource-card").nth(index).getByTestId("menu-button"),
+  getResourceMenuTooltip: (index: number) =>
+    page.getByTestId("resource-card").nth(index).getByTestId("menu-tooltip"),
+  getResourceShareButton: (index: number) =>
     page
-      .locator(".card-style")
+      .getByTestId("resource-card")
       .nth(index)
-      .locator("[name='bi:file-earmark-text']"),
+      .getByRole("button", {
+        name: new RegExp(getEnglishText("i18n._global.share"), "i"),
+      }),
 
   // Empty state
   emptyState: page.getByTestId("empty-state"),
