@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 
 import { getEnglishText } from "~/utils/i18n";
 
@@ -44,7 +44,27 @@ export const newOrganizationResourcesPage = (page: Page) => ({
 
   // Empty state
   emptyState: page.getByTestId("empty-state"),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(),
 
   // Modal elements (opened by new resource button)
   resourceModal: page.locator("#modal").first(),
+  resourceModalCloseButton: (modal: Locator) =>
+    modal.getByTestId("modal-close-button"),
+
+  // Utility methods
+  getResourceCount: async () => {
+    try {
+      return await page.getByTestId("resource-card").count();
+    } catch {
+      return 0;
+    }
+  },
+
+  navigateToResource: async (index: number) => {
+    const resourceLink = page
+      .getByTestId("resource-card")
+      .nth(index)
+      .getByTestId("resource-link");
+    await resourceLink.click();
+  },
 });

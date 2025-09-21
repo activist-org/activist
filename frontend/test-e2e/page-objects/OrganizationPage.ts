@@ -8,6 +8,7 @@ import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSocialLinksModal } from "~/test-e2e/component-objects/SocialLinksModal";
 import { newOrganizationAboutPage } from "~/test-e2e/page-objects/organization/OrganizationAboutPage";
 import { newOrganizationEventsPage } from "~/test-e2e/page-objects/organization/OrganizationEventsPage";
+import { newOrganizationResourcesPage } from "~/test-e2e/page-objects/organization/OrganizationResourcesPage";
 import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationPage = (page: Page) => ({
@@ -35,5 +36,8 @@ export const newOrganizationPage = (page: Page) => ({
   },
   get eventsPage() {
     return newOrganizationEventsPage(page);
+  },
+  get resourcesPage() {
+    return newOrganizationResourcesPage(page);
   },
 });
