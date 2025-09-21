@@ -21,5 +21,3 @@ checks:
     active: False
   alt-texts:
     active: False
-  sorted-keys:
-    active: False

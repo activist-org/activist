@@ -100,10 +100,11 @@
                   '': nameValidated,
                 }"
                 for="name"
-                >{{ $t("i18n.pages.contact.name") }}
-                <span v-if="!nameValidated">{{
-                  $t("i18n.pages.contact.error_empty")
-                }}</span>
+              >
+                {{ $t("i18n.pages.contact.name") }}
+                <span v-if="!nameValidated">
+                  {{ $t("i18n.pages.contact.error_empty") }}
+                </span>
               </label>
               <input
                 v-model="name"

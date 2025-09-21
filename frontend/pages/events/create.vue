@@ -79,9 +79,9 @@
             <h3 for="organizer" class="block font-medium">
               {{ $t("i18n.pages.events.create.organizer") }}*
             </h3>
-            <span id="organizer-instructions" class="block font-medium">{{
-              $t("i18n.pages.events.create.organizer_instructions")
-            }}</span>
+            <span id="organizer-instructions" class="block font-medium">
+              {{ $t("i18n.pages.events.create.organizer_instructions") }}
+            </span>
             <input
               v-model="formData.organizer"
               id="organizer"
