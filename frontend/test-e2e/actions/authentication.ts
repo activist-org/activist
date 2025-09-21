@@ -20,9 +20,17 @@ export async function signInAsAdmin(
   await page.goto("/auth/sign-in");
   const signInPage = newSignInPage(page);
 
-  // Fill credentials and submit
+  // Fill credentials
   await signInPage.usernameInput.fill(username);
   await signInPage.passwordInput.fill(password);
+
+  // Click CAPTCHA if present
+  const captcha = signInPage.captcha;
+  if (await captcha.isVisible()) {
+    await captcha.click();
+  }
+
+  // Submit form
   await signInPage.signInButton.click();
 
   // Wait for successful navigation to home page
@@ -47,9 +55,17 @@ export async function signIn(
   await page.goto("/auth/sign-in");
   const signInPage = newSignInPage(page);
 
-  // Fill credentials and submit
+  // Fill credentials
   await signInPage.usernameInput.fill(username);
   await signInPage.passwordInput.fill(password);
+
+  // Click CAPTCHA if present
+  const captcha = signInPage.captcha;
+  if (await captcha.isVisible()) {
+    await captcha.click();
+  }
+
+  // Submit form
   await signInPage.signInButton.click();
 
   // Wait for successful navigation
