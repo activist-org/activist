@@ -14,31 +14,31 @@ export const newOrganizationFAQPage = (page: Page) => ({
 
   // FAQ list elements
   faqList: page.getByTestId("organization-faq-list"),
-  faqCards: page.locator(".card-style"),
+  faqCards: page.getByTestId("faq-card"),
 
   // Individual FAQ card elements
-  getFAQCard: (index: number) => page.locator(".card-style").nth(index),
+  getFAQCard: (index: number) => page.getByTestId("faq-card").nth(index),
   getFAQQuestion: (index: number) =>
-    page.locator(".card-style").nth(index).getByTestId("faq-question"),
+    page.getByTestId("faq-card").nth(index).getByTestId("faq-question"),
   getFAQAnswer: (index: number) =>
-    page.locator(".card-style").nth(index).locator("p.select-text.text-left"),
+    page.getByTestId("faq-card").nth(index).getByTestId("faq-answer"),
   getFAQDragHandle: (index: number) =>
-    page.locator(".card-style").nth(index).getByTestId("faq-drag-handle"),
+    page.getByTestId("faq-card").nth(index).getByTestId("faq-drag-handle"),
   getFAQExpandButton: (index: number) =>
-    page.locator(".card-style").nth(index).getByTestId("faq-disclosure-button"),
+    page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-disclosure-button"),
   getFAQEditButton: (index: number) =>
-    page.locator(".card-style").nth(index).getByTestId("icon-edit"),
+    page.getByTestId("faq-card").nth(index).getByTestId("faq-edit-button"),
 
   // FAQ disclosure elements
   getFAQDisclosurePanel: (index: number) =>
-    page
-      .locator(".card-style")
-      .nth(index)
-      .locator('[data-headlessui-state="open"]'),
+    page.getByTestId("faq-card").nth(index).getByTestId("faq-disclosure-panel"),
   getFAQChevronUp: (index: number) =>
-    page.locator(".card-style").nth(index).getByTestId("faq-chevron-up"),
+    page.getByTestId("faq-card").nth(index).getByTestId("faq-chevron-up"),
   getFAQChevronDown: (index: number) =>
-    page.locator(".card-style").nth(index).getByTestId("faq-chevron-down"),
+    page.getByTestId("faq-card").nth(index).getByTestId("faq-chevron-down"),
 
   // Empty state
   emptyState: page.getByTestId("empty-state"),
@@ -61,13 +61,13 @@ export const newOrganizationFAQPage = (page: Page) => ({
 
   // Utility methods
   getFAQCount: async () => {
-    return await page.locator(".card-style").count();
+    return await page.getByTestId("faq-card").count();
   },
 
   // FAQ interaction methods
   expandFAQ: async (index: number) => {
     const expandButton = page
-      .locator(".card-style")
+      .getByTestId("faq-card")
       .nth(index)
       .getByTestId("faq-disclosure-button");
     await expandButton.click();
@@ -75,7 +75,7 @@ export const newOrganizationFAQPage = (page: Page) => ({
 
   collapseFAQ: async (index: number) => {
     const collapseButton = page
-      .locator(".card-style")
+      .getByTestId("faq-card")
       .nth(index)
       .getByTestId("faq-disclosure-button");
     await collapseButton.click();
@@ -83,16 +83,16 @@ export const newOrganizationFAQPage = (page: Page) => ({
 
   editFAQ: async (index: number) => {
     const editButton = page
-      .locator(".card-style")
+      .getByTestId("faq-card")
       .nth(index)
-      .getByTestId("icon-edit");
+      .getByTestId("faq-edit-button");
     await editButton.click();
   },
 
   // Drag and drop methods
   getFAQDragHandlePosition: async (index: number) => {
     const dragHandle = page
-      .locator(".card-style")
+      .getByTestId("faq-card")
       .nth(index)
       .getByTestId("faq-drag-handle");
     return await dragHandle.boundingBox();
@@ -102,9 +102,9 @@ export const newOrganizationFAQPage = (page: Page) => ({
   isFAQExpanded: async (index: number) => {
     // Use answer visibility as the most reliable indicator of expanded state
     const answer = page
-      .locator(".card-style")
+      .getByTestId("faq-card")
       .nth(index)
-      .locator("p.select-text.text-left");
+      .getByTestId("faq-answer");
 
     return await answer.isVisible();
   },
@@ -112,7 +112,7 @@ export const newOrganizationFAQPage = (page: Page) => ({
   // Get FAQ question text
   getFAQQuestionText: async (index: number) => {
     const question = page
-      .locator(".card-style")
+      .getByTestId("faq-card")
       .nth(index)
       .getByTestId("faq-question");
     return await question.textContent();
@@ -121,9 +121,9 @@ export const newOrganizationFAQPage = (page: Page) => ({
   // Get FAQ answer text
   getFAQAnswerText: async (index: number) => {
     const answer = page
-      .locator(".card-style")
+      .getByTestId("faq-card")
       .nth(index)
-      .locator("p.select-text.text-left");
+      .getByTestId("faq-answer");
     return await answer.textContent();
   },
 });

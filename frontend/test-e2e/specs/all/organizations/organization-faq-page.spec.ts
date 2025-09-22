@@ -34,16 +34,11 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
     // Wait for page to load completely
     await page.waitForLoadState("networkidle");
 
-    // Wait for either FAQ list or empty state to appear
-    await expect(async () => {
-      const faqListVisible = await faqPage.faqList
-        .isVisible()
-        .catch(() => false);
-      const emptyStateVisible = await faqPage.emptyState
-        .isVisible()
-        .catch(() => false);
-      return faqListVisible || emptyStateVisible;
-    }).toBeTruthy();
+    // Wait for FAQ cards to be visible (since the page should have FAQ entries)
+    await expect(faqPage.faqCards.first()).toBeVisible();
+
+    // Wait for the page to be stable
+    await page.waitForLoadState("domcontentloaded");
 
     const faqCount = await faqPage.getFAQCount();
 
@@ -71,10 +66,7 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
       await faqPage.expandFAQ(0);
 
       // Wait for FAQ to be expanded
-      await expect(async () => {
-        const isExpanded = await faqPage.isFAQExpanded(0);
-        return isExpanded;
-      }).toBeTruthy();
+      await expect(faqPage.getFAQAnswer(0)).toBeVisible();
 
       const answer = faqPage.getFAQAnswer(0);
       await expect(answer).toBeVisible();
@@ -84,14 +76,12 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
       await faqPage.expandFAQ(0);
 
       // Wait for FAQ to be collapsed
-      await expect(async () => {
-        const isCollapsed = await faqPage.isFAQExpanded(0);
-        return !isCollapsed;
-      }).toBeTruthy();
+      await expect(faqPage.getFAQAnswer(0)).not.toBeVisible();
     } else {
-      // Verify empty state is shown when no FAQ entries
-      await expect(faqPage.emptyState).toBeVisible();
-      await expect(faqPage.emptyStateMessage).toBeVisible();
+      // This should not happen since we expect FAQ entries to be present
+      throw new Error(
+        "Expected FAQ entries to be present, but none were found"
+      );
     }
   });
 
@@ -113,10 +103,7 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
       await faqPage.expandFAQ(0);
 
       // Wait for FAQ to be expanded
-      await expect(async () => {
-        const isExpanded = await faqPage.isFAQExpanded(0);
-        return isExpanded;
-      }).toBeTruthy();
+      await expect(faqPage.getFAQAnswer(0)).toBeVisible();
 
       const originalAnswer = await faqPage.getFAQAnswerText(0);
       expect(originalAnswer).toBeTruthy();
@@ -167,14 +154,7 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
       }
 
       // Wait for FAQ to be expanded and answer to be visible
-      await expect(async () => {
-        const isExpanded = await faqPage.isFAQExpanded(0);
-        if (!isExpanded) return false;
-
-        const answerElement = faqPage.getFAQAnswer(0);
-        const isAnswerVisible = await answerElement.isVisible();
-        return isAnswerVisible;
-      }).toBeTruthy();
+      await expect(faqPage.getFAQAnswer(0)).toBeVisible();
 
       const updatedAnswer = await faqPage.getFAQAnswerText(0);
       expect(updatedAnswer).toBe(updatedAnswerText);
