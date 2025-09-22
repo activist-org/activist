@@ -38,6 +38,7 @@ export const newOrganizationResourcesPage = (page: Page) => ({
     page
       .getByTestId("resource-card")
       .nth(index)
+      .getByTestId("menu-tooltip")
       .getByRole("button", {
         name: new RegExp(getEnglishText("i18n._global.share"), "i"),
       }),

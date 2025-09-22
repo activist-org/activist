@@ -88,17 +88,41 @@ export default defineConfig({
     {
       name: "Mobile Chrome",
       grep: matchMobile,
-      use: { ...devices["Pixel 5"], isMobile: true },
+      use: {
+        ...devices["Pixel 5"],
+        isMobile: true,
+        hasTouch: true,
+        // Better touch emulation for drag and drop
+        launchOptions: {
+          args: ["--touch-events=enabled"],
+        },
+      },
     },
     {
       name: "Mobile Safari",
       grep: matchMobile,
-      use: { ...devices["iPhone 12"], isMobile: true },
+      use: {
+        ...devices["iPhone 12"],
+        isMobile: true,
+        hasTouch: true,
+        // Better touch emulation for drag and drop
+        launchOptions: {
+          args: ["--touch-events=enabled"],
+        },
+      },
     },
     {
       name: "Mobile Samsung",
       grep: matchMobile,
-      use: { ...devices["Galaxy S9+"], isMobile: true },
+      use: {
+        ...devices["Galaxy S9+"],
+        isMobile: true,
+        hasTouch: true,
+        // Better touch emulation for drag and drop
+        launchOptions: {
+          args: ["--touch-events=enabled"],
+        },
+      },
     },
   ],
 
