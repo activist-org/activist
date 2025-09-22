@@ -23,7 +23,9 @@
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages.organizations.team.invite_someone_org_aria_label"
+          :aria-label="
+            $t('i18n.pages.organizations.team.invite_someone_org_aria_label')
+          "
         />
       </div>
     </HeaderAppPageOrganization>

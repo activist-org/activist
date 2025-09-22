@@ -85,7 +85,9 @@
           :cta="true"
           label="i18n.components.form_social_link.add_link"
           fontSize="base"
-          ariaLabel="i18n.components.form_social_link.add_link_aria_label"
+          :aria-label="
+            $t('i18n.components.form_social_link.add_link_aria_label')
+          "
         />
       </div>
     </div>

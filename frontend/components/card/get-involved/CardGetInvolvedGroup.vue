@@ -19,7 +19,7 @@
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18n._global.join_group_aria_label"
+          :aria-label="$t('i18n._global.join_group_aria_label')"
         />
       </div>
     </div>

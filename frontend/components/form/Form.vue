@@ -15,7 +15,7 @@
           :cta="true"
           fontSize="lg"
           type="submit"
-          ariaLabel="i18n.components.submit_aria_label"
+          :aria-label="$t('i18n.components.submit_aria_label')"
         />
       </div>
     </form>

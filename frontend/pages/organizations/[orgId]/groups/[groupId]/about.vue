@@ -18,7 +18,7 @@
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18n._global.join_group_aria_label"
+          :aria-label="$t('i18n._global.join_group_aria_label')"
         />
         <!-- <BtnAction
           class="w-max"
@@ -39,7 +39,9 @@
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          ariaLabel="i18n.pages.organizations.groups.about.share_group_aria_label"
+          :aria-label="
+            $t('i18n.pages.organizations.groups.about.share_group_aria_label')
+          "
         />
         <ModalSharePage
           @closeModal="handleCloseModal"

@@ -67,7 +67,9 @@
           :dropdownIcon="IconMap.CHEVRON_DOWN"
           :dropdownOptions="availableFormats"
           :dropdownOptionsCallback="downloadQRCode"
-          ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
+          :aria-label="
+            $t('i18n.components.modal_qr_code.download_qr_code_aria_label')
+          "
           ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
         />
       </div>
@@ -108,7 +110,9 @@
         :dropdownIcon="IconMap.CHEVRON_DOWN"
         :dropdownOptions="availableFormats"
         :dropdownOptionsCallback="downloadQRCode"
-        ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
+        :aria-label="
+          $t('i18n.components.modal_qr_code.download_qr_code_aria_label')
+        "
         ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
       />
     </div>

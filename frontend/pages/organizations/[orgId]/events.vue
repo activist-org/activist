@@ -25,7 +25,9 @@
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages.organizations.events.new_org_event_aria_label"
+          :aria-label="
+            $t('i18n.pages.organizations.events.new_org_event_aria_label')
+          "
         />
         <BtnAction
           @click="downloadCalendarEntries"
@@ -36,7 +38,11 @@
           fontSize="sm"
           :leftIcon="IconMap.DATE"
           iconSize="1.25em"
-          ariaLabel="i18n.pages.organizations._global.subscribe_to_events_aria_label"
+          :aria-label="
+            $t(
+              'i18n.pages.organizations._global.subscribe_to_events_aria_label'
+            )
+          "
         />
       </div>
     </HeaderAppPageOrganization>

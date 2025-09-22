@@ -9,7 +9,7 @@
         label="i18n._global.support"
         leftIcon="IconSupport"
         fontSize="lg"
-        ariaLabel="i18n.components.tooltip_menu_search_result_user.support_user_aria_label"
+        :aria-label="$t('i18n.components.tooltip_menu_search_result_user.support_user_aria_label')"
       /> -->
       <BtnAction
         @click="openModal()"

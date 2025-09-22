@@ -25,7 +25,9 @@
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages.organizations.groups.index.new_group_aria_label"
+          :aria-label="
+            $t('i18n.pages.organizations.groups.index.new_group_aria_label')
+          "
         />
       </div>
     </HeaderAppPageOrganization>

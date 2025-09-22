@@ -36,7 +36,9 @@
       fontSize="sm"
       :rightIcon="IconMap.EXTERNAL_LINK"
       iconSize="1.25em"
-      ariaLabel="i18n.components.card_donate.go_to_donation_page_aria_label"
+      :aria-label="
+        $t('i18n.components.card_donate.go_to_donation_page_aria_label')
+      "
     />
   </div>
 </template>

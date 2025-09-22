@@ -43,7 +43,9 @@
             fontSize="sm"
             :leftIcon="IconMap.ARROW_UP"
             iconSize="1.25em"
-            ariaLabel="i18n.components._global.upvote_application_aria_label"
+            :aria-label="
+              $t('i18n.components._global.upvote_application_aria_label')
+            "
             :disabled="!fileImageIcon"
           />
         </div>

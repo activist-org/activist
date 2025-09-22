@@ -23,7 +23,7 @@
           fontSize="sm"
           :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.new_discussion_aria_label"
+          :aria-label="$t('i18n.pages._global.new_discussion_aria_label')"
         />
       </div>
     </HeaderAppPageEvent>

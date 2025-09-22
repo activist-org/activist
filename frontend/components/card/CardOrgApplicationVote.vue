@@ -37,7 +37,9 @@
         :leftIcon="IconMap.ARROW_UP"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        ariaLabel="i18n.components._global.upvote_application_aria_label"
+        :aria-label="
+          $t('i18n.components._global.upvote_application_aria_label')
+        "
       />
       <BtnAction
         @click="$emit('down-vote')"
@@ -48,7 +50,11 @@
         :leftIcon="IconMap.ARROW_DOWN"
         iconSize="1.25em"
         :disabled="isVotingDisabled"
-        ariaLabel="i18n.components.card_org_application_vote.downvote_application_aria_label"
+        :aria-label="
+          $t(
+            'i18n.components.card_org_application_vote.downvote_application_aria_label'
+          )
+        "
       />
     </div>
   </div>

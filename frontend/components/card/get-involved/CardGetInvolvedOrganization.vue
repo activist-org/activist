@@ -19,7 +19,11 @@
           :linkTo="'/organizations/' + orgId + '/groups'"
           label="i18n.components.card_get_involved_organization.view_all_groups"
           fontSize="sm"
-          ariaLabel="i18n.components.card_get_involved_organization.view_all_groups_aria_label"
+          :aria-label="
+            $t(
+              'i18n.components.card_get_involved_organization.view_all_groups_aria_label'
+            )
+          "
         />
         <BtnRouteInternal
           v-if="organization && organization.getInvolvedUrl"
@@ -29,7 +33,7 @@
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18n._global.join_organization_aria_label"
+          :aria-label="$t('i18n._global.join_organization_aria_label')"
         />
       </div>
     </div>

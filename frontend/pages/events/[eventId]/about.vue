@@ -17,7 +17,7 @@
           fontSize="sm"
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18n._global.offer_to_help_aria_label"
+          :aria-label="$t('i18n._global.offer_to_help_aria_label')"
         />
         <!-- <BtnAction
           class="w-max"
@@ -28,7 +28,7 @@
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="event.supportingUsers.length"
-          ariaLabel="i18n._global.support_event_aria_label"
+          :aria-label="$t('i18n._global.support_event_aria_label')"
         /> -->
         <BtnAction
           @click="openModalSharePage()"
@@ -40,7 +40,7 @@
           fontSize="sm"
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
-          ariaLabel="i18n._global.share_event_aria_label"
+          :aria-label="$t('i18n._global.share_event_aria_label')"
         />
         <BtnAction
           @click="downloadCalendarEntry"
@@ -51,7 +51,7 @@
           fontSize="sm"
           :rightIcon="IconMap.DATE"
           iconSize="1.25em"
-          ariaLabel="i18n._global.subscribe_to_event_aria_label"
+          :aria-label="$t('i18n._global.subscribe_to_event_aria_label')"
         />
         <ModalSharePage :cta="true" :event="event" />
       </div>

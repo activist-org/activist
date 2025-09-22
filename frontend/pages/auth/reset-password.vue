@@ -17,7 +17,7 @@
           label="i18n._global.auth.reset_password"
           :cta="true"
           fontSize="lg"
-          ariaLabel="i18n._global.auth.reset_password"
+          :aria-label="$t('i18n._global.auth.reset_password')"
         />
       </div>
       <div class="link-text pt-16 text-center text-xl font-extrabold">

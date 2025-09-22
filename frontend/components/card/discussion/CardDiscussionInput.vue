@@ -14,7 +14,9 @@
               :cta="isMarkdownPreview === 'Write'"
               label="i18n.components.card_discussion_input.write"
               fontSize="sm"
-              ariaLabel="i18n.components.card_discussion_input.write_aria_label"
+              :aria-label="
+                $t('i18n.components.card_discussion_input.write_aria_label')
+              "
             />
           </div>
           <div class="w-min md:w-min">
@@ -24,7 +26,9 @@
               :cta="isMarkdownPreview === 'Preview'"
               label="i18n.components.card_discussion_input.preview"
               fontSize="sm"
-              ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
+              :aria-label="
+                $t('i18n.components.card_discussion_input.preview_aria_label')
+              "
             />
           </div>
         </div>
@@ -147,7 +151,9 @@
             :cta="true"
             label="i18n.components.card_discussion_input.comment"
             fontSize="sm"
-            ariaLabel="i18n.components.card_discussion_input.comment_aria_label"
+            :aria-label="
+              $t('i18n.components.card_discussion_input.comment_aria_label')
+            "
           />
         </div>
       </div>

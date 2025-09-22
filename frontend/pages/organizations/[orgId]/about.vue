@@ -18,7 +18,7 @@
             fontSize="sm"
             :rightIcon="IconMap.ARROW_RIGHT"
             iconSize="1.45em"
-            ariaLabel="i18n._global.join_organization_aria_label"
+            :aria-label="$t('i18n._global.join_organization_aria_label')"
           />
           <!-- <BtnAction
           class="w-max"
@@ -28,7 +28,7 @@
           leftIcon="IconSupport"
           iconSize="1.45em"
           :counter="organization.supporters.length"
-          ariaLabel="i18n._global.support_organization_aria_label"
+          :aria-label="$t('i18n._global.support_organization_aria_label')"
         /> -->
           <BtnAction
             @click="openModalSharePage()"
@@ -40,7 +40,7 @@
             fontSize="sm"
             :rightIcon="IconMap.SHARE"
             iconSize="1.45em"
-            ariaLabel="i18n._global.share_organization_aria_label"
+            :aria-label="$t('i18n._global.share_organization_aria_label')"
           />
         </div>
         <ModalSharePage :cta="true" :organization="organization" />

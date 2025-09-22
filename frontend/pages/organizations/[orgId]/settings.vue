@@ -22,7 +22,9 @@
           :cta="true"
           label="i18n.pages._global.settings.save_settings"
           fontSize="sm"
-          ariaLabel="i18n.pages._global.settings.save_settings_aria_label"
+          :aria-label="
+            $t('i18n.pages._global.settings.save_settings_aria_label')
+          "
         />
       </div>
     </HeaderAppPageOrganization>

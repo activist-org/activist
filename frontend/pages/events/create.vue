@@ -284,7 +284,7 @@
             leftIcon="←"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="i18n.pages.events.create.go_to_previous_page"
+            :aria-label="$t('i18n.pages.events.create.go_to_previous_page')"
           />
           <BtnAction
             v-if="!hasNextPage"
@@ -293,7 +293,7 @@
             class="absolute right-0 ml-2 flex"
             label="i18n.pages.events.create.submit"
             fontSize="lg"
-            ariaLabel="i18n.pages.events.create.submit_aria_label"
+            :aria-label="$t('i18n.pages.events.create.submit_aria_label')"
           />
           <BtnAction
             v-if="hasNextPage"
@@ -305,7 +305,7 @@
             :rightIcon="IconMap.ARROW_RIGHT"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="i18n.pages.events.create.go_to_previous_page"
+            :aria-label="$t('i18n.pages.events.create.go_to_previous_page')"
           />
         </div>
       </form>

@@ -79,7 +79,7 @@
               label="i18n._global.sign_in"
               linkTo="/auth/sign-in"
               fontSize="sm"
-              ariaLabel="i18n._global.sign_in_aria_label"
+              :aria-label="$t('i18n._global.sign_in_aria_label')"
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP && devMode.active"
@@ -89,7 +89,7 @@
               label="i18n._global.sign_in"
               linkTo="/auth/sign-in"
               fontSize="xs"
-              ariaLabel="i18n._global.sign_in_aria_label"
+              :aria-label="$t('i18n._global.sign_in_aria_label')"
             />
             <BtnRouteInternal
               v-if="aboveLargeBP && devMode.active"
@@ -99,7 +99,7 @@
               label="i18n._global.sign_up"
               linkTo="/auth/sign-up"
               fontSize="sm"
-              ariaLabel="i18n._global.sign_up_aria_label"
+              :aria-label="$t('i18n._global.sign_up_aria_label')"
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP && devMode.active"
@@ -109,7 +109,7 @@
               label="i18n._global.sign_up"
               linkTo="/auth/sign-up"
               fontSize="xs"
-              ariaLabel="i18n._global.sign_up_aria_label"
+              :aria-label="$t('i18n._global.sign_up_aria_label')"
             />
             <BtnRouteInternal
               v-if="aboveLargeBP && !devMode.active"
@@ -119,7 +119,9 @@
               label="i18n._global.support"
               linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="sm"
-              ariaLabel="i18n.components.header_website.support_aria_label"
+              :aria-label="
+                $t('i18n.components.header_website.support_aria_label')
+              "
             />
             <BtnRouteInternal
               v-else-if="aboveMediumBP && !devMode.active"
@@ -129,7 +131,9 @@
               label="i18n._global.support"
               linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="xs"
-              ariaLabel="i18n.components.header_website.support_aria_label"
+              :aria-label="
+                $t('i18n.components.header_website.support_aria_label')
+              "
             />
           </div>
         </div>

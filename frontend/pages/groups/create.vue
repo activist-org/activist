@@ -105,7 +105,9 @@
               class="flex"
               label="i18n._global.create_group"
               fontSize="lg"
-              ariaLabel="i18n.pages.groups.create.create_group_aria_label"
+              :aria-label="
+                $t('i18n.pages.groups.create.create_group_aria_label')
+              "
             />
           </div>
         </div>

@@ -56,7 +56,7 @@
           label="i18n.pages.auth.set_password.set_password"
           :cta="true"
           fontSize="lg"
-          ariaLabel="i18n.pages.auth.set_password.set_password"
+          :aria-label="$t('i18n.pages.auth.set_password.set_password')"
         />
       </div>
     </form>

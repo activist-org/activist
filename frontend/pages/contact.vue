@@ -257,7 +257,7 @@
           label="i18n._global.return_home"
           linkTo="/"
           fontSize="lg"
-          ariaLabel="i18n._global.return_home_aria_label"
+          :aria-label="$t('i18n._global.return_home_aria_label')"
         />
       </div>
     </PageDocs>
