@@ -20,7 +20,10 @@ test.describe("Organizations Home Page", { tag: "@desktop" }, () => {
     await expect(
       organizationsHomePage.getOrganizationMenuTooltip(0)
     ).toBeVisible();
-    await organizationsHomePage.getOrganizationShareButton(0).click();
+
+    // Click share button immediately while tooltip is open
+    const shareButton = organizationsHomePage.getOrganizationShareButton(0);
+    await shareButton.click();
 
     await expect(organizationsHomePage.shareModal).toBeVisible();
 

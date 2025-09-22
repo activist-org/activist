@@ -32,6 +32,7 @@ export const newOrganizationsHomePage = (page: Page) => ({
     page
       .getByTestId("organization-card")
       .nth(index)
+      .getByTestId("menu-tooltip")
       .getByRole("button", {
         name: new RegExp(
           getEnglishText("i18n._global.share_organization_aria_label"),

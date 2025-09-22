@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { toast } from "vue-sonner";
+
 export const useToaster = () => {
   const showError = (message: string) => {
     toast.error(message);
