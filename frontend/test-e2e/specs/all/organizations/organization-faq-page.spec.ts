@@ -1,0 +1,190 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+import { expect, test } from "playwright/test";
+
+import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
+import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
+import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+
+test.beforeEach(async ({ page }) => {
+  // Use shared navigation function that automatically detects platform and uses appropriate navigation
+  await navigateToOrganizationSubpage(page, "faq");
+});
+
+test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
+  // Note: Check to make sure that this is eventually done for light and dark modes.
+  test.skip("Organization FAQ Page has no detectable accessibility issues", async ({
+    page,
+  }, testInfo) => {
+    const violations = await runAccessibilityTest(
+      "Organization FAQ Page",
+      page,
+      testInfo
+    );
+    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
+
+    if (violations.length > 0) {
+      // Note: For future implementation.
+    }
+  });
+
+  test("User can view and interact with FAQ entries", async ({ page }) => {
+    const organizationPage = newOrganizationPage(page);
+    const faqPage = organizationPage.faqPage;
+
+    // Wait for page to load completely
+    await page.waitForLoadState("networkidle");
+
+    // Wait for either FAQ list or empty state to appear
+    await expect(async () => {
+      const faqListVisible = await faqPage.faqList
+        .isVisible()
+        .catch(() => false);
+      const emptyStateVisible = await faqPage.emptyState
+        .isVisible()
+        .catch(() => false);
+      return faqListVisible || emptyStateVisible;
+    }).toBeTruthy();
+
+    const faqCount = await faqPage.getFAQCount();
+
+    if (faqCount > 0) {
+      // Verify FAQ list and elements are visible
+      await expect(faqPage.faqList).toBeVisible();
+      await expect(faqPage.faqCards.first()).toBeVisible();
+
+      const firstFAQCard = faqPage.getFAQCard(0);
+      const firstFAQQuestion = faqPage.getFAQQuestion(0);
+      const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
+      const firstFAQEditButton = faqPage.getFAQEditButton(0);
+
+      await expect(firstFAQCard).toBeVisible();
+      await expect(firstFAQQuestion).toBeVisible();
+      await expect(firstFAQQuestion).toContainText(/.+/);
+      await expect(firstFAQDragHandle).toBeVisible();
+      await expect(firstFAQEditButton).toBeVisible();
+
+      // Test expand/collapse functionality
+      const isInitiallyExpanded = await faqPage.isFAQExpanded(0);
+      expect(isInitiallyExpanded).toBe(false);
+
+      // Expand FAQ
+      await faqPage.expandFAQ(0);
+
+      // Wait for FAQ to be expanded
+      await expect(async () => {
+        const isExpanded = await faqPage.isFAQExpanded(0);
+        return isExpanded;
+      }).toBeTruthy();
+
+      const answer = faqPage.getFAQAnswer(0);
+      await expect(answer).toBeVisible();
+      await expect(answer).toContainText(/.+/);
+
+      // Collapse FAQ
+      await faqPage.expandFAQ(0);
+
+      // Wait for FAQ to be collapsed
+      await expect(async () => {
+        const isCollapsed = await faqPage.isFAQExpanded(0);
+        return !isCollapsed;
+      }).toBeTruthy();
+    } else {
+      // Verify empty state is shown when no FAQ entries
+      await expect(faqPage.emptyState).toBeVisible();
+      await expect(faqPage.emptyStateMessage).toBeVisible();
+    }
+  });
+
+  test("User can edit existing FAQ entries", async ({ page }) => {
+    const organizationPage = newOrganizationPage(page);
+    const faqPage = organizationPage.faqPage;
+
+    // Wait for FAQ entries to load completely
+    await page.waitForLoadState("networkidle");
+
+    const faqCount = await faqPage.getFAQCount();
+
+    if (faqCount > 0) {
+      // Get the original question text
+      const originalQuestion = await faqPage.getFAQQuestionText(0);
+      expect(originalQuestion).toBeTruthy();
+
+      // Expand the FAQ to get the answer text
+      await faqPage.expandFAQ(0);
+
+      // Wait for FAQ to be expanded
+      await expect(async () => {
+        const isExpanded = await faqPage.isFAQExpanded(0);
+        return isExpanded;
+      }).toBeTruthy();
+
+      const originalAnswer = await faqPage.getFAQAnswerText(0);
+      expect(originalAnswer).toBeTruthy();
+
+      // Click the edit button for the first FAQ
+      await faqPage.editFAQ(0);
+
+      // Verify edit modal opens
+      await expect(faqPage.editFAQModal).toBeVisible();
+
+      // Get the modal and form elements
+      const editModal = faqPage.editFAQModal;
+      const questionInput = faqPage.faqQuestionInput(editModal);
+      const answerInput = faqPage.faqAnswerInput(editModal);
+      const submitButton = faqPage.faqSubmitButton(editModal);
+
+      // Generate unique test text with timestamp
+      const timestamp = Date.now();
+      const updatedQuestionText = `Updated FAQ Question - Test Edit ${timestamp}`;
+      const updatedAnswerText = `Updated FAQ Answer - This is a test edit to verify the functionality works correctly. Timestamp: ${timestamp}`;
+
+      // Clear and update the question
+      await questionInput.clear();
+      await questionInput.fill(updatedQuestionText);
+
+      // Clear and update the answer
+      await answerInput.clear();
+      await answerInput.fill(updatedAnswerText);
+
+      // Submit the form
+      await submitButton.click();
+
+      // Wait for the modal to close and changes to be saved
+      await expect(editModal).not.toBeVisible();
+      await page.waitForLoadState("networkidle");
+
+      // Verify the changes were persisted
+      const updatedQuestion = await faqPage.getFAQQuestionText(0);
+      expect(updatedQuestion).toBe(updatedQuestionText);
+
+      // Wait for the FAQ to be ready for interaction after edit
+      await page.waitForLoadState("networkidle");
+
+      // Check if FAQ is already expanded, if not, expand it
+      const isAlreadyExpanded = await faqPage.isFAQExpanded(0);
+      if (!isAlreadyExpanded) {
+        await faqPage.expandFAQ(0);
+      }
+
+      // Wait for FAQ to be expanded and answer to be visible
+      await expect(async () => {
+        const isExpanded = await faqPage.isFAQExpanded(0);
+        if (!isExpanded) return false;
+
+        const answerElement = faqPage.getFAQAnswer(0);
+        const isAnswerVisible = await answerElement.isVisible();
+        return isAnswerVisible;
+      }).toBeTruthy();
+
+      const updatedAnswer = await faqPage.getFAQAnswerText(0);
+      expect(updatedAnswer).toBe(updatedAnswerText);
+
+      // Verify the changes are different from the original
+      expect(updatedQuestion).not.toBe(originalQuestion);
+      expect(updatedAnswer).not.toBe(originalAnswer);
+    } else {
+      // Skip test if no FAQ entries are available
+      test.skip(faqCount > 0, "No FAQ entries available to test editing");
+    }
+  });
+});

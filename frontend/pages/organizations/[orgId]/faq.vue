@@ -35,6 +35,7 @@
         @end="onDragEnd"
         item-key="id"
         class="space-y-4"
+        data-testid="organization-faq-list"
       >
         <template #item="{ element }">
           <CardFAQEntry :pageType="'organization'" :faqEntry="element" />

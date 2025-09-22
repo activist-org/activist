@@ -75,6 +75,14 @@ export async function navigateToOrganizationSubpage(
   page: Page,
   subpage: string
 ) {
+  // Map subpage names to menu option names
+  const subpageMapping: Record<string, string> = {
+    faq: "questions",
+    // Add other mappings as needed
+  };
+
+  const menuSubpage = subpageMapping[subpage] || subpage;
+
   await signInAsAdmin(page);
   const { organizationId, organizationPage } =
     await navigateToFirstOrganization(page);
@@ -90,7 +98,7 @@ export async function navigateToOrganizationSubpage(
 
     // Click the appropriate subpage option
     const subpageOption = organizationPage.menu[
-      `${subpage}Option` as keyof typeof organizationPage.menu
+      `${menuSubpage}Option` as keyof typeof organizationPage.menu
     ] as { click: () => Promise<void> };
     await subpageOption.click();
 
@@ -105,7 +113,7 @@ export async function navigateToOrganizationSubpage(
   } else {
     // Desktop layout: uses direct tab navigation
     const subpageOption = organizationPage.menu[
-      `${subpage}Option` as keyof typeof organizationPage.menu
+      `${menuSubpage}Option` as keyof typeof organizationPage.menu
     ] as { click: () => Promise<void> };
     await subpageOption.click();
   }

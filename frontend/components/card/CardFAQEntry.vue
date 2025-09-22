@@ -1,7 +1,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Disclosure v-slot="{ open }" as="div" class="card-style">
-    <DisclosureButton class="focus-brand w-full rounded-md px-4 py-2">
+  <Disclosure
+    v-slot="{ open }"
+    as="div"
+    class="card-style"
+    data-testid="faq-card"
+  >
+    <DisclosureButton
+      class="focus-brand w-full rounded-md px-4 py-2"
+      data-testid="faq-disclosure-button"
+    >
       <div
         class="flex gap-3"
         :class="{ 'items-center': !open, 'items-start': open }"
@@ -11,16 +19,27 @@
           :name="IconMap.GRIP"
           size="1em"
           :aria-label="$t('i18n.components._global.draggable_element')"
+          data-testid="faq-drag-handle"
         />
         <div class="text-primary-text">
-          <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
-          <Icon v-else :name="IconMap.CHEVRON_DOWN" />
+          <Icon
+            v-if="open"
+            :name="IconMap.CHEVRON_UP"
+            data-testid="faq-chevron-up"
+          />
+          <Icon
+            v-else
+            :name="IconMap.CHEVRON_DOWN"
+            data-testid="faq-chevron-down"
+          />
         </div>
         <div class="flex-col">
           <div
             class="flex select-text items-center gap-3 text-left text-primary-text"
           >
-            <p>{{ faqEntry.question }}</p>
+            <p data-testid="faq-question">
+              {{ faqEntry.question }}
+            </p>
             <IconEdit
               @click.stop="
                 useModalHandlers(
@@ -34,6 +53,7 @@
                     props.faqEntry.id
                 ).openModal()
               "
+              data-testid="faq-edit-button"
             />
             <ModalFaqEntryOrganization
               v-if="pageType === 'organization'"
@@ -50,8 +70,9 @@
           </div>
           <DisclosurePanel
             class="mt-2 border-t border-section-div py-2 focus-within:border-0"
+            data-testid="faq-disclosure-panel"
           >
-            <p class="select-text text-left">
+            <p class="select-text text-left" data-testid="faq-answer">
               {{ faqEntry.answer }}
             </p>
           </DisclosurePanel>
