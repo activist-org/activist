@@ -27,7 +27,7 @@
     "@nuxtjs/i18n": "10.0.0",
     "@nuxtjs/tailwindcss": "6.12.2",
     "@pinia/nuxt": "0.9.0",
-    "@playwright/test": "1.51.1",
+    "@playwright/test": "latest",
     "@sidebase/nuxt-auth": "1.0.0",
     "@testing-library/vue": "8.1.0",
     "@types/node": "22.12.0",
@@ -88,7 +88,7 @@
     "nuxt-mail": "5.1.1",
     "pinia": "2.3.1",
     "pinia-plugin-persistedstate": "4.2.0",
-    "playwright-core": "1.51.1",
+    "playwright-core": "latest",
     "postcss": "8.5.1",
     "postcss-custom-properties": "14.0.4",
     "qrcode": "1.5.4",
@@ -113,7 +113,7 @@
   },
   "resolutions": {
     "chokidar": "3.6.0",
-    "playwright-core": "1.51.1"
+    "playwright-core": "latest"
   },
   "packageManager": "yarn@4.7.0"
 }
