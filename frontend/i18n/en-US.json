@@ -160,6 +160,7 @@
   "i18n.components.combobox_topics.all_topics": "All Topics",
   "i18n.components.combobox_topics.filter_by_topic": "Filter by topic",
   "i18n.components.combobox_topics.no_matching_topics": "No matching topics.",
+  "i18n.components.combobox_topics.toggle_dropdown": "Toggle dropdown",
   "i18n.components.dropdown_create.create": "Create",
   "i18n.components.dropdown_create.create_aria_label": "Open to see options to create events, organizations and other content on activist",
   "i18n.components.dropdown_create.new_organization": "New organization",

@@ -159,6 +159,7 @@
   "i18n.components.combobox_topics.all_topics": "Tutti gli argomenti",
   "i18n.components.combobox_topics.filter_by_topic": "Filtra per argomento",
   "i18n.components.combobox_topics.no_matching_topics": "Nessun argomento corrispondente.",
+  "i18n.components.combobox_topics.toggle_dropdown": "Attiva/disattiva menu a tendina",
   "i18n.components.dropdown_create.create": "Crea",
   "i18n.components.dropdown_create.create_aria_label": "Apri per vedere le opzioni per creare eventi, organizzazioni e altri contenuti su activist",
   "i18n.components.dropdown_create.new_organization": "Nuova organizzazione",

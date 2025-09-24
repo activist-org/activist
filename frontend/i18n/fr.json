@@ -160,6 +160,7 @@
   "i18n.components.combobox_topics.all_topics": "Tous sujets",
   "i18n.components.combobox_topics.filter_by_topic": "Filtrer par sujet",
   "i18n.components.combobox_topics.no_matching_topics": "Pas de sujets correspondants.",
+  "i18n.components.combobox_topics.toggle_dropdown": "Basculer la liste déroulante",
   "i18n.components.dropdown_create.create": "Créer",
   "i18n.components.dropdown_create.create_aria_label": "Ouvrir pour voir les options de création d’événements, d’organisations et d’autres contenus sur le thème des activistes",
   "i18n.components.dropdown_create.new_organization": "Nouvelle organisation",

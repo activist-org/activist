@@ -153,6 +153,7 @@
   "i18n.components.combobox_topics.all_topics": "Todos os Tópicos",
   "i18n.components.combobox_topics.filter_by_topic": "Filtrar por tópico",
   "i18n.components.combobox_topics.no_matching_topics": "Nenhum tópico correspondente.",
+  "i18n.components.combobox_topics.toggle_dropdown": "Alternar lista suspensa",
   "i18n.components.dropdown_create.create": "Criar",
   "i18n.components.dropdown_create.create_aria_label": "Abrir para ver opções para criar eventos, organizações e outro conteúdo no ativista",
   "i18n.components.dropdown_create.new_organization": "Nova organização",

@@ -158,6 +158,7 @@
   "i18n.components.combobox_topics.all_topics": "جميع المواضيع",
   "i18n.components.combobox_topics.filter_by_topic": "تصفية حسب الموضوع",
   "i18n.components.combobox_topics.no_matching_topics": "لا توجد مواضيع مطابقة.",
+  "i18n.components.combobox_topics.toggle_dropdown": "تبديل القائمة المنسدلة",
   "i18n.components.dropdown_create.create": "إنشاء",
   "i18n.components.dropdown_create.create_aria_label": "activist افتح لرؤية خيارات إنشاء أحداث أو منظمات أو محتوى آخر على",
   "i18n.components.dropdown_create.new_organization": "منظمة جديدة",

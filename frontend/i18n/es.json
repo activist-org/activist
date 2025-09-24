@@ -156,6 +156,7 @@
   "i18n.components.combobox_topics.all_topics": "Todos los temas",
   "i18n.components.combobox_topics.filter_by_topic": "Filtrar por tema",
   "i18n.components.combobox_topics.no_matching_topics": "No hay temas coincidentes.",
+  "i18n.components.combobox_topics.toggle_dropdown": "Alternar lista desplegable",
   "i18n.components.dropdown_create.create": "Crear",
   "i18n.components.dropdown_create.create_aria_label": "Abrir para ver opciones para crear eventos, organizaciones y otros contenidos sobre activist",
   "i18n.components.dropdown_create.new_organization": "Organización nueva",

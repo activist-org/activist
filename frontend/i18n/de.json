@@ -153,6 +153,7 @@
   "i18n.components.combobox_topics.all_topics": "Alle Themen",
   "i18n.components.combobox_topics.filter_by_topic": "Nach Thema filtern",
   "i18n.components.combobox_topics.no_matching_topics": "Keine passenden Themen.",
+  "i18n.components.combobox_topics.toggle_dropdown": "Dropdown umschalten",
   "i18n.components.dropdown_create.create": "Erstellen",
   "i18n.components.dropdown_create.create_aria_label": "Öffnen, um Optionen zum Erstellen von Veranstaltungen, Organisationen und anderen Inhalten auf activist anzuzeigen",
   "i18n.components.dropdown_create.new_organization": "Neue Organisation",
