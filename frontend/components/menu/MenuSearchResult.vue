@@ -9,6 +9,7 @@
       @click="toggleTooltip"
       @keydown.shift.tab="onShiftTab"
       class="style-cta elem-shadow-sm relative flex h-8 w-8 items-center justify-center rounded-full md:h-6 md:w-6"
+      :aria-label="$t('i18n.components.menu_search_result.toggle_menu')"
     >
       <Icon :name="IconMap.DOTS_THREE_VERTICAL" size="1.25em" />
       <TooltipMenuSearchResultEvent

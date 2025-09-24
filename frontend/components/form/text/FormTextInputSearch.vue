@@ -9,7 +9,11 @@
   >
     <template #icons>
       <slot name="icons"></slot>
-      <button :id="`${id}-search`" type="button">
+      <button
+        :id="`${id}-search`"
+        type="button"
+        :aria-label="$t('i18n.components.form_text_input_search.search_button')"
+      >
         <Icon :name="IconMap.SEARCH" size="1.4em" />
       </button>
     </template>
