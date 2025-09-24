@@ -52,7 +52,7 @@
           />
         </FormItem>
         <button
-          @click="navigateTo(localePath('/auth/reset-password'))"
+          @click="navigateTo(localePath('/auth/pwreset/email'))"
           @mouseover="hovered = true"
           @focus="hovered = true"
           @mouseleave="hovered = false"

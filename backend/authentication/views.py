@@ -265,8 +265,8 @@ class PasswordResetView(APIView):
     queryset = UserModel.objects.all()
 
     @extend_schema(parameters=[OpenApiParameter(name="email", type=str, required=True)])
-    def get(self, request: Request) -> Response:
-        email = request.query_params.get("email")
+    def post(self, request: Request) -> Response:
+        email = request.data.get("email")
         logger.info(f"Password reset request for email: {email}")
 
         user = UserModel.objects.filter(email=email).first()
@@ -280,11 +280,11 @@ class PasswordResetView(APIView):
 
         user.verification_code = uuid.uuid4()
 
-        pwreset_link = f"{FRONTEND_BASE_URL}/pwreset/{user.verification_code}"
+        pwreset_link = f"{FRONTEND_BASE_URL}/auth/pwreset/{user.verification_code}"
         message = "Reset your password at activist.org"
         html_message = render_to_string(
             template_name="pwreset_email.html",
-            context={"username": user.username, pwreset_link: pwreset_link},
+            context={"username": user.username, "pwreset_link": pwreset_link},
         )
 
         try:
@@ -312,28 +312,30 @@ class PasswordResetView(APIView):
             status=status.HTTP_200_OK,
         )
 
-    def post(self, request: Request) -> Response:
-        code = request.query_params.get("code")
-        logger.info(f"Password reset attempt with code: {code}")
 
-        data = {
-            "password": request.data.get("password"),
-            "code": code,
-        }
-        serializer = PasswordResetSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
+# MARK: Verify Account for Reset Password
+class VerifyAccountResetPassword(APIView):
+    permission_classes = [AllowAny]
+    serializer_class = UserSerializer
 
-        user: UserModel = serializer.validated_data
-
-        user.set_password(request.data.get("password"))
+    @extend_schema(
+        parameters=[OpenApiParameter(name="new_password", type=str, required=True)]
+    )
+    def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
+        user = UserModel.objects.filter(verification_code=code).first()
+        if user is None:
+            logger.warning(
+                f"Password reset failed: user not found from verification code {code}"
+            )
+            return Response(
+                {"detail": "User does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        user.verification_code = None
+        user.set_password(request.data.get("new_password"))
         user.save()
-
-        logger.info(
-            f"Password reset successfully for user: {user.username} (ID: {user.id})"
-        )
-
         return Response(
-            {"message": "Password was reset successfully."},
+            {"message": "Password reset has been successfully."},
             status=status.HTTP_200_OK,
         )
 
