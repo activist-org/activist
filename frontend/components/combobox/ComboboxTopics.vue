@@ -7,21 +7,21 @@
         <div
           class="elem-shadow-sm focus-brand relative flex w-full cursor-default overflow-hidden rounded-lg"
         >
-          <ComboboxButton>
-            <ComboboxInput
-              @change="query = $event.target.value"
-              @click="inputFocussed = true"
-              @keyup.enter="inputFocussed = false"
-              @focus="handleInputFocus"
-              @blur="inputFocussed = false"
-              class="style-cta rounded-lg border py-2 pl-4 selection:bg-highlight dark:selection:bg-white/20"
-              :displayValue="displayValueHandler"
-            />
-            <div
-              class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
-            >
-              <Icon :name="IconMap.CHEVRON_EXPAND" />
-            </div>
+          <ComboboxInput
+            @change="query = $event.target.value"
+            @click="inputFocussed = true"
+            @keyup.enter="inputFocussed = false"
+            @focus="handleInputFocus"
+            @blur="inputFocussed = false"
+            class="style-cta rounded-lg border py-2 pl-4 selection:bg-highlight dark:selection:bg-white/20"
+            :displayValue="displayValueHandler"
+            :aria-label="$t('i18n.components.combobox_topics.filter_by_topic')"
+            :placeholder="$t('i18n.components.combobox_topics.filter_by_topic')"
+          />
+          <ComboboxButton
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
+          >
+            <Icon :name="IconMap.CHEVRON_EXPAND" />
           </ComboboxButton>
         </div>
         <TransitionRoot
