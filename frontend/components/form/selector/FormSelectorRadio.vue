@@ -8,7 +8,7 @@
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
-      v-slot="{ checked }"
+      v-slot="{ checked }: { checked: boolean }"
       class="flex flex-1 cursor-pointer rounded-none"
       :class="[
         {
