@@ -8,7 +8,7 @@
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
-      class="flex flex-1 cursor-pointer rounded-none"
+      class="flex flex-1 cursor-pointer items-center justify-center rounded-none"
       :class="[
         {
           'style-menu-option-cta': isOptionChecked(option),
