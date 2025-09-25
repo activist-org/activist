@@ -26,10 +26,7 @@
       :aria-label="$t(option.aria_label)"
     >
       <Icon
-        v-if="
-          typeof option.content === 'string' &&
-          option.content.startsWith('i18n.')
-        "
+        v-if="option.isIcon"
         :name="option.content as string"
         class="h-6 w-6"
         :aria-hidden="true"
