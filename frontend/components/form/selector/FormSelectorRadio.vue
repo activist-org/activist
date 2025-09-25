@@ -8,18 +8,18 @@
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
-      v-slot="{ checked }: { checked: boolean }"
+      v-slot="slotProps"
       class="flex flex-1 cursor-pointer rounded-none"
       :class="[
         {
-          'style-menu-option-cta': checked,
-          'style-menu-option bg-layer-2': !checked,
+          'style-menu-option-cta': slotProps.checked,
+          'style-menu-option bg-layer-2': !slotProps.checked,
           'rounded-l-lg': idx === 0,
           'rounded-r-lg': idx === options.length - 1,
         },
         option.class,
         {
-          [option.checkedClass || '']: checked,
+          [option.checkedClass || '']: slotProps.checked,
         },
       ]"
       :name="option.label || ''"
