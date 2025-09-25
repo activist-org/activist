@@ -193,7 +193,7 @@ const optionLocations = [
     ),
     aria_label:
       "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label",
-    class: "text-nowrap text-left pl-4",
+    class: "text-nowrap",
   },
   {
     value: "online",
@@ -203,6 +203,7 @@ const optionLocations = [
     ),
     aria_label:
       "i18n.components.sidebar_left_filter_events.location_type_online_aria_label",
+    class: "text-nowrap",
   },
 ];
 
