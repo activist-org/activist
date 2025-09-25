@@ -120,6 +120,13 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
 
     await signInPage.usernameInput.fill("admin");
     await signInPage.passwordInput.fill("admin");
+
+    // Click CAPTCHA if present
+    const captcha = signInPage.captcha;
+    if (await captcha.isVisible()) {
+      await captcha.click();
+    }
+
     await signInPage.signInButton.click();
 
     await page.waitForURL("**/home");
@@ -128,17 +135,27 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
   });
 
   test("Page shows error for invalid credentials", async ({ page }) => {
-    const dialogPromise = page.waitForEvent("dialog");
     const signInPage = newSignInPage(page);
 
     await signInPage.usernameInput.fill("invaliduser");
     await signInPage.passwordInput.fill("invaliduser");
+
+    // Click CAPTCHA if present
+    const captcha = signInPage.captcha;
+    if (await captcha.isVisible()) {
+      await captcha.click();
+    }
+
     await signInPage.signInButton.click();
 
-    const dialog = await dialogPromise;
-    expect(dialog.message()).toMatch(/invalid sign in credentials/i);
+    // Wait for error toast to appear
+    const errorToast = page.locator('[data-sonner-toast][data-type="error"]');
+    await expect(errorToast).toBeVisible();
 
-    await dialog.dismiss();
+    // Verify error message content
+    await expect(errorToast).toContainText(/invalid username or password/i);
+
+    // Verify we stay on sign-in page
     expect(page.url()).toContain("/auth/sign-in");
   });
 
@@ -147,6 +164,12 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
 
     await signInPage.usernameInput.fill("admin");
     await signInPage.passwordInput.fill("admin");
+
+    // Click CAPTCHA if present
+    const captcha = signInPage.captcha;
+    if (await captcha.isVisible()) {
+      await captcha.click();
+    }
     await signInPage.signInButton.click();
 
     await page.waitForURL("**/home");

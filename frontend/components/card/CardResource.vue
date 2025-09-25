@@ -2,24 +2,28 @@
 <template>
   <div
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
+    data-testid="resource-card"
   >
     <div class="flex items-center space-x-2">
       <Icon
         :name="IconMap.GRIP"
         :class="dragIconSizeClass"
         class="cursor-grab"
+        data-testid="resource-drag-handle"
       />
       <div class="flex flex-col md:flex-row">
         <NuxtLink
           :to="localePath(linkUrl)"
           :aria-label="$t(ariaLabel)"
           target="_blank"
+          data-testid="resource-link"
         >
           <div class="h-min w-max rounded-md border border-section-div p-2">
             <Icon
               :name="IconMap.RESOURCE"
               :class="imageSizeClass"
               class="text-primary-text"
+              data-testid="resource-icon"
             />
           </div>
         </NuxtLink>

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <TooltipBase class="rounded-md">
+  <TooltipBase data-testid="menu-tooltip" class="rounded-md">
     <div class="space-y-2">
       <!-- <BtnAction
         @keydown="handleTabPress(false, $event)"

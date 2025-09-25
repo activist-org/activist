@@ -34,6 +34,7 @@
         @end="onDragEnd"
         item-key="id"
         class="flex flex-col gap-4"
+        data-testid="organization-resources-list"
       >
         <template #item="{ element }">
           <CardResource

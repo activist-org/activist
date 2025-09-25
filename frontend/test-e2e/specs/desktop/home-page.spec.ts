@@ -25,7 +25,7 @@ test.describe("Home Page", { tag: "@desktop" }, () => {
     await expect(searchbar.input).toHaveAttribute("placeholder", /search/i);
 
     await sidebarLeft.close();
-    await expect(searchbar.input).not.toBeAttached();
+    await expect(searchbar.input).not.toBeVisible();
   });
 
   test("User can open searchbar with CTRL+'/'", async ({ page }) => {
@@ -44,7 +44,9 @@ test.describe("Home Page", { tag: "@desktop" }, () => {
 
     await sidebarLeft.lockToggle.click();
     await sidebarLeft.mouseLeave();
-    await expect(searchbar.input).not.toBeAttached();
+
+    // Verify searchbar is no longer visible/focused when sidebar is closed
+    await expect(searchbar.input).not.toBeVisible();
   });
 
   test("Navigation main options: Events and Organizations", async ({

@@ -1,6 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardSearchResultEntity
+    data-testid="organization-card"
     :title="organization.name"
     :description="description"
     :linkUrl="linkUrl"
