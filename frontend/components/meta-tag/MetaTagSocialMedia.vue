@@ -2,12 +2,12 @@
 <template>
   <div class="group flex h-full w-full cursor-pointer items-center gap-3">
     <Icon
-      class="text-distinct-text group-hover:text-primary-text"
+      class="text-primary-text group-hover:text-primary-text"
       :name="props.iconName"
       :size="props.iconSize ? props.iconSize : '1em'"
     />
     <p
-      class="text-distinct-text group-hover:text-primary-text"
+      class="text-primary-text group-hover:text-primary-text"
       :class="props.textUtilityClasses"
     >
       {{ props.text }}
