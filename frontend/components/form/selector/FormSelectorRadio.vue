@@ -26,10 +26,17 @@
       :aria-label="$t(option.aria_label)"
     >
       <Icon
+        v-if="
+          typeof option.content === 'string' &&
+          option.content.startsWith('i18n.')
+        "
         :name="option.content as string"
         class="h-6 w-6"
         :aria-hidden="true"
       />
+      <span v-else class="text-sm font-medium" :class="option.class">
+        {{ option.content }}
+      </span>
     </RadioGroupOption>
   </RadioGroup>
 </template>
