@@ -8,18 +8,17 @@
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
-      v-slot="slotProps"
       class="flex flex-1 cursor-pointer rounded-none"
       :class="[
         {
-          'style-menu-option-cta': slotProps.checked,
-          'style-menu-option bg-layer-2': !slotProps.checked,
+          'style-menu-option-cta': isOptionChecked(option),
+          'style-menu-option bg-layer-2': !isOptionChecked(option),
           'rounded-l-lg': idx === 0,
           'rounded-r-lg': idx === options.length - 1,
         },
         option.class,
         {
-          [option.checkedClass || '']: slotProps.checked,
+          [option.checkedClass || '']: isOptionChecked(option),
         },
       ]"
       :name="option.label || ''"
@@ -62,4 +61,8 @@ const value = computed({
   get: () => props.modelValue,
   set: (val) => emit("update:modelValue", val),
 });
+
+const isOptionChecked = (option: Option) => {
+  return value.value === option.value;
+};
 </script>
