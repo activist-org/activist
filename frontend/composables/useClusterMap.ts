@@ -60,6 +60,8 @@ export const useClusterMap = () => {
     el.innerHTML = html;
     const firstChild = el.firstChild as HTMLElement;
     firstChild.id = `cluster-${clusterId}`;
+    // Add proper ARIA role for accessibility compliance
+    firstChild.setAttribute("role", "button");
     return firstChild;
   };
 
