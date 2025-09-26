@@ -11,6 +11,7 @@
     <ul class="px-2 py-2">
       <NuxtLink
         v-for="l in availableLocales"
+        @click="updateLangAttribute(getLocaleCode(l))"
         :key="getLocaleCode(l)"
         class="dropdown-language-list-items"
         :to="switchLocalePath(getLocaleCode(l))"
@@ -56,4 +57,11 @@ function getLocaleName(locale: LocaleObject) {
 const availableLocales = computed(() => {
   return localesValues.filter((i) => getLocaleCode(i) !== locale.value);
 });
+
+// Function to update HTML lang attribute immediately
+const updateLangAttribute = (newLocale: string) => {
+  if (import.meta.client) {
+    document.documentElement.setAttribute("lang", newLocale);
+  }
+};
 </script>
