@@ -57,6 +57,7 @@ export default defineConfig({
       },
     ],
     ["list"],
+    ["./test-e2e/reporters/execution-time-reporter.ts"],
     [
       "./test-e2e/accessibility/axe-reporter.ts",
       { outputDirPath: RESULTS_PATH },
