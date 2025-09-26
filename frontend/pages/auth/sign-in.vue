@@ -52,7 +52,7 @@
           />
         </FormItem>
         <button
-          @click="navigateTo(localePath('/auth/reset-password'))"
+          @click="navigateTo(localePath('/auth/pwreset/email'))"
           @mouseover="hovered = true"
           @focus="hovered = true"
           @mouseleave="hovered = false"
@@ -104,6 +104,7 @@ const hovered = ref(false);
 
 const { signIn } = useAuth();
 const { showError } = useToaster();
+
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
