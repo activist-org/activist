@@ -122,6 +122,10 @@ MARK: Base
     @apply text-link-text hover:text-link-text-hover;
   }
 
+  .inline-link-underline {
+    @apply rounded-none border-b border-current;
+  }
+
   .error-text {
     @apply text-action-red;
   }
