@@ -24,8 +24,9 @@ useHead({
   titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk ? `${titleChunk} • activist` : "activist";
   },
+  // Default to English, will be updated by i18n-head plugin.
   htmlAttrs: {
-    lang: "en", // Default to English, will be updated by i18n-head plugin
+    lang: "en",
   },
 });
 

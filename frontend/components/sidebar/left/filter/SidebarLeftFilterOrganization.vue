@@ -23,6 +23,11 @@
         :label="
           $t('i18n.components.sidebar.left.filter._global.filter_by_location')
         "
+        :ariaLabel="
+          $t(
+            'i18n.components.sidebar.left.filter._global.search_button_aria_label'
+          )
+        "
       />
     </FormItem>
     <FormItem
