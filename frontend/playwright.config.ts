@@ -32,13 +32,30 @@ export default defineConfig({
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only. */
-  retries: process.env.CI ? 4 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  /* Retry on CI only - optimized for better performance. */
+  retries: process.env.CI ? 2 : 0,
+  /* Enhanced parallel execution with test sharding. */
+  workers: process.env.CI ? 4 : undefined,
+  /* Fail on flaky tests to ensure stability. */
+  failOnFlakyTests: process.env.CI ? true : false,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters. */
   reporter: [
-    ["html", { open: "never", outputDir: "test-results" }],
+    [
+      "html",
+      {
+        open: "never",
+        outputDir: "test-results",
+        title: `Activist E2E Tests - ${new Date().toISOString().split("T")[0]}`,
+      },
+    ],
+    [
+      "junit",
+      {
+        outputFile: "test-results/junit-results.xml",
+        includeProjectInTestName: true,
+        embedAnnotationsAsProperty: true,
+      },
+    ],
     ["list"],
     [
       "./test-e2e/accessibility/axe-reporter.ts",
@@ -51,8 +68,13 @@ export default defineConfig({
     baseURL: environments[ENV],
     navigationTimeout: 10000,
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer. */
-    trace: "on-first-retry",
+    /* Enhanced trace configuration for better debugging. */
+    trace: {
+      mode: "on-first-retry",
+      snapshots: true,
+      sources: true,
+      screenshots: true,
+    },
     screenshot: {
       mode: "only-on-failure",
       fullPage: true,
@@ -64,11 +86,13 @@ export default defineConfig({
     {
       name: "chromium",
       grep: matchDesktop,
+      workers: process.env.CI ? 2 : undefined, // Dedicated workers for desktop tests
       use: { ...devices["Desktop Chrome"] },
     },
     {
       name: "webkit",
       grep: matchDesktop,
+      workers: process.env.CI ? 1 : undefined, // Fewer workers for WebKit (slower)
       use: { ...devices["Desktop Safari"] },
     },
 
@@ -76,11 +100,13 @@ export default defineConfig({
     {
       name: "iPad Landscape",
       grep: matchDesktop,
+      workers: process.env.CI ? 1 : undefined,
       use: { ...devices["iPad (gen 7 landscape)"], isMobile: true },
     },
     {
       name: "iPad Portrait",
       grep: matchDesktop,
+      workers: process.env.CI ? 1 : undefined,
       use: { ...devices["iPad (gen 7)"], isMobile: true },
     },
 
@@ -88,16 +114,19 @@ export default defineConfig({
     {
       name: "Mobile Chrome",
       grep: matchMobile,
+      workers: process.env.CI ? 2 : undefined, // More workers for mobile tests
       use: { ...devices["Pixel 5"], isMobile: true },
     },
     {
       name: "Mobile Safari",
       grep: matchMobile,
+      workers: process.env.CI ? 1 : undefined,
       use: { ...devices["iPhone 12"], isMobile: true },
     },
     {
       name: "Mobile Samsung",
       grep: matchMobile,
+      workers: process.env.CI ? 1 : undefined,
       use: { ...devices["Galaxy S9+"], isMobile: true },
     },
   ],
