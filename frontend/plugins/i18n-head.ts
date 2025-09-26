@@ -24,8 +24,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Update on route changes.
   router.afterEach((to) => {
-    // Get the locale from the route params or default to 'en'.
-    const locale = (to.params.locale as string) || "en";
+    // Get the locale from the route params or from i18n instance.
+    const locale = (to.params.locale as string) || $i18n?.locale?.value || "en";
     // eslint-disable-next-line no-console
     console.log("Route change: setting lang to:", locale);
     setLangAttribute(locale);
