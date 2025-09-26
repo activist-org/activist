@@ -156,18 +156,22 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
     // Should be redirected to the home page AND sidebar left should have create button.
   });
 
-  test("Sign In Page has no detectable accessibility issues", async ({
-    page,
-  }, testInfo) => {
-    const violations = await runAccessibilityTest(
-      "Sign In Page",
-      page,
-      testInfo
-    );
-    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
+  test(
+    "Sign In Page has no detectable accessibility issues",
+    { tag: "@accessibility" },
+    async ({ page }, testInfo) => {
+      const violations = await runAccessibilityTest(
+        "Sign In Page",
+        page,
+        testInfo
+      );
+      expect
+        .soft(violations, "Accessibility violations found:")
+        .toHaveLength(0);
 
-    if (violations.length > 0) {
-      // Note: For future implementation.
+      if (violations.length > 0) {
+        // Note: For future implementation.
+      }
     }
-  });
+  );
 });

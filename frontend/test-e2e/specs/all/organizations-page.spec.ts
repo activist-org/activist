@@ -12,18 +12,22 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Organizations Page", { tag: ["@desktop", "@mobile"] }, () => {
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test("Organizations Page has no detectable accessibility issues", async ({
-    page,
-  }, testInfo) => {
-    const violations = await runAccessibilityTest(
-      "Organizations Page",
-      page,
-      testInfo
-    );
-    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
+  test(
+    "Organizations Page has no detectable accessibility issues",
+    { tag: "@accessibility" },
+    async ({ page }, testInfo) => {
+      const violations = await runAccessibilityTest(
+        "Organizations Page",
+        page,
+        testInfo
+      );
+      expect
+        .soft(violations, "Accessibility violations found:")
+        .toHaveLength(0);
 
-    if (violations.length > 0) {
-      // Note: For future implementation.
+      if (violations.length > 0) {
+        // Note: For future implementation.
+      }
     }
-  });
+  );
 });
