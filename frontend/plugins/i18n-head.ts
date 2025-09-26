@@ -18,6 +18,34 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   };
 
+  // Monitor for any changes to the lang attribute
+  if (import.meta.client) {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "lang"
+        ) {
+          // eslint-disable-next-line no-console
+          console.log(
+            "Lang attribute changed by:",
+            mutation.target,
+            "New value:",
+            (mutation.target as Element).getAttribute("lang")
+          );
+          // Log stack trace to see what's changing it
+          // eslint-disable-next-line no-console
+          console.trace("Stack trace of lang attribute change");
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["lang"],
+    });
+  }
+
   // Set initial locale from i18n or default to 'en'.
   const initialLocale = $i18n?.locale?.value || "en";
   setLangAttribute(initialLocale);
