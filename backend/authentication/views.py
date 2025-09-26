@@ -313,7 +313,9 @@ class PasswordResetView(APIView):
         )
 
 
-# MARK: Verify Account for Reset Password
+# MARK: Verify Account PW Reset
+
+
 class VerifyAccountResetPassword(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserSerializer

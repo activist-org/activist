@@ -1,6 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
+    <p>{{ $t("i18n.pages.auth.pwreset.code.please_enter_new_password") }}</p>
     <Form
       @submit="handleSubmit"
       id="reset-password"
@@ -135,8 +136,10 @@ const resetPasswordSchema = z
       });
     }
   });
+
 const { showError } = useToaster();
 const isPasswordFieldFocused = ref(false);
+
 const handleSubmit = async (values: unknown) => {
   const { password } = values as { password: string };
   const { status } = await useAsyncData(

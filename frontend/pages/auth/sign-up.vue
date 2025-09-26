@@ -218,9 +218,11 @@ const signUpSchema = z
       });
     }
   });
+
+const { signUp } = useAuth();
 const { showError } = useToaster();
 const isPasswordFieldFocused = ref(false);
-const { signUp } = useAuth();
+
 const handleSignUp = async (values: unknown) => {
   try {
     await signUp(

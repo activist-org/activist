@@ -40,6 +40,7 @@ const emailResetPasswordSchema = z.object({
     .email("i18n.pages.auth._global.invalid_email")
     .min(1, "i18n.pages.auth._global.required"),
 });
+
 const submit = async (values: unknown) => {
   const { email } = values as { email: string };
   const { status } = await useAsyncData(

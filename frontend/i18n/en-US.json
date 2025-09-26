@@ -470,6 +470,7 @@
   "i18n.pages.auth.confirm.email.issues_prompt": "If you experience any issues, please reach out to the team in our public Matrix chat rooms at the following link",
   "i18n.pages.auth.confirm.email.title": "An email has been sent to your email address to confirm your account.",
   "i18n.pages.auth.index.where_to_start": "Where would you like to start?",
+  "i18n.pages.auth.pwreset.code.please_enter_new_password": "Please enter a new password and hit \"Submit\" below.",
   "i18n.pages.auth.pwreset.email.submit": "Send reset email instructions",
   "i18n.pages.auth.pwreset.email.title": "Please provide your email to reset your password",
   "i18n.pages.auth.reset_password.enter_username_mail": "Enter your username or email",
