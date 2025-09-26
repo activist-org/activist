@@ -10,6 +10,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   const setLangAttribute = (locale: string) => {
     if (import.meta.client) {
       document.documentElement.setAttribute("lang", locale);
+      // eslint-disable-next-line no-console
+      console.log(
+        "setLangAttribute: lang set to:",
+        document.documentElement.getAttribute("lang")
+      );
     }
   };
 
@@ -21,6 +26,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   router.afterEach((to) => {
     // Get the locale from the route params or default to 'en'.
     const locale = (to.params.locale as string) || "en";
+    // eslint-disable-next-line no-console
+    console.log("Route change: setting lang to:", locale);
     setLangAttribute(locale);
   });
 
