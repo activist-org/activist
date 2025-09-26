@@ -15,7 +15,7 @@
       <!-- Note: Platform Links -->
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(platform, index) in links.platformLinks" :key="index">
-          <div>
+          <div class="flex">
             <NuxtLink
               v-if="platform.isLocalePath"
               class="focus-brand text-primary-text hover:text-distinct-text"
@@ -128,7 +128,7 @@
       <!-- Note: Legal Links -->
       <div class="flex flex-wrap items-center justify-center">
         <template v-for="(policy, index) in links.legalLinks" :key="index">
-          <div>
+          <div class="flex">
             <NuxtLink
               class="focus-brand text-primary-text hover:text-distinct-text"
               :to="localePath(policy.url)"

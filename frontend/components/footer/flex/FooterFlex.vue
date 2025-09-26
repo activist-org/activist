@@ -16,7 +16,7 @@
       <!-- Note: Platform Links -->
       <div class="mt-2 flex justify-start">
         <template v-for="(platform, index) in links.platformLinks" :key="index">
-          <div>
+          <div class="flex">
             <NuxtLink
               v-if="platform.isLocalePath"
               class="focus-brand text-primary-text hover:text-distinct-text"
@@ -43,7 +43,7 @@
       <!-- Note: Legal Links -->
       <div class="mt-5 flex">
         <template v-for="(policy, index) in links.legalLinks" :key="index">
-          <div>
+          <div class="flex">
             <NuxtLink
               class="focus-brand text-primary-text hover:text-distinct-text"
               :to="localePath(policy.url)"
