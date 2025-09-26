@@ -15,7 +15,6 @@ export default withNuxt({
   },
 
   rules: {
-
     "no-console": "error",
     "valid-v-for": "off",
     "vue/attribute-hyphenation": [
