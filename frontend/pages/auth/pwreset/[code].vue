@@ -1,43 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
+    <p>{{ $t("i18n.pages.auth.pwreset.code.please_enter_new_password") }}</p>
     <Form
-      @submit="handleSignUp"
-      id="sign-up"
-      submit-label="i18n._global.sign_up"
-      :schema="signUpSchema"
-      class="space-y-4"
+      @submit="handleSubmit"
+      id="reset-password"
+      :schema="resetPasswordSchema"
     >
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        name="userName"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          @input="handleChange"
-          @blur="handleBlur"
-          :id="id"
-          :modelValue="(value.value as string)"
-          :hasError="!!errorMessage.value"
-          :label="$t('i18n.pages.auth._global.enter_a_user_name')"
-          :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        name="email"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          @input="handleChange"
-          @blur="handleBlur"
-          :id="id"
-          :modelValue="(value.value as string)"
-          :hasError="!!errorMessage.value"
-          :label="$t('i18n.pages.auth._global.enter_email')"
-          :data-testid="$t('i18n.pages.auth._global.enter_email')"
-        />
-      </FormItem>
       <FormItem
         v-slot="{
           id,
@@ -133,74 +102,23 @@
           </template>
         </FormTextInputPassword>
       </FormItem>
-      <FormItem
-        v-slot="{ handleChange, value }"
-        name="verifyCaptcha"
-        class-item="space-y-4"
-      >
-        <!-- prettier-ignore-attribute v-model -->
-        <FriendlyCaptcha
-          v-model="(value.value as boolean)"
-          @update:model-value="handleChange"
-          data-testid="sign-up-captcha"
-        />
-      </FormItem>
-      <div class="flex flex-row items-center">
-        <FormItem v-slot="{ id, handleChange, handleBlur }" name="hasRead">
-          <FormCheckbox
-            @update:model-value="handleChange"
-            @blur="handleBlur"
-            :id="id"
-            data-testid="sign-up-terms-checkbox"
-          />
-        </FormItem>
-        <p class="flex flex-wrap pl-2">
-          {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
-          <NuxtLink
-            :to="localePath('/legal/privacy-policy')"
-            target="_blank"
-            class="link-text ml-1 sm:block"
-          >
-            {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
-          </NuxtLink>
-        </p>
-      </div>
     </Form>
-    <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
-      <h6>{{ $t("i18n.pages.auth.sign_up.have_account") }}</h6>
-      <NuxtLink
-        :to="localePath('/auth/sign-in')"
-        class="link-text ml-2 font-extrabold"
-      >
-        {{ $t("i18n._global.sign_in") }}
-      </NuxtLink>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { FetchError } from "ofetch";
 import { z } from "zod";
 
 import { IconMap } from "~/types/icon-map";
-
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
 
 const { t } = useI18n();
 
-const signUpSchema = z
+const resetPasswordSchema = z
   .object({
-    userName: z.string().min(1, t("i18n.pages.auth._global.required")),
     password: z.string(),
     confirmPassword: z.string(),
-    email: z.string().email(t("i18n.pages.auth._global.invalid_email")),
-    hasRead: z.boolean().refine((val) => val, {
-      message: "i18n.pages.auth._global.required",
-    }),
-    verifyCaptcha: z.boolean().refine((val) => val, {
-      message: t("i18n.pages.auth._global.required"),
-    }),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -219,35 +137,25 @@ const signUpSchema = z
     }
   });
 
-const { signUp } = useAuth();
 const { showError } = useToaster();
 const isPasswordFieldFocused = ref(false);
 
-const handleSignUp = async (values: unknown) => {
-  try {
-    await signUp(
-      {
-        username: (values as Record<string, unknown>).userName as string,
-        password: (values as Record<string, unknown>).password as string,
-        email: (values as Record<string, unknown>).email as string,
-        passwordConfirmed: (values as Record<string, unknown>)
-          .confirmPassword as string,
-      },
-      { preventLoginFlow: true }
-    );
-    navigateTo(localePath("/auth/confirm/email"));
-  } catch (error) {
-    if (error && error instanceof FetchError) {
-      if (error.response?._data instanceof String) {
-        showError(error.response?._data as string);
-        return;
-      }
-      // Join all error messages into a single string.
-      const message =
-        Object.values(error.response?._data).join(", ") ||
-        t("i18n.pages.auth._global.error_occurred");
-      showError(message);
-    }
+const handleSubmit = async (values: unknown) => {
+  const { password } = values as { password: string };
+  const { status } = await useAsyncData(
+    async () =>
+      await fetchWithoutToken(
+        `/auth/verify_email_password/${useRoute().params.code}`,
+        {},
+        "POST",
+        { new_password: password }
+      )
+  );
+  if (status.value === "success") {
+    navigateTo(localePath("/auth/sign-in"));
+  } else {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    showError(t("i18n.pages.auth._global.error_occurred"));
   }
 };
 </script>
