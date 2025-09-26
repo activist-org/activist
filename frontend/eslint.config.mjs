@@ -1,20 +1,24 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import prettier from "eslint-config-prettier";
 import perfectionist from "eslint-plugin-perfectionist";
+import vue from "eslint-plugin-vue";
 import vueA11y from "eslint-plugin-vuejs-accessibility";
 import withNuxt from "./.nuxt/eslint.config.mjs";
 
 // Note: flat/strongly-recommended and flat/recommended are also options.
-export default withNuxt({
+export default withNuxt(...vue.configs["flat/essential"], {
   files: ["**/*.js", "**/*.ts", "**/*.vue"],
 
   plugins: {
+    vue,
     "vuejs-accessibility": vueA11y,
     perfectionist,
     prettier,
   },
 
   rules: {
+    ...vue.configs.recommended.rules,
+
     "no-console": "error",
     "valid-v-for": "off",
     "vue/attribute-hyphenation": [
