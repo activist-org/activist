@@ -159,18 +159,18 @@
           <NuxtLink
             :to="localePath('/legal/privacy-policy')"
             target="_blank"
-            class="link-text ml-1 sm:block"
+            class="link-text inline-link-underline ml-1 sm:block"
           >
             {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
           </NuxtLink>
         </p>
       </div>
     </Form>
-    <div class="flex justify-center pt-4 md:pt-6 lg:pt-8">
+    <div class="flex items-center pt-4 md:justify-center md:pt-6 lg:pt-8">
       <h6>{{ $t("i18n.pages.auth.sign_up.have_account") }}</h6>
       <NuxtLink
         :to="localePath('/auth/sign-in')"
-        class="link-text ml-2 font-extrabold"
+        class="link-text inline-link-underline ml-2 font-extrabold"
       >
         {{ $t("i18n._global.sign_in") }}
       </NuxtLink>

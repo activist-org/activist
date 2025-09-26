@@ -8,33 +8,32 @@
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
-      v-slot="{ checked }"
-      class="flex flex-1"
+      class="flex flex-1 cursor-pointer items-center justify-center rounded-none"
+      :class="[
+        {
+          'style-menu-option-cta': isOptionChecked(option),
+          'style-menu-option bg-layer-2': !isOptionChecked(option),
+          'rounded-l-lg': idx === 0,
+          'rounded-r-lg': idx === options.length - 1,
+        },
+        option.class,
+        {
+          [option.checkedClass || '']: isOptionChecked(option),
+        },
+      ]"
       :name="option.label || ''"
       :value="option.value"
+      :aria-label="$t(option.aria_label)"
     >
-      <button
-        class="flex-1 rounded-none"
-        :class="[
-          {
-            'style-menu-option-cta': checked,
-            'style-menu-option bg-layer-2': !checked,
-            'rounded-l-lg': idx === 0,
-            'rounded-r-lg': idx === options.length - 1,
-          },
-          option.class,
-          {
-            [option.checkedClass || '']: checked,
-          },
-        ]"
-        :aria-label="$t(option.aria_label)"
-      >
-        <Icon
-          :name="option.content as string"
-          class="h-6 w-6"
-          :aria-hidden="true"
-        />
-      </button>
+      <Icon
+        v-if="option.isIcon"
+        :name="option.content as string"
+        class="h-6 w-6"
+        :aria-hidden="true"
+      />
+      <span v-else class="text-sm font-medium" :class="option.class">
+        {{ option.content }}
+      </span>
     </RadioGroupOption>
   </RadioGroup>
 </template>
@@ -66,4 +65,8 @@ const value = computed({
   get: () => props.modelValue,
   set: (val) => emit("update:modelValue", val),
 });
+
+const isOptionChecked = (option: Option) => {
+  return value.value === option.value;
+};
 </script>

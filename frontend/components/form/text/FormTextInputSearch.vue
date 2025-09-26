@@ -9,7 +9,7 @@
   >
     <template #icons>
       <slot name="icons"></slot>
-      <button :id="`${id}-search`" type="button">
+      <button :id="`${id}-search`" type="button" :aria-label="ariaLabel">
         <Icon :name="IconMap.SEARCH" size="1.4em" />
       </button>
     </template>
@@ -25,6 +25,7 @@ export interface Props {
   label: string;
   hasError?: boolean;
   modelValue?: string;
+  ariaLabel: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
