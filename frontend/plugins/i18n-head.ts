@@ -4,8 +4,19 @@ import type { Router } from "#vue-router";
 // Injects the lang attribute in all Nuxt <Head></Head> components.
 export default defineNuxtPlugin((nuxtApp) => {
   const router: Router = nuxtApp.vueApp.config.globalProperties.$router;
+
+  // Set initial lang attribute.
+  const setLangAttribute = (locale: string) => {
+    document.documentElement.setAttribute("lang", locale);
+  };
+
+  // Set initial locale - default to 'en' if i18n is not available.
+  setLangAttribute("en");
+
+  // Update on route changes.
   router.afterEach((to) => {
-    const languageCode = to.fullPath.split("/")[1] || "en";
-    document.documentElement.setAttribute("lang", languageCode);
+    // Get the locale from the route params or default to 'en'.
+    const locale = (to.params.locale as string) || "en";
+    setLangAttribute(locale);
   });
 });

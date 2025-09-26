@@ -63,8 +63,9 @@ test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
   });
 
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test.fail(
+  test(
     "Home Page has no detectable accessibility issues",
+    { tag: "@accessibility" },
     async ({ page }, testInfo) => {
       const violations = await runAccessibilityTest(
         "Home Page",

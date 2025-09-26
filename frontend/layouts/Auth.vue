@@ -5,6 +5,7 @@
   <div class="grid h-screen grid-cols-1 md:grid-cols-2">
     <Head>
       <Title>{{ $t(page.title) }}</Title>
+      <Html :lang="$i18n.locale || 'en'" />
     </Head>
     <div v-if="aboveMediumBP" class="relative">
       <div class="flex h-full w-full items-center justify-center">
@@ -66,7 +67,7 @@ const page = computed(() => {
       title: "i18n._global.sign_up",
     },
     {
-      route: "reset-password",
+      route: "pwreset/email",
       btnAriaLabel: "i18n._global.sign_in_aria_label",
       btnLabel: "i18n._global.sign_in",
       btnLink: "/auth/sign-in",
@@ -74,7 +75,7 @@ const page = computed(() => {
       title: "i18n._global.auth.reset_password",
     },
     {
-      route: "set-password",
+      route: "pwreset/[code]",
       btnAriaLabel: "i18n._global.sign_in_aria_label",
       btnLabel: "i18n._global.sign_in",
       btnLink: "/auth/sign-in",

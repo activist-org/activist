@@ -68,11 +68,12 @@ if (!isAddMode) {
     }
   );
 }
+
 async function handleSubmit(values: unknown) {
   const newValues = {
     ...formData.value,
     ...(values as Resource),
-    order: formData.value?.order || event.resources.length,
+    order: formData.value?.order ?? event.resources.length,
   };
   if (isAddMode)
     await eventStore.createResource(event, newValues as ResourceInput);

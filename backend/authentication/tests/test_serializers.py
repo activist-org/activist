@@ -91,6 +91,7 @@ class TestSignUpSerializer:
 
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "invalid_password"
+
     def test_none_email(self) -> None:
         logger.info("Testing SignUpSerializer with weak password")
         data = {
