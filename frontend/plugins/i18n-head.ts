@@ -26,12 +26,19 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Update on i18n locale changes (for immediate updates when switching languages).
   if ($i18n) {
+    // eslint-disable-next-line no-console
+    console.log("Setting up i18n watcher, current locale:", $i18n.locale.value);
     watch(
       () => $i18n.locale.value,
       (newLocale) => {
+        // eslint-disable-next-line no-console
+        console.log("i18n locale changed to:", newLocale);
         setLangAttribute(newLocale);
       },
       { immediate: false }
     );
+  } else {
+    // eslint-disable-next-line no-console
+    console.log("$i18n not available in plugin");
   }
 });

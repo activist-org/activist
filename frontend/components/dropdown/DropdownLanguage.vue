@@ -60,8 +60,15 @@ const availableLocales = computed(() => {
 
 // Function to update HTML lang attribute immediately
 const updateLangAttribute = (newLocale: string) => {
+  // eslint-disable-next-line no-console
+  console.log("Dropdown: updateLangAttribute called with:", newLocale);
   if (import.meta.client) {
     document.documentElement.setAttribute("lang", newLocale);
+    // eslint-disable-next-line no-console
+    console.log(
+      "Dropdown: lang attribute set to:",
+      document.documentElement.getAttribute("lang")
+    );
   }
 };
 </script>
