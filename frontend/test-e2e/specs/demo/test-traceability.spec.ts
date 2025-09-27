@@ -58,7 +58,9 @@ test.describe("Demo: Enhanced Test Traceability", { tag: ["@desktop"] }, () => {
         // eslint-disable-next-line no-console
         console.error(`❌ Test failed: ${testInfo.titlePath.join(" > ")}`);
         // eslint-disable-next-line no-console
-        console.error(`   Error: ${error.message}`);
+        console.error(
+          `   Error: ${error instanceof Error ? error.message : String(error)}`
+        );
         throw error;
       }
     });

@@ -39,7 +39,7 @@ export default defineConfig({
   /* Fail on flaky tests to ensure stability. */
   failOnFlakyTests: process.env.CI ? true : false,
   /* User data directory for browser state persistence */
-  userDataDir: process.env.CI ? undefined : "./test-results/user-data",
+  // userDataDir: process.env.CI ? undefined : "./test-results/user-data",
   /* Reporter to use. See https://playwright.dev/docs/test-reporters. */
   reporter: [
     [
@@ -93,9 +93,9 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         // Reuse browser state for faster authentication
-        userDataDir: process.env.CI
-          ? undefined
-          : "./test-results/user-data/chromium",
+        // userDataDir: process.env.CI
+        //   ? undefined
+        //   : "./test-results/user-data/chromium",
       },
     },
     {
@@ -105,9 +105,9 @@ export default defineConfig({
       use: {
         ...devices["Desktop Safari"],
         // Reuse browser state for faster authentication
-        userDataDir: process.env.CI
-          ? undefined
-          : "./test-results/user-data/webkit",
+        // userDataDir: process.env.CI
+        //   ? undefined
+        //   : "./test-results/user-data/webkit",
       },
     },
 
@@ -120,9 +120,9 @@ export default defineConfig({
         ...devices["iPad (gen 7 landscape)"],
         isMobile: true,
         // Reuse browser state for faster authentication
-        userDataDir: process.env.CI
-          ? undefined
-          : "./test-results/user-data/ipad-landscape",
+        // userDataDir: process.env.CI
+        //   ? undefined
+        //   : "./test-results/user-data/ipad-landscape",
       },
     },
     {
@@ -133,9 +133,9 @@ export default defineConfig({
         ...devices["iPad (gen 7)"],
         isMobile: true,
         // Reuse browser state for faster authentication
-        userDataDir: process.env.CI
-          ? undefined
-          : "./test-results/user-data/ipad-portrait",
+        // userDataDir: process.env.CI
+        //   ? undefined
+        //   : "./test-results/user-data/ipad-portrait",
       },
     },
 
@@ -148,9 +148,9 @@ export default defineConfig({
         ...devices["Pixel 5"],
         isMobile: true,
         // Reuse browser state for faster authentication
-        userDataDir: process.env.CI
-          ? undefined
-          : "./test-results/user-data/mobile-chrome",
+        // userDataDir: process.env.CI
+        //   ? undefined
+        //   : "./test-results/user-data/mobile-chrome",
       },
     },
     {
@@ -161,9 +161,9 @@ export default defineConfig({
         ...devices["iPhone 12"],
         isMobile: true,
         // Reuse browser state for faster authentication
-        userDataDir: process.env.CI
-          ? undefined
-          : "./test-results/user-data/mobile-safari",
+        // userDataDir: process.env.CI
+        //   ? undefined
+        //   : "./test-results/user-data/mobile-safari",
       },
     },
     {
@@ -174,9 +174,9 @@ export default defineConfig({
         ...devices["Galaxy S9+"],
         isMobile: true,
         // Reuse browser state for faster authentication
-        userDataDir: process.env.CI
-          ? undefined
-          : "./test-results/user-data/mobile-samsung",
+        // userDataDir: process.env.CI
+        //   ? undefined
+        //   : "./test-results/user-data/mobile-samsung",
       },
     },
   ],
