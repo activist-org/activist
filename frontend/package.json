@@ -12,6 +12,9 @@
     "test": "vitest run --run",
     "test:local": "cross-env TEST_ENV=local playwright test",
     "test:prod": "cross-env TEST_ENV=prod playwright test",
+    "test:auth": "cross-env TEST_ENV=local playwright test --user-data-dir=./test-results/user-data",
+    "test:auth:prod": "cross-env TEST_ENV=prod playwright test --user-data-dir=./test-results/user-data",
+    "test:clean": "rm -rf ./test-results/user-data && cross-env TEST_ENV=local playwright test",
     "typecheck": "nuxi typecheck",
     "format": "yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore",
     "lint": "eslint ."

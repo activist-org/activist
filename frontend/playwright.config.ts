@@ -38,6 +38,8 @@ export default defineConfig({
   workers: process.env.CI ? 4 : undefined,
   /* Fail on flaky tests to ensure stability. */
   failOnFlakyTests: process.env.CI ? true : false,
+  /* User data directory for browser state persistence */
+  userDataDir: process.env.CI ? undefined : "./test-results/user-data",
   /* Reporter to use. See https://playwright.dev/docs/test-reporters. */
   reporter: [
     [
@@ -88,13 +90,25 @@ export default defineConfig({
       name: "chromium",
       grep: matchDesktop,
       workers: process.env.CI ? 2 : undefined, // Dedicated workers for desktop tests
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        // Reuse browser state for faster authentication
+        userDataDir: process.env.CI
+          ? undefined
+          : "./test-results/user-data/chromium",
+      },
     },
     {
       name: "webkit",
       grep: matchDesktop,
       workers: process.env.CI ? 1 : undefined, // Fewer workers for WebKit (slower)
-      use: { ...devices["Desktop Safari"] },
+      use: {
+        ...devices["Desktop Safari"],
+        // Reuse browser state for faster authentication
+        userDataDir: process.env.CI
+          ? undefined
+          : "./test-results/user-data/webkit",
+      },
     },
 
     /* Test against tablets. */
@@ -102,13 +116,27 @@ export default defineConfig({
       name: "iPad Landscape",
       grep: matchDesktop,
       workers: process.env.CI ? 1 : undefined,
-      use: { ...devices["iPad (gen 7 landscape)"], isMobile: true },
+      use: {
+        ...devices["iPad (gen 7 landscape)"],
+        isMobile: true,
+        // Reuse browser state for faster authentication
+        userDataDir: process.env.CI
+          ? undefined
+          : "./test-results/user-data/ipad-landscape",
+      },
     },
     {
       name: "iPad Portrait",
       grep: matchDesktop,
       workers: process.env.CI ? 1 : undefined,
-      use: { ...devices["iPad (gen 7)"], isMobile: true },
+      use: {
+        ...devices["iPad (gen 7)"],
+        isMobile: true,
+        // Reuse browser state for faster authentication
+        userDataDir: process.env.CI
+          ? undefined
+          : "./test-results/user-data/ipad-portrait",
+      },
     },
 
     /* Test against mobile viewports. */
@@ -116,19 +144,40 @@ export default defineConfig({
       name: "Mobile Chrome",
       grep: matchMobile,
       workers: process.env.CI ? 2 : undefined, // More workers for mobile tests
-      use: { ...devices["Pixel 5"], isMobile: true },
+      use: {
+        ...devices["Pixel 5"],
+        isMobile: true,
+        // Reuse browser state for faster authentication
+        userDataDir: process.env.CI
+          ? undefined
+          : "./test-results/user-data/mobile-chrome",
+      },
     },
     {
       name: "Mobile Safari",
       grep: matchMobile,
       workers: process.env.CI ? 1 : undefined,
-      use: { ...devices["iPhone 12"], isMobile: true },
+      use: {
+        ...devices["iPhone 12"],
+        isMobile: true,
+        // Reuse browser state for faster authentication
+        userDataDir: process.env.CI
+          ? undefined
+          : "./test-results/user-data/mobile-safari",
+      },
     },
     {
       name: "Mobile Samsung",
       grep: matchMobile,
       workers: process.env.CI ? 1 : undefined,
-      use: { ...devices["Galaxy S9+"], isMobile: true },
+      use: {
+        ...devices["Galaxy S9+"],
+        isMobile: true,
+        // Reuse browser state for faster authentication
+        userDataDir: process.env.CI
+          ? undefined
+          : "./test-results/user-data/mobile-samsung",
+      },
     },
   ],
 
