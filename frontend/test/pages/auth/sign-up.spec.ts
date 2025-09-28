@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import SignUp from "@/pages/auth/sign-up.vue";
-import render from "@/test/render";
 import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
 
+import SignUp from "../../../app/pages/auth/sign-up.vue";
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_RATING as RATING,
 } from "../../../test-utils/constants";
+import render from "../../../test/render";
 
 describe("sign-up", () => {
   it("shows error border when password invalid", async () => {

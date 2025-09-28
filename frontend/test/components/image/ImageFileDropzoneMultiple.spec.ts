@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import FileDropZone from "@/components/image/ImageFileDropZone.vue";
-import MultipleImageDropzone from "@/components/image/ImageMultipleFileDropZone.vue";
 import { mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { FileUploadMix, UploadableFile } from "~/types/content/file";
+import type {
+  FileUploadMix,
+  UploadableFile,
+} from "../../../app/types/content/file";
+
+import FileDropZone from "../../../app/components/image/ImageFileDropZone.vue";
+import MultipleImageDropzone from "../../../app/components/image/ImageMultipleFileDropZone.vue";
 
 // Helpers to generate mock files and FileUploadMix objects.
 function createFiles() {
