@@ -23,12 +23,12 @@ test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
     const { topicsFilter } = newHomePage(page);
 
     await withTestStep(testInfo, "Click topics filter to expand", async () => {
-      await topicsFilter.click();
+      await topicsFilter.getByRole("button").click();
       await expect(topicsFilter.getByRole("listbox")).toBeVisible();
     });
 
     await withTestStep(testInfo, "Click topics filter to hide", async () => {
-      await topicsFilter.click();
+      await topicsFilter.getByRole("button").click();
       await expect(topicsFilter.getByRole("listbox")).toBeHidden();
     });
   });
