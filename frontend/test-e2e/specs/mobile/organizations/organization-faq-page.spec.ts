@@ -49,40 +49,40 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
       // eslint-disable-next-line no-console
       console.log("Second drag handle clickable:", secondHandleClickable);
 
-      // Try a more direct approach with longer drag distance and more steps
+      // Optimized drag simulation for faster execution
       const firstBox = await firstFAQDragHandle.boundingBox();
       const secondBox = await secondFAQDragHandle.boundingBox();
 
       if (firstBox && secondBox) {
-        // Start drag
+        // Start drag with minimal delay
         await page.mouse.move(
           firstBox.x + firstBox.width / 2,
           firstBox.y + firstBox.height / 2
         );
         await page.mouse.down();
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(50);
 
-        // Move in multiple steps with longer distance
-        const steps = 15;
+        // Move in fewer steps with shorter delays
+        const steps = 8;
         for (let i = 1; i <= steps; i++) {
           const progress = i / steps;
           const currentX = firstBox.x + (secondBox.x - firstBox.x) * progress;
           const currentY = firstBox.y + (secondBox.y - firstBox.y) * progress;
 
           await page.mouse.move(currentX, currentY);
-          await page.waitForTimeout(50);
+          await page.waitForTimeout(20);
         }
 
-        // Hover over target for a moment
+        // Quick hover over target
         await page.mouse.move(
           secondBox.x + secondBox.width / 2,
           secondBox.y + secondBox.height / 2
         );
-        await page.waitForTimeout(300);
+        await page.waitForTimeout(100);
 
-        // Release
+        // Release with minimal delay
         await page.mouse.up();
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(200);
       }
 
       // Wait for the reorder operation to complete (including network requests)
