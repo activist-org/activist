@@ -6761,7 +6761,7 @@ __metadata:
     playwright-core: "npm:1.55.1"
     postcss: "npm:8.5.1"
     postcss-custom-properties: "npm:14.0.4"
-    prettier: "npm:3.4.2"
+    prettier: "npm:3.6.2"
     prettier-plugin-tailwindcss: "npm:0.6.11"
     qrcode: "npm:1.5.4"
     qrcode.vue: "npm:3.6.0"
@@ -14858,12 +14858,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.4.2":
-  version: 3.4.2
-  resolution: "prettier@npm:3.4.2"
+"prettier@npm:3.6.2":
+  version: 3.6.2
+  resolution: "prettier@npm:3.6.2"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10c0/99e076a26ed0aba4ebc043880d0f08bbb8c59a4c6641cdee6cdadf2205bdd87aa1d7823f50c3aea41e015e99878d37c58d7b5f0e663bba0ef047f94e36b96446
+  checksum: 10c0/488cb2f2b99ec13da1e50074912870217c11edaddedeadc649b1244c749d15ba94e846423d062e2c4c9ae683e2d65f754de28889ba06e697ac4f988d44f45812
   languageName: node
   linkType: hard
 
