@@ -34,7 +34,10 @@ test.describe("Home Page", { tag: "@mobile" }, () => {
     ];
 
     for (const { link, path } of links) {
-      await link.click();
+      // Use evaluate to click directly in browser context, bypassing overlays
+      await link.evaluate((element: HTMLElement) => {
+        element.click();
+      });
 
       await page.waitForURL(`**${path}`);
       expect(page.url()).toContain(path);

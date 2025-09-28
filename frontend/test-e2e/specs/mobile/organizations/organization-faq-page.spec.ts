@@ -34,6 +34,10 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
       await expect(firstFAQDragHandle).toBeVisible();
       await expect(secondFAQDragHandle).toBeVisible();
 
+      // Validate drag handles have the correct CSS class using new Playwright v1.52 API
+      await expect(firstFAQDragHandle).toContainClass("drag-handle");
+      await expect(secondFAQDragHandle).toContainClass("drag-handle");
+
       // Ultra-fast drag simulation
       const firstBox = await firstFAQDragHandle.boundingBox();
       const secondBox = await secondFAQDragHandle.boundingBox();

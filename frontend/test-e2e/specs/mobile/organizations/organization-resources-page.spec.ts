@@ -33,12 +33,16 @@ test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
     const resourceCount = await resourcesPage.getResourceCount();
 
     if (resourceCount >= 2) {
-      // Verify drag handles are visible
+      // Verify drag handles are visible and have correct classes
       const firstResourceDragHandle = resourcesPage.getResourceDragHandle(0);
       const secondResourceDragHandle = resourcesPage.getResourceDragHandle(1);
 
       await expect(firstResourceDragHandle).toBeVisible();
       await expect(secondResourceDragHandle).toBeVisible();
+
+      // Validate drag handles have the correct CSS class using new Playwright v1.52 API
+      await expect(firstResourceDragHandle).toContainClass("drag-handle");
+      await expect(secondResourceDragHandle).toContainClass("drag-handle");
 
       // Perform mobile drag and drop using proper touch events
       await mobileDragAndDropHybrid(
