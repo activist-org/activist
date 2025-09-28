@@ -6,7 +6,7 @@ import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_RATING as RATING,
-} from "~/test-utils/constants";
+} from "../../../test-utils/constants";
 
 describe("sign-up", () => {
   it("shows error border when password invalid", async () => {
