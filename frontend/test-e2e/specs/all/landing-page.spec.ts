@@ -2,6 +2,7 @@
 import { expect, test } from "playwright/test";
 
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
@@ -18,18 +19,22 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     "Landing Page has no detectable accessibility issues",
     { tag: "@accessibility" },
     async ({ page }, testInfo) => {
-      const violations = await runAccessibilityTest(
-        "Landing Page",
-        page,
-        testInfo
-      );
-      expect
-        .soft(violations, "Accessibility violations found:")
-        .toHaveLength(0);
+      logTestPath(testInfo);
 
-      if (violations.length > 0) {
-        // Note: For future implementation.
-      }
+      await withTestStep(testInfo, "Run accessibility scan", async () => {
+        const violations = await runAccessibilityTest(
+          "Landing Page",
+          page,
+          testInfo
+        );
+        expect
+          .soft(violations, "Accessibility violations found:")
+          .toHaveLength(0);
+
+        if (violations.length > 0) {
+          // Note: For future implementation.
+        }
+      });
     }
   );
 
@@ -37,30 +42,54 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
     expect(await page.title()).toContain("activist");
   });
 
-  test("User can go to Organizations page", async ({ page }) => {
-    const organizationsLink = page.getByRole("link", {
-      name: new RegExp(
-        getEnglishText(
-          "i18n.components.landing_splash.view_organizations_aria_label"
+  test("User can go to Organizations page", async ({ page }, testInfo) => {
+    logTestPath(testInfo);
+
+    await withTestStep(testInfo, "Click organizations link", async () => {
+      const organizationsLink = page.getByRole("link", {
+        name: new RegExp(
+          getEnglishText(
+            "i18n.components.landing_splash.view_organizations_aria_label"
+          ),
+          "i"
         ),
-        "i"
-      ),
+      });
+      await organizationsLink.click();
     });
-    await organizationsLink.click();
-    await page.waitForURL("**/organizations");
-    expect(page.url()).toContain("/organizations");
+
+    await withTestStep(
+      testInfo,
+      "Verify navigation to organizations page",
+      async () => {
+        await page.waitForURL("**/organizations");
+        expect(page.url()).toContain("/organizations");
+      }
+    );
   });
 
-  test("User can go to Events page", async ({ page }) => {
-    const eventsLink = page.getByRole("link", {
-      name: new RegExp(
-        getEnglishText("i18n.components.landing_splash.view_events_aria_label"),
-        "i"
-      ),
+  test("User can go to Events page", async ({ page }, testInfo) => {
+    logTestPath(testInfo);
+
+    await withTestStep(testInfo, "Click events link", async () => {
+      const eventsLink = page.getByRole("link", {
+        name: new RegExp(
+          getEnglishText(
+            "i18n.components.landing_splash.view_events_aria_label"
+          ),
+          "i"
+        ),
+      });
+      await eventsLink.click();
     });
-    await eventsLink.click();
-    await page.waitForURL("**/events");
-    expect(page.url()).toContain("/events");
+
+    await withTestStep(
+      testInfo,
+      "Verify navigation to events page",
+      async () => {
+        await page.waitForURL("**/events");
+        expect(page.url()).toContain("/events");
+      }
+    );
   });
 
   test("Important links have correct urls", async ({ page }) => {

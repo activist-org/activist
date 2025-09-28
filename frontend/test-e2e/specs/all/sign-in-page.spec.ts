@@ -4,6 +4,7 @@ import { expect, test } from "playwright/test";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newPasswordStrength } from "~/test-e2e/component-objects/PasswordStrength";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_PROGRESS as PROGRESS,
@@ -159,48 +160,69 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
     expect(page.url()).toContain("/auth/sign-in");
   });
 
-  test("User will have token saved in cookie", async ({ page }) => {
+  test("User will have token saved in cookie", async ({ page }, testInfo) => {
+    logTestPath(testInfo);
     const signInPage = newSignInPage(page);
 
-    await signInPage.usernameInput.fill("admin");
-    await signInPage.passwordInput.fill("admin");
+    await withTestStep(testInfo, "Fill in credentials", async () => {
+      await signInPage.usernameInput.fill("admin");
+      await signInPage.passwordInput.fill("admin");
+    });
 
-    // Click CAPTCHA if present
-    const captcha = signInPage.captcha;
-    if (await captcha.isVisible()) {
-      await captcha.click();
-    }
-    await signInPage.signInButton.click();
+    await withTestStep(testInfo, "Handle CAPTCHA if present", async () => {
+      const captcha = signInPage.captcha;
+      if (await captcha.isVisible()) {
+        await captcha.click();
+      }
+    });
 
-    await page.waitForURL("**/home");
-    const cookies = await page.context().cookies();
-    const sessionCookie = cookies.find((c) => c.name === "auth.token");
-    expect(sessionCookie).toBeDefined();
-    // Should be redirected to the home page AND sidebar left should have create button.
+    await withTestStep(testInfo, "Submit sign-in form", async () => {
+      await signInPage.signInButton.click();
+    });
+
+    await withTestStep(
+      testInfo,
+      "Verify successful authentication",
+      async () => {
+        await page.waitForURL("**/home");
+        const cookies = await page.context().cookies();
+        const sessionCookie = cookies.find((c) => c.name === "auth.token");
+        expect(sessionCookie).toBeDefined();
+      }
+    );
   });
 
   test(
     "Sign In Page has no detectable accessibility issues",
     { tag: "@accessibility" },
     async ({ page }, testInfo) => {
-      // Wait for the lang attribute to be set by the i18n plugin
-      await expect(page.locator("html")).toHaveAttribute(
-        "lang",
-        /^[a-z]{2}(-[A-Z]{2})?$/
+      logTestPath(testInfo);
+
+      await withTestStep(
+        testInfo,
+        "Wait for lang attribute to be set",
+        async () => {
+          await expect(page.locator("html")).toHaveAttribute(
+            "lang",
+            /^[a-z]{2}(-[A-Z]{2})?$/
+          );
+        }
       );
 
-      const violations = await runAccessibilityTest(
-        "Sign In Page",
-        page,
-        testInfo
-      );
-      expect
-        .soft(violations, "Accessibility violations found:")
-        .toHaveLength(0);
+      await withTestStep(testInfo, "Run accessibility scan", async () => {
+        const violations = await runAccessibilityTest(
+          "Sign In Page",
+          page,
+          testInfo
+        );
+        expect
+          .soft(violations, "Accessibility violations found:")
+          .toHaveLength(0);
 
-      if (violations.length > 0) {
-        // Note: For future implementation.
-      }
+        if (violations.length > 0) {
+          // Note: For future implementation.
+        }
+      });
     }
   );
 });
