@@ -2,7 +2,7 @@
 import { expect, test } from "playwright/test";
 
 import { testResourceDragAndDrop } from "~/test-e2e/actions/dragAndDrop";
-import { mobileDragAndDropHybrid } from "~/test-e2e/actions/mobileDragAndDrop";
+import { mobileDragAndDrop } from "~/test-e2e/actions/mobileDragAndDrop";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
@@ -45,7 +45,7 @@ test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
       await expect(secondResourceDragHandle).toContainClass("drag-handle");
 
       // Perform mobile drag and drop using proper touch events
-      await mobileDragAndDropHybrid(
+      await mobileDragAndDrop(
         page,
         firstResourceDragHandle,
         secondResourceDragHandle
