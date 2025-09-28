@@ -15,7 +15,7 @@ test.describe(
   { tag: ["@desktop", "@mobile"] },
   () => {
     // Note: Check to make sure that this is eventually done for light and dark modes.
-    test.skip("Organization Events Page has no detectable accessibility issues", async ({
+    test("Organization Events Page has no detectable accessibility issues", async ({
       page,
     }, testInfo) => {
       const violations = await runAccessibilityTest(
