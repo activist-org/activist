@@ -25,6 +25,7 @@ import { expectTheme } from "~/test-e2e/assertions";
 import { newLanguageMenu } from "~/test-e2e/component-objects/LanguageMenu";
 import { newThemeMenu } from "~/test-e2e/component-objects/ThemeMenu";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
@@ -313,18 +314,33 @@ test.describe("Landing Page", { tag: "@desktop" }, () => {
     "Landing Page has no detectable accessibility issues",
     { tag: "@accessibility" },
     async ({ page }, testInfo) => {
-      const violations = await runAccessibilityTest(
-        "Landing Page",
-        page,
-        testInfo
-      );
-      expect
-        .soft(violations, "Accessibility violations found:")
-        .toHaveLength(0);
+      logTestPath(testInfo);
 
-      if (violations.length > 0) {
-        // Note: For future implementation.
-      }
+      await withTestStep(
+        testInfo,
+        "Wait for lang attribute to be set",
+        async () => {
+          await expect(page.locator("html")).toHaveAttribute(
+            "lang",
+            /^[a-z]{2}(-[A-Z]{2})?$/
+          );
+        }
+      );
+
+      await withTestStep(testInfo, "Run accessibility scan", async () => {
+        const violations = await runAccessibilityTest(
+          "Landing Page",
+          page,
+          testInfo
+        );
+        expect
+          .soft(violations, "Accessibility violations found:")
+          .toHaveLength(0);
+
+        if (violations.length > 0) {
+          // Note: For future implementation.
+        }
+      });
     }
   );
 });

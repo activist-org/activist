@@ -4,6 +4,7 @@ import { expect, test } from "playwright/test";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation
@@ -18,18 +19,33 @@ test.describe(
     test("Organization Groups Page has no detectable accessibility issues", async ({
       page,
     }, testInfo) => {
-      const violations = await runAccessibilityTest(
-        "Organization Groups Page",
-        page,
-        testInfo
-      );
-      expect
-        .soft(violations, "Accessibility violations found:")
-        .toHaveLength(0);
+      logTestPath(testInfo);
 
-      if (violations.length > 0) {
-        // Note: For future implementation.
-      }
+      await withTestStep(
+        testInfo,
+        "Wait for lang attribute to be set",
+        async () => {
+          await expect(page.locator("html")).toHaveAttribute(
+            "lang",
+            /^[a-z]{2}(-[A-Z]{2})?$/
+          );
+        }
+      );
+
+      await withTestStep(testInfo, "Run accessibility scan", async () => {
+        const violations = await runAccessibilityTest(
+          "Organization Groups Page",
+          page,
+          testInfo
+        );
+        expect
+          .soft(violations, "Accessibility violations found:")
+          .toHaveLength(0);
+
+        if (violations.length > 0) {
+          // Note: For future implementation.
+        }
+      });
     });
 
     test("User can view organization groups", async ({ page }) => {

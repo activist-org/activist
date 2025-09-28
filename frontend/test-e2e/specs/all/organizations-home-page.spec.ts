@@ -25,6 +25,17 @@ test.describe(
     }, testInfo) => {
       logTestPath(testInfo);
 
+      await withTestStep(
+        testInfo,
+        "Wait for lang attribute to be set",
+        async () => {
+          await expect(page.locator("html")).toHaveAttribute(
+            "lang",
+            /^[a-z]{2}(-[A-Z]{2})?$/
+          );
+        }
+      );
+
       await withTestStep(testInfo, "Run accessibility scan", async () => {
         const violations = await runAccessibilityTest(
           "Organizations Home Page",

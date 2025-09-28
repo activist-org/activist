@@ -67,18 +67,33 @@ test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
     "Home Page has no detectable accessibility issues",
     { tag: "@accessibility" },
     async ({ page }, testInfo) => {
-      const violations = await runAccessibilityTest(
-        "Home Page",
-        page,
-        testInfo
-      );
-      expect
-        .soft(violations, "Accessibility violations found:")
-        .toHaveLength(0);
+      logTestPath(testInfo);
 
-      if (violations.length > 0) {
-        // Note: For future implementation.
-      }
+      await withTestStep(
+        testInfo,
+        "Wait for lang attribute to be set",
+        async () => {
+          await expect(page.locator("html")).toHaveAttribute(
+            "lang",
+            /^[a-z]{2}(-[A-Z]{2})?$/
+          );
+        }
+      );
+
+      await withTestStep(testInfo, "Run accessibility scan", async () => {
+        const violations = await runAccessibilityTest(
+          "Home Page",
+          page,
+          testInfo
+        );
+        expect
+          .soft(violations, "Accessibility violations found:")
+          .toHaveLength(0);
+
+        if (violations.length > 0) {
+          // Note: For future implementation.
+        }
+      });
     }
   );
 });
