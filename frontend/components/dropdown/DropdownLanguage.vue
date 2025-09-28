@@ -58,7 +58,7 @@ const availableLocales = computed(() => {
   return localesValues.filter((i) => getLocaleCode(i) !== locale.value);
 });
 
-// Function to update HTML lang attribute immediately
+// Function to update HTML lang attribute immediately.
 const updateLangAttribute = (newLocale: string) => {
   if (import.meta.client) {
     document.documentElement.setAttribute("lang", newLocale);

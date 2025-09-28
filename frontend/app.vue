@@ -24,7 +24,6 @@ useHead({
   titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk ? `${titleChunk} • activist` : "activist";
   },
-  // lang attribute is managed by i18n-head plugin
 });
 
 // Handle ctrl / meta keystrokes to open modal.
