@@ -15,6 +15,22 @@ export async function mobileDragAndDrop(
     force: true,
   });
 
-  // Wait for the operation to complete
-  await page.waitForTimeout(300);
+  // Wait for the drag operation to complete by checking for network activity
+  // This ensures any API calls triggered by the drag operation have finished
+  await page.waitForLoadState("networkidle");
+
+  // Wait for any CSS transitions/animations to complete
+  // This is more reliable than a fixed timeout
+  await page.waitForFunction(
+    () => {
+      const elements = document.querySelectorAll('[class*="sortable"]');
+      return Array.from(elements).every(
+        (el) =>
+          !el.classList.contains("sortable-ghost") &&
+          !el.classList.contains("sortable-chosen") &&
+          !el.classList.contains("sortable-drag")
+      );
+    },
+    { timeout: 2000 }
+  );
 }
