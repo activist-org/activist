@@ -30,59 +30,42 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
       const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
       const secondFAQDragHandle = faqPage.getFAQDragHandle(1);
 
+      // Quick validation that drag handles are ready
       await expect(firstFAQDragHandle).toBeVisible();
       await expect(secondFAQDragHandle).toBeVisible();
 
-      // Debug: Check if drag handles have the correct CSS class
-      const firstHandleClass = await firstFAQDragHandle.getAttribute("class");
-      const secondHandleClass = await secondFAQDragHandle.getAttribute("class");
-      // eslint-disable-next-line no-console
-      console.log("First drag handle class:", firstHandleClass);
-      // eslint-disable-next-line no-console
-      console.log("Second drag handle class:", secondHandleClass);
-
-      // Debug: Check if drag handles are clickable
-      const firstHandleClickable = await firstFAQDragHandle.isEnabled();
-      const secondHandleClickable = await secondFAQDragHandle.isEnabled();
-      // eslint-disable-next-line no-console
-      console.log("First drag handle clickable:", firstHandleClickable);
-      // eslint-disable-next-line no-console
-      console.log("Second drag handle clickable:", secondHandleClickable);
-
-      // Optimized drag simulation for faster execution
+      // Ultra-fast drag simulation
       const firstBox = await firstFAQDragHandle.boundingBox();
       const secondBox = await secondFAQDragHandle.boundingBox();
 
       if (firstBox && secondBox) {
-        // Start drag with minimal delay
+        // Start drag immediately
         await page.mouse.move(
           firstBox.x + firstBox.width / 2,
           firstBox.y + firstBox.height / 2
         );
         await page.mouse.down();
-        await page.waitForTimeout(50);
+        await page.waitForTimeout(25);
 
-        // Move in fewer steps with shorter delays
-        const steps = 8;
+        // Direct movement with minimal steps
+        const steps = 5;
         for (let i = 1; i <= steps; i++) {
           const progress = i / steps;
           const currentX = firstBox.x + (secondBox.x - firstBox.x) * progress;
           const currentY = firstBox.y + (secondBox.y - firstBox.y) * progress;
 
           await page.mouse.move(currentX, currentY);
-          await page.waitForTimeout(20);
+          await page.waitForTimeout(10);
         }
 
-        // Quick hover over target
+        // Quick target hover and release
         await page.mouse.move(
           secondBox.x + secondBox.width / 2,
           secondBox.y + secondBox.height / 2
         );
-        await page.waitForTimeout(100);
-
-        // Release with minimal delay
+        await page.waitForTimeout(50);
         await page.mouse.up();
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(100);
       }
 
       // Wait for the reorder operation to complete (including network requests)
