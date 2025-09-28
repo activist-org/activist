@@ -50,7 +50,7 @@
     "happy-dom": "15.11.6",
     "lint-staged": "16.1.0",
     "next-auth": "~4.21.1",
-    "nuxt": "3.16.1",
+    "nuxt": "3.19.0",
     "nuxt-icon": "0.6.10",
     "nuxt-security": "2.2.0",
     "playwright-core": "1.55.1",
