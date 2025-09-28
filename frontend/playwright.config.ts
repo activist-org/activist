@@ -148,7 +148,7 @@ export default defineConfig({
       // More workers for mobile tests.
       workers: process.env.CI ? 2 : undefined,
       use: {
-        ...devices["Pixel 5"],
+        ...devices["Pixel 8"],
         isMobile: true,
         // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
