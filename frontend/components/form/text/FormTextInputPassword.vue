@@ -12,6 +12,11 @@
         @click="changeInputType"
         :id="`${id}-show-password`"
         type="button"
+        :aria-label="
+          isPassword
+            ? $t('i18n.components.form_text_input_password.show_password')
+            : $t('i18n.components.form_text_input_password.hide_password')
+        "
       >
         <Icon
           :name="isPassword ? IconMap.VISIBLE : IconMap.HIDDEN"
