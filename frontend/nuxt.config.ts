@@ -128,7 +128,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    strategy: "no_prefix",
+    strategy: "prefix_and_default",
     langDir: "./i18n",
     vueI18n: "./i18n.config.ts",
     baseUrl: "https://activist.org",
