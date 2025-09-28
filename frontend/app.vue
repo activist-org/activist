@@ -27,7 +27,6 @@ useHead({
 });
 
 // Handle ctrl / meta keystrokes to open modal.
-// @ts-expect-error useDevice is not available in current VueUse version
 const { isMacOS } = useDevice();
 
 const { meta_k, ctrl_k } = useMagicKeys({
@@ -38,7 +37,6 @@ const { meta_k, ctrl_k } = useMagicKeys({
   },
 });
 
-// @ts-expect-error useColorMode is not available in current setup
 const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
 
