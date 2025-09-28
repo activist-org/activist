@@ -183,6 +183,12 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
     "Sign In Page has no detectable accessibility issues",
     { tag: "@accessibility" },
     async ({ page }, testInfo) => {
+      // Wait for the lang attribute to be set by the i18n plugin
+      await expect(page.locator("html")).toHaveAttribute(
+        "lang",
+        /^[a-z]{2}(-[A-Z]{2})?$/
+      );
+
       const violations = await runAccessibilityTest(
         "Sign In Page",
         page,
