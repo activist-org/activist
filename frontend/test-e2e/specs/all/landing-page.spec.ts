@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
+import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
@@ -13,6 +14,25 @@ test.beforeEach(async ({ page }) => {
 // MARK: Desktop & Mobile
 
 test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
+  test(
+    "Landing Page has no detectable accessibility issues",
+    { tag: "@accessibility" },
+    async ({ page }, testInfo) => {
+      const violations = await runAccessibilityTest(
+        "Landing Page",
+        page,
+        testInfo
+      );
+      expect
+        .soft(violations, "Accessibility violations found:")
+        .toHaveLength(0);
+
+      if (violations.length > 0) {
+        // Note: For future implementation.
+      }
+    }
+  );
+
   test('Page Title should have text: "activist"', async ({ page }) => {
     expect(await page.title()).toContain("activist");
   });

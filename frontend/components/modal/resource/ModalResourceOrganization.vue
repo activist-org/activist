@@ -69,11 +69,12 @@ if (!isAddMode) {
     }
   );
 }
+
 async function handleSubmit(values: unknown) {
   const newValues = {
     ...formData.value,
     ...(values as Resource),
-    order: formData.value?.order || organization.resources.length,
+    order: formData.value?.order ?? organization.resources.length,
   };
   if (isAddMode)
     await organizationStore.createResource(

@@ -14,11 +14,11 @@
       </p>
       <!-- Note: Platform Links -->
       <div class="flex flex-wrap items-center justify-center">
-        <template v-for="(platform, index) in links.platformLinks">
-          <div class="hover:text-primary-text">
+        <template v-for="(platform, index) in links.platformLinks" :key="index">
+          <div class="flex">
             <NuxtLink
               v-if="platform.isLocalePath"
-              class="focus-brand"
+              class="focus-brand text-primary-text hover:text-distinct-text"
               :to="localePath(platform.url)"
               :aria-label="$t(platform.ariaLabel)"
             >
@@ -27,15 +27,15 @@
             <a
               v-else
               :href="platform.url"
-              class="focus-brand"
+              class="focus-brand text-primary-text hover:text-distinct-text"
               target="_blank"
               :aria-label="$t(platform.ariaLabel)"
             >
               {{ $t(platform.name) }}
             </a>
-          </div>
-          <div v-if="index < links.platformLinks.length - 1" class="px-2">
-            •
+            <div v-if="index < links.platformLinks.length - 1" class="px-2">
+              •
+            </div>
           </div>
         </template>
       </div>
@@ -51,7 +51,7 @@
         <div class="mt-1 flex gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
             <a
-              class="focus-brand mt-2 flex items-center space-x-2 text-base hover:text-primary-text"
+              class="focus-brand mt-2 flex items-center space-x-2 text-base text-primary-text hover:text-distinct-text"
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
               target="_blank"
@@ -75,7 +75,7 @@
         <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
           <template v-for="(resource, index) in links.resourcesLinks">
             <p
-              class="mt-2 text-base text-distinct-text hover:text-primary-text"
+              class="mt-2 text-base text-primary-text hover:text-distinct-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink
@@ -103,7 +103,7 @@
         <div class="flex flex-wrap justify-center gap-x-1 sm:flex-col sm:gap-0">
           <template v-for="(oLink, index) in links.organizationLinks">
             <p
-              class="mt-2 text-base text-distinct-text hover:text-primary-text"
+              class="mt-2 text-base text-primary-text hover:text-distinct-text"
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink
@@ -115,7 +115,7 @@
               </NuxtLink>
               <span
                 v-if="index < links.organizationLinks.length - 1"
-                class="flex-inline px-2 sm:hidden"
+                class="flex-inline px-2 text-distinct-text sm:hidden"
               >
                 •
               </span>
@@ -127,10 +127,10 @@
     <div class="flex flex-col items-center justify-center">
       <!-- Note: Legal Links -->
       <div class="flex flex-wrap items-center justify-center">
-        <template v-for="(policy, index) in links.legalLinks">
-          <div class="hover:text-primary-text">
+        <template v-for="(policy, index) in links.legalLinks" :key="index">
+          <div class="flex">
             <NuxtLink
-              class="focus-brand"
+              class="focus-brand text-primary-text hover:text-distinct-text"
               :to="localePath(policy.url)"
               :aria-label="$t(policy.ariaLabel)"
             >
@@ -146,7 +146,7 @@
         </template>
       </div>
       <a
-        class="mt-2 w-fit hover:text-primary-text"
+        class="mt-2 w-fit text-primary-text hover:text-distinct-text"
         href="https://www.netlify.com/"
         target="_blank"
       >

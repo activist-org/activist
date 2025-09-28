@@ -12,6 +12,9 @@
     "test": "vitest run --run",
     "test:local": "cross-env TEST_ENV=local playwright test",
     "test:prod": "cross-env TEST_ENV=prod playwright test",
+    "test:auth": "cross-env TEST_ENV=local playwright test --user-data-dir=./test-results/user-data",
+    "test:auth:prod": "cross-env TEST_ENV=prod playwright test --user-data-dir=./test-results/user-data",
+    "test:clean": "rm -rf ./test-results/user-data && cross-env TEST_ENV=local playwright test",
     "typecheck": "nuxi typecheck",
     "format": "yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore",
     "lint": "eslint ."
@@ -27,7 +30,7 @@
     "@nuxtjs/i18n": "10.0.0",
     "@nuxtjs/tailwindcss": "6.12.2",
     "@pinia/nuxt": "0.9.0",
-    "@playwright/test": "latest",
+    "@playwright/test": "1.55.1",
     "@sidebase/nuxt-auth": "1.0.0",
     "@testing-library/vue": "8.1.0",
     "@types/node": "22.12.0",
@@ -50,6 +53,7 @@
     "nuxt": "3.16.1",
     "nuxt-icon": "0.6.10",
     "nuxt-security": "2.2.0",
+    "playwright-core": "^1.55.1",
     "prettier": "3.4.2",
     "prettier-plugin-tailwindcss": "0.6.11",
     "rollup": "4.32.1",
@@ -79,6 +83,7 @@
     "@vee-validate/zod": "^4.15.1",
     "@vueuse/math": "12.7.0",
     "axios": "1.8.2",
+    "commander": "^14.0.1",
     "dompurify": "^3.2.4",
     "dotenv": "16.4.7",
     "eslint-config-prettier": "10.1.1",
@@ -88,7 +93,6 @@
     "nuxt-mail": "5.1.1",
     "pinia": "2.3.1",
     "pinia-plugin-persistedstate": "4.2.0",
-    "playwright-core": "latest",
     "postcss": "8.5.1",
     "postcss-custom-properties": "14.0.4",
     "qrcode": "1.5.4",
@@ -113,7 +117,8 @@
   },
   "resolutions": {
     "chokidar": "3.6.0",
-    "playwright-core": "latest"
+    "playwright-core": "1.55.1",
+    "commander": "14.0.1"
   },
   "packageManager": "yarn@4.7.0"
 }
