@@ -33,9 +33,9 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
     const signInPage = newSignInPage(page);
 
     await signInPage.forgotPasswordLink.click();
-    await page.waitForURL("**/auth/reset-password");
+    await page.waitForURL("**/auth/pwreset/email");
 
-    expect(page.url()).toContain("/auth/reset-password");
+    expect(page.url()).toContain("/auth/pwreset/email");
   });
 
   test("Page shows user password strength rating", async ({ page }) => {
