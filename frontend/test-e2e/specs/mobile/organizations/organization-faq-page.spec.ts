@@ -38,37 +38,33 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
       await expect(firstFAQDragHandle).toContainClass("drag-handle");
       await expect(secondFAQDragHandle).toContainClass("drag-handle");
 
-      // Ultra-fast drag simulation
+      // Touch drag simulation for mobile
       const firstBox = await firstFAQDragHandle.boundingBox();
       const secondBox = await secondFAQDragHandle.boundingBox();
 
       if (firstBox && secondBox) {
-        // Start drag immediately
-        await page.mouse.move(
-          firstBox.x + firstBox.width / 2,
-          firstBox.y + firstBox.height / 2
-        );
-        await page.mouse.down();
-        await page.waitForTimeout(25);
+        const startX = firstBox.x + firstBox.width / 2;
+        const startY = firstBox.y + firstBox.height / 2;
+        const endX = secondBox.x + secondBox.width / 2;
+        const endY = secondBox.y + secondBox.height / 2;
 
-        // Direct movement with minimal steps
-        const steps = 5;
+        // Start touch
+        await page.touchscreen.tap(startX, startY);
+        await page.waitForTimeout(50);
+
+        // Touch move with intermediate steps for smooth drag
+        const steps = 8;
         for (let i = 1; i <= steps; i++) {
           const progress = i / steps;
-          const currentX = firstBox.x + (secondBox.x - firstBox.x) * progress;
-          const currentY = firstBox.y + (secondBox.y - firstBox.y) * progress;
+          const currentX = startX + (endX - startX) * progress;
+          const currentY = startY + (endY - startY) * progress;
 
-          await page.mouse.move(currentX, currentY);
-          await page.waitForTimeout(10);
+          await page.touchscreen.tap(currentX, currentY);
+          await page.waitForTimeout(20);
         }
 
-        // Quick target hover and release
-        await page.mouse.move(
-          secondBox.x + secondBox.width / 2,
-          secondBox.y + secondBox.height / 2
-        );
-        await page.waitForTimeout(50);
-        await page.mouse.up();
+        // Final touch at target
+        await page.touchscreen.tap(endX, endY);
         await page.waitForTimeout(100);
       }
 

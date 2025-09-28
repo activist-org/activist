@@ -2,7 +2,6 @@
 import { expect, test } from "playwright/test";
 
 import { testResourceDragAndDrop } from "~/test-e2e/actions/dragAndDrop";
-import { mobileDragAndDrop } from "~/test-e2e/actions/mobileDragAndDrop";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
@@ -44,12 +43,35 @@ test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
       await expect(firstResourceDragHandle).toContainClass("drag-handle");
       await expect(secondResourceDragHandle).toContainClass("drag-handle");
 
-      // Perform mobile drag and drop using proper touch events
-      await mobileDragAndDrop(
-        page,
-        firstResourceDragHandle,
-        secondResourceDragHandle
-      );
+      // Touch drag simulation for mobile
+      const firstBox = await firstResourceDragHandle.boundingBox();
+      const secondBox = await secondResourceDragHandle.boundingBox();
+
+      if (firstBox && secondBox) {
+        const startX = firstBox.x + firstBox.width / 2;
+        const startY = firstBox.y + firstBox.height / 2;
+        const endX = secondBox.x + secondBox.width / 2;
+        const endY = secondBox.y + secondBox.height / 2;
+
+        // Start touch
+        await page.touchscreen.tap(startX, startY);
+        await page.waitForTimeout(50);
+
+        // Touch move with intermediate steps for smooth drag
+        const steps = 8;
+        for (let i = 1; i <= steps; i++) {
+          const progress = i / steps;
+          const currentX = startX + (endX - startX) * progress;
+          const currentY = startY + (endY - startY) * progress;
+
+          await page.touchscreen.tap(currentX, currentY);
+          await page.waitForTimeout(20);
+        }
+
+        // Final touch at target
+        await page.touchscreen.tap(endX, endY);
+        await page.waitForTimeout(100);
+      }
 
       // Wait for the reorder operation to complete
       await page.waitForLoadState("networkidle");
