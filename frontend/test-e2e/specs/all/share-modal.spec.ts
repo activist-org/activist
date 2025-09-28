@@ -2,6 +2,7 @@
 import { expect, test } from "playwright/test";
 
 import { ConnectCard } from "~/test-e2e/component-objects/ConnectCard";
+import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/organizations");
@@ -10,12 +11,15 @@ test.beforeEach(async ({ page }) => {
   );
 
   const firstOrgLink = page
-    .getByRole("link", {
-      name: /Navigate to the page for this organization/i,
-    })
+    .getByLabel(
+      getEnglishText(
+        "i18n.components._global.navigate_to_organization_aria_label"
+      )
+    )
     .first();
 
   await firstOrgLink.click();
+  await page.waitForURL("**/organizations/**/about");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
 
@@ -95,6 +99,39 @@ test.describe(
           await expect(secondLink).toBeFocused();
         }
       }
+    });
+
+    test("shows edit icon when user is authenticated", async ({ page }) => {
+      // Sign in with test credentials
+      await page.goto("/auth/sign-in");
+      await page.fill('input[type="text"]', "admin");
+      await page.fill('input[type="password"]', "admin");
+      await page.getByRole("button", { name: "Submit the form" }).click();
+
+      // Wait for successful sign-in and navigate to organization
+      await page.waitForURL("/**");
+      await page.goto("/organizations");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+        /organizations/i
+      );
+
+      const firstOrgLink = page
+        .getByLabel(
+          getEnglishText(
+            "i18n.components._global.navigate_to_organization_aria_label"
+          )
+        )
+        .first();
+
+      await firstOrgLink.click();
+      await page.waitForURL("**/organizations/**/about");
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+      const connectCard = ConnectCard(page);
+      await expect(connectCard.root).toBeVisible();
+
+      // Edit button should be visible when authenticated
+      await expect(connectCard.editButton).toBeVisible();
     });
   }
 );
