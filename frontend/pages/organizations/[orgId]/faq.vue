@@ -36,6 +36,20 @@
         item-key="id"
         class="space-y-4"
         data-testid="organization-faq-list"
+        :touch-start-threshold="5"
+        :force-fallback="false"
+        :fallback-tolerance="0"
+        :delay="0"
+        :delay-on-touch-start="true"
+        :swap-threshold="0.65"
+        :invert-swap="false"
+        :direction="'vertical'"
+        :disabled="false"
+        :animation="200"
+        :ghost-class="'sortable-ghost'"
+        :chosen-class="'sortable-chosen'"
+        :drag-class="'sortable-drag'"
+        :handle="'.drag-handle'"
       >
         <template #item="{ element }">
           <CardFAQEntry :pageType="'organization'" :faqEntry="element" />
@@ -78,3 +92,17 @@ const onDragEnd = async () => {
   await orgStore.reorderFaqEntries(props.organization, faqList.value);
 };
 </script>
+
+<style scoped>
+.sortable-ghost {
+  opacity: 0.4;
+}
+
+.sortable-chosen {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sortable-drag {
+  transform: rotate(5deg);
+}
+</style>

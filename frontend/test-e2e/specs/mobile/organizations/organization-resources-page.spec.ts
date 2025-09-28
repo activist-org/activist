@@ -2,6 +2,7 @@
 import { expect, test } from "playwright/test";
 
 import { testResourceDragAndDrop } from "~/test-e2e/actions/dragAndDrop";
+import { mobileDragAndDropHybrid } from "~/test-e2e/actions/mobileDragAndDrop";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
@@ -39,21 +40,23 @@ test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
       await expect(firstResourceDragHandle).toBeVisible();
       await expect(secondResourceDragHandle).toBeVisible();
 
-      // Test drag and drop functionality with mobile-specific expectations
+      // Perform mobile drag and drop using proper touch events
+      await mobileDragAndDropHybrid(
+        page,
+        firstResourceDragHandle,
+        secondResourceDragHandle
+      );
+
+      // Wait for the reorder operation to complete
+      await page.waitForLoadState("networkidle");
+
+      // Test drag and drop functionality with proper mobile expectations
       const result = await testResourceDragAndDrop(page, 0, 1);
 
-      // Mobile: Graceful handling - drag simulation may not trigger DOM updates
-      // but we verify the drag operation completed without errors
-      if (result.orderChanged) {
-        // If automation works, verify the full workflow
-        expect(result.orderChanged).toBe(true);
-        expect(result.initialOrder).not.toEqual(result.finalOrder);
-        expect(result.finalOrder[1]).toBe(result.initialOrder[0]);
-      } else {
-        // Mobile automation limitation - verify drag completed without error
-        expect(result.initialOrder.length).toBe(resourceCount);
-        expect(result.finalOrder.length).toBe(resourceCount);
-      }
+      // Verify the drag operation worked
+      expect(result.orderChanged).toBe(true);
+      expect(result.initialOrder).not.toEqual(result.finalOrder);
+      expect(result.finalOrder[1]).toBe(result.initialOrder[0]);
     } else {
       // Skip test if insufficient resources for drag and drop testing
       test.skip(
