@@ -120,20 +120,20 @@ export async function mobileDragAndDropTouch(
   await page.touchscreen.tap(sourceX, sourceY);
   await page.waitForTimeout(200);
 
-  // Simulate drag with multiple touch points
+  // Simulate drag with multiple touch points using mouse events
   const steps = 8;
   for (let i = 1; i <= steps; i++) {
     const progress = i / steps;
     const currentX = sourceX + (targetX - sourceX) * progress;
     const currentY = sourceY + (targetY - sourceY) * progress;
 
-    // Move touch point
-    await page.touchscreen.move(currentX, currentY);
+    // Move mouse to simulate touch movement
+    await page.mouse.move(currentX, currentY);
     await page.waitForTimeout(80);
   }
 
-  // Release touch
-  await page.touchscreen.up();
+  // Release touch by releasing mouse
+  await page.mouse.up();
   await page.waitForTimeout(300);
 }
 
@@ -145,14 +145,10 @@ export async function mobileDragAndDropPlaywright(
   sourceHandle: Locator,
   targetHandle: Locator
 ): Promise<void> {
-  // Use Playwright's dragAndDrop with mobile-specific options
-  await page.dragAndDrop(sourceHandle, targetHandle, {
-    // Longer delay for mobile
-    delay: 200,
+  // Use Locator.dragTo() method instead of page.dragAndDrop()
+  await sourceHandle.dragTo(targetHandle, {
     // Force the action
     force: true,
-    // Add some steps for smoother movement
-    steps: 10,
   });
 
   // Wait for the operation to complete
