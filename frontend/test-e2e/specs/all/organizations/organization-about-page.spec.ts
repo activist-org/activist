@@ -6,6 +6,7 @@ import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 import { navigateToFirstOrganization } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 import { submitModalWithRetry } from "~/test-e2e/utils/modalHelpers";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
   await signInAsAdmin(page);
@@ -20,36 +21,41 @@ test.describe(
     test("Organization About Page has no detectable accessibility issues", async ({
       page,
     }, testInfo) => {
-      const violations = await runAccessibilityTest(
-        "Organization About Page",
-        page,
-        testInfo
-      );
-      expect
-        .soft(violations, "Accessibility violations found:")
-        .toHaveLength(0);
+      logTestPath(testInfo);
 
-      if (violations.length > 0) {
-        // Note: For future implementation.
-      }
+      await withTestStep(testInfo, "Run accessibility scan", async () => {
+        const violations = await runAccessibilityTest(
+          "Organization About Page",
+          page,
+          testInfo
+        );
+        expect
+          .soft(violations, "Accessibility violations found:")
+          .toHaveLength(0);
+
+        if (violations.length > 0) {
+          // Note: For future implementation.
+        }
+      });
     });
 
-    test("User can share the organization page", async ({ page }) => {
+    test("User can share the organization page", async ({ page }, testInfo) => {
+      logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
 
-      await organizationPage.shareButton.click();
+      await withTestStep(testInfo, "Open share modal", async () => {
+        await organizationPage.shareButton.click();
+        await expect(organizationPage.shareModal.modal).toBeVisible();
+      });
 
-      await expect(organizationPage.shareModal.modal).toBeVisible();
-
-      // Close the modal by clicking the close button
-      const closeModalButton = organizationPage.shareModal.closeButton(
-        organizationPage.shareModal.modal
-      );
-      await expect(closeModalButton).toBeVisible();
-      await closeModalButton.click({ force: true });
-
-      // Expect the modal to not be visible
-      await expect(organizationPage.shareModal.modal).not.toBeVisible();
+      await withTestStep(testInfo, "Close share modal", async () => {
+        const closeModalButton = organizationPage.shareModal.closeButton(
+          organizationPage.shareModal.modal
+        );
+        await expect(closeModalButton).toBeVisible();
+        await closeModalButton.click({ force: true });
+        await expect(organizationPage.shareModal.modal).not.toBeVisible();
+      });
     });
 
     test("User can edit the About section", async ({ page }) => {

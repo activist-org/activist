@@ -3,6 +3,7 @@ import { expect, test } from "playwright/test";
 
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
@@ -22,18 +23,22 @@ test.describe(
     test("Organizations Home Page has no detectable accessibility issues", async ({
       page,
     }, testInfo) => {
-      const violations = await runAccessibilityTest(
-        "Organizations Home Page",
-        page,
-        testInfo
-      );
-      expect
-        .soft(violations, "Accessibility violations found:")
-        .toHaveLength(0);
+      logTestPath(testInfo);
 
-      if (violations.length > 0) {
-        // Note: For future implementation.
-      }
+      await withTestStep(testInfo, "Run accessibility scan", async () => {
+        const violations = await runAccessibilityTest(
+          "Organizations Home Page",
+          page,
+          testInfo
+        );
+        expect
+          .soft(violations, "Accessibility violations found:")
+          .toHaveLength(0);
+
+        if (violations.length > 0) {
+          // Note: For future implementation.
+        }
+      });
     });
   }
 );

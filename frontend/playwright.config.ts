@@ -35,7 +35,7 @@ export default defineConfig({
   /* Retry on both CI and local - helps with flaky tests. */
   retries: 2,
   /* Enhanced parallel execution with test sharding. */
-  workers: process.env.CI ? 4 : undefined,
+  workers: process.env.CI ? 4 : 2,
   /* Fail on flaky tests to ensure stability. */
   failOnFlakyTests: !!process.env.CI,
   /* User data directory for browser state persistence */
@@ -86,11 +86,12 @@ export default defineConfig({
 
   /* Configure projects for major desktop browsers. */
   projects: [
+    // Core browsers - always run
     {
       name: "chromium",
       grep: matchDesktop,
       // Dedicated workers for desktop tests.
-      workers: process.env.CI ? 2 : undefined,
+      workers: process.env.CI ? 2 : 1,
       use: {
         ...devices["Desktop Chrome"],
         // Reuse browser state for faster authentication.
@@ -100,53 +101,10 @@ export default defineConfig({
       },
     },
     {
-      name: "webkit",
-      grep: matchDesktop,
-      // Fewer workers for WebKit (slower).
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["Desktop Safari"],
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/webkit",
-      },
-    },
-
-    /* Test against tablets. */
-    {
-      name: "iPad Landscape",
-      grep: matchDesktop,
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["iPad (gen 7 landscape)"],
-        isMobile: true,
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/ipad-landscape",
-      },
-    },
-    {
-      name: "iPad Portrait",
-      grep: matchDesktop,
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["iPad (gen 7)"],
-        isMobile: true,
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/ipad-portrait",
-      },
-    },
-
-    /* Test against mobile view ports. */
-    {
       name: "Mobile Chrome",
       grep: matchMobile,
       // More workers for mobile tests.
-      workers: process.env.CI ? 2 : undefined,
+      workers: process.env.CI ? 2 : 1,
       use: {
         ...devices["Pixel 5"],
         isMobile: true,
@@ -156,32 +114,86 @@ export default defineConfig({
         //   : "./test-results/user-data/mobile-chrome",
       },
     },
-    {
-      name: "Mobile Safari",
-      grep: matchMobile,
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["iPhone 12"],
-        isMobile: true,
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/mobile-safari",
-      },
-    },
-    {
-      name: "Mobile Samsung",
-      grep: matchMobile,
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["Galaxy S9+"],
-        isMobile: true,
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/mobile-samsung",
-      },
-    },
+
+    // Additional browsers - only run in comprehensive mode
+    ...(process.env.FAST_TESTS
+      ? []
+      : [
+          {
+            name: "webkit",
+            grep: matchDesktop,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["Desktop Safari"],
+              // WebKit performance optimizations
+              launchOptions: {
+                args: [
+                  "--disable-web-security",
+                  "--disable-features=VizDisplayCompositor",
+                  "--disable-background-timer-throttling",
+                  "--disable-backgrounding-occluded-windows",
+                  "--disable-renderer-backgrounding",
+                ],
+              },
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/webkit",
+            },
+          },
+          {
+            name: "iPad Landscape",
+            grep: matchDesktop,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["iPad (gen 7 landscape)"],
+              isMobile: true,
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/ipad-landscape",
+            },
+          },
+          {
+            name: "iPad Portrait",
+            grep: matchDesktop,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["iPad (gen 7)"],
+              isMobile: true,
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/ipad-portrait",
+            },
+          },
+          {
+            name: "Mobile Safari",
+            grep: matchMobile,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["iPhone 12"],
+              isMobile: true,
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/mobile-safari",
+            },
+          },
+          {
+            name: "Mobile Samsung",
+            grep: matchMobile,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["Galaxy S9+"],
+              isMobile: true,
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/mobile-samsung",
+            },
+          },
+        ]),
   ],
 
   /* Run your local dev server before starting the tests. */
