@@ -82,7 +82,7 @@
     "@unocss/reset": "65.4.3",
     "@vee-validate/zod": "^4.15.1",
     "@vueuse/math": "12.7.0",
-    "axios": "1.8.2",
+    "axios": "1.12.0",
     "commander": "^14.0.1",
     "dompurify": "^3.2.4",
     "dotenv": "16.4.7",
