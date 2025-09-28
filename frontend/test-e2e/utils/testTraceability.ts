@@ -32,7 +32,7 @@ export async function withTestStep<T>(
   stepFunction: () => Promise<T>
 ): Promise<T> {
   // eslint-disable-next-line no-console
-  console.log(`  📋 Step: ${stepName}`);
+  console.log(`  ➡️  Step: ${stepName}`);
   return await stepFunction();
 }
 

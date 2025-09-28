@@ -76,7 +76,7 @@ class ExecutionTimeReporter implements Reporter {
     // eslint-disable-next-line no-console
     console.log("=".repeat(80));
 
-    // Total execution time
+    // Total execution time.
     const totalMinutes = Math.floor(this.totalDuration / 60000);
     const totalSeconds = Math.floor((this.totalDuration % 60000) / 1000);
     const totalMs = this.totalDuration % 1000;
@@ -88,14 +88,14 @@ class ExecutionTimeReporter implements Reporter {
     // eslint-disable-next-line no-console
     console.log(`📈 Total Tests: ${this.testExecutions.length}`);
 
-    // Group by project
+    // Group by project.
     const projectGroups = this.groupByProject();
 
-    // Print summary by project
+    // Print summary by project.
     // eslint-disable-next-line no-console
     console.log("\n📋 EXECUTION TIME BY PROJECT:");
     // eslint-disable-next-line no-console
-    console.log("-".repeat(50));
+    console.log("-".repeat(29));
 
     Object.entries(projectGroups).forEach(([projectName, tests]) => {
       const projectDuration = tests.reduce(
@@ -111,7 +111,7 @@ class ExecutionTimeReporter implements Reporter {
       const skipped = tests.filter((t) => t.status === "skipped").length;
 
       // eslint-disable-next-line no-console
-      console.log(`\n🔧 ${projectName}:`);
+      console.log(`\n🧪 ${projectName}:`);
       // eslint-disable-next-line no-console
       console.log(
         `   ⏱️  Duration: ${projectMinutes}m ${projectSeconds}s ${projectMs}ms`
@@ -122,16 +122,16 @@ class ExecutionTimeReporter implements Reporter {
       );
     });
 
-    // Print slowest tests
+    // Print slowest tests.
     const slowestTests = [...this.testExecutions]
       .sort((a, b) => b.duration - a.duration)
       .slice(0, 5);
 
     if (slowestTests.length > 0) {
       // eslint-disable-next-line no-console
-      console.log("\n🐌 SLOWEST TESTS:");
+      console.log("\n🐢 SLOWEST TESTS:");
       // eslint-disable-next-line no-console
-      console.log("-".repeat(50));
+      console.log("-".repeat(17));
       slowestTests.forEach((test, index) => {
         const seconds = (test.duration / 1000).toFixed(2);
         const statusIcon =
@@ -139,7 +139,7 @@ class ExecutionTimeReporter implements Reporter {
             ? "✅"
             : test.status === "failed"
               ? "❌"
-              : "⏭️";
+              : "⏭️ ";
         // eslint-disable-next-line no-console
         console.log(
           `${index + 1}. ${statusIcon} ${test.projectName} - ${test.suiteName}: ${test.testName} (${seconds}s)`
@@ -147,7 +147,7 @@ class ExecutionTimeReporter implements Reporter {
       });
     }
 
-    // Print fastest tests
+    // Print fastest tests.
     const fastestTests = [...this.testExecutions]
       .filter((t) => t.duration > 0)
       .sort((a, b) => a.duration - b.duration)
@@ -155,9 +155,9 @@ class ExecutionTimeReporter implements Reporter {
 
     if (fastestTests.length > 0) {
       // eslint-disable-next-line no-console
-      console.log("\n⚡ FASTEST TESTS:");
+      console.log("\n🐰 FASTEST TESTS:");
       // eslint-disable-next-line no-console
-      console.log("-".repeat(50));
+      console.log("-".repeat(17));
       fastestTests.forEach((test, index) => {
         const seconds = (test.duration / 1000).toFixed(2);
         const statusIcon =
@@ -173,11 +173,11 @@ class ExecutionTimeReporter implements Reporter {
       });
     }
 
-    // Performance insights
+    // Performance insights.
     // eslint-disable-next-line no-console
     console.log("\n💡 PERFORMANCE INSIGHTS:");
     // eslint-disable-next-line no-console
-    console.log("-".repeat(50));
+    console.log("-".repeat(24));
 
     const avgDuration =
       this.testExecutions.reduce((sum, test) => sum + test.duration, 0) /

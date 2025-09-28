@@ -13,7 +13,7 @@ export const RESULTS_PATH = path.join(__dirname, "./test-results");
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-// Environment configurations
+// Environment configurations.
 const environments = {
   local: "http://localhost:3000",
   prod: "https://activist.org",
@@ -37,7 +37,7 @@ export default defineConfig({
   /* Enhanced parallel execution with test sharding. */
   workers: process.env.CI ? 4 : undefined,
   /* Fail on flaky tests to ensure stability. */
-  failOnFlakyTests: process.env.CI ? true : false,
+  failOnFlakyTests: !!process.env.CI,
   /* User data directory for browser state persistence */
   // userDataDir: process.env.CI ? undefined : "./test-results/user-data",
   /* Reporter to use. See https://playwright.dev/docs/test-reporters. */
@@ -89,10 +89,11 @@ export default defineConfig({
     {
       name: "chromium",
       grep: matchDesktop,
-      workers: process.env.CI ? 2 : undefined, // Dedicated workers for desktop tests
+      // Dedicated workers for desktop tests.
+      workers: process.env.CI ? 2 : undefined,
       use: {
         ...devices["Desktop Chrome"],
-        // Reuse browser state for faster authentication
+        // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
         //   : "./test-results/user-data/chromium",
@@ -101,10 +102,11 @@ export default defineConfig({
     {
       name: "webkit",
       grep: matchDesktop,
-      workers: process.env.CI ? 1 : undefined, // Fewer workers for WebKit (slower)
+      // Fewer workers for WebKit (slower).
+      workers: process.env.CI ? 1 : undefined,
       use: {
         ...devices["Desktop Safari"],
-        // Reuse browser state for faster authentication
+        // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
         //   : "./test-results/user-data/webkit",
@@ -119,7 +121,7 @@ export default defineConfig({
       use: {
         ...devices["iPad (gen 7 landscape)"],
         isMobile: true,
-        // Reuse browser state for faster authentication
+        // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
         //   : "./test-results/user-data/ipad-landscape",
@@ -132,22 +134,23 @@ export default defineConfig({
       use: {
         ...devices["iPad (gen 7)"],
         isMobile: true,
-        // Reuse browser state for faster authentication
+        // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
         //   : "./test-results/user-data/ipad-portrait",
       },
     },
 
-    /* Test against mobile viewports. */
+    /* Test against mobile view ports. */
     {
       name: "Mobile Chrome",
       grep: matchMobile,
-      workers: process.env.CI ? 2 : undefined, // More workers for mobile tests
+      // More workers for mobile tests.
+      workers: process.env.CI ? 2 : undefined,
       use: {
         ...devices["Pixel 5"],
         isMobile: true,
-        // Reuse browser state for faster authentication
+        // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
         //   : "./test-results/user-data/mobile-chrome",
@@ -160,7 +163,7 @@ export default defineConfig({
       use: {
         ...devices["iPhone 12"],
         isMobile: true,
-        // Reuse browser state for faster authentication
+        // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
         //   : "./test-results/user-data/mobile-safari",
@@ -173,7 +176,7 @@ export default defineConfig({
       use: {
         ...devices["Galaxy S9+"],
         isMobile: true,
-        // Reuse browser state for faster authentication
+        // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
         //   : "./test-results/user-data/mobile-samsung",
