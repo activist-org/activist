@@ -9,7 +9,7 @@
             :class="{
               'bg-menu-selection !text-white hover:bg-menu-selection/90 dark:!text-black':
                 tab.id == props.selectedTab,
-              'bg-layer-2 text-distinct-text-over-layer-2 hover:bg-highlight':
+              'bg-layer-2 text-primary-text-over-layer-2 hover:bg-highlight':
                 tab.id != props.selectedTab,
             }"
           >
