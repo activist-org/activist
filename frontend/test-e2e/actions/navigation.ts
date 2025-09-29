@@ -297,9 +297,7 @@ export async function navigateToOrganizationGroupSubpage(
   await expect(tabList).toBeVisible();
 
   // Find the specific tab for the subpage by its content
-  const subpageTab = tabList
-    .locator(`[role="tab"]`)
-    .filter({ hasText: subpage });
+  const subpageTab = page.getByRole("tab", { name: subpage });
   await expect(subpageTab).toBeVisible();
 
   // Click the tab to navigate to the subpage
