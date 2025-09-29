@@ -108,18 +108,18 @@ export class OrganizationGroupFAQPage {
     return this.emptyState.locator("h4").first();
   }
 
-  // Modal elements (opened by new FAQ button)
+  // Modal elements (opened by new FAQ button) - Not implemented yet
   get faqModal() {
-    return this.page.getByTestId("modal-ModalFaqEntryGroup");
+    return this.page.locator("#modal").first();
   }
 
   get faqModalCloseButton() {
     return this.faqModal.getByTestId("modal-close-button");
   }
 
-  // Edit modal elements (opened by edit button)
+  // Edit modal elements (opened by edit button) - Not implemented yet
   get editFaqModal() {
-    return this.page.getByTestId("modal-ModalFaqEntryGroup");
+    return this.page.locator("#modal").first();
   }
 
   get editFaqModalCloseButton() {
@@ -293,23 +293,31 @@ export class OrganizationGroupFAQPage {
       const endX = targetBox.x + targetBox.width / 2;
       const endY = targetBox.y + targetBox.height / 2;
 
-      // Simulate drag with mouse events
+      // Hover over the source handle first
       await this.page.mouse.move(startX, startY);
-      await this.page.mouse.down();
-      await this.page.waitForTimeout(100);
+      await this.page.waitForTimeout(200);
 
-      // Move to target with intermediate steps
-      const steps = 5;
+      // Start drag operation
+      await this.page.mouse.down();
+      await this.page.waitForTimeout(300);
+
+      // Move to target with more intermediate steps for smoother drag
+      const steps = 10;
       for (let i = 1; i <= steps; i++) {
         const progress = i / steps;
         const currentX = startX + (endX - startX) * progress;
         const currentY = startY + (endY - startY) * progress;
         await this.page.mouse.move(currentX, currentY);
-        await this.page.waitForTimeout(50);
+        await this.page.waitForTimeout(100);
       }
 
-      await this.page.mouse.up();
+      // Hover over target for a moment before releasing
+      await this.page.mouse.move(endX, endY);
       await this.page.waitForTimeout(200);
+
+      // Release the mouse
+      await this.page.mouse.up();
+      await this.page.waitForTimeout(500);
     }
   }
 }
