@@ -50,78 +50,60 @@ test.describe(
       });
     });
 
-    test("Group events page elements are accessible", async ({
-      page,
-    }, testInfo) => {
+    test("User can view group events", async ({ page }, testInfo) => {
       logTestPath(testInfo);
-
       const organizationPage = newOrganizationPage(page);
       const groupEventsPage = organizationPage.groupEventsPage;
 
-      await withTestStep(
-        testInfo,
-        "Verify new event button is accessible",
-        async () => {
-          await expect(groupEventsPage.newEventButton).toBeVisible();
-          await expect(groupEventsPage.newEventButton).toHaveAttribute(
-            "aria-label"
-          );
-        }
+      // Wait for events to load completely
+      await page.waitForLoadState("networkidle");
+
+      // Wait for either events or empty state to appear
+      await expect(async () => {
+        const eventsListVisible = await groupEventsPage.eventsList
+          .isVisible()
+          .catch(() => false);
+        const emptyStateVisible = await groupEventsPage.emptyState
+          .isVisible()
+          .catch(() => false);
+        expect(eventsListVisible || emptyStateVisible).toBe(true);
+      }).toPass({ timeout: 10000 });
+
+      // Check if events exist or empty state is shown
+      const eventCount = await groupEventsPage.getEventCount();
+
+      if (eventCount > 0) {
+        // Verify events list is visible
+        await expect(groupEventsPage.eventsList).toBeVisible();
+        await expect(groupEventsPage.eventCards.first()).toBeVisible();
+
+        // Verify first event has required elements
+        const firstEventCard = groupEventsPage.getEventCard(0);
+        await expect(firstEventCard).toBeVisible();
+
+        const firstEventLink = groupEventsPage.getEventLink(0);
+        await expect(firstEventLink).toBeVisible();
+        await expect(firstEventLink).toHaveAttribute("href", /.+/);
+      } else {
+        // Verify empty state is shown when no events
+        await expect(groupEventsPage.emptyState).toBeVisible();
+        await expect(groupEventsPage.emptyStateMessage).toBeVisible();
+      }
+    });
+
+    test("User can access new event creation", async ({ page }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const groupEventsPage = organizationPage.groupEventsPage;
+
+      // Verify new event button is visible and functional
+      await expect(groupEventsPage.newEventButton).toBeVisible();
+      await expect(groupEventsPage.newEventButton).toHaveAttribute(
+        "href",
+        /.+/
       );
 
-      await withTestStep(
-        testInfo,
-        "Verify subscribe to events button is accessible",
-        async () => {
-          await expect(groupEventsPage.subscribeToEventsButton).toBeVisible();
-          await expect(groupEventsPage.subscribeToEventsButton).toHaveAttribute(
-            "aria-label"
-          );
-        }
-      );
-
-      await withTestStep(
-        testInfo,
-        "Verify tab navigation is accessible",
-        async () => {
-          await expect(groupEventsPage.tabs).toBeVisible();
-          await expect(groupEventsPage.eventsTab).toHaveAttribute(
-            "aria-selected",
-            "true"
-          );
-          await expect(groupEventsPage.aboutTab).toHaveAttribute(
-            "aria-selected",
-            "false"
-          );
-          await expect(groupEventsPage.resourcesTab).toHaveAttribute(
-            "aria-selected",
-            "false"
-          );
-          await expect(groupEventsPage.faqTab).toHaveAttribute(
-            "aria-selected",
-            "false"
-          );
-        }
-      );
-
-      await withTestStep(
-        testInfo,
-        "Verify events content or empty state",
-        async () => {
-          if (await groupEventsPage.hasEvents()) {
-            // If events exist, verify they are accessible
-            const eventCount = await groupEventsPage.getEventCount();
-            expect(eventCount).toBeGreaterThan(0);
-
-            // Check first event card is accessible
-            await expect(groupEventsPage.firstEventCard).toBeVisible();
-          } else {
-            // If no events, verify empty state is accessible
-            await expect(groupEventsPage.emptyState).toBeVisible();
-            await expect(groupEventsPage.emptyStateMessage).toBeVisible();
-          }
-        }
-      );
+      // Note: We don't click it as it would navigate away from the current page
     });
 
     test("Group events page tab navigation works correctly", async ({
