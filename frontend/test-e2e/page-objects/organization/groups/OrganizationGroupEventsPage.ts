@@ -45,7 +45,7 @@ export class OrganizationGroupEventsPage {
 
   // Tab navigation
   get tabs() {
-    return this.page.locator('[data-testid="tabs"]');
+    return this.page.locator('[role="tablist"]');
   }
 
   get aboutTab() {
