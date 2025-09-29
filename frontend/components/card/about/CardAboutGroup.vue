@@ -27,6 +27,7 @@
           v-if="userIsSignedIn"
           @click="openModalTextGroup"
           @keydown.enter="openModalTextGroup"
+          data-testid="edit-icon"
         />
       </div>
       <div class="flex-col space-y-3">

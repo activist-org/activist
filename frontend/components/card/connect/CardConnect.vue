@@ -9,6 +9,7 @@
         v-if="userIsSignedIn"
         @click="openModalSocialLinks"
         @keydown.enter="openModalSocialLinks"
+        data-testid="edit-icon"
       />
     </div>
     <ul

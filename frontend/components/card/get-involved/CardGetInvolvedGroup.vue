@@ -9,6 +9,7 @@
         v-if="userIsSignedIn"
         @click="openModalTextGroup"
         @keydown.enter="openModalTextGroup"
+        data-testid="edit-icon"
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
