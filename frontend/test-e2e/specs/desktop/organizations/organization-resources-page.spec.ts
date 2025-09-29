@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
-import { testResourceDragAndDrop } from "~/test-e2e/actions/dragAndDrop";
+import { getResourceCardOrder } from "~/test-e2e/actions/dragAndDrop";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
@@ -82,26 +82,63 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
     const resourceCount = await resourcesPage.getResourceCount();
 
     if (resourceCount >= 2) {
-      // Verify drag handles are visible
+      // Get initial order of first 2 resources for drag and drop test
+      const initialOrder = await getResourceCardOrder(page);
+      const firstResource = initialOrder[0];
+      const secondResource = initialOrder[1];
+
+      // Verify drag handles are visible and have correct classes
       const firstResourceDragHandle = resourcesPage.getResourceDragHandle(0);
       const secondResourceDragHandle = resourcesPage.getResourceDragHandle(1);
 
       await expect(firstResourceDragHandle).toBeVisible();
       await expect(secondResourceDragHandle).toBeVisible();
 
-      // Test drag and drop functionality
-      const result = await testResourceDragAndDrop(page, 0, 1);
+      // Validate drag handles have the correct CSS class
+      await expect(firstResourceDragHandle).toContainClass("drag-handle");
+      await expect(secondResourceDragHandle).toContainClass("drag-handle");
 
-      // Desktop: Full verification that order actually changed
-      expect(result.orderChanged).toBe(true);
-      expect(result.initialOrder).not.toEqual(result.finalOrder);
+      // Use mouse events for reliable drag and drop
+      const firstBox = await firstResourceDragHandle.boundingBox();
+      const secondBox = await secondResourceDragHandle.boundingBox();
 
-      // Verify we have the expected number of resources after reordering
-      expect(result.initialOrder.length).toBe(resourceCount);
-      expect(result.finalOrder.length).toBe(resourceCount);
+      if (firstBox && secondBox) {
+        const startX = firstBox.x + firstBox.width / 2;
+        const startY = firstBox.y + firstBox.height / 2;
+        const endX = secondBox.x + secondBox.width / 2;
+        const endY = secondBox.y + secondBox.height / 2;
 
-      // Verify the first resource moved to second position
-      expect(result.finalOrder[1]).toBe(result.initialOrder[0]);
+        // Simulate drag with mouse events
+        await page.mouse.move(startX, startY);
+        await page.mouse.down();
+        await page.waitForTimeout(100);
+
+        // Move to target with intermediate steps
+        const steps = 5;
+        for (let i = 1; i <= steps; i++) {
+          const progress = i / steps;
+          const currentX = startX + (endX - startX) * progress;
+          const currentY = startY + (endY - startY) * progress;
+          await page.mouse.move(currentX, currentY);
+          await page.waitForTimeout(50);
+        }
+
+        await page.mouse.up();
+        await page.waitForTimeout(200);
+      }
+
+      // Wait for the reorder operation to complete
+      await page.waitForLoadState("networkidle");
+
+      // Additional wait for vuedraggable to process the reorder
+      await page.waitForTimeout(1000);
+
+      // Get final order after drag operation
+      const finalOrder = await getResourceCardOrder(page);
+
+      // Verify the drag operation worked (first and second should be swapped)
+      expect(finalOrder[1]).toBe(firstResource);
+      expect(finalOrder[0]).toBe(secondResource);
     } else {
       // Skip test if insufficient resources for drag and drop testing
       test.skip(
