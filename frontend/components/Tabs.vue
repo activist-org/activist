@@ -9,7 +9,7 @@
             :class="{
               'bg-menu-selection text-layer-1 hover:bg-menu-selection/90':
                 tab.id == props.selectedTab,
-              'bg-layer-2 text-distinct-text-over-layer-2 hover:bg-highlight':
+              'bg-layer-2 text-distinct-text hover:bg-highlight':
                 tab.id != props.selectedTab,
             }"
           >
