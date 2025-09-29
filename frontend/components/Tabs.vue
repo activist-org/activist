@@ -5,9 +5,6 @@
       <TabList class="flex flex-row">
         <Tab v-for="tab in tabs" :key="tab.id" class="w-full">
           <div
-            @click="changeTab(tab.id)"
-            @keydown.enter="changeTab(tab.id)"
-            @keydown.space="changeTab(tab.id)"
             class="focus-brand flex w-full items-center justify-center rounded-none border-[1px] border-primary-text px-3 py-1"
             :class="{
               'bg-menu-selection text-layer-1 hover:bg-menu-selection/90':
@@ -15,9 +12,6 @@
               'bg-layer-2 text-primary-text-over-layer-2 hover:bg-highlight':
                 tab.id != props.selectedTab,
             }"
-            role="tab"
-            :aria-selected="tab.id == props.selectedTab"
-            :tabindex="tab.id == props.selectedTab ? 0 : -1"
           >
             <div v-if="!aboveMediumBP && tab.iconName">
               <Icon :name="tab.iconName" size="1em" />
@@ -47,8 +41,8 @@ const aboveMediumBP = useBreakpoint("md");
 const nuxtApp = useNuxtApp();
 const router = useRouter();
 
-function changeTab(tabId: number) {
-  const selectedTab = props.tabs.find((tab) => tab.id === tabId)?.routeUrl;
+function changeTab(index: number) {
+  const selectedTab = props.tabs[index]?.routeUrl;
   if (selectedTab) {
     router.push(nuxtApp.$localePath(selectedTab));
   }
