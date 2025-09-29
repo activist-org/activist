@@ -14,10 +14,10 @@
             }"
             :to="localePath(tab.routeUrl)"
           >
-            <div v-if="!aboveMediumBP">
-              <Icon v-if="tab.iconName" :name="tab.iconName" size="1em" />
+            <div v-if="!aboveMediumBP && tab.iconName">
+              <Icon :name="tab.iconName" size="1em" />
             </div>
-            <p v-if="!tab.iconName || aboveMediumBP">
+            <p>
               {{ tab.label }}
             </p>
           </NuxtLink>
