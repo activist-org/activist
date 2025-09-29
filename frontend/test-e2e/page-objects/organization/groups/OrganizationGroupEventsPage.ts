@@ -17,7 +17,11 @@ export class OrganizationGroupEventsPage {
     return this.page.getByRole("button", { name: /subscribe to events/i });
   }
 
-  // Event cards
+  // Events list and cards
+  get eventsList() {
+    return this.page.getByTestId("organization-events-list");
+  }
+
   get eventCards() {
     return this.page.locator('[data-testid="event-card"]');
   }
@@ -116,6 +120,14 @@ export class OrganizationGroupEventsPage {
   }
 
   // Event card interactions
+  getEventCard(index: number) {
+    return this.eventCards.nth(index);
+  }
+
+  getEventLink(index: number) {
+    return this.eventCards.nth(index).locator("a").first();
+  }
+
   async getEventTitle(index: number) {
     const eventCard = this.eventCards.nth(index);
     return await eventCard.locator('[data-testid="event-title"]').textContent();
