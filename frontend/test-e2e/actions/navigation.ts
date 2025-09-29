@@ -211,14 +211,24 @@ export async function navigateToOrganizationGroupSubpage(
     await organizationPage.menu.groupsOption.click();
 
     // Wait for navigation to complete
-    await page.waitForLoadState("networkidle");
+    try {
+      await page.waitForLoadState("networkidle", { timeout: 10000 });
+    } catch {
+      // networkidle timeout, falling back to domcontentloaded
+      await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
+    }
 
     // Check if we actually navigated to groups page
     const currentUrl = page.url();
     if (!currentUrl.includes("/groups")) {
       // Mobile navigation failed, use direct navigation as fallback
       await page.goto(`/organizations/${organizationId}/groups`);
-      await page.waitForLoadState("networkidle");
+      try {
+        await page.waitForLoadState("networkidle", { timeout: 10000 });
+      } catch {
+        // If networkidle times out, try domcontentloaded as fallback
+        await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
+      }
     }
   } else {
     // Desktop layout: direct click
@@ -226,14 +236,24 @@ export async function navigateToOrganizationGroupSubpage(
     await organizationPage.menu.groupsOption.click();
   }
 
-  await page.waitForLoadState("networkidle");
+  try {
+    await page.waitForLoadState("networkidle", { timeout: 10000 });
+  } catch {
+    // networkidle timeout, falling back to domcontentloaded
+    await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
+  }
   await expect(page).toHaveURL(/.*\/organizations\/.*\/groups/);
 
   // Check if there are any groups available
   const groupsPage = organizationPage.groupsPage;
 
   // Wait for groups to load completely
-  await page.waitForLoadState("networkidle");
+  try {
+    await page.waitForLoadState("networkidle", { timeout: 10000 });
+  } catch {
+    // networkidle timeout, falling back to domcontentloaded
+    await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
+  }
 
   // Wait for either groups or empty state to appear (same approach as working test)
   try {
@@ -252,7 +272,12 @@ export async function navigateToOrganizationGroupSubpage(
   }
 
   // Additional wait to ensure page is fully loaded
-  await page.waitForLoadState("networkidle");
+  try {
+    await page.waitForLoadState("networkidle", { timeout: 10000 });
+  } catch {
+    // networkidle timeout, falling back to domcontentloaded
+    await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
+  }
 
   const groupCount = await groupsPage.getGroupCount();
 
