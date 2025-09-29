@@ -6,42 +6,6 @@ import type { Page } from "@playwright/test";
  */
 
 /**
- * Drags a resource card from one position to another position
- * @param page - Playwright page object
- * @param fromIndex - Index of the source resource card (0-based)
- * @param toIndex - Index of the target resource card (0-based)
- */
-export async function dragResourceCard(
-  page: Page,
-  fromIndex: number,
-  toIndex: number
-): Promise<void> {
-  // Wait for the resources list to be fully loaded
-  await page.waitForSelector('[data-testid="organization-resources-list"]');
-
-  // Get the drag handles for source and target cards
-  const sourceHandle = page
-    .getByTestId("resource-card")
-    .nth(fromIndex)
-    .getByTestId("resource-drag-handle");
-
-  const targetHandle = page
-    .getByTestId("resource-card")
-    .nth(toIndex)
-    .getByTestId("resource-drag-handle");
-
-  // Ensure both handles are visible and ready
-  await sourceHandle.waitFor({ state: "visible" });
-  await targetHandle.waitFor({ state: "visible" });
-
-  // Perform the drag and drop operation
-  await sourceHandle.dragTo(targetHandle);
-
-  // Wait a moment for the drag operation to complete and any animations to finish
-  await page.waitForTimeout(500);
-}
-
-/**
  * Gets the current order of resource cards by extracting their names/titles
  * This can be used to verify that drag and drop reordering worked correctly
  * @param page - Playwright page object
@@ -72,89 +36,30 @@ export async function getResourceCardOrder(page: Page): Promise<string[]> {
 }
 
 /**
- * Verifies that drag and drop functionality is working by:
- * 1. Recording initial order
- * 2. Performing a drag operation
- * 3. Verifying the order has changed
+ * Gets the current order of FAQ cards by extracting their questions
+ * This can be used to verify that drag and drop reordering worked correctly
  * @param page - Playwright page object
- * @param fromIndex - Index of the source resource card
- * @param toIndex - Index of the target resource card
- * @returns Object with initial and final order for verification
+ * @returns Array of FAQ questions in their current order
  */
-export async function testResourceDragAndDrop(
-  page: Page,
-  fromIndex: number,
-  toIndex: number
-): Promise<{
-  initialOrder: string[];
-  finalOrder: string[];
-  orderChanged: boolean;
-}> {
-  // Get initial order
-  const initialOrder = await getResourceCardOrder(page);
+export async function getFAQCardOrder(page: Page): Promise<string[]> {
+  // Wait for FAQ cards to be loaded
+  await page.waitForSelector('[data-testid="faq-card"]');
 
-  // Perform drag and drop
-  await dragResourceCard(page, fromIndex, toIndex);
+  // Get all FAQ cards
+  const faqCards = page.getByTestId("faq-card");
+  const count = await faqCards.count();
 
-  // Get final order
-  const finalOrder = await getResourceCardOrder(page);
+  const faqQuestions: string[] = [];
 
-  // Check if order actually changed
-  const orderChanged =
-    JSON.stringify(initialOrder) !== JSON.stringify(finalOrder);
-
-  return {
-    initialOrder,
-    finalOrder,
-    orderChanged,
-  };
-}
-
-/**
- * Alternative drag and drop method using mouse actions for more control
- * Useful if the simple dragTo method doesn't work reliably
- * @param page - Playwright page object
- * @param fromIndex - Index of the source resource card
- * @param toIndex - Index of the target resource card
- */
-export async function dragResourceCardWithMouse(
-  page: Page,
-  fromIndex: number,
-  toIndex: number
-): Promise<void> {
-  // Get the drag handles
-  const sourceHandle = page
-    .getByTestId("resource-card")
-    .nth(fromIndex)
-    .getByTestId("resource-drag-handle");
-
-  const targetHandle = page
-    .getByTestId("resource-card")
-    .nth(toIndex)
-    .getByTestId("resource-drag-handle");
-
-  // Get bounding boxes for precise positioning
-  const sourceBoundingBox = await sourceHandle.boundingBox();
-  const targetBoundingBox = await targetHandle.boundingBox();
-
-  if (!sourceBoundingBox || !targetBoundingBox) {
-    throw new Error("Could not get bounding boxes for drag handles");
+  // Extract the question from each FAQ card
+  for (let i = 0; i < count; i++) {
+    const card = faqCards.nth(i);
+    // The FAQ question is in a p element with data-testid="faq-question"
+    const questionElement = card.getByTestId("faq-question");
+    const question = await questionElement.textContent();
+    if (question) {
+      faqQuestions.push(question.trim());
+    }
   }
-
-  // Calculate center points
-  const sourceX = sourceBoundingBox.x + sourceBoundingBox.width / 2;
-  const sourceY = sourceBoundingBox.y + sourceBoundingBox.height / 2;
-  const targetX = targetBoundingBox.x + targetBoundingBox.width / 2;
-  const targetY = targetBoundingBox.y + targetBoundingBox.height / 2;
-
-  // Perform drag with mouse actions
-  await page.mouse.move(sourceX, sourceY);
-  await page.mouse.down();
-  await page.waitForTimeout(100); // Brief pause to ensure drag starts
-  await page.mouse.move(targetX, targetY, { steps: 10 });
-  await page.waitForTimeout(100); // Brief pause before drop
-  await page.mouse.up();
-
-  // Wait for drag operation to complete
-  await page.waitForTimeout(500);
+  return faqQuestions;
 }

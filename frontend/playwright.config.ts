@@ -108,6 +108,7 @@ export default defineConfig({
       use: {
         ...devices["Pixel 5"],
         isMobile: true,
+        hasTouch: true,
         // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
@@ -148,6 +149,7 @@ export default defineConfig({
             use: {
               ...devices["iPad (gen 7 landscape)"],
               isMobile: true,
+              hasTouch: true,
               // Reuse browser state for faster authentication.
               // userDataDir: process.env.CI
               //   ? undefined
@@ -161,6 +163,7 @@ export default defineConfig({
             use: {
               ...devices["iPad (gen 7)"],
               isMobile: true,
+              hasTouch: true,
               // Reuse browser state for faster authentication.
               // userDataDir: process.env.CI
               //   ? undefined
@@ -174,6 +177,7 @@ export default defineConfig({
             use: {
               ...devices["iPhone 12"],
               isMobile: true,
+              hasTouch: true,
               // Reuse browser state for faster authentication.
               // userDataDir: process.env.CI
               //   ? undefined
@@ -187,6 +191,7 @@ export default defineConfig({
             use: {
               ...devices["Galaxy S9+"],
               isMobile: true,
+              hasTouch: true,
               // Reuse browser state for faster authentication.
               // userDataDir: process.env.CI
               //   ? undefined
