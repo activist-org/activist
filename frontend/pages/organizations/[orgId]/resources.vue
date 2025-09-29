@@ -35,7 +35,7 @@
         item-key="id"
         class="flex flex-col gap-4"
         data-testid="organization-resources-list"
-        :touch-start-threshold="1"
+        :touch-start-threshold="5"
         :force-fallback="false"
         :fallback-tolerance="0"
         :delay="0"
@@ -49,8 +49,13 @@
         :chosen-class="'sortable-chosen'"
         :drag-class="'sortable-drag'"
         :handle="'.drag-handle'"
-        :distance="2"
+        :distance="10"
         :fallback-class="'sortable-fallback'"
+        :prevent-on-filter="false"
+        :dragover-bubble="true"
+        :remove-clone-on-hide="true"
+        :touch-move-threshold="5"
+        :fallback-on-body="true"
       >
         <template #item="{ element }">
           <CardResource
@@ -113,5 +118,23 @@ watch(
 
 .sortable-fallback {
   display: none;
+}
+
+/* Ensure drag handles work properly with programmatic drag operations */
+.drag-handle {
+  pointer-events: auto !important;
+  user-select: none !important;
+  touch-action: none !important;
+}
+
+/* Touch-friendly draggable container */
+.flex.flex-col.gap-4 {
+  touch-action: pan-y !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure draggable items are touch-friendly */
+[data-testid="organization-resources-list"] {
+  touch-action: pan-y !important;
 }
 </style>
