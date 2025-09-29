@@ -4,7 +4,7 @@
     <TabGroup @change="changeTab" manual :selectedIndex="props.selectedTab">
       <TabList class="flex flex-row">
         <Tab v-for="tab in tabs" :key="tab.id" class="w-full">
-          <div
+          <NuxtLink
             class="focus-brand flex w-full items-center justify-center rounded-none border-[1px] border-primary-text px-3 py-1"
             :class="{
               'bg-menu-selection text-layer-1 hover:bg-menu-selection/90':
@@ -12,6 +12,7 @@
               'bg-layer-2 text-primary-text-over-layer-2 hover:bg-highlight':
                 tab.id != props.selectedTab,
             }"
+            :to="localePath(tab.routeUrl)"
           >
             <div v-if="!aboveMediumBP && tab.iconName">
               <Icon :name="tab.iconName" size="1em" />
@@ -19,7 +20,7 @@
             <p>
               {{ tab.label }}
             </p>
-          </div>
+          </NuxtLink>
         </Tab>
       </TabList>
     </TabGroup>
@@ -38,6 +39,7 @@ const props = defineProps<{
 
 const aboveMediumBP = useBreakpoint("md");
 
+const localePath = useLocalePath();
 const nuxtApp = useNuxtApp();
 const router = useRouter();
 
