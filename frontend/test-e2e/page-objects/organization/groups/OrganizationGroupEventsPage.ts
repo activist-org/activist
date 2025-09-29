@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
 
+import { getEnglishText } from "~/utils/i18n";
+
 /**
  * Page Object Model for Organization Group Events Page
  * Handles interactions with the group events page within an organization
@@ -49,19 +51,27 @@ export class OrganizationGroupEventsPage {
   }
 
   get aboutTab() {
-    return this.tabs.getByRole("tab", { name: /about/i });
+    return this.page.getByRole("tab", {
+      name: new RegExp(getEnglishText("i18n._global.about"), "i"),
+    });
   }
 
   get eventsTab() {
-    return this.tabs.getByRole("tab", { name: /events/i });
+    return this.page.getByRole("tab", {
+      name: new RegExp(getEnglishText("i18n._global.events"), "i"),
+    });
   }
 
   get resourcesTab() {
-    return this.tabs.getByRole("tab", { name: /resources/i });
+    return this.page.getByRole("tab", {
+      name: new RegExp(getEnglishText("i18n._global.resources"), "i"),
+    });
   }
 
   get faqTab() {
-    return this.tabs.getByRole("tab", { name: /faq/i });
+    return this.page.getByRole("tab", {
+      name: new RegExp(getEnglishText("i18n._global.faq"), "i"),
+    });
   }
 
   // Actions
