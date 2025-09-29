@@ -23,13 +23,13 @@ export const newOrganizationGroupsPage = (page: Page) => ({
   getGroupTitle: (index: number) =>
     page.getByTestId("group-card").nth(index).getByTestId("group-title"),
   getGroupLink: (index: number) =>
-    page.getByTestId("group-card").nth(index).locator("a").first(),
+    page.getByTestId("group-card").nth(index).getByRole("link").first(),
   getGroupDescription: (index: number) =>
     page.getByTestId("group-card").nth(index).getByTestId("group-description"),
   getGroupEntityName: (index: number) =>
     page.getByTestId("group-card").nth(index).getByTestId("group-entity-name"),
   getGroupLocation: (index: number) =>
-    page.getByTestId("group-card").nth(index).locator("[class*='location']"),
+    page.getByTestId("group-card").nth(index).locator("[class*='location']"), // Keep as is - CSS class selector
 
   // Group menu interactions
   getGroupMenuButton: (index: number) =>
@@ -46,7 +46,7 @@ export const newOrganizationGroupsPage = (page: Page) => ({
 
   // Empty state
   emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(), // Keep as is - generic text selector
 
   // Utility methods
   getGroupCount: async () => {
@@ -61,7 +61,7 @@ export const newOrganizationGroupsPage = (page: Page) => ({
     const groupLink = page
       .getByTestId("group-card")
       .nth(index)
-      .locator("a")
+      .getByRole("link")
       .first();
     await groupLink.click();
   },

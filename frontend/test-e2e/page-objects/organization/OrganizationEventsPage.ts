@@ -29,13 +29,17 @@ export const newOrganizationEventsPage = (page: Page) => ({
   // Individual event card elements
   getEventCard: (index: number) => page.getByTestId("event-card").nth(index),
   getEventTitle: (index: number) =>
-    page.getByTestId("event-card").nth(index).locator("h3, h2").first(),
+    page
+      .getByTestId("event-card")
+      .nth(index)
+      .getByRole("heading", { level: 3 })
+      .first(),
   getEventLink: (index: number) =>
-    page.getByTestId("event-card").nth(index).locator("a").first(),
+    page.getByTestId("event-card").nth(index).getByRole("link").first(),
   getEventDate: (index: number) =>
-    page.getByTestId("event-card").nth(index).locator("[class*='date']"),
+    page.getByTestId("event-card").nth(index).locator("[class*='date']"), // Keep as is - CSS class selector
   getEventLocation: (index: number) =>
-    page.getByTestId("event-card").nth(index).locator("[class*='location']"),
+    page.getByTestId("event-card").nth(index).locator("[class*='location']"), // Keep as is - CSS class selector
 
   // Event menu interactions
   getEventMenuButton: (index: number) =>
@@ -65,14 +69,14 @@ export const newOrganizationEventsPage = (page: Page) => ({
 
   // Empty state
   emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p").first(),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p").first(), // Keep as is - generic text selector
 
   // Event navigation helpers
   navigateToEvent: async (index: number) => {
     const eventLink = page
       .getByTestId("event-card")
       .nth(index)
-      .locator("a")
+      .getByRole("link")
       .first();
     await eventLink.click();
   },

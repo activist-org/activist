@@ -105,12 +105,12 @@ export class OrganizationGroupFAQPage {
   }
 
   get emptyStateMessage() {
-    return this.emptyState.locator("h4").first();
+    return this.emptyState.getByRole("heading", { level: 4 }).first();
   }
 
   // Modal elements (opened by new FAQ button) - Not implemented yet
   get faqModal() {
-    return this.page.locator("#modal").first();
+    return this.page.locator("#modal").first(); // Keep as is - generic modal selector
   }
 
   get faqModalCloseButton() {
@@ -119,7 +119,7 @@ export class OrganizationGroupFAQPage {
 
   // Edit modal elements (opened by edit button) - Not implemented yet
   get editFaqModal() {
-    return this.page.locator("#modal").first();
+    return this.page.locator("#modal").first(); // Keep as is - generic modal selector
   }
 
   get editFaqModalCloseButton() {
@@ -128,20 +128,32 @@ export class OrganizationGroupFAQPage {
 
   // Form elements within FAQ modal (using specific IDs from the form)
   getFaqQuestionInput(modal: Locator) {
-    return modal.locator("#form-item-question");
+    return modal.getByRole("textbox", {
+      name: new RegExp(
+        getEnglishText("i18n.components.form_faq_entry.question"),
+        "i"
+      ),
+    });
   }
 
   getFaqAnswerInput(modal: Locator) {
-    return modal.locator("#form-item-answer");
+    return modal.getByRole("textbox", {
+      name: new RegExp(
+        getEnglishText("i18n.components.form_faq_entry.answer"),
+        "i"
+      ),
+    });
   }
 
   getFaqSubmitButton(modal: Locator) {
-    return modal.locator('button[type="submit"]');
+    return modal.getByRole("button", {
+      name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
+    });
   }
 
   // Tab navigation
   get tabs() {
-    return this.page.locator('[role="tablist"]');
+    return this.page.getByRole("tablist");
   }
 
   get aboutTab() {

@@ -15,7 +15,7 @@ export const newOrganizationAboutPage = (page: Page) => ({
   aboutCardEditIcon: page
     .getByTestId("card-about")
     .locator("div.cursor-pointer")
-    .first(),
+    .first(), // Keep as is - CSS class selector
   aboutExpandTextButton: page.getByTestId("expand-text-button"),
   aboutCollapseTextButton: page.getByTestId("collapse-text-button"),
 
@@ -24,11 +24,11 @@ export const newOrganizationAboutPage = (page: Page) => ({
   getInvolvedCardEditIcon: page
     .getByTestId("card-get-involved")
     .locator("div.cursor-pointer")
-    .first(),
+    .first(), // Keep as is - CSS class selector
   getInvolvedCardText: page
     .getByTestId("card-get-involved")
     .locator("p")
-    .first(),
+    .first(), // Keep as is - generic text selector
   getInvolvedViewGroupsButton: page
     .getByTestId("card-get-involved")
     .getByRole("link", {
@@ -53,7 +53,7 @@ export const newOrganizationAboutPage = (page: Page) => ({
   connectCardEditIcon: page
     .getByTestId("card-connect")
     .locator("div.cursor-pointer")
-    .first(),
+    .first(), // Keep as is - CSS class selector
 
   // Media elements
   imageCarousel: page.getByTestId("image-carousel"),

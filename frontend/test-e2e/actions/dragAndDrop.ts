@@ -25,7 +25,7 @@ export async function getResourceCardOrder(page: Page): Promise<string[]> {
   for (let i = 0; i < count; i++) {
     const card = resourceCards.nth(i);
     // The resource name is in an h3 element within the card
-    const nameElement = card.locator("h3").first();
+    const nameElement = card.getByRole("heading", { level: 3 }).first();
     const name = await nameElement.textContent();
     if (name) {
       resourceNames.push(name.trim());

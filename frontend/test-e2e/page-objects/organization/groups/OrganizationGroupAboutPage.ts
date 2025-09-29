@@ -63,7 +63,7 @@ export class OrganizationGroupAboutPage {
 
   // Tab navigation
   get tabs() {
-    return this.page.locator('[role="tablist"]');
+    return this.page.getByRole("tablist");
   }
 
   get aboutTab() {

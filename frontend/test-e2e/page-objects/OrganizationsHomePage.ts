@@ -6,7 +6,7 @@ import { getEnglishText } from "~/utils/i18n";
 export const newOrganizationsHomePage = (page: Page) => ({
   // Page elements
   heading: page.getByRole("heading", { level: 1 }),
-  comboboxButton: page.locator('input[role="combobox"].style-cta'),
+  comboboxButton: page.getByRole("combobox"),
 
   // Organization cards
   organizationLink: page
@@ -47,7 +47,7 @@ export const newOrganizationsHomePage = (page: Page) => ({
     .getByTestId("menu-button"),
 
   // Modal elements
-  shareModal: page.locator("#modal").first(),
+  shareModal: page.locator("#modal").first(), // Keep as is - generic modal selector
   closeModalButton: (shareModal: Locator) =>
     shareModal.getByTestId("modal-close-button"),
 });

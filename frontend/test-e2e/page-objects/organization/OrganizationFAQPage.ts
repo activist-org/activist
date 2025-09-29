@@ -42,22 +42,37 @@ export const newOrganizationFAQPage = (page: Page) => ({
 
   // Empty state
   emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(), // Keep as is - generic text selector
 
   // Modal elements (opened by new FAQ button)
-  faqModal: page.locator("#modal").first(),
+  faqModal: page.locator("#modal").first(), // Keep as is - generic modal selector
   faqModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
 
   // Edit modal elements (opened by edit button)
-  editFAQModal: page.locator("#modal").first(),
+  editFAQModal: page.locator("#modal").first(), // Keep as is - generic modal selector
   editFAQModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
 
   // Form elements within FAQ modal (using specific IDs from the form)
-  faqQuestionInput: (modal: Locator) => modal.locator("#form-item-question"),
-  faqAnswerInput: (modal: Locator) => modal.locator("#form-item-answer"),
-  faqSubmitButton: (modal: Locator) => modal.locator("#form-submit-id"),
+  faqQuestionInput: (modal: Locator) =>
+    modal.getByRole("textbox", {
+      name: new RegExp(
+        getEnglishText("i18n.components.form_faq_entry.question"),
+        "i"
+      ),
+    }),
+  faqAnswerInput: (modal: Locator) =>
+    modal.getByRole("textbox", {
+      name: new RegExp(
+        getEnglishText("i18n.components.form_faq_entry.answer"),
+        "i"
+      ),
+    }),
+  faqSubmitButton: (modal: Locator) =>
+    modal.getByRole("button", {
+      name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
+    }),
 
   // Utility methods
   getFAQCount: async () => {

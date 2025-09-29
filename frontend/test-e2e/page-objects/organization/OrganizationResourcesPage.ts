@@ -47,24 +47,38 @@ export const newOrganizationResourcesPage = (page: Page) => ({
 
   // Empty state
   emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(), // Keep as is - generic text selector
 
   // Modal elements (opened by new resource button)
-  resourceModal: page.locator("#modal").first(),
+  resourceModal: page.locator("#modal").first(), // Keep as is - generic modal selector
   resourceModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
 
   // Edit modal elements (opened by edit button)
-  editResourceModal: page.locator("#modal").first(),
+  editResourceModal: page.locator("#modal").first(), // Keep as is - generic modal selector
   editResourceModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
 
   // Form elements within edit modal (using specific IDs from the form)
-  resourceNameInput: (modal: Locator) => modal.locator("#form-item-name"),
+  resourceNameInput: (modal: Locator) =>
+    modal.getByRole("textbox", {
+      name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
+    }),
   resourceDescriptionInput: (modal: Locator) =>
-    modal.locator("#form-item-description"),
-  resourceUrlInput: (modal: Locator) => modal.locator("#form-item-url"),
-  resourceSubmitButton: (modal: Locator) => modal.locator("#form-submit-id"),
+    modal.getByRole("textbox", {
+      name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+    }),
+  resourceUrlInput: (modal: Locator) =>
+    modal.getByRole("textbox", {
+      name: new RegExp(
+        getEnglishText("i18n.components.form_resource.link"),
+        "i"
+      ),
+    }),
+  resourceSubmitButton: (modal: Locator) =>
+    modal.getByRole("button", {
+      name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
+    }),
 
   // Utility methods
   getResourceCount: async () => {

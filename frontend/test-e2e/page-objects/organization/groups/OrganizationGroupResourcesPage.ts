@@ -64,7 +64,10 @@ export class OrganizationGroupResourcesPage {
   }
 
   getResourceTitle(index: number) {
-    return this.page.getByTestId("resource-card").nth(index).locator("h3");
+    return this.page
+      .getByTestId("resource-card")
+      .nth(index)
+      .getByRole("heading", { level: 3 });
   }
 
   // Resource menu interactions
@@ -105,7 +108,7 @@ export class OrganizationGroupResourcesPage {
   }
 
   get emptyStateMessage() {
-    return this.emptyState.locator("h4").first();
+    return this.emptyState.getByRole("heading", { level: 4 }).first();
   }
 
   // Modal elements (opened by new resource button)
@@ -128,24 +131,35 @@ export class OrganizationGroupResourcesPage {
 
   // Form elements within edit modal (using specific IDs from the form)
   getResourceNameInput(modal: Locator) {
-    return modal.locator("#form-item-name");
+    return modal.getByRole("textbox", {
+      name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
+    });
   }
 
   getResourceDescriptionInput(modal: Locator) {
-    return modal.locator("#form-item-description");
+    return modal.getByRole("textbox", {
+      name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+    });
   }
 
   getResourceUrlInput(modal: Locator) {
-    return modal.locator("#form-item-url");
+    return modal.getByRole("textbox", {
+      name: new RegExp(
+        getEnglishText("i18n.components.form_resource.link"),
+        "i"
+      ),
+    });
   }
 
   getResourceSubmitButton(modal: Locator) {
-    return modal.locator('button[type="submit"]');
+    return modal.getByRole("button", {
+      name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
+    });
   }
 
   // Tab navigation
   get tabs() {
-    return this.page.locator('[role="tablist"]');
+    return this.page.getByRole("tablist");
   }
 
   get aboutTab() {

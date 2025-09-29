@@ -21,11 +21,11 @@ export class OrganizationGroupEventsPage {
 
   // Events list and cards
   get eventsList() {
-    return this.page.locator(".space-y-3.py-4");
+    return this.page.locator(".space-y-3.py-4"); // Keep as is - CSS class selector
   }
 
   get eventCards() {
-    return this.page.locator('[data-testid="event-card"]');
+    return this.page.getByTestId("event-card");
   }
 
   get firstEventCard() {
@@ -42,12 +42,12 @@ export class OrganizationGroupEventsPage {
   }
 
   get emptyStateMessage() {
-    return this.emptyState.locator("h4").first();
+    return this.emptyState.getByRole("heading", { level: 4 }).first();
   }
 
   // Tab navigation
   get tabs() {
-    return this.page.locator('[role="tablist"]');
+    return this.page.getByRole("tablist");
   }
 
   get aboutTab() {
@@ -135,23 +135,21 @@ export class OrganizationGroupEventsPage {
   }
 
   getEventLink(index: number) {
-    return this.eventCards.nth(index).locator("a").first();
+    return this.eventCards.nth(index).getByRole("link").first();
   }
 
   async getEventTitle(index: number) {
     const eventCard = this.eventCards.nth(index);
-    return await eventCard.locator('[data-testid="event-title"]').textContent();
+    return await eventCard.getByTestId("event-title").textContent();
   }
 
   async getEventDate(index: number) {
     const eventCard = this.eventCards.nth(index);
-    return await eventCard.locator('[data-testid="event-date"]').textContent();
+    return await eventCard.getByTestId("event-date").textContent();
   }
 
   async getEventLocation(index: number) {
     const eventCard = this.eventCards.nth(index);
-    return await eventCard
-      .locator('[data-testid="event-location"]')
-      .textContent();
+    return await eventCard.getByTestId("event-location").textContent();
   }
 }

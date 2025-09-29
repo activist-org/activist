@@ -11,7 +11,12 @@ export const newSignInPage = (page: Page) => ({
     getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
   ),
   passwordInput: page.getByLabel(getEnglishText("i18n._global.enter_password")),
-  showPasswordToggle: page.locator("#form-item-password-show-password"),
+  showPasswordToggle: page.getByRole("button", {
+    name: new RegExp(
+      getEnglishText("i18n.components.form_text_input_password.show_password"),
+      "i"
+    ),
+  }),
   captcha: page.getByRole("button", {
     name: new RegExp(
       getEnglishText(

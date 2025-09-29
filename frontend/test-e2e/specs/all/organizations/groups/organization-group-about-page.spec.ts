@@ -7,6 +7,7 @@ import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigatio
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 import { submitModalWithRetry } from "~/test-e2e/utils/modalHelpers";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   // Sign in as admin to access edit functionality
@@ -119,9 +120,8 @@ test.describe(
       });
 
       await withTestStep(testInfo, "Close share modal", async () => {
-        const closeModalButton = groupAboutPage.shareModal.locator(
-          '[data-testid="modal-close-button"]'
-        );
+        const closeModalButton =
+          groupAboutPage.shareModal.getByTestId("modal-close-button");
         await expect(closeModalButton).toBeVisible();
         await closeModalButton.click({ force: true });
 
@@ -152,19 +152,22 @@ test.describe(
       await expect(groupAboutPage.textModal).toBeVisible();
 
       // Verify the form and its fields are present
-      const editForm = groupAboutPage.textModal.locator("form");
+      const editForm = groupAboutPage.textModal.getByRole("form");
       await expect(editForm).toBeVisible();
 
       // Verify specific editable text fields
-      const descriptionField = groupAboutPage.textModal.locator(
-        "#form-item-description"
-      );
-      const getInvolvedField = groupAboutPage.textModal.locator(
-        "#form-item-getInvolved"
-      );
-      const joinUrlField = groupAboutPage.textModal.locator(
-        "#form-item-getInvolvedUrl"
-      );
+      const descriptionField = groupAboutPage.textModal.getByRole("textbox", {
+        name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+      });
+      const getInvolvedField = groupAboutPage.textModal.getByRole("textbox", {
+        name: new RegExp(
+          getEnglishText("i18n.components._global.get_involved"),
+          "i"
+        ),
+      });
+      const joinUrlField = groupAboutPage.textModal.getByRole("textbox", {
+        name: new RegExp(getEnglishText("i18n._global.join_url"), "i"),
+      });
 
       await expect(descriptionField).toBeVisible();
       await expect(descriptionField).toBeEditable();
@@ -194,9 +197,9 @@ test.describe(
       await expect(joinUrlField).toHaveValue(customJoinUrl);
 
       // Submit the form to save changes
-      const submitButton = groupAboutPage.textModal.locator(
-        'button[type="submit"]'
-      );
+      const submitButton = groupAboutPage.textModal.getByRole("button", {
+        name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
+      });
       await expect(submitButton).toBeVisible();
       await expect(submitButton).toContainText("Update texts");
       await submitButton.click();
