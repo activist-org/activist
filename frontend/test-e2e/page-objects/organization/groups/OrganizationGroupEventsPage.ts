@@ -40,7 +40,7 @@ export class OrganizationGroupEventsPage {
   }
 
   get emptyStateMessage() {
-    return this.emptyState.locator("h4");
+    return this.emptyState.locator("h4").first();
   }
 
   // Tab navigation
