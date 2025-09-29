@@ -172,34 +172,45 @@ test.describe(
         await expect(firstFaqDragHandle).toContainClass("drag-handle");
         await expect(secondFaqDragHandle).toContainClass("drag-handle");
 
-        // Get drag handle positions for direct mouse operations
-        const firstHandleBox = await groupFaqPage.getFaqDragHandlePosition(0);
-        const secondHandleBox = await groupFaqPage.getFaqDragHandlePosition(1);
+        // Use mouse events for reliable drag and drop
+        const firstBox = await groupFaqPage.getFaqDragHandlePosition(0);
+        const secondBox = await groupFaqPage.getFaqDragHandlePosition(1);
 
-        if (firstHandleBox && secondHandleBox) {
-          // Perform simple drag and drop from first to second position
-          await page.mouse.move(
-            firstHandleBox.x + firstHandleBox.width / 2,
-            firstHandleBox.y + firstHandleBox.height / 2
-          );
+        if (firstBox && secondBox) {
+          const startX = firstBox.x + firstBox.width / 2;
+          const startY = firstBox.y + firstBox.height / 2;
+          const endX = secondBox.x + secondBox.width / 2;
+          const endY = secondBox.y + secondBox.height / 2;
+
+          // Simulate drag with mouse events
+          await page.mouse.move(startX, startY);
           await page.mouse.down();
-          await page.mouse.move(
-            secondHandleBox.x + secondHandleBox.width / 2,
-            secondHandleBox.y + secondHandleBox.height / 2
-          );
+          await page.waitForTimeout(100);
+
+          // Move to target with intermediate steps
+          const steps = 5;
+          for (let i = 1; i <= steps; i++) {
+            const progress = i / steps;
+            const currentX = startX + (endX - startX) * progress;
+            const currentY = startY + (endY - startY) * progress;
+            await page.mouse.move(currentX, currentY);
+            await page.waitForTimeout(50);
+          }
+
           await page.mouse.up();
-
-          // Wait for the reorder operation to complete
-          await page.waitForLoadState("networkidle");
-
-          // Get final order after drag operation
-          const finalFirstQuestion = await groupFaqPage.getFaqQuestionText(0);
-          const finalSecondQuestion = await groupFaqPage.getFaqQuestionText(1);
-
-          // Verify the drag operation worked (first and second should be swapped)
-          expect(finalFirstQuestion).toBe(secondQuestion);
-          expect(finalSecondQuestion).toBe(firstQuestion);
+          await page.waitForTimeout(200);
         }
+
+        // Wait for the reorder operation to complete
+        await page.waitForLoadState("networkidle");
+
+        // Get final order after drag operation
+        const finalFirstQuestion = await groupFaqPage.getFaqQuestionText(0);
+        const finalSecondQuestion = await groupFaqPage.getFaqQuestionText(1);
+
+        // Verify the drag operation worked (first and second should be swapped)
+        expect(finalFirstQuestion).toBe(secondQuestion);
+        expect(finalSecondQuestion).toBe(firstQuestion);
       } else {
         // Skip test if insufficient FAQ entries for drag and drop testing
         test.skip(
