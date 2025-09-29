@@ -11,7 +11,7 @@ export const newSignInPage = (page: Page) => ({
     getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
   ),
   passwordInput: page.getByLabel(getEnglishText("i18n._global.enter_password")),
-  showPasswordToggle: page.getByTestId("password-show-password"),
+  showPasswordToggle: page.getByTestId("form-item-password-show-password"),
   captcha: page.getByRole("button", {
     name: new RegExp(
       getEnglishText(
