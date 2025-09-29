@@ -108,6 +108,26 @@ test.describe(
       });
     });
 
+    test("User can share the group page", async ({ page }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const groupAboutPage = organizationPage.groupAboutPage;
+
+      await withTestStep(testInfo, "Open share modal", async () => {
+        await groupAboutPage.clickShare();
+        await expect(groupAboutPage.shareModal).toBeVisible();
+      });
+
+      await withTestStep(testInfo, "Close share modal", async () => {
+        const closeModalButton = groupAboutPage.shareModal.locator(
+          '[data-testid="modal-close-button"]'
+        );
+        await expect(closeModalButton).toBeVisible();
+        await closeModalButton.click({ force: true });
+        await expect(groupAboutPage.shareModal).not.toBeVisible();
+      });
+    });
+
     test("User can edit the About section", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
