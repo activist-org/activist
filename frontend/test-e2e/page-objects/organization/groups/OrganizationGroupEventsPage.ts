@@ -19,7 +19,7 @@ export class OrganizationGroupEventsPage {
 
   // Events list and cards
   get eventsList() {
-    return this.page.getByTestId("organization-events-list");
+    return this.page.locator(".space-y-3.py-4");
   }
 
   get eventCards() {
@@ -36,11 +36,11 @@ export class OrganizationGroupEventsPage {
 
   // Empty state
   get emptyState() {
-    return this.page.locator('[data-testid="empty-state"]');
+    return this.page.getByTestId("empty-state");
   }
 
   get emptyStateMessage() {
-    return this.emptyState.getByText(/no events found/i);
+    return this.emptyState.locator("h4");
   }
 
   // Tab navigation
