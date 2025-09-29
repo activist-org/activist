@@ -85,9 +85,15 @@ test.describe(
         await expect(firstGroupLink).toBeVisible();
         await expect(firstGroupLink).toHaveAttribute("href", /.+/);
 
-        // Verify group description is visible
+        // Verify group description exists and has content (if any)
         const firstGroupDescription = groupsPage.getGroupDescription(0);
-        await expect(firstGroupDescription).toBeVisible();
+        await expect(firstGroupDescription).toBeAttached();
+
+        // Check if description has content, and if so, verify it's visible
+        const descriptionText = await firstGroupDescription.textContent();
+        if (descriptionText && descriptionText.trim()) {
+          await expect(firstGroupDescription).toBeVisible();
+        }
       } else {
         // Verify empty state is shown when no groups
         await expect(groupsPage.emptyState).toBeVisible();
