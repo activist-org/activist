@@ -4,15 +4,20 @@
     <TabGroup @change="changeTab" manual :selectedIndex="props.selectedTab">
       <TabList class="flex flex-row">
         <Tab v-for="tab in tabs" :key="tab.id" class="w-full">
-          <NuxtLink
+          <div
+            @click="changeTab(tab.id)"
+            @keydown.enter="changeTab(tab.id)"
+            @keydown.space="changeTab(tab.id)"
             class="focus-brand flex w-full items-center justify-center rounded-none border-[1px] border-primary-text px-3 py-1"
             :class="{
               'bg-menu-selection text-layer-1 hover:bg-menu-selection/90':
                 tab.id == props.selectedTab,
-              'bg-layer-2 text-primary-text hover:bg-highlight':
+              'bg-layer-2 text-primary-text-over-layer-2 hover:bg-highlight':
                 tab.id != props.selectedTab,
             }"
-            :to="localePath(tab.routeUrl)"
+            role="tab"
+            :aria-selected="tab.id == props.selectedTab"
+            :tabindex="tab.id == props.selectedTab ? 0 : -1"
           >
             <div v-if="!aboveMediumBP && tab.iconName">
               <Icon :name="tab.iconName" size="1em" />
@@ -20,7 +25,7 @@
             <p>
               {{ tab.label }}
             </p>
-          </NuxtLink>
+          </div>
         </Tab>
       </TabList>
     </TabGroup>
@@ -39,12 +44,11 @@ const props = defineProps<{
 
 const aboveMediumBP = useBreakpoint("md");
 
-const localePath = useLocalePath();
 const nuxtApp = useNuxtApp();
 const router = useRouter();
 
-function changeTab(index: number) {
-  const selectedTab = props.tabs[index]?.routeUrl;
+function changeTab(tabId: number) {
+  const selectedTab = props.tabs.find((tab) => tab.id === tabId)?.routeUrl;
   if (selectedTab) {
     router.push(nuxtApp.$localePath(selectedTab));
   }
