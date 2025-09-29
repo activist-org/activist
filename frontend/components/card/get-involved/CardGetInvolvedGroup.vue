@@ -20,6 +20,7 @@
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="i18n._global.join_group_aria_label"
+          data-testid="get-involved-join-button"
         />
       </div>
     </div>

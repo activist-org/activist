@@ -18,6 +18,7 @@
         <a
           :href="socLink.link"
           class="flex cursor-pointer items-center gap-3 break-all text-primary-text transition-all hover:text-distinct-text"
+          data-testid="social-link"
         >
           <Icon
             v-if="socLink.link.includes('mastodon')"

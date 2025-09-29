@@ -14,6 +14,7 @@
         expand_reduce_text();
       "
       class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
+      data-testid="collapse-text-button"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -61,6 +62,7 @@
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
               "
+              data-testid="expand-text-button"
             >
               {{ $t("i18n.components.card.about._global.full_text") }}
             </button>
@@ -74,6 +76,7 @@
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
+              data-testid="collapse-text-button"
             >
               {{ $t("i18n.components.card.about._global.reduce_text") }}
             </button>
