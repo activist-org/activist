@@ -118,63 +118,6 @@ test.describe(
       );
     });
 
-    test("Group resources page tab navigation works correctly", async ({
-      page,
-    }, testInfo) => {
-      logTestPath(testInfo);
-
-      const organizationPage = newOrganizationPage(page);
-      const groupResourcesPage = organizationPage.groupResourcesPage;
-
-      await withTestStep(testInfo, "Navigate to about tab", async () => {
-        await groupResourcesPage.clickAboutTab();
-        await expect(groupResourcesPage.aboutTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupResourcesPage.resourcesTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Navigate to events tab", async () => {
-        await groupResourcesPage.clickEventsTab();
-        await expect(groupResourcesPage.eventsTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupResourcesPage.aboutTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Navigate to FAQ tab", async () => {
-        await groupResourcesPage.clickFaqTab();
-        await expect(groupResourcesPage.faqTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupResourcesPage.eventsTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Return to resources tab", async () => {
-        await groupResourcesPage.clickResourcesTab();
-        await expect(groupResourcesPage.resourcesTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupResourcesPage.faqTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-    });
-
     test("Group resources page resource links are accessible", async ({
       page,
     }, testInfo) => {

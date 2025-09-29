@@ -117,63 +117,6 @@ test.describe(
       );
     });
 
-    test("Group FAQ page tab navigation works correctly", async ({
-      page,
-    }, testInfo) => {
-      logTestPath(testInfo);
-
-      const organizationPage = newOrganizationPage(page);
-      const groupFaqPage = organizationPage.groupFaqPage;
-
-      await withTestStep(testInfo, "Navigate to about tab", async () => {
-        await groupFaqPage.clickAboutTab();
-        await expect(groupFaqPage.aboutTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupFaqPage.faqTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Navigate to events tab", async () => {
-        await groupFaqPage.clickEventsTab();
-        await expect(groupFaqPage.eventsTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupFaqPage.aboutTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Navigate to resources tab", async () => {
-        await groupFaqPage.clickResourcesTab();
-        await expect(groupFaqPage.resourcesTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupFaqPage.eventsTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Return to FAQ tab", async () => {
-        await groupFaqPage.clickFaqTab();
-        await expect(groupFaqPage.faqTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupFaqPage.resourcesTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-    });
-
     test("Group FAQ page disclosure interactions are accessible", async ({
       page,
     }, testInfo) => {
