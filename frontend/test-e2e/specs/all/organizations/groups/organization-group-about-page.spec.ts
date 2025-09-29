@@ -166,7 +166,10 @@ test.describe(
         ),
       });
       const joinUrlField = groupAboutPage.textModal.getByRole("textbox", {
-        name: new RegExp(getEnglishText("i18n._global.join_url"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components.modal_text_group.join_group_link"),
+          "i"
+        ),
       });
 
       await expect(descriptionField).toBeVisible();
