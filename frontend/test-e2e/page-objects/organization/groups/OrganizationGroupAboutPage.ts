@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
+
+import { expect } from "@playwright/test";
 
 import { getEnglishText } from "~/utils/i18n";
 
@@ -99,20 +101,41 @@ export class OrganizationGroupAboutPage {
     await this.shareButton.click();
   }
 
+  // Helper method to wait for tab state to update
+  private async waitForTabState(tab: Locator, expectedSelected: boolean) {
+    await tab.waitFor({ state: "attached" });
+    await expect(tab).toHaveAttribute(
+      "aria-selected",
+      expectedSelected.toString()
+    );
+  }
+
   async clickAboutTab() {
     await this.aboutTab.click();
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForURL(/.*\/groups\/.*\/about/);
+    await this.waitForTabState(this.aboutTab, true);
   }
 
   async clickEventsTab() {
     await this.eventsTab.click();
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForURL(/.*\/groups\/.*\/events/);
+    await this.waitForTabState(this.eventsTab, true);
   }
 
   async clickResourcesTab() {
     await this.resourcesTab.click();
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForURL(/.*\/groups\/.*\/resources/);
+    await this.waitForTabState(this.resourcesTab, true);
   }
 
   async clickFaqTab() {
     await this.faqTab.click();
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForURL(/.*\/groups\/.*\/faq/);
+    await this.waitForTabState(this.faqTab, true);
   }
 
   async expandReduceText() {
