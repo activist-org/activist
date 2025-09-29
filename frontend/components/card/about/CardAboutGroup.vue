@@ -14,7 +14,7 @@
         expand_reduce_text();
       "
       class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
-      data-testid="collapse-text-button"
+      data-testid="collapse-text-icon-button"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>

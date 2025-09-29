@@ -497,7 +497,10 @@ test.describe(
       const expandButton = groupAboutPage.aboutCard.locator(
         '[data-testid="expand-text-button"]'
       );
-      const collapseButton = groupAboutPage.aboutCard.locator(
+      const collapseIconButton = groupAboutPage.aboutCard.locator(
+        '[data-testid="collapse-text-icon-button"]'
+      );
+      const collapseTextButton = groupAboutPage.aboutCard.locator(
         '[data-testid="collapse-text-button"]'
       );
 
@@ -505,16 +508,27 @@ test.describe(
       if (await expandButton.isVisible()) {
         await withTestStep(testInfo, "Expand text", async () => {
           await expandButton.click();
-          await expect(collapseButton).toBeVisible();
+          // Check for either type of collapse button
+          const hasCollapseIcon = await collapseIconButton.isVisible();
+          const hasCollapseText = await collapseTextButton.isVisible();
+          expect(hasCollapseIcon || hasCollapseText).toBe(true);
           await expect(expandButton).not.toBeVisible();
         });
 
-        // If collapse button is visible, click it to collapse text
-        if (await collapseButton.isVisible()) {
+        // If any collapse button is visible, click it to collapse text
+        const hasCollapseIcon = await collapseIconButton.isVisible();
+        const hasCollapseText = await collapseTextButton.isVisible();
+
+        if (hasCollapseIcon || hasCollapseText) {
           await withTestStep(testInfo, "Collapse text", async () => {
-            await collapseButton.click();
+            if (hasCollapseIcon) {
+              await collapseIconButton.click();
+            } else if (hasCollapseText) {
+              await collapseTextButton.click();
+            }
             await expect(expandButton).toBeVisible();
-            await expect(collapseButton).not.toBeVisible();
+            await expect(collapseIconButton).not.toBeVisible();
+            await expect(collapseTextButton).not.toBeVisible();
           });
         }
       }
