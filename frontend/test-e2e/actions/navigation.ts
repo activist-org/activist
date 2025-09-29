@@ -178,3 +178,66 @@ export async function navigateToFirstOrganizationEvent(page: Page) {
     eventsPage,
   };
 }
+
+/**
+ * Navigate to a group subpage within an organization
+ * @param page - Playwright page object
+ * @param subpage - The group subpage to navigate to (e.g., 'about', 'events', 'faq', 'resources')
+ * @returns Object containing organizationId, groupId, and organizationPage
+ */
+export async function navigateToOrganizationGroupSubpage(
+  page: Page,
+  subpage: string
+) {
+  // First navigate to the first organization
+  const { organizationId, organizationPage } =
+    await navigateToFirstOrganization(page);
+
+  // Navigate to the Groups tab
+  await organizationPage.menu.groupsOption.click();
+  await expect(page).toHaveURL(/.*\/organizations\/.*\/groups/);
+
+  // Check if there are any groups available
+  const groupsPage = organizationPage.groupsPage;
+  const groupCount = await groupsPage.getGroupCount();
+
+  if (groupCount === 0) {
+    throw new Error("No groups available to navigate to");
+  }
+
+  // Get the first group's URL before navigating
+  const firstGroupLink = groupsPage.getGroupLink(0);
+  const groupUrl = await firstGroupLink.getAttribute("href");
+
+  if (!groupUrl) {
+    throw new Error("Could not get group URL");
+  }
+
+  // Extract group ID from the URL (assuming format like /groups/{uuid})
+  const groupId = groupUrl.match(/\/groups\/([a-f0-9-]{36})/)?.[1];
+
+  if (!groupId) {
+    throw new Error("Could not extract group ID from URL");
+  }
+
+  // Navigate to the first group
+  await groupsPage.navigateToGroup(0);
+
+  // Wait for navigation to the group page
+  await page.waitForURL(`**/groups/${groupId}/**`);
+
+  // Navigate to the specific subpage
+  const groupSubpageUrl = `/organizations/${organizationId}/groups/${groupId}/${subpage}`;
+  await page.goto(groupSubpageUrl);
+  await page.waitForURL(`**/groups/${groupId}/${subpage}`);
+
+  // Verify we're on the correct group subpage
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  return {
+    organizationId,
+    groupId,
+    organizationPage,
+    groupsPage,
+  };
+}
