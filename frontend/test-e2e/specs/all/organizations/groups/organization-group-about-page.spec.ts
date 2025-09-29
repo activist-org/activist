@@ -124,7 +124,11 @@ test.describe(
         );
         await expect(closeModalButton).toBeVisible();
         await closeModalButton.click({ force: true });
-        await expect(groupAboutPage.shareModal).not.toBeVisible();
+
+        // Wait for the modal to actually close
+        await expect(groupAboutPage.shareModal).not.toBeVisible({
+          timeout: 10000,
+        });
       });
     });
 
