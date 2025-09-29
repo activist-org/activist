@@ -7,7 +7,7 @@
           <div
             class="focus-brand flex w-full items-center justify-center rounded-none border-[1px] border-primary-text px-3 py-1"
             :class="{
-              'bg-menu-selection text-layer-1 hover:bg-menu-selection/90':
+              'bg-menu-selection text-primary-text hover:bg-menu-selection/90':
                 tab.id == props.selectedTab,
               'bg-layer-2 text-distinct-text-over-layer-2 hover:bg-highlight':
                 tab.id != props.selectedTab,
