@@ -104,10 +104,30 @@ export class OrganizationGroupAboutPage {
   // Helper method to wait for tab state to update
   private async waitForTabState(tab: Locator, expectedSelected: boolean) {
     await tab.waitFor({ state: "attached" });
-    await expect(tab).toHaveAttribute(
-      "aria-selected",
-      expectedSelected.toString()
+
+    // Wait for the specific tab to have the correct aria-selected state
+    await this.page.waitForFunction(
+      ({ tabSelector, expected }) => {
+        const tabs = document.querySelectorAll(tabSelector);
+        for (const tab of tabs) {
+          if (tab.getAttribute("aria-selected") === expected) {
+            return true;
+          }
+        }
+        return false;
+      },
+      {
+        tabSelector: '[role="tab"]',
+        expected: expectedSelected.toString(),
+      },
+      { timeout: 10000 }
     );
+
+    // Additional verification with retry logic
+    await expect(async () => {
+      const ariaSelected = await tab.getAttribute("aria-selected");
+      expect(ariaSelected).toBe(expectedSelected.toString());
+    }).toPass({ timeout: 5000 });
   }
 
   async clickAboutTab() {
@@ -119,6 +139,7 @@ export class OrganizationGroupAboutPage {
 
   async clickEventsTab() {
     await this.eventsTab.click();
+    await this.page.waitForTimeout(500); // Allow UI to update
     await this.page.waitForLoadState("networkidle");
     await this.page.waitForURL(/.*\/groups\/.*\/events/);
     await this.waitForTabState(this.eventsTab, true);
@@ -126,6 +147,7 @@ export class OrganizationGroupAboutPage {
 
   async clickResourcesTab() {
     await this.resourcesTab.click();
+    await this.page.waitForTimeout(500); // Allow UI to update
     await this.page.waitForLoadState("networkidle");
     await this.page.waitForURL(/.*\/groups\/.*\/resources/);
     await this.waitForTabState(this.resourcesTab, true);
@@ -133,6 +155,7 @@ export class OrganizationGroupAboutPage {
 
   async clickFaqTab() {
     await this.faqTab.click();
+    await this.page.waitForTimeout(500); // Allow UI to update
     await this.page.waitForLoadState("networkidle");
     await this.page.waitForURL(/.*\/groups\/.*\/faq/);
     await this.waitForTabState(this.faqTab, true);
