@@ -184,10 +184,11 @@ test.describe(
       await organizationPage.aboutPage.connectCardEditIcon.click();
       await expect(organizationPage.socialLinksModal.modal).toBeVisible();
 
-      // Count existing social links
-      const initialCount = await organizationPage.socialLinksModal.modal
-        .locator('input[id^="form-item-socialLinks."][id$=".label"]')
-        .count();
+      // Count existing social links using role-based selectors
+      const existingLabelInputs = await organizationPage.socialLinksModal.modal
+        .getByRole("textbox")
+        .all();
+      const initialCount = existingLabelInputs.length;
 
       // Add a new social link
       const addButton = organizationPage.socialLinksModal.addButton(
@@ -198,9 +199,7 @@ test.describe(
 
       // Wait for the new entry to appear
       await expect(
-        organizationPage.socialLinksModal.modal.locator(
-          'input[id^="form-item-socialLinks."][id$=".label"]'
-        )
+        organizationPage.socialLinksModal.modal.getByRole("textbox")
       ).toHaveCount(initialCount + 1);
 
       // Use the newly added entry (at the last index)
@@ -260,7 +259,7 @@ test.describe(
 
       // Find the social link we created by looking for our unique label
       const availableEntries = await organizationPage.socialLinksModal.modal
-        .locator('input[id^="form-item-socialLinks."][id$=".label"]')
+        .getByRole("textbox")
         .all();
 
       if (availableEntries.length === 0) {
@@ -338,7 +337,7 @@ test.describe(
 
       // Get the current form entries
       const allLabelInputs = await organizationPage.socialLinksModal.modal
-        .locator('input[id^="form-item-socialLinks."][id$=".label"]')
+        .getByRole("textbox")
         .all();
 
       if (allLabelInputs.length === 0) {
