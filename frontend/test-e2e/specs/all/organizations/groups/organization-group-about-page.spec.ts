@@ -331,10 +331,10 @@ test.describe(
       // Use the newly added entry (at the last index)
       const newEntryIndex = initialCount;
       const newLabelField = groupAboutPage.socialLinksModal.locator(
-        `#form-item-socialLinks.${newEntryIndex}.label`
+        `[id="form-item-socialLinks.${newEntryIndex}.label"]`
       );
       const newUrlField = groupAboutPage.socialLinksModal.locator(
-        `#form-item-socialLinks.${newEntryIndex}.link`
+        `[id="form-item-socialLinks.${newEntryIndex}.link"]`
       );
 
       await expect(newLabelField).toBeVisible();
@@ -346,6 +346,10 @@ test.describe(
       // Verify the fields contain the entered text
       await expect(newLabelField).toHaveValue(newLabel);
       await expect(newUrlField).toHaveValue(newUrl);
+
+      // Ensure fields are not empty before submitting
+      expect(newLabel.trim()).toBeTruthy();
+      expect(newUrl.trim()).toBeTruthy();
 
       // Save the new social link with retry logic
       const submitButton = groupAboutPage.socialLinksModal.locator(
@@ -392,10 +396,10 @@ test.describe(
 
       // Edit the first social link (index 0)
       const editLabelField = groupAboutPage.socialLinksModal.locator(
-        "#form-item-socialLinks.0.label"
+        '[id="form-item-socialLinks.0.label"]'
       );
       const editUrlField = groupAboutPage.socialLinksModal.locator(
-        "#form-item-socialLinks.0.link"
+        '[id="form-item-socialLinks.0.link"]'
       );
 
       await expect(editLabelField).toBeVisible();
@@ -418,6 +422,10 @@ test.describe(
       // Verify the fields contain the updated text
       await expect(editLabelField).toHaveValue(updatedLabel);
       await expect(editUrlField).toHaveValue(updatedUrl);
+
+      // Ensure fields are not empty before submitting
+      expect(updatedLabel.trim()).toBeTruthy();
+      expect(updatedUrl.trim()).toBeTruthy();
 
       // Save the changes with retry logic
       const updateSubmitButton = groupAboutPage.socialLinksModal.locator(
