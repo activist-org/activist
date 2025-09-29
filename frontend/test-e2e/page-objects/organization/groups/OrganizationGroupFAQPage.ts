@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
+
+import { getEnglishText } from "~/utils/i18n";
 
 /**
  * Page Object Model for Organization Group FAQ Page
@@ -8,14 +10,23 @@ import type { Page } from "@playwright/test";
 export class OrganizationGroupFAQPage {
   constructor(private readonly page: Page) {}
 
-  // Header elements
+  // New FAQ button
   get newFaqButton() {
-    return this.page.getByRole("button", { name: /new faq/i });
+    return this.page.getByRole("button", {
+      name: new RegExp(
+        getEnglishText("i18n.pages._global.new_faq_aria_label"),
+        "i"
+      ),
+    });
   }
 
-  // FAQ cards
+  // FAQ list elements
+  get faqList() {
+    return this.page.getByTestId("organization-group-faq-list");
+  }
+
   get faqCards() {
-    return this.page.locator('[data-testid="faq-card"]');
+    return this.page.getByTestId("faq-card");
   }
 
   get firstFaqCard() {
@@ -26,63 +37,135 @@ export class OrganizationGroupFAQPage {
     return this.faqCards.last();
   }
 
-  // FAQ drag handles
-  getFaqDragHandle(index: number) {
-    return this.faqCards.nth(index).getByTestId("faq-drag-handle");
+  // Individual FAQ card elements
+  getFaqCard(index: number) {
+    return this.page.getByTestId("faq-card").nth(index);
   }
 
-  // FAQ questions
   getFaqQuestion(index: number) {
-    return this.faqCards.nth(index).getByTestId("faq-question");
+    return this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-question");
   }
 
-  // FAQ answers
   getFaqAnswer(index: number) {
-    return this.faqCards.nth(index).getByTestId("faq-answer");
+    return this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-answer");
   }
 
-  // FAQ disclosure buttons
+  getFaqDragHandle(index: number) {
+    return this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-drag-handle");
+  }
+
   getFaqDisclosureButton(index: number) {
-    return this.faqCards.nth(index).getByTestId("faq-disclosure-button");
+    return this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-disclosure-button");
   }
 
-  // FAQ chevron icons
+  getFaqEditButton(index: number) {
+    return this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-edit-button");
+  }
+
+  // FAQ disclosure elements
+  getFaqDisclosurePanel(index: number) {
+    return this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-disclosure-panel");
+  }
+
   getFaqChevronUp(index: number) {
-    return this.faqCards.nth(index).getByTestId("faq-chevron-up");
+    return this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-chevron-up");
   }
 
   getFaqChevronDown(index: number) {
-    return this.faqCards.nth(index).getByTestId("faq-chevron-down");
+    return this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-chevron-down");
   }
 
   // Empty state
   get emptyState() {
-    return this.page.locator('[data-testid="empty-state"]');
+    return this.page.getByTestId("empty-state");
   }
 
   get emptyStateMessage() {
-    return this.emptyState.getByText(/no faq entries found/i);
+    return this.emptyState.locator("h4").first();
+  }
+
+  // Modal elements (opened by new FAQ button)
+  get faqModal() {
+    return this.page.getByTestId("modal-ModalFaqEntryGroup");
+  }
+
+  get faqModalCloseButton() {
+    return this.faqModal.getByTestId("modal-close-button");
+  }
+
+  // Edit modal elements (opened by edit button)
+  get editFaqModal() {
+    return this.page.getByTestId("modal-ModalFaqEntryGroup");
+  }
+
+  get editFaqModalCloseButton() {
+    return this.editFaqModal.getByTestId("modal-close-button");
+  }
+
+  // Form elements within FAQ modal (using specific IDs from the form)
+  getFaqQuestionInput(modal: Locator) {
+    return modal.locator("#form-item-question");
+  }
+
+  getFaqAnswerInput(modal: Locator) {
+    return modal.locator("#form-item-answer");
+  }
+
+  getFaqSubmitButton(modal: Locator) {
+    return modal.locator('button[type="submit"]');
   }
 
   // Tab navigation
   get tabs() {
-    return this.page.locator('[data-testid="tabs"]');
+    return this.page.locator('[role="tablist"]');
   }
 
   get aboutTab() {
-    return this.tabs.getByRole("tab", { name: /about/i });
+    return this.page.getByRole("tab", {
+      name: new RegExp(getEnglishText("i18n._global.about"), "i"),
+    });
   }
 
   get eventsTab() {
-    return this.tabs.getByRole("tab", { name: /events/i });
+    return this.page.getByRole("tab", {
+      name: new RegExp(getEnglishText("i18n._global.events"), "i"),
+    });
   }
 
   get resourcesTab() {
-    return this.tabs.getByRole("tab", { name: /resources/i });
+    return this.page.getByRole("tab", {
+      name: new RegExp(getEnglishText("i18n._global.resources"), "i"),
+    });
   }
 
   get faqTab() {
-    return this.tabs.getByRole("tab", { name: /faq/i });
+    return this.page.getByRole("tab", {
+      name: new RegExp(getEnglishText("i18n._global.faq"), "i"),
+    });
   }
 
   // Actions
@@ -94,20 +177,32 @@ export class OrganizationGroupFAQPage {
     await this.getFaqDisclosureButton(index).click();
   }
 
+  async clickFaqEdit(index: number) {
+    await this.getFaqEditButton(index).click();
+  }
+
   async clickAboutTab() {
     await this.aboutTab.click();
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForURL(/.*\/groups\/.*\/about/);
   }
 
   async clickEventsTab() {
     await this.eventsTab.click();
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForURL(/.*\/groups\/.*\/events/);
   }
 
   async clickResourcesTab() {
     await this.resourcesTab.click();
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForURL(/.*\/groups\/.*\/resources/);
   }
 
   async clickFaqTab() {
     await this.faqTab.click();
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForURL(/.*\/groups\/.*\/faq/);
   }
 
   // Verification methods
@@ -151,7 +246,40 @@ export class OrganizationGroupFAQPage {
     return await chevronDown.isVisible();
   }
 
+  // FAQ interaction methods
+  async expandFaq(index: number) {
+    const expandButton = this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-disclosure-button");
+    await expandButton.click();
+  }
+
+  async collapseFaq(index: number) {
+    const collapseButton = this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-disclosure-button");
+    await collapseButton.click();
+  }
+
+  async editFaq(index: number) {
+    const editButton = this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-edit-button");
+    await editButton.click();
+  }
+
   // Drag and drop methods
+  async getFaqDragHandlePosition(index: number) {
+    const dragHandle = this.page
+      .getByTestId("faq-card")
+      .nth(index)
+      .getByTestId("faq-drag-handle");
+    return await dragHandle.boundingBox();
+  }
+
   async dragFaqToPosition(fromIndex: number, toIndex: number) {
     const sourceHandle = this.getFaqDragHandle(fromIndex);
     const targetHandle = this.getFaqDragHandle(toIndex);

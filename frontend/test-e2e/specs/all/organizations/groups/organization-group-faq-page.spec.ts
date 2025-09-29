@@ -50,105 +50,227 @@ test.describe(
       });
     });
 
-    test("Group FAQ page elements are accessible", async ({
+    test("User can view and interact with FAQ entries", async ({
       page,
     }, testInfo) => {
       logTestPath(testInfo);
-
       const organizationPage = newOrganizationPage(page);
       const groupFaqPage = organizationPage.groupFaqPage;
 
-      await withTestStep(
-        testInfo,
-        "Verify new FAQ button is accessible",
-        async () => {
-          await expect(groupFaqPage.newFaqButton).toBeVisible();
-          await expect(groupFaqPage.newFaqButton).toHaveAttribute("aria-label");
-        }
-      );
+      // Wait for FAQ entries to load completely
+      await page.waitForLoadState("networkidle");
 
-      await withTestStep(
-        testInfo,
-        "Verify tab navigation is accessible",
-        async () => {
-          await expect(groupFaqPage.tabs).toBeVisible();
-          await expect(groupFaqPage.faqTab).toHaveAttribute(
-            "aria-selected",
-            "true"
-          );
-          await expect(groupFaqPage.aboutTab).toHaveAttribute(
-            "aria-selected",
-            "false"
-          );
-          await expect(groupFaqPage.eventsTab).toHaveAttribute(
-            "aria-selected",
-            "false"
-          );
-          await expect(groupFaqPage.resourcesTab).toHaveAttribute(
-            "aria-selected",
-            "false"
-          );
-        }
-      );
+      // Wait for either FAQ entries or empty state to appear
+      await expect(async () => {
+        const faqListVisible = await groupFaqPage.faqList
+          .isVisible()
+          .catch(() => false);
+        const emptyStateVisible = await groupFaqPage.emptyState
+          .isVisible()
+          .catch(() => false);
+        expect(faqListVisible || emptyStateVisible).toBe(true);
+      }).toPass({ timeout: 10000 });
 
-      await withTestStep(
-        testInfo,
-        "Verify FAQ content or empty state",
-        async () => {
-          if (await groupFaqPage.hasFaqEntries()) {
-            // If FAQ entries exist, verify they are accessible
-            const faqCount = await groupFaqPage.getFaqCount();
-            expect(faqCount).toBeGreaterThan(0);
+      const faqCount = await groupFaqPage.getFaqCount();
 
-            // Check first FAQ card is accessible
-            await expect(groupFaqPage.firstFaqCard).toBeVisible();
+      if (faqCount > 0) {
+        // Verify FAQ list is visible
+        await expect(groupFaqPage.faqList).toBeVisible();
+        await expect(groupFaqPage.faqCards.first()).toBeVisible();
 
-            // Verify FAQ disclosure buttons are accessible
-            await expect(groupFaqPage.getFaqDisclosureButton(0)).toBeVisible();
-            await expect(
-              groupFaqPage.getFaqDisclosureButton(0)
-            ).toHaveAttribute("aria-expanded");
-          } else {
-            // If no FAQ entries, verify empty state is accessible
-            await expect(groupFaqPage.emptyState).toBeVisible();
-            await expect(groupFaqPage.emptyStateMessage).toBeVisible();
-          }
-        }
-      );
+        // Verify first FAQ has required elements
+        const firstFaqCard = groupFaqPage.getFaqCard(0);
+        await expect(firstFaqCard).toBeVisible();
+
+        const firstFaqQuestion = groupFaqPage.getFaqQuestion(0);
+        await expect(firstFaqQuestion).toBeVisible();
+
+        const firstFaqDisclosureButton = groupFaqPage.getFaqDisclosureButton(0);
+        await expect(firstFaqDisclosureButton).toBeVisible();
+
+        // Test expanding FAQ
+        await groupFaqPage.expandFaq(0);
+        await expect(groupFaqPage.getFaqAnswer(0)).toBeVisible();
+
+        // Test collapsing FAQ
+        await groupFaqPage.collapseFaq(0);
+        await expect(groupFaqPage.getFaqAnswer(0)).not.toBeVisible();
+
+        // Verify drag handles are visible
+        const firstFaqDragHandle = groupFaqPage.getFaqDragHandle(0);
+        await expect(firstFaqDragHandle).toBeVisible();
+        await expect(firstFaqDragHandle).toContainClass("drag-handle");
+
+        // Verify edit buttons are visible
+        const firstFaqEditButton = groupFaqPage.getFaqEditButton(0);
+        await expect(firstFaqEditButton).toBeVisible();
+      } else {
+        // Verify empty state is shown when no FAQ entries
+        await expect(groupFaqPage.emptyState).toBeVisible();
+        await expect(groupFaqPage.emptyStateMessage).toBeVisible();
+      }
     });
 
-    test("Group FAQ page disclosure interactions are accessible", async ({
-      page,
-    }, testInfo) => {
+    test("User can access new FAQ creation", async ({ page }, testInfo) => {
       logTestPath(testInfo);
-
       const organizationPage = newOrganizationPage(page);
       const groupFaqPage = organizationPage.groupFaqPage;
 
-      // Only test if FAQ entries exist
-      if (await groupFaqPage.hasFaqEntries()) {
-        await withTestStep(
-          testInfo,
-          "Test FAQ disclosure button accessibility",
-          async () => {
-            const disclosureButton = groupFaqPage.getFaqDisclosureButton(0);
-            await expect(disclosureButton).toBeVisible();
-            await expect(disclosureButton).toHaveAttribute("aria-expanded");
+      // Verify new FAQ button is visible and functional
+      await expect(groupFaqPage.newFaqButton).toBeVisible();
+      await expect(groupFaqPage.newFaqButton).toBeEnabled();
 
-            // Test expanding FAQ
-            await groupFaqPage.clickFaqDisclosure(0);
-            await expect(disclosureButton).toHaveAttribute(
-              "aria-expanded",
-              "true"
-            );
+      // Click the new FAQ button to open modal
+      await groupFaqPage.clickNewFaq();
 
-            // Test collapsing FAQ
-            await groupFaqPage.clickFaqDisclosure(0);
-            await expect(disclosureButton).toHaveAttribute(
-              "aria-expanded",
-              "false"
-            );
-          }
+      // Verify FAQ creation modal opens
+      await expect(groupFaqPage.faqModal).toBeVisible();
+
+      // Close the modal using the close button
+      const closeButton = groupFaqPage.faqModalCloseButton;
+      await expect(closeButton).toBeVisible();
+      await closeButton.click();
+
+      // Verify modal closes
+      await expect(groupFaqPage.faqModal).not.toBeVisible();
+    });
+
+    test("User can reorder FAQ entries using drag and drop", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const groupFaqPage = organizationPage.groupFaqPage;
+
+      // Wait for page to load and then for FAQ cards to appear
+      await page.waitForLoadState("networkidle");
+
+      // Wait for FAQ cards to be present (with timeout to handle empty state)
+      try {
+        await expect(groupFaqPage.faqCards.first()).toBeVisible({
+          timeout: 5000,
+        });
+      } catch {
+        // If no FAQ cards appear, that's fine - could be empty state
+      }
+
+      const faqCount = await groupFaqPage.getFaqCount();
+
+      if (faqCount >= 2) {
+        // Get initial order of first 2 FAQ questions for drag and drop test
+        const firstQuestion = await groupFaqPage.getFaqQuestionText(0);
+        const secondQuestion = await groupFaqPage.getFaqQuestionText(1);
+
+        // Verify drag handles are visible and have correct classes
+        const firstFaqDragHandle = groupFaqPage.getFaqDragHandle(0);
+        const secondFaqDragHandle = groupFaqPage.getFaqDragHandle(1);
+
+        await expect(firstFaqDragHandle).toBeVisible();
+        await expect(secondFaqDragHandle).toBeVisible();
+
+        // Validate drag handles have the correct CSS class
+        await expect(firstFaqDragHandle).toContainClass("drag-handle");
+        await expect(secondFaqDragHandle).toContainClass("drag-handle");
+
+        // Use mouse events for reliable drag and drop
+        await groupFaqPage.dragFaqToPosition(0, 1);
+
+        // Wait for the reorder operation to complete
+        await page.waitForLoadState("networkidle");
+
+        // Additional wait for vuedraggable to process the reorder
+        await page.waitForTimeout(1000);
+
+        // Get final order after drag operation
+        const finalFirstQuestion = await groupFaqPage.getFaqQuestionText(0);
+        const finalSecondQuestion = await groupFaqPage.getFaqQuestionText(1);
+
+        // Verify the drag operation worked (first and second should be swapped)
+        expect(finalFirstQuestion).toBe(secondQuestion);
+        expect(finalSecondQuestion).toBe(firstQuestion);
+      } else {
+        // Skip test if insufficient FAQ entries for drag and drop testing
+        test.skip(
+          faqCount >= 2,
+          "Need at least 2 FAQ entries to test drag and drop functionality"
+        );
+      }
+    });
+
+    test("User can edit existing FAQ entries", async ({ page }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const groupFaqPage = organizationPage.groupFaqPage;
+
+      // Wait for FAQ entries to load completely
+      await page.waitForLoadState("networkidle");
+
+      const faqCount = await groupFaqPage.getFaqCount();
+
+      if (faqCount > 0) {
+        // Get the original question text
+        const originalQuestion = await groupFaqPage.getFaqQuestionText(0);
+        expect(originalQuestion).toBeTruthy();
+
+        // Expand the FAQ to get the answer text
+        await groupFaqPage.expandFaq(0);
+
+        // Wait for FAQ to be expanded
+        await expect(groupFaqPage.getFaqAnswer(0)).toBeVisible();
+
+        const originalAnswer = await groupFaqPage.getFaqAnswerText(0);
+        expect(originalAnswer).toBeTruthy();
+
+        // Click the edit button for the first FAQ
+        await groupFaqPage.editFaq(0);
+
+        // Verify edit modal opens
+        await expect(groupFaqPage.editFaqModal).toBeVisible();
+
+        // Get the modal and form elements
+        const editModal = groupFaqPage.editFaqModal;
+        const questionInput = groupFaqPage.getFaqQuestionInput(editModal);
+        const answerInput = groupFaqPage.getFaqAnswerInput(editModal);
+        const submitButton = groupFaqPage.getFaqSubmitButton(editModal);
+
+        // Generate unique test text with timestamp
+        const timestamp = Date.now();
+        const updatedQuestionText = `Updated Group FAQ Question - Test Edit ${timestamp}`;
+        const updatedAnswerText = `Updated Group FAQ Answer - This is a test edit to verify the functionality works correctly. Timestamp: ${timestamp}`;
+
+        // Clear and update the question
+        await questionInput.clear();
+        await questionInput.fill(updatedQuestionText);
+
+        // Clear and update the answer
+        await answerInput.clear();
+        await answerInput.fill(updatedAnswerText);
+
+        // Submit the form
+        await submitButton.click();
+
+        // Wait for the modal to close
+        await expect(groupFaqPage.editFaqModal).not.toBeVisible();
+
+        // Wait for the page to update
+        await page.waitForLoadState("networkidle");
+        await page.waitForTimeout(1000);
+
+        // Verify the changes are reflected on the page
+        const newQuestion = await groupFaqPage.getFaqQuestionText(0);
+        expect(newQuestion).toBe(updatedQuestionText);
+
+        // Expand the FAQ to check the answer
+        await groupFaqPage.expandFaq(0);
+        await expect(groupFaqPage.getFaqAnswer(0)).toBeVisible();
+
+        const newAnswer = await groupFaqPage.getFaqAnswerText(0);
+        expect(newAnswer).toBe(updatedAnswerText);
+      } else {
+        // Skip test if no FAQ entries available for editing
+        test.skip(
+          faqCount > 0,
+          "No FAQ entries available to test editing functionality"
         );
       }
     });

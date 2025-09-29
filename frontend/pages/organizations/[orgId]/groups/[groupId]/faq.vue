@@ -27,7 +27,11 @@
       </div>
     </HeaderAppPageGroup>
 
-    <div v-if="props.group.faqEntries?.length" class="py-4">
+    <div
+      v-if="props.group.faqEntries?.length"
+      class="py-4"
+      data-testid="organization-group-faq-list"
+    >
       <draggable
         v-model="faqList"
         @end="onDragEnd"
