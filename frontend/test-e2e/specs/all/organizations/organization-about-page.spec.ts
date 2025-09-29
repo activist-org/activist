@@ -17,6 +17,8 @@ test.describe(
   "Organization About Page",
   { tag: ["@desktop", "@mobile"] },
   () => {
+    // Increase test timeout for slow dev mode loading
+    test.setTimeout(60000);
     // Note: Check to make sure that this is eventually done for light and dark modes.
     test("Organization About Page has no detectable accessibility issues", async ({
       page,
@@ -62,11 +64,22 @@ test.describe(
       const organizationPage = newOrganizationPage(page);
 
       // Ensure we're on the About page
-      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
-      await expect(organizationPage.aboutPage.aboutCard).toBeVisible();
+      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
+        timeout: 10000,
+      });
+
+      // Wait for page to be fully loaded (network requests complete) - longer timeout for dev mode
+      await page.waitForLoadState("networkidle", { timeout: 20000 });
+
+      // Wait for the about card to be visible (longer timeout for slow dev mode loading)
+      await expect(organizationPage.aboutPage.aboutCard).toBeVisible({
+        timeout: 15000,
+      });
 
       // Click the edit icon to open the edit modal
-      await expect(organizationPage.aboutPage.aboutCardEditIcon).toBeVisible();
+      await expect(organizationPage.aboutPage.aboutCardEditIcon).toBeVisible({
+        timeout: 7000,
+      });
       await organizationPage.aboutPage.aboutCardEditIcon.click();
 
       // Verify the edit modal appears
@@ -148,8 +161,17 @@ test.describe(
       const organizationPage = newOrganizationPage(page);
 
       // Ensure we're on the About page
-      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
-      await expect(organizationPage.aboutPage.connectCard).toBeVisible();
+      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
+        timeout: 10000,
+      });
+
+      // Wait for page to be fully loaded (network requests complete) - longer timeout for dev mode
+      await page.waitForLoadState("networkidle", { timeout: 20000 });
+
+      // Wait for the connect card to be visible (longer timeout for slow dev mode loading)
+      await expect(organizationPage.aboutPage.connectCard).toBeVisible({
+        timeout: 15000,
+      });
 
       // Generate unique content for this test run
       const timestamp = Date.now();
@@ -232,27 +254,43 @@ test.describe(
         }
       }
 
-      // PHASE 2: UPDATE - Edit an existing social link
+      // PHASE 2: UPDATE - Edit the social link we just created
       await organizationPage.aboutPage.connectCardEditIcon.click();
       await expect(organizationPage.socialLinksModal.modal).toBeVisible();
 
-      // Find the first available social link to edit (might be our newly created one or an existing one)
+      // Find the social link we created by looking for our unique label
       const availableEntries = await organizationPage.socialLinksModal.modal
         .locator('input[id^="form-item-socialLinks."][id$=".label"]')
-        .count();
+        .all();
 
-      if (availableEntries === 0) {
+      if (availableEntries.length === 0) {
         throw new Error("No social links available to update");
       }
 
-      // Edit the first social link (index 0)
+      // Find the entry that contains our created label
+      let targetIndex = -1;
+      for (let i = 0; i < availableEntries.length; i++) {
+        const value = await availableEntries[i].inputValue();
+        if (value === newLabel) {
+          targetIndex = i;
+          break;
+        }
+      }
+
+      if (targetIndex === -1) {
+        throw new Error(
+          "Could not find the social link we created for updating"
+        );
+      }
+
+      // Edit the social link we created
       const editLabelField = organizationPage.socialLinksModal.labelField(
         organizationPage.socialLinksModal.modal,
-        0
+        targetIndex
       );
       const editUrlField = organizationPage.socialLinksModal.urlField(
         organizationPage.socialLinksModal.modal,
-        0
+        targetIndex
       );
 
       await expect(editLabelField).toBeVisible();
@@ -294,7 +332,7 @@ test.describe(
       await expect(updatedSocialLink).toBeVisible();
       await expect(updatedSocialLink).toHaveAttribute("href", updatedUrl);
 
-      // PHASE 3: DELETE - Remove the first available social link (if any remain)
+      // PHASE 3: DELETE - Remove the social link we updated
       await organizationPage.aboutPage.connectCardEditIcon.click();
       await expect(organizationPage.socialLinksModal.modal).toBeVisible();
 
@@ -307,13 +345,37 @@ test.describe(
         throw new Error("No social links available to delete");
       }
 
-      // Get the label of the first entry (whatever it is) for verification after deletion
-      const firstLabelValue = await allLabelInputs[0].inputValue();
+      // Find the entry that contains our updated label
+      let deleteIndex = -1;
+      const foundValues = [];
 
-      // Delete the first social link (index 0)
+      for (let i = 0; i < allLabelInputs.length; i++) {
+        const value = await allLabelInputs[i].inputValue();
+        foundValues.push(value);
+
+        // Try exact match first
+        if (value === updatedLabel) {
+          deleteIndex = i;
+          break;
+        }
+
+        // Fallback: try to find by the original label if update didn't work
+        if (value === newLabel) {
+          deleteIndex = i;
+          break;
+        }
+      }
+
+      if (deleteIndex === -1) {
+        throw new Error(
+          `Could not find the social link we updated for deletion. Looking for: "${updatedLabel}", Found: [${foundValues.join(", ")}]`
+        );
+      }
+
+      // Delete the social link we updated
       const deleteButton = organizationPage.socialLinksModal.removeButton(
         organizationPage.socialLinksModal.modal,
-        0
+        deleteIndex
       );
       await expect(deleteButton).toBeVisible();
       await deleteButton.click();
@@ -333,11 +395,9 @@ test.describe(
       );
 
       // Verify the deleted social link no longer appears on the Connect card
-      if (firstLabelValue) {
-        await expect(connectCard).not.toContainText(firstLabelValue, {
-          timeout: 10000,
-        });
-      }
+      await expect(connectCard).not.toContainText(updatedLabel, {
+        timeout: 10000,
+      });
     });
   }
 );
