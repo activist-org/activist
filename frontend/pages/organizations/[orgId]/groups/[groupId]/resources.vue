@@ -29,7 +29,11 @@
       </div>
     </HeaderAppPageGroup>
     <!-- Draggable list -->
-    <div v-if="props.group.resources?.length" class="py-4">
+    <div
+      v-if="props.group.resources?.length"
+      class="py-4"
+      data-testid="organization-group-resources-list"
+    >
       <draggable
         v-model="resourceList"
         @end="onDragEnd"
