@@ -220,13 +220,13 @@ test.describe(
 
       // Verify specific editable text fields
       const descriptionField = groupAboutPage.textModal.locator(
-        'textarea[name="description"]'
+        "#form-item-description"
       );
       const getInvolvedField = groupAboutPage.textModal.locator(
-        'textarea[name="getInvolved"]'
+        "#form-item-getInvolved"
       );
       const joinUrlField = groupAboutPage.textModal.locator(
-        'input[name="getInvolvedUrl"]'
+        "#form-item-getInvolvedUrl"
       );
 
       await expect(descriptionField).toBeVisible();
