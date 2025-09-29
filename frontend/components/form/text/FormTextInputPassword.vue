@@ -17,6 +17,7 @@
             ? $t('i18n.components.form_text_input_password.show_password')
             : $t('i18n.components.form_text_input_password.hide_password')
         "
+        :data-testid="`${id}-show-password`"
       >
         <Icon
           :name="isPassword ? IconMap.VISIBLE : IconMap.HIDDEN"
