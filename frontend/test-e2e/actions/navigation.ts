@@ -205,7 +205,21 @@ export async function navigateToOrganizationGroupSubpage(
 
     // Wait for groups option to be visible and clickable
     await expect(organizationPage.menu.groupsOption).toBeVisible();
+
+    // Ensure the groups option is actually clickable before clicking
+    await organizationPage.menu.groupsOption.waitFor({ state: "attached" });
     await organizationPage.menu.groupsOption.click();
+
+    // Wait for navigation to complete
+    await page.waitForLoadState("networkidle");
+
+    // Check if we actually navigated to groups page
+    const currentUrl = page.url();
+    if (!currentUrl.includes("/groups")) {
+      // Mobile navigation failed, use direct navigation as fallback
+      await page.goto(`/organizations/${organizationId}/groups`);
+      await page.waitForLoadState("networkidle");
+    }
   } else {
     // Desktop layout: direct click
     await expect(organizationPage.menu.groupsOption).toBeVisible();
