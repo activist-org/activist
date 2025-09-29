@@ -35,27 +35,22 @@
         item-key="id"
         class="flex flex-col gap-4"
         data-testid="organization-resources-list"
-        :touch-start-threshold="5"
+        :touch-start-threshold="3"
         :force-fallback="false"
         :fallback-tolerance="0"
         :delay="0"
         :delay-on-touch-start="false"
-        :swap-threshold="0.2"
+        :swap-threshold="0.5"
         :invert-swap="false"
         :direction="'vertical'"
         :disabled="false"
-        :animation="50"
+        :animation="150"
         :ghost-class="'sortable-ghost'"
         :chosen-class="'sortable-chosen'"
         :drag-class="'sortable-drag'"
         :handle="'.drag-handle'"
-        :distance="10"
+        :distance="5"
         :fallback-class="'sortable-fallback'"
-        :prevent-on-filter="false"
-        :dragover-bubble="true"
-        :remove-clone-on-hide="true"
-        :touch-move-threshold="5"
-        :fallback-on-body="true"
       >
         <template #item="{ element }">
           <CardResource
@@ -120,21 +115,8 @@ watch(
   display: none;
 }
 
-/* Ensure drag handles work properly with programmatic drag operations */
+/* Ensure drag handles work properly */
 .drag-handle {
-  pointer-events: auto !important;
-  user-select: none !important;
-  touch-action: none !important;
-}
-
-/* Touch-friendly draggable container */
-.flex.flex-col.gap-4 {
-  touch-action: pan-y !important;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Ensure draggable items are touch-friendly */
-[data-testid="organization-resources-list"] {
-  touch-action: pan-y !important;
+  user-select: none;
 }
 </style>

@@ -8,7 +8,7 @@
       <Icon
         :name="IconMap.GRIP"
         :class="dragIconSizeClass"
-        class="drag-handle cursor-grab"
+        class="drag-handle cursor-grab select-none"
         data-testid="resource-drag-handle"
       />
       <div class="flex flex-col md:flex-row">

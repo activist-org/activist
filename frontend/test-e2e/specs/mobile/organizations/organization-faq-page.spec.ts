@@ -38,7 +38,7 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
       await expect(firstFAQDragHandle).toContainClass("drag-handle");
       await expect(secondFAQDragHandle).toContainClass("drag-handle");
 
-      // Touch drag simulation for mobile
+      // Use mouse events directly since dragTo() isn't working reliably
       const firstBox = await firstFAQDragHandle.boundingBox();
       const secondBox = await secondFAQDragHandle.boundingBox();
 
@@ -48,24 +48,23 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
         const endX = secondBox.x + secondBox.width / 2;
         const endY = secondBox.y + secondBox.height / 2;
 
-        // Start touch
-        await page.touchscreen.tap(startX, startY);
-        await page.waitForTimeout(50);
+        // Simulate drag with mouse events
+        await page.mouse.move(startX, startY);
+        await page.mouse.down();
+        await page.waitForTimeout(100);
 
-        // Touch move with intermediate steps for smooth drag
-        const steps = 8;
+        // Move to target with intermediate steps
+        const steps = 5;
         for (let i = 1; i <= steps; i++) {
           const progress = i / steps;
           const currentX = startX + (endX - startX) * progress;
           const currentY = startY + (endY - startY) * progress;
-
-          await page.touchscreen.tap(currentX, currentY);
-          await page.waitForTimeout(20);
+          await page.mouse.move(currentX, currentY);
+          await page.waitForTimeout(50);
         }
 
-        // Final touch at target
-        await page.touchscreen.tap(endX, endY);
-        await page.waitForTimeout(100);
+        await page.mouse.up();
+        await page.waitForTimeout(200);
       }
 
       // Wait for the reorder operation to complete (including network requests)
