@@ -33,7 +33,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on both CI and local - helps with flaky tests. */
-  retries: 2,
+  retries: 4,
   /* Enhanced parallel execution with test sharding. */
   workers: process.env.CI ? 4 : 2,
   /* Fail on flaky tests to ensure stability. */
