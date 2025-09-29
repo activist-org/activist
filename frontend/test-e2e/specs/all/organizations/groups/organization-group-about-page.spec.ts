@@ -316,7 +316,7 @@ test.describe(
 
       // Add a new social link
       const addButton = groupAboutPage.socialLinksModal.locator(
-        'button:has-text("Add")'
+        'button:has-text("Add link")'
       );
       await expect(addButton).toBeVisible();
       await addButton.click();
@@ -330,12 +330,12 @@ test.describe(
 
       // Use the newly added entry (at the last index)
       const newEntryIndex = initialCount;
-      const newLabelField = groupAboutPage.socialLinksModal
-        .locator(`input[id^="form-item-socialLinks."][id$=".label"]`)
-        .nth(newEntryIndex);
-      const newUrlField = groupAboutPage.socialLinksModal
-        .locator(`input[id^="form-item-socialLinks."][id$=".link"]`)
-        .nth(newEntryIndex);
+      const newLabelField = groupAboutPage.socialLinksModal.locator(
+        `#form-item-socialLinks.${newEntryIndex}.label`
+      );
+      const newUrlField = groupAboutPage.socialLinksModal.locator(
+        `#form-item-socialLinks.${newEntryIndex}.link`
+      );
 
       await expect(newLabelField).toBeVisible();
       await expect(newUrlField).toBeVisible();
@@ -391,12 +391,12 @@ test.describe(
       }
 
       // Edit the first social link (index 0)
-      const editLabelField = groupAboutPage.socialLinksModal
-        .locator('input[id^="form-item-socialLinks."][id$=".label"]')
-        .first();
-      const editUrlField = groupAboutPage.socialLinksModal
-        .locator('input[id^="form-item-socialLinks."][id$=".link"]')
-        .first();
+      const editLabelField = groupAboutPage.socialLinksModal.locator(
+        "#form-item-socialLinks.0.label"
+      );
+      const editUrlField = groupAboutPage.socialLinksModal.locator(
+        "#form-item-socialLinks.0.link"
+      );
 
       await expect(editLabelField).toBeVisible();
       await expect(editUrlField).toBeVisible();
@@ -455,7 +455,7 @@ test.describe(
 
       // Delete the first social link (index 0)
       const deleteButton = groupAboutPage.socialLinksModal
-        .locator('button:has-text("Remove")')
+        .locator('[data-testid="remove-button"]')
         .first();
       await expect(deleteButton).toBeVisible();
       await deleteButton.click();
