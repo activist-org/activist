@@ -30,7 +30,7 @@
         <div class="-mb-2 flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
             <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
-              <h3 class="font-bold">
+              <h3 class="font-bold" data-testid="group-title">
                 {{ title }}
               </h3>
             </NuxtLink>
@@ -65,6 +65,7 @@
           :to="localePath(linkUrl)"
           class="text-distinct-text hover:text-primary-text"
           :aria-label="$t(ariaLabel)"
+          data-testid="group-entity-name"
         >
           @{{ entityName }}
         </NuxtLink>
@@ -74,6 +75,7 @@
             'line-clamp-3': isReduced,
             'line-clamp-4 lg:line-clamp-5': !isReduced,
           }"
+          data-testid="group-description"
         >
           {{ description }}
         </p>

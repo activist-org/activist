@@ -21,13 +21,13 @@ export const newOrganizationGroupsPage = (page: Page) => ({
   // Individual group card elements
   getGroupCard: (index: number) => page.getByTestId("group-card").nth(index),
   getGroupTitle: (index: number) =>
-    page.getByTestId("group-card").nth(index).locator("h3, h2").first(),
+    page.getByTestId("group-card").nth(index).getByTestId("group-title"),
   getGroupLink: (index: number) =>
     page.getByTestId("group-card").nth(index).locator("a").first(),
   getGroupDescription: (index: number) =>
-    page.getByTestId("group-card").nth(index).locator("p").first(),
+    page.getByTestId("group-card").nth(index).getByTestId("group-description"),
   getGroupEntityName: (index: number) =>
-    page.getByTestId("group-card").nth(index).locator("a[href*='@']").first(),
+    page.getByTestId("group-card").nth(index).getByTestId("group-entity-name"),
   getGroupLocation: (index: number) =>
     page.getByTestId("group-card").nth(index).locator("[class*='location']"),
 

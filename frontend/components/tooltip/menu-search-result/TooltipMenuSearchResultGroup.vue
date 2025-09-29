@@ -31,6 +31,7 @@
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
         ariaLabel="i18n._global.share_organization_aria_label"
+        data-testid="share-button"
       />
       <ModalSharePage
         v-if="group"
