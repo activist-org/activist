@@ -42,7 +42,7 @@ test.describe(
         await expect(firstFaqDragHandle).toContainClass("drag-handle");
         await expect(secondFaqDragHandle).toContainClass("drag-handle");
 
-        // Use mouse events directly since dragTo() isn't working reliably
+        // Use mouse events for mobile drag and drop (touch events don't work)
         const firstBox = await firstFaqDragHandle.boundingBox();
         const secondBox = await secondFaqDragHandle.boundingBox();
 
