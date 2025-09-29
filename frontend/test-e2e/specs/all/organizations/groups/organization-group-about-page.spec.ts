@@ -452,7 +452,7 @@ test.describe(
       await page.waitForTimeout(1000);
 
       // Check if any social links are visible first
-      const allSocialLinks = connectCard.locator('[data-testid="social-link"]');
+      const socialLinks = connectCard.locator('[data-testid="social-link"]');
 
       // Look for the updated social link by text content
       const updatedSocialLink = connectCard.locator("a").filter({
@@ -466,7 +466,7 @@ test.describe(
           await expect(linkByHref).toBeVisible();
         } else {
           // Fallback: just verify that some social links exist
-          await expect(allSocialLinks.first()).toBeVisible();
+          await expect(socialLinks.first()).toBeVisible();
         }
       } else {
         await expect(updatedSocialLink).toBeVisible();
