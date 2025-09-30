@@ -1,3 +1,5 @@
+import type { Page } from "playwright/test";
+
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
@@ -5,7 +7,7 @@ import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
-async function getResourceCardOrder(page) {
+async function getResourceCardOrder(page: Page) {
   return await page
     .locator('[data-testid="resource-card"] h3')
     .allTextContents();
