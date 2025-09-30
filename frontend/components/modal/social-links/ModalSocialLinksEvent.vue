@@ -71,7 +71,6 @@ function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
 async function handleSubmit(values: unknown) {
   // Prevent duplicate submissions
   if (isSubmitting.value) {
-    console.log("Submit already in progress, ignoring duplicate submission");
     return;
   }
 
@@ -139,11 +138,15 @@ async function handleSubmit(values: unknown) {
         };
         // Don't create if link/label are empty OR if they match an existing link
         const isDuplicate = event.socialLinks.some(
-          (existing) => existing.link === data.link && existing.label === data.label
+          (existing) =>
+            existing.link === data.link && existing.label === data.label
         );
         return isDuplicate ? null : data;
       })
-      .filter((item) => item !== null && item.link && item.label); // Only include valid, non-duplicate items
+      .filter(
+        (item): item is { link: string; label: string; order: number } =>
+          item !== null && !!item.link && !!item.label
+      ); // Only include valid, non-duplicate items
 
     if (createData.length > 0) {
       const success = await eventStore.createSocialLinks(event, createData);

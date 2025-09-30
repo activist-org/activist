@@ -73,7 +73,6 @@ function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
 async function handleSubmit(values: unknown) {
   // Prevent duplicate submissions
   if (isSubmitting.value) {
-    console.log("Submit already in progress, ignoring duplicate submission");
     return;
   }
 
@@ -85,89 +84,90 @@ async function handleSubmit(values: unknown) {
     ).socialLinks;
 
     // Track existing IDs
-    const existingIds = new Set(organization.socialLinks.map((link) => link.id));
+    const existingIds = new Set(
+      organization.socialLinks.map((link) => link.id)
+    );
     const currentIds = new Set(
       socialLinksRef.value?.map((link) => link.id).filter(Boolean)
     );
 
     let allSuccess = true;
 
-  // 1. DELETE: Items that existed but are no longer in the list
-  const toDelete = organization.socialLinks.filter(
-    (link) => link.id && !currentIds.has(link.id)
-  );
-  for (const link of toDelete) {
-    const success = await organizationStore.deleteSocialLink(
-      organization,
-      link.id!
+    // 1. DELETE: Items that existed but are no longer in the list
+    const toDelete = organization.socialLinks.filter(
+      (link) => link.id && !currentIds.has(link.id)
     );
-    if (!success) allSuccess = false;
-  }
-
-  // 2. UPDATE: Items that still exist (have IDs and are in existing set)
-  const toUpdate =
-    socialLinksRef.value?.filter(
-      (link) => link.id && existingIds.has(link.id)
-    ) || [];
-  for (const refItem of toUpdate) {
-    const formIndex = socialLinksRef.value?.indexOf(refItem) ?? -1;
-    const formLink = formValues?.[formIndex];
-    if (formLink && refItem.id) {
-      // Only update if link or label actually changed (ignore order for now)
-      const existing = organization.socialLinks.find((l) => l.id === refItem.id);
-      if (
-        existing &&
-        (existing.link !== formLink.link || existing.label !== formLink.label)
-      ) {
-        const success = await organizationStore.updateSocialLink(
-          organization,
-          refItem.id,
-          {
-            link: formLink.link,
-            label: formLink.label,
-            order: formIndex,
-          }
-        );
-        if (!success) allSuccess = false;
-      }
+    for (const link of toDelete) {
+      const success = await organizationStore.deleteSocialLink(
+        organization,
+        link.id!
+      );
+      if (!success) allSuccess = false;
     }
-  }
 
-  // 3. CREATE: Items without IDs (newly added)
-  const toCreate = socialLinksRef.value?.filter((link) => !link.id) || [];
-
-  // Debug: Check if we're accidentally trying to create existing links
-  if (toCreate.length > 0) {
-    console.log("Creating new links:", toCreate);
-    console.log("Existing IDs:", Array.from(existingIds));
-    console.log("Current IDs:", Array.from(currentIds));
-  }
-
-  const createData = toCreate
-    .map((refItem) => {
+    // 2. UPDATE: Items that still exist (have IDs and are in existing set)
+    const toUpdate =
+      socialLinksRef.value?.filter(
+        (link) => link.id && existingIds.has(link.id)
+      ) || [];
+    for (const refItem of toUpdate) {
       const formIndex = socialLinksRef.value?.indexOf(refItem) ?? -1;
       const formLink = formValues?.[formIndex];
-      // Use form values if available, otherwise fall back to refItem
-      const data = {
-        link: formLink?.link || refItem.link || "",
-        label: formLink?.label || refItem.label || "",
-        order: formIndex,
-      };
-      // Don't create if link/label are empty OR if they match an existing link
-      const isDuplicate = organization.socialLinks.some(
-        (existing) => existing.link === data.link && existing.label === data.label
-      );
-      return isDuplicate ? null : data;
-    })
-    .filter((item) => item !== null && item.link && item.label); // Only include valid, non-duplicate items
+      if (formLink && refItem.id) {
+        // Only update if link or label actually changed (ignore order for now)
+        const existing = organization.socialLinks.find(
+          (l) => l.id === refItem.id
+        );
+        if (
+          existing &&
+          (existing.link !== formLink.link || existing.label !== formLink.label)
+        ) {
+          const success = await organizationStore.updateSocialLink(
+            organization,
+            refItem.id,
+            {
+              link: formLink.link,
+              label: formLink.label,
+              order: formIndex,
+            }
+          );
+          if (!success) allSuccess = false;
+        }
+      }
+    }
 
-  if (createData.length > 0) {
-    const success = await organizationStore.createSocialLinks(
-      organization,
-      createData
-    );
-    if (!success) allSuccess = false;
-  }
+    // 3. CREATE: Items without IDs (newly added)
+    const toCreate = socialLinksRef.value?.filter((link) => !link.id) || [];
+
+    const createData = toCreate
+      .map((refItem) => {
+        const formIndex = socialLinksRef.value?.indexOf(refItem) ?? -1;
+        const formLink = formValues?.[formIndex];
+        // Use form values if available, otherwise fall back to refItem
+        const data = {
+          link: formLink?.link || refItem.link || "",
+          label: formLink?.label || refItem.label || "",
+          order: formIndex,
+        };
+        // Don't create if link/label are empty OR if they match an existing link
+        const isDuplicate = organization.socialLinks.some(
+          (existing) =>
+            existing.link === data.link && existing.label === data.label
+        );
+        return isDuplicate ? null : data;
+      })
+      .filter(
+        (item): item is { link: string; label: string; order: number } =>
+          item !== null && !!item.link && !!item.label
+      ); // Only include valid, non-duplicate items
+
+    if (createData.length > 0) {
+      const success = await organizationStore.createSocialLinks(
+        organization,
+        createData
+      );
+      if (!success) allSuccess = false;
+    }
 
     if (allSuccess) {
       // Fetch updated data first
