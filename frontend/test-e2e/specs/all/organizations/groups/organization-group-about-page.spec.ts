@@ -230,6 +230,9 @@ test.describe(
     test("User can manage social links (CREATE, UPDATE, DELETE)", async ({
       page,
     }, testInfo) => {
+      // Increase timeout for slow page loads in dev mode
+      test.setTimeout(60000);
+
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
       const groupAboutPage = organizationPage.groupAboutPage;
@@ -333,25 +336,43 @@ test.describe(
         }
       }
 
-      // PHASE 2: UPDATE - Edit an existing social link
+      // PHASE 2: UPDATE - Edit the social link we just created
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
-      // Find the first available social link to edit
-      const availableEntries = await groupAboutPage.socialLinksModal
-        .locator('input[id^="form-item-socialLinks."][id$=".label"]')
-        .count();
+      // Get all label inputs and find the one we created
+      const availableEntries = await organizationPage.socialLinksModal.modal
+        .getByTestId(/^social-link-label-/)
+        .all();
 
-      if (availableEntries === 0) {
+      if (availableEntries.length === 0) {
         throw new Error("No social links available to update");
       }
 
-      // Edit the first social link (index 0)
-      const editLabelField = groupAboutPage.socialLinksModal.locator(
-        '[id="form-item-socialLinks.0.label"]'
+      // Find the entry that contains our created label
+      let targetIndex = -1;
+      for (let i = 0; i < availableEntries.length; i++) {
+        const value = await availableEntries[i].inputValue();
+        if (value === newLabel) {
+          targetIndex = i;
+          break;
+        }
+      }
+
+      if (targetIndex === -1) {
+        throw new Error(
+          "Could not find the social link we created for updating"
+        );
+      }
+
+      // Edit the social link we created
+      const editLabelField = organizationPage.socialLinksModal.labelField(
+        organizationPage.socialLinksModal.modal,
+        targetIndex
       );
-      const editUrlField = groupAboutPage.socialLinksModal.locator(
-        '[id="form-item-socialLinks.0.link"]'
+      const editUrlField = organizationPage.socialLinksModal.urlField(
+        organizationPage.socialLinksModal.modal,
+        targetIndex
       );
 
       await expect(editLabelField).toBeVisible();
@@ -416,26 +437,51 @@ test.describe(
         await expect(updatedSocialLink).toHaveAttribute("href", updatedUrl);
       }
 
-      // PHASE 3: DELETE - Remove the first available social link (if any remain)
+      // PHASE 3: DELETE - Remove the social link we updated
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
-      // Get the current form entries
-      const allLabelInputs = await groupAboutPage.socialLinksModal
-        .locator('input[id^="form-item-socialLinks."][id$=".label"]')
+      // Get the current form entries using test IDs
+      const allLabelInputs = await organizationPage.socialLinksModal.modal
+        .getByTestId(/^social-link-label-/)
         .all();
 
       if (allLabelInputs.length === 0) {
         throw new Error("No social links available to delete");
       }
 
-      // Get the label of the first entry (whatever it is) for verification after deletion
-      const firstLabelValue = await allLabelInputs[0].inputValue();
+      // Find the entry that contains our updated label
+      let deleteIndex = -1;
+      const foundValues = [];
 
-      // Delete the first social link (index 0)
-      const deleteButton = groupAboutPage.socialLinksModal
-        .locator('[data-testid="remove-button"]')
-        .first();
+      for (let i = 0; i < allLabelInputs.length; i++) {
+        const value = await allLabelInputs[i].inputValue();
+        foundValues.push(value);
+
+        // Try exact match first
+        if (value === updatedLabel) {
+          deleteIndex = i;
+          break;
+        }
+
+        // Fallback: try to find by the original label if update didn't work
+        if (value === newLabel) {
+          deleteIndex = i;
+          break;
+        }
+      }
+
+      if (deleteIndex === -1) {
+        throw new Error(
+          `Could not find the social link we updated for deletion. Looking for: "${updatedLabel}", Found: [${foundValues.join(", ")}]`
+        );
+      }
+
+      // Delete the social link we updated
+      const deleteButton = organizationPage.socialLinksModal.removeButton(
+        organizationPage.socialLinksModal.modal,
+        deleteIndex
+      );
       await expect(deleteButton).toBeVisible();
       await deleteButton.click();
 
@@ -454,17 +500,18 @@ test.describe(
       );
 
       // Verify the deleted social link no longer appears on the Connect card
-      // Wait for the page to update after the modal closes
-      await page.waitForTimeout(1000);
+      // Wait for the modal to close and page to update
+      await expect(groupAboutPage.socialLinksModal).not.toBeVisible({
+        timeout: 10000,
+      });
 
-      if (firstLabelValue) {
-        await expect(connectCard).not.toContainText(firstLabelValue, {
-          timeout: 10000,
-        });
-      } else {
-        // Fallback: just verify that social links still exist (if any were there before)
-        await connectCard.locator('[data-testid="social-link"]').count();
-      }
+      // Verify the updated social link no longer exists
+      const deletedSocialLink = connectCard
+        .getByTestId("social-link")
+        .filter({ hasText: updatedLabel });
+      await expect(deletedSocialLink).not.toBeVisible({
+        timeout: 10000,
+      });
     });
   }
 );
