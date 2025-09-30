@@ -48,6 +48,9 @@ const submitLabel = "i18n.components.modal.social_links._global.update_links";
 // Reactive key to force form reset when dragging.
 const formKey = ref(0);
 
+// Prevent duplicate submissions
+const isSubmitting = ref(false);
+
 // Handle updates from FormSocialLink (dragging, removing, adding).
 function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
   const oldLength = socialLinksRef.value?.length || 0;
@@ -64,44 +67,104 @@ function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
   }
 }
 
-// Attn: Currently we're deleting the social links and rewriting all of them.
+// Individual CRUD operations - no more "delete all and recreate"!
 async function handleSubmit(values: unknown) {
-  // Use socialLinksRef length as the authoritative count
-  // Only process as many form values as we have items in socialLinksRef
-  const formValues = (
-    values as { socialLinks: { link: string; label: string }[] }
-  ).socialLinks;
-
-  // Build social links array, but ONLY for items that exist in socialLinksRef
-  // This prevents recreating deleted items if form hasn't caught up
-  const socialLinks = socialLinksRef.value?.map((refItem, index) => {
-    const formLink = formValues?.[index];
-    return {
-      id: refItem.id,
-      link: formLink?.link || refItem.link,
-      label: formLink?.label || refItem.label,
-      order: index,
-    };
-  });
-
-  let updateResponse = false;
-  if (socialLinks) {
-    updateResponse = await eventStore.deleteSocialLinks(event);
-    updateResponse = await eventStore.createSocialLinks(
-      event,
-      socialLinks as SocialLink[]
-    );
+  // Prevent duplicate submissions
+  if (isSubmitting.value) {
+    console.log("Submit already in progress, ignoring duplicate submission");
+    return;
   }
 
-  if (updateResponse) {
-    handleCloseModal();
+  isSubmitting.value = true;
 
-    await eventStore.fetchById(eventId);
-    event = eventStore.event;
-    socialLinksRef.value = (event.socialLinks || []).map((l, idx) => ({
-      ...l,
-      key: l.id ?? String(idx),
-    }));
+  try {
+    const formValues = (
+      values as { socialLinks: { link: string; label: string }[] }
+    ).socialLinks;
+
+    // Track existing IDs
+    const existingIds = new Set(event.socialLinks.map((link) => link.id));
+    const currentIds = new Set(
+      socialLinksRef.value?.map((link) => link.id).filter(Boolean)
+    );
+
+    let allSuccess = true;
+
+    // 1. DELETE: Items that existed but are no longer in the list
+    const toDelete = event.socialLinks.filter(
+      (link) => link.id && !currentIds.has(link.id)
+    );
+    for (const link of toDelete) {
+      const success = await eventStore.deleteSocialLink(event, link.id!);
+      if (!success) allSuccess = false;
+    }
+
+    // 2. UPDATE: Items that still exist (have IDs and are in existing set)
+    const toUpdate =
+      socialLinksRef.value?.filter(
+        (link) => link.id && existingIds.has(link.id)
+      ) || [];
+    for (const refItem of toUpdate) {
+      const formIndex = socialLinksRef.value?.indexOf(refItem) ?? -1;
+      const formLink = formValues?.[formIndex];
+      if (formLink && refItem.id) {
+        // Only update if link or label actually changed (ignore order for now)
+        const existing = event.socialLinks.find((l) => l.id === refItem.id);
+        if (
+          existing &&
+          (existing.link !== formLink.link || existing.label !== formLink.label)
+        ) {
+          const success = await eventStore.updateSocialLink(event, refItem.id, {
+            link: formLink.link,
+            label: formLink.label,
+            order: formIndex,
+          });
+          if (!success) allSuccess = false;
+        }
+      }
+    }
+
+    // 3. CREATE: Items without IDs (newly added)
+    const toCreate = socialLinksRef.value?.filter((link) => !link.id) || [];
+
+    const createData = toCreate
+      .map((refItem) => {
+        const formIndex = socialLinksRef.value?.indexOf(refItem) ?? -1;
+        const formLink = formValues?.[formIndex];
+        // Use form values if available, otherwise fall back to refItem
+        const data = {
+          link: formLink?.link || refItem.link || "",
+          label: formLink?.label || refItem.label || "",
+          order: formIndex,
+        };
+        // Don't create if link/label are empty OR if they match an existing link
+        const isDuplicate = event.socialLinks.some(
+          (existing) => existing.link === data.link && existing.label === data.label
+        );
+        return isDuplicate ? null : data;
+      })
+      .filter((item) => item !== null && item.link && item.label); // Only include valid, non-duplicate items
+
+    if (createData.length > 0) {
+      const success = await eventStore.createSocialLinks(event, createData);
+      if (!success) allSuccess = false;
+    }
+
+    if (allSuccess) {
+      // Fetch updated data first
+      await eventStore.fetchById(eventId);
+      event = eventStore.event;
+      socialLinksRef.value = (event.socialLinks || []).map((l, idx) => ({
+        ...l,
+        key: l.id ?? String(idx),
+      }));
+
+      // Close modal after data is updated
+      handleCloseModal();
+    }
+  } finally {
+    // Always reset submitting flag
+    isSubmitting.value = false;
   }
 }
 </script>
