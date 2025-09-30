@@ -8,14 +8,11 @@ export const newSocialLinksModal = (page: Page) => ({
   submitButton: (modal: Locator) => modal.locator("#form-submit-id"), // Keep as is - specific form ID
   addButton: (modal: Locator) =>
     modal.getByRole("button", { name: /add/i }).first(),
-  // Social link entry fields (indexed)
+  // Social link entry fields (indexed using data-testid)
   labelField: (modal: Locator, index: number) =>
-    modal.locator(`#form-item-socialLinks\\.${index}\\.label`), // Keep as is - specific form ID
+    modal.getByTestId(`social-link-label-${index}`),
   urlField: (modal: Locator, index: number) =>
-    modal.locator(`#form-item-socialLinks\\.${index}\\.link`), // Keep as is - specific form ID
+    modal.getByTestId(`social-link-url-${index}`),
   removeButton: (modal: Locator, index: number) =>
-    modal
-      .locator(".flex.items-center.space-x-5")
-      .nth(index)
-      .getByTestId("remove-button"), // Keep as is - CSS class selector
+    modal.getByTestId(`social-link-remove-${index}`),
 });

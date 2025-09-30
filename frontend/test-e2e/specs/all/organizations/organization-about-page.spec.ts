@@ -236,6 +236,11 @@ test.describe(
         "CREATE"
       );
 
+      // Wait for the modal to close and page to update
+      await expect(organizationPage.socialLinksModal.modal).not.toBeVisible({
+        timeout: 10000,
+      });
+
       // Verify the new social link appears on the Connect card
       const connectCard = organizationPage.aboutPage.connectCard;
 
@@ -326,12 +331,19 @@ test.describe(
         "UPDATE"
       );
 
-      // Verify the updated social link appears on the Connect card
-      const updatedSocialLink = connectCard.getByRole("link", {
-        name: new RegExp(updatedLabel, "i"),
+      // Wait for the modal to close and page to update
+      await expect(organizationPage.socialLinksModal.modal).not.toBeVisible({
+        timeout: 10000,
       });
-      await expect(updatedSocialLink).toBeVisible();
-      await expect(updatedSocialLink).toHaveAttribute("href", updatedUrl);
+
+      // Verify the updated social link appears on the Connect card
+      // Use getByTestId and filter by text since accessible name might include icon
+      await expect(
+        connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })
+      ).toBeVisible({ timeout: 10000 });
+      await expect(
+        connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })
+      ).toHaveAttribute("href", updatedUrl);
 
       // PHASE 3: DELETE - Remove the social link we updated
       await organizationPage.aboutPage.connectCardEditIcon.click();
@@ -396,10 +408,10 @@ test.describe(
       );
 
       // Verify the deleted social link no longer appears on the Connect card
-      const deletedSocialLink = connectCard.getByRole("link", {
-        name: new RegExp(updatedLabel, "i"),
-      });
-      await expect(deletedSocialLink).not.toBeVisible({
+      // Use getByTestId and filter by text since accessible name might include icon
+      await expect(
+        connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })
+      ).not.toBeVisible({
         timeout: 10000,
       });
     });

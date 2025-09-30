@@ -48,34 +48,39 @@ const submitLabel = "i18n.components.modal.social_links._global.update_links";
 // Reactive key to force form reset when dragging.
 const formKey = ref(0);
 
-interface SocialLinksValue {
-  socialLinks: { link: string; label: string }[];
-}
-
 // Handle updates from FormSocialLink (dragging, removing, adding).
 function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
   const oldLength = socialLinksRef.value?.length || 0;
   const newLength = updatedList.length;
   const isAddOperation = newLength > oldLength;
+  const isRemoveOperation = newLength < oldLength;
 
   socialLinksRef.value = updatedList as SocialLinkWithKey[];
 
-  // Only reset form for drag/remove operations, not for add operations.
-  if (!isAddOperation) {
+  // Only reset form for drag operations (same length), not for add/remove
+  // Removing formKey increment on deletions prevents race condition during submission
+  if (!isAddOperation && !isRemoveOperation) {
     formKey.value++;
   }
 }
 
 // Attn: Currently we're deleting the social links and rewriting all of them.
 async function handleSubmit(values: unknown) {
-  const socialLinks = socialLinksRef.value?.map((socialLink, index) => {
-    const formLink = (values as SocialLinksValue).socialLinks[index];
+  // Use socialLinksRef length as the authoritative count
+  // Only process as many form values as we have items in socialLinksRef
+  const formValues = (
+    values as { socialLinks: { link: string; label: string }[] }
+  ).socialLinks;
+
+  // Build social links array, but ONLY for items that exist in socialLinksRef
+  // This prevents recreating deleted items if form hasn't caught up
+  const socialLinks = socialLinksRef.value?.map((refItem, index) => {
+    const formLink = formValues?.[index];
     return {
-      id: socialLink.id,
-      // Use form values if they exist in the form, otherwise use socialLink values.
-      link: formLink ? formLink.link : socialLink.link,
-      label: formLink ? formLink.label : socialLink.label,
-      order: socialLink.order,
+      id: refItem.id,
+      link: formLink?.link || refItem.link,
+      label: formLink?.label || refItem.label,
+      order: index,
     };
   });
 
