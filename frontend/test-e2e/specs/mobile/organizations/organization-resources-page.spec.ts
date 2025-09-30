@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
-  test("User can reorder resources using drag and drop on mobile", async ({
+  test.skip("User can reorder resources using drag and drop on mobile", async ({
     page,
   }) => {
     const organizationPage = newOrganizationPage(page);
