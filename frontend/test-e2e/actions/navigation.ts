@@ -327,7 +327,7 @@ export async function navigateToOrganizationGroupSubpage(
   await expect(subpageTab).toBeVisible({ timeout: 15000 });
 
   // Click the tab to navigate to the subpage
-  await subpageTab.click();
+  await subpageTab.click({ timeout: 15000 });
 
   // Wait for navigation to complete
   await page.waitForLoadState("networkidle", { timeout: 20000 });
