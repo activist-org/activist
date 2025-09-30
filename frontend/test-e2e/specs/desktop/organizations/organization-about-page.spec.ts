@@ -20,10 +20,21 @@ test.describe("Organization About Page", { tag: "@desktop" }, () => {
     await organizationPage.sidebar.open();
 
     // Verify we start on the About page (desktop auto-redirects to /about)
-    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
-    await expect(organizationPage.aboutPage.aboutCard).toBeVisible();
-    await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible();
-    await expect(organizationPage.aboutPage.connectCard).toBeVisible();
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
+      timeout: 10000,
+    });
+    await page.waitForLoadState("networkidle", { timeout: 20000 });
+
+    // Organization pages load slowly in dev mode
+    await expect(organizationPage.aboutPage.aboutCard).toBeVisible({
+      timeout: 15000,
+    });
+    await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible({
+      timeout: 15000,
+    });
+    await expect(organizationPage.aboutPage.connectCard).toBeVisible({
+      timeout: 15000,
+    });
 
     // Navigate to Events section using existing component object
     await organizationPage.menu.eventsOption.click();
