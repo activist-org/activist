@@ -184,11 +184,11 @@ test.describe(
       await organizationPage.aboutPage.connectCardEditIcon.click();
       await expect(organizationPage.socialLinksModal.modal).toBeVisible();
 
-      // Count existing social links using role-based selectors
-      const existingLabelInputs = await organizationPage.socialLinksModal.modal
-        .getByRole("textbox")
+      // Count existing social link entries using data-testid
+      const existingEntries = await organizationPage.socialLinksModal.modal
+        .getByTestId(/^social-link-entry-/)
         .all();
-      const initialCount = existingLabelInputs.length;
+      const initialCount = existingEntries.length;
 
       // Add a new social link
       const addButton = organizationPage.socialLinksModal.addButton(
@@ -199,7 +199,9 @@ test.describe(
 
       // Wait for the new entry to appear
       await expect(
-        organizationPage.socialLinksModal.modal.getByRole("textbox")
+        organizationPage.socialLinksModal.modal.getByTestId(
+          /^social-link-entry-/
+        )
       ).toHaveCount(initialCount + 1);
 
       // Use the newly added entry (at the last index)
@@ -257,9 +259,9 @@ test.describe(
       await organizationPage.aboutPage.connectCardEditIcon.click();
       await expect(organizationPage.socialLinksModal.modal).toBeVisible();
 
-      // Find the social link we created by looking for our unique label
+      // Find the social link we created by looking for our unique label using test IDs
       const availableEntries = await organizationPage.socialLinksModal.modal
-        .getByRole("textbox")
+        .getByTestId(/^social-link-label-/)
         .all();
 
       if (availableEntries.length === 0) {
@@ -335,9 +337,9 @@ test.describe(
       await organizationPage.aboutPage.connectCardEditIcon.click();
       await expect(organizationPage.socialLinksModal.modal).toBeVisible();
 
-      // Get the current form entries
+      // Get the current form entries using test IDs
       const allLabelInputs = await organizationPage.socialLinksModal.modal
-        .getByRole("textbox")
+        .getByTestId(/^social-link-label-/)
         .all();
 
       if (allLabelInputs.length === 0) {
@@ -394,7 +396,10 @@ test.describe(
       );
 
       // Verify the deleted social link no longer appears on the Connect card
-      await expect(connectCard).not.toContainText(updatedLabel, {
+      const deletedSocialLink = connectCard.getByRole("link", {
+        name: new RegExp(updatedLabel, "i"),
+      });
+      await expect(deletedSocialLink).not.toBeVisible({
         timeout: 10000,
       });
     });
