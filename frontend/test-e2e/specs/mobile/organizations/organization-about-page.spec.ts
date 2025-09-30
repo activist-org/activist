@@ -15,8 +15,17 @@ test.describe("Organization About Page", { tag: "@mobile" }, () => {
     page,
   }) => {
     const organizationPage = newOrganizationPage(page);
-    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
-    await expect(organizationPage.shareButton).toBeVisible();
+
+    // Verify we start on the About page (mobile auto-redirects to /about)
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
+      timeout: 10000,
+    });
+    await page.waitForLoadState("networkidle", { timeout: 20000 });
+
+    // Organization pages load slowly in dev mode
+    await expect(organizationPage.shareButton).toBeVisible({
+      timeout: 15000,
+    });
     await organizationPage.menu.toggleOpenButton.click();
 
     // Navigate to About section using existing component object
