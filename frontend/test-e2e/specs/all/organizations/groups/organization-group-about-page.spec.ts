@@ -55,6 +55,7 @@ test.describe(
     test("Group about page tab navigation works correctly", async ({
       page,
     }, testInfo) => {
+      test.setTimeout(60000); // Group pages load slowly in dev mode
       logTestPath(testInfo);
 
       const organizationPage = newOrganizationPage(page);
