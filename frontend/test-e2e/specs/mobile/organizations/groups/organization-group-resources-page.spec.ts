@@ -13,9 +13,10 @@ test.describe(
   "Organization Group Resources Page - Mobile",
   { tag: "@mobile" },
   () => {
-    test.skip(
-      "User can reorder resources using drag and drop on mobile",
-      "Vuedraggable reorder detection fails with Resource card structure on mobile - known limitation. Manual drag works, desktop test works, but automated mobile test fails due to vuedraggable not detecting the array reorder despite drag events firing correctly."
-    );
+    test.skip("User can reorder resources using drag and drop on mobile", async () => {
+      // Vuedraggable reorder detection fails with Resource card structure on mobile - known limitation.
+      // Manual drag works, desktop test works, but automated mobile test fails due to vuedraggable
+      // not detecting the array reorder despite drag events firing correctly.
+    });
   }
 );
