@@ -314,23 +314,24 @@ export async function navigateToOrganizationGroupSubpage(
   await groupsPage.navigateToGroup(0);
 
   // Wait for navigation to the group page
-  await page.waitForURL(`**/groups/${groupId}/**`);
+  await page.waitForURL(`**/groups/${groupId}/**`, { timeout: 10000 });
+  await page.waitForLoadState("networkidle", { timeout: 20000 });
 
   // Now navigate to the specific subpage using the tab navigation
   // The subpage should be accessible via the tab list
   const tabList = page.getByRole("tablist");
-  await expect(tabList).toBeVisible();
+  await expect(tabList).toBeVisible({ timeout: 15000 });
 
   // Find the specific tab for the subpage by its content
   const subpageTab = page.getByRole("tab", { name: subpage });
-  await expect(subpageTab).toBeVisible();
+  await expect(subpageTab).toBeVisible({ timeout: 15000 });
 
   // Click the tab to navigate to the subpage
   await subpageTab.click();
 
   // Wait for navigation to complete
-  await page.waitForLoadState("networkidle");
-  await page.waitForURL(`**/groups/${groupId}/${subpage}`);
+  await page.waitForLoadState("networkidle", { timeout: 20000 });
+  await page.waitForURL(`**/groups/${groupId}/${subpage}`, { timeout: 10000 });
 
   // Verify we're on the correct group subpage
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
