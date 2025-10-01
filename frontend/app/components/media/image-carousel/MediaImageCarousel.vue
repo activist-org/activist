@@ -87,7 +87,7 @@ onMounted(() => {
         const regex = /\/([a-f0-9-]{36})\.jpg$/;
         const uuid = img.match(regex);
         if (uuid) {
-          currentImageId.value = uuid[1];
+          currentImageId.value = uuid[1] ?? "";
         }
       }
     });

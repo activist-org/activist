@@ -121,12 +121,16 @@ const pathToSidebarTypeMap = [
 ];
 
 watch([isOrgPage, isEventPage], () => {
-  pathToSidebarTypeMap[2].type = isOrgPage.value
-    ? SidebarType.ORGANIZATION_PAGE
-    : SidebarType.ORGANIZATIONS_PAGE;
-  pathToSidebarTypeMap[3].type = isEventPage.value
-    ? SidebarType.EVENT_PAGE
-    : SidebarType.EVENTS_PAGE;
+  if (pathToSidebarTypeMap[2]) {
+    pathToSidebarTypeMap[2]["type"] = isOrgPage.value
+      ? SidebarType.ORGANIZATION_PAGE
+      : SidebarType.ORGANIZATIONS_PAGE;
+  }
+  if (pathToSidebarTypeMap[3]) {
+    pathToSidebarTypeMap[3]["type"] = isEventPage.value
+      ? SidebarType.EVENT_PAGE
+      : SidebarType.EVENTS_PAGE;
+  }
 });
 
 const sidebarType = computed(() => {

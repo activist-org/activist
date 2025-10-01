@@ -33,7 +33,7 @@ const modalName = "ModalImage";
 let modalIsOpen = computed(() => props.isOpen);
 
 onMounted(() => {
-  modalIsOpen = computed(() => modals.modals[modalName].isOpen);
+  modalIsOpen = computed(() => modals.modals[modalName]?.isOpen ?? false);
 });
 
 const handleCloseModal = () => {

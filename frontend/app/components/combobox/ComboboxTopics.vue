@@ -116,13 +116,16 @@ const filteredTopics = computed(() =>
       )
 );
 
-function displayValue() {
+function displayValue(): string {
   if (inputFocussed.value) {
     return "";
   } else {
-    return selectedTopic.value.id == 1
-      ? t("i18n.components.combobox_topics.filter_by_topic")
-      : selectedTopic.value.name;
+    if (selectedTopic.value) {
+      return selectedTopic.value.id == 1
+        ? t("i18n.components.combobox_topics.filter_by_topic")
+        : selectedTopic.value.name;
+    }
+    return "";
   }
 }
 

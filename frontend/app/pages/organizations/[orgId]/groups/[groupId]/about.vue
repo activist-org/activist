@@ -133,11 +133,11 @@ const modalIsOpen = ref(false);
 
 function openModal() {
   modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
+  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
 }
 
 const handleCloseModal = () => {
   modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName].isOpen;
+  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
 };
 </script>

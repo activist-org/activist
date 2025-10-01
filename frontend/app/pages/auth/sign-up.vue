@@ -220,7 +220,7 @@ const signUpSchema = z
   });
 
 const { signUp } = useAuth();
-const { showError } = useToaster();
+const { showToastError } = useToaster();
 const isPasswordFieldFocused = ref(false);
 
 const handleSignUp = async (values: unknown) => {
@@ -239,14 +239,14 @@ const handleSignUp = async (values: unknown) => {
   } catch (error) {
     if (error && error instanceof FetchError) {
       if (error.response?._data instanceof String) {
-        showError(error.response?._data as string);
+        showToastError(error.response?._data as string);
         return;
       }
       // Join all error messages into a single string.
       const message =
         Object.values(error.response?._data).join(", ") ||
         t("i18n.pages.auth._global.error_occurred");
-      showError(message);
+      showToastError(message);
     }
   }
 };

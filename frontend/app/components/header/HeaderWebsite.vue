@@ -155,7 +155,7 @@ const prevScrollY: Ref<number> = ref(0);
 function handleScroll() {
   const scrollY = window.scrollY;
 
-  if (scrollY > document.getElementsByTagName("header")[0].clientHeight) {
+  if (scrollY > document.getElementsByTagName("header")[0]!.clientHeight) {
     if (scrollY > prevScrollY.value) {
       headerOpacity.value = 0;
     } else headerOpacity.value = 0.8;

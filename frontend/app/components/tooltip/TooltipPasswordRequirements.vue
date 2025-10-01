@@ -41,7 +41,9 @@
         }}
       </title>
       <p class="truncate text-sm">
-        {{ $t(passwordRequirementsDict[rule.rule]) }}
+        {{
+          $t(passwordRequirementsDict[rule.rule as PasswordRequirementsDictKey])
+        }}
       </p>
     </div>
   </TooltipBase>
@@ -61,8 +63,16 @@ const validRules = computed(() => {
   return checkRules(pass.value || "");
 });
 
+type PasswordRequirementsDictKey =
+  | "capital-letters"
+  | "contains-numbers"
+  | "contains-special-chars"
+  | "lower-case-letters"
+  | "number-of-chars"
+  | "password-rules-message";
+
 // Dictionary is used to assure that the full keys are present and picked up by the i18n checks.
-const passwordRequirementsDict: { [key: string]: string } = {
+const passwordRequirementsDict: Record<PasswordRequirementsDictKey, string> = {
   "capital-letters":
     "i18n.components.tooltip_password_requirements.capital_letters",
   "contains-numbers":

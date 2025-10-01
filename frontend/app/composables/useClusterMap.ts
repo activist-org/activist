@@ -47,11 +47,11 @@ export const useClusterMap = () => {
 
     for (let i = 0; i < counts.length; i++) {
       html += donutSegment(
-        offsets[i] / total,
-        (offsets[i] + counts[i]) / total,
+        (offsets[i] ?? 0) / total,
+        ((offsets[i] ?? 0) + (counts[i] ?? 0)) / total,
         r,
         r0,
-        props[i].color || "#000000"
+        props[i]?.color ?? "#000000"
       );
     }
     html += `<circle cx="${r}" cy="${r}" r="${r0}" fill="white"/><text dominant-baseline="central" transform="translate(${r}, ${r})">${total}</text></svg></div>`;
@@ -257,7 +257,7 @@ export const useClusterMap = () => {
     }
 
     for (const id in markersOnScreen) {
-      if (!newMarkers[id]) {
+      if (!newMarkers[id] && markersOnScreen[id]) {
         markersOnScreen[id].remove();
       }
     }
@@ -308,7 +308,7 @@ export const useClusterMap = () => {
 
       // Add a clustered GeoJSON source for events.
       Object.keys(clusterProperties.cluster).forEach(
-        (key) => (logic[key] = clusterProperties.cluster[key].logic)
+        (key) => (logic[key] = clusterProperties.cluster[key]?.logic)
       );
       map.addSource("pointers", {
         type: "geojson",

@@ -47,9 +47,12 @@
           /> -->
           <MetaTagLocation
             v-if="event.offlineLocation"
-            :location="event.offlineLocation.displayName.split(',')[0]"
+            :location="event.offlineLocation.displayName.split(',')[0] ?? ''"
           />
-          <MetaTagDate :date="event.startTime.split('T')[0]" />
+          <MetaTagDate
+            v-if="event.startTime"
+            :date="event.startTime.split('T')[0] ?? ''"
+          />
         </div>
       </div>
     </div>

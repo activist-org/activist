@@ -113,9 +113,9 @@ const onlineLocation = computed(() => {
   return props.event.onlineLocationLink || "";
 });
 
-const date = computed(() => {
+const date: ComputedRef<string> = computed((): string => {
   if (props.event.startTime) {
-    return props.event.startTime.split("T")[0];
+    return props.event.startTime.split("T")[0] ?? ""!;
   }
   return "";
 });

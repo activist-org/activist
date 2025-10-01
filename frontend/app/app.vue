@@ -40,12 +40,12 @@ const { meta_k, ctrl_k } = useMagicKeys({
 const colorMode = useColorMode();
 const isDark = computed(() => colorMode.value === "dark");
 
-whenever(meta_k, () => {
+whenever(meta_k ?? ref(false), () => {
   if (isMacOS) {
     openModalCommandPalette();
   }
 });
-whenever(ctrl_k, () => {
+whenever(ctrl_k ?? ref(false), () => {
   if (!isMacOS) {
     openModalCommandPalette();
   }

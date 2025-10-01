@@ -41,9 +41,14 @@ const props = defineProps<{
 const width = computed(() => (score.value + 1) * 20);
 const color = computed(() => passwordStrengthMap[score.value].color);
 const text = computed(() => passwordStrengthMap[score.value].text);
-const password = computed(() => unref(props.passwordValue));
 
-const passwordStrengthMap: Record<number, { color: string; text: string }> = {
+const password = computed(() => unref(props.passwordValue));
+type PasswordIndexKey = 0 | 1 | 2 | 3 | 4;
+
+const passwordStrengthMap: Record<
+  PasswordIndexKey,
+  { color: string; text: string }
+> = {
   0: {
     color: "bg-password-strength-very-weak",
     text: "i18n.components.indicator_password_strength.very_weak",
@@ -68,13 +73,15 @@ const passwordStrengthMap: Record<number, { color: string; text: string }> = {
 
 const SCORE_THRESHOLDS: number[] = [6, 9, 11.5, 13.5, 15];
 
-// Finds the case where guessLog is less than the value among the values specified in the SCORE_THRESHOLDS array and returns its index.
-const score = computed(() => {
+// Finds the case where guessLog is less than the value among those specified in the SCORE_THRESHOLDS array.
+const score = computed((): PasswordIndexKey => {
   if (!password.value) return 0;
   const guessLog: number = zxcvbn(password.value as string).guesses_log10;
   const scoreIndex = SCORE_THRESHOLDS.findIndex(
     (threshold) => guessLog < threshold
   );
-  return scoreIndex >= 0 ? scoreIndex : SCORE_THRESHOLDS.length - 1;
+  return (
+    scoreIndex >= 0 ? scoreIndex : SCORE_THRESHOLDS.length - 1
+  ) as PasswordIndexKey;
 });
 </script>

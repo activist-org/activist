@@ -276,7 +276,7 @@ const emailValidated = ref(true);
 const subjectValidated = ref(true);
 const messageValidated = ref(true);
 const buttonDisabled = ref(true);
-const mail = useMail();
+// const mail = useMail();
 const emailSent = ref(false);
 
 const validateEmail = () => {
@@ -346,12 +346,12 @@ const sendEmail = async () => {
     subject.value.trim().length > 0 &&
     message.value.trim().length > 0
   ) {
-    await mail.send({
-      from: "contact@activist.org",
-      subject: `activist contact form: ${subject.value}`,
-      text: message.value,
-    });
-    emailSent.value = true;
+    // await mail.send({
+    //   from: "contact@activist.org",
+    //   subject: `activist contact form: ${subject.value}`,
+    //   text: message.value,
+    // });
+    // emailSent.value = true;
   }
 };
 </script>

@@ -41,9 +41,13 @@
 </template>
 
 <script setup lang="ts">
-interface Metrics {
-  [key: string]: number;
-}
+type MetricKeys =
+  | "total events"
+  | "action events"
+  | "learn events"
+  | "new orgs";
+
+type Metrics = Record<MetricKeys, number>;
 
 defineProps<{
   metrics: Metrics;

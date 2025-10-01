@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export default function usePasswordRules() {
-  const ruleFunctions: { [key: string]: (value: string) => boolean } = {
+  type RuleFunctionsKey =
+    | "number-of-chars"
+    | "capital-letters"
+    | "lower-case-letters"
+    | "contains-numbers"
+    | "contains-special-chars";
+
+  const ruleFunctions: Record<RuleFunctionsKey, (value: string) => boolean> = {
     "number-of-chars": (value: string) => value.length >= 12,
     "capital-letters": (value: string) => /[A-Z]/.test(value),
     "lower-case-letters": (value: string) => /[a-z]/.test(value),
@@ -11,7 +18,7 @@ export default function usePasswordRules() {
   const checkRules = (value: string) => {
     const rulesKeys = Object.keys(ruleFunctions);
     return rulesKeys.map((key) => ({
-      isValid: ruleFunctions[key](value),
+      isValid: ruleFunctions[key as RuleFunctionsKey](value),
       rule: key,
     }));
   };
@@ -28,7 +35,9 @@ export default function usePasswordRules() {
 
   const isAllRulesValid = (value: string) => {
     const rulesKeys = Object.keys(ruleFunctions);
-    return rulesKeys.every((key) => ruleFunctions[key](value));
+    return rulesKeys.every((key) =>
+      ruleFunctions[key as RuleFunctionsKey](value)
+    );
   };
 
   return { checkRules, isAllRulesValid, isPasswordMatch };

@@ -5,7 +5,7 @@ import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import { layersFactory } from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 
-import type { RouteProfile, Pointer } from "~/types/map";
+import type { Pointer, RouteProfile } from "~/types/map";
 
 import { useRouting } from "./useRoutingMap";
 
@@ -59,12 +59,12 @@ export const usePointerMap = () => {
     map.fitBounds(
       [
         [
-          parseFloat(pointer.location.bbox[2]),
-          parseFloat(pointer.location.bbox[0]),
+          parseFloat(pointer.location.bbox[2] ?? "0"),
+          parseFloat(pointer.location.bbox[0] ?? "0"),
         ],
         [
-          parseFloat(pointer.location.bbox[3]),
-          parseFloat(pointer.location.bbox[1]),
+          parseFloat(pointer.location.bbox[3] ?? "0"),
+          parseFloat(pointer.location.bbox[1] ?? "0"),
         ],
       ],
       {

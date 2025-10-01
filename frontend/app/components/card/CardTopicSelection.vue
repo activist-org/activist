@@ -127,9 +127,9 @@ const resetTabIndex = () => {
   );
 
   topic.forEach((topic) => (topic.tabIndex = -1));
-  topic[0].tabIndex = 0;
+  topic[0]!["tabIndex"] = 0;
   mobileTopic.forEach((topic) => (topic.tabIndex = -1));
-  mobileTopic[0].tabIndex = 0;
+  mobileTopic[0]!.tabIndex = 0;
 };
 
 let index = 0;
@@ -157,7 +157,7 @@ const keydownEvent = (e: KeyboardEvent) => {
       break;
     case "Enter":
       e.preventDefault();
-      if (topics[index].classList.contains("style-cta-secondary")) {
+      if (topics[index]?.classList.contains("style-cta-secondary")) {
         if (index < topics.length - 1) {
           index++;
         }
@@ -175,8 +175,8 @@ const keydownEvent = (e: KeyboardEvent) => {
   }
 
   topics.forEach((topic) => (topic.tabIndex = -1));
-  topics[index].tabIndex = 0;
-  topics[index].focus();
+  topics[index]!.tabIndex = 0;
+  topics[index]?.focus();
 };
 
 const mobileKeyboardEvent = (e: KeyboardEvent) => {
@@ -205,7 +205,7 @@ const mobileKeyboardEvent = (e: KeyboardEvent) => {
       break;
     case "Enter":
       e.preventDefault();
-      if (topics[index].classList.contains("style-cta-secondary")) {
+      if (topics[index]?.classList.contains("style-cta-secondary")) {
         if (index < topics.length - 1) {
           index++;
         }
@@ -223,8 +223,8 @@ const mobileKeyboardEvent = (e: KeyboardEvent) => {
   }
 
   topics.forEach((topic) => (topic.tabIndex = -1));
-  topics[index].tabIndex = 0;
-  topics[index].focus();
+  topics[index]!.tabIndex = 0;
+  topics[index]?.focus();
 };
 
 const value = computed<TopicEnum[]>({

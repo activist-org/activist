@@ -71,7 +71,6 @@ import {
   STelegram,
   STwitter,
 } from "vue-socials";
-import { toast } from "vue-sonner";
 
 import { IconMap } from "~/types/icon-map";
 
@@ -123,8 +122,10 @@ const props = defineProps({
 
 const { t } = useI18n();
 const contentCopied = ref(false);
+const { showToastInfo } = useToaster();
+type ShareKeys = "signal" | "matrix" | "instagram";
 
-const getCurrentI18n: { [key: string]: string } = {
+const getCurrentI18n: Record<ShareKeys, string> = {
   signal: "i18n.components.btn_share_icon.opening_signal",
   matrix: "i18n.components.btn_share_icon.opening_matrix",
   instagram: "i18n.components.btn_share_icon.opening_instagram",
@@ -139,7 +140,13 @@ const copyToClipboardThenOpenUrl = async (
     await navigator.clipboard.writeText(url);
     contentCopied.value = true;
     if (redirectUrl) {
-      toast(t(getCurrentI18n[props.text.toLowerCase()]));
+      showToastInfo(
+        t(
+          getCurrentI18n[
+            props.text.toLowerCase() as keyof typeof getCurrentI18n
+          ]
+        )
+      );
       setTimeout(() => {
         contentCopied.value = false;
         window.open(redirectUrl, "_blank");

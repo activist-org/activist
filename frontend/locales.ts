@@ -21,7 +21,9 @@ export enum LOCALE_CODE {
   SPANISH = "es",
 }
 
-export const locales: LocaleObject<string>[] = [
+export const locales: LocaleObject<
+  "ar" | "en" | "fr" | "de" | "it" | "pt" | "es"
+>[] = [
   {
     code: LOCALE_CODE.ARABIC,
     name: LOCALE_NAME.ARABIC,

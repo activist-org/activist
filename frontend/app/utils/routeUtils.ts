@@ -14,7 +14,7 @@ function normalizePath(path: string): string {
  * Remove the leading locale segment from the given route segments if present.
  */
 function removeLocaleSegment(segments: string[]): string[] {
-  if (segments.length > 0 && localCodes.includes(segments[0])) {
+  if (segments.length > 0 && localCodes.includes(segments[0] ?? "")) {
     return segments.slice(1);
   }
   return segments;
@@ -41,7 +41,7 @@ export function isTopLevelRouteActive(routePath: string): boolean {
  */
 function removeLocaleFromRouteName(routeName: string): string {
   const parts = routeName.split("___");
-  if (parts.length > 1 && localCodes.includes(parts[0])) {
+  if (parts.length > 1 && localCodes.includes(parts[0] ?? "")) {
     return parts.slice(1).join("___");
   }
   return routeName;
@@ -55,7 +55,7 @@ export function isCurrentRoutePathSubpageOf(path: string, routeName: string) {
   const subpage = segments.length > 1 ? segments[1] : "";
 
   // Check that this subpage is valid and not one of the excluded routes.
-  return subpage !== "search" && subpage !== "create" && subpage.length > 0;
+  return subpage !== "search" && subpage !== "create" && subpage!.length > 0;
 }
 
 export function currentRoutePathIncludes(

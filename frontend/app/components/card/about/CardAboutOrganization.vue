@@ -35,7 +35,8 @@
         <!-- <ShieldTopic :topic="organization.topic" /> -->
         <div class="flex items-center gap-3">
           <MetaTagLocation
-            :location="organization.location.displayName.split(',')[0]"
+            v-if="organization.location"
+            :location="organization.location.displayName.split(',')[0] ?? ''"
           />
           <!-- <MetaTagMembers
               :members="organization.members.length"

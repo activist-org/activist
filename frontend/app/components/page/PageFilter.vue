@@ -168,7 +168,7 @@ const { slash } = useMagicKeys({
   },
 });
 
-whenever(slash, () => {
+whenever(slash ?? ref(false), () => {
   setTimeout(() => {
     if (input.value) {
       input.value.focus();
@@ -211,9 +211,8 @@ const emitChange = () => {
   emit("filter-change", {
     search: searchQuery.value,
     activeTab: activeTab.value,
-    selectedTags: props.sections[0].tags
-      .filter((t) => t.selected)
-      .map((t) => t.id),
+    selectedTags:
+      props.sections[0]?.tags.filter((t) => t.selected).map((t) => t.id) || [],
   });
 };
 

@@ -40,7 +40,10 @@ export function useFileManager() {
   }
 
   function getIconImage(files: File[]) {
-    return new UploadableFile(files[0]);
+    if (files[0]) {
+      return new UploadableFile(files[0]);
+    }
+    return new Error("No file provided to upload.");
   }
 
   function handleAddFiles(newFiles: File[], files: FileUploadMix[]) {

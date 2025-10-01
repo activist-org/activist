@@ -48,7 +48,7 @@ interface SelectedOptions {
 }
 
 const selected = ref<SelectedOptions>({});
-const switches = ref<(HTMLInputElement | null)[]>([]);
+const switches = ref<(HTMLInputElement | null | undefined)[]>([]);
 
 const keyboardEvent = (e: KeyboardEvent) => {
   const currentIndex = switches.value.findIndex(
@@ -58,7 +58,7 @@ const keyboardEvent = (e: KeyboardEvent) => {
     (currentIndex - 1 + switches.value.length) % switches.value.length;
   const nextIndex = (currentIndex + 1) % switches.value.length;
 
-  let currentSwitch: HTMLElement | null = null;
+  let currentSwitch: HTMLElement | null | undefined = null;
 
   switch (e.code) {
     case "ArrowUp":

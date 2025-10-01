@@ -137,7 +137,7 @@ const resetPasswordSchema = z
     }
   });
 
-const { showError } = useToaster();
+const { showToastError } = useToaster();
 const isPasswordFieldFocused = ref(false);
 
 const handleSubmit = async (values: unknown) => {
@@ -155,7 +155,7 @@ const handleSubmit = async (values: unknown) => {
     navigateTo(localePath("/auth/sign-in"));
   } else {
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    showError(t("i18n.pages.auth._global.error_occurred"));
+    showToastError(t("i18n.pages.auth._global.error_occurred"));
   }
 };
 </script>

@@ -5,7 +5,11 @@
     class="mt-3 flex items-center justify-start space-x-3"
   >
     <div v-for="(url, index) in feedItemUrls" class="max-w-[100%]">
-      <FeedItem :name="feedItemNames[index]" :url="url" />
+      <FeedItem
+        v-if="feedItemNames[index]"
+        :name="feedItemNames[index]"
+        :url="url"
+      />
     </div>
   </div>
 </template>
