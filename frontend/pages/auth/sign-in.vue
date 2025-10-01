@@ -12,11 +12,12 @@
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         name="userName"
       >
+        <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
           @input="handleChange"
           @blur="handleBlur"
           :id="id"
-          :modelValue="value.value as string"
+          :modelValue="(value.value as string)"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth.sign_in.enter_user_name')"
         />
@@ -26,11 +27,12 @@
         name="password"
       >
         <div class="flex flex-col space-y-4">
+          <!-- prettier-ignore-attribute :modelValue -->
           <FormTextInputPassword
             @input="handleChange"
             @blur="handleBlur"
             :id="id"
-            :modelValue="value.value as string"
+            :modelValue="(value.value as string)"
             :hasError="!!errorMessage.value"
             :label="$t('i18n._global.enter_password')"
           />
@@ -41,16 +43,23 @@
         </div>
       </FormItem>
       <div class="flex flex-col space-y-3">
-        <FriendlyCaptcha id="sign-in-captcha" />
+        <FormItem v-slot="{ id, handleChange, value }" name="verifyCaptcha">
+          <!-- prettier-ignore-attribute v-model -->
+          <FriendlyCaptcha
+            v-model="(value.value as boolean)"
+            @update:model-value="handleChange"
+            :id="id"
+          />
+        </FormItem>
         <button
-          @click="navigateTo(localePath('/auth/reset-password'))"
+          @click="navigateTo(localePath('/auth/pwreset/email'))"
           @mouseover="hovered = true"
           @focus="hovered = true"
           @mouseleave="hovered = false"
           @blur="hovered = false"
           id="sign-in-forgot-password"
           :disabled="isForgotPasswordDisabled"
-          class="text-start font-bold"
+          class="inline-link-underline w-fit text-start font-bold"
           :class="{ 'link-text': !isForgotPasswordDisabled }"
         >
           {{ $t("i18n._global.auth.reset_password_forgot_password") }}
@@ -61,12 +70,12 @@
         />
       </div>
     </Form>
-    <div class="flex pt-4 md:justify-center md:pt-6 lg:pt-8">
+    <div class="flex items-center pt-4 md:justify-center md:pt-6 lg:pt-8">
       <h6>{{ $t("i18n.pages.auth.sign_in.index.no_account") }}</h6>
       <NuxtLink
         id="sign-in-signup-link"
         :to="localePath('/auth/sign-up')"
-        class="link-text ml-2 font-extrabold"
+        class="link-text inline-link-underline ml-2 font-extrabold"
       >
         {{ $t("i18n._global.sign_up") }}
       </NuxtLink>
@@ -83,6 +92,9 @@ const { t } = useI18n();
 const signInSchema = z.object({
   userName: z.string().min(1, t("i18n.pages.auth._global.required")),
   password: z.string().min(1, t("i18n.pages.auth._global.required")),
+  verifyCaptcha: z.boolean().refine((val) => val, {
+    message: t("i18n.pages.auth._global.required"),
+  }),
 });
 const localePath = useLocalePath();
 
@@ -91,6 +103,7 @@ const isForgotPasswordDisabled = false;
 const hovered = ref(false);
 
 const { signIn } = useAuth();
+const { showError } = useToaster();
 
 const signInUser = async (values: Record<string, unknown>) => {
   try {
@@ -104,9 +117,9 @@ const signInUser = async (values: Record<string, unknown>) => {
     );
   } catch (error) {
     if (error instanceof FetchError && error?.response?.status === 400) {
-      alert("Invalid sign in credentials");
+      showError(t("i18n.pages.auth.sign_in.invalid_credentials"));
     } else {
-      alert("An error occurred");
+      showError(t("i18n.pages.auth._global.error_occurred"));
     }
   }
 };

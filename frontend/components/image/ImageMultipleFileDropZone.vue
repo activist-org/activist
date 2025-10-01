@@ -5,18 +5,18 @@
     @files-dropped="handleAdd"
     v-slot="{ isDropZoneActive }"
   >
-    <span v-if="isDropZoneActive && uploadLimit > 1">{{
-      $t("i18n.components.image_multiple_file_drop_zone.drop_images")
-    }}</span>
-    <span v-else-if="isDropZoneActive && uploadLimit === 1">{{
-      $t("i18n.components._global.drop_image")
-    }}</span>
-    <span v-else-if="!isDropZoneActive && uploadLimit > 1">{{
-      $t("i18n.components.image_multiple_file_drop_zone.drag_images")
-    }}</span>
-    <span v-else-if="!isDropZoneActive && uploadLimit === 1">{{
-      $t("i18n.components.image_multiple_file_drop_zone.drag_image")
-    }}</span>
+    <span v-if="isDropZoneActive && uploadLimit > 1">
+      {{ $t("i18n.components.image_multiple_file_drop_zone.drop_images") }}
+    </span>
+    <span v-else-if="isDropZoneActive && uploadLimit === 1">
+      {{ $t("i18n.components._global.drop_image") }}
+    </span>
+    <span v-else-if="!isDropZoneActive && uploadLimit > 1">
+      {{ $t("i18n.components.image_multiple_file_drop_zone.drag_images") }}
+    </span>
+    <span v-else-if="!isDropZoneActive && uploadLimit === 1">
+      {{ $t("i18n.components.image_multiple_file_drop_zone.drag_image") }}
+    </span>
   </ImageFileDropZone>
   <p class="py-2">
     {{ $t("i18n.components.image_multiple_file_drop_zone.number_of_files") }}:

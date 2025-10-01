@@ -221,7 +221,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         group.delete()
 
         return Response(
-            {"message": "Group deleted successfully."}, status=status.HTTP_200_OK
+            {"message": "Group deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -412,7 +413,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
 
         return Response(
             {"message": "Social links deleted successfully."},
-            status=status.HTTP_201_CREATED,
+            status=status.HTTP_204_NO_CONTENT,
         )
 
     def create(self, request: Request) -> Response:

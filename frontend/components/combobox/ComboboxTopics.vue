@@ -7,21 +7,22 @@
         <div
           class="elem-shadow-sm focus-brand relative flex w-full cursor-default overflow-hidden rounded-lg"
         >
-          <ComboboxButton>
-            <ComboboxInput
-              @change="query = $event.target.value"
-              @click="inputFocussed = true"
-              @keyup.enter="inputFocussed = false"
-              @focus="handleInputFocus"
-              @blur="inputFocussed = false"
-              class="style-cta rounded-lg border py-2 pl-4 selection:bg-highlight dark:selection:bg-white/20"
-              :displayValue="displayValueHandler"
-            />
-            <div
-              class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
-            >
-              <Icon :name="IconMap.CHEVRON_EXPAND" />
-            </div>
+          <ComboboxInput
+            @change="query = $event.target.value"
+            @click="inputFocussed = true"
+            @keyup.enter="inputFocussed = false"
+            @focus="handleInputFocus"
+            @blur="inputFocussed = false"
+            class="style-cta rounded-lg border py-2 pl-4 selection:bg-highlight dark:selection:bg-white/20"
+            :displayValue="displayValueHandler"
+            :aria-label="$t('i18n.components.combobox_topics.filter_by_topic')"
+            :placeholder="$t('i18n.components.combobox_topics.filter_by_topic')"
+          />
+          <ComboboxButton
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
+            :aria-label="$t('i18n.components.combobox_topics.toggle_dropdown')"
+          >
+            <Icon :name="IconMap.CHEVRON_EXPAND" />
           </ComboboxButton>
         </div>
         <TransitionRoot
@@ -91,7 +92,7 @@ import {
 import { GLOBAL_TOPICS } from "~/types/content/topics";
 import { IconMap } from "~/types/icon-map";
 
-const i18n = useI18n();
+const { t } = useI18n();
 
 const topics = [{ id: 1, name: "i18n.components.combobox_topics.all_topics" }];
 
@@ -120,13 +121,13 @@ function displayValue() {
     return "";
   } else {
     return selectedTopic.value.id == 1
-      ? i18n.t("i18n.components.combobox_topics.filter_by_topic")
+      ? t("i18n.components.combobox_topics.filter_by_topic")
       : selectedTopic.value.name;
   }
 }
 
 const displayValueHandler = () => {
-  return i18n.t(displayValue());
+  return t(displayValue());
 };
 
 function handleInputFocus(e: Event) {

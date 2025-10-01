@@ -8,7 +8,8 @@ import { ref } from "vue";
 import type { RouteProfile } from "~/types/map";
 
 export const useRouting = () => {
-  const i18n = useI18n();
+  const { t } = useI18n();
+
   const bikeDirectionsIcon = `/icons/map/bike_directions.png`;
   const walkDirectionsIcon = `/icons/map/walk_directions.png`;
   const directionsRef = ref<MapLibreGlDirections | null>(null);
@@ -50,7 +51,7 @@ export const useRouting = () => {
 
   const walkingRouteProfileControl = `
     <div
-      title="${i18n.t("i18n.composables.use_routing_map.change_profile")}"
+      title="${t("i18n.composables.use_routing_map.change_profile")}"
       id=${routeProfileOptions.FOOT}
       style="
       background-image: url(${walkDirectionsIcon});
@@ -64,7 +65,7 @@ export const useRouting = () => {
 
   const bikeRouteProfileControl = `
     <div
-      title="${i18n.t("i18n.composables.use_routing_map.change_profile")}"
+      title="${t("i18n.composables.use_routing_map.change_profile")}"
       id=${routeProfileOptions.BIKE}
       style="
       background-image: url(${bikeDirectionsIcon});
@@ -216,17 +217,15 @@ export const useRouting = () => {
 
           let label =
             directions.waypoints.length === 0
-              ? i18n.t("i18n.composables.use_routing_map.click_for_directions")
-              : i18n.t("i18n.composables.use_routing_map.clear_directions");
+              ? t("i18n.composables.use_routing_map.click_for_directions")
+              : t("i18n.composables.use_routing_map.clear_directions");
 
           const tooltip =
             directions.waypoints.length === 0
-              ? i18n.t(
+              ? t(
                   "i18n.composables.use_routing_map.click_for_directions_tooltip"
                 )
-              : i18n.t(
-                  "i18n.composables.use_routing_map.clear_directions_tooltip"
-                );
+              : t("i18n.composables.use_routing_map.clear_directions_tooltip");
 
           if (window.innerWidth >= 768 && directions.waypoints.length !== 0) {
             label += " [x]";

@@ -81,5 +81,6 @@ jobs:
 
       - name: Run pytest - Unit Tests
         if: always()
+        working-directory: ./backend
         run: |
-          pytest ./backend --cov=./backend --cov-report=term-missing --cov-fail-under=80 --cov-config=./backend/pyproject.toml -vv
+          pytest . --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=./pyproject.toml -vv

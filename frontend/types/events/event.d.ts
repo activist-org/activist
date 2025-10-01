@@ -3,6 +3,8 @@ import type { ContentImage } from "~/types/content/file";
 import type { Location } from "~/types/content/location";
 import type { SocialLink } from "~/types/content/social-link";
 
+import type { TopicEnum } from "../content/topics";
+
 // MARK: Main Table
 
 interface EventBase {
@@ -42,6 +44,16 @@ export interface EventAttendee {
   userId: string;
   roleId: string;
   attendeeStatus: int;
+}
+
+// MARK: Event filters.
+
+export interface EventFilters {
+  setting?: EventType;
+  locationType?: "online" | "offline";
+  active_on?: string; // ISO date string
+  topics?: TopicEnum[]; // array of topic IDs
+  name?: string; // search term for event name
 }
 
 export interface EventSocialLink extends SocialLink {

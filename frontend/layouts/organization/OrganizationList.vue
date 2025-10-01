@@ -19,7 +19,7 @@
         class="bg-layer-0 pt-8 transition-padding duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage :organizations="organizations" />
+        <NuxtPage :organizations="orgs" />
       </div>
       <FooterWebsite
         class="pb-24 transition-padding duration-500 md:pb-12"
@@ -40,8 +40,7 @@ const aboveMediumBP = useBreakpoint("md");
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchAll();
 
-const { organizations } = organizationStore;
-
+const orgs = toRef(organizationStore, "organizations");
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 
@@ -51,4 +50,16 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+
+const route = useRoute();
+
+watch(
+  route,
+  (form) => {
+    organizationStore.fetchAll({
+      ...form.query,
+    });
+  },
+  { immediate: true }
+);
 </script>

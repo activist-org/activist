@@ -226,4 +226,4 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.delete(f"{GROUPS_URL}/{new_group.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == 204

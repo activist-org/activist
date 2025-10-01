@@ -14,7 +14,10 @@
     </HeaderAppPage>
     <div v-if="organizations.length > 0">
       <div v-for="org in organizations" class="space-y-6 pb-6 pt-3 md:pt-4">
-        <CardSearchResultOrganization :isPrivate="false" :organization="org" />
+        <CardSearchResultEntityOrganization
+          :isPrivate="false"
+          :organization="org"
+        />
       </div>
     </div>
     <EmptyState v-else pageType="organizations" :permission="false" />

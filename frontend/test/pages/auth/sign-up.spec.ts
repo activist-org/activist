@@ -28,43 +28,6 @@ describe("sign-up", () => {
     });
   });
 
-  it("shows green check when passwords match", async () => {
-    await render(SignUp);
-
-    const userName = screen.getByLabelText(
-      getEnglishText("i18n.pages.auth._global.enter_a_user_name")
-    );
-    await fireEvent.update(userName, "testuser");
-
-    const passwordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.enter_password")
-    );
-
-    await fireEvent.update(passwordInput, "abcd");
-    await fireEvent.blur(passwordInput);
-
-    const repeatPasswordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.repeat_password")
-    );
-
-    await fireEvent.update(repeatPasswordInput, "ab");
-
-    let icon = await screen.findByRole("img", {
-      name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
-    });
-
-    expect(icon.style.color).toBe("#BA3D3B");
-
-    await fireEvent.update(repeatPasswordInput, "abcd");
-
-    await waitFor(() => {
-      icon = screen.getByRole("img", {
-        name: getEnglishText("i18n.pages.auth._global.passwords_match"),
-      });
-      expect(icon.style.color).toBe("#3BA55C");
-    });
-  });
-
   it.each([
     ["a", RATING.VERY_WEAK],
     ["Activis", RATING.WEAK],

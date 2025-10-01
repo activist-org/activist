@@ -5,6 +5,7 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { pressControlKey } from "~/test-e2e/actions/keyboard";
 import { newSearchModal } from "~/test-e2e/component-objects/SearchModal";
 import { newHomePage } from "~/test-e2e/page-objects/HomePage";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/home");
@@ -14,33 +15,57 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
-  test("Topics filter should expand or hide on click", async ({ page }) => {
-    const { topicsFilter } = newHomePage(page);
-    await topicsFilter.click();
-    await expect(topicsFilter.getByRole("listbox")).toBeVisible();
+  test("Topics filter should expand or hide on click", async ({
+    page,
+  }, testInfo) => {
+    logTestPath(testInfo);
 
-    await topicsFilter.click();
-    await expect(topicsFilter.getByRole("listbox")).toBeHidden();
+    const { topicsFilter } = newHomePage(page);
+
+    await withTestStep(testInfo, "Click topics filter to expand", async () => {
+      await topicsFilter.click();
+      await expect(topicsFilter.getByRole("listbox")).toBeVisible();
+    });
+
+    await withTestStep(testInfo, "Click topics filter to hide", async () => {
+      await topicsFilter.click();
+      await expect(topicsFilter.getByRole("listbox")).toBeHidden();
+    });
   });
 
-  test("User can use search modal with CTRL+'K'", async ({ page }) => {
+  test("User can use search modal with CTRL+'K'", async ({
+    page,
+  }, testInfo) => {
+    logTestPath(testInfo);
+
     const searchModal = newSearchModal(page);
 
-    await pressControlKey(page, "K");
-    await expect(searchModal.input).toBeVisible();
+    await withTestStep(testInfo, "Open search modal with CTRL+K", async () => {
+      await pressControlKey(page, "K");
+      await expect(searchModal.input).toBeVisible();
+    });
 
-    await searchModal.input.fill("test search");
-    await expect(searchModal.root).toContainText(
-      /no results for: test search/i
+    await withTestStep(
+      testInfo,
+      "Perform search and verify results",
+      async () => {
+        await searchModal.input.fill("test search");
+        await expect(searchModal.root).toContainText(
+          /no results for: test search/i
+        );
+      }
     );
 
-    await searchModal.closeButton.click();
-    await expect(searchModal.root).not.toBeAttached();
+    await withTestStep(testInfo, "Close search modal", async () => {
+      await searchModal.closeButton.click();
+      await expect(searchModal.root).not.toBeAttached();
+    });
   });
 
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test.fail(
+  test(
     "Home Page has no detectable accessibility issues",
+    { tag: "@accessibility" },
     async ({ page }, testInfo) => {
       const violations = await runAccessibilityTest(
         "Home Page",

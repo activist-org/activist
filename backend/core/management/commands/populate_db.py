@@ -142,7 +142,7 @@ class Command(BaseCommand):
                         name=f"{user_topic_name} Organization",
                         tagline=f"Fighting for {user_topic_name.lower()}",
                     )
-
+                    user_org.topics.set([user_topic])
                     org_texts = OrganizationTextFactory(iso="en", primary=True)
                     org_social_links: List[OrganizationSocialLinkFactory] = []
                     org_social_links.extend(
@@ -159,9 +159,10 @@ class Command(BaseCommand):
 
                     for r in range(num_resources_per_entity):
                         user_org_resource = OrganizationResourceFactory(
-                            org=user_org, order=r
+                            created_by=user, org=user_org, order=r
                         )
                         user_org.resources.add(user_org_resource)
+                        user_org_resource.topics.set([user_topic])
 
                     for e in range(num_events_per_org):
                         event_type = random.choice(["learn", "action"])
@@ -178,7 +179,7 @@ class Command(BaseCommand):
                             created_by=user,
                             orgs=user_org,
                         )
-
+                        user_org_event.topics.set([user_topic])
                         event_texts = EventTextFactory(iso="en", primary=True)
                         event_social_links: List[EventSocialLinkFactory] = []
                         event_social_links.extend(
@@ -197,9 +198,10 @@ class Command(BaseCommand):
 
                         for r in range(num_resources_per_entity):
                             user_org_event_resource = EventResourceFactory(
-                                event=user_org_event, order=r
+                                created_by=user, event=user_org_event, order=r
                             )
                             user_org_event.resources.add(user_org_event_resource)
+                            user_org_event_resource.topics.set([user_topic])
 
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
@@ -228,9 +230,10 @@ class Command(BaseCommand):
 
                         for r in range(num_resources_per_entity):
                             user_org_group_resource = GroupResourceFactory(
-                                group=user_org_group, order=r
+                                created_by=user, group=user_org_group, order=r
                             )
                             user_org_group.resources.add(user_org_group_resource)
+                            user_org_group_resource.topics.set([user_topic])
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org
@@ -245,6 +248,15 @@ class Command(BaseCommand):
                 + num_orgs_per_user * num_events_per_org * num_faq_entries_per_entity
                 + num_orgs_per_user * num_groups_per_org * num_faq_entries_per_entity
             )
+            num_social_links = (
+                3
+                * num_users
+                * (
+                    num_orgs_per_user
+                    + num_orgs_per_user * num_groups_per_org
+                    + num_orgs_per_user * num_events_per_org
+                )
+            )
 
             self.stdout.write(
                 self.style.ERROR(
@@ -254,6 +266,7 @@ class Command(BaseCommand):
                     f"Number of events created: {num_events}\n"
                     f"Number of resources created: {num_resources}\n"
                     f"Number of FAQ entries created: {num_faq_entries}\n"
+                    f"Number of social links created: {num_social_links}\n"
                 )
             )
 
