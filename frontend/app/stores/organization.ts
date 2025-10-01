@@ -3,10 +3,10 @@
 import type {
   Organization,
   OrganizationCreateFormData,
+  OrganizationFilters,
   OrganizationResponse,
   OrganizationsResponseBody,
   OrganizationUpdateTextFormData,
-  OrganizationFilters,
 } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
 import type { ContentImage, UploadableFile } from "~/types/content/file";
@@ -134,7 +134,7 @@ export const useOrganizationStore = defineStore("organization", {
         this.organization.socialLinks = organization.socialLinks;
         this.organization.status = organization.status;
 
-        this.organization.texts = organization.texts[0];
+        this.organization.texts = organization.texts[0]!;
 
         this.organization.groups = organization.groups;
         this.organization.events = organization.events;
@@ -144,6 +144,93 @@ export const useOrganizationStore = defineStore("organization", {
       }
 
       this.loading = false;
+    },
+
+    // MARK: Fetch All
+
+    async fetchAll(filters: OrganizationFilters = {}) {
+      this.loading = true;
+      const searchParams = new URLSearchParams(
+        filters as Record<string, string>
+      );
+      const { data, status } = await useAsyncData<OrganizationsResponseBody>(
+        async () =>
+          (await fetchWithoutToken(
+            `/communities/organizations?${searchParams.toString()}`,
+            {}
+          )) as OrganizationsResponseBody
+      );
+
+      if (status.value === "success") {
+        const organizations = data.value!.results.map(
+          (org: OrganizationResponse) => {
+            return {
+              id: org.id,
+              orgName: org.orgName,
+              name: org.name,
+              tagline: org.tagline,
+              createdBy: org.createdBy,
+              iconUrl: org.iconUrl,
+
+              location: org.location,
+
+              getInvolvedUrl: org.getInvolvedUrl,
+              socialLinks: org.socialLinks,
+              status: org.status,
+              creationDate: org.creationDate,
+
+              groups: org.groups,
+              events: org.events,
+              faqEntries: org.faqEntries,
+
+              texts: org.texts[0]!,
+            };
+          }
+        );
+
+        this.organizations = organizations;
+      }
+
+      this.loading = false;
+    },
+
+    // MARK: Update Texts
+
+    async updateTexts(
+      org: Organization,
+      formData: OrganizationUpdateTextFormData
+    ) {
+      this.loading = true;
+
+      const responseOrgTexts = await $fetch(
+        BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}`,
+        {
+          method: "PUT",
+          body: {
+            primary: true,
+            description: formData.description,
+            getInvolved: formData.getInvolved,
+            donate_prompt: "",
+            orgId: org.id,
+            iso: "en",
+          },
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      if (responseOrgTexts) {
+        this.organization.texts.description = formData.description;
+        this.organization.texts.getInvolved = formData.getInvolved;
+        this.organization.getInvolvedUrl = formData.getInvolvedUrl;
+
+        this.loading = false;
+
+        return true;
+      }
+
+      return false;
     },
 
     // MARK: Create Resource
@@ -354,93 +441,6 @@ export const useOrganizationStore = defineStore("organization", {
       } catch (error) {
         void error;
       }
-    },
-
-    // MARK: Fetch All
-
-    async fetchAll(filters: OrganizationFilters = {}) {
-      this.loading = true;
-      const searchParams = new URLSearchParams(
-        filters as Record<string, string>
-      );
-      const { data, status } = await useAsyncData<OrganizationsResponseBody>(
-        async () =>
-          (await fetchWithoutToken(
-            `/communities/organizations?${searchParams.toString()}`,
-            {}
-          )) as OrganizationsResponseBody
-      );
-
-      if (status.value === "success") {
-        const organizations = data.value!.results.map(
-          (org: OrganizationResponse) => {
-            return {
-              id: org.id,
-              orgName: org.orgName,
-              name: org.name,
-              tagline: org.tagline,
-              createdBy: org.createdBy,
-              iconUrl: org.iconUrl,
-
-              location: org.location,
-
-              getInvolvedUrl: org.getInvolvedUrl,
-              socialLinks: org.socialLinks,
-              status: org.status,
-              creationDate: org.creationDate,
-
-              groups: org.groups,
-              events: org.events,
-              faqEntries: org.faqEntries,
-
-              texts: org.texts[0],
-            };
-          }
-        );
-
-        this.organizations = organizations;
-      }
-
-      this.loading = false;
-    },
-
-    // MARK: Update Texts
-
-    async updateTexts(
-      org: Organization,
-      formData: OrganizationUpdateTextFormData
-    ) {
-      this.loading = true;
-
-      const responseOrgTexts = await $fetch(
-        BASE_BACKEND_URL + `/communities/organization_texts/${org.texts.id}`,
-        {
-          method: "PUT",
-          body: {
-            primary: true,
-            description: formData.description,
-            getInvolved: formData.getInvolved,
-            donate_prompt: "",
-            orgId: org.id,
-            iso: "en",
-          },
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
-      );
-
-      if (responseOrgTexts) {
-        this.organization.texts.description = formData.description;
-        this.organization.texts.getInvolved = formData.getInvolved;
-        this.organization.getInvolvedUrl = formData.getInvolvedUrl;
-
-        this.loading = false;
-
-        return true;
-      }
-
-      return false;
     },
 
     // MARK: Delete Links

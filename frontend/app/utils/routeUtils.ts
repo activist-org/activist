@@ -14,7 +14,10 @@ function normalizePath(path: string): string {
  * Remove the leading locale segment from the given route segments if present.
  */
 function removeLocaleSegment(segments: string[]): string[] {
-  if (segments.length > 0 && localCodes.includes(segments[0] ?? "")) {
+  const isLocalCode = (code: string): code is (typeof localCodes)[number] =>
+    localCodes.includes(code as (typeof localCodes)[number]);
+
+  if (segments.length > 0 && isLocalCode(segments[0] ?? "")) {
     return segments.slice(1);
   }
   return segments;
@@ -41,7 +44,10 @@ export function isTopLevelRouteActive(routePath: string): boolean {
  */
 function removeLocaleFromRouteName(routeName: string): string {
   const parts = routeName.split("___");
-  if (parts.length > 1 && localCodes.includes(parts[0] ?? "")) {
+  const isLocalCode = (code: string): code is (typeof localCodes)[number] =>
+    localCodes.includes(code as (typeof localCodes)[number]);
+
+  if (parts.length > 1 && isLocalCode(parts[0] ?? "")) {
     return parts.slice(1).join("___");
   }
   return routeName;

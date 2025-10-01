@@ -14,7 +14,9 @@ export const useModals = defineStore("modals", {
     openModal(modalName: string) {
       const { modals } = this;
       for (const key in modals) {
-        modals[key].isOpen = false;
+        if (modals[key]) {
+          modals[key].isOpen = false;
+        }
       }
       modals[modalName] = { isOpen: true };
     },
@@ -31,17 +33,24 @@ export const useModals = defineStore("modals", {
     openModalAndUpdateState(modalName: string, params?: unknown) {
       this.openModal(modalName);
 
-      this.modals[modalName] = {
-        ...this.modals[modalName],
-        data: params,
-      };
+      if (this.modals[modalName]) {
+        this.modals[modalName] = {
+          ...this.modals[modalName],
+          data: params,
+        };
+      }
 
       return this.modals[modalName];
     },
 
     closeModalAndUpdateState(modalName: string) {
       this.closeModal(modalName);
-      return this.modals[modalName].isOpen;
+
+      if (this.modals[modalName]) {
+        return this.modals[modalName].isOpen;
+      } else {
+        return false;
+      }
     },
   },
 });

@@ -169,7 +169,7 @@ export const useEventStore = defineStore("event", {
         this.event.getInvolvedUrl = event.getInvolvedUrl;
         this.event.socialLinks = event.socialLinks;
 
-        this.event.texts = event.texts[0];
+        this.event.texts = event.texts[0]!;
 
         this.event.resources = event.resources;
         this.event.faqEntries = event.faqEntries;
@@ -217,7 +217,7 @@ export const useEventStore = defineStore("event", {
             creationDate: event.creationDate,
             orgs: event.orgs,
 
-            texts: event.texts[0],
+            texts: event.texts[0]!,
           };
         });
 

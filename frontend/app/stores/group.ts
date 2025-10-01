@@ -136,7 +136,7 @@ export const useGroupStore = defineStore("group", {
         this.group.getInvolvedUrl = group.getInvolvedUrl;
         this.group.socialLinks = group.socialLinks;
 
-        this.group.texts = group.texts[0];
+        this.group.texts = group.texts[0]!;
 
         this.group.resources = group.resources;
         this.group.faqEntries = group.faqEntries;
@@ -175,7 +175,7 @@ export const useGroupStore = defineStore("group", {
             socialLinks: group.socialLinks,
             creationDate: group.creationDate,
 
-            texts: group.texts[0],
+            texts: group.texts[0]!,
 
             faqEntries: group.faqEntries,
           };
