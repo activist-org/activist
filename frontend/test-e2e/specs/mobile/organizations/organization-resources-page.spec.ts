@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
-import { getResourceCardOrder } from "~/test-e2e/actions/dragAndDrop";
+import {
+  getResourceCardOrder,
+  performDragAndDrop,
+  verifyReorder,
+} from "~/test-e2e/actions/dragAndDrop";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
@@ -11,7 +15,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
-  test.skip("User can reorder resources using drag and drop on mobile", async ({
+  test("User can reorder resources using drag and drop on mobile", async ({
     page,
   }) => {
     const organizationPage = newOrganizationPage(page);
@@ -44,51 +48,26 @@ test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
       await expect(firstResourceDragHandle).toBeVisible();
       await expect(secondResourceDragHandle).toBeVisible();
 
-      // Validate drag handles have the correct CSS class using new Playwright v1.52 API
+      // Validate drag handles have the correct CSS class
       await expect(firstResourceDragHandle).toContainClass("drag-handle");
       await expect(secondResourceDragHandle).toContainClass("drag-handle");
 
-      // Use mouse events directly since dragTo() isn't working reliably
-      const firstBox = await firstResourceDragHandle.boundingBox();
-      const secondBox = await secondResourceDragHandle.boundingBox();
+      // Perform drag and drop using shared utility
+      // NOTE: We use mouse events with delays instead of dragTo() because
+      // dragTo() executes too quickly for vuedraggable to process the drag sequence
+      await performDragAndDrop(
+        page,
+        firstResourceDragHandle,
+        secondResourceDragHandle
+      );
 
-      if (firstBox && secondBox) {
-        const startX = firstBox.x + firstBox.width / 2;
-        const startY = firstBox.y + firstBox.height / 2;
-        const endX = secondBox.x + secondBox.width / 2;
-        const endY = secondBox.y + secondBox.height / 2;
-
-        // Simulate drag with mouse events
-        await page.mouse.move(startX, startY);
-        await page.mouse.down();
-        await page.waitForTimeout(100);
-
-        // Move to target with intermediate steps
-        const steps = 5;
-        for (let i = 1; i <= steps; i++) {
-          const progress = i / steps;
-          const currentX = startX + (endX - startX) * progress;
-          const currentY = startY + (endY - startY) * progress;
-          await page.mouse.move(currentX, currentY);
-          await page.waitForTimeout(50);
-        }
-
-        await page.mouse.up();
-        await page.waitForTimeout(200);
-      }
-
-      // Wait for the reorder operation to complete
-      await page.waitForLoadState("networkidle");
-
-      // Additional wait for vuedraggable to process the reorder
-      await page.waitForTimeout(1000);
-
-      // Get final order after drag operation
-      const finalOrder = await getResourceCardOrder(page);
-
-      // Verify the drag operation worked (first and second should be swapped)
-      expect(finalOrder[1]).toBe(firstResource);
-      expect(finalOrder[0]).toBe(secondResource);
+      // Verify the reorder using shared utility
+      await verifyReorder(
+        page,
+        firstResource,
+        secondResource,
+        getResourceCardOrder
+      );
     } else {
       // Skip test if insufficient resources for drag and drop testing
       test.skip(

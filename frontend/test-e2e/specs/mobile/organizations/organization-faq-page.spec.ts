@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
+import {
+  getFAQCardOrder,
+  performDragAndDrop,
+  verifyReorder,
+} from "~/test-e2e/actions/dragAndDrop";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
@@ -23,8 +28,9 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
 
     if (faqCount >= 2) {
       // Get initial order of first 2 FAQ questions for drag and drop test
-      const firstQuestion = await faqPage.getFAQQuestionText(0);
-      const secondQuestion = await faqPage.getFAQQuestionText(1);
+      const initialOrder = await getFAQCardOrder(page);
+      const firstQuestion = initialOrder[0];
+      const secondQuestion = initialOrder[1];
 
       // Verify drag handles are visible and get their properties
       const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
@@ -34,49 +40,17 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
       await expect(firstFAQDragHandle).toBeVisible();
       await expect(secondFAQDragHandle).toBeVisible();
 
-      // Validate drag handles have the correct CSS class using new Playwright v1.52 API
+      // Validate drag handles have the correct CSS class
       await expect(firstFAQDragHandle).toContainClass("drag-handle");
       await expect(secondFAQDragHandle).toContainClass("drag-handle");
 
-      // Use mouse events directly since dragTo() isn't working reliably
-      const firstBox = await firstFAQDragHandle.boundingBox();
-      const secondBox = await secondFAQDragHandle.boundingBox();
+      // Perform drag and drop using shared utility
+      // NOTE: We use mouse events with delays instead of dragTo() because
+      // dragTo() executes too quickly for vuedraggable to process the drag sequence
+      await performDragAndDrop(page, firstFAQDragHandle, secondFAQDragHandle);
 
-      if (firstBox && secondBox) {
-        const startX = firstBox.x + firstBox.width / 2;
-        const startY = firstBox.y + firstBox.height / 2;
-        const endX = secondBox.x + secondBox.width / 2;
-        const endY = secondBox.y + secondBox.height / 2;
-
-        // Simulate drag with mouse events
-        await page.mouse.move(startX, startY);
-        await page.mouse.down();
-        await page.waitForTimeout(100);
-
-        // Move to target with intermediate steps
-        const steps = 5;
-        for (let i = 1; i <= steps; i++) {
-          const progress = i / steps;
-          const currentX = startX + (endX - startX) * progress;
-          const currentY = startY + (endY - startY) * progress;
-          await page.mouse.move(currentX, currentY);
-          await page.waitForTimeout(50);
-        }
-
-        await page.mouse.up();
-        await page.waitForTimeout(200);
-      }
-
-      // Wait for the reorder operation to complete (including network requests)
-      await page.waitForLoadState("networkidle");
-
-      // Get final order of first 2 FAQ questions
-      const finalFirstQuestion = await faqPage.getFAQQuestionText(0);
-      const finalSecondQuestion = await faqPage.getFAQQuestionText(1);
-
-      // Verify the order has changed (first and second should be swapped)
-      expect(finalFirstQuestion).toBe(secondQuestion);
-      expect(finalSecondQuestion).toBe(firstQuestion);
+      // Verify the reorder using shared utility
+      await verifyReorder(page, firstQuestion, secondQuestion, getFAQCardOrder);
     } else {
       // Skip test if insufficient FAQ entries for drag and drop testing
       test.skip(

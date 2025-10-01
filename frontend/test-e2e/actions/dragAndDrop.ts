@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 
 /**
  * Drag and drop utility functions for testing reorderable lists
@@ -62,4 +62,84 @@ export async function getFAQCardOrder(page: Page): Promise<string[]> {
     }
   }
   return faqQuestions;
+}
+
+/**
+ * Performs a drag and drop operation from source to target using mouse events
+ * This uses intermediate steps for smooth dragging to ensure vuedraggable detects the operation
+ * @param page - Playwright page object
+ * @param sourceLocator - The locator for the element to drag (typically a drag handle)
+ * @param targetLocator - The locator for the target position (typically another drag handle)
+ * @param steps - Number of intermediate steps for the drag motion (default: 5)
+ */
+export async function performDragAndDrop(
+  page: Page,
+  sourceLocator: Locator,
+  targetLocator: Locator,
+  steps = 5
+): Promise<void> {
+  // Get bounding boxes for source and target
+  const sourceBox = await sourceLocator.boundingBox();
+  const targetBox = await targetLocator.boundingBox();
+
+  if (!sourceBox || !targetBox) {
+    throw new Error("Could not get bounding boxes for drag and drop elements");
+  }
+
+  // Calculate center points
+  const startX = sourceBox.x + sourceBox.width / 2;
+  const startY = sourceBox.y + sourceBox.height / 2;
+  const endX = targetBox.x + targetBox.width / 2;
+  const endY = targetBox.y + targetBox.height / 2;
+
+  // Move to start position and press mouse button
+  await page.mouse.move(startX, startY);
+  await page.mouse.down();
+  await page.waitForTimeout(100);
+
+  // Move to target with intermediate steps for smooth drag
+  for (let i = 1; i <= steps; i++) {
+    const progress = i / steps;
+    const currentX = startX + (endX - startX) * progress;
+    const currentY = startY + (endY - startY) * progress;
+    await page.mouse.move(currentX, currentY);
+    await page.waitForTimeout(50);
+  }
+
+  // Release mouse button
+  await page.mouse.up();
+  await page.waitForTimeout(200);
+}
+
+/**
+ * Verifies that two items were successfully reordered (swapped positions)
+ * @param page - Playwright page object
+ * @param expectedFirstItem - The item that should now be in the first position
+ * @param expectedSecondItem - The item that should now be in the second position
+ * @param getOrderFunction - Function to get the current order of items
+ */
+export async function verifyReorder(
+  page: Page,
+  expectedFirstItem: string,
+  expectedSecondItem: string,
+  getOrderFunction: (page: Page) => Promise<string[]>
+): Promise<void> {
+  // Wait for the reorder operation to complete
+  await page.waitForLoadState("networkidle");
+
+  // Additional wait for vuedraggable to process the reorder
+  await page.waitForTimeout(1000);
+
+  // Get final order after drag operation
+  const finalOrder = await getOrderFunction(page);
+
+  // Verify the items are in the expected positions (swapped)
+  if (
+    finalOrder[0] !== expectedSecondItem ||
+    finalOrder[1] !== expectedFirstItem
+  ) {
+    throw new Error(
+      `Reorder verification failed. Expected [${expectedSecondItem}, ${expectedFirstItem}], but got [${finalOrder[0]}, ${finalOrder[1]}]`
+    );
+  }
 }
