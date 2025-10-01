@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newPasswordStrength } from "~/test-e2e/component-objects/PasswordStrength";
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";

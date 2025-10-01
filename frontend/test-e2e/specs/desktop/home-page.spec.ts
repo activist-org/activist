@@ -1,10 +1,10 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { pressControlKey } from "~/test-e2e/actions/keyboard";
 import { newInfoMenu } from "~/test-e2e/component-objects/InfoMenu";
 import { newMainNavOptions } from "~/test-e2e/component-objects/MainNavOptions";
 import { newSearchbar } from "~/test-e2e/component-objects/Searchbar";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "~/test-e2e/global-fixtures";
 
 test.beforeEach(async ({ page }) => {

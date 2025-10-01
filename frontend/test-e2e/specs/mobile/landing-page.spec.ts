@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { LOCALE_CODE, LOCALE_NAME } from "~/locales";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import {
@@ -21,7 +22,6 @@ import { newLanguageMenu } from "~/test-e2e/component-objects/LanguageMenu";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
 import { newThemeMenu } from "~/test-e2e/component-objects/ThemeMenu";
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";

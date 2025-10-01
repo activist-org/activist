@@ -1,5 +1,5 @@
-import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import { getEnglishText } from "~/utils/i18n";
