@@ -1,23 +1,24 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useDebounceFn } from "@vueuse/core";
+
 export default function useFormInput(
   props: Record<string, unknown>,
-  emit: any,
+  emit: (event: "update:modelValue", value: string | boolean) => void,
   isDebounceEnabled?: boolean
 ): { updateValue: (event: Event) => void } {
-  const inputDebounce = useDebounceFn((val: any) => {
+  const inputDebounce = useDebounceFn((val: string | boolean) => {
     emit("update:modelValue", val);
   }, 1000);
 
   const updateValue = (event: Event): void => {
-    let val: any = (event.target as HTMLInputElement).value;
+    let val: string | boolean = (event.target as HTMLInputElement).value;
 
     if ((event.target as HTMLInputElement).type === "checkbox") {
       val = (event.target as HTMLInputElement).checked;
     }
 
     if ((event.target as HTMLInputElement).type === "radio") {
-      val = props.value;
+      val = String(props.value);
     }
     if ((event.target as HTMLInputElement).type === "text") {
       val = (event.target as HTMLInputElement).value;
