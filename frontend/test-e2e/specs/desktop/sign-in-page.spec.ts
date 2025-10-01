@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { expect, test } from "playwright/test";
-
+import { expect, test } from "~/test-e2e/global-fixtures";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
 
 test.beforeEach(async ({ page }) => {
