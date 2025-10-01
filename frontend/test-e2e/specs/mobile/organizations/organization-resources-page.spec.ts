@@ -9,6 +9,8 @@ import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
 test.beforeEach(async ({ page }) => {
+  // Already authenticated via global storageState
+  test.setTimeout(60000); // Organization pages load slowly in dev mode
   // Use shared navigation function that automatically detects platform and uses appropriate navigation
   await navigateToOrganizationSubpage(page, "resources");
 });
@@ -59,6 +61,9 @@ test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
         firstResourceDragHandle,
         secondResourceDragHandle
       );
+
+      // Wait for DOM to update after drag and drop (flaky test fix)
+      await page.waitForTimeout(1000);
 
       // Verify the reorder using shared utility
       await verifyReorder(

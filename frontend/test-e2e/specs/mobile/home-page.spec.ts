@@ -10,7 +10,15 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/home");
 });
 
-test.describe("Home Page", { tag: "@mobile" }, () => {
+test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
+  // Override to run without authentication (tests sign-in menu)
+  test.use({ storageState: undefined });
+
+  // Explicitly clear all cookies to ensure unauthenticated state
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies();
+  });
+
   test("User can open searchbar", async ({ page }) => {
     const searchbar = newSearchbar(page);
 

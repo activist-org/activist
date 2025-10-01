@@ -1,4 +1,3 @@
-import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 import {
   getResourceCardOrder,
   performDragAndDrop,
@@ -10,8 +9,8 @@ import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
 test.beforeEach(async ({ page }) => {
+  // Already authenticated via global storageState
   test.setTimeout(60000); // Group pages load slowly in dev mode
-  await signInAsAdmin(page);
   await navigateToOrganizationGroupSubpage(page, "resources");
 });
 test.describe(

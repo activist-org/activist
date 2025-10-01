@@ -34,7 +34,15 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
-test.describe("Landing Page", { tag: "@desktop" }, () => {
+test.describe("Landing Page", { tag: ["@desktop", "@unauth"] }, () => {
+  // Override to run without authentication (landing page for unauthenticated users)
+  test.use({ storageState: undefined });
+
+  // Explicitly clear all cookies to ensure unauthenticated state
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies();
+  });
+
   test("User can go to Roadmap on desktop", async ({ page }) => {
     await page.getByRole("link", { name: ROADMAP_LINK_NAME }).click();
     await page.waitForURL("**/about/roadmap");

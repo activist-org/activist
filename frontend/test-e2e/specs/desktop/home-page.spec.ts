@@ -15,7 +15,15 @@ test.beforeEach(async ({ page }) => {
   await expect(sidebar.root).toBeVisible();
 });
 
-test.describe("Home Page", { tag: "@desktop" }, () => {
+test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
+  // Override to run without authentication (tests sign-in menu)
+  test.use({ storageState: undefined });
+
+  // Explicitly clear all cookies to ensure unauthenticated state
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies();
+  });
+
   test("User can open searchbar", async ({ page }) => {
     const sidebarLeft = newSidebarLeft(page);
     const searchbar = newSearchbar(page);

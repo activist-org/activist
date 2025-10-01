@@ -6,7 +6,15 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/auth/sign-in");
 });
 
-test.describe("Sign In Page", { tag: "@desktop" }, () => {
+test.describe("Sign In Page", { tag: ["@desktop", "@unauth"] }, () => {
+  // Override to run without authentication
+  test.use({ storageState: undefined });
+
+  // Explicitly clear all cookies to ensure unauthenticated state
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies();
+  });
+
   test("User can go to Sign Up page", async ({ page }) => {
     const signInPage = newSignInPage(page);
 

@@ -3,6 +3,10 @@ import { defineConfig, devices } from "@playwright/test";
 import path from "path";
 
 export const RESULTS_PATH = path.join(__dirname, "./test-results");
+export const AUTH_STATE_PATH = path.join(
+  __dirname,
+  "./test-e2e/.auth/admin.json"
+);
 
 /**
  * Read environment variables from file.
@@ -28,6 +32,8 @@ const ENV = (process.env.TEST_ENV || "local") as keyof typeof environments;
 
 export default defineConfig({
   testDir: "./test-e2e/specs",
+  /* Global setup to create authenticated session once */
+  globalSetup: require.resolve("./test-e2e/global-setup"),
   /* Run tests in files in parallel. */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -70,6 +76,8 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: environments[ENV],
     navigationTimeout: 10000,
+    /* Reuse authenticated session across tests (can be overridden per test with test.use()) */
+    storageState: AUTH_STATE_PATH,
 
     /* Enhanced trace configuration for better debugging. */
     trace: {

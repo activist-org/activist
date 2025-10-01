@@ -34,7 +34,15 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
-test.describe("Landing Page", { tag: "@mobile" }, () => {
+test.describe("Landing Page", { tag: ["@mobile", "@unauth"] }, () => {
+  // Override to run without authentication (landing page for unauthenticated users)
+  test.use({ storageState: undefined });
+
+  // Explicitly clear all cookies to ensure unauthenticated state
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies();
+  });
+
   test("User can go to Learn More page from Get Active learn more link", async ({
     page,
   }) => {

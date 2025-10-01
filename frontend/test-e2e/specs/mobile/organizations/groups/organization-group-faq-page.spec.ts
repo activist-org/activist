@@ -1,4 +1,3 @@
-import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 import {
   getFAQCardOrder,
   performDragAndDrop,
@@ -10,7 +9,7 @@ import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
 test.beforeEach(async ({ page }) => {
-  await signInAsAdmin(page);
+  // Already authenticated via global storageState
   await navigateToOrganizationGroupSubpage(page, "faq");
 });
 

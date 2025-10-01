@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
 
-import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
@@ -14,7 +13,7 @@ async function getResourceCardOrder(page: Page) {
 
 test.beforeEach(async ({ page }) => {
   test.setTimeout(60000); // Group pages load slowly in dev mode
-  await signInAsAdmin(page);
+  // Already authenticated via global storageState
   await navigateToOrganizationGroupSubpage(page, "resources");
 });
 

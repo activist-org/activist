@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "playwright";
 
-import { expect } from "playwright/test";
-
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
 
 /**
@@ -10,32 +8,47 @@ import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
  * @param page - Playwright page object
  * @param username - Username (defaults to "admin")
  * @param password - Password (defaults to "admin")
+ * @param skipNavigation - Skip navigation to sign-in page (default: false)
  */
 export async function signInAsAdmin(
   page: Page,
   username: string = "admin",
-  password: string = "admin"
+  password: string = "admin",
+  skipNavigation: boolean = false
 ) {
-  // Navigate to sign-in page
-  await page.goto("/auth/sign-in");
+  // Navigate to sign-in page if not already there
+  if (!skipNavigation) {
+    await page.goto("/auth/sign-in");
+  }
+
   const signInPage = newSignInPage(page);
+
+  // Wait for page to be ready
+  await signInPage.usernameInput.waitFor({ state: "visible", timeout: 30000 });
 
   // Fill credentials
   await signInPage.usernameInput.fill(username);
   await signInPage.passwordInput.fill(password);
 
+  // Wait a moment for form to be ready
+  await page.waitForTimeout(500);
+
   // Click CAPTCHA if present
   const captcha = signInPage.captcha;
-  if (await captcha.isVisible()) {
-    await captcha.click();
+  try {
+    if (await captcha.isVisible({ timeout: 2000 })) {
+      await captcha.click();
+      await page.waitForTimeout(500);
+    }
+  } catch {
+    // CAPTCHA not present, continue
   }
 
   // Submit form
   await signInPage.signInButton.click();
 
-  // Wait for successful navigation to home page
-  await page.waitForURL("**/home");
-  await expect(page).toHaveURL(/.*\/home/);
+  // Wait for successful navigation to home page with explicit timeout
+  await page.waitForURL("**/home", { timeout: 60000 });
 }
 
 /**

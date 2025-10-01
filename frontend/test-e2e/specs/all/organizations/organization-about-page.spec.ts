@@ -1,5 +1,4 @@
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
-import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 import { navigateToFirstOrganization } from "~/test-e2e/actions/navigation";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "~/test-e2e/global-fixtures";
@@ -8,7 +7,7 @@ import { submitModalWithRetry } from "~/test-e2e/utils/modalHelpers";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
-  await signInAsAdmin(page);
+  // Already authenticated via global storageState
   await navigateToFirstOrganization(page);
 });
 
