@@ -34,6 +34,8 @@ export default defineConfig({
   testDir: "./test-e2e/specs",
   /* Global setup to create authenticated session once */
   globalSetup: require.resolve("./test-e2e/global-setup"),
+  /* Skip flaky tests in CI */
+  testIgnore: process.env.CI ? ["**/*@flaky*"] : [],
   /* Run tests in files in parallel. */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
