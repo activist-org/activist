@@ -42,7 +42,7 @@ function createFileUploadMix(
 const mockHandleAddFiles = vi.fn();
 const mockRemoveFile = vi.fn();
 
-vi.mock("@/composables/useFileManager", () => ({
+vi.mock("~/composables/useFileManager", () => ({
   useFileManager: () => ({
     handleAddFiles: mockHandleAddFiles,
     removeFile: mockRemoveFile,

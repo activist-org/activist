@@ -19,6 +19,7 @@
       <Icon
         aria-hidden="false"
         :aria-labelledby="rule.rule"
+        role="img"
         :name="
           validRules.some((ruleV) => {
             ruleV.isValid && ruleV.rule === rule.rule;
