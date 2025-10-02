@@ -3,6 +3,7 @@
   <div
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
     data-testid="resource-card"
+    :data-resource-id="resource.id"
   >
     <div class="flex items-center space-x-2">
       <Icon

@@ -15,7 +15,7 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
     const resourcesPage = organizationPage.resourcesPage;
 
     // Wait for page to load and then for resource cards to appear
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // Wait for resource cards to be present (with timeout to handle empty state)
     try {
@@ -67,7 +67,7 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
     const resourcesPage = organizationPage.resourcesPage;
 
     // Wait for page to load and then for resource cards to appear
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // Wait for resource cards to be present (with timeout to handle empty state)
     try {
@@ -127,7 +127,7 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
       }
 
       // Wait for the reorder operation to complete
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Additional wait for vuedraggable to process the reorder
       await page.waitForTimeout(1000);

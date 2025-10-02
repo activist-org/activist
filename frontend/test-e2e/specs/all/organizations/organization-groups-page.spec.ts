@@ -52,7 +52,7 @@ test.describe(
       const groupsPage = organizationPage.groupsPage;
 
       // Wait for groups to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait for either groups or empty state to appear
       await expect(async () => {
@@ -105,7 +105,7 @@ test.describe(
       const groupsPage = organizationPage.groupsPage;
 
       // Wait for groups to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       const groupCount = await groupsPage.getGroupCount();
 

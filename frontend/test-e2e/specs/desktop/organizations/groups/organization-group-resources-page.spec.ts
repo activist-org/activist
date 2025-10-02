@@ -7,7 +7,8 @@ import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 
 async function getResourceCardOrder(page: Page) {
   return await page
-    .locator('[data-testid="resource-card"] h3')
+    .getByTestId("resource-card")
+    .locator("h3")
     .allTextContents();
 }
 
@@ -27,16 +28,23 @@ test.describe(
       const organizationPage = newOrganizationPage(page);
       const groupResourcesPage = organizationPage.groupResourcesPage;
 
-      // Wait for page to load and then for resource cards to appear
-      await page.waitForLoadState("networkidle");
+      // Wait for page to be ready
+      await page.waitForLoadState("domcontentloaded");
 
-      // Wait for resource cards to be present (with timeout to handle empty state)
+      // Wait for either resource cards or empty state to appear
       try {
-        await expect(groupResourcesPage.resourceCards.first()).toBeVisible({
-          timeout: 5000,
-        });
+        await expect(async () => {
+          const resourceCardsVisible = await groupResourcesPage.resourceCards
+            .first()
+            .isVisible()
+            .catch(() => false);
+          const emptyStateVisible = await groupResourcesPage.emptyState
+            .isVisible()
+            .catch(() => false);
+          expect(resourceCardsVisible || emptyStateVisible).toBe(true);
+        }).toPass({ timeout: 10000 });
       } catch {
-        // If no resource cards appear, that's fine - could be empty state
+        // If neither appears, that's fine - page might still be loading
       }
 
       const resourceCount = await groupResourcesPage.getResourceCount();
@@ -89,18 +97,19 @@ test.describe(
           await page.waitForTimeout(200);
         }
 
-        // Wait for the reorder operation to complete
-        await page.waitForLoadState("networkidle");
-
-        // Additional wait for vuedraggable to process the reorder
-        await page.waitForTimeout(1000);
-
-        // Get final order after drag operation
-        const finalOrder = await getResourceCardOrder(page);
+        // Wait for the reorder operation to complete by checking for DOM changes
+        await expect(async () => {
+          const finalOrder = await getResourceCardOrder(page);
+          // Check if the order has actually changed (first and second should be swapped)
+          return (
+            finalOrder[0] === secondResource && finalOrder[1] === firstResource
+          );
+        }).toPass({ timeout: 5000 });
 
         // Verify the drag operation worked (first and second should be swapped)
-        expect(finalOrder[1]).toBe(firstResource);
+        const finalOrder = await getResourceCardOrder(page);
         expect(finalOrder[0]).toBe(secondResource);
+        expect(finalOrder[1]).toBe(firstResource);
       } else {
         // Skip test if insufficient resources for drag and drop testing
         test.skip(

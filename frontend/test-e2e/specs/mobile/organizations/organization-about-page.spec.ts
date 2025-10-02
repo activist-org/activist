@@ -18,7 +18,7 @@ test.describe("Organization About Page", { tag: "@mobile" }, () => {
     await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
       timeout: 10000,
     });
-    await page.waitForLoadState("networkidle", { timeout: 20000 });
+    await page.waitForLoadState("domcontentloaded");
 
     // Organization pages load slowly in dev mode
     await expect(organizationPage.shareButton).toBeVisible({

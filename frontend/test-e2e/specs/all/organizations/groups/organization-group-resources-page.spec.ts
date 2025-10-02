@@ -8,6 +8,20 @@ import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState
   await navigateToOrganizationGroupSubpage(page, "resources");
+
+  // Wait for auth state to be fully loaded
+  await page.waitForLoadState("domcontentloaded");
+
+  // Wait for auth to hydrate by checking for auth cookie
+  await page.waitForFunction(
+    () => {
+      return document.cookie.includes("auth.token");
+    },
+    { timeout: 10000 }
+  );
+
+  // Additional wait for UI to update with auth state
+  await page.waitForTimeout(500);
 });
 
 test.describe(
@@ -52,7 +66,7 @@ test.describe(
       const groupResourcesPage = organizationPage.groupResourcesPage;
 
       // Wait for resources to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait for either resources or empty state to appear
       await expect(async () => {
@@ -122,7 +136,7 @@ test.describe(
       const groupResourcesPage = organizationPage.groupResourcesPage;
 
       // Wait for resources to load
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       const resourceCount = await groupResourcesPage.getResourceCount();
 
@@ -155,16 +169,54 @@ test.describe(
       const groupResourcesPage = organizationPage.groupResourcesPage;
 
       // Wait for resources to load
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       const resourceCount = await groupResourcesPage.getResourceCount();
 
       if (resourceCount > 0) {
+        // Debug: Check auth state
+        const cookies = await page.context().cookies();
+        const authCookie = cookies.find((c) => c.name === "auth.token");
+
+        if (!authCookie) {
+          throw new Error(
+            "No auth token found - global authentication not working"
+          );
+        }
+
+        // Check if edit button exists (requires auth)
+        const editButtonCount = await groupResourcesPage
+          .getResourceEditButton(0)
+          .count();
+
+        if (editButtonCount === 0) {
+          throw new Error(
+            `Edit button not found despite having auth token. Auth cookie present: ${!!authCookie}`
+          );
+        }
+
+        // Get the resource ID from the first resource card
+        const firstResourceCard = groupResourcesPage.getResourceCard(0);
+        const resourceId =
+          await firstResourceCard.getAttribute("data-resource-id");
+
+        if (!resourceId) {
+          throw new Error("Resource ID not found on card");
+        }
+
+        // Wait for edit button to be visible and clickable
+        await expect(groupResourcesPage.getResourceEditButton(0)).toBeVisible({
+          timeout: 10000,
+        });
+
         // Click the edit button for the first resource
         await groupResourcesPage.clickResourceEdit(0);
 
-        // Verify edit modal opens
-        await expect(groupResourcesPage.editResourceModal).toBeVisible();
+        // Wait for modal to open with exact testid (includes resource ID)
+        const editResourceModal = page.getByTestId(
+          `modal-ModalResourceGroup${resourceId}`
+        );
+        await expect(editResourceModal).toBeVisible();
 
         // Generate unique content for this test run
         const timestamp = Date.now();
@@ -173,15 +225,12 @@ test.describe(
         const newUrl = `https://test-group-resource-${timestamp}.com`;
 
         // Update the form fields
-        const nameInput = groupResourcesPage.getResourceNameInput(
-          groupResourcesPage.editResourceModal
-        );
-        const descriptionInput = groupResourcesPage.getResourceDescriptionInput(
-          groupResourcesPage.editResourceModal
-        );
-        const urlInput = groupResourcesPage.getResourceUrlInput(
-          groupResourcesPage.editResourceModal
-        );
+        const nameInput =
+          groupResourcesPage.getResourceNameInput(editResourceModal);
+        const descriptionInput =
+          groupResourcesPage.getResourceDescriptionInput(editResourceModal);
+        const urlInput =
+          groupResourcesPage.getResourceUrlInput(editResourceModal);
 
         await expect(nameInput).toBeVisible();
         await expect(descriptionInput).toBeVisible();
@@ -203,14 +252,13 @@ test.describe(
         await expect(urlInput).toHaveValue(newUrl);
 
         // Submit the form
-        const submitButton = groupResourcesPage.getResourceSubmitButton(
-          groupResourcesPage.editResourceModal
-        );
+        const submitButton =
+          groupResourcesPage.getResourceSubmitButton(editResourceModal);
         await expect(submitButton).toBeVisible();
         await submitButton.click();
 
         // Wait for the modal to close after successful save
-        await expect(groupResourcesPage.editResourceModal).not.toBeVisible();
+        await expect(editResourceModal).not.toBeVisible();
 
         // Verify the changes are reflected on the page
         // The resource name should be visible in the resource card

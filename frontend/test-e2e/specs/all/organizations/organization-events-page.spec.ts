@@ -52,7 +52,7 @@ test.describe(
       const eventsPage = organizationPage.eventsPage;
 
       // Wait for events to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait for either events or empty state to appear
       await expect(async () => {
@@ -119,7 +119,7 @@ test.describe(
       const eventsPage = organizationPage.eventsPage;
 
       // Wait for events to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       const eventCount = await eventsPage.getEventCount();
 

@@ -124,28 +124,28 @@ export class OrganizationGroupAboutPage {
 
   async clickAboutTab() {
     await this.aboutTab.click();
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForURL(/.*\/groups\/.*\/about/);
     await this.waitForTabState(this.aboutTab, true);
   }
 
   async clickEventsTab() {
     await this.eventsTab.click();
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForURL(/.*\/groups\/.*\/events/);
     await this.waitForTabState(this.eventsTab, true);
   }
 
   async clickResourcesTab() {
     await this.resourcesTab.click();
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForURL(/.*\/groups\/.*\/resources/);
     await this.waitForTabState(this.resourcesTab, true);
   }
 
   async clickFaqTab() {
     await this.faqTab.click();
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForURL(/.*\/groups\/.*\/faq/);
     await this.waitForTabState(this.faqTab, true);
   }

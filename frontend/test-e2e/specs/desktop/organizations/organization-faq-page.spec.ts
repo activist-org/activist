@@ -16,7 +16,7 @@ test.describe("Organization FAQ Page - Desktop", { tag: "@desktop" }, () => {
     const faqPage = organizationPage.faqPage;
 
     // Wait for FAQ entries to load completely
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const faqCount = await faqPage.getFAQCount();
 
@@ -50,7 +50,7 @@ test.describe("Organization FAQ Page - Desktop", { tag: "@desktop" }, () => {
         await page.mouse.up();
 
         // Wait for the reorder operation to complete (including network requests)
-        await page.waitForLoadState("networkidle");
+        await page.waitForLoadState("domcontentloaded");
 
         // Get final order of first 2 FAQ questions
         const finalFirstQuestion = await faqPage.getFAQQuestionText(0);

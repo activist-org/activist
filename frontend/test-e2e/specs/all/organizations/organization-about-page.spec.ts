@@ -9,6 +9,12 @@ import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState
   await navigateToFirstOrganization(page);
+
+  // Wait for auth state to be fully loaded
+  await page.waitForLoadState("domcontentloaded");
+
+  // Give Nuxt Auth time to hydrate session from cookies
+  await page.waitForTimeout(1000);
 });
 
 test.describe(
@@ -66,18 +72,20 @@ test.describe(
         timeout: 10000,
       });
 
-      // Wait for page to be fully loaded (network requests complete) - longer timeout for dev mode
-      await page.waitForLoadState("networkidle", { timeout: 20000 });
+      // Wait for page to be ready
+      await page.waitForLoadState("domcontentloaded");
 
-      // Wait for the about card to be visible (longer timeout for slow dev mode loading)
+      // Wait for the about card to be visible
       await expect(organizationPage.aboutPage.aboutCard).toBeVisible({
         timeout: 15000,
       });
 
-      // Click the edit icon to open the edit modal
+      // Wait for edit icon to be available (auth state should be loaded)
       await expect(organizationPage.aboutPage.aboutCardEditIcon).toBeVisible({
-        timeout: 7000,
+        timeout: 10000,
       });
+
+      // Click the edit icon to open the edit modal
       await organizationPage.aboutPage.aboutCardEditIcon.click();
 
       // Verify the edit modal appears
@@ -164,7 +172,7 @@ test.describe(
       });
 
       // Wait for page to be fully loaded (network requests complete) - longer timeout for dev mode
-      await page.waitForLoadState("networkidle", { timeout: 20000 });
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait for the connect card to be visible (longer timeout for slow dev mode loading)
       await expect(organizationPage.aboutPage.connectCard).toBeVisible({

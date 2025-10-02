@@ -49,7 +49,7 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
     const faqPage = organizationPage.faqPage;
 
     // Wait for page to load completely
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     // Wait for FAQ cards to be visible (since the page should have FAQ entries)
     await expect(faqPage.faqCards.first()).toBeVisible();
@@ -107,7 +107,7 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
     const faqPage = organizationPage.faqPage;
 
     // Wait for FAQ entries to load completely
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const faqCount = await faqPage.getFAQCount();
 
@@ -155,14 +155,14 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
 
       // Wait for the modal to close and changes to be saved
       await expect(editModal).not.toBeVisible();
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Verify the changes were persisted
       const updatedQuestion = await faqPage.getFAQQuestionText(0);
       expect(updatedQuestion).toBe(updatedQuestionText);
 
       // Wait for the FAQ to be ready for interaction after edit
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Check if FAQ is already expanded, if not, expand it
       const isAlreadyExpanded = await faqPage.isFAQExpanded(0);

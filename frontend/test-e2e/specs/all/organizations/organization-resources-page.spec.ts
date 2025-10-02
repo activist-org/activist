@@ -52,7 +52,7 @@ test.describe(
       const resourcesPage = organizationPage.resourcesPage;
 
       // Wait for resources to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait for either resources or empty state to appear
       await expect(async () => {

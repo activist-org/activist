@@ -3,7 +3,7 @@ import type { Page } from "playwright";
 
 import { expect, test } from "playwright/test";
 
-import { signInAsAdmin } from "~/test-e2e/actions/authentication";
+// import { signInAsAdmin } from "~/test-e2e/actions/authentication"; // Not used in this file
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
 import { getEnglishText } from "~/utils/i18n";
@@ -15,13 +15,18 @@ import { getEnglishText } from "~/utils/i18n";
  */
 export async function navigateToFirstOrganization(page: Page) {
   // Navigate to organizations home page first
-  await page.goto("/organizations");
-  await page.waitForLoadState("networkidle");
+  await page.goto("/organizations", { waitUntil: "load" });
+  await page.waitForLoadState("domcontentloaded");
 
   const organizationsHomePage = newOrganizationsHomePage(page);
+  // Wait for the heading to be visible before checking text
+  await expect(organizationsHomePage.heading).toBeVisible();
   await expect(organizationsHomePage.heading).toHaveText(
     getEnglishText("i18n.pages.organizations.index.header_title")
   );
+
+  // Wait for organization link to be available
+  await expect(organizationsHomePage.organizationLink).toBeVisible();
 
   // Get the href attribute to extract the organization UUID
   const href =
@@ -83,7 +88,7 @@ export async function navigateToOrganizationSubpage(
 
   const menuSubpage = subpageMapping[subpage] || subpage;
 
-  await signInAsAdmin(page);
+  // Skip authentication since tests are already authenticated via global storageState
   const { organizationId, organizationPage } =
     await navigateToFirstOrganization(page);
 
@@ -96,25 +101,45 @@ export async function navigateToOrganizationSubpage(
     await toggleButton.click();
     await page.waitForTimeout(500); // Wait for dropdown to open
 
-    // Click the appropriate subpage option
-    const subpageOption = organizationPage.menu[
-      `${menuSubpage}Option` as keyof typeof organizationPage.menu
-    ] as { click: () => Promise<void> };
-    await subpageOption.click();
+    // Wait for the page to be fully loaded and menu entries to be initialized
+    await page.waitForLoadState("domcontentloaded");
 
-    // Check if mobile navigation worked correctly
-    await page.waitForTimeout(1000);
-    const currentUrl = page.url();
-    if (currentUrl.includes("undefined")) {
-      // Mobile navigation bug: use direct navigation as fallback
-      const correctUrl = `/organizations/${organizationId}/${subpage}`;
-      await page.goto(correctUrl);
-    }
+    // Wait for the organization page heading to be visible (ensures page is loaded)
+    await expect(organizationPage.pageHeading).toBeVisible();
+
+    // Wait for the specific menu option to be visible and clickable
+    const subpageOption =
+      organizationPage.menu[
+        `${menuSubpage}Option` as keyof typeof organizationPage.menu
+      ];
+
+    await expect(subpageOption).toBeVisible();
+    await subpageOption.waitFor({ state: "attached" });
+
+    // Additional wait to ensure menu entries are created with correct route parameters
+    await page.waitForTimeout(500);
+
+    await subpageOption.click();
   } else {
     // Desktop layout: uses direct tab navigation
-    const subpageOption = organizationPage.menu[
-      `${menuSubpage}Option` as keyof typeof organizationPage.menu
-    ] as { click: () => Promise<void> };
+    // Wait for the page to be fully loaded and menu entries to be initialized
+    await page.waitForLoadState("domcontentloaded");
+
+    // Wait for the organization page heading to be visible (ensures page is loaded)
+    await expect(organizationPage.pageHeading).toBeVisible();
+
+    // Wait for the specific menu option to be visible and clickable
+    const subpageOption =
+      organizationPage.menu[
+        `${menuSubpage}Option` as keyof typeof organizationPage.menu
+      ];
+
+    await expect(subpageOption).toBeVisible();
+    await subpageOption.waitFor({ state: "attached" });
+
+    // Additional wait to ensure menu entries are created with correct route parameters
+    await page.waitForTimeout(500);
+
     await subpageOption.click();
   }
 
@@ -211,24 +236,14 @@ export async function navigateToOrganizationGroupSubpage(
     await organizationPage.menu.groupsOption.click();
 
     // Wait for navigation to complete
-    try {
-      await page.waitForLoadState("networkidle", { timeout: 10000 });
-    } catch {
-      // networkidle timeout, falling back to domcontentloaded
-      await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
-    }
+    await page.waitForLoadState("domcontentloaded");
 
     // Check if we actually navigated to groups page
     const currentUrl = page.url();
     if (!currentUrl.includes("/groups")) {
       // Mobile navigation failed, use direct navigation as fallback
       await page.goto(`/organizations/${organizationId}/groups`);
-      try {
-        await page.waitForLoadState("networkidle", { timeout: 10000 });
-      } catch {
-        // If networkidle times out, try domcontentloaded as fallback
-        await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
-      }
+      await page.waitForLoadState("domcontentloaded");
     }
   } else {
     // Desktop layout: direct click
@@ -236,24 +251,14 @@ export async function navigateToOrganizationGroupSubpage(
     await organizationPage.menu.groupsOption.click();
   }
 
-  try {
-    await page.waitForLoadState("networkidle", { timeout: 10000 });
-  } catch {
-    // networkidle timeout, falling back to domcontentloaded
-    await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
-  }
+  await page.waitForLoadState("domcontentloaded");
   await expect(page).toHaveURL(/.*\/organizations\/.*\/groups/);
 
   // Check if there are any groups available
   const groupsPage = organizationPage.groupsPage;
 
   // Wait for groups to load completely
-  try {
-    await page.waitForLoadState("networkidle", { timeout: 10000 });
-  } catch {
-    // networkidle timeout, falling back to domcontentloaded
-    await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
-  }
+  await page.waitForLoadState("domcontentloaded");
 
   // Wait for either groups or empty state to appear (same approach as working test)
   try {
@@ -272,12 +277,7 @@ export async function navigateToOrganizationGroupSubpage(
   }
 
   // Additional wait to ensure page is fully loaded
-  try {
-    await page.waitForLoadState("networkidle", { timeout: 10000 });
-  } catch {
-    // networkidle timeout, falling back to domcontentloaded
-    await page.waitForLoadState("domcontentloaded", { timeout: 5000 });
-  }
+  await page.waitForLoadState("domcontentloaded");
 
   const groupCount = await groupsPage.getGroupCount();
 
@@ -315,7 +315,7 @@ export async function navigateToOrganizationGroupSubpage(
 
   // Wait for navigation to the group page
   await page.waitForURL(`**/groups/${groupId}/**`, { timeout: 10000 });
-  await page.waitForLoadState("networkidle", { timeout: 20000 });
+  await page.waitForLoadState("domcontentloaded");
 
   // Now navigate to the specific subpage using the tab navigation
   // The subpage should be accessible via the tab list
@@ -330,7 +330,7 @@ export async function navigateToOrganizationGroupSubpage(
   await subpageTab.click({ timeout: 15000 });
 
   // Wait for navigation to complete
-  await page.waitForLoadState("networkidle", { timeout: 20000 });
+  await page.waitForLoadState("domcontentloaded");
   await page.waitForURL(`**/groups/${groupId}/${subpage}`, { timeout: 10000 });
 
   // Verify we're on the correct group subpage

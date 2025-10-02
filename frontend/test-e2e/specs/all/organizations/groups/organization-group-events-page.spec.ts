@@ -52,13 +52,13 @@ test.describe(
       const groupEventsPage = organizationPage.groupEventsPage;
 
       // Wait for events to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait a bit more for the page to fully render
       await page.waitForTimeout(2000);
 
       // Wait for page to load and check what's actually present
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Check if we have events, empty state, or just the basic page structure
       const eventsListVisible = await groupEventsPage.eventsList

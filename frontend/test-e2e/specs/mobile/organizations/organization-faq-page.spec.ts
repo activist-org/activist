@@ -21,7 +21,7 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
     const faqPage = organizationPage.faqPage;
 
     // Wait for FAQ entries to load completely
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const faqCount = await faqPage.getFAQCount();
 

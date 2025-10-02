@@ -19,7 +19,7 @@ test.describe(
       const groupFaqPage = organizationPage.groupFaqPage;
 
       // Wait for FAQ entries to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       const faqCount = await groupFaqPage.getFaqCount();
 
@@ -53,7 +53,7 @@ test.describe(
           await page.mouse.up();
 
           // Wait for the reorder operation to complete (including network requests)
-          await page.waitForLoadState("networkidle");
+          await page.waitForLoadState("domcontentloaded");
 
           // Get final order of first 2 FAQ questions
           const finalFirstQuestion = await groupFaqPage.getFaqQuestionText(0);

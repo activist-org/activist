@@ -195,25 +195,25 @@ export class OrganizationGroupFAQPage {
 
   async clickAboutTab() {
     await this.aboutTab.click();
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForURL(/.*\/groups\/.*\/about/);
   }
 
   async clickEventsTab() {
     await this.eventsTab.click();
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForURL(/.*\/groups\/.*\/events/);
   }
 
   async clickResourcesTab() {
     await this.resourcesTab.click();
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForURL(/.*\/groups\/.*\/resources/);
   }
 
   async clickFaqTab() {
     await this.faqTab.click();
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("domcontentloaded");
     await this.page.waitForURL(/.*\/groups\/.*\/faq/);
   }
 

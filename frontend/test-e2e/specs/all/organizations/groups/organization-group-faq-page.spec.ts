@@ -54,7 +54,7 @@ test.describe(
       const groupFaqPage = organizationPage.groupFaqPage;
 
       // Wait for FAQ entries to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait for either FAQ entries or empty state to appear
       await expect(async () => {
@@ -139,7 +139,7 @@ test.describe(
       const groupFaqPage = organizationPage.groupFaqPage;
 
       // Wait for page to load and then for FAQ cards to appear
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait for FAQ cards to be present (with timeout to handle empty state)
       try {
@@ -198,7 +198,7 @@ test.describe(
         }
 
         // Wait for the reorder operation to complete
-        await page.waitForLoadState("networkidle");
+        await page.waitForLoadState("domcontentloaded");
 
         // Get final order after drag operation
         const finalFirstQuestion = await groupFaqPage.getFaqQuestionText(0);
@@ -222,7 +222,7 @@ test.describe(
       const groupFaqPage = organizationPage.groupFaqPage;
 
       // Wait for FAQ entries to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       const faqCount = await groupFaqPage.getFaqCount();
 

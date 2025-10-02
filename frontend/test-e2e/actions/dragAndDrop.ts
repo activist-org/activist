@@ -124,11 +124,11 @@ export async function verifyReorder(
   expectedSecondItem: string,
   getOrderFunction: (page: Page) => Promise<string[]>
 ): Promise<void> {
-  // Wait for the reorder operation to complete
-  await page.waitForLoadState("networkidle");
+  // Wait for the reorder operation to complete by checking for DOM changes
+  await page.waitForLoadState("domcontentloaded");
 
   // Additional wait for vuedraggable to process the reorder
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(500);
 
   // Get final order after drag operation
   const finalOrder = await getOrderFunction(page);

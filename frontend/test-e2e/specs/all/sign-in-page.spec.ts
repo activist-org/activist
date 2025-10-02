@@ -31,7 +31,7 @@ test.describe(
       const passwordInput = signInPage.passwordInput;
 
       // Wait for the page to load completely
-      await page.waitForLoadState("networkidle");
+      await page.waitForLoadState("domcontentloaded");
 
       // Wait for the password input to be visible
       await expect(passwordInput).toBeVisible({ timeout: 10000 });
