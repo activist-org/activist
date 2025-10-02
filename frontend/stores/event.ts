@@ -304,6 +304,68 @@ export const useEventStore = defineStore("event", {
       }
     },
 
+    // MARK: Update Link (Individual)
+
+    async updateSocialLink(
+      event: Event,
+      linkId: string,
+      data: { link: string; label: string; order: number }
+    ) {
+      this.loading = true;
+
+      const response = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_social_links/${linkId}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            link: data.link,
+            label: data.label,
+            order: data.order,
+            event: event.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseData = response.data.value as unknown as Event;
+      if (responseData) {
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Delete Link (Individual)
+
+    async deleteSocialLink(event: Event, linkId: string) {
+      this.loading = true;
+
+      const response = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_social_links/${linkId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseData = response.data.value;
+      if (responseData !== null) {
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
     // MARK: Create Links
 
     async createSocialLinks(event: Event, formData: SocialLinkFormData[]) {

@@ -531,6 +531,68 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
+    // MARK: Update Link (Individual)
+
+    async updateSocialLink(
+      org: Organization,
+      linkId: string,
+      data: { link: string; label: string; order: number }
+    ) {
+      this.loading = true;
+
+      const response = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_social_links/${linkId}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            link: data.link,
+            label: data.label,
+            order: data.order,
+            org: org.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseData = response.data.value as unknown as Organization;
+      if (responseData) {
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Delete Link (Individual)
+
+    async deleteSocialLink(org: Organization, linkId: string) {
+      this.loading = true;
+
+      const response = await useFetch(
+        `${BASE_BACKEND_URL}/communities/organization_social_links/${linkId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseData = response.data.value;
+      if (responseData !== null) {
+        await this.fetchById(org.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
     // MARK: Update Links
 
     async updateSocialLinks(org: Organization, formData: SocialLinkFormData[]) {

@@ -33,6 +33,8 @@
         >
           <ComboboxOptions
             id="isVisibleElement"
+            role="listbox"
+            data-testid="topics-dropdown-options"
             class="elem-shadow-lg absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-layer-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
           >
             <div
@@ -50,6 +52,8 @@
               :value="topic"
             >
               <li
+                role="option"
+                data-testid="topics-dropdown-option"
                 class="relative cursor-default select-none py-2 pl-10 pr-4"
                 :class="{
                   'bg-cta-orange/80 text-primary-text dark:bg-cta-orange/40 dark:text-cta-orange':

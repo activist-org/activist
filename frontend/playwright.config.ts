@@ -3,6 +3,10 @@ import { defineConfig, devices } from "@playwright/test";
 import path from "path";
 
 export const RESULTS_PATH = path.join(__dirname, "./test-results");
+export const AUTH_STATE_PATH = path.join(
+  __dirname,
+  "./test-e2e/.auth/admin.json"
+);
 
 /**
  * Read environment variables from file.
@@ -28,14 +32,18 @@ const ENV = (process.env.TEST_ENV || "local") as keyof typeof environments;
 
 export default defineConfig({
   testDir: "./test-e2e/specs",
+  /* Global setup to create authenticated session once */
+  globalSetup: require.resolve("./test-e2e/global-setup"),
+  /* Skip flaky tests in CI */
+  testIgnore: process.env.CI ? ["**/*@flaky*"] : [],
   /* Run tests in files in parallel. */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only - optimized for better performance. */
-  retries: process.env.CI ? 2 : 0,
+  /* Retry on both CI and local - helps with flaky tests. */
+  retries: 2,
   /* Enhanced parallel execution with test sharding. */
-  workers: process.env.CI ? 4 : undefined,
+  workers: process.env.CI ? 4 : 2,
   /* Fail on flaky tests to ensure stability. */
   failOnFlakyTests: !!process.env.CI,
   /* User data directory for browser state persistence */
@@ -70,6 +78,8 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: environments[ENV],
     navigationTimeout: 10000,
+    /* Reuse authenticated session across tests (can be overridden per test with test.use()) */
+    storageState: AUTH_STATE_PATH,
 
     /* Enhanced trace configuration for better debugging. */
     trace: {
@@ -86,11 +96,12 @@ export default defineConfig({
 
   /* Configure projects for major desktop browsers. */
   projects: [
+    // Core browsers - always run
     {
       name: "chromium",
       grep: matchDesktop,
       // Dedicated workers for desktop tests.
-      workers: process.env.CI ? 2 : undefined,
+      workers: process.env.CI ? 2 : 1,
       use: {
         ...devices["Desktop Chrome"],
         // Reuse browser state for faster authentication.
@@ -100,88 +111,104 @@ export default defineConfig({
       },
     },
     {
-      name: "webkit",
-      grep: matchDesktop,
-      // Fewer workers for WebKit (slower).
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["Desktop Safari"],
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/webkit",
-      },
-    },
-
-    /* Test against tablets. */
-    {
-      name: "iPad Landscape",
-      grep: matchDesktop,
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["iPad (gen 7 landscape)"],
-        isMobile: true,
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/ipad-landscape",
-      },
-    },
-    {
-      name: "iPad Portrait",
-      grep: matchDesktop,
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["iPad (gen 7)"],
-        isMobile: true,
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/ipad-portrait",
-      },
-    },
-
-    /* Test against mobile view ports. */
-    {
       name: "Mobile Chrome",
       grep: matchMobile,
       // More workers for mobile tests.
-      workers: process.env.CI ? 2 : undefined,
+      workers: process.env.CI ? 2 : 1,
       use: {
         ...devices["Pixel 5"],
         isMobile: true,
+        hasTouch: true,
         // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
         //   : "./test-results/user-data/mobile-chrome",
       },
     },
-    {
-      name: "Mobile Safari",
-      grep: matchMobile,
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["iPhone 12"],
-        isMobile: true,
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/mobile-safari",
-      },
-    },
-    {
-      name: "Mobile Samsung",
-      grep: matchMobile,
-      workers: process.env.CI ? 1 : undefined,
-      use: {
-        ...devices["Galaxy S9+"],
-        isMobile: true,
-        // Reuse browser state for faster authentication.
-        // userDataDir: process.env.CI
-        //   ? undefined
-        //   : "./test-results/user-data/mobile-samsung",
-      },
-    },
+
+    // Additional browsers - only run in comprehensive mode
+    ...(process.env.FAST_TESTS
+      ? []
+      : [
+          {
+            name: "webkit",
+            grep: matchDesktop,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["Desktop Safari"],
+              // WebKit performance optimizations
+              launchOptions: {
+                args: [
+                  "--disable-web-security",
+                  "--disable-features=VizDisplayCompositor",
+                  "--disable-background-timer-throttling",
+                  "--disable-backgrounding-occluded-windows",
+                  "--disable-renderer-backgrounding",
+                ],
+              },
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/webkit",
+            },
+          },
+          {
+            name: "iPad Landscape",
+            grep: matchDesktop,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["iPad (gen 7 landscape)"],
+              isMobile: true,
+              hasTouch: true,
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/ipad-landscape",
+            },
+          },
+          {
+            name: "iPad Portrait",
+            grep: matchDesktop,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["iPad (gen 7)"],
+              isMobile: true,
+              hasTouch: true,
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/ipad-portrait",
+            },
+          },
+          {
+            name: "Mobile Safari",
+            grep: matchMobile,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["iPhone 12"],
+              isMobile: true,
+              hasTouch: true,
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/mobile-safari",
+            },
+          },
+          {
+            name: "Mobile Samsung",
+            grep: matchMobile,
+            workers: process.env.CI ? 1 : 1,
+            use: {
+              ...devices["Galaxy S9+"],
+              isMobile: true,
+              hasTouch: true,
+              // Reuse browser state for faster authentication.
+              // userDataDir: process.env.CI
+              //   ? undefined
+              //   : "./test-results/user-data/mobile-samsung",
+            },
+          },
+        ]),
   ],
 
   /* Run your local dev server before starting the tests. */

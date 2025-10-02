@@ -35,6 +35,23 @@
         @end="onDragEnd"
         item-key="id"
         class="space-y-4"
+        data-testid="organization-faq-list"
+        :touch-start-threshold="3"
+        :force-fallback="false"
+        :fallback-tolerance="0"
+        :delay="0"
+        :delay-on-touch-start="false"
+        :swap-threshold="0.5"
+        :invert-swap="false"
+        :direction="'vertical'"
+        :disabled="false"
+        :animation="150"
+        :ghost-class="'sortable-ghost'"
+        :chosen-class="'sortable-chosen'"
+        :drag-class="'sortable-drag'"
+        :handle="'.drag-handle'"
+        :distance="5"
+        :fallback-class="'sortable-fallback'"
       >
         <template #item="{ element }">
           <CardFAQEntry :pageType="'organization'" :faqEntry="element" />
@@ -77,3 +94,29 @@ const onDragEnd = async () => {
   await orgStore.reorderFaqEntries(props.organization, faqList.value);
 };
 </script>
+
+<style scoped>
+.sortable-ghost {
+  opacity: 0.4;
+  transition: opacity 0.05s ease;
+}
+
+.sortable-chosen {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: background-color 0.05s ease;
+}
+
+.sortable-drag {
+  transform: rotate(5deg);
+  transition: transform 0.05s ease;
+}
+
+.sortable-fallback {
+  display: none;
+}
+
+/* Ensure drag handles work properly */
+.drag-handle {
+  user-select: none;
+}
+</style>

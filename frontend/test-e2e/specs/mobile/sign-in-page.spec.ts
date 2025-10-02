@@ -1,14 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { expect, test } from "playwright/test";
-
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
+import { expect, test } from "~/test-e2e/global-fixtures";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/auth/sign-in");
 });
 
-test.describe("Sign In Page", { tag: "@mobile" }, () => {
+test.describe("Sign In Page", { tag: ["@mobile", "@unauth"] }, () => {
+  // Override to run without authentication
+  test.use({ storageState: undefined });
+
+  // Explicitly clear all cookies to ensure unauthenticated state
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies();
+  });
+
   test("User can go to Sign Up page", async ({ page }) => {
     const sidebarRight = newSidebarRight(page);
     const signInMenu = newSignInMenu(page);

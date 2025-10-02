@@ -1,6 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex w-full flex-col items-center bg-layer-0">
+  <div
+    data-testid="empty-state"
+    class="flex w-full flex-col items-center bg-layer-0"
+  >
     <PageContent
       :imgUrl="BOOTSTRAP_CLOUD_MOON_URL"
       imgAltText="i18n.components.empty_state.img_alt_text"

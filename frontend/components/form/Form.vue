@@ -1,7 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div :class="props.class">
-    <form @keydown.enter.prevent="onSubmit" @submit.prevent="onSubmit" :id="id">
+    <form
+      @keydown.enter.prevent="onSubmit"
+      @submit.prevent="onSubmit"
+      :id="id"
+      role="form"
+    >
       <div class="flex flex-col gap-y-4">
         <div class="grid gap-y-4">
           <slot />

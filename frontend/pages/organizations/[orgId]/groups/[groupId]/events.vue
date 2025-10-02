@@ -41,7 +41,7 @@
       </div>
     </HeaderAppPageGroup>
     <PagePreviewEvent />
-    <div v-if="group.events" class="space-y-3 py-4">
+    <div v-if="group.events && group.events.length > 0" class="space-y-3 py-4">
       <CardSearchResultEntityEvent
         v-for="(u, i) in group.events"
         :key="i"

@@ -38,6 +38,7 @@
         :type="type"
         :placeholder="shrinkLabel ? '' : label"
         :value="modelValue"
+        role="textbox"
         v-bind="$attrs"
       />
       <span

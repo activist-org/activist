@@ -9,6 +9,7 @@
         v-if="userIsSignedIn"
         @click="openModalTextGroup"
         @keydown.enter="openModalTextGroup"
+        data-testid="edit-icon"
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
@@ -20,6 +21,7 @@
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="i18n._global.join_group_aria_label"
+          data-testid="get-involved-join-button"
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="card-style px-5 py-5">
+  <div data-testid="card-connect" class="card-style px-5 py-5">
     <div class="flex items-center gap-5">
       <h3 class="text-left font-display">
         {{ $t("i18n.components._global.connect") }}
@@ -9,6 +9,7 @@
         v-if="userIsSignedIn"
         @click="openModalSocialLinks"
         @keydown.enter="openModalSocialLinks"
+        data-testid="edit-icon"
       />
     </div>
     <ul
@@ -18,6 +19,7 @@
         <a
           :href="socLink.link"
           class="flex cursor-pointer items-center gap-3 break-all text-primary-text transition-all hover:text-distinct-text"
+          data-testid="social-link"
         >
           <Icon
             v-if="socLink.link.includes('mastodon')"

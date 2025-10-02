@@ -19,6 +19,7 @@
           :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
           ariaLabel="i18n._global.join_group_aria_label"
+          data-testid="header-join-button"
         />
         <!-- <BtnAction
           class="w-max"
@@ -40,6 +41,7 @@
           :rightIcon="IconMap.SHARE"
           iconSize="1.45em"
           ariaLabel="i18n.pages.organizations.groups.about.share_group_aria_label"
+          data-testid="header-share-button"
         />
         <ModalSharePage
           @closeModal="handleCloseModal"

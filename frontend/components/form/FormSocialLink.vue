@@ -25,14 +25,20 @@
           :handle="'.drag-handle'"
         >
           <template #item="{ index }">
-            <div class="flex items-center space-x-5">
+            <div
+              class="flex items-center space-x-5"
+              :data-testid="`social-link-entry-${index}`"
+            >
               <Icon
                 class="drag-handle -mr-2 cursor-grab select-none"
                 :name="IconMap.GRIP"
                 size="1em"
                 :aria-label="$t('i18n.components._global.draggable_element')"
               />
-              <IconClose @click="handleRemoveByIndex(index)" />
+              <IconClose
+                @click="handleRemoveByIndex(index)"
+                :data-testid="`social-link-remove-${index}`"
+              />
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
                 :name="`socialLinks.${index}.label`"
@@ -52,6 +58,7 @@
                   :hasError="!!errorMessage.value"
                   :modelValue="(value.value as string)"
                   :label="$t('i18n.components.form_social_link.new_link_label')"
+                  :data-testid="`social-link-label-${index}`"
                 />
               </FormItem>
               <FormItem
@@ -73,6 +80,7 @@
                   :hasError="!!errorMessage.value"
                   :modelValue="(value.value as string)"
                   :label="$t('i18n.components.form_social_link.new_link_url')"
+                  :data-testid="`social-link-url-${index}`"
                 />
               </FormItem>
             </div>

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <TooltipBase class="rounded-md">
+  <TooltipBase data-testid="menu-tooltip" class="rounded-md">
     <div class="space-y-2">
       <!-- <BtnAction
         @keydown="handleTabPress(false, $event)"
@@ -31,6 +31,7 @@
         :rightIcon="IconMap.SHARE"
         fontSize="lg"
         ariaLabel="i18n._global.share_organization_aria_label"
+        data-testid="share-button"
       />
       <ModalSharePage
         v-if="group"
