@@ -52,7 +52,11 @@ test.describe(
 
         const modal = page.locator("#search-modal").first();
         await expect(modal).toBeVisible();
-        await page.click('button:has(svg path[d*="M16 8A8 8 0 1 1 0 8"])');
+        // Close modal using the close button with proper selector
+        const closeButton = page.getByRole("button", {
+          name: getEnglishText("i18n.components.modal_base.close_modal_aria_label")
+        });
+        await closeButton.click();
       }
     });
 
@@ -113,14 +117,15 @@ test.describe(
       await textarea.fill(newRandomText);
       await page.click("#form-submit-id");
 
-      // Close modal.
-      await page.click('button:has(svg path[d*="M16 8A8 8 0 1 1 0 8"])');
+      //close modal
+      const closeButton = page.getByRole("button", {
+        name: getEnglishText("i18n.components.modal_base.close_modal_aria_label")
+      });
+      await closeButton.click();
 
-      // Check if about event description changed.
-      const aboutSection = page.locator(
-        `.card-style .flex-col:has(h3:text("${getEnglishText("i18n._global.about")}"))`
-      );
-      const paragraph = aboutSection.locator("p.line-clamp-2");
+      //check if about event description changed
+      const aboutSection = page.getByTestId("event-about-section");
+      const paragraph = aboutSection.locator("p").first();
       await expect(paragraph).toHaveText(newRandomText);
     });
 
