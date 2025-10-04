@@ -1,3 +1,32 @@
+name: "🌐 Localization"
+description: "Report issues or offer help for activist localizations."
+type: task
+labels:
+  - localization
+projects:
+  - "activist-org/1"
+body:
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Terms
+      options:
+        - label: I have searched [open localization issues](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Alocalization)
+          required: true
+        - label: I agree to follow activist's [Code of Conduct](/.github/CODE_OF_CONDUCT.md)
+          required: true
+  - type: textarea
+    id: support
+    attributes:
+      label: Description
+      placeholder: |
+        Tell us where activist needs localization support, and let us know if you're able to help!
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your efforts to bring activist to other languages! Please join us in the [localization project on Weblate](https://hosted.weblate.org/projects/activist/activist) and the [Localization channel on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) to get involved!
 name: 🌐 Localization
 description: Report issues or offer help for activist localizations.
 type: "task"

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test, type TestInfo } from "playwright/test";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "/test-e2e/utils/testTraceability";
 
 // This test covers organization subpages: about, events, groups
 // Checks: modal functionality, hydration indicator, accessibility scan
