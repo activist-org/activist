@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <a class="focus-brand group rounded-xl" :href="imageLink" target="_blank">
+  <a class="group rounded-xl focus-brand" :href="imageLink" target="_blank">
     <div
       class="relative z-0 h-[200px] w-[200px] rounded-xl bg-layer-1 group-hover:bg-highlight group-hover:fill-primary-text lg:h-[250px] lg:w-[250px]"
     >

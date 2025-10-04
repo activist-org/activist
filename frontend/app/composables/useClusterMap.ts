@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type {
   ClusterProperties,
   DonutProperties,
@@ -5,7 +6,6 @@ import type {
   PopupContent,
   RouteProfile,
 } from "#shared/types/map";
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import type { Feature, GeoJsonProperties, Point } from "geojson";
 

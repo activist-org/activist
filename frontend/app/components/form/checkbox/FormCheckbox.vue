@@ -3,7 +3,7 @@
   <div class="relative flex flex-row items-center justify-start">
     <input
       :id="uuid"
-      class="focus-brand peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-menu-selection bg-layer-0"
+      class="peer mb-0 h-[1.375rem] w-[1.375rem] cursor-pointer appearance-none rounded-sm border border-menu-selection bg-layer-0 focus-brand"
       type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"

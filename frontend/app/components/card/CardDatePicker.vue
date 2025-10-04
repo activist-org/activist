@@ -25,7 +25,7 @@
         is24hr
         hide-time-header
         :color="colorModePreference"
-        class="date-picker-width elem-shadow-sm bg-layer-2"
+        class="date-picker-width bg-layer-2 elem-shadow-sm"
       />
       <DatePicker
         v-model="date2"
@@ -33,7 +33,7 @@
         is24hr
         hide-time-header
         :color="colorModePreference"
-        class="date-picker-width elem-shadow-sm bg-layer-2"
+        class="date-picker-width bg-layer-2 elem-shadow-sm"
       />
     </div>
     <DatePicker

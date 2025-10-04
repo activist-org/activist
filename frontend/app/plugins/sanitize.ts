@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import sanitizeDirective from "~/directives/sanitize";
 
 interface SanitizedHTMLElement extends HTMLElement {

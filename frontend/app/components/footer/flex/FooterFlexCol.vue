@@ -4,7 +4,7 @@
   <div class="flex flex-col items-center justify-center space-y-5">
     <div class="flex flex-col items-center justify-center space-y-2">
       <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
-      <div class="focus-inside relative z-0 h-10 w-36 overflow-y-hidden">
+      <div class="relative z-0 h-10 w-36 overflow-y-hidden focus-inside">
         <LogoActivist
           class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
         />
@@ -18,7 +18,7 @@
           <div class="flex">
             <NuxtLink
               v-if="platform.isLocalePath"
-              class="focus-brand text-primary-text hover:text-distinct-text"
+              class="text-primary-text focus-brand hover:text-distinct-text"
               :to="localePath(platform.url)"
               :aria-label="$t(platform.ariaLabel)"
             >
@@ -27,7 +27,7 @@
             <a
               v-else
               :href="platform.url"
-              class="focus-brand text-primary-text hover:text-distinct-text"
+              class="text-primary-text focus-brand hover:text-distinct-text"
               target="_blank"
               :aria-label="$t(platform.ariaLabel)"
             >
@@ -51,7 +51,7 @@
         <div class="mt-1 flex gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
             <a
-              class="focus-brand mt-2 flex items-center space-x-2 text-base text-primary-text hover:text-distinct-text"
+              class="mt-2 flex items-center space-x-2 text-base text-primary-text focus-brand hover:text-distinct-text"
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
               target="_blank"
@@ -130,7 +130,7 @@
         <template v-for="(policy, index) in links.legalLinks" :key="index">
           <div class="flex">
             <NuxtLink
-              class="focus-brand text-primary-text hover:text-distinct-text"
+              class="text-primary-text focus-brand hover:text-distinct-text"
               :to="localePath(policy.url)"
               :aria-label="$t(policy.ariaLabel)"
             >

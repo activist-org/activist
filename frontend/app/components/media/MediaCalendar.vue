@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <form class="elem-shadow-sm h-full w-full rounded-[0.45em]">
+  <form class="h-full w-full rounded-[0.45em] elem-shadow-sm">
     <Calendar
       :first-day-of-week="2"
       :color="colorModePreference"

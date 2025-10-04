@@ -4,7 +4,7 @@
     <button
       @click="$emit('toggle')"
       id="sidebar-right-hamburger"
-      class="focus-brand group relative z-50 outline-offset-4"
+      class="group relative z-50 outline-offset-4 focus-brand"
       :aria-label="
         $t('i18n.components.sidebar_right_hamburger.collapse_aria_label')
       "

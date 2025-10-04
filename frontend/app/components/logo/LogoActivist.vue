@@ -2,7 +2,7 @@
 <template>
   <NuxtLink
     :to="localePath('/')"
-    class="focus-brand logo-activist"
+    class="logo-activist focus-brand"
     :aria-label="$t('i18n.components.logo_activist.aria_label')"
   >
     <svg

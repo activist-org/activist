@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 /**
  * Use to replace timers during an action or actions that trigger timers in a component.
  *

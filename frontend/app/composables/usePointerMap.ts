@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import type { Pointer, RouteProfile } from "#shared/types/map";
 import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 

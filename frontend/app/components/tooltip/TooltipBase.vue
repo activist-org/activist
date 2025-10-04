@@ -3,7 +3,7 @@
   <div
     class="tooltip flex flex-col space-y-1 rounded bg-layer-1 shadow-zinc-700"
     :class="{
-      'elem-shadow-sm w-max px-2 py-1': !slots.default,
+      'w-max px-2 py-1 elem-shadow-sm': !slots.default,
       'elem-shadow-md w-min px-3 py-2': slots.default,
     }"
   >

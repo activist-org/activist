@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import { IconMap } from "#shared/types/icon-map";
 
 export const menuItems = [

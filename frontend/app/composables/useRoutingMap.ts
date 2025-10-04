@@ -1,5 +1,5 @@
-import type { RouteProfile } from "#shared/types/map";
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { RouteProfile } from "#shared/types/map";
 import type maplibregl from "maplibre-gl";
 import type { LayerSpecification } from "maplibre-gl";
 

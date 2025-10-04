@@ -5,7 +5,7 @@
     <!-- Note: Content Sections Left -->
     <div class="mt-0 flex w-[80%] flex-col justify-items-start">
       <!-- overflow-y-hidden is to prevent the logo from expanding beyond its bound on mobile Safari. -->
-      <div class="focus-inside relative z-0 h-10 w-36 overflow-y-hidden">
+      <div class="relative z-0 h-10 w-36 overflow-y-hidden focus-inside">
         <LogoActivist
           class="z-1 absolute inset-0 flex items-center justify-center overflow-clip"
         />
@@ -19,7 +19,7 @@
           <div class="flex">
             <NuxtLink
               v-if="platform.isLocalePath"
-              class="focus-brand text-primary-text hover:text-distinct-text"
+              class="text-primary-text focus-brand hover:text-distinct-text"
               :to="localePath(platform.url)"
               :aria-label="$t(platform.ariaLabel)"
             >
@@ -27,7 +27,7 @@
             </NuxtLink>
             <a
               v-else
-              class="focus-brand text-primary-text hover:text-distinct-text"
+              class="text-primary-text focus-brand hover:text-distinct-text"
               :href="platform.url"
               target="_blank"
               :aria-label="$t(platform.ariaLabel)"
@@ -45,7 +45,7 @@
         <template v-for="(policy, index) in links.legalLinks" :key="index">
           <div class="flex">
             <NuxtLink
-              class="focus-brand text-primary-text hover:text-distinct-text"
+              class="text-primary-text focus-brand hover:text-distinct-text"
               :to="localePath(policy.url)"
               :aria-label="$t(policy.ariaLabel)"
             >
@@ -59,7 +59,7 @@
         </template>
       </div>
       <a
-        class="focus-brand mt-2 w-fit text-primary-text hover:text-distinct-text"
+        class="mt-2 w-fit text-primary-text focus-brand hover:text-distinct-text"
         href="https://www.netlify.com/"
         target="_blank"
       >
@@ -84,7 +84,7 @@
         </p>
         <template v-for="(connect, index) in links.connectLinks">
           <a
-            class="focus-brand mt-2 flex items-center space-x-2 text-base text-primary-text hover:text-distinct-text"
+            class="mt-2 flex items-center space-x-2 text-base text-primary-text focus-brand hover:text-distinct-text"
             :class="{ 'mt-3': index === 0 }"
             :href="connect.url"
             target="_blank"

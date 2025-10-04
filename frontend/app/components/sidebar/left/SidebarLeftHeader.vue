@@ -3,7 +3,7 @@
   <header
     class="z-40 w-full bg-layer-1 pl-1 transition-all duration-200"
     :class="{
-      'elem-shadow-sm rounded-md bg-layer-2': atTopShadow,
+      'rounded-md bg-layer-2 elem-shadow-sm': atTopShadow,
     }"
   >
     <div class="flex items-center pb-2 pl-[0.85rem] pr-6 pt-3">
@@ -40,7 +40,7 @@
             emit('toggle-pressed');
           "
           id="sidebar-left-toggle"
-          class="focus-brand flex h-7 w-7 items-center justify-center outline-offset-0 transition duration-200"
+          class="flex h-7 w-7 items-center justify-center outline-offset-0 transition duration-200 focus-brand"
           :class="{
             '-rotate-180 pr-0.5': sidebar.collapsedSwitch == false,
             'pb-1 pl-0.5': sidebar.collapsedSwitch == true,
