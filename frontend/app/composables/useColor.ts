@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { EventType } from "#shared/types/events/event";
+import type { EventType } from "~/types/events/event";
 
-import { ColorByEventType } from "#shared/types/color";
+import { ColorByEventType } from "~/types/color";
 
 type ColorKey = `${EventType}_${"light" | "dark"}`;
 

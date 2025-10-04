@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { SidebarType } from "#shared/types/sidebar-type";
+import { SidebarType } from "~/types/sidebar-type";
 
 const props = defineProps<{
   sidebarType:

@@ -5,14 +5,16 @@ import type {
   GroupResponse,
   GroupsResponseBody,
   GroupUpdateTextFormData,
-} from "#shared/types/communities/group";
-import type { FaqEntry } from "#shared/types/content/faq-entry";
-import type { ContentImage, UploadableFile } from "#shared/types/content/file";
-import type { Resource, ResourceInput } from "#shared/types/content/resource";
-import type { SocialLinkFormData } from "#shared/types/content/social-link";
+} from "~/types/communities/group";
+import type { FaqEntry } from "~/types/content/faq-entry";
+import type { ContentImage, UploadableFile } from "~/types/content/file";
+import type { Resource, ResourceInput } from "~/types/content/resource";
+import type { SocialLinkFormData } from "~/types/content/social-link";
 
-import { defaultGroupText } from "#shared/types/communities/group";
-import { EntityType } from "#shared/types/entity";
+import { defaultUser } from "~/types/auth/user";
+import { defaultGroupText } from "~/types/communities/group";
+import { defaultOrganization } from "~/types/communities/organization";
+import { EntityType } from "~/types/entity";
 
 interface GroupStore {
   loading: boolean;
@@ -33,13 +35,8 @@ export const useGroupStore = defineStore("group", {
       groupName: "",
       name: "",
       tagline: "",
-      org: {
-        id: "",
-        orgName: "",
-        name: "",
-        iconUrl: "",
-      },
-      createdBy: "",
+      org: defaultOrganization,
+      createdBy: defaultUser,
       iconUrl: {
         id: "",
         fileObject: "",

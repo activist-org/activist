@@ -128,8 +128,9 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "#shared/types/icon-map";
 import { useMagicKeys, whenever } from "@vueuse/core";
+
+import { IconMap } from "~/types/icon-map";
 
 interface Tag {
   id: number;

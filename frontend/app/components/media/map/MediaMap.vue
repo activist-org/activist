@@ -10,18 +10,18 @@
 import type { LayerSpecification } from "maplibre-gl";
 
 import "maplibre-gl/dist/maplibre-gl.css";
+
+import { useClusterMap } from "~/composables/useClusterMap";
+import { useMap } from "~/composables/useMap";
+import { usePointerMap } from "~/composables/usePointerMap";
+import { useRouting } from "~/composables/useRoutingMap";
 import {
   MapType,
   type ClusterProperties,
   type Pointer,
   type PointerCluster,
   type PopupContent,
-} from "#shared/types/map";
-
-import { useClusterMap } from "~/composables/useClusterMap";
-import { useMap } from "~/composables/useMap";
-import { usePointerMap } from "~/composables/usePointerMap";
-import { useRouting } from "~/composables/useRoutingMap";
+} from "~/types/map";
 
 const props = defineProps<{
   pointer?: Pointer;

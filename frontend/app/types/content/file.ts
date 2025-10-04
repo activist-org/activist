@@ -5,6 +5,14 @@ export interface ContentImage {
   creation_date: string;
   sequence_index?: number;
 }
+
+export const defaultContentImage: ContentImage = {
+  id: "",
+  fileObject: "",
+  creation_date: "",
+  sequence_index: 0,
+};
+
 export class UploadableFile {
   file: File;
   url: string;

@@ -1,13 +1,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Note: We need to import here to overwrite base types.
-import type { Group } from "#shared/types/communities/group";
-import type { FaqEntry } from "#shared/types/content/faq-entry";
-import type { ContentImage } from "#shared/types/content/file";
-import type { Location } from "#shared/types/content/location";
-import type { Resource } from "#shared/types/content/resource";
-import type { SocialLink } from "#shared/types/content/social-link";
-import type { Topic, TopicEnum } from "#shared/types/content/topics";
-import type { Event } from "#shared/types/events/event";
+import type { Group } from "~/types/communities/group";
+import type { FaqEntry } from "~/types/content/faq-entry";
+import type { ContentImage } from "~/types/content/file";
+import type { Location } from "~/types/content/location";
+import type { Resource } from "~/types/content/resource";
+import type { SocialLink } from "~/types/content/social-link";
+import type { Topic, TopicEnum } from "~/types/content/topics";
+import type { Event } from "~/types/events/event";
+
+import { defaultContentImage } from "~/types/content/file";
+import { defaultSocialLink } from "~/types/content/social-link";
+import { defaultLocation } from "~/types/location";
 
 // MARK: Main Table
 
@@ -70,6 +74,11 @@ export interface OrganizationSocialLink extends SocialLink {
   orgId: string;
 }
 
+export const defaultOrganizationSocialLink: OrganizationSocialLink = {
+  orgId: "",
+  ...defaultSocialLink,
+};
+
 export interface OrganizationText {
   id: number;
   orgId: string;
@@ -88,6 +97,21 @@ export const defaultOrganizationText: OrganizationText = {
   description: "",
   getInvolved: "",
   donationPrompt: "",
+};
+
+export const defaultOrganization: Organization = {
+  id: "",
+  orgName: "",
+  name: "",
+  tagline: "",
+  createdBy: "",
+  iconUrl: defaultContentImage,
+  location: defaultLocation,
+  getInvolvedUrl: "",
+  socialLinks: [defaultOrganizationSocialLink],
+  status: 0,
+  creationDate: "",
+  texts: defaultOrganizationText,
 };
 
 // MARK: Pinia Responses

@@ -49,12 +49,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "#shared/types/communities/organization";
-import type { Resource } from "#shared/types/content/resource";
-
-import { EntityType } from "#shared/types/entity";
-import { IconMap } from "#shared/types/icon-map";
 import draggable from "vuedraggable";
+
+import type { Organization } from "~/types/communities/organization";
+import type { Resource } from "~/types/content/resource";
+
+import { EntityType } from "~/types/entity";
+import { IconMap } from "~/types/icon-map";
 
 const { openModal } = useModalHandlers("ModalResourceOrganization");
 const props = defineProps<{

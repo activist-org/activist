@@ -30,11 +30,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "#shared/types/communities/organization";
-
-import { IconMap } from "#shared/types/icon-map";
+import type { Organization } from "~/types/communities/organization";
 
 import { useLinkURL } from "~/composables/useLinkURL";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   organization: Organization;

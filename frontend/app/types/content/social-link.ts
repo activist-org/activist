@@ -8,6 +8,15 @@ export interface SocialLink {
   lastUpdated: string;
 }
 
+export const defaultSocialLink: SocialLink = {
+  id: "",
+  link: "",
+  label: "",
+  order: 0,
+  creationDate: "",
+  lastUpdated: "",
+};
+
 export interface SocialLinkFormData {
   id: string;
   link: string;

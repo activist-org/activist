@@ -74,7 +74,7 @@
               <Icon :name="IconMap.PERSON" size="1.5em" />
             </div>
             <p class="ml-2">
-              {{ discussion.createdBy.user_name }}
+              {{ discussion.createdBy.userName }}
             </p>
           </NuxtLink>
           <div class="ml-2 flex items-center">
@@ -87,9 +87,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Discussion } from "#shared/types/content/discussion";
+import type { Discussion } from "~/types/content/discussion";
 
-import { IconMap } from "#shared/types/icon-map";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   isPrivate?: boolean;

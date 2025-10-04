@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import type { TabPage } from "#shared/types/tab";
-
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
+
+import type { TabPage } from "~/types/tab";
 
 const props = defineProps<{
   tabs: TabPage[];

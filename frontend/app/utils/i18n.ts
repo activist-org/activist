@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import ar from "../../i18n/locales/ar.json" assert { type: "json" };
-import de from "../../i18n/locales/de.json" assert { type: "json" };
-import enUS from "../../i18n/locales/en-US.json" assert { type: "json" };
-import es from "../../i18n/locales/es.json" assert { type: "json" };
-import fr from "../../i18n/locales/fr.json" assert { type: "json" };
-import it from "../../i18n/locales/it.json" assert { type: "json" };
-import pt from "../../i18n/locales/pt.json" assert { type: "json" };
-import { LOCALE_CODE } from "../../locales";
+import ar from "~~/i18n/locales/ar.json" assert { type: "json" };
+import de from "~~/i18n/locales/de.json" assert { type: "json" };
+import enUS from "~~/i18n/locales/en-US.json" assert { type: "json" };
+import es from "~~/i18n/locales/es.json" assert { type: "json" };
+import fr from "~~/i18n/locales/fr.json" assert { type: "json" };
+import it from "~~/i18n/locales/it.json" assert { type: "json" };
+import pt from "~~/i18n/locales/pt.json" assert { type: "json" };
+
+import { LOCALE_CODE } from "~/utils/locales";
 
 type LocaleFile = Record<string, string>;
 

@@ -13,10 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import type { SocialLink } from "#shared/types/content/social-link";
-import type { EventSocialLink } from "#shared/types/events/event";
-
 import type { SocialLinkItem } from "~/components/form/FormSocialLink.vue";
+import type { SocialLink } from "~/types/content/social-link";
+import type { EventSocialLink } from "~/types/events/event";
 
 const modalName = "ModalSocialLinksEvent";
 const { handleCloseModal } = useModalHandlers(modalName);

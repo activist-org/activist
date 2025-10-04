@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { GeoJsonProperties } from "geojson";
 
-import type { Location } from "./content/location";
+import type { Location } from "~/types/content/location";
 
 export enum MapType {
   POINT = "point",

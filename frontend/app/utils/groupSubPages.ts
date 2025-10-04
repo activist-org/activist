@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { TabPage } from "#shared/types/tab";
+import type { TabPage } from "~/types/tab";
 
-import { IconMap } from "#shared/types/icon-map";
+import { IconMap } from "~/types/icon-map";
 
 export function getGroupTabs(): TabPage[] {
   const { t } = useI18n();

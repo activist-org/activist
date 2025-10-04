@@ -23,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "#shared/types/events/event";
-
 import { DialogTitle } from "@headlessui/vue";
+
+import type { Event } from "~/types/events/event";
 
 defineProps<{
   event?: Event;

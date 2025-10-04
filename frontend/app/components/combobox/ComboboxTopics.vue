@@ -80,8 +80,6 @@
 </template>
 
 <script setup lang="ts">
-import { GLOBAL_TOPICS } from "#shared/types/content/topics";
-import { IconMap } from "#shared/types/icon-map";
 import {
   Combobox,
   ComboboxButton,
@@ -90,6 +88,9 @@ import {
   ComboboxOptions,
   TransitionRoot,
 } from "@headlessui/vue";
+
+import { GLOBAL_TOPICS } from "~/types/content/topics";
+import { IconMap } from "~/types/icon-map";
 
 const { t } = useI18n();
 

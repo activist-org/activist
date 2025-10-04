@@ -9,11 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "#shared/types/communities/organization";
+import type { Organization } from "~/types/communities/organization";
 import type {
   DiscussionEntry,
   DiscussionInput,
-} from "#shared/types/content/discussion";
+} from "~/types/content/discussion";
 
 defineProps<{
   discussionEntries?: DiscussionEntry[];

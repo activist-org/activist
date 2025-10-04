@@ -72,11 +72,12 @@
 </template>
 
 <script setup lang="ts">
-import type { FileUploadMix } from "#shared/types/content/file";
-
-import { IconMap } from "#shared/types/icon-map";
 import { ref } from "vue";
 import draggable from "vuedraggable";
+
+import type { FileUploadMix } from "~/types/content/file";
+
+import { IconMap } from "~/types/icon-map";
 
 interface Props {
   modelValue: FileUploadMix[];

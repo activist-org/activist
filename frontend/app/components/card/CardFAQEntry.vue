@@ -62,10 +62,11 @@
 </template>
 
 <script setup lang="ts">
-import type { FaqEntry } from "#shared/types/content/faq-entry";
-
-import { IconMap } from "#shared/types/icon-map";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
+
+import type { FaqEntry } from "~/types/content/faq-entry";
+
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   faqEntry: FaqEntry;

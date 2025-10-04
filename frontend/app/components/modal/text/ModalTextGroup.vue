@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { GroupUpdateTextFormData } from "#shared/types/communities/group";
+import type { GroupUpdateTextFormData } from "~/types/communities/group";
 
 const modalName = "ModalTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);

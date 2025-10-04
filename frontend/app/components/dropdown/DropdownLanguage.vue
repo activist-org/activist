@@ -29,11 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownLocation } from "#shared/types/location";
 import type { LocaleObject } from "@nuxtjs/i18n";
 
-import { IconMap } from "#shared/types/icon-map";
 import { MenuItem } from "@headlessui/vue";
+
+import type { DropdownLocation } from "~/types/location";
+
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   location?: DropdownLocation;

@@ -53,9 +53,9 @@
 </template>
 
 <script setup lang="ts">
-import type { FeedItem } from "#shared/types/feed/feed-item";
+import type { FeedItem } from "~/types/feed/feed-item";
 
-import { IconMap } from "#shared/types/icon-map";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   name: string;

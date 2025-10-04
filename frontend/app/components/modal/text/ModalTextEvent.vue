@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EventUpdateTextFormData } from "#shared/types/events/event";
+import type { EventUpdateTextFormData } from "~/types/events/event";
 
 const modalName = "ModalTextEvent";
 const { handleCloseModal } = useModalHandlers(modalName);

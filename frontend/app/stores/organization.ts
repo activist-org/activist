@@ -6,14 +6,14 @@ import type {
   OrganizationResponse,
   OrganizationsResponseBody,
   OrganizationUpdateTextFormData,
-} from "#shared/types/communities/organization";
-import type { FaqEntry } from "#shared/types/content/faq-entry";
-import type { ContentImage, UploadableFile } from "#shared/types/content/file";
-import type { Resource, ResourceInput } from "#shared/types/content/resource";
-import type { SocialLinkFormData } from "#shared/types/content/social-link";
+} from "~/types/communities/organization";
+import type { FaqEntry } from "~/types/content/faq-entry";
+import type { ContentImage, UploadableFile } from "~/types/content/file";
+import type { Resource, ResourceInput } from "~/types/content/resource";
+import type { SocialLinkFormData } from "~/types/content/social-link";
 
-import { defaultOrganizationText } from "#shared/types/communities/organization";
-import { EntityType } from "#shared/types/entity";
+import { defaultOrganizationText } from "~/types/communities/organization";
+import { EntityType } from "~/types/entity";
 
 interface OrganizationStore {
   loading: boolean;

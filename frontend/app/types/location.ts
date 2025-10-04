@@ -9,3 +9,11 @@ export enum SearchBarLocation {
   HEADER = "header",
   SIDEBAR = "sidebar",
 }
+
+export const defaultLocation = {
+  id: "",
+  lat: "",
+  lon: "",
+  bbox: [""],
+  displayName: "",
+};

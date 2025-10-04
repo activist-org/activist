@@ -57,11 +57,11 @@
 </template>
 
 <script setup lang="ts">
-import type { GroupUpdateTextFormData } from "#shared/types/communities/group";
-import type { OrganizationUpdateTextFormData } from "#shared/types/communities/organization";
-import type { EventUpdateTextFormData } from "#shared/types/events/event";
-
 import { z } from "zod";
+
+import type { GroupUpdateTextFormData } from "~/types/communities/group";
+import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
+import type { EventUpdateTextFormData } from "~/types/events/event";
 
 type TextEntityFormData =
   | OrganizationUpdateTextFormData

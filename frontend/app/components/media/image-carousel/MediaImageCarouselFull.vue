@@ -26,10 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import type { ContentImage } from "#shared/types/content/file";
-import type { EntityType } from "#shared/types/entity";
+import type { ContentImage } from "~/types/content/file";
+import type { EntityType } from "~/types/entity";
 
-import { IconMap } from "#shared/types/icon-map";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   entityType: EntityType;

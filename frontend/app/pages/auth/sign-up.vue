@@ -179,9 +179,10 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "#shared/types/icon-map";
 import { FetchError } from "ofetch";
 import { z } from "zod";
+
+import { IconMap } from "~/types/icon-map";
 
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();

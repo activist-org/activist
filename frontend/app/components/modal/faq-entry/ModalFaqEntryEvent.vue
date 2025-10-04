@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FaqEntry } from "#shared/types/content/faq-entry";
+import type { FaqEntry } from "~/types/content/faq-entry";
 
 const props = defineProps<{
   faqEntry?: FaqEntry;
@@ -33,7 +33,7 @@ const formData = ref<FaqEntry>(
     ? {
         id: "",
         iso: "en",
-        order: event.faqEntries.length,
+        order: (event.faqEntries ?? []).length,
         question: "",
         answer: "",
       }

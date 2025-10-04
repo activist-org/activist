@@ -156,9 +156,6 @@
 </template>
 
 <script setup lang="ts">
-import type { DiscussionInput } from "#shared/types/content/discussion";
-
-import { IconMap } from "#shared/types/icon-map";
 import Link from "@tiptap/extension-link";
 import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -166,7 +163,10 @@ import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { Markdown } from "tiptap-markdown";
 
-import Suggestion from "../../../utils/mentionSuggestion";
+import type { DiscussionInput } from "~/types/content/discussion";
+
+import { IconMap } from "~/types/icon-map";
+import Suggestion from "~/utils/mentionSuggestion";
 
 const showTooltip = ref(false);
 const props = defineProps<{

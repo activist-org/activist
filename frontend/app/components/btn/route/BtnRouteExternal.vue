@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BtnRoute } from "#shared/types/btn-props";
+import type { BtnRoute } from "~/types/btn-props";
 
 import { getBtnDynamicClass } from "~/utils/btnUtils";
 

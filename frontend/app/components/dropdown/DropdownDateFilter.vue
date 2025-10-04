@@ -52,13 +52,14 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "#shared/types/icon-map";
 import {
   Listbox,
   ListboxButton,
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/vue";
+
+import { IconMap } from "~/types/icon-map";
 
 const filterOptions = [
   "Last week",

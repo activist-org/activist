@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Note: We need to import here to overwrite base types.
-import type { User } from "#shared/types/auth/user";
-import type { Organization } from "#shared/types/communities/organization";
-import type { FaqEntry } from "#shared/types/content/faq-entry";
-import type { ContentImage } from "#shared/types/content/file";
-import type { Location } from "#shared/types/content/location";
-import type { Resource } from "#shared/types/content/resource";
-import type { SocialLink } from "#shared/types/content/social-link";
-import type { Topic } from "#shared/types/content/topics";
-import type { Event } from "#shared/types/events/event";
+import type { User } from "~/types/auth/user";
+import type { Organization } from "~/types/communities/organization";
+import type { FaqEntry } from "~/types/content/faq-entry";
+import type { ContentImage } from "~/types/content/file";
+import type { Location } from "~/types/content/location";
+import type { Resource } from "~/types/content/resource";
+import type { SocialLink } from "~/types/content/social-link";
+import type { Topic } from "~/types/content/topics";
+import type { InitialEntity } from "~/types/entity";
+import type { Event } from "~/types/events/event";
 
 // MARK: Main Table
 
@@ -76,6 +77,9 @@ export const defaultGroupText: GroupText = {
   getInvolved: "",
   donationPrompt: "",
 };
+
+// Attn: Future implementation for default store value.
+export type GroupInitial = InitialEntity<Group>;
 
 // MARK: Pinia Responses
 

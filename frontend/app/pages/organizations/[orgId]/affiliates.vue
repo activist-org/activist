@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "#shared/types/communities/organization";
+import type { Organization } from "~/types/communities/organization";
 
 defineProps<{
   organization: Organization;

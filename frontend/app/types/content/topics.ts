@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { IconMap } from "#shared/types/icon-map";
+import { IconMap } from "~/types/icon-map";
 
 export enum TopicEnum {
   ACCESSIBILITY = "ACCESSIBILITY",

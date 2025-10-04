@@ -82,11 +82,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "#shared/types/communities/group";
-import type { EntityType } from "#shared/types/entity";
+import type { Group } from "~/types/communities/group";
+import type { EntityType } from "~/types/entity";
 
-import { BreakpointMap } from "#shared/types/breakpoint-map";
-import { IconMap } from "#shared/types/icon-map";
+import { BreakpointMap } from "~/types/breakpoint-map";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   group: Group;

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { FaqEntry } from "#shared/types/content/faq-entry";
-import type { UploadableFile } from "#shared/types/content/file";
-import type { Resource, ResourceInput } from "#shared/types/content/resource";
-import type { SocialLinkFormData } from "#shared/types/content/social-link";
+import type { FaqEntry } from "~/types/content/faq-entry";
+import type { UploadableFile } from "~/types/content/file";
+import type { Resource, ResourceInput } from "~/types/content/resource";
+import type { SocialLinkFormData } from "~/types/content/social-link";
 import type {
   Event,
   EventCreateFormData,
@@ -10,10 +10,12 @@ import type {
   EventResponse,
   EventsResponseBody,
   EventUpdateTextFormData,
-} from "#shared/types/events/event";
+} from "~/types/events/event";
 
-import { EntityType } from "#shared/types/entity";
-import { defaultEventText } from "#shared/types/events/event";
+import { defaultUser } from "~/types/auth/user";
+import { defaultOrganization } from "~/types/communities/organization";
+import { EntityType } from "~/types/entity";
+import { defaultEventText } from "~/types/events/event";
 
 interface EventStore {
   loading: boolean;
@@ -32,7 +34,7 @@ export const useEventStore = defineStore("event", {
       id: "",
       name: "",
       tagline: "",
-      createdBy: "",
+      createdBy: defaultUser,
       iconUrl: {
         id: "",
         fileObject: "",
@@ -57,7 +59,7 @@ export const useEventStore = defineStore("event", {
       endTime: "",
       creationDate: "",
 
-      orgs: { id: "", orgName: "", name: "", iconUrl: "" },
+      orgs: defaultOrganization,
 
       texts: defaultEventText,
     },

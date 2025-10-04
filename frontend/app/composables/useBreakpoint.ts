@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { BreakpointMap } from "#shared/types/breakpoint-map";
 import { useBreakpoints } from "@vueuse/core";
+
+import { BreakpointMap } from "~/types/breakpoint-map";
 
 const breakpoints = useBreakpoints({
   sm: BreakpointMap.SMALL,

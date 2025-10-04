@@ -4,22 +4,14 @@ import type { NuxtPage } from "nuxt/schema";
 
 import tailwindcss from "@tailwindcss/vite";
 
+import locales from "./app/utils/locales";
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
-import locales from "./locales";
 import modules from "./modules";
 
 export default defineNuxtConfig({
   app: {
     head,
-  },
-
-  typescript: {
-    tsConfig: {
-      compilerOptions: {
-        composite: true,
-      },
-    },
   },
 
   auth: {

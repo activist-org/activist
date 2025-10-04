@@ -73,10 +73,6 @@
 </template>
 
 <script setup lang="ts">
-import type MenuEntry from "#shared/types/menu/menu-entry";
-
-import { IconMap } from "#shared/types/icon-map";
-import { SidebarType } from "#shared/types/sidebar-type";
 import {
   Listbox,
   ListboxButton,
@@ -84,6 +80,10 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 
+import type MenuEntry from "~/types/menu/menu-entry";
+
+import { IconMap } from "~/types/icon-map";
+import { SidebarType } from "~/types/sidebar-type";
 import {
   currentRoutePathIncludes,
   isCurrentRoutePathSubpageOf,

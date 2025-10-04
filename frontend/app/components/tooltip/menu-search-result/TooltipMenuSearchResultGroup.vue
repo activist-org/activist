@@ -44,9 +44,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "#shared/types/communities/group";
+import type { Group } from "~/types/communities/group";
 
-import { IconMap } from "#shared/types/icon-map";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   group?: Group;

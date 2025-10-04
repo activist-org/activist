@@ -67,7 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "#shared/types/icon-map";
 import {
   Combobox,
   ComboboxInput,
@@ -75,6 +74,8 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 import { useRouter } from "vue-router";
+
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   paletteData: Command[];

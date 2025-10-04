@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "#shared/types/events/event";
+import type { Event } from "~/types/events/event";
 
 defineProps<{
   event: Event;

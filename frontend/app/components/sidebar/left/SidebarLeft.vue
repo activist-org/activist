@@ -83,10 +83,9 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "#shared/types/icon-map";
-import { SearchBarLocation } from "#shared/types/location";
-import { SidebarType } from "#shared/types/sidebar-type";
-
+import { IconMap } from "~/types/icon-map";
+import { SearchBarLocation } from "~/types/location";
+import { SidebarType } from "~/types/sidebar-type";
 import {
   currentRoutePathIncludes,
   isCurrentRoutePathSubpageOf,

@@ -8,9 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Event, EventType } from "#shared/types/events/event";
+import type { Event, EventType } from "~/types/events/event";
 
-import { MapType, type Pointer } from "#shared/types/map";
+import { MapType, type Pointer } from "~/types/map";
 
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;

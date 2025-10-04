@@ -30,8 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "#shared/types/events/event";
 import type { PopoverVisibility } from "v-calendar/dist/types/src/utils/popovers.js";
+
+import type { Event } from "~/types/events/event";
 
 import { getAllDaysInRange } from "~/utils/utils";
 

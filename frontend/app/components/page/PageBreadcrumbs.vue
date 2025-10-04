@@ -73,11 +73,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "#shared/types/communities/group";
-import type { Organization } from "#shared/types/communities/organization";
-import type { Event } from "#shared/types/events/event";
-
 import { validate as isValidUUID } from "uuid";
+
+import type { Group } from "~/types/communities/group";
+import type { Organization } from "~/types/communities/organization";
+import type { Event } from "~/types/events/event";
 
 const url = window.location.href;
 let pageType = "";

@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "#shared/types/icon-map";
+import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 

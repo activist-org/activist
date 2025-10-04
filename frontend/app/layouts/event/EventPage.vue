@@ -30,8 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { EntityType } from "#shared/types/entity";
-
+import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,

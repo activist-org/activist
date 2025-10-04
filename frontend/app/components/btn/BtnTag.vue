@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BtnAction } from "#shared/types/btn-props";
+import type { BtnAction } from "~/types/btn-props";
 
 import { getBtnDynamicClass } from "~/utils/btnUtils";
 

@@ -4,3 +4,5 @@ export enum EntityType {
   GROUP = "group",
   EVENT = "event",
 }
+
+export type InitialEntity<T> = Partial<Omit<T, "id">> & { id: string };

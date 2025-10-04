@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EntityType } from "#shared/types/entity";
+import type { EntityType } from "~/types/entity";
 
 defineProps<{
   imageUrls: string[];

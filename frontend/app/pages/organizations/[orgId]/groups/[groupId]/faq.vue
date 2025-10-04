@@ -45,14 +45,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "#shared/types/communities/group";
-import type { FaqEntry } from "#shared/types/content/faq-entry";
-
-import { IconMap } from "#shared/types/icon-map";
 import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
+import type { Group } from "~/types/communities/group";
+import type { FaqEntry } from "~/types/content/faq-entry";
+
 import { useGroupStore } from "~/stores/group";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{ group: Group }>();
 

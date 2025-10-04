@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { RouteProfile } from "#shared/types/map";
 import type maplibregl from "maplibre-gl";
 import type { LayerSpecification } from "maplibre-gl";
 
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import { ref } from "vue";
+
+import type { RouteProfile } from "~/types/map";
 
 export const useRouting = () => {
   const { t } = useI18n();

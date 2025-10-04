@@ -86,9 +86,10 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "#shared/types/icon-map";
-import { DropdownLocation } from "#shared/types/location";
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
+
+import { IconMap } from "~/types/icon-map";
+import { DropdownLocation } from "~/types/location";
 
 const props = defineProps<{
   location?: DropdownLocation;

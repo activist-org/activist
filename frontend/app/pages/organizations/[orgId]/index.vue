@@ -65,13 +65,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "#shared/types/communities/organization";
-import type { MenuSelector } from "#shared/types/menu/menu-selector";
-
-import { BreakpointMap } from "#shared/types/breakpoint-map";
-import { IconMap } from "#shared/types/icon-map";
+import type { Organization } from "~/types/communities/organization";
+import type { MenuSelector } from "~/types/menu/menu-selector";
 
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
+import { BreakpointMap } from "~/types/breakpoint-map";
+import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   organization: Organization;

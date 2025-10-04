@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // MARK: Main Table
-import type { User } from "#shared/types/auth/user";
-import type { Organization } from "#shared/types/communities/organization";
-import type { Event } from "#shared/types/events/event";
+import type { User } from "~/types/auth/user";
+import type { Organization } from "~/types/communities/organization";
+import type { Event } from "~/types/events/event";
 
 export interface Discussion {
   title: string;

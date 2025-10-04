@@ -77,10 +77,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "#shared/types/content/resource";
-
-import { TopicEnum } from "#shared/types/content/topics";
 import { z } from "zod";
+
+import type { Resource } from "~/types/content/resource";
+
+import { TopicEnum } from "~/types/content/topics";
 
 defineProps<{
   formData?: Resource;

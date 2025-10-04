@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource, ResourceInput } from "#shared/types/content/resource";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 
 const props = defineProps<{
   resource?: Resource;
@@ -73,7 +73,7 @@ async function handleSubmit(values: unknown) {
   const newValues = {
     ...formData.value,
     ...(values as Resource),
-    order: formData.value?.order ?? group.resources.length,
+    order: formData.value?.order ?? (group.resources ?? []).length,
   };
   if (isAddMode)
     await groupStore.createResource(group, newValues as ResourceInput);

@@ -99,10 +99,10 @@
 </template>
 
 <script setup lang="ts">
-import type { TopicEnum, TopicTag } from "#shared/types/content/topics";
+import type { TopicEnum, TopicTag } from "~/types/content/topics";
 
-import { GLOBAL_TOPICS } from "#shared/types/content/topics";
-import { IconMap } from "#shared/types/icon-map";
+import { GLOBAL_TOPICS } from "~/types/content/topics";
+import { IconMap } from "~/types/icon-map";
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {

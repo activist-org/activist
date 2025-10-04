@@ -36,9 +36,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "#shared/types/events/event";
+import type { Event } from "~/types/events/event";
 
-import { IconMap } from "#shared/types/icon-map";
+import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   event: Event;

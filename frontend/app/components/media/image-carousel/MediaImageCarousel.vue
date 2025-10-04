@@ -44,9 +44,10 @@
 <script setup lang="ts">
 import type { Swiper as SwiperInstance } from "swiper";
 
-import { EntityType } from "#shared/types/entity";
-import { IconMap } from "#shared/types/icon-map";
 import { register } from "swiper/element/bundle";
+
+import { EntityType } from "~/types/entity";
+import { IconMap } from "~/types/icon-map";
 
 interface Props {
   fullscreen: boolean;
