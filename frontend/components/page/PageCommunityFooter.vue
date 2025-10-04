@@ -5,10 +5,12 @@
       {{ $t(headerText) }}
     </h4>
     <ul v-if="!helpNeeded" class="list-disc space-y-1 pb-1 pl-4 pt-3">
-      <li>
-        {{ $t("i18n.components.page_community_footer.invite_text_2_1") }}
+      <li class="space-x-1">
+        <span>
+          {{ $t("i18n.components.page_community_footer.invite_text_2_1") }}
+        </span>
         <a
-          class="focus-brand link-text items-center"
+          class="focus-brand link-text inline-link-underline items-center"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
@@ -19,12 +21,16 @@
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("i18n.components.page_community_footer.invite_text_2_3") }}
+        <span>
+          {{ $t("i18n.components.page_community_footer.invite_text_2_3") }}
+        </span>
       </li>
-      <li>
-        {{ $t("i18n.components.page_community_footer.invite_text_3_1") }}
+      <li class="space-x-1">
+        <span>
+          {{ $t("i18n.components.page_community_footer.invite_text_3_1") }}
+        </span>
         <a
-          class="focus-brand link-text items-center"
+          class="focus-brand link-text inline-link-underline items-center"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
@@ -35,12 +41,14 @@
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("i18n.components.page_community_footer.invite_text_3_3") }}
+        <span>
+          {{ $t("i18n.components.page_community_footer.invite_text_3_3") }}
+        </span>
       </li>
-      <li>
-        {{ $t("i18n.components.page_community_footer.visit_our") }}
+      <li class="space-x-1">
+        <span>{{ $t("i18n.components.page_community_footer.visit_our") }}</span>
         <a
-          class="focus-brand link-text items-center"
+          class="focus-brand link-text inline-link-underline items-center"
           href="https://hosted.weblate.org/projects/activist/activist"
           target="_blank"
         >
@@ -51,14 +59,18 @@
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("i18n.components.page_community_footer.invite_text_4_3") }}
+        <span>
+          {{ $t("i18n.components.page_community_footer.invite_text_4_3") }}
+        </span>
       </li>
     </ul>
     <ul v-else class="list-disc space-y-1 pb-1 pl-4 pt-3">
       <li>
-        {{ $t("i18n.components.page_community_footer.need_help_text_1_1") }}
+        <span>
+          {{ $t("i18n.components.page_community_footer.need_help_text_1_1") }}
+        </span>
         <a
-          class="focus-brand link-text items-center"
+          class="focus-brand link-text inline-link-underline items-center"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
@@ -69,12 +81,16 @@
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("i18n.components.page_community_footer.need_help_text_1_3") }}
+        <span>
+          {{ $t("i18n.components.page_community_footer.need_help_text_1_3") }}
+        </span>
       </li>
       <li>
-        {{ $t("i18n.components.page_community_footer.need_help_text_2_1") }}
+        <span>
+          {{ $t("i18n.components.page_community_footer.need_help_text_2_1") }}
+        </span>
         <a
-          class="focus-brand link-text items-center"
+          class="focus-brand link-text inline-link-underline items-center"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
@@ -85,7 +101,9 @@
             style="vertical-align: baseline"
           />
         </a>
-        {{ $t("i18n.components.page_community_footer.need_help_text_2_3") }}
+        <span>
+          {{ $t("i18n.components.page_community_footer.need_help_text_2_3") }}
+        </span>
       </li>
     </ul>
   </div>

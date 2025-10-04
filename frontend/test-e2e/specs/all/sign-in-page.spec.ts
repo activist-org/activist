@@ -156,8 +156,9 @@ test.describe("Sign In Page", { tag: ["@desktop", "@mobile"] }, () => {
     // Should be redirected to the home page AND sidebar left should have create button.
   });
 
-  test.fail(
+  test(
     "Sign In Page has no detectable accessibility issues",
+    { tag: "@accessibility" },
     async ({ page }, testInfo) => {
       const violations = await runAccessibilityTest(
         "Sign In Page",

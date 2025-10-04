@@ -69,6 +69,7 @@ class TestSignUpSerializer:
             "username": "testuser",
             "password": "StrongPass!123",
             "password_confirmed": "WrongPass!123",
+            "email": "testuser@example.com",
         }
         serializer = SignUpSerializer(data=data)
 
@@ -84,11 +85,24 @@ class TestSignUpSerializer:
             "username": "testuser",
             "password": "weakpass",
             "password_confirmed": "weakpass",
+            "email": "testuser@example.com",
         }
         serializer = SignUpSerializer(data=data)
 
         assert not serializer.is_valid()
         assert serializer.errors["non_field_errors"][0].code == "invalid_password"
+
+    def test_none_email(self) -> None:
+        logger.info("Testing SignUpSerializer with weak password")
+        data = {
+            "username": "testuser",
+            "password": "StrongPass!123",
+            "password_confirmed": "StrongPass!123",
+        }
+        serializer = SignUpSerializer(data=data)
+
+        assert not serializer.is_valid()
+        assert serializer.errors["email"][0].code == "required"
 
 
 @pytest.mark.django_db

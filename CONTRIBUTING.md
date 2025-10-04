@@ -422,7 +422,7 @@ yarn typecheck
 
 #### Automated Testing
 
-We use [Vitest](https://vitest.dev/) for component and unit testing.  You can run them with the following command:
+We use [Vitest](https://vitest.dev/) for component and unit testing. You can run the tests with the following command:
 
 ```bash
 # Within ./frontend:

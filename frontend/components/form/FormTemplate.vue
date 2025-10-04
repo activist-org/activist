@@ -7,11 +7,12 @@
       label="Name"
       :required="true"
     >
+      <!-- prettier-ignore-attribute :modelValue -->
       <FormTextInput
         @input="handleChange"
         @blur="handleBlur"
         :id="id"
-        :modelValue="value.value as string"
+        :modelValue="(value.value as string)"
         :hasError="!!errorMessage.value"
         :label="'Name'"
       />

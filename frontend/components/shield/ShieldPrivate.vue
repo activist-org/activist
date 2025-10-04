@@ -17,9 +17,9 @@
       :name="type === 'group' ? 'IconGroup' : IconMap.HIDDEN"
       :size="iconSize"
     />
-    <span class="mx-auto ml-2 hidden md:block">{{
-      $t("i18n.components.shield_private.private")
-    }}</span>
+    <span class="mx-auto ml-2 hidden md:block">
+      {{ $t("i18n.components.shield_private.private") }}
+    </span>
   </div>
 </template>
 

@@ -3,9 +3,13 @@
   <TooltipBase
     class="z-20 min-w-[200px] pb-4 pt-2 transition delay-150 ease-in-out md:min-w-[450px]"
   >
-    <span class="mb-2 px-2">{{
-      $t("i18n.components.tooltip_password_requirements.password_rules_message")
-    }}</span>
+    <p class="mb-2 px-2">
+      {{
+        $t(
+          "i18n.components.tooltip_password_requirements.password_rules_message"
+        )
+      }}
+    </p>
     <div
       v-for="rule in validRules"
       :key="rule.rule"
@@ -36,9 +40,9 @@
               )
         }}
       </title>
-      <span class="truncate text-sm">{{
-        $t(passwordRequirementsDict[rule.rule])
-      }}</span>
+      <p class="truncate text-sm">
+        {{ $t(passwordRequirementsDict[rule.rule]) }}
+      </p>
     </div>
   </TooltipBase>
 </template>
