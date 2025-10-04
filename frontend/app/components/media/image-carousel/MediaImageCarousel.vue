@@ -95,7 +95,8 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped>
+@reference "../../../assets/css/tailwind.css";
 swiper-container::part(bullet) {
   @apply mx-1 h-2 w-2 border-spacing-1 rounded-full bg-cta-orange/80 transition-opacity hover:opacity-100;
 }
