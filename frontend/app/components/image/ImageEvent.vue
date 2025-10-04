@@ -5,8 +5,8 @@
     <div
       class="h-full w-[20%] rounded-l-md"
       :class="{
-        'bg-action-red': eventType == 'action',
-        'bg-learn-blue': eventType == 'learn',
+        'bg-action-red': eventType === 'action',
+        'bg-learn-blue': eventType === 'learn',
       }"
     ></div>
     <img
@@ -20,7 +20,7 @@
       v-else
       class="flex h-full w-[80%] items-center justify-center rounded-r-md bg-layer-0 text-primary-text"
     >
-      <Icon :name="IconMap.EVENT" class="mb-1 h-[75%] w-[75%]" />
+      <Icon :name="IconMap.EVENT" class="mb-1" :size="size" />
     </div>
   </div>
 </template>
@@ -28,9 +28,15 @@
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  eventType: "action" | "learn";
-  imgUrl?: string;
-  alt?: string;
-}>();
+withDefaults(
+  defineProps<{
+    eventType: "action" | "learn";
+    imgUrl?: string;
+    alt?: string;
+    size?: string;
+  }>(),
+  {
+    size: "7em",
+  }
+);
 </script>

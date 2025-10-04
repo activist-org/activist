@@ -30,7 +30,7 @@
           class="!gap-2"
           :iconName="IconMap.MATRIX"
           :text="$t('i18n.components._global.matrix')"
-          iconSize="1.061em"
+          iconSize="1.1em"
           textUtilityClasses="sr-only sm:not-sr-only"
         />
       </a>

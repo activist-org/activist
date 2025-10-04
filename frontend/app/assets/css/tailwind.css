@@ -79,6 +79,51 @@ MARK: Base
   * {
     @apply scrollbar scrollbar-track-transparent scrollbar-thumb-distinct-text scrollbar-thumb-rounded-md scrollbar-w-2;
   }
+
+  /*
+  MARK: Typography
+  */
+
+  h1 {
+    @apply text-primary-text responsive-h1;
+  }
+
+  h2 {
+    @apply text-primary-text responsive-h2;
+  }
+
+  h3 {
+    @apply text-primary-text responsive-h3;
+  }
+
+  h4 {
+    @apply text-primary-text responsive-h4;
+  }
+
+  h5 {
+    @apply text-primary-text responsive-h5;
+  }
+
+  h6 {
+    @apply text-primary-text responsive-h6;
+  }
+
+  p {
+    @apply text-base text-primary-text;
+  }
+
+  ul {
+    @apply text-base text-primary-text;
+  }
+
+  ol {
+    @apply text-base text-primary-text;
+  }
+
+  /* Note: Not used because this colors all NuxtLink components. */
+  /* a {
+    @apply link-text text-base;
+  } */
 }
 
 @layer components {
@@ -270,48 +315,3 @@ MARK: Pulse
     opacity: 0.5;
   }
 }
-
-/*
-MARK: Typography
-*/
-
-h1 {
-  @apply text-primary-text responsive-h1;
-}
-
-h2 {
-  @apply text-primary-text responsive-h2;
-}
-
-h3 {
-  @apply text-primary-text responsive-h3;
-}
-
-h4 {
-  @apply text-primary-text responsive-h4;
-}
-
-h5 {
-  @apply text-primary-text responsive-h5;
-}
-
-h6 {
-  @apply text-primary-text responsive-h6;
-}
-
-p {
-  @apply text-base text-primary-text;
-}
-
-ul {
-  @apply text-base text-primary-text;
-}
-
-ol {
-  @apply text-base text-primary-text;
-}
-
-/* Note: Not used because this colors all NuxtLink components. */
-/* a {
-  @apply link-text text-base;
-} */
