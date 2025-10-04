@@ -28,7 +28,7 @@
       </div>
       <!-- Note: Search Input -->
       <div
-        class="elem-shadow-sm flex select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
+        class="flex select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 elem-shadow-sm focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
       >
         <div class="flex flex-1 items-center space-x-2 pl-1">
           <Icon
@@ -128,9 +128,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
 import { useMagicKeys, whenever } from "@vueuse/core";
-
-import { IconMap } from "~/types/icon-map";
 
 interface Tag {
   id: number;

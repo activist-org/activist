@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { ContentImage, FileUploadMix } from "~/types/content/file";
+import type { ContentImage, FileUploadMix } from "#shared/types/content/file";
 
-import { UploadableFile } from "~/types/content/file";
+import { UploadableFile } from "#shared/types/content/file";
 
 const { token } = useAuth();
 

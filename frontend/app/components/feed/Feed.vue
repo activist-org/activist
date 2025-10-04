@@ -15,9 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
+import type { Group } from "#shared/types/communities/group";
 
-import { BreakpointMap } from "~/types/breakpoint-map";
+import { BreakpointMap } from "#shared/types/breakpoint-map";
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;

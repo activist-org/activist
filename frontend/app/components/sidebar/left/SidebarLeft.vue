@@ -12,7 +12,7 @@
     id="sidebar-left"
     role="navigation"
     tabindex="0"
-    class="elem-shadow-sm focus-brand absolute z-40 block h-full flex-col border-r border-section-div bg-layer-1 transition-all duration-500 md:flex"
+    class="absolute z-40 block h-full flex-col border-r border-section-div bg-layer-1 transition-all duration-500 elem-shadow-sm focus-brand md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,
@@ -70,7 +70,7 @@
       <div v-else class="w-full px-1 pt-2">
         <div
           :class="{
-            'style-cta elem-shadow-sm my-0 flex items-center justify-center rounded-md !opacity-100':
+            'style-cta my-0 flex items-center justify-center rounded-md !opacity-100 elem-shadow-sm':
               sidebar.collapsed == true && sidebar.collapsedSwitch == true,
           }"
         >
@@ -83,9 +83,10 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-import { SearchBarLocation } from "~/types/location";
-import { SidebarType } from "~/types/sidebar-type";
+import { IconMap } from "#shared/types/icon-map";
+import { SearchBarLocation } from "#shared/types/location";
+import { SidebarType } from "#shared/types/sidebar-type";
+
 import {
   currentRoutePathIncludes,
   isCurrentRoutePathSubpageOf,

@@ -30,7 +30,7 @@
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
         "
         @click="openModal()"
-        class="focus-brand absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+        class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         :aria-label="
           $t(
             'i18n.components.sidebar_left_content_organization.edit_aria_label'
@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const props = defineProps<{
   name: string;

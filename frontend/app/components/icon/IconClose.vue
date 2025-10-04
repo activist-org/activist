@@ -6,5 +6,5 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 </script>

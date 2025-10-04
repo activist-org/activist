@@ -5,13 +5,14 @@ import type {
   GroupResponse,
   GroupsResponseBody,
   GroupUpdateTextFormData,
-} from "~/types/communities/group";
-import type { FaqEntry } from "~/types/content/faq-entry";
-import type { ContentImage, UploadableFile } from "~/types/content/file";
-import type { Resource, ResourceInput } from "~/types/content/resource";
-import type { SocialLinkFormData } from "~/types/content/social-link";
+} from "#shared/types/communities/group";
+import type { FaqEntry } from "#shared/types/content/faq-entry";
+import type { ContentImage, UploadableFile } from "#shared/types/content/file";
+import type { Resource, ResourceInput } from "#shared/types/content/resource";
+import type { SocialLinkFormData } from "#shared/types/content/social-link";
 
-import { EntityType } from "~/types/entity";
+import { defaultGroupText } from "#shared/types/communities/group";
+import { EntityType } from "#shared/types/entity";
 
 interface GroupStore {
   loading: boolean;
@@ -55,15 +56,7 @@ export const useGroupStore = defineStore("group", {
       resources: [],
       faqEntries: [],
 
-      texts: {
-        id: 0,
-        groupId: "",
-        iso: "",
-        primary: false,
-        description: "",
-        getInvolved: "",
-        donationPrompt: "",
-      },
+      texts: defaultGroupText,
     },
 
     groups: [],
@@ -136,7 +129,7 @@ export const useGroupStore = defineStore("group", {
         this.group.getInvolvedUrl = group.getInvolvedUrl;
         this.group.socialLinks = group.socialLinks;
 
-        this.group.texts = group.texts[0]!;
+        this.group.texts = group.texts[0] ?? defaultGroupText;
 
         this.group.resources = group.resources;
         this.group.faqEntries = group.faqEntries;
@@ -175,7 +168,7 @@ export const useGroupStore = defineStore("group", {
             socialLinks: group.socialLinks,
             creationDate: group.creationDate,
 
-            texts: group.texts[0]!,
+            texts: group.texts[0] ?? defaultGroupText,
 
             faqEntries: group.faqEntries,
           };

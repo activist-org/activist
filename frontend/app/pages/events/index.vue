@@ -25,9 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
+import type { Event } from "#shared/types/events/event";
 
-import { ViewType } from "~/types/view-types";
+import { ViewType } from "#shared/types/view-types";
 
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();

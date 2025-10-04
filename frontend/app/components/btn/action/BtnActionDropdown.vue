@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="elem-shadow-sm relative flex rounded-md md:absolute xl:rounded-lg"
+    class="relative flex rounded-md elem-shadow-sm md:absolute xl:rounded-lg"
   >
     <button
       @click="emit('main-btn-clicked')"
@@ -55,9 +55,9 @@
 </template>
 
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+import type { BtnActionDropdown } from "#shared/types/btn-props";
 
-import type { BtnActionDropdown } from "~/types/btn-props";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
 import { getBtnDynamicClass } from "~/utils/btnUtils";
 

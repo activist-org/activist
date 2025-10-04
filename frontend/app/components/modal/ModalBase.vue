@@ -18,7 +18,7 @@
         id="search-modal"
         :class="{
           'flex flex-col items-center': imageModal,
-          'card-style-base container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text md:h-auto':
+          'container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text card-style-base md:h-auto':
             !imageModal,
         }"
       >
@@ -26,7 +26,7 @@
           v-if="imageModal"
           @click="closeModal()"
           id="close-search-modal"
-          class="focus-brand absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text hover:text-primary-text"
+          class="absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
           :aria-label="
             $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
           "
@@ -36,7 +36,7 @@
         <div v-else class="relative">
           <button
             @click="closeModal()"
-            class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
+            class="absolute right-0 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
           >
             <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
           </button>
@@ -47,7 +47,7 @@
           @keypress.esc="closeModal()"
           tabindex="0"
           role="button"
-          class="focus-brand flex flex-col items-center justify-center"
+          class="flex flex-col items-center justify-center focus-brand"
           :aria-label="
             $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
           "
@@ -63,10 +63,9 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { useRoute } from "vue-router";
-
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   imageModal?: boolean;

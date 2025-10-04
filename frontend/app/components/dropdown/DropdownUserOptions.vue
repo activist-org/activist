@@ -20,10 +20,10 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownLocation } from "~/types/location";
-import type { MenuSelector } from "~/types/menu/menu-selector";
+import type { DropdownLocation } from "#shared/types/location";
+import type { MenuSelector } from "#shared/types/menu/menu-selector";
 
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 defineProps<{
   location?: DropdownLocation;

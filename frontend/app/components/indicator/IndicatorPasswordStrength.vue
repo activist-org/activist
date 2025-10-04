@@ -5,7 +5,7 @@
       <div
         id="password-strength-indicator-progress"
         data-testid="password-strength-indicator-progress"
-        class="h-1 rounded-md transition-width duration-500 ease-in"
+        class="h-1 rounded-md transition-[width] duration-500 ease-in"
         :class="!!(password || []).length ? `${color}` : ''"
         :style="`width: ${width}%;`"
       ></div>

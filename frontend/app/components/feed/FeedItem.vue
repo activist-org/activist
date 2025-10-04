@@ -5,7 +5,7 @@
     :aria-label="$t('i18n.components._global.navigate_to_group_aria_label')"
   >
     <div
-      class="elem-shadow-sm cursor-pointer rounded-md border border-section-div bg-layer-2 p-2 sm:p-3"
+      class="cursor-pointer rounded-md border border-section-div bg-layer-2 p-2 elem-shadow-sm sm:p-3"
     >
       <div class="flex items-center space-x-3 pb-2">
         <Icon
@@ -53,9 +53,9 @@
 </template>
 
 <script setup lang="ts">
-import type { FeedItem } from "~/types/feed/feed-item";
+import type { FeedItem } from "#shared/types/feed/feed-item";
 
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const props = defineProps<{
   name: string;

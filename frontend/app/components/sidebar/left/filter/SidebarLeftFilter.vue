@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="elem-shadow-sm mx-1 rounded-md bg-layer-2 pb-1 pt-1 transition-all duration-500"
+    class="mx-1 rounded-md bg-layer-2 pb-1 pt-1 transition-all duration-500 elem-shadow-sm"
   >
     <SidebarLeftFilterEvents
       v-if="sidebarTypeToDisplay === SidebarType.EVENTS_PAGE"
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { SidebarType } from "~/types/sidebar-type";
+import { SidebarType } from "#shared/types/sidebar-type";
 
 const props = defineProps<{
   sidebarType:

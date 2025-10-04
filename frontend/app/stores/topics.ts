@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Topic } from "~/types/content/topics";
+import type { Topic } from "#shared/types/content/topics";
 
 interface TopicStore {
   loading: boolean;

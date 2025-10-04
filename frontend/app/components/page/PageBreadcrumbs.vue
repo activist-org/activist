@@ -9,7 +9,7 @@
       >
         <NuxtLink
           v-if="index === 0"
-          class="focus-brand mx-[0.35rem] text-distinct-text hover:text-primary-text"
+          class="mx-[0.35rem] text-distinct-text focus-brand hover:text-primary-text"
           :to="localePath('/home')"
         >
           &#60;
@@ -20,14 +20,14 @@
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <NuxtLink
             v-if="isValidUUID(breadcrumb) && pageType == 'event'"
-            class="focus-brand text-distinct-text hover:text-primary-text"
+            class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ event.name }}
           </NuxtLink>
           <NuxtLink
             v-else-if="isValidUUID(breadcrumb) && pageType == 'organization'"
-            class="focus-brand text-distinct-text hover:text-primary-text"
+            class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ organization.name }}
@@ -36,7 +36,7 @@
             v-else-if="
               isValidUUID(breadcrumb) && pageType == 'group' && index == 1
             "
-            class="focus-brand text-distinct-text hover:text-primary-text"
+            class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ group.name }}
@@ -45,14 +45,14 @@
             v-else-if="
               isValidUUID(breadcrumb) && pageType == 'group' && index == 3
             "
-            class="focus-brand text-distinct-text hover:text-primary-text"
+            class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ group.name }}
           </NuxtLink>
           <NuxtLink
             v-else
-            class="focus-brand text-distinct-text hover:text-primary-text"
+            class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
@@ -60,7 +60,7 @@
         </span>
         <span v-else>
           <NuxtLink
-            class="focus-brand text-distinct-text hover:text-primary-text"
+            class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
             aria-current="page"
           >
@@ -73,11 +73,11 @@
 </template>
 
 <script setup lang="ts">
-import { validate as isValidUUID } from "uuid";
+import type { Group } from "#shared/types/communities/group";
+import type { Organization } from "#shared/types/communities/organization";
+import type { Event } from "#shared/types/events/event";
 
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Event } from "~/types/events/event";
+import { validate as isValidUUID } from "uuid";
 
 const url = window.location.href;
 let pageType = "";

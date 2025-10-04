@@ -9,6 +9,9 @@
  * @param ms milliseconds to advance fake timers
  * @param fn action that triggers a timer in a component
  */
+
+import { vi } from "vitest";
+
 export async function fakeWait(ms: number, fn?: () => Promise<void>) {
   vi.useFakeTimers();
   if (fn) {

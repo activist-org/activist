@@ -72,7 +72,7 @@
       </MenuButton>
     </div>
     <MenuItems
-      class="focus-brand rounded-md"
+      class="rounded-md focus-brand"
       :class="{
         'absolute right-0 mt-2 origin-top-right divide-y bg-layer-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-primary-text':
           !isSidebarLeftMenu,
@@ -86,10 +86,9 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
+import { DropdownLocation } from "#shared/types/location";
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
-
-import { IconMap } from "~/types/icon-map";
-import { DropdownLocation } from "~/types/location";
 
 const props = defineProps<{
   location?: DropdownLocation;

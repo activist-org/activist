@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownLocation, SearchBarLocation } from "~/types/location";
+import { DropdownLocation, SearchBarLocation } from "#shared/types/location";
 
 const aboveMediumBP = useBreakpoint("md");
 

@@ -50,13 +50,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Group } from "#shared/types/communities/group";
+import type { Resource } from "#shared/types/content/resource";
+
+import { EntityType } from "#shared/types/entity";
+import { IconMap } from "#shared/types/icon-map";
 import draggable from "vuedraggable";
-
-import type { Group } from "~/types/communities/group";
-import type { Resource } from "~/types/content/resource";
-
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 
 const { openModal } = useModalHandlers("ModalResourceGroup");
 

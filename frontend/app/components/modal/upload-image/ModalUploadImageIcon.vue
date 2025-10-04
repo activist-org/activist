@@ -53,12 +53,11 @@
 </template>
 
 <script setup lang="ts">
+import type { UploadableFile } from "#shared/types/content/file";
+
+import { EntityType } from "#shared/types/entity";
+import { IconMap } from "#shared/types/icon-map";
 import { DialogTitle } from "@headlessui/vue";
-
-import type { UploadableFile } from "~/types/content/file";
-
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 
 const modals = useModals();
 const modalName = "ModalUploadImageIcon";

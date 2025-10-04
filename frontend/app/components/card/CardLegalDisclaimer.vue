@@ -3,9 +3,9 @@
   <Disclosure
     v-slot="{ open }"
     as="div"
-    class="elem-on-card-style focus-brand flex flex-col gap-3 rounded-md hover:cursor-pointer"
+    class="elem-on-card-style flex flex-col gap-3 rounded-md focus-brand hover:cursor-pointer"
   >
-    <DisclosureButton class="focus-brand rounded-md px-4 py-2">
+    <DisclosureButton class="rounded-md px-4 py-2 focus-brand">
       <div class="flex select-none items-center gap-3 text-primary-text">
         <Icon :name="IconMap.LEGAL" class="fill-primary-text" />
         <p>{{ $t("i18n.components.card_legal_disclaimer.header") }}</p>
@@ -24,9 +24,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-
-import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   disclaimer: string;

@@ -7,7 +7,7 @@
     <div>
       <Combobox v-model="selectedCommand" @change="handleCommand" as="div">
         <div
-          class="focus-inside elem-shadow-sm my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200"
+          class="my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
         >
           <Icon :name="IconMap.SEARCH" size="1em" class="text-black" />
           <!-- MARK: Search text input. -->
@@ -67,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
 import {
   Combobox,
   ComboboxInput,
@@ -74,8 +75,6 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 import { useRouter } from "vue-router";
-
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   paletteData: Command[];

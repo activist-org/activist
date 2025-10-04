@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import type {
   Organization,
   OrganizationCreateFormData,
@@ -7,13 +6,14 @@ import type {
   OrganizationResponse,
   OrganizationsResponseBody,
   OrganizationUpdateTextFormData,
-} from "~/types/communities/organization";
-import type { FaqEntry } from "~/types/content/faq-entry";
-import type { ContentImage, UploadableFile } from "~/types/content/file";
-import type { Resource, ResourceInput } from "~/types/content/resource";
-import type { SocialLinkFormData } from "~/types/content/social-link";
+} from "#shared/types/communities/organization";
+import type { FaqEntry } from "#shared/types/content/faq-entry";
+import type { ContentImage, UploadableFile } from "#shared/types/content/file";
+import type { Resource, ResourceInput } from "#shared/types/content/resource";
+import type { SocialLinkFormData } from "#shared/types/content/social-link";
 
-import { EntityType } from "~/types/entity";
+import { defaultOrganizationText } from "#shared/types/communities/organization";
+import { EntityType } from "#shared/types/entity";
 
 interface OrganizationStore {
   loading: boolean;
@@ -52,15 +52,7 @@ export const useOrganizationStore = defineStore("organization", {
       resources: [],
       faqEntries: [],
 
-      texts: {
-        id: 0,
-        orgId: "",
-        iso: "",
-        primary: false,
-        description: "",
-        getInvolved: "",
-        donationPrompt: "",
-      },
+      texts: defaultOrganizationText,
     },
 
     organizations: [],
@@ -134,7 +126,8 @@ export const useOrganizationStore = defineStore("organization", {
         this.organization.socialLinks = organization.socialLinks;
         this.organization.status = organization.status;
 
-        this.organization.texts = organization.texts[0]!;
+        this.organization.texts =
+          organization.texts[0] ?? defaultOrganizationText;
 
         this.organization.groups = organization.groups;
         this.organization.events = organization.events;
@@ -183,7 +176,7 @@ export const useOrganizationStore = defineStore("organization", {
               events: org.events,
               faqEntries: org.faqEntries,
 
-              texts: org.texts[0]!,
+              texts: org.texts[0] ?? defaultOrganizationText,
             };
           }
         );

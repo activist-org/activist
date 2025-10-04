@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Disclosure v-slot="{ open }" as="div" class="card-style">
-    <DisclosureButton class="focus-brand w-full rounded-md px-4 py-2">
+    <DisclosureButton class="w-full rounded-md px-4 py-2 focus-brand">
       <div
         class="flex gap-3"
         :class="{ 'items-center': !open, 'items-start': open }"
@@ -62,11 +62,10 @@
 </template>
 
 <script setup lang="ts">
+import type { FaqEntry } from "#shared/types/content/faq-entry";
+
+import { IconMap } from "#shared/types/icon-map";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-
-import type { FaqEntry } from "~/types/content/faq-entry";
-
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   faqEntry: FaqEntry;

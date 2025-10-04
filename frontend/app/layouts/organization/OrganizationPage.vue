@@ -21,13 +21,13 @@
     />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
       <div
-        class="bg-layer-0 pt-8 transition-padding duration-500 md:pt-0"
+        class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
         <NuxtPage :organization="organization" />
       </div>
       <FooterWebsite
-        class="pb-24 transition-padding duration-500 md:pb-12"
+        class="pb-24 transition-[padding] duration-500 md:pb-12"
         :class="sidebarFooterDynamicClass"
       />
     </div>
@@ -35,7 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import { EntityType } from "~/types/entity";
+import { EntityType } from "#shared/types/entity";
+
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,

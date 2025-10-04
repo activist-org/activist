@@ -14,7 +14,7 @@
       }"
     ></div>
     <div
-      class="elem-shadow-sm -mt-20 flex w-full flex-col justify-center space-y-1 rounded-md bg-layer-2 p-1"
+      class="-mt-20 flex w-full flex-col justify-center space-y-1 rounded-md bg-layer-2 p-1 elem-shadow-sm"
     >
       <DropdownCreate
         v-if="userIsSignedIn"
@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownLocation } from "~/types/location";
+import { DropdownLocation } from "#shared/types/location";
 
 defineProps<{
   sidebarContentScrollable: boolean;

@@ -67,14 +67,13 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
 import {
   Combobox,
   ComboboxInput,
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/vue";
-
-import { IconMap } from "~/types/icon-map";
 interface Option {
   id: number | string;
   label: string;

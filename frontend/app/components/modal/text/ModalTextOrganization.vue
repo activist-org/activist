@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
+import type { OrganizationUpdateTextFormData } from "#shared/types/communities/organization";
 
 const modalName = "ModalTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);

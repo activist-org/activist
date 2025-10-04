@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="focus-brand rounded-md bg-section-div fill-layer-1 p-2 text-primary-text"
+    class="rounded-md bg-section-div fill-layer-1 p-2 text-primary-text focus-brand"
   >
     <button @click="toggle" class="flex w-full justify-between">
       {{ label }}
@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 interface Props {
   isOpen?: boolean;

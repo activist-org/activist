@@ -11,10 +11,9 @@
 </template>
 
 <script setup lang="ts">
+import { commandPaletteData } from "#shared/types/command-palette";
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
-
-import { commandPaletteData } from "~/types/command-palette";
 
 const { openModal: openModalCommandPalette } = useModalHandlers(
   "ModalCommandPalette"

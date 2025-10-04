@@ -87,9 +87,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Discussion } from "~/types/content/discussion";
+import type { Discussion } from "#shared/types/content/discussion";
 
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 defineProps<{
   isPrivate?: boolean;

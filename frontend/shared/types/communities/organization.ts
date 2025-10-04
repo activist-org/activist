@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Note: We need to import here to overwrite base types.
-import type { ContentImage } from "~/types/content/file";
-import type { Location } from "~/types/content/location";
-import type { SocialLink } from "~/types/content/social-link";
-import type { Event } from "~/types/events/event";
-
-import type { TopicEnum } from "../content/topics";
+import type { Group } from "#shared/types/communities/group";
+import type { FaqEntry } from "#shared/types/content/faq-entry";
+import type { ContentImage } from "#shared/types/content/file";
+import type { Location } from "#shared/types/content/location";
+import type { Resource } from "#shared/types/content/resource";
+import type { SocialLink } from "#shared/types/content/social-link";
+import type { Topic, TopicEnum } from "#shared/types/content/topics";
+import type { Event } from "#shared/types/events/event";
 
 // MARK: Main Table
 
@@ -77,6 +79,16 @@ export interface OrganizationText {
   getInvolved: string;
   donationPrompt: string;
 }
+
+export const defaultOrganizationText: OrganizationText = {
+  id: 0,
+  orgId: "",
+  iso: "",
+  primary: false,
+  description: "",
+  getInvolved: "",
+  donationPrompt: "",
+};
 
 // MARK: Pinia Responses
 

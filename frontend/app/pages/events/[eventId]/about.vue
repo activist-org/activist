@@ -89,10 +89,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
+import type { Event } from "#shared/types/events/event";
 
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
+import { BreakpointMap } from "#shared/types/breakpoint-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 

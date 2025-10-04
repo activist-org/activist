@@ -8,7 +8,7 @@
     <button
       @click="toggleTooltip"
       @keydown.shift.tab="onShiftTab"
-      class="style-cta elem-shadow-sm relative flex h-8 w-8 items-center justify-center rounded-full md:h-6 md:w-6"
+      class="style-cta relative flex h-8 w-8 items-center justify-center rounded-full elem-shadow-sm md:h-6 md:w-6"
       :aria-label="
         $t('i18n.components.menu_search_result.toggle_menu_aria_label')
       "
@@ -20,7 +20,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :event="event"
       />
       <TooltipMenuSearchResultOrganization
@@ -29,7 +29,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :organization="organization"
       />
       <TooltipMenuSearchResultGroup
@@ -38,7 +38,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :group="group"
       />
       <TooltipMenuSearchResultResource
@@ -47,7 +47,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :resource="resource"
       />
       <TooltipMenuSearchResultUser
@@ -56,7 +56,7 @@
         @blur="showTooltip = false"
         @tab="onTab"
         @keydown.shift.tab.stop
-        class="absolute max-md:right-0 max-md:top-8 lg:bottom-6 lg:left-4"
+        class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :user="user"
       />
     </button>
@@ -64,13 +64,13 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "~/types/auth/user";
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Resource } from "~/types/content/resource";
-import type { Event } from "~/types/events/event";
+import type { User } from "#shared/types/auth/user";
+import type { Group } from "#shared/types/communities/group";
+import type { Organization } from "#shared/types/communities/organization";
+import type { Resource } from "#shared/types/content/resource";
+import type { Event } from "#shared/types/events/event";
 
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 defineProps<{
   organization?: Organization;

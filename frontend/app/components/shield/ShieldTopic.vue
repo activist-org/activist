@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="style-cta elem-shadow-sm flex h-max w-max cursor-pointer items-center justify-between space-x-2 border"
+    class="style-cta flex h-max w-max cursor-pointer items-center justify-between space-x-2 border elem-shadow-sm"
     :class="{
       'style-cta': active,
       'style-cta-secondary': !active,
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 export interface Props {
   topic: string;

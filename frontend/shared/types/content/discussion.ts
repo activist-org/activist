@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // MARK: Main Table
+import type { User } from "#shared/types/auth/user";
+import type { Organization } from "#shared/types/communities/organization";
+import type { Event } from "#shared/types/events/event";
 
 export interface Discussion {
   title: string;
@@ -22,7 +25,7 @@ export interface DiscussionEntry {
   author: string;
   content: string;
   votes: number;
-  date: datetime;
+  date: Date;
 }
 
 export interface DiscussionInput {

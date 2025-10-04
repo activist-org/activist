@@ -45,14 +45,14 @@
 </template>
 
 <script setup lang="ts">
+import type { FaqEntry } from "#shared/types/content/faq-entry";
+import type { Event } from "#shared/types/events/event";
+
+import { IconMap } from "#shared/types/icon-map";
 import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
-import type { FaqEntry } from "~/types/content/faq-entry";
-import type { Event } from "~/types/events/event";
-
 import { useEventStore } from "~/stores/event";
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{ event: Event }>();
 

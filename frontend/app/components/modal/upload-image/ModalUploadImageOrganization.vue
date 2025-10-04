@@ -33,15 +33,14 @@
 </template>
 
 <script setup lang="ts">
-import { DialogTitle } from "@headlessui/vue";
-
 import type {
   ContentImage,
   FileUploadMix,
   UploadableFile,
-} from "~/types/content/file";
+} from "#shared/types/content/file";
 
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
+import { DialogTitle } from "@headlessui/vue";
 
 interface Props {
   entityId: string;

@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { ContentImage } from "~/types/content/file";
-import type { Location } from "~/types/content/location";
-import type { SocialLink } from "~/types/content/social-link";
-
-import type { TopicEnum } from "../content/topics";
+import type { User } from "#shared/types/auth/user";
+import type { Organization } from "#shared/types/communities/organization";
+import type { DiscussionEntry } from "#shared/types/content/discussion";
+import type { FaqEntry } from "#shared/types/content/faq-entry";
+import type { ContentImage } from "#shared/types/content/file";
+import type { Location } from "#shared/types/content/location";
+import type { Resource } from "#shared/types/content/resource";
+import type { SocialLink } from "#shared/types/content/social-link";
+import type { Topic, TopicEnum } from "#shared/types/content/topics";
 
 // MARK: Main Table
 
@@ -43,7 +47,7 @@ export interface EventAttendee {
   eventId: string;
   userId: string;
   roleId: string;
-  attendeeStatus: int;
+  attendeeStatus: number;
 }
 
 // MARK: Event filters.
@@ -68,6 +72,15 @@ export interface EventText {
   description: string;
   getInvolved: string;
 }
+
+export const defaultEventText: EventText = {
+  id: 0,
+  eventId: "",
+  iso: "",
+  primary: false,
+  description: "",
+  getInvolved: "",
+};
 
 // MARK: Pinia Responses
 

@@ -49,13 +49,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Resource } from "#shared/types/content/resource";
+import type { Event } from "#shared/types/events/event";
+
+import { EntityType } from "#shared/types/entity";
+import { IconMap } from "#shared/types/icon-map";
 import draggable from "vuedraggable";
-
-import type { Resource } from "~/types/content/resource";
-import type { Event } from "~/types/events/event";
-
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 
 const { openModal } = useModalHandlers("ModalResourceEvent");
 const props = defineProps<{

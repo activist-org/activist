@@ -15,7 +15,7 @@
           as="template"
         >
           <div
-            class="style-cta elem-shadow-sm flex h-max w-max cursor-pointer items-center justify-between space-x-2 rounded-lg border px-4 py-1 sm:px-3 sm:py-0"
+            class="style-cta flex h-max w-max cursor-pointer items-center justify-between space-x-2 rounded-lg border px-4 py-1 elem-shadow-sm sm:px-3 sm:py-0"
             :class="{
               'style-cta': checked,
               'style-cta-secondary': !checked,
@@ -35,9 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
 import { Switch } from "@headlessui/vue";
-
-import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   tags: string[];

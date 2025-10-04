@@ -48,11 +48,10 @@
   </Form>
 </template>
 <script setup lang="ts">
+import type { TopicEnum } from "#shared/types/content/topics";
 import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
-
-import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
   location: z.string().optional(),

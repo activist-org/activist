@@ -152,11 +152,11 @@
 </template>
 
 <script setup lang="ts">
+import type { OrganizationCreateFormData } from "#shared/types/communities/organization";
+import type { TopicEnum } from "#shared/types/content/topics";
+
 import { Toaster, toast } from "vue-sonner";
 import { z } from "zod";
-
-import type { OrganizationCreateFormData } from "~/types/communities/organization";
-import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
   name: z.string().min(1, "Organization name is required"),

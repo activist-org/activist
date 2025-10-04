@@ -30,10 +30,11 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "~/types/auth/user";
+import type { User } from "#shared/types/auth/user";
+
+import { IconMap } from "#shared/types/icon-map";
 
 import { useLinkURL } from "~/composables/useLinkURL";
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   user: User;

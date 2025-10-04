@@ -20,10 +20,10 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
 import { v4 as uuidv4 } from "uuid";
 
 import useFormInput from "~/composables/useFormSetup";
-import { IconMap } from "~/types/icon-map";
 
 export interface Props {
   placeholder?: string;

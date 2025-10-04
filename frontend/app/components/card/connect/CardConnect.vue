@@ -45,12 +45,12 @@
 </template>
 
 <script setup lang="ts">
-import type { GroupSocialLink } from "~/types/communities/group";
-import type { OrganizationSocialLink } from "~/types/communities/organization";
-import type { SocialLink } from "~/types/content/social-link";
-import type { EventSocialLink } from "~/types/events/event";
+import type { GroupSocialLink } from "#shared/types/communities/group";
+import type { OrganizationSocialLink } from "#shared/types/communities/organization";
+import type { SocialLink } from "#shared/types/content/social-link";
+import type { EventSocialLink } from "#shared/types/events/event";
 
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const props = defineProps<{
   socialLinks:

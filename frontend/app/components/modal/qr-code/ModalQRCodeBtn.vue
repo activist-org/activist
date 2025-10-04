@@ -5,7 +5,7 @@
     v-if="type == 'icon'"
     @click="openModal()"
     @keydown.enter="openModal()"
-    class="elem-on-card-style focus-brand absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-primary-text sm:h-16 sm:w-16"
+    class="elem-on-card-style absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-primary-text focus-brand sm:h-16 sm:w-16"
     :aria-label="$t('i18n.components.modal_qr_code_btn.open_modal_aria_label')"
   >
     <div class="sm:hidden">
@@ -27,7 +27,7 @@
     <MetaTagSocialMedia
       @click="openModal()"
       @keydown.enter="openModal()"
-      class="focus-brand dark:hover:distinct-text text-primary-text hover:text-distinct-text"
+      class="dark:hover:distinct-text text-primary-text focus-brand hover:text-distinct-text"
       :iconName="IconMap.QR_CODE"
       :text="$t('i18n.components.modal_qr_code_btn.qr_code')"
       iconSize="1.5em"
@@ -57,13 +57,13 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "~/types/auth/user";
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Resource } from "~/types/content/resource";
-import type { Event } from "~/types/events/event";
+import type { User } from "#shared/types/auth/user";
+import type { Group } from "#shared/types/communities/group";
+import type { Organization } from "#shared/types/communities/organization";
+import type { Resource } from "#shared/types/content/resource";
+import type { Event } from "#shared/types/events/event";
 
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 defineProps<{
   organization?: Organization;

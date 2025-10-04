@@ -11,7 +11,7 @@
         <p>{{ $t("i18n.components.header_app_page.under_development") }}</p>
         <div class="flex space-x-3">
           <a
-            class="focus-brand link-text flex items-center space-x-1"
+            class="link-text flex items-center space-x-1 focus-brand"
             href="https://github.com/activist-org/activist"
             target="_blank"
           >
@@ -25,7 +25,7 @@
           </a>
           <p>•</p>
           <a
-            class="focus-brand link-text flex items-center space-x-1"
+            class="link-text flex items-center space-x-1 focus-brand"
             href="https://matrix.to/#/#activist_community:matrix.org"
             target="_blank"
           >
@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const props = defineProps<{
   header?: string;

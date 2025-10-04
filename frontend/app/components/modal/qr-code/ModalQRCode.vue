@@ -83,7 +83,7 @@
           @touchcancel="showTooltip = false"
           @pointerdown="showTooltip = true"
           @pointerup="showTooltip = false"
-          class="focus-brand flex cursor-pointer"
+          class="flex cursor-pointer focus-brand"
           :ariaLabel="$t('i18n.components.modal_qr_code.aria_label')"
         >
           <ModalQRCodeImage
@@ -116,16 +116,16 @@
 </template>
 
 <script setup lang="ts">
+import type { User } from "#shared/types/auth/user";
+import type { Group } from "#shared/types/communities/group";
+import type { Organization } from "#shared/types/communities/organization";
+import type { Resource } from "#shared/types/content/resource";
+import type { Event } from "#shared/types/events/event";
+
+import { IconMap } from "#shared/types/icon-map";
 import { DialogTitle } from "@headlessui/vue";
 
-import type { User } from "~/types/auth/user";
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Resource } from "~/types/content/resource";
-import type { Event } from "~/types/events/event";
-
 import { useLinkURL } from "~/composables/useLinkURL";
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   organization?: Organization;

@@ -62,6 +62,7 @@
 <script setup lang="ts">
 import type { Component } from "vue";
 
+import { IconMap } from "#shared/types/icon-map";
 import { useI18n } from "vue-i18n";
 import {
   SEmail,
@@ -71,8 +72,6 @@ import {
   STelegram,
   STwitter,
 } from "vue-socials";
-
-import { IconMap } from "~/types/icon-map";
 
 const vueSocials: { [key: string]: Component } = {
   SEmail,

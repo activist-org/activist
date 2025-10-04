@@ -29,7 +29,7 @@
       :placeholder="
         $t('i18n.components.card_topic_selection.selector_placeholder')
       "
-      class="topicInput elem-shadow-sm focus-brand w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text"
+      class="topicInput w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text elem-shadow-sm focus-brand"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <Shield
@@ -99,10 +99,10 @@
 </template>
 
 <script setup lang="ts">
-import type { TopicEnum, TopicTag } from "~/types/content/topics";
+import type { TopicEnum, TopicTag } from "#shared/types/content/topics";
 
-import { GLOBAL_TOPICS } from "~/types/content/topics";
-import { IconMap } from "~/types/icon-map";
+import { GLOBAL_TOPICS } from "#shared/types/content/topics";
+import { IconMap } from "#shared/types/icon-map";
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {

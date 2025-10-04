@@ -5,7 +5,7 @@
       <TabList class="flex flex-row">
         <Tab v-for="tab in tabs" :key="tab.id" class="w-full">
           <NuxtLink
-            class="focus-brand flex w-full items-center justify-center rounded-none border-[1px] border-primary-text px-3 py-1"
+            class="flex w-full items-center justify-center rounded-none border-[1px] border-primary-text px-3 py-1 focus-brand"
             :class="{
               'bg-menu-selection text-layer-1 hover:bg-menu-selection/90':
                 tab.id == props.selectedTab,
@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { Tab, TabGroup, TabList } from "@headlessui/vue";
+import type { TabPage } from "#shared/types/tab";
 
-import type { TabPage } from "~/types/tab";
+import { Tab, TabGroup, TabList } from "@headlessui/vue";
 
 const props = defineProps<{
   tabs: TabPage[];

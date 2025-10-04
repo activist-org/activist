@@ -4,7 +4,7 @@
     class="flex h-2 w-full items-center justify-between border-b border-section-div bg-layer-2 md:h-8"
   >
     <div
-      class="h-full transition-width duration-500 ease-in"
+      class="h-full transition-[width] duration-500 ease-in"
       :class="{
         'bg-distinct-text': type === 'default',
         'bg-action-red': type === 'action',
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 export interface Props {
   type?: "default" | "action" | "learn";

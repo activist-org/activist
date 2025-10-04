@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource, ResourceInput } from "~/types/content/resource";
+import type { Resource, ResourceInput } from "#shared/types/content/resource";
 
 const props = defineProps<{
   resource?: Resource;

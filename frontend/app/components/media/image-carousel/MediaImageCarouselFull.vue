@@ -9,7 +9,7 @@
     <button
       @click="openMediaImageCarousel()"
       @keydown.enter="openMediaImageCarousel()"
-      class="focus-brand absolute right-2 top-2 z-10 hidden rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80 md:block"
+      class="absolute right-2 top-2 z-10 hidden rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80 md:block"
       :aria-label="
         $t('i18n.components.media_image_carousel_full.open_modal_aria_label')
       "
@@ -26,10 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import type { ContentImage } from "~/types/content/file";
-import type { EntityType } from "~/types/entity";
+import type { ContentImage } from "#shared/types/content/file";
+import type { EntityType } from "#shared/types/entity";
 
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const props = defineProps<{
   entityType: EntityType;

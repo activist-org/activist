@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { FaqEntry } from "~/types/content/faq-entry";
-import type { UploadableFile } from "~/types/content/file";
-import type { Resource, ResourceInput } from "~/types/content/resource";
-import type { SocialLinkFormData } from "~/types/content/social-link";
+import type { FaqEntry } from "#shared/types/content/faq-entry";
+import type { UploadableFile } from "#shared/types/content/file";
+import type { Resource, ResourceInput } from "#shared/types/content/resource";
+import type { SocialLinkFormData } from "#shared/types/content/social-link";
 import type {
   Event,
   EventCreateFormData,
@@ -10,9 +10,10 @@ import type {
   EventResponse,
   EventsResponseBody,
   EventUpdateTextFormData,
-} from "~/types/events/event";
+} from "#shared/types/events/event";
 
-import { EntityType } from "~/types/entity";
+import { EntityType } from "#shared/types/entity";
+import { defaultEventText } from "#shared/types/events/event";
 
 interface EventStore {
   loading: boolean;
@@ -58,14 +59,7 @@ export const useEventStore = defineStore("event", {
 
       orgs: { id: "", orgName: "", name: "", iconUrl: "" },
 
-      texts: {
-        id: 0,
-        eventId: "",
-        iso: "",
-        primary: false,
-        description: "",
-        getInvolved: "",
-      },
+      texts: defaultEventText,
     },
 
     events: [],
@@ -169,7 +163,7 @@ export const useEventStore = defineStore("event", {
         this.event.getInvolvedUrl = event.getInvolvedUrl;
         this.event.socialLinks = event.socialLinks;
 
-        this.event.texts = event.texts[0]!;
+        this.event.texts = event.texts[0] ?? defaultEventText;
 
         this.event.resources = event.resources;
         this.event.faqEntries = event.faqEntries;
@@ -217,7 +211,7 @@ export const useEventStore = defineStore("event", {
             creationDate: event.creationDate,
             orgs: event.orgs,
 
-            texts: event.texts[0]!,
+            texts: event.texts[0] ?? defaultEventText,
           };
         });
 

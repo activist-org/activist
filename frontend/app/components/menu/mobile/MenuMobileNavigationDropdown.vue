@@ -7,7 +7,7 @@
   >
     <Listbox v-model="selectedMenuItem">
       <ListboxButton
-        class="elem-shadow-sm focus-brand relative flex w-full items-center fill-layer-1 py-2 pl-5 text-left align-middle text-layer-1"
+        class="relative flex w-full items-center fill-layer-1 py-2 pl-5 text-left align-middle text-layer-1 elem-shadow-sm focus-brand"
       >
         <Icon
           :name="selectedMenuItem.iconUrl"
@@ -29,7 +29,7 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <ListboxOptions class="focus-brand bg-menu-selection">
+        <ListboxOptions class="bg-menu-selection focus-brand">
           <ListboxOption
             v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
               ? menuEntryState.organizationEntry.value
@@ -73,6 +73,10 @@
 </template>
 
 <script setup lang="ts">
+import type MenuEntry from "#shared/types/menu/menu-entry";
+
+import { IconMap } from "#shared/types/icon-map";
+import { SidebarType } from "#shared/types/sidebar-type";
 import {
   Listbox,
   ListboxButton,
@@ -80,10 +84,6 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 
-import type MenuEntry from "~/types/menu/menu-entry";
-
-import { IconMap } from "~/types/icon-map";
-import { SidebarType } from "~/types/sidebar-type";
 import {
   currentRoutePathIncludes,
   isCurrentRoutePathSubpageOf,

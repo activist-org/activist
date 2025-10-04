@@ -93,11 +93,11 @@
           v-show="isMarkdown && isMarkdownPreview === 'Write'"
           v-model="markdown"
           @input="
-            (event) =>
+            (event: Event) =>
               updateTheVariable((event.target as HTMLTextAreaElement).value)
           "
           ref="textarea"
-          class="focus-brand prose dark:prose-invert block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text"
+          class="prose dark:prose-invert block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text focus-brand"
           rows="3"
         />
         <editor-content
@@ -125,7 +125,7 @@
             @mouseleave="showTooltip = false"
             @blur="showTooltip = false"
             @click="showTooltip = showTooltip == true ? false : true"
-            class="elem-shadow-sm focus-brand relative flex h-10 w-16 items-center justify-center rounded-lg"
+            class="relative flex h-10 w-16 items-center justify-center rounded-lg elem-shadow-sm focus-brand"
             :class="{
               'style-action': discussionInput.highRisk,
               'style-warn': !discussionInput.highRisk,
@@ -156,16 +156,15 @@
 </template>
 
 <script setup lang="ts">
+import type { DiscussionInput } from "#shared/types/content/discussion";
+
+import { IconMap } from "#shared/types/icon-map";
 import Link from "@tiptap/extension-link";
 import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { Markdown } from "tiptap-markdown";
-
-import type { DiscussionInput } from "~/types/content/discussion";
-
-import { IconMap } from "~/types/icon-map";
 
 import Suggestion from "../../../utils/mentionSuggestion";
 
@@ -198,6 +197,7 @@ const writeEditor = useEditor({
   content: markdown,
   editable: !isMarkdownPreview.value,
   extensions: [
+    // @ts-expect-error `StarterKit` is the correct type.
     StarterKit,
     Placeholder.configure({
       placeholder: props.discussionInput.highRisk
@@ -245,6 +245,7 @@ const toggleIsMarkdown = () => {
     writeEditor.value?.setEditable(true);
   }
 
+  // @ts-expect-error `markdown` doest exist.
   markdown.value = writeEditor.value?.storage.markdown.getMarkdown();
   autoResize();
 };
@@ -259,15 +260,19 @@ const at = () => {
   writeEditor.value?.chain().focus().insertContent(" @").run();
 };
 const heading = () => {
+  // @ts-expect-error `toggleHeading` does exit.
   writeEditor.value?.chain().focus().toggleHeading({ level: 1 }).run();
 };
 const bold = () => {
+  // @ts-expect-error `toggleBold` does exit.
   writeEditor.value?.chain().focus().toggleBold().run();
 };
 const italic = () => {
+  // @ts-expect-error `toggleItalic` does exit.
   writeEditor.value?.chain().focus().toggleItalic().run();
 };
 const blockquote = () => {
+  // @ts-expect-error `toggleBlockquote` does exit.
   writeEditor.value?.chain().focus().toggleBlockquote().run();
 };
 const link = () => {
@@ -302,9 +307,11 @@ const link = () => {
 // };
 
 const listul = () => {
+  // @ts-expect-error `toggleBulletList` does exit.
   writeEditor.value?.chain().focus().toggleBulletList().run();
 };
 const listol = () => {
+  // @ts-expect-error `toggleOrderedList` does exit.
   writeEditor.value?.chain().focus().toggleOrderedList().run();
 };
 </script>

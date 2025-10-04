@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
+import { describe, expect, it } from "vitest";
 
 import FormTextInput from "../../../../app/components/form/text/FormTextInput.vue";
 import render from "../../../../test/render";

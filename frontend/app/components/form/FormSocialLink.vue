@@ -93,11 +93,11 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
 import draggable from "vuedraggable";
 import { z } from "zod";
 
 import { useSortableList } from "~/composables/useSortableList";
-import { IconMap } from "~/types/icon-map";
 
 export interface SocialLinkItem {
   link: string;

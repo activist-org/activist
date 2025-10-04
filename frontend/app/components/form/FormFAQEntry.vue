@@ -43,9 +43,9 @@
 </template>
 
 <script setup lang="ts">
-import { z } from "zod";
+import type { FaqEntry } from "#shared/types/content/faq-entry";
 
-import type { FaqEntry } from "~/types/content/faq-entry";
+import { z } from "zod";
 
 defineProps<{
   formData?: FaqEntry;

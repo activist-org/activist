@@ -11,16 +11,15 @@
 </template>
 
 <script setup lang="ts">
+import type { Event, EventType } from "#shared/types/events/event";
 import type { GeoJsonProperties } from "geojson";
-
-import type { Event, EventType } from "~/types/events/event";
 
 import {
   MapType,
   type ClusterProperties,
   type PointerCluster,
   type PopupContent,
-} from "~/types/map";
+} from "#shared/types/map";
 
 const props = defineProps<{
   events: Event[];

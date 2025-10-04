@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
+import { BreakpointMap } from "#shared/types/breakpoint-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const currentWidth = ref(window.innerWidth);
 const isMobileDevice = ref(false);

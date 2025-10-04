@@ -13,7 +13,7 @@
         emit('expand-reduce-text');
         expand_reduce_text();
       "
-      class="focus-brand absolute right-0 rounded-full p-1 text-distinct-text hover:text-primary-text"
+      class="absolute right-0 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -58,7 +58,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-link-text"
+              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
               "
@@ -71,7 +71,7 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="focus-brand mt-1 font-semibold text-link-text"
+              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 

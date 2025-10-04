@@ -10,7 +10,7 @@
           {{ $t("i18n.components.page_community_footer.invite_text_2_1") }}
         </span>
         <a
-          class="focus-brand link-text inline-link-underline items-center"
+          class="link-text inline-link-underline items-center focus-brand"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
@@ -30,7 +30,7 @@
           {{ $t("i18n.components.page_community_footer.invite_text_3_1") }}
         </span>
         <a
-          class="focus-brand link-text inline-link-underline items-center"
+          class="link-text inline-link-underline items-center focus-brand"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
@@ -48,7 +48,7 @@
       <li class="space-x-1">
         <span>{{ $t("i18n.components.page_community_footer.visit_our") }}</span>
         <a
-          class="focus-brand link-text inline-link-underline items-center"
+          class="link-text inline-link-underline items-center focus-brand"
           href="https://hosted.weblate.org/projects/activist/activist"
           target="_blank"
         >
@@ -70,7 +70,7 @@
           {{ $t("i18n.components.page_community_footer.need_help_text_1_1") }}
         </span>
         <a
-          class="focus-brand link-text inline-link-underline items-center"
+          class="link-text inline-link-underline items-center focus-brand"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
@@ -90,7 +90,7 @@
           {{ $t("i18n.components.page_community_footer.need_help_text_2_1") }}
         </span>
         <a
-          class="focus-brand link-text inline-link-underline items-center"
+          class="link-text inline-link-underline items-center focus-brand"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
@@ -114,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 export interface Props {
   header?: string;

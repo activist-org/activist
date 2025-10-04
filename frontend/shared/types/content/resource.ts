@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Organization } from "~/types/communities/organization";
-import type { Location } from "~/types/content/location";
-import type { TopicEnum } from "~/types/content/topics";
+import type { User } from "#shared/types/auth/user";
+import type { Organization } from "#shared/types/communities/organization";
+import type { Location } from "#shared/types/content/location";
+import type { TopicEnum } from "#shared/types/content/topics";
 
 // MARK: Main Table
 

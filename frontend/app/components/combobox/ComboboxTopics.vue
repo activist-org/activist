@@ -5,7 +5,7 @@
     <Combobox v-model="selectedTopic">
       <div class="relative">
         <div
-          class="elem-shadow-sm focus-brand relative flex w-full cursor-default overflow-hidden rounded-lg"
+          class="relative flex w-full cursor-default overflow-hidden rounded-lg elem-shadow-sm focus-brand"
         >
           <ComboboxInput
             @change="query = $event.target.value"
@@ -80,6 +80,8 @@
 </template>
 
 <script setup lang="ts">
+import { GLOBAL_TOPICS } from "#shared/types/content/topics";
+import { IconMap } from "#shared/types/icon-map";
 import {
   Combobox,
   ComboboxButton,
@@ -88,9 +90,6 @@ import {
   ComboboxOptions,
   TransitionRoot,
 } from "@headlessui/vue";
-
-import { GLOBAL_TOPICS } from "~/types/content/topics";
-import { IconMap } from "~/types/icon-map";
 
 const { t } = useI18n();
 

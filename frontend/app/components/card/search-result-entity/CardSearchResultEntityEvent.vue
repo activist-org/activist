@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
+import type { Event } from "#shared/types/events/event";
 
 import { useLinkURL } from "~/composables/useLinkURL";
 import { BASE_BACKEND_URL_NO_V1 } from "~/utils/baseURLs";

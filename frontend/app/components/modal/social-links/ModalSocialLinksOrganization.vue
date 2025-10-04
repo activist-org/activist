@@ -13,9 +13,10 @@
 </template>
 
 <script setup lang="ts">
+import type { OrganizationSocialLink } from "#shared/types/communities/organization";
+import type { SocialLink } from "#shared/types/content/social-link";
+
 import type { SocialLinkItem } from "~/components/form/FormSocialLink.vue";
-import type { OrganizationSocialLink } from "~/types/communities/organization";
-import type { SocialLink } from "~/types/content/social-link";
 
 const modalName = "ModalSocialLinksOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);

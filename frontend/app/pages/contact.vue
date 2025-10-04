@@ -24,7 +24,7 @@
           <p>
             {{ $t("i18n.pages.contact.subheader_1") }}
             <a
-              class="focus-brand link-text items-center"
+              class="link-text items-center focus-brand"
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
@@ -42,7 +42,7 @@
           <p>
             {{ $t("i18n.pages.contact.section_1_paragraph_1_1") }}
             <a
-              class="focus-brand link-text items-center"
+              class="link-text items-center focus-brand"
               href="https://matrix.to/#/#activist_community:matrix.org"
             >
               {{ $t("i18n._global.public_matrix_chat_rooms") }}
@@ -54,7 +54,7 @@
             </a>
             {{ $t("i18n.pages.contact.section_1_paragraph_1_3") }}
             <a
-              class="focus-brand link-text items-center"
+              class="link-text items-center focus-brand"
               href="https://github.com/activist-org/activist"
             >
               {{ $t("i18n._global.on_github") }}
@@ -68,7 +68,7 @@
           </p>
           <p>
             {{ $t("i18n.pages.contact.section_1_paragraph_2_1") }}
-            <a class="focus-brand link-text" href="mailto:team@activist.org">
+            <a class="link-text focus-brand" href="mailto:team@activist.org">
               team@activist.org
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
@@ -78,7 +78,7 @@
             .
             {{ $t("i18n.pages.contact.section_1_paragraph_2_2") }}
             <a
-              class="focus-brand link-text items-center"
+              class="link-text items-center focus-brand"
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               target="_blank"
             >
@@ -112,7 +112,7 @@
                 id="name"
                 class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
-                  'outline outline-2 outline-action-red': !nameValidated,
+                  'outline-2 outline-action-red': !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
                 :placeholder="$t('i18n.pages.contact.name_placeholder')"
@@ -139,7 +139,7 @@
                 id="email"
                 class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
-                  'outline outline-2 outline-action-red': !emailValidated,
+                  'outline-2 outline-action-red': !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
                 :placeholder="$t('i18n.pages.contact.email_placeholder')"
@@ -166,7 +166,7 @@
                 id="subject"
                 class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
-                  'outline outline-2 outline-action-red': !subjectValidated,
+                  'outline-2 outline-action-red': !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
                 :placeholder="$t('i18n.pages.contact.subject_placeholder')"
@@ -191,7 +191,7 @@
                 id="message"
                 class="resize-none rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
-                  'outline outline-2 outline-action-red': !messageValidated,
+                  'outline-2 outline-action-red': !messageValidated,
                   'outline-none focus:outline-none': messageValidated,
                 }"
                 rows="6"
@@ -204,7 +204,7 @@
               <!-- <FriendlyCaptcha /> -->
             </div>
             <button
-              class="focus-brand elem-shadow-sm flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center font-semibold dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange xl:rounded-lg"
+              class="flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center font-semibold elem-shadow-sm focus-brand dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange xl:rounded-lg"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-cta-orange/80 active:bg-cta-orange dark:hover:bg-cta-orange/25 dark:active:bg-cta-orange/10':
@@ -235,7 +235,7 @@
           <p>
             {{ $t("i18n.pages.contact.subheader_1") }}
             <a
-              class="focus-brand link-text items-center"
+              class="link-text items-center focus-brand"
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
@@ -265,7 +265,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
+import { IconMap } from "#shared/types/icon-map";
 
 const name = ref("");
 const email = ref("");

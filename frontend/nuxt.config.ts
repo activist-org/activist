@@ -2,7 +2,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import type { NuxtPage } from "nuxt/schema";
 
-import { resolve } from "path";
+import tailwindcss from "@tailwindcss/vite";
 
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
@@ -13,6 +13,15 @@ export default defineNuxtConfig({
   app: {
     head,
   },
+
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        composite: true,
+      },
+    },
+  },
+
   auth: {
     baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
     provider: {
@@ -70,20 +79,13 @@ export default defineNuxtConfig({
       },
     },
   },
-  modules: modules,
-  ssr: false,
 
-  typescript: {
-    // strict: true,
-    // typeCheck: true,
-  },
+  modules: modules,
+
+  ssr: false,
 
   devtools: {
     enabled: true,
-  },
-
-  alias: {
-    "@": resolve(__dirname, "./"),
   },
 
   plugins: ["~/plugins/i18n-head.ts"],
@@ -93,6 +95,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    plugins: [tailwindcss()],
     server: {
       watch: {
         usePolling: true,
@@ -113,16 +116,10 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
-  css: ["reduced-motion/css"],
-
-  tailwindcss: {
-    cssPath: "~/assets/css/tailwind.css",
-    configPath: "tailwind.config.ts",
-  },
+  css: ["~/assets/css/tailwind.css", "reduced-motion/css"],
 
   postcss: {
     plugins: {
-      tailwindcss: {},
       autoprefixer: {},
     },
   },

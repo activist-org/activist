@@ -34,7 +34,7 @@
     </p>
     <button
       @click="handleOpenModalUploadImage()"
-      class="focus-brand absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+      class="absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
       <Icon :name="IconMap.EDIT" size="1.5em" />
     </button>
@@ -44,10 +44,9 @@
 <script setup lang="ts">
 import type { Swiper as SwiperInstance } from "swiper";
 
+import { EntityType } from "#shared/types/entity";
+import { IconMap } from "#shared/types/icon-map";
 import { register } from "swiper/element/bundle";
-
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 
 interface Props {
   fullscreen: boolean;

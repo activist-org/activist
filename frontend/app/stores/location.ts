@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Location, PiniaResLocation } from "~/types/content/location";
+import type {
+  Location,
+  PiniaResLocation,
+} from "#shared/types/content/location";
 
 interface LocationStore {
   loading: boolean;

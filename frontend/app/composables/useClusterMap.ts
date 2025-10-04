@@ -1,17 +1,16 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
-import type { Feature, GeoJsonProperties, Point } from "geojson";
-
-import { layersFactory } from "@maplibre/maplibre-gl-directions";
-import maplibregl from "maplibre-gl";
-
 import type {
   ClusterProperties,
   DonutProperties,
   PointerCluster,
   PopupContent,
   RouteProfile,
-} from "~/types/map";
+} from "#shared/types/map";
+// SPDX-License-Identifier: AGPL-3.0-or-later
+import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
+import type { Feature, GeoJsonProperties, Point } from "geojson";
+
+import { layersFactory } from "@maplibre/maplibre-gl-directions";
+import maplibregl from "maplibre-gl";
 
 import usePointerMap from "./usePointerMap";
 import { useRouting } from "./useRoutingMap";
