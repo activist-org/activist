@@ -6,7 +6,10 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const RESULTS_PATH = path.join(__dirname, "./test-results");
-export const AUTH_STATE_PATH = path.join(__dirname, "./test-e2e/.auth/admin.json");
+export const AUTH_STATE_PATH = path.join(
+  __dirname,
+  "./test-e2e/.auth/admin.json"
+);
 
 /**
  * Read environment variables from file.
