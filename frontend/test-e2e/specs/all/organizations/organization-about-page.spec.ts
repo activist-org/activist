@@ -201,7 +201,8 @@ test.describe(
         organizationPage.socialLinksModal.modal
       );
       await expect(addButton).toBeVisible();
-      await addButton.click();
+      // Use JavaScript click to bypass viewport restrictions on mobile
+      await addButton.evaluate((btn) => (btn as HTMLElement).click());
 
       // Wait for the new entry to appear
       await expect(

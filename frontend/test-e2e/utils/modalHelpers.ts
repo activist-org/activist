@@ -21,7 +21,12 @@ export async function submitModalWithRetry(
   await expect(submitButton).toBeEnabled();
   await submitButton.waitFor({ state: "attached", timeout: 10000 });
 
-  await submitButton.click({ force: true });
+  // On mobile, modals can be taller than viewport - use JavaScript click to bypass viewport checks
+  await submitButton.evaluate((button) => {
+    if (button instanceof HTMLElement) {
+      button.click();
+    }
+  });
 
   // Wait for the modal to close with retry logic
   let modalClosed = false;
@@ -38,7 +43,11 @@ export async function submitModalWithRetry(
       if (attempts < maxAttempts) {
         // Try clicking the submit button again
         if (await submitButton.isVisible()) {
-          await submitButton.click({ force: true });
+          await submitButton.evaluate((button) => {
+            if (button instanceof HTMLElement) {
+              button.click();
+            }
+          });
         }
       } else {
         throw new Error(

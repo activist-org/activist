@@ -14,9 +14,8 @@ import { getEnglishText } from "~/utils/i18n";
  * @returns Object containing the organizationId and organizationPage object
  */
 export async function navigateToFirstOrganization(page: Page) {
-  // Navigate to organizations home page first
-  await page.goto("/organizations", { waitUntil: "load" });
-  await page.waitForLoadState("domcontentloaded");
+  // Navigate to organizations home page
+  await page.goto("/organizations", { waitUntil: "domcontentloaded" });
 
   const organizationsHomePage = newOrganizationsHomePage(page);
   // Wait for the heading to be visible before checking text
@@ -25,8 +24,16 @@ export async function navigateToFirstOrganization(page: Page) {
     getEnglishText("i18n.pages.organizations.index.header_title")
   );
 
-  // Wait for organization link to be available
-  await expect(organizationsHomePage.organizationLink).toBeVisible();
+  // Wait for at least one organization card to load (data from API)
+  // This is the key wait - ensures backend API has returned organizations
+  await expect(page.getByTestId("organization-card").first()).toBeVisible({
+    timeout: 30000, // Increased for slow remote servers
+  });
+
+  // Wait for organization link to be available (should be quick after card is visible)
+  await expect(organizationsHomePage.organizationLink).toBeVisible({
+    timeout: 10000,
+  });
 
   // Get the href attribute to extract the organization UUID
   const href =

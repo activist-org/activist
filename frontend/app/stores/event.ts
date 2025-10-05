@@ -132,7 +132,7 @@ export const useEventStore = defineStore("event", {
         );
 
         if (response.data?.value) {
-          await this.fetchById(id);
+          await this.fetchById(id, true);
           this.loading = false;
         }
       } catch (error) {
@@ -142,12 +142,19 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Fetch By ID
 
-    async fetchById(id: string | undefined) {
+    // Note: refreshData is used to force refetching the data from the backend.
+    async fetchById(id: string | undefined, refreshData = false) {
       this.loading = true;
-      const { data, status } = await useAsyncData<EventResponse>(
+      const { data, status, refresh } = await useAsyncData<EventResponse>(
+        `event-${id}`,
         async () =>
           (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
       );
+
+      // Refresh data if requested (e.g., after mutations)
+      if (refreshData && refresh) {
+        await refresh();
+      }
 
       if (status.value === "success") {
         const event = data.value!;
@@ -181,16 +188,23 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Fetch All
 
-    async fetchAll(filters: EventFilters = {}) {
+    // Note: refreshData is used to force refetching the data from the backend.
+    async fetchAll(filters: EventFilters = {}, refreshData = false) {
       this.loading = true;
       const query = new URLSearchParams(filters as Record<string, string>);
-      const { data, status } = await useAsyncData<EventsResponseBody>(
+      const { data, status, refresh } = await useAsyncData<EventsResponseBody>(
+        `events-all`,
         async () =>
           (await fetchWithoutToken(
             `/events/events?${query.toString()}`,
             {}
           )) as EventsResponseBody
       );
+
+      // Refresh data if requested (e.g., after mutations)
+      if (refreshData && refresh) {
+        await refresh();
+      }
 
       if (status.value === "success") {
         const events = data.value!.results.map((event: EventResponse) => {
