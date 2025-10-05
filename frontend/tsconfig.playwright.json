@@ -12,7 +12,7 @@
     }
   },
   "include": [
-    "playwright.config.ts",
+    "playwright.config.mts",
     "test-e2e/**/*.ts"
   ]
 }
