@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-/* eslint-disable no-var */
 import type { Mock } from "vitest";
 
 type colorMode = "light" | "dark";
@@ -10,5 +9,5 @@ export type UseColorModeFn = () => {
 
 // Note: Can't define anything here that conflicts with Nuxt's auto-imports.
 declare global {
-  var useColorModeMock: Mock<UseColorModeFn>;
+  const useColorModeMock: Mock<UseColorModeFn>;
 }

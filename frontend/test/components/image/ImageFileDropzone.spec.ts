@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import FileDropZone from "@/components/image/ImageFileDropZone.vue";
 import { mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { h } from "vue";
+
+import FileDropZone from "../../../app/components/image/ImageFileDropZone.vue";
 
 function createFiles() {
   const png = new File(["png-bytes"], "a.png", { type: "image/png" });

@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import FormTemplate from "@/components/form/FormTemplate.vue";
-import render from "@/test/render";
 import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
+
+import FormTemplate from "../../../app/components/form/FormTemplate.vue";
+import { getEnglishText } from "../../../app/utils/i18n";
+import render from "../../../test/render";
 
 describe("Form component", () => {
   it("shows validation errors when fields are empty", async () => {

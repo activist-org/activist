@@ -6,7 +6,7 @@ import tippy from "tippy.js";
 
 import type { MentionProps, RendererProps } from "~/types/mention-suggestions";
 
-import MentionList from "../components/tooltip/TooltipMentionList.vue";
+import MentionList from "../../app/components/tooltip/TooltipMentionList.vue";
 
 export default {
   items: ({ query }: MentionProps): string[] => {

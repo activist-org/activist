@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 /**
  * Use to replace timers during an action or actions that trigger timers in a component.
  *
@@ -9,6 +8,9 @@
  * @param ms milliseconds to advance fake timers
  * @param fn action that triggers a timer in a component
  */
+
+import { vi } from "vitest";
+
 export async function fakeWait(ms: number, fn?: () => Promise<void>) {
   vi.useFakeTimers();
   if (fn) {
