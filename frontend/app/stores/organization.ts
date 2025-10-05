@@ -100,6 +100,7 @@ export const useOrganizationStore = defineStore("organization", {
     },
 
     // MARK: Fetch By ID
+
     // Note: refreshData is used to force refetching the data from the backend.
     async fetchById(id: string | undefined, refreshData = false) {
       this.loading = true;
