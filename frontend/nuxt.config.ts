@@ -2,17 +2,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import type { NuxtPage } from "nuxt/schema";
 
-import { resolve } from "path";
+import tailwindcss from "@tailwindcss/vite";
 
+import locales from "./app/utils/locales";
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
-import locales from "./locales";
 import modules from "./modules";
 
 export default defineNuxtConfig({
   app: {
     head,
   },
+
   auth: {
     baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
     provider: {
@@ -73,17 +74,8 @@ export default defineNuxtConfig({
   modules: process.env.VITEST ? [] : modules,
   ssr: false,
 
-  typescript: {
-    // strict: true,
-    // typeCheck: true,
-  },
-
   devtools: {
     enabled: true,
-  },
-
-  alias: {
-    "@": resolve(__dirname, "./"),
   },
 
   plugins: ["~/plugins/i18n-head.ts"],
@@ -93,6 +85,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    plugins: [tailwindcss()],
     server: {
       watch: {
         usePolling: true,
@@ -113,24 +106,18 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
-  css: ["reduced-motion/css"],
-
-  tailwindcss: {
-    cssPath: "~/assets/css/tailwind.css",
-    configPath: "tailwind.config.ts",
-  },
+  css: ["~/assets/css/tailwind.css", "reduced-motion/css"],
 
   postcss: {
     plugins: {
-      tailwindcss: {},
       autoprefixer: {},
     },
   },
 
   i18n: {
     strategy: "prefix_and_default",
-    langDir: "./i18n",
-    vueI18n: "./i18n.config.ts",
+    langDir: "locales",
+    vueI18n: "i18n.config.ts",
     baseUrl: "https://activist.org",
     defaultLocale: "en",
     locales,

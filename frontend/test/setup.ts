@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { config } from "@vue/test-utils";
 import { createPinia, defineStore, setActivePinia } from "pinia";
-import { vi } from "vitest";
+import { afterAll, afterEach, vi } from "vitest";
 import { createI18n } from "vue-i18n";
 
-import en from "~/i18n/en-US.json" assert { type: "json" };
+import type { UseColorModeFn as _UseColorModeFn } from "../test/vitest-globals";
+
+import en from "../i18n/locales/en-US.json" assert { type: "json" };
 
 // Set up Pinia.
 setActivePinia(createPinia());
