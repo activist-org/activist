@@ -48,7 +48,7 @@ export default {
           return;
         }
 
-        if (popup[0]) {
+        if (popup && popup[0]) {
           popup[0].setProps({
             getReferenceClientRect: props.clientRect,
           });
@@ -56,8 +56,10 @@ export default {
       },
 
       onKeyDown(props: { event: KeyboardEvent }) {
-        if (props.event.key === "Escape" && popup[0]) {
-          popup[0].hide();
+        if (props.event.key === "Escape") {
+          if (popup && popup[0]) {
+            popup[0].hide();
+          }
 
           return true;
         }
@@ -66,7 +68,7 @@ export default {
       },
 
       onExit() {
-        if (popup[0]) {
+        if (popup && popup[0]) {
           popup[0].destroy();
         }
         component.destroy();
