@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-import { LOCALE_CODE, LOCALE_NAME } from "~/locales";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import {
   ACTIVIST_SECTION_LEARN_MORE_LINK_NAME,
@@ -26,6 +24,8 @@ import { expect, test } from "~/test-e2e/global-fixtures";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import { getEnglishText } from "~/utils/i18n";
+// SPDX-License-Identifier: AGPL-3.0-or-later
+import { LOCALE_CODE, LOCALE_NAME } from "~/utils/locales";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");

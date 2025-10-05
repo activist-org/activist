@@ -8,7 +8,7 @@ import { signInAsAdmin } from "~/test-e2e/actions/authentication";
  * This creates an authenticated session that can be reused across tests for speed
  */
 async function globalSetup(config: FullConfig) {
-  const baseURL = config.projects[0].use.baseURL;
+  const baseURL = config.projects[0]?.use.baseURL;
 
   if (!baseURL) {
     throw new Error("baseURL is not configured in playwright.config.ts");

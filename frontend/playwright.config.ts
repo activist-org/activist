@@ -1,12 +1,18 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { defineConfig, devices } from "@playwright/test";
-import path from "path";
+/* eslint-disable @typescript-eslint/no-require-imports */
+const { defineConfig, devices } = require("@playwright/test");
+const path = require("path");
+// Register path aliases before loading any test files
+const tsConfigPaths = require("tsconfig-paths");
 
-export const RESULTS_PATH = path.join(__dirname, "./test-results");
-export const AUTH_STATE_PATH = path.join(
-  __dirname,
-  "./test-e2e/.auth/admin.json"
-);
+const tsConfig = require("./tsconfig.playwright.json");
+tsConfigPaths.register({
+  baseUrl: __dirname,
+  paths: tsConfig.compilerOptions.paths,
+});
+
+const RESULTS_PATH = path.join(__dirname, "./test-results");
+const AUTH_STATE_PATH = path.join(__dirname, "./test-e2e/.auth/admin.json");
 
 /**
  * Read environment variables from file.
@@ -30,8 +36,10 @@ const matchDesktop = /@desktop/;
 // Determine the environment from the command line or default to 'local'.
 const ENV = (process.env.TEST_ENV || "local") as keyof typeof environments;
 
-export default defineConfig({
+const config = defineConfig({
   testDir: "./test-e2e/specs",
+  /* Use TypeScript configuration for path resolution */
+  tsconfig: "./tsconfig.playwright.json",
   /* Global setup to create authenticated session once */
   globalSetup: require.resolve("./test-e2e/global-setup"),
   /* Skip flaky tests in CI */
@@ -218,3 +226,11 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
+
+// Export config as default and constants as named exports
+module.exports = config;
+module.exports.RESULTS_PATH = RESULTS_PATH;
+module.exports.AUTH_STATE_PATH = AUTH_STATE_PATH;
+
+// TypeScript type declarations for named exports
+export { RESULTS_PATH, AUTH_STATE_PATH };
