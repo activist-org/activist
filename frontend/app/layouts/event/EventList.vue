@@ -18,7 +18,7 @@
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage :events="events" />
+        <NuxtPage />
       </div>
       <FooterWebsite
         class="pb-24 transition-[padding] duration-500 md:pb-12"
@@ -40,9 +40,6 @@ const eventStore = useEventStore();
 onMounted(() => {
   eventStore.fetchAll();
 });
-
-const events = toRef(eventStore, "events");
-
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 
