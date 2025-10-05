@@ -43,7 +43,8 @@ export default defineConfig({
   /* Retry on both CI and local - helps with flaky tests. */
   retries: 2,
   /* Enhanced parallel execution with test sharding. */
-  workers: process.env.CI ? 4 : 2,
+  /* Reduced from 4 to 2 in CI to prevent browser context exhaustion in long test runs */
+  workers: process.env.CI ? 2 : 1,
   /* Fail on flaky tests to ensure stability. */
   failOnFlakyTests: !!process.env.CI,
   /* User data directory for browser state persistence */
@@ -104,6 +105,19 @@ export default defineConfig({
       workers: process.env.CI ? 2 : 1,
       use: {
         ...devices["Desktop Chrome"],
+        // Memory optimization: Add launch options to prevent browser crashes in long test runs
+        launchOptions: {
+          args: [
+            "--disable-dev-shm-usage", // Use /tmp instead of /dev/shm for shared memory
+            "--disable-background-timer-throttling",
+            "--disable-backgrounding-occluded-windows",
+            "--disable-renderer-backgrounding",
+            "--disable-features=TranslateUI,BlinkGenPropertyTrees",
+            "--no-sandbox", // Required for Docker/CI environments
+            "--disable-setuid-sandbox",
+            "--disable-gpu",
+          ],
+        },
         // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
@@ -119,6 +133,19 @@ export default defineConfig({
         ...devices["Pixel 5"],
         isMobile: true,
         hasTouch: true,
+        // Memory optimization: Add launch options to prevent browser crashes in long test runs
+        launchOptions: {
+          args: [
+            "--disable-dev-shm-usage", // Use /tmp instead of /dev/shm for shared memory (prevents crashes on low-memory systems)
+            "--disable-background-timer-throttling", // Prevent background tab throttling
+            "--disable-backgrounding-occluded-windows", // Keep windows active
+            "--disable-renderer-backgrounding", // Keep renderer processes active
+            "--disable-features=TranslateUI,BlinkGenPropertyTrees", // Disable unnecessary features
+            "--no-sandbox", // Required for Docker/CI environments
+            "--disable-setuid-sandbox", // Required for Docker/CI environments
+            "--disable-gpu", // Reduce GPU memory usage
+          ],
+        },
         // Reuse browser state for faster authentication.
         // userDataDir: process.env.CI
         //   ? undefined
@@ -212,9 +239,23 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests. */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: process.env.USE_PREVIEW
+    ? {
+        // Use built version (faster, no compilation during tests)
+        command: "yarn build:local && yarn preview",
+        url: "http://localhost:3000",
+        reuseExistingServer: !process.env.CI,
+        timeout: 180000, // 3 minutes for build + server startup
+        stdout: "pipe",
+        stderr: "pipe",
+      }
+    : {
+        // Use dev server (default, with hot reload)
+        command: "yarn dev:local",
+        url: "http://localhost:3000",
+        reuseExistingServer: !process.env.CI,
+        timeout: 120000, // 2 minutes for server startup
+        stdout: "pipe",
+        stderr: "pipe",
+      },
 });

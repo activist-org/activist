@@ -2,6 +2,7 @@
 import { chromium, type FullConfig } from "@playwright/test";
 
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
+import { waitForServerReady } from "~/test-e2e/utils/server-readiness";
 
 /**
  * Global setup runs once before all tests
@@ -62,6 +63,16 @@ async function globalSetup(config: FullConfig) {
       console.log("⚠️  Invalid auth file, creating new session...");
     }
   }
+
+  // Wait for server to be fully ready before proceeding
+  // eslint-disable-next-line no-console
+  console.log("⏳ Waiting for server to be ready...");
+  await waitForServerReady({
+    baseURL,
+    maxRetries: 15, // More retries for slow startup
+    retryDelay: 3000, // Longer delay between retries
+    timeout: 15000, // Longer timeout per request
+  });
 
   // eslint-disable-next-line no-console
   console.log("🔐 Setting up authenticated session...");

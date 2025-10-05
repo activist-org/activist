@@ -2,36 +2,14 @@
 import { test as base, expect as baseExpect } from "@playwright/test";
 
 /**
- * Extended test fixture with automatic cleanup
- * This ensures proper resource cleanup after each test to prevent memory leaks
+ * Custom test fixtures for Activist E2E tests.
+ *
+ * Currently uses Playwright's default fixtures without modifications.
+ * Authentication state is managed via storageState in playwright.config.ts.
+ *
+ * This file serves as a centralized place to extend Playwright's test fixtures
+ * with custom behavior if needed in the future.
  */
-export const test = base.extend({
-  page: async ({ page }, use) => {
-    // Use the page in the test
-    await use(page);
+export const test = base;
 
-    // Cleanup: Close the page after each test
-    // This prevents browser context accumulation and memory leaks
-    await page.close().catch(() => {
-      // Ignore errors if page is already closed
-    });
-  },
-
-  context: async ({ context }, use) => {
-    // Use the context in the test
-    await use(context);
-
-    // Cleanup: Close all pages in the context
-    const pages = context.pages();
-    await Promise.all(
-      pages.map((p) =>
-        p.close().catch(() => {
-          // Ignore errors if page is already closed
-        })
-      )
-    );
-  },
-});
-
-// Re-export expect so tests can use it from the same import
 export { baseExpect as expect };

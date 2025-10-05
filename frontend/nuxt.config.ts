@@ -166,7 +166,9 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: "netlify-static",
+    // Use node-server preset for local preview/Docker (creates .output/server/index.mjs)
+    // Use netlify-static preset for Netlify deployment (creates static site)
+    preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
   },
 
   plausible: {

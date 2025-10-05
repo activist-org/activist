@@ -11,6 +11,7 @@
     "postinstall": "nuxi prepare",
     "test": "vitest run --run",
     "test:local": "cross-env TEST_ENV=local FAST_TESTS=true playwright test",
+    "test:local:preview": "cross-env TEST_ENV=local USE_PREVIEW=true playwright test",
     "test:prod": "cross-env TEST_ENV=prod playwright test",
     "test:comprehensive": "cross-env TEST_ENV=local CI=false playwright test",
     "test:auth": "cross-env TEST_ENV=local playwright test --user-data-dir=./test-results/user-data",
