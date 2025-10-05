@@ -9,7 +9,7 @@ import type { AxeResults } from "axe-core";
 
 import { createHtmlReport } from "axe-html-reporter";
 
-import { RESULTS_PATH } from "~/playwright.config";
+import { RESULTS_PATH } from "../../playwright.config.mjs";
 
 class AxeReporter implements Reporter {
   private outputDirPath: string;
@@ -62,7 +62,8 @@ class AxeReporter implements Reporter {
         const project = current.project();
         if (project) {
           const projectName = project.name;
-          const [browserName, ...deviceParts] = projectName.split(" ");
+          const [browserName = "unknown", ...deviceParts] =
+            projectName.split(" ");
           return {
             browserName: browserName.replace(/\s+/g, "_"),
             deviceName:

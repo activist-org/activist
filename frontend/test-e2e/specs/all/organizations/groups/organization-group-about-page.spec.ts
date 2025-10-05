@@ -349,7 +349,7 @@ test.describe(
       // Find the entry that contains our created label
       let targetIndex = -1;
       for (let i = 0; i < availableEntries.length; i++) {
-        const value = await availableEntries[i].inputValue();
+        const value = await availableEntries[i]?.inputValue();
         if (value === newLabel) {
           targetIndex = i;
           break;
@@ -452,7 +452,7 @@ test.describe(
       const foundValues = [];
 
       for (let i = 0; i < allLabelInputs.length; i++) {
-        const value = await allLabelInputs[i].inputValue();
+        const value = await allLabelInputs[i]?.inputValue();
         foundValues.push(value);
 
         // Try exact match first

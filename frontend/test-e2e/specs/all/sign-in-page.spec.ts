@@ -76,7 +76,7 @@ test.describe(
           password: "a",
           expected: {
             text: RATING.VERY_WEAK,
-            color: COLOR.RED,
+            color: COLOR.RED ?? "",
             progress: PROGRESS.P20,
           },
         },
@@ -84,7 +84,7 @@ test.describe(
           password: "Activis",
           expected: {
             text: RATING.WEAK,
-            color: COLOR.ORANGE,
+            color: COLOR.ORANGE ?? "",
             progress: PROGRESS.P40,
           },
         },
@@ -92,7 +92,7 @@ test.describe(
           password: "Activist4Climat",
           expected: {
             text: RATING.MEDIUM,
-            color: COLOR.YELLOW,
+            color: COLOR.YELLOW ?? "",
             progress: PROGRESS.P60,
           },
         },
@@ -100,7 +100,7 @@ test.describe(
           password: "Activist4ClimateChange",
           expected: {
             text: RATING.STRONG,
-            color: COLOR.GREEN,
+            color: COLOR.GREEN ?? "",
             progress: PROGRESS.P80,
           },
         },
@@ -108,7 +108,7 @@ test.describe(
           password: "Activist4ClimateChange!",
           expected: {
             text: RATING.VERY_STRONG,
-            color: COLOR.PRIMARY_TEXT,
+            color: COLOR.PRIMARY_TEXT ?? "",
             progress: PROGRESS.P100,
           },
         },
@@ -116,7 +116,7 @@ test.describe(
           password: "",
           expected: {
             text: RATING.INVALID,
-            color: COLOR.NONE,
+            color: COLOR.NONE ?? "",
             progress: PROGRESS.P20,
           },
         },

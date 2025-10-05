@@ -54,8 +54,8 @@ test.describe(
         // Verify the reorder using shared utility
         await verifyReorder(
           page,
-          firstQuestion,
-          secondQuestion,
+          firstQuestion ?? "",
+          secondQuestion ?? "",
           getFAQCardOrder
         );
       } else {
