@@ -35,7 +35,7 @@ export default defineConfig({
   /* Use TypeScript configuration for path resolution */
   tsconfig: "./tsconfig.playwright.json",
   /* Global setup to create authenticated session once */
-  globalSetup: path.resolve(__dirname, "./test-e2e/global-setup"),
+  globalSetup: "./test-e2e/global-setup",
   /* Skip flaky tests in CI */
   testIgnore: process.env.CI ? ["**/*@flaky*"] : [],
   /* Run tests in files in parallel. */

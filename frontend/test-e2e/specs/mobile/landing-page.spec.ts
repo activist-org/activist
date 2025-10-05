@@ -326,7 +326,7 @@ test.describe("Landing Page", { tag: ["@mobile", "@unauth"] }, () => {
 
       await page.waitForURL(`**/${path}`);
       await expect(page.getByRole("heading", { level: 1 })).toContainText(
-        newLandingPage(code).headingText
+        newLandingPage(code).headingText ?? ""
       );
     }
   });

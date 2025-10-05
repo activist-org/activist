@@ -11,8 +11,5 @@
       "~~/*": ["./*"]
     }
   },
-  "include": [
-    "playwright.config.mts",
-    "test-e2e/**/*.ts"
-  ]
+  "include": ["playwright.config.mts", "test-e2e/**/*.ts", "test-e2e/**/*.mts"]
 }

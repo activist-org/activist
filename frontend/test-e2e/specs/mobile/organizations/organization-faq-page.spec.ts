@@ -49,7 +49,12 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
       await performDragAndDrop(page, firstFAQDragHandle, secondFAQDragHandle);
 
       // Verify the reorder using shared utility
-      await verifyReorder(page, firstQuestion, secondQuestion, getFAQCardOrder);
+      await verifyReorder(
+        page,
+        firstQuestion ?? "",
+        secondQuestion ?? "",
+        getFAQCardOrder
+      );
     } else {
       // Skip test if insufficient FAQ entries for drag and drop testing
       test.skip(

@@ -105,8 +105,8 @@ test.describe(
           // Verify the reorder using shared utility
           await verifyReorder(
             page,
-            firstResource,
-            secondResource,
+            firstResource ?? "",
+            secondResource ?? "",
             getResourceCardOrder
           );
         } else {

@@ -8,7 +8,8 @@ import type {
 import type { AxeResults } from "axe-core";
 
 import { createHtmlReport } from "axe-html-reporter";
-import { RESULTS_PATH } from "~~/playwright.config";
+
+import { RESULTS_PATH } from "../../playwright.config.mjs";
 
 class AxeReporter implements Reporter {
   private outputDirPath: string;
