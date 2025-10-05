@@ -101,15 +101,21 @@ export const useOrganizationStore = defineStore("organization", {
 
     // MARK: Fetch By ID
 
-    async fetchById(id: string | undefined) {
+    // Note: refreshData is used to force refetching the data from the backend.
+    async fetchById(id: string | undefined, refreshData = false) {
       this.loading = true;
-      const { data, status } = await useAsyncData<OrganizationResponse>(
-        async () =>
-          (await fetchWithoutToken(
-            `/communities/organizations/${id}`,
-            {}
-          )) as OrganizationResponse
-      );
+      const { data, status, refresh } =
+        await useAsyncData<OrganizationResponse>(
+          async () =>
+            (await fetchWithoutToken(
+              `/communities/organizations/${id}`,
+              {}
+            )) as OrganizationResponse
+        );
+
+      if (refreshData) {
+        await refresh();
+      }
 
       if (status.value === "success") {
         const organization = data.value!;
@@ -256,7 +262,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated organization data after successful updates to update the frontend.
-        await this.fetchById(organization.id);
+        await this.fetchById(organization.id, true);
         this.loading = false;
         return true;
       } else {
@@ -294,7 +300,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated organization data after successful updates to update the frontend.
-        await this.fetchById(organization.id);
+        await this.fetchById(organization.id, true);
         this.loading = false;
         return true;
       } else {
@@ -326,7 +332,7 @@ export const useOrganizationStore = defineStore("organization", {
           }
         );
         if (response.data?.value) {
-          this.fetchById(id);
+          this.fetchById(id, true);
           this.loading = false;
         }
       } catch (error) {
@@ -468,7 +474,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated org data after successful updates to update the frontend.
-        await this.fetchById(org.id);
+        await this.fetchById(org.id, true);
         this.loading = false;
         return true;
       } else {
@@ -515,7 +521,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated org data after successful updates to update the frontend.
-        await this.fetchById(org.id);
+        await this.fetchById(org.id, true);
         this.loading = false;
         return true;
       } else {
@@ -561,7 +567,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated organization data after successful updates to update the frontend.
-        await this.fetchById(org.id);
+        await this.fetchById(org.id, true);
         this.loading = false;
         return true;
       } else {
@@ -603,7 +609,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated org data after successful updates to update the frontend.
-        await this.fetchById(org.id);
+        await this.fetchById(org.id, true);
         this.loading = false;
         return true;
       } else {
@@ -643,7 +649,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated org data after successful updates to update the frontend.
-        await this.fetchById(org.id);
+        await this.fetchById(org.id, true);
         this.loading = false;
         return true;
       } else {
@@ -695,7 +701,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(org.id);
+        await this.fetchById(org.id, true);
         this.loading = false;
         return true;
       } else {
@@ -739,7 +745,7 @@ export const useOrganizationStore = defineStore("organization", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(org.id);
+        await this.fetchById(org.id, true);
         this.loading = false;
         return true;
       } else {

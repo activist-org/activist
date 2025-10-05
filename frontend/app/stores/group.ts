@@ -102,16 +102,21 @@ export const useGroupStore = defineStore("group", {
 
     // MARK: Fetch By ID
 
-    async fetchById(id: string | undefined) {
+    // Note: refreshData is used to force refetching the data from the backend.
+    async fetchById(id: string | undefined, refreshData = false) {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<GroupResponse>(
+      const { data, status, refresh } = await useAsyncData<GroupResponse>(
         async () =>
           (await fetchWithoutToken(
             `/communities/groups/${id}`,
             {}
           )) as GroupResponse
       );
+
+      if (refreshData) {
+        await refresh();
+      }
 
       if (status.value === "success") {
         const group = data.value!;
@@ -248,7 +253,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -287,7 +292,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -325,7 +330,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -366,7 +371,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated org data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -511,7 +516,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated org data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -557,7 +562,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -599,7 +604,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -639,7 +644,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -688,7 +693,7 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(group.id);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {

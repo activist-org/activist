@@ -27,6 +27,9 @@
 <script setup lang="ts">
 import { ViewType } from "~/types/view-types";
 
+const eventStore = useEventStore();
+const { events } = storeToRefs(eventStore);
+
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
 
@@ -39,6 +42,4 @@ watchEffect(() => {
     viewType.value = q as ViewType;
   }
 });
-const eventStore = useEventStore();
-const { events } = storeToRefs(eventStore);
 </script>
