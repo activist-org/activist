@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import {
   ACTIVIST_SECTION_LEARN_MORE_LINK_NAME,
