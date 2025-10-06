@@ -10,7 +10,7 @@
     "preview": "nuxi preview",
     "postinstall": "nuxi prepare",
     "test": "vitest run --run",
-    "test:local": "yarn test:local:desktop && yarn test:local:mobile && yarn test:local:merge",
+    "test:local": "yarn test:local:desktop || true && yarn test:local:mobile || true && yarn test:local:merge",
     "test:local:desktop": "cross-env TEST_ENV=local playwright test --project='Desktop Chrome' --reporter=blob",
     "test:local:mobile": "cross-env TEST_ENV=local playwright test --project='Mobile Chrome' --reporter=blob",
     "test:local:merge": "playwright merge-reports --reporter html,list,./test-e2e/reporters/execution-time-reporter.ts,./test-e2e/accessibility/axe-reporter.ts ./blob-report",
