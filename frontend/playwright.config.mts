@@ -104,7 +104,7 @@ export default defineConfig({
   projects: [
     // Core browsers - always run
     {
-      name: "chromium",
+      name: "Desktop Chrome",
       grep: matchDesktop,
       // Dedicated workers for desktop tests.
       workers: process.env.CI ? 2 : 1,

@@ -76,7 +76,7 @@ export async function performDragAndDrop(
   page: Page,
   sourceLocator: Locator,
   targetLocator: Locator,
-  steps = 5
+  steps = 10
 ): Promise<void> {
   // Get bounding boxes for source and target
   const sourceBox = await sourceLocator.boundingBox();
@@ -92,10 +92,26 @@ export async function performDragAndDrop(
   const endX = targetBox.x + targetBox.width / 2;
   const endY = targetBox.y + targetBox.height / 2;
 
-  // Move to start position and press mouse button
+  // Move to start position
   await page.mouse.move(startX, startY);
+
+  // Press mouse button
   await page.mouse.down();
-  await page.waitForTimeout(100);
+
+  // Wait for drag start to be detected by observing CSS class change
+  await page
+    .waitForFunction(
+      () => {
+        const dragElements = document.querySelectorAll(
+          ".sortable-chosen, .sortable-drag"
+        );
+        return dragElements.length > 0;
+      },
+      { timeout: 5000 }
+    )
+    .catch(() => {
+      // If no sortable classes appear, continue anyway (might work without them)
+    });
 
   // Move to target with intermediate steps for smooth drag
   for (let i = 1; i <= steps; i++) {
@@ -103,12 +119,25 @@ export async function performDragAndDrop(
     const currentX = startX + (endX - startX) * progress;
     const currentY = startY + (endY - startY) * progress;
     await page.mouse.move(currentX, currentY);
-    await page.waitForTimeout(50);
   }
 
   // Release mouse button
   await page.mouse.up();
-  await page.waitForTimeout(200);
+
+  // Wait for animation to complete by checking if ghost/chosen classes are removed
+  await page
+    .waitForFunction(
+      () => {
+        const dragElements = document.querySelectorAll(
+          ".sortable-chosen, .sortable-drag, .sortable-ghost"
+        );
+        return dragElements.length === 0;
+      },
+      { timeout: 2000 }
+    )
+    .catch(() => {
+      // If classes don't clear, continue anyway (might have completed)
+    });
 }
 
 /**
@@ -124,16 +153,67 @@ export async function verifyReorder(
   expectedSecondItem: string,
   getOrderFunction: (page: Page) => Promise<string[]>
 ): Promise<void> {
-  // Wait for the reorder operation to complete by checking for DOM changes
-  await page.waitForLoadState("domcontentloaded");
+  // Use Playwright's built-in polling mechanism to wait for the order to change
+  // This retries automatically until the condition is met or timeout is reached
+  await page.waitForFunction(
+    async ({ expected }) => {
+      // This function runs in the browser context repeatedly until it returns true
+      // We need to re-query the DOM each time to get the latest order
 
-  // Additional wait for vuedraggable to process the reorder
-  await page.waitForTimeout(500);
+      // For FAQ cards
+      const faqCards = document.querySelectorAll('[data-testid="faq-card"]');
+      if (faqCards.length >= 2) {
+        const firstQuestion = faqCards[0]
+          ?.querySelector('[data-testid="faq-question"]')
+          ?.textContent?.trim();
+        const secondQuestion = faqCards[1]
+          ?.querySelector('[data-testid="faq-question"]')
+          ?.textContent?.trim();
 
-  // Get final order after drag operation
+        if (
+          firstQuestion === expected.second &&
+          secondQuestion === expected.first
+        ) {
+          return true;
+        }
+      }
+
+      // For resource cards
+      const resourceCards = document.querySelectorAll(
+        '[data-testid="resource-card"]'
+      );
+      if (resourceCards.length >= 2) {
+        const firstResource = resourceCards[0]
+          ?.querySelector("h3")
+          ?.textContent?.trim();
+        const secondResource = resourceCards[1]
+          ?.querySelector("h3")
+          ?.textContent?.trim();
+
+        if (
+          firstResource === expected.second &&
+          secondResource === expected.first
+        ) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    {
+      expected: {
+        first: expectedFirstItem,
+        second: expectedSecondItem,
+      },
+    },
+    {
+      timeout: 10000,
+      polling: 100, // Poll every 100ms
+    }
+  );
+
+  // Final verification to provide clear error message if somehow still wrong
   const finalOrder = await getOrderFunction(page);
-
-  // Verify the items are in the expected positions (swapped)
   if (
     finalOrder[0] !== expectedSecondItem ||
     finalOrder[1] !== expectedFirstItem

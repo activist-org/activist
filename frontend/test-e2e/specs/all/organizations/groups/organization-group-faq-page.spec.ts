@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
+import {
+  getFAQCardOrder,
+  performDragAndDrop,
+  verifyReorder,
+} from "~/test-e2e/actions/dragAndDrop";
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
@@ -154,8 +159,9 @@ test.describe(
 
       if (faqCount >= 2) {
         // Get initial order of first 2 FAQ questions for drag and drop test
-        const firstQuestion = await groupFaqPage.getFaqQuestionText(0);
-        const secondQuestion = await groupFaqPage.getFaqQuestionText(1);
+        const initialOrder = await getFAQCardOrder(page);
+        const firstQuestion = initialOrder[0];
+        const secondQuestion = initialOrder[1];
 
         // Verify drag handles are visible and have correct classes
         const firstFaqDragHandle = groupFaqPage.getFaqDragHandle(0);
@@ -168,45 +174,16 @@ test.describe(
         await expect(firstFaqDragHandle).toContainClass("drag-handle");
         await expect(secondFaqDragHandle).toContainClass("drag-handle");
 
-        // Use mouse events for reliable drag and drop
-        const firstBox = await groupFaqPage.getFaqDragHandlePosition(0);
-        const secondBox = await groupFaqPage.getFaqDragHandlePosition(1);
+        // Perform drag and drop using shared utility
+        await performDragAndDrop(page, firstFaqDragHandle, secondFaqDragHandle);
 
-        if (firstBox && secondBox) {
-          const startX = firstBox.x + firstBox.width / 2;
-          const startY = firstBox.y + firstBox.height / 2;
-          const endX = secondBox.x + secondBox.width / 2;
-          const endY = secondBox.y + secondBox.height / 2;
-
-          // Simulate drag with mouse events
-          await page.mouse.move(startX, startY);
-          await page.mouse.down();
-          await page.waitForTimeout(100);
-
-          // Move to target with intermediate steps
-          const steps = 5;
-          for (let i = 1; i <= steps; i++) {
-            const progress = i / steps;
-            const currentX = startX + (endX - startX) * progress;
-            const currentY = startY + (endY - startY) * progress;
-            await page.mouse.move(currentX, currentY);
-            await page.waitForTimeout(50);
-          }
-
-          await page.mouse.up();
-          await page.waitForTimeout(200);
-        }
-
-        // Wait for the reorder operation to complete
-        await page.waitForLoadState("domcontentloaded");
-
-        // Get final order after drag operation
-        const finalFirstQuestion = await groupFaqPage.getFaqQuestionText(0);
-        const finalSecondQuestion = await groupFaqPage.getFaqQuestionText(1);
-
-        // Verify the drag operation worked (first and second should be swapped)
-        expect(finalFirstQuestion).toBe(secondQuestion);
-        expect(finalSecondQuestion).toBe(firstQuestion);
+        // Verify the reorder using shared utility
+        await verifyReorder(
+          page,
+          firstQuestion ?? "",
+          secondQuestion ?? "",
+          getFAQCardOrder
+        );
       } else {
         // Skip test if insufficient FAQ entries for drag and drop testing
         test.skip(

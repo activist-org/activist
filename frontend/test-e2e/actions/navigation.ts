@@ -99,14 +99,24 @@ export async function navigateToOrganizationSubpage(
   const { organizationId, organizationPage } =
     await navigateToFirstOrganization(page);
 
-  // Detect if mobile layout is active by checking if toggle button is visible
-  const toggleButton = organizationPage.menu.toggleOpenButton;
-  const isMobileLayout = await toggleButton.isVisible();
+  // Detect if mobile layout is active by checking if #submenu exists
+  const submenu = page.locator("#submenu");
+  const isMobileLayout = await submenu.isVisible().catch(() => false);
 
   if (isMobileLayout) {
     // Mobile layout: requires opening dropdown menu first
-    await toggleButton.click();
-    await page.waitForTimeout(500); // Wait for dropdown to open
+    await submenu.waitFor({ timeout: 10000 });
+
+    const listboxButton = submenu.getByRole("button");
+    await listboxButton.waitFor({ state: "attached", timeout: 10000 });
+
+    // Check if the dropdown is already open before clicking
+    const isAlreadyOpen =
+      (await listboxButton.getAttribute("aria-expanded")) === "true";
+    if (!isAlreadyOpen) {
+      await listboxButton.click();
+      await page.getByRole("listbox").waitFor({ timeout: 10000 });
+    }
 
     // Wait for the page to be fully loaded and menu entries to be initialized
     await page.waitForLoadState("domcontentloaded");
@@ -114,17 +124,30 @@ export async function navigateToOrganizationSubpage(
     // Wait for the organization page heading to be visible (ensures page is loaded)
     await expect(organizationPage.pageHeading).toBeVisible();
 
-    // Wait for the specific menu option to be visible and clickable
-    const subpageOption =
-      organizationPage.menu[
-        `${menuSubpage}Option` as keyof typeof organizationPage.menu
-      ];
+    // Wait for the dropdown options to be rendered
+    await page.getByRole("listbox").waitFor({ timeout: 10000 });
 
-    await expect(subpageOption).toBeVisible();
-    await subpageOption.waitFor({ state: "attached" });
+    // Map subpage to i18n key - some are in use_menu_entries_state, others in _global
+    // Use original subpage name for i18n lookup, not the mapped menuSubpage
+    const i18nKeyMap: Record<string, string> = {
+      resources: "i18n._global.resources",
+      events: "i18n._global.events",
+      faq: "i18n._global.faq",
+      groups: "i18n.composables.use_menu_entries_state.groups",
+      affiliates: "i18n.composables.use_menu_entries_state.affiliates",
+      tasks: "i18n.composables.use_menu_entries_state.tasks",
+      discussions: "i18n._global.discussions",
+      settings: "i18n._global.settings",
+    };
 
-    // Additional wait to ensure menu entries are created with correct route parameters
-    await page.waitForTimeout(500);
+    const i18nKey =
+      i18nKeyMap[subpage] ||
+      `i18n.composables.use_menu_entries_state.${subpage}`;
+
+    // Use getByRole with the translated text from getEnglishText
+    const subpageOption = page.getByRole("option", {
+      name: new RegExp(getEnglishText(i18nKey), "i"),
+    });
 
     await subpageOption.click();
   } else {
@@ -221,19 +244,43 @@ export async function navigateToOrganizationGroupSubpage(
   page: Page,
   subpage: string
 ) {
+  // Check if we're already on the correct page to avoid unnecessary navigation
+  const currentUrl = page.url();
+  if (
+    currentUrl.includes(`/organizations/`) &&
+    currentUrl.includes(`/groups/`) &&
+    currentUrl.includes(`/${subpage}`)
+  ) {
+    return { organizationId: "", organizationPage: newOrganizationPage(page) };
+  }
+
   // First navigate to the first organization
   const { organizationId, organizationPage } =
     await navigateToFirstOrganization(page);
 
   // Navigate to the Groups tab
-  // Check if we're on mobile or desktop
+  // Check if we're on mobile or desktop by checking if #submenu exists
   const toggleButton = organizationPage.menu.toggleOpenButton;
   const isMobileLayout = await toggleButton.isVisible();
 
   if (isMobileLayout) {
     // Mobile layout: requires opening dropdown menu first
-    await toggleButton.click();
-    await page.waitForTimeout(1000); // Wait for dropdown to open
+    // Use getByRole to find the ListboxButton within the submenu context
+    // Since the ListboxButton is inside the #submenu container, we can be more specific
+    const submenu = page.locator("#submenu"); // We still need this for context since it's conditionally rendered
+    await submenu.waitFor({ timeout: 10000 });
+
+    const listboxButton = submenu.getByRole("button");
+    await listboxButton.waitFor({ state: "attached", timeout: 10000 });
+
+    // Check if the dropdown is already open before clicking
+    const isAlreadyOpen =
+      (await listboxButton.getAttribute("aria-expanded")) === "true";
+    if (!isAlreadyOpen) {
+      await listboxButton.click();
+      // Wait for the dropdown to actually open using getByRole
+      await page.getByRole("listbox").waitFor({ timeout: 10000 });
+    }
 
     // Wait for the page to be fully loaded and menu entries to be initialized
     await page.waitForLoadState("domcontentloaded");
@@ -243,16 +290,22 @@ export async function navigateToOrganizationGroupSubpage(
 
     // Wait for the dropdown options to be rendered - they appear in a transition
     // The dropdown options are in ListboxOptions which appear after clicking the button
-    await page.waitForSelector("#submenu li", { timeout: 10000 });
+    await page.getByRole("listbox").waitFor({ timeout: 10000 });
 
     // Wait for the groups option to be visible and clickable
     await expect(organizationPage.menu.groupsOption).toBeVisible();
-    await organizationPage.menu.groupsOption.waitFor({ state: "attached" });
+    await page.waitForLoadState("domcontentloaded");
 
-    // Additional wait to ensure menu entries are created with correct route parameters
-    await page.waitForTimeout(500);
+    // Click on the ListboxOption (role="option") which contains the NuxtLink
+    const groupsOption = page.getByRole("option", {
+      name: new RegExp(
+        getEnglishText("i18n.composables.use_menu_entries_state.groups"),
+        "i"
+      ),
+    });
 
-    await organizationPage.menu.groupsOption.click();
+    // Click the option - the NuxtLink's @click handler will navigate using the updated routeUrl
+    await groupsOption.click();
   } else {
     // Desktop layout: direct click
     await expect(organizationPage.menu.groupsOption).toBeVisible();
@@ -260,7 +313,7 @@ export async function navigateToOrganizationGroupSubpage(
   }
 
   await page.waitForLoadState("domcontentloaded");
-  await expect(page).toHaveURL(/.*\/organizations\/.*\/groups/);
+  await expect(page).toHaveURL(/\/organizations\/[a-f0-9-]{36}\/groups/);
 
   // Check if there are any groups available
   const groupsPage = organizationPage.groupsPage;

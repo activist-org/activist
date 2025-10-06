@@ -43,7 +43,7 @@
             </h3>
           </NuxtLink>
           <MenuSearchResult
-            class="max-md:absolute max-md:right-0 max-md:top-0"
+            class="max-md:relative max-md:z-[60]"
             :resource="resource"
           />
         </div>
