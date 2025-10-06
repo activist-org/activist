@@ -8,14 +8,16 @@ import type {
 import type { AxeResults } from "axe-core";
 
 import { createHtmlReport } from "axe-html-reporter";
+import path from "path";
 
-import { RESULTS_PATH } from "../../playwright.config.mjs";
+// Use process.cwd() instead of import.meta.url for compatibility with Playwright's reporter loading
+const DEFAULT_RESULTS_PATH = path.join(process.cwd(), "test-results");
 
 class AxeReporter implements Reporter {
   private outputDirPath: string;
 
   constructor(options?: { outputDirPath?: string }) {
-    this.outputDirPath = options?.outputDirPath || RESULTS_PATH;
+    this.outputDirPath = options?.outputDirPath || DEFAULT_RESULTS_PATH;
   }
 
   onTestBegin(_test: TestCase) {
