@@ -12,7 +12,6 @@ import en from "../i18n/locales/en-US.json" assert { type: "json" };
 setActivePinia(createPinia());
 
 // Auto-import version of define store doesn't exist in the test env.
-// @ts-expect-error: Can't type this due to conflict with Nuxt.
 globalThis.defineStore = defineStore;
 
 // ================================
@@ -22,56 +21,37 @@ globalThis.defineStore = defineStore;
 // (e.g., commit 82089827 added useI18n() to FormTextEntity.vue), but the tests were
 // never updated to handle these dependencies. Without these mocks, tests fail with
 // "ReferenceError: useI18n is not defined" and similar errors.
-//
-// Using global setup follows DRY/SOLID principles and is the industry standard
-// approach for common mocks in testing frameworks (Jest, Vitest, Mocha).
-
-// Create shared i18n instance for consistent translations across all tests
-const sharedI18nInstance = createI18n({
-  legacy: false,
-  locale: "en",
-  fallbackLocale: "en",
-  messages: Object.assign({ en }),
-});
 
 // Mock Nuxt auto-imports that are used by components but not available in test environment
-// @ts-expect-error: Adding global mocks for auto-imports
-globalThis.useI18n = () => sharedI18nInstance.global;
+globalThis.useI18n = () => i18n.global;
 
-// @ts-expect-error: Adding global mocks for auto-imports
 globalThis.useLocalePath = () => (path: string) => path;
 
-// @ts-expect-error: Adding global mocks for auto-imports
 globalThis.useRoute = () => ({
   params: {},
   query: {},
 });
 
-// @ts-expect-error: Adding global mocks for auto-imports
 globalThis.useDevice = () => ({
   isMobile: false,
   isTablet: false,
   isDesktop: true,
 });
 
-// @ts-expect-error: Adding global mocks for auto-imports
 globalThis.useLocalStorage = (key: string, defaultValue: unknown) => ({
   value: defaultValue,
 });
 
-// @ts-expect-error: Adding global mocks for auto-imports
 globalThis.useAuthState = () => ({
   data: { value: null }, // Mock no user signed in
 });
 
-// @ts-expect-error: Adding global mocks for auto-imports
 globalThis.useAuth = () => ({
   signUp: () => Promise.resolve(),
   signIn: () => Promise.resolve(),
   signOut: () => Promise.resolve(),
 });
 
-// @ts-expect-error: Adding global mocks for auto-imports
 globalThis.useDebounceFn = <T extends (...args: unknown[]) => unknown>(
   fn: T,
   _delay: number
@@ -83,12 +63,12 @@ const useColorModeFn = () => ({
   value: "dark" as const,
 });
 
+// @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorModeMock = vi.fn(useColorModeFn);
-// @ts-expect-error: Adding global mocks for auto-imports
+// @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorMode = () => globalThis.useColorModeMock();
 
 // Mock the dev mode store to fix FriendlyCaptcha component
-// @ts-expect-error: Adding global mocks for stores
 globalThis.useDevMode = () => ({
   active: { value: false },
   check: () => {}, // Mock the check method that FriendlyCaptcha expects
@@ -194,11 +174,13 @@ afterEach(() => {
   setActivePinia(createPinia());
 
   // Clean up color mode mock.
+  // @ts-expect-error: Property doesn't exist on globalThis
   globalThis.useColorModeMock.mockReset();
+  // @ts-expect-error: Property doesn't exist on globalThis
   globalThis.useColorModeMock.mockImplementation(useColorModeFn);
 });
 
 afterAll(() => {
-  // @ts-expect-error: This will be present during the tests.
+  // @ts-expect-error: Property doesn't exist on globalThis
   delete globalThis.useColorModeMock;
 });
