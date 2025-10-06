@@ -14,7 +14,6 @@
     "test:local:desktop": "cross-env TEST_ENV=local playwright test --project='Desktop Chrome' --reporter=blob",
     "test:local:mobile": "cross-env TEST_ENV=local playwright test --project='Mobile Chrome' --reporter=blob",
     "test:local:merge": "playwright merge-reports --reporter html,list,./test-e2e/reporters/execution-time-reporter.ts,./test-e2e/accessibility/axe-reporter.ts ./blob-report",
-    "test:local:preview": "cross-env TEST_ENV=local USE_PREVIEW=true playwright test",
     "test:prod": "cross-env TEST_ENV=prod playwright test",
     "test:comprehensive": "cross-env TEST_ENV=local CI=false playwright test",
     "test:auth": "cross-env TEST_ENV=local playwright test --user-data-dir=./test-results/user-data",
