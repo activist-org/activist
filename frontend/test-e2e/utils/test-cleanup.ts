@@ -16,13 +16,13 @@ export async function cleanupTestState(page: Page): Promise<void> {
 
     // Strategy: Press Escape multiple times (fast and effective)
     // This handles modals, tooltips, dropdowns without DOM queries
-    await page.keyboard.press("Escape", { timeout: 1000 }).catch(() => {
+    await page.keyboard.press("Escape").catch(() => {
       // Ignore if page is closing
     });
 
     await page.waitForTimeout(50);
 
-    await page.keyboard.press("Escape", { timeout: 1000 }).catch(() => {
+    await page.keyboard.press("Escape").catch(() => {
       // Ignore if page is closing
     });
 
@@ -41,7 +41,7 @@ export async function cleanupTestState(page: Page): Promise<void> {
 
         if (isVisible) {
           // Try Escape first (fastest)
-          await page.keyboard.press("Escape", { timeout: 500 }).catch(() => {
+          await page.keyboard.press("Escape").catch(() => {
             // Ignore errors
           });
           break; // Only close one modal, Escape should close all
