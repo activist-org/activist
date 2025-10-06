@@ -135,7 +135,7 @@ export default defineConfig({
       // More workers for mobile tests.
       workers: process.env.CI ? 2 : 1,
       use: {
-        ...devices["Pixel 8"],
+        ...devices["Pixel 7"],
         isMobile: true,
         hasTouch: true,
         // Memory optimization: Add launch options to prevent browser crashes in long test runs
