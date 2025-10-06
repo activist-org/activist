@@ -231,27 +231,28 @@ export async function navigateToOrganizationGroupSubpage(
   const isMobileLayout = await toggleButton.isVisible();
 
   if (isMobileLayout) {
-    // Mobile layout: open dropdown menu first
+    // Mobile layout: requires opening dropdown menu first
     await toggleButton.click();
-    await page.waitForTimeout(500); // Wait for dropdown to open
+    await page.waitForTimeout(1000); // Wait for dropdown to open
 
-    // Wait for groups option to be visible and clickable
-    await expect(organizationPage.menu.groupsOption).toBeVisible();
-
-    // Ensure the groups option is actually clickable before clicking
-    await organizationPage.menu.groupsOption.waitFor({ state: "attached" });
-    await organizationPage.menu.groupsOption.click();
-
-    // Wait for navigation to complete
+    // Wait for the page to be fully loaded and menu entries to be initialized
     await page.waitForLoadState("domcontentloaded");
 
-    // Check if we actually navigated to groups page
-    const currentUrl = page.url();
-    if (!currentUrl.includes("/groups")) {
-      // Mobile navigation failed, use direct navigation as fallback
-      await page.goto(`/organizations/${organizationId}/groups`);
-      await page.waitForLoadState("domcontentloaded");
-    }
+    // Wait for the organization page heading to be visible (ensures page is loaded)
+    await expect(organizationPage.pageHeading).toBeVisible();
+
+    // Wait for the dropdown options to be rendered - they appear in a transition
+    // The dropdown options are in ListboxOptions which appear after clicking the button
+    await page.waitForSelector("#submenu li", { timeout: 10000 });
+
+    // Wait for the groups option to be visible and clickable
+    await expect(organizationPage.menu.groupsOption).toBeVisible();
+    await organizationPage.menu.groupsOption.waitFor({ state: "attached" });
+
+    // Additional wait to ensure menu entries are created with correct route parameters
+    await page.waitForTimeout(500);
+
+    await organizationPage.menu.groupsOption.click();
   } else {
     // Desktop layout: direct click
     await expect(organizationPage.menu.groupsOption).toBeVisible();
