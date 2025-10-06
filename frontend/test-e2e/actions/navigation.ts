@@ -99,9 +99,10 @@ export async function navigateToOrganizationSubpage(
   const { organizationId, organizationPage } =
     await navigateToFirstOrganization(page);
 
-  // Detect if mobile layout is active by checking if #submenu exists
+  // Detect if mobile layout is active by checking viewport width
+  const viewportSize = page.viewportSize();
+  const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
   const submenu = page.locator("#submenu");
-  const isMobileLayout = await submenu.isVisible().catch(() => false);
 
   if (isMobileLayout) {
     // Mobile layout: requires opening dropdown menu first
@@ -259,9 +260,9 @@ export async function navigateToOrganizationGroupSubpage(
     await navigateToFirstOrganization(page);
 
   // Navigate to the Groups tab
-  // Check if we're on mobile or desktop by checking if #submenu exists
-  const toggleButton = organizationPage.menu.toggleOpenButton;
-  const isMobileLayout = await toggleButton.isVisible();
+  // Check if we're on mobile or desktop by checking viewport width
+  const viewportSize = page.viewportSize();
+  const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
 
   if (isMobileLayout) {
     // Mobile layout: requires opening dropdown menu first
