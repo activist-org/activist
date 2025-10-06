@@ -146,7 +146,6 @@ export const useEventStore = defineStore("event", {
     async fetchById(id: string | undefined, refreshData = false) {
       this.loading = true;
       const { data, status, refresh } = await useAsyncData<EventResponse>(
-        `event-${id}`,
         async () =>
           (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
       );
@@ -171,9 +170,7 @@ export const useEventStore = defineStore("event", {
 
         this.event.getInvolvedUrl = event.getInvolvedUrl;
         this.event.socialLinks = event.socialLinks;
-
         this.event.texts = event.texts[0] ?? defaultEventText;
-
         this.event.resources = event.resources;
         this.event.faqEntries = event.faqEntries;
 
@@ -241,26 +238,23 @@ export const useEventStore = defineStore("event", {
 
     async updateTexts(event: Event, formData: EventUpdateTextFormData) {
       this.loading = true;
-
-      const responseEventTexts = await $fetch(
-        BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}`,
-        {
+      const { status } = await useAsyncData(() =>
+        fetch(BASE_BACKEND_URL + `/events/event_texts/${event.texts.id}`, {
           method: "PUT",
-          body: {
+          body: JSON.stringify({
             primary: true,
             description: formData.description,
             getInvolved: formData.getInvolved,
             donate_prompt: "",
             orgId: event.id,
             iso: "en",
-          },
+          }),
           headers: {
             Authorization: `${token.value}`,
           },
-        }
+        })
       );
-
-      if (responseEventTexts) {
+      if (status.value === "success") {
         this.event.texts.description = formData.description;
         this.event.texts.getInvolved = formData.getInvolved;
         this.event.getInvolvedUrl = formData.getInvolvedUrl;
@@ -544,14 +538,13 @@ export const useEventStore = defineStore("event", {
         return false;
       }
     },
-
     // MARK: Create Resource
 
     async createResource(event: Event, formData: ResourceInput) {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const responseFaqEntries = await useFetch(
+      const responseResourcesEntries = await useFetch(
         `${BASE_BACKEND_URL}/events/event_resources`,
         {
           method: "POST",
@@ -565,17 +558,16 @@ export const useEventStore = defineStore("event", {
         }
       );
 
-      const responseResourcesData = responseFaqEntries.data
+      const responseResourcesData = responseResourcesEntries.data
         .value as unknown as Event;
       if (responseResourcesData) {
         responses.push(true);
       } else {
         responses.push(false);
       }
-
       if (responses.every((r) => r === true)) {
         // Fetch updated event data after successful updates to update the frontend.
-        await this.fetchById(event.id);
+        await this.fetchById(event.id, true);
         this.loading = false;
         return true;
       } else {
@@ -590,7 +582,7 @@ export const useEventStore = defineStore("event", {
       this.loading = true;
       const responses: boolean[] = [];
 
-      const responseFaqEntries = await useFetch(
+      const responseResourcesEntries = await useFetch(
         `${BASE_BACKEND_URL}/events/event_resources/${formData.id}`,
         {
           method: "PUT",
@@ -603,17 +595,16 @@ export const useEventStore = defineStore("event", {
         }
       );
 
-      const responseFaqEntriesData = responseFaqEntries.data
+      const responseResourcesEntriesData = responseResourcesEntries.data
         .value as unknown as Event;
-      if (responseFaqEntriesData) {
+      if (responseResourcesEntriesData) {
         responses.push(true);
       } else {
         responses.push(false);
       }
-
       if (responses.every((r) => r === true)) {
         // Fetch updated event data after successful updates to update the frontend.
-        await this.fetchById(event.id);
+        await this.fetchById(event.id, true);
         this.loading = false;
         return true;
       } else {
@@ -657,7 +648,7 @@ export const useEventStore = defineStore("event", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(event.id);
+        await this.fetchById(event.id, true);
         this.loading = false;
         return true;
       } else {
@@ -706,7 +697,7 @@ export const useEventStore = defineStore("event", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
-        await this.fetchById(event.id);
+        await this.fetchById(event.id, true);
         this.loading = false;
         return true;
       } else {

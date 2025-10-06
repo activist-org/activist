@@ -340,6 +340,7 @@ export const useGroupStore = defineStore("group", {
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id, true);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {

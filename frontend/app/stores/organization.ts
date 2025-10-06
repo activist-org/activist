@@ -342,7 +342,7 @@ export const useOrganizationStore = defineStore("organization", {
           }
         );
         if (response.data?.value) {
-          this.fetchById(id);
+          this.fetchById(id, true);
           this.loading = false;
         }
       } catch (error) {

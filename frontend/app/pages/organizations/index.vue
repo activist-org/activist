@@ -25,9 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-
-defineProps<{
-  organizations: Organization[];
-}>();
+const organizationStore = useOrganizationStore();
+const { organizations } = storeToRefs(organizationStore);
 </script>

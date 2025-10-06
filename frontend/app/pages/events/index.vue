@@ -25,9 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
-
 import { ViewType } from "~/types/view-types";
+
+const eventStore = useEventStore();
+const { events } = storeToRefs(eventStore);
 
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
@@ -41,7 +42,4 @@ watchEffect(() => {
     viewType.value = q as ViewType;
   }
 });
-defineProps<{
-  events: Event[];
-}>();
 </script>
