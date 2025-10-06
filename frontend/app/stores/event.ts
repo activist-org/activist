@@ -151,7 +151,7 @@ export const useEventStore = defineStore("event", {
       );
 
       // Refresh data if requested (e.g., after mutations)
-      if (refreshData && refresh) {
+      if (refreshData) {
         await refresh();
       }
 
@@ -199,7 +199,7 @@ export const useEventStore = defineStore("event", {
       );
 
       // Refresh data if requested (e.g., after mutations)
-      if (refreshData && refresh) {
+      if (refreshData) {
         await refresh();
       }
 
