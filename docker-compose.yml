@@ -65,7 +65,7 @@ services:
         echo '🏗️  Building frontend for preview mode...' &&
         yarn build &&
         echo '▶️  Starting preview server on port ${FRONTEND_PORT}...' &&
-        node .output/server/index.mjs;
+        yarn preview --port ${FRONTEND_PORT};
       else
         echo '▶️  Starting dev server...' &&
         yarn dev --port ${FRONTEND_PORT};
