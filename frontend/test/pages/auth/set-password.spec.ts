@@ -1,4 +1,5 @@
-// // SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: AGPL-3.0-or-later
+import { describe, expect, it } from "vitest";
 // import SetPassword from "@/pages/auth/set-password.vue";
 // import render from "@/test/render";
 // import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
