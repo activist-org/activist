@@ -4,7 +4,8 @@ import type { Page } from "@playwright/test";
 import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationEventsPage = (page: Page) => ({
-  // Header action buttons
+  // MARK: Header Action
+
   eventsNewButton: page.getByRole("link", {
     name: new RegExp(
       getEnglishText(
@@ -22,11 +23,13 @@ export const newOrganizationEventsPage = (page: Page) => ({
     ),
   }),
 
-  // Events list elements
+  // MARK: Events List
+
   eventsList: page.getByTestId("organization-events-list"),
   eventCards: page.getByTestId("event-card"),
 
-  // Individual event card elements
+  // MARK: Event Card
+
   getEventCard: (index: number) => page.getByTestId("event-card").nth(index),
   getEventTitle: (index: number) =>
     page
@@ -37,11 +40,12 @@ export const newOrganizationEventsPage = (page: Page) => ({
   getEventLink: (index: number) =>
     page.getByTestId("event-card").nth(index).getByRole("link").first(),
   getEventDate: (index: number) =>
-    page.getByTestId("event-card").nth(index).locator("[class*='date']"), // Keep as is - CSS class selector
+    page.getByTestId("event-card").nth(index).locator("[class*='date']"),
   getEventLocation: (index: number) =>
-    page.getByTestId("event-card").nth(index).locator("[class*='location']"), // Keep as is - CSS class selector
+    page.getByTestId("event-card").nth(index).locator("[class*='location']"),
 
-  // Event menu interactions
+  // MARK: Event Menu
+
   getEventMenuButton: (index: number) =>
     page.getByTestId("event-card").nth(index).getByTestId("menu-button"),
   getEventMenuTooltip: (index: number) =>
@@ -67,11 +71,13 @@ export const newOrganizationEventsPage = (page: Page) => ({
         ),
       }),
 
-  // Empty state
-  emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p").first(), // Keep as is - generic text selector
+  // MARK: Empty State
 
-  // Event navigation helpers
+  emptyState: page.getByTestId("empty-state"),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p").first(),
+
+  // MARK: Event Navigation
+
   navigateToEvent: async (index: number) => {
     const eventLink = page
       .getByTestId("event-card")
@@ -81,7 +87,7 @@ export const newOrganizationEventsPage = (page: Page) => ({
     await eventLink.click();
   },
 
-  // Count helpers
+  // MARK: Count Helpers
   getEventCount: async () => {
     return await page.getByTestId("event-card").count();
   },

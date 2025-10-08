@@ -3,15 +3,15 @@
   <div class="flex flex-col" :class="classItem">
     <FormLabel
       v-if="label"
-      :name="name"
-      :label="label"
-      :required="required"
       :for="id"
+      :label="label"
+      :name="name"
+      :required="required"
     />
     <slot v-bind="field" :id="id" />
     <FormErrorMessage
-      v-if="field.errorMessage"
       :id="`${id}-error`"
+      v-if="field.errorMessage"
       class="pt-2"
       :message="field.errorMessage.value"
     />

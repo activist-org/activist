@@ -6,7 +6,7 @@
       @keydown.enter="openModal()"
       class="has-tooltip w-5 cursor-pointer sm:w-6 md:w-7 xl:w-9"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
         <path
           class="fill-accepted-green"
           d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417L5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
@@ -36,13 +36,13 @@
     </button>
     <ModalOrganizationStatus
       @closeModal="handleCloseModal"
-      :organization="organization"
       :isOpen="modalIsOpen"
+      :organization="organization"
     />
   </span>
   <span v-else>
     <div class="has-tooltip w-5 sm:w-6 md:w-7 xl:w-9">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
         <path
           class="fill-warn-yellow dark:fill-warn-yellow"
           d="M7.002 12a1 1 0 1 1 2 0a1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"

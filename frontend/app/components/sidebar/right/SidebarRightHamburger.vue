@@ -2,12 +2,12 @@
 <template>
   <div>
     <button
-      @click="$emit('toggle')"
       id="sidebar-right-hamburger"
-      class="group relative z-50 outline-offset-4 focus-brand"
+      @click="$emit('toggle')"
       :aria-label="
         $t('i18n.components.sidebar_right_hamburger.collapse_aria_label')
       "
+      class="group relative z-50 outline-offset-4 focus-brand"
     >
       <div
         class="relative flex h-[20px] w-[30px] transform items-center justify-center bg-transparent transition-all duration-200"

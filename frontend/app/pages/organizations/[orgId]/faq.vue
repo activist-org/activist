@@ -17,13 +17,13 @@
           @keydown.enter="
             useModalHandlers('ModalFaqEntryOrganization').openModal()
           "
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
           class="w-max"
           :cta="true"
-          label="i18n.pages._global.new_faq"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.new_faq_aria_label"
+          label="i18n.pages._global.new_faq"
+          :leftIcon="IconMap.PLUS"
         />
         <ModalFaqEntryOrganization />
       </div>
@@ -33,32 +33,32 @@
       <draggable
         v-model="faqList"
         @end="onDragEnd"
-        item-key="id"
+        :animation="150"
+        chosen-class="sortable-chosen"
         class="space-y-4"
         data-testid="organization-faq-list"
-        :touch-start-threshold="3"
-        :force-fallback="false"
-        :fallback-tolerance="0"
         :delay="0"
         :delay-on-touch-start="false"
-        :swap-threshold="0.5"
-        :invert-swap="false"
-        :direction="'vertical'"
+        direction="vertical"
         :disabled="false"
-        :animation="150"
-        :ghost-class="'sortable-ghost'"
-        :chosen-class="'sortable-chosen'"
-        :drag-class="'sortable-drag'"
-        :handle="'.drag-handle'"
         :distance="5"
-        :fallback-class="'sortable-fallback'"
+        drag-class="sortable-drag"
+        fallback-class="sortable-fallback"
+        :fallback-tolerance="0"
+        :force-fallback="false"
+        ghost-class="sortable-ghost"
+        handle=".drag-handle"
+        :invert-swap="false"
+        item-key="id"
+        :swap-threshold="0.5"
+        :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :pageType="'organization'" :faqEntry="element" />
+          <CardFAQEntry :faqEntry="element" :pageType="'organization'" />
         </template>
       </draggable>
     </div>
-    <EmptyState v-else pageType="faq" :permission="false" class="py-4" />
+    <EmptyState v-else class="py-4" pageType="faq" :permission="false" />
   </div>
 </template>
 
@@ -115,7 +115,7 @@ const onDragEnd = async () => {
   display: none;
 }
 
-/* Ensure drag handles work properly */
+/* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
 }

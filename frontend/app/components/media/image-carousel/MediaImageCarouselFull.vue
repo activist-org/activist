@@ -1,26 +1,26 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div data-testid="image-carousel" class="relative">
+  <div class="relative" data-testid="image-carousel">
     <MediaImageCarousel
+      :entityType="entityType"
       :fullscreen="false"
       :imageUrls="imageUrls"
-      :entityType="entityType"
     />
     <button
       @click="openMediaImageCarousel()"
       @keydown.enter="openMediaImageCarousel()"
-      class="absolute right-2 top-2 z-10 hidden rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80 md:block"
       :aria-label="
         $t('i18n.components.media_image_carousel_full.open_modal_aria_label')
       "
+      class="absolute right-2 top-2 z-10 hidden rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80 md:block"
     >
       <Icon :name="IconMap.FULL_SCREEN" size="1.5em" />
     </button>
     <ModalMediaImageCarousel
       @closeModal="handleCloseMediaImageCarousel"
-      :imageUrls="imageUrls"
       :entityId="props.entityId"
       :entityType="props.entityType"
+      :imageUrls="imageUrls"
     />
   </div>
 </template>

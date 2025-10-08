@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Tabs class="pt-2 md:pt-0" :tabs="groupTabs" :selectedTab="3" />
+  <Tabs class="pt-2 md:pt-0" :selectedTab="3" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ props.group.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
@@ -15,13 +15,13 @@
         <BtnAction
           @click.stop="useModalHandlers('ModalFaqEntryGroup').openModal()"
           @keydown.enter="useModalHandlers('ModalFaqEntryGroup').openModal()"
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
           class="w-max"
           :cta="true"
-          label="i18n.pages._global.new_faq"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.new_faq_aria_label"
+          label="i18n.pages._global.new_faq"
+          :leftIcon="IconMap.PLUS"
         />
         <ModalFaqEntryGroup />
       </div>
@@ -35,27 +35,27 @@
       <draggable
         v-model="faqList"
         @end="onDragEnd"
-        item-key="id"
+        :animation="150"
+        chosen-class="sortable-chosen"
         class="space-y-4"
-        :touch-start-threshold="3"
-        :force-fallback="false"
-        :fallback-tolerance="0"
         :delay="0"
         :delay-on-touch-start="false"
-        :swap-threshold="0.5"
-        :invert-swap="false"
-        :direction="'vertical'"
+        direction="vertical"
         :disabled="false"
-        :animation="150"
-        :ghost-class="'sortable-ghost'"
-        :chosen-class="'sortable-chosen'"
-        :drag-class="'sortable-drag'"
-        :handle="'.drag-handle'"
         :distance="5"
-        :fallback-class="'sortable-fallback'"
+        drag-class="sortable-drag"
+        fallback-class="sortable-fallback"
+        :fallback-tolerance="0"
+        :force-fallback="false"
+        ghost-class="sortable-ghost"
+        handle=".drag-handle"
+        :invert-swap="false"
+        item-key="id"
+        :swap-threshold="0.5"
+        :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry pageType="group" :faqEntry="element" />
+          <CardFAQEntry :faqEntry="element" pageType="group" />
         </template>
       </draggable>
     </div>
@@ -118,7 +118,7 @@ const onDragEnd = async () => {
   display: none;
 }
 
-/* Ensure drag handles work properly */
+/* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
 }

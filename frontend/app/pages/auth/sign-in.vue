@@ -2,8 +2,8 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
-      @submit="signInUser"
       id="sign-in"
+      @submit="signInUser"
       class="space-y-4"
       :schema="signInSchema"
       submit-label="i18n._global.sign_in"
@@ -14,12 +14,12 @@
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
-          @input="handleChange"
-          @blur="handleBlur"
           :id="id"
-          :modelValue="(value.value as string)"
+          @blur="handleBlur"
+          @input="handleChange"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth.sign_in.enter_user_name')"
+          :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
@@ -29,12 +29,12 @@
         <div class="flex flex-col space-y-4">
           <!-- prettier-ignore-attribute :modelValue -->
           <FormTextInputPassword
-            @input="handleChange"
-            @blur="handleBlur"
             :id="id"
-            :modelValue="(value.value as string)"
+            @blur="handleBlur"
+            @input="handleChange"
             :hasError="!!errorMessage.value"
             :label="$t('i18n._global.enter_password')"
+            :modelValue="(value.value as string)"
           />
           <IndicatorPasswordStrength
             id="sign-in-password-strength"
@@ -46,21 +46,21 @@
         <FormItem v-slot="{ id, handleChange, value }" name="verifyCaptcha">
           <!-- prettier-ignore-attribute v-model -->
           <FriendlyCaptcha
+            :id="id"
             v-model="(value.value as boolean)"
             @update:model-value="handleChange"
-            :id="id"
           />
         </FormItem>
         <button
+          id="sign-in-forgot-password"
+          @blur="hovered = false"
           @click="navigateTo(localePath('/auth/pwreset/email'))"
-          @mouseover="hovered = true"
           @focus="hovered = true"
           @mouseleave="hovered = false"
-          @blur="hovered = false"
-          id="sign-in-forgot-password"
-          :disabled="isForgotPasswordDisabled"
+          @mouseover="hovered = true"
           class="inline-link-underline w-fit text-start font-bold"
           :class="{ 'link-text': !isForgotPasswordDisabled }"
+          :disabled="isForgotPasswordDisabled"
         >
           {{ $t("i18n._global.auth.reset_password_forgot_password") }}
         </button>
@@ -74,8 +74,8 @@
       <h6>{{ $t("i18n.pages.auth.sign_in.index.no_account") }}</h6>
       <NuxtLink
         id="sign-in-signup-link"
-        :to="localePath('/auth/sign-up')"
         class="link-text inline-link-underline ml-2 font-extrabold"
+        :to="localePath('/auth/sign-up')"
       >
         {{ $t("i18n._global.sign_up") }}
       </NuxtLink>

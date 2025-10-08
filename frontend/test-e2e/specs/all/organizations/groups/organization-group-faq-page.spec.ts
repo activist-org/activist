@@ -11,7 +11,7 @@ import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
-  // Already authenticated via global storageState
+  // Already authenticated via global storageState.
   await navigateToOrganizationGroupSubpage(page, "faq");
 });
 
@@ -56,12 +56,12 @@ test.describe(
     }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupFaqPage = organizationPage.groupFaqPage;
+      const { groupFaqPage } = organizationPage;
 
-      // Wait for FAQ entries to load completely
+      // Wait for FAQ entries to load completely.
       await page.waitForLoadState("domcontentloaded");
 
-      // Wait for either FAQ entries or empty state to appear
+      // Wait for either FAQ entries or empty state to appear.
       await expect(async () => {
         const faqListVisible = await groupFaqPage.faqList
           .isVisible()
@@ -75,11 +75,11 @@ test.describe(
       const faqCount = await groupFaqPage.getFaqCount();
 
       if (faqCount > 0) {
-        // Verify FAQ list is visible
+        // Verify FAQ list is visible.
         await expect(groupFaqPage.faqList).toBeVisible();
         await expect(groupFaqPage.faqCards.first()).toBeVisible();
 
-        // Verify first FAQ has required elements
+        // Verify first FAQ has required elements.
         const firstFaqCard = groupFaqPage.getFaqCard(0);
         await expect(firstFaqCard).toBeVisible();
 
@@ -89,24 +89,24 @@ test.describe(
         const firstFaqDisclosureButton = groupFaqPage.getFaqDisclosureButton(0);
         await expect(firstFaqDisclosureButton).toBeVisible();
 
-        // Test expanding FAQ
+        // Test expanding FAQ.
         await groupFaqPage.expandFaq(0);
         await expect(groupFaqPage.getFaqAnswer(0)).toBeVisible();
 
-        // Test collapsing FAQ
+        // Test collapsing FAQ.
         await groupFaqPage.collapseFaq(0);
         await expect(groupFaqPage.getFaqAnswer(0)).not.toBeVisible();
 
-        // Verify drag handles are visible
+        // Verify drag handles are visible.
         const firstFaqDragHandle = groupFaqPage.getFaqDragHandle(0);
         await expect(firstFaqDragHandle).toBeVisible();
         await expect(firstFaqDragHandle).toContainClass("drag-handle");
 
-        // Verify edit buttons are visible
+        // Verify edit buttons are visible.
         const firstFaqEditButton = groupFaqPage.getFaqEditButton(0);
         await expect(firstFaqEditButton).toBeVisible();
       } else {
-        // Verify empty state is shown when no FAQ entries
+        // Verify empty state is shown when no FAQ entries.
         await expect(groupFaqPage.emptyState).toBeVisible();
         await expect(groupFaqPage.emptyStateMessage).toBeVisible();
       }
@@ -115,24 +115,24 @@ test.describe(
     test("User can access new FAQ creation", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupFaqPage = organizationPage.groupFaqPage;
+      const { groupFaqPage } = organizationPage;
 
-      // Verify new FAQ button is visible and functional
+      // Verify new FAQ button is visible and functional.
       await expect(groupFaqPage.newFaqButton).toBeVisible();
       await expect(groupFaqPage.newFaqButton).toBeEnabled();
 
-      // Get button text to verify we have the right button
+      // Get button text to verify we have the right button.
       const buttonText = await groupFaqPage.newFaqButton.textContent();
       expect(buttonText).toContain("FAQ");
 
-      // Verify button has correct aria-label
+      // Verify button has correct aria-label.
       await expect(groupFaqPage.newFaqButton).toHaveAttribute("aria-label");
 
-      // Test that button is clickable (click and verify no errors)
+      // Test that button is clickable (click and verify no errors).
       await groupFaqPage.clickNewFaq();
 
-      // Verify button click was successful (no errors thrown)
-      // Since modal is not implemented yet, we just verify the click worked
+      // Verify button click was successful (no errors thrown).
+      // Since modal is not implemented yet, we just verify the click worked.
       await expect(groupFaqPage.newFaqButton).toBeVisible();
     });
 
@@ -141,43 +141,43 @@ test.describe(
     }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupFaqPage = organizationPage.groupFaqPage;
+      const { groupFaqPage } = organizationPage;
 
-      // Wait for page to load and then for FAQ cards to appear
+      // Wait for page to load and then for FAQ cards to appear.
       await page.waitForLoadState("domcontentloaded");
 
-      // Wait for FAQ cards to be present (with timeout to handle empty state)
+      // Wait for FAQ cards to be present (with timeout to handle empty state).
       try {
         await expect(groupFaqPage.faqCards.first()).toBeVisible({
           timeout: 5000,
         });
       } catch {
-        // If no FAQ cards appear, that's fine - could be empty state
+        // If no FAQ cards appear, that's fine - could be empty state.
       }
 
       const faqCount = await groupFaqPage.getFaqCount();
 
       if (faqCount >= 2) {
-        // Get initial order of first 2 FAQ questions for drag and drop test
+        // Get initial order of first 2 FAQ questions for drag and drop test.
         const initialOrder = await getFAQCardOrder(page);
         const firstQuestion = initialOrder[0];
         const secondQuestion = initialOrder[1];
 
-        // Verify drag handles are visible and have correct classes
+        // Verify drag handles are visible and have correct classes.
         const firstFaqDragHandle = groupFaqPage.getFaqDragHandle(0);
         const secondFaqDragHandle = groupFaqPage.getFaqDragHandle(1);
 
         await expect(firstFaqDragHandle).toBeVisible();
         await expect(secondFaqDragHandle).toBeVisible();
 
-        // Validate drag handles have the correct CSS class
+        // Validate drag handles have the correct CSS class.
         await expect(firstFaqDragHandle).toContainClass("drag-handle");
         await expect(secondFaqDragHandle).toContainClass("drag-handle");
 
-        // Perform drag and drop using shared utility
+        // Perform drag and drop using shared utility.
         await performDragAndDrop(page, firstFaqDragHandle, secondFaqDragHandle);
 
-        // Verify the reorder using shared utility
+        // Verify the reorder using shared utility.
         await verifyReorder(
           page,
           firstQuestion ?? "",
@@ -196,40 +196,40 @@ test.describe(
     test("User can edit existing FAQ entries", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupFaqPage = organizationPage.groupFaqPage;
+      const { groupFaqPage } = organizationPage;
 
-      // Wait for FAQ entries to load completely
+      // Wait for FAQ entries to load completely.
       await page.waitForLoadState("domcontentloaded");
 
       const faqCount = await groupFaqPage.getFaqCount();
 
       if (faqCount > 0) {
-        // Get the original question text
+        // Get the original question text.
         const originalQuestion = await groupFaqPage.getFaqQuestionText(0);
         expect(originalQuestion).toBeTruthy();
 
-        // Expand the FAQ to get the answer text
+        // Expand the FAQ to get the answer text.
         await groupFaqPage.expandFaq(0);
 
-        // Wait for FAQ to be expanded
+        // Wait for FAQ to be expanded.
         await expect(groupFaqPage.getFaqAnswer(0)).toBeVisible();
 
         const originalAnswer = await groupFaqPage.getFaqAnswerText(0);
         expect(originalAnswer).toBeTruthy();
 
-        // Verify edit button is visible and clickable
+        // Verify edit button is visible and clickable.
         const editButton = groupFaqPage.getFaqEditButton(0);
         await expect(editButton).toBeVisible();
         await expect(editButton).toBeEnabled();
 
-        // Test that edit button is clickable (click and verify no errors)
+        // Test that edit button is clickable (click and verify no errors).
         await groupFaqPage.editFaq(0);
 
-        // Verify edit button click was successful (no errors thrown)
-        // Since modal is not implemented yet, we just verify the click worked
+        // Verify edit button click was successful (no errors thrown).
+        // Since modal is not implemented yet, we just verify the click worked.
         await expect(editButton).toBeVisible();
       } else {
-        // Skip test if no FAQ entries available for editing
+        // Skip test if no FAQ entries available for editing.
         test.skip(
           faqCount > 0,
           "No FAQ entries available to test editing functionality"

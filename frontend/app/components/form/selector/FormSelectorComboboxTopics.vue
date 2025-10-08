@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <FormSelectorCombobox
-    @update:selectedOptions="(val: unknown) => handleChange(val as TopicEnum[])"
     :id="id"
-    :options="options"
-    :label="label"
+    @update:selectedOptions="(val: unknown) => handleChange(val as TopicEnum[])"
     :hasColOptions="hasColOptions"
+    :label="label"
+    :options="options"
     :selectedOptions="selectedTopics || []"
   />
 </template>

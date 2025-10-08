@@ -10,7 +10,8 @@ import { getEnglishText } from "~/utils/i18n";
 export class OrganizationGroupEventsPage {
   constructor(private readonly page: Page) {}
 
-  // Header elements
+  // MARK: Header
+
   get newEventButton() {
     return this.page.getByRole("link", { name: /new event/i });
   }
@@ -19,9 +20,10 @@ export class OrganizationGroupEventsPage {
     return this.page.getByRole("button", { name: /subscribe to events/i });
   }
 
-  // Events list and cards
+  // MARK: List and Cards
+
   get eventsList() {
-    return this.page.locator(".space-y-3.py-4"); // Keep as is - CSS class selector
+    return this.page.locator(".space-y-3.py-4");
   }
 
   get eventCards() {
@@ -36,7 +38,8 @@ export class OrganizationGroupEventsPage {
     return this.eventCards.last();
   }
 
-  // Empty state
+  // MARK: Empty State
+
   get emptyState() {
     return this.page.getByTestId("empty-state");
   }
@@ -45,7 +48,7 @@ export class OrganizationGroupEventsPage {
     return this.emptyState.getByRole("heading", { level: 4 }).first();
   }
 
-  // Tab navigation
+  // MARK: Tab Navigation
   get tabs() {
     return this.page.getByRole("tablist");
   }
@@ -74,7 +77,7 @@ export class OrganizationGroupEventsPage {
     });
   }
 
-  // Actions
+  // MARK: Actions
   async clickNewEvent() {
     await this.newEventButton.click();
   }
@@ -129,7 +132,8 @@ export class OrganizationGroupEventsPage {
     return count > 0;
   }
 
-  // Event card interactions
+  // MARK: Card Interactions
+
   getEventCard(index: number) {
     return this.eventCards.nth(index);
   }

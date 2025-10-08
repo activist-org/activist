@@ -115,7 +115,7 @@ export const useGroupStore = defineStore("group", {
           )) as GroupResponse
       );
 
-      // Refresh data if requested (e.g., after mutations)
+      // Refresh data if requested (e.g., after mutations).
       if (refreshData) {
         await refresh();
       }
@@ -157,7 +157,7 @@ export const useGroupStore = defineStore("group", {
           )) as GroupsResponseBody
       );
 
-      // Refresh data if requested (e.g., after mutations)
+      // Refresh data if requested (e.g., after mutations).
       if (refreshData) {
         await refresh();
       }
@@ -390,7 +390,7 @@ export const useGroupStore = defineStore("group", {
       }
     },
 
-    // MARK: Update Link (Individual)
+    // MARK: Update Link
 
     async updateSocialLink(
       group: Group,
@@ -426,7 +426,7 @@ export const useGroupStore = defineStore("group", {
       }
     },
 
-    // MARK: Delete Link (Individual)
+    // MARK: Delete Link
 
     async deleteSocialLink(group: Group, linkId: string) {
       this.loading = true;

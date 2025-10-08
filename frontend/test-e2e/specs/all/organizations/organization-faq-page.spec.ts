@@ -6,7 +6,7 @@ import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
-  // Use shared navigation function that automatically detects platform and uses appropriate navigation
+  // Use shared navigation function that automatically detects platform and uses appropriate navigation.
   await navigateToOrganizationSubpage(page, "faq");
 });
 
@@ -46,21 +46,21 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
 
   test("User can view and interact with FAQ entries", async ({ page }) => {
     const organizationPage = newOrganizationPage(page);
-    const faqPage = organizationPage.faqPage;
+    const { faqPage } = organizationPage;
 
-    // Wait for page to load completely
+    // Wait for page to load completely.
     await page.waitForLoadState("domcontentloaded");
 
-    // Wait for FAQ cards to be visible (since the page should have FAQ entries)
+    // Wait for FAQ cards to be visible (since the page should have FAQ entries).
     await expect(faqPage.faqCards.first()).toBeVisible();
 
-    // Wait for the page to be stable
+    // Wait for the page to be stable.
     await page.waitForLoadState("domcontentloaded");
 
     const faqCount = await faqPage.getFAQCount();
 
     if (faqCount > 0) {
-      // Verify FAQ list and elements are visible
+      // Verify FAQ list and elements are visible.
       await expect(faqPage.faqList).toBeVisible();
       await expect(faqPage.faqCards.first()).toBeVisible();
 
@@ -75,27 +75,27 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
       await expect(firstFAQDragHandle).toBeVisible();
       await expect(firstFAQEditButton).toBeVisible();
 
-      // Test expand/collapse functionality
+      // Test expand/collapse functionality.
       const isInitiallyExpanded = await faqPage.isFAQExpanded(0);
       expect(isInitiallyExpanded).toBe(false);
 
-      // Expand FAQ
+      // Expand FAQ.
       await faqPage.expandFAQ(0);
 
-      // Wait for FAQ to be expanded
+      // Wait for FAQ to be expanded.
       await expect(faqPage.getFAQAnswer(0)).toBeVisible();
 
       const answer = faqPage.getFAQAnswer(0);
       await expect(answer).toBeVisible();
       await expect(answer).toContainText(/.+/);
 
-      // Collapse FAQ
+      // Collapse FAQ.
       await faqPage.expandFAQ(0);
 
-      // Wait for FAQ to be collapsed
+      // Wait for FAQ to be collapsed.
       await expect(faqPage.getFAQAnswer(0)).not.toBeVisible();
     } else {
-      // This should not happen since we expect FAQ entries to be present
+      // This should not happen since we expect FAQ entries to be present.
       throw new Error(
         "Expected FAQ entries to be present, but none were found"
       );
@@ -104,83 +104,83 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
 
   test("User can edit existing FAQ entries", async ({ page }) => {
     const organizationPage = newOrganizationPage(page);
-    const faqPage = organizationPage.faqPage;
+    const { faqPage } = organizationPage;
 
-    // Wait for FAQ entries to load completely
+    // Wait for FAQ entries to load completely.
     await page.waitForLoadState("domcontentloaded");
 
     const faqCount = await faqPage.getFAQCount();
 
     if (faqCount > 0) {
-      // Get the original question text
+      // Get the original question text.
       const originalQuestion = await faqPage.getFAQQuestionText(0);
       expect(originalQuestion).toBeTruthy();
 
-      // Expand the FAQ to get the answer text
+      // Expand the FAQ to get the answer text.
       await faqPage.expandFAQ(0);
 
-      // Wait for FAQ to be expanded
+      // Wait for FAQ to be expanded.
       await expect(faqPage.getFAQAnswer(0)).toBeVisible();
 
       const originalAnswer = await faqPage.getFAQAnswerText(0);
       expect(originalAnswer).toBeTruthy();
 
-      // Click the edit button for the first FAQ
+      // Click the edit button for the first FAQ.
       await faqPage.editFAQ(0);
 
-      // Verify edit modal opens
+      // Verify edit modal opens.
       await expect(faqPage.editFAQModal).toBeVisible();
 
-      // Get the modal and form elements
+      // Get the modal and form elements.
       const editModal = faqPage.editFAQModal;
       const questionInput = faqPage.faqQuestionInput(editModal);
       const answerInput = faqPage.faqAnswerInput(editModal);
       const submitButton = faqPage.faqSubmitButton(editModal);
 
-      // Generate unique test text with timestamp
+      // Generate unique test text with timestamp.
       const timestamp = Date.now();
       const updatedQuestionText = `Updated FAQ Question - Test Edit ${timestamp}`;
       const updatedAnswerText = `Updated FAQ Answer - This is a test edit to verify the functionality works correctly. Timestamp: ${timestamp}`;
 
-      // Clear and update the question
+      // Clear and update the question.
       await questionInput.clear();
       await questionInput.fill(updatedQuestionText);
 
-      // Clear and update the answer
+      // Clear and update the answer.
       await answerInput.clear();
       await answerInput.fill(updatedAnswerText);
 
-      // Submit the form
+      // Submit the form.
       await submitButton.click();
 
-      // Wait for the modal to close and changes to be saved
+      // Wait for the modal to close and changes to be saved.
       await expect(editModal).not.toBeVisible();
       await page.waitForLoadState("domcontentloaded");
 
-      // Verify the changes were persisted
+      // Verify the changes were persisted.
       const updatedQuestion = await faqPage.getFAQQuestionText(0);
       expect(updatedQuestion).toBe(updatedQuestionText);
 
-      // Wait for the FAQ to be ready for interaction after edit
+      // Wait for the FAQ to be ready for interaction after edit.
       await page.waitForLoadState("domcontentloaded");
 
-      // Check if FAQ is already expanded, if not, expand it
+      // Check if FAQ is already expanded, if not, expand it.
       const isAlreadyExpanded = await faqPage.isFAQExpanded(0);
       if (!isAlreadyExpanded) {
         await faqPage.expandFAQ(0);
       }
 
-      // Wait for FAQ to be expanded and answer to be visible
+      // Wait for FAQ to be expanded and answer to be visible.
       await expect(faqPage.getFAQAnswer(0)).toBeVisible();
 
       const updatedAnswer = await faqPage.getFAQAnswerText(0);
       expect(updatedAnswer).toBe(updatedAnswerText);
 
-      // Verify the changes are different from the original
+      // Verify the changes are different from the original.
       expect(updatedQuestion).not.toBe(originalQuestion);
       expect(updatedAnswer).not.toBe(originalAnswer);
     } else {
-      // Skip test if no FAQ entries are available
+      // Skip test if no FAQ entries are available.
       test.skip(faqCount > 0, "No FAQ entries available to test editing");
     }
   });

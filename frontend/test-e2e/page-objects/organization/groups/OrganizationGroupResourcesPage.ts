@@ -10,7 +10,8 @@ import { getEnglishText } from "~/utils/i18n";
 export class OrganizationGroupResourcesPage {
   constructor(private readonly page: Page) {}
 
-  // Header elements
+  // MARK: Header
+
   get newResourceButton() {
     return this.page.getByRole("button", {
       name: new RegExp(
@@ -20,7 +21,8 @@ export class OrganizationGroupResourcesPage {
     });
   }
 
-  // Resource list elements
+  // MARK: Resource List
+
   get resourcesList() {
     return this.page.getByTestId("organization-group-resources-list");
   }
@@ -37,7 +39,8 @@ export class OrganizationGroupResourcesPage {
     return this.resourceCards.last();
   }
 
-  // Individual resource card elements
+  // MARK: Resource Card
+
   getResourceCard(index: number) {
     return this.page.getByTestId("resource-card").nth(index);
   }
@@ -70,7 +73,8 @@ export class OrganizationGroupResourcesPage {
       .getByRole("heading", { level: 3 });
   }
 
-  // Resource menu interactions
+  // MARK: Resource Menu
+
   getResourceMenuButton(index: number) {
     return this.page
       .getByTestId("resource-card")
@@ -102,7 +106,8 @@ export class OrganizationGroupResourcesPage {
       .getByTestId("icon-edit");
   }
 
-  // Empty state
+  // MARK: Empty State
+
   get emptyState() {
     return this.page.getByTestId("empty-state");
   }
@@ -111,7 +116,7 @@ export class OrganizationGroupResourcesPage {
     return this.emptyState.getByRole("heading", { level: 4 }).first();
   }
 
-  // Modal elements (opened by new resource button)
+  // Modal elements (opened by new resource button).
   get resourceModal() {
     return this.page.getByTestId("modal-ModalResourceGroup");
   }
@@ -120,7 +125,7 @@ export class OrganizationGroupResourcesPage {
     return this.resourceModal.getByTestId("modal-close-button");
   }
 
-  // Edit modal elements (opened by edit button)
+  // Edit modal elements (opened by edit button).
   get editResourceModal() {
     return this.page.getByTestId("modal-ModalResourceGroup");
   }
@@ -129,7 +134,7 @@ export class OrganizationGroupResourcesPage {
     return this.editResourceModal.getByTestId("modal-close-button");
   }
 
-  // Form elements within edit modal (using specific IDs from the form)
+  // Form elements within edit modal (using specific IDs from the form).
   getResourceNameInput(modal: Locator) {
     return modal.getByRole("textbox", {
       name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
@@ -186,7 +191,7 @@ export class OrganizationGroupResourcesPage {
     });
   }
 
-  // Actions
+  // MARK: Actions
   async clickNewResource() {
     await this.newResourceButton.click();
   }
@@ -231,7 +236,8 @@ export class OrganizationGroupResourcesPage {
     await this.page.waitForURL(/.*\/groups\/.*\/faq/);
   }
 
-  // Verification methods
+  // MARK: Verification
+
   async getResourceCount() {
     return await this.resourceCards.count();
   }
@@ -253,7 +259,8 @@ export class OrganizationGroupResourcesPage {
     return count > 0;
   }
 
-  // Resource content methods
+  // MARK: Resource Content
+
   async getResourceTitleText(index: number) {
     return await this.getResourceTitle(index).textContent();
   }
@@ -263,7 +270,8 @@ export class OrganizationGroupResourcesPage {
     return await link.getAttribute("href");
   }
 
-  // Drag and drop methods
+  // MARK: Drag and Drop
+
   async dragResourceToPosition(fromIndex: number, toIndex: number) {
     const sourceHandle = this.getResourceDragHandle(fromIndex);
     const targetHandle = this.getResourceDragHandle(toIndex);
@@ -277,12 +285,12 @@ export class OrganizationGroupResourcesPage {
       const endX = targetBox.x + targetBox.width / 2;
       const endY = targetBox.y + targetBox.height / 2;
 
-      // Simulate drag with mouse events
+      // Simulate drag with mouse events.
       await this.page.mouse.move(startX, startY);
       await this.page.mouse.down();
       await this.page.waitForTimeout(100);
 
-      // Move to target with intermediate steps
+      // Move to target with intermediate steps.
       const steps = 5;
       for (let i = 1; i <= steps; i++) {
         const progress = i / steps;

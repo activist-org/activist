@@ -4,7 +4,8 @@ import type { Page } from "@playwright/test";
 import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationGroupsPage = (page: Page) => ({
-  // Header action buttons
+  // MARK: Header Action
+
   newGroupButton: page.getByRole("link", {
     name: new RegExp(
       getEnglishText(
@@ -14,11 +15,13 @@ export const newOrganizationGroupsPage = (page: Page) => ({
     ),
   }),
 
-  // Groups list elements
+  // MARK: Groups List
+
   groupsList: page.getByTestId("organization-groups-list"),
   groupCards: page.getByTestId("group-card"),
 
-  // Individual group card elements
+  // MARK: Group Card
+
   getGroupCard: (index: number) => page.getByTestId("group-card").nth(index),
   getGroupTitle: (index: number) =>
     page.getByTestId("group-card").nth(index).getByTestId("group-title"),
@@ -29,9 +32,10 @@ export const newOrganizationGroupsPage = (page: Page) => ({
   getGroupEntityName: (index: number) =>
     page.getByTestId("group-card").nth(index).getByTestId("group-entity-name"),
   getGroupLocation: (index: number) =>
-    page.getByTestId("group-card").nth(index).locator("[class*='location']"), // Keep as is - CSS class selector
+    page.getByTestId("group-card").nth(index).locator("[class*='location']"),
 
-  // Group menu interactions
+  // MARK: Group Menu
+
   getGroupMenuButton: (index: number) =>
     page.getByTestId("group-card").nth(index).getByTestId("menu-button"),
   getGroupMenuTooltip: (index: number) =>
@@ -44,11 +48,13 @@ export const newOrganizationGroupsPage = (page: Page) => ({
         name: new RegExp(getEnglishText("i18n._global.share"), "i"),
       }),
 
-  // Empty state
-  emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(), // Keep as is - generic text selector
+  // MARK: Empty State
 
-  // Utility methods
+  emptyState: page.getByTestId("empty-state"),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(),
+
+  // MARK: Utility
+
   getGroupCount: async () => {
     try {
       return await page.getByTestId("group-card").count();

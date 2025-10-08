@@ -1,17 +1,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardSearchResultEntity
-    data-testid="group-card"
-    :title="group.name"
-    :description="description"
-    :linkUrl="linkUrl"
     :ariaLabel="ariaLabel"
-    :imageUrl="imageUrl"
-    :imageAlt="imageAlt"
-    :iconName="defaultIconName"
+    data-testid="group-card"
+    :description="description"
     :entityName="group.groupName"
+    :iconName="defaultIconName"
+    :imageAlt="imageAlt"
+    :imageUrl="imageUrl"
     :isExternalLink="false"
     :isReduced="isReduced"
+    :linkUrl="linkUrl"
+    :title="group.name"
   >
     <template #menu>
       <MenuSearchResult

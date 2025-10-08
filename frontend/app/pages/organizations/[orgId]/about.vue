@@ -11,14 +11,14 @@
         <div class="flex space-x-2 lg:space-x-3">
           <BtnRouteExternal
             v-if="organization.getInvolvedUrl"
+            ariaLabel="i18n._global.join_organization_aria_label"
             class="w-max"
             :cta="true"
-            :linkTo="organization.getInvolvedUrl"
-            label="i18n._global.join_organization"
             fontSize="sm"
-            :rightIcon="IconMap.ARROW_RIGHT"
             iconSize="1.45em"
-            ariaLabel="i18n._global.join_organization_aria_label"
+            label="i18n._global.join_organization"
+            :linkTo="organization.getInvolvedUrl"
+            :rightIcon="IconMap.ARROW_RIGHT"
           />
           <!-- <BtnAction
           class="w-max"
@@ -33,14 +33,14 @@
           <BtnAction
             @click="openModalSharePage()"
             @keydown.enter="openModalSharePage()"
+            ariaLabel="i18n._global.share_organization_aria_label"
             class="w-max"
             :cta="true"
-            :label="shareButtonLabel"
-            :hideLabelOnMobile="false"
             fontSize="sm"
-            :rightIcon="IconMap.SHARE"
+            :hideLabelOnMobile="false"
             iconSize="1.45em"
-            ariaLabel="i18n._global.share_organization_aria_label"
+            :label="shareButtonLabel"
+            :rightIcon="IconMap.SHARE"
           />
         </div>
         <ModalSharePage :cta="true" :organization="organization" />
@@ -64,8 +64,8 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :entityType="'organization' as EntityType"
             :entityId="organization.id"
+            :entityType="'organization' as EntityType"
             :images="organization.images || []"
           />
         </div>

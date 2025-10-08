@@ -2,12 +2,13 @@
 <template>
   <RadioGroup
     v-model="value"
-    class="flex h-10 w-full px-1"
     :aria-label="$t('i18n.components.form_selector_radio.title_aria_label')"
+    class="flex h-10 w-full px-1"
   >
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
+      :aria-label="$t(option.aria_label)"
       class="flex flex-1 cursor-pointer items-center justify-center rounded-none"
       :class="[
         {
@@ -23,13 +24,12 @@
       ]"
       :name="option.label || ''"
       :value="option.value"
-      :aria-label="$t(option.aria_label)"
     >
       <Icon
         v-if="option.isIcon"
-        :name="option.content as string"
-        class="h-6 w-6"
         :aria-hidden="true"
+        class="h-6 w-6"
+        :name="option.content as string"
       />
       <span v-else class="text-sm font-medium" :class="option.class">
         {{ option.content }}

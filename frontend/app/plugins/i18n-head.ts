@@ -17,9 +17,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   const initialLocale = $i18n?.locale?.value || "en";
   setLangAttribute(initialLocale);
 
-  // Ensure lang attribute is set even if initial setting fails
+  // Ensure lang attribute is set even if initial setting fails.
   if (import.meta.client) {
-    // Use nextTick to ensure DOM is ready
+    // Use nextTick to ensure DOM is ready.
     nextTick(() => {
       if (!document.documentElement.getAttribute("lang")) {
         setLangAttribute(initialLocale);
@@ -29,7 +29,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Update on route changes.
   router.afterEach((_to) => {
-    // Only use the i18n locale value, never use route params
+    // Only use the i18n locale value, never use route params.
     const locale = $i18n?.locale?.value || "en";
     setLangAttribute(locale);
   });

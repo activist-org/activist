@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div data-testid="card-about" class="card-style px-5 py-5">
+  <div class="card-style px-5 py-5" data-testid="card-about">
     <div class="relative flex flex-col lg:flex-row">
       <slot />
     </div>

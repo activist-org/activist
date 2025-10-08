@@ -16,38 +16,32 @@ export async function signInAsAdmin(
   password: string = "admin",
   skipNavigation: boolean = false
 ) {
-  // Navigate to sign-in page if not already there
+  // Navigate to sign-in page if not already there.
   if (!skipNavigation) {
     await page.goto("/auth/sign-in");
   }
 
   const signInPage = newSignInPage(page);
 
-  // Wait for page to be ready
+  // Wait for page to be ready and fill credentials.
   await signInPage.usernameInput.waitFor({ state: "visible", timeout: 30000 });
-
-  // Fill credentials
   await signInPage.usernameInput.fill(username);
   await signInPage.passwordInput.fill(password);
-
-  // Wait a moment for form to be ready
   await page.waitForTimeout(500);
 
-  // Click CAPTCHA if present
-  const captcha = signInPage.captcha;
+  // Click CAPTCHA if present.
+  const { captcha } = signInPage;
   try {
     if (await captcha.isVisible({ timeout: 2000 })) {
       await captcha.click();
       await page.waitForTimeout(500);
     }
   } catch {
-    // CAPTCHA not present, continue
+    // CAPTCHA not present, continue.
   }
 
-  // Submit form
+  // Submit form and wait for successful navigation to home page with explicit timeout.
   await signInPage.signInButton.click();
-
-  // Wait for successful navigation to home page with explicit timeout
   await page.waitForURL("**/home", { timeout: 60000 });
 }
 
@@ -64,23 +58,21 @@ export async function signIn(
   password: string,
   expectedRedirect: string = "**/home"
 ) {
-  // Navigate to sign-in page
+  // Navigate to sign-in page.
   await page.goto("/auth/sign-in");
-  const signInPage = newSignInPage(page);
 
-  // Fill credentials
+  // Wait for page to be ready and fill credentials.
+  const signInPage = newSignInPage(page);
   await signInPage.usernameInput.fill(username);
   await signInPage.passwordInput.fill(password);
 
-  // Click CAPTCHA if present
-  const captcha = signInPage.captcha;
+  // Click CAPTCHA if present.
+  const { captcha } = signInPage;
   if (await captcha.isVisible()) {
     await captcha.click();
   }
 
-  // Submit form
+  // Submit form and wait for successful navigation.
   await signInPage.signInButton.click();
-
-  // Wait for successful navigation
   await page.waitForURL(expectedRedirect);
 }

@@ -15,21 +15,21 @@
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
           v-if="organization.groups && organization.groups.length > 0"
-          :cta="true"
-          :linkTo="'/organizations/' + orgId + '/groups'"
-          label="i18n.components.card_get_involved_organization.view_all_groups"
-          fontSize="sm"
           ariaLabel="i18n.components.card_get_involved_organization.view_all_groups_aria_label"
+          :cta="true"
+          fontSize="sm"
+          label="i18n.components.card_get_involved_organization.view_all_groups"
+          :linkTo="'/organizations/' + orgId + '/groups'"
         />
         <BtnRouteInternal
           v-if="organization && organization.getInvolvedUrl"
-          :cta="true"
-          :linkTo="organization.getInvolvedUrl"
-          label="i18n._global.join_organization"
-          fontSize="sm"
-          :rightIcon="IconMap.ARROW_RIGHT"
-          iconSize="1.45em"
           ariaLabel="i18n._global.join_organization_aria_label"
+          :cta="true"
+          fontSize="sm"
+          iconSize="1.45em"
+          label="i18n._global.join_organization"
+          :linkTo="organization.getInvolvedUrl"
+          :rightIcon="IconMap.ARROW_RIGHT"
         />
       </div>
     </div>

@@ -2,14 +2,14 @@
 <template>
   <textarea
     :id="id"
-    :placeholder="placeholder"
-    rows="5"
-    role="textbox"
     class="box-content flex items-center space-x-2 rounded border bg-transparent py-2 pl-[12px] pr-[10px] text-left placeholder-primary-text outline-none"
     :class="{
       'border-action-red dark:border-action-red': hasError,
       'border-interactive': !hasError,
     }"
+    :placeholder="placeholder"
+    role="textbox"
+    rows="5"
   />
 </template>
 

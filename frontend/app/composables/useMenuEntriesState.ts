@@ -21,7 +21,7 @@ const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
     iconUrl,
     selected,
     id,
-    basePath, // Add basePath so we can reconstruct the URL later
+    basePath, // add basePath so we can reconstruct the URL later
   };
 };
 
@@ -97,7 +97,7 @@ const useMenuEntriesState = () => {
       ? organizationEntries
       : eventEntries;
 
-    // Update the id and routeUrl for each button based on current route params
+    // Update the id and routeUrl for each button based on current route params.
     const currentId = (router.currentRoute.value.params.groupId ||
       router.currentRoute.value.params.orgId ||
       router.currentRoute.value.params.eventId ||
@@ -105,7 +105,7 @@ const useMenuEntriesState = () => {
 
     for (const button of buttons.value) {
       button.selected = false;
-      // Update the id and routeUrl to reflect current route params
+      // Update the id and routeUrl to reflect current route params.
       button.id = currentId;
       button.routeUrl = `/${locale.value}/${button.basePath}/${currentId}/${button.label
         .split(".")
@@ -128,8 +128,8 @@ const useMenuEntriesState = () => {
     }
   };
 
-  // Call updateCurrentPath immediately to set initial selected state
-  // This ensures selectedMenuItem is set before components try to access it
+  // Call updateCurrentPath immediately to set initial selected state.
+  // This ensures selectedMenuItem is set before components try to access it.
   updateCurrentPath();
 
   onMounted(() => {

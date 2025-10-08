@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <TooltipBase
-    :text="$t('i18n.components.tooltip_discussion_warning.text')"
     class="w-fit md:right-0"
+    :text="$t('i18n.components.tooltip_discussion_warning.text')"
   >
     <ul class="w-72 list-disc space-y-1 pl-6 text-left md:w-96">
       <li>{{ $t("i18n.components.tooltip_discussion_warning.names") }}</li>

@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <svg
-    width="16"
+    fill="currentColor"
     height="16"
     viewBox="0 0 16 16"
+    width="16"
     xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
   >
     <g clip-path="url(#clip0_5138_33028)">
       <path
@@ -14,7 +14,7 @@
     </g>
     <defs>
       <clipPath id="clip0_5138_33028">
-        <rect width="16" height="16" />
+        <rect height="16" width="16" />
       </clipPath>
     </defs>
   </svg>

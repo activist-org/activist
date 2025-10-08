@@ -2,8 +2,8 @@
 <template>
   <Form
     @submit="handleSubmit"
-    :schema="schema"
     :initial-values="formData as undefined"
+    :schema="schema"
     :submit-label="$t(submitLabel)"
   >
     <h2 v-if="title">
@@ -17,12 +17,12 @@
         <draggable
           v-model="socialLinks"
           @end="handleReindex"
-          item-key="key"
-          tag="div"
-          class="flex flex-col space-y-3"
           animation="300"
+          class="flex flex-col space-y-3"
           ghost-class="opacity-0"
           :handle="'.drag-handle'"
+          item-key="key"
+          tag="div"
         >
           <template #item="{ index }">
             <div
@@ -30,10 +30,10 @@
               :data-testid="`social-link-entry-${index}`"
             >
               <Icon
+                :aria-label="$t('i18n.components._global.draggable_element')"
                 class="drag-handle -mr-2 cursor-grab select-none"
                 :name="IconMap.GRIP"
                 size="1em"
-                :aria-label="$t('i18n.components._global.draggable_element')"
               />
               <IconClose
                 @click="handleRemoveByIndex(index)"
@@ -41,12 +41,13 @@
               />
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-                :name="`socialLinks.${index}.label`"
                 :label="$t('i18n.components.form_social_link.new_link_label')"
+                :name="`socialLinks.${index}.label`"
                 :required="true"
               >
                 <!-- prettier-ignore-attribute :modelValue -->
                 <FormTextInput
+                  :id="id"
                   @blur="handleBlur"
                   @update:modelValue="
                     (val: string) => {
@@ -54,21 +55,21 @@
                       updateLocalValueAt(index, 'label', val);
                     }
                   "
-                  :id="id"
-                  :hasError="!!errorMessage.value"
-                  :modelValue="(value.value as string)"
-                  :label="$t('i18n.components.form_social_link.new_link_label')"
                   :data-testid="`social-link-label-${index}`"
+                  :hasError="!!errorMessage.value"
+                  :label="$t('i18n.components.form_social_link.new_link_label')"
+                  :modelValue="(value.value as string)"
                 />
               </FormItem>
               <FormItem
                 v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-                :name="`socialLinks.${index}.link`"
                 :label="$t('i18n.components.form_social_link.new_link_url')"
+                :name="`socialLinks.${index}.link`"
                 :required="true"
               >
                 <!-- prettier-ignore-attribute :modelValue -->
                 <FormTextInput
+                  :id="id"
                   @blur="handleBlur"
                   @update:modelValue="
                     (val: string) => {
@@ -76,11 +77,10 @@
                       updateLocalValueAt(index, 'link', val);
                     }
                   "
-                  :id="id"
-                  :hasError="!!errorMessage.value"
-                  :modelValue="(value.value as string)"
-                  :label="$t('i18n.components.form_social_link.new_link_url')"
                   :data-testid="`social-link-url-${index}`"
+                  :hasError="!!errorMessage.value"
+                  :label="$t('i18n.components.form_social_link.new_link_url')"
+                  :modelValue="(value.value as string)"
                 />
               </FormItem>
             </div>
@@ -90,10 +90,10 @@
       <div class="flex space-x-2">
         <BtnAction
           @click="addNewLink()"
-          :cta="true"
-          label="i18n.components.form_social_link.add_link"
-          fontSize="base"
           ariaLabel="i18n.components.form_social_link.add_link_aria_label"
+          :cta="true"
+          fontSize="base"
+          label="i18n.components.form_social_link.add_link"
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <CardConnect :socialLinks="socialLinks" pageType="group" />
+  <CardConnect pageType="group" :socialLinks="socialLinks" />
 </template>
 
 <script setup lang="ts">
@@ -13,6 +13,6 @@ const groupStore = useGroupStore();
 await groupStore.fetchById(groupId);
 const { group } = storeToRefs(groupStore);
 
-// Use computed to ensure social links are reactive to store changes
+// Use computed to ensure social links are reactive to store changes.
 const socialLinks = computed(() => group.value.socialLinks);
 </script>

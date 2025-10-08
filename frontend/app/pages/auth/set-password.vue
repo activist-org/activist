@@ -3,21 +3,21 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form class="space-y-4">
       <FormTextInput
-        @input="userName = $event.target.value"
         id="set-password-username"
-        :value="userName"
-        :label="$t('i18n.pages.auth._global.enter_a_user_name')"
+        @input="userName = $event.target.value"
         :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
+        :label="$t('i18n.pages.auth._global.enter_a_user_name')"
+        :value="userName"
       />
       <FormTextInputPassword
-        @input="handlePasswordInput"
+        id="set-password-password"
         @blur="isPasswordFocused = false"
         @focus="isPasswordFocused = true"
-        id="set-password-password"
-        :value="password"
-        :label="$t('i18n._global.enter_password')"
+        @input="handlePasswordInput"
         :data-testid="$t('i18n._global.enter_password')"
         :hasError="showPasswordError.border"
+        :label="$t('i18n._global.enter_password')"
+        :value="password"
       />
       <IndicatorPasswordStrength :password-value="password" />
       <!-- <TooltipPasswordRequirements
@@ -25,20 +25,20 @@
         :rules="rules"
       /> -->
       <FormTextInputPassword
-        @input="confirmPassword = $event.target.value"
         id="set-password-confirm-password"
-        :value="confirmPassword"
-        :label="$t('i18n._global.repeat_password')"
+        @input="confirmPassword = $event.target.value"
         :data-testid="$t('i18n._global.repeat_password')"
+        :label="$t('i18n._global.repeat_password')"
+        :value="confirmPassword"
       >
         <template #icons>
           <span>
             <Icon
-              :name="doPasswordsMatch ? IconMap.CHECK : IconMap.X_LG"
-              size="1.2em"
-              :color="doPasswordsMatch ? '#3BA55C' : '#BA3D3B'"
               aria-hidden="false"
               aria-labelledby="set-password-confirm-password-match"
+              :color="doPasswordsMatch ? '#3BA55C' : '#BA3D3B'"
+              :name="doPasswordsMatch ? IconMap.CHECK : IconMap.X_LG"
+              size="1.2em"
             />
             <title id="set-password-confirm-password-match" class="sr-only">
               {{
@@ -52,11 +52,11 @@
       </FormTextInputPassword>
       <div class="pt-4">
         <BtnAction
+          ariaLabel="i18n.pages.auth.set_password.set_password"
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
-          label="i18n.pages.auth.set_password.set_password"
           :cta="true"
           fontSize="lg"
-          ariaLabel="i18n.pages.auth.set_password.set_password"
+          label="i18n.pages.auth.set_password.set_password"
         />
       </div>
     </form>

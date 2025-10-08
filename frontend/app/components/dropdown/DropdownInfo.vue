@@ -1,10 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DropdownBase
+    :isMenuButtonUppercase="false"
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_INFO"
     :menuButtonLabel="$t('i18n.components.dropdown_info.info')"
-    :isMenuButtonUppercase="false"
     menuButtonAriaLabel="i18n.components.dropdown_info.info_aria_label"
   >
     <DropdownItemsLayout :location="location" :options="infoOptions" />

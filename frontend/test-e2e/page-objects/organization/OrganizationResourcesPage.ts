@@ -4,7 +4,8 @@ import type { Locator, Page } from "@playwright/test";
 import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationResourcesPage = (page: Page) => ({
-  // New resource button
+  // MARK: New Resource
+
   newResourceButton: page.getByRole("button", {
     name: new RegExp(
       getEnglishText("i18n.pages._global.resources.new_resource_aria_label"),
@@ -12,11 +13,13 @@ export const newOrganizationResourcesPage = (page: Page) => ({
     ),
   }),
 
-  // Resource list elements
+  // MARK: Resource List
+
   resourcesList: page.getByTestId("organization-resources-list"),
   resourceCards: page.getByTestId("resource-card"),
 
-  // Individual resource card elements
+  // MARK: Resource Card
+
   getResourceCard: (index: number) =>
     page.getByTestId("resource-card").nth(index),
   getResourceDragHandle: (index: number) =>
@@ -29,7 +32,8 @@ export const newOrganizationResourcesPage = (page: Page) => ({
   getResourceIcon: (index: number) =>
     page.getByTestId("resource-card").nth(index).getByTestId("resource-icon"),
 
-  // Resource menu interactions
+  // MARK: Resource Menu
+
   getResourceMenuButton: (index: number) =>
     page.getByTestId("resource-card").nth(index).getByTestId("menu-button"),
   getResourceMenuTooltip: (index: number) =>
@@ -45,21 +49,22 @@ export const newOrganizationResourcesPage = (page: Page) => ({
   getResourceEditButton: (index: number) =>
     page.getByTestId("resource-card").nth(index).getByTestId("icon-edit"),
 
-  // Empty state
-  emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(), // Keep as is - generic text selector
+  // MARK: Empty State
 
-  // Modal elements (opened by new resource button)
-  resourceModal: page.locator("#modal").first(), // Keep as is - generic modal selector
+  emptyState: page.getByTestId("empty-state"),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(),
+
+  // Modal elements (opened by new resource button).
+  resourceModal: page.locator("#modal").first(),
   resourceModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
 
-  // Edit modal elements (opened by edit button)
-  editResourceModal: page.locator("#modal").first(), // Keep as is - generic modal selector
+  // Edit modal elements (opened by edit button).
+  editResourceModal: page.locator("#modal").first(),
   editResourceModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
 
-  // Form elements within edit modal (using specific IDs from the form)
+  // Form elements within edit modal (using specific IDs from the form).
   resourceNameInput: (modal: Locator) =>
     modal.getByRole("textbox", {
       name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
@@ -80,7 +85,8 @@ export const newOrganizationResourcesPage = (page: Page) => ({
       name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
     }),
 
-  // Utility methods
+  // MARK: Utility
+
   getResourceCount: async () => {
     try {
       return await page.getByTestId("resource-card").count();

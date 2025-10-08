@@ -6,7 +6,7 @@ import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
-  // Use shared navigation function that automatically detects platform and uses appropriate navigation
+  // Use shared navigation function that automatically detects platform and uses appropriate navigation.
   await navigateToOrganizationSubpage(page, "groups");
 });
 
@@ -49,12 +49,12 @@ test.describe(
 
     test("User can view organization groups", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
-      const groupsPage = organizationPage.groupsPage;
+      const { groupsPage } = organizationPage;
 
-      // Wait for groups to load completely
+      // Wait for groups to load completely.
       await page.waitForLoadState("domcontentloaded");
 
-      // Wait for either groups or empty state to appear
+      // Wait for either groups or empty state to appear.
       await expect(async () => {
         const groupsListVisible = await groupsPage.groupsList
           .isVisible()
@@ -65,15 +65,15 @@ test.describe(
         expect(groupsListVisible || emptyStateVisible).toBe(true);
       }).toPass({ timeout: 10000 });
 
-      // Check if groups exist or empty state is shown
+      // Check if groups exist or empty state is shown.
       const groupCount = await groupsPage.getGroupCount();
 
       if (groupCount > 0) {
-        // Verify groups list is visible
+        // Verify groups list is visible.
         await expect(groupsPage.groupsList).toBeVisible();
         await expect(groupsPage.groupCards.first()).toBeVisible();
 
-        // Verify first group has required elements
+        // Verify first group has required elements.
         const firstGroupCard = groupsPage.getGroupCard(0);
         await expect(firstGroupCard).toBeVisible();
 
@@ -84,17 +84,17 @@ test.describe(
         await expect(firstGroupLink).toBeVisible();
         await expect(firstGroupLink).toHaveAttribute("href", /.+/);
 
-        // Verify group description exists and has content (if any)
+        // Verify group description exists and has content (if any).
         const firstGroupDescription = groupsPage.getGroupDescription(0);
         await expect(firstGroupDescription).toBeAttached();
 
-        // Check if description has content, and if so, verify it's visible
+        // Check if description has content, and if so, verify it's visible.
         const descriptionText = await firstGroupDescription.textContent();
         if (descriptionText && descriptionText.trim()) {
           await expect(firstGroupDescription).toBeVisible();
         }
       } else {
-        // Verify empty state is shown when no groups
+        // Verify empty state is shown when no groups.
         await expect(groupsPage.emptyState).toBeVisible();
         await expect(groupsPage.emptyStateMessage).toBeVisible();
       }
@@ -102,70 +102,70 @@ test.describe(
 
     test("User can navigate to individual groups", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
-      const groupsPage = organizationPage.groupsPage;
+      const { groupsPage } = organizationPage;
 
-      // Wait for groups to load completely
+      // Wait for groups to load completely.
       await page.waitForLoadState("domcontentloaded");
 
       const groupCount = await groupsPage.getGroupCount();
 
       if (groupCount > 0) {
-        // Get the first group link URL before clicking
+        // Get the first group link URL before clicking.
         const firstGroupLink = groupsPage.getGroupLink(0);
         const groupUrl = await firstGroupLink.getAttribute("href");
 
         expect(groupUrl).toBeTruthy();
         expect(groupUrl).toMatch(/\/organizations\/.+\/groups\/.+/);
 
-        // Click the group to navigate to it
+        // Click the group to navigate to it.
         await groupsPage.navigateToGroup(0);
 
-        // Verify we navigated to the group page
+        // Verify we navigated to the group page.
         await expect(page).toHaveURL(new RegExp(groupUrl!));
       } else {
-        // Skip test if no groups are available
+        // Skip test if no groups are available.
         test.skip(groupCount > 0, "No groups available to test navigation");
       }
     });
 
     test("User can share organization groups", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
-      const groupsPage = organizationPage.groupsPage;
+      const { groupsPage } = organizationPage;
 
       const groupCount = await groupsPage.getGroupCount();
 
       if (groupCount > 0) {
-        // Open the tooltip menu for the first group
+        // Open the tooltip menu for the first group.
         const menuButton = groupsPage.getGroupMenuButton(0);
         await expect(menuButton).toBeVisible();
         await menuButton.click();
 
-        // Verify tooltip menu appears
+        // Verify tooltip menu appears.
         const menuTooltip = groupsPage.getGroupMenuTooltip(0);
         await expect(menuTooltip).toBeVisible();
 
-        // Verify share button exists and is clickable
+        // Verify share button exists and is clickable.
         const shareButton = groupsPage.getGroupShareButton(0);
         await expect(shareButton).toBeVisible();
         await expect(shareButton).toBeEnabled();
 
-        // Click share button to open share modal
+        // Click share button to open share modal.
         await shareButton.click();
 
-        // Verify share modal opens
+        // Verify share modal opens.
         await expect(organizationPage.shareModal.modal).toBeVisible();
 
-        // Close the modal
+        // Close the modal.
         const closeButton = organizationPage.shareModal.closeButton(
           organizationPage.shareModal.modal
         );
         await expect(closeButton).toBeVisible();
         await closeButton.click();
 
-        // Verify modal closes
+        // Verify modal closes.
         await expect(organizationPage.shareModal.modal).not.toBeVisible();
       } else {
-        // Skip test if no groups are available
+        // Skip test if no groups are available.
         test.skip(groupCount > 0, "No groups available to test sharing");
       }
     });

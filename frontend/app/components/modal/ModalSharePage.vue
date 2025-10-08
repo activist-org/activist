@@ -16,121 +16,121 @@
           class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8"
         >
           <BtnShareIcon
-            type="redirect"
             :iconName="IconMap.SIGNAL"
-            :text="$t('i18n.components.modal_share_page.signal')"
             iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
-            redirect-link="https://signal.me/#p"
+            :native-behavior-options="nativeBehaviorOptions"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_signal')
             "
+            redirect-link="https://signal.me/#p"
+            :share-options="shareOptions"
+            :text="$t('i18n.components.modal_share_page.signal')"
+            type="redirect"
+            :urlLink="getCurrentUrl()"
+            :use-native-behavior="useNativeBehavior"
+            :window-features="windowFeatures"
           />
 
           <BtnShareIcon
-            type="vueSocials"
-            social-component="SMastodon"
             :iconName="IconMap.MASTODON"
-            :text="$t('i18n.components.modal_share_page.mastodon')"
             iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_mastodon')
             "
+            :share-options="shareOptions"
+            social-component="SMastodon"
+            :text="$t('i18n.components.modal_share_page.mastodon')"
+            type="vueSocials"
+            :use-native-behavior="useNativeBehavior"
+            :window-features="windowFeatures"
           />
 
           <BtnShareIcon
-            type="redirect"
             :iconName="IconMap.MATRIX"
-            :text="$t('i18n.components._global.matrix')"
             iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
-            redirect-link="https://matrix.to/#/#activist_community:matrix.org"
+            :native-behavior-options="nativeBehaviorOptions"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_matrix')
             "
+            redirect-link="https://matrix.to/#/#activist_community:matrix.org"
+            :share-options="shareOptions"
+            :text="$t('i18n.components._global.matrix')"
+            type="redirect"
+            :urlLink="getCurrentUrl()"
+            :use-native-behavior="useNativeBehavior"
+            :window-features="windowFeatures"
           />
 
           <ModalQRCodeBtn
             v-if="organization"
             :organization="organization"
-            type="meta-tag"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="group"
             :group="group"
-            type="meta-tag"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="event"
             :event="event"
-            type="meta-tag"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="resource"
-            :resource="resource"
-            type="meta-tag"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            :resource="resource"
+            type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="user"
-            :user="user"
-            type="meta-tag"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            type="meta-tag"
+            :user="user"
           />
 
           <BtnShareIcon
-            type="vueSocials"
-            social-component="SEmail"
             :iconName="IconMap.ENVELOPE"
-            text="Email"
             iconSize="1.5em"
-            :share-options="shareOptions"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_email')
             "
+            :share-options="shareOptions"
+            social-component="SEmail"
+            text="Email"
+            type="vueSocials"
           />
 
           <BtnShareIcon
-            type="redirect"
             :iconName="IconMap.LINK"
-            :text="$t('i18n.components.modal_share_page.copy_link')"
             iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
+            :native-behavior-options="nativeBehaviorOptions"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_link')
             "
+            :share-options="shareOptions"
+            :text="$t('i18n.components.modal_share_page.copy_link')"
+            type="redirect"
+            :urlLink="getCurrentUrl()"
+            :use-native-behavior="useNativeBehavior"
+            :window-features="windowFeatures"
           />
         </div>
       </div>
@@ -142,70 +142,70 @@
           class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
         >
           <BtnShareIcon
-            type="vueSocials"
-            social-component="STelegram"
             :iconName="IconMap.TELEGRAM"
+            iconSize="1.5em"
+            :native-behavior-options="nativeBehaviorOptions"
+            reason-for-suggesting=""
+            :share-options="shareOptions"
+            social-component="STelegram"
             :text="$t('i18n.components.modal_share_page.telegram')"
-            iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
+            type="vueSocials"
             :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            reason-for-suggesting=""
+            :window-features="windowFeatures"
           />
 
           <BtnShareIcon
-            type="redirect"
             :iconName="IconMap.INSTAGRAM"
-            :text="$t('i18n.components._global.instagram')"
             iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            :urlLink="getCurrentUrl()"
             :name="getCurrentName()"
+            :native-behavior-options="nativeBehaviorOptions"
+            reason-for-suggesting=""
             redirect-link="https://instagram.com"
-            reason-for-suggesting=""
+            :share-options="shareOptions"
+            :text="$t('i18n.components._global.instagram')"
+            type="redirect"
+            :urlLink="getCurrentUrl()"
+            :use-native-behavior="useNativeBehavior"
+            :window-features="windowFeatures"
           />
 
           <BtnShareIcon
-            type="vueSocials"
-            social-component="SFacebookMessenger"
             :iconName="IconMap.MESSENGER"
+            iconSize="1.5em"
+            :native-behavior-options="nativeBehaviorOptions"
+            reason-for-suggesting=""
+            :share-options="shareOptions"
+            social-component="SFacebookMessenger"
             :text="$t('i18n.components.modal_share_page.messenger')"
-            iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
+            type="vueSocials"
             :use-native-behavior="useNativeBehavior"
-            :native-behavior-options="nativeBehaviorOptions"
-            reason-for-suggesting=""
+            :window-features="windowFeatures"
           />
 
           <BtnShareIcon
-            type="vueSocials"
-            social-component="SFacebook"
             :iconName="IconMap.FACEBOOK"
-            :text="$t('i18n.components.modal_share_page.facebook')"
             iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
             reason-for-suggesting=""
+            :share-options="shareOptions"
+            social-component="SFacebook"
+            :text="$t('i18n.components.modal_share_page.facebook')"
+            type="vueSocials"
+            :use-native-behavior="useNativeBehavior"
+            :window-features="windowFeatures"
           />
 
           <BtnShareIcon
-            type="vueSocials"
-            social-component="STwitter"
             :iconName="IconMap.TWITTER"
-            :text="$t('i18n.components.modal_share_page.twitter')"
             iconSize="1.5em"
-            :window-features="windowFeatures"
-            :share-options="shareOptions"
-            :use-native-behavior="useNativeBehavior"
             :native-behavior-options="nativeBehaviorOptions"
             reason-for-suggesting=""
+            :share-options="shareOptions"
+            social-component="STwitter"
+            :text="$t('i18n.components.modal_share_page.twitter')"
+            type="vueSocials"
+            :use-native-behavior="useNativeBehavior"
+            :window-features="windowFeatures"
           />
         </div>
       </div>

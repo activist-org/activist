@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Tabs class="pt-2 md:pt-0" :tabs="groupTabs" :selectedTab="2" />
+  <Tabs class="pt-2 md:pt-0" :selectedTab="2" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
@@ -16,14 +16,14 @@
         <BtnAction
           @click.stop="openModal()"
           @keydown.enter="openModal()"
+          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="i18n._global.new_resource"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
+          label="i18n._global.new_resource"
+          :leftIcon="IconMap.PLUS"
+          linkTo="/"
         />
         <ModalResourceGroup />
       </div>
@@ -37,30 +37,30 @@
       <draggable
         v-model="resourceList"
         @end="onDragEnd"
-        item-key="id"
+        :animation="150"
+        chosen-class="sortable-chosen"
         class="flex flex-col gap-4"
-        :touch-start-threshold="3"
-        :force-fallback="false"
-        :fallback-tolerance="0"
         :delay="0"
         :delay-on-touch-start="false"
-        :swap-threshold="0.5"
-        :invert-swap="false"
-        :direction="'vertical'"
+        direction="vertical"
         :disabled="false"
-        :animation="150"
-        :ghost-class="'sortable-ghost'"
-        :chosen-class="'sortable-chosen'"
-        :drag-class="'sortable-drag'"
-        :handle="'.drag-handle'"
         :distance="5"
-        :fallback-class="'sortable-fallback'"
+        drag-class="sortable-drag"
+        fallback-class="sortable-fallback"
+        :fallback-tolerance="0"
+        :force-fallback="false"
+        ghost-class="sortable-ghost"
+        handle=".drag-handle"
+        :invert-swap="false"
+        item-key="id"
+        :swap-threshold="0.5"
+        :touch-start-threshold="3"
       >
         <template #item="{ element }">
           <CardResource
+            :entityType="EntityType.GROUP"
             :isReduced="true"
             :resource="element"
-            :entityType="EntityType.GROUP"
           />
         </template>
       </draggable>
@@ -121,7 +121,7 @@ watch(
   display: none;
 }
 
-/* Ensure drag handles work properly */
+/* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
 }

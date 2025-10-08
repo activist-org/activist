@@ -1,14 +1,14 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="space-y-6 pb-6 pt-3 md:pt-4">
-    <MediaCalendar class="h-[calc(50vh-1rem)] w-full" :calendar-args="calendar">
+    <MediaCalendar :calendar-args="calendar" class="h-[calc(50vh-1rem)] w-full">
       <template #default="{ customData }">
         <div
           class="rounded-sm bg-[#F8FAFC] hover:bg-layer-2 dark:bg-[#1e293b] dark:hover:bg-layer-2"
         >
           <NuxtLink
-            :to="localePath(`/events/${customData.id}`)"
             class="flex items-center space-x-1 px-2 py-1"
+            :to="localePath(`/events/${customData.id}`)"
           >
             <span
               class="text-sm leading-none"

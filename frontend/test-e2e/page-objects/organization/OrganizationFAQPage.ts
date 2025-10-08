@@ -4,7 +4,8 @@ import type { Locator, Page } from "@playwright/test";
 import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationFAQPage = (page: Page) => ({
-  // New FAQ button
+  // MARK: New FAQ
+
   newFAQButton: page.getByRole("button", {
     name: new RegExp(
       getEnglishText("i18n.pages._global.new_faq_aria_label"),
@@ -12,11 +13,13 @@ export const newOrganizationFAQPage = (page: Page) => ({
     ),
   }),
 
-  // FAQ list elements
+  // MARK: FAQ List
+
   faqList: page.getByTestId("organization-faq-list"),
   faqCards: page.getByTestId("faq-card"),
 
-  // Individual FAQ card elements
+  // MARK: FAQ Card
+
   getFAQCard: (index: number) => page.getByTestId("faq-card").nth(index),
   getFAQQuestion: (index: number) =>
     page.getByTestId("faq-card").nth(index).getByTestId("faq-question"),
@@ -32,7 +35,8 @@ export const newOrganizationFAQPage = (page: Page) => ({
   getFAQEditButton: (index: number) =>
     page.getByTestId("faq-card").nth(index).getByTestId("faq-edit-button"),
 
-  // FAQ disclosure elements
+  // MARK: FAQ Disclosure
+
   getFAQDisclosurePanel: (index: number) =>
     page.getByTestId("faq-card").nth(index).getByTestId("faq-disclosure-panel"),
   getFAQChevronUp: (index: number) =>
@@ -40,21 +44,22 @@ export const newOrganizationFAQPage = (page: Page) => ({
   getFAQChevronDown: (index: number) =>
     page.getByTestId("faq-card").nth(index).getByTestId("faq-chevron-down"),
 
-  // Empty state
-  emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(), // Keep as is - generic text selector
+  // MARK: Empty State
 
-  // Modal elements (opened by new FAQ button)
-  faqModal: page.locator("#modal").first(), // Keep as is - generic modal selector
+  emptyState: page.getByTestId("empty-state"),
+  emptyStateMessage: page.getByTestId("empty-state").locator("p, div").first(),
+
+  // Modal elements (opened by new FAQ button).
+  faqModal: page.locator("#modal").first(),
   faqModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
 
-  // Edit modal elements (opened by edit button)
-  editFAQModal: page.locator("#modal").first(), // Keep as is - generic modal selector
+  // Edit modal elements (opened by edit button).
+  editFAQModal: page.locator("#modal").first(),
   editFAQModalCloseButton: (modal: Locator) =>
     modal.getByTestId("modal-close-button"),
 
-  // Form elements within FAQ modal (using specific IDs from the form)
+  // Form elements within FAQ modal (using specific IDs from the form).
   faqQuestionInput: (modal: Locator) =>
     modal.getByRole("textbox", {
       name: new RegExp(
@@ -74,12 +79,14 @@ export const newOrganizationFAQPage = (page: Page) => ({
       name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
     }),
 
-  // Utility methods
+  // MARK: Utility
+
   getFAQCount: async () => {
     return await page.getByTestId("faq-card").count();
   },
 
-  // FAQ interaction methods
+  // MARK: FAQ Interaction
+
   expandFAQ: async (index: number) => {
     const expandButton = page
       .getByTestId("faq-card")
@@ -104,7 +111,8 @@ export const newOrganizationFAQPage = (page: Page) => ({
     await editButton.click();
   },
 
-  // Drag and drop methods
+  // MARK: Drag and Drop
+
   getFAQDragHandlePosition: async (index: number) => {
     const dragHandle = page
       .getByTestId("faq-card")
@@ -113,9 +121,9 @@ export const newOrganizationFAQPage = (page: Page) => ({
     return await dragHandle.boundingBox();
   },
 
-  // Check if FAQ is expanded
+  // Check if FAQ is expanded.
   isFAQExpanded: async (index: number) => {
-    // Use answer visibility as the most reliable indicator of expanded state
+    // Use answer visibility as the most reliable indicator of expanded state.
     const answer = page
       .getByTestId("faq-card")
       .nth(index)
@@ -124,7 +132,7 @@ export const newOrganizationFAQPage = (page: Page) => ({
     return await answer.isVisible();
   },
 
-  // Get FAQ question text
+  // Get FAQ question text.
   getFAQQuestionText: async (index: number) => {
     const question = page
       .getByTestId("faq-card")
@@ -133,7 +141,7 @@ export const newOrganizationFAQPage = (page: Page) => ({
     return await question.textContent();
   },
 
-  // Get FAQ answer text
+  // Get FAQ answer text.
   getFAQAnswerText: async (index: number) => {
     const answer = page
       .getByTestId("faq-card")

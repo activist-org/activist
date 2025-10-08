@@ -4,8 +4,8 @@
     <ModalQRCodeBtn
       v-if="organization && !expandText"
       :organization="organization"
-      type="icon"
       reason-for-suggesting=""
+      type="icon"
     />
     <button
       v-if="expandText"
@@ -59,11 +59,11 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              data-testid="expand-text-button"
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
+              data-testid="expand-text-button"
             >
               {{ $t("i18n.components.card.about._global.full_text") }}
             </button>
@@ -73,11 +73,11 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              data-testid="collapse-text-button"
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
+              data-testid="collapse-text-button"
             >
               {{ $t("i18n.components.card.about._global.reduce_text") }}
             </button>

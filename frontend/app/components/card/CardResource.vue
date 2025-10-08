@@ -2,29 +2,29 @@
 <template>
   <div
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
-    data-testid="resource-card"
     :data-resource-id="resource.id"
+    data-testid="resource-card"
   >
     <div class="flex items-center space-x-2">
       <Icon
-        :name="IconMap.GRIP"
-        :class="dragIconSizeClass"
         class="drag-handle cursor-grab select-none"
+        :class="dragIconSizeClass"
         data-testid="resource-drag-handle"
+        :name="IconMap.GRIP"
       />
       <div class="flex flex-col md:flex-row">
         <NuxtLink
-          :to="localePath(linkUrl)"
           :aria-label="$t(ariaLabel)"
-          target="_blank"
           data-testid="resource-link"
+          target="_blank"
+          :to="localePath(linkUrl)"
         >
           <div class="h-min w-max rounded-md border border-section-div p-2">
             <Icon
-              :name="IconMap.RESOURCE"
-              :class="imageSizeClass"
               class="text-primary-text"
+              :class="imageSizeClass"
               data-testid="resource-icon"
+              :name="IconMap.RESOURCE"
             />
           </div>
         </NuxtLink>
@@ -34,9 +34,9 @@
       <div class="-mb-2 flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <NuxtLink
-            :to="localePath(linkUrl)"
             :aria-label="$t(ariaLabel)"
             target="_blank"
+            :to="localePath(linkUrl)"
           >
             <h3 class="font-bold">
               {{ resource.name }}

@@ -17,8 +17,8 @@
       class="-mt-20 flex w-full flex-col justify-center space-y-1 rounded-md bg-layer-2 p-1 elem-shadow-sm"
     >
       <DropdownCreate
-        v-if="userIsSignedIn"
         id="create"
+        v-if="userIsSignedIn"
         class="w-full"
         :location="DropdownLocation.SIDE_LEFT_MENU"
       />

@@ -7,9 +7,9 @@
         'fill-primary-text hover:fill-distinct-text': !color,
         '{{color}}': color,
       }"
-      width="503"
       height="647"
       viewBox="0 0 503 647"
+      width="503"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

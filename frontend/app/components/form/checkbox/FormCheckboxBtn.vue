@@ -11,10 +11,10 @@
   >
     <input
       :id="uuid"
-      class="hidden"
-      type="checkbox"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue"
+      class="hidden"
+      type="checkbox"
     />
     <label
       v-if="label"

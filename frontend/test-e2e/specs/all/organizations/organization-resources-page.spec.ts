@@ -6,7 +6,7 @@ import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
-  // Use shared navigation function that automatically detects platform and uses appropriate navigation
+  // Use shared navigation function that automatically detects platform and uses appropriate navigation.
   await navigateToOrganizationSubpage(page, "resources");
 });
 
@@ -49,12 +49,12 @@ test.describe(
 
     test("User can view organization resources", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
-      const resourcesPage = organizationPage.resourcesPage;
+      const { resourcesPage } = organizationPage;
 
-      // Wait for resources to load completely
+      // Wait for resources to load completely.
       await page.waitForLoadState("domcontentloaded");
 
-      // Wait for either resources or empty state to appear
+      // Wait for either resources or empty state to appear.
       await expect(async () => {
         const resourcesListVisible = await resourcesPage.resourcesList
           .isVisible()
@@ -65,15 +65,15 @@ test.describe(
         expect(resourcesListVisible || emptyStateVisible).toBe(true);
       }).toPass({ timeout: 10000 });
 
-      // Check if resources exist or empty state is shown
+      // Check if resources exist or empty state is shown.
       const resourceCount = await resourcesPage.getResourceCount();
 
       if (resourceCount > 0) {
-        // Verify resources list is visible
+        // Verify resources list is visible.
         await expect(resourcesPage.resourcesList).toBeVisible();
         await expect(resourcesPage.resourceCards.first()).toBeVisible();
 
-        // Verify first resource has required elements
+        // Verify first resource has required elements.
         const firstResourceCard = resourcesPage.getResourceCard(0);
         await expect(firstResourceCard).toBeVisible();
 
@@ -81,11 +81,11 @@ test.describe(
         await expect(firstResourceLink).toBeVisible();
         await expect(firstResourceLink).toHaveAttribute("href", /.+/);
 
-        // Verify resource icon is visible
+        // Verify resource icon is visible.
         const firstResourceIcon = resourcesPage.getResourceIcon(0);
         await expect(firstResourceIcon).toBeVisible();
       } else {
-        // Verify empty state is shown when no resources
+        // Verify empty state is shown when no resources.
         await expect(resourcesPage.emptyState).toBeVisible();
         await expect(resourcesPage.emptyStateMessage).toBeVisible();
       }
@@ -93,19 +93,19 @@ test.describe(
 
     test("User can access new resource creation", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
-      const resourcesPage = organizationPage.resourcesPage;
+      const { resourcesPage } = organizationPage;
 
-      // Verify new resource button is visible and functional
+      // Verify new resource button is visible and functional.
       await expect(resourcesPage.newResourceButton).toBeVisible();
       await expect(resourcesPage.newResourceButton).toBeEnabled();
 
-      // Click the new resource button to open modal
+      // Click the new resource button to open modal.
       await resourcesPage.newResourceButton.click();
 
-      // Verify resource creation modal opens
+      // Verify resource creation modal opens.
       await expect(resourcesPage.resourceModal).toBeVisible();
 
-      // Close the modal using the close button
+      // Close the modal using the close button.
       const closeButton = resourcesPage.resourceModalCloseButton(
         resourcesPage.resourceModal
       );
@@ -116,7 +116,7 @@ test.describe(
       await expect(resourcesPage.resourceModal).not.toBeVisible();
 
       // Note: We could add more specific modal testing here
-      // but that might be better suited for a dedicated modal test
+      // but that might be better suited for a dedicated modal test.
     });
   }
 );

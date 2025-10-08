@@ -150,7 +150,7 @@ export const useEventStore = defineStore("event", {
           (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
       );
 
-      // Refresh data if requested (e.g., after mutations)
+      // Refresh data if requested (e.g., after mutations).
       if (refreshData) {
         await refresh();
       }
@@ -198,7 +198,7 @@ export const useEventStore = defineStore("event", {
           )) as EventsResponseBody
       );
 
-      // Refresh data if requested (e.g., after mutations)
+      // Refresh data if requested (e.g., after mutations).
       if (refreshData) {
         await refresh();
       }
@@ -308,7 +308,7 @@ export const useEventStore = defineStore("event", {
       }
     },
 
-    // MARK: Update Link (Individual)
+    // MARK: Update Link
 
     async updateSocialLink(
       event: Event,
@@ -344,7 +344,7 @@ export const useEventStore = defineStore("event", {
       }
     },
 
-    // MARK: Delete Link (Individual)
+    // MARK: Delete Link
 
     async deleteSocialLink(event: Event, linkId: string) {
       this.loading = true;

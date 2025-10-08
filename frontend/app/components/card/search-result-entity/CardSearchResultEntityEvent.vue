@@ -1,29 +1,29 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardSearchResultEntity
-    data-testid="event-card"
-    :title="event.name"
-    :description="description"
-    :linkUrl="linkUrl"
     :ariaLabel="ariaLabel"
-    :imageUrl="imageUrl"
-    :imageAlt="imageAlt"
+    data-testid="event-card"
+    :description="description"
     :entityName="entityName"
+    :imageAlt="imageAlt"
+    :imageUrl="imageUrl"
     :isExternalLink="false"
     :isReduced="isReduced"
+    :linkUrl="linkUrl"
+    :title="event.name"
   >
     <template #image="{ imageUrl: slotImageUrl }">
       <div
+        class="flex items-center justify-center"
         :class="{
           'h-[150px] w-[150px]': isReduced,
           'h-[200px] w-[200px]': !isReduced,
         }"
-        class="flex items-center justify-center"
       >
         <ImageEvent
+          :alt="imageAlt"
           :eventType="eventType"
           :imgUrl="slotImageUrl"
-          :alt="imageAlt"
         />
       </div>
     </template>
@@ -38,8 +38,8 @@
       <MetaTagLocation v-if="location" :location="location" />
       <MetaTagVideo
         v-else-if="onlineLocation"
-        :link="onlineLocation"
         label="i18n.components.card_search_result_entity_event.view_video"
+        :link="onlineLocation"
       />
       <MetaTagDate v-if="event.id != ''" :date="date" />
     </template>
@@ -47,8 +47,8 @@
       <MetaTagLocation v-if="location" :location="location" />
       <MetaTagVideo
         v-if="onlineLocation"
-        :link="onlineLocation"
         label="i18n.components.card_search_result_entity_event.view_video"
+        :link="onlineLocation"
       />
       <MetaTagDate v-if="event.id != ''" :date="date" />
     </template>

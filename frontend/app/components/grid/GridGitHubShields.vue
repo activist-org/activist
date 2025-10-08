@@ -18,19 +18,19 @@
     </ShieldGitHub>
     <ShieldGitHub
       class="fill-primary-text"
-      href="https://github.com/activist-org/activist/stargazers"
-      :text="$t('i18n.components._global.star')"
-      :isLoading="isLoading"
       :count="GitHubData.stargazers_count"
+      href="https://github.com/activist-org/activist/stargazers"
+      :isLoading="isLoading"
+      :text="$t('i18n.components._global.star')"
     >
       <Icon :name="IconMap.STAR" size="2em" />
     </ShieldGitHub>
     <ShieldGitHub
       class="fill-primary-text"
-      href="https://github.com/activist-org/activist/forks"
-      :text="$t('i18n.components.grid_git_hub_shields.fork')"
-      :isLoading="isLoading"
       :count="GitHubData.forks_count"
+      href="https://github.com/activist-org/activist/forks"
+      :isLoading="isLoading"
+      :text="$t('i18n.components.grid_git_hub_shields.fork')"
     >
       <Icon :name="IconMap.FORK" size="2em" />
     </ShieldGitHub>

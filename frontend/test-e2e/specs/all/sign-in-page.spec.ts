@@ -28,7 +28,7 @@ test.describe(
 
     test("User can show and hide password", async ({ page }) => {
       const signInPage = newSignInPage(page);
-      const passwordInput = signInPage.passwordInput;
+      const { passwordInput } = signInPage;
 
       // Wait for the page to load completely
       await page.waitForLoadState("domcontentloaded");
@@ -144,7 +144,7 @@ test.describe(
       await signInPage.passwordInput.fill("admin");
 
       // Click CAPTCHA if present
-      const captcha = signInPage.captcha;
+      const { captcha } = signInPage;
       if (await captcha.isVisible()) {
         await captcha.click();
       }
@@ -163,7 +163,7 @@ test.describe(
       await signInPage.passwordInput.fill("invaliduser");
 
       // Click CAPTCHA if present
-      const captcha = signInPage.captcha;
+      const { captcha } = signInPage;
       if (await captcha.isVisible()) {
         await captcha.click();
       }
@@ -191,7 +191,7 @@ test.describe(
       });
 
       await withTestStep(testInfo, "Handle CAPTCHA if present", async () => {
-        const captcha = signInPage.captcha;
+        const { captcha } = signInPage;
         if (await captcha.isVisible()) {
           await captcha.click();
         }

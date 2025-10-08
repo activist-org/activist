@@ -4,11 +4,11 @@
     <swiper-container
       ref="swiperRef"
       class="swiper card-style h-full w-full cursor-pointer overflow-clip"
+      :keyboard="true"
+      :loop="true"
+      :pagination="{ clickable: true }"
       :slidesPerView="1"
       :spaceBetween="0"
-      :loop="true"
-      :keyboard="true"
-      :pagination="{ clickable: true }"
     >
       <swiper-slide
         v-for="[idx, img] of imageUrls?.entries()"
@@ -16,13 +16,13 @@
         class="swiper-zoom-container flex items-center justify-center bg-layer-2"
       >
         <img
+          :alt="$t('i18n.components.media_image_carousel.img_alt_text')"
           class="object-cover object-center"
           :class="{
             'h-5/6 w-5/6': props.fullscreen,
             'h-[17.5rem]': !props.fullscreen,
           }"
           :src="img"
-          :alt="$t('i18n.components.media_image_carousel.img_alt_text')"
         />
       </swiper-slide>
     </swiper-container>
@@ -34,10 +34,10 @@
     </p>
     <button
       @click="handleOpenModalUploadImage()"
-      class="absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
       :aria-label="
         $t('i18n.components.media_image_carousel.edit_images_aria_label')
       "
+      class="absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     >
       <Icon :name="IconMap.EDIT" size="1.5em" />
     </button>

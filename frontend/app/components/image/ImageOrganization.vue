@@ -3,7 +3,7 @@
   <div
     class="flex h-full w-full justify-center rounded-md border border-section-div bg-layer-0"
   >
-    <img v-if="imgUrl" :src="imgUrl" :alt="alt" />
+    <img v-if="imgUrl" :alt="alt" :src="imgUrl" />
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else

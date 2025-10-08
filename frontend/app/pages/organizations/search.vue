@@ -10,6 +10,6 @@
     >
       <ComboboxTopics />
     </HeaderAppPage>
-    <GridFilterTags :tags="['Berlin', 'Activism', 'Eco']" class="mt-3" />
+    <GridFilterTags class="mt-3" :tags="['Berlin', 'Activism', 'Eco']" />
   </div>
 </template>

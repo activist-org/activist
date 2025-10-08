@@ -10,7 +10,8 @@ import { getEnglishText } from "~/utils/i18n";
 export class OrganizationGroupFAQPage {
   constructor(private readonly page: Page) {}
 
-  // New FAQ button
+  // MARK: New FAQ
+
   get newFaqButton() {
     return this.page.getByRole("button", {
       name: new RegExp(
@@ -20,7 +21,8 @@ export class OrganizationGroupFAQPage {
     });
   }
 
-  // FAQ list elements
+  // MARK: FAQ List
+
   get faqList() {
     return this.page.getByTestId("organization-group-faq-list");
   }
@@ -37,7 +39,8 @@ export class OrganizationGroupFAQPage {
     return this.faqCards.last();
   }
 
-  // Individual FAQ card elements
+  // MARK:FAQ Card
+
   getFaqCard(index: number) {
     return this.page.getByTestId("faq-card").nth(index);
   }
@@ -77,7 +80,8 @@ export class OrganizationGroupFAQPage {
       .getByTestId("faq-edit-button");
   }
 
-  // FAQ disclosure elements
+  // MARK: FAQ Disclosure
+
   getFaqDisclosurePanel(index: number) {
     return this.page
       .getByTestId("faq-card")
@@ -99,7 +103,8 @@ export class OrganizationGroupFAQPage {
       .getByTestId("faq-chevron-down");
   }
 
-  // Empty state
+  // MARK: Empty State
+
   get emptyState() {
     return this.page.getByTestId("empty-state");
   }
@@ -108,25 +113,25 @@ export class OrganizationGroupFAQPage {
     return this.emptyState.getByRole("heading", { level: 4 }).first();
   }
 
-  // Modal elements (opened by new FAQ button) - Not implemented yet
+  // Modal elements (opened by new FAQ button) - Not implemented yet.
   get faqModal() {
-    return this.page.locator("#modal").first(); // Keep as is - generic modal selector
+    return this.page.locator("#modal").first();
   }
 
   get faqModalCloseButton() {
     return this.faqModal.getByTestId("modal-close-button");
   }
 
-  // Edit modal elements (opened by edit button) - Not implemented yet
+  // Edit modal elements (opened by edit button) - Not implemented yet.
   get editFaqModal() {
-    return this.page.locator("#modal").first(); // Keep as is - generic modal selector
+    return this.page.locator("#modal").first();
   }
 
   get editFaqModalCloseButton() {
     return this.editFaqModal.getByTestId("modal-close-button");
   }
 
-  // Form elements within FAQ modal (using specific IDs from the form)
+  // Form elements within FAQ modal (using specific IDs from the form).
   getFaqQuestionInput(modal: Locator) {
     return modal.getByRole("textbox", {
       name: new RegExp(
@@ -151,7 +156,8 @@ export class OrganizationGroupFAQPage {
     });
   }
 
-  // Tab navigation
+  // MARK: Tab Navigation
+
   get tabs() {
     return this.page.getByRole("tablist");
   }
@@ -180,7 +186,8 @@ export class OrganizationGroupFAQPage {
     });
   }
 
-  // Actions
+  // MARK: Actions
+
   async clickNewFaq() {
     await this.newFaqButton.click();
   }
@@ -217,7 +224,8 @@ export class OrganizationGroupFAQPage {
     await this.page.waitForURL(/.*\/groups\/.*\/faq/);
   }
 
-  // Verification methods
+  // MARK: Verification
+
   async getFaqCount() {
     return await this.faqCards.count();
   }
@@ -239,7 +247,8 @@ export class OrganizationGroupFAQPage {
     return count > 0;
   }
 
-  // FAQ content methods
+  // MARK: FAQ Content
+
   async getFaqQuestionText(index: number) {
     return await this.getFaqQuestion(index).textContent();
   }
@@ -258,7 +267,8 @@ export class OrganizationGroupFAQPage {
     return await chevronDown.isVisible();
   }
 
-  // FAQ interaction methods
+  // MARK: FAQ Interaction
+
   async expandFaq(index: number) {
     const expandButton = this.page
       .getByTestId("faq-card")
@@ -283,7 +293,8 @@ export class OrganizationGroupFAQPage {
     await editButton.click();
   }
 
-  // Drag and drop methods
+  // MARK: Drag and Drop
+
   async getFaqDragHandlePosition(index: number) {
     const dragHandle = this.page
       .getByTestId("faq-card")
@@ -305,15 +316,15 @@ export class OrganizationGroupFAQPage {
       const endX = targetBox.x + targetBox.width / 2;
       const endY = targetBox.y + targetBox.height / 2;
 
-      // Hover over the source handle first
+      // Hover over the source handle first.
       await this.page.mouse.move(startX, startY);
       await this.page.waitForTimeout(200);
 
-      // Start drag operation
+      // Start drag operation.
       await this.page.mouse.down();
       await this.page.waitForTimeout(300);
 
-      // Move to target with more intermediate steps for smoother drag
+      // Move to target with more intermediate steps for smoother drag.
       const steps = 10;
       for (let i = 1; i <= steps; i++) {
         const progress = i / steps;
@@ -323,11 +334,11 @@ export class OrganizationGroupFAQPage {
         await this.page.waitForTimeout(100);
       }
 
-      // Hover over target for a moment before releasing
+      // Hover over target for a moment before releasing.
       await this.page.mouse.move(endX, endY);
       await this.page.waitForTimeout(200);
 
-      // Release the mouse
+      // Release the mouse.
       await this.page.mouse.up();
       await this.page.waitForTimeout(500);
     }

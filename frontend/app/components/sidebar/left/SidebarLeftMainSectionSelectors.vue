@@ -4,14 +4,14 @@
     <div class="space-y-1 rounded-md bg-layer-2 p-1 elem-shadow-sm">
       <!-- In the v-for don't select Home. -->
       <SidebarLeftSelector
+        :id="getSelectorId(item.label)"
         v-for="(item, index) in menuItems.slice(1, 3)"
         :key="index"
-        :id="getSelectorId(item.label)"
+        :active="true"
+        :iconUrl="item.iconUrl"
         :label="item.label"
         :routeUrl="item.routeUrl"
-        :iconUrl="item.iconUrl"
         :selected="isActive(item.routeUrl)"
-        :active="true"
       />
     </div>
   </div>

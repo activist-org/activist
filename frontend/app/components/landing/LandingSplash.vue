@@ -28,31 +28,31 @@
       <div v-if="devMode.active" class="style-btns-next-to-one-another">
         <BtnRouteInternal
           id="view-organizations"
+          ariaLabel="i18n.components.landing_splash.view_organizations_aria_label"
           class="w-full"
           :cta="true"
+          fontSize="xl"
           label="i18n.components.landing_splash.view_organizations"
           linkTo="/organizations"
-          fontSize="xl"
-          ariaLabel="i18n.components.landing_splash.view_organizations_aria_label"
         />
         <BtnRouteInternal
           id="view-events"
+          ariaLabel="i18n.components.landing_splash.view_events_aria_label"
           class="w-full"
           :cta="true"
+          fontSize="xl"
           label="i18n.components.landing_splash.view_events"
           linkTo="/events"
-          fontSize="xl"
-          ariaLabel="i18n.components.landing_splash.view_events_aria_label"
         />
       </div>
       <BtnRouteExternal
-        v-else
         id="request-access"
+        v-else
+        ariaLabel="i18n.components.landing_splash.request_access_aria_label"
         :cta="true"
+        fontSize="xl"
         label="i18n.components.landing_splash.request_access"
         :linkTo="REQUEST_ACCESS_URL"
-        fontSize="xl"
-        ariaLabel="i18n.components.landing_splash.request_access_aria_label"
       />
     </div>
   </div>

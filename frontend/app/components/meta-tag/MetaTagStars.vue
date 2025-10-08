@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <MetaTag :iconName="IconMap.STAR" :value="String(stars)" :label="label" />
+  <MetaTag :iconName="IconMap.STAR" :label="label" :value="String(stars)" />
 </template>
 
 <script setup lang="ts">

@@ -4,14 +4,14 @@
     <div class="flex space-x-3">
       <div
         v-for="(tag, index) in tags"
-        ref="switches"
         :key="index"
+        ref="switches"
         class="flex items-center"
       >
         <Switch
+          v-slot="{ checked }"
           v-model="selected[tag]"
           @keydown="keyboardEvent($event)"
-          v-slot="{ checked }"
           as="template"
         >
           <div

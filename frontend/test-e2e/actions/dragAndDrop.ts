@@ -12,19 +12,19 @@ import type { Locator, Page } from "@playwright/test";
  * @returns Array of resource names in their current order
  */
 export async function getResourceCardOrder(page: Page): Promise<string[]> {
-  // Wait for resources to be loaded
+  // Wait for resources to be loaded.
   await page.waitForSelector('[data-testid="resource-card"]');
 
-  // Get all resource cards
+  // Get all resource cards.
   const resourceCards = page.getByTestId("resource-card");
   const count = await resourceCards.count();
 
   const resourceNames: string[] = [];
 
-  // Extract the name/title from each resource card
+  // Extract the name/title from each resource card.
   for (let i = 0; i < count; i++) {
     const card = resourceCards.nth(i);
-    // The resource name is in an h3 element within the card
+    // The resource name is in an h3 element within the card.
     const nameElement = card.getByRole("heading", { level: 3 }).first();
     const name = await nameElement.textContent();
     if (name) {
@@ -42,19 +42,18 @@ export async function getResourceCardOrder(page: Page): Promise<string[]> {
  * @returns Array of FAQ questions in their current order
  */
 export async function getFAQCardOrder(page: Page): Promise<string[]> {
-  // Wait for FAQ cards to be loaded
+  // Wait for FAQ cards to be loaded.
   await page.waitForSelector('[data-testid="faq-card"]');
 
-  // Get all FAQ cards
   const faqCards = page.getByTestId("faq-card");
   const count = await faqCards.count();
 
   const faqQuestions: string[] = [];
 
-  // Extract the question from each FAQ card
+  // Extract the question from each FAQ card.
   for (let i = 0; i < count; i++) {
     const card = faqCards.nth(i);
-    // The FAQ question is in a p element with data-testid="faq-question"
+
     const questionElement = card.getByTestId("faq-question");
     const question = await questionElement.textContent();
     if (question) {
@@ -78,7 +77,7 @@ export async function performDragAndDrop(
   targetLocator: Locator,
   steps = 10
 ): Promise<void> {
-  // Get bounding boxes for source and target
+  // Get bounding boxes for source and target.
   const sourceBox = await sourceLocator.boundingBox();
   const targetBox = await targetLocator.boundingBox();
 
@@ -86,19 +85,19 @@ export async function performDragAndDrop(
     throw new Error("Could not get bounding boxes for drag and drop elements");
   }
 
-  // Calculate center points
+  // Calculate center points.
   const startX = sourceBox.x + sourceBox.width / 2;
   const startY = sourceBox.y + sourceBox.height / 2;
   const endX = targetBox.x + targetBox.width / 2;
   const endY = targetBox.y + targetBox.height / 2;
 
-  // Move to start position
+  // Move to start position.
   await page.mouse.move(startX, startY);
 
-  // Press mouse button
+  // Press mouse button.
   await page.mouse.down();
 
-  // Wait for drag start to be detected by observing CSS class change
+  // Wait for drag start to be detected by observing CSS class change.
   await page
     .waitForFunction(
       () => {
@@ -110,10 +109,10 @@ export async function performDragAndDrop(
       { timeout: 5000 }
     )
     .catch(() => {
-      // If no sortable classes appear, continue anyway (might work without them)
+      // If no sortable classes appear, continue anyway (might work without them).
     });
 
-  // Move to target with intermediate steps for smooth drag
+  // Move to target with intermediate steps for smooth drag.
   for (let i = 1; i <= steps; i++) {
     const progress = i / steps;
     const currentX = startX + (endX - startX) * progress;
@@ -121,10 +120,10 @@ export async function performDragAndDrop(
     await page.mouse.move(currentX, currentY);
   }
 
-  // Release mouse button
+  // Release mouse button.
   await page.mouse.up();
 
-  // Wait for animation to complete by checking if ghost/chosen classes are removed
+  // Wait for animation to complete by checking if ghost/chosen classes are removed.
   await page
     .waitForFunction(
       () => {
@@ -136,7 +135,7 @@ export async function performDragAndDrop(
       { timeout: 2000 }
     )
     .catch(() => {
-      // If classes don't clear, continue anyway (might have completed)
+      // If classes don't clear, continue anyway (might have completed).
     });
 }
 
@@ -153,14 +152,15 @@ export async function verifyReorder(
   expectedSecondItem: string,
   getOrderFunction: (page: Page) => Promise<string[]>
 ): Promise<void> {
-  // Use Playwright's built-in polling mechanism to wait for the order to change
-  // This retries automatically until the condition is met or timeout is reached
+  // Use Playwright's built-in polling mechanism to wait for the order to change.
+  // This retries automatically until the condition is met or timeout is reached.
   await page.waitForFunction(
     async ({ expected }) => {
-      // This function runs in the browser context repeatedly until it returns true
-      // We need to re-query the DOM each time to get the latest order
+      // This function runs in the browser context repeatedly until it returns true.
+      // We need to re-query the DOM each time to get the latest order.
 
-      // For FAQ cards
+      // MARK: FAQ Card
+
       const faqCards = document.querySelectorAll('[data-testid="faq-card"]');
       if (faqCards.length >= 2) {
         const firstQuestion = faqCards[0]
@@ -178,7 +178,8 @@ export async function verifyReorder(
         }
       }
 
-      // For resource cards
+      // MARK: Resource Card
+
       const resourceCards = document.querySelectorAll(
         '[data-testid="resource-card"]'
       );
@@ -208,11 +209,11 @@ export async function verifyReorder(
     },
     {
       timeout: 10000,
-      polling: 100, // Poll every 100ms
+      polling: 100, // poll every 100ms
     }
   );
 
-  // Final verification to provide clear error message if somehow still wrong
+  // Final verification to provide clear error message if somehow still wrong.
   const finalOrder = await getOrderFunction(page);
   if (
     finalOrder[0] !== expectedSecondItem ||

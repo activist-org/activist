@@ -10,7 +10,7 @@ import type { AxeResults } from "axe-core";
 import { createHtmlReport } from "axe-html-reporter";
 import path from "path";
 
-// Use process.cwd() instead of import.meta.url for compatibility with Playwright's reporter loading
+// Use process.cwd() instead of import.meta.url for compatibility with Playwright's reporter loading.
 const DEFAULT_RESULTS_PATH = path.join(process.cwd(), "test-results");
 
 class AxeReporter implements Reporter {

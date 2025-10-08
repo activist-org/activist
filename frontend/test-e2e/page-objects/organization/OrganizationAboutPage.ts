@@ -4,7 +4,8 @@ import type { Page } from "@playwright/test";
 import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationAboutPage = (page: Page) => ({
-  // About card elements
+  // MARK: About Card
+
   aboutJoinButton: page.getByRole("link", {
     name: new RegExp(
       getEnglishText("i18n._global.join_organization_aria_label"),
@@ -15,20 +16,21 @@ export const newOrganizationAboutPage = (page: Page) => ({
   aboutCardEditIcon: page
     .getByTestId("card-about")
     .locator("div.cursor-pointer")
-    .first(), // Keep as is - CSS class selector
+    .first(),
   aboutExpandTextButton: page.getByTestId("expand-text-button"),
   aboutCollapseTextButton: page.getByTestId("collapse-text-button"),
 
-  // Get Involved card elements
+  // MARK: Get Involved Card
+
   getInvolvedCard: page.getByTestId("card-get-involved"),
   getInvolvedCardEditIcon: page
     .getByTestId("card-get-involved")
     .locator("div.cursor-pointer")
-    .first(), // Keep as is - CSS class selector
+    .first(),
   getInvolvedCardText: page
     .getByTestId("card-get-involved")
     .locator("p")
-    .first(), // Keep as is - generic text selector
+    .first(),
   getInvolvedViewGroupsButton: page
     .getByTestId("card-get-involved")
     .getByRole("link", {
@@ -48,13 +50,15 @@ export const newOrganizationAboutPage = (page: Page) => ({
       ),
     }),
 
-  // Connect card elements
+  // MARK: Connect Card
+
   connectCard: page.getByTestId("card-connect"),
   connectCardEditIcon: page
     .getByTestId("card-connect")
     .locator("div.cursor-pointer")
-    .first(), // Keep as is - CSS class selector
+    .first(),
 
-  // Media elements
+  // MARK: Media
+
   imageCarousel: page.getByTestId("image-carousel"),
 });

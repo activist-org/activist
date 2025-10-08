@@ -10,7 +10,8 @@ import { getEnglishText } from "~/utils/i18n";
 export class OrganizationGroupAboutPage {
   constructor(private readonly page: Page) {}
 
-  // Header elements
+  // MARK: Header
+
   get joinGroupButton() {
     return this.page.getByRole("link", {
       name: new RegExp(
@@ -31,7 +32,8 @@ export class OrganizationGroupAboutPage {
     });
   }
 
-  // Main content elements
+  // MARK: Main Content
+
   get aboutCard() {
     return this.page.getByTestId("card-about");
   }
@@ -48,7 +50,7 @@ export class OrganizationGroupAboutPage {
     return this.page.getByTestId("card-connect");
   }
 
-  // Modal elements
+  // MARK: Modal Elements
   get shareModal() {
     return this.page.getByTestId("modal-ModalSharePage");
   }
@@ -61,7 +63,7 @@ export class OrganizationGroupAboutPage {
     return this.page.getByTestId("modal-ModalTextGroup");
   }
 
-  // Tab navigation
+  // MARK: Tab Navigation
   get tabs() {
     return this.page.getByRole("tablist");
   }
@@ -90,7 +92,7 @@ export class OrganizationGroupAboutPage {
     });
   }
 
-  // Actions
+  // MARK: Actions
   async clickJoinGroup() {
     await this.joinGroupButton.click();
   }
@@ -99,11 +101,11 @@ export class OrganizationGroupAboutPage {
     await this.shareButton.click();
   }
 
-  // Helper method to wait for tab state to update
+  // Helper method to wait for tab state to update.
   private async waitForTabState(tab: Locator, expectedSelected: boolean) {
     await tab.waitFor({ state: "attached" });
 
-    // Wait for the tab to have the correct aria-selected state
+    // Wait for the tab to have the correct aria-selected state.
     await this.page.waitForFunction(
       ({ tabSelector, expected }) => {
         const tabs = document.querySelectorAll(tabSelector);
@@ -175,7 +177,8 @@ export class OrganizationGroupAboutPage {
     }
   }
 
-  // Verification methods
+  // MARK: Verification
+
   async isJoinGroupButtonVisible() {
     return await this.joinGroupButton.isVisible();
   }

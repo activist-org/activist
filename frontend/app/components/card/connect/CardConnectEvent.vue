@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <CardConnect :socialLinks="socialLinks" pageType="event" />
+  <CardConnect pageType="event" :socialLinks="socialLinks" />
 </template>
 
 <script setup lang="ts">
@@ -14,6 +14,6 @@ await eventStore.fetchById(eventId);
 
 const { event } = storeToRefs(eventStore);
 
-// Use computed to ensure social links are reactive to store changes
+// Use computed to ensure social links are reactive to store changes.
 const socialLinks = computed(() => event.value.socialLinks);
 </script>

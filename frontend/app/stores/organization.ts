@@ -114,7 +114,7 @@ export const useOrganizationStore = defineStore("organization", {
             )) as OrganizationResponse
         );
 
-      // Refresh data if requested (e.g., after mutations)
+      // Refresh data if requested (e.g., after mutations).
       if (refreshData) {
         await refresh();
       }
@@ -165,7 +165,7 @@ export const useOrganizationStore = defineStore("organization", {
             )) as OrganizationsResponseBody
         );
 
-      // Refresh data if requested (e.g., after mutations)
+      // Refresh data if requested (e.g., after mutations).
       if (refreshData) {
         await refresh();
       }
@@ -540,7 +540,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Update Link (Individual)
+    // MARK: Update Link
 
     async updateSocialLink(
       org: Organization,
@@ -576,7 +576,7 @@ export const useOrganizationStore = defineStore("organization", {
       }
     },
 
-    // MARK: Delete Link (Individual)
+    // MARK: Delete Link
 
     async deleteSocialLink(org: Organization, linkId: string) {
       this.loading = true;

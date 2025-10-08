@@ -6,10 +6,10 @@
     <button @click="toggle" class="flex w-full justify-between">
       {{ label }}
       <Icon
-        :name="IconMap.CHEVRON_DOWN"
-        size="1.4em"
         class="transition-transform duration-300"
         :class="{ 'rotate-180': isOpen }"
+        :name="IconMap.CHEVRON_DOWN"
+        size="1.4em"
       />
     </button>
     <div v-if="isOpen" class="bg-section-div text-primary-text">

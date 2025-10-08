@@ -18,11 +18,11 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
+          ariaLabel="i18n.pages._global.settings.save_settings_aria_label"
           class="w-max"
           :cta="true"
-          label="i18n.pages._global.settings.save_settings"
           fontSize="sm"
-          ariaLabel="i18n.pages._global.settings.save_settings_aria_label"
+          label="i18n.pages._global.settings.save_settings"
         />
       </div>
     </HeaderAppPageOrganization>

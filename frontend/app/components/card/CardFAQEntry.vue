@@ -11,22 +11,22 @@
           :class="{ 'items-center': !open, 'items-start': open }"
         >
           <Icon
+            :aria-label="$t('i18n.components._global.draggable_element')"
             class="drag-handle -mr-2 cursor-grab select-none"
+            data-testid="faq-drag-handle"
             :name="IconMap.GRIP"
             size="1em"
-            :aria-label="$t('i18n.components._global.draggable_element')"
-            data-testid="faq-drag-handle"
           />
-          <div class="text-primary-text">
+          <div class="flex text-primary-text">
             <Icon
               v-if="open"
-              :name="IconMap.CHEVRON_UP"
               data-testid="faq-chevron-up"
+              :name="IconMap.CHEVRON_UP"
             />
             <Icon
               v-else
-              :name="IconMap.CHEVRON_DOWN"
               data-testid="faq-chevron-down"
+              :name="IconMap.CHEVRON_DOWN"
             />
           </div>
           <div class="flex-col">
@@ -49,6 +49,7 @@
                       props.faqEntry.id
                   ).openModal()
                 "
+                class="flex"
                 data-testid="faq-edit-button"
               />
               <ModalFaqEntryOrganization

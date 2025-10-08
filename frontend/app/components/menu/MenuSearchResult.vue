@@ -1,26 +1,26 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    @mouseleave="showTooltip = false"
     ref="quickActionBtnAndMenu"
+    @mouseleave="showTooltip = false"
     class="p-2"
   >
     <button
       @click="toggleTooltip"
       @keydown.shift.tab="onShiftTab"
-      data-testid="menu-button"
-      class="style-cta relative flex h-8 w-8 items-center justify-center rounded-full elem-shadow-sm md:h-6 md:w-6"
       :aria-label="
         $t('i18n.components.menu_search_result.toggle_menu_aria_label')
       "
+      class="style-cta relative flex h-8 w-8 items-center justify-center rounded-full elem-shadow-sm md:h-6 md:w-6"
+      data-testid="menu-button"
     >
       <Icon :name="IconMap.DOTS_THREE_VERTICAL" size="1.25em" />
       <TooltipMenuSearchResultEvent
         v-if="event"
         v-show="showTooltip"
         @blur="showTooltip = false"
-        @tab="onTab"
         @keydown.shift.tab.stop
+        @tab="onTab"
         class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :event="event"
       />
@@ -28,8 +28,8 @@
         v-if="organization"
         v-show="showTooltip"
         @blur="showTooltip = false"
-        @tab="onTab"
         @keydown.shift.tab.stop
+        @tab="onTab"
         class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :organization="organization"
       />
@@ -37,8 +37,8 @@
         v-if="group"
         v-show="showTooltip"
         @blur="showTooltip = false"
-        @tab="onTab"
         @keydown.shift.tab.stop
+        @tab="onTab"
         class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :group="group"
       />
@@ -46,8 +46,8 @@
         v-if="resource"
         v-show="showTooltip"
         @blur="showTooltip = false"
-        @tab="onTab"
         @keydown.shift.tab.stop
+        @tab="onTab"
         class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :resource="resource"
       />
@@ -55,8 +55,8 @@
         v-if="user"
         v-show="showTooltip"
         @blur="showTooltip = false"
-        @tab="onTab"
         @keydown.shift.tab.stop
+        @tab="onTab"
         class="max-md:right-0 max-md:top-8 absolute lg:bottom-6 lg:left-4"
         :user="user"
       />

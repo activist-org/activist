@@ -24,13 +24,13 @@
             </button>
             <img
               :key="fileImageIcon.name"
-              :src="fileImageIcon.url"
-              class="h-[50%] w-[50%] object-contain"
               :alt="
                 $t('i18n.components._global.upload_image') +
                 ' ' +
                 fileImageIcon.name
               "
+              class="h-[50%] w-[50%] object-contain"
+              :src="fileImageIcon.url"
             />
           </span>
         </div>
@@ -38,13 +38,13 @@
           <BtnAction
             v-if="fileImageIcon"
             @click="handleUpload"
-            :cta="true"
-            label="i18n.components._global.upload"
-            fontSize="sm"
-            :leftIcon="IconMap.ARROW_UP"
-            iconSize="1.25em"
             ariaLabel="i18n.components._global.upvote_application_aria_label"
+            :cta="true"
             :disabled="!fileImageIcon"
+            fontSize="sm"
+            iconSize="1.25em"
+            label="i18n.components._global.upload"
+            :leftIcon="IconMap.ARROW_UP"
           />
         </div>
       </div>

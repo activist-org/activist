@@ -21,11 +21,11 @@
           >
             <ListboxOption
               v-for="option in filterOptions"
-              v-slot="{ active, selected }"
               :key="option"
-              :value="option"
-              class="cursor-pointer"
+              v-slot="{ active, selected }"
               as="template"
+              class="cursor-pointer"
+              :value="option"
             >
               <li
                 class="relative cursor-default select-none py-2 pl-10 pr-4"

@@ -8,7 +8,7 @@ import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
-  // Already authenticated via global storageState
+  // Already authenticated via global storageState.
   await navigateToOrganizationGroupSubpage(page, "about");
 });
 
@@ -51,11 +51,11 @@ test.describe(
     test("Group about page tab navigation works correctly", async ({
       page,
     }, testInfo) => {
-      test.setTimeout(60000); // Group pages load slowly in dev mode
+      test.setTimeout(60000); // group pages load slowly in dev mode
       logTestPath(testInfo);
 
       const organizationPage = newOrganizationPage(page);
-      const groupAboutPage = organizationPage.groupAboutPage;
+      const { groupAboutPage } = organizationPage;
 
       await withTestStep(testInfo, "Navigate to events tab", async () => {
         await groupAboutPage.clickEventsTab();
@@ -109,7 +109,7 @@ test.describe(
     test("User can share the group page", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupAboutPage = organizationPage.groupAboutPage;
+      const { groupAboutPage } = organizationPage;
 
       await withTestStep(testInfo, "Open share modal", async () => {
         await groupAboutPage.clickShare();
@@ -122,7 +122,7 @@ test.describe(
         await expect(closeModalButton).toBeVisible();
         await closeModalButton.click({ force: true });
 
-        // Wait for the modal to actually close
+        // Wait for the modal to actually close.
         await expect(groupAboutPage.shareModal).not.toBeVisible({
           timeout: 10000,
         });
@@ -132,27 +132,27 @@ test.describe(
     test("User can edit the About section", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupAboutPage = organizationPage.groupAboutPage;
+      const { groupAboutPage } = organizationPage;
 
-      // Ensure we're on the About page
+      // Ensure we're on the About page.
       await expect(page).toHaveURL(/.*\/groups\/.*\/about/);
       await expect(groupAboutPage.aboutCard).toBeVisible();
 
-      // Click the edit icon to open the edit modal
+      // Click the edit icon to open the edit modal.
       const aboutCardEditIcon = groupAboutPage.aboutCard.locator(
         '[data-testid="edit-icon"]'
       );
       await expect(aboutCardEditIcon).toBeVisible();
       await aboutCardEditIcon.click();
 
-      // Verify the edit modal appears
+      // Verify the edit modal appears.
       await expect(groupAboutPage.textModal).toBeVisible();
 
-      // Verify the form and its fields are present
+      // Verify the form and its fields are present.
       const editForm = groupAboutPage.textModal.getByRole("form");
       await expect(editForm).toBeVisible();
 
-      // Verify specific editable text fields
+      // Verify specific editable text fields.
       const descriptionField = groupAboutPage.textModal.getByRole("textbox", {
         name: new RegExp(getEnglishText("i18n._global.description"), "i"),
       });
@@ -176,7 +176,7 @@ test.describe(
       await expect(joinUrlField).toBeVisible();
       await expect(joinUrlField).toBeEditable();
 
-      // Generate unique content for this test run
+      // Generate unique content for this test run.
       const timestamp = Date.now();
       const customDescription = `Test group description updated at ${timestamp}`;
       const customGetInvolved = `Join our group movement - Test run ${timestamp}`;
@@ -191,12 +191,12 @@ test.describe(
       await joinUrlField.clear();
       await joinUrlField.fill(customJoinUrl);
 
-      // Verify the fields contain the new text
+      // Verify the fields contain the new text.
       await expect(descriptionField).toHaveValue(customDescription);
       await expect(getInvolvedField).toHaveValue(customGetInvolved);
       await expect(joinUrlField).toHaveValue(customJoinUrl);
 
-      // Submit the form to save changes
+      // Submit the form to save changes.
       const submitButton = groupAboutPage.textModal.getByRole("button", {
         name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
       });
@@ -204,19 +204,19 @@ test.describe(
       await expect(submitButton).toContainText("Update texts");
       await submitButton.click();
 
-      // Wait for the modal to close after successful save
+      // Wait for the modal to close after successful save.
       await expect(groupAboutPage.textModal).not.toBeVisible();
 
-      // Verify the changes are reflected on the page
-      // The description should be visible in the about card
-      const aboutCard = groupAboutPage.aboutCard;
+      // Verify the changes are reflected on the page.
+      // The description should be visible in the about card.
+      const { aboutCard } = groupAboutPage;
       await expect(aboutCard).toContainText(customDescription);
 
-      // The get involved text should be visible in the get involved card
-      const getInvolvedCard = groupAboutPage.getInvolvedCard;
+      // The get involved text should be visible in the get involved card.
+      const { getInvolvedCard } = groupAboutPage;
       await expect(getInvolvedCard).toContainText(customGetInvolved);
 
-      // Verify the join button URL was updated
+      // Verify the join button URL was updated.
       const joinButton = groupAboutPage.getInvolvedCard.locator(
         '[data-testid="get-involved-join-button"]'
       );
@@ -227,52 +227,52 @@ test.describe(
     test("User can manage social links (CREATE, UPDATE, DELETE)", async ({
       page,
     }, testInfo) => {
-      // Increase timeout for slow page loads in dev mode
+      // Increase timeout for slow page loads in dev mode.
       test.setTimeout(60000);
 
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupAboutPage = organizationPage.groupAboutPage;
+      const { groupAboutPage } = organizationPage;
 
-      // Ensure we're on the About page
+      // Ensure we're on the About page.
       await expect(page).toHaveURL(/.*\/groups\/.*\/about/);
       await expect(groupAboutPage.connectCard).toBeVisible();
 
-      // Generate unique content for this test run
+      // Generate unique content for this test run.
       const timestamp = Date.now();
       const newLabel = `Test Group Social Link ${timestamp}`;
       const newUrl = `https://test-group-social-${timestamp}.com`;
       const updatedLabel = `Updated Group Social Link ${timestamp}`;
       const updatedUrl = `https://updated-group-${timestamp}.com`;
 
-      // PHASE 1: CREATE - Add a new social link
+      // PHASE 1: CREATE - Add a new social link.
       const connectCardEditIcon = groupAboutPage.connectCard.locator(
         '[data-testid="edit-icon"]'
       );
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
-      // Count existing social links
+      // Count existing social links.
       const initialCount = await groupAboutPage.socialLinksModal
         .locator('input[id^="form-item-socialLinks."][id$=".label"]')
         .count();
 
-      // Add a new social link
+      // Add a new social link.
       const addButton = groupAboutPage.socialLinksModal.locator(
         'button:has-text("Add link")'
       );
       await expect(addButton).toBeVisible();
-      // Use JavaScript click to bypass viewport restrictions on mobile
+      // Use JavaScript click to bypass viewport restrictions on mobile.
       await addButton.evaluate((btn) => (btn as HTMLElement).click());
 
-      // Wait for the new entry to appear
+      // Wait for the new entry to appear.
       await expect(
         groupAboutPage.socialLinksModal.locator(
           'input[id^="form-item-socialLinks."][id$=".label"]'
         )
       ).toHaveCount(initialCount + 1);
 
-      // Use the newly added entry (at the last index)
+      // Use the newly added entry (at the last index).
       const newEntryIndex = initialCount;
       const newLabelField = groupAboutPage.socialLinksModal.locator(
         `[id="form-item-socialLinks.${newEntryIndex}.label"]`
@@ -287,15 +287,15 @@ test.describe(
       await newLabelField.pressSequentially(newLabel);
       await newUrlField.pressSequentially(newUrl);
 
-      // Verify the fields contain the entered text
+      // Verify the fields contain the entered text.
       await expect(newLabelField).toHaveValue(newLabel);
       await expect(newUrlField).toHaveValue(newUrl);
 
-      // Ensure fields are not empty before submitting
+      // Ensure fields are not empty before submitting.
       expect(newLabel.trim()).toBeTruthy();
       expect(newUrl.trim()).toBeTruthy();
 
-      // Save the new social link with retry logic
+      // Save the new social link with retry logic.
       const submitButton = groupAboutPage.socialLinksModal.locator(
         'button[type="submit"]'
       );
@@ -306,13 +306,13 @@ test.describe(
         "CREATE"
       );
 
-      // Verify the new social link appears on the Connect card
-      const connectCard = groupAboutPage.connectCard;
+      // Verify the new social link appears on the Connect card.
+      const { connectCard } = groupAboutPage;
 
-      // Wait for the page to update after the modal closes
+      // Wait for the page to update after the modal closes.
       await page.waitForTimeout(1000);
 
-      // Check if social links were created (with flexible timeout)
+      // Check if social links were created (with flexible timeout).
       let allSocialLinks = 0;
       try {
         await expect(
@@ -324,7 +324,7 @@ test.describe(
           .locator('[data-testid="social-link"]')
           .count();
       } catch {
-        // CREATE might have failed, check if any links exist at all
+        // CREATE might have failed, check if any links exist at all.
         allSocialLinks = await connectCard
           .locator('[data-testid="social-link"]')
           .count();
@@ -334,11 +334,11 @@ test.describe(
         }
       }
 
-      // PHASE 2: UPDATE - Edit the social link we just created
+      // PHASE 2: UPDATE - Edit the social link we just created.
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
-      // Get all label inputs and find the one we created
+      // Get all label inputs and find the one we created.
       const availableEntries = await organizationPage.socialLinksModal.modal
         .getByTestId(/^social-link-label-/)
         .all();
@@ -347,7 +347,7 @@ test.describe(
         throw new Error("No social links available to update");
       }
 
-      // Find the entry that contains our created label
+      // Find the entry that contains our created label.
       let targetIndex = -1;
       for (let i = 0; i < availableEntries.length; i++) {
         const value = await availableEntries[i]?.inputValue();
@@ -363,7 +363,7 @@ test.describe(
         );
       }
 
-      // Edit the social link we created
+      // Edit the social link we created.
       const editLabelField = organizationPage.socialLinksModal.labelField(
         organizationPage.socialLinksModal.modal,
         targetIndex
@@ -376,29 +376,29 @@ test.describe(
       await expect(editLabelField).toBeVisible();
       await expect(editUrlField).toBeVisible();
 
-      // Get the current values (whatever they are)
+      // Get the current values (whatever they are).
       const currentLabel = await editLabelField.inputValue();
       const currentUrl = await editUrlField.inputValue();
-      // No need to verify specific values - just ensure fields have some content
+      // No need to verify specific values - just ensure fields have some content.
       expect(currentLabel).toBeTruthy();
       expect(currentUrl).toBeTruthy();
 
-      // Update the values
+      // Update the values.
       await editLabelField.clear();
       await editLabelField.pressSequentially(updatedLabel);
 
       await editUrlField.clear();
       await editUrlField.pressSequentially(updatedUrl);
 
-      // Verify the fields contain the updated text
+      // Verify the fields contain the updated text.
       await expect(editLabelField).toHaveValue(updatedLabel);
       await expect(editUrlField).toHaveValue(updatedUrl);
 
-      // Ensure fields are not empty before submitting
+      // Ensure fields are not empty before submitting.
       expect(updatedLabel.trim()).toBeTruthy();
       expect(updatedUrl.trim()).toBeTruthy();
 
-      // Save the changes with retry logic
+      // Save the changes with retry logic.
       const updateSubmitButton = groupAboutPage.socialLinksModal.locator(
         'button[type="submit"]'
       );
@@ -409,25 +409,25 @@ test.describe(
         "UPDATE"
       );
 
-      // Verify the updated social link appears on the Connect card
-      // Wait a bit for the page to update after the modal closes
+      // Verify the updated social link appears on the Connect card.
+      // Wait a bit for the page to update after the modal closes.
       await page.waitForTimeout(1000);
 
       // Check if any social links are visible first
       const socialLinks = connectCard.locator('[data-testid="social-link"]');
 
-      // Look for the updated social link by text content
+      // Look for the updated social link by text content.
       const updatedSocialLink = connectCard.locator("a").filter({
         hasText: new RegExp(updatedLabel, "i"),
       });
 
-      // If not found by text, try to find by href
+      // If not found by text, try to find by href.
       if ((await updatedSocialLink.count()) === 0) {
         const linkByHref = connectCard.locator(`a[href="${updatedUrl}"]`);
         if ((await linkByHref.count()) > 0) {
           await expect(linkByHref).toBeVisible();
         } else {
-          // Fallback: just verify that some social links exist
+          // Fallback: just verify that some social links exist.
           await expect(socialLinks.first()).toBeVisible();
         }
       } else {
@@ -435,11 +435,11 @@ test.describe(
         await expect(updatedSocialLink).toHaveAttribute("href", updatedUrl);
       }
 
-      // PHASE 3: DELETE - Remove the social link we updated
+      // PHASE 3: DELETE - Remove the social link we updated.
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
-      // Get the current form entries using test IDs
+      // Get the current form entries using test IDs.
       const allLabelInputs = await organizationPage.socialLinksModal.modal
         .getByTestId(/^social-link-label-/)
         .all();
@@ -448,7 +448,7 @@ test.describe(
         throw new Error("No social links available to delete");
       }
 
-      // Find the entry that contains our updated label
+      // Find the entry that contains our updated label.
       let deleteIndex = -1;
       const foundValues = [];
 
@@ -456,13 +456,13 @@ test.describe(
         const value = await allLabelInputs[i]?.inputValue();
         foundValues.push(value);
 
-        // Try exact match first
+        // Try exact match first.
         if (value === updatedLabel) {
           deleteIndex = i;
           break;
         }
 
-        // Fallback: try to find by the original label if update didn't work
+        // Fallback: try to find by the original label if update didn't work.
         if (value === newLabel) {
           deleteIndex = i;
           break;
@@ -475,7 +475,7 @@ test.describe(
         );
       }
 
-      // Delete the social link we updated
+      // Delete the social link we updated.
       const deleteButton = organizationPage.socialLinksModal.removeButton(
         organizationPage.socialLinksModal.modal,
         deleteIndex
@@ -483,7 +483,7 @@ test.describe(
       await expect(deleteButton).toBeVisible();
       await deleteButton.click();
 
-      // Save the deletion with retry logic
+      // Save the deletion with retry logic.
       const deleteSubmitButton = groupAboutPage.socialLinksModal.locator(
         'button[type="submit"]'
       );
@@ -497,13 +497,13 @@ test.describe(
         "DELETE"
       );
 
-      // Verify the deleted social link no longer appears on the Connect card
-      // Wait for the modal to close and page to update
+      // Verify the deleted social link no longer appears on the Connect card.
+      // Wait for the modal to close and page to update.
       await expect(groupAboutPage.socialLinksModal).not.toBeVisible({
         timeout: 10000,
       });
 
-      // Verify the updated social link no longer exists
+      // Verify the updated social link no longer exists.
       const deletedSocialLink = connectCard
         .getByTestId("social-link")
         .filter({ hasText: updatedLabel });

@@ -6,7 +6,7 @@ import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
-  // Already authenticated via global storageState
+  // Already authenticated via global storageState.
   await navigateToOrganizationGroupSubpage(page, "events");
 });
 
@@ -49,18 +49,18 @@ test.describe(
     test("User can view group events", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupEventsPage = organizationPage.groupEventsPage;
+      const { groupEventsPage } = organizationPage;
 
-      // Wait for events to load completely
+      // Wait for events to load completely.
       await page.waitForLoadState("domcontentloaded");
 
-      // Wait a bit more for the page to fully render
+      // Wait a bit more for the page to fully render.
       await page.waitForTimeout(2000);
 
-      // Wait for page to load and check what's actually present
+      // Wait for page to load and check what's actually present.
       await page.waitForLoadState("domcontentloaded");
 
-      // Check if we have events, empty state, or just the basic page structure
+      // Check if we have events, empty state, or just the basic page structure.
       const eventsListVisible = await groupEventsPage.eventsList
         .isVisible()
         .catch(() => false);
@@ -68,23 +68,23 @@ test.describe(
         .isVisible()
         .catch(() => false);
 
-      // If neither events nor empty state is visible, that's also a valid state
-      // (the page might be loading or have no events but not show empty state)
+      // If neither events nor empty state is visible, that's also a valid state.
+      // (the page might be loading or have no events but not show empty state).
       if (!eventsListVisible && !emptyStateVisible) {
-        // Just verify the page loaded with the expected header elements
+        // Just verify the page loaded with the expected header elements.
         await expect(groupEventsPage.newEventButton).toBeVisible();
-        return; // Exit early since this is a valid state
+        return; // exit early since this is a valid state
       }
 
-      // Check if events exist or empty state is shown
+      // Check if events exist or empty state is shown.
       const eventCount = await groupEventsPage.getEventCount();
 
       if (eventCount > 0) {
-        // Verify events list is visible
+        // Verify events list is visible.
         await expect(groupEventsPage.eventsList).toBeVisible();
         await expect(groupEventsPage.eventCards.first()).toBeVisible();
 
-        // Verify first event has required elements
+        // Verify first event has required elements.
         const firstEventCard = groupEventsPage.getEventCard(0);
         await expect(firstEventCard).toBeVisible();
 
@@ -92,25 +92,24 @@ test.describe(
         await expect(firstEventLink).toBeVisible();
         await expect(firstEventLink).toHaveAttribute("href", /.+/);
       } else if (emptyStateVisible) {
-        // Verify empty state is shown when no events
+        // Verify empty state is shown when no events.
         await expect(groupEventsPage.emptyState).toBeVisible();
         await expect(groupEventsPage.emptyStateMessage).toBeVisible();
       }
-      // If neither events nor empty state is visible, that's also valid (handled by early return above)
+      // If neither events nor empty state is visible, that's also valid (handled by early return above).
     });
 
     test("User can access new event creation", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const groupEventsPage = organizationPage.groupEventsPage;
+      const { groupEventsPage } = organizationPage;
 
-      // Verify new event button is visible and functional
+      // Verify new event button is visible and functional.
       await expect(groupEventsPage.newEventButton).toBeVisible();
       await expect(groupEventsPage.newEventButton).toHaveAttribute(
         "href",
         /.+/
       );
-
       // Note: We don't click it as it would navigate away from the current page
     });
   }

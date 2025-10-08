@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page, Locator } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 
 import { getEnglishText } from "~/utils/i18n";
 
@@ -47,7 +47,7 @@ export const newOrganizationsHomePage = (page: Page) => ({
     .getByTestId("menu-button"),
 
   // Modal elements
-  shareModal: page.locator("#modal").first(), // Keep as is - generic modal selector
+  shareModal: page.locator("#modal").first(),
   closeModalButton: (shareModal: Locator) =>
     shareModal.getByTestId("modal-close-button"),
 });

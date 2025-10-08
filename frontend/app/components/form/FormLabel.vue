@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="flex items-center space-x-1">
-    <label :for="props.for" class="text-base font-semibold text-primary-text">
+    <label class="text-base font-semibold text-primary-text" :for="props.for">
       {{ label }}
     </label>
     <span v-if="required" class="text-action-red">*</span>
