@@ -18,7 +18,7 @@ export const defaultSocialLink: SocialLink = {
 };
 
 export interface SocialLinkFormData {
-  id: string;
+  id?: string;
   link: string;
   label: string;
   order: number;

@@ -8,19 +8,19 @@
           class="relative flex w-full cursor-default overflow-hidden rounded-lg elem-shadow-sm focus-brand"
         >
           <ComboboxInput
+            @blur="inputFocussed = false"
             @change="query = $event.target.value"
             @click="inputFocussed = true"
-            @keyup.enter="inputFocussed = false"
             @focus="handleInputFocus"
-            @blur="inputFocussed = false"
+            @keyup.enter="inputFocussed = false"
+            :aria-label="$t('i18n.components.combobox_topics.filter_by_topic')"
             class="style-cta rounded-lg border py-2 pl-4 selection:bg-highlight dark:selection:bg-white/20"
             :displayValue="displayValueHandler"
-            :aria-label="$t('i18n.components.combobox_topics.filter_by_topic')"
             :placeholder="$t('i18n.components.combobox_topics.filter_by_topic')"
           />
           <ComboboxButton
-            class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
             :aria-label="$t('i18n.components.combobox_topics.toggle_dropdown')"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
           >
             <Icon :name="IconMap.CHEVRON_EXPAND" />
           </ComboboxButton>
@@ -34,6 +34,8 @@
           <ComboboxOptions
             id="isVisibleElement"
             class="elem-shadow-lg absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-layer-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            data-testid="topics-dropdown-options"
+            role="listbox"
           >
             <div
               v-if="filteredTopics.length === 0 && query !== ''"
@@ -43,9 +45,9 @@
             </div>
             <ComboboxOption
               v-for="topic in filteredTopics"
-              @click="inputFocussed = false"
-              v-slot="{ selected, active }"
               :key="topic.id"
+              v-slot="{ selected, active }"
+              @click="inputFocussed = false"
               as="template"
               :value="topic"
             >
@@ -56,6 +58,8 @@
                     active,
                   'text-primary-text': !active,
                 }"
+                data-testid="topics-dropdown-option"
+                role="option"
               >
                 <span class="block truncate">
                   {{ $t(topic.name) }}

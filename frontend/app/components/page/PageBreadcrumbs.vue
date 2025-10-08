@@ -60,9 +60,9 @@
         </span>
         <span v-else>
           <NuxtLink
+            aria-current="page"
             class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
-            aria-current="page"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
           </NuxtLink>

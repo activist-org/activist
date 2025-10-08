@@ -1,10 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardChangeAccountInfo
-    :ctaLabel="$t('i18n.components.card_change_account_info_email.header_cta')"
     :ctaAriaLabel="
       $t('i18n.components.card_change_account_info_email.cta_aria_label')
     "
+    :ctaLabel="$t('i18n.components.card_change_account_info_email.header_cta')"
   >
     <div class="space-y-4 pb-1">
       <div class="flex items-center space-x-4">
@@ -14,7 +14,7 @@
       </div>
       <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div class="flex w-full flex-col lg:w-1/3">
-          <h4 for="old-email" class="font-bold">
+          <h4 class="font-bold" for="old-email">
             {{ $t("i18n.components.card_change_account_info_email.old_email") }}
             *
           </h4>
@@ -29,7 +29,7 @@
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/3">
-          <h4 for="new-email" class="font-bold">
+          <h4 class="font-bold" for="new-email">
             {{ $t("i18n.components.card_change_account_info_email.new_email") }}
             *
           </h4>
@@ -44,7 +44,7 @@
           />
         </div>
         <div class="flex w-full flex-col lg:w-1/3">
-          <h4 for="password" class="font-bold">
+          <h4 class="font-bold" for="password">
             {{ $t("i18n._global.enter_password") }} *
           </h4>
           <input

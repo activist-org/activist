@@ -9,11 +9,11 @@
         <div
           class="my-2.5 flex w-[90%] grow select-none items-center justify-between rounded-md bg-layer-2 px-2 py-1 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-inside"
         >
-          <Icon :name="IconMap.SEARCH" size="1em" class="text-black" />
+          <Icon class="text-black" :name="IconMap.SEARCH" size="1em" />
           <!-- MARK: Search text input. -->
           <ComboboxInput
-            @keydown.enter="handleEnter"
             @change="searchTerm = $event.target.value"
+            @keydown.enter="handleEnter"
             class="h-9 w-full bg-transparent pl-1 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0"
             :placeholder="$t('i18n._global.search')"
           />
@@ -29,11 +29,11 @@
           <!-- MARK: Individual search result/s. -->
           <ComboboxOption
             v-for="command in filteredCommands"
-            @click="handleClick(command)"
-            v-slot="{ active }"
             :key="command.id"
-            :value="command"
+            v-slot="{ active }"
+            @click="handleClick(command)"
             as="li"
+            :value="command"
           >
             <li
               :class="[
@@ -42,9 +42,9 @@
               ]"
             >
               <Icon
+                :alt="$t(`${command.displayName}`)"
                 :name="IconMap[command.iconName as keyof typeof IconMap]"
                 size="1em"
-                :alt="$t(`${command.displayName}`)"
               />
               <div class="relative flex-grow pl-1">
                 {{ $t(`${command.displayName}`) }}

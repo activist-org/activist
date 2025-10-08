@@ -15,14 +15,14 @@
         <BtnAction
           @click.stop="openModal()"
           @keydown.enter="openModal()"
+          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           class="w-max"
           :cta="true"
-          linkTo="/"
-          label="i18n._global.new_resource"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
+          label="i18n._global.new_resource"
+          :leftIcon="IconMap.PLUS"
+          linkTo="/"
         />
       </div>
       <ModalResourceEvent />
@@ -32,14 +32,31 @@
       <draggable
         v-model="resourceList"
         @end="onDragEnd"
-        item-key="id"
+        :animation="150"
+        chosen-class="sortable-chosen"
         class="flex flex-col gap-4"
+        data-testid="event-resources-list"
+        :delay="0"
+        :delay-on-touch-start="false"
+        :direction="'vertical'"
+        :disabled="false"
+        :distance="5"
+        drag-class="sortable-drag"
+        fallback-class="sortable-fallback"
+        :fallback-tolerance="0"
+        :force-fallback="false"
+        ghost-class="sortable-ghost"
+        handle=".drag-handle"
+        :invert-swap="false"
+        item-key="id"
+        :swap-threshold="0.5"
+        :touch-start-threshold="3"
       >
         <template #item="{ element }">
           <CardResource
+            :entityType="EntityType.EVENT"
             :isReduced="true"
             :resource="element"
-            :entityType="EntityType.EVENT"
           />
         </template>
       </draggable>
@@ -78,3 +95,29 @@ watch(
   }
 );
 </script>
+
+<style scoped>
+.sortable-ghost {
+  opacity: 0.4;
+  transition: opacity 0.05s ease;
+}
+
+.sortable-chosen {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: background-color 0.05s ease;
+}
+
+.sortable-drag {
+  transform: rotate(5deg);
+  transition: transform 0.05s ease;
+}
+
+.sortable-fallback {
+  display: none;
+}
+
+/* Ensure drag handles work properly. */
+.drag-handle {
+  user-select: none;
+}
+</style>

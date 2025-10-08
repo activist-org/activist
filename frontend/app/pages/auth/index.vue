@@ -8,20 +8,20 @@
       class="grid w-full max-w-[60%] grid-cols-1 grid-rows-2 gap-y-4 sm:max-w-[50%] md:max-w-[60%] xl:max-w-[50%]"
     >
       <BtnRouteInternal
+        ariaLabel="i18n._global.sign_up_aria_label"
         class="w-full"
+        :cta="true"
+        fontSize="lg"
         label="i18n._global.sign_up"
         linkTo="/auth/sign-up"
-        :cta="true"
-        fontSize="lg"
-        ariaLabel="i18n._global.sign_up_aria_label"
       />
       <BtnRouteInternal
+        ariaLabel="i18n._global.sign_in_aria_label"
         class="w-full"
-        label="i18n._global.sign_in"
-        linkTo="/auth/sign-in"
         :cta="true"
         fontSize="lg"
-        ariaLabel="i18n._global.sign_in_aria_label"
+        label="i18n._global.sign_in"
+        linkTo="/auth/sign-in"
       />
     </div>
   </div>

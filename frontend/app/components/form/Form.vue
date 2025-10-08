@@ -1,21 +1,26 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div :class="props.class">
-    <form @keydown.enter.prevent="onSubmit" @submit.prevent="onSubmit" :id="id">
+    <form
+      :id="id"
+      @keydown.enter.prevent="onSubmit"
+      @submit.prevent="onSubmit"
+      role="form"
+    >
       <div class="flex flex-col gap-y-4">
         <div class="grid gap-y-4">
           <slot />
         </div>
         <BtnAction
-          v-if="props.isThereSubmitButton"
           :id="submitId"
+          v-if="props.isThereSubmitButton"
+          ariaLabel="i18n.components.submit_aria_label"
           class="flex items-center justify-center"
           :class="props.classButton"
-          :label="labelForSubmit"
           :cta="true"
           fontSize="lg"
+          :label="labelForSubmit"
           type="submit"
-          ariaLabel="i18n.components.submit_aria_label"
         />
       </div>
     </form>

@@ -3,14 +3,14 @@
   <input
     v-bind="{ ...$attrs, onChange: updateValue }"
     :id="uuid"
-    class="field"
     :checked="modelValue === true"
+    class="field"
     type="radio"
   />
   <label v-if="label" :for="uuid">
     {{ label }}
   </label>
-  <BaseErrorMessage v-if="error" :id="`${uuid}-error`">
+  <BaseErrorMessage :id="`${uuid}-error`" v-if="error">
     {{ error }}
   </BaseErrorMessage>
 </template>

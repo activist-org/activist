@@ -219,7 +219,7 @@ class ExecutionTimeReporter implements Reporter {
         if (!groups[test.projectName]) {
           groups[test.projectName] = [];
         }
-        groups[test.projectName].push(test);
+        groups[test.projectName]?.push(test);
         return groups;
       },
       {} as Record<string, TestExecutionInfo[]>

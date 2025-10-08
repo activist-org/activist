@@ -2,13 +2,13 @@
 <template>
   <DropdownBase
     class="dropdown-theme"
-    :location="location"
-    :menuButtonIcon="menuButtonIcon"
-    :menuButtonLabel="$t('i18n.components.dropdown_theme.label')"
     :isMenuButtonUppercase="false"
+    :location="location"
     :menuButtonAriaLabel="
       $t('i18n.components.dropdown_theme.open_dropdown_aria_label')
     "
+    :menuButtonIcon="menuButtonIcon"
+    :menuButtonLabel="$t('i18n.components.dropdown_theme.label')"
   >
     <div class="px-2 py-2">
       <MenuItem
@@ -17,12 +17,12 @@
         v-slot="{ active }"
       >
         <MenuItemLabel
-          :isButton="true"
-          :handlerClick="() => handlerClick(opt.optColorMode)"
-          :iconName="opt.iconName"
-          :label="$t(opt.label)"
           :active="active"
           :ariaLabel="$t(opt.ariaLabel)"
+          :handlerClick="() => handlerClick(opt.optColorMode)"
+          :iconName="opt.iconName"
+          :isButton="true"
+          :label="$t(opt.label)"
         />
       </MenuItem>
     </div>

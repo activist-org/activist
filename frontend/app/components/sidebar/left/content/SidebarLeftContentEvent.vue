@@ -11,17 +11,17 @@
       }"
     >
       <ImageEvent
+        :alt="
+          $t('i18n._global.entity_logo', {
+            entity_name: name,
+          })
+        "
         class="elem-shadow-sm"
         eventType="action"
         :imgUrl="
           event.iconUrl?.fileObject
             ? `${BASE_BACKEND_URL_NO_V1}${event.iconUrl?.fileObject}`
             : logoUrl
-        "
-        :alt="
-          $t('i18n._global.entity_logo', {
-            entity_name: name,
-          })
         "
       />
       <button
@@ -30,10 +30,10 @@
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
         "
         @click="openModal()"
-        class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
         :aria-label="
           $t('i18n.components.sidebar_left_content_event.edit_aria_label')
         "
+        class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
       >
         <Icon :name="IconMap.EDIT" size="1em" />
       </button>
@@ -49,9 +49,9 @@
       <li v-for="menuEntry in menuEntriesState.eventEntry.value">
         <SidebarLeftSelector
           :id="'event-' + menuEntry.label.split('.').pop()"
+          :iconUrl="menuEntry.iconUrl"
           :label="menuEntry.label"
           :routeUrl="menuEntry.routeUrl"
-          :iconUrl="menuEntry.iconUrl"
           :selected="menuEntry.selected"
         />
       </li>

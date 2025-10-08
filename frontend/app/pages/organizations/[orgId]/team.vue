@@ -17,13 +17,13 @@
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
+          ariaLabel="i18n.pages.organizations.team.invite_someone_org_aria_label"
           class="w-max"
           :cta="true"
-          label="i18n.pages._global.team.invite_someone"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages.organizations.team.invite_someone_org_aria_label"
+          label="i18n.pages._global.team.invite_someone"
+          :leftIcon="IconMap.PLUS"
         />
       </div>
     </HeaderAppPageOrganization>

@@ -1,16 +1,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardSearchResultEntity
-    :title="user.name"
-    :description="description"
-    :linkUrl="linkUrl"
     :ariaLabel="ariaLabel"
-    :imageUrl="imageUrl"
-    :imageAlt="imageAlt"
-    :iconName="defaultIconName"
+    :description="description"
     :entityName="entityName"
+    :iconName="defaultIconName"
+    :imageAlt="imageAlt"
+    :imageUrl="imageUrl"
     :isExternalLink="false"
     :isReduced="isReduced"
+    :linkUrl="linkUrl"
+    :title="user.name"
   >
     <template #menu>
       <MenuSearchResult

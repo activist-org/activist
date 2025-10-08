@@ -3,7 +3,7 @@
   <LoadingScreen />
   <div>
     <NuxtLayout>
-      <Toaster :theme="isDark ? 'dark' : 'light'" :richColors="true" />
+      <Toaster :richColors="true" :theme="isDark ? 'dark' : 'light'" />
       <ModalCommandPalette :paletteData="commandPaletteData" />
       <NuxtPage />
     </NuxtLayout>

@@ -150,6 +150,7 @@ export const useEventStore = defineStore("event", {
           (await fetchWithoutToken(`/events/events/${id}`, {})) as EventResponse
       );
 
+      // Refresh data if requested (e.g., after mutations).
       if (refreshData) {
         await refresh();
       }
@@ -184,16 +185,24 @@ export const useEventStore = defineStore("event", {
 
     // MARK: Fetch All
 
-    async fetchAll(filters: EventFilters = {}) {
+    // Note: refreshData is used to force refetching the data from the backend.
+    async fetchAll(filters: EventFilters = {}, refreshData = false) {
       this.loading = true;
       const query = new URLSearchParams(filters as Record<string, string>);
-      const { data, status } = await useAsyncData<EventsResponseBody>(
+      const { data, status, refresh } = await useAsyncData<EventsResponseBody>(
+        `events-all`,
         async () =>
           (await fetchWithoutToken(
             `/events/events?${query.toString()}`,
             {}
           )) as EventsResponseBody
       );
+
+      // Refresh data if requested (e.g., after mutations).
+      if (refreshData) {
+        await refresh();
+      }
+
       if (status.value === "success") {
         const events = data.value!.results.map((event: EventResponse) => {
           return {
@@ -290,6 +299,68 @@ export const useEventStore = defineStore("event", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update Link
+
+    async updateSocialLink(
+      event: Event,
+      linkId: string,
+      data: { link: string; label: string; order: number }
+    ) {
+      this.loading = true;
+
+      const response = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_social_links/${linkId}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            link: data.link,
+            label: data.label,
+            order: data.order,
+            event: event.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseData = response.data.value as unknown as Event;
+      if (responseData) {
+        await this.fetchById(event.id);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Delete Link
+
+    async deleteSocialLink(event: Event, linkId: string) {
+      this.loading = true;
+
+      const response = await useFetch(
+        `${BASE_BACKEND_URL}/events/event_social_links/${linkId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseData = response.data.value;
+      if (responseData !== null) {
         await this.fetchById(event.id);
         this.loading = false;
         return true;

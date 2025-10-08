@@ -35,21 +35,21 @@
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
       <div @mouseover.stop class="absolute -right-0">
         <button
+          id="sidebar-left-toggle"
           @click="
             sidebar.toggleCollapsedSwitch();
             emit('toggle-pressed');
           "
-          id="sidebar-left-toggle"
-          class="flex h-7 w-7 items-center justify-center outline-offset-0 transition duration-200 focus-brand"
-          :class="{
-            '-rotate-180 pr-0.5': sidebar.collapsedSwitch == false,
-            'pb-1 pl-0.5': sidebar.collapsedSwitch == true,
-          }"
           :aria-label="
             $t(
               'i18n.components.sidebar_left_header.sidebar_collapse_aria_label'
             )
           "
+          class="flex h-7 w-7 items-center justify-center outline-offset-0 transition duration-200 focus-brand"
+          :class="{
+            '-rotate-180 pr-0.5': sidebar.collapsedSwitch == false,
+            'pb-1 pl-0.5': sidebar.collapsedSwitch == true,
+          }"
         >
           <SidebarLeftToggle chevronDirection="right" iconSize="1.4em" />
         </button>

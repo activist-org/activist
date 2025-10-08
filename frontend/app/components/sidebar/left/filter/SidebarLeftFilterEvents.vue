@@ -12,46 +12,46 @@
     <Form
       @submit="handleSubmit"
       class="px-1"
+      :initial-values="formData"
+      :is-there-submit-button="false"
       :schema="schema"
       :send-on-change="true"
-      :is-there-submit-button="false"
-      :initial-values="formData"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
-        name="days"
         :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
+        name="days"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
-          @update:modelValue="handleChange"
           :id="id"
+          @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionDays"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        name="type"
         :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
+        name="type"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
-          @update:modelValue="handleChange"
           :id="id"
+          @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionEventTypes"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        name="setting"
         :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
+        name="setting"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
-          @update:modelValue="handleChange"
           :id="id"
+          @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionLocations"
         />
@@ -63,19 +63,19 @@
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInputSearch
+          :id="id"
           @blur="handleBlur"
           @update:modelValue="handleChange"
-          :id="id"
-          :modelValue="(value.value as string)"
-          :hasError="!!errorMessage.value"
-          :label="
-            $t('i18n.components.sidebar.left.filter._global.filter_by_location')
-          "
           :ariaLabel="
             $t(
               'i18n.components.sidebar.left.filter._global.search_button_aria_label'
             )
           "
+          :hasError="!!errorMessage.value"
+          :label="
+            $t('i18n.components.sidebar.left.filter._global.filter_by_location')
+          "
+          :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
@@ -85,13 +85,13 @@
       >
         <!-- prettier-ignore-attribute :selected-options -->
         <FormSelectorCombobox
+          :id="id"
           @update:selectedOptions="
             (val: unknown) => handleChange(val as TopicEnum[])
           "
-          :id="id"
-          :selected-options="((value.value ?? []) as TopicEnum[])"
-          :options="optionsTopics"
           :label="$t('i18n.components._global.topics')"
+          :options="optionsTopics"
+          :selected-options="((value.value ?? []) as TopicEnum[])"
         />
       </FormItem>
     </Form>

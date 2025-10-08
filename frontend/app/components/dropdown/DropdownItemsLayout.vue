@@ -7,21 +7,21 @@
     }"
   >
     <MenuLinkWrapper
+      :id="getSelectorId(opt.label)"
       v-for="opt in options"
       :key="opt.id"
-      :id="getSelectorId(opt.label)"
-      :to="opt.routeUrl"
-      :selected="opt.selected"
       :isAddStyles="false"
+      :selected="opt.selected"
+      :to="opt.routeUrl"
     >
       <MenuItem v-slot="{ active }" class="flex">
         <MenuItemLabel
-          :isSidebarLeftMenu="isSidebarLeftMenu"
-          :isButton="false"
-          :label="$t(`${opt.label}`)"
-          :iconName="opt.iconUrl"
           :active="active"
           :handlerClick="opt?.onClick"
+          :iconName="opt.iconUrl"
+          :isButton="false"
+          :isSidebarLeftMenu="isSidebarLeftMenu"
+          :label="$t(`${opt.label}`)"
         />
       </MenuItem>
     </MenuLinkWrapper>

@@ -9,13 +9,13 @@
     </Head>
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
-        :eventType="event.type"
-        :imgUrl="event.iconUrl?.fileObject || ''"
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: event?.name,
           })
         "
+        :eventType="event.type"
+        :imgUrl="event.iconUrl?.fileObject || ''"
       />
     </div>
     <div class="flex flex-col items-center gap-2">
@@ -30,8 +30,8 @@
       <MenuLinkWrapper
         v-for="[i, button] of eventButtons.entries()"
         :key="i"
-        :to="localPath(button.routeUrl)"
         :selected="button.selected"
+        :to="localPath(button.routeUrl)"
       >
         <div
           class="flex w-full items-center space-x-2 text-left text-sm font-medium"
@@ -39,8 +39,8 @@
           <span class="width-1/6">
             <Icon
               v-if="button.iconUrl"
-              :name="button.iconUrl"
               class="h-5 w-5 flex-shrink-0"
+              :name="button.iconUrl"
             />
           </span>
           <p
@@ -52,14 +52,14 @@
         </div>
       </MenuLinkWrapper>
       <BtnRouteInternal
+        ariaLabel="i18n._global.offer_to_help_aria_label"
         class="w-max"
         :cta="true"
-        linkTo="/"
-        label="i18n._global.offer_to_help"
         fontSize="base"
-        :rightIcon="IconMap.ARROW_RIGHT"
         iconSize="1.25em"
-        ariaLabel="i18n._global.offer_to_help_aria_label"
+        label="i18n._global.offer_to_help"
+        linkTo="/"
+        :rightIcon="IconMap.ARROW_RIGHT"
       />
     </div>
   </div>

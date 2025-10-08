@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { LOCALE_CODE } from "~/locales";
+import type { LOCALE_CODE } from "~/utils/locales";
 
 import { getLocaleText } from "~/utils/i18n";
 

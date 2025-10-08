@@ -107,6 +107,7 @@ export const useGroupStore = defineStore("group", {
       this.loading = true;
 
       const { data, status, refresh } = await useAsyncData<GroupResponse>(
+        `group-${id}`,
         async () =>
           (await fetchWithoutToken(
             `/communities/groups/${id}`,
@@ -114,6 +115,7 @@ export const useGroupStore = defineStore("group", {
           )) as GroupResponse
       );
 
+      // Refresh data if requested (e.g., after mutations).
       if (refreshData) {
         await refresh();
       }
@@ -142,16 +144,23 @@ export const useGroupStore = defineStore("group", {
 
     // MARK: Fetch All
 
-    async fetchAll() {
+    // Note: refreshData is used to force refetching the data from the backend.
+    async fetchAll(refreshData = false) {
       this.loading = true;
 
-      const { data, status } = await useAsyncData<GroupsResponseBody>(
+      const { data, status, refresh } = await useAsyncData<GroupsResponseBody>(
+        `groups-all`,
         async () =>
           (await fetchWithoutToken(
             `/communities/groups`,
             {}
           )) as GroupsResponseBody
       );
+
+      // Refresh data if requested (e.g., after mutations).
+      if (refreshData) {
+        await refresh();
+      }
 
       if (status.value === "success") {
         const groups = data.value!.results.map((group: GroupResponse) => {
@@ -331,6 +340,7 @@ export const useGroupStore = defineStore("group", {
       if (responses.every((r) => r === true)) {
         // Fetch updated group data after successful updates to update the frontend.
         await this.fetchById(group.id, true);
+        await this.fetchById(group.id, true);
         this.loading = false;
         return true;
       } else {
@@ -371,6 +381,68 @@ export const useGroupStore = defineStore("group", {
 
       if (responses.every((r) => r === true)) {
         // Fetch updated org data after successful updates to update the frontend.
+        await this.fetchById(group.id, true);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Update Link
+
+    async updateSocialLink(
+      group: Group,
+      linkId: string,
+      data: { link: string; label: string; order: number }
+    ) {
+      this.loading = true;
+
+      const response = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_social_links/${linkId}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            link: data.link,
+            label: data.label,
+            order: data.order,
+            group: group.id,
+          }),
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseData = response.data.value as unknown as Group;
+      if (responseData) {
+        await this.fetchById(group.id, true);
+        this.loading = false;
+        return true;
+      } else {
+        this.loading = false;
+        return false;
+      }
+    },
+
+    // MARK: Delete Link
+
+    async deleteSocialLink(group: Group, linkId: string) {
+      this.loading = true;
+
+      const response = await useFetch(
+        `${BASE_BACKEND_URL}/communities/group_social_links/${linkId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `${token.value}`,
+          },
+        }
+      );
+
+      const responseData = response.data.value;
+      if (responseData !== null) {
         await this.fetchById(group.id, true);
         this.loading = false;
         return true;

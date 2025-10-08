@@ -10,14 +10,14 @@
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
           v-if="event.getInvolvedUrl"
+          ariaLabel="i18n._global.offer_to_help_aria_label"
           class="w-max"
           :cta="true"
-          :linkTo="event.getInvolvedUrl"
-          label="i18n._global.offer_to_help"
           fontSize="sm"
-          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18n._global.offer_to_help_aria_label"
+          label="i18n._global.offer_to_help"
+          :linkTo="event.getInvolvedUrl"
+          :rightIcon="IconMap.ARROW_RIGHT"
         />
         <!-- <BtnAction
           class="w-max"
@@ -33,25 +33,25 @@
         <BtnAction
           @click="openModalSharePage()"
           @keydown.enter="openModalSharePage()"
+          ariaLabel="i18n._global.share_event_aria_label"
           class="w-max"
           :cta="true"
-          :label="shareButtonLabel"
-          :hideLabelOnMobile="false"
           fontSize="sm"
-          :rightIcon="IconMap.SHARE"
+          :hideLabelOnMobile="false"
           iconSize="1.45em"
-          ariaLabel="i18n._global.share_event_aria_label"
+          :label="shareButtonLabel"
+          :rightIcon="IconMap.SHARE"
         />
         <BtnAction
           @click="downloadCalendarEntry"
           @keydown.enter="downloadCalendarEntry"
+          ariaLabel="i18n._global.subscribe_to_event_aria_label"
           class="w-max"
           :cta="true"
-          label="i18n.pages.events.about.subscribe_to_event"
           fontSize="sm"
-          :rightIcon="IconMap.DATE"
           iconSize="1.25em"
-          ariaLabel="i18n._global.subscribe_to_event_aria_label"
+          label="i18n.pages.events.about.subscribe_to_event"
+          :rightIcon="IconMap.DATE"
         />
         <ModalSharePage :cta="true" :event="event" />
       </div>
@@ -80,8 +80,8 @@
       </div>
       <CardAboutEvent :event="event" />
       <CardGetInvolvedEvent
-        :event="event"
         disclaimer="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+        :event="event"
       />
       <CardConnectEvent />
     </div>

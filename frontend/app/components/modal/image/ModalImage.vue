@@ -2,21 +2,21 @@
 <template>
   <ModalBase
     @closeModal="handleCloseModal"
-    :isOpen="modalIsOpen"
     :imageModal="true"
+    :isOpen="modalIsOpen"
     :modalName="modalName"
   >
     <img
       v-if="$colorMode.value == 'light'"
+      :alt="$t(imageAltText)"
       class="w-4/5 object-contain"
       :src="imgUrl + '_light.png'"
-      :alt="$t(imageAltText)"
     />
     <img
       v-else-if="$colorMode.value == 'dark'"
+      :alt="$t(imageAltText)"
       class="w-4/5 object-contain"
       :src="imgUrl + '_dark.png'"
-      :alt="$t(imageAltText)"
     />
   </ModalBase>
 </template>

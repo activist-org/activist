@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    v-if="selectedMenuItem"
     id="submenu"
+    v-if="selectedMenuItem"
     class="fixed z-20 h-10 w-full bg-menu-selection"
   >
     <Listbox v-model="selectedMenuItem">
@@ -10,18 +10,18 @@
         class="relative flex w-full items-center fill-layer-1 py-2 pl-5 text-left align-middle text-layer-1 elem-shadow-sm focus-brand"
       >
         <Icon
-          :name="selectedMenuItem.iconUrl"
-          class="mr-4 h-5 w-5 align-middle"
           aria-hidden="true"
+          class="mr-4 h-5 w-5 align-middle"
+          :name="selectedMenuItem.iconUrl"
         />
         <span>{{ $t(selectedMenuItem.label) }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
           <Icon
-            :name="IconMap.CHEVRON_EXPAND"
-            class="mr-2 h-5 w-5 align-middle"
             aria-hidden="true"
+            class="mr-2 h-5 w-5 align-middle"
+            :name="IconMap.CHEVRON_EXPAND"
         /></span>
       </ListboxButton>
       <transition
@@ -34,8 +34,8 @@
             v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
               ? menuEntryState.organizationEntry.value
               : menuEntryState.eventEntry.value"
-            v-slot="{ selected }"
             :key="menuEntry.id"
+            v-slot="{ selected }"
             :value="menuEntry"
           >
             <NuxtLink @click="handleItemClick(menuEntry)">
@@ -53,9 +53,9 @@
                 }"
               >
                 <Icon
-                  :name="menuEntry.iconUrl"
-                  class="mr-4 h-5 w-5 align-middle"
                   aria-hidden="true"
+                  class="mr-4 h-5 w-5 align-middle"
+                  :name="menuEntry.iconUrl"
                 />
                 <span
                   class="block truncate"

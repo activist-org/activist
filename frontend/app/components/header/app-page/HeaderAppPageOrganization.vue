@@ -3,9 +3,9 @@
   <!-- organization.status === 1 means it's application is pending. -->
   <HeaderAppPage
     :header="headerName"
+    :statusPending="organization.status === 1"
     :tagline="headerTagline"
     :underDevelopment="underDevelopment"
-    :statusPending="organization.status === 1"
   >
     <slot />
   </HeaderAppPage>

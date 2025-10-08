@@ -7,6 +7,6 @@ export const newCommunityMenu = (parent: Page | Locator, prefix: string) => ({
   teamOption: parent.locator(`#${prefix}-team`),
   resourcesOption: parent.locator(`#${prefix}-resources`),
   tasksOption: parent.locator(`#${prefix}-tasks`),
-  discussionsOption: parent.locator(`${prefix}-discussion`),
+  discussionsOption: parent.locator(`#${prefix}-discussions`),
   settingsOption: parent.locator(`#${prefix}-settings`),
 });

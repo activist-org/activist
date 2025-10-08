@@ -5,8 +5,8 @@
       {{ $t("i18n.pages.auth.pwreset.email.title") }}
     </h3>
     <Form
-      @submit="submit"
       id="sign-in"
+      @submit="submit"
       class="space-y-4"
       :schema="emailResetPasswordSchema"
       submit-label="i18n.pages.auth.pwreset.email.submit"
@@ -17,13 +17,13 @@
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
-          @input="handleChange"
-          @blur="handleBlur"
           :id="id"
-          :modelValue="(value.value as string)"
+          @blur="handleBlur"
+          @input="handleChange"
+          :data-testid="$t('i18n.pages.auth._global.enter_email')"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth._global.enter_email')"
-          :data-testid="$t('i18n.pages.auth._global.enter_email')"
+          :modelValue="(value.value as string)"
         />
       </FormItem>
     </Form>

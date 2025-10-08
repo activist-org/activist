@@ -1,15 +1,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <FormTextInput
-    @update:modelValue="(val) => (localValue = val)"
     :id="id"
+    @update:modelValue="(val) => (localValue = val)"
+    iconLocation="left"
     :label="label"
     :modelValue="localValue"
-    iconLocation="left"
   >
     <template #icons>
       <slot name="icons"></slot>
-      <button :id="`${id}-search`" type="button" :aria-label="ariaLabel">
+      <button :id="`${id}-search`" :aria-label="ariaLabel" type="button">
         <Icon :name="IconMap.SEARCH" size="1.4em" />
       </button>
     </template>

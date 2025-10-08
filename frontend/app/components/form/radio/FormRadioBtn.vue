@@ -10,10 +10,10 @@
   >
     <input
       :id="uuid"
-      class="hidden"
-      type="radio"
       v-bind="{ ...$attrs, onChange: updateValue }"
       :checked="modelValue === value"
+      class="hidden"
+      type="radio"
     />
     <label
       v-if="label"

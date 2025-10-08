@@ -48,21 +48,19 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 ```html
 <element
-  v-attributes=""
-  @attributes=""
-  ref=""
-  key=""
-  id=""
-  class=""
-  :class="{}"
-  props=""
-  other-attributes=""
-  aria-label=""
+  is="header"
+  id="uniqueID"
+  v-if="!visible"
+  v-for="item in items"
+  v-once
+  ref="header"
+  v-model="headerData"
+  my-prop="prop"
+  @click="functionCall"
+  v-text="textContent"
+  otherAttributesAlphabetically=""
 ></element>
 ```
-
-> [!NOTE]
-> Put the aria label as the last attribute on any given element so it's easy to see if it's missing (`aria-label` for as an HTML attribute and `ariaLabel` as a component prop)
 
 Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 

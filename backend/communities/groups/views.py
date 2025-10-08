@@ -476,6 +476,39 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            social_link = GroupSocialLink.objects.get(id=pk)
+
+        except GroupSocialLink.DoesNotExist as e:
+            logger.exception(
+                f"Social link with id {pk} does not exist for deletion: {e}"
+            )
+            return Response(
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        group = social_link.group
+        if group is not None:
+            creator = group.created_by
+
+        else:
+            raise ValueError("Group is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this social link."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        social_link.delete()
+        logger.info(f"Social link {pk} deleted for group {group.id}")
+
+        return Response(
+            {"message": "Social link deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
 
 class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
     queryset = GroupResource.objects.all()

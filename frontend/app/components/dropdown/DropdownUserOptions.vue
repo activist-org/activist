@@ -1,6 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DropdownBase
+    :isMenuButtonBold="true"
+    :isMenuButtonUppercase="false"
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_PERSON"
     :menuButtonLabel="
@@ -8,8 +10,6 @@
         ? $t('i18n.components.dropdown_user_options.username')
         : $t('i18n.components.dropdown_user_options.join_activist')
     "
-    :isMenuButtonUppercase="false"
-    :isMenuButtonBold="true"
     menuButtonAriaLabel="i18n.components.dropdown_user_options.username_aria_label"
   >
     <DropdownItemsLayout

@@ -4,20 +4,20 @@
     <div class="h-1 rounded-md bg-distinct-text">
       <div
         id="password-strength-indicator-progress"
-        data-testid="password-strength-indicator-progress"
         class="h-1 rounded-md transition-[width] duration-500 ease-in"
         :class="!!(password || []).length ? `${color}` : ''"
+        data-testid="password-strength-indicator-progress"
         :style="`width: ${width}%;`"
       ></div>
     </div>
     <div
       id="sign-in-password-strength-text"
-      data-testid="sign-in-password-strength-text"
       class="float-right mt-1 text-xs"
       :class="{
         'text-distinct-text': color !== 'bg-primary-text',
         'text-primary-text': color === 'bg-primary-text',
       }"
+      data-testid="sign-in-password-strength-text"
     >
       {{ $t("i18n.components.indicator_password_strength.title") }}:
       {{

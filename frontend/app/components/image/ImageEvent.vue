@@ -11,16 +11,16 @@
     ></div>
     <img
       v-if="imgUrl && imgUrl !== ''"
+      :alt="alt"
       class="w-[80%] rounded-r-md object-cover"
       :src="imgUrl"
-      :alt="alt"
     />
     <!-- Note: Placeholder image for if no image is provided. -->
     <div
       v-else
       class="flex h-full w-[80%] items-center justify-center rounded-r-md bg-layer-0 text-primary-text"
     >
-      <Icon :name="IconMap.EVENT" class="mb-1" :size="size" />
+      <Icon class="mb-1" :name="IconMap.EVENT" :size="size" />
     </div>
   </div>
 </template>

@@ -8,14 +8,16 @@ import type {
 import type { AxeResults } from "axe-core";
 
 import { createHtmlReport } from "axe-html-reporter";
+import path from "path";
 
-import { RESULTS_PATH } from "~/playwright.config";
+// Use process.cwd() instead of import.meta.url for compatibility with Playwright's reporter loading.
+const DEFAULT_RESULTS_PATH = path.join(process.cwd(), "test-results");
 
 class AxeReporter implements Reporter {
   private outputDirPath: string;
 
   constructor(options?: { outputDirPath?: string }) {
-    this.outputDirPath = options?.outputDirPath || RESULTS_PATH;
+    this.outputDirPath = options?.outputDirPath || DEFAULT_RESULTS_PATH;
   }
 
   onTestBegin(_test: TestCase) {
@@ -62,7 +64,8 @@ class AxeReporter implements Reporter {
         const project = current.project();
         if (project) {
           const projectName = project.name;
-          const [browserName, ...deviceParts] = projectName.split(" ");
+          const [browserName = "unknown", ...deviceParts] =
+            projectName.split(" ");
           return {
             browserName: browserName.replace(/\s+/g, "_"),
             deviceName:

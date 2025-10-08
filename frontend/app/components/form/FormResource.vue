@@ -2,8 +2,8 @@
 <template>
   <Form
     @submit="handleSubmit"
-    :schema="schema"
     :initial-values="formData as undefined"
+    :schema="schema"
     :submit-label="$t(submitLabel)"
   >
     <h2 v-if="title">
@@ -12,48 +12,48 @@
     <div class="flex flex-col space-y-7">
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        name="name"
         :label="$t('i18n.components.form_resource.name')"
+        name="name"
         :required="true"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
+          :id="id"
           @blur="handleBlur"
           @update:modelValue="handleChange"
-          :id="id"
           :hasError="!!errorMessage.value"
-          :modelValue="(value.value as string)"
           :label="$t('i18n.components.form_resource.name')"
+          :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        name="description"
         :label="$t('i18n.components.form_resource.description')"
+        name="description"
         :required="true"
       >
         <FormTextArea
-          @input="handleChange"
-          @blur="handleBlur"
           :id="id"
-          :value="value.value"
+          @blur="handleBlur"
+          @input="handleChange"
           :hasError="!!errorMessage.value"
+          :value="value.value"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        name="url"
         :label="$t('i18n.components.form_resource.link')"
+        name="url"
         :required="true"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
+          :id="id"
           @blur="handleBlur"
           @update:modelValue="handleChange"
-          :id="id"
           :hasError="!!errorMessage.value"
-          :modelValue="(value.value as string)"
           :label="$t('i18n.components.form_resource.link')"
+          :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
@@ -63,13 +63,13 @@
       >
         <!-- prettier-ignore-attribute :selected-topics -->
         <FormSelectorComboboxTopics
+          :id="id"
           @update:selectedOptions="
             (val: unknown) => handleChange(val as TopicEnum[])
           "
-          :id="id"
-          :selected-topics="(value.value as TopicEnum[])"
-          :label="$t('i18n.components._global.topics')"
           :hasColOptions="false"
+          :label="$t('i18n.components._global.topics')"
+          :selected-topics="(value.value as TopicEnum[])"
         />
       </FormItem>
     </div>

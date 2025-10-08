@@ -28,15 +28,16 @@
         <slot name="icons"></slot>
       </span>
       <input
+        :id="id"
+        @blur="handleBlur"
+        @focus="shrinkLabel = true"
         @input="
           (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
         "
-        @focus="shrinkLabel = true"
-        @blur="handleBlur"
-        :id="id"
         class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text placeholder-distinct-text outline-none"
-        :type="type"
         :placeholder="shrinkLabel ? '' : label"
+        role="textbox"
+        :type="type"
         :value="modelValue"
         v-bind="$attrs"
       />

@@ -6,18 +6,18 @@
         {{ $t("i18n.pages.auth.reset_password.index.reset_password_info") }}
       </p>
       <FormTextInput
-        @input="input = $event.target.value"
         id="reset-password-username"
-        :value="input"
+        @input="input = $event.target.value"
         :label="$t('i18n.pages.auth.reset_password.enter_username_mail')"
+        :value="input"
       />
       <div class="pt-4">
         <BtnAction
+          ariaLabel="i18n._global.auth.reset_password"
           class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
-          label="i18n._global.auth.reset_password"
           :cta="true"
           fontSize="lg"
-          ariaLabel="i18n._global.auth.reset_password"
+          label="i18n._global.auth.reset_password"
         />
       </div>
       <div class="link-text pt-16 text-center text-xl font-extrabold">

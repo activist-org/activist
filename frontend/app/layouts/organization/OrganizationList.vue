@@ -8,10 +8,10 @@
     <!-- <ModalUploadImage @upload-complete="handleUploadComplete" /> -->
     <SidebarLeft
       v-if="aboveMediumBP"
-      @mouseover="sidebarHover = true"
+      @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
-      @blur="sidebarHover = false"
+      @mouseover="sidebarHover = true"
       class="block"
     />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">

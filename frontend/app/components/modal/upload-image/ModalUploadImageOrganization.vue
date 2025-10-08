@@ -19,13 +19,13 @@
         <BtnAction
           v-if="files.length > 0"
           @click="handleUpload"
-          :cta="true"
-          label="i18n.components._global.upload"
-          fontSize="sm"
-          :leftIcon="IconMap.ARROW_UP"
-          iconSize="1.25em"
           ariaLabel="i18n.components._global.upvote_application_aria_label"
+          :cta="true"
           :disabled="files.length === 0 || files.length > uploadLimit"
+          fontSize="sm"
+          iconSize="1.25em"
+          label="i18n.components._global.upload"
+          :leftIcon="IconMap.ARROW_UP"
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <MetaTag iconName="IconSupport" :value="String(supporters)" :label="label" />
+  <MetaTag iconName="IconSupport" :label="label" :value="String(supporters)" />
 </template>
 
 <script setup lang="ts">

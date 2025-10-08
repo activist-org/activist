@@ -2,15 +2,25 @@
 <template>
   <FormTextInput
     :id="id"
-    :label="label"
     :hasError="hasError"
+    :label="label"
     :type="isPassword ? 'password' : 'text'"
   >
     <template #icons>
       <slot name="icons"></slot>
       <button
-        @click="changeInputType"
         :id="`${id}-show-password`"
+        @click="changeInputType"
+        :aria-label="
+          isPassword
+            ? $t(
+                'i18n.components.form_text_input_password.show_password_aria_label'
+              )
+            : $t(
+                'i18n.components.form_text_input_password.hide_password_aria_label'
+              )
+        "
+        :data-testid="`${id}-show-password`"
         type="button"
       >
         <Icon

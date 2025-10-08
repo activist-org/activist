@@ -24,14 +24,14 @@
       <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" /> -->
       <div class="flex w-max pt-2">
         <BtnRouteInternal
+          ariaLabel="i18n._global.offer_to_help_aria_label"
           class="w-full"
           :cta="true"
-          linkTo="/"
-          label="i18n._global.offer_to_help"
           fontSize="sm"
-          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18n._global.offer_to_help_aria_label"
+          label="i18n._global.offer_to_help"
+          linkTo="/"
+          :rightIcon="IconMap.ARROW_RIGHT"
         />
       </div>
     </div>

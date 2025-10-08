@@ -5,13 +5,13 @@
   >
     <BtnAction
       v-if="aboveMediumBP"
-      class="mt-1 flex h-min"
-      :cta="true"
-      :counter="discussion.upVoters.length"
-      fontSize="sm"
-      :leftIcon="IconMap.ARROW_UP"
-      iconSize="1.25em"
       ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
+      class="mt-1 flex h-min"
+      :counter="discussion.upVoters.length"
+      :cta="true"
+      fontSize="sm"
+      iconSize="1.25em"
+      :leftIcon="IconMap.ARROW_UP"
     />
     <div class="flex-col space-y-3 md:grow md:space-y-4 md:pl-4 lg:pl-6">
       <div class="flex flex-col justify-between md:flex-row">
@@ -34,21 +34,21 @@
           <div class="flex space-x-2">
             <BtnAction
               v-if="!aboveMediumBP"
+              ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
               class="mt-1 flex"
               :cta="true"
-              :label="`${discussion.upVoters}`"
               fontSize="sm"
-              :leftIcon="IconMap.ARROW_UP"
               iconSize="1.25em"
-              ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
+              :label="`${discussion.upVoters}`"
+              :leftIcon="IconMap.ARROW_UP"
             />
             <BtnAction
+              ariaLabel="i18n.components.card_discussion.filter_discussion_category_aria_label"
               class="mt-1 flex"
               :cta="true"
-              :label="discussion.category"
               fontSize="sm"
               iconSize="1.25em"
-              ariaLabel="i18n.components.card_discussion.filter_discussion_category_aria_label"
+              :label="discussion.category"
             />
           </div>
         </div>
@@ -67,7 +67,7 @@
         <div
           class="flex justify-center space-x-3 md:justify-start lg:space-x-4"
         >
-          <NuxtLink to="/" class="flex items-center">
+          <NuxtLink class="flex items-center" to="/">
             <div
               class="flex h-8 w-8 items-center justify-center rounded-full border border-section-div bg-layer-0"
             >
