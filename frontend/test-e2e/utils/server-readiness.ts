@@ -41,7 +41,7 @@ export async function checkServerReadiness(
     attempts++;
 
     try {
-      // Make a request to check if server is responding
+      // Make a request to check if server is responding.
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeout);
 
@@ -58,13 +58,13 @@ export async function checkServerReadiness(
       clearTimeout(timeoutId);
 
       if (response.ok) {
-        // Check if we got HTML content (not an error page)
+        // Check if we got HTML content (not an error page).
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("text/html")) {
           const text = await response.text();
 
-          // Check for signs that the server is still compiling/loading
-          // Only check for actual compilation indicators, not normal app loading states
+          // Check for signs that the server is still compiling/loading.
+          // Only check for actual compilation indicators, not normal app loading states.
           const compilationIndicators = [
             "Compiling...",
             "Building...",
@@ -92,14 +92,13 @@ export async function checkServerReadiness(
             );
           }
 
-          // Check for Nuxt-specific indicators that the app is ready
-          // We need both the Nuxt container and the Nuxt data to be present
+          // Check for Nuxt-specific indicators that the app is ready.
+          // We need both the Nuxt container and the Nuxt data to be present.
           if (text.includes('id="__nuxt"') && text.includes("__NUXT__")) {
             // eslint-disable-next-line no-console
             console.log(`✅ Server is ready after ${attempts} attempt(s)`);
             return { isReady: true, attempts };
           } else {
-            // Debug: log what we found
             const hasNuxtContainer = text.includes('id="__nuxt"');
             const hasNuxtData = text.includes("__NUXT__");
             // eslint-disable-next-line no-console
@@ -107,7 +106,7 @@ export async function checkServerReadiness(
               `⚠️  Server responded but missing Nuxt indicators: container=${hasNuxtContainer}, data=${hasNuxtData}`
             );
 
-            // Additional debug: check for compilation indicators that might be false positives
+            // Additional debug: check for compilation indicators that might be false positives.
             const hasLoadingText = text.includes("Loading...");
             const hasLoadingAlt = text.includes("loading the platform");
             const hasViteClient = text.includes("@vite/client");
@@ -116,7 +115,7 @@ export async function checkServerReadiness(
               `🔍 Debug - loading indicators: Loading...=${hasLoadingText}, alt text=${hasLoadingAlt}, vite client=${hasViteClient}`
             );
 
-            // Log a sample of the response for debugging
+            // Log a sample of the response for debugging.
             const sample = text.substring(0, 500);
             // eslint-disable-next-line no-console
             console.log(`🔍 Response sample: ${sample}...`);

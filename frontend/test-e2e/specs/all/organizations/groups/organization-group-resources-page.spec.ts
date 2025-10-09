@@ -140,7 +140,7 @@ test.describe(
       await expect(groupResourcesPage.resourceModalCloseButton).toBeVisible();
       await groupResourcesPage.resourceModalCloseButton.click();
 
-      // Verify modal closes
+      // Verify modal closes.
       await expect(groupResourcesPage.resourceModal).not.toBeVisible();
     });
 
@@ -167,7 +167,7 @@ test.describe(
         await groupResourcesPage.clickResourceShare(0);
 
         // Verify share modal opens (this would be a generic share modal).
-        // Note: The actual share modal implementation may vary
+        // Note: The actual share modal implementation may vary.
         await page.waitForTimeout(1000); // wait for any modal to appear
 
         // Close any open modals by pressing Escape.

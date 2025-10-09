@@ -21,7 +21,7 @@ export const newSignInPage = (page: Page) => ({
     ),
   }),
 
-  // Currently a button but should be a link
+  // Currently a button but should be a link.
   forgotPasswordLink: page.getByRole("button", {
     name: new RegExp(
       getEnglishText("i18n._global.auth.reset_password_forgot_password"),

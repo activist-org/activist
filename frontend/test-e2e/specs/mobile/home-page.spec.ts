@@ -11,10 +11,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
-  // Override to run without authentication (tests sign-in menu)
+  // Override to run without authentication (tests sign-in menu).
   test.use({ storageState: undefined });
 
-  // Explicitly clear all cookies to ensure unauthenticated state
+  // Explicitly clear all cookies to ensure unauthenticated state.
   test.beforeEach(async ({ context }) => {
     await context.clearCookies();
   });
@@ -41,7 +41,7 @@ test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
     ];
 
     for (const { link, path } of links) {
-      // Use evaluate to click directly in browser context, bypassing overlays
+      // Use evaluate to click directly in browser context, bypassing overlays.
       await link.evaluate((element: HTMLElement) => {
         element.click();
       });

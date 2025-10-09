@@ -25,15 +25,14 @@ import { expect, test } from "~/test-e2e/global-fixtures";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import { getEnglishText } from "~/utils/i18n";
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import { LOCALE_CODE, LOCALE_NAME } from "~/utils/locales";
 
 test.describe("Landing Page", { tag: ["@mobile", "@unauth"] }, () => {
-  // Override to run without authentication (landing page for unauthenticated users)
+  // Override to run without authentication (landing page for unauthenticated users).
   test.use({ storageState: { cookies: [], origins: [] } });
 
   test.beforeEach(async ({ page, context }) => {
-    // Clear all cookies and local storage to ensure completely unauthenticated state
+    // Clear all cookies and local storage to ensure completely unauthenticated state.
     await context.clearCookies();
     await page.goto("/en");
     await page.evaluate(() => {

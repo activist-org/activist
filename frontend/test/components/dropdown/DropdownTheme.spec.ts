@@ -6,8 +6,7 @@ import { describe, expect, it } from "vitest";
 import DropdownTheme from "../../../app/components/dropdown/DropdownTheme.vue";
 import render from "../../../test/render";
 
-// Note: useColorMode mock is handled globally in test/setup.ts
-
+// Note: useColorMode mock is handled globally in test/setup.ts.
 // Theme switching should be tested in the e2e tests.
 // Mocking theme switching to make it work in component tests is too complicated.
 describe("DropdownTheme", () => {

@@ -185,7 +185,7 @@ test.describe(
           getFAQCardOrder
         );
       } else {
-        // Skip test if insufficient FAQ entries for drag and drop testing
+        // Skip test if insufficient FAQ entries for drag and drop testing.
         test.skip(
           faqCount >= 2,
           "Need at least 2 FAQ entries to test drag and drop functionality"

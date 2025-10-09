@@ -413,7 +413,7 @@ test.describe(
       // Wait a bit for the page to update after the modal closes.
       await page.waitForTimeout(1000);
 
-      // Check if any social links are visible first
+      // Check if any social links are visible first.
       const socialLinks = connectCard.locator('[data-testid="social-link"]');
 
       // Look for the updated social link by text content.

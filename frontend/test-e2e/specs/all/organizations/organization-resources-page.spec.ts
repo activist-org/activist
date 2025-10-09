@@ -112,10 +112,10 @@ test.describe(
       await expect(closeButton).toBeVisible();
       await closeButton.click();
 
-      // Verify modal closes
+      // Verify modal closes.
       await expect(resourcesPage.resourceModal).not.toBeVisible();
 
-      // Note: We could add more specific modal testing here
+      // Note: We could add more specific modal testing here.
       // but that might be better suited for a dedicated modal test.
     });
   }

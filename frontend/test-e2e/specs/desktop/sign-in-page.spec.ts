@@ -7,10 +7,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Sign In Page", { tag: ["@desktop", "@unauth"] }, () => {
-  // Override to run without authentication
+  // Override to run without authentication.
   test.use({ storageState: undefined });
 
-  // Explicitly clear all cookies to ensure unauthenticated state
+  // Explicitly clear all cookies to ensure unauthenticated state.
   test.beforeEach(async ({ context }) => {
     await context.clearCookies();
   });

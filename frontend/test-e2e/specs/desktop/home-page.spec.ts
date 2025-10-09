@@ -16,10 +16,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
-  // Override to run without authentication (tests sign-in menu)
+  // Override to run without authentication (tests sign-in menu).
   test.use({ storageState: undefined });
 
-  // Explicitly clear all cookies to ensure unauthenticated state
+  // Explicitly clear all cookies to ensure unauthenticated state.
   test.beforeEach(async ({ context }) => {
     await context.clearCookies();
   });
@@ -52,7 +52,7 @@ test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
     await sidebarLeft.lockToggle.click();
     await sidebarLeft.mouseLeave();
 
-    // Verify searchbar is no longer visible/focused when sidebar is closed
+    // Verify searchbar is no longer visible/focused when sidebar is closed.
     await expect(searchbar.input).not.toBeVisible();
   });
 

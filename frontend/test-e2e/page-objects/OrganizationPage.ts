@@ -20,7 +20,8 @@ import { newOrganizationResourcesPage } from "~/test-e2e/page-objects/organizati
 import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationPage = (page: Page) => ({
-  // Main page elements
+  // MARK: Main Page
+
   pageHeading: page.getByRole("heading", { level: 1 }),
   shareButton: page.getByRole("button", {
     name: new RegExp(
@@ -29,16 +30,19 @@ export const newOrganizationPage = (page: Page) => ({
     ),
   }),
 
-  // Navigation components
+  // MARK: Navigation Components
+
   sidebar: newSidebarLeft(page),
   menu: newOrganizationMenu(page),
 
-  // Modals (component objects)
+  // MARK: Modals
+
   shareModal: newShareModal(page),
   editModal: newEditModal(page),
   socialLinksModal: newSocialLinksModal(page),
 
-  // Lazy-loaded subpages (created on-demand for better performance)
+  // MARK: Lazy-loaded Subpages
+
   get aboutPage() {
     return newOrganizationAboutPage(page);
   },
@@ -55,7 +59,8 @@ export const newOrganizationPage = (page: Page) => ({
     return newOrganizationResourcesPage(page);
   },
 
-  // Group-specific pages (for individual group pages within organization)
+  // MARK: Group Pages
+
   get groupAboutPage() {
     return new OrganizationGroupAboutPage(page);
   },

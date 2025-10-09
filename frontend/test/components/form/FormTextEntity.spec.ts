@@ -6,7 +6,7 @@ import FormTextEntity from "../../../app/components/form/FormTextEntity.vue";
 import { getEnglishText } from "../../../app/utils/i18n";
 import render from "../../../test/render";
 
-// Note: Auto-import mocks (useI18n, etc.) are handled globally in test/setup.ts
+// Note: Auto-import mocks (useI18n, etc.) are handled globally in test/setup.ts.
 
 describe("FormTextEntity component", () => {
   const mockHandleSubmit = vi.fn();

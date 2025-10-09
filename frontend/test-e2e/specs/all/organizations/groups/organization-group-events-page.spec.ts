@@ -110,7 +110,7 @@ test.describe(
         "href",
         /.+/
       );
-      // Note: We don't click it as it would navigate away from the current page
+      // Note: We don't click it as it would navigate away from the current page.
     });
   }
 );

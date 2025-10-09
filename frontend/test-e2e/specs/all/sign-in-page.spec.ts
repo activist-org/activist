@@ -18,10 +18,10 @@ test.describe(
   "Sign In Page",
   { tag: ["@desktop", "@mobile", "@unauth"] },
   () => {
-    // Override to run without authentication
+    // Override to run without authentication.
     test.use({ storageState: undefined });
 
-    // Explicitly clear all cookies to ensure unauthenticated state
+    // Explicitly clear all cookies to ensure unauthenticated state.
     test.beforeEach(async ({ context }) => {
       await context.clearCookies();
     });
@@ -30,16 +30,16 @@ test.describe(
       const signInPage = newSignInPage(page);
       const { passwordInput } = signInPage;
 
-      // Wait for the page to load completely
+      // Wait for the page to load completely.
       await page.waitForLoadState("domcontentloaded");
 
-      // Wait for the password input to be visible
+      // Wait for the password input to be visible.
       await expect(passwordInput).toBeVisible({ timeout: 10000 });
 
       await passwordInput.fill("testpassword");
       await expect(passwordInput).toHaveAttribute("type", "password");
 
-      // Wait for the show password toggle to be visible
+      // Wait for the show password toggle to be visible.
       await expect(signInPage.showPasswordToggle).toBeVisible({
         timeout: 10000,
       });
@@ -143,7 +143,7 @@ test.describe(
       await signInPage.usernameInput.fill("admin");
       await signInPage.passwordInput.fill("admin");
 
-      // Click CAPTCHA if present
+      // Click CAPTCHA if present.
       const { captcha } = signInPage;
       if (await captcha.isVisible()) {
         await captcha.click();
@@ -162,7 +162,7 @@ test.describe(
       await signInPage.usernameInput.fill("invaliduser");
       await signInPage.passwordInput.fill("invaliduser");
 
-      // Click CAPTCHA if present
+      // Click CAPTCHA if present.
       const { captcha } = signInPage;
       if (await captcha.isVisible()) {
         await captcha.click();
@@ -170,14 +170,14 @@ test.describe(
 
       await signInPage.signInButton.click();
 
-      // Wait for error toast to appear
+      // Wait for error toast to appear.
       const errorToast = page.locator('[data-sonner-toast][data-type="error"]');
       await expect(errorToast).toBeVisible();
 
-      // Verify error message content
+      // Verify error message content.
       await expect(errorToast).toContainText(/invalid username or password/i);
 
-      // Verify we stay on sign-in page
+      // Verify we stay on sign-in page.
       expect(page.url()).toContain("/auth/sign-in");
     });
 

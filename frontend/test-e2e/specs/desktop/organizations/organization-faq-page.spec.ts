@@ -52,7 +52,7 @@ test.describe("Organization FAQ Page - Desktop", { tag: "@desktop" }, () => {
         // Wait for the reorder operation to complete (including network requests).
         await page.waitForLoadState("domcontentloaded");
 
-        // Get final order of first 2 FAQ questions
+        // Get final order of first 2 FAQ questions.
         const finalFirstQuestion = await faqPage.getFAQQuestionText(0);
         const finalSecondQuestion = await faqPage.getFAQQuestionText(1);
 
