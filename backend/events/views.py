@@ -11,8 +11,9 @@ from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
-from drf_spectacular.utils import OpenApiResponse, extend_schema
-from icalendar import Calendar  # type: ignore
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
+from icalendar import Calendar
 from icalendar import Event as ICalEvent
 from rest_framework import status, viewsets
 from rest_framework.generics import GenericAPIView
@@ -28,6 +29,7 @@ from rest_framework.views import APIView
 from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
+from events.filters import EventFilters
 from events.models import (
     Event,
     EventFaq,
@@ -55,6 +57,8 @@ class EventAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all().order_by("id")
     serializer_class = EventSerializer
     pagination_class = CustomPagination
+    filterset_class = EventFilters
+    filter_backends = [DjangoFilterBackend]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_permissions(self) -> Sequence[Any]:
@@ -70,13 +74,14 @@ class EventAPIView(GenericAPIView[Event]):
 
     @extend_schema(responses={200: EventSerializer(many=True)})
     def get(self, request: Request) -> Response:
-        page = self.paginate_queryset(self.queryset)
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
 
         if page is not None:
             serializer = self.serializer_class(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.serializer_class(self.queryset, many=True)
+        serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
     @extend_schema(
@@ -396,7 +401,9 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
 
         if request.user != event.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to create FAQs for this event."},
+                {
+                    "detail": "You are not authorized to create Resources for this event."
+                },
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -413,14 +420,14 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
             faq = EventResource.objects.get(id=pk)
 
         except EventResource.DoesNotExist as e:
-            logger.exception(f"FAQ with id {pk} does not exist for update: {e}")
+            logger.exception(f"Resource with id {pk} does not exist for update: {e}")
             return Response(
-                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != faq.event.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to update this FAQ."},
+                {"detail": "You are not authorized to update this Resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -429,7 +436,7 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
         serializer.save()
 
         return Response(
-            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+            {"message": "Resource updated successfully."}, status=status.HTTP_200_OK
         )
 
 
@@ -521,6 +528,39 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 
         return Response(
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            social_link = EventSocialLink.objects.get(id=pk)
+
+        except EventSocialLink.DoesNotExist as e:
+            logger.exception(
+                f"Social link with id {pk} does not exist for deletion: {e}"
+            )
+            return Response(
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        event = social_link.event
+        if event is not None:
+            creator = event.created_by
+
+        else:
+            raise ValueError("Event is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this social link."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        social_link.delete()
+        logger.info(f"Social link {pk} deleted for event {event.id}")
+
+        return Response(
+            {"message": "Social link deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 

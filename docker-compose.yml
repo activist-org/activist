@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     command: sh -c "
       if [ \"$ENVIRONMENT\" = \"development\" ]; then
-        python /app/core/management/commands/clear_dev_images.py;
+      python /app/core/management/commands/clear_dev_images.py;
       fi;
       python manage.py wait_for_db &&
       python manage.py makemigrations &&
@@ -17,12 +17,12 @@ services:
       python manage.py loaddata fixtures/status_types.json &&
       python manage.py loaddata fixtures/topics.json &&
       python manage.py populate_db \
-        --users 10 \
-        --orgs-per-user 1 \
-        --groups-per-org 1 \
-        --events-per-org 1 \
-        --resources-per-entity 2 \
-        --faq-entries-per-entity 3 &&
+      --users 10 \
+      --orgs-per-user 1 \
+      --groups-per-org 1 \
+      --events-per-org 1 \
+      --resources-per-entity 2 \
+      --faq-entries-per-entity 3 &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
@@ -40,7 +40,11 @@ services:
     depends_on:
       - db
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:${BACKEND_PORT}/health/ || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:${BACKEND_PORT}/health/ || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -53,14 +57,29 @@ services:
     build:
       context: ./frontend
     container_name: nuxt_frontend
-    command: sh -c "corepack enable && yarn install && yarn dev --port ${FRONTEND_PORT}"
+    # Use USE_PREVIEW=true to run pre-built version (faster for E2E tests).
+    # Use USE_PREVIEW=false or unset for dev mode (default).
+    command: sh -c "
+      corepack enable && yarn install &&
+      if [ \"$${USE_PREVIEW}\" = \"true\" ]; then
+      echo '🏗️  Building frontend for preview mode...' &&
+      yarn build &&
+      echo '▶️  Starting preview server on port ${FRONTEND_PORT}...' &&
+      yarn preview --port ${FRONTEND_PORT};
+      else
+      echo '▶️  Starting dev server...' &&
+      yarn dev --port ${FRONTEND_PORT};
+      fi"
     volumes:
       - ./frontend:/app
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
       - "24678:24678"
+    environment:
+      - USE_PREVIEW=${USE_PREVIEW:-false}
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5

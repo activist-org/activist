@@ -102,7 +102,7 @@
     "model": "content.topic",
     "pk": "106e82c5-a7c0-47db-ab2e-e6ef5fc1b1de",
     "fields": {
-      "type": "LGTBQIA",
+      "type": "LGBTQIA",
       "active": true,
       "creation_date": "1970-01-01T00:00:00.000Z",
       "last_updated": "1970-01-01T00:00:00.000Z",

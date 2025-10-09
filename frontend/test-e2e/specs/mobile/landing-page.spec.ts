@@ -1,7 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { expect, test } from "playwright/test";
-
-import { LOCALE_CODE, LOCALE_NAME } from "~/locales";
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import {
   ACTIVIST_SECTION_LEARN_MORE_LINK_NAME,
@@ -24,17 +21,30 @@ import { newLanguageMenu } from "~/test-e2e/component-objects/LanguageMenu";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
 import { newThemeMenu } from "~/test-e2e/component-objects/ThemeMenu";
+import { expect, test } from "~/test-e2e/global-fixtures";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 import { getEnglishText } from "~/utils/i18n";
+import { LOCALE_CODE, LOCALE_NAME } from "~/utils/locales";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/en");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    new RegExp(getEnglishText("i18n.components.landing_splash.header"), "i")
-  );
-});
+test.describe("Landing Page", { tag: ["@mobile", "@unauth"] }, () => {
+  // Override to run without authentication (landing page for unauthenticated users).
+  test.use({ storageState: { cookies: [], origins: [] } });
 
-test.describe("Landing Page", { tag: "@mobile" }, () => {
+  test.beforeEach(async ({ page, context }) => {
+    // Clear all cookies and local storage to ensure completely unauthenticated state.
+    await context.clearCookies();
+    await page.goto("/en");
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      new RegExp(getEnglishText("i18n.components.landing_splash.header"), "i")
+    );
+  });
+
   test("User can go to Learn More page from Get Active learn more link", async ({
     page,
   }) => {
@@ -68,7 +78,7 @@ test.describe("Landing Page", { tag: "@mobile" }, () => {
     expect(page.url()).toContain("/activist");
   });
 
-  test("User can go to Learn More page from Activist section learn more link", async ({
+  test("User can go to Learn More page from activist section learn more link", async ({
     page,
   }) => {
     await page
@@ -318,7 +328,7 @@ test.describe("Landing Page", { tag: "@mobile" }, () => {
 
       await page.waitForURL(`**/${path}`);
       await expect(page.getByRole("heading", { level: 1 })).toContainText(
-        newLandingPage(code).headingText
+        newLandingPage(code).headingText ?? ""
       );
     }
   });
@@ -326,18 +336,37 @@ test.describe("Landing Page", { tag: "@mobile" }, () => {
   // MARK: Accessibility
 
   // Note: Check to make sure that this is eventually done for light and dark modes.
-  test("Landing Page has no detectable accessibility issues", async ({
-    page,
-  }, testInfo) => {
-    const violations = await runAccessibilityTest(
-      "Landing Page",
-      page,
-      testInfo
-    );
-    expect.soft(violations, "Accessibility violations found:").toHaveLength(0);
+  test(
+    "Landing Page has no detectable accessibility issues",
+    { tag: "@accessibility" },
+    async ({ page }, testInfo) => {
+      logTestPath(testInfo);
 
-    if (violations.length > 0) {
-      // Note: For future implementation.
+      await withTestStep(
+        testInfo,
+        "Wait for lang attribute to be set",
+        async () => {
+          await expect(page.locator("html")).toHaveAttribute(
+            "lang",
+            /^[a-z]{2}(-[A-Z]{2})?$/
+          );
+        }
+      );
+
+      await withTestStep(testInfo, "Run accessibility scan", async () => {
+        const violations = await runAccessibilityTest(
+          "Landing Page",
+          page,
+          testInfo
+        );
+        expect
+          .soft(violations, "Accessibility violations found:")
+          .toHaveLength(0);
+
+        if (violations.length > 0) {
+          // Note: For future implementation.
+        }
+      });
     }
-  });
+  );
 });

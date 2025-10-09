@@ -2,17 +2,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import type { NuxtPage } from "nuxt/schema";
 
-import { resolve } from "path";
+import tailwindcss from "@tailwindcss/vite";
 
+import locales from "./app/utils/locales";
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
-import locales from "./locales";
 import modules from "./modules";
 
 export default defineNuxtConfig({
   app: {
     head,
   },
+
   auth: {
     baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
     provider: {
@@ -26,7 +27,7 @@ export default defineNuxtConfig({
       endpoints: {
         signIn: { path: "v1/auth/sign_in", method: "post" },
         signOut: { path: "v1/auth/sign_out", method: "post" },
-        signUp: { path: "/auth/register", method: "post" },
+        signUp: { path: "/v1/auth/sign_up", method: "post" },
         getSession: { path: "v1/auth/sessions", method: "get" },
       },
       refresh: {
@@ -37,7 +38,7 @@ export default defineNuxtConfig({
           signInResponseRefreshTokenPointer: "/refresh",
           refreshRequestTokenPointer: "/refresh",
           cookieName: "auth.refresh",
-          maxAgeInSeconds: 1800,
+          maxAgeInSeconds: 300,
           secureCookieAttribute: false,
           httpOnlyCookieAttribute: false,
         },
@@ -61,28 +62,20 @@ export default defineNuxtConfig({
       token: {
         signInResponseTokenPointer: "/access",
         signInResponseRefreshTokenPointer: "/refresh",
+        refreshRequestTokenPointer: "/access",
         type: "Token",
         headerName: "Authorization",
-        maxAgeInSeconds: 1800,
+        maxAgeInSeconds: 300,
         secureCookieAttribute: false,
         httpOnlyCookieAttribute: false,
       },
     },
   },
-  modules: modules,
+  modules: process.env.VITEST ? [] : modules,
   ssr: false,
-
-  typescript: {
-    // strict: true,
-    // typeCheck: true,
-  },
 
   devtools: {
     enabled: true,
-  },
-
-  alias: {
-    "@": resolve(__dirname, "./"),
   },
 
   plugins: ["~/plugins/i18n-head.ts"],
@@ -92,6 +85,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    plugins: [tailwindcss()],
     server: {
       watch: {
         usePolling: true,
@@ -112,24 +106,18 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
-  css: ["reduced-motion/css"],
-
-  tailwindcss: {
-    cssPath: "~/assets/css/tailwind.css",
-    configPath: "tailwind.config.ts",
-  },
+  css: ["~/assets/css/tailwind.css", "reduced-motion/css"],
 
   postcss: {
     plugins: {
-      tailwindcss: {},
       autoprefixer: {},
     },
   },
 
   i18n: {
     strategy: "prefix_and_default",
-    langDir: "./i18n",
-    vueI18n: "./i18n.config.ts",
+    langDir: "locales",
+    vueI18n: "i18n.config.ts",
     baseUrl: "https://activist.org",
     defaultLocale: "en",
     locales,
@@ -150,7 +138,7 @@ export default defineNuxtConfig({
 
   vue: {
     compilerOptions: {
-      isCustomElement: (tag) =>
+      isCustomElement: (tag: string) =>
         ["swiper-slide", "swiper-container"].includes(tag),
     },
   },
@@ -159,13 +147,15 @@ export default defineNuxtConfig({
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
     },
-    "app:resolve": (_app) => {
+    "app:resolve": (_app: unknown) => {
       // Note: For future implementation.
     },
   },
 
   nitro: {
-    preset: "netlify-static",
+    // Use node-server preset for local preview/Docker (creates .output/server/index.mjs)
+    // Use netlify-static preset for Netlify deployment (creates static site)
+    preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
   },
 
   plausible: {
@@ -208,4 +198,4 @@ export default defineNuxtConfig({
       maxUploadFileRequestInBytes: 5000000,
     },
   },
-});
+} as unknown as Parameters<typeof defineNuxtConfig>[0]);

@@ -62,7 +62,6 @@ def test_sign_up(client: APIClient) -> None:
     logger.info("Starting sign-up test with various scenarios")
     fake = Faker()
     username = fake.user_name()
-    second_username = fake.user_name()
     email = fake.email()
     strong_password = fake.password(
         length=12, special_chars=True, digits=True, upper_case=True
@@ -102,7 +101,20 @@ def test_sign_up(client: APIClient) -> None:
 
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=username).exists()
+    # 5. User is not created without an email.
+    response = client.post(
+        path="/v1/auth/sign_up",
+        data={
+            "username": username,
+            "password": strong_password,
+            "password_confirmed": strong_password,
+        },
+    )
 
+    user = UserModel.objects.filter(username=username).first()
+    assert user is None
+    assert response.status_code == 400
+    assert not UserModel.objects.filter(username=username).exists()
     # 3. User is created successfully.
     logger.info("Testing successful user creation")
     response = client.post(
@@ -143,23 +155,153 @@ def test_sign_up(client: APIClient) -> None:
     assert response.status_code == 400
     assert UserModel.objects.filter(username=username).count() == 1
 
-    # 5. User is created without an email.
+
+def test_verify_email_for_reset_password(client: APIClient) -> None:
+    """
+    Test email verification view.
+
+    This test covers several reset password verification scenarios:
+    1. Valid verification code and new password.
+    2. Invalid verification code and new password.
+
+    Parameters
+    ----------
+    client : APIClient
+        An authenticated client.
+    """
+    logger.info("Starting email verification test with various scenarios")
+    fake = Faker()
+    username = fake.user_name()
+    email = fake.email()
+    password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+    new_password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+
+    user = UserFactory(
+        username=username,
+        email=email,
+        plaintext_password=password,
+        is_confirmed=False,
+        verification_code=uuid.uuid4(),
+    )
+
+    # 1. Valid verification code.
+    logger.info("Testing valid email verification")
     response = client.post(
-        path="/v1/auth/sign_up",
+        path=f"/v1/auth/verify_email_password/{user.verification_code}",
+        data={"new_password": new_password},
+    )
+    assert response.status_code == 200
+
+    user.refresh_from_db()
+    assert user.check_password(new_password) is True
+    assert user.check_password(password) is False
+    logger.info(f"Successfully verified email for user: {username}")
+
+    # 2. Invalid verification code.
+    logger.info("Testing invalid email verification")
+    response = client.post(path="/v1/auth/verify_email_password/invalid_code")
+    assert response.status_code == 404
+
+    # 3. Reusing an already used verification code.
+    logger.info("Testing reuse of already used verification code")
+    response = client.post(
+        path=f"/v1/auth/verify_email_password/{user.verification_code}"
+    )
+    assert response.status_code == 404
+
+
+def test_reset_password(client: APIClient) -> None:
+    """
+    Test the reset password function.
+
+    This test checks various user registration scenarios:
+    - Password reset email is sent successfully for a valid user.
+    - Password reset attempt with an invalid email.
+
+    Parameters
+    ----------
+    client : Client
+        An authenticated client.
+    """
+    logger.info("Starting email verification test with various scenarios")
+    plaintext_password = "Activist@123!?"
+    user = UserFactory(plaintext_password=plaintext_password)
+
+    # 1. User that signed up with email, that has not confirmed their email.
+    response = client.post(
+        path="/v1/auth/pwreset",
+        data={"email": user.email},
+    )
+
+    assert response.status_code == 200
+    assert len(mail.outbox) == 1
+    logger.info(f"Password reset email sent successfully to: {user.email}")
+    email = Faker().email()
+    # 2. Password confirmation fails.
+    response = client.post(
+        path="/v1/auth/pwreset",
         data={
-            "username": second_username,
-            "password": strong_password,
-            "password_confirmed": strong_password,
+            "email": email,
         },
     )
 
-    user = UserModel.objects.filter(username=second_username).first()
+    assert response.status_code == 404
 
-    assert response.status_code == 201
-    assert UserModel.objects.filter(username=second_username).exists()
-    assert user.email == ""
-    assert user.is_confirmed is False
+
+def test_verify_email(client: APIClient) -> None:
+    """
+    Test email verification view.
+
+    This test covers several email verification scenarios:
+    1. Valid verification code.
+    2. Invalid verification code.
+    3. Reusing an already used verification code.
+
+    Parameters
+    ----------
+    client : APIClient
+        An authenticated client.
+    """
+    logger.info("Starting email verification test with various scenarios")
+    fake = Faker()
+    username = fake.user_name()
+    email = fake.email()
+    password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+    new_password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+    user = UserFactory(
+        username=username,
+        email=email,
+        plaintext_password=password,
+        is_confirmed=False,
+        verification_code=uuid.uuid4(),
+    )
+
+    # 1. Valid verification code.
+    logger.info("Testing valid email verification")
+    response = client.post(
+        path=f"/v1/auth/verify_email_password/{user.verification_code}",
+        data={"new_password": new_password},
+    )
+    assert response.status_code == 200
+
+    user.refresh_from_db()
     assert user.verification_code is None
+    assert user.check_password(new_password) is True
+    assert user.check_password(password) is False
+    logger.info(f"Successfully verified email for user: {username}")
+
+    # 2. Invalid verification code.
+    logger.info("Testing invalid email verification")
+    response = client.post(path="/v1/auth/verify_email/invalid_code")
+    assert response.status_code == 404
 
 
 def test_sign_in(client: APIClient) -> None:
@@ -247,7 +389,7 @@ def test_pwreset(client: APIClient) -> None:
     # 1. User exists and password reset is successful.
     logger.info("Testing password reset email request")
     user = UserFactory(plaintext_password=old_password)
-    response = client.get(
+    response = client.post(
         path="/v1/auth/pwreset",
         data={"email": user.email},
     )
@@ -256,23 +398,10 @@ def test_pwreset(client: APIClient) -> None:
     logger.info(f"Password reset email sent successfully to: {user.email}")
 
     # 2. Password reset with invalid email.
-    response = client.get(
+    response = client.post(
         path="/v1/auth/pwreset", data={"email": "invalid_email@example.com"}
     )
     assert response.status_code == 404
-
-    # 3. Password reset is performed successfully.
-    logger.info("Testing successful password reset with valid verification code")
-    user.verification_code = uuid.uuid4()
-    user.save()
-    response = client.post(
-        path=f"/v1/auth/pwreset?code={user.verification_code}",
-        data={"password": new_password},
-    )
-    assert response.status_code == 200
-    user.refresh_from_db()
-    assert user.check_password(new_password)
-    logger.info(f"Password reset completed successfully for user: {user.username}")
 
     # 4. Password reset with invalid verification code.
     response = client.post(

@@ -318,16 +318,16 @@ cd backend
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
-python manage.py loaddata fixtures/superuser.json 
-python manage.py loaddata fixtures/status_types.json 
-python manage.py loaddata fixtures/topics.json 
+python manage.py loaddata fixtures/superuser.json
+python manage.py loaddata fixtures/status_types.json
+python manage.py loaddata fixtures/topics.json
 python manage.py populate_db \
 --users 10 \
 --orgs-per-user 1 \
 --groups-per-org 1 \
 --events-per-org 1 \
 --resources-per-entity 2 \
---faq-entries-per-entity 3 
+--faq-entries-per-entity 3
 ```
 
 You can then visit <http://localhost:8000/admin> to see the development backend admin UI as well as <http://localhost:8000/v1/schema/swagger-ui/> for the Swagger UI once the server is up and running.
@@ -422,7 +422,7 @@ yarn typecheck
 
 #### Automated Testing
 
-We use [Vitest](https://vitest.dev/) for component and unit testing.  You can run them with the following command:
+We use [Vitest](https://vitest.dev/) for component and unit testing. You can run the tests with the following command:
 
 ```bash
 # Within ./frontend:
@@ -457,6 +457,9 @@ To run the end to end tests locally, please run the following commands:
 
 ```bash
 docker compose --env-file .env.dev up backend db # run backend and db in docker
+
+# To run tests in the preview mode (much faster and uses less resources):
+USE_PREVIEW=true docker compose --env-file .env.dev up backend db
 ```
 
 In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).

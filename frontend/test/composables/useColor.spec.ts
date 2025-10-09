@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
+import { mockNuxtImport as _mockNuxtImport } from "@nuxt/test-utils/runtime";
+import { describe, expect, it } from "vitest";
 
-mockNuxtImport("useColorMode", () => useColorModeMock);
+import { useColor } from "../../app/composables/useColor";
+
+// Note: useColorMode mock is handled globally in test/setup.ts
 
 describe("useColorModeImage", () => {
   it("adds _light to image path", () => {
-    useColorModeMock.mockImplementation(() => ({
+    globalThis.useColorModeMock.mockImplementation(() => ({
       preference: "light",
       value: "light",
     }));
@@ -17,7 +20,10 @@ describe("useColorModeImage", () => {
   });
 
   it("adds _dark to image path", () => {
-    // window.useColorModeMock.mockImplementation(() => ({ value: 'dark' }));
+    globalThis.useColorModeMock.mockImplementation(() => ({
+      preference: "dark",
+      value: "dark",
+    }));
 
     const { getColorModeImages } = useColor();
     expect(getColorModeImages("/path/to/image", ".png")).toEqual(
@@ -26,7 +32,7 @@ describe("useColorModeImage", () => {
   });
 
   it("uses .png as default extension", () => {
-    useColorModeMock.mockImplementation(() => ({
+    globalThis.useColorModeMock.mockImplementation(() => ({
       preference: "light",
       value: "light",
     }));

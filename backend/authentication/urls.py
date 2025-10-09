@@ -26,4 +26,13 @@ urlpatterns = [
     ),
     path(route="sessions", view=views.SessionView.as_view(), name="session"),
     path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
+    path("sign_out", views.SignOutView.as_view(), name="sign_out"),
+    path(
+        "verify_email/<uuid:code>", views.VerifyEmailView.as_view(), name="verify_email"
+    ),
+    path(
+        "verify_email_password/<uuid:code>",
+        views.VerifyAccountResetPassword.as_view(),
+        name="verify_email_password",
+    ),
 ]

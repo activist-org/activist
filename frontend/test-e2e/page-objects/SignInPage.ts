@@ -11,10 +11,17 @@ export const newSignInPage = (page: Page) => ({
     getEnglishText("i18n.pages.auth.sign_in.enter_user_name")
   ),
   passwordInput: page.getByLabel(getEnglishText("i18n._global.enter_password")),
-  showPasswordToggle: page.locator("#form-item-password-show-password"),
-  captcha: page.locator("#sign-in-captcha"),
+  showPasswordToggle: page.getByTestId("form-item-password-show-password"),
+  captcha: page.getByRole("button", {
+    name: new RegExp(
+      getEnglishText(
+        "i18n.components.friendly_captcha.dev_captcha_disabled_aria_label"
+      ),
+      "i"
+    ),
+  }),
 
-  // Currently a button but should be a link
+  // Currently a button but should be a link.
   forgotPasswordLink: page.getByRole("button", {
     name: new RegExp(
       getEnglishText("i18n._global.auth.reset_password_forgot_password"),
