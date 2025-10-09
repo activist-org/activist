@@ -609,6 +609,9 @@ class EventTextViewSet(GenericAPIView[EventText]):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# MARK: Calendar
+
+
 class EventCalenderAPIView(APIView):
     queryset = Event.objects.all()
     permission_classes = [AllowAny]
@@ -624,6 +627,7 @@ class EventCalenderAPIView(APIView):
     )
     def get(self, request: Request) -> HttpResponse | Response:
         event_id = request.query_params.get("event_id")
+
         if not event_id:
             return Response(
                 {"detail": "Event ID is required."},
