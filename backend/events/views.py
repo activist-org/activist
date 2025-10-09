@@ -5,7 +5,6 @@ API views for event management.
 
 import logging
 import re
-from datetime import date
 from typing import Any, Sequence, Type
 from uuid import UUID
 
@@ -617,64 +616,29 @@ class EventCalenderAPIView(APIView):
     queryset = Event.objects.all()
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="event_id",
+                type=UUID,
+                required=True,
+            )
+        ]
+    )
     def get(self, request: Request) -> HttpResponse | Response:
-        events = self.queryset.filter(start_time__gte=date.today())
+        event_id = request.query_params.get("event_id")
 
-        if not events.exists():
-            return Response(
-                {"detail": "No upcoming events found."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        cal = Calendar()
-        cal.add("prodid", "-//Activist//EN")
-        cal.add("version", "2.0")
-
-        for event in events:
-            ical_event = ICalEvent()
-            ical_event.add("summary", event.name)
-            ical_event.add("description", event.tagline or "")
-            ical_event.add("dtstart", event.start_time)
-            ical_event.add("dtend", event.end_time)
-            ical_event.add(
-                "location",
-                (
-                    event.online_location_link
-                    if event.setting == "online"
-                    else event.offline_location
-                ),
-            )
-            ical_event.add("uid", event.id)
-            cal.add_component(ical_event)
-
-        response = HttpResponse(cal.to_ical(), content_type="text/calendar")
-        response["Content-Disposition"] = "attachment; filename=activist_events.ics"
-
-        return response
-
-
-# MARK: Calendar Detail
-
-
-class EventCalenderDetailAPIView(APIView):
-    queryset = Event.objects.all()
-    permission_classes = [AllowAny]
-
-    def get(self, request: Request, id: None | UUID = None) -> HttpResponse | Response:
-        if not id:
+        if not event_id:
             return Response(
                 {"detail": "Event ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
-            event = self.queryset.get(id=id)
+            event = self.queryset.get(id=event_id)
 
         except Event.DoesNotExist:
-            return Response(
-                {"detail": "No Event with this id found."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         cal = Calendar()
         cal.add("prodid", "-//Activist//EN")
