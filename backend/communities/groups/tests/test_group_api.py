@@ -14,7 +14,8 @@ from communities.groups.models import Group
 from communities.organizations.factories import OrganizationFactory
 from content.factories import EntityLocationFactory
 
-GROUPS_URL = "/v1/communities/groups/"
+# Endpoint used for these tests:
+GROUPS_URL = "/v1/communities/groups"
 
 
 class UserDict(TypedDict):
@@ -35,15 +36,16 @@ def login_user(user_data: UserDict) -> dict[Any, Any]:
     Log in a user. Returns the user and token.
     """
     client = APIClient()
+
     response = client.post(
-        "/v1/auth/sign_in/",
+        "/v1/auth/sign_in",
         {
             "username": user_data["user"].username,
             "password": user_data["plaintext_password"],
         },
     )
     assert response.status_code == 200
-    return {"user": user_data["user"], "token": response.data["token"]}
+    return {"user": user_data["user"], "access": response.data["access"]}
 
 
 @pytest.fixture(scope="session")
@@ -102,6 +104,7 @@ def test_GroupAPIView(logged_in_user, status_types):
     2. Verify the response status code is 201 (Created)
     """
     client = APIClient()
+
     number_of_groups = 10
     test_page_size = 1
 
@@ -133,7 +136,7 @@ def test_GroupAPIView(logged_in_user, status_types):
     org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
     new_group = GroupFactory.build(group_name="new_group", terms_checked=True)
     location = EntityLocationFactory.build()
-    token = logged_in_user["token"]
+    token = logged_in_user["access"]
 
     payload = {
         "org_id": org.id,
@@ -181,14 +184,15 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     2. Delete the group with the created_by user and verify it is removed from the database.
     """
     client = APIClient()
-    created_by_user, token_created_by = logged_in_created_by_user.values()
+
+    created_by_user, access = logged_in_created_by_user.values()
 
     new_group = GroupFactory.create(created_by=created_by_user)
     assert Group.objects.filter(group_name=new_group.group_name).exists()
 
     # MARK: Detail GET
 
-    response = client.get(f"{GROUPS_URL}{new_group.id}/")
+    response = client.get(f"{GROUPS_URL}/{new_group.id}")
     assert response.status_code == 200
     assert response.data["group_name"] == new_group.group_name
 
@@ -196,15 +200,15 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     updated_payload = {"group_name": "updated_group_name"}
     response = client.put(
-        f"{GROUPS_URL}{new_group.id}/",
+        f"{GROUPS_URL}/{new_group.id}",
         data=updated_payload,
         format="json",
     )
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.put(
-        f"{GROUPS_URL}{new_group.id}/",
+        f"{GROUPS_URL}/{new_group.id}",
         data=updated_payload,
         format="json",
     )
@@ -216,10 +220,10 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{GROUPS_URL}{new_group.id}/")
+    response = client.delete(f"{GROUPS_URL}/{new_group.id}")
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
-    response = client.delete(f"{GROUPS_URL}{new_group.id}/")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
+    response = client.delete(f"{GROUPS_URL}/{new_group.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == 204

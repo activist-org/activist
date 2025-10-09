@@ -12,13 +12,14 @@ from content.models import (
     Image,
     Location,
     Resource,
+    ResourceFlag,
     SocialLink,
     Tag,
     Task,
     Topic,
 )
 
-# MARK: Main Tables
+# MARK: Register
 
 admin.site.register(Discussion)
 admin.site.register(Faq)
@@ -29,7 +30,22 @@ admin.site.register(SocialLink)
 admin.site.register(Tag)
 admin.site.register(Task)
 admin.site.register(Topic)
-
-# MARK: Bridge Tables
-
 admin.site.register(DiscussionEntry)
+
+# MARK: Resource Flag
+
+
+class ResourceFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """
+    Displays the flagged resources and the users who flagged it in the admin table.
+    """
+
+    class Meta:
+        model = ResourceFlag
+
+    list_display = ["resource", "created_by", "creation_date"]
+
+
+# MARK: Register Admin
+
+admin.site.register(ResourceFlag, ResourceFlagAdmin)

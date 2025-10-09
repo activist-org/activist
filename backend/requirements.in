@@ -6,13 +6,17 @@
 
 Django
 django-cors-headers
+django-filter
+django-ical
 django-stubs
 django-stubs-ext
 djangorestframework
 djangorestframework-camel-case
+djangorestframework-simplejwt
 djangorestframework-stubs
 drf-spectacular
 gunicorn
+icalendar
 pillow
 psycopg2-binary
 python-dotenv

@@ -9,19 +9,39 @@ from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventFaq,
+    EventFlag,
     EventText,
     Format,
     Role,
 )
 
-# MARK: Main Tables
+# MARK: Register
 
 admin.site.register(Event)
 admin.site.register(Format)
 admin.site.register(Role)
-
-# MARK: Bridge Tables
-
+admin.site.register(EventFaq)
 admin.site.register(EventAttendee)
 admin.site.register(EventAttendeeStatus)
 admin.site.register(EventText)
+
+# MARK: Event Flag
+
+
+class EventFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """
+    Admin interface for EventFlag model.
+
+    Displays the Event, User and the date of the report filed.
+    """
+
+    class Meta:
+        model = EventFlag
+
+    list_display = ["event", "created_by", "creation_date"]
+
+
+# MARK: Register Admin
+
+admin.site.register(EventFlag, EventFlagAdmin)

@@ -13,6 +13,9 @@ from events.models import (
     Event,
     EventAttendee,
     EventAttendeeStatus,
+    EventFaq,
+    EventFlag,
+    EventResource,
     EventSocialLink,
     EventText,
     Format,
@@ -60,28 +63,6 @@ class EventFactory(factory.django.DjangoModelFactory):
     setting = random.choice(["online", "offline"])
 
 
-# MARK: Format
-
-
-class FormatFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating Format model instances.
-    """
-
-    class Meta:
-        model = Format
-
-    name = factory.Faker("word")
-    description = factory.Faker("text")
-    creation_date = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    last_updated = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    deprecation_date = factory.Faker("future_date", end_date="+30d")
-
-
 # MARK: Role
 
 
@@ -95,7 +76,7 @@ class RoleFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("word")
     is_custom = factory.Faker("boolean")
-    description = factory.Faker("text")
+    description = factory.Faker(provider="text", locale="la")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -105,7 +86,7 @@ class RoleFactory(factory.django.DjangoModelFactory):
     deprecation_date = factory.Faker("future_date", end_date="+30d")
 
 
-# MARK: Bridge Tables
+# MARK: Attendee
 
 
 class EventAttendeeFactory(factory.django.DjangoModelFactory):
@@ -122,6 +103,9 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
     attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
 
 
+# MARK: Attendee Status
+
+
 class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating EventAttendeeStatus model instances.
@@ -131,6 +115,95 @@ class EventAttendeeStatusFactory(factory.django.DjangoModelFactory):
         model = EventAttendeeStatus
 
     status_name = factory.Faker("word")
+
+
+# MARK: FAQ
+
+
+class EventFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = EventFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
+    order = factory.Faker("random_int", min=0, max=100)
+    event = factory.SubFactory(EventFactory)
+
+
+# MARK: Flag
+
+
+class EventFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Event Flag models.
+    """
+
+    class Meta:
+        model = EventFlag
+
+    event = factory.SubFactory("events.factories.EventFactory")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+# MARK: Format
+
+
+class FormatFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Format model instances.
+    """
+
+    class Meta:
+        model = Format
+
+    name = factory.Faker("word")
+    description = factory.Faker(provider="text", locale="la")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    deprecation_date = factory.Faker("future_date", end_date="+30d")
+
+
+# MARK: Resource
+
+
+class EventResourceFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventResource model instances.
+    """
+
+    class Meta:
+        model = EventResource
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    name = factory.Faker(provider="text", locale="la", max_nb_chars=50)
+    description = factory.Faker(provider="text", locale="la")
+    url = "https://www.activist.org"
+    order = factory.Faker("random_int", min=0, max=100)
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
+    is_private = factory.Faker("boolean")
+    terms_checked = factory.Faker("boolean")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+# MARK: Social Link
 
 
 class EventSocialLinkFactory(factory.django.DjangoModelFactory):
@@ -150,6 +223,9 @@ class EventSocialLinkFactory(factory.django.DjangoModelFactory):
     last_updated = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
+
+
+# MARK: Text
 
 
 class EventTextFactory(factory.django.DjangoModelFactory):

@@ -19,7 +19,7 @@ from content.factories import EntityLocationFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_creation() -> None:
+def test_group_create() -> None:
     """
     Test complete group creation with all fields.
     """
@@ -48,7 +48,7 @@ def test_group_creation() -> None:
     assert group.terms_checked is True
 
 
-def test_url_validations() -> None:
+def test_url_validation() -> None:
     """
     Test that get_involved_url field is a valid URL.
     """
@@ -87,7 +87,7 @@ def test_url_validations() -> None:
     group.full_clean()
 
 
-def test_multiple_groups_per_org() -> None:
+def test_group_multiple_groups_per_org() -> None:
     """
     Test that multiple groups can be created per organization.
     """

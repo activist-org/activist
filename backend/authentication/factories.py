@@ -4,11 +4,18 @@ Factories for creating mock instances of models in the authentication app.
 """
 
 # mypy: ignore-errors
+import datetime
 from typing import Any
 
 import factory
 
-from authentication.models import Support, SupportEntityType, UserModel
+from authentication.models import (
+    SessionModel,
+    Support,
+    SupportEntityType,
+    UserFlag,
+    UserModel,
+)
 
 # MARK: Support
 
@@ -46,6 +53,27 @@ class SupportFactory(factory.django.DjangoModelFactory):
         "communities.organizations.factories.OrganizationFactory"
     )
 
+    # MARK: Session
+
+
+class SessionFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Session model instances.
+
+    Notes
+    -----
+    This class generates mock `Session` instances, which are used to track user sessions.
+    It requires a `UserModel` instance to be created or provided.
+    """
+
+    class Meta:
+        model = SessionModel
+
+    user = factory.SubFactory("authentication.factories.UserFactory")
+    last_activity = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
 
 # MARK: User
 
@@ -63,7 +91,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     username = factory.Faker("user_name")
     name = factory.Faker("name")
     location = factory.Faker("city")  # users just have a string location
-    description = factory.Faker("text", max_nb_chars=500)
+    description = factory.Faker(provider="text", locale="la", max_nb_chars=500)
     verified = factory.Faker("boolean")
     verification_method = factory.Faker("word")
     verification_code = factory.Faker("uuid4")
@@ -100,3 +128,18 @@ class UserFactory(factory.django.DjangoModelFactory):
         if not create:
             # Simple build, do nothing.
             return
+
+
+class UserFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory to create an instance of UserFlag model.
+    """
+
+    class Meta:
+        model = UserFlag
+
+    user = factory.SubFactory("authentication.factories.UserFactory")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )

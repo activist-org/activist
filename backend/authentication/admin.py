@@ -3,6 +3,7 @@
 Admin module for managing user-related models in the authentication app.
 """
 
+import logging
 from typing import Any
 
 from django import forms
@@ -11,27 +12,24 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
+from django.forms import ModelForm
+from django.http import HttpRequest
 
-from authentication.models import (
-    Support,
-    SupportEntityType,
-    UserModel,
-)
+from authentication.models import Support, SupportEntityType, UserFlag, UserModel
 
-# MARK: Main Tables
+logger = logging.getLogger(__name__)
+
+# MARK: Register
 
 # Remove default Group.
 admin.site.unregister(Group)
 admin.site.register(Support)
-
-# MARK: Bridge Tables
-
 admin.site.register(SupportEntityType)
 
-# MARK: Methods
+# MARK: User Creation
 
 
-class UserCreationForm(forms.ModelForm[UserModel]):
+class UserCreationForm(forms.ModelForm):  # type: ignore[type-arg]
     """
     A form for creating new users.
 
@@ -68,7 +66,7 @@ class UserCreationForm(forms.ModelForm[UserModel]):
 
         return password2
 
-    def save(self, commit: bool = True) -> UserModel:
+    def save(self, commit: bool = True) -> UserModel | Any:
         """
         Save the user instance with a hashed password.
 
@@ -86,11 +84,15 @@ class UserCreationForm(forms.ModelForm[UserModel]):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+            logger.info("Created new user via admin: %s", user.email)
 
         return user
 
 
-class UserChangeForm(forms.ModelForm[UserModel]):
+# MARK: User Change
+
+
+class UserChangeForm(forms.ModelForm):  # type: ignore[type-arg]
     """
     A form for updating users.
 
@@ -105,7 +107,10 @@ class UserChangeForm(forms.ModelForm[UserModel]):
         fields = "__all__"
 
 
-class UserAdmin(BaseUserAdmin[UserModel]):
+# MARK: User
+
+
+class UserAdmin(BaseUserAdmin):  # type: ignore[type-arg]
     # The forms to add and change user instances.
     """
     Custom admin interface for the UserModel.
@@ -113,8 +118,58 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     This class configures the fields, filters, and forms displayed in the Django admin panel.
     """
 
+    class Meta:
+        model = UserModel
+        fields = "__all__"
+
     form = UserChangeForm
     add_form = UserCreationForm
+
+    def save_model(
+        self,
+        request: HttpRequest,
+        obj: UserModel,
+        form: ModelForm,  # type: ignore[type-arg]
+        change: bool,
+    ) -> None:
+        """
+        Override to add logging for user updates.
+
+        Parameters
+        ----------
+        request : HttpRequest
+            The request made.
+
+        obj : UserModel
+            The user model associated with the request.
+
+        form : ModelForm[Any]
+            An array of model forms.
+
+        change : bool
+            Whether the user was updated (true) or created.
+        """
+        super().save_model(request, obj, form, change)
+        if change:
+            logger.info("Updated user via admin: %s (by %s)", obj.email, request.user)
+
+        else:
+            logger.info("Created user via admin: %s (by %s)", obj.email, request.user)
+
+    def delete_model(self, request: HttpRequest, obj: UserModel) -> None:
+        """
+        Override to add logging for user deletions.
+
+        Parameters
+        ----------
+        request : HttpRequest
+            The request made.
+
+        obj : UserModel
+            The user model associated with the request.
+        """
+        logger.warning("Deleting user via admin: %s (by %s)", obj.email, request.user)
+        super().delete_model(request, obj)
 
     # The fields to be used in displaying the User model.
     list_display = ["username", "email", "is_admin"]
@@ -160,5 +215,82 @@ class UserAdmin(BaseUserAdmin[UserModel]):
     filter_horizontal = []
 
 
-# Register the new UserAdmin.
+# MARK: Flag
+
+
+class UserFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
+    """
+    Admin table for displaying User flags.
+    """
+
+    class Meta:
+        model = UserFlag
+        fields = "__all__"
+
+    list_display = ["user", "created_by", "creation_date"]
+
+    def save_model(
+        self,
+        request: HttpRequest,
+        obj: UserFlag,
+        form: ModelForm,  # type: ignore[type-arg]
+        change: bool,
+    ) -> None:
+        """
+        Override to add logging for user flag operations.
+
+        Parameters
+        ----------
+        request : HttpRequest
+            The request made.
+
+        obj : UserFlag
+            The user flag model associated with the request.
+
+        form : ModelForm[Any]
+            An array of model forms.
+
+        change : bool
+            Whether the user was updated (true) or created.
+        """
+        super().save_model(request, obj, form, change)
+        if change:
+            logger.info(
+                "Updated user flag: %s -> %s (by %s)",
+                obj.user.email,
+                obj.created_by,
+                request.user,
+            )
+        else:
+            logger.warning(
+                "Created user flag: %s -> %s (by %s)",
+                obj.user.email,
+                obj.created_by,
+                request.user,
+            )
+
+    def delete_model(self, request: HttpRequest, obj: UserFlag) -> None:
+        """
+        Override to add logging for user flag deletions.
+
+        Parameters
+        ----------
+        request : HttpRequest
+            The request made.
+
+        obj : UserFlag
+            The user flag model associated with the request.
+        """
+        logger.info(
+            "Deleted user flag: %s -> %s (by %s)",
+            obj.user.email,
+            obj.created_by,
+            request.user,
+        )
+        super().delete_model(request, obj)
+
+
+# MARK: Register Admin
+
 admin.site.register(UserModel, UserAdmin)
+admin.site.register(UserFlag, UserFlagAdmin)

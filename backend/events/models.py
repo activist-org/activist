@@ -3,12 +3,12 @@
 Models for the events app.
 """
 
+from typing import Any
 from uuid import uuid4
 
 from django.db import models
 
-from content.models import SocialLink
-from utils.models import ISO_CHOICES
+from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Event
 
@@ -54,59 +54,21 @@ class Event(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
 
-    resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
-    faqs = models.ManyToManyField("content.Faq", blank=True)
     formats = models.ManyToManyField("events.Format", blank=True)
     roles = models.ManyToManyField("events.Role", blank=True)
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
-    def __str__(self) -> str:
-        return self.name
-
-
-# MARK: Format
-
-
-class Format(models.Model):
-    """
-    Standardized event formats.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateTimeField(null=True)
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
 
     def __str__(self) -> str:
         return self.name
 
 
-# MARK: Role
-
-
-class Role(models.Model):
-    """
-    Event roles for users.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
-    is_custom = models.BooleanField(default=False)
-    description = models.TextField(max_length=500)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deprecation_date = models.DateTimeField(null=True)
-
-    def __str__(self) -> str:
-        return self.name
-
-
-# MARK: Bridge Tables
+# MARK: Attendee
 
 
 class EventAttendee(models.Model):
@@ -129,6 +91,9 @@ class EventAttendee(models.Model):
         return f"{self.user} - {self.event}"
 
 
+# MARK: Attendee Status
+
+
 class EventAttendeeStatus(models.Model):
     """
     Attendance statuses for users to events.
@@ -141,6 +106,96 @@ class EventAttendeeStatus(models.Model):
         return self.status_name
 
 
+# MARK: FAQ
+
+
+class EventFaq(Faq):
+    """
+    Event Frequently Asked Questions model.
+    """
+
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="faqs")
+
+    def __str__(self) -> str:
+        return self.question
+
+    class Meta:
+        ordering = ["order"]
+
+
+# MARK: Flag
+
+
+class EventFlag(models.Model):
+    """
+    Model for event flags.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    event = models.ForeignKey("Event", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now=True)
+
+
+# MARK: Format
+
+
+class Format(models.Model):
+    """
+    Standardized event formats.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateTimeField(null=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+# MARK: Resource
+
+
+class EventResource(Resource):
+    """
+    Event resource model.
+    """
+
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="resources")
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["order"]
+
+
+# MARK: Role
+
+
+class Role(models.Model):
+    """
+    Event roles for users.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    is_custom = models.BooleanField(default=False)
+    description = models.TextField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deprecation_date = models.DateTimeField(null=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+# MARK: Social Link
+
+
 class EventSocialLink(SocialLink):
     """
     Extension of the base SocialLink model for events.
@@ -150,8 +205,14 @@ class EventSocialLink(SocialLink):
         Event, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
+    class Meta:
+        ordering = ["order"]
 
-class EventText(models.Model):
+
+# MARK: Text
+
+
+class EventText(Text):
     """
     Translatable text content for events in different languages.
     """
@@ -159,10 +220,6 @@ class EventText(models.Model):
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, null=True, related_name="texts"
     )
-    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField(default=False)
-    description = models.TextField(max_length=2500)
-    get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
         return f"{self.event} - {self.iso}"

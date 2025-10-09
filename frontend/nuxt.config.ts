@@ -2,11 +2,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import type { NuxtPage } from "nuxt/schema";
 
-import { resolve } from "path";
+import tailwindcss from "@tailwindcss/vite";
 
+import locales from "./app/utils/locales";
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
-import locales from "./locales";
 import modules from "./modules";
 
 export default defineNuxtConfig({
@@ -14,33 +14,78 @@ export default defineNuxtConfig({
     head,
   },
 
-  modules: modules,
-  ssr: false,
-
-  typescript: {
-    // strict: true,
-    // typeCheck: true,
+  auth: {
+    baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
+    provider: {
+      type: "local",
+      isEnabled: true,
+      disableServerSideAuth: false,
+      originEnvKey: "VITE_BACKEND_URL",
+      pages: {
+        login: "/auth/sign-in",
+      },
+      endpoints: {
+        signIn: { path: "v1/auth/sign_in", method: "post" },
+        signOut: { path: "v1/auth/sign_out", method: "post" },
+        signUp: { path: "/v1/auth/sign_up", method: "post" },
+        getSession: { path: "v1/auth/sessions", method: "get" },
+      },
+      refresh: {
+        isEnabled: true,
+        endpoint: { path: "v1/auth/token/refresh", method: "post" },
+        refreshOnlyToken: true,
+        token: {
+          signInResponseRefreshTokenPointer: "/refresh",
+          refreshRequestTokenPointer: "/refresh",
+          cookieName: "auth.refresh",
+          maxAgeInSeconds: 300,
+          secureCookieAttribute: false,
+          httpOnlyCookieAttribute: false,
+        },
+      },
+      session: {
+        dataType: {
+          id: "string | number",
+          access: "string",
+          refresh: "string",
+          user: {
+            id: "string | number",
+            username: "string",
+            isAdmin: "boolean",
+            isActive: "boolean",
+            isStaff: "boolean",
+            isSuperuser: "boolean",
+            email: "string",
+          },
+        },
+      },
+      token: {
+        signInResponseTokenPointer: "/access",
+        signInResponseRefreshTokenPointer: "/refresh",
+        refreshRequestTokenPointer: "/access",
+        type: "Token",
+        headerName: "Authorization",
+        maxAgeInSeconds: 300,
+        secureCookieAttribute: false,
+        httpOnlyCookieAttribute: false,
+      },
+    },
   },
+  modules: process.env.VITEST ? [] : modules,
+  ssr: false,
 
   devtools: {
     enabled: true,
   },
 
-  alias: {
-    "@": resolve(__dirname, "./"),
-  },
-
   plugins: ["~/plugins/i18n-head.ts"],
-
-  content: {
-    watch: { enabled: false },
-  },
 
   imports: {
     dirs: ["./stores"],
   },
 
   vite: {
+    plugins: [tailwindcss()],
     server: {
       watch: {
         usePolling: true,
@@ -61,28 +106,21 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
-  css: ["reduced-motion/css"],
-
-  tailwindcss: {
-    cssPath: "~/assets/css/tailwind.css",
-    configPath: "tailwind.config.ts",
-  },
+  css: ["~/assets/css/tailwind.css", "reduced-motion/css"],
 
   postcss: {
     plugins: {
-      tailwindcss: {},
       autoprefixer: {},
     },
   },
 
   i18n: {
-    lazy: true,
     strategy: "prefix_and_default",
-    langDir: "./i18n",
-    vueI18n: "./i18n.config.ts",
+    langDir: "locales",
+    vueI18n: "i18n.config.ts",
     baseUrl: "https://activist.org",
-    locales,
     defaultLocale: "en",
+    locales,
     customRoutes: "config",
     pages: {},
     detectBrowserLanguage: {
@@ -100,7 +138,7 @@ export default defineNuxtConfig({
 
   vue: {
     compilerOptions: {
-      isCustomElement: (tag) =>
+      isCustomElement: (tag: string) =>
         ["swiper-slide", "swiper-container"].includes(tag),
     },
   },
@@ -109,13 +147,20 @@ export default defineNuxtConfig({
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
     },
-    "app:resolve": (app) => {
-      console.log("App instance resolved:", app);
+    "app:resolve": (_app: unknown) => {
+      // Note: For future implementation.
     },
   },
 
   nitro: {
-    preset: "netlify-static",
+    // Use node-server preset for local preview/Docker (creates .output/server/index.mjs)
+    // Use netlify-static preset for Netlify deployment (creates static site)
+    preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
+  },
+
+  plausible: {
+    // Prevent tracking on localhost.
+    ignoredHostnames: ["localhost"],
   },
 
   security: {
@@ -137,9 +182,8 @@ export default defineNuxtConfig({
          *
          * Chromium and Firefox still allow http requests to localhost even with this header.
          */
-        "upgrade-insecure-requests": !(
-          import.meta.env.VITE_FRONTEND_URL === "http://localhost:3000"
-        ),
+        "upgrade-insecure-requests":
+          import.meta.env.VITE_FRONTEND_URL !== "http://localhost:3000",
       },
     },
     rateLimiter: {
@@ -154,6 +198,4 @@ export default defineNuxtConfig({
       maxUploadFileRequestInBytes: 5000000,
     },
   },
-
-  compatibilityDate: "2025-03-12",
-});
+} as unknown as Parameters<typeof defineNuxtConfig>[0]);

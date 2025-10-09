@@ -13,7 +13,8 @@ from communities.organizations.factories import OrganizationFactory
 from communities.organizations.models import Organization, OrganizationApplication
 from content.factories import EntityLocationFactory
 
-ORGS_URL = "/v1/communities/organizations/"
+# Endpoint used for these tests:
+ORGS_URL = "/v1/communities/organizations"
 
 
 class UserDict(TypedDict):
@@ -34,15 +35,16 @@ def login_user(user_data: UserDict) -> dict:
     Log in a user and return the user and token.
     """
     client = APIClient()
+
     response = client.post(
-        "/v1/auth/sign_in/",
+        "/v1/auth/sign_in",
         {
             "username": user_data["user"].username,
             "password": user_data["plaintext_password"],
         },
     )
     assert response.status_code == 200
-    return {"user": user_data["user"], "token": response.data["token"]}
+    return {"user": user_data["user"], "access": response.data["access"]}
 
 
 @pytest.fixture(scope="session")
@@ -101,6 +103,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     2. Verify the response status code is 201 (Created)
     """
     client = APIClient()
+
     number_of_orgs = 10
     test_page_size = 1
 
@@ -131,7 +134,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     # Authenticated and successful.
     new_org = OrganizationFactory.build(org_name="new_org", terms_checked=True)
     location = EntityLocationFactory.build()
-    token = logged_in_user["token"]
+    access = logged_in_user["access"]
 
     payload = {
         "location": {
@@ -148,7 +151,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
         "is_high_risk": new_org.is_high_risk,
     }
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.post(ORGS_URL, data=payload, format="json")
 
     assert response.status_code == 201
@@ -180,14 +183,15 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     1. Delete the organization with the created_by user and verify it is removed from the database.
     """
     client = APIClient()
-    created_by_user, token_created_by = logged_in_created_by_user.values()
+
+    created_by_user, access = logged_in_created_by_user.values()
 
     new_org = OrganizationFactory.create(created_by=created_by_user)
     assert Organization.objects.filter(org_name=new_org.org_name).exists()
 
     # MARK: Detail GET
 
-    response = client.get(f"{ORGS_URL}{new_org.id}/")
+    response = client.get(f"{ORGS_URL}/{new_org.id}")
     assert response.status_code == 200
     assert response.data["org_name"] == new_org.org_name
 
@@ -195,15 +199,15 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     updated_payload = {"org_name": "updated_org_name"}
     response = client.put(
-        f"{ORGS_URL}{new_org.id}/",
+        f"{ORGS_URL}/{new_org.id}",
         data=updated_payload,
         format="json",
     )
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.put(
-        f"{ORGS_URL}{new_org.id}/",
+        f"{ORGS_URL}/{new_org.id}",
         data=updated_payload,
         format="json",
     )
@@ -215,10 +219,10 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{ORGS_URL}{new_org.id}/")
+    response = client.delete(f"{ORGS_URL}/{new_org.id}")
     assert response.status_code == 401
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token_created_by}")
-    response = client.delete(f"{ORGS_URL}{new_org.id}/")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
+    response = client.delete(f"{ORGS_URL}/{new_org.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == 204

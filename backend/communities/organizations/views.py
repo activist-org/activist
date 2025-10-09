@@ -4,13 +4,12 @@
 API views for organization management.
 """
 
-import json
-from typing import Dict, List
+import logging
 from uuid import UUID
 
-from django.db import transaction
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -18,20 +17,27 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework import status, viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from communities.models import StatusType
+from communities.organizations.filters import OrganizationFilter
 from communities.organizations.models import (
     Organization,
+    OrganizationFaq,
+    OrganizationFlag,
+    OrganizationImage,
+    OrganizationResource,
     OrganizationSocialLink,
     OrganizationText,
 )
 from communities.organizations.serializers import (
+    OrganizationFaqSerializer,
+    OrganizationFlagSerializer,
+    OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
@@ -39,16 +45,20 @@ from communities.organizations.serializers import (
 from content.models import Image, Location
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
+from core.permissions import IsAdminStaffCreatorOrReadOnly
 
-# MARK: Organization
+logger = logging.getLogger(__name__)
+
+# MARK: API
 
 
 class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
     serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filterset_class = OrganizationFilter
+    filter_backends = [DjangoFilterBackend]
 
     @extend_schema(
         responses={200: OrganizationSerializer(many=True)},
@@ -75,7 +85,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
                 examples=[
                     OpenApiExample(
                         name="Failed to create organization",
-                        value={"error": "Failed to create organization"},
+                        value={"detail": "Failed to create organization"},
                         media_type="application/json",
                     )
                 ],
@@ -94,17 +104,24 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         # This is necessary because of a not null constraint on the location field.
         try:
             org = serializer.save(created_by=request.user)
+            logger.info(f"Organization created successfully: {org.id}")
 
         except (IntegrityError, OperationalError):
+            logger.exception(
+                f"Failed to create organization for user {request.user.id}"
+            )
             Location.objects.filter(id=location.id).delete()
             return Response(
-                {"error": "Failed to create organization"},
+                {"detail": "Failed to create organization."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         org.application.create()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Detail API
 
 
 class OrganizationDetailAPIView(APIView):
@@ -121,7 +138,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -132,7 +149,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Failed to retrieve the organization"},
+                        value={"detail": "Failed to retrieve the organization."},
                         media_type="application/json",
                     )
                 ],
@@ -142,7 +159,7 @@ class OrganizationDetailAPIView(APIView):
     def get(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Organization ID is required"},
+                {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -152,8 +169,9 @@ class OrganizationDetailAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Organization.DoesNotExist:
+            logger.exception(f"Organization with id {id} does not exist.")
             return Response(
-                {"error": "Failed to retrieve the organization"},
+                {"detail": "Failed to retrieve the organization."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -166,7 +184,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -177,7 +195,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Organization not found"},
+                        value={"detail": "Organization not found."},
                         media_type="application/json",
                     )
                 ],
@@ -187,7 +205,7 @@ class OrganizationDetailAPIView(APIView):
     def put(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Organization ID is required"},
+                {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -195,13 +213,14 @@ class OrganizationDetailAPIView(APIView):
             org = Organization.objects.get(id=id)
 
         except Organization.DoesNotExist:
+            logger.exception(f"Organization with id {id} does not exist for update.")
             return Response(
-                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
-                {"error": "You are not authorized to update this organization"},
+                {"detail": "You are not authorized to update this organization."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -231,7 +250,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization ID required",
-                        value={"error": "Organization ID is required"},
+                        value={"detail": "Organization ID is required."},
                         media_type="application/json",
                     )
                 ],
@@ -243,7 +262,7 @@ class OrganizationDetailAPIView(APIView):
                     OpenApiExample(
                         name="Unauthorized",
                         value={
-                            "error": "You are not authorized to delete this organization"
+                            "detail": "You are not authorized to delete this organization."
                         },
                         media_type="application/json",
                     )
@@ -255,7 +274,7 @@ class OrganizationDetailAPIView(APIView):
                 examples=[
                     OpenApiExample(
                         name="Organization not found",
-                        value={"error": "Organization not found"},
+                        value={"detail": "Organization not found."},
                         media_type="application/json",
                     )
                 ],
@@ -265,7 +284,7 @@ class OrganizationDetailAPIView(APIView):
     def delete(self, request: Request, id: None | UUID = None) -> Response:
         if id is None:
             return Response(
-                {"error": "Organization ID is required"},
+                {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -273,13 +292,14 @@ class OrganizationDetailAPIView(APIView):
             org = Organization.objects.select_related("created_by").get(id=id)
 
         except Organization.DoesNotExist:
+            logger.exception(f"Organization with id {id} does not exist for delete.")
             return Response(
-                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Organization not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
-                {"error": "You are not authorized to delete this organization"},
+                {"detail": "You are not authorized to delete this organization."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
@@ -289,62 +309,407 @@ class OrganizationDetailAPIView(APIView):
         org.status_updated = None
         org.tagline = ""
         org.save()
+        logger.info(f"Organization deleted (soft): {org.id}")
 
         return Response(
-            {"message": "Organization deleted successfully."}, status.HTTP_200_OK
+            {"message": "Organization deleted successfully."},
+            status.HTTP_204_NO_CONTENT,
         )
 
 
-# MARK: Bridge Tables
+# MARK: Flag
+
+
+class OrganizationFlagAPIView(GenericAPIView[OrganizationFlag]):
+    queryset = OrganizationFlag.objects.all()
+    serializer_class = OrganizationFlagSerializer
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(responses={200: OrganizationFlagSerializer(many=True)})
+    def get(self, request: Request) -> Response:
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        responses={
+            201: OrganizationFlagSerializer,
+            400: OpenApiResponse(response={"detail": "Failed to create flag."}),
+        }
+    )
+    def post(self, request: Request) -> Response:
+        serializer_class = self.get_serializer_class()
+        serializer = serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            serializer.save(created_by=request.user)
+            logger.info(f"OrganizationFlag created by user {request.user.id}")
+
+        except (IntegrityError, OperationalError):
+            logger.exception(f"Failed to create flag for user {request.user.id}")
+            return Response(
+                {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Flag Detail
+
+
+class OrganizationFlagDetailAPIView(GenericAPIView[OrganizationFlag]):
+    queryset = OrganizationFlag.objects.all()
+    serializer_class = OrganizationFlagSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
+
+    @extend_schema(
+        responses={
+            200: OrganizationFlagSerializer,
+            404: OpenApiResponse(
+                response={"detail": "Failed to retrieve the organization flag."}
+            ),
+        }
+    )
+    def get(self, request: Request, id: str | UUID) -> Response:
+        try:
+            flag = OrganizationFlag.objects.get(id=id)
+
+        except OrganizationFlag.DoesNotExist:
+            logger.exception(f"OrganizationFlag with id {id} does not exist.")
+            return Response(
+                {"detail": "Failed to retrieve the flag."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        self.check_object_permissions(request, flag)
+
+        serializer = OrganizationFlagSerializer(flag)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "Flag deleted successfully."}),
+            401: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            403: OpenApiResponse(
+                response={"detail": "You are not authorized to delete this flag."}
+            ),
+            404: OpenApiResponse(response={"detail": "Failed to retrieve flag."}),
+        }
+    )
+    def delete(self, request: Request, id: str | UUID) -> Response:
+        try:
+            flag = OrganizationFlag.objects.get(id=id)
+
+        except OrganizationFlag.DoesNotExist:
+            logger.exception(f"OrganizationFlag with id {id} does not exist.")
+            return Response(
+                {"detail": "Flag not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        self.check_object_permissions(request, flag)
+
+        flag.delete()
+        logger.info(f"OrganizationFlag deleted: {id}")
+        return Response(
+            {"message": "Flag deleted successfully."}, status=status.HTTP_204_NO_CONTENT
+        )
+
+
+# MARK: FAQ
+
+
+class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
+    queryset = OrganizationFaq.objects.all()
+    serializer_class = OrganizationFaqSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create FAQs for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"FAQ created for org {org.id}")
+
+        return Response(
+            {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = OrganizationFaq.objects.get(id=pk)
+
+        except OrganizationFaq.DoesNotExist as e:
+            logger.exception(f"FAQ not found for update with id {pk}: {e}")
+            return Response(
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.org.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        logger.info(f"FAQ updated: {faq.id}")
+
+        return Response(
+            {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
+# MARK: Social Link
 
 
 class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink]):
     queryset = OrganizationSocialLink.objects.all()
     serializer_class = OrganizationSocialLinkSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def delete(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to delete social links for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        OrganizationSocialLink.objects.filter(org=org).delete()
+        logger.info(f"Social links deleted for org {org.id}")
+
+        return Response(
+            {"message": "Social links deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create social links for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer.save()
+        logger.info(f"Social link created for org {org.id}")
+
+        return Response(
+            {"message": "Social link created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
 
     def update(self, request: Request, pk: UUID | str) -> Response:
-        org = Organization.objects.filter(id=pk).first()
-        if not org:
-            return Response(
-                {"error": "Organization not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        data = request.data
-        if isinstance(data, str):
-            data = json.loads(data)
-
         try:
-            # Use transaction.atomic() to ensure nothing is saved if an error occurs.
-            with transaction.atomic():
-                # Delete all existing social links for this org.
-                OrganizationSocialLink.objects.filter(org=org).delete()
+            social_link = OrganizationSocialLink.objects.get(id=pk)
 
-                # Create new social links from the submitted data.
-                social_links: List[Dict[str, str]] = []
-                for link_data in data:
-                    if isinstance(link_data, dict):
-                        social_link = OrganizationSocialLink.objects.create(
-                            org=org,
-                            order=link_data.get("order"),
-                            link=link_data.get("link"),
-                            label=link_data.get("label"),
-                        )
-                        social_links.append(social_link)
-
-            serializer = self.get_serializer(social_links, many=True)
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        except Exception as e:
+        except OrganizationSocialLink.DoesNotExist as e:
+            logger.exception(f"Social link with id {pk} does not exist for update: {e}")
             return Response(
-                {"error": f"Failed to update social links: {str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
+        org = social_link.org
+        if org is not None:
+            creator = org.created_by
 
-class OrganizationTextViewSet(viewsets.ModelViewSet[OrganizationText]):
+        else:
+            raise ValueError("Org is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to update the social links for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(social_link, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(org=org)
+
+            return Response(
+                {"message": "Social link updated successfully."},
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(
+            {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            social_link = OrganizationSocialLink.objects.get(id=pk)
+
+        except OrganizationSocialLink.DoesNotExist as e:
+            logger.exception(
+                f"Social link with id {pk} does not exist for deletion: {e}"
+            )
+            return Response(
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        org = social_link.org
+        if org is not None:
+            creator = org.created_by
+
+        else:
+            raise ValueError("Org is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this social link."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        social_link.delete()
+        logger.info(f"Social link {pk} deleted for org {org.id}")
+
+        return Response(
+            {"message": "Social link deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
+
+# MARK: Text
+
+
+class OrganizationTextViewSet(GenericAPIView[OrganizationText]):
     queryset = OrganizationText.objects.all()
     serializer_class = OrganizationTextSerializer
+    permission_classes = [IsAdminStaffCreatorOrReadOnly]
+
+    @extend_schema(
+        responses={
+            200: OrganizationTextSerializer,
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to update this organization's texts."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Organization text not found."}),
+        }
+    )
+    def put(self, request: Request, id: UUID | str) -> Response:
+        try:
+            org_text = self.queryset.get(id=id)
+
+        except OrganizationText.DoesNotExist as e:
+            logger.exception(
+                f"Organization text not found for update with id {id}: {e}"
+            )
+            return Response(
+                {"detail": "Organization text not found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if (
+            request.user != getattr(org_text.org, "created_by", None)
+            and not request.user.is_staff
+        ):
+            return Response(
+                {
+                    "detail": "You are not authorized to update this organization's text."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.serializer_class(org_text, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# MARK: Resource
+
+
+class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
+    queryset = OrganizationResource.objects.all()
+    serializer_class = OrganizationResourceSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def create(self, request: Request) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        org: Organization = serializer.validated_data["org"]
+
+        if request.user != org.created_by and not request.user.is_staff:
+            return Response(
+                {
+                    "detail": "You are not authorized to create resource for this organization."
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer.save(created_by=request.user)
+        logger.info(
+            f"Resource created for organization {org.id} by user {request.user.id}"
+        )
+
+        return Response(
+            {"message": "Resource created successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def update(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            resource = OrganizationResource.objects.get(id=pk)
+
+        except OrganizationResource.DoesNotExist as e:
+            logger.exception(f"Resource with id {pk} does not exist for update: {e}")
+            return Response(
+                {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != resource.org.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to update this resource."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        serializer = self.get_serializer(resource, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "Resource updated successfully."}, status=status.HTTP_200_OK
+        )
+
+
+# MARK: Image
 
 
 class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
@@ -357,3 +722,24 @@ class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
         )
         serializer = self.get_serializer(images, many=True)
         return Response(serializer.data)
+
+    def update(self, request: Request, org_id: UUID, pk: UUID | str) -> Response:
+        sequence_index = request.data.get("sequence_index", None)
+        if sequence_index is not None:
+            # Update OrganizationImage, not the Image itself.
+            try:
+                org_image = OrganizationImage.objects.get(org_id=org_id, image_id=pk)
+                org_image.sequence_index = sequence_index
+                org_image.save()
+                return Response(
+                    {"detail": "Sequence index updated."}, status=status.HTTP_200_OK
+                )
+
+            except OrganizationImage.DoesNotExist:
+                return Response(
+                    {"detail": "OrganizationImage relation not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+        # Fallback to default image update if needed.
+        return super().update(request)

@@ -27,10 +27,8 @@ def test_group_update(client: Client) -> None:
         This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
     """
     test_username = "test_user"
-    test_plaintext_password = "test_pass"
-    user = UserFactory(
-        username=test_username, plaintext_password=test_plaintext_password
-    )
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
     group = GroupFactory()
 
     user.verified = True
@@ -39,25 +37,25 @@ def test_group_update(client: Client) -> None:
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 
     assert login_response.status_code == 200
 
     login_response_body = login_response.json()
-    token = login_response_body.get("token")
+    token = login_response_body.get("access")
 
     group.created_by = user
 
-    response = client.get(path=f"/v1/communities/groups/{group.id}/")
+    response = client.get(path=f"/v1/communities/groups/{group.id}")
     assert response.status_code == 200
 
     request_body = client.put(
-        path=f"/v1/communities/groups/{group.id}/",
+        path=f"/v1/communities/groups/{group.id}",
         data={
             "groupName": "new_test_group",
             "name": "new_test_name",
@@ -67,19 +65,19 @@ def test_group_update(client: Client) -> None:
         content_type="application/json",
     )
 
-    assert request_body.status_code == 401
+    assert request_body.status_code == 403
 
     request_body_json = request_body.json()
-    assert request_body_json["error"] == "You are not authorized to update this group"
+    assert (
+        request_body_json["detail"] == "You are not authorized to perform this action."
+    )
 
     """
     2. Test for Authorized user updating the group information.
     """
     test_username = "test_user"
-    test_plaintext_password = "test_pass"
-    user = UserFactory(
-        username=test_username, plaintext_password=test_plaintext_password
-    )
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
     group = GroupFactory()
 
     user.verified = True
@@ -89,26 +87,26 @@ def test_group_update(client: Client) -> None:
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={
             "username": test_username,
-            "password": test_plaintext_password,
+            "password": test_password,
         },
     )
 
     assert login_response.status_code == 200
 
     login_response_body = login_response.json()
-    token = login_response_body.get("token")
+    token = login_response_body.get("access")
 
     group.created_by = user
 
-    response = client.get(path=f"/v1/communities/groups/{group.id}/")
+    response = client.get(path=f"/v1/communities/groups/{group.id}")
 
     assert response.status_code == 200
 
     request_body = client.put(
-        path=f"/v1/communities/groups/{group.id}/",
+        path=f"/v1/communities/groups/{group.id}",
         data={
             "groupName": "new_test_group",
             "name": "new_test_name",

@@ -3,6 +3,7 @@
 Classes controlling the CLI command to populate the database when starting the backend.
 """
 
+# mypy: ignore-errors
 import random
 from argparse import ArgumentParser
 from typing import List, TypedDict
@@ -14,19 +15,50 @@ from authentication.factories import UserFactory
 from authentication.models import UserModel
 from communities.groups.factories import (
     GroupFactory,
+    GroupFaqFactory,
+    GroupResourceFactory,
     GroupSocialLinkFactory,
     GroupTextFactory,
 )
 from communities.groups.models import Group
 from communities.organizations.factories import (
     OrganizationFactory,
+    OrganizationFaqFactory,
+    OrganizationResourceFactory,
     OrganizationSocialLinkFactory,
     OrganizationTextFactory,
 )
 from communities.organizations.models import Organization
 from content.models import Topic
-from events.factories import EventFactory, EventSocialLinkFactory, EventTextFactory
+from events.factories import (
+    EventFactory,
+    EventFaqFactory,
+    EventResourceFactory,
+    EventSocialLinkFactory,
+    EventTextFactory,
+)
 from events.models import Event
+
+
+def get_topic_label(topic: Topic) -> str:
+    """
+    Return the label of a topic from the object.
+
+    Parameters
+    ----------
+    topic : Topic
+        The topic object that the label should be derived for.
+
+    Returns
+    -------
+    str
+        The human readable name of the topic.
+    """
+    return (
+        " ".join([t[0] + t[1:].lower() for t in topic.type.split("_")])
+        .replace("Womens", "Women's")
+        .replace("Lgbtqia", "LGBTQIA+")
+    )
 
 
 class Options(TypedDict):
@@ -101,15 +133,16 @@ class Command(BaseCommand):
             for u, user in enumerate(users):
                 user_topic = random.choice(topics)
                 user.topics.set([user_topic])
+                user_topic_name = get_topic_label(topic=user_topic)
 
                 for o in range(num_orgs_per_user):
                     user_org = OrganizationFactory(
                         created_by=user,
                         org_name=f"organization_u{u}_o{o}",
-                        name=f"{user_topic.name} Organization",
-                        tagline=f"Fighting for {user_topic.name.lower()}",
+                        name=f"{user_topic_name} Organization",
+                        tagline=f"Fighting for {user_topic_name.lower()}",
                     )
-
+                    user_org.topics.set([user_topic])
                     org_texts = OrganizationTextFactory(iso="en", primary=True)
                     org_social_links: List[OrganizationSocialLinkFactory] = []
                     org_social_links.extend(
@@ -120,6 +153,17 @@ class Command(BaseCommand):
                     user_org.texts.set([org_texts])
                     user_org.social_links.set(org_social_links)
 
+                    for f in range(num_faq_entries_per_entity):
+                        user_org_faq = OrganizationFaqFactory(org=user_org, order=f)
+                        user_org.faqs.add(user_org_faq)
+
+                    for r in range(num_resources_per_entity):
+                        user_org_resource = OrganizationResourceFactory(
+                            created_by=user, org=user_org, order=r
+                        )
+                        user_org.resources.add(user_org_resource)
+                        user_org_resource.topics.set([user_topic])
+
                     for e in range(num_events_per_org):
                         event_type = random.choice(["learn", "action"])
                         event_type_verb = (
@@ -129,13 +173,13 @@ class Command(BaseCommand):
                         )
 
                         user_org_event = EventFactory(
-                            name=f"{user_topic.name} Event [o{o}:e{e}]",
-                            tagline=f"{event_type_verb} {user_topic.name}",
+                            name=f"{user_topic_name} Event [u{u}:o{o}:e{e}]",
+                            tagline=f"{event_type_verb} {user_topic_name}",
                             type=event_type,
                             created_by=user,
                             orgs=user_org,
                         )
-
+                        user_org_event.topics.set([user_topic])
                         event_texts = EventTextFactory(iso="en", primary=True)
                         event_social_links: List[EventSocialLinkFactory] = []
                         event_social_links.extend(
@@ -146,13 +190,26 @@ class Command(BaseCommand):
                         user_org_event.texts.set([event_texts])
                         user_org_event.social_links.set(event_social_links)
 
+                        for f in range(num_faq_entries_per_entity):
+                            user_org_event_faq = EventFaqFactory(
+                                event=user_org_event, order=f
+                            )
+                            user_org_event.faqs.add(user_org_event_faq)
+
+                        for r in range(num_resources_per_entity):
+                            user_org_event_resource = EventResourceFactory(
+                                created_by=user, event=user_org_event, order=r
+                            )
+                            user_org_event.resources.add(user_org_event_resource)
+                            user_org_event_resource.topics.set([user_topic])
+
                     for g in range(num_groups_per_org):
                         user_org_group = GroupFactory(
                             created_by=user,
                             group_name=f"group_u{u}_o{o}_g{g}",
-                            name=f"{user_topic.name} Group",
+                            name=f"{user_topic_name} Group",
                             org=user_org,
-                            tagline=f"Fighting for {user_topic.name.lower()}",
+                            tagline=f"Fighting for {user_topic_name.lower()}",
                         )
 
                         group_texts = GroupTextFactory(iso="en", primary=True)
@@ -164,6 +221,19 @@ class Command(BaseCommand):
 
                         user_org_group.texts.set([group_texts])
                         user_org_group.social_links.set(group_social_links)
+
+                        for f in range(num_faq_entries_per_entity):
+                            user_org_group_faq = GroupFaqFactory(
+                                group=user_org_group, order=f
+                            )
+                            user_org_group.faqs.add(user_org_group_faq)
+
+                        for r in range(num_resources_per_entity):
+                            user_org_group_resource = GroupResourceFactory(
+                                created_by=user, group=user_org_group, order=r
+                            )
+                            user_org_group.resources.add(user_org_group_resource)
+                            user_org_group_resource.topics.set([user_topic])
 
             num_orgs = num_users * num_orgs_per_user
             num_groups = num_users * num_orgs_per_user * num_groups_per_org
@@ -178,6 +248,15 @@ class Command(BaseCommand):
                 + num_orgs_per_user * num_events_per_org * num_faq_entries_per_entity
                 + num_orgs_per_user * num_groups_per_org * num_faq_entries_per_entity
             )
+            num_social_links = (
+                3
+                * num_users
+                * (
+                    num_orgs_per_user
+                    + num_orgs_per_user * num_groups_per_org
+                    + num_orgs_per_user * num_events_per_org
+                )
+            )
 
             self.stdout.write(
                 self.style.ERROR(
@@ -187,6 +266,7 @@ class Command(BaseCommand):
                     f"Number of events created: {num_events}\n"
                     f"Number of resources created: {num_resources}\n"
                     f"Number of FAQ entries created: {num_faq_entries}\n"
+                    f"Number of social links created: {num_social_links}\n"
                 )
             )
 

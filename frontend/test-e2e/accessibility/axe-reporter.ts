@@ -8,42 +8,38 @@ import type {
 import type { AxeResults } from "axe-core";
 
 import { createHtmlReport } from "axe-html-reporter";
+import path from "path";
 
-import { RESULTS_PATH } from "~/playwright.config";
+// Use process.cwd() instead of import.meta.url for compatibility with Playwright's reporter loading.
+const DEFAULT_RESULTS_PATH = path.join(process.cwd(), "test-results");
 
 class AxeReporter implements Reporter {
   private outputDirPath: string;
 
   constructor(options?: { outputDirPath?: string }) {
-    this.outputDirPath = options?.outputDirPath || RESULTS_PATH;
+    this.outputDirPath = options?.outputDirPath || DEFAULT_RESULTS_PATH;
   }
 
-  onTestBegin(test: TestCase) {
-    console.log(`Starting test ${test.title}`);
+  onTestBegin(_test: TestCase) {
+    // Note: For future implementation.
   }
 
   onTestEnd(test: TestCase, result: TestResult) {
-    console.log(`Test ended: ${test.title}, Status: ${result.status}`);
-
     const axeResults = result.attachments.find(
       (a) => a.name === "accessibility-scan-results"
     );
     if (axeResults && axeResults.body) {
       const results = JSON.parse(axeResults.body.toString());
-      console.log(`Violations found: ${results.violations.length}`);
 
       if (results.violations.length > 0) {
-        console.log(`Generating report for: ${test.title}`);
         const pageName = this.extractPageName(test);
         const { browserName, deviceName } = this.extractProjectInfo(test);
         this.generateAxeReport(results, pageName, browserName, deviceName);
       } else {
-        console.log(
-          `Skipping report generation for test with no violations: ${test.title}`
-        );
+        // Note: For future implementation.
       }
     } else {
-      console.log(`No accessibility results found for: ${test.title}`);
+      // Note: For future implementation.
     }
   }
 
@@ -68,7 +64,8 @@ class AxeReporter implements Reporter {
         const project = current.project();
         if (project) {
           const projectName = project.name;
-          const [browserName, ...deviceParts] = projectName.split(" ");
+          const [browserName = "unknown", ...deviceParts] =
+            projectName.split(" ");
           return {
             browserName: browserName.replace(/\s+/g, "_"),
             deviceName:

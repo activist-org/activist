@@ -25,7 +25,7 @@ class Status(models.Model):
         return f"{self.org.name} - {self.status_type}"
 
 
-# MARK: Bridge Tables
+# MARK: Status Type
 
 
 class StatusType(models.Model):
