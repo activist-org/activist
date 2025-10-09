@@ -1,0 +1,79 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<template>
+  <div class="overflow-hidden bg-layer-0">
+    <Head>
+      <Title>{{ $t("i18n.pages.index.title") }}</Title>
+    </Head>
+    <LandingSplash />
+    <LandingCommunityBanner />
+    <div
+      class="mb-2 mt-4 flex flex-col sm:mb-4 sm:mt-10 xl:mb-8 xl:mt-16 2xl:mb-12 2xl:mt-24"
+    >
+      <LandingContent
+        btnAriaLabel1="i18n.pages.index.get_active_aria_label"
+        btnId1="btn-get-active"
+        btnText1="i18n.pages.index.learn_more"
+        btnUrl1="https://docs.activist.org/activist"
+        contentPosition="left"
+        header="i18n.pages.index.get_active_header"
+        imageAltText="i18n.pages.index.get_active_img_alt_text"
+        :imgUrl="GET_ACTIVE_IMAGE_URL"
+        tagline="i18n.pages.index.get_active_tagline"
+        text="i18n.pages.index.get_active_text"
+      />
+      <LandingContent
+        btnAriaLabel1="i18n.pages.index.get_organized_aria_label"
+        btnId1="btn-get-organized"
+        btnText1="i18n.pages.index.learn_more"
+        btnUrl1="https://docs.activist.org/activist"
+        contentPosition="right"
+        header="i18n.pages.index.get_organized_header"
+        imageAltText="i18n.pages.index.get_organized_img_alt_text"
+        :imgUrl="GET_ORGANIZED_IMAGE_URL"
+        tagline="i18n.pages.index.get_organized_tagline"
+        text="i18n.pages.index.get_organized_text"
+      />
+      <LandingContent
+        btnAriaLabel1="i18n.pages.index.grow_organization_aria_label"
+        btnId1="btn-grow-organization"
+        btnText1="i18n.pages.index.learn_more"
+        btnUrl1="https://docs.activist.org/activist"
+        contentPosition="left"
+        header="i18n.pages.index.grow_organization_header"
+        imageAltText="i18n.pages.index.grow_organization_img_alt_text"
+        :imgUrl="GROW_ORGANIZATION_IMAGE_URL"
+        tagline="i18n.pages.index.grow_organization_tagline"
+        text="i18n.pages.index.grow_organization_text"
+      />
+      <LandingTechBanner />
+      <LandingContent
+        btnAriaLabel1="i18n.pages.index.activist_section_btn_aria_label"
+        btnId1="btn-activist"
+        btnText1="i18n.pages.index.learn_more"
+        btnUrl1="https://docs.activist.org/activist"
+        contentPosition="right"
+        header="i18n.pages.index.about_us"
+        imageAltText="i18n._global.activist_icon_img_alt_text"
+        imgUrl="/icons/activist/activist_icon"
+        tagline="i18n.pages.index.activist_section_tagline"
+        text="i18n.pages.index.activist_section_text"
+      />
+      <LandingContent
+        btnAriaLabel1="i18n.pages.index.our_supporters_btn_become_aria_label"
+        btnAriaLabel2="i18n.pages.index.our_supporters_btn_view_aria_label"
+        btnId1="btn-become-supporter"
+        btnId2="btn-our-supporters"
+        btnText1="i18n.pages.index.become_supporter"
+        btnText2="i18n.pages.index.view_all_supporters"
+        btnUrl1="https://docs.activist.org/activist/welcome/support-us"
+        btnUrl2="https://docs.activist.org/activist/organization/community/supporters"
+        contentPosition="top"
+        header="i18n.pages.index.our_supporters"
+        imageAltText=""
+        subText="i18n.pages.index.our_supporters_sub_text"
+        tagline="i18n.pages.index.our_supporters_tagline"
+        text="i18n.pages.index.our_supporters_text"
+      />
+    </div>
+  </div>
+</template>

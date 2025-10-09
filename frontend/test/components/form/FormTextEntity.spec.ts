@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import FormTextEntity from "@/components/form/FormTextEntity.vue";
-import render from "@/test/render";
 import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
-import { getEnglishText } from "~/utils/i18n";
+import FormTextEntity from "../../../app/components/form/FormTextEntity.vue";
+import { getEnglishText } from "../../../app/utils/i18n";
+import render from "../../../test/render";
+
+// Note: Auto-import mocks (useI18n, etc.) are handled globally in test/setup.ts.
 
 describe("FormTextEntity component", () => {
   const mockHandleSubmit = vi.fn();

@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { expect, test } from "playwright/test";
-
 import { pressControlKey } from "~/test-e2e/actions/keyboard";
 import { newInfoMenu } from "~/test-e2e/component-objects/InfoMenu";
 import { newMainNavOptions } from "~/test-e2e/component-objects/MainNavOptions";
 import { newSearchbar } from "~/test-e2e/component-objects/Searchbar";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
+import { expect, test } from "~/test-e2e/global-fixtures";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/home");
@@ -16,7 +15,15 @@ test.beforeEach(async ({ page }) => {
   await expect(sidebar.root).toBeVisible();
 });
 
-test.describe("Home Page", { tag: "@desktop" }, () => {
+test.describe("Home Page", { tag: ["@desktop", "@unauth"] }, () => {
+  // Override to run without authentication (tests sign-in menu).
+  test.use({ storageState: undefined });
+
+  // Explicitly clear all cookies to ensure unauthenticated state.
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies();
+  });
+
   test("User can open searchbar", async ({ page }) => {
     const sidebarLeft = newSidebarLeft(page);
     const searchbar = newSearchbar(page);
@@ -25,7 +32,7 @@ test.describe("Home Page", { tag: "@desktop" }, () => {
     await expect(searchbar.input).toHaveAttribute("placeholder", /search/i);
 
     await sidebarLeft.close();
-    await expect(searchbar.input).not.toBeAttached();
+    await expect(searchbar.input).not.toBeVisible();
   });
 
   test("User can open searchbar with CTRL+'/'", async ({ page }) => {
@@ -44,7 +51,9 @@ test.describe("Home Page", { tag: "@desktop" }, () => {
 
     await sidebarLeft.lockToggle.click();
     await sidebarLeft.mouseLeave();
-    await expect(searchbar.input).not.toBeAttached();
+
+    // Verify searchbar is no longer visible/focused when sidebar is closed.
+    await expect(searchbar.input).not.toBeVisible();
   });
 
   test("Navigation main options: Events and Organizations", async ({

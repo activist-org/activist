@@ -1,0 +1,317 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text&display=swap");
+@import "tailwindcss";
+
+@config "~~/tailwind.config.ts";
+
+@plugin 'tailwind-scrollbar' {
+  nocompatible: true;
+}
+
+/*
+MARK: Colors
+*/
+
+/* Note: *-over-layer-2 texts have opacities from tailwind.config.ts included. */
+.light {
+  --layer-0: 255, 255, 255;
+  --layer-1: 246, 248, 250;
+  --layer-2: 240, 240, 235;
+  --section-div: 216, 222, 228;
+  --primary-text: 0, 0, 0;
+  --primary-text-over-layer-2: 36, 36, 35;
+  --distinct-text: 90, 90, 90;
+  --distinct-text-over-layer-2: 105, 105, 105;
+  --link-text: 0, 92, 184;
+  --link-text-hover: 0, 59, 119;
+  --menu-selection: 50, 50, 50;
+  --interactive: 75, 75, 67;
+  --highlight: 140, 140, 140;
+  --highlight-darker: 120, 120, 120;
+  --highlight-lighter: 140, 140, 140;
+  --cta-orange: 242, 166, 84;
+  --action-red: 186, 61, 59;
+  --learn-blue: 33, 118, 174;
+  --accepted-green: 62, 137, 20;
+  --warn-yellow: 255, 191, 0;
+  --password-strength-very-weak: 204, 102, 102;
+  --password-strength-weak: 230, 145, 56;
+  --password-strength-medium: 241, 194, 50;
+  --password-strength-strong: 106, 168, 79;
+}
+
+.dark {
+  --layer-0: 6, 8, 15;
+  --layer-1: 19, 19, 22;
+  --layer-2: 22, 27, 34;
+  --section-div: 43, 50, 59;
+  --primary-text: 255, 255, 255;
+  --primary-text-over-layer-2: 220, 221, 222;
+  --distinct-text: 150, 150, 150;
+  --distinct-text-over-layer-2: 137, 138, 138;
+  --link-text: 86, 167, 252;
+  --link-text-hover: 134, 192, 253;
+  --menu-selection: 200, 200, 200;
+  --interactive: 133, 126, 123;
+  --highlight: 70, 70, 70;
+  --highlight-darker: 70, 70, 70;
+  --highlight-lighter: 120, 120, 120;
+  --cta-orange: 241, 156, 65;
+  --action-red: 238, 90, 88;
+  --learn-blue: 62, 146, 204;
+  --accepted-green: 97, 139, 37;
+  --warn-yellow: 255, 209, 102;
+  --password-strength-very-weak: 224, 102, 102;
+  --password-strength-weak: 246, 178, 107;
+  --password-strength-medium: 255, 217, 102;
+  --password-strength-strong: 147, 196, 125;
+}
+
+/*
+MARK: Base
+*/
+
+@layer base {
+  body {
+    @apply bg-layer-2;
+  }
+  * {
+    @apply scrollbar scrollbar-track-transparent scrollbar-thumb-distinct-text scrollbar-thumb-rounded-md scrollbar-w-2;
+  }
+
+  /*
+  MARK: Typography
+  */
+
+  h1 {
+    @apply text-primary-text responsive-h1;
+  }
+
+  h2 {
+    @apply text-primary-text responsive-h2;
+  }
+
+  h3 {
+    @apply text-primary-text responsive-h3;
+  }
+
+  h4 {
+    @apply text-primary-text responsive-h4;
+  }
+
+  h5 {
+    @apply text-primary-text responsive-h5;
+  }
+
+  h6 {
+    @apply text-primary-text responsive-h6;
+  }
+
+  p {
+    @apply text-base text-primary-text;
+  }
+
+  ul {
+    @apply text-base text-primary-text;
+  }
+
+  ol {
+    @apply text-base text-primary-text;
+  }
+
+  /* Note: Not used because this colors all NuxtLink components. */
+  /* a {
+    @apply link-text text-base;
+  } */
+}
+
+@layer components {
+  /*
+  MARK: Text Color
+  */
+  .primary-text {
+    @apply text-primary-text;
+  }
+
+  .distinct-text {
+    @apply text-distinct-text;
+  }
+
+  .link-text {
+    @apply text-link-text hover:text-link-text-hover;
+  }
+
+  .inline-link-underline {
+    @apply rounded-none border-b border-current;
+  }
+
+  .error-text {
+    @apply text-action-red;
+  }
+
+  .warn-text {
+    @apply text-warn-yellow;
+  }
+
+  /*
+  MARK: Buttons
+  */
+
+  .btn-base-class {
+    @apply w-fit select-none px-4 py-2 text-center font-semibold elem-shadow-sm focus-brand;
+  }
+
+  .style-btn {
+    @apply bg-layer-0 text-primary-text elem-shadow-sm focus-brand hover:bg-highlight active:bg-layer-0 dark:border dark:border-primary-text;
+  }
+
+  .style-btns-next-to-one-another {
+    @apply mx-auto grid max-w-[70%] grid-cols-1 gap-y-4 sm:mx-0 sm:max-w-[90%] sm:grid-cols-2 sm:grid-rows-1 sm:gap-x-4 sm:gap-y-0 md:max-w-[80%] md:gap-x-6 xl:gap-x-8;
+  }
+
+  .style-cta {
+    @apply border border-primary-text bg-cta-orange fill-primary-text text-primary-text focus-brand hover:bg-cta-orange/70 active:bg-cta-orange dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange dark:hover:bg-cta-orange/25 dark:active:bg-cta-orange/10;
+  }
+
+  .style-cta:disabled {
+    @apply cursor-not-allowed border-primary-text/50 bg-cta-orange/50 fill-primary-text/50 text-primary-text/50 shadow-none dark:border-cta-orange/50 dark:bg-cta-orange/10 dark:fill-cta-orange/50 dark:text-cta-orange/50;
+  }
+
+  .style-cta-secondary {
+    @apply border border-primary-text bg-layer-2 fill-primary-text text-primary-text focus-brand hover:bg-highlight-darker active:bg-layer-2 dark:border-primary-text dark:hover:bg-highlight-lighter;
+  }
+
+  .style-cta-secondary:disabled {
+    @apply cursor-not-allowed border-primary-text/50 bg-layer-2/75 fill-primary-text/50 text-primary-text/50 shadow-none;
+  }
+
+  .style-menu-option {
+    @apply fill-primary-text text-primary-text focus-brand hover:bg-cta-orange/80 dark:hover:bg-cta-orange/25 dark:hover:text-cta-orange;
+  }
+
+  .style-menu-option-cta {
+    @apply bg-menu-selection fill-layer-1 text-layer-1 focus-brand hover:bg-menu-selection/80;
+    p {
+      @apply text-layer-1;
+    }
+  }
+
+  /*
+  MARK: Cards
+  */
+
+  .card-style {
+    @apply bg-layer-1 card-style-base;
+  }
+
+  .elem-on-card-style {
+    @apply bg-layer-2 card-style-base elem-shadow-sm hover:bg-highlight active:bg-layer-2 dark:border dark:border-primary-text;
+  }
+
+  /*
+  MARK: Padding
+  */
+
+  .responsive-px-1 {
+    @apply px-1 sm:px-2;
+  }
+
+  .responsive-px-2 {
+    @apply px-2 lg:px-4 xl:px-6;
+  }
+
+  .responsive-px-3 {
+    @apply px-4 lg:px-6 xl:px-8;
+  }
+
+  .responsive-px-4 {
+    @apply px-6 lg:px-8 xl:px-10;
+  }
+
+  .responsive-px-5 {
+    @apply px-6 lg:px-10 xl:px-14;
+  }
+
+  .responsive-py-1 {
+    @apply py-1 sm:py-2;
+  }
+
+  .responsive-py-2 {
+    @apply py-2 lg:py-4 xl:py-6;
+  }
+
+  .responsive-py-3 {
+    @apply py-4 lg:py-6 xl:py-8;
+  }
+
+  .responsive-py-4 {
+    @apply py-6 lg:py-8 xl:py-10;
+  }
+
+  .responsive-py-5 {
+    @apply py-8 lg:py-10 xl:py-14;
+  }
+
+  /*
+  MARK: Shadow
+  */
+
+  .elem-shadow-md {
+    @apply shadow-md shadow-zinc-700;
+  }
+
+  .elem-shadow-lg {
+    @apply shadow-lg shadow-zinc-700;
+  }
+
+  /*
+  MARK: Tooltips
+  */
+
+  .tooltip {
+    @apply absolute;
+  }
+
+  .has-tooltip:hover .tooltip {
+    @apply visible z-40;
+  }
+
+  /*
+  MARK: Special
+  */
+
+  .style-learn {
+    @apply border border-primary-text bg-learn-blue text-primary-text focus-brand hover:bg-learn-blue/80 active:bg-learn-blue dark:border-learn-blue dark:bg-learn-blue/10 dark:text-learn-blue dark:hover:bg-learn-blue/25 dark:active:bg-learn-blue/10;
+  }
+
+  .style-action {
+    @apply border border-primary-text bg-action-red text-primary-text focus-brand hover:bg-action-red/80 active:bg-action-red dark:border-action-red dark:bg-action-red/10 dark:text-action-red dark:hover:bg-action-red/25 dark:active:bg-action-red/10;
+  }
+
+  .style-warn {
+    @apply border border-primary-text bg-warn-yellow text-primary-text focus-brand hover:bg-warn-yellow/80 active:bg-warn-yellow dark:border-warn-yellow dark:bg-warn-yellow/10 dark:text-warn-yellow dark:hover:bg-warn-yellow/25 dark:active:bg-warn-yellow/10;
+  }
+}
+
+/*
+MARK: Pulse
+*/
+
+.loading-pulse {
+  animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
