@@ -447,28 +447,6 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
     serializer_class = EventSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def delete(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        event: Event = serializer.validated_data["event"]
-
-        if request.user != event.created_by and not request.user.is_staff:
-            return Response(
-                {
-                    "detail": "You are not authorized to delete social links for this event."
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        EventSocialLink.objects.filter(event=event).delete()
-        logger.info(f"Social links deleted for event {event.id}")
-
-        return Response(
-            {"message": "Social links deleted successfully."},
-            status=status.HTTP_204_NO_CONTENT,
-        )
-
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

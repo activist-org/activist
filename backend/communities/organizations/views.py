@@ -487,28 +487,6 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
     serializer_class = OrganizationSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def delete(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        org: Organization = serializer.validated_data["org"]
-
-        if request.user != org.created_by and not request.user.is_staff:
-            return Response(
-                {
-                    "detail": "You are not authorized to delete social links for this organization."
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        OrganizationSocialLink.objects.filter(org=org).delete()
-        logger.info(f"Social links deleted for org {org.id}")
-
-        return Response(
-            {"message": "Social links deleted successfully."},
-            status=status.HTTP_204_NO_CONTENT,
-        )
-
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
