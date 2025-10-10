@@ -394,28 +394,6 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     serializer_class = GroupSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def delete(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        group: Group = serializer.validated_data["group"]
-
-        if request.user != group.created_by and not request.user.is_staff:
-            return Response(
-                {
-                    "detail": "You are not authorized to delete social links for this group."
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        GroupSocialLink.objects.filter(group=group).delete()
-        logger.info(f"Social links deleted for group {group.id}")
-
-        return Response(
-            {"message": "Social links deleted successfully."},
-            status=status.HTTP_204_NO_CONTENT,
-        )
-
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -523,9 +501,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
 
         if request.user != group.created_by and not request.user.is_staff:
             return Response(
-                {
-                    "detail": "You are not authorized to create resource for this organization."
-                },
+                {"detail": "You are not authorized to create resource for this group."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -549,7 +525,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
 
         if request.user != resource.group.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to update this FAQ."},
+                {"detail": "You are not authorized to update this resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
