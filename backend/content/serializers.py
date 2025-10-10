@@ -88,50 +88,156 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
     InMemoryUploadedFile
         Processed image file with metadata removed.
 
+    Raises
+    ------
+    serializers.ValidationError
+        If the file is invalid, corrupted, exceeds size limits, or has dangerous dimensions.
+
     Notes
     -----
     For JPEG files, the function converts to RGB and removes EXIF data.
     For PNG files, it clears the metadata info dictionary.
-    Other file types are returned unchanged.
+    Only JPEG, PNG, and WEBP formats are supported.
+
+    Security Features:
+    - Validates file size before processing
+    - Checks image format against allowlist
+    - Prevents decompression bomb attacks
+    - Handles PIL exceptions specifically
     """
+    # Constants
+    MAX_FILE_SIZE = getattr(
+        settings, "IMAGE_UPLOAD_MAX_FILE_SIZE", 5 * 1024 * 1024
+    )  # 5MB default
+    MAX_PIXELS = 178956970  # ~178 megapixels (PIL default limit)
+    ALLOWED_FORMATS = ["JPEG", "PNG", "WEBP"]
+
+    # Validate file size before processing
+    if image_file.size is None:
+        logger.warning("Image file has no size attribute")
+        raise serializers.ValidationError(
+            "Invalid image file: unable to determine file size."
+        )
+
+    if image_file.size > MAX_FILE_SIZE:
+        logger.warning(
+            f"Image file size {image_file.size} exceeds maximum {MAX_FILE_SIZE}"
+        )
+        raise serializers.ValidationError(
+            f"File size ({image_file.size} bytes) exceeds maximum allowed size ({MAX_FILE_SIZE} bytes)."
+        )
+
+    # Validate file is actually an image
     try:
         img: PILImage.Image = PILImage.open(image_file)
-        output_format = img.format
+        img.verify()  # Verify it's actually an image
 
+        # Re-open after verify (verify() closes the file)
+        image_file.seek(0)
+        img = PILImage.open(image_file)
+
+    except PILImage.UnidentifiedImageError as e:
+        logger.warning(f"Unidentified image format for file: {image_file.name}")
+        raise serializers.ValidationError(
+            "Invalid or corrupted image file. Please upload a valid JPEG, PNG, or WEBP image."
+        ) from e
+
+    except PILImage.DecompressionBombError as e:
+        logger.warning(f"Decompression bomb detected for file: {image_file.name}")
+        raise serializers.ValidationError(
+            "Image dimensions are too large. This could be a decompression bomb attack."
+        ) from e
+
+    except Exception as e:
+        logger.exception(f"Error opening image file {image_file.name}: {e}")
+        raise serializers.ValidationError(
+            "Failed to process image file. The file may be corrupted."
+        ) from e
+
+    # Validate image format against allowlist
+    output_format = img.format
+    if output_format not in ALLOWED_FORMATS:
+        logger.warning(
+            f"Unsupported image format '{output_format}' for file: {image_file.name}"
+        )
+        raise serializers.ValidationError(
+            f"Unsupported image format: {output_format}. Only JPEG, PNG, and WEBP are allowed."
+        )
+
+    # Check for decompression bomb (extremely large dimensions)
+    try:
+        width, height = img.size
+        if width * height > MAX_PIXELS:
+            logger.warning(
+                f"Image dimensions {width}x{height} exceed safety limit for file: {image_file.name}"
+            )
+            raise serializers.ValidationError(
+                f"Image dimensions ({width}x{height}) are too large. Maximum total pixels: {MAX_PIXELS}."
+            )
+    except AttributeError as e:
+        logger.error(f"Unable to determine image dimensions for file: {image_file.name}")
+        raise serializers.ValidationError(
+            "Unable to determine image dimensions."
+        ) from e
+
+    # Process the image to remove metadata
+    try:
         if output_format == "JPEG":
+            # Convert to RGB to strip EXIF
             img = img.convert("RGB")
 
         elif output_format == "PNG":
+            # Copy and clear metadata
             img = img.copy()
             img.info = {}
 
-        else:
-            return image_file  # return as-is if it's not JPEG or PNG
+        elif output_format == "WEBP":
+            # WEBP support - copy without metadata
+            img = img.copy()
 
-        # Save the cleaned image into a buffer.
+        # Save the cleaned image into a buffer
         output = BytesIO()
-        img.save(
-            output,
-            format=output_format,
-            quality=95 if output_format == "JPEG" else None,  # set JPEG quality
-            optimize=output_format == "JPEG",  # optimize JPEG
-        )
+        
+        # Set quality parameter based on format
+        save_kwargs = {"format": output_format}
+        if output_format in ["JPEG", "WEBP"]:
+            save_kwargs["quality"] = 95
+        if output_format == "JPEG":
+            save_kwargs["optimize"] = True
+            
+        img.save(output, **save_kwargs)
         output.seek(0)
 
-        # Return a new InMemoryUploadedFile.
-        return InMemoryUploadedFile(
+        # Return a new InMemoryUploadedFile
+        cleaned_file = InMemoryUploadedFile(
             output,
-            image_file.field_name,  # use original field name
+            image_file.field_name,
             image_file.name,
             f"image/{output_format.lower()}",
             output.getbuffer().nbytes,
-            image_file.charset,  # preserve charset (if applicable)
+            image_file.charset,
         )
 
-    except Exception as e:
-        logger.exception(f"Error scrubbing EXIF: {e}")
+        logger.info(f"Successfully scrubbed EXIF data from {image_file.name}")
+        return cleaned_file
 
-        return image_file  # return original file in case of error
+    except OSError as e:
+        logger.error(f"OS error processing image {image_file.name}: {e}")
+        raise serializers.ValidationError(
+            "Failed to process image file due to system error."
+        ) from e
+
+    except MemoryError as e:
+        logger.error(f"Memory error processing large image {image_file.name}: {e}")
+        raise serializers.ValidationError(
+            "Image file is too large to process in memory."
+        ) from e
+
+    except Exception as e:
+        logger.exception(f"Unexpected error scrubbing EXIF from {image_file.name}: {e}")
+        raise serializers.ValidationError(
+            "An unexpected error occurred while processing the image."
+        ) from e
 
 
 # MARK: Image
