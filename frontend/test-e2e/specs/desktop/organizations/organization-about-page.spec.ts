@@ -19,9 +19,7 @@ test.describe("Organization About Page", { tag: "@desktop" }, () => {
     await organizationPage.sidebar.open();
 
     // Verify we start on the About page (desktop auto-redirects to /about).
-    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
-      timeout: 10000,
-    });
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {});
     await page.waitForLoadState("domcontentloaded");
 
     // Organization pages load slowly in dev mode.

@@ -70,7 +70,7 @@ test.describe(
           .isVisible()
           .catch(() => false);
         expect(faqListVisible || emptyStateVisible).toBe(true);
-      }).toPass({ timeout: 10000 });
+      }).toPass();
 
       const faqCount = await groupFaqPage.getFaqCount();
 
@@ -148,9 +148,7 @@ test.describe(
 
       // Wait for FAQ cards to be present (with timeout to handle empty state).
       try {
-        await expect(groupFaqPage.faqCards.first()).toBeVisible({
-          timeout: 5000,
-        });
+        await expect(groupFaqPage.faqCards.first()).toBeVisible({});
       } catch {
         // If no FAQ cards appear, that's fine - could be empty state.
       }

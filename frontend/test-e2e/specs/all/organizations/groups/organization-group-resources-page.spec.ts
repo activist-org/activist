@@ -15,12 +15,9 @@ test.beforeEach(async ({ page }) => {
   // Wait for the page to be ready and auth state to be hydrated.
   // Check for auth cookie presence as a sign that authentication is working.
   try {
-    await page.waitForFunction(
-      () => {
-        return document.cookie.includes("auth.token");
-      },
-      { timeout: 15000 }
-    );
+    await page.waitForFunction(() => {
+      return document.cookie.includes("auth.token");
+    });
   } catch {
     // If auth cookie check fails, verify the page is still accessible.
     // and not showing sign-in page (which would indicate auth failure).
@@ -41,7 +38,6 @@ test.beforeEach(async ({ page }) => {
     );
     expect(isReady).toBe(true);
   }).toPass({
-    timeout: 2000,
     intervals: [100, 250],
   });
 });
@@ -99,7 +95,7 @@ test.describe(
           .isVisible()
           .catch(() => false);
         expect(resourcesListVisible || emptyStateVisible).toBe(true);
-      }).toPass({ timeout: 10000 });
+      }).toPass();
 
       // Check if resources exist or empty state is shown.
       const resourceCount = await groupResourcesPage.getResourceCount();
@@ -237,9 +233,9 @@ test.describe(
         }
 
         // Wait for edit button to be visible and clickable.
-        await expect(groupResourcesPage.getResourceEditButton(0)).toBeVisible({
-          timeout: 10000,
-        });
+        await expect(groupResourcesPage.getResourceEditButton(0)).toBeVisible(
+          {}
+        );
 
         // Click the edit button for the first resource.
         await groupResourcesPage.clickResourceEdit(0);

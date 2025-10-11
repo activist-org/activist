@@ -29,9 +29,7 @@ test.describe(
 
       // Wait for resource cards to be present (with timeout to handle empty state).
       try {
-        await expect(groupResourcesPage.resourceCards.first()).toBeVisible({
-          timeout: 5000,
-        });
+        await expect(groupResourcesPage.resourceCards.first()).toBeVisible({});
       } catch {
         // If no resource cards appear, that's fine - could be empty state.
       }

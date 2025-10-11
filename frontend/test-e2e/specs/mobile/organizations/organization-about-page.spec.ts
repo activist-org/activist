@@ -16,9 +16,7 @@ test.describe("Organization About Page", { tag: "@mobile" }, () => {
     const { aboutPage, eventsPage } = organizationPage;
 
     // Verify we start on the About page (mobile auto-redirects to /about).
-    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
-      timeout: 10000,
-    });
+    await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {});
     await page.waitForLoadState("domcontentloaded");
 
     // Organization pages load slowly in dev mode.

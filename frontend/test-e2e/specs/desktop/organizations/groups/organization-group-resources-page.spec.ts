@@ -43,7 +43,7 @@ test.describe(
             .isVisible()
             .catch(() => false);
           expect(resourceCardsVisible || emptyStateVisible).toBe(true);
-        }).toPass({ timeout: 10000 });
+        }).toPass();
       } catch {
         // If neither appears, that's fine - page might still be loading.
       }

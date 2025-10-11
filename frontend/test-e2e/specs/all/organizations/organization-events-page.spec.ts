@@ -63,7 +63,7 @@ test.describe(
           .isVisible()
           .catch(() => false);
         expect(eventsListVisible || emptyStateVisible).toBe(true);
-      }).toPass({ timeout: 10000 });
+      }).toPass();
 
       // Check if events exist or empty state is shown.
       const eventCount = await eventsPage.getEventCount();

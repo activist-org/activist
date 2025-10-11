@@ -34,15 +34,13 @@ test.describe(
       await page.waitForLoadState("domcontentloaded");
 
       // Wait for the password input to be visible.
-      await expect(passwordInput).toBeVisible({ timeout: 10000 });
+      await expect(passwordInput).toBeVisible();
 
       await passwordInput.fill("testpassword");
       await expect(passwordInput).toHaveAttribute("type", "password");
 
       // Wait for the show password toggle to be visible.
-      await expect(signInPage.showPasswordToggle).toBeVisible({
-        timeout: 10000,
-      });
+      await expect(signInPage.showPasswordToggle).toBeVisible();
 
       await signInPage.showPasswordToggle.click();
       await expect(passwordInput).toHaveAttribute("type", "text");

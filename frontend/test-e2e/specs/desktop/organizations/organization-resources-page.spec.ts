@@ -19,9 +19,7 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
 
     // Wait for resource cards to be present (with timeout to handle empty state).
     try {
-      await expect(resourcesPage.resourceCards.first()).toBeVisible({
-        timeout: 5000,
-      });
+      await expect(resourcesPage.resourceCards.first()).toBeVisible({});
     } catch {
       // If no resource cards appear, that's fine - could be empty state.
     }
@@ -71,9 +69,7 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
 
     // Wait for resource cards to be present (with timeout to handle empty state).
     try {
-      await expect(resourcesPage.resourceCards.first()).toBeVisible({
-        timeout: 5000,
-      });
+      await expect(resourcesPage.resourceCards.first()).toBeVisible({});
     } catch {
       // If no resource cards appear, that's fine - could be empty state.
     }
@@ -149,7 +145,6 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
         expect(finalOrder[1]).toBe(firstResource);
         expect(finalOrder[0]).toBe(secondResource);
       }).toPass({
-        timeout: 5000,
         intervals: [100, 250, 500],
       });
     } else {

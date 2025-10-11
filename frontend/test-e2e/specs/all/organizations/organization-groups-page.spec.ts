@@ -63,7 +63,7 @@ test.describe(
           .isVisible()
           .catch(() => false);
         expect(groupsListVisible || emptyStateVisible).toBe(true);
-      }).toPass({ timeout: 10000 });
+      }).toPass();
 
       // Check if groups exist or empty state is shown.
       const groupCount = await groupsPage.getGroupCount();

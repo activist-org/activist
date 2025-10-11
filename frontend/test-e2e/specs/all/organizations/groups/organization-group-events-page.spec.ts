@@ -72,7 +72,6 @@ test.describe(
           true
         );
       }).toPass({
-        timeout: 5000,
         intervals: [200, 500],
       });
 

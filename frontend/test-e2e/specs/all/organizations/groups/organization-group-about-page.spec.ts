@@ -124,9 +124,7 @@ test.describe(
         await closeModalButton.click({ force: true });
 
         // Wait for the modal to actually close.
-        await expect(groupAboutPage.shareModal).not.toBeVisible({
-          timeout: 10000,
-        });
+        await expect(groupAboutPage.shareModal).not.toBeVisible({});
       });
     });
 
@@ -314,7 +312,6 @@ test.describe(
           .count();
         expect(linkCount).toBeGreaterThan(0);
       }).toPass({
-        timeout: 10000,
         intervals: [100, 250, 500, 1000],
       });
 
@@ -411,7 +408,6 @@ test.describe(
         const linkCount = await socialLinks.count();
         expect(linkCount).toBeGreaterThan(0);
       }).toPass({
-        timeout: 5000,
         intervals: [100, 250, 500],
       });
 
@@ -498,17 +494,13 @@ test.describe(
 
       // Verify the deleted social link no longer appears on the Connect card.
       // Wait for the modal to close and page to update.
-      await expect(groupAboutPage.socialLinksModal).not.toBeVisible({
-        timeout: 10000,
-      });
+      await expect(groupAboutPage.socialLinksModal).not.toBeVisible({});
 
       // Verify the updated social link no longer exists.
       const deletedSocialLink = connectCard
         .getByTestId("social-link")
         .filter({ hasText: updatedLabel });
-      await expect(deletedSocialLink).not.toBeVisible({
-        timeout: 10000,
-      });
+      await expect(deletedSocialLink).not.toBeVisible({});
     });
   }
 );

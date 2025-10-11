@@ -21,7 +21,6 @@ test.beforeEach(async ({ page }) => {
     );
     expect(isReady).toBe(true);
   }).toPass({
-    timeout: 3000,
     intervals: [100, 250],
   });
 });
@@ -77,9 +76,7 @@ test.describe(
       const { aboutPage, editModal } = organizationPage;
 
       // Ensure we're on the About page.
-      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
-        timeout: 10000,
-      });
+      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {});
 
       // Wait for page to be ready.
       await page.waitForLoadState("domcontentloaded");
@@ -90,9 +87,7 @@ test.describe(
       });
 
       // Wait for edit icon to be available (auth state should be loaded).
-      await expect(aboutPage.aboutCardEditIcon).toBeVisible({
-        timeout: 10000,
-      });
+      await expect(aboutPage.aboutCardEditIcon).toBeVisible({});
 
       // Click the edit icon to open the edit modal.
       await aboutPage.aboutCardEditIcon.click();
@@ -169,9 +164,7 @@ test.describe(
       const { aboutPage, socialLinksModal } = organizationPage;
 
       // Ensure we're on the About page.
-      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
-        timeout: 10000,
-      });
+      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {});
 
       // Wait for page to be fully loaded (network requests complete) - longer timeout for dev mode.
       await page.waitForLoadState("domcontentloaded");
@@ -242,9 +235,7 @@ test.describe(
       );
 
       // Wait for the modal to close and page to update.
-      await expect(socialLinksModal.modal).not.toBeVisible({
-        timeout: 10000,
-      });
+      await expect(socialLinksModal.modal).not.toBeVisible({});
 
       // Verify the new social link appears on the Connect card.
       const { connectCard } = organizationPage.aboutPage;
@@ -252,9 +243,7 @@ test.describe(
       // Check if social links were created (with flexible timeout).
       let allSocialLinks = 0;
       try {
-        await expect(connectCard.locator("a[href]").first()).toBeVisible({
-          timeout: 10000,
-        });
+        await expect(connectCard.locator("a[href]").first()).toBeVisible({});
         allSocialLinks = await connectCard.locator("a[href]").count();
       } catch {
         // CREATE might have failed, check if any links exist at all.
@@ -337,15 +326,13 @@ test.describe(
       );
 
       // Wait for the modal to close and page to update.
-      await expect(socialLinksModal.modal).not.toBeVisible({
-        timeout: 10000,
-      });
+      await expect(socialLinksModal.modal).not.toBeVisible({});
 
       // Verify the updated social link appears on the Connect card.
       // Use getByTestId and filter by text since accessible name might include icon.
       await expect(
         connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })
-      ).toBeVisible({ timeout: 10000 });
+      ).toBeVisible();
       await expect(
         connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })
       ).toHaveAttribute("href", updatedUrl);
@@ -416,9 +403,7 @@ test.describe(
       // Use getByTestId and filter by text since accessible name might include icon.
       await expect(
         connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })
-      ).not.toBeVisible({
-        timeout: 10000,
-      });
+      ).not.toBeVisible({});
     });
   }
 );

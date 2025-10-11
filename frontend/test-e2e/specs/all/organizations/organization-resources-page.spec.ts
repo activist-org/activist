@@ -63,7 +63,7 @@ test.describe(
           .isVisible()
           .catch(() => false);
         expect(resourcesListVisible || emptyStateVisible).toBe(true);
-      }).toPass({ timeout: 10000 });
+      }).toPass();
 
       // Check if resources exist or empty state is shown.
       const resourceCount = await resourcesPage.getResourceCount();
