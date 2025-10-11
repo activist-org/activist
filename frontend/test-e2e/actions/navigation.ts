@@ -3,7 +3,7 @@ import type { Page } from "playwright";
 
 import { expect, test } from "playwright/test";
 
-import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
 import { getEnglishText } from "~/utils/i18n";
 

@@ -7,301 +7,298 @@ import { getEnglishText } from "~/utils/i18n";
  * Page Object Model for Organization Group Resources Page
  * Handles interactions with the group resources page within an organization
  */
-export class OrganizationGroupResourcesPage {
-  constructor(private readonly page: Page) {}
-
-  // MARK: Header
-
-  get newResourceButton() {
-    return this.page.getByRole("button", {
-      name: new RegExp(
-        getEnglishText("i18n.pages._global.resources.new_resource_aria_label"),
-        "i"
-      ),
-    });
-  }
-
-  // MARK: Resource List
-
-  get resourcesList() {
-    return this.page.getByTestId("organization-group-resources-list");
-  }
-
-  get resourceCards() {
-    return this.page.getByTestId("resource-card");
-  }
-
-  get firstResourceCard() {
-    return this.resourceCards.first();
-  }
-
-  get lastResourceCard() {
-    return this.resourceCards.last();
-  }
-
-  // MARK: Resource Card
-
-  getResourceCard(index: number) {
-    return this.page.getByTestId("resource-card").nth(index);
-  }
-
-  getResourceDragHandle(index: number) {
-    return this.page
-      .getByTestId("resource-card")
-      .nth(index)
-      .getByTestId("resource-drag-handle");
-  }
-
-  getResourceLink(index: number) {
-    return this.page
-      .getByTestId("resource-card")
-      .nth(index)
-      .getByTestId("resource-link");
-  }
-
-  getResourceIcon(index: number) {
-    return this.page
-      .getByTestId("resource-card")
-      .nth(index)
-      .getByTestId("resource-icon");
-  }
-
-  getResourceTitle(index: number) {
-    return this.page
-      .getByTestId("resource-card")
-      .nth(index)
-      .getByRole("heading", { level: 3 });
-  }
-
-  // MARK: Resource Menu
-
-  getResourceMenuButton(index: number) {
-    return this.page
-      .getByTestId("resource-card")
-      .nth(index)
-      .getByTestId("menu-button");
-  }
-
-  getResourceMenuTooltip(index: number) {
-    return this.page
-      .getByTestId("resource-card")
-      .nth(index)
-      .getByTestId("menu-tooltip");
-  }
-
-  getResourceShareButton(index: number) {
-    return this.page
-      .getByTestId("resource-card")
-      .nth(index)
-      .getByTestId("menu-tooltip")
-      .getByRole("button", {
-        name: new RegExp(getEnglishText("i18n._global.share"), "i"),
+export const newOrganizationGroupResourcesPage = (page: Page) => {
+  return {
+    // MARK: HEADER ELEMENTS
+    get newResourceButton() {
+      return page.getByRole("button", {
+        name: new RegExp(
+          getEnglishText(
+            "i18n.pages._global.resources.new_resource_aria_label"
+          ),
+          "i"
+        ),
       });
-  }
+    },
 
-  getResourceEditButton(index: number) {
-    return this.page
-      .getByTestId("resource-card")
-      .nth(index)
-      .getByTestId("icon-edit");
-  }
+    // MARK: RESOURCE LIST ELEMENTS
+    get resourcesList() {
+      return page.getByTestId("organization-group-resources-list");
+    },
 
-  // MARK: Empty State
+    get resourceCards() {
+      return page.getByTestId("resource-card");
+    },
 
-  get emptyState() {
-    return this.page.getByTestId("empty-state");
-  }
+    get firstResourceCard() {
+      return this.resourceCards.first();
+    },
 
-  get emptyStateMessage() {
-    return this.emptyState.getByRole("heading", { level: 4 }).first();
-  }
+    get lastResourceCard() {
+      return this.resourceCards.last();
+    },
 
-  // Modal elements (opened by new resource button).
-  get resourceModal() {
-    return this.page.getByTestId("modal-ModalResourceGroup");
-  }
+    // MARK: RESOURCE CARD ELEMENTS (by index)
+    getResourceCard(index: number) {
+      return page.getByTestId("resource-card").nth(index);
+    },
 
-  get resourceModalCloseButton() {
-    return this.resourceModal.getByTestId("modal-close-button");
-  }
+    getResourceDragHandle(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByTestId("resource-drag-handle");
+    },
 
-  // Edit modal elements (opened by edit button).
-  get editResourceModal() {
-    return this.page.getByTestId("modal-ModalResourceGroup");
-  }
+    getResourceLink(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByTestId("resource-link");
+    },
 
-  get editResourceModalCloseButton() {
-    return this.editResourceModal.getByTestId("modal-close-button");
-  }
+    getResourceIcon(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByTestId("resource-icon");
+    },
 
-  // Form elements within edit modal (using specific IDs from the form).
-  getResourceNameInput(modal: Locator) {
-    return modal.getByRole("textbox", {
-      name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
-    });
-  }
+    getResourceTitle(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByRole("heading", { level: 3 });
+    },
 
-  getResourceDescriptionInput(modal: Locator) {
-    return modal.getByRole("textbox", {
-      name: new RegExp(getEnglishText("i18n._global.description"), "i"),
-    });
-  }
+    // MARK: RESOURCE MENU ELEMENTS
+    getResourceMenuButton(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByTestId("menu-button");
+    },
 
-  getResourceUrlInput(modal: Locator) {
-    return modal.getByRole("textbox", {
-      name: new RegExp(
-        getEnglishText("i18n.components.form_resource.link"),
-        "i"
-      ),
-    });
-  }
+    getResourceMenuTooltip(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByTestId("menu-tooltip");
+    },
 
-  getResourceSubmitButton(modal: Locator) {
-    return modal.getByRole("button", {
-      name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
-    });
-  }
+    getResourceShareButton(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByTestId("menu-tooltip")
+        .getByRole("button", {
+          name: new RegExp(getEnglishText("i18n._global.share"), "i"),
+        });
+    },
 
-  // Tab navigation
-  get tabs() {
-    return this.page.getByRole("tablist");
-  }
+    getResourceEditButton(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByTestId("icon-edit");
+    },
 
-  get aboutTab() {
-    return this.page.getByRole("tab", {
-      name: new RegExp(getEnglishText("i18n._global.about"), "i"),
-    });
-  }
+    // MARK: EMPTY STATE ELEMENTS
+    get emptyState() {
+      return page.getByTestId("empty-state");
+    },
 
-  get eventsTab() {
-    return this.page.getByRole("tab", {
-      name: new RegExp(getEnglishText("i18n._global.events"), "i"),
-    });
-  }
+    get emptyStateMessage() {
+      return this.emptyState.getByRole("heading", { level: 4 }).first();
+    },
 
-  get resourcesTab() {
-    return this.page.getByRole("tab", {
-      name: new RegExp(getEnglishText("i18n._global.resources"), "i"),
-    });
-  }
+    // MARK: MODAL ELEMENTS
+    get resourceModal() {
+      return page.getByTestId("modal-ModalResourceGroup");
+    },
 
-  get faqTab() {
-    return this.page.getByRole("tab", {
-      name: new RegExp(getEnglishText("i18n._global.faq"), "i"),
-    });
-  }
+    get resourceModalCloseButton() {
+      return this.resourceModal.getByTestId("modal-close-button");
+    },
 
-  // MARK: Actions
-  async clickNewResource() {
-    await this.newResourceButton.click();
-  }
+    get editResourceModal() {
+      return page.getByTestId("modal-ModalResourceGroup");
+    },
 
-  async clickResourceLink(index: number) {
-    await this.getResourceLink(index).click();
-  }
+    get editResourceModalCloseButton() {
+      return this.editResourceModal.getByTestId("modal-close-button");
+    },
 
-  async clickResourceMenu(index: number) {
-    await this.getResourceMenuButton(index).click();
-  }
+    // Form elements within modal
+    getResourceNameInput(modal: Locator) {
+      return modal.getByRole("textbox", {
+        name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
+      });
+    },
 
-  async clickResourceShare(index: number) {
-    await this.getResourceShareButton(index).click();
-  }
+    getResourceDescriptionInput(modal: Locator) {
+      return modal.getByRole("textbox", {
+        name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+      });
+    },
 
-  async clickResourceEdit(index: number) {
-    await this.getResourceEditButton(index).click();
-  }
+    getResourceUrlInput(modal: Locator) {
+      return modal.getByRole("textbox", {
+        name: new RegExp(
+          getEnglishText("i18n.components.form_resource.link"),
+          "i"
+        ),
+      });
+    },
 
-  async clickAboutTab() {
-    await this.aboutTab.click();
-    await this.page.waitForLoadState("domcontentloaded");
-    await this.page.waitForURL(/.*\/groups\/.*\/about/);
-  }
+    getResourceSubmitButton(modal: Locator) {
+      return modal.getByRole("button", {
+        name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
+      });
+    },
 
-  async clickEventsTab() {
-    await this.eventsTab.click();
-    await this.page.waitForLoadState("domcontentloaded");
-    await this.page.waitForURL(/.*\/groups\/.*\/events/);
-  }
+    // MARK: TAB NAVIGATION ELEMENTS
+    get tabs() {
+      return page.getByRole("tablist");
+    },
 
-  async clickResourcesTab() {
-    await this.resourcesTab.click();
-    await this.page.waitForLoadState("domcontentloaded");
-    await this.page.waitForURL(/.*\/groups\/.*\/resources/);
-  }
+    get aboutTab() {
+      return page.getByRole("tab", {
+        name: new RegExp(getEnglishText("i18n._global.about"), "i"),
+      });
+    },
 
-  async clickFaqTab() {
-    await this.faqTab.click();
-    await this.page.waitForLoadState("domcontentloaded");
-    await this.page.waitForURL(/.*\/groups\/.*\/faq/);
-  }
+    get eventsTab() {
+      return page.getByRole("tab", {
+        name: new RegExp(getEnglishText("i18n._global.events"), "i"),
+      });
+    },
 
-  // MARK: Verification
+    get resourcesTab() {
+      return page.getByRole("tab", {
+        name: new RegExp(getEnglishText("i18n._global.resources"), "i"),
+      });
+    },
 
-  async getResourceCount() {
-    return await this.resourceCards.count();
-  }
+    get faqTab() {
+      return page.getByRole("tab", {
+        name: new RegExp(getEnglishText("i18n._global.faq"), "i"),
+      });
+    },
 
-  async isNewResourceButtonVisible() {
-    return await this.newResourceButton.isVisible();
-  }
+    // MARK: ACTIONS
+    async clickNewResource() {
+      await this.newResourceButton.click();
+    },
 
-  async isResourcesTabActive() {
-    return (await this.resourcesTab.getAttribute("aria-selected")) === "true";
-  }
+    async clickResourceLink(index: number) {
+      await this.getResourceLink(index).click();
+    },
 
-  async isEmptyStateVisible() {
-    return await this.emptyState.isVisible();
-  }
+    async clickResourceMenu(index: number) {
+      await this.getResourceMenuButton(index).click();
+    },
 
-  async hasResources() {
-    const count = await this.getResourceCount();
-    return count > 0;
-  }
+    async clickResourceShare(index: number) {
+      await this.getResourceShareButton(index).click();
+    },
 
-  // MARK: Resource Content
+    async clickResourceEdit(index: number) {
+      await this.getResourceEditButton(index).click();
+    },
 
-  async getResourceTitleText(index: number) {
-    return await this.getResourceTitle(index).textContent();
-  }
+    async clickAboutTab() {
+      await this.aboutTab.click();
+      await page.waitForLoadState("domcontentloaded");
+      await page.waitForURL(/.*\/groups\/.*\/about/);
+    },
 
-  async getResourceUrl(index: number) {
-    const link = this.getResourceLink(index);
-    return await link.getAttribute("href");
-  }
+    async clickEventsTab() {
+      await this.eventsTab.click();
+      await page.waitForLoadState("domcontentloaded");
+      await page.waitForURL(/.*\/groups\/.*\/events/);
+    },
 
-  // MARK: Drag and Drop
+    async clickResourcesTab() {
+      await this.resourcesTab.click();
+      await page.waitForLoadState("domcontentloaded");
+      await page.waitForURL(/.*\/groups\/.*\/resources/);
+    },
 
-  async dragResourceToPosition(fromIndex: number, toIndex: number) {
-    const sourceHandle = this.getResourceDragHandle(fromIndex);
-    const targetHandle = this.getResourceDragHandle(toIndex);
+    async clickFaqTab() {
+      await this.faqTab.click();
+      await page.waitForLoadState("domcontentloaded");
+      await page.waitForURL(/.*\/groups\/.*\/faq/);
+    },
 
-    const sourceBox = await sourceHandle.boundingBox();
-    const targetBox = await targetHandle.boundingBox();
+    // MARK: VERIFICATION METHODS
+    async getResourceCount() {
+      return await this.resourceCards.count();
+    },
 
-    if (sourceBox && targetBox) {
-      const startX = sourceBox.x + sourceBox.width / 2;
-      const startY = sourceBox.y + sourceBox.height / 2;
-      const endX = targetBox.x + targetBox.width / 2;
-      const endY = targetBox.y + targetBox.height / 2;
+    async isNewResourceButtonVisible() {
+      return await this.newResourceButton.isVisible();
+    },
 
-      // Simulate drag with mouse events.
-      await this.page.mouse.move(startX, startY);
-      await this.page.mouse.down();
-      await this.page.waitForTimeout(100);
+    async isResourcesTabActive() {
+      return (await this.resourcesTab.getAttribute("aria-selected")) === "true";
+    },
 
-      // Move to target with intermediate steps.
-      const steps = 5;
-      for (let i = 1; i <= steps; i++) {
-        const progress = i / steps;
-        const currentX = startX + (endX - startX) * progress;
-        const currentY = startY + (endY - startY) * progress;
-        await this.page.mouse.move(currentX, currentY);
-        await this.page.waitForTimeout(50);
+    async isEmptyStateVisible() {
+      return await this.emptyState.isVisible();
+    },
+
+    async hasResources() {
+      const count = await this.getResourceCount();
+      return count > 0;
+    },
+
+    // MARK: RESOURCE CONTENT METHODS
+    async getResourceTitleText(index: number) {
+      return await this.getResourceTitle(index).textContent();
+    },
+
+    async getResourceUrl(index: number) {
+      const link = this.getResourceLink(index);
+      return await link.getAttribute("href");
+    },
+
+    // MARK: DRAG AND DROP METHODS
+    async dragResourceToPosition(fromIndex: number, toIndex: number) {
+      const sourceHandle = this.getResourceDragHandle(fromIndex);
+      const targetHandle = this.getResourceDragHandle(toIndex);
+
+      const sourceBox = await sourceHandle.boundingBox();
+      const targetBox = await targetHandle.boundingBox();
+
+      if (sourceBox && targetBox) {
+        const startX = sourceBox.x + sourceBox.width / 2;
+        const startY = sourceBox.y + sourceBox.height / 2;
+        const endX = targetBox.x + targetBox.width / 2;
+        const endY = targetBox.y + targetBox.height / 2;
+
+        // Simulate drag with mouse events.
+        await page.mouse.move(startX, startY);
+        await page.mouse.down();
+        await page.waitForTimeout(100);
+
+        // Move to target with intermediate steps.
+        const steps = 5;
+        for (let i = 1; i <= steps; i++) {
+          const progress = i / steps;
+          const currentX = startX + (endX - startX) * progress;
+          const currentY = startY + (endY - startY) * progress;
+          await page.mouse.move(currentX, currentY);
+          await page.waitForTimeout(50);
+        }
+
+        await page.mouse.up();
+        await page.waitForTimeout(200);
       }
+    },
+  };
+};
 
-      await this.page.mouse.up();
-      await this.page.waitForTimeout(200);
-    }
-  }
-}
+export type GroupResourcesPage = ReturnType<
+  typeof newOrganizationGroupResourcesPage
+>;

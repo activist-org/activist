@@ -7,153 +7,151 @@ import { getEnglishText } from "~/utils/i18n";
  * Page Object Model for Organization Group Events Page
  * Handles interactions with the group events page within an organization
  */
-export class OrganizationGroupEventsPage {
-  constructor(private readonly page: Page) {}
+export const newOrganizationGroupEventsPage = (page: Page) => {
+  return {
+    // MARK: HEADER ELEMENTS
+    get newEventButton() {
+      return page.getByRole("link", { name: /new event/i });
+    },
 
-  // MARK: Header
+    get subscribeToEventsButton() {
+      return page.getByRole("button", { name: /subscribe to events/i });
+    },
 
-  get newEventButton() {
-    return this.page.getByRole("link", { name: /new event/i });
-  }
+    // MARK: LIST AND CARD ELEMENTS
+    get eventsList() {
+      return page.locator(".space-y-3.py-4");
+    },
 
-  get subscribeToEventsButton() {
-    return this.page.getByRole("button", { name: /subscribe to events/i });
-  }
+    get eventCards() {
+      return page.getByTestId("event-card");
+    },
 
-  // MARK: List and Cards
+    get firstEventCard() {
+      return this.eventCards.first();
+    },
 
-  get eventsList() {
-    return this.page.locator(".space-y-3.py-4");
-  }
+    get lastEventCard() {
+      return this.eventCards.last();
+    },
 
-  get eventCards() {
-    return this.page.getByTestId("event-card");
-  }
+    // MARK: EMPTY STATE ELEMENTS
+    get emptyState() {
+      return page.getByTestId("empty-state");
+    },
 
-  get firstEventCard() {
-    return this.eventCards.first();
-  }
+    get emptyStateMessage() {
+      return this.emptyState.getByRole("heading", { level: 4 }).first();
+    },
 
-  get lastEventCard() {
-    return this.eventCards.last();
-  }
+    // MARK: TAB NAVIGATION ELEMENTS
+    get tabs() {
+      return page.getByRole("tablist");
+    },
 
-  // MARK: Empty State
+    get aboutTab() {
+      return page.getByRole("tab", {
+        name: new RegExp(getEnglishText("i18n._global.about"), "i"),
+      });
+    },
 
-  get emptyState() {
-    return this.page.getByTestId("empty-state");
-  }
+    get eventsTab() {
+      return page.getByRole("tab", {
+        name: new RegExp(getEnglishText("i18n._global.events"), "i"),
+      });
+    },
 
-  get emptyStateMessage() {
-    return this.emptyState.getByRole("heading", { level: 4 }).first();
-  }
+    get resourcesTab() {
+      return page.getByRole("tab", {
+        name: new RegExp(getEnglishText("i18n._global.resources"), "i"),
+      });
+    },
 
-  // MARK: Tab Navigation
-  get tabs() {
-    return this.page.getByRole("tablist");
-  }
+    get faqTab() {
+      return page.getByRole("tab", {
+        name: new RegExp(getEnglishText("i18n._global.faq"), "i"),
+      });
+    },
 
-  get aboutTab() {
-    return this.page.getByRole("tab", {
-      name: new RegExp(getEnglishText("i18n._global.about"), "i"),
-    });
-  }
+    // MARK: ACTIONS
+    async clickNewEvent() {
+      await this.newEventButton.click();
+    },
 
-  get eventsTab() {
-    return this.page.getByRole("tab", {
-      name: new RegExp(getEnglishText("i18n._global.events"), "i"),
-    });
-  }
+    async clickSubscribeToEvents() {
+      await this.subscribeToEventsButton.click();
+    },
 
-  get resourcesTab() {
-    return this.page.getByRole("tab", {
-      name: new RegExp(getEnglishText("i18n._global.resources"), "i"),
-    });
-  }
+    async clickFirstEvent() {
+      await this.firstEventCard.click();
+    },
 
-  get faqTab() {
-    return this.page.getByRole("tab", {
-      name: new RegExp(getEnglishText("i18n._global.faq"), "i"),
-    });
-  }
+    async clickAboutTab() {
+      await this.aboutTab.click();
+    },
 
-  // MARK: Actions
-  async clickNewEvent() {
-    await this.newEventButton.click();
-  }
+    async clickEventsTab() {
+      await this.eventsTab.click();
+    },
 
-  async clickSubscribeToEvents() {
-    await this.subscribeToEventsButton.click();
-  }
+    async clickResourcesTab() {
+      await this.resourcesTab.click();
+    },
 
-  async clickFirstEvent() {
-    await this.firstEventCard.click();
-  }
+    async clickFaqTab() {
+      await this.faqTab.click();
+    },
 
-  async clickAboutTab() {
-    await this.aboutTab.click();
-  }
+    // MARK: VERIFICATION METHODS
+    async getEventCount() {
+      return await this.eventCards.count();
+    },
 
-  async clickEventsTab() {
-    await this.eventsTab.click();
-  }
+    async isNewEventButtonVisible() {
+      return await this.newEventButton.isVisible();
+    },
 
-  async clickResourcesTab() {
-    await this.resourcesTab.click();
-  }
+    async isSubscribeToEventsButtonVisible() {
+      return await this.subscribeToEventsButton.isVisible();
+    },
 
-  async clickFaqTab() {
-    await this.faqTab.click();
-  }
+    async isEventsTabActive() {
+      return (await this.eventsTab.getAttribute("aria-selected")) === "true";
+    },
 
-  // Verification methods
-  async getEventCount() {
-    return await this.eventCards.count();
-  }
+    async isEmptyStateVisible() {
+      return await this.emptyState.isVisible();
+    },
 
-  async isNewEventButtonVisible() {
-    return await this.newEventButton.isVisible();
-  }
+    async hasEvents() {
+      const count = await this.getEventCount();
+      return count > 0;
+    },
 
-  async isSubscribeToEventsButtonVisible() {
-    return await this.subscribeToEventsButton.isVisible();
-  }
+    // MARK: CARD INTERACTION METHODS
+    getEventCard(index: number) {
+      return this.eventCards.nth(index);
+    },
 
-  async isEventsTabActive() {
-    return (await this.eventsTab.getAttribute("aria-selected")) === "true";
-  }
+    getEventLink(index: number) {
+      return this.eventCards.nth(index).getByRole("link").first();
+    },
 
-  async isEmptyStateVisible() {
-    return await this.emptyState.isVisible();
-  }
+    async getEventTitle(index: number) {
+      const eventCard = this.eventCards.nth(index);
+      return await eventCard.getByTestId("event-title").textContent();
+    },
 
-  async hasEvents() {
-    const count = await this.getEventCount();
-    return count > 0;
-  }
+    async getEventDate(index: number) {
+      const eventCard = this.eventCards.nth(index);
+      return await eventCard.getByTestId("event-date").textContent();
+    },
 
-  // MARK: Card Interactions
+    async getEventLocation(index: number) {
+      const eventCard = this.eventCards.nth(index);
+      return await eventCard.getByTestId("event-location").textContent();
+    },
+  };
+};
 
-  getEventCard(index: number) {
-    return this.eventCards.nth(index);
-  }
-
-  getEventLink(index: number) {
-    return this.eventCards.nth(index).getByRole("link").first();
-  }
-
-  async getEventTitle(index: number) {
-    const eventCard = this.eventCards.nth(index);
-    return await eventCard.getByTestId("event-title").textContent();
-  }
-
-  async getEventDate(index: number) {
-    const eventCard = this.eventCards.nth(index);
-    return await eventCard.getByTestId("event-date").textContent();
-  }
-
-  async getEventLocation(index: number) {
-    const eventCard = this.eventCards.nth(index);
-    return await eventCard.getByTestId("event-location").textContent();
-  }
-}
+export type GroupEventsPage = ReturnType<typeof newOrganizationGroupEventsPage>;

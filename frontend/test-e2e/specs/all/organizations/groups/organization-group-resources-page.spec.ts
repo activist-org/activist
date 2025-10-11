@@ -2,7 +2,7 @@
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {

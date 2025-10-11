@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 
 async function getResourceCardOrder(page: Page) {
   return await page

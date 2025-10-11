@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { navigateToFirstOrganization } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.

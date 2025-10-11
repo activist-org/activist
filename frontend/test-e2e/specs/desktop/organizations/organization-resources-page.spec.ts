@@ -2,7 +2,7 @@
 import { getResourceCardOrder } from "~/test-e2e/actions/dragAndDrop";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
