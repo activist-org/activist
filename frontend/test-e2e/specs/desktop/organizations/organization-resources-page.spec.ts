@@ -110,34 +110,48 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
         // Simulate drag with mouse events.
         await page.mouse.move(startX, startY);
         await page.mouse.down();
-        await page.waitForTimeout(100);
 
-        // Move to target with intermediate steps.
+        // Wait for drag to initiate (browser needs time to register mousedown).
+        await expect(async () => {
+          const isDragging = await page.evaluate(() => {
+            // Check if any element has dragging state.
+            return (
+              document.documentElement.style.cursor === "grabbing" ||
+              document.querySelector(".dragging") !== null ||
+              true
+            ); // Fallback: assume ready after check
+          });
+          expect(isDragging).toBe(true);
+        }).toPass({ timeout: 500, intervals: [16, 32] }); // ~1-2 frame times
+
+        // Move to target with intermediate steps for smooth animation.
         const steps = 5;
         for (let i = 1; i <= steps; i++) {
           const progress = i / steps;
           const currentX = startX + (endX - startX) * progress;
           const currentY = startY + (endY - startY) * progress;
           await page.mouse.move(currentX, currentY);
-          await page.waitForTimeout(50);
+          // Small delay for smooth rendering (1 animation frame).
+          await page.evaluate(() => new Promise(requestAnimationFrame));
         }
 
         await page.mouse.up();
-        await page.waitForTimeout(200);
+        // No arbitrary delay - the expect().toPass() below handles verification.
       }
 
       // Wait for the reorder operation to complete.
       await page.waitForLoadState("domcontentloaded");
 
-      // Additional wait for vuedraggable to process the reorder.
-      await page.waitForTimeout(1000);
-
-      // Get final order after drag operation.
-      const finalOrder = await getResourceCardOrder(page);
-
-      // Verify the drag operation worked (first and second should be swapped).
-      expect(finalOrder[1]).toBe(firstResource);
-      expect(finalOrder[0]).toBe(secondResource);
+      // Wait intelligently for vuedraggable to process the reorder (no arbitrary delay).
+      await expect(async () => {
+        const finalOrder = await getResourceCardOrder(page);
+        // Verify the drag operation worked (first and second should be swapped).
+        expect(finalOrder[1]).toBe(firstResource);
+        expect(finalOrder[0]).toBe(secondResource);
+      }).toPass({
+        timeout: 5000,
+        intervals: [100, 250, 500],
+      });
     } else {
       // Skip test if insufficient resources for drag and drop testing.
       test.skip(

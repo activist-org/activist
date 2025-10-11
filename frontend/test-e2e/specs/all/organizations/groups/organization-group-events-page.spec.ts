@@ -54,11 +54,27 @@ test.describe(
       // Wait for events to load completely.
       await page.waitForLoadState("domcontentloaded");
 
-      // Wait a bit more for the page to fully render.
-      await page.waitForTimeout(2000);
+      // Wait intelligently for page to render (no arbitrary delay).
+      // Check for any of: events list, empty state, or new event button.
+      await expect(async () => {
+        const eventsListVisible = await groupEventsPage.eventsList
+          .isVisible()
+          .catch(() => false);
+        const emptyStateVisible = await groupEventsPage.emptyState
+          .isVisible()
+          .catch(() => false);
+        const newButtonVisible = await groupEventsPage.newEventButton
+          .isVisible()
+          .catch(() => false);
 
-      // Wait for page to load and check what's actually present.
-      await page.waitForLoadState("domcontentloaded");
+        // At least one should be visible when page is ready.
+        expect(eventsListVisible || emptyStateVisible || newButtonVisible).toBe(
+          true
+        );
+      }).toPass({
+        timeout: 5000,
+        intervals: [200, 500],
+      });
 
       // Check if we have events, empty state, or just the basic page structure.
       const eventsListVisible = await groupEventsPage.eventsList

@@ -34,8 +34,16 @@ test.beforeEach(async ({ page }) => {
     console.warn("Auth cookie not found, but page appears to be loaded");
   }
 
-  // Additional wait for UI to stabilize.
-  await page.waitForTimeout(500);
+  // Wait intelligently for UI to stabilize (no arbitrary delay).
+  await expect(async () => {
+    const isReady = await page.evaluate(
+      () => document.readyState === "complete"
+    );
+    expect(isReady).toBe(true);
+  }).toPass({
+    timeout: 2000,
+    intervals: [100, 250],
+  });
 });
 
 test.describe(
@@ -166,9 +174,18 @@ test.describe(
         // Click the share button.
         await groupResourcesPage.clickResourceShare(0);
 
-        // Verify share modal opens (this would be a generic share modal).
-        // Note: The actual share modal implementation may vary.
-        await page.waitForTimeout(1000); // wait for any modal to appear
+        // Wait intelligently for modal to appear (no arbitrary delay).
+        await expect(async () => {
+          const modalVisible = await page
+            .locator('[role="dialog"]')
+            .or(page.locator('[id="modal"]'))
+            .isVisible()
+            .catch(() => false);
+          expect(modalVisible).toBe(true);
+        }).toPass({
+          timeout: 3000,
+          intervals: [100, 250, 500],
+        });
 
         // Close any open modals by pressing Escape.
         await page.keyboard.press("Escape");

@@ -13,8 +13,17 @@ test.beforeEach(async ({ page }) => {
   // Wait for auth state to be fully loaded.
   await page.waitForLoadState("domcontentloaded");
 
-  // Give Nuxt Auth time to hydrate session from cookies.
-  await page.waitForTimeout(1000);
+  // Wait intelligently for auth state to hydrate (no arbitrary delay).
+  await expect(async () => {
+    // Verify page is interactive and auth state is ready.
+    const isReady = await page.evaluate(
+      () => document.readyState === "complete"
+    );
+    expect(isReady).toBe(true);
+  }).toPass({
+    timeout: 3000,
+    intervals: [100, 250],
+  });
 });
 
 test.describe(

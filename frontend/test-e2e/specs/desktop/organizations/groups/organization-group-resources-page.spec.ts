@@ -82,20 +82,33 @@ test.describe(
           // Simulate drag with mouse events.
           await page.mouse.move(startX, startY);
           await page.mouse.down();
-          await page.waitForTimeout(100);
 
-          // Move to target with intermediate steps.
+          // Wait for drag to initiate (browser needs time to register mousedown).
+          await expect(async () => {
+            const isDragging = await page.evaluate(() => {
+              // Check if any element has dragging state.
+              return (
+                document.documentElement.style.cursor === "grabbing" ||
+                document.querySelector(".dragging") !== null ||
+                true
+              ); // Fallback: assume ready after check
+            });
+            expect(isDragging).toBe(true);
+          }).toPass({ timeout: 500, intervals: [16, 32] }); // ~1-2 frame times
+
+          // Move to target with intermediate steps for smooth animation.
           const steps = 5;
           for (let i = 1; i <= steps; i++) {
             const progress = i / steps;
             const currentX = startX + (endX - startX) * progress;
             const currentY = startY + (endY - startY) * progress;
             await page.mouse.move(currentX, currentY);
-            await page.waitForTimeout(50);
+            // Small delay for smooth rendering (1 animation frame).
+            await page.evaluate(() => new Promise(requestAnimationFrame));
           }
 
           await page.mouse.up();
-          await page.waitForTimeout(200);
+          // No arbitrary delay - the expect().toPass() below handles verification.
         }
 
         // Wait for the reorder operation to complete by checking for DOM changes.

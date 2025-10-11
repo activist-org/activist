@@ -307,29 +307,24 @@ test.describe(
       // Verify the new social link appears on the Connect card.
       const { connectCard } = groupAboutPage;
 
-      // Wait for the page to update after the modal closes.
-      await page.waitForTimeout(1000);
-
-      // Check if social links were created (with flexible timeout).
-      let allSocialLinks = 0;
-      try {
-        await expect(
-          connectCard.locator('[data-testid="social-link"]').first()
-        ).toBeVisible({
-          timeout: 10000,
-        });
-        allSocialLinks = await connectCard
+      // Wait intelligently for social link to appear (no arbitrary delay).
+      await expect(async () => {
+        const linkCount = await connectCard
           .locator('[data-testid="social-link"]')
           .count();
-      } catch {
-        // CREATE might have failed, check if any links exist at all.
-        allSocialLinks = await connectCard
-          .locator('[data-testid="social-link"]')
-          .count();
+        expect(linkCount).toBeGreaterThan(0);
+      }).toPass({
+        timeout: 10000,
+        intervals: [100, 250, 500, 1000],
+      });
 
-        if (allSocialLinks === 0) {
-          throw new Error("No social links found after CREATE operation");
-        }
+      // Now safely get the count.
+      const allSocialLinks = await connectCard
+        .locator('[data-testid="social-link"]')
+        .count();
+
+      if (allSocialLinks === 0) {
+        throw new Error("No social links found after CREATE operation");
       }
 
       // PHASE 2: UPDATE - Edit the social link we just created.
@@ -408,11 +403,17 @@ test.describe(
       );
 
       // Verify the updated social link appears on the Connect card.
-      // Wait a bit for the page to update after the modal closes.
-      await page.waitForTimeout(1000);
-
-      // Check if any social links are visible first.
+      // Wait intelligently for social link to update (no arbitrary delay).
       const socialLinks = connectCard.locator('[data-testid="social-link"]');
+
+      // Wait for at least one social link to be visible.
+      await expect(async () => {
+        const linkCount = await socialLinks.count();
+        expect(linkCount).toBeGreaterThan(0);
+      }).toPass({
+        timeout: 5000,
+        intervals: [100, 250, 500],
+      });
 
       // Look for the updated social link by text content.
       const updatedSocialLink = connectCard.locator("a").filter({
