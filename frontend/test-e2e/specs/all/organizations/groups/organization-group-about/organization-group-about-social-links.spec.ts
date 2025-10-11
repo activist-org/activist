@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 import { submitModalWithRetry } from "~/test-e2e/utils/modalHelpers";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
-import { getEnglishText } from "~/utils/i18n";
+import { logTestPath } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
@@ -13,220 +11,17 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe(
-  "Organization Group About Page",
+  "Organization Group About Page - Social Links",
   { tag: ["@desktop", "@mobile"] },
   () => {
     test.setTimeout(60000); // Group pages load slowly in dev mode
-
-    test("Organization Group About Page has no detectable accessibility issues", async ({
-      page,
-    }, testInfo) => {
-      logTestPath(testInfo);
-
-      await withTestStep(
-        testInfo,
-        "Wait for lang attribute to be set",
-        async () => {
-          await expect(page.locator("html")).toHaveAttribute(
-            "lang",
-            /^[a-z]{2}(-[A-Z]{2})?$/
-          );
-        }
-      );
-
-      await withTestStep(testInfo, "Run accessibility scan", async () => {
-        const violations = await runAccessibilityTest(
-          "Organization Group About Page",
-          page,
-          testInfo
-        );
-        expect
-          .soft(violations, "Accessibility violations found:")
-          .toHaveLength(0);
-
-        if (violations.length > 0) {
-          // Note: For future implementation.
-        }
-      });
-    });
-
-    test("Group about page tab navigation works correctly", async ({
-      page,
-    }, testInfo) => {
-      logTestPath(testInfo);
-
-      const organizationPage = newOrganizationPage(page);
-      const { groupAboutPage } = organizationPage;
-
-      await withTestStep(testInfo, "Navigate to events tab", async () => {
-        await groupAboutPage.clickEventsTab();
-        await expect(groupAboutPage.eventsTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupAboutPage.aboutTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Navigate to resources tab", async () => {
-        await groupAboutPage.clickResourcesTab();
-        await expect(groupAboutPage.resourcesTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupAboutPage.eventsTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Navigate to FAQ tab", async () => {
-        await groupAboutPage.clickFaqTab();
-        await expect(groupAboutPage.faqTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupAboutPage.resourcesTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-
-      await withTestStep(testInfo, "Return to about tab", async () => {
-        await groupAboutPage.clickAboutTab();
-        await expect(groupAboutPage.aboutTab).toHaveAttribute(
-          "aria-selected",
-          "true"
-        );
-        await expect(groupAboutPage.faqTab).toHaveAttribute(
-          "aria-selected",
-          "false"
-        );
-      });
-    });
-
-    test("User can share the group page", async ({ page }, testInfo) => {
-      logTestPath(testInfo);
-      const organizationPage = newOrganizationPage(page);
-      const { groupAboutPage } = organizationPage;
-
-      await withTestStep(testInfo, "Open share modal", async () => {
-        await groupAboutPage.clickShare();
-        await expect(groupAboutPage.shareModal).toBeVisible();
-      });
-
-      await withTestStep(testInfo, "Close share modal", async () => {
-        const closeModalButton =
-          groupAboutPage.shareModal.getByTestId("modal-close-button");
-        await expect(closeModalButton).toBeVisible();
-        await closeModalButton.click({ force: true });
-
-        // Wait for the modal to actually close.
-        await expect(groupAboutPage.shareModal).not.toBeVisible({});
-      });
-    });
-
-    test("User can edit the About section", async ({ page }, testInfo) => {
-      logTestPath(testInfo);
-      const organizationPage = newOrganizationPage(page);
-      const { groupAboutPage } = organizationPage;
-
-      // Ensure we're on the About page.
-      await expect(page).toHaveURL(/.*\/groups\/.*\/about/);
-      await expect(groupAboutPage.aboutCard).toBeVisible();
-
-      // Click the edit icon to open the edit modal.
-      const aboutCardEditIcon = groupAboutPage.aboutCard.locator(
-        '[data-testid="edit-icon"]'
-      );
-      await expect(aboutCardEditIcon).toBeVisible();
-      await aboutCardEditIcon.click();
-
-      // Verify the edit modal appears.
-      await expect(groupAboutPage.textModal).toBeVisible();
-
-      // Verify the form and its fields are present.
-      const editForm = groupAboutPage.textModal.getByRole("form");
-      await expect(editForm).toBeVisible();
-
-      // Verify specific editable text fields.
-      const descriptionField = groupAboutPage.textModal.getByRole("textbox", {
-        name: new RegExp(getEnglishText("i18n._global.description"), "i"),
-      });
-      const getInvolvedField = groupAboutPage.textModal.getByRole("textbox", {
-        name: new RegExp(
-          getEnglishText("i18n.components._global.get_involved"),
-          "i"
-        ),
-      });
-      const joinUrlField = groupAboutPage.textModal.getByRole("textbox", {
-        name: new RegExp(
-          getEnglishText("i18n.components.modal_text_group.join_group_link"),
-          "i"
-        ),
-      });
-
-      await expect(descriptionField).toBeVisible();
-      await expect(descriptionField).toBeEditable();
-      await expect(getInvolvedField).toBeVisible();
-      await expect(getInvolvedField).toBeEditable();
-      await expect(joinUrlField).toBeVisible();
-      await expect(joinUrlField).toBeEditable();
-
-      // Generate unique content for this test run.
-      const timestamp = Date.now();
-      const customDescription = `Test group description updated at ${timestamp}`;
-      const customGetInvolved = `Join our group movement - Test run ${timestamp}`;
-      const customJoinUrl = `https://test.activist.org/join-group?run=${timestamp}`;
-
-      await descriptionField.clear();
-      await descriptionField.fill(customDescription);
-
-      await getInvolvedField.clear();
-      await getInvolvedField.fill(customGetInvolved);
-
-      await joinUrlField.clear();
-      await joinUrlField.fill(customJoinUrl);
-
-      // Verify the fields contain the new text.
-      await expect(descriptionField).toHaveValue(customDescription);
-      await expect(getInvolvedField).toHaveValue(customGetInvolved);
-      await expect(joinUrlField).toHaveValue(customJoinUrl);
-
-      // Submit the form to save changes.
-      const submitButton = groupAboutPage.textModal.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
-      });
-      await expect(submitButton).toBeVisible();
-      await expect(submitButton).toContainText("Update texts");
-      await submitButton.click();
-
-      // Wait for the modal to close after successful save.
-      await expect(groupAboutPage.textModal).not.toBeVisible();
-
-      // Verify the changes are reflected on the page.
-      // The description should be visible in the about card.
-      const { aboutCard } = groupAboutPage;
-      await expect(aboutCard).toContainText(customDescription);
-
-      // The get involved text should be visible in the get involved card.
-      const { getInvolvedCard } = groupAboutPage;
-      await expect(getInvolvedCard).toContainText(customGetInvolved);
-
-      // Verify the join button URL was updated.
-      const joinButton = groupAboutPage.getInvolvedCard.locator(
-        '[data-testid="get-involved-join-button"]'
-      );
-      await expect(joinButton).toBeVisible();
-      await expect(joinButton).toHaveAttribute("href", customJoinUrl);
-    });
 
     test("User can manage social links (CREATE, UPDATE, DELETE)", async ({
       page,
     }, testInfo) => {
       logTestPath(testInfo);
+
+      // MARK: SETUP
       const organizationPage = newOrganizationPage(page);
       const { groupAboutPage, socialLinksModal } = organizationPage;
 
@@ -241,10 +36,10 @@ test.describe(
       const updatedLabel = `Updated Group Social Link ${timestamp}`;
       const updatedUrl = `https://updated-group-${timestamp}.com`;
 
-      // PHASE 1: CREATE - Add a new social link.
-      const connectCardEditIcon = groupAboutPage.connectCard.locator(
-        '[data-testid="edit-icon"]'
-      );
+      // MARK: PHASE 1 - CREATE
+      // Add a new social link
+      const connectCardEditIcon =
+        groupAboutPage.connectCard.getByTestId("edit-icon");
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
@@ -254,9 +49,7 @@ test.describe(
         .count();
 
       // Add a new social link.
-      const addButton = groupAboutPage.socialLinksModal.locator(
-        'button:has-text("Add link")'
-      );
+      const addButton = groupAboutPage.socialLinksModal.getByText(/add link/i);
       await expect(addButton).toBeVisible();
       // Use JavaScript click to bypass viewport restrictions on mobile.
       await addButton.evaluate((btn) => (btn as HTMLElement).click());
@@ -307,9 +100,7 @@ test.describe(
 
       // Wait intelligently for social link to appear (no arbitrary delay).
       await expect(async () => {
-        const linkCount = await connectCard
-          .locator('[data-testid="social-link"]')
-          .count();
+        const linkCount = await connectCard.getByTestId("social-link").count();
         expect(linkCount).toBeGreaterThan(0);
       }).toPass({
         intervals: [100, 250, 500, 1000],
@@ -317,14 +108,15 @@ test.describe(
 
       // Now safely get the count.
       const allSocialLinks = await connectCard
-        .locator('[data-testid="social-link"]')
+        .getByTestId("social-link")
         .count();
 
       if (allSocialLinks === 0) {
         throw new Error("No social links found after CREATE operation");
       }
 
-      // PHASE 2: UPDATE - Edit the social link we just created.
+      // MARK: PHASE 2 - UPDATE
+      // Edit the social link we just created
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
@@ -401,7 +193,7 @@ test.describe(
 
       // Verify the updated social link appears on the Connect card.
       // Wait intelligently for social link to update (no arbitrary delay).
-      const socialLinks = connectCard.locator('[data-testid="social-link"]');
+      const socialLinks = connectCard.getByTestId("social-link");
 
       // Wait for at least one social link to be visible.
       await expect(async () => {
@@ -412,8 +204,8 @@ test.describe(
       });
 
       // Look for the updated social link by text content.
-      const updatedSocialLink = connectCard.locator("a").filter({
-        hasText: new RegExp(updatedLabel, "i"),
+      const updatedSocialLink = connectCard.getByRole("link", {
+        name: new RegExp(updatedLabel, "i"),
       });
 
       // If not found by text, try to find by href.
@@ -430,7 +222,8 @@ test.describe(
         await expect(updatedSocialLink).toHaveAttribute("href", updatedUrl);
       }
 
-      // PHASE 3: DELETE - Remove the social link we updated.
+      // MARK: PHASE 3 - DELETE
+      // Remove the social link we updated
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
@@ -492,10 +285,10 @@ test.describe(
         "DELETE"
       );
 
-      // Verify the deleted social link no longer appears on the Connect card.
+      // MARK: VERIFICATION
+      // Verify the deleted social link no longer appears on the Connect card
       // Wait for the modal to close and page to update.
       await expect(groupAboutPage.socialLinksModal).not.toBeVisible({});
-
       // Verify the updated social link no longer exists.
       const deletedSocialLink = connectCard
         .getByTestId("social-link")
