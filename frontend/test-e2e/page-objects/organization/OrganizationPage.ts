@@ -6,15 +6,15 @@ import { newOrganizationMenu } from "~/test-e2e/component-objects/OrganizationMe
 import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSocialLinksModal } from "~/test-e2e/component-objects/SocialLinksModal";
-import { newOrganizationGroupAboutPage } from "~/test-e2e/page-objects/organization/groups/OrganizationGroupAboutPage";
-import { newOrganizationGroupEventsPage } from "~/test-e2e/page-objects/organization/groups/OrganizationGroupEventsPage";
-import { newOrganizationGroupFAQPage } from "~/test-e2e/page-objects/organization/groups/OrganizationGroupFAQPage";
-import { newOrganizationGroupResourcesPage } from "~/test-e2e/page-objects/organization/groups/OrganizationGroupResourcesPage";
-import { newOrganizationAboutPage } from "~/test-e2e/page-objects/organization/OrganizationAboutPage";
-import { newOrganizationEventsPage } from "~/test-e2e/page-objects/organization/OrganizationEventsPage";
-import { newOrganizationFAQPage } from "~/test-e2e/page-objects/organization/OrganizationFAQPage";
+import { newOrganizationAboutPage } from "~/test-e2e/page-objects/organization/about/OrganizationAboutPage";
+import { newOrganizationEventsPage } from "~/test-e2e/page-objects/organization/events/OrganizationEventsPage";
+import { newOrganizationFAQPage } from "~/test-e2e/page-objects/organization/faq/OrganizationFAQPage";
+import { newOrganizationGroupAboutPage } from "~/test-e2e/page-objects/organization/groups/about/OrganizationGroupAboutPage";
+import { newOrganizationGroupEventsPage } from "~/test-e2e/page-objects/organization/groups/events/OrganizationGroupEventsPage";
+import { newOrganizationGroupFAQPage } from "~/test-e2e/page-objects/organization/groups/faq/OrganizationGroupFAQPage";
+import { newOrganizationGroupResourcesPage } from "~/test-e2e/page-objects/organization/groups/resources/OrganizationGroupResourcesPage";
 import { newOrganizationGroupsPage } from "~/test-e2e/page-objects/organization/OrganizationGroupsPage";
-import { newOrganizationResourcesPage } from "~/test-e2e/page-objects/organization/OrganizationResourcesPage";
+import { newOrganizationResourcesPage } from "~/test-e2e/page-objects/organization/resources/OrganizationResourcesPage";
 import { getEnglishText } from "~/utils/i18n";
 
 export const newOrganizationPage = (page: Page) => ({
