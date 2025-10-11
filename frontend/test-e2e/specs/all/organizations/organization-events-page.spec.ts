@@ -144,7 +144,7 @@ test.describe(
 
     test("User can share the organization event", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
-      const { eventsPage } = organizationPage;
+      const { eventsPage, shareModal } = organizationPage;
 
       const eventCount = await eventsPage.getEventCount();
 
@@ -167,17 +167,15 @@ test.describe(
         await shareButton.click();
 
         // Verify share modal opens.
-        await expect(organizationPage.shareModal.modal).toBeVisible();
+        await expect(shareModal.modal).toBeVisible();
 
         // Close the modal.
-        const closeButton = organizationPage.shareModal.closeButton(
-          organizationPage.shareModal.modal
-        );
+        const closeButton = shareModal.closeButton(shareModal.modal);
         await expect(closeButton).toBeVisible();
         await closeButton.click();
 
         // Verify modal closes.
-        await expect(organizationPage.shareModal.modal).not.toBeVisible();
+        await expect(shareModal.modal).not.toBeVisible();
       } else {
         // Skip test if no events are available.
         test.skip(eventCount > 0, "No events available to test sharing");

@@ -232,7 +232,7 @@ test.describe(
 
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const { groupAboutPage } = organizationPage;
+      const { groupAboutPage, socialLinksModal } = organizationPage;
 
       // Ensure we're on the About page.
       await expect(page).toHaveURL(/.*\/groups\/.*\/about/);
@@ -339,7 +339,7 @@ test.describe(
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
       // Get all label inputs and find the one we created.
-      const availableEntries = await organizationPage.socialLinksModal.modal
+      const availableEntries = await socialLinksModal.modal
         .getByTestId(/^social-link-label-/)
         .all();
 
@@ -364,12 +364,12 @@ test.describe(
       }
 
       // Edit the social link we created.
-      const editLabelField = organizationPage.socialLinksModal.labelField(
-        organizationPage.socialLinksModal.modal,
+      const editLabelField = socialLinksModal.labelField(
+        socialLinksModal.modal,
         targetIndex
       );
-      const editUrlField = organizationPage.socialLinksModal.urlField(
-        organizationPage.socialLinksModal.modal,
+      const editUrlField = socialLinksModal.urlField(
+        socialLinksModal.modal,
         targetIndex
       );
 
@@ -440,7 +440,7 @@ test.describe(
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
       // Get the current form entries using test IDs.
-      const allLabelInputs = await organizationPage.socialLinksModal.modal
+      const allLabelInputs = await socialLinksModal.modal
         .getByTestId(/^social-link-label-/)
         .all();
 
@@ -476,8 +476,8 @@ test.describe(
       }
 
       // Delete the social link we updated.
-      const deleteButton = organizationPage.socialLinksModal.removeButton(
-        organizationPage.socialLinksModal.modal,
+      const deleteButton = socialLinksModal.removeButton(
+        socialLinksModal.modal,
         deleteIndex
       );
       await expect(deleteButton).toBeVisible();

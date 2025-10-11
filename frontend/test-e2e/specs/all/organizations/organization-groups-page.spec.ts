@@ -130,7 +130,7 @@ test.describe(
 
     test("User can share organization groups", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
-      const { groupsPage } = organizationPage;
+      const { groupsPage, shareModal } = organizationPage;
 
       const groupCount = await groupsPage.getGroupCount();
 
@@ -153,17 +153,15 @@ test.describe(
         await shareButton.click();
 
         // Verify share modal opens.
-        await expect(organizationPage.shareModal.modal).toBeVisible();
+        await expect(shareModal.modal).toBeVisible();
 
         // Close the modal.
-        const closeButton = organizationPage.shareModal.closeButton(
-          organizationPage.shareModal.modal
-        );
+        const closeButton = shareModal.closeButton(shareModal.modal);
         await expect(closeButton).toBeVisible();
         await closeButton.click();
 
         // Verify modal closes.
-        await expect(organizationPage.shareModal.modal).not.toBeVisible();
+        await expect(shareModal.modal).not.toBeVisible();
       } else {
         // Skip test if no groups are available.
         test.skip(groupCount > 0, "No groups available to test sharing");

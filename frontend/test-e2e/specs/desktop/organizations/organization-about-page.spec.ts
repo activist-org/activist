@@ -13,6 +13,7 @@ test.describe("Organization About Page", { tag: "@desktop" }, () => {
     page,
   }) => {
     const organizationPage = newOrganizationPage(page);
+    const { aboutPage, eventsPage } = organizationPage;
 
     // Ensure sidebar is open for navigation.
     await organizationPage.sidebar.open();
@@ -24,23 +25,21 @@ test.describe("Organization About Page", { tag: "@desktop" }, () => {
     await page.waitForLoadState("domcontentloaded");
 
     // Organization pages load slowly in dev mode.
-    await expect(organizationPage.aboutPage.aboutCard).toBeVisible({
+    await expect(aboutPage.aboutCard).toBeVisible({
       timeout: 15000,
     });
-    await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible({
+    await expect(aboutPage.getInvolvedCard).toBeVisible({
       timeout: 15000,
     });
-    await expect(organizationPage.aboutPage.connectCard).toBeVisible({
+    await expect(aboutPage.connectCard).toBeVisible({
       timeout: 15000,
     });
 
     // Navigate to Events section using existing component object.
     await organizationPage.menu.eventsOption.click();
     await expect(page).toHaveURL(/.*\/organizations\/.*\/events/);
-    await expect(organizationPage.eventsPage.eventsNewButton).toBeVisible();
-    await expect(
-      organizationPage.eventsPage.eventsSubscribeButton
-    ).toBeVisible();
+    await expect(eventsPage.eventsNewButton).toBeVisible();
+    await expect(eventsPage.eventsSubscribeButton).toBeVisible();
     // Navigate to Groups section.
     await organizationPage.menu.groupsOption.click();
     await expect(page).toHaveURL(/.*\/organizations\/.*\/groups/);
@@ -64,6 +63,6 @@ test.describe("Organization About Page", { tag: "@desktop" }, () => {
     // Navigate back to About section.
     await organizationPage.menu.aboutOption.click();
     await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
-    await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible();
+    await expect(aboutPage.getInvolvedCard).toBeVisible();
   });
 });

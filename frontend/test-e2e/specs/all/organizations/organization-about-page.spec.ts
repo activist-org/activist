@@ -48,24 +48,24 @@ test.describe(
     test("User can share the organization page", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
+      const { shareModal } = organizationPage;
 
       await withTestStep(testInfo, "Open share modal", async () => {
         await organizationPage.shareButton.click();
-        await expect(organizationPage.shareModal.modal).toBeVisible();
+        await expect(shareModal.modal).toBeVisible();
       });
 
       await withTestStep(testInfo, "Close share modal", async () => {
-        const closeModalButton = organizationPage.shareModal.closeButton(
-          organizationPage.shareModal.modal
-        );
+        const closeModalButton = shareModal.closeButton(shareModal.modal);
         await expect(closeModalButton).toBeVisible();
         await closeModalButton.click({ force: true });
-        await expect(organizationPage.shareModal.modal).not.toBeVisible();
+        await expect(shareModal.modal).not.toBeVisible();
       });
     });
 
     test("User can edit the About section", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
+      const { aboutPage, editModal } = organizationPage;
 
       // Ensure we're on the About page.
       await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
@@ -76,37 +76,29 @@ test.describe(
       await page.waitForLoadState("domcontentloaded");
 
       // Wait for the about card to be visible.
-      await expect(organizationPage.aboutPage.aboutCard).toBeVisible({
+      await expect(aboutPage.aboutCard).toBeVisible({
         timeout: 15000,
       });
 
       // Wait for edit icon to be available (auth state should be loaded).
-      await expect(organizationPage.aboutPage.aboutCardEditIcon).toBeVisible({
+      await expect(aboutPage.aboutCardEditIcon).toBeVisible({
         timeout: 10000,
       });
 
       // Click the edit icon to open the edit modal.
-      await organizationPage.aboutPage.aboutCardEditIcon.click();
+      await aboutPage.aboutCardEditIcon.click();
 
       // Verify the edit modal appears.
-      await expect(organizationPage.editModal.modal).toBeVisible();
+      await expect(editModal.modal).toBeVisible();
 
       // Verify the form and its fields are present.
-      const editForm = organizationPage.editModal.form(
-        organizationPage.editModal.modal
-      );
+      const editForm = editModal.form(editModal.modal);
       await expect(editForm).toBeVisible();
 
       // Verify specific editable text fields.
-      const descriptionField = organizationPage.editModal.descriptionField(
-        organizationPage.editModal.modal
-      );
-      const getInvolvedField = organizationPage.editModal.getInvolvedField(
-        organizationPage.editModal.modal
-      );
-      const joinUrlField = organizationPage.editModal.joinUrlField(
-        organizationPage.editModal.modal
-      );
+      const descriptionField = editModal.descriptionField(editModal.modal);
+      const getInvolvedField = editModal.getInvolvedField(editModal.modal);
+      const joinUrlField = editModal.joinUrlField(editModal.modal);
 
       await expect(descriptionField).toBeVisible();
       await expect(descriptionField).toBeEditable();
@@ -152,11 +144,11 @@ test.describe(
       await expect(aboutCard).toContainText(customDescription);
 
       // The get involved text should be visible in the get involved card.
-      const getInvolvedText = organizationPage.aboutPage.getInvolvedCardText;
+      const getInvolvedText = aboutPage.getInvolvedCardText;
       await expect(getInvolvedText).toContainText(customGetInvolved);
 
       // Verify the join button URL was updated (this will wait for the element to be ready).
-      const joinButton = organizationPage.aboutPage.getInvolvedJoinButton;
+      const joinButton = aboutPage.getInvolvedJoinButton;
       await expect(joinButton).toBeVisible();
       await expect(joinButton).toHaveAttribute("href", customJoinUrl);
     });
@@ -165,6 +157,7 @@ test.describe(
       page,
     }) => {
       const organizationPage = newOrganizationPage(page);
+      const { aboutPage, socialLinksModal } = organizationPage;
 
       // Ensure we're on the About page.
       await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
@@ -175,7 +168,7 @@ test.describe(
       await page.waitForLoadState("domcontentloaded");
 
       // Wait for the connect card to be visible (longer timeout for slow dev mode loading).
-      await expect(organizationPage.aboutPage.connectCard).toBeVisible({
+      await expect(aboutPage.connectCard).toBeVisible({
         timeout: 15000,
       });
 
@@ -187,38 +180,34 @@ test.describe(
       const updatedUrl = `https://updated-${timestamp}.com`;
 
       // PHASE 1: CREATE - Add a new social link.
-      await organizationPage.aboutPage.connectCardEditIcon.click();
-      await expect(organizationPage.socialLinksModal.modal).toBeVisible();
+      await aboutPage.connectCardEditIcon.click();
+      await expect(socialLinksModal.modal).toBeVisible();
 
       // Count existing social link entries using data-testid.
-      const existingEntries = await organizationPage.socialLinksModal.modal
+      const existingEntries = await socialLinksModal.modal
         .getByTestId(/^social-link-entry-/)
         .all();
       const initialCount = existingEntries.length;
 
       // Add a new social link
-      const addButton = organizationPage.socialLinksModal.addButton(
-        organizationPage.socialLinksModal.modal
-      );
+      const addButton = socialLinksModal.addButton(socialLinksModal.modal);
       await expect(addButton).toBeVisible();
       // Use JavaScript click to bypass viewport restrictions on mobile.
       await addButton.evaluate((btn) => (btn as HTMLElement).click());
 
       // Wait for the new entry to appear.
       await expect(
-        organizationPage.socialLinksModal.modal.getByTestId(
-          /^social-link-entry-/
-        )
+        socialLinksModal.modal.getByTestId(/^social-link-entry-/)
       ).toHaveCount(initialCount + 1);
 
       // Use the newly added entry (at the last index).
       const newEntryIndex = initialCount;
-      const newLabelField = organizationPage.socialLinksModal.labelField(
-        organizationPage.socialLinksModal.modal,
+      const newLabelField = socialLinksModal.labelField(
+        socialLinksModal.modal,
         newEntryIndex
       );
-      const newUrlField = organizationPage.socialLinksModal.urlField(
-        organizationPage.socialLinksModal.modal,
+      const newUrlField = socialLinksModal.urlField(
+        socialLinksModal.modal,
         newEntryIndex
       );
 
@@ -233,18 +222,18 @@ test.describe(
       await expect(newUrlField).toHaveValue(newUrl);
 
       // Save the new social link with retry logic.
-      const submitButton = organizationPage.socialLinksModal.submitButton(
-        organizationPage.socialLinksModal.modal
+      const submitButton = socialLinksModal.submitButton(
+        socialLinksModal.modal
       );
       await submitModalWithRetry(
         page,
-        organizationPage.socialLinksModal.modal,
+        socialLinksModal.modal,
         submitButton,
         "CREATE"
       );
 
       // Wait for the modal to close and page to update.
-      await expect(organizationPage.socialLinksModal.modal).not.toBeVisible({
+      await expect(socialLinksModal.modal).not.toBeVisible({
         timeout: 10000,
       });
 
@@ -268,11 +257,11 @@ test.describe(
       }
 
       // PHASE 2: UPDATE - Edit the social link we just created.
-      await organizationPage.aboutPage.connectCardEditIcon.click();
-      await expect(organizationPage.socialLinksModal.modal).toBeVisible();
+      await aboutPage.connectCardEditIcon.click();
+      await expect(socialLinksModal.modal).toBeVisible();
 
       // Find the social link we created by looking for our unique label using test IDs.
-      const availableEntries = await organizationPage.socialLinksModal.modal
+      const availableEntries = await socialLinksModal.modal
         .getByTestId(/^social-link-label-/)
         .all();
 
@@ -297,12 +286,12 @@ test.describe(
       }
 
       // Edit the social link we created.
-      const editLabelField = organizationPage.socialLinksModal.labelField(
-        organizationPage.socialLinksModal.modal,
+      const editLabelField = socialLinksModal.labelField(
+        socialLinksModal.modal,
         targetIndex
       );
-      const editUrlField = organizationPage.socialLinksModal.urlField(
-        organizationPage.socialLinksModal.modal,
+      const editUrlField = socialLinksModal.urlField(
+        socialLinksModal.modal,
         targetIndex
       );
 
@@ -328,18 +317,18 @@ test.describe(
       await expect(editUrlField).toHaveValue(updatedUrl);
 
       // Save the changes with retry logic.
-      const updateSubmitButton = organizationPage.socialLinksModal.submitButton(
-        organizationPage.socialLinksModal.modal
+      const updateSubmitButton = socialLinksModal.submitButton(
+        socialLinksModal.modal
       );
       await submitModalWithRetry(
         page,
-        organizationPage.socialLinksModal.modal,
+        socialLinksModal.modal,
         updateSubmitButton,
         "UPDATE"
       );
 
       // Wait for the modal to close and page to update.
-      await expect(organizationPage.socialLinksModal.modal).not.toBeVisible({
+      await expect(socialLinksModal.modal).not.toBeVisible({
         timeout: 10000,
       });
 
@@ -353,11 +342,11 @@ test.describe(
       ).toHaveAttribute("href", updatedUrl);
 
       // PHASE 3: DELETE - Remove the social link we updated.
-      await organizationPage.aboutPage.connectCardEditIcon.click();
-      await expect(organizationPage.socialLinksModal.modal).toBeVisible();
+      await aboutPage.connectCardEditIcon.click();
+      await expect(socialLinksModal.modal).toBeVisible();
 
       // Get the current form entries using test IDs.
-      const allLabelInputs = await organizationPage.socialLinksModal.modal
+      const allLabelInputs = await socialLinksModal.modal
         .getByTestId(/^social-link-label-/)
         .all();
 
@@ -393,23 +382,23 @@ test.describe(
       }
 
       // Delete the social link we updated.
-      const deleteButton = organizationPage.socialLinksModal.removeButton(
-        organizationPage.socialLinksModal.modal,
+      const deleteButton = socialLinksModal.removeButton(
+        socialLinksModal.modal,
         deleteIndex
       );
       await expect(deleteButton).toBeVisible();
       await deleteButton.click();
 
       // Save the deletion with retry logic.
-      const deleteSubmitButton = organizationPage.socialLinksModal.submitButton(
-        organizationPage.socialLinksModal.modal
+      const deleteSubmitButton = socialLinksModal.submitButton(
+        socialLinksModal.modal
       );
       await expect(deleteSubmitButton).toBeVisible();
       await expect(deleteSubmitButton).toBeEnabled();
 
       await submitModalWithRetry(
         page,
-        organizationPage.socialLinksModal.modal,
+        socialLinksModal.modal,
         deleteSubmitButton,
         "DELETE"
       );

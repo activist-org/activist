@@ -13,6 +13,7 @@ test.describe("Organization About Page", { tag: "@mobile" }, () => {
     page,
   }) => {
     const organizationPage = newOrganizationPage(page);
+    const { aboutPage, eventsPage } = organizationPage;
 
     // Verify we start on the About page (mobile auto-redirects to /about).
     await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
@@ -28,17 +29,15 @@ test.describe("Organization About Page", { tag: "@mobile" }, () => {
 
     // Navigate to About section using existing component object.
     await organizationPage.menu.aboutOption.click();
-    await expect(organizationPage.aboutPage.getInvolvedCard).toBeVisible();
+    await expect(aboutPage.getInvolvedCard).toBeVisible();
 
     await organizationPage.menu.toggleOpenButton.click();
 
     // Navigate to Events section.
     await organizationPage.menu.eventsOption.click();
     await expect(page).toHaveURL(/.*\/organizations\/.*\/events/);
-    await expect(organizationPage.eventsPage.eventsNewButton).toBeVisible();
-    await expect(
-      organizationPage.eventsPage.eventsSubscribeButton
-    ).toBeVisible();
+    await expect(eventsPage.eventsNewButton).toBeVisible();
+    await expect(eventsPage.eventsSubscribeButton).toBeVisible();
 
     await organizationPage.menu.toggleOpenButton.click();
 
