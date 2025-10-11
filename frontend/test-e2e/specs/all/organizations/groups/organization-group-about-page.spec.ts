@@ -16,6 +16,8 @@ test.describe(
   "Organization Group About Page",
   { tag: ["@desktop", "@mobile"] },
   () => {
+    test.setTimeout(60000); // Group pages load slowly in dev mode
+
     test("Organization Group About Page has no detectable accessibility issues", async ({
       page,
     }, testInfo) => {
@@ -51,7 +53,6 @@ test.describe(
     test("Group about page tab navigation works correctly", async ({
       page,
     }, testInfo) => {
-      test.setTimeout(60000); // group pages load slowly in dev mode
       logTestPath(testInfo);
 
       const organizationPage = newOrganizationPage(page);
@@ -227,9 +228,6 @@ test.describe(
     test("User can manage social links (CREATE, UPDATE, DELETE)", async ({
       page,
     }, testInfo) => {
-      // Increase timeout for slow page loads in dev mode.
-      test.setTimeout(60000);
-
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
       const { groupAboutPage, socialLinksModal } = organizationPage;

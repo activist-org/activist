@@ -13,7 +13,6 @@ async function getResourceCardOrder(page: Page) {
 }
 
 test.beforeEach(async ({ page }) => {
-  test.setTimeout(60000); // group pages load slowly in dev mode
   // Already authenticated via global storageState.
   await navigateToOrganizationGroupSubpage(page, "resources");
 });
@@ -22,6 +21,8 @@ test.describe(
   "Organization Group Resources Page - Desktop",
   { tag: "@desktop" },
   () => {
+    test.setTimeout(60000); // Group pages load slowly in dev mode
+
     test("User can reorder resources using drag and drop on desktop", async ({
       page,
     }) => {

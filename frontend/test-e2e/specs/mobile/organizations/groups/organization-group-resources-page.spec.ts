@@ -10,13 +10,14 @@ import { newOrganizationPage } from "~/test-e2e/page-objects/organization/Organi
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
-  test.setTimeout(60000); // group pages load slowly in dev mode
   await navigateToOrganizationGroupSubpage(page, "resources");
 });
 test.describe(
   "Organization Group Resources Page - Mobile",
   { tag: "@mobile" },
   () => {
+    test.setTimeout(60000); // Group pages load slowly in dev mode
+
     test("User can reorder resources using drag and drop on mobile", async ({
       page,
     }) => {

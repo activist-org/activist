@@ -10,12 +10,13 @@ import { newOrganizationPage } from "~/test-e2e/page-objects/organization/Organi
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
-  test.setTimeout(60000); // organization pages load slowly in dev mode
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
   await navigateToOrganizationSubpage(page, "resources");
 });
 
 test.describe("Organization Resources Page", { tag: "@mobile" }, () => {
+  test.setTimeout(60000); // Organization pages load slowly in dev mode
+
   test("User can reorder resources using drag and drop on mobile", async ({
     page,
   }) => {
