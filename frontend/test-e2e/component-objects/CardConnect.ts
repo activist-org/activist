@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 
-export const ConnectCard = (parent: Page | Locator) => {
+export const CardConnect = (parent: Page | Locator) => {
   const root = parent.locator(".card-style").filter({ hasText: "Connect" });
 
   return {
