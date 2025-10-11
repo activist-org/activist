@@ -301,11 +301,18 @@ export const newOrganizationGroupFAQPage = (page: Page) => {
 
         // Hover over the source handle first.
         await page.mouse.move(startX, startY);
-        await page.waitForTimeout(200);
+        // Wait for hover state to register (1 animation frame).
+        await page.evaluate(() => new Promise(requestAnimationFrame));
 
         // Start drag operation.
         await page.mouse.down();
-        await page.waitForTimeout(300);
+        // Wait for drag to initiate (1-2 animation frames).
+        await page.evaluate(
+          () =>
+            new Promise((resolve) => {
+              requestAnimationFrame(() => requestAnimationFrame(resolve));
+            })
+        );
 
         // Move to target with more intermediate steps for smoother drag.
         const steps = 10;
@@ -314,16 +321,17 @@ export const newOrganizationGroupFAQPage = (page: Page) => {
           const currentX = startX + (endX - startX) * progress;
           const currentY = startY + (endY - startY) * progress;
           await page.mouse.move(currentX, currentY);
-          await page.waitForTimeout(100);
+          // Smooth rendering (1 animation frame per step).
+          await page.evaluate(() => new Promise(requestAnimationFrame));
         }
 
         // Hover over target for a moment before releasing.
         await page.mouse.move(endX, endY);
-        await page.waitForTimeout(200);
+        await page.evaluate(() => new Promise(requestAnimationFrame));
 
         // Release the mouse.
         await page.mouse.up();
-        await page.waitForTimeout(500);
+        // No delay - let caller verify result with expect().toPass().
       }
     },
   };

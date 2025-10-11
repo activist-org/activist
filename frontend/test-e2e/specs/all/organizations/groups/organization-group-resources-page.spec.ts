@@ -155,7 +155,7 @@ test.describe(
     test("User can share group resources", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);
-      const { groupResourcesPage } = organizationPage;
+      const { groupResourcesPage, shareModal } = organizationPage;
 
       // Wait for resources to load.
       await page.waitForLoadState("domcontentloaded");
@@ -163,32 +163,33 @@ test.describe(
       const resourceCount = await groupResourcesPage.getResourceCount();
 
       if (resourceCount > 0) {
-        // Click on the menu button for the first resource.
-        await groupResourcesPage.clickResourceMenu(0);
+        // Open the tooltip menu for the first resource.
+        const menuButton = groupResourcesPage.getResourceMenuButton(0);
+        await expect(menuButton).toBeVisible();
+        await menuButton.click();
 
-        // Wait for the tooltip menu to appear.
-        await expect(
-          groupResourcesPage.getResourceMenuTooltip(0)
-        ).toBeVisible();
+        // Verify tooltip menu appears.
+        const menuTooltip = groupResourcesPage.getResourceMenuTooltip(0);
+        await expect(menuTooltip).toBeVisible();
 
-        // Click the share button.
-        await groupResourcesPage.clickResourceShare(0);
+        // Verify share button exists and is clickable.
+        const shareButton = groupResourcesPage.getResourceShareButton(0);
+        await expect(shareButton).toBeVisible();
+        await expect(shareButton).toBeEnabled();
 
-        // Wait intelligently for modal to appear (no arbitrary delay).
-        await expect(async () => {
-          const modalVisible = await page
-            .locator('[role="dialog"]')
-            .or(page.locator('[id="modal"]'))
-            .isVisible()
-            .catch(() => false);
-          expect(modalVisible).toBe(true);
-        }).toPass({
-          timeout: 3000,
-          intervals: [100, 250, 500],
-        });
+        // Click share button to open share modal.
+        await shareButton.click();
 
-        // Close any open modals by pressing Escape.
-        await page.keyboard.press("Escape");
+        // Verify share modal opens.
+        await expect(shareModal.modal).toBeVisible();
+
+        // Close the modal using the close button.
+        // Use force: true to bypass icon interception.
+        const closeButton = shareModal.closeButton(shareModal.modal);
+        await closeButton.click({ force: true });
+
+        // Verify modal closes.
+        await expect(shareModal.modal).not.toBeVisible();
       } else {
         test.skip(resourceCount > 0, "No resources available to test sharing");
       }

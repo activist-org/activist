@@ -280,7 +280,13 @@ export const newOrganizationGroupResourcesPage = (page: Page) => {
         // Simulate drag with mouse events.
         await page.mouse.move(startX, startY);
         await page.mouse.down();
-        await page.waitForTimeout(100);
+        // Wait for drag to initiate (1-2 animation frames).
+        await page.evaluate(
+          () =>
+            new Promise((resolve) => {
+              requestAnimationFrame(() => requestAnimationFrame(resolve));
+            })
+        );
 
         // Move to target with intermediate steps.
         const steps = 5;
@@ -289,11 +295,12 @@ export const newOrganizationGroupResourcesPage = (page: Page) => {
           const currentX = startX + (endX - startX) * progress;
           const currentY = startY + (endY - startY) * progress;
           await page.mouse.move(currentX, currentY);
-          await page.waitForTimeout(50);
+          // Smooth rendering (1 animation frame per step).
+          await page.evaluate(() => new Promise(requestAnimationFrame));
         }
 
         await page.mouse.up();
-        await page.waitForTimeout(200);
+        // No delay - let caller verify result with expect().toPass().
       }
     },
   };
