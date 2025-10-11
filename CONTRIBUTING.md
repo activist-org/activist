@@ -478,6 +478,7 @@ yarn install
 yarn build  # answer no to all package installation prompts
 # Note that there may be an installation prompt high in the build logs. Hit 'n' to say no.
 
+# Note that you may be asked to install extra dependencies in the next command.
 npx serve dist/  # start the frontend
 ```
 
