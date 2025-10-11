@@ -19,6 +19,7 @@ from authentication.factories import (
     UserFactory,
 )
 from authentication.models import UserModel
+from backend.conftest import authenticated_client
 
 logger = logging.getLogger(__name__)
 
@@ -363,6 +364,26 @@ def test_sign_in(client: APIClient) -> None:
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},
     )
     assert response.status_code == 400
+
+    
+
+def test_protected_endpoints_with_authenticated_client(authenticated_client: APIClient) -> None:
+    """
+    Test various protected endpoints with the authenticated client.
+    """
+    endpoints = [
+        "/v1/auth/pwreset/",
+        "/v1/auth/sign_up/"   ]
+    
+    for endpoint in endpoints:
+        response = authenticated_client.get(endpoint)
+        assert response.status_code == 200, f"Failed on {endpoint}"
+    response = authenticated_client.post("/v1/auth/pwreset")
+    assert response.status_code == 200, f"Failed on /v1/auth/pwreset"
+    response = authenticated_client.post("/v1/auth/sign_up")
+    assert response.status_code == 200, f"Failed on /v1/auth/sign_up"
+    response = authenticated_client.delete("/v1/auth/delete")
+    assert response.status_code == 200, f"Failed on /v1/auth/delete"
 
 
 def test_pwreset(client: APIClient) -> None:
