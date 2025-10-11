@@ -2,18 +2,18 @@
 <template>
   <a
     :id="id"
+    :aria-label="$t(ariaLabel)"
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
     :href="linkTo"
-    :aria-label="$t(ariaLabel)"
     target="_blank"
   >
     <BtnIconsLabel
-      :label="label"
       :hideLabelOnMobile="hideLabelOnMobile"
+      :iconSize="iconSize"
+      :label="label"
       :leftIcon="leftIcon"
       :rightIcon="rightIcon"
-      :iconSize="iconSize"
     />
   </a>
 </template>

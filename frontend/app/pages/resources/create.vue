@@ -2,10 +2,10 @@
 <template>
   <div class="w-full">
     <IndicatorProcessProgress
-      type="default"
+      :end="1"
       :progress="1"
       :start="1"
-      :end="1"
+      type="default"
     />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
@@ -25,41 +25,41 @@
           class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
         >
           <div class="w-1/2">
-            <h3 for="name" class="block font-medium">
+            <h3 class="block font-medium" for="name">
               {{ $t("i18n.pages.resources.create.title") }}*
             </h3>
             <input
-              v-model="formData.name"
               id="name"
+              v-model="formData.name"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-              type="text"
               name="name"
               :placeholder="
                 $t('i18n.pages.resources.create.resource_name_placeholder')
               "
+              type="text"
             />
           </div>
           <div class="w-1/2">
-            <h3 for="location" class="block font-medium">
+            <h3 class="block font-medium" for="location">
               {{ $t("i18n.pages._global.create.link") }}*
             </h3>
             <input
-              v-model="formData.link"
               id="location"
+              v-model="formData.link"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-              type="text"
               name="location"
               :placeholder="$t('i18n.pages.resources.create.link_placeholder')"
+              type="text"
             />
           </div>
         </div>
         <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-          <h3 for="description" class="block font-medium">
+          <h3 class="block font-medium" for="description">
             {{ $t("i18n.pages.resources.create.description") }}*
           </h3>
           <textarea
-            v-model="formData.description"
             id="description"
+            v-model="formData.description"
             class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
             name="description"
             :placeholder="
@@ -69,12 +69,12 @@
         </div>
         <div class="card-style mx-14 mt-5 flex w-full">
           <div class="flex-1 px-5 py-6">
-            <h3 for="location" class="block font-medium">
+            <h3 class="block font-medium" for="location">
               {{ $t("i18n._global.location") }}
             </h3>
             <textarea
-              v-model="formData.location"
               id="location"
+              v-model="formData.location"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="location"
               :placeholder="
@@ -83,12 +83,12 @@
             ></textarea>
           </div>
           <div class="flex-1 px-5 py-6">
-            <h3 for="location" class="block font-medium">
+            <h3 class="block font-medium" for="location">
               {{ $t("i18n._global.organization") }}*
             </h3>
             <textarea
-              v-model="formData.organization"
               id="organization"
+              v-model="formData.organization"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="organization"
               :placeholder="
@@ -101,12 +101,12 @@
         <div class="mx-14 flex w-full flex-col">
           <div class="my-5">
             <BtnAction
-              type="submit"
-              :cta="true"
-              class="flex"
-              label="i18n._global.create_resource"
-              fontSize="lg"
               ariaLabel="i18n.pages.resources.create.complete_application_aria_label"
+              class="flex"
+              :cta="true"
+              fontSize="lg"
+              label="i18n._global.create_resource"
+              type="submit"
             />
           </div>
         </div>

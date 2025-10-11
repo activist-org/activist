@@ -2,9 +2,9 @@
 <template>
   <ModalBase :modalName="modalName">
     <MediaImageCarousel
+      :entityType="entityType"
       :fullscreen="true"
       :imageUrls="imageUrls || []"
-      :entityType="entityType"
     />
   </ModalBase>
 </template>

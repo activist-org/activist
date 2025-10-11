@@ -12,8 +12,8 @@
         >
           <button
             v-for="(tab, index) in tabs"
-            @click="activeTab = tab.id"
             :key="tab.id"
+            @click="activeTab = tab.id"
             :class="[
               'px-4 py-2',
               activeTab === tab.id
@@ -37,18 +37,18 @@
             size="1em"
           />
           <div class="min-w-0 flex-1">
-            <label for="input-search" class="sr-only">
+            <label class="sr-only" for="input-search">
               {{ $t("i18n.components.page_filter.search_to_filer") }}
             </label>
             <input
-              v-model="searchQuery"
-              @focus="onFocus"
-              @blur="onFocusLost"
-              ref="input"
               id="input-search"
+              ref="input"
+              v-model="searchQuery"
+              @blur="onFocusLost"
+              @focus="onFocus"
               class="w-full text-ellipsis bg-transparent py-2 outline-none"
-              type="text"
               :placeholder="$t('i18n.components.page_filter.search_to_filer')"
+              type="text"
             />
           </div>
         </div>
@@ -103,8 +103,8 @@
             {{ section.title }}
             <Icon
               v-if="section.icon"
-              :name="section.icon"
               class="ml-2 h-4 w-4 text-primary-text"
+              :name="section.icon"
             />
           </span>
         </h3>
@@ -112,14 +112,14 @@
         <div class="flex flex-wrap gap-2">
           <BtnTag
             v-for="tag in section.tags"
+            :key="tag.id"
             @click="toggleTag(tag)"
             @keydown.enter="toggleTag(tag)"
-            :key="tag.id"
+            :ariaLabel="$t(tag.name)"
             class="flex max-h-[40px]"
             :cta="tag.selected"
-            :label="tag.name"
             fontSize="sm"
-            :ariaLabel="$t(tag.name)"
+            :label="tag.name"
           />
         </div>
       </div>

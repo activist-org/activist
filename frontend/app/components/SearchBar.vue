@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    v-if="location == SearchBarLocation.SIDEBAR"
     id="search"
+    v-if="location == SearchBarLocation.SIDEBAR"
     class="mx-2 flex grow select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 elem-shadow-sm focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
   >
     <div class="flex items-center space-x-2 pl-1">
@@ -17,20 +17,20 @@
             sidebar.collapsed == false || sidebar.collapsedSwitch == false
           "
         >
-          <label for="input-search" class="sr-only">
+          <label class="sr-only" for="input-search">
             {{ $t("i18n._global.search") }}
           </label>
           <input
-            @focus="onFocus"
-            @blur="onFocusLost"
-            @input="handleChange"
-            ref="input"
             id="input-search"
-            :value="localValue"
+            ref="input"
+            @blur="onFocusLost"
+            @focus="onFocus"
+            @input="handleChange"
             class="h-5 w-16 bg-transparent outline-none"
             :class="{ 'focus:w-5/6': isInputFocused }"
-            type="text"
             :placeholder="$t('i18n._global.search')"
+            type="text"
+            :value="localValue"
           />
         </div>
       </Transition>
@@ -77,27 +77,27 @@
     </Transition>
   </div>
   <div
-    v-else
     id="search"
+    v-else
     class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-[12px] pr-[10px] text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:focus-within:border-cta-orange"
   >
     <Icon
-      @click="emit('on-search-toggle')"
       id="search-toggle"
+      @click="emit('on-search-toggle')"
       class="my-1 h-4 w-4 flex-shrink-0"
       :name="expanded ? `${IconMap.X_LG}` : `${IconMap.SEARCH}`"
       size="1em"
     />
-    <label for="input-search" class="hidden md:block">
+    <label class="hidden md:block" for="input-search">
       {{ $t("i18n._global.search") }}
     </label>
     <input
-      @input="handleChange"
       id="input-search"
+      @input="handleChange"
       class="bg-transparent focus:outline-none"
       :class="{ hidden: !expanded }"
-      type="text"
       :placeholder="$t('i18n._global.search')"
+      type="text"
       :value="localValue"
     />
     <Icon v-if="expanded" class="absolute right-3" :name="IconMap.FILTER" />

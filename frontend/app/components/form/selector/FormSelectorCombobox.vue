@@ -1,21 +1,21 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Combobox v-model="internalSelectedOptions" :id="id" multiple as="div">
+  <Combobox :id="id" v-model="internalSelectedOptions" as="div" multiple>
     <ComboboxInput v-slot="{ id: inputId, onBlur }" as="div" class="flex">
       <FormTextInput
-        @update:modelValue="(val) => (query = val)"
         :id="inputId"
+        @update:modelValue="(val) => (query = val)"
         :label="label"
-        :placeholder="label"
-        :onBlur="onBlur"
         :modelValue="query"
+        :onBlur="onBlur"
+        :placeholder="label"
       />
     </ComboboxInput>
     <ComboboxOptions>
       <ComboboxOption
         v-for="option in filteredOptions"
-        v-slot="{ selected, active }"
         :key="option.id"
+        v-slot="{ selected, active }"
         as="template"
         :value="option"
       >
@@ -53,13 +53,13 @@
     >
       <li v-for="option in internalSelectedOptions" :key="option.id">
         <Shield
-          @click="() => onClick(option)"
           :key="option.id + '-selected-only'"
-          :label="option.label"
-          class="mobileTopic max-sm:w-full"
+          @click="() => onClick(option)"
           :active="true"
-          :isSelector="true"
+          class="mobileTopic max-sm:w-full"
           :icon="IconMap.GLOBE"
+          :isSelector="true"
+          :label="option.label"
         />
       </li>
     </ul>

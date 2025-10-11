@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <TooltipBase class="rounded-md">
+  <TooltipBase class="rounded-md" data-testid="menu-tooltip">
     <div class="space-y-2">
       <!-- <BtnAction
         @keydown="handleTabPress(false, $event)"
@@ -13,24 +13,24 @@
       /> -->
       <BtnAction
         @click="openModal()"
-        @keydown.enter="openModal()"
         @keydown="handleTabPress(true, $event)"
-        class="flex max-h-[40px] w-full items-center"
-        :cta="true"
-        label="i18n._global.share"
-        :rightIcon="IconMap.SHARE"
-        fontSize="lg"
+        @keydown.enter="openModal()"
         :ariaLabel="
           $t(
             'i18n.components.tooltip_menu_search_result_user.share_user_aria_label'
           )
         "
+        class="flex max-h-[40px] w-full items-center"
+        :cta="true"
+        fontSize="lg"
+        label="i18n._global.share"
+        :rightIcon="IconMap.SHARE"
       />
       <ModalSharePage
         @closeModal="handleCloseModal"
         :cta="true"
-        :user="user"
         :isOpen="modalIsOpen"
+        :user="user"
       />
     </div>
   </TooltipBase>

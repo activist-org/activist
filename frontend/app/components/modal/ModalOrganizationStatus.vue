@@ -23,11 +23,11 @@
       </h4>
       <div class="space-y-6 py-6">
         <CardOrgApplicationVote
-          title="Votes in favor"
+          :downVotes="modalOrganizationStatusData!.downVotes"
           :isVotingDisabled="true"
           :organizations="modalOrganizationStatusData!.organizationsInFavor"
+          title="Votes in favor"
           :upVotes="modalOrganizationStatusData!.upVotes"
-          :downVotes="modalOrganizationStatusData!.downVotes"
         />
         <Discussion
           :discussionEntries="modalOrganizationStatusData!.discussionEntries"

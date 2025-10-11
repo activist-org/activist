@@ -59,32 +59,32 @@
         <BtnActionDropdown
           v-if="aboveMediumBP"
           @main-btn-clicked="handleMainBtnClicked"
+          ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
+          ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
           class="block w-fit"
           :cta="true"
-          label="i18n.components.modal_qr_code.download_qr_code"
-          fontSize="lg"
-          iconSize="1.25em"
           :dropdownIcon="IconMap.CHEVRON_DOWN"
           :dropdownOptions="availableFormats"
           :dropdownOptionsCallback="downloadQRCode"
-          ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
-          ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
+          fontSize="lg"
+          iconSize="1.25em"
+          label="i18n.components.modal_qr_code.download_qr_code"
         />
       </div>
       <div class="flex px-4 md:pb-2 md:pl-8">
         <button
-          @click="onImageClick"
-          @mouseenter="showTooltip = true"
-          @focus="showTooltip = true"
-          @mouseleave="showTooltip = false"
           @blur="showTooltip = false"
-          @touchstart="showTooltip = true"
-          @touchend="showTooltip = false"
-          @touchcancel="showTooltip = false"
+          @click="onImageClick"
+          @focus="showTooltip = true"
+          @mouseenter="showTooltip = true"
+          @mouseleave="showTooltip = false"
           @pointerdown="showTooltip = true"
           @pointerup="showTooltip = false"
-          class="flex cursor-pointer focus-brand"
+          @touchcancel="showTooltip = false"
+          @touchend="showTooltip = false"
+          @touchstart="showTooltip = true"
           :ariaLabel="$t('i18n.components.modal_qr_code.aria_label')"
+          class="flex cursor-pointer focus-brand"
         >
           <ModalQRCodeImage
             ref="qrcode"
@@ -100,16 +100,16 @@
       <BtnActionDropdown
         v-if="!aboveMediumBP"
         @main-btn-clicked="handleMainBtnClicked"
+        ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
+        ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
         class="w-fit"
         :cta="true"
-        label="i18n.components.modal_qr_code.download_qr_code"
-        fontSize="lg"
-        iconSize="1.25em"
         :dropdownIcon="IconMap.CHEVRON_DOWN"
         :dropdownOptions="availableFormats"
         :dropdownOptionsCallback="downloadQRCode"
-        ariaLabel="i18n.components.modal_qr_code.download_qr_code_aria_label"
-        ariaLabelDropdown="i18n.components.modal_qr_code.qr_code_options_aria_label"
+        fontSize="lg"
+        iconSize="1.25em"
+        label="i18n.components.modal_qr_code.download_qr_code"
       />
     </div>
   </ModalBase>

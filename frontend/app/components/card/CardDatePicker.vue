@@ -21,28 +21,28 @@
     <div class="flex flex-row space-x-2">
       <DatePicker
         v-model="date1"
-        mode="Time"
-        is24hr
-        hide-time-header
-        :color="colorModePreference"
         class="date-picker-width bg-layer-2 elem-shadow-sm"
+        :color="colorModePreference"
+        hide-time-header
+        is24hr
+        mode="Time"
       />
       <DatePicker
         v-model="date2"
-        mode="Time"
-        is24hr
-        hide-time-header
-        :color="colorModePreference"
         class="date-picker-width bg-layer-2 elem-shadow-sm"
+        :color="colorModePreference"
+        hide-time-header
+        is24hr
+        mode="Time"
       />
     </div>
     <DatePicker
-      :first-day-of-week="2"
-      trim-weeks
-      expanded
-      :color="colorModePreference"
       :attributes="attributes"
+      :color="colorModePreference"
+      expanded
+      :first-day-of-week="2"
       transparent
+      trim-weeks
     ></DatePicker>
   </form>
 </template>

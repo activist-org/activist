@@ -2,8 +2,8 @@
 <template>
   <MetaTag
     :iconName="IconMap.PERSON_CHECK"
-    :value="numAttending.toLocaleString()"
     :label="label"
+    :value="numAttending.toLocaleString()"
   />
 </template>
 

@@ -22,12 +22,12 @@
         <DropdownLanguage />
         <BtnRouteInternal
           v-if="page.route != 'index'"
+          :ariaLabel="page.btnAriaLabel"
           class="flex max-h-[30px] items-center lg:max-h-[38px]"
-          :label="page.btnLabel"
-          :linkTo="page.btnLink"
           :cta="true"
           fontSize="lg"
-          :ariaLabel="page.btnAriaLabel"
+          :label="page.btnLabel"
+          :linkTo="page.btnLink"
         />
       </div>
       <div class="w-full flex-1 space-y-4 pb-4 pt-16 md:pb-8 md:pt-28">

@@ -529,6 +529,39 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            social_link = EventSocialLink.objects.get(id=pk)
+
+        except EventSocialLink.DoesNotExist as e:
+            logger.exception(
+                f"Social link with id {pk} does not exist for deletion: {e}"
+            )
+            return Response(
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        event = social_link.event
+        if event is not None:
+            creator = event.created_by
+
+        else:
+            raise ValueError("Event is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this social link."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        social_link.delete()
+        logger.info(f"Social link {pk} deleted for event {event.id}")
+
+        return Response(
+            {"message": "Social link deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
 
 # MARK: Text
 
@@ -576,6 +609,9 @@ class EventTextViewSet(GenericAPIView[EventText]):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# MARK: Calendar
+
+
 class EventCalenderAPIView(APIView):
     queryset = Event.objects.all()
     permission_classes = [AllowAny]
@@ -591,6 +627,7 @@ class EventCalenderAPIView(APIView):
     )
     def get(self, request: Request) -> HttpResponse | Response:
         event_id = request.query_params.get("event_id")
+
         if not event_id:
             return Response(
                 {"detail": "Event ID is required."},

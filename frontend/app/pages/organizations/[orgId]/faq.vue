@@ -17,13 +17,13 @@
           @keydown.enter="
             useModalHandlers('ModalFaqEntryOrganization').openModal()
           "
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
           class="w-max"
           :cta="true"
-          label="i18n.pages._global.new_faq"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.new_faq_aria_label"
+          label="i18n.pages._global.new_faq"
+          :leftIcon="IconMap.PLUS"
         />
         <ModalFaqEntryOrganization />
       </div>
@@ -33,15 +33,32 @@
       <draggable
         v-model="faqList"
         @end="onDragEnd"
-        item-key="id"
+        :animation="150"
+        chosen-class="sortable-chosen"
         class="space-y-4"
+        data-testid="organization-faq-list"
+        :delay="0"
+        :delay-on-touch-start="false"
+        direction="vertical"
+        :disabled="false"
+        :distance="5"
+        drag-class="sortable-drag"
+        fallback-class="sortable-fallback"
+        :fallback-tolerance="0"
+        :force-fallback="false"
+        ghost-class="sortable-ghost"
+        handle=".drag-handle"
+        :invert-swap="false"
+        item-key="id"
+        :swap-threshold="0.5"
+        :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :pageType="'organization'" :faqEntry="element" />
+          <CardFAQEntry :faqEntry="element" :pageType="'organization'" />
         </template>
       </draggable>
     </div>
-    <EmptyState v-else pageType="faq" :permission="false" class="py-4" />
+    <EmptyState v-else class="py-4" pageType="faq" :permission="false" />
   </div>
 </template>
 
@@ -77,3 +94,29 @@ const onDragEnd = async () => {
   await orgStore.reorderFaqEntries(props.organization, faqList.value);
 };
 </script>
+
+<style scoped>
+.sortable-ghost {
+  opacity: 0.4;
+  transition: opacity 0.05s ease;
+}
+
+.sortable-chosen {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: background-color 0.05s ease;
+}
+
+.sortable-drag {
+  transform: rotate(5deg);
+  transition: transform 0.05s ease;
+}
+
+.sortable-fallback {
+  display: none;
+}
+
+/* Ensure drag handles work properly. */
+.drag-handle {
+  user-select: none;
+}
+</style>

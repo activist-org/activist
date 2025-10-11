@@ -3,6 +3,7 @@
   <p
     v-if="iconName === 'IconOrganization' || iconName === 'IconSupport'"
     class="flex items-center gap-1 fill-primary-text"
+    data-testid="meta-tag"
   >
     <Icon
       v-if="iconName === 'IconOrganization'"
@@ -20,7 +21,7 @@
       {{ $t(label) }}
     </span>
   </p>
-  <p v-else class="flex items-center gap-1">
+  <p v-else class="flex items-center gap-1" data-testid="meta-tag">
     <Icon
       class="mr-1"
       :name="iconName"

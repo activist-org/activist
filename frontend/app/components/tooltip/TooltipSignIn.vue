@@ -6,20 +6,20 @@
   >
     <div class="grid w-max grid-cols-1 gap-4 md:grid-cols-2">
       <BtnRouteInternal
+        ariaLabel="i18n._global.sign_in_aria_label"
         class="flex max-h-[40px] items-center justify-center truncate"
+        :cta="true"
+        fontSize="lg"
         label="i18n._global.sign_in"
         linkTo="/auth/sign-in"
-        :cta="true"
-        fontSize="lg"
-        ariaLabel="i18n._global.sign_in_aria_label"
       />
       <BtnRouteInternal
+        ariaLabel="i18n._global.sign_up_aria_label"
         class="flex max-h-[40px] items-center justify-center truncate"
-        label="i18n._global.sign_up"
-        linkTo="/auth/sign-up"
         :cta="true"
         fontSize="lg"
-        ariaLabel="i18n._global.sign_up_aria_label"
+        label="i18n._global.sign_up"
+        linkTo="/auth/sign-up"
       />
     </div>
   </TooltipBase>

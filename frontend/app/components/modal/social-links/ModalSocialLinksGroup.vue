@@ -2,17 +2,19 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormSocialLink
-      @updateList="updateSocialLinksRef"
       :key="formKey"
+      @updateList="updateSocialLinksRef"
       :formData="formData"
       :handleSubmit="handleSubmit"
-      :submitLabel="submitLabel"
       :socialLinksRef="socialLinksRef || []"
+      :submitLabel="submitLabel"
     />
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+
 import type { SocialLinkItem } from "~/components/form/FormSocialLink.vue";
 import type { GroupSocialLink } from "~/types/communities/group";
 import type { SocialLink } from "~/types/content/social-link";
@@ -28,8 +30,9 @@ await groupStore.fetchById(groupId);
 type SocialLinkWithKey = (GroupSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
-let { group } = groupStore;
-socialLinksRef.value = (group.socialLinks || []).map((l, idx) => ({
+// Use storeToRefs to maintain reactivity.
+const { group } = storeToRefs(groupStore);
+socialLinksRef.value = (group.value.socialLinks || []).map((l, idx) => ({
   ...l,
   key: l.id ?? String(idx),
 }));
@@ -48,55 +51,135 @@ const submitLabel = "i18n.components.modal.social_links._global.update_links";
 // Reactive key to force form reset when dragging.
 const formKey = ref(0);
 
-interface SocialLinksValue {
-  socialLinks: { link: string; label: string }[];
-}
+// Prevent duplicate submissions.
+const isSubmitting = ref(false);
 
 // Handle updates from FormSocialLink (dragging, removing, adding).
 function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
   const oldLength = socialLinksRef.value?.length || 0;
   const newLength = updatedList.length;
   const isAddOperation = newLength > oldLength;
+  const isRemoveOperation = newLength < oldLength;
 
   socialLinksRef.value = updatedList as SocialLinkWithKey[];
 
-  // Only reset form for drag/remove operations, not for add operations.
-  if (!isAddOperation) {
+  // Only reset form for drag operations (same length), not for add/remove
+  // Removing formKey increment on deletions prevents race condition during submission
+  if (!isAddOperation && !isRemoveOperation) {
     formKey.value++;
   }
 }
 
-// Attn: Currently we're deleting the social links and rewriting all of them.
+// Individual CRUD operations - no more "delete all and recreate"!
 async function handleSubmit(values: unknown) {
-  const socialLinks = socialLinksRef.value?.map((socialLink, index) => {
-    const formLink = (values as SocialLinksValue).socialLinks[index];
-    return {
-      id: socialLink.id,
-      // Use form values if they exist in the form, otherwise use socialLink values.
-      link: formLink ? formLink.link : socialLink.link,
-      label: formLink ? formLink.label : socialLink.label,
-      order: socialLink.order,
-    };
-  });
-
-  let updateResponse = false;
-  if (socialLinks) {
-    updateResponse = await groupStore.deleteSocialLinks(group);
-    updateResponse = await groupStore.createSocialLinks(
-      group,
-      socialLinks as SocialLink[]
-    );
+  // Prevent duplicate submissions.
+  if (isSubmitting.value) {
+    return;
   }
 
-  if (updateResponse) {
-    handleCloseModal();
+  isSubmitting.value = true;
 
-    await groupStore.fetchById(groupId);
-    group = groupStore.group;
-    socialLinksRef.value = (group.socialLinks || []).map((l, idx) => ({
-      ...l,
-      key: l.id ?? String(idx),
-    }));
+  try {
+    const formValues = (
+      values as { socialLinks: { link: string; label: string }[] }
+    ).socialLinks;
+
+    // Track existing IDs.
+    const existingIds = new Set(group.value.socialLinks.map((link) => link.id));
+    const currentIds = new Set(
+      socialLinksRef.value?.map((link) => link.id).filter(Boolean)
+    );
+
+    let allSuccess = true;
+
+    // 1. DELETE: Items that existed but are no longer in the list.
+    const toDelete = group.value.socialLinks.filter(
+      (link) => link.id && !currentIds.has(link.id)
+    );
+    for (const link of toDelete) {
+      const success = await groupStore.deleteSocialLink(group.value, link.id!);
+      if (!success) allSuccess = false;
+    }
+
+    // 2. UPDATE: Items that still exist (have IDs and are in existing set).
+    const toUpdate =
+      socialLinksRef.value?.filter(
+        (link) => link.id && existingIds.has(link.id)
+      ) || [];
+    for (const refItem of toUpdate) {
+      const formIndex = socialLinksRef.value?.indexOf(refItem) ?? -1;
+      const formLink = formValues?.[formIndex];
+      if (formLink && refItem.id) {
+        // Only update if link or label actually changed (ignore order for now).
+        const existing = group.value.socialLinks.find(
+          (l) => l.id === refItem.id
+        );
+        if (
+          existing &&
+          (existing.link !== formLink.link || existing.label !== formLink.label)
+        ) {
+          const success = await groupStore.updateSocialLink(
+            group.value,
+            refItem.id,
+            {
+              link: formLink.link,
+              label: formLink.label,
+              order: formIndex,
+            }
+          );
+          if (!success) allSuccess = false;
+        }
+      }
+    }
+
+    // 3. CREATE: Items without IDs (newly added).
+    const toCreate = socialLinksRef.value?.filter((link) => !link.id) || [];
+
+    const createData = toCreate
+      .map((refItem) => {
+        const formIndex = socialLinksRef.value?.indexOf(refItem) ?? -1;
+        const formLink = formValues?.[formIndex];
+        // Use form values if available, otherwise fall back to refItem.
+        const data = {
+          link: formLink?.link || refItem.link || "",
+          label: formLink?.label || refItem.label || "",
+          order: formIndex,
+        };
+        // Don't create if link/label are empty OR if they match an existing link.
+        const isDuplicate = group.value.socialLinks.some(
+          (existing) =>
+            existing.link === data.link && existing.label === data.label
+        );
+        return isDuplicate ? null : data;
+      })
+      .filter(
+        (item): item is { link: string; label: string; order: number } =>
+          item !== null && !!item.link && !!item.label
+      ); // only include valid, non-duplicate items
+
+    if (createData.length > 0) {
+      const success = await groupStore.createSocialLinks(
+        group.value,
+        createData
+      );
+      if (!success) allSuccess = false;
+    }
+
+    if (allSuccess) {
+      // Fetch updated data first - this will update the reactive ref automatically.
+      await groupStore.fetchById(groupId);
+      // Update local ref to reflect changes.
+      socialLinksRef.value = (group.value.socialLinks || []).map((l, idx) => ({
+        ...l,
+        key: l.id ?? String(idx),
+      }));
+
+      // Close modal after data is updated.
+      handleCloseModal();
+    }
+  } finally {
+    // Always reset submitting flag.
+    isSubmitting.value = false;
   }
 }
 </script>

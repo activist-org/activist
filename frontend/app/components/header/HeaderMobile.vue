@@ -1,9 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <header
+    id="mobile-header"
     v-if="!aboveMediumBP"
     ref="header"
-    id="mobile-header"
     class="sticky top-0 z-50 h-12 w-full bg-layer-2 drop-shadow-md duration-500"
   >
     <div class="h-full">
@@ -12,8 +12,8 @@
           @on-search-toggle="toggleSearchExpanded"
           class="my-1.5"
           :class="{ 'w-full': isSearchExpanded }"
-          :location="SearchBarLocation.HEADER"
           :expanded="isSearchExpanded"
+          :location="SearchBarLocation.HEADER"
         />
         <IconActivist
           v-if="!isSearchExpanded"
@@ -22,8 +22,8 @@
         <SidebarRight>
           <div class="flex-col space-y-2">
             <DropdownCreate
-              v-if="userIsSignedIn"
               id="create"
+              v-if="userIsSignedIn"
               class="w-full"
               :location="DropdownLocation.SIDE_MENU"
             />

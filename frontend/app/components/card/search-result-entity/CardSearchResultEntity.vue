@@ -5,22 +5,22 @@
   >
     <div class="relative flex w-full flex-col md:flex-row">
       <div class="flex w-full justify-center md:w-fit">
-        <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
+        <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
           <div class="h-min w-max rounded-md border border-section-div">
-            <slot name="image" :imageUrl="imageUrl" :imageAlt="imageAlt">
+            <slot :imageAlt="imageAlt" :imageUrl="imageUrl" name="image">
               <img
                 v-if="imageUrl"
+                :alt="imageAlt"
                 class="rounded-md"
                 :class="imageSizeClass"
                 :src="imageUrl"
-                :alt="imageAlt"
               />
               <div
                 v-else
-                :class="[imageSizeClass]"
                 class="flex items-center justify-center text-primary-text"
+                :class="[imageSizeClass]"
               >
-                <Icon :name="iconName || 'default'" class="h-[75%] w-[75%]" />
+                <Icon class="h-[75%] w-[75%]" :name="iconName || 'default'" />
               </div>
             </slot>
           </div>
@@ -29,14 +29,14 @@
       <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
         <div class="-mb-2 flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
-            <NuxtLink :to="localePath(linkUrl)" :aria-label="$t(ariaLabel)">
-              <h3 class="font-bold">
+            <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
+              <h3 class="font-bold" data-testid="group-title">
                 {{ title }}
               </h3>
             </NuxtLink>
             <slot
-              name="menu"
               class="max-md:absolute max-md:right-0 max-md:top-0"
+              name="menu"
             />
           </div>
           <div
@@ -62,9 +62,10 @@
         </div>
         <NuxtLink
           v-if="entityName"
-          :to="localePath(linkUrl)"
-          class="text-distinct-text hover:text-primary-text"
           :aria-label="$t(ariaLabel)"
+          class="text-distinct-text hover:text-primary-text"
+          data-testid="group-entity-name"
+          :to="localePath(linkUrl)"
         >
           @{{ entityName }}
         </NuxtLink>
@@ -74,6 +75,7 @@
             'line-clamp-3': isReduced,
             'line-clamp-4 lg:line-clamp-5': !isReduced,
           }"
+          data-testid="group-description"
         >
           {{ description }}
         </p>

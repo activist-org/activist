@@ -7,8 +7,8 @@
       class="rounded-full bg-distinct-text p-6 dark:bg-menu-selection md:p-8"
     >
       <Icon
-        :name="IconMap.VIDEO"
         :color="$colorMode.value === 'dark' ? 'white' : 'black'"
+        :name="IconMap.VIDEO"
         size="75px"
       />
     </div>

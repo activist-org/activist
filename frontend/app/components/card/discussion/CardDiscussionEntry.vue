@@ -20,13 +20,13 @@
       {{ discussionEntry.content }}
     </p>
     <BtnAction
+      ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
       class="block"
+      :counter="discussionEntry.votes"
       :cta="true"
       fontSize="sm"
-      :leftIcon="IconMap.ARROW_UP"
       iconSize="1.25em"
-      :counter="discussionEntry.votes"
-      ariaLabel="i18n.components.card.discussion._global.upvote_discussion_aria_label"
+      :leftIcon="IconMap.ARROW_UP"
     />
   </div>
 </template>

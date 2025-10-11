@@ -3,30 +3,30 @@
   <Form @submit="onSubmit" :schema="schema">
     <FormItem
       v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-      name="name"
       label="Name"
+      name="name"
       :required="true"
     >
       <!-- prettier-ignore-attribute :modelValue -->
       <FormTextInput
-        @input="handleChange"
-        @blur="handleBlur"
         :id="id"
-        :modelValue="(value.value as string)"
+        @blur="handleBlur"
+        @input="handleChange"
         :hasError="!!errorMessage.value"
         :label="'Name'"
+        :modelValue="(value.value as string)"
       />
     </FormItem>
     <FormItem
       v-slot="{ id, handleChange, handleBlur, errorMessage }"
-      name="email"
       label="Email"
+      name="email"
       :required="true"
     >
       <FormTextInput
-        @input="handleChange"
-        @blur="handleBlur"
         :id="id"
+        @blur="handleBlur"
+        @input="handleChange"
         :hasError="!!errorMessage.value"
         :label="'email'"
       />

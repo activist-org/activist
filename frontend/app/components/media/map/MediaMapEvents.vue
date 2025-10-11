@@ -2,11 +2,11 @@
 <template>
   <MediaMap
     class="h-[17.5rem] w-full"
-    :pointers="pointers"
-    :type="MapType.CLUSTER"
     :clusterProperties="clusterProperties"
     :clusterTooltipCreate="buildExpandedTooltipCluster"
     :pointerTooltipCreate="buildExpandedTooltipPointer"
+    :pointers="pointers"
+    :type="MapType.CLUSTER"
   />
 </template>
 

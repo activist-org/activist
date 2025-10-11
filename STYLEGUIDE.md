@@ -48,21 +48,19 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 ```html
 <element
-  v-attributes=""
-  @attributes=""
-  ref=""
-  key=""
-  id=""
-  class=""
-  :class="{}"
-  props=""
-  other-attributes=""
-  aria-label=""
+  is="header"
+  id="uniqueID"
+  v-if="!visible"
+  v-for="item in items"
+  v-once
+  ref="header"
+  v-model="headerData"
+  my-prop="prop"
+  @click="functionCall"
+  v-text="textContent"
+  otherAttributesAlphabetically=""
 ></element>
 ```
-
-> [!NOTE]
-> Put the aria label as the last attribute on any given element so it's easy to see if it's missing (`aria-label` for as an HTML attribute and `ariaLabel` as a component prop)
 
 Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 
@@ -185,7 +183,7 @@ The activist frontend uses [Prettier](https://prettier.io/) to format the code a
 
 ## Colors [`⇧`](#contents)
 
-The file [frontend/assets/css/tailwind.ts](frontend/assets/css/tailwind.ts) defines all colors for the platform. Light and dark mode versions of each color are defined and loaded in via variables such that we only need to use a singular identifier throughout the codebase. There are however cases where you still need to specify `dark:` for colors - specifically when the color identifier for light mode is different than dark mode like in cases of CTA buttons where the text and border are `primary-text` in light mode and `cta-orange` in dark mode.
+The files [frontend/app/assets/css/tailwind.css](frontend/app/assets/css/tailwind.css) and [frontend/tailwind.config.ts](frontend/tailwind.config.ts) define all colors for the platform. Light and dark mode versions of each color are defined and loaded in via variables such that we only need to use a singular identifier throughout the codebase. There are however cases where you still need to specify `dark:` for colors - specifically when the color identifier for light mode is different than dark mode like in cases of CTA buttons where the text and border are `primary-text` in light mode and `cta-orange` in dark mode.
 
 ```html
 <!-- This div has a reactive background color as layer-2 is defined variably based on the color mode. -->
@@ -246,7 +244,7 @@ Only add utility overrides if absolutely necessary for a unique layout or design
 
 ### Font [`⇧`](#contents)
 
-The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/assets/css/tailwind.ts](frontend/assets/css/tailwind.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are defined by `responsive-h#` custom classes that include `font-display` being applied globally to their corresponding `h#` HTML, it will be rare that you'll need to apply it directly. See the next section for more details.
+The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are defined by `responsive-h#` custom classes that include `font-display` being applied globally to their corresponding `h#` HTML, it will be rare that you'll need to apply it directly. See the next section for more details.
 
 <a id="text-size"></a>
 

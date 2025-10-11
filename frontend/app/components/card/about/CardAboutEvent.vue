@@ -32,10 +32,10 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
             >
               {{ $t("i18n.components.card.about._global.full_text") }}
             </button>
@@ -45,10 +45,10 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
             >
               {{ $t("i18n.components.card.about._global.reduce_text") }}
             </button>

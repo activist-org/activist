@@ -2,8 +2,8 @@
 <template>
   <Form
     @submit="handleSubmit"
-    :schema="schema"
     :initial-values="formData as undefined"
+    :schema="schema"
     :submit-label="$t(submitLabel)"
   >
     <h2 v-if="title">
@@ -12,30 +12,30 @@
     <div class="flex flex-col space-y-7">
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        name="question"
         :label="$t('i18n.components.form_faq_entry.question')"
+        name="question"
         :required="true"
       >
         <FormTextArea
-          @input="handleChange"
-          @blur="handleBlur"
           :id="id"
-          :value="value.value"
+          @blur="handleBlur"
+          @input="handleChange"
           :hasError="!!errorMessage.value"
+          :value="value.value"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        name="answer"
         :label="$t('i18n.components.form_faq_entry.answer')"
+        name="answer"
         :required="true"
       >
         <FormTextArea
-          @input="handleChange"
-          @blur="handleBlur"
           :id="id"
-          :value="value.value"
+          @blur="handleBlur"
+          @input="handleChange"
           :hasError="!!errorMessage.value"
+          :value="value.value"
         />
       </FormItem>
     </div>

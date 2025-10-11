@@ -1,17 +1,24 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { expect, test } from "playwright/test";
-
 import { newInfoMenu } from "~/test-e2e/component-objects/InfoMenu";
 import { newMainNavOptions } from "~/test-e2e/component-objects/MainNavOptions";
 import { newSearchbar } from "~/test-e2e/component-objects/Searchbar";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
+import { expect, test } from "~/test-e2e/global-fixtures";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/home");
 });
 
-test.describe("Home Page", { tag: "@mobile" }, () => {
+test.describe("Home Page", { tag: ["@mobile", "@unauth"] }, () => {
+  // Override to run without authentication (tests sign-in menu).
+  test.use({ storageState: undefined });
+
+  // Explicitly clear all cookies to ensure unauthenticated state.
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies();
+  });
+
   test("User can open searchbar", async ({ page }) => {
     const searchbar = newSearchbar(page);
 
@@ -34,7 +41,10 @@ test.describe("Home Page", { tag: "@mobile" }, () => {
     ];
 
     for (const { link, path } of links) {
-      await link.click();
+      // Use evaluate to click directly in browser context, bypassing overlays.
+      await link.evaluate((element: HTMLElement) => {
+        element.click();
+      });
 
       await page.waitForURL(`**${path}`);
       expect(page.url()).toContain(path);

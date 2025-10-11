@@ -14,6 +14,8 @@
       {{ $t("i18n.components.card_topic_selection.subtext_resource") }}
     </p>
     <input
+      id="inputValue"
+      @focus="inputFocus = true"
       @input.stop="
         (event) => {
           inputValue = (event.target as HTMLInputElement)?.value
@@ -22,27 +24,25 @@
           event.preventDefault();
         }
       "
-      @focus="inputFocus = true"
       @keydown="resetTabIndex()"
-      id="inputValue"
+      class="topicInput w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text elem-shadow-sm focus-brand"
       :display-value="() => inputValue"
       :placeholder="
         $t('i18n.components.card_topic_selection.selector_placeholder')
       "
-      class="topicInput w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text elem-shadow-sm focus-brand"
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <Shield
         v-for="t of filteredTopics"
-        @click="selectTopic(t)"
-        @keydown.enter.prevent="selectTopic(t)"
-        @keydown="keydownEvent($event)"
         :key="t.topic"
-        :label="t.label"
-        class="topic max-sm:w-full"
+        @click="selectTopic(t)"
+        @keydown="keydownEvent($event)"
+        @keydown.enter.prevent="selectTopic(t)"
         :active="isActiveTopic(t.topic)"
-        :isSelector="true"
+        class="topic max-sm:w-full"
         :icon="IconMap.GLOBE"
+        :isSelector="true"
+        :label="t.label"
       />
     </ul>
     <ul
@@ -54,30 +54,30 @@
       <Shield
         v-if="moreOptionsShown || inputFocus"
         v-for="t of filteredTopics"
-        @click="selectTopic(t)"
-        @keydown.enter.prevent="selectTopic(t)"
-        @keydown="mobileKeyboardEvent($event)"
         :key="t.topic + '-selected-only'"
-        :label="t.label"
-        class="mobileTopic max-sm:w-full"
+        @click="selectTopic(t)"
+        @keydown="mobileKeyboardEvent($event)"
+        @keydown.enter.prevent="selectTopic(t)"
         :active="isActiveTopic(t.topic)"
-        :isSelector="true"
+        class="mobileTopic max-sm:w-full"
         :icon="IconMap.GLOBE"
+        :isSelector="true"
+        :label="t.label"
       />
       <Shield
         v-else
         v-for="t of selectedTopicTags.sort((a, b) =>
           a.topic.localeCompare(b.topic)
         )"
-        @click="selectTopic(t)"
-        @keydown.enter.prevent="selectTopic(t)"
-        @keydown="mobileKeyboardEvent($event)"
         :key="t.topic"
-        :label="t.label"
-        class="mobileTopic max-sm:w-full"
+        @click="selectTopic(t)"
+        @keydown="mobileKeyboardEvent($event)"
+        @keydown.enter.prevent="selectTopic(t)"
         :active="isActiveTopic(t.topic)"
-        :isSelector="true"
+        class="mobileTopic max-sm:w-full"
         :icon="IconMap.GLOBE"
+        :isSelector="true"
+        :label="t.label"
       />
     </ul>
     <button

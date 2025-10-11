@@ -1,17 +1,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <aside
-    @mouseover="collapseSidebar(false)"
+    id="sidebar-left"
+    ref="sidebarWrapper"
     @focus="collapseSidebar(false)"
-    @mouseleave="collapseSidebar(true)"
     @focusout="
       collapseSidebar(true);
       handleFocusOut($event);
     "
-    ref="sidebarWrapper"
-    id="sidebar-left"
-    role="navigation"
-    tabindex="0"
+    @mouseleave="collapseSidebar(true)"
+    @mouseover="collapseSidebar(false)"
+    :aria-label="$t('i18n.components.sidebar_left.sidebar_left_aria_label')"
     class="absolute z-40 block h-full flex-col border-r border-section-div bg-layer-1 transition-all duration-500 elem-shadow-sm focus-brand md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
@@ -24,7 +23,8 @@
         sidebar.collapsedSwitch == true &&
         sidebarContentScrollable,
     }"
-    :aria-label="$t('i18n.components.sidebar_left.sidebar_left_aria_label')"
+    role="navigation"
+    tabindex="0"
   >
     <SidebarLeftHeader
       @toggle-pressed="setSidebarContentScrollable()"
@@ -52,9 +52,9 @@
           sidebarType === SidebarType.GROUP_PAGE
         "
         class="my-3"
+        :logoUrl="placeholderLogo"
         :name="placeholderName ? placeholderName : 'Name'"
         :sidebarType="sidebarType"
-        :logoUrl="placeholderLogo"
       />
       <!-- TODO: We need to edit the v-else-if once more filters are enabled. -->
       <SidebarLeftFilter

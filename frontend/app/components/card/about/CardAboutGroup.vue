@@ -4,8 +4,8 @@
     <ModalQRCodeBtn
       v-if="group && !expandText"
       :group="group"
-      type="icon"
       reason-for-suggesting=""
+      type="icon"
     />
     <button
       v-if="expandText"
@@ -14,6 +14,7 @@
         expand_reduce_text();
       "
       class="absolute right-0 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
+      data-testid="collapse-text-icon-button"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -26,6 +27,7 @@
           v-if="userIsSignedIn"
           @click="openModalTextGroup"
           @keydown.enter="openModalTextGroup"
+          data-testid="edit-icon"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -58,10 +60,11 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
+              data-testid="expand-text-button"
             >
               {{ $t("i18n.components.card.about._global.full_text") }}
             </button>
@@ -71,10 +74,11 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
+              data-testid="collapse-text-button"
             >
               {{ $t("i18n.components.card.about._global.reduce_text") }}
             </button>

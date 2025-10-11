@@ -6,11 +6,11 @@
       <div class="flex items-center space-x-6 pt-4">
         <!-- <FriendlyCaptcha /> -->
         <BtnAction
+          :ariaLabel="ctaAriaLabel"
           class="flex max-h-[48px] md:max-h-[40px]"
           :cta="true"
-          :label="ctaLabel"
           fontSize="sm"
-          :ariaLabel="ctaAriaLabel"
+          :label="ctaLabel"
         />
       </div>
     </div>

@@ -8,10 +8,10 @@
     <!-- <ModalUploadImage @upload-complete="handleUploadComplete" /> -->
     <SidebarLeft
       v-if="aboveMediumBP"
-      @mouseover="sidebarHover = true"
+      @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
-      @blur="sidebarHover = false"
+      @mouseover="sidebarHover = true"
       class="block"
     />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
@@ -19,7 +19,7 @@
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage :organizations="orgs" />
+        <NuxtPage />
       </div>
       <FooterWebsite
         class="pb-24 transition-[padding] duration-500 md:pb-12"
@@ -40,7 +40,6 @@ const aboveMediumBP = useBreakpoint("md");
 const organizationStore = useOrganizationStore();
 await organizationStore.fetchAll();
 
-const orgs = toRef(organizationStore, "organizations");
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 

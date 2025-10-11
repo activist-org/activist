@@ -18,18 +18,18 @@
           <div class="flex">
             <NuxtLink
               v-if="platform.isLocalePath"
+              :aria-label="$t(platform.ariaLabel)"
               class="text-primary-text focus-brand hover:text-distinct-text"
               :to="localePath(platform.url)"
-              :aria-label="$t(platform.ariaLabel)"
             >
               {{ $t(platform.name) }}
             </NuxtLink>
             <a
               v-else
-              :href="platform.url"
-              class="text-primary-text focus-brand hover:text-distinct-text"
-              target="_blank"
               :aria-label="$t(platform.ariaLabel)"
+              class="text-primary-text focus-brand hover:text-distinct-text"
+              :href="platform.url"
+              target="_blank"
             >
               {{ $t(platform.name) }}
             </a>
@@ -51,11 +51,11 @@
         <div class="mt-1 flex gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
             <a
+              :aria-label="$t(connect.name)"
               class="mt-2 flex items-center space-x-2 text-base text-primary-text focus-brand hover:text-distinct-text"
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
               target="_blank"
-              :aria-label="$t(connect.name)"
             >
               <MetaTagSocialMedia
                 class="text-2xl sm:text-base"
@@ -79,9 +79,9 @@
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink
+                :aria-label="$t(resource.ariaLabel)"
                 class="focus-brand"
                 :to="localePath(resource.url)"
-                :aria-label="$t(resource.ariaLabel)"
               >
                 {{ $t(resource.name) }}
               </NuxtLink>
@@ -107,9 +107,9 @@
               :class="{ 'sm:mt-3': index === 0 }"
             >
               <NuxtLink
+                :aria-label="$t(oLink.ariaLabel)"
                 class="focus-brand"
                 :to="localePath(oLink.url)"
-                :aria-label="$t(oLink.ariaLabel)"
               >
                 {{ $t(oLink.name) }}
               </NuxtLink>
@@ -130,9 +130,9 @@
         <template v-for="(policy, index) in links.legalLinks" :key="index">
           <div class="flex">
             <NuxtLink
+              :aria-label="$t(policy.ariaLabel)"
               class="text-primary-text focus-brand hover:text-distinct-text"
               :to="localePath(policy.url)"
-              :aria-label="$t(policy.ariaLabel)"
             >
               {{ $t(policy.name) }}
             </NuxtLink>

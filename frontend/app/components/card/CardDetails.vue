@@ -5,8 +5,8 @@
       <ModalQRCodeBtn
         v-if="event"
         :event="event"
-        type="icon"
         reason-for-suggesting=""
+        type="icon"
       />
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">

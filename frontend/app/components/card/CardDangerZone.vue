@@ -44,9 +44,9 @@
         </div>
         <div class="mt-5">
           <button
+            :aria-label="ctaBtnAriaLabel"
             class="w-auto rounded-md bg-primary-text px-3 py-2 text-layer-1 hover:bg-action-red"
             type="button"
-            :aria-label="ctaBtnAriaLabel"
           >
             {{ ctaBtnText }}
           </button>

@@ -10,21 +10,21 @@
           <div class="w-min md:w-min">
             <BtnAction
               @click="writePreviewSelector('Write')"
+              ariaLabel="i18n.components.card_discussion_input.write_aria_label"
               class="w-small mt-1 flex"
               :cta="isMarkdownPreview === 'Write'"
-              label="i18n.components.card_discussion_input.write"
               fontSize="sm"
-              ariaLabel="i18n.components.card_discussion_input.write_aria_label"
+              label="i18n.components.card_discussion_input.write"
             />
           </div>
           <div class="w-min md:w-min">
             <BtnAction
               @click="writePreviewSelector('Preview')"
+              ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
               class="w-small mt-1 flex"
               :cta="isMarkdownPreview === 'Preview'"
-              label="i18n.components.card_discussion_input.preview"
               fontSize="sm"
-              ariaLabel="i18n.components.card_discussion_input.preview_aria_label"
+              label="i18n.components.card_discussion_input.preview"
             />
           </div>
         </div>
@@ -91,12 +91,12 @@
       <div class="w-full md:w-full">
         <textarea
           v-show="isMarkdown && isMarkdownPreview === 'Write'"
+          ref="textarea"
           v-model="markdown"
           @input="
             (event: Event) =>
               updateTheVariable((event.target as HTMLTextAreaElement).value)
           "
-          ref="textarea"
           class="prose dark:prose-invert block w-full max-w-full text-clip rounded-lg border border-section-div bg-layer-0 p-2.5 text-sm text-primary-text placeholder-distinct-text focus-brand"
           rows="3"
         />
@@ -120,11 +120,11 @@
         </p>
         <div class="flex items-center space-x-3">
           <Button
-            @mouseenter="showTooltip = true"
-            @focus="showTooltip = true"
-            @mouseleave="showTooltip = false"
             @blur="showTooltip = false"
             @click="showTooltip = showTooltip == true ? false : true"
+            @focus="showTooltip = true"
+            @mouseenter="showTooltip = true"
+            @mouseleave="showTooltip = false"
             class="relative flex h-10 w-16 items-center justify-center rounded-lg elem-shadow-sm focus-brand"
             :class="{
               'style-action': discussionInput.highRisk,
@@ -143,11 +143,11 @@
             />
           </Button>
           <BtnAction
+            ariaLabel="i18n.components.card_discussion_input.comment_aria_label"
             class="w-small inline-flex items-center justify-center"
             :cta="true"
-            label="i18n.components.card_discussion_input.comment"
             fontSize="sm"
-            ariaLabel="i18n.components.card_discussion_input.comment_aria_label"
+            label="i18n.components.card_discussion_input.comment"
           />
         </div>
       </div>

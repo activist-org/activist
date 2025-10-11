@@ -57,12 +57,26 @@ services:
     build:
       context: ./frontend
     container_name: nuxt_frontend
-    command: sh -c "corepack enable && yarn install && yarn dev --port ${FRONTEND_PORT}"
+    # Use USE_PREVIEW=true to run pre-built version (faster for E2E tests).
+    # Use USE_PREVIEW=false or unset for dev mode (default).
+    command: sh -c "
+      corepack enable && yarn install &&
+      if [ \"$${USE_PREVIEW}\" = \"true\" ]; then
+      echo '🏗️  Building frontend for preview mode...' &&
+      yarn build &&
+      echo '▶️  Starting preview server on port ${FRONTEND_PORT}...' &&
+      yarn preview --port ${FRONTEND_PORT};
+      else
+      echo '▶️  Starting dev server...' &&
+      yarn dev --port ${FRONTEND_PORT};
+      fi"
     volumes:
       - ./frontend:/app
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
       - "24678:24678"
+    environment:
+      - USE_PREVIEW=${USE_PREVIEW:-false}
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]

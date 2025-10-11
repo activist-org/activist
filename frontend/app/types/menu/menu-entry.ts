@@ -5,4 +5,5 @@ export default interface MenuEntry {
   iconUrl: string;
   selected: boolean;
   id: string;
+  basePath: string;
 }

@@ -10,6 +10,9 @@ import {
 } from "../../../test-utils/constants";
 import render from "../../../test/render";
 
+// Note: Auto-import mocks (useI18n, useAuthState, etc.) and Icon component mock
+// are handled globally in test/setup.ts
+
 describe("sign-up", () => {
   it("shows error border when password invalid", async () => {
     await render(SignUp);

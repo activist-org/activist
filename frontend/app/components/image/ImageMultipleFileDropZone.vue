@@ -2,8 +2,8 @@
 <template>
   <ImageFileDropZone
     v-if="localFiles.length !== uploadLimit"
-    @files-dropped="handleAdd"
     v-slot="{ isDropZoneActive }"
+    @files-dropped="handleAdd"
   >
     <span v-if="isDropZoneActive && uploadLimit > 1">
       {{ $t("i18n.components.image_multiple_file_drop_zone.drop_images") }}
@@ -45,10 +45,10 @@
     <draggable
       v-model="localFiles"
       @change="emitFiles"
-      tag="div"
-      class="flex flex-row"
       animation="300"
+      class="flex flex-row"
       ghost-class="opacity-0"
+      tag="div"
     >
       <template #item="{ element: file }">
         <span class="pb-4">
@@ -57,12 +57,12 @@
           </button>
           <img
             :key="file?.type === 'upload' ? file?.data?.name : file?.data?.id"
-            :src="
-              file?.type === 'upload' ? file?.data?.url : file?.data?.fileObject
-            "
-            class="h-20 w-20 object-contain"
             :alt="
               $t('i18n.components._global.upload_image') + ' ' + file.data.name
+            "
+            class="h-20 w-20 object-contain"
+            :src="
+              file?.type === 'upload' ? file?.data?.url : file?.data?.fileObject
             "
           />
         </span>

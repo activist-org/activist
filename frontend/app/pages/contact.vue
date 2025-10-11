@@ -107,16 +107,16 @@
                 </span>
               </label>
               <input
+                id="name"
                 v-model="name"
                 @blur="validateName"
-                id="name"
+                autocomplete="off"
                 class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
                   'outline-2 outline-action-red': !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
                 :placeholder="$t('i18n.pages.contact.name_placeholder')"
-                autocomplete="off"
                 spellcheck="false"
               />
             </div>
@@ -134,16 +134,16 @@
                 </span>
               </label>
               <input
+                id="email"
                 v-model="email"
                 @blur="validateEmail"
-                id="email"
+                autocomplete="off"
                 class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
                   'outline-2 outline-action-red': !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
                 :placeholder="$t('i18n.pages.contact.email_placeholder')"
-                autocomplete="off"
                 spellcheck="false"
               />
             </div>
@@ -161,16 +161,16 @@
                 </span>
               </label>
               <input
+                id="subject"
                 v-model="subject"
                 @blur="validateSubject"
-                id="subject"
+                autocomplete="off"
                 class="rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
                   'outline-2 outline-action-red': !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
                 :placeholder="$t('i18n.pages.contact.subject_placeholder')"
-                autocomplete="off"
                 spellcheck="false"
               />
             </div>
@@ -186,17 +186,17 @@
                 <span v-if="!messageValidated">cannot be empty.</span>
               </label>
               <textarea
+                id="message"
                 v-model="message"
                 @blur="validateMessage"
-                id="message"
+                autocomplete="off"
                 class="resize-none rounded-md bg-highlight p-2 placeholder-distinct-text focus:bg-layer-1"
                 :class="{
                   'outline-2 outline-action-red': !messageValidated,
                   'outline-none focus:outline-none': messageValidated,
                 }"
-                rows="6"
                 :placeholder="$t('i18n.pages.contact.message_placeholder')"
-                autocomplete="off"
+                rows="6"
                 spellcheck="false"
               ></textarea>
             </div>
@@ -204,15 +204,15 @@
               <!-- <FriendlyCaptcha /> -->
             </div>
             <button
+              :aria-label="$t('i18n.pages.contact.send_form_aria_label')"
               class="flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center font-semibold elem-shadow-sm focus-brand dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange xl:rounded-lg"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
                 'hover:bg-cta-orange/80 active:bg-cta-orange dark:hover:bg-cta-orange/25 dark:active:bg-cta-orange/10':
                   !buttonDisabled,
               }"
-              type="submit"
               :disabled="buttonDisabled"
-              :aria-label="$t('i18n.pages.contact.send_form_aria_label')"
+              type="submit"
             >
               {{ $t("i18n.pages.contact.send") }}
             </button>
@@ -253,11 +253,11 @@
           {{ $t("i18n.pages.contact.thanks_2") }}
         </p>
         <BtnRouteInternal
+          ariaLabel="i18n._global.return_home_aria_label"
           :cta="false"
+          fontSize="lg"
           label="i18n._global.return_home"
           linkTo="/"
-          fontSize="lg"
-          ariaLabel="i18n._global.return_home_aria_label"
         />
       </div>
     </PageDocs>

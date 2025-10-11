@@ -30,11 +30,11 @@
           {{ error.message }}
         </div>
         <BtnRouteInternal
+          ariaLabel="i18n._global.return_home_aria_label"
           :cta="true"
+          fontSize="lg"
           label="i18n._global.return_home"
           linkTo="/"
-          fontSize="lg"
-          ariaLabel="i18n._global.return_home_aria_label"
         />
       </div>
     </div>

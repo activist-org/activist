@@ -457,6 +457,9 @@ To run the end to end tests locally, please run the following commands:
 
 ```bash
 docker compose --env-file .env.dev up backend db # run backend and db in docker
+
+# To run tests in the preview mode (much faster and uses less resources):
+USE_PREVIEW=true docker compose --env-file .env.dev up backend db
 ```
 
 In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).

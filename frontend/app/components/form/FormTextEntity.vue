@@ -2,8 +2,8 @@
 <template>
   <Form
     @submit="handleSubmit"
-    :schema="schema"
     :initial-values="formData as undefined"
+    :schema="schema"
     :submit-label="$t(submitLabel)"
   >
     <h2 v-if="title">
@@ -17,11 +17,11 @@
         :required="true"
       >
         <FormTextArea
-          @input="handleChange"
-          @blur="handleBlur"
           :id="id"
-          :value="value.value"
+          @blur="handleBlur"
+          @input="handleChange"
           :hasError="!!errorMessage.value"
+          :value="value.value"
         />
       </FormItem>
       <FormItem
@@ -30,11 +30,11 @@
         name="getInvolved"
       >
         <FormTextArea
-          @input="handleChange"
-          @blur="handleBlur"
           :id="id"
-          :value="value.value"
+          @blur="handleBlur"
+          @input="handleChange"
           :hasError="!!errorMessage.value"
+          :value="value.value"
         />
       </FormItem>
       <FormItem
@@ -44,12 +44,12 @@
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
+          :id="id"
           @blur="handleBlur"
           @update:modelValue="handleChange"
-          :id="id"
-          :modelValue="(value.value as string)"
           :hasError="!!errorMessage.value"
           :label="rememberHttpsLabel ? $t(rememberHttpsLabel) : ''"
+          :modelValue="(value.value as string)"
         />
       </FormItem>
     </div>
