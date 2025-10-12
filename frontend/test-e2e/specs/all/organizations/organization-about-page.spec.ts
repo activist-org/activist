@@ -466,7 +466,7 @@ test.describe(
         .all();
       const existingUploadEntriesCount = existingUploadEntries.length;
 
-      // Set image input
+      // Set image input.
       const filePng = {
         name: "file.png",
         mimeType: "image/png",
@@ -479,26 +479,27 @@ test.describe(
 
       // New entry appears in the modal.
       await expect(
-        await organizationPage.uploadImageModal.getUploadedImages(
+        organizationPage.uploadImageModal.getUploadedImages(
           organizationPage.uploadImageModal.modal
         )
       ).toHaveCount(existingUploadEntriesCount + 1);
 
-      // Upload image
+      // Upload image.
       await organizationPage.uploadImageModal
         .uploadButton(organizationPage.uploadImageModal.modal)
         .click();
 
-      // Wait for the modal to close and page to update
+      // Wait for the modal to close and page to update.
       await expect(organizationPage.uploadImageModal.modal).not.toBeVisible({
         timeout: 10000,
       });
 
+      // Reload the page for the change to take effect.
       await page.reload();
 
       // Verify the number of image in the carousel matches the number of files in the modal.
       await expect(
-        await organizationPage.aboutPage.getImageCarouselImages
+        organizationPage.aboutPage.getImageCarouselImages
       ).toHaveCount(existingUploadEntriesCount + 1);
 
       // Open the modal and remove the first image
@@ -509,26 +510,27 @@ test.describe(
 
       // Number of files upload goes back to existing count.
       await expect(
-        await organizationPage.uploadImageModal.getUploadedImages(
+        organizationPage.uploadImageModal.getUploadedImages(
           organizationPage.uploadImageModal.modal
         )
       ).toHaveCount(existingUploadEntriesCount);
 
-      // Upload image
-      await organizationPage.uploadImageModal
-        .uploadButton(organizationPage.uploadImageModal.modal)
-        .click();
+      // Close the upload image modal.
+      await organizationPage.uploadImageModal.closeButton(
+        organizationPage.uploadImageModal.modal
+      ).click()
 
-      // Wait for the modal to close and page to update
+      // Wait for the modal to close and page to update.
       await expect(organizationPage.uploadImageModal.modal).not.toBeVisible({
         timeout: 10000,
       });
 
+      // Reload the page for the change to take effect.
       await page.reload();
 
       // Verify the number of image in the carousel matches the number of files in the modal.
       await expect(
-        await organizationPage.aboutPage.getImageCarouselImages
+        organizationPage.aboutPage.getImageCarouselImages
       ).toHaveCount(existingUploadEntriesCount);
     });
   }
