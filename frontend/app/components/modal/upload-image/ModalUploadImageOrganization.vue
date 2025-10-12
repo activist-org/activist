@@ -25,8 +25,8 @@
           fontSize="sm"
           iconSize="1.25em"
           label="i18n.components._global.upload"
-          :leftIcon="IconMap.ARROW_UP"
           data-testid="upload-image-upload-button"
+          :leftIcon="IconMap.ARROW_UP"
         />
       </div>
     </div>
