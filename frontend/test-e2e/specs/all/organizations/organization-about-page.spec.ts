@@ -516,9 +516,9 @@ test.describe(
       ).toHaveCount(existingUploadEntriesCount);
 
       // Close the upload image modal.
-      await organizationPage.uploadImageModal.closeButton(
-        organizationPage.uploadImageModal.modal
-      ).click()
+      await organizationPage.uploadImageModal
+        .closeButton(organizationPage.uploadImageModal.modal)
+        .click();
 
       // Wait for the modal to close and page to update.
       await expect(organizationPage.uploadImageModal.modal).not.toBeVisible({
