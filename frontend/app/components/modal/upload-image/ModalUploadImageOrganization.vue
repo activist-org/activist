@@ -21,11 +21,11 @@
           @click="handleUpload"
           ariaLabel="i18n.components._global.upvote_application_aria_label"
           :cta="true"
+          data-testid="upload-image-upload-button"
           :disabled="files.length === 0 || files.length > uploadLimit"
           fontSize="sm"
           iconSize="1.25em"
           label="i18n.components._global.upload"
-          data-testid="upload-image-upload-button"
           :leftIcon="IconMap.ARROW_UP"
         />
       </div>
