@@ -422,5 +422,114 @@ test.describe(
         timeout: 10000,
       });
     });
+
+    test("User can upload image (CREATE, UPDATE, DELETE)", async ({ page }) => {
+      const organizationPage = newOrganizationPage(page);
+
+      // Ensure we're on the About page.
+      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {
+        timeout: 10000,
+      });
+
+      // Wait for page to be ready.
+      await page.waitForLoadState("domcontentloaded");
+
+      // Wait for the about card to be visible.
+      await expect(organizationPage.aboutPage.imageCarousel).toBeVisible({
+        timeout: 15000,
+      });
+
+      // Wait for edit icon to be available (auth state should be loaded).
+      await expect(
+        organizationPage.aboutPage.imageCarouselEditIcon
+      ).toBeVisible({
+        timeout: 10000,
+      });
+
+      // Click the edit icon to open the image upload modal.
+      await organizationPage.aboutPage.imageCarouselEditIcon.click();
+
+      // Verify the image upload modal appears.
+      await expect(organizationPage.uploadImageModal.modal).toBeVisible();
+
+      // Verify the image upload form is visible.
+      const imageUploadInput =
+        organizationPage.uploadImageModal.imageUploadInput(
+          organizationPage.uploadImageModal.modal
+        );
+      await expect(imageUploadInput).toBeEnabled();
+      await expect(imageUploadInput).toBeEditable();
+
+      // Count initial number of files uploaded in the modal.
+      const existingUploadEntries = await organizationPage.uploadImageModal
+        .getUploadedImages(organizationPage.uploadImageModal.modal)
+        .all();
+      const existingUploadEntriesCount = existingUploadEntries.length;
+
+      // Set image input
+      const filePng = {
+        name: "file.png",
+        mimeType: "image/png",
+        buffer: Buffer.from(
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC",
+          "base64"
+        ),
+      };
+      await imageUploadInput.setInputFiles(filePng);
+
+      // New entry appears in the modal.
+      await expect(
+        await organizationPage.uploadImageModal.getUploadedImages(
+          organizationPage.uploadImageModal.modal
+        )
+      ).toHaveCount(existingUploadEntriesCount + 1);
+
+      // Upload image
+      await organizationPage.uploadImageModal
+        .uploadButton(organizationPage.uploadImageModal.modal)
+        .click();
+
+      // Wait for the modal to close and page to update
+      await expect(organizationPage.uploadImageModal.modal).not.toBeVisible({
+        timeout: 10000,
+      });
+
+      await page.reload();
+
+      // Verify the number of image in the carousel matches the number of files in the modal.
+      await expect(
+        await organizationPage.aboutPage.getImageCarouselImages
+      ).toHaveCount(existingUploadEntriesCount + 1);
+
+      // Open the modal and remove the first image
+      await organizationPage.aboutPage.imageCarouselEditIcon.click();
+      await organizationPage.uploadImageModal
+        .removeButton(organizationPage.uploadImageModal.modal, 0)
+        .click();
+
+      // Number of files upload goes back to existing count.
+      await expect(
+        await organizationPage.uploadImageModal.getUploadedImages(
+          organizationPage.uploadImageModal.modal
+        )
+      ).toHaveCount(existingUploadEntriesCount);
+
+      // Upload image
+      await organizationPage.uploadImageModal
+        .uploadButton(organizationPage.uploadImageModal.modal)
+        .click();
+
+      // Wait for the modal to close and page to update
+      await expect(organizationPage.uploadImageModal.modal).not.toBeVisible({
+        timeout: 10000,
+      });
+
+      await page.reload();
+
+      // Verify the number of image in the carousel matches the number of files in the modal.
+      await expect(
+        await organizationPage.aboutPage.getImageCarouselImages
+      ).toHaveCount(existingUploadEntriesCount);
+    });
   }
 );

@@ -26,6 +26,7 @@
           iconSize="1.25em"
           label="i18n.components._global.upload"
           :leftIcon="IconMap.ARROW_UP"
+          data-testid="upload-image-upload-button"
         />
       </div>
     </div>

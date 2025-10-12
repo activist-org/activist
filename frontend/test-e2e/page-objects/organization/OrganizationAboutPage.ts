@@ -61,4 +61,8 @@ export const newOrganizationAboutPage = (page: Page) => ({
   // MARK: Media
 
   imageCarousel: page.getByTestId("image-carousel"),
+  imageCarouselEditIcon: page
+    .getByTestId("image-carousel")
+    .getByRole("button", { name: "Edit images" }),
+  getImageCarouselImages: page.getByTestId("image-carousel").getByRole("img"),
 });
