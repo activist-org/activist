@@ -13,6 +13,9 @@
 <script setup lang="ts">
 import type { FaqEntry } from "~/types/content/faq-entry";
 
+import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
+import { useGetGroup } from "~/composables/queries/useGetGroup";
+
 const props = defineProps<{
   faqEntry?: FaqEntry;
 }>();
@@ -22,16 +25,15 @@ const modalName = "ModalFaqEntryGroup" + props.faqEntry?.id;
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-const { group } = groupStore;
+const { data: group } = useGetGroup(groupId);
+const { updateFAQ, createFAQ } = useGroupFAQEntryMutations(groupId);
 
 const formData = ref({
   id: "",
   iso: "en",
-  order: (group.faqEntries ?? []).length,
+  order: (group.value?.faqEntries ?? []).length,
   question: "",
   answer: "",
 });
@@ -73,8 +75,8 @@ async function handleSubmit(values: unknown) {
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
   updateResponse = isAddMode
-    ? await groupStore.createFaqEntry(group, newValues as FaqEntry)
-    : await groupStore.updateFaqEntry(group, newValues as FaqEntry);
+    ? await createFAQ(newValues as FaqEntry)
+    : await updateFAQ(newValues as FaqEntry);
 
   if (updateResponse) {
     handleCloseModal();

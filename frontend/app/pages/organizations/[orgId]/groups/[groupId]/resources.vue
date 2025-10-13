@@ -75,6 +75,7 @@ import draggable from "vuedraggable";
 import type { Group } from "~/types/communities/group";
 import type { Resource } from "~/types/content/resource";
 
+import { useGroupResourcesMutations } from "~/composables/mutations/useGroupResourcesMutations";
 import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
@@ -85,20 +86,14 @@ const props = defineProps<{
 }>();
 const resourceList = ref<Resource[]>([...(props.group.resources || [])]);
 const groupTabs = getGroupTabs();
-const groupStore = useGroupStore();
+const { reorderResources } = useGroupResourcesMutations(props.group.id);
 const onDragEnd = () => {
-  resourceList.value.forEach((resource, index) => {
-    resource.order = index;
-  });
-
-  groupStore.reorderResource(props.group, resourceList.value);
+  resourceList.value = resourceList.value.map((resource, index) => ({
+    ...resource,
+    order: index,
+  }));
+  reorderResources(resourceList.value);
 };
-watch(
-  () => groupStore.group.resources,
-  (newResources) => {
-    resourceList.value = [...(newResources || [])];
-  }
-);
 </script>
 
 <style scoped>

@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts">
+import { useGetGroup } from "~/composables/queries/useGetGroup";
+
 const props = defineProps<{
   header?: string;
   tagline?: string;
@@ -17,17 +19,15 @@ const props = defineProps<{
 }>();
 
 const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-const { group } = groupStore;
+const { data: group } = useGetGroup(groupId);
 
 const headerName = computed<string>(() => {
   if (props.header) {
     return props.header;
   } else if (group) {
-    return group.name;
+    return group.value?.name ?? "";
   } else {
     return "";
   }
@@ -37,7 +37,7 @@ const headerTagline = computed(() => {
   if (props.tagline) {
     return props.tagline;
   } else if (group) {
-    return group.tagline;
+    return group.value?.tagline ?? "";
   } else {
     return "";
   }

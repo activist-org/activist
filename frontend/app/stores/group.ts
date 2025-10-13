@@ -28,7 +28,6 @@ export const useGroupStore = defineStore("group", {
 
   state: (): GroupStore => ({
     loading: false,
-
     group: {
       id: "",
       images: [],
@@ -59,8 +58,61 @@ export const useGroupStore = defineStore("group", {
     groups: [],
   }),
   actions: {
-    // MARK: Create
+    getGroup() {
+      return this.group;
+    },
 
+    getGroups() {
+      return this.groups;
+    },
+
+    setGroup(group: Group) {
+      this.group = group;
+    },
+    setGroups(groups: Group[]) {
+      this.groups = groups;
+    },
+    setGroupImages(images: ContentImage[]) {
+      this.group.images = images;
+    },
+    clearGroupImages(id: string) {
+      if (this.group.id === id) {
+        this.group.images = [];
+      }
+    },
+    clearGroup(id: string) {
+      if (this.group.id === id) {
+        this.group = {
+          id: "",
+          images: [],
+          groupName: "",
+          name: "",
+          tagline: "",
+          org: defaultOrganization,
+          createdBy: defaultUser,
+          iconUrl: {
+            id: "",
+            fileObject: "",
+            creation_date: "",
+          },
+
+          location: { id: "", lat: "", lon: "", bbox: [""], displayName: "" },
+          getInvolvedUrl: "",
+          socialLinks: [],
+          creationDate: "",
+
+          events: [],
+          resources: [],
+          faqEntries: [],
+          texts: defaultGroupText,
+        };
+      }
+    },
+
+    clearGroups() {
+      this.groups = [];
+    },
+    // MARK: Create
     async create(formData: GroupCreateFormData) {
       this.loading = true;
 
@@ -172,15 +224,11 @@ export const useGroupStore = defineStore("group", {
             org: group.org,
             createdBy: group.createdBy,
             iconUrl: group.iconUrl,
-
             location: group.location,
-
             getInvolvedUrl: group.getInvolvedUrl,
             socialLinks: group.socialLinks,
             creationDate: group.creationDate,
-
             texts: group.texts[0] ?? defaultGroupText,
-
             faqEntries: group.faqEntries,
           };
         });

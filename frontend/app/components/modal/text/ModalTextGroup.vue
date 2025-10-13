@@ -16,15 +16,14 @@
 <script setup lang="ts">
 import type { GroupUpdateTextFormData } from "~/types/communities/group";
 
+import { useGroupTextsMutations } from "~/composables/mutations/useGroupTextsMutations";
+
 const modalName = "ModalTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-
 const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-const { group } = groupStore;
+const group = computed(() => groupStore.group!);
+const { updateTexts } = useGroupTextsMutations(group.value.id);
 
 const formData = ref<GroupUpdateTextFormData>({
   description: "",
@@ -33,9 +32,9 @@ const formData = ref<GroupUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = group.texts.description || "";
-  formData.value.getInvolved = group.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = group.getInvolvedUrl || "";
+  formData.value.description = group.value.texts.description || "";
+  formData.value.getInvolved = group.value.texts.getInvolved || "";
+  formData.value.getInvolvedUrl = group.value.getInvolvedUrl || "";
 });
 
 watch(
@@ -51,9 +50,9 @@ watch(
 );
 
 async function handleSubmit(values: unknown) {
-  const response = await groupStore.updateTexts(
-    group,
-    values as GroupUpdateTextFormData
+  const response = await updateTexts(
+    values as GroupUpdateTextFormData,
+    String(group.value.texts?.id)
   );
   if (response) {
     handleCloseModal();
