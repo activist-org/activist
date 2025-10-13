@@ -486,7 +486,20 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
     queryset = OrganizationSocialLink.objects.all()
     serializer_class = OrganizationSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    http_method_names = ["post", "put", "delete"]
 
+    @extend_schema(
+        responses={
+            201: OpenApiResponse(
+                response={"message": "Social link created successfully."}
+            ),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to create social links for this organization."
+                }
+            ),
+        }
+    )
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -509,6 +522,20 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
             status=status.HTTP_201_CREATED,
         )
 
+    @extend_schema(
+        responses={
+            200: OpenApiResponse(
+                response={"message": "Social link updated successfully."}
+            ),
+            400: OpenApiResponse(response={"message": "Invalid request."}),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to update the social links for this organization."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Social link not found."}),
+        }
+    )
     def update(self, request: Request, pk: UUID | str) -> Response:
         try:
             social_link = OrganizationSocialLink.objects.get(id=pk)
@@ -547,6 +574,19 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(
+                response={"message": "Social link deleted successfully."}
+            ),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to delete the social links for this organization."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Social link not found."}),
+        }
+    )
     def destroy(self, request: Request, pk: UUID | str) -> Response:
         try:
             social_link = OrganizationSocialLink.objects.get(id=pk)

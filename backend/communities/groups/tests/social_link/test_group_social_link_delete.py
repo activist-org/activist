@@ -72,3 +72,39 @@ def test_group_social_link_delete_404():
     )
 
     assert response.status_code == 404
+
+
+def test_group_social_link_delete_403():
+    client = APIClient()
+
+    test_username = "test_user"
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+    user.is_confirmed = True
+    user.verified = True
+    user.save()
+
+    group = GroupFactory()
+    social_links = GroupSocialLinkFactory(group=group)
+
+    login = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
+    )
+
+    assert login.status_code == 200
+
+    login_body = login.json()
+    token = login_body["access"]
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+
+    response = client.delete(
+        path=f"/v1/communities/group_social_links/{social_links.id}"
+    )
+
+    response_body = response.json()
+    assert response.status_code == 403
+    assert (
+        response_body["detail"] == "You are not authorized to delete this social link."
+    )

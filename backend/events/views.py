@@ -446,7 +446,20 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
     queryset = EventSocialLink.objects.all()
     serializer_class = EventSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    http_method_names = ["post", "put", "delete"]
 
+    @extend_schema(
+        responses={
+            201: OpenApiResponse(
+                response={"message": "Social link created successfully."}
+            ),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to create social links for this event."
+                }
+            ),
+        }
+    )
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -469,6 +482,20 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             status=status.HTTP_201_CREATED,
         )
 
+    @extend_schema(
+        responses={
+            200: OpenApiResponse(
+                response={"message": "Social link updated successfully."}
+            ),
+            400: OpenApiResponse(response={"detail": "Invalid request."}),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to update the social links for this event."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Social links not found."}),
+        }
+    )
     def update(self, request: Request, pk: UUID | str) -> Response:
         try:
             social_link = EventSocialLink.objects.get(id=pk)
@@ -507,6 +534,19 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(
+                response={"message": "Social link deleted successfully."}
+            ),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to delete this social link."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Social link not found."}),
+        }
+    )
     def destroy(self, request: Request, pk: UUID | str) -> Response:
         try:
             social_link = EventSocialLink.objects.get(id=pk)
