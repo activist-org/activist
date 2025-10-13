@@ -4,7 +4,6 @@
 
 import type { MaybeRef } from "vue";
 
-import type { Group } from "~/types/communities/group";
 import type { ContentImage } from "~/types/content/file";
 
 import { fetchGroupImages } from "~/services/group";
@@ -20,12 +19,12 @@ export function useGetGroupImages(id: MaybeRef<string>) {
   );
 
   // Check if we have cached data
-  const cached = computed<Group | null>(() =>
-    groupId.value ? store.getGroup() : null
-  );
+  const cached = computed<ContentImage[]>(() => store.getGroupImages());
 
   // Only fetch if we have an ID and no cached data
-  const shouldFetch = computed(() => !!groupId.value && !cached.value);
+  const shouldFetch = computed(
+    () => !!groupId.value && cached.value.length === 0
+  );
 
   const query = useAsyncData(
     `groupImages:${groupId.value}`,
@@ -53,8 +52,8 @@ export function useGetGroupImages(id: MaybeRef<string>) {
 
   // Return cached data if available, otherwise data from useAsyncData
   const data = computed<ContentImage[]>(() =>
-    cached.value && cached.value.id !== ""
-      ? (cached.value.images ?? [])
+    cached.value && cached.value.length > 0
+      ? cached.value
       : (query.data.value as ContentImage[]) || []
   );
   // Only show pending when we're actually fetching (not when using cache)

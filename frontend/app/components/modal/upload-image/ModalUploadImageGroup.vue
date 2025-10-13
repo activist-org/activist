@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const groupStore = useGroupStore();
-const { group } = groupStore;
+const { images: groupImages } = groupStore;
 const { updateImage, uploadImages } = useGroupImageMutations(props.entityId);
 const files = ref<FileUploadMix[]>([]);
 
@@ -102,7 +102,7 @@ const handleUpload = async () => {
         uploadFiles.map((file) => file.sequence)
       );
     }
-    files.value = (group.images || []).map(
+    files.value = (groupImages || []).map(
       (image: ContentImage, index: number) => ({
         type: "file",
         data: image,

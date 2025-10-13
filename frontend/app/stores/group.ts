@@ -5,6 +5,7 @@ import type { ContentImage } from "~/types/content/file";
 interface GroupStore {
   group: Group;
   groups: Group[];
+  images: ContentImage[];
 }
 
 export const useGroupStore = defineStore("group", {
@@ -12,8 +13,8 @@ export const useGroupStore = defineStore("group", {
 
   state: (): GroupStore => ({
     group: null as unknown as Group,
-
     groups: [],
+    images: [],
   }),
   actions: {
     getGroup() {
@@ -24,6 +25,10 @@ export const useGroupStore = defineStore("group", {
       return this.groups;
     },
 
+    getGroupImages() {
+      return this.images;
+    },
+
     setGroup(group: Group) {
       this.group = group;
     },
@@ -31,11 +36,11 @@ export const useGroupStore = defineStore("group", {
       this.groups = groups;
     },
     setGroupImages(images: ContentImage[]) {
-      this.group.images = images;
+      this.images = images;
     },
     clearGroupImages(id: string) {
       if (this.group.id === id) {
-        this.group.images = [];
+        this.images = [];
       }
     },
     clearGroup(id: string) {

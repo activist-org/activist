@@ -73,7 +73,7 @@
             v-if="!textExpanded || !aboveLargeBP"
             :entityId="group.id"
             :entityType="'group' as EntityType"
-            :images="group.images || []"
+            :images="images || []"
           />
         </div>
       </div>
@@ -85,6 +85,7 @@
 
 <script setup lang="ts">
 import type { Group } from "~/types/communities/group";
+import type { ContentImage } from "~/types/content/file";
 import type { EntityType } from "~/types/entity";
 
 import { BreakpointMap } from "~/types/breakpoint-map";
@@ -92,6 +93,7 @@ import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   group: Group;
+  images: ContentImage[];
 }>();
 
 const aboveLargeBP = useBreakpoint("lg");
