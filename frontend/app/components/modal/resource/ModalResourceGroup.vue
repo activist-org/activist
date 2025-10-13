@@ -13,6 +13,8 @@
 <script setup lang="ts">
 import type { Resource, ResourceInput } from "~/types/content/resource";
 
+import { useGroupResourcesMutations } from "~/composables/mutations/useGroupResourcesMutations";
+
 const props = defineProps<{
   resource?: Resource;
 }>();
@@ -21,13 +23,9 @@ const isAddMode = !props.resource;
 const modalName = "ModalResourceGroup" + (props.resource?.id ?? "");
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-
 const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
 const { group } = groupStore;
-
+const { updateResource, createResource } = useGroupResourcesMutations(group.id);
 const formData = ref<Resource | undefined>();
 
 const submitLabel = isAddMode
@@ -75,9 +73,8 @@ async function handleSubmit(values: unknown) {
     ...(values as Resource),
     order: formData.value?.order ?? (group.resources ?? []).length,
   };
-  if (isAddMode)
-    await groupStore.createResource(group, newValues as ResourceInput);
-  else await groupStore.updateResource(group, newValues as ResourceInput);
+  if (isAddMode) await createResource(newValues as ResourceInput);
+  else await updateResource(newValues as ResourceInput);
   handleCloseModal();
 }
 </script>

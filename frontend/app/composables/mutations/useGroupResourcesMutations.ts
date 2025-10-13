@@ -3,7 +3,7 @@
 
 import type { MaybeRef } from "vue";
 
-import type { Resource } from "~/types/content/resource";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 import type { AppError } from "~/utils/errorHandler";
 
 import {
@@ -21,7 +21,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   const currentGroupId = computed(() => unref(groupId));
 
   // Create new resource
-  async function createResource(resourceData: Omit<Resource, "id">) {
+  async function createResource(resourceData: ResourceInput) {
     if (!currentGroupId.value) return false;
 
     loading.value = true;
@@ -36,9 +36,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      showToastError((err as AppError).message);
       return false;
     } finally {
       loading.value = false;
@@ -46,7 +44,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   }
 
   // Update existing resource
-  async function updateResource(resource: Resource) {
+  async function updateResource(resource: ResourceInput) {
     loading.value = true;
     error.value = null;
 
@@ -59,9 +57,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      showToastError((err as AppError).message);
       return false;
     } finally {
       loading.value = false;
@@ -91,7 +87,6 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   // Helper to refresh group data after mutations
   async function refreshGroupData() {
     if (!currentGroupId.value) return;
-
     // Invalidate the useAsyncData cache so next read will refetch
     await refreshNuxtData(`group:${currentGroupId.value}`);
   }

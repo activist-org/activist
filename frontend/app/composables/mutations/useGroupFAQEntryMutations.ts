@@ -4,18 +4,16 @@
 import type { MaybeRef } from "vue";
 
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { AppError } from "~/utils/errorHandler";
 
 import {
   createGroupFaq,
   updateGroupFaq,
   reorderGroupFaqs,
 } from "~/services/group";
-import { useGroupStore } from "~/stores/group";
-import { errorHandler } from "~/utils/errorHandler";
 
 export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
-  const store = useGroupStore();
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
@@ -83,9 +81,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      showToastError((err as AppError).message);
       return false;
     } finally {
       loading.value = false;
@@ -95,9 +91,6 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   // Helper to refresh group data after mutations
   async function refreshGroupData() {
     if (!currentGroupId.value) return;
-
-    // Clear the group from store cache
-    store.clearGroup(currentGroupId.value);
 
     // Invalidate the useAsyncData cache so next read will refetch
     await refreshNuxtData(`group:${currentGroupId.value}`);

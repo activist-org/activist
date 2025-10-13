@@ -13,8 +13,8 @@
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnAction
-          @click.stop="useModalHandlers('ModalFaqEntryGroup').openModal()"
-          @keydown.enter="useModalHandlers('ModalFaqEntryGroup').openModal()"
+          @click.stop="openModal()"
+          @keydown.enter="openModal()"
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           class="w-max"
           :cta="true"
@@ -71,14 +71,15 @@ import draggable from "vuedraggable";
 import type { Group } from "~/types/communities/group";
 import type { FaqEntry } from "~/types/content/faq-entry";
 
-import { useGroupStore } from "~/stores/group";
+import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{ group: Group }>();
 
-const groupTabs = getGroupTabs();
-const groupStore = useGroupStore();
+const { openModal } = useModalHandlers("ModalFaqEntryGroup");
 
+const groupTabs = getGroupTabs();
+const { reorderFAQs } = useGroupFAQEntryMutations(props.group.id);
 const faqList = ref<FaqEntry[]>([...(props.group.faqEntries || [])]);
 
 watch(
@@ -94,7 +95,7 @@ const onDragEnd = async () => {
     faq.order = index;
   });
 
-  await groupStore.reorderFaqEntries(props.group, faqList.value);
+  await reorderFAQs(faqList.value);
 };
 </script>
 

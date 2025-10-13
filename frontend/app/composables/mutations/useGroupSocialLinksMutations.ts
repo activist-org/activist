@@ -4,6 +4,7 @@
 import type { MaybeRef } from "vue";
 
 import type { SocialLinkFormData } from "~/types/content/social-link";
+import type { AppError } from "~/utils/errorHandler";
 
 import {
   updateGroupSocialLink,
@@ -11,10 +12,9 @@ import {
   deleteGroupSocialLink,
   replaceAllGroupSocialLinks,
 } from "~/services/group";
-import { errorHandler } from "~/utils/errorHandler";
 
-export function useUpdateSocialLinks(groupId: MaybeRef<string>) {
-  const { showToastError, showToastSuccess } = useToaster();
+export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
+  const { showToastError } = useToaster();
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
@@ -37,16 +37,12 @@ export function useUpdateSocialLinks(groupId: MaybeRef<string>) {
         group: currentGroupId.value,
       });
 
-      showToastSuccess("Social link updated successfully");
-
       // Refresh the group data to get updated links
       await refreshGroupData();
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      showToastError((err as AppError).message);
       return false;
     } finally {
       loading.value = false;
@@ -63,16 +59,12 @@ export function useUpdateSocialLinks(groupId: MaybeRef<string>) {
     try {
       await createGroupSocialLinks(currentGroupId.value, links);
 
-      showToastSuccess(`${links.length} social link(s) added successfully`);
-
       // Refresh the group data to get updated links
       await refreshGroupData();
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      showToastError((err as AppError).message);
       return false;
     } finally {
       loading.value = false;
@@ -87,16 +79,12 @@ export function useUpdateSocialLinks(groupId: MaybeRef<string>) {
     try {
       await deleteGroupSocialLink(linkId);
 
-      showToastSuccess("Social link deleted successfully");
-
       // Refresh the group data to get updated links
       await refreshGroupData();
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      showToastError((err as AppError).message);
       return false;
     } finally {
       loading.value = false;
@@ -115,16 +103,12 @@ export function useUpdateSocialLinks(groupId: MaybeRef<string>) {
     try {
       await replaceAllGroupSocialLinks(currentGroupId.value, links);
 
-      showToastSuccess("Social links updated successfully");
-
       // Refresh the group data to get updated links
       await refreshGroupData();
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      showToastError((err as AppError).message);
       return false;
     } finally {
       loading.value = false;

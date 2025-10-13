@@ -41,6 +41,7 @@ import type {
   UploadableFile,
 } from "~/types/content/file";
 
+import { useGroupImageMutations } from "~/composables/mutations/useGroupImageMutations";
 import { IconMap } from "~/types/icon-map";
 
 interface Props {
@@ -54,7 +55,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const groupStore = useGroupStore();
 const { group } = groupStore;
-
+const { updateImage, uploadImages } = useGroupImageMutations(props.entityId);
 const files = ref<FileUploadMix[]>([]);
 
 watch(
@@ -88,7 +89,7 @@ const handleUpload = async () => {
     if (imageFiles && imageFiles.length > 0) {
       await Promise.all(
         imageFiles.map((image) =>
-          groupStore.updateImage(props.entityId, {
+          updateImage({
             ...image.data,
             sequence_index: image.sequence,
           } as ContentImage)
@@ -96,8 +97,7 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await groupStore.uploadFiles(
-        props.entityId,
+      await uploadImages(
         uploadFiles.map((file) => file.data as UploadableFile),
         uploadFiles.map((file) => file.sequence)
       );

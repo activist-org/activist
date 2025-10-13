@@ -40,7 +40,7 @@ export function mapGroup(res: GroupResponse): GroupT {
   };
 }
 
-// MARK: Get group by ID DONE
+// MARK: Get group by ID
 
 export async function getGroup(id: string): Promise<GroupT> {
   try {
@@ -88,7 +88,7 @@ export async function listGroups(): Promise<GroupT[]> {
 //   }
 // }
 
-// MARK: Update group texts DONE
+// MARK: Update group texts
 
 export async function updateGroupTexts(
   groupId: string,
@@ -114,7 +114,7 @@ export async function updateGroupTexts(
   }
 }
 
-// MARK: Create resources DONE
+// MARK: Create resources
 
 export async function createGroupResource(
   groupId: string,
@@ -132,7 +132,7 @@ export async function createGroupResource(
   }
 }
 
-// MARK: Update resources DONE
+// MARK: Update resources
 
 export async function updateGroupResource(input: ResourceInput): Promise<void> {
   try {
@@ -147,7 +147,7 @@ export async function updateGroupResource(input: ResourceInput): Promise<void> {
   }
 }
 
-// MARK: Reorder resources DONE
+// MARK: Reorder resources
 
 export async function reorderGroupResources(
   resources: Resource[]
@@ -180,12 +180,16 @@ export async function createGroupSocialLinks(
   try {
     await Promise.all(
       links.map((data) =>
-        post(`/communities/group_social_links`, {
-          link: data.link,
-          label: data.label,
-          order: data.order,
-          group: groupId,
-        })
+        post(
+          `/communities/group_social_links`,
+          {
+            link: data.link,
+            label: data.label,
+            order: data.order,
+            group: groupId,
+          },
+          { headers: { "Content-Type": "application/json" } }
+        )
       )
     );
   } catch (e) {
@@ -246,27 +250,31 @@ export async function replaceAllGroupSocialLinks(
   }
 }
 
-// MARK: Create FAQs DONE
+// MARK: Create FAQs
 
 export async function createGroupFaq(
   groupId: string,
   faq: FaqEntry
 ): Promise<void> {
   try {
-    await post(`/communities/group_faqs`, {
-      iso: faq.iso,
-      order: faq.order,
-      question: faq.question,
-      answer: faq.answer,
-      group: groupId,
-    });
+    await post(
+      `/communities/group_faqs`,
+      {
+        iso: faq.iso,
+        order: faq.order,
+        question: faq.question,
+        answer: faq.answer,
+        group: groupId,
+      },
+      { headers: { "Content-Type": "application/json" } }
+    );
   } catch (e) {
     const err = errorHandler(e);
     throw err;
   }
 }
 
-// MARK: Update FAQs DONE
+// MARK: Update FAQs
 
 export async function updateGroupFaq(faq: FaqEntry): Promise<void> {
   try {
@@ -285,7 +293,7 @@ export async function updateGroupFaq(faq: FaqEntry): Promise<void> {
   }
 }
 
-// MARK: Reorder FAQs DONE
+// MARK: Reorder FAQs
 
 export async function reorderGroupFaqs(faqs: FaqEntry[]): Promise<void> {
   try {
@@ -302,7 +310,7 @@ export async function reorderGroupFaqs(faqs: FaqEntry[]): Promise<void> {
   }
 }
 
-// MARK: Upload images DONE
+// MARK: Upload images
 
 export async function uploadGroupImages(
   groupId: string,
@@ -324,7 +332,7 @@ export async function uploadGroupImages(
   }
 }
 
-// MARK: Update image DONE
+// MARK: Update image
 
 export async function updateGroupImage(
   entityId: string,
@@ -340,7 +348,7 @@ export async function updateGroupImage(
   }
 }
 
-// MARK: Fetch images DONE
+// MARK: Fetch images
 
 export async function fetchGroupImages(
   entityId: string

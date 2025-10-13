@@ -94,6 +94,13 @@ const onDragEnd = () => {
   }));
   reorderResources(resourceList.value);
 };
+watch(
+  () => props.group.resources,
+  (newResources) => {
+    resourceList.value = [...(newResources || [])];
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped>

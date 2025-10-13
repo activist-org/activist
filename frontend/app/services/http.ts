@@ -40,7 +40,6 @@ export function post<T, X extends AcceptedBody>(
   options?: ServiceOptionsWithBody
 ) {
   const headers = {
-    "Content-Type": "application/json",
     ...(options?.headers || {}),
     ...authHeader(),
   };
