@@ -292,6 +292,14 @@ MARK: Base
   .style-warn {
     @apply border border-primary-text bg-warn-yellow text-primary-text focus-brand hover:bg-warn-yellow/80 active:bg-warn-yellow dark:border-warn-yellow dark:bg-warn-yellow/10 dark:text-warn-yellow dark:hover:bg-warn-yellow/25 dark:active:bg-warn-yellow/10;
   }
+  /* Draggable handle styling intentionally left to component-level classes. */
+/* Improve drag handle affordance: visible color, subtle background and focus ring */
+.drag-handle {
+  @apply text-primary-text inline-flex items-center justify-center p-1 rounded-md;
+  }
+  .drag-handle:focus-visible {
+    @apply outline-none ring-2 ring-offset-1 ring-primary-text/60;
+  }
 }
 
 /*

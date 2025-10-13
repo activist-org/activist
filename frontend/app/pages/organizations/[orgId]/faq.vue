@@ -28,7 +28,7 @@
         <ModalFaqEntryOrganization />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="organization.faqEntries!.length > 0" class="py-4">
+    <div v-if="faqList.length > 0" class="py-4">
       <!-- Draggable list -->
       <draggable
         v-model="faqList"

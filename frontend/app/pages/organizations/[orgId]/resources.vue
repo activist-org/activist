@@ -28,7 +28,7 @@
       </div>
     </HeaderAppPageOrganization>
     <!-- Draggable list -->
-    <div v-if="props.organization.resources?.length" class="py-4">
+    <div v-if="resourceList.length" class="py-4">
       <draggable
         v-model="resourceList"
         @end="onDragEnd"
