@@ -5,10 +5,10 @@
 import type { MaybeRef } from "vue";
 
 import type { Group } from "~/types/communities/group";
+import type { AppError } from "~/utils/errorHandler";
 
 import { getGroup } from "~/services/communities/group/group";
 import { useGroupStore } from "~/stores/group";
-import { errorHandler } from "~/utils/errorHandler";
 
 export function useGetGroup(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -39,9 +39,8 @@ export function useGetGroup(id: MaybeRef<string>) {
         store.setGroup(group);
         return group as Group;
       } catch (error) {
-        const err = errorHandler(error);
-        showToastError(err.message);
-        throw err;
+        showToastError((error as AppError).message);
+        throw error;
       }
     },
     {
