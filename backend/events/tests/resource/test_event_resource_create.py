@@ -4,17 +4,12 @@ import pytest
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
-from communities.organizations.factories import (
-    OrganizationFactory,
-    OrganizationResourceFactory,
-)
-from content.factories import TopicFactory
-from content.models import Topic
+from events.factories import EventFactory, EventResourceFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_org_resource_create_200():
+def test_event_resource_create_200():
     client = APIClient()
 
     test_username = "test_user"
@@ -25,10 +20,9 @@ def test_org_resource_create_200():
     user.is_staff = True
     user.save()
 
-    org = OrganizationFactory(created_by=user)
-    resource = OrganizationResourceFactory(created_by=user, org=org)
-    topic = Topic.objects.create(type="test_type", active=True)
+    event = EventFactory(created_by=user)
 
+    resource = EventResourceFactory(created_by=user, event_id=event.id)
     test_name = resource.name
     test_desc = resource.description
     test_url = resource.url
@@ -47,14 +41,13 @@ def test_org_resource_create_200():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     response = client.post(
-        path="/v1/communities/organization_resources",
+        path="/v1/events/event_resources",
         data={
             "name": test_name,
             "description": test_desc,
             "url": test_url,
             "order": test_order,
-            "org": org.id,
-            "topics": [topic.type],
+            "event": event.id,
         },
     )
 
@@ -64,7 +57,7 @@ def test_org_resource_create_200():
     assert response_body["message"] == "Resource created successfully."
 
 
-def test_org_resource_create_403():
+def test_event_resource_create_403():
     client = APIClient()
 
     test_username = "test_user"
@@ -74,10 +67,9 @@ def test_org_resource_create_403():
     user.verified = True
     user.save()
 
-    org = OrganizationFactory()
-    resource = OrganizationResourceFactory(created_by=user, org=org)
-    topic = TopicFactory()
+    event = EventFactory()
 
+    resource = EventResourceFactory(created_by=user, event_id=event.id)
     test_name = resource.name
     test_desc = resource.description
     test_url = resource.url
@@ -96,14 +88,13 @@ def test_org_resource_create_403():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     response = client.post(
-        path="/v1/communities/organization_resources",
+        path="/v1/events/event_resources",
         data={
             "name": test_name,
             "description": test_desc,
             "url": test_url,
             "order": test_order,
-            "org": org.id,
-            "topic": [topic.type],
+            "event": event.id,
         },
     )
 
@@ -112,5 +103,5 @@ def test_org_resource_create_403():
     assert response.status_code == 403
     assert (
         response_body["detail"]
-        == "You are not authorized to create resource for this organization."
+        == "You are not authorized to create Resources for this event."
     )
