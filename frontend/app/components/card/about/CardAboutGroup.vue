@@ -36,7 +36,7 @@
           </div> -->
         <div class="flex items-center gap-3">
           <MetaTagLocation
-            v-if="group.location"
+            v-if="group?.location"
             :location="group.location.displayName.split(',')[0] ?? ''"
           />
           <!-- <MetaTagMembers
@@ -51,7 +51,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ group.texts.description }}
+            {{ group?.texts?.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -90,6 +90,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetGroup } from "~/composables/queries/useGetGroup";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
@@ -97,11 +98,9 @@ const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 const { userIsSignedIn } = useUser();
 
 const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-const { group } = groupStore;
+const { data: group } = useGetGroup(groupId);
 
 const description = ref();
 const descriptionExpandable = ref(false);

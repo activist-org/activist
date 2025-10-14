@@ -4,13 +4,12 @@
     <ModalUploadImageGroup
       @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
-      :entityId="group.id || ''"
-      :images="group.images || []"
+      :entityId="group?.id || ''"
+      :images="images || []"
     />
     <ModalUploadImageIcon
       @closeModal="handleCloseModalUploadImageIcon"
-      @upload-complete="groupStore.fetchById(group.id)"
-      :entityId="group.id || ''"
+      :entityId="group?.id || ''"
       :entityType="EntityType.GROUP"
     />
     <SidebarLeft
@@ -23,10 +22,11 @@
     />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
       <div
+        v-if="group && images"
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage :group="group" />
+        <NuxtPage :group="group" :images="images" />
       </div>
       <FooterWebsite
         class="pb-24 transition-[padding] duration-500 md:pb-12"
@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { useGetGroup } from "~/composables/queries/useGetGroup";
+import { useGetGroupImages } from "~/composables/queries/useGetGroupImages";
 import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
@@ -47,10 +49,9 @@ const aboveMediumBP = useBreakpoint("md");
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-await groupStore.fetchImages(groupId as string);
-const { group } = groupStore;
+const { data: group } = useGetGroup(groupId ?? "");
+const { data: images } = useGetGroupImages(groupId ?? "");
+
 const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
   "ModalUploadImageGroup"
 );
