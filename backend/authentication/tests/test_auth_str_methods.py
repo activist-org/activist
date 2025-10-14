@@ -18,7 +18,9 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-# MARK: Str methods
+# MARK: Str Methods
+
+
 def test_str_methods() -> None:
     """
     Test the __str__ methods of models in the authentication app.

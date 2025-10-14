@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
 import uuid
 
@@ -13,6 +14,8 @@ pytestmark = pytest.mark.django_db
 
 
 # MARK: Verify Email
+
+
 def test_verify_email(client: APIClient) -> None:
     """
     Test email verification view.

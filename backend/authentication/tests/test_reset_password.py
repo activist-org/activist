@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
 
 import pytest
@@ -11,7 +12,9 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-# MARK: Password reset
+# MARK: Password Reset
+
+
 def test_pwreset(client: APIClient) -> None:
     """
     Test password reset view.

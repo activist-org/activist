@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
 
 import pytest
@@ -11,6 +12,8 @@ pytestmark = pytest.mark.django_db
 
 
 # MARK: Sign In
+
+
 def test_sign_in(client: APIClient) -> None:
     """
     Test sign in view.

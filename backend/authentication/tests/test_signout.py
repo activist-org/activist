@@ -16,6 +16,8 @@ logger = logging.getLogger(__name__)
 
 pytestmark = pytest.mark.django_db
 
+# MARK: Sign Out
+
 
 def test_signout_successful_logout():
     """

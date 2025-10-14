@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
 import uuid
 
@@ -12,7 +13,9 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-# MARK: Verify Email for password reset
+# MARK: Verify Email Pwd Reset
+
+
 def test_verify_email_for_reset_password(client: APIClient) -> None:
     """
     Test email verification view.

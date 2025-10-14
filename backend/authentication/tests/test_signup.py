@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
 from uuid import UUID
 
@@ -13,7 +14,9 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-# MARK: Sign up
+# MARK: Sign Up
+
+
 def test_sign_up(client: APIClient) -> None:
     """
     Test the sign-up function.

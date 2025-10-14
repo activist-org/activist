@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
 
 import pytest
@@ -10,6 +11,8 @@ pytestmark = pytest.mark.django_db
 
 
 # MARK: Create User and SuperUser
+
+
 def test_create_user_and_superuser():
     """
     Test create_user and create_superuser methods of the CustomAccountManager.

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
 
 import pytest
@@ -13,6 +14,8 @@ pytestmark = pytest.mark.django_db
 
 
 # MARK: Delete User
+
+
 def test_delete_user_204() -> None:
     """
     Test the deletion of existing user records from the database.
