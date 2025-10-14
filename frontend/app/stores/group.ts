@@ -32,22 +32,27 @@ export const useGroupStore = defineStore("group", {
     setGroup(group: Group) {
       this.group = group;
     },
+
     setGroups(groups: Group[]) {
       this.groups = groups;
     },
+
     setGroupImages(images: ContentImage[]) {
       this.images = images;
     },
+
     clearGroupImages(id: string) {
       if (this.group.id === id) {
         this.images = [];
       }
     },
+
     clearGroup(id: string) {
       if (this.group.id === id) {
         this.group = null as unknown as Group;
       }
     },
+
     clearGroups() {
       this.groups = [];
     },

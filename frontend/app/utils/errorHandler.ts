@@ -34,11 +34,13 @@ const statusToCause: Record<number, AppErrorCause> = {
 };
 
 const getCauseFromStatus = (status?: number): AppErrorCause => {
-  if (!status) return AppErrorCause.UNKNOWN;
+  if (!status) {
+    return AppErrorCause.UNKNOWN;
+  }
   return statusToCause[status] || AppErrorCause.UNKNOWN;
 };
 
-// Handle the various error payload shapes your backend sends
+// Handle the various error payload shapes your backend sends.
 interface ServerErrorData {
   message?: string;
   error?: string;
@@ -50,18 +52,28 @@ interface ServerErrorData {
 }
 
 function extractMessage(data: unknown): string | undefined {
-  // Handle string payload (like your sign-up form gets)
-  if (typeof data === "string") return data;
+  // Handle string payload (like your sign-up form gets).
+  if (typeof data === "string") {
+    return data;
+  }
 
-  // Handle object payload
+  // Handle object payload.
   if (data && typeof data === "object") {
     const errorData = data as ServerErrorData;
 
-    // Try standard error fields first
-    if (errorData.message) return errorData.message;
-    if (errorData.error) return errorData.error;
-    if (errorData.detail) return errorData.detail;
-    if (Array.isArray(errorData.errors)) return errorData.errors.join(", ");
+    // Try standard error fields first.
+    if (errorData.message) {
+      return errorData.message;
+    }
+    if (errorData.error) {
+      return errorData.error;
+    }
+    if (errorData.detail) {
+      return errorData.detail;
+    }
+    if (Array.isArray(errorData.errors)) {
+      return errorData.errors.join(", ");
+    }
 
     // Fall back to joining all string values (your current approach)
     const values = Object.values(errorData)
@@ -80,7 +92,9 @@ function extractMessage(data: unknown): string | undefined {
  * Infers the error cause from the response and normalizes it into an AppError.
  */
 export function errorHandler(e: unknown): AppError {
-  if (e instanceof AppError) return e;
+  if (e instanceof AppError) {
+    return e;
+  }
 
   if (!(e instanceof Error)) {
     return new AppError("Something went wrong", AppErrorCause.UNKNOWN);

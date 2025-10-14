@@ -8,9 +8,9 @@ import type { AppError } from "~/utils/errorHandler";
 
 import {
   createGroupResource,
-  updateGroupResource,
   reorderGroupResources,
-} from "~/services/group";
+  updateGroupResource,
+} from "~/services/communities/group/resource";
 
 export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -20,18 +20,20 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
 
   const currentGroupId = computed(() => unref(groupId));
 
-  // Create new resource
+  // Create new resource.
   async function createResource(resourceData: ResourceInput) {
-    if (!currentGroupId.value) return false;
+    if (!currentGroupId.value) {
+      return false;
+    }
 
     loading.value = true;
     error.value = null;
 
     try {
-      // Service function handles the HTTP call and throws normalized errors
+      // Service function handles the HTTP call and throws normalized errors.
       await createGroupResource(currentGroupId.value, resourceData as Resource);
 
-      // Refresh the group data to get the new resource
+      // Refresh the group data to get the new resource.
       await refreshGroupData();
 
       return true;
@@ -43,16 +45,16 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Update existing resource
+  // Update existing resource.
   async function updateResource(resource: ResourceInput) {
     loading.value = true;
     error.value = null;
 
     try {
-      // Direct service call - no useAsyncData needed for mutations
+      // Direct service call - no useAsyncData needed for mutations.
       await updateGroupResource(resource);
 
-      // Invalidate cache and refetch fresh data
+      // Invalidate cache and refetch fresh data.
       await refreshGroupData();
 
       return true;
@@ -64,7 +66,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Reorder multiple resource entries
+  // Reorder multiple resource entries.
   async function reorderResources(resources: Resource[]) {
     loading.value = true;
     error.value = null;
@@ -72,7 +74,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     try {
       await reorderGroupResources(resources);
 
-      // Refresh to get the updated order
+      // Refresh to get the updated order.
       await refreshGroupData();
 
       return true;
@@ -84,10 +86,12 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Helper to refresh group data after mutations
+  // Helper to refresh group data after mutations.
   async function refreshGroupData() {
-    if (!currentGroupId.value) return;
-    // Invalidate the useAsyncData cache so next read will refetch
+    if (!currentGroupId.value) {
+      return;
+    }
+    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(`group:${currentGroupId.value}`);
   }
 

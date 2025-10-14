@@ -7,11 +7,11 @@ import type { SocialLinkFormData } from "~/types/content/social-link";
 import type { AppError } from "~/utils/errorHandler";
 
 import {
-  updateGroupSocialLink,
   createGroupSocialLinks,
   deleteGroupSocialLink,
   replaceAllGroupSocialLinks,
-} from "~/services/group";
+  updateGroupSocialLink,
+} from "~/services/communities/group/social-link";
 
 export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -21,12 +21,14 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
 
   const currentGroupId = computed(() => unref(groupId));
 
-  // Update a single social link
+  // Update a single social link.
   async function updateLink(
     linkId: string,
     data: { link: string; label: string; order: number }
   ) {
-    if (!currentGroupId.value) return false;
+    if (!currentGroupId.value) {
+      return false;
+    }
 
     loading.value = true;
     error.value = null;
@@ -37,7 +39,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
         group: currentGroupId.value,
       });
 
-      // Refresh the group data to get updated links
+      // Refresh the group data to get updated links.
       await refreshGroupData();
 
       return true;
@@ -49,9 +51,11 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Create multiple social links
+  // Create multiple social links.
   async function createLinks(links: SocialLinkFormData[]) {
-    if (!currentGroupId.value || !links.length) return false;
+    if (!currentGroupId.value || !links.length) {
+      return false;
+    }
 
     loading.value = true;
     error.value = null;
@@ -59,7 +63,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await createGroupSocialLinks(currentGroupId.value, links);
 
-      // Refresh the group data to get updated links
+      // Refresh the group data to get updated links.
       await refreshGroupData();
 
       return true;
@@ -71,7 +75,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Delete a single social link
+  // Delete a single social link.
   async function deleteLink(linkId: string) {
     loading.value = true;
     error.value = null;
@@ -79,7 +83,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await deleteGroupSocialLink(linkId);
 
-      // Refresh the group data to get updated links
+      // Refresh the group data to get updated links.
       await refreshGroupData();
 
       return true;
@@ -91,11 +95,13 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Replace all social links (delete all + create new ones)
+  // Replace all social links (delete all + create new ones).
   async function replaceAllLinks(
     links: { link: string; label: string; order: number }[]
   ) {
-    if (!currentGroupId.value) return false;
+    if (!currentGroupId.value) {
+      return false;
+    }
 
     loading.value = true;
     error.value = null;
@@ -103,7 +109,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await replaceAllGroupSocialLinks(currentGroupId.value, links);
 
-      // Refresh the group data to get updated links
+      // Refresh the group data to get updated links.
       await refreshGroupData();
 
       return true;
@@ -115,11 +121,13 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Helper to refresh group data after mutations
+  // Helper to refresh group data after mutations.
   async function refreshGroupData() {
-    if (!currentGroupId.value) return;
+    if (!currentGroupId.value) {
+      return;
+    }
 
-    // Refresh the useAsyncData cache
+    // Refresh the useAsyncData cache.
     await refreshNuxtData(`group:${currentGroupId.value}`);
   }
 

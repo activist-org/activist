@@ -79,7 +79,7 @@ import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
 
-import { getGroup } from "~/services/group";
+import { getGroup } from "~/services/communities/group/group";
 
 const url = window.location.href;
 let pageType = "";
