@@ -119,7 +119,9 @@ async function handleSubmit(values: unknown) {
         );
         if (
           existing &&
-          (existing.link !== formLink.link || existing.label !== formLink.label)
+          (existing.link !== formLink.link ||
+            existing.label !== formLink.label ||
+            existing.order !== formIndex)
         ) {
           const success = await updateLink(refItem.id, {
             link: formLink.link,
