@@ -11,7 +11,7 @@ import {
   createEventSocialLinks,
   deleteEventSocialLink,
   replaceAllEventSocialLinks,
-} from "~/services/event";
+} from "~/services/event/social-link";
 
 export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();

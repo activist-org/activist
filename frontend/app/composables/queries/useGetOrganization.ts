@@ -4,48 +4,51 @@
 
 import type { MaybeRef } from "vue";
 
-import type { Event } from "~/types/events/event";
+import type { Organization } from "~/types/communities/organization";
 import type { AppError } from "~/utils/errorHandler";
 
-import { getEvent } from "~/services/event/event";
-import { useEventStore } from "~/stores/event";
+import { getOrganization } from "~/services/communities/organization/organization";
+import { useOrganizationStore } from "~/stores/organization";
 
-export function useGetEvent(id: MaybeRef<string>) {
+export function useGetOrganization(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
-  const eventId = computed(() => String(unref(id)));
-  const store = useEventStore();
+  const organizationId = computed(() => String(unref(id)));
+  const store = useOrganizationStore();
 
   // Cache key for useAsyncData
-  const key = computed(() => (eventId.value ? `event:${eventId.value}` : null));
+  const key = computed(() =>
+    organizationId.value ? `organization:${organizationId.value}` : null
+  );
 
   // Check if we have cached data
-  const cached = computed<Event | null>(() =>
-    store.getEvent() &&
-    store.getEvent().id !== "" &&
-    store.getEvent().id === eventId.value
-      ? store.getEvent()
+  const cached = computed<Organization | null>(() =>
+    store.getOrganization() &&
+    store.getOrganization().id !== "" &&
+    store.getOrganization().id === organizationId.value
+      ? store.getOrganization()
       : null
   );
 
   // Only fetch if we have an ID and no cached data
-  const shouldFetch = computed(() => !!eventId.value && !cached.value);
+  const shouldFetch = computed(() => !!organizationId.value && !cached.value);
 
   const query = useAsyncData(
-    `event:${eventId.value}`,
+    `organization:${organizationId.value}`,
     async () => {
-      if (!eventId.value && eventId.value === "") return null;
+      if (!organizationId.value && organizationId.value === "") return null;
+
       try {
-        const event = await getEvent(eventId.value);
+        const organization = await getOrganization(organizationId.value);
         // Cache the result in store
-        store.setEvent(event);
-        return event as Event;
+        store.setOrganization(organization);
+        return organization;
       } catch (error) {
         showToastError((error as AppError).message);
         throw error;
       }
     },
     {
-      watch: [eventId],
+      watch: [organizationId],
       immediate: shouldFetch.value,
       dedupe: "defer",
       // Don't execute on server if we already have cached data
@@ -54,10 +57,10 @@ export function useGetEvent(id: MaybeRef<string>) {
   );
 
   // Return cached data if available, otherwise data from useAsyncData
-  const data = computed<Event | null>(() =>
+  const data = computed<Organization | null>(() =>
     cached.value && cached.value.id !== ""
       ? cached.value
-      : (query.data.value as Event | null)
+      : (query.data.value as Organization | null)
   );
 
   // Only show pending when we're actually fetching (not when using cache)

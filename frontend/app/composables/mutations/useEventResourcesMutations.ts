@@ -10,7 +10,7 @@ import {
   createEventResource,
   updateEventResource,
   reorderEventResources,
-} from "~/services/event";
+} from "~/services/event/resource";
 
 export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();

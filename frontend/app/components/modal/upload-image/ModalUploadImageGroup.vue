@@ -54,14 +54,15 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const groupStore = useGroupStore();
+const entityId = computed(() => props.entityId);
 const { images: groupImages } = groupStore;
-const { updateImage, uploadImages } = useGroupImageMutations(props.entityId);
+const { updateImage, uploadImages } = useGroupImageMutations(entityId);
 const files = ref<FileUploadMix[]>([]);
 
 watch(
-  props,
+  groupImages,
   (newValueFilesImages) => {
-    const images = (newValueFilesImages.images ?? []).map((image, index) => ({
+    const images = (newValueFilesImages ?? []).map((image, index) => ({
       type: "file",
       data: image,
       sequence: index,
@@ -110,7 +111,7 @@ const handleUpload = async () => {
       })
     ) as FileUploadMix[];
     modals.closeModal(modalName);
-    emit("upload-complete", props.entityId);
+    emit("upload-complete", entityId.value);
     uploadError.value = false;
   } catch (error) {
     emit("upload-error");

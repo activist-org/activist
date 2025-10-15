@@ -13,6 +13,9 @@
 <script setup lang="ts">
 import type { FaqEntry } from "~/types/content/faq-entry";
 
+import { useOrganizationFAQEntryMutations } from "~/composables/mutations/useOrganizationFAQEntryMutations";
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
+
 const props = defineProps<{
   faqEntry?: FaqEntry;
 }>();
@@ -24,14 +27,13 @@ const { handleCloseModal } = useModalHandlers(modalName);
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(orgId || "");
+const { createFAQ, updateFAQ } = useOrganizationFAQEntryMutations(orgId || "");
 
 const formData = ref({
   id: "",
   iso: "en",
-  order: (organization.faqEntries ?? []).length,
+  order: (organization.value?.faqEntries ?? []).length,
   question: "",
   answer: "",
 });
@@ -73,14 +75,8 @@ async function handleSubmit(values: unknown) {
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
   updateResponse = isAddMode
-    ? await organizationStore.createFaqEntry(
-        organization,
-        newValues as FaqEntry
-      )
-    : await organizationStore.updateFaqEntry(
-        organization,
-        newValues as FaqEntry
-      );
+    ? await createFAQ(newValues as FaqEntry)
+    : await updateFAQ(newValues as FaqEntry);
 
   if (updateResponse) {
     handleCloseModal();

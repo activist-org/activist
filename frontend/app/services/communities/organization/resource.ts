@@ -7,14 +7,14 @@ import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Create
 
-export async function createEventResource(
-  eventId: string,
+export async function createOrganizationResource(
+  orgId: string,
   input: ResourceInput
 ): Promise<void> {
   try {
     await post(
-      `/events/event_resources`,
-      { ...input, event: eventId },
+      `/communities/organization_resources`,
+      { ...input, org: orgId },
       { headers: { "Content-Type": "application/json" } }
     );
   } catch (e) {
@@ -25,11 +25,14 @@ export async function createEventResource(
 
 // MARK: Update
 
-export async function updateEventResource(input: ResourceInput): Promise<void> {
+export async function updateOrganizationResource(
+  orgId: string,
+  input: ResourceInput
+): Promise<void> {
   try {
     await put(
-      `/events/event_resources/${input.id}`,
-      { ...input },
+      `/communities/organization_resources/${input.id}`,
+      { ...input, org: orgId },
       { headers: { "Content-Type": "application/json" } }
     );
   } catch (e) {
@@ -40,8 +43,8 @@ export async function updateEventResource(input: ResourceInput): Promise<void> {
 
 // MARK: Reorder
 
-export async function reorderEventResources(
-  eventId: string,
+export async function reorderOrganizationResources(
+  orgId: string,
   resources: Resource[]
 ): Promise<void> {
   try {
@@ -52,7 +55,7 @@ export async function reorderEventResources(
           {
             id: resource.id,
             order: resource.order,
-            event: eventId,
+            org: orgId,
           },
           { headers: { "Content-Type": "application/json" } }
         )

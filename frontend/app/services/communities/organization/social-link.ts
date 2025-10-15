@@ -7,20 +7,20 @@ import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Create
 
-export async function createEventSocialLinks(
-  eventId: string,
+export async function createOrganizationSocialLinks(
+  organizationId: string,
   links: SocialLinkFormData[]
 ): Promise<void> {
   try {
     await Promise.all(
       links.map((data) =>
         post(
-          `/events/event_social_links`,
+          `/communities/organization_social_links`,
           {
             link: data.link,
             label: data.label,
             order: data.order,
-            event: eventId,
+            org: organizationId,
           },
           { headers: { "Content-Type": "application/json" } }
         )
@@ -34,14 +34,22 @@ export async function createEventSocialLinks(
 
 // MARK: Update
 
-export async function updateEventSocialLink(
+export async function updateOrganizationSocialLink(
+  organizationId: string,
   linkId: string,
-  data: { link: string; label: string; order: number; event: string }
+  data: { link: string; label: string; order: number }
 ): Promise<void> {
   try {
-    await put(`/events/event_social_links/${linkId}`, data, {
-      headers: { "Content-Type": "application/json" },
-    });
+    await put(
+      `/communities/organization_social_links/${linkId}`,
+      {
+        ...data,
+        org: organizationId,
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (e) {
     const err = errorHandler(e);
     throw err;
@@ -50,9 +58,11 @@ export async function updateEventSocialLink(
 
 // MARK: Delete
 
-export async function deleteEventSocialLink(linkId: string): Promise<void> {
+export async function deleteOrganizationSocialLink(
+  linkId: string
+): Promise<void> {
   try {
-    await del(`/events/event_social_links/${linkId}`);
+    await del(`/communities/organization_social_links/${linkId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
@@ -62,22 +72,22 @@ export async function deleteEventSocialLink(linkId: string): Promise<void> {
 // MARK: Replace All
 
 // Note: Deletes all links then recreates.
-export async function replaceAllEventSocialLinks(
-  eventId: string,
+export async function replaceAllOrganizationSocialLinks(
+  organizationId: string,
   links: { link: string; label: string; order: number }[]
 ): Promise<void> {
   try {
     // Backend expects a placeholder payload to bulk-delete.
-    await del(`/events/event_social_links`, {
+    await del(`/communities/organization_social_links`, {
       // Ensure JSON content-type for bodies on DELETE if your backend needs it.
       headers: { "Content-Type": "application/json" },
       body: {
         link: "https://www.example.com",
         label: "placeholder",
-        event: eventId,
+        org: organizationId,
       },
     });
-    await createEventSocialLinks(eventId, links);
+    await createOrganizationSocialLinks(organizationId, links);
   } catch (e) {
     const err = errorHandler(e);
     throw err;

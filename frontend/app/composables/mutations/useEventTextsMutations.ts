@@ -6,7 +6,7 @@ import type { MaybeRef } from "vue";
 import type { EventUpdateTextFormData } from "~/types/events/event";
 import type { AppError } from "~/utils/errorHandler";
 
-import { updateEventTexts } from "~/services/event";
+import { updateEventTexts } from "~/services/event/text";
 
 export function useEventTextsMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();

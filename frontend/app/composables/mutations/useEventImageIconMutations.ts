@@ -5,7 +5,7 @@ import type { MaybeRef } from "vue";
 
 import type { UploadableFile } from "~/types/content/file";
 
-import { uploadEventIconImage } from "~/services/event";
+import { uploadEventIconImage } from "~/services/event/image";
 import { errorHandler } from "~/utils/errorHandler";
 
 export function useEventImageIconMutations(eventId: MaybeRef<string>) {

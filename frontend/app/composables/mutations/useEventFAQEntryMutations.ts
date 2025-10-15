@@ -10,7 +10,7 @@ import {
   createEventFaq,
   updateEventFaq,
   reorderEventFaqs,
-} from "~/services/event";
+} from "~/services/event/faq";
 
 export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();

@@ -2,7 +2,7 @@
 import type { Event as EventT, EventFilters } from "~/types/events/event";
 
 import { useToaster } from "~/composables/useToaster";
-import { listEvents } from "~/services/event";
+import { listEvents } from "~/services/event/event";
 import { useEventStore } from "~/stores/event";
 
 export function useGetEvents(

@@ -41,8 +41,9 @@ import type {
   UploadableFile,
 } from "~/types/content/file";
 
+import { useOrganizationImageMutations } from "~/composables/mutations/useOrganizationImageMutations";
+import { useGetOrganizationImages } from "~/composables/queries/useGetOrganizationImages";
 import { IconMap } from "~/types/icon-map";
-
 interface Props {
   entityId: string;
   uploadLimit?: number;
@@ -51,16 +52,15 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
-
-const organizationStore = useOrganizationStore();
-const { organization } = useOrganizationStore();
-
+const entityId = computed(() => props.entityId);
+const { data: organizationImages } = useGetOrganizationImages(entityId);
+const { updateImage, uploadImages } = useOrganizationImageMutations(entityId);
 const files = ref<FileUploadMix[]>([]);
 
 watch(
-  props,
+  organizationImages,
   (newValueFilesImages) => {
-    const images = (newValueFilesImages.images ?? []).map((image, index) => ({
+    const images = (newValueFilesImages ?? []).map((image, index) => ({
       type: "file",
       data: image,
       sequence: index,
@@ -88,7 +88,7 @@ const handleUpload = async () => {
     if (imageFiles && imageFiles.length > 0) {
       await Promise.all(
         imageFiles.map((image) =>
-          organizationStore.updateImage(props.entityId, {
+          updateImage({
             ...image.data,
             sequence_index: image.sequence,
           } as ContentImage)
@@ -96,13 +96,12 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await organizationStore.uploadFiles(
-        props.entityId,
+      await uploadImages(
         uploadFiles.map((file) => file.data as UploadableFile),
         uploadFiles.map((file) => file.sequence)
       );
     }
-    files.value = (organization.images || []).map(
+    files.value = (organizationImages.value || []).map(
       (image: ContentImage, index: number) => ({
         type: "file",
         data: image,
@@ -110,7 +109,7 @@ const handleUpload = async () => {
       })
     ) as FileUploadMix[];
     modals.closeModal(modalName);
-    emit("upload-complete", props.entityId);
+    emit("upload-complete", entityId.value);
     uploadError.value = false;
   } catch (error) {
     emit("upload-error");

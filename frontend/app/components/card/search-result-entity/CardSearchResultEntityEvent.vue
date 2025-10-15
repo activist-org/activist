@@ -97,7 +97,7 @@ const imageAlt = computed(() => {
 });
 
 const imageUrl = computed(() => {
-  if (props.event.iconUrl?.fileObject) {
+  if (props.event?.iconUrl?.fileObject) {
     return `${BASE_BACKEND_URL_NO_V1}${props.event.iconUrl.fileObject}`;
   }
   return "";

@@ -7,19 +7,19 @@ import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Create
 
-export async function createEventFaq(
-  eventId: string,
+export async function createOrganizationFaq(
+  organizationId: string,
   faq: FaqEntry
 ): Promise<void> {
   try {
     await post(
-      `/events/event_faqs`,
+      `/communities/organization_faqs`,
       {
         iso: faq.iso,
         order: faq.order,
         question: faq.question,
         answer: faq.answer,
-        event: eventId,
+        org: organizationId,
       },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -31,10 +31,10 @@ export async function createEventFaq(
 
 // MARK: Update
 
-export async function updateEventFaq(faq: FaqEntry): Promise<void> {
+export async function updateOrganizationFaq(faq: FaqEntry): Promise<void> {
   try {
     await put(
-      `/events/event_faqs/${faq.id}`,
+      `/communities/organization_faqs/${faq.id}`,
       {
         id: faq.id,
         question: faq.question,
@@ -50,11 +50,15 @@ export async function updateEventFaq(faq: FaqEntry): Promise<void> {
 
 // MARK: Reorder
 
-export async function reorderEventFaqs(faqs: FaqEntry[]): Promise<void> {
+export async function reorderOrganizationFaqs(faqs: FaqEntry[]): Promise<void> {
   try {
     await Promise.all(
       faqs.map(
-        (f) => put(`/events/event_faqs/${f.id}`, { id: f.id, order: f.order }),
+        (f) =>
+          put(`/communities/organization_faqs/${f.id}`, {
+            id: f.id,
+            order: f.order,
+          }),
         { headers: { "Content-Type": "application/json" } }
       )
     );
