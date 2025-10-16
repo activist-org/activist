@@ -8,6 +8,8 @@ import type { AppError } from "~/utils/errorHandler";
 
 import { updateGroupTexts } from "~/services/communities/group/text";
 
+import { getKeyForGetGroup } from "../queries/useGetGroup";
+
 export function useGroupTextsMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -47,7 +49,7 @@ export function useGroupTextsMutations(groupId: MaybeRef<string>) {
     }
 
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`group:${currentGroupId.value}`);
+    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
   return {

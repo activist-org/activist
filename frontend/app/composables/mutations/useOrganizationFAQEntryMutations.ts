@@ -12,6 +12,8 @@ import {
   updateOrganizationFaq,
 } from "~/services/communities/organization/faq";
 
+import { getKeyForGetOrganization } from "../queries/useGetOrganization";
+
 export function useOrganizationFAQEntryMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -98,7 +100,9 @@ export function useOrganizationFAQEntryMutations(
     }
 
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`organization:${currentOrganizationId.value}`);
+    await refreshNuxtData(
+      getKeyForGetOrganization(currentOrganizationId.value)
+    );
   }
 
   return {

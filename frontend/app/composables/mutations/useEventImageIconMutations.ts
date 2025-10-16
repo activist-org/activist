@@ -8,6 +8,8 @@ import type { UploadableFile } from "~/types/content/file";
 import { uploadEventIconImage } from "~/services/event/image";
 import { errorHandler } from "~/utils/errorHandler";
 
+import { getKeyForGetEvent } from "../queries/useGetEvent";
+
 export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -44,7 +46,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
     if (!currentEventId.value) return;
 
     // Invalidate the useAsyncData cache so next read will refetch
-    await refreshNuxtData(`event:${currentEventId.value}`);
+    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 
   return {

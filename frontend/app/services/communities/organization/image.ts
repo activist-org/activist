@@ -44,7 +44,7 @@ export async function updateOrganizationImage(
 
 // MARK: Fetch
 
-export async function fetchGroupImages(
+export async function fetchOrganizationImages(
   entityId: string
 ): Promise<ContentImage[]> {
   try {
@@ -65,7 +65,7 @@ export async function uploadOrganizationImages(
   try {
     const fd = new FormData();
     fd.append("entity_id", organizationId);
-    fd.append("entity_type", "organization"); // backend expects EntityType.ORGANIZATION; if you have enum, adjust
+    fd.append("entity_type", EntityType.ORGANIZATION); // backend expects EntityType.ORGANIZATION; if you have enum, adjust
     for (const s of sequences) fd.append("sequences", String(s));
     for (const f of files) fd.append("file_object", f.file);
 

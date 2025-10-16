@@ -5,6 +5,9 @@ import { useToaster } from "~/composables/useToaster";
 import { listEvents } from "~/services/event/event";
 import { useEventStore } from "~/stores/event";
 
+export const getKeyForGetEvents = (filters: EventFilters) =>
+  `events-list:${JSON.stringify(filters)}`;
+
 export function useGetEvents(
   filters: Ref<EventFilters> | ComputedRef<EventFilters>
 ) {
@@ -13,7 +16,7 @@ export function useGetEvents(
 
   // UseAsyncData for SSR, hydration, and cache
   const { data, pending, error, refresh } = useAsyncData<EventT[]>(
-    () => `events-list:${JSON.stringify(unref(filters))}`,
+    () => getKeyForGetEvents(unref(filters)),
     async () => {
       try {
         const events = await listEvents(unref(filters));
@@ -27,8 +30,14 @@ export function useGetEvents(
     {
       watch: [filters],
       immediate: true,
-      server: false,
-      lazy: true,
+      getCachedData: (key, nuxtApp) => {
+        if (store.getEvents().length > 0) {
+          return store.getEvents();
+        }
+        return nuxtApp.isHydrating
+          ? nuxtApp.payload.data[key]
+          : nuxtApp.static.data[key];
+      },
       default: () => [],
     }
   );

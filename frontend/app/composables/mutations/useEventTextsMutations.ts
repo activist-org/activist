@@ -8,6 +8,8 @@ import type { AppError } from "~/utils/errorHandler";
 
 import { updateEventTexts } from "~/services/event/text";
 
+import { getKeyForGetEvent } from "../queries/useGetEvent";
+
 export function useEventTextsMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -44,7 +46,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
     if (!currentEventId.value) return;
 
     // Invalidate the useAsyncData cache so next read will refetch
-    await refreshNuxtData(`event:${currentEventId.value}`);
+    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 
   return {

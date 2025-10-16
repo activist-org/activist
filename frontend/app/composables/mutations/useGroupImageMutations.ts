@@ -11,6 +11,8 @@ import {
   uploadGroupImages,
 } from "~/services/communities/group/image";
 
+import { getKeyForGetGroupImages } from "../queries/useGetGroupImages";
+
 export function useGroupImageMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -75,7 +77,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
     }
 
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`groupImages:${currentGroupId.value}`);
+    await refreshNuxtData(getKeyForGetGroupImages(currentGroupId.value));
   }
 
   return {

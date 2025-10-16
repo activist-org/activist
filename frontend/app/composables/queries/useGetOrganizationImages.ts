@@ -7,8 +7,11 @@ import type { MaybeRef } from "vue";
 import type { ContentImage } from "~/types/content/file";
 import type { AppError } from "~/utils/errorHandler";
 
-import { fetchGroupImages } from "~/services/communities/group/image";
+import { fetchOrganizationImages } from "~/services/communities/organization/image";
 import { useOrganizationStore } from "~/stores/organization";
+
+export const getKeyForGetOrganizationImages = (id: string) =>
+  `organizationImages:${id}`;
 
 export function useGetOrganizationImages(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -16,7 +19,9 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
   const store = useOrganizationStore();
   // Cache key for useAsyncData.
   const key = computed(() =>
-    organizationId.value ? `organizationImages:${organizationId.value}` : null
+    organizationId.value
+      ? getKeyForGetOrganizationImages(organizationId.value)
+      : null
   );
 
   // Check if we have cached data.
@@ -28,14 +33,14 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
   );
 
   const query = useAsyncData(
-    `organizationImages:${organizationId.value}`,
+    getKeyForGetOrganizationImages(organizationId.value),
     async () => {
       if (!organizationId.value) {
         return null;
       }
 
       try {
-        const images = await fetchGroupImages(organizationId.value);
+        const images = await fetchOrganizationImages(organizationId.value);
         // Cache the result in store.
         store.setImages(images);
         return images;
@@ -46,10 +51,15 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
     },
     {
       watch: [organizationId],
-      immediate: shouldFetch.value,
       dedupe: "defer",
-      // Don't execute on server if we already have cached data.
-      server: shouldFetch.value,
+      getCachedData: (key, nuxtApp) => {
+        if (nuxtApp.isHydrating && store.getImages().length > 0) {
+          return store.getImages();
+        }
+        return nuxtApp.isHydrating
+          ? nuxtApp.payload.data[key]
+          : nuxtApp.static.data[key];
+      },
     }
   );
 

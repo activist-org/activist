@@ -12,6 +12,8 @@ import {
   updateOrganizationResource,
 } from "~/services/communities/organization/resource";
 
+import { getKeyForGetOrganization } from "../queries/useGetOrganization";
+
 export function useOrganizationResourcesMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -100,7 +102,9 @@ export function useOrganizationResourcesMutations(
       return;
     }
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`organization:${currentOrganizationId.value}`);
+    await refreshNuxtData(
+      getKeyForGetOrganization(currentOrganizationId.value)
+    );
   }
 
   return {

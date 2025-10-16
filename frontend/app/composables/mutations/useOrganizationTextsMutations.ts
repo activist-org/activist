@@ -8,6 +8,8 @@ import type { AppError } from "~/utils/errorHandler";
 
 import { updateOrganizationTexts } from "~/services/communities/organization/text";
 
+import { getKeyForGetOrganization } from "../queries/useGetOrganization";
+
 export function useOrganizationTextsMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -53,7 +55,9 @@ export function useOrganizationTextsMutations(
     }
 
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`organization:${currentOrganizationId.value}`);
+    await refreshNuxtData(
+      getKeyForGetOrganization(currentOrganizationId.value)
+    );
   }
 
   return {

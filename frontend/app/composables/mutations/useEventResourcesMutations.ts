@@ -12,6 +12,8 @@ import {
   reorderEventResources,
 } from "~/services/event/resource";
 
+import { getKeyForGetEvent } from "../queries/useGetEvent";
+
 export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -88,7 +90,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   async function refreshEventData() {
     if (!currentEventId.value) return;
     // Invalidate the useAsyncData cache so next read will refetch
-    await refreshNuxtData(`event:${currentEventId.value}`);
+    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 
   return {

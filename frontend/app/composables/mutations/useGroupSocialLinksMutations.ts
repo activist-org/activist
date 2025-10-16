@@ -13,6 +13,8 @@ import {
   updateGroupSocialLink,
 } from "~/services/communities/group/social-link";
 
+import { getKeyForGetGroup } from "../queries/useGetGroup";
+
 export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -128,7 +130,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
 
     // Refresh the useAsyncData cache.
-    await refreshNuxtData(`group:${currentGroupId.value}`);
+    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
   return {

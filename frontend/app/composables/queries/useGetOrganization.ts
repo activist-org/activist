@@ -10,6 +10,8 @@ import type { AppError } from "~/utils/errorHandler";
 import { getOrganization } from "~/services/communities/organization/organization";
 import { useOrganizationStore } from "~/stores/organization";
 
+export const getKeyForGetOrganization = (id: string) => `organization:${id}`;
+
 export function useGetOrganization(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
   const organizationId = computed(() => String(unref(id)));
@@ -17,23 +19,11 @@ export function useGetOrganization(id: MaybeRef<string>) {
 
   // Cache key for useAsyncData
   const key = computed(() =>
-    organizationId.value ? `organization:${organizationId.value}` : null
+    organizationId.value ? getKeyForGetOrganization(organizationId.value) : null
   );
-
-  // Check if we have cached data
-  const cached = computed<Organization | null>(() =>
-    store.getOrganization() &&
-    store.getOrganization().id !== "" &&
-    store.getOrganization().id === organizationId.value
-      ? store.getOrganization()
-      : null
-  );
-
-  // Only fetch if we have an ID and no cached data
-  const shouldFetch = computed(() => !!organizationId.value && !cached.value);
 
   const query = useAsyncData(
-    `organization:${organizationId.value}`,
+    getKeyForGetOrganization(organizationId.value),
     async () => {
       if (!organizationId.value && organizationId.value === "") return null;
 
@@ -49,24 +39,31 @@ export function useGetOrganization(id: MaybeRef<string>) {
     },
     {
       watch: [organizationId],
-      immediate: shouldFetch.value,
+      immediate: true,
       dedupe: "defer",
-      // Don't execute on server if we already have cached data
-      server: shouldFetch.value,
+      getCachedData: (key, nuxtApp) => {
+        if (
+          nuxtApp.isHydrating &&
+          store.getOrganization() &&
+          store.getOrganization().id !== "" &&
+          store.getOrganization().id === organizationId.value
+        ) {
+          return store.getOrganization();
+        }
+        return nuxtApp.isHydrating
+          ? nuxtApp.payload.data[key]
+          : nuxtApp.static.data[key];
+      },
     }
   );
 
   // Return cached data if available, otherwise data from useAsyncData
-  const data = computed<Organization | null>(() =>
-    cached.value && cached.value.id !== ""
-      ? cached.value
-      : (query.data.value as Organization | null)
+  const data = computed<Organization | null>(
+    () => query.data.value as Organization | null
   );
 
   // Only show pending when we're actually fetching (not when using cache)
-  const pending = computed(() =>
-    shouldFetch.value ? query.pending.value : false
-  );
+  const pending = computed(() => query.pending.value);
 
   async function refresh() {
     if (!key.value) return;

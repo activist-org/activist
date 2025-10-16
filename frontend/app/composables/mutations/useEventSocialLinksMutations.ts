@@ -13,6 +13,8 @@ import {
   replaceAllEventSocialLinks,
 } from "~/services/event/social-link";
 
+import { getKeyForGetEvent } from "../queries/useGetEvent";
+
 export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -119,7 +121,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     if (!currentEventId.value) return;
 
     // Refresh the useAsyncData cache
-    await refreshNuxtData(`event:${currentEventId.value}`);
+    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 
   return {

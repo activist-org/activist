@@ -12,6 +12,8 @@ import {
   updateGroupFaq,
 } from "~/services/communities/group/faq";
 
+import { getKeyForGetGroup } from "../queries/useGetGroup";
+
 export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -93,7 +95,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     }
 
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`group:${currentGroupId.value}`);
+    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
   return {

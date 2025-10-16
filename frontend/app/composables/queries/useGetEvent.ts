@@ -10,28 +10,20 @@ import type { AppError } from "~/utils/errorHandler";
 import { getEvent } from "~/services/event/event";
 import { useEventStore } from "~/stores/event";
 
+export const getKeyForGetEvent = (id: string) => `event:${id}`;
+
 export function useGetEvent(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
   const eventId = computed(() => String(unref(id)));
   const store = useEventStore();
 
   // Cache key for useAsyncData
-  const key = computed(() => (eventId.value ? `event:${eventId.value}` : null));
-
-  // Check if we have cached data
-  const cached = computed<Event | null>(() =>
-    store.getEvent() &&
-    store.getEvent().id !== "" &&
-    store.getEvent().id === eventId.value
-      ? store.getEvent()
-      : null
+  const key = computed(() =>
+    eventId.value ? getKeyForGetEvent(eventId.value) : null
   );
 
-  // Only fetch if we have an ID and no cached data
-  const shouldFetch = computed(() => !!eventId.value && !cached.value);
-
   const query = useAsyncData(
-    `event:${eventId.value}`,
+    getKeyForGetEvent(eventId.value),
     async () => {
       if (!eventId.value && eventId.value === "") return null;
       try {
@@ -46,24 +38,29 @@ export function useGetEvent(id: MaybeRef<string>) {
     },
     {
       watch: [eventId],
-      immediate: shouldFetch.value,
+      immediate: true,
       dedupe: "defer",
-      // Don't execute on server if we already have cached data
-      server: shouldFetch.value,
+      getCachedData: (key, nuxtApp) => {
+        if (
+          nuxtApp.isHydrating &&
+          store.getEvent() &&
+          store.getEvent().id !== "" &&
+          store.getEvent().id === eventId.value
+        ) {
+          return store.getEvent();
+        }
+        return nuxtApp.isHydrating
+          ? nuxtApp.payload.data[key]
+          : nuxtApp.static.data[key];
+      },
     }
   );
 
   // Return cached data if available, otherwise data from useAsyncData
-  const data = computed<Event | null>(() =>
-    cached.value && cached.value.id !== ""
-      ? cached.value
-      : (query.data.value as Event | null)
-  );
+  const data = computed<Event | null>(() => query.data.value as Event | null);
 
   // Only show pending when we're actually fetching (not when using cache)
-  const pending = computed(() =>
-    shouldFetch.value ? query.pending.value : false
-  );
+  const pending = computed(() => query.pending.value);
 
   async function refresh() {
     if (!key.value) return;

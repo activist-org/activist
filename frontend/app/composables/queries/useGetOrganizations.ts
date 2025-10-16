@@ -7,15 +7,18 @@ import type {
 import { useToaster } from "~/composables/useToaster";
 import { listOrganizations } from "~/services/communities/organization/organization";
 
+export const getKeyForGetOrganizations = (filters: OrganizationFilters) =>
+  `organizations-list:${JSON.stringify(filters)}`;
+
 export function useGetOrganizations(
   filters: Ref<OrganizationFilters> | ComputedRef<OrganizationFilters>
 ) {
   const store = useOrganizationStore();
   const { showToastError } = useToaster();
 
-  // UseAsyncData for SSR, hydration, and cache
+  // Use AsyncData for SSR, hydration, and cache
   const { data, pending, error, refresh } = useAsyncData<OrganizationT[]>(
-    () => `organizations-list:${JSON.stringify(unref(filters))}`,
+    () => getKeyForGetOrganizations(unref(filters)),
     async () => {
       try {
         const organizations = await listOrganizations(unref(filters));
@@ -29,9 +32,15 @@ export function useGetOrganizations(
     {
       watch: [filters],
       immediate: true,
-      server: false,
-      lazy: true,
       default: () => [],
+      getCachedData: (key, nuxtApp) => {
+        if (store.getOrganizations().length > 0) {
+          return store.getOrganizations();
+        }
+        return nuxtApp.isHydrating
+          ? nuxtApp.payload.data[key]
+          : nuxtApp.static.data[key];
+      },
     }
   );
 

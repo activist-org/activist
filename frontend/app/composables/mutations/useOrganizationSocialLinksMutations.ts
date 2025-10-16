@@ -13,6 +13,8 @@ import {
   updateOrganizationSocialLink,
 } from "~/services/communities/organization/social-link";
 
+import { getKeyForGetOrganization } from "../queries/useGetOrganization";
+
 export function useOrganizationSocialLinksMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -132,7 +134,9 @@ export function useOrganizationSocialLinksMutations(
     }
 
     // Refresh the useAsyncData cache.
-    await refreshNuxtData(`organization:${currentOrganizationId.value}`);
+    await refreshNuxtData(
+      getKeyForGetOrganization(currentOrganizationId.value)
+    );
   }
 
   return {

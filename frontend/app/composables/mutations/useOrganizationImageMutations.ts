@@ -12,6 +12,9 @@ import {
   uploadOrganizationImages,
 } from "~/services/communities/organization/image";
 
+import { getKeyForGetOrganization } from "../queries/useGetOrganization";
+import { getKeyForGetOrganizationImages } from "../queries/useGetOrganizationImages";
+
 export function useOrganizationImageMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -105,7 +108,9 @@ export function useOrganizationImageMutations(
     }
 
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`organization:${currentOrganizationId.value}`);
+    await refreshNuxtData(
+      getKeyForGetOrganization(currentOrganizationId.value)
+    );
   }
 
   // Helper to refresh organization data after mutations.
@@ -115,7 +120,9 @@ export function useOrganizationImageMutations(
     }
 
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`organizationImages:${currentOrganizationId.value}`);
+    await refreshNuxtData(
+      getKeyForGetOrganizationImages(currentOrganizationId.value)
+    );
   }
 
   return {
