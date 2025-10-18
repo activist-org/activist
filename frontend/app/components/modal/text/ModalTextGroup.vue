@@ -17,13 +17,16 @@
 import type { GroupUpdateTextFormData } from "~/types/communities/group";
 
 import { useGroupTextsMutations } from "~/composables/mutations/useGroupTextsMutations";
+import { useGetGroup } from "~/composables/queries/useGetGroup";
 
 const modalName = "ModalTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const groupStore = useGroupStore();
-const group = computed(() => groupStore.group!);
-const { updateTexts } = useGroupTextsMutations(group.value.id);
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+
+const { data: group } = useGetGroup(groupId || "");
+const { updateTexts } = useGroupTextsMutations(groupId || "");
 
 const formData = ref<GroupUpdateTextFormData>({
   description: "",
@@ -32,17 +35,17 @@ const formData = ref<GroupUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = group.value.texts.description || "";
-  formData.value.getInvolved = group.value.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = group.value.getInvolvedUrl || "";
+  formData.value.description = group.value?.texts.description || "";
+  formData.value.getInvolved = group.value?.texts.getInvolved || "";
+  formData.value.getInvolvedUrl = group.value?.getInvolvedUrl || "";
 });
 
 watch(
   group,
   (newValues) => {
-    formData.value.description = newValues.texts.description || "";
-    formData.value.getInvolved = newValues.texts.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues.getInvolvedUrl || "";
+    formData.value.description = newValues?.texts.description || "";
+    formData.value.getInvolved = newValues?.texts.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
   },
   {
     deep: true,
@@ -52,7 +55,7 @@ watch(
 async function handleSubmit(values: unknown) {
   const response = await updateTexts(
     values as GroupUpdateTextFormData,
-    String(group.value.texts?.id)
+    String(group.value?.texts.id)
   );
   if (response) {
     handleCloseModal();

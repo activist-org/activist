@@ -35,16 +35,16 @@ const formData = ref<EventUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = event.value?.texts?.description || "";
-  formData.value.getInvolved = event.value?.texts?.getInvolved || "";
+  formData.value.description = event.value?.texts.description || "";
+  formData.value.getInvolved = event.value?.texts.getInvolved || "";
   formData.value.getInvolvedUrl = event.value?.getInvolvedUrl || "";
 });
 
 watch(
   event,
   (newValues) => {
-    formData.value.description = newValues?.texts?.description || "";
-    formData.value.getInvolved = newValues?.texts?.getInvolved || "";
+    formData.value.description = newValues?.texts.description || "";
+    formData.value.getInvolved = newValues?.texts.getInvolved || "";
     formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
   },
   {
@@ -55,7 +55,7 @@ watch(
 async function handleSubmit(values: unknown) {
   const response = await updateTexts(
     values as EventUpdateTextFormData,
-    String(event.value?.texts?.id)
+    String(event.value?.texts.id)
   );
   if (response) {
     handleCloseModal();

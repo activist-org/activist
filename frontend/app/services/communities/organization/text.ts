@@ -20,7 +20,7 @@ export async function updateOrganizationTexts(
         description: data.description,
         getInvolved: data.getInvolved,
         donate_prompt: "",
-        orgId,
+        orgId: orgId,
         iso: "en",
       } as AcceptedBody,
       { headers: { "Content-Type": "application/json" } }

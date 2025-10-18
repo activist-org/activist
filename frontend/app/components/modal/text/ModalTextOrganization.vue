@@ -18,6 +18,7 @@ import type { OrganizationUpdateTextFormData } from "~/types/communities/organiz
 
 import { useOrganizationTextsMutations } from "~/composables/mutations/useOrganizationTextsMutations";
 import { useGetOrganization } from "~/composables/queries/useGetOrganization";
+
 const modalName = "ModalTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
@@ -34,16 +35,16 @@ const formData = ref<OrganizationUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = organization.value?.texts?.description || "";
-  formData.value.getInvolved = organization.value?.texts?.getInvolved || "";
+  formData.value.description = organization.value?.texts.description || "";
+  formData.value.getInvolved = organization.value?.texts.getInvolved || "";
   formData.value.getInvolvedUrl = organization.value?.getInvolvedUrl || "";
 });
 
 watch(
   organization,
   (newValues) => {
-    formData.value.description = newValues?.texts?.description || "";
-    formData.value.getInvolved = newValues?.texts?.getInvolved || "";
+    formData.value.description = newValues?.texts.description || "";
+    formData.value.getInvolved = newValues?.texts.getInvolved || "";
     formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
   },
   {
@@ -54,7 +55,7 @@ watch(
 async function handleSubmit(values: unknown) {
   const response = await updateTexts(
     values as OrganizationUpdateTextFormData,
-    String(organization.value?.texts?.id)
+    String(organization.value?.texts.id)
   );
   if (response) {
     handleCloseModal();
