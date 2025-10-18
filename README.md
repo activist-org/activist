@@ -24,7 +24,7 @@
 
 ### An open-source activism platform
 
-[**activist.org**](https://activist.org) is a platform that enables more people to safely engage in activism by making it easy to discover organizations and events as well as coordinate and collaborate on political action. We want to enable activists to learn proven and novel strategies from each other for social and ecological change. Free, open-source, privacy-focused and governed by our community.
+[**activist.org**](https://activist.org) is a platform that enables more people to safely engage in activism by making it easy to discover organizations and events, as well as coordinate and collaborate on political action. We want to enable activists to learn proven and novel strategies from each other for social and ecological change. Free, open-source, privacy-focused and governed by our community.
 
 <!-- > [Learn more about our organization on activist.org](https://activist.org/organizations/1/about) -->
 
@@ -353,7 +353,7 @@ Relationships between organizations will help users find similar organizations o
 
 > Linking events and organizations to decision making.
 
-Users will be able to subscribe for updates on events and organizations that work in relation to legislation and elections. The plan for this feature is that it will be based on data from [Wikidata](https://www.wikidata.org), with open data generating the vote pages that our community then maintains.
+Users will be able to subscribe for updates on events and organizations that work in relation to legislation and elections. this feature will be based on data from [Wikidata](https://www.wikidata.org), with open data generating the vote pages that our community then maintains.
 
 <a id="securely-hosted"></a>
 
@@ -380,7 +380,7 @@ We are still developing our operating principles and will always update them bas
 # Localization [`⇧`](#contents)
 
 <a href="https://hosted.weblate.org/projects/activist/activist">
-  <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" width="125" alt="Visit Weblate project" align="right">
+  <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" width="125" alt="Visit the Weblate project" align="right">
 </a>
 
 We need to break down language barriers in order to mobilize larger and more diverse coalitions. Translation requests will be available for several assets on the platform - organization profiles, events and resources - and we are growing our network of volunteer contributors to facilitate this.
