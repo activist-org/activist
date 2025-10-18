@@ -6,6 +6,7 @@ import { newOrganizationMenu } from "~/test-e2e/component-objects/OrganizationMe
 import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSocialLinksModal } from "~/test-e2e/component-objects/SocialLinksModal";
+import { newUploadImageModal } from "~/test-e2e/component-objects/UploadImageModal";
 import {
   OrganizationGroupAboutPage,
   OrganizationGroupEventsPage,
@@ -40,6 +41,7 @@ export const newOrganizationPage = (page: Page) => ({
   shareModal: newShareModal(page),
   editModal: newEditModal(page),
   socialLinksModal: newSocialLinksModal(page),
+  uploadImageModal: newUploadImageModal(page),
 
   // MARK: Lazy-loaded Subpages
 
