@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData
+// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 import type { MaybeRef } from "vue";
 
@@ -8,8 +8,8 @@ import type { AppError } from "~/utils/errorHandler";
 
 import {
   createEventResource,
-  updateEventResource,
   reorderEventResources,
+  updateEventResource,
 } from "~/services/event/resource";
 
 import { getKeyForGetEvent } from "../queries/useGetEvent";
@@ -22,7 +22,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
 
   const currentEventId = computed(() => unref(eventId));
 
-  // Create new resource
+  // Create new resource.
   async function createResource(resourceData: ResourceInput) {
     if (!currentEventId.value) return false;
 
@@ -30,10 +30,10 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     error.value = null;
 
     try {
-      // Service function handles the HTTP call and throws normalized errors
+      // Service function handles the HTTP call and throws normalized errors.
       await createEventResource(currentEventId.value, resourceData as Resource);
 
-      // Refresh the event data to get the new resource
+      // Refresh the event data to get the new resource.
       await refreshEventData();
 
       return true;
@@ -45,16 +45,16 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Update existing resource
+  // Update existing resource.
   async function updateResource(resource: ResourceInput) {
     loading.value = true;
     error.value = null;
 
     try {
-      // Direct service call - no useAsyncData needed for mutations
+      // Direct service call - no useAsyncData needed for mutations.
       await updateEventResource(currentEventId.value, resource);
 
-      // Invalidate cache and refetch fresh data
+      // Invalidate cache and refetch fresh data.
       await refreshEventData();
 
       return true;
@@ -66,7 +66,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Reorder multiple resource entries
+  // Reorder multiple resource entries.
   async function reorderResources(resources: Resource[]) {
     loading.value = true;
     error.value = null;
@@ -74,7 +74,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     try {
       await reorderEventResources(currentEventId.value, resources);
 
-      // Refresh to get the updated order
+      // Refresh to get the updated order.
       await refreshEventData();
 
       return true;
@@ -86,10 +86,10 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Helper to refresh event data after mutations
+  // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
-    // Invalidate the useAsyncData cache so next read will refetch
+    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 

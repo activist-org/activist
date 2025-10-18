@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData
+// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 import type { MaybeRef } from "vue";
 
@@ -78,16 +78,16 @@ export function useOrganizationImageMutations(
     }
   }
 
-  // Upload new images
+  // Upload new images.
   async function uploadIconImage(image: UploadableFile) {
     loading.value = true;
     error.value = null;
 
     try {
-      // Direct service call - no useAsyncData needed for mutations
+      // Direct service call - no useAsyncData needed for mutations.
       await uploadOrganizationIconImage(currentOrganizationId.value, image);
 
-      // Invalidate cache and refetch fresh data
+      // Invalidate cache and refetch fresh data.
       await refreshOrganizationData();
 
       return true;

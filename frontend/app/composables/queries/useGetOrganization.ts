@@ -17,7 +17,7 @@ export function useGetOrganization(id: MaybeRef<string>) {
   const organizationId = computed(() => String(unref(id)));
   const store = useOrganizationStore();
 
-  // Cache key for useAsyncData
+  // Cache key for useAsyncData.
   const key = computed(() =>
     organizationId.value ? getKeyForGetOrganization(organizationId.value) : null
   );
@@ -29,7 +29,7 @@ export function useGetOrganization(id: MaybeRef<string>) {
 
       try {
         const organization = await getOrganization(organizationId.value);
-        // Cache the result in store
+        // Cache the result in store.
         store.setOrganization(organization);
         return organization;
       } catch (error) {
@@ -57,17 +57,17 @@ export function useGetOrganization(id: MaybeRef<string>) {
     }
   );
 
-  // Return cached data if available, otherwise data from useAsyncData
+  // Return cached data if available, otherwise data from useAsyncData.
   const data = computed<Organization | null>(
     () => query.data.value as Organization | null
   );
 
-  // Only show pending when we're actually fetching (not when using cache)
+  // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() => query.pending.value);
 
   async function refresh() {
     if (!key.value) return;
-    // Let useAsyncData refetch and update store in the success path above
+    // Let useAsyncData refetch and update store in the success path above.
     await refreshNuxtData(key.value);
   }
 

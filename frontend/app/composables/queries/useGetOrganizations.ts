@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type {
-  Organization as OrganizationT,
   OrganizationFilters,
+  Organization as OrganizationT,
 } from "~/types/communities/organization";
 
 import { useToaster } from "~/composables/useToaster";
@@ -16,7 +16,7 @@ export function useGetOrganizations(
   const store = useOrganizationStore();
   const { showToastError } = useToaster();
 
-  // Use AsyncData for SSR, hydration, and cache
+  // Use AsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<OrganizationT[]>(
     () => getKeyForGetOrganizations(unref(filters)),
     async () => {

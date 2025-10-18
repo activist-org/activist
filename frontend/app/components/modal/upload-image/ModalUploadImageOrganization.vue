@@ -44,17 +44,19 @@ import type {
 import { useOrganizationImageMutations } from "~/composables/mutations/useOrganizationImageMutations";
 import { useGetOrganizationImages } from "~/composables/queries/useGetOrganizationImages";
 import { IconMap } from "~/types/icon-map";
+
 interface Props {
-  entityId: string;
+  orgId: string;
   uploadLimit?: number;
   images: ContentImage[];
 }
+
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
-const entityId = computed(() => props.entityId);
-const { data: organizationImages } = useGetOrganizationImages(entityId);
-const { updateImage, uploadImages } = useOrganizationImageMutations(entityId);
+const orgId = computed(() => props.orgId);
+const { data: organizationImages } = useGetOrganizationImages(orgId);
+const { updateImage, uploadImages } = useOrganizationImageMutations(orgId);
 const files = ref<FileUploadMix[]>([]);
 
 watch(
@@ -109,7 +111,7 @@ const handleUpload = async () => {
       })
     ) as FileUploadMix[];
     modals.closeModal(modalName);
-    emit("upload-complete", entityId.value);
+    emit("upload-complete", orgId.value);
     uploadError.value = false;
   } catch (error) {
     emit("upload-error");

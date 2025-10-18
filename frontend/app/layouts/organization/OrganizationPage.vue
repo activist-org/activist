@@ -3,8 +3,8 @@
   <NuxtLayout name="app">
     <ModalUploadImageOrganization
       @closeModal="handleCloseModalUploadImage"
-      :entityId="organization?.id || ''"
       :images="images || []"
+      :orgId="organization?.id || ''"
     />
     <ModalUploadImageIcon
       @closeModal="handleCloseModalUploadImageIcon"

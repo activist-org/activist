@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Update organization social links with error handling and store updates
+// Update organization social links with error handling and store updates.
 
 import type { MaybeRef } from "vue";
 
