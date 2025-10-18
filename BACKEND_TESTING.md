@@ -25,5 +25,8 @@ This documentation details standards for writing pytest based backend testing fi
   - All tests for a certain model sub class  should be in a sub directory, even if there's only one file
   - Ex: Organization flag method tests should be in the `communities/organizations/tests/flag` directory
   - Ex: All CRUD method tests on organizations directly should be in the  `communities/organizations/tests` directory
-- Test function names should start with the name of the file
+- Test functions would ideally validate one HTTP response only
+- Test functions should be named in the following way:
+  - Start with the name of the file
+  - End with the response code that is being tested if there is only one
 - If there is only one API endpoint used in a testing file, it should be defined as a `SCREAMING_SNAKE_CASE` variable at the top of the file

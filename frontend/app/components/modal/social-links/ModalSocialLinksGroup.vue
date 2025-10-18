@@ -19,14 +19,14 @@ import type { SocialLinkItem } from "~/components/form/FormSocialLink.vue";
 import type { GroupSocialLink } from "~/types/communities/group";
 import type { SocialLink } from "~/types/content/social-link";
 
+import { useGroupSocialLinksMutations } from "~/composables/mutations/useGroupSocialLinksMutations";
 const modalName = "ModalSocialLinksGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-
+const { updateLink, createLinks, deleteLink } = useGroupSocialLinksMutations(
+  groupStore.group.id
+);
 type SocialLinkWithKey = (GroupSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
@@ -76,7 +76,6 @@ async function handleSubmit(values: unknown) {
   if (isSubmitting.value) {
     return;
   }
-
   isSubmitting.value = true;
 
   try {
@@ -97,7 +96,7 @@ async function handleSubmit(values: unknown) {
       (link) => link.id && !currentIds.has(link.id)
     );
     for (const link of toDelete) {
-      const success = await groupStore.deleteSocialLink(group.value, link.id!);
+      const success = await deleteLink(link.id!);
       if (!success) allSuccess = false;
     }
 
@@ -116,17 +115,15 @@ async function handleSubmit(values: unknown) {
         );
         if (
           existing &&
-          (existing.link !== formLink.link || existing.label !== formLink.label)
+          (existing.link !== formLink.link ||
+            existing.label !== formLink.label ||
+            existing.order !== formIndex)
         ) {
-          const success = await groupStore.updateSocialLink(
-            group.value,
-            refItem.id,
-            {
-              link: formLink.link,
-              label: formLink.label,
-              order: formIndex,
-            }
-          );
+          const success = await updateLink(refItem.id, {
+            link: formLink.link,
+            label: formLink.label,
+            order: formIndex,
+          });
           if (!success) allSuccess = false;
         }
       }
@@ -158,16 +155,11 @@ async function handleSubmit(values: unknown) {
       ); // only include valid, non-duplicate items
 
     if (createData.length > 0) {
-      const success = await groupStore.createSocialLinks(
-        group.value,
-        createData
-      );
+      const success = await createLinks(createData);
       if (!success) allSuccess = false;
     }
 
     if (allSuccess) {
-      // Fetch updated data first - this will update the reactive ref automatically.
-      await groupStore.fetchById(groupId);
       // Update local ref to reflect changes.
       socialLinksRef.value = (group.value.socialLinks || []).map((l, idx) => ({
         ...l,

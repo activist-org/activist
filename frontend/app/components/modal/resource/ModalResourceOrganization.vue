@@ -13,6 +13,9 @@
 <script setup lang="ts">
 import type { Resource, ResourceInput } from "~/types/content/resource";
 
+import { useOrganizationResourcesMutations } from "~/composables/mutations/useOrganizationResourcesMutations";
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
+
 const props = defineProps<{
   resource?: Resource;
 }>();
@@ -21,13 +24,14 @@ const isAddMode = !props.resource;
 const modalName = "ModalResourceOrganization" + (props.resource?.id ?? "");
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsOrganizationId = useRoute().params.organizationId;
+const paramsOrganizationId = useRoute().params.orgId;
 const organizationId =
   typeof paramsOrganizationId === "string" ? paramsOrganizationId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(organizationId);
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(organizationId || "");
+const { createResource, updateResource } = useOrganizationResourcesMutations(
+  organizationId || ""
+);
 
 const formData = ref<Resource | undefined>();
 
@@ -74,18 +78,11 @@ async function handleSubmit(values: unknown) {
   const newValues = {
     ...formData.value,
     ...(values as Resource),
-    order: formData.value?.order ?? (organization.resources ?? []).length,
+    order:
+      formData.value?.order ?? (organization.value?.resources ?? []).length,
   };
-  if (isAddMode)
-    await organizationStore.createResource(
-      organization,
-      newValues as ResourceInput
-    );
-  else
-    await organizationStore.updateResource(
-      organization,
-      newValues as ResourceInput
-    );
+  if (isAddMode) await createResource(newValues as ResourceInput);
+  else await updateResource(newValues as ResourceInput);
   handleCloseModal();
 }
 </script>

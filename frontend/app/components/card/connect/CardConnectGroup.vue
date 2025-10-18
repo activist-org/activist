@@ -4,15 +4,13 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
+import { useGetGroup } from "~/composables/queries/useGetGroup";
 
 const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-const { group } = storeToRefs(groupStore);
+const { data: group } = useGetGroup(groupId);
 
 // Use computed to ensure social links are reactive to store changes.
-const socialLinks = computed(() => group.value.socialLinks);
+const socialLinks = computed(() => group.value?.socialLinks ?? []);
 </script>

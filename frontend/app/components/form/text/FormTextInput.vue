@@ -8,7 +8,8 @@
     <label
       class="z-1 absolute"
       :class="{
-        'translate-x-4 text-sm text-distinct-text': shrinkLabel,
+        'translate-x-4 translate-y-[-0.5rem] text-sm text-distinct-text':
+          shrinkLabel,
         'translate-y-[0.6rem] pl-[12px]':
           !shrinkLabel && iconLocation === 'right',
         'translate-y-[0.6rem] pl-[3.4rem]':

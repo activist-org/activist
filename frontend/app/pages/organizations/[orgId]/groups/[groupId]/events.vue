@@ -4,14 +4,14 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ group.name }}&nbsp;{{
+        {{ group?.name }}&nbsp;{{
           $t("i18n.pages.organizations._global.events_lower")
         }}
       </Title>
     </Head>
     <HeaderAppPageGroup
       :header="
-        group.name + ' ' + $t('i18n.pages.organizations._global.events_lower')
+        group?.name + ' ' + $t('i18n.pages.organizations._global.events_lower')
       "
       :tagline="$t('i18n.pages.organizations._global.events_tagline')"
       :underDevelopment="false"
@@ -41,7 +41,7 @@
       </div>
     </HeaderAppPageGroup>
     <PagePreviewEvent />
-    <div v-if="group.events && group.events.length > 0" class="space-y-3 py-4">
+    <div v-if="group?.events && group.events.length > 0" class="space-y-3 py-4">
       <CardSearchResultEntityEvent
         v-for="(u, i) in group.events"
         :key="i"
@@ -54,14 +54,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
-
+import { useGetGroup } from "~/composables/queries/useGetGroup";
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  group: Group;
-}>();
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
+const { data: group } = useGetGroup(groupId);
 const groupTabs = getGroupTabs();
 
 const downloadCalendarEntries = () => {};

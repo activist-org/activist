@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
+
 const props = defineProps<{
   header?: string;
   tagline?: string;
@@ -17,17 +19,15 @@ const props = defineProps<{
 }>();
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId);
 
 const headerName = computed<string>(() => {
   if (props.header) {
     return props.header;
   } else if (event) {
-    return event.name;
+    return event.value?.name ?? "";
   } else {
     return "";
   }
@@ -36,8 +36,8 @@ const headerName = computed<string>(() => {
 const headerTagline = computed(() => {
   if (props.tagline) {
     return props.tagline;
-  } else if (event) {
-    return event.tagline;
+  } else if (event.value) {
+    return event.value?.tagline ?? "";
   } else {
     return "";
   }

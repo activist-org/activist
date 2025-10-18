@@ -13,26 +13,27 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-
 import type { SocialLinkItem } from "~/components/form/FormSocialLink.vue";
 import type { SocialLink } from "~/types/content/social-link";
 import type { EventSocialLink } from "~/types/events/event";
+
+import { useEventSocialLinksMutations } from "~/composables/mutations/useEventSocialLinksMutations";
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 
 const modalName = "ModalSocialLinksEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
+
+const { data: event } = useGetEvent(eventId);
+const { updateLink, createLinks, deleteLink } =
+  useEventSocialLinksMutations(eventId);
 
 type SocialLinkWithKey = (EventSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
-// Use storeToRefs to maintain reactivity.
-const { event } = storeToRefs(eventStore);
-socialLinksRef.value = (event.value.socialLinks || []).map((l, idx) => ({
+socialLinksRef.value = (event.value?.socialLinks || []).map((l, idx) => ({
   ...l,
   key: l.id ?? String(idx),
 }));
@@ -85,7 +86,9 @@ async function handleSubmit(values: unknown) {
     ).socialLinks;
 
     // Track existing IDs.
-    const existingIds = new Set(event.value.socialLinks.map((link) => link.id));
+    const existingIds = new Set(
+      (event.value?.socialLinks || []).map((link) => link.id)
+    );
     const currentIds = new Set(
       socialLinksRef.value?.map((link) => link.id).filter(Boolean)
     );
@@ -93,11 +96,11 @@ async function handleSubmit(values: unknown) {
     let allSuccess = true;
 
     // 1. DELETE: Items that existed but are no longer in the list.
-    const toDelete = event.value.socialLinks.filter(
+    const toDelete = (event.value?.socialLinks || []).filter(
       (link) => link.id && !currentIds.has(link.id)
     );
     for (const link of toDelete) {
-      const success = await eventStore.deleteSocialLink(event.value, link.id!);
+      const success = await deleteLink(link.id!);
       if (!success) allSuccess = false;
     }
 
@@ -111,22 +114,20 @@ async function handleSubmit(values: unknown) {
       const formLink = formValues?.[formIndex];
       if (formLink && refItem.id) {
         // Only update if link or label actually changed (ignore order for now).
-        const existing = event.value.socialLinks.find(
+        const existing = (event.value?.socialLinks || []).find(
           (l) => l.id === refItem.id
         );
         if (
           existing &&
-          (existing.link !== formLink.link || existing.label !== formLink.label)
+          (existing.link !== formLink.link ||
+            existing.label !== formLink.label ||
+            existing.order !== formIndex)
         ) {
-          const success = await eventStore.updateSocialLink(
-            event.value,
-            refItem.id,
-            {
-              link: formLink.link,
-              label: formLink.label,
-              order: formIndex,
-            }
-          );
+          const success = await updateLink(refItem.id, {
+            link: formLink.link,
+            label: formLink.label,
+            order: formIndex,
+          });
           if (!success) allSuccess = false;
         }
       }
@@ -146,7 +147,7 @@ async function handleSubmit(values: unknown) {
           order: formIndex,
         };
         // Don't create if link/label are empty OR if they match an existing link.
-        const isDuplicate = event.value.socialLinks.some(
+        const isDuplicate = (event.value?.socialLinks || []).some(
           (existing) =>
             existing.link === data.link && existing.label === data.label
         );
@@ -158,18 +159,13 @@ async function handleSubmit(values: unknown) {
       ); // nly include valid, non-duplicate items
 
     if (createData.length > 0) {
-      const success = await eventStore.createSocialLinks(
-        event.value,
-        createData
-      );
+      const success = await createLinks(createData);
       if (!success) allSuccess = false;
     }
 
     if (allSuccess) {
       // Fetch updated data first.
-      await eventStore.fetchById(eventId);
-      event.value = eventStore.event;
-      socialLinksRef.value = (event.value.socialLinks || []).map((l, idx) => ({
+      socialLinksRef.value = (event.value?.socialLinks || []).map((l, idx) => ({
         ...l,
         key: l.id ?? String(idx),
       }));

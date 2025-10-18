@@ -12,7 +12,7 @@
       />
     </div>
     <div class="space-y-3 pt-3">
-      <p v-if="event.texts.getInvolved">
+      <p v-if="event?.texts?.getInvolved">
         {{ event.texts.getInvolved }}
       </p>
       <p v-else>
@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
@@ -46,9 +47,7 @@ const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const { userIsSignedIn } = useUser();
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId);
 </script>

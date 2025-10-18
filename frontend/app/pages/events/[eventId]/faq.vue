@@ -2,11 +2,11 @@
 <template>
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ event.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ event?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
 
     <HeaderAppPageOrganization
-      :header="event.name + ' ' + $t('i18n._global.faq')"
+      :header="event?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
@@ -27,7 +27,7 @@
     </HeaderAppPageOrganization>
 
     <!-- FAQ list with drag-and-drop -->
-    <div v-if="faqList.length > 0" class="py-4">
+    <div v-if="(faqList || []).length > 0" class="py-4">
       <draggable
         v-model="faqList"
         @end="onDragEnd"
@@ -62,35 +62,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
 import type { FaqEntry } from "~/types/content/faq-entry";
-import type { Event } from "~/types/events/event";
 
-import { useEventStore } from "~/stores/event";
+import { useEventFAQEntryMutations } from "~/composables/mutations/useEventFAQEntryMutations";
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { IconMap } from "~/types/icon-map";
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const props = defineProps<{ event: Event }>();
+const { data: event } = useGetEvent(eventId);
+const { reorderFAQs } = useEventFAQEntryMutations(eventId);
 
-const eventStore = useEventStore();
-
-const faqList = ref<FaqEntry[]>([]);
-
-watch(
-  () => props.event?.faqEntries,
-  (newVal) => {
-    faqList.value = newVal?.slice() ?? [];
-  },
-  { immediate: true }
-);
+const faqList = computed<FaqEntry[]>(() => {
+  return event.value?.faqEntries || [];
+});
 
 async function onDragEnd() {
   faqList.value.forEach((faq, index) => {
     faq.order = index;
   });
 
-  await eventStore.reorderFaqEntries(props.event, faqList.value);
+  await reorderFAQs(faqList.value);
 }
 </script>
 

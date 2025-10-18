@@ -155,7 +155,6 @@
 import { Toaster, toast } from "vue-sonner";
 import { z } from "zod";
 
-import type { OrganizationCreateFormData } from "~/types/communities/organization";
 import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
@@ -167,13 +166,12 @@ const schema = z.object({
 });
 
 const localePath = useLocalePath();
-const organizationStore = useOrganizationStore();
 
-const submit = async (values: unknown) => {
-  const responseId = await organizationStore.create(
-    values as OrganizationCreateFormData
-  );
-
+const submit = async () => {
+  // const responseId = await organizationStore.create(
+  //   values as OrganizationCreateFormData
+  // );
+  const responseId = "test-id"; // TODO: Replace with actual response from store
   if (responseId) {
     navigateTo(localePath(`/organizations/${responseId}`));
   } else {
