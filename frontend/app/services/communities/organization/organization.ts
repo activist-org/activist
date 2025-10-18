@@ -41,7 +41,8 @@ export function mapOrganization(res: OrganizationResponse): OrganizationT {
 export async function getOrganization(id: string): Promise<OrganizationT> {
   try {
     const res = await get<OrganizationResponse>(
-      `/communities/organizations/${id}`
+      `/communities/organizations/${id}`,
+      { withoutAuth: true }
     );
     return mapOrganization(res);
   } catch (e) {
@@ -56,7 +57,8 @@ export async function listOrganizations(
   try {
     const query = new URLSearchParams(filters as Record<string, string>);
     const res = await get<OrganizationsResponseBody>(
-      `/communities/organizations?${query.toString()}`
+      `/communities/organizations?${query.toString()}`,
+      { withoutAuth: true }
     );
     return res.results.map(mapOrganization);
   } catch (e) {

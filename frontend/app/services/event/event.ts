@@ -40,7 +40,9 @@ export function mapEvent(res: EventResponse): EventT {
 // MARK: Get event by ID
 export async function getEvent(id: string): Promise<EventT> {
   try {
-    const res = await get<EventResponse>(`/events/events/${id}`);
+    const res = await get<EventResponse>(`/events/events/${id}`, {
+      withoutAuth: true,
+    });
     return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);
@@ -54,7 +56,8 @@ export async function listEvents(
   try {
     const query = new URLSearchParams(filters as Record<string, string>);
     const res = await get<EventsResponseBody>(
-      `/events/events?${query.toString()}`
+      `/events/events?${query.toString()}`,
+      { withoutAuth: true }
     );
     return res.results.map(mapEvent);
   } catch (e) {

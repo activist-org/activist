@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FetchOptions } from "ofetch";
 
-export type ServiceOptions = Omit<FetchOptions, "method">;
-export type ServiceOptionsWithBody = Omit<FetchOptions, "method" | "body">;
+export type ServiceOptions = Omit<FetchOptions, "method"> & {
+  withoutAuth?: boolean;
+};
+export type ServiceOptionsWithBody = Omit<FetchOptions, "method" | "body"> & {
+  withoutAuth?: boolean;
+};
 export type AcceptedBody =
   | Record<string, unknown>
   | FormData
@@ -12,6 +16,11 @@ export type AcceptedBody =
   | object;
 
 function baseURL() {
+  const config = useRuntimeConfig();
+  const BASE_BACKEND_URL =
+    import.meta.server && config.apiBase
+      ? config.apiBase
+      : config.public.apiBase;
   return BASE_BACKEND_URL as string;
 }
 
@@ -25,7 +34,10 @@ function authHeader(): Record<string, string> {
 }
 
 export function get<T>(url: string, options?: ServiceOptions) {
-  const headers = { ...(options?.headers || {}), ...authHeader() };
+  const headers = {
+    ...(options?.headers || {}),
+    ...(options?.withoutAuth ? {} : authHeader()),
+  };
   return $fetch<T>(url, {
     baseURL: baseURL(),
     method: "GET" as const,
@@ -41,7 +53,7 @@ export function post<T, X extends AcceptedBody>(
 ) {
   const headers = {
     ...(options?.headers || {}),
-    ...authHeader(),
+    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
     baseURL: baseURL(),
@@ -59,7 +71,7 @@ export function put<T, X extends AcceptedBody>(
 ) {
   const headers: HeadersInit = {
     ...(options?.headers || {}),
-    ...authHeader(),
+    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
     baseURL: baseURL(),
@@ -71,7 +83,10 @@ export function put<T, X extends AcceptedBody>(
 }
 
 export function del<T>(url: string, options?: ServiceOptions) {
-  const headers = { ...(options?.headers || {}), ...authHeader() };
+  const headers = {
+    ...(options?.headers || {}),
+    ...(options?.withoutAuth ? {} : authHeader()),
+  };
   return $fetch<T>(url, {
     baseURL: baseURL(),
     method: "DELETE" as const,

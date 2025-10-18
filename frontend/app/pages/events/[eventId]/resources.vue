@@ -83,7 +83,6 @@ const { data: event } = useGetEvent(eventId);
 const { reorderResources } = useEventResourcesMutations(eventId);
 
 const resourceList = ref<Resource[]>([...(event?.value?.resources || [])]);
-const eventStore = useEventStore();
 const onDragEnd = () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
@@ -92,7 +91,7 @@ const onDragEnd = () => {
   reorderResources(resourceList.value);
 };
 watch(
-  () => eventStore.event.resources,
+  () => event.value.resources,
   (newResources) => {
     resourceList.value = [...(newResources || [])];
   }
