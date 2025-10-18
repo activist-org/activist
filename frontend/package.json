@@ -51,7 +51,7 @@
     "eslint-plugin-perfectionist": "4.15.0",
     "eslint-plugin-vue": "10.5.0",
     "eslint-plugin-vuejs-accessibility": "2.4.1",
-    "happy-dom": "16.8.1",
+    "happy-dom": "20.0.2",
     "lint-staged": "16.1.0",
     "next-auth": "~4.21.1",
     "nuxt": "4.1.2",
