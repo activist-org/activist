@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData
+// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 import type { MaybeRef } from "vue";
 
@@ -8,8 +8,8 @@ import type { AppError } from "~/utils/errorHandler";
 
 import {
   createEventFaq,
-  updateEventFaq,
   reorderEventFaqs,
+  updateEventFaq,
 } from "~/services/event/faq";
 
 import { getKeyForGetEvent } from "../queries/useGetEvent";
@@ -22,7 +22,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
 
   const currentEventId = computed(() => unref(eventId));
 
-  // Create new FAQ entry
+  // Create new FAQ entry.
   async function createFAQ(faqData: Omit<FaqEntry, "id">) {
     if (!currentEventId.value) return false;
 
@@ -30,10 +30,10 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     error.value = null;
 
     try {
-      // Service function handles the HTTP call and throws normalized errors
+      // Service function handles the HTTP call and throws normalized errors.
       await createEventFaq(currentEventId.value, faqData as FaqEntry);
 
-      // Refresh the event data to get the new FAQ
+      // Refresh the event data to get the new FAQ.
       await refreshEventData();
 
       return true;
@@ -47,16 +47,16 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Update existing FAQ entry
+  // Update existing FAQ entry.
   async function updateFAQ(faq: FaqEntry) {
     loading.value = true;
     error.value = null;
 
     try {
-      // Direct service call - no useAsyncData needed for mutations
+      // Direct service call - no useAsyncData needed for mutations.
       await updateEventFaq(currentEventId.value, faq);
 
-      // Invalidate cache and refetch fresh data
+      // Invalidate cache and refetch fresh data.
       await refreshEventData();
 
       return true;
@@ -70,7 +70,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Reorder multiple FAQ entries
+  // Reorder multiple FAQ entries.
   async function reorderFAQs(faqs: FaqEntry[]) {
     loading.value = true;
     error.value = null;
@@ -78,7 +78,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     try {
       await reorderEventFaqs(currentEventId.value, faqs);
 
-      // Refresh to get the updated order
+      // Refresh to get the updated order.
       await refreshEventData();
 
       return true;
@@ -90,11 +90,11 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Helper to refresh event data after mutations
+  // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch
+    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 

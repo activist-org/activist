@@ -45,18 +45,19 @@ import { useGroupImageMutations } from "~/composables/mutations/useGroupImageMut
 import { IconMap } from "~/types/icon-map";
 
 interface Props {
-  entityId: string;
+  groupId: string;
   uploadLimit?: number;
   images: ContentImage[];
 }
+
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 
 const groupStore = useGroupStore();
-const entityId = computed(() => props.entityId);
+const groupId = computed(() => props.groupId);
 const { images: groupImages } = groupStore;
-const { updateImage, uploadImages } = useGroupImageMutations(entityId);
+const { updateImage, uploadImages } = useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 
 watch(
@@ -111,7 +112,7 @@ const handleUpload = async () => {
       })
     ) as FileUploadMix[];
     modals.closeModal(modalName);
-    emit("upload-complete", entityId.value);
+    emit("upload-complete", groupId.value);
     uploadError.value = false;
   } catch (error) {
     emit("upload-error");

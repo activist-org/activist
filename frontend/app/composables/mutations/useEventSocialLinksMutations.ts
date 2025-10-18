@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Update event social links with error handling and store updates
+// Update event social links with error handling and store updates.
 
 import type { MaybeRef } from "vue";
 
@@ -7,10 +7,10 @@ import type { SocialLinkFormData } from "~/types/content/social-link";
 import type { AppError } from "~/utils/errorHandler";
 
 import {
-  updateEventSocialLink,
   createEventSocialLinks,
   deleteEventSocialLink,
   replaceAllEventSocialLinks,
+  updateEventSocialLink,
 } from "~/services/event/social-link";
 
 import { getKeyForGetEvent } from "../queries/useGetEvent";
@@ -23,7 +23,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
 
   const currentEventId = computed(() => unref(eventId));
 
-  // Update a single social link
+  // Update a single social link.
   async function updateLink(
     linkId: string,
     data: { link: string; label: string; order: number }
@@ -38,7 +38,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
         ...data,
       });
 
-      // Refresh the event data to get updated links
+      // Refresh the event data to get updated links.
       await refreshEventData();
 
       return true;
@@ -50,7 +50,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Create multiple social links
+  // Create multiple social links.
   async function createLinks(links: SocialLinkFormData[]) {
     if (!currentEventId.value || !links.length) return false;
 
@@ -60,7 +60,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await createEventSocialLinks(currentEventId.value, links);
 
-      // Refresh the event data to get updated links
+      // Refresh the event data to get updated links.
       await refreshEventData();
 
       return true;
@@ -72,7 +72,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Delete a single social link
+  // Delete a single social link.
   async function deleteLink(linkId: string) {
     loading.value = true;
     error.value = null;
@@ -80,7 +80,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await deleteEventSocialLink(linkId);
 
-      // Refresh the event data to get updated links
+      // Refresh the event data to get updated links.
       await refreshEventData();
 
       return true;
@@ -92,7 +92,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Replace all social links (delete all + create new ones)
+  // Replace all social links (delete all + create new ones).
   async function replaceAllLinks(
     links: { link: string; label: string; order: number }[]
   ) {
@@ -104,7 +104,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await replaceAllEventSocialLinks(currentEventId.value, links);
 
-      // Refresh the event data to get updated links
+      // Refresh the event data to get updated links.
       await refreshEventData();
 
       return true;
@@ -116,11 +116,11 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Helper to refresh event data after mutations
+  // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
 
-    // Refresh the useAsyncData cache
+    // Refresh the useAsyncData cache.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData
+// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 import type { MaybeRef } from "vue";
 
@@ -18,7 +18,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
 
   const currentEventId = computed(() => unref(eventId));
 
-  // Update event texts
+  // Update event texts.
   async function updateTexts(
     textsData: EventUpdateTextFormData,
     textId: string
@@ -28,10 +28,10 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
     loading.value = true;
     error.value = null;
     try {
-      // Service function handles the HTTP call and throws normalized errors
+      // Service function handles the HTTP call and throws normalized errors.
       await updateEventTexts(currentEventId.value, textId, textsData);
 
-      // Refresh the event data to get the updated texts
+      // Refresh the event data to get the updated texts.
       await refreshEventData();
       return true;
     } catch (err) {
@@ -41,11 +41,11 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
       loading.value = false;
     }
   }
-  // Helper to refresh event data after mutations
+  // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch
+    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 

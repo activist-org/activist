@@ -14,7 +14,8 @@ import { del, get, post } from "~/services/http";
 import { defaultEventText } from "~/types/events/event";
 import { errorHandler } from "~/utils/errorHandler";
 
-// MARK: Map API response to frontend type
+// MARK: Map API Response to Type
+
 export function mapEvent(res: EventResponse): EventT {
   return {
     id: res.id,
@@ -37,7 +38,8 @@ export function mapEvent(res: EventResponse): EventT {
   };
 }
 
-// MARK: Get event by ID
+// MARK: Get by ID
+
 export async function getEvent(id: string): Promise<EventT> {
   try {
     const res = await get<EventResponse>(`/events/events/${id}`, {
@@ -49,7 +51,8 @@ export async function getEvent(id: string): Promise<EventT> {
   }
 }
 
-// MARK: List all events
+// MARK: List All
+
 export async function listEvents(
   filters: EventFilters = {}
 ): Promise<EventT[]> {
@@ -66,6 +69,7 @@ export async function listEvents(
 }
 
 // MARK: Create
+
 export async function createEvent(
   data: EventCreateFormData
 ): Promise<string | false> {
@@ -92,6 +96,7 @@ export async function createEvent(
 }
 
 // MARK: Delete
+
 export async function deleteEvent(eventId: string): Promise<void> {
   try {
     await del(`/events/events/${eventId}`);

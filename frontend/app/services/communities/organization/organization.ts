@@ -14,7 +14,8 @@ import { del, get, post } from "~/services/http";
 import { defaultOrganizationText } from "~/types/communities/organization";
 import { errorHandler } from "~/utils/errorHandler";
 
-// MARK: Map API response to frontend type
+// MARK: Map API Response to Type
+
 export function mapOrganization(res: OrganizationResponse): OrganizationT {
   return {
     id: res.id,
@@ -38,6 +39,7 @@ export function mapOrganization(res: OrganizationResponse): OrganizationT {
 }
 
 // MARK: Get by ID
+
 export async function getOrganization(id: string): Promise<OrganizationT> {
   try {
     const res = await get<OrganizationResponse>(
@@ -50,7 +52,8 @@ export async function getOrganization(id: string): Promise<OrganizationT> {
   }
 }
 
-// MARK: List
+// MARK: List All
+
 export async function listOrganizations(
   filters: OrganizationFilters = {}
 ): Promise<OrganizationT[]> {
@@ -67,6 +70,7 @@ export async function listOrganizations(
 }
 
 // MARK: Create
+
 export async function createOrganization(
   data: OrganizationCreateFormData
 ): Promise<string | false> {
@@ -93,6 +97,7 @@ export async function createOrganization(
 }
 
 // MARK: Delete
+
 export async function deleteOrganization(orgId: string): Promise<void> {
   try {
     await del(`/communities/organizations/${orgId}`);

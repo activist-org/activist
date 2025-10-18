@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData
+// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 import type { MaybeRef } from "vue";
 
@@ -18,16 +18,16 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
 
   const currentEventId = computed(() => unref(eventId));
 
-  // Upload new images
+  // Upload new images.
   async function uploadIconImage(image: UploadableFile) {
     loading.value = true;
     error.value = null;
 
     try {
-      // Direct service call - no useAsyncData needed for mutations
+      // Direct service call - no useAsyncData needed for mutations.
       await uploadEventIconImage(currentEventId.value, image);
 
-      // Invalidate cache and refetch fresh data
+      // Invalidate cache and refetch fresh data.
       await refreshEventData();
 
       return true;
@@ -41,11 +41,11 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Helper to refresh event data after mutations
+  // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch
+    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 

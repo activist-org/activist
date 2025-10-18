@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Event as EventT, EventFilters } from "~/types/events/event";
+import type { EventFilters, Event as EventT } from "~/types/events/event";
 
 import { useToaster } from "~/composables/useToaster";
 import { listEvents } from "~/services/event/event";
@@ -14,7 +14,7 @@ export function useGetEvents(
   const store = useEventStore();
   const { showToastError } = useToaster();
 
-  // UseAsyncData for SSR, hydration, and cache
+  // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<EventT[]>(
     () => getKeyForGetEvents(unref(filters)),
     async () => {

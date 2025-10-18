@@ -17,7 +17,7 @@ export function useGetEvent(id: MaybeRef<string>) {
   const eventId = computed(() => String(unref(id)));
   const store = useEventStore();
 
-  // Cache key for useAsyncData
+  // Cache key for useAsyncData.
   const key = computed(() =>
     eventId.value ? getKeyForGetEvent(eventId.value) : null
   );
@@ -28,7 +28,7 @@ export function useGetEvent(id: MaybeRef<string>) {
       if (!eventId.value && eventId.value === "") return null;
       try {
         const event = await getEvent(eventId.value);
-        // Cache the result in store
+        // Cache the result in store.
         store.setEvent(event);
         return event as Event;
       } catch (error) {
@@ -56,15 +56,15 @@ export function useGetEvent(id: MaybeRef<string>) {
     }
   );
 
-  // Return cached data if available, otherwise data from useAsyncData
+  // Return cached data if available, otherwise data from useAsyncData.
   const data = computed<Event | null>(() => query.data.value as Event | null);
 
-  // Only show pending when we're actually fetching (not when using cache)
+  // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() => query.pending.value);
 
   async function refresh() {
     if (!key.value) return;
-    // Let useAsyncData refetch and update store in the success path above
+    // Let useAsyncData refetch and update store in the success path above.
     await refreshNuxtData(key.value);
   }
 
