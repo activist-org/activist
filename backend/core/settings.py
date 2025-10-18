@@ -15,16 +15,21 @@ from pathlib import Path
 
 import django
 import django_stubs_ext
-import dotenv
+from dotenv import load_dotenv
 
+# Load environment variables first
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
 if os.getenv("DJANGO_ENV") == "LOCAL_DEV":
-    dotenv.load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev")
-    dotenv.load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev.local")
-
+    load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev")
+    load_dotenv(override=True, dotenv_path=PROJECT_ROOT / ".env.dev.local")
 else:
-    dotenv.load_dotenv()
+    load_dotenv()
+
+# Now set a default SECRET_KEY for development and type checking
+os.environ.setdefault(
+    "SECRET_KEY", "django-insecure-dev-key-for-local-development-only"
+)
 
 # MARK: DB
 
@@ -41,7 +46,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "secret")
+# SECRET_KEY is now set via os.environ.setdefault() above
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
@@ -72,7 +78,6 @@ INSTALLED_APPS = [
     "content",
     "events",
     "rest_framework_simplejwt",
-    "django_filters",
 ]
 
 # MARK: Middleware

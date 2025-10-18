@@ -1,0 +1,236 @@
+{
+  "organizations": [
+    {
+      "id": "org_001",
+      "name": {
+        "en": "Green India Initiative",
+        "hi": "Harit Bharat Pahal"
+      },
+      "slug": "green-india-initiative",
+      "description": {
+        "en": "Committed to environmental conservation and sustainable development across India.",
+        "hi": "Bharat bhar mein paryavaran sanrakshan aur sustainable development ke liye pratibaddh."
+      },
+      "mission": {
+        "en": "To create a greener and cleaner India through community participation and sustainable practices.",
+        "hi": "Samudayik bhaagidari aur sustainable practices ke madhyam se ek harit aur swachh Bharat banana."
+      },
+      "logo_url": "https://example.com/logos/green-india.png",
+      "website": "https://greenindia.org.in",
+      "social_links": [
+        {
+          "platform": "twitter",
+          "url": "https://twitter.com/greenindia",
+          "icon": "fa-twitter"
+        },
+        {
+          "platform": "facebook",
+          "url": "https://facebook.com/greenindia",
+          "icon": "fa-facebook"
+        },
+        {
+          "platform": "instagram",
+          "url": "https://instagram.com/greenindia",
+          "icon": "fa-instagram"
+        }
+      ],
+      "resources": [
+        {
+          "id": "res_001",
+          "type": "document",
+          "title": {
+            "en": "Annual Report 2023",
+            "hi": "Varshik Report 2023"
+          },
+          "description": {
+            "en": "Our annual report detailing achievements and financials for the fiscal year 2022-23.",
+            "hi": "Vittiya varsh 2022-23 ke liye hamaari upalabdhiyon aur vittiya vivaranon ka varnan karne wali hamaari varshik report."
+          },
+          "url": "https://greenindia.org.in/reports/annual-2023.pdf",
+          "thumbnail": "https://greenindia.org.in/thumbnails/report-2023.jpg",
+          "language": "en",
+          "tags": ["report", "financial", "annual"]
+        }
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": {
+        "en": "Clean Ganga Mission",
+        "hi": "Namami Gange Mission"
+      },
+      "slug": "clean-ganga-mission",
+      "description": {
+        "en": "Dedicated to the conservation and rejuvenation of the Ganga river and its tributaries.",
+        "hi": "Ganga nadi aur uski sahayak nadiyon ke sanrakshan aur kayakalp ke liye samarpit."
+      },
+      "mission": {
+        "en": "To ensure effective abatement of pollution and rejuvenation of the river Ganga.",
+        "hi": "Ganga nadi ke pradushan ko prabhavi dhang se kam karna aur uske kayakalp ko sunishchit karna."
+      },
+      "logo_url": "https://nmcg.nic.in/logo.png",
+      "website": "https://nmcg.nic.in",
+      "social_links": [
+        {
+          "platform": "twitter",
+          "url": "https://twitter.com/cleanganganmcg",
+          "icon": "fa-twitter"
+        },
+        {
+          "platform": "facebook",
+          "url": "https://facebook.com/cleanganganmcg",
+          "icon": "fa-facebook"
+        },
+        {
+          "platform": "youtube",
+          "url": "https://youtube.com/cleanganganmcg",
+          "icon": "fa-youtube"
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "id": "group_001",
+      "organization_id": "org_001",
+      "name": {
+        "en": "Delhi Green Warriors",
+        "hi": "Dilli Green Warriors"
+      },
+      "slug": "delhi-green-warriors",
+      "description": {
+        "en": "Community group in Delhi focused on urban afforestation and waste management.",
+        "hi": "Dilli mein shehri vanikaran aur kachra prabandhan par kendrit samudayik samuh."
+      },
+      "social_links": [
+        {
+          "platform": "instagram",
+          "url": "https://instagram.com/delhigreenwarriors",
+          "icon": "fa-instagram"
+        },
+        {
+          "platform": "whatsapp",
+          "url": "https://wa.me/919876543210",
+          "icon": "fa-whatsapp"
+        }
+      ]
+    },
+    {
+      "id": "group_002",
+      "organization_id": "org_002",
+      "name": {
+        "en": "Ganga Cleanup Volunteers",
+        "hi": "Ganga Swachhata Swayamsevak"
+      },
+      "slug": "ganga-cleanup-volunteers",
+      "description": {
+        "en": "Volunteer group working on cleaning and preserving the Ganga river in Varanasi.",
+        "hi": "Varanasi mein Ganga nadi ki safai aur sanrakshan par kaam karne wala swayamsevi samuh."
+      },
+      "social_links": [
+        {
+          "platform": "facebook",
+          "url": "https://facebook.com/gangacleanupvaranasi",
+          "icon": "fa-facebook"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event_001",
+      "organization_id": "org_001",
+      "group_ids": ["group_001"],
+      "title": {
+        "en": "Delhi Tree Plantation Drive",
+        "hi": "Dilli Vriksharopan Abhiyan"
+      },
+      "slug": "delhi-tree-plantation-drive",
+      "description": {
+        "en": "Join us for a day of planting native trees in Delhi's Yamuna Biodiversity Park to combat air pollution and increase green cover.",
+        "hi": "Vayu pradushan se nipatne aur harit aavaran badhane ke liye Dilli ke Yamuna Biodiversity Park mein deshi ped lagane ke liye hamaare saath judein."
+      },
+      "start_time": "2023-11-05T07:00:00+05:30",
+      "end_time": "2023-11-05T11:00:00+05:30",
+      "timezone": "Asia/Kolkata",
+      "location": "Yamuna Biodiversity Park, New Delhi, 110054",
+      "is_online": false,
+      "registration_url": "https://greenindia.org.in/events/delhi-plantation-2023",
+      "resources": [
+        {
+          "id": "event_res_001",
+          "type": "document",
+          "title": {
+            "en": "Event Details & Guidelines",
+            "hi": "Karyakram ka vivaran aur disha-nirdesh"
+          },
+          "url": "https://greenindia.org.in/events/delhi-plantation-2023/guidelines.pdf",
+          "language": "en"
+        },
+        {
+          "id": "event_res_002",
+          "type": "map",
+          "title": {
+            "en": "Venue Location",
+            "hi": "Staan ka sthaan"
+          },
+          "url": "https://maps.app.goo.gl/xyz123",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "id": "event_002",
+      "organization_id": "org_002",
+      "group_ids": ["group_002"],
+      "title": {
+        "en": "Ganga Cleanup at Dashashwamedh Ghat",
+        "hi": "Dashashwamedh Ghat par Ganga safai abhiyan"
+      },
+      "slug": "ganga-cleanup-varanasi",
+      "description": {
+        "en": "Volunteer for cleaning the sacred ghats of Varanasi and raising awareness about river conservation.",
+        "hi": "Varanasi ke pavitra ghathon ki safai aur nadi sanrakshan ke baare mein jagrukta badhane ke liye swayamsevak banein."
+      },
+      "start_time": "2023-11-12T06:00:00+05:30",
+      "end_time": "2023-11-12T09:00:00+05:30",
+      "timezone": "Asia/Kolkata",
+      "location": "Dashashwamedh Ghat, Varanasi, Uttar Pradesh 221001",
+      "is_online": false,
+      "registration_url": "https://nmcg.nic.in/events/ganga-cleanup-varanasi"
+    }
+  ],
+  "resources": [
+    {
+      "id": "global_res_001",
+      "type": "guide",
+      "title": {
+        "en": "Urban Composting Guide (Hindi)",
+        "hi": "Shehri Composting Guide"
+      },
+      "description": {
+        "en": "A comprehensive guide to composting at home in urban Indian settings.",
+        "hi": "Bhartiya shehri settings mein ghar par composting ke liye ek vyapak guide."
+      },
+      "url": "https://greenindia.org.in/guides/urban-composting-hindi.pdf",
+      "language": "hi",
+      "tags": ["composting", "waste management", "sustainability"]
+    },
+    {
+      "id": "global_res_002",
+      "type": "video",
+      "title": {
+        "en": "Water Conservation Techniques for Indian Homes",
+        "hi": "Bhartiyon ke liye jal sanrakshan techniques"
+      },
+      "description": {
+        "en": "Learn practical water-saving techniques suitable for Indian households.",
+        "hi": "Bhartiya parivaron ke liye upyukt vyavaharik jal bachat techniques seekhein."
+      },
+      "url": "https://youtube.com/watch?v=xyz123",
+      "thumbnail": "https://img.youtube.com/vi/xyz123/maxresdefault.jpg",
+      "language": "hi",
+      "tags": ["water conservation", "sustainability", "india"]
+    }
+  ]
+}

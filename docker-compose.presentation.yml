@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=activist
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "
+        mkdir -p /app/static &&
+        python manage.py migrate &&
+        python manage.py collectstatic --noinput &&
+        python manage.py populate_db_from_json /app/data/presentation_data.json --clear &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - PYTHONPATH=/app
+      - DEBUG=1  
+    env_file:
+      - .env.dev
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
