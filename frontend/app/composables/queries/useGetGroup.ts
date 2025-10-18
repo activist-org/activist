@@ -5,10 +5,12 @@
 import type { MaybeRef } from "vue";
 
 import type { Group } from "~/types/communities/group";
+import type { AppError } from "~/utils/errorHandler";
 
 import { getGroup } from "~/services/communities/group/group";
 import { useGroupStore } from "~/stores/group";
-import { errorHandler } from "~/utils/errorHandler";
+
+export const getKeyForGetGroup = (id: string) => `group:${id}`;
 
 export function useGetGroup(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -16,18 +18,12 @@ export function useGetGroup(id: MaybeRef<string>) {
   const store = useGroupStore();
 
   // Cache key for useAsyncData.
-  const key = computed(() => (groupId.value ? `group:${groupId.value}` : null));
-
-  // Check if we have cached data.
-  const cached = computed<Group | null>(() =>
-    store.getGroup() && store.getGroup().id !== "" ? store.getGroup() : null
+  const key = computed(() =>
+    groupId.value ? getKeyForGetGroup(groupId.value) : null
   );
 
-  // Only fetch if we have an ID and no cached data.
-  const shouldFetch = computed(() => !!groupId.value && !cached.value);
-
   const query = useAsyncData(
-    `group:${groupId.value}`,
+    getKeyForGetGroup(groupId.value),
     async () => {
       if (!groupId.value) {
         return null;
@@ -39,31 +35,35 @@ export function useGetGroup(id: MaybeRef<string>) {
         store.setGroup(group);
         return group as Group;
       } catch (error) {
-        const err = errorHandler(error);
-        showToastError(err.message);
-        throw err;
+        showToastError((error as AppError).message);
+        throw error;
       }
     },
     {
       watch: [groupId],
-      immediate: shouldFetch.value,
+      immediate: true,
       dedupe: "defer",
-      // Don't execute on server if we already have cached data.
-      server: shouldFetch.value,
+      getCachedData: (key, nuxtApp) => {
+        if (
+          nuxtApp.isHydrating &&
+          store.getGroup() &&
+          store.getGroup().id !== "" &&
+          store.getGroup().id === groupId.value
+        ) {
+          return store.getGroup();
+        }
+        return nuxtApp.isHydrating
+          ? nuxtApp.payload.data[key]
+          : nuxtApp.static.data[key];
+      },
     }
   );
 
-  // Return cached data if available, otherwise data from useAsyncData.
-  const data = computed<Group | null>(() =>
-    cached.value && cached.value.id !== ""
-      ? cached.value
-      : (query.data.value as Group | null)
-  );
+  // Data from useAsyncData.
+  const data = computed<Group | null>(() => query.data.value as Group | null);
 
   // Only show pending when we're actually fetching (not when using cache).
-  const pending = computed(() =>
-    shouldFetch.value ? query.pending.value : false
-  );
+  const pending = computed(() => query.pending.value);
 
   async function refresh() {
     if (!key.value) {

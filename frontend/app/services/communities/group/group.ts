@@ -39,7 +39,9 @@ export function mapGroup(res: GroupResponse): GroupT {
 
 export async function getGroup(id: string): Promise<GroupT> {
   try {
-    const res = await get<GroupResponse>(`/communities/groups/${id}`);
+    const res = await get<GroupResponse>(`/communities/groups/${id}`, {
+      withoutAuth: true,
+    });
     return mapGroup(res);
   } catch (e) {
     const err = errorHandler(e);
@@ -51,7 +53,9 @@ export async function getGroup(id: string): Promise<GroupT> {
 
 export async function listGroups(): Promise<GroupT[]> {
   try {
-    const res = await get<GroupsResponseBody>(`/communities/group`);
+    const res = await get<GroupsResponseBody>(`/communities/group`, {
+      withoutAuth: true,
+    });
     return res.results.map(mapGroup);
   } catch (e) {
     const err = errorHandler(e);

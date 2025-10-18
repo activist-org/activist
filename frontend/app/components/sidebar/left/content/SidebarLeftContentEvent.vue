@@ -19,7 +19,7 @@
         class="elem-shadow-sm"
         eventType="action"
         :imgUrl="
-          event.iconUrl?.fileObject
+          event?.iconUrl?.fileObject
             ? `${BASE_BACKEND_URL_NO_V1}${event.iconUrl?.fileObject}`
             : logoUrl
         "
@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -74,8 +75,8 @@ const { openModal } = useModalHandlers("ModalUploadImageIcon");
 const logoUrl = ref(props.logoUrl);
 const menuEntriesState = useMenuEntriesState();
 
-const eventStore = useEventStore();
-const { event } = eventStore;
-
+const { data: event } = useGetEvent(
+  (useRoute().params.eventId as string) ?? ""
+);
 const showButton = true;
 </script>

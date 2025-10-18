@@ -2,10 +2,10 @@
 <template>
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ organization.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ organization?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
     <HeaderAppPageOrganization
-      :header="organization.name + ' ' + $t('i18n._global.faq')"
+      :header="organization?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
@@ -28,7 +28,7 @@
         <ModalFaqEntryOrganization />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="organization.faqEntries!.length > 0" class="py-4">
+    <div v-if="(organization?.faqEntries || []).length > 0" class="py-4">
       <!-- Draggable list -->
       <draggable
         v-model="faqList"
@@ -66,20 +66,24 @@
 import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
-import type { Organization } from "~/types/communities/organization";
 import type { FaqEntry } from "~/types/content/faq-entry";
 
-import { useOrganizationStore } from "~/stores/organization";
+import { useOrganizationFAQEntryMutations } from "~/composables/mutations/useOrganizationFAQEntryMutations";
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{ organization: Organization }>();
+const { data: organization } = useGetOrganization(
+  useRoute().params.orgId as string
+);
 
-const orgStore = useOrganizationStore();
+const { reorderFAQs } = useOrganizationFAQEntryMutations(
+  useRoute().params.orgId as string
+);
 
-const faqList = ref<FaqEntry[]>([...(props.organization.faqEntries || [])]);
+const faqList = ref<FaqEntry[]>([...(organization?.value?.faqEntries || [])]);
 
 watch(
-  () => props.organization.faqEntries,
+  () => organization?.value?.faqEntries,
   (newVal) => {
     faqList.value = newVal?.slice() ?? [];
   },
@@ -91,7 +95,7 @@ const onDragEnd = async () => {
     faq.order = index;
   });
 
-  await orgStore.reorderFaqEntries(props.organization, faqList.value);
+  await reorderFAQs(faqList.value);
 };
 </script>
 

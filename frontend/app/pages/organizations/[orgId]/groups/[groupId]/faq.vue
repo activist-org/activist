@@ -3,11 +3,11 @@
   <Tabs class="pt-2 md:pt-0" :selectedTab="3" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ props.group.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ group?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
 
     <HeaderAppPageGroup
-      :header="props.group.name + ' ' + $t('i18n._global.faq')"
+      :header="group?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
@@ -28,7 +28,7 @@
     </HeaderAppPageGroup>
 
     <div
-      v-if="props.group.faqEntries?.length"
+      v-if="(group?.faqEntries || []).length"
       class="py-4"
       data-testid="organization-group-faq-list"
     >
@@ -68,24 +68,29 @@
 import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
-import type { Group } from "~/types/communities/group";
 import type { FaqEntry } from "~/types/content/faq-entry";
 
 import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
+import { useGetGroup } from "~/composables/queries/useGetGroup";
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{ group: Group }>();
+const groupId = useRoute().params.groupId as string;
+const { data: group } = useGetGroup(groupId ?? "");
 
 const { openModal } = useModalHandlers("ModalFaqEntryGroup");
 
 const groupTabs = getGroupTabs();
-const { reorderFAQs } = useGroupFAQEntryMutations(props.group.id);
-const faqList = ref<FaqEntry[]>([...(props.group.faqEntries || [])]);
+const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
+const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 
 watch(
-  () => props.group.faqEntries,
+  () => group.value?.faqEntries,
   (newVal) => {
-    faqList.value = newVal?.slice() ?? [];
+    if (newVal) {
+      faqList.value = newVal.slice();
+    } else {
+      faqList.value = [];
+    }
   },
   { immediate: true }
 );
