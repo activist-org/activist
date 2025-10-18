@@ -42,6 +42,7 @@ import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
+
 const aboveMediumBP = useBreakpoint("md");
 
 const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(

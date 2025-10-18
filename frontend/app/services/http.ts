@@ -16,11 +16,6 @@ export type AcceptedBody =
   | object;
 
 function baseURL() {
-  const config = useRuntimeConfig();
-  const BASE_BACKEND_URL =
-    import.meta.server && config.apiBase
-      ? config.apiBase
-      : config.public.apiBase;
   return BASE_BACKEND_URL as string;
 }
 

@@ -5,16 +5,14 @@
       @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
     /> -->
-    <client-only>
-      <SidebarLeft
-        v-if="aboveMediumBP"
-        @blur="sidebarHover = false"
-        @focus="sidebarHover = true"
-        @mouseleave="sidebarHover = false"
-        @mouseover="sidebarHover = true"
-        class="block"
-      />
-    </client-only>
+    <SidebarLeft
+      v-if="aboveMediumBP"
+      @blur="sidebarHover = false"
+      @focus="sidebarHover = true"
+      @mouseleave="sidebarHover = false"
+      @mouseover="sidebarHover = true"
+      class="block"
+    />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
       <div
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"

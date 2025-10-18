@@ -11,7 +11,7 @@ export function useGetTopics() {
   const store = useTopics();
   const { showToastError } = useToaster();
 
-  // UseAsyncData for SSR, hydration, and cache
+  // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Topic[]>(
     () => getKeyForGetTopics(),
     async () => {

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Topic } from "~/types/content/topics";
 
 import { get } from "~/services/http";
@@ -16,7 +17,7 @@ export function mapTopics(res: Topic[]): Topic[] {
   }));
 }
 
-// MARK: Get All Topics
+// MARK: Get All
 
 export async function listTopics(): Promise<Topic[]> {
   try {

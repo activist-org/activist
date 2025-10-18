@@ -91,7 +91,7 @@ const onDragEnd = () => {
   reorderResources(resourceList.value);
 };
 watch(
-  () => event.value.resources,
+  () => event.value?.resources,
   (newResources) => {
     resourceList.value = [...(newResources || [])];
   }
