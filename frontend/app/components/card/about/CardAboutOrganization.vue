@@ -35,7 +35,7 @@
         <!-- <ShieldTopic :topic="organization.topic" /> -->
         <div class="flex items-center gap-3">
           <MetaTagLocation
-            v-if="organization.location"
+            v-if="organization?.location"
             :location="organization.location.displayName.split(',')[0] ?? ''"
           />
           <!-- <MetaTagMembers
@@ -50,7 +50,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ organization.texts.description }}
+            {{ organization?.texts?.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -89,6 +89,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextOrganization } = useModalHandlers(
@@ -98,11 +99,9 @@ const { openModal: openModalTextOrganization } = useModalHandlers(
 const { userIsSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(orgId);
 
 const description = ref();
 const descriptionExpandable = ref(false);

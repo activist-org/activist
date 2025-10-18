@@ -18,8 +18,8 @@
         "
         class="elem-shadow-sm"
         :imgUrl="
-          organization.iconUrl?.fileObject
-            ? `${BASE_BACKEND_URL_NO_V1}${organization.iconUrl?.fileObject}`
+          organization?.iconUrl?.fileObject
+            ? `${BASE_BACKEND_URL_NO_V1}${organization?.iconUrl?.fileObject}`
             : logoUrl
         "
       />
@@ -62,6 +62,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
@@ -76,8 +77,9 @@ const { openModal } = useModalHandlers("ModalUploadImageIcon");
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
 
-const organizationStore = useOrganizationStore();
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(
+  (useRoute().params.orgId as string) ?? ""
+);
 
 const showButton = true;
 </script>

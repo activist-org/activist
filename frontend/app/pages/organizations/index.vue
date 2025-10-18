@@ -25,6 +25,8 @@
 </template>
 
 <script setup lang="ts">
-const organizationStore = useOrganizationStore();
-const { organizations } = storeToRefs(organizationStore);
+import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
+const route = useRoute();
+const query = computed(() => route.query);
+const { data: organizations } = useGetOrganizations(query);
 </script>

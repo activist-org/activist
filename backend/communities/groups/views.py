@@ -393,29 +393,20 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
     queryset = GroupSocialLink.objects.all()
     serializer_class = GroupSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    http_method_names = ["post", "put", "delete"]
 
-    def delete(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        group: Group = serializer.validated_data["group"]
-
-        if request.user != group.created_by and not request.user.is_staff:
-            return Response(
-                {
-                    "detail": "You are not authorized to delete social links for this group."
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        GroupSocialLink.objects.filter(group=group).delete()
-        logger.info(f"Social links deleted for group {group.id}")
-
-        return Response(
-            {"message": "Social links deleted successfully."},
-            status=status.HTTP_204_NO_CONTENT,
-        )
-
+    @extend_schema(
+        responses={
+            201: OpenApiResponse(
+                response={"message": "Social link created successfully."}
+            ),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to create social links for this group."
+                }
+            ),
+        }
+    )
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -438,6 +429,20 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             status=status.HTTP_201_CREATED,
         )
 
+    @extend_schema(
+        responses={
+            200: OpenApiResponse(
+                response={"message": "Social links updated successfully."}
+            ),
+            400: OpenApiResponse(response={"detail": "Invalid request."}),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to update the social links for this group."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Social link not found."}),
+        }
+    )
     def update(self, request: Request, pk: UUID | str) -> Response:
         try:
             social_links = GroupSocialLink.objects.get(id=pk)
@@ -476,6 +481,19 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
         )
 
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(
+                response={"message": "Social link deleted successfully."}
+            ),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to delete this social link."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Social link not found."}),
+        }
+    )
     def destroy(self, request: Request, pk: UUID | str) -> Response:
         try:
             social_link = GroupSocialLink.objects.get(id=pk)
@@ -523,9 +541,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
 
         if request.user != group.created_by and not request.user.is_staff:
             return Response(
-                {
-                    "detail": "You are not authorized to create resource for this organization."
-                },
+                {"detail": "You are not authorized to create resource for this group."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
@@ -549,7 +565,7 @@ class GroupResourceViewSet(viewsets.ModelViewSet[GroupResource]):
 
         if request.user != resource.group.created_by and not request.user.is_staff:
             return Response(
-                {"detail": "You are not authorized to update this FAQ."},
+                {"detail": "You are not authorized to update this resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 

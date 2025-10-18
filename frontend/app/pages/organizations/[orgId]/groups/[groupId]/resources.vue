@@ -4,11 +4,11 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ group.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ group?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageGroup
-      :header="group.name + ' ' + $t('i18n._global.resources_lower')"
+      :header="group?.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
@@ -30,7 +30,7 @@
     </HeaderAppPageGroup>
     <!-- Draggable list -->
     <div
-      v-if="props.group.resources?.length"
+      v-if="(group?.resources || []).length"
       class="py-4"
       data-testid="organization-group-resources-list"
     >
@@ -72,32 +72,33 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-import type { Group } from "~/types/communities/group";
 import type { Resource } from "~/types/content/resource";
 
+import { useGroupResourcesMutations } from "~/composables/mutations/useGroupResourcesMutations";
+import { useGetGroup } from "~/composables/queries/useGetGroup";
 import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal } = useModalHandlers("ModalResourceGroup");
+const groupId = (useRoute().params.groupId as string) ?? "";
 
-const props = defineProps<{
-  group: Group;
-}>();
-const resourceList = ref<Resource[]>([...(props.group.resources || [])]);
+const { data: group } = useGetGroup(groupId);
+const resourceList = ref<Resource[]>([...(group.value?.resources || [])]);
 const groupTabs = getGroupTabs();
-const groupStore = useGroupStore();
+const { reorderResources } = useGroupResourcesMutations(groupId);
 const onDragEnd = () => {
-  resourceList.value.forEach((resource, index) => {
-    resource.order = index;
-  });
-
-  groupStore.reorderResource(props.group, resourceList.value);
+  resourceList.value = resourceList.value.map((resource, index) => ({
+    ...resource,
+    order: index,
+  }));
+  reorderResources(resourceList.value);
 };
 watch(
-  () => groupStore.group.resources,
+  () => group.value?.resources,
   (newResources) => {
     resourceList.value = [...(newResources || [])];
-  }
+  },
+  { deep: true }
 );
 </script>
 

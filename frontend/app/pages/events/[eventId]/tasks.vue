@@ -3,11 +3,11 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ event.name }}&nbsp;{{ $t("i18n.pages._global.tasks.tasks_lower") }}
+        {{ event?.name }}&nbsp;{{ $t("i18n.pages._global.tasks.tasks_lower") }}
       </Title>
     </Head>
     <HeaderAppPageEvent
-      :header="event.name + ' ' + $t('i18n.pages._global.tasks.tasks_lower')"
+      :header="event?.name + ' ' + $t('i18n.pages._global.tasks.tasks_lower')"
       :tagline="$t('i18n.pages._global.tasks.tasks_page_tagline')"
       :underDevelopment="true"
     >
