@@ -14,7 +14,7 @@ test.describe(
   "Organization Events Page - Display",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    // MARK: ACCESSIBILITY
+    // MARK: Accessibility
 
     // Note: Check to make sure that this is eventually done for light and dark modes.
     test("Organization Events Page has no detectable accessibility issues", async ({
@@ -49,7 +49,7 @@ test.describe(
       });
     });
 
-    // MARK: VIEW EVENTS
+    // MARK: View
 
     test("User can view organization events", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
@@ -91,7 +91,7 @@ test.describe(
       }
     });
 
-    // MARK: NAVIGATION
+    // MARK: Navigation
 
     test("User can navigate to individual events", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);

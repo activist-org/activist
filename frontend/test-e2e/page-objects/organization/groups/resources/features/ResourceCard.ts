@@ -10,6 +10,7 @@ import { getEnglishText } from "~/utils/i18n";
 export const ResourceCard = (page: Page) => {
   return {
     // MARK: Card Selectors
+
     getResourceCard(index: number) {
       return page.getByTestId("resource-card").nth(index);
     },
@@ -35,7 +36,8 @@ export const ResourceCard = (page: Page) => {
         .getByRole("heading", { level: 3 });
     },
 
-    // MARK: Resource Menu Elements
+    // MARK: Menu Elements
+
     getResourceMenuButton(index: number) {
       return page
         .getByTestId("resource-card")
@@ -68,6 +70,7 @@ export const ResourceCard = (page: Page) => {
     },
 
     // MARK: Actions
+
     async clickResourceLink(index: number) {
       await this.getResourceLink(index).click();
     },
@@ -85,6 +88,7 @@ export const ResourceCard = (page: Page) => {
     },
 
     // MARK: Content Methods
+
     async getResourceTitleText(index: number) {
       return await this.getResourceTitle(index).textContent();
     },

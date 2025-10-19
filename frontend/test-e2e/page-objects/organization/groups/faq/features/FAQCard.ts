@@ -8,6 +8,7 @@ import type { Page } from "@playwright/test";
 export const FAQCard = (page: Page) => {
   return {
     // MARK: Card Selectors
+
     getFaqCard(index: number) {
       return page.getByTestId("faq-card").nth(index);
     },
@@ -24,6 +25,7 @@ export const FAQCard = (page: Page) => {
     },
 
     // MARK: Interaction Elements
+
     getFaqDisclosureButton(index: number) {
       return page
         .getByTestId("faq-card")
@@ -39,6 +41,7 @@ export const FAQCard = (page: Page) => {
     },
 
     // MARK: Disclosure Elements
+
     getFaqDisclosurePanel(index: number) {
       return page
         .getByTestId("faq-card")
@@ -61,6 +64,7 @@ export const FAQCard = (page: Page) => {
     },
 
     // MARK: Content Methods
+
     async getFaqQuestionText(index: number) {
       return await this.getFaqQuestion(index).textContent();
     },
@@ -70,6 +74,7 @@ export const FAQCard = (page: Page) => {
     },
 
     // MARK: State Checks
+
     async isFaqExpanded(index: number) {
       const chevronUp = this.getFaqChevronUp(index);
       return await chevronUp.isVisible();
@@ -81,6 +86,7 @@ export const FAQCard = (page: Page) => {
     },
 
     // MARK: Actions
+
     async clickFaqDisclosure(index: number) {
       await this.getFaqDisclosureButton(index).click();
     },

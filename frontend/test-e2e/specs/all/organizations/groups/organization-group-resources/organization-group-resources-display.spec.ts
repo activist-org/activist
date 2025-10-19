@@ -46,7 +46,7 @@ test.describe(
   "Organization Group Resources Page - Display",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    // MARK: ACCESSIBILITY
+    // MARK: Accessibility
 
     test("Organization Group Resources Page has no detectable accessibility issues", async ({
       page,
@@ -80,7 +80,7 @@ test.describe(
       });
     });
 
-    // MARK: VIEW RESOURCES
+    // MARK: View
 
     test("User can view group resources", async ({ page }, testInfo) => {
       logTestPath(testInfo);
@@ -127,7 +127,7 @@ test.describe(
       }
     });
 
-    // MARK: SHARE RESOURCES
+    // MARK: Share
 
     test("User can share group resources", async ({ page }, testInfo) => {
       logTestPath(testInfo);

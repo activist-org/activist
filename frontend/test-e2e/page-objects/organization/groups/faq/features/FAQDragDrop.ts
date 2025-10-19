@@ -8,6 +8,7 @@ import type { Page } from "@playwright/test";
 export const FAQDragDrop = (page: Page) => {
   return {
     // MARK: Drag Handles
+
     getFaqDragHandle(index: number) {
       return page
         .getByTestId("faq-card")
@@ -21,6 +22,7 @@ export const FAQDragDrop = (page: Page) => {
     },
 
     // MARK: Drag Operations
+
     async dragFaqToPosition(fromIndex: number, toIndex: number) {
       const sourceHandle = this.getFaqDragHandle(fromIndex);
       const targetHandle = this.getFaqDragHandle(toIndex);

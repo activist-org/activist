@@ -6,12 +6,11 @@ import { expect } from "playwright/test";
 import { getEnglishText } from "~/utils/i18n";
 
 export const newSidebarLeft = (page: Page) => {
-  // Private state patterns (in closure)
+  // Private state patterns in closure and locators.
   const collapsed = /w-20|w-16/;
   const expanded = /w-60|w-56/;
   const locked = /-rotate-180/;
 
-  // Locators
   const root = page.locator("#sidebar-left");
   const lockToggle = root.getByRole("button", {
     name: new RegExp(
@@ -23,11 +22,12 @@ export const newSidebarLeft = (page: Page) => {
   });
 
   return {
-    // MARK: PUBLIC LOCATORS
+    // MARK: Public Locators
     root,
     lockToggle,
 
-    // MARK: STATE CHECK METHODS
+    // MARK: State Check Methods
+
     async isCollapsed(): Promise<boolean> {
       const classes = (await root.getAttribute("class")) ?? "";
       return collapsed.test(classes);
@@ -64,7 +64,8 @@ export const newSidebarLeft = (page: Page) => {
       await expect(lockToggle, message).not.toHaveClass(locked);
     },
 
-    // MARK: INTERACTION METHODS
+    // MARK: Interaction Methods
+
     async hover(): Promise<void> {
       await root.hover();
     },

@@ -14,14 +14,15 @@ test.describe(
   "Organization Group About Page - Social Links",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    test.setTimeout(60000); // Group pages load slowly in dev mode
+    test.setTimeout(60000); // group pages load slowly in dev mode
 
     test("User can manage social links (CREATE, UPDATE, DELETE)", async ({
       page,
     }, testInfo) => {
       logTestPath(testInfo);
 
-      // MARK: SETUP
+      // MARK: Setup
+
       const organizationPage = newOrganizationPage(page);
       const { groupAboutPage, socialLinksModal } = organizationPage;
 
@@ -36,8 +37,9 @@ test.describe(
       const updatedLabel = `Updated Group Social Link ${timestamp}`;
       const updatedUrl = `https://updated-group-${timestamp}.com`;
 
-      // MARK: PHASE 1 - CREATE
-      // Add a new social link
+      // MARK: Create
+
+      // Add a new social link.
       const connectCardEditIcon =
         groupAboutPage.connectCard.getByTestId("edit-icon");
       await connectCardEditIcon.click();
@@ -115,7 +117,8 @@ test.describe(
         throw new Error("No social links found after CREATE operation");
       }
 
-      // MARK: PHASE 2 - UPDATE
+      // MARK: Update
+
       // Edit the social link we just created
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
@@ -222,7 +225,8 @@ test.describe(
         await expect(updatedSocialLink).toHaveAttribute("href", updatedUrl);
       }
 
-      // MARK: PHASE 3 - DELETE
+      // MARK: Delete
+
       // Remove the social link we updated
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
@@ -285,7 +289,8 @@ test.describe(
         "DELETE"
       );
 
-      // MARK: VERIFICATION
+      // MARK: Verification
+
       // Verify the deleted social link no longer appears on the Connect card
       // Wait for the modal to close and page to update.
       await expect(groupAboutPage.socialLinksModal).not.toBeVisible({});

@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 
 import { getEnglishText } from "~/utils/i18n";
 
-// Import page-specific features
+// Import page-specific features.
 import { FAQCard } from "./features/FAQCard";
 import { FAQDragDrop } from "./features/FAQDragDrop";
 import { FAQList } from "./features/FAQList";
@@ -17,13 +17,14 @@ import { FAQModal } from "./features/FAQModal";
  */
 export const newOrganizationGroupFAQPage = (page: Page) => {
   return {
-    // Compose from page-specific features
+    // Compose from page-specific features.
     ...FAQList(page),
     ...FAQCard(page),
     ...FAQModal(page),
     ...FAQDragDrop(page),
 
-    // MARK: Page-Level Elements (FAQ page specific)
+    // MARK: Page Elements
+
     get newFaqButton() {
       return page.getByRole("button", {
         name: new RegExp(
@@ -34,6 +35,7 @@ export const newOrganizationGroupFAQPage = (page: Page) => {
     },
 
     // MARK: Tab Navigation
+
     get tabs() {
       return page.getByRole("tablist");
     },
@@ -63,6 +65,7 @@ export const newOrganizationGroupFAQPage = (page: Page) => {
     },
 
     // MARK: Page Actions
+
     async clickNewFaq() {
       await this.newFaqButton.click();
     },

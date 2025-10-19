@@ -13,7 +13,7 @@ test.describe(
   "Organization Group About Page - Accessibility",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    test.setTimeout(60000); // Group pages load slowly in dev mode
+    test.setTimeout(60000); // group pages load slowly in dev mode
 
     test("Organization Group About Page has no detectable accessibility issues", async ({
       page,

@@ -18,7 +18,7 @@ test.describe(
   "Organization Group FAQ Page - Management",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    // MARK: CREATE FAQ
+    // MARK: Create
 
     test("User can access new FAQ creation", async ({ page }, testInfo) => {
       logTestPath(testInfo);
@@ -103,7 +103,7 @@ test.describe(
       await expect(answerElement).toContainText(testAnswer);
     });
 
-    // MARK: REORDER FAQ
+    // MARK: Reorder
 
     test("User can reorder FAQ entries using drag and drop", async ({
       page,
@@ -160,7 +160,7 @@ test.describe(
       }
     });
 
-    // MARK: EDIT FAQ
+    // MARK: Edit
 
     test("User can edit existing FAQ entries", async ({ page }, testInfo) => {
       logTestPath(testInfo);
@@ -257,7 +257,7 @@ test.describe(
         );
         const answerElement = updatedFaqCard.getByTestId("faq-answer");
 
-        // Check if the FAQ is already expanded, if not, click to expand it
+        // Check if the FAQ is already expanded, if not, click to expand it.
         const isExpanded = await answerElement.isVisible();
         if (!isExpanded) {
           await disclosureButton.click();

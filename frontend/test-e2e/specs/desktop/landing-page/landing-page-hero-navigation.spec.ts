@@ -35,7 +35,7 @@ test.describe(
       await context.clearCookies();
     });
 
-    // MARK: HERO NAVIGATION
+    // MARK: Header Navigation
 
     test("User can go to Roadmap on desktop", async ({ page }) => {
       await page.getByRole("link", { name: ROADMAP_LINK_NAME }).click();
@@ -88,7 +88,7 @@ test.describe(
       expect(page.url()).toContain("/activist");
     });
 
-    // MARK: AUTHENTICATION
+    // MARK: Authentication
 
     test("User can go to Sign In page", async ({ page }) => {
       await page.getByRole("link", { name: SIGN_IN_LINK_NAME }).click();
@@ -104,7 +104,7 @@ test.describe(
       expect(page.url()).toContain("/auth/sign-up");
     });
 
-    // MARK: THEME & LANGUAGE
+    // MARK: Theme & Language
 
     test("User can change theme", async ({ page }) => {
       const themeMenu = newThemeMenu(page);

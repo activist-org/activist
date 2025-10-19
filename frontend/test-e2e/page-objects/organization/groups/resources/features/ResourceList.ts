@@ -8,6 +8,7 @@ import type { Page } from "@playwright/test";
 export const ResourceList = (page: Page) => {
   return {
     // MARK: List Container
+
     get resourcesList() {
       return page.getByTestId("organization-group-resources-list");
     },
@@ -25,6 +26,7 @@ export const ResourceList = (page: Page) => {
     },
 
     // MARK: Empty State
+
     get emptyState() {
       return page.getByTestId("empty-state");
     },
@@ -34,6 +36,7 @@ export const ResourceList = (page: Page) => {
     },
 
     // MARK: List Operations
+
     async getResourceCount() {
       return await this.resourceCards.count();
     },

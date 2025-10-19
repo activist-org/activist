@@ -8,6 +8,7 @@ import type { Page } from "@playwright/test";
 export const FAQList = (page: Page) => {
   return {
     // MARK: List Container
+
     get faqList() {
       return page.getByTestId("organization-group-faq-list");
     },
@@ -25,6 +26,7 @@ export const FAQList = (page: Page) => {
     },
 
     // MARK: Empty State
+
     get emptyState() {
       return page.getByTestId("empty-state");
     },
@@ -34,6 +36,7 @@ export const FAQList = (page: Page) => {
     },
 
     // MARK: List Operations
+
     async getFaqCount() {
       return await this.faqCards.count();
     },

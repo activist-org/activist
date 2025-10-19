@@ -26,7 +26,7 @@ test.describe(
       await context.clearCookies();
     });
 
-    // MARK: PASSWORD STRENGTH
+    // MARK: Pass Strength
 
     test("Page shows user password strength rating", async ({ page }) => {
       const signInPage = newSignInPage(page);
@@ -99,7 +99,7 @@ test.describe(
       }
     });
 
-    // MARK: CAPTCHA
+    // MARK: Captcha
 
     test("Page displays captcha", async ({ page }) => {
       const signInPage = newSignInPage(page);
@@ -107,7 +107,7 @@ test.describe(
       await expect(signInPage.captcha).toBeVisible();
     });
 
-    // MARK: ERROR HANDLING
+    // MARK: Error Handling
 
     test("Page shows error for invalid credentials", async ({ page }) => {
       const signInPage = newSignInPage(page);
@@ -134,7 +134,7 @@ test.describe(
       expect(page.url()).toContain("/auth/sign-in");
     });
 
-    // MARK: ACCESSIBILITY
+    // MARK: Accessibility
 
     test(
       "Sign In Page has no detectable accessibility issues",

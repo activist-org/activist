@@ -45,7 +45,7 @@ test.describe(
   "Organization Group Resources Page - Management",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    // MARK: CREATE RESOURCES
+    // MARK: Create
 
     test("User can access new resource creation", async ({
       page,
@@ -72,7 +72,7 @@ test.describe(
       await expect(groupResourcesPage.resourceModal).not.toBeVisible();
     });
 
-    // MARK: EDIT RESOURCES
+    // MARK: Edit
 
     test("User can edit group resources", async ({ page }, testInfo) => {
       logTestPath(testInfo);

@@ -26,7 +26,7 @@ test.describe(
   "Organization About Page - Content Editing",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    test.setTimeout(60000); // Increased timeout for slow dev mode loading
+    test.setTimeout(60000); // increased timeout for slow dev mode loading
 
     test("User can edit the About section", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);

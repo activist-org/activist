@@ -16,7 +16,7 @@ test.describe(
   "Organization Group Resources Page - Mobile",
   { tag: "@mobile" },
   () => {
-    test.setTimeout(60000); // Group pages load slowly in dev mode
+    test.setTimeout(60000); // group pages load slowly in dev mode
 
     test("User can reorder resources using drag and drop on mobile", async ({
       page,

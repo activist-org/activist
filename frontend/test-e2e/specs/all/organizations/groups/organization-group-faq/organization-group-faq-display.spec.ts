@@ -14,7 +14,7 @@ test.describe(
   "Organization Group FAQ Page - Display",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    // MARK: ACCESSIBILITY
+    // MARK: Accessibility
 
     test("Organization Group FAQ Page has no detectable accessibility issues", async ({
       page,
@@ -48,7 +48,7 @@ test.describe(
       });
     });
 
-    // MARK: VIEW FAQ ENTRIES
+    // MARK: View Entries
 
     test("User can view and interact with FAQ entries", async ({
       page,

@@ -32,7 +32,8 @@ test.describe(
     test("User can manage social links (CREATE, UPDATE, DELETE)", async ({
       page,
     }) => {
-      // MARK: SETUP
+      // MARK: Setup
+
       const organizationPage = newOrganizationPage(page);
       const { aboutPage, socialLinksModal } = organizationPage;
 
@@ -54,7 +55,8 @@ test.describe(
       const updatedLabel = `Updated Social Link ${timestamp}`;
       const updatedUrl = `https://updated-${timestamp}.com`;
 
-      // MARK: PHASE 1 - CREATE
+      // MARK: Create
+
       // Add a new social link
       await aboutPage.connectCardEditIcon.click();
       await expect(socialLinksModal.modal).toBeVisible();
@@ -128,7 +130,8 @@ test.describe(
         }
       }
 
-      // MARK: PHASE 2 - UPDATE
+      // MARK: Update
+
       // Edit the social link we just created
       await aboutPage.connectCardEditIcon.click();
       await expect(socialLinksModal.modal).toBeVisible();
@@ -212,8 +215,9 @@ test.describe(
         connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })
       ).toHaveAttribute("href", updatedUrl);
 
-      // MARK: PHASE 3 - DELETE
-      // Remove the social link we updated
+      // MARK: Delete
+
+      // Remove the social link we updated.
       await aboutPage.connectCardEditIcon.click();
       await expect(socialLinksModal.modal).toBeVisible();
 
@@ -274,7 +278,8 @@ test.describe(
         deleteSubmitButton,
         "DELETE"
       );
-      // MARK: VERIFICATION
+      // MARK: Verification
+
       // Verify the deleted social link no longer appears on the Connect card
       // Use getByTestId and filter by text since accessible name might include icon.
       await expect(

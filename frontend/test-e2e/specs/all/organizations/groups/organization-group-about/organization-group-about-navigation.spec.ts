@@ -13,7 +13,7 @@ test.describe(
   "Organization Group About Page - Navigation",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    test.setTimeout(60000); // Group pages load slowly in dev mode
+    test.setTimeout(60000); // group pages load slowly in dev mode
 
     test("Group about page tab navigation works correctly", async ({
       page,

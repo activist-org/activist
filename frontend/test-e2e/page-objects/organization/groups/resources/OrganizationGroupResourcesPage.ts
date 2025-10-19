@@ -17,21 +17,22 @@ import { ResourceModal } from "./features/ResourceModal";
  * Composed from focused features for better maintainability.
  */
 export const newOrganizationGroupResourcesPage = (page: Page) => {
-  // Get global share modal (from component-objects/)
+  // Get global share modal (from component-objects/).
   const shareModal = newShareModal(page);
 
   return {
-    // Compose from page-specific features
+    // Compose from page-specific features.
     ...ResourceList(page),
     ...ResourceCard(page),
     ...ResourceModal(page),
     ...ResourceDragDrop(page),
 
-    // Include global share modal
+    // Include global share modal.
     shareModal: shareModal.modal,
     shareModalCloseButton: shareModal.closeButton,
 
-    // MARK: Page-Level Elements (Resources page specific)
+    // MARK: Page Elements
+
     get newResourceButton() {
       return page.getByRole("button", {
         name: new RegExp(
@@ -44,6 +45,7 @@ export const newOrganizationGroupResourcesPage = (page: Page) => {
     },
 
     // MARK: Tab Navigation
+
     get tabs() {
       return page.getByRole("tablist");
     },
@@ -73,6 +75,7 @@ export const newOrganizationGroupResourcesPage = (page: Page) => {
     },
 
     // MARK: Page Actions
+
     async clickNewResource() {
       await this.newResourceButton.click();
     },

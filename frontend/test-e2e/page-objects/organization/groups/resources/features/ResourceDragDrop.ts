@@ -8,6 +8,7 @@ import type { Page } from "@playwright/test";
 export const ResourceDragDrop = (page: Page) => {
   return {
     // MARK: Drag Handles
+
     getResourceDragHandle(index: number) {
       return page
         .getByTestId("resource-card")
@@ -16,6 +17,7 @@ export const ResourceDragDrop = (page: Page) => {
     },
 
     // MARK: Drag Operations
+
     async dragResourceToPosition(fromIndex: number, toIndex: number) {
       const sourceHandle = this.getResourceDragHandle(fromIndex);
       const targetHandle = this.getResourceDragHandle(toIndex);

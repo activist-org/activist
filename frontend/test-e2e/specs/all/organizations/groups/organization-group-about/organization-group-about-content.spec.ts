@@ -14,7 +14,7 @@ test.describe(
   "Organization Group About Page - Content Editing",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    test.setTimeout(60000); // Group pages load slowly in dev mode
+    test.setTimeout(60000); // group pages load slowly in dev mode
 
     test("User can edit the About section", async ({ page }, testInfo) => {
       logTestPath(testInfo);

@@ -19,7 +19,7 @@ test.describe(
       await context.clearCookies();
     });
 
-    // MARK: PASSWORD VISIBILITY
+    // MARK: Pass Visibility
 
     test("User can show and hide password", async ({ page }) => {
       const signInPage = newSignInPage(page);
@@ -44,7 +44,7 @@ test.describe(
       await expect(passwordInput).toHaveAttribute("type", "password");
     });
 
-    // MARK: NAVIGATION
+    // MARK: Navigation
 
     test("User can go to Reset Password page", async ({ page }) => {
       const signInPage = newSignInPage(page);
@@ -55,7 +55,7 @@ test.describe(
       expect(page.url()).toContain("/auth/pwreset/email");
     });
 
-    // MARK: SIGN IN FLOW
+    // MARK: Sign In Flow
 
     test("User can sign in and go to home page", async ({ page }) => {
       const signInPage = newSignInPage(page);

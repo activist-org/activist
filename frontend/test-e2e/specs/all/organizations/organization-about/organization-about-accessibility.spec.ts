@@ -28,7 +28,7 @@ test.describe(
   "Organization About Page - Accessibility",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    test.setTimeout(60000); // Increased timeout for slow dev mode loading
+    test.setTimeout(60000); // increased timeout for slow dev mode loading
 
     test("Organization About Page has no detectable accessibility issues", async ({
       page,

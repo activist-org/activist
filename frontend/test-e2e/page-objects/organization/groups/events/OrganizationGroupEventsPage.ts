@@ -9,7 +9,8 @@ import { getEnglishText } from "~/utils/i18n";
  */
 export const newOrganizationGroupEventsPage = (page: Page) => {
   return {
-    // MARK: HEADER ELEMENTS
+    // MARK: Header
+
     get newEventButton() {
       return page.getByRole("link", { name: /new event/i });
     },
@@ -18,7 +19,7 @@ export const newOrganizationGroupEventsPage = (page: Page) => {
       return page.getByRole("button", { name: /subscribe to events/i });
     },
 
-    // MARK: LIST AND CARD ELEMENTS
+    // MARK: Lists and Cards
     get eventsList() {
       return page.locator(".space-y-3.py-4");
     },
@@ -35,7 +36,8 @@ export const newOrganizationGroupEventsPage = (page: Page) => {
       return this.eventCards.last();
     },
 
-    // MARK: EMPTY STATE ELEMENTS
+    // MARK: Empty State
+
     get emptyState() {
       return page.getByTestId("empty-state");
     },
@@ -44,7 +46,8 @@ export const newOrganizationGroupEventsPage = (page: Page) => {
       return this.emptyState.getByRole("heading", { level: 4 }).first();
     },
 
-    // MARK: TAB NAVIGATION ELEMENTS
+    // MARK: Tab Navigation
+
     get tabs() {
       return page.getByRole("tablist");
     },
@@ -73,7 +76,8 @@ export const newOrganizationGroupEventsPage = (page: Page) => {
       });
     },
 
-    // MARK: ACTIONS
+    // MARK: Actions
+
     async clickNewEvent() {
       await this.newEventButton.click();
     },
@@ -102,7 +106,8 @@ export const newOrganizationGroupEventsPage = (page: Page) => {
       await this.faqTab.click();
     },
 
-    // MARK: VERIFICATION METHODS
+    // MARK: Verification
+
     async getEventCount() {
       return await this.eventCards.count();
     },
@@ -128,7 +133,8 @@ export const newOrganizationGroupEventsPage = (page: Page) => {
       return count > 0;
     },
 
-    // MARK: CARD INTERACTION METHODS
+    // MARK: Card Interactions
+
     getEventCard(index: number) {
       return this.eventCards.nth(index);
     },

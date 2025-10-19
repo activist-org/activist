@@ -8,7 +8,7 @@ import { getEnglishText } from "~/utils/i18n";
  * Handles interactions with the group about page within an organization
  */
 export const newOrganizationGroupAboutPage = (page: Page) => {
-  // Helper method to wait for tab state to update (private in closure)
+  // Helper method to wait for tab state to update (private in closure).
   const waitForTabState = async (tab: Locator, expectedSelected: boolean) => {
     await tab.waitFor({ state: "attached" });
 
@@ -32,7 +32,8 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
   };
 
   return {
-    // MARK: HEADER ELEMENTS
+    // MARK: Header
+
     get joinGroupButton() {
       return page.getByRole("link", {
         name: new RegExp(
@@ -53,7 +54,8 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
       });
     },
 
-    // MARK: MAIN CONTENT ELEMENTS
+    // MARK: Main Content
+
     get aboutCard() {
       return page.getByTestId("card-about");
     },
@@ -70,7 +72,8 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
       return page.getByTestId("card-connect");
     },
 
-    // MARK: MODAL ELEMENTS
+    // MARK: Modals
+
     get shareModal() {
       return page.getByTestId("modal-ModalSharePage");
     },
@@ -83,7 +86,8 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
       return page.getByTestId("modal-ModalTextGroup");
     },
 
-    // MARK: TAB NAVIGATION ELEMENTS
+    // MARK: Tab Navigation
+
     get tabs() {
       return page.getByRole("tablist");
     },
@@ -112,7 +116,8 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
       });
     },
 
-    // MARK: ACTIONS
+    // MARK: Actions
+
     async clickJoinGroup() {
       await this.joinGroupButton.click();
     },
@@ -174,7 +179,8 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
       }
     },
 
-    // MARK: VERIFICATION METHODS
+    // MARK: Verification
+
     async isJoinGroupButtonVisible() {
       return await this.joinGroupButton.isVisible();
     },

@@ -12,7 +12,7 @@ test.describe(
   "Organization Events Page - Interactions",
   { tag: ["@desktop", "@mobile"] },
   () => {
-    // MARK: CREATE EVENT
+    // MARK: Create
 
     test("User can access new event creation", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
@@ -26,7 +26,7 @@ test.describe(
       // and we want to keep the test focused on the events page functionality.
     });
 
-    // MARK: SUBSCRIBE
+    // MARK: Subscribe
 
     test("User can access events subscription", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
@@ -39,7 +39,7 @@ test.describe(
       // Click the subscribe button (this should trigger calendar download).
       await eventsPage.eventsSubscribeButton.click();
 
-      // Note: The actual download functionality is handled by the browser
+      // Note: The actual download functionality is handled by the browser.
       // and testing file downloads requires special configuration.
     });
 
@@ -69,7 +69,7 @@ test.describe(
         // Click subscribe button (this should trigger calendar download).
         await subscribeButton.click();
 
-        // Note: The actual download functionality is handled by the browser
+        // Note: The actual download functionality is handled by the browser.
         // and testing file downloads requires special configuration.
         // We just verify the button is functional and clickable.
       } else {
@@ -78,7 +78,7 @@ test.describe(
       }
     });
 
-    // MARK: SHARE EVENT
+    // MARK: Share
 
     test("User can share the organization event", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);

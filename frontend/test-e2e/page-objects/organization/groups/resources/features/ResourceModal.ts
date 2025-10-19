@@ -10,6 +10,7 @@ import { getEnglishText } from "~/utils/i18n";
 export const ResourceModal = (page: Page) => {
   return {
     // MARK: Modal Container
+
     get resourceModal() {
       return page.getByTestId("modal-ModalResourceGroup");
     },
@@ -27,6 +28,7 @@ export const ResourceModal = (page: Page) => {
     },
 
     // MARK: Form Elements
+
     getResourceNameInput(modal: Locator) {
       return modal.getByRole("textbox", {
         name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
@@ -55,6 +57,7 @@ export const ResourceModal = (page: Page) => {
     },
 
     // MARK: Actions
+
     async fillResourceForm(
       modal: Locator,
       name: string,

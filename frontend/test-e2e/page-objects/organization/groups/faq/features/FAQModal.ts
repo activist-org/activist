@@ -10,6 +10,7 @@ import { getEnglishText } from "~/utils/i18n";
 export const FAQModal = (page: Page) => {
   return {
     // MARK: Modal Container
+
     get faqModal() {
       return page.locator("#modal").first();
     },
@@ -27,6 +28,7 @@ export const FAQModal = (page: Page) => {
     },
 
     // MARK: Form Elements
+
     getFaqQuestionInput(modal: Locator) {
       return modal.getByRole("textbox", {
         name: new RegExp(
@@ -52,6 +54,7 @@ export const FAQModal = (page: Page) => {
     },
 
     // MARK: Actions
+
     async fillFaqForm(modal: Locator, question: string, answer: string) {
       await this.getFaqQuestionInput(modal).fill(question);
       await this.getFaqAnswerInput(modal).fill(answer);
