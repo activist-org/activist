@@ -3,7 +3,7 @@ import type { Page } from "playwright";
 
 import { expect, test } from "playwright/test";
 
-import { newOrganizationPage } from "~/test-e2e/page-objects/OrganizationPage";
+import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
 import { getEnglishText } from "~/utils/i18n";
 
@@ -163,8 +163,13 @@ export async function navigateToOrganizationSubpage(
     await expect(subpageOption).toBeVisible();
     await subpageOption.waitFor({ state: "attached" });
 
-    // Additional wait to ensure menu entries are created with correct route parameters.
-    await page.waitForTimeout(500);
+    // Wait intelligently for menu entries to be created with correct route parameters.
+    await expect(async () => {
+      const href = await subpageOption.getAttribute("href");
+      expect(href).toBeTruthy();
+      expect(href).toContain(`/${subpage}`);
+    }).toPass({ timeout: 2000, intervals: [50, 100, 250] });
+
     await subpageOption.click();
   }
 

@@ -59,7 +59,7 @@ test.describe("Organizations Home Page", { tag: "@mobile" }, () => {
         await expect(emptyState).toBeVisible();
         expect(cardCount).toBe(0);
       }
-    }).toPass({ timeout: 10000 });
+    }).toPass();
   });
 
   // Skip this test until topic filtering functionality is implemented.

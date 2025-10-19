@@ -27,14 +27,12 @@ export async function signInAsAdmin(
   await signInPage.usernameInput.waitFor({ state: "visible", timeout: 30000 });
   await signInPage.usernameInput.fill(username);
   await signInPage.passwordInput.fill(password);
-  await page.waitForTimeout(500);
 
   // Click CAPTCHA if present.
   const { captcha } = signInPage;
   try {
     if (await captcha.isVisible({ timeout: 2000 })) {
       await captcha.click();
-      await page.waitForTimeout(500);
     }
   } catch {
     // CAPTCHA not present, continue.
