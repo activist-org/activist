@@ -13,7 +13,7 @@
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
-          v-if="group.getInvolvedUrl"
+          v-if="group?.getInvolvedUrl"
           ariaLabel="i18n._global.join_group_aria_label"
           :cta="true"
           data-testid="get-involved-join-button"
@@ -26,13 +26,13 @@
       </div>
     </div>
     <div class="space-y-3 pt-3">
-      <p v-if="group.texts.getInvolved">
+      <p v-if="group?.texts?.getInvolved">
         {{ group.texts.getInvolved }}
       </p>
       <p v-else>
         {{
           $t("i18n.components.card_get_involved_group.join_group_subtext", {
-            entity_name: group.name,
+            entity_name: group?.name,
           })
         }}.
       </p>
@@ -41,6 +41,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetGroup } from "~/composables/queries/useGetGroup";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
@@ -48,9 +49,7 @@ const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 const { userIsSignedIn } = useUser();
 
 const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-const { group } = groupStore;
+const { data: group } = useGetGroup(groupId);
 </script>

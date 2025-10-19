@@ -3,11 +3,11 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ event.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ event?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageEvent
-      :header="event.name + ' ' + $t('i18n._global.resources_lower')"
+      :header="event?.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.events.resources.tagline')"
       :underDevelopment="false"
     >
@@ -28,7 +28,7 @@
       <ModalResourceEvent />
     </HeaderAppPageEvent>
     <!-- Draggable list -->
-    <div v-if="props.event.resources?.length" class="py-4">
+    <div v-if="(event?.resources ?? []).length" class="py-4">
       <draggable
         v-model="resourceList"
         @end="onDragEnd"
@@ -69,27 +69,29 @@
 import draggable from "vuedraggable";
 
 import type { Resource } from "~/types/content/resource";
-import type { Event } from "~/types/events/event";
 
+import { useEventResourcesMutations } from "~/composables/mutations/useEventResourcesMutations";
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
-const { openModal } = useModalHandlers("ModalResourceEvent");
-const props = defineProps<{
-  event: Event;
-}>();
+const route = useRoute();
+const eventId = (route.params.eventId as string) ?? "";
 
-const resourceList = ref<Resource[]>([...(props.event.resources || [])]);
-const eventStore = useEventStore();
+const { openModal } = useModalHandlers("ModalResourceEvent");
+const { data: event } = useGetEvent(eventId);
+const { reorderResources } = useEventResourcesMutations(eventId);
+
+const resourceList = ref<Resource[]>([...(event?.value?.resources || [])]);
 const onDragEnd = () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
   });
 
-  eventStore.reorderResource(props.event, resourceList.value);
+  reorderResources(resourceList.value);
 };
 watch(
-  () => eventStore.event.resources,
+  () => event.value?.resources,
   (newResources) => {
     resourceList.value = [...(newResources || [])];
   }

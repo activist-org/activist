@@ -24,7 +24,7 @@
           showButton &&
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
         "
-        @click="openModalUploadImage()"
+        @click="showToastError('THIS FEATURE IS COMING SOON!')"
         :aria-label="
           $t('i18n.components.sidebar_left_content_group_page.edit_aria_label')
         "
@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { IconMap } from "~/types/icon-map";
-
+const { showToastError } = useToaster();
 const props = defineProps<{
   name: string;
   logoUrl?: string;
@@ -47,9 +47,9 @@ const props = defineProps<{
 const { name } = toRefs(props);
 
 const sidebar = useSidebar();
-const { openModal: openModalUploadImage } = useModalHandlers(
-  "ModalUploadImageIcon"
-);
+// const { openModal: openModalUploadImage } = useModalHandlers(
+//   "ModalUploadImageIcon"
+// );
 
 const showButton = true;
 </script>

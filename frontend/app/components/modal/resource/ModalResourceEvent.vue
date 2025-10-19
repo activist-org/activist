@@ -13,6 +13,9 @@
 <script setup lang="ts">
 import type { Resource, ResourceInput } from "~/types/content/resource";
 
+import { useEventResourcesMutations } from "~/composables/mutations/useEventResourcesMutations";
+import { useGetEvent } from "~/composables/queries/useGetEvent";
+
 const props = defineProps<{
   resource?: Resource;
 }>();
@@ -22,11 +25,10 @@ const modalName = "ModalResourceEvent" + (props.resource?.id ?? "");
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId);
+const { updateResource, createResource } = useEventResourcesMutations(eventId);
 
 const formData = ref<Resource | undefined>();
 
@@ -73,11 +75,10 @@ async function handleSubmit(values: unknown) {
   const newValues = {
     ...formData.value,
     ...(values as Resource),
-    order: formData.value?.order ?? (event.resources ?? []).length,
+    order: formData.value?.order ?? (event.value?.resources ?? []).length,
   };
-  if (isAddMode)
-    await eventStore.createResource(event, newValues as ResourceInput);
-  else await eventStore.updateResource(event, newValues as ResourceInput);
+  if (isAddMode) await createResource(newValues as ResourceInput);
+  else await updateResource(newValues as ResourceInput);
   handleCloseModal();
 }
 </script>

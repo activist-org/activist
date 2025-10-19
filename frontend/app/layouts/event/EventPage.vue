@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
@@ -41,9 +42,7 @@ const aboveMediumBP = useBreakpoint("md");
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId || "");
 
 const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
   "ModalUploadImageIcon"

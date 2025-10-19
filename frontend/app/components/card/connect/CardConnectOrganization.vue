@@ -4,15 +4,14 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 
 const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = storeToRefs(organizationStore);
+const { data: organization } = useGetOrganization(
+  typeof paramsOrgId === "string" ? paramsOrgId : ""
+);
 
 // Use computed to ensure social links are reactive to store changes.
-const socialLinks = computed(() => organization.value.socialLinks);
+const socialLinks = computed(() => organization.value?.socialLinks || []);
 </script>

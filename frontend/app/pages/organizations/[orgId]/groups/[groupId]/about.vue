@@ -5,12 +5,12 @@
   <Tabs class="pt-2 md:pt-0" :selectedTab="0" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ group.name }}</Title>
+      <Title>{{ group?.name }}</Title>
     </Head>
     <HeaderAppPageGroup>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
-          v-if="group.getInvolvedUrl"
+          v-if="group?.getInvolvedUrl"
           ariaLabel="i18n._global.join_group_aria_label"
           class="w-max"
           :cta="true"
@@ -18,7 +18,7 @@
           fontSize="sm"
           iconSize="1.45em"
           label="i18n._global.join_group"
-          :linkTo="group.getInvolvedUrl"
+          :linkTo="group?.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
         <!-- <BtnAction
@@ -44,6 +44,7 @@
           :rightIcon="IconMap.SHARE"
         />
         <ModalSharePage
+          v-if="group"
           @closeModal="handleCloseModal"
           :cta="true"
           :group="group"
@@ -71,9 +72,9 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :entityId="group.id"
+            :entityId="group?.id || ''"
             :entityType="'group' as EntityType"
-            :images="group.images || []"
+            :images="images || []"
           />
         </div>
       </div>
@@ -84,15 +85,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
 import type { EntityType } from "~/types/entity";
 
+import { useGetGroup } from "~/composables/queries/useGetGroup";
+import { useGetGroupImages } from "~/composables/queries/useGetGroupImages";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  group: Group;
-}>();
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
+
+const { data: group } = useGetGroup(groupId);
+const { data: images } = useGetGroupImages(groupId);
 
 const aboveLargeBP = useBreakpoint("lg");
 

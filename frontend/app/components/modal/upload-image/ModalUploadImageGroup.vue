@@ -41,26 +41,29 @@ import type {
   UploadableFile,
 } from "~/types/content/file";
 
+import { useGroupImageMutations } from "~/composables/mutations/useGroupImageMutations";
 import { IconMap } from "~/types/icon-map";
 
 interface Props {
-  entityId: string;
+  groupId: string;
   uploadLimit?: number;
   images: ContentImage[];
 }
+
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 
 const groupStore = useGroupStore();
-const { group } = groupStore;
-
+const groupId = computed(() => props.groupId);
+const { images: groupImages } = groupStore;
+const { updateImage, uploadImages } = useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 
 watch(
-  props,
+  groupImages,
   (newValueFilesImages) => {
-    const images = (newValueFilesImages.images ?? []).map((image, index) => ({
+    const images = (newValueFilesImages ?? []).map((image, index) => ({
       type: "file",
       data: image,
       sequence: index,
@@ -88,7 +91,7 @@ const handleUpload = async () => {
     if (imageFiles && imageFiles.length > 0) {
       await Promise.all(
         imageFiles.map((image) =>
-          groupStore.updateImage(props.entityId, {
+          updateImage({
             ...image.data,
             sequence_index: image.sequence,
           } as ContentImage)
@@ -96,13 +99,12 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await groupStore.uploadFiles(
-        props.entityId,
+      await uploadImages(
         uploadFiles.map((file) => file.data as UploadableFile),
         uploadFiles.map((file) => file.sequence)
       );
     }
-    files.value = (group.images || []).map(
+    files.value = (groupImages || []).map(
       (image: ContentImage, index: number) => ({
         type: "file",
         data: image,
@@ -110,7 +112,7 @@ const handleUpload = async () => {
       })
     ) as FileUploadMix[];
     modals.closeModal(modalName);
-    emit("upload-complete", props.entityId);
+    emit("upload-complete", groupId.value);
     uploadError.value = false;
   } catch (error) {
     emit("upload-error");
