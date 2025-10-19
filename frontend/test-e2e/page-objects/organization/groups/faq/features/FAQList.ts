@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 
 /**
  * FAQ List Feature
- * Handles FAQ list container and collection operations
+ * Handles FAQ list container and collection operations.
  */
 export const FAQList = (page: Page) => {
   return {

@@ -5,7 +5,7 @@ import { getEnglishText } from "~/utils/i18n";
 
 /**
  * Resource Modal Feature
- * Handles resource creation/edit modal interactions
+ * Handles resource creation/edit modal interactions.
  */
 export const ResourceModal = (page: Page) => {
   return {

@@ -25,7 +25,7 @@ test.describe(
       );
     });
 
-    // MARK: ACCESSIBILITY
+    // MARK: Accessibility
 
     // Note: Check to make sure that this is eventually done for light and dark modes.
     test(

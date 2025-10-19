@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 
 /**
  * FAQ Card Feature
- * Handles individual FAQ card interactions
+ * Handles individual FAQ card interactions.
  */
 export const FAQCard = (page: Page) => {
   return {

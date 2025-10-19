@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 
 /**
  * FAQ Drag and Drop Feature
- * Handles FAQ card reordering via drag and drop
+ * Handles FAQ card reordering via drag and drop.
  */
 export const FAQDragDrop = (page: Page) => {
   return {

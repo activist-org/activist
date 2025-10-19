@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 
 /**
  * Resource List Feature
- * Handles resource list container and collection operations
+ * Handles resource list container and collection operations.
  */
 export const ResourceList = (page: Page) => {
   return {

@@ -11,8 +11,8 @@ import { ResourceList } from "./features/ResourceList";
 import { ResourceModal } from "./features/ResourceModal";
 
 /**
- * Page Object Model for Organization Group Resources Page
- * Handles interactions with the group resources page within an organization
+ * Page Object Model for Organization Group Resources Page.
+ * Handles interactions with the group resources page within an organization.
  *
  * Composed from focused features for better maintainability.
  */

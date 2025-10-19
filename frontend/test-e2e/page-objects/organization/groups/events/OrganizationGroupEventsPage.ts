@@ -4,8 +4,8 @@ import type { Page } from "@playwright/test";
 import { getEnglishText } from "~/utils/i18n";
 
 /**
- * Page Object Model for Organization Group Events Page
- * Handles interactions with the group events page within an organization
+ * Page Object Model for Organization Group Events Page.
+ * Handles interactions with the group events page within an organization.
  */
 export const newOrganizationGroupEventsPage = (page: Page) => {
   return {

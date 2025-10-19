@@ -4,8 +4,8 @@ import type { Locator, Page } from "@playwright/test";
 import { getEnglishText } from "~/utils/i18n";
 
 /**
- * Page Object Model for Organization Group About Page
- * Handles interactions with the group about page within an organization
+ * Page Object Model for Organization Group About Page.
+ * Handles interactions with the group about page within an organization.
  */
 export const newOrganizationGroupAboutPage = (page: Page) => {
   // Helper method to wait for tab state to update (private in closure).

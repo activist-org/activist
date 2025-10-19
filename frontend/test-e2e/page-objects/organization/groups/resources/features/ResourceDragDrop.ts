@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 
 /**
  * Resource Drag and Drop Feature
- * Handles resource card reordering via drag and drop
+ * Handles resource card reordering via drag and drop.
  */
 export const ResourceDragDrop = (page: Page) => {
   return {

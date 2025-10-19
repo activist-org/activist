@@ -37,7 +37,7 @@ test.describe(
       );
     });
 
-    // MARK: HERO NAVIGATION
+    // MARK: Hero Navigation
 
     test("User can go to Learn More page from Get Active learn more link", async ({
       page,
@@ -89,7 +89,7 @@ test.describe(
       ).not.toBeAttached();
     });
 
-    // MARK: AUTHENTICATION
+    // MARK: Authentication
 
     test("User can go to Sign In page", async ({ page }) => {
       const sidebar = newSidebarRight(page);
@@ -115,7 +115,7 @@ test.describe(
       expect(page.url()).toContain("/auth/sign-up");
     });
 
-    // MARK: THEME & LANGUAGE
+    // MARK: Theme & Language
 
     test("User can change theme", async ({ page }) => {
       const sidebar = newSidebarRight(page);

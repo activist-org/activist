@@ -5,7 +5,7 @@ import { getEnglishText } from "~/utils/i18n";
 
 /**
  * FAQ Modal Feature
- * Handles FAQ creation/edit modal interactions
+ * Handles FAQ creation/edit modal interactions.
  */
 export const FAQModal = (page: Page) => {
   return {

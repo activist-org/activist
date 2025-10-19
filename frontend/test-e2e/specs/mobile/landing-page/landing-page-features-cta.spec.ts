@@ -34,7 +34,7 @@ test.describe(
       );
     });
 
-    // MARK: SUPPORTER LINKS
+    // MARK: Supporter Links
 
     test("User can go to Support Us page from Become a Supporter button", async ({
       page,
@@ -58,7 +58,7 @@ test.describe(
       expect(page.url()).toContain("/organization/community/supporters");
     });
 
-    // MARK: FOOTER LINKS
+    // MARK: Footer Links
 
     test("User can go to Roadmap page from Footer link", async ({ page }) => {
       await page.getByRole("link", { name: FOOTER_ROADMAP_LINK_NAME }).click();
@@ -119,7 +119,7 @@ test.describe(
       expect(page.url()).toContain("/organization/community/supporters");
     });
 
-    // MARK: SOCIAL LINKS
+    // MARK: Social Links
 
     // Socials banner, open-source section and footer twice in source code and community section.
     test("There are four links to the activist GitHub on the landing page", async ({

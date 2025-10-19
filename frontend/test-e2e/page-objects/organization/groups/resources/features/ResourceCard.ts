@@ -5,7 +5,7 @@ import { getEnglishText } from "~/utils/i18n";
 
 /**
  * Resource Card Feature
- * Handles individual resource card interactions
+ * Handles individual resource card interactions.
  */
 export const ResourceCard = (page: Page) => {
   return {

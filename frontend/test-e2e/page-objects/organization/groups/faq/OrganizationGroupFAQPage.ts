@@ -10,8 +10,8 @@ import { FAQList } from "./features/FAQList";
 import { FAQModal } from "./features/FAQModal";
 
 /**
- * Page Object Model for Organization Group FAQ Page
- * Handles interactions with the group FAQ page within an organization
+ * Page Object Model for Organization Group FAQ Page.
+ * Handles interactions with the group FAQ page within an organization.
  *
  * Composed from focused features for better maintainability.
  */

@@ -115,7 +115,8 @@ test.describe("Organization Resources Page", { tag: "@desktop" }, () => {
               document.documentElement.style.cursor === "grabbing" ||
               document.querySelector(".dragging") !== null ||
               true
-            ); // Fallback: assume ready after check
+            );
+            // Note: Assume ready after check.
           });
           expect(isDragging).toBe(true);
         }).toPass({ timeout: 500, intervals: [16, 32] }); // ~1-2 frame times

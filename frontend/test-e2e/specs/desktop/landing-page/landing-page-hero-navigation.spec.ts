@@ -35,7 +35,7 @@ test.describe(
       await context.clearCookies();
     });
 
-    // MARK: Header Navigation
+    // MARK: Hero Navigation
 
     test("User can go to Roadmap on desktop", async ({ page }) => {
       await page.getByRole("link", { name: ROADMAP_LINK_NAME }).click();
