@@ -665,7 +665,7 @@ class OrganizationTextViewSet(GenericAPIView[OrganizationText]):
             )
 
         # Extract getInvolvedUrl from request data if present.
-        get_involved_url = request.data.pop("getInvolvedUrl", None)
+        get_involved_url = request.data.pop("get_involved_url", None)
 
         # Update the text fields.
         serializer = self.serializer_class(org_text, data=request.data, partial=True)
