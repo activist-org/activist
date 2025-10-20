@@ -5,7 +5,7 @@
     class="cursor-pointer text-primary-text hover:text-distinct-text"
     data-testid="icon-edit"
   >
-    <Icon :name="IconMap.EDIT" size="1.2em" />
+    <Icon :name="IconMap.GRIP" :size="size ?? '1.2em'" />
   </div>
 </template>
 
@@ -16,6 +16,7 @@ import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   entity?: Entity | null;
+  size?: string | number;
 }>();
 const { canEdit } = useUser();
 const canEditEntity = computed(() => canEdit(props?.entity));
