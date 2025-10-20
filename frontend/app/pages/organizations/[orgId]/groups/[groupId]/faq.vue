@@ -55,7 +55,11 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :faqEntry="element" pageType="group" />
+          <CardFAQEntry
+            :faqEntry="element"
+            :pageType="'group'"
+            @delete-faq="handleDeleteFAQ"
+          />
         </template>
       </draggable>
     </div>
@@ -80,7 +84,7 @@ const { data: group } = useGetGroup(groupId ?? "");
 const { openModal } = useModalHandlers("ModalFaqEntryGroup");
 
 const groupTabs = getGroupTabs();
-const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
+const { reorderFAQs, deleteFAQ } = useGroupFAQEntryMutations(groupId);
 const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 
 watch(
@@ -101,6 +105,10 @@ const onDragEnd = async () => {
   });
 
   await reorderFAQs(faqList.value);
+};
+
+const handleDeleteFAQ = async (faqId: string) => {
+  await deleteFAQ(faqId);
 };
 </script>
 
