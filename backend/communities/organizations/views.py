@@ -664,9 +664,20 @@ class OrganizationTextViewSet(GenericAPIView[OrganizationText]):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
+        # Extract getInvolvedUrl from request data if present.
+        get_involved_url = request.data.pop("getInvolvedUrl", None)
+
+        # Update the text fields.
         serializer = self.serializer_class(org_text, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        # Update the organization's getInvolvedUrl if provided.
+        if get_involved_url is not None:
+            org = org_text.org
+            if org:
+                org.get_involved_url = get_involved_url
+                org.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

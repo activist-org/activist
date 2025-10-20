@@ -616,9 +616,20 @@ class GroupTextViewSet(GenericAPIView[GroupText]):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
+        # Extract getInvolvedUrl from request data if present.
+        get_involved_url = request.data.pop("getInvolvedUrl", None)
+
+        # Update the text fields.
         serializer = self.serializer_class(group_text, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        # Update the group's getInvolvedUrl if provided.
+        if get_involved_url is not None:
+            group = group_text.group
+            if group:
+                group.get_involved_url = get_involved_url
+                group.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
