@@ -60,15 +60,14 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const { openModal: openModalOrganizationOverview } = useModalHandlers(
   "ModalOrganizationOverview"
 );
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId);
 </script>

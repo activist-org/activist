@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData
+// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 import type { MaybeRef } from "vue";
 
@@ -10,6 +10,8 @@ import {
   updateGroupImage,
   uploadGroupImages,
 } from "~/services/communities/group/image";
+
+import { getKeyForGetGroupImages } from "../queries/useGetGroupImages";
 
 export function useGroupImageMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -75,7 +77,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
     }
 
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`groupImages:${currentGroupId.value}`);
+    await refreshNuxtData(getKeyForGetGroupImages(currentGroupId.value));
   }
 
   return {

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData
+// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 import type { MaybeRef } from "vue";
 
@@ -11,6 +11,8 @@ import {
   reorderGroupResources,
   updateGroupResource,
 } from "~/services/communities/group/resource";
+
+import { getKeyForGetGroup } from "../queries/useGetGroup";
 
 export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -92,7 +94,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
       return;
     }
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(`group:${currentGroupId.value}`);
+    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
   return {

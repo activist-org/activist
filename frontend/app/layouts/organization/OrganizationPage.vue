@@ -3,12 +3,12 @@
   <NuxtLayout name="app">
     <ModalUploadImageOrganization
       @closeModal="handleCloseModalUploadImage"
-      :entityId="organization.id || ''"
-      :images="organization.images || []"
+      :images="images || []"
+      :orgId="organization?.id || ''"
     />
     <ModalUploadImageIcon
       @closeModal="handleCloseModalUploadImageIcon"
-      :entityId="organization.id || ''"
+      :entityId="organization?.id || ''"
       :entityType="EntityType.ORGANIZATION"
     />
     <SidebarLeft
@@ -35,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
+import { useGetOrganizationImages } from "~/composables/queries/useGetOrganizationImages";
 import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
@@ -53,11 +55,8 @@ const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
-
-await organizationStore.fetchImages(orgId as string);
+const { data: organization } = useGetOrganization(orgId || "");
+const { data: images } = useGetOrganizationImages(orgId || "");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

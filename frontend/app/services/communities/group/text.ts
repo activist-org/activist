@@ -20,7 +20,7 @@ export async function updateGroupTexts(
         description: data.description,
         getInvolved: data.getInvolved,
         donate_prompt: "",
-        orgId: groupId,
+        groupId: groupId,
         iso: "en",
       } as AcceptedBody,
       { headers: { "Content-Type": "application/json" } }

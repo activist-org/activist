@@ -5,7 +5,7 @@
     class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8"
   >
     <Head>
-      <Title>{{ event.name }} </Title>
+      <Title>{{ event?.name }} </Title>
     </Head>
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
@@ -14,16 +14,16 @@
             entity_name: event?.name,
           })
         "
-        :eventType="event.type"
-        :imgUrl="event.iconUrl?.fileObject || ''"
+        :eventType="event?.type"
+        :imgUrl="event?.iconUrl?.fileObject || ''"
       />
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1 class="text-center text-3xl font-bold">
-        {{ event.name }}
+        {{ event?.name }}
       </h1>
       <h2 class="text-lg font-bold text-distinct-text">
-        {{ event.tagline }}
+        {{ event?.tagline }}
       </h2>
     </div>
     <div class="flex w-full flex-col items-center gap-4">

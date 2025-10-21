@@ -4,13 +4,13 @@
   <ModalTextOrganization />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ organization.name }}</Title>
+      <Title>{{ organization?.name }}</Title>
     </Head>
     <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
           <BtnRouteExternal
-            v-if="organization.getInvolvedUrl"
+            v-if="organization?.getInvolvedUrl"
             ariaLabel="i18n._global.join_organization_aria_label"
             class="w-max"
             :cta="true"
@@ -43,7 +43,10 @@
             :rightIcon="IconMap.SHARE"
           />
         </div>
-        <ModalSharePage :cta="true" :organization="organization" />
+        <ModalSharePage
+          :cta="true"
+          :organization="organization as unknown as Organization"
+        />
       </div>
     </HeaderAppPageOrganization>
     <div class="space-y-6 pb-6">
@@ -64,9 +67,9 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :entityId="organization.id"
+            :entityId="organization?.id ?? ''"
             :entityType="'organization' as EntityType"
-            :images="organization.images || []"
+            :images="images || []"
           />
         </div>
       </div>
@@ -85,12 +88,18 @@
 import type { Organization } from "~/types/communities/organization";
 import type { EntityType } from "~/types/entity";
 
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
+import { useGetOrganizationImages } from "~/composables/queries/useGetOrganizationImages";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  organization: Organization;
-}>();
+const { data: organization } = useGetOrganization(
+  (useRoute().params.orgId as string) ?? ""
+);
+
+const { data: images } = useGetOrganizationImages(
+  (useRoute().params.orgId as string) ?? ""
+);
 
 const aboveLargeBP = useBreakpoint("lg");
 
