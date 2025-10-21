@@ -50,6 +50,18 @@ globalThis.useAuth = () => ({
   signUp: () => Promise.resolve(),
   signIn: () => Promise.resolve(),
   signOut: () => Promise.resolve(),
+  data: { value: null },
+});
+
+globalThis.useUser = () => ({
+  userIsSignedIn: false,
+  userIsAdmin: false,
+  roles: [],
+  signOutUser: () => {},
+  canEdit: canEditMock,
+  canDelete: () => false,
+  canCreate: () => false,
+  canView: () => true,
 });
 
 globalThis.useDebounceFn = <T extends (...args: unknown[]) => unknown>(
@@ -74,6 +86,18 @@ globalThis.useDevMode = () => ({
   check: () => {}, // Mock the check method that FriendlyCaptcha expects
 });
 
+const data = { value: null };
+globalThis.data = data;
+
+const useAuthStateFn = () => ({
+  data: globalThis.data, // default to no user signed in
+});
+
+globalThis.useAuthStateMock = vi.fn(useAuthStateFn);
+globalThis.useAuthState = () => globalThis.useAuthStateMock();
+vi.mock("@sidebase/nuxt-auth", () => ({
+  useAuthState: globalThis.useAuthState,
+}));
 // Set up I18n.
 // https://github.com/nuxt-modules/i18n/issues/2637#issuecomment-2233566361
 const i18n = createI18n({

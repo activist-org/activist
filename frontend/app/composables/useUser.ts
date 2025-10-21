@@ -3,14 +3,9 @@
 import type { Entity } from "~/types/entity";
 export const useUser = () => {
   const { data } = useAuthState();
-
   const userIsSignedIn = !!data.value;
-  const userIsAdmin = data.value?.user?.isAdmin;
+  const userIsAdmin = !!data.value?.user?.isAdmin;
   const roles: unknown[] = [];
-  const signOutUser = () => {
-    const { signOut } = useAuth();
-    signOut();
-  };
 
   // TODO: This functions can be expanded to include more complex permission logic
 
@@ -51,7 +46,6 @@ export const useUser = () => {
     userIsSignedIn,
     userIsAdmin,
     roles,
-    signOutUser,
     canEdit,
     canDelete,
     canCreate,
