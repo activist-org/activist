@@ -14,7 +14,9 @@ describe("Tests for IconDraggableEdit", () => {
     const wrapper = mount(IconDraggableEdit, {
       props: { entity: entityMock },
     });
-    expect(wrapper.find("[data-testid='icon-edit']").exists()).toBe(true);
+    expect(wrapper.find("[data-testid='icon-edit-draggable']").exists()).toBe(
+      true
+    );
   });
 
   it("does not render icon when user is not admin", async () => {
@@ -22,7 +24,9 @@ describe("Tests for IconDraggableEdit", () => {
     const wrapper = mount(IconDraggableEdit, {
       props: { entity: entityMock },
     });
-    expect(wrapper.find("[data-testid='icon-edit']").exists()).toBe(false);
+    expect(wrapper.find("[data-testid='icon-edit-draggable']").exists()).toBe(
+      false
+    );
   });
 
   it("user can edit if they are the creator", () => {
@@ -31,7 +35,9 @@ describe("Tests for IconDraggableEdit", () => {
       props: { entity: entityMock },
     });
 
-    expect(wrapper.find("[data-testid='icon-edit']").exists()).toBe(true);
+    expect(wrapper.find("[data-testid='icon-edit-draggable']").exists()).toBe(
+      true
+    );
   });
 
   it("handles undefined entity", () => {
@@ -45,6 +51,8 @@ describe("Tests for IconDraggableEdit", () => {
         },
       },
     });
-    expect(wrapper.find("[data-testid='icon-edit']").exists()).toBe(false);
+    expect(wrapper.find("[data-testid='icon-edit-draggable']").exists()).toBe(
+      false
+    );
   });
 });
