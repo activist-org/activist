@@ -90,8 +90,8 @@ const { locales } = useI18n();
 const localePath = useLocalePath();
 
 const paramsOrgId = useRoute().params.orgId;
-const paramsGroupId = useRoute().params.groupid;
-const paramsEventId = useRoute().params.eventid;
+const paramsGroupId = useRoute().params.groupId;
+const paramsEventId = useRoute().params.eventId;
 
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
