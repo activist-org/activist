@@ -3,7 +3,9 @@
 Serializers for groups in the communities app.
 """
 
+import logging
 from typing import Any
+from uuid import UUID
 
 from rest_framework import serializers
 
@@ -13,14 +15,115 @@ from communities.groups.models import (
     GroupFlag,
     GroupImage,
     GroupMember,
+    GroupResource,
     GroupSocialLink,
     GroupText,
 )
 from communities.organizations.models import Organization
-from content.serializers import LocationSerializer, ResourceSerializer
+from content.models import Topic
+from content.serializers import LocationSerializer
 from events.serializers import EventSerializer
 
-# MARK: Group
+logger = logging.getLogger(__name__)
+
+# MARK: FAQ
+
+
+class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
+    """
+    Serializer for GroupFaq model data.
+    """
+
+    class Meta:
+        model = GroupFaq
+        fields = "__all__"
+
+    def validate_group(self, value: Group | UUID | str) -> Group:
+        """
+        Validate that the group exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Group instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the group does not exist.
+
+        Returns
+        -------
+        Group
+            The validated Group instance.
+        """
+        if isinstance(value, Group):
+            return value
+
+        try:
+            group = Group.objects.get(id=value)
+            logger.info("Group found for value: %s", value)
+
+        except Group.DoesNotExist as e:
+            raise serializers.ValidationError("Group not found.") from e
+
+        return group
+
+
+# MARK: Resource
+
+
+class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
+    """
+    Serializer for GroupResource model data.
+    """
+
+    topics = serializers.SlugRelatedField(
+        queryset=Topic.objects.filter(active=True),
+        many=True,
+        slug_field="type",
+        required=False,
+        allow_null=True,
+    )
+
+    class Meta:
+        model = GroupResource
+        fields = "__all__"
+        read_only_fields = ["created_by"]
+
+    def validate_group(self, value: Group | UUID | str) -> Group:
+        """
+        Validate that the group exists.
+
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Group instance, UUID or str.
+
+        Raises
+        -------
+        serializers.ValidationError
+            If the group does not exist.
+
+        Returns
+        -------
+        Group
+            The validated Group instance.
+        """
+        if isinstance(value, Group):
+            return value
+
+        try:
+            group = Group.objects.get(id=value)
+            logger.info("Group found for value: %s", value)
+
+        except Group.DoesNotExist as e:
+            raise serializers.ValidationError("Group not found.") from e
+
+        return group
+
+
+# MARK: Social Link
 
 
 class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
@@ -32,15 +135,39 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
         model = GroupSocialLink
         fields = "__all__"
 
+    def validate_group(self, value: Group | UUID | str) -> Group:
+        """
+        Validate that the group exists.
 
-class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
-    """
-    Serializer for GroupFaq model data.
-    """
+        Parameters
+        ----------
+        value : Any
+            The value to validate, expected to be a Group instance, UUID or str.
 
-    class Meta:
-        model = GroupFaq
-        fields = "__all__"
+        Raises
+        -------
+        serializers.ValidationError
+            If the group does not exist.
+
+        Returns
+        -------
+        Group
+            The validated Group instance.
+        """
+        if isinstance(value, Group):
+            return value
+
+        try:
+            group = Group.objects.get(id=value)
+            logger.info("Group found for value: %s", value)
+
+        except Group.DoesNotExist as e:
+            raise serializers.ValidationError("Group not found.") from e
+
+        return group
+
+
+# MARK: Text
 
 
 class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
@@ -53,6 +180,9 @@ class GroupTextSerializer(serializers.ModelSerializer[GroupText]):
         fields = "__all__"
 
 
+# MARK: Organization
+
+
 class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
     """
     Serializer for GroupOrganization model data.
@@ -61,6 +191,9 @@ class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
     class Meta:
         model = Organization
         fields = "__all__"
+
+
+# MARK: POST
 
 
 class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
@@ -79,7 +212,6 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
         model = Group
 
         exclude = (
-            "resources",
             "topics",
             "org",
             "created_by",
@@ -90,6 +222,9 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
         )
 
 
+# MARK: Group
+
+
 class GroupSerializer(serializers.ModelSerializer[Group]):
     """
     Serializer for Group model data.
@@ -98,7 +233,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
     texts = GroupTextSerializer(many=True, read_only=True)
     social_links = GroupSocialLinkSerializer(many=True, read_only=True)
     location = LocationSerializer()
-    resources = ResourceSerializer(many=True, read_only=True)
+    resources = GroupResourceSerializer(many=True, read_only=True)
     faq_entries = GroupFaqSerializer(source="faqs", many=True, read_only=True)
     org = GroupOrganizationSerializer(read_only=True)
     events = EventSerializer(many=True, read_only=True)
@@ -154,6 +289,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         return group
 
 
+# MARK: Flag
+
+
 class GroupFlagSerializer(serializers.ModelSerializer[GroupFlag]):
     """
     Serializers for GroupFlag model.
@@ -164,7 +302,7 @@ class GroupFlagSerializer(serializers.ModelSerializer[GroupFlag]):
         fields = "__all__"
 
 
-# MARK: Bridge Tables
+# MARK: Image
 
 
 class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
@@ -175,6 +313,9 @@ class GroupImageSerializer(serializers.ModelSerializer[GroupImage]):
     class Meta:
         model = GroupImage
         fields = "__all__"
+
+
+# MARK: Member
 
 
 class GroupMemberSerializer(serializers.ModelSerializer[GroupMember]):

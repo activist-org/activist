@@ -3,6 +3,7 @@
 Models for the content app.
 """
 
+import logging
 import os
 from typing import Any, Type
 from uuid import uuid4
@@ -30,6 +31,28 @@ class Discussion(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
     tags = models.ManyToManyField("content.Tag", blank=True)
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+# MARK: Discussion Entry
+
+
+class DiscussionEntry(models.Model):
+    """
+    DiscussionEntry model for individual posts within a discussion.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    discussion = models.ForeignKey(
+        "content.Discussion", on_delete=models.CASCADE, related_name="discussion_entry"
+    )
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    text = models.CharField(max_length=255, blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    deletion_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
         return str(self.id)
@@ -80,11 +103,17 @@ def set_filename_to_uuid(instance: Any, filename: str) -> str:
     This function is used to maintain unique filenames and prevent collisions.
     File extensions are forced to lowercase for consistency.
     """
-    ext = os.path.splitext(filename)[1]  # extract file extension
-    # Note: Force extension to lowercase.
-    new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename
-
-    return os.path.join("images/", new_filename)  # store in 'images/' folder
+    logger = logging.getLogger(__name__)
+    try:
+        ext = os.path.splitext(filename)[1]  # extract file extension
+        # Note: Force extension to lowercase.
+        new_filename = f"{instance.id}{ext.lower()}"  # use model UUID as filename
+        result = os.path.join("images/", new_filename)  # store in 'images/' folder
+        logger.debug(f"Generated new filename for upload: {result}")
+        return result
+    except Exception:
+        logger.exception(f"Failed to generate filename for upload: {filename}")
+        raise
 
 
 class Image(models.Model):
@@ -124,8 +153,15 @@ def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> No
     This signal handler prevents orphaned files in the filesystem
     when Image model instances are deleted.
     """
+    logger = logging.getLogger(__name__)
     if instance.file_object:
-        instance.file_object.delete(save=False)
+        try:
+            instance.file_object.delete(save=False)
+            logger.info(f"Deleted image file for Image instance {instance.id}")
+        except Exception:
+            logger.exception(
+                f"Failed to delete image file for Image instance {instance.id}"
+            )
 
 
 # MARK: Location
@@ -164,11 +200,12 @@ class Resource(models.Model):
     )
     name = models.CharField(max_length=255)
     description = models.TextField(max_length=500)
+    url = models.URLField(max_length=255)
+    order = models.IntegerField()
     category = models.CharField(max_length=255, blank=True)
     location = models.OneToOneField(
-        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+        "content.Location", on_delete=models.CASCADE, null=True, blank=True
     )
-    url = models.URLField(max_length=255)
     is_private = models.BooleanField(default=True)
     terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -177,7 +214,8 @@ class Resource(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
-    flags = models.ManyToManyField(
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="ResourceFlag",
     )
@@ -194,7 +232,7 @@ class ResourceFlag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     resource = models.ForeignKey("content.Resource", on_delete=models.CASCADE)
     created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now=True)
 
 
 # MARK: Social Link
@@ -262,36 +300,32 @@ class Topic(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, unique=True)
     active = models.BooleanField(default=True)
-    description = models.TextField(max_length=500)
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     deprecation_date = models.DateTimeField(blank=True, null=True)
 
-    format = models.ManyToManyField("events.Format", blank=True)
-
     def __str__(self) -> str:
-        return self.name
+        return self.type
 
 
-# MARK: Bridge Tables
+# MARK: Text
 
 
-class DiscussionEntry(models.Model):
+class Text(models.Model):
     """
-    DiscussionEntry model for individual posts within a discussion.
+    Text model for translatable content in different languages.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    discussion = models.ForeignKey(
-        "content.Discussion", on_delete=models.CASCADE, related_name="discussion_entry"
-    )
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    text = models.CharField(max_length=255, blank=True)
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
-    deletion_date = models.DateTimeField(blank=True, null=True)
+    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
+    primary = models.BooleanField(default=False)
+    description = models.TextField(max_length=2500)
+    get_involved = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return f"{self.iso} - {self.description[:50]}..."
+
+    class Meta:
+        abstract = False

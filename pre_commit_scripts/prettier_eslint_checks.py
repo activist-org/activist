@@ -6,7 +6,7 @@ pre-commit hook for checking Prettier formatting.
 import os
 import sys
 
-from utils import run_shell_command
+from .utils import run_shell_command
 
 os.chdir("frontend")
 if not sys.platform.startswith("win"):

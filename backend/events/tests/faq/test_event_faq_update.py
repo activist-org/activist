@@ -37,10 +37,9 @@ def test_event_faq_update(client: Client) -> None:
     user.verified = True
     user.save()
 
-    event = EventFactory()
-    event.created_by = user
+    event = EventFactory(created_by=user)
 
-    faqs = EventFaqFactory()
+    faqs = EventFaqFactory(event=event)
     test_id = faqs.id
     test_question = faqs.question
     test_answer = faqs.answer
@@ -48,7 +47,7 @@ def test_event_faq_update(client: Client) -> None:
 
     # Login to get token.
     login = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
 
@@ -57,10 +56,10 @@ def test_event_faq_update(client: Client) -> None:
     # MARK: Update Success
 
     login_body = login.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     response = client.put(
-        path=f"/v1/events/event_faqs/{event.id}/",
+        path=f"/v1/events/event_faqs/{test_id}",
         data={
             "id": test_id,
             "iso": "en",
@@ -80,7 +79,7 @@ def test_event_faq_update(client: Client) -> None:
     test_uuid = uuid4()
 
     response = client.put(
-        path=f"/v1/events/event_faqs/{test_uuid}/",
+        path=f"/v1/events/event_faqs/{test_uuid}",
         data={
             "id": test_id,
             "question": test_question,

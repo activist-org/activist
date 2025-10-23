@@ -6,9 +6,9 @@
 [![netlify](https://img.shields.io/netlify/f184f5a7-e9a8-4e3a-be26-70fefb50d4cb?label=%20&logo=netlify&logoColor=ffffff)](https://app.netlify.com/sites/activist-org)
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
 [![django](https://img.shields.io/badge/Django%205-092E20.svg?logo=django&logoColor=ffffff)](#tech-stack)
-[![nuxt](https://img.shields.io/badge/Nuxt%203-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
+[![nuxt](https://img.shields.io/badge/Nuxt%204-41b883.svg?logo=nuxt.js&logoColor=ffffff)](#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](#tech-stack)
-[![tailwind](https://img.shields.io/badge/Tailwind%203-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
+[![tailwind](https://img.shields.io/badge/Tailwind%204-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](#tech-stack)
 [![license](https://img.shields.io/github/license/activist-org/activist.svg?label=%20)](LICENSE.txt)
 [![coc](https://img.shields.io/badge/Contributor%20Covenant-ff69b4.svg)](.github/CODE_OF_CONDUCT.md)
 [![instagram](https://img.shields.io/badge/Instagram-8134AF.svg?logo=instagram&logoColor=ffffff)](https://instagram.com/activist_org)
@@ -24,7 +24,7 @@
 
 ### An open-source activism platform
 
-[**activist.org**](https://activist.org) is a platform that enables more people to safely engage in activism by making it easy to discover organizations and events as well as coordinate and collaborate on political action. We want to enable activists to learn proven and novel strategies from each other for social and ecological change. Free, open-source, privacy-focused and governed by our community.
+[**activist.org**](https://activist.org) is a platform that enables more people to safely engage in activism by making it easy to discover organizations and events, as well as coordinate and collaborate on political action. We want to enable activists to learn proven and novel strategies from each other for social and ecological change. Free, open-source, privacy-focused and governed by our community.
 
 <!-- > [Learn more about our organization on activist.org](https://activist.org/organizations/1/about) -->
 
@@ -36,7 +36,7 @@
 # **Contents**
 
 - [Our goals](#our-goals)
-- [Preview Video](#preview-video)
+- [Preview video](#preview-video)
 - [Contributing](#contributing)
 - [Environment setup](#environment-setup)
 - [Design and accessibility](#design-a11y)
@@ -58,15 +58,13 @@ The activist community is creating a global platform where movements grow and pe
 
 The following are the working topics that activist could include:
 
-|                       |                             |                            |
-| :-------------------- | :-------------------------- | :------------------------- |
-| Environment           | Housing                     | Refugees and Migration     |
-| LGTBQIA+              | Racial Justice              | Women's Rights             |
-| Children's Rights     | Elder Rights                | Education                  |
-| Health and Wellbeing  | Animal Rights               | Democracy                  |
-| Labor Rights          | Technology and Privacy      | Peace and Resolution       |
-| Nutrition             | Accessibility and Inclusion | Institutional Transparency |
-| Freedom of Expression | Infrastructure and Mobility | Emergency Relief           |
+|                             |                        |                          |
+| :-------------------------- | :--------------------- | :----------------------- |
+| Accessibility and Inclusion | Animal Rights          | Democracy and Governance |
+| Education                   | Emergency Relief       | Environment              |
+| Health                      | Housing                | Labor Rights             |
+| LGBTQIA+                    | Peace and Resolution   | Racial Justice           |
+| Refugees and Migration      | Technology and Privacy | Women's Rights           |
 
 <br/>
 Beyond clustering by topics, tags will also be used to draw community attention to more specific issues.
@@ -85,9 +83,9 @@ Further prototypes and designs are available in the [designs for activist](https
 
 # Contributing [`⇧`](#contents)
 
-<a href="https://matrix.to/#/#activist_community:matrix.org"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/MatrixLogoGrey.png" height="50" alt="Public Matrix Chat" align="right"></a>
+<a href="https://matrix.to/#/#activist_community:matrix.org"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/MatrixLogoGrey.png" width="175" alt="Public Matrix Chat" align="right"></a>
 
-activist uses [Matrix](https://matrix.org/) for internal communication. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi to the team :)
+activist uses [Matrix](https://matrix.org/) for internal communication. You're more than welcome to [join us in our public chat rooms](https://matrix.to/#/#activist_community:matrix.org) to share ideas, ask questions or just say hi to the team :) We'd suggest that you use the [Element](https://element.io/) client and [Element X](https://element.io/app) for a mobile app.
 
 Please see the [contribution guidelines](CONTRIBUTING.md) and [style guide](STYLEGUIDE.md) if you are interested in contributing. Work that is in progress or could be implemented is tracked in the [issues](https://github.com/activist-org/activist/issues) and [projects](https://github.com/activist-org/activist/projects).
 
@@ -179,15 +177,15 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a virtual environment for the backend, activate it and install dependencies:
+4. Create a virtual environment for the backend (Python `>=3.11`), activate it and install dependencies:
 
     ```bash
-    # Unix or MacOS:
     python3 -m venv venv
+
+    # Unix or MacOS:
     source venv/bin/activate
 
     # Windows:
-    python -m venv venv
     venv\Scripts\activate.bat
 
     # After activating venv:
@@ -208,8 +206,8 @@ git remote add upstream https://github.com/activist-org/activist.git
    Sometimes changes to the database can cause the database population to fail in your environment. If this happens, you can destroy the deployment and rebuild it:
 
     ```bash
-    # Destroy your current docker-compose deployment:
-    docker-compose rm -f -v --env-file .env.dev
+    # Destroy your current docker compose deployment:
+    docker compose rm -f -v --env-file .env.dev
     ```
 
 6. You can then visit <http://localhost:3000> to see the development frontend build once the container is up and running. From there click `View organizations` or `View events` to explore the platform.
@@ -271,7 +269,9 @@ The following are the current and planned technologies for [activist.org](https:
 
 # Design and accessibility [`⇧`](#contents)
 
-<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" height="50" alt="Public Figma Designs" align="right"></a>
+<a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231">
+  <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right">
+</a>
 
 The [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) are made using [Figma](https://www.figma.com). You can use the [issues](https://github.com/activist-org/activist/issues) to make suggestions for improvements. Design related issues are marked with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
 
@@ -353,7 +353,7 @@ Relationships between organizations will help users find similar organizations o
 
 > Linking events and organizations to decision making.
 
-Users will be able to subscribe for updates on events and organizations that work in relation to legislation and elections. The plan for this feature is that it will be based on data from [Wikidata](https://www.wikidata.org), with open data generating the vote pages that our community then maintains.
+Users will be able to subscribe for updates on events and organizations that work in relation to legislation and elections. This feature will be based on data from [Wikidata](https://www.wikidata.org), with open data generating the vote pages that our community then maintains.
 
 <a id="securely-hosted"></a>
 
@@ -379,7 +379,9 @@ We are still developing our operating principles and will always update them bas
 
 # Localization [`⇧`](#contents)
 
-<a href="https://hosted.weblate.org/projects/activist/activist"><img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right"></a>
+<a href="https://hosted.weblate.org/projects/activist/activist">
+  <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" width="125" alt="Visit the Weblate project" align="right">
+</a>
 
 We need to break down language barriers in order to mobilize larger and more diverse coalitions. Translation requests will be available for several assets on the platform - organization profiles, events and resources - and we are growing our network of volunteer contributors to facilitate this.
 
@@ -391,7 +393,7 @@ Localization of activist is done via [Weblate](https://weblate.org). Please see 
 ### Localization coverage [`⇧`](#contents)
 
 <a href="https://hosted.weblate.org/projects/activist/activist">
-    <img src="https://hosted.weblate.org/widget/activist/activist/multi-auto.svg" alt="Translation status" />
+  <img src="https://hosted.weblate.org/widget/activist/activist/multi-auto.svg" alt="Translation status" />
 </a>
 
 <a id="supporters-partners"></a>
@@ -429,14 +431,14 @@ The following organizations have supported activist with licenses to use their t
 These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. UNLOCK supported open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator was committed to promoting solutions that make the world's knowledge more diverse, more accessible and inclusive for everyone.
 
 <div align="center">
-<br>
-    <a href="https://www.wikimedia.de"><img height="130"src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
+  <br>
+    <a href="https://www.wikimedia.de"><img width="180" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaDeutschlandLogo.png" alt="Wikimedia Deutschland"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://wikimedia.rs"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
+    <a href="https://wikimedia.rs"><img width="110" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WikimediaSerbiaLogo.png" alt="Wikimedia Serbia"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="https://belgrade.impacthub.net"><img height="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
+    <a href="https://belgrade.impacthub.net"><img width="120" src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/ImpactHubLogo.png" alt="Impact Hub Belgrade"></a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<br>
+  <br>
 </div>
 
 # Disclosure

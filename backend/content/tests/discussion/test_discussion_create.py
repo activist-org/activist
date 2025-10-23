@@ -10,6 +10,7 @@ pytestmark = pytest.mark.django_db
 
 def test_discussion_create():
     client = APIClient()
+
     test_username = "test_user"
     test_pass = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_pass)
@@ -23,18 +24,18 @@ def test_discussion_create():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
     )
 
     assert login_response.status_code == 200
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
-        path="/v1/content/discussions/",
+        path="/v1/content/discussions",
         data={"title": discussion_thread.title, "category": discussion_thread.category},
     )
 

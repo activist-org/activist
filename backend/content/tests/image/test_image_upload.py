@@ -13,6 +13,7 @@ import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image as TestImage
+from rest_framework.exceptions import ValidationError
 from rest_framework.test import APIClient
 
 from communities.organizations.factories import OrganizationFactory
@@ -44,7 +45,7 @@ def create_organization_and_image() -> Dict[str, Any]:
     Helper function to create a test organization and a simple test image.
     """
     org = OrganizationFactory()
-    assert org is not None, "Organization was not created"
+    assert org is not None, "Entity was not created"
 
     img = TestImage.new("RGB", (100, 100), color="red")
     img_file = io.BytesIO()
@@ -55,7 +56,11 @@ def create_organization_and_image() -> Dict[str, Any]:
         "test_create_image.jpg", img_file.getvalue(), content_type="image/jpeg"
     )
 
-    return {"organization_id": str(org.id), "file_object": file}
+    return {
+        "entity_id": str(org.id),
+        "entity_type": "organization",
+        "file_object": file,
+    }
 
 
 @pytest.mark.django_db
@@ -67,8 +72,8 @@ def test_image_creation(image_with_file: Image) -> None:
     image = image_with_file
 
     file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
-    assert os.path.exists(file_path)
 
+    assert os.path.exists(file_path)
     assert image.id is not None
     assert image.file_object.name.endswith(".jpg")
     assert isinstance(image.creation_date, datetime)
@@ -101,6 +106,19 @@ def test_image_serializer_missing_file() -> None:
 
 
 @pytest.mark.django_db
+def test_image_serializer_missing_file_object() -> None:
+    """
+    Ensure serializer raises ValidationError when file_object is missing.
+    """
+    request = type(
+        "Request", (), {"data": {"entity_type": "group", "entity_id": "123"}}
+    )()
+    serializer = ImageSerializer(context={"request": request})
+    with pytest.raises(ValidationError, match="No file was submitted."):
+        serializer.validate({})
+
+
+@pytest.mark.django_db
 def test_image_list_view(client: APIClient) -> None:
     """
     Test the list view for images.
@@ -109,7 +127,7 @@ def test_image_list_view(client: APIClient) -> None:
     images = ImageFactory.create_batch(3)
     filenames = [image.file_object.name for image in images]
 
-    response = client.get("/v1/content/images/")
+    response = client.get("/v1/content/images")
 
     assert response.status_code == 200
     assert response.json()["count"] == 3
@@ -137,7 +155,7 @@ def test_image_create_single_file_view(client: APIClient) -> None:
 
     data = create_organization_and_image()
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 201, (
         f"Expected status code 201, but got {response.status_code}."
@@ -205,9 +223,13 @@ def test_image_create_multiple_files_view(client: APIClient) -> None:
         )
         files.append(file)
 
-    data = {"organization_id": str(org.id), "file_object": files}
+    data = {
+        "entity_id": str(org.id),
+        "entity_type": "organization",
+        "file_object": files,
+    }
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     # Assert that the response is a 201 status code.
     assert response.status_code == 201
@@ -238,7 +260,7 @@ def test_image_create_missing_file(client: APIClient) -> None:
 
     org = OrganizationFactory()
     data = {"organization_id": str(org.id)}  # no file_object provided
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 400
     assert "fileObject" in response.json()
@@ -271,7 +293,7 @@ def test_image_create_corrupted_file(client: APIClient) -> None:
 
     data = {"organization_id": str(org.id), "file_object": file}
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 400
     assert (
@@ -301,9 +323,13 @@ def test_image_create_large_file(client: APIClient) -> None:
         "large_image.bmp", img_file.getvalue(), content_type="image/bmp"
     )
 
-    data = {"organization_id": str(org.id), "file_object": file}
+    data = {
+        "entity_id": str(org.id),
+        "entity_type": "organization",
+        "file_object": file,
+    }
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 400
 
@@ -332,9 +358,10 @@ def test_image_destroy_view(client: APIClient) -> None:
 
     data = create_organization_and_image()
 
-    response = client.post("/v1/content/images/", data, format="multipart")
+    response = client.post("/v1/content/images", data, format="multipart")
     response_data = response.json()
     assert len(response_data) == 1, "Expected one image in response"
+
     file_id = response_data[0]["id"]
 
     # Assert file exists in filesystem and the database.
@@ -351,7 +378,7 @@ def test_image_destroy_view(client: APIClient) -> None:
 
     # Delete the image from the database and the file from the file system.
     # The signal to delete the file from the filesystem is triggered in the Image model.
-    response = client.delete(f"/v1/content/images/{file_id}/")
+    response = client.delete(f"/v1/content/images/{file_id}")
 
     # Assert file is deleted from filesystem and the database.
     assert response.status_code == 204
@@ -372,7 +399,7 @@ def test_destroy_non_existent_file_view(client: APIClient) -> None:
     This is expected.
     """
 
-    non_existent_file_uuid = uuid.uuid4()  # Generates a random UUID
+    non_existent_file_uuid = uuid.uuid4()
 
-    response = client.delete(f"/v1/content/images/{non_existent_file_uuid}/")
+    response = client.delete(f"/v1/content/images/{non_existent_file_uuid}")
     assert response.status_code == 404

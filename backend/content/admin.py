@@ -19,7 +19,7 @@ from content.models import (
     Topic,
 )
 
-# MARK: Main Tables
+# MARK: Register
 
 admin.site.register(Discussion)
 admin.site.register(Faq)
@@ -30,20 +30,22 @@ admin.site.register(SocialLink)
 admin.site.register(Tag)
 admin.site.register(Task)
 admin.site.register(Topic)
-
-# MARK: Bridge Tables
-
 admin.site.register(DiscussionEntry)
 
-# MARK: Methods
+# MARK: Resource Flag
 
 
-class ResourceFlagAdmin(admin.ModelAdmin[ResourceFlag]):
+class ResourceFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     """
     Displays the flagged resources and the users who flagged it in the admin table.
     """
 
-    list_display = ["resource", "created_by", "created_on"]
+    class Meta:
+        model = ResourceFlag
 
+    list_display = ["resource", "created_by", "creation_date"]
+
+
+# MARK: Register Admin
 
 admin.site.register(ResourceFlag, ResourceFlagAdmin)

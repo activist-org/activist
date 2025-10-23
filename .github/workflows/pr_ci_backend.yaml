@@ -28,11 +28,11 @@ jobs:
   backend:
     services:
       postgres:
-        image: postgres:13
+        image: postgres:15
         env:
-            POSTGRES_USER: ${{ env.DATABASE_USER }}
-            POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
-            POSTGRES_DB: ${{ env.DATABASE_NAME }}
+          POSTGRES_USER: ${{ env.DATABASE_USER }}
+          POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
+          POSTGRES_DB: ${{ env.DATABASE_NAME }}
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -81,5 +81,6 @@ jobs:
 
       - name: Run pytest - Unit Tests
         if: always()
+        working-directory: ./backend
         run: |
-          pytest ./backend --cov=./backend --cov-report=term-missing --cov-fail-under=85 --cov-config=./backend/pyproject.toml -vv
+          pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv

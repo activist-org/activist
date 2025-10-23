@@ -3,13 +3,13 @@
 Models for the communities app.
 """
 
+from typing import Any
 from uuid import uuid4
 
 from django.db import models
 
 from authentication import enums
-from content.models import Faq, SocialLink
-from utils.models import ISO_CHOICES
+from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Organization
 
@@ -50,9 +50,10 @@ class Organization(models.Model):
 
     topics = models.ManyToManyField("content.Topic", blank=True)
 
-    resources = models.ManyToManyField("content.Resource", blank=True)
     discussions = models.ManyToManyField("content.Discussion", blank=True)
-    flags = models.ManyToManyField(
+
+    # Explicit type annotation required for mypy compatibility with django-stubs.
+    flags: Any = models.ManyToManyField(
         "authentication.UserModel",
         through="OrganizationFlag",
     )
@@ -61,18 +62,7 @@ class Organization(models.Model):
         return self.name
 
 
-class OrganizationFlag(models.Model):
-    """
-    Model for flagged organizations.
-    """
-
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    org = models.ForeignKey("communities.Organization", on_delete=models.CASCADE)
-    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now=True)
-
-
-# MARK: Bridge Tables
+# MARK: Application
 
 
 class OrganizationApplication(models.Model):
@@ -110,6 +100,40 @@ class OrganizationApplicationStatus(models.Model):
         return self.status_name
 
 
+# MARK: FAQ
+
+
+class OrganizationFaq(Faq):
+    """
+    Organization Frequently Asked Questions model.
+    """
+
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="faqs")
+
+    def __str__(self) -> str:
+        return self.question
+
+    class Meta:
+        ordering = ["order"]
+
+
+# MARK: Flag
+
+
+class OrganizationFlag(models.Model):
+    """
+    Model for flagged organizations.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    org = models.ForeignKey("communities.Organization", on_delete=models.CASCADE)
+    created_by = models.ForeignKey("authentication.UserModel", on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now=True)
+
+
+# MARK: Image
+
+
 class OrganizationImage(models.Model):
     """
     Class for adding image parameters to organizations.
@@ -121,6 +145,9 @@ class OrganizationImage(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
+
+# MARK: Member
 
 
 class OrganizationMember(models.Model):
@@ -138,6 +165,28 @@ class OrganizationMember(models.Model):
         return str(self.id)
 
 
+# MARK: Resource
+
+
+class OrganizationResource(Resource):
+    """
+    Organization resource model.
+    """
+
+    org = models.ForeignKey(
+        Organization, on_delete=models.CASCADE, related_name="resources"
+    )
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["order"]
+
+
+# MARK: Social Link
+
+
 class OrganizationSocialLink(SocialLink):
     """
     Class for adding social link parameters to organizations.
@@ -147,15 +196,11 @@ class OrganizationSocialLink(SocialLink):
         Organization, on_delete=models.CASCADE, null=True, related_name="social_links"
     )
 
+    class Meta:
+        ordering = ["order"]
 
-class OrganizationFaq(Faq):
-    """
-    Class for adding faq parameters to organizations.
-    """
 
-    org = models.ForeignKey(
-        Organization, on_delete=models.CASCADE, null=True, related_name="faqs"
-    )
+# MARK: Task
 
 
 class OrganizationTask(models.Model):
@@ -174,7 +219,10 @@ class OrganizationTask(models.Model):
         return str(self.id)
 
 
-class OrganizationText(models.Model):
+# MARK: Text
+
+
+class OrganizationText(Text):
     """
     Class for adding text parameters to organizations.
     """
@@ -182,10 +230,6 @@ class OrganizationText(models.Model):
     org = models.ForeignKey(
         Organization, on_delete=models.CASCADE, null=True, related_name="texts"
     )
-    iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField(default=False)
-    description = models.TextField(max_length=2500)
-    get_involved = models.TextField(max_length=500, blank=True)
     donate_prompt = models.TextField(max_length=500, blank=True)
 
     def __str__(self) -> str:

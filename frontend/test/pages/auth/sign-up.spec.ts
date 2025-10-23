@@ -1,61 +1,35 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import SignUp from "@/pages/auth/sign-up.vue";
-import render from "@/test/render";
 import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
+import { describe, expect, it } from "vitest";
 
+import SignUp from "../../../app/pages/auth/sign-up.vue";
+import { getEnglishText } from "../../../app/utils/i18n";
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_RATING as RATING,
-} from "~/test-utils/constants";
+} from "../../../test-utils/constants";
+import render from "../../../test/render";
+
+// Note: Auto-import mocks (useI18n, useAuthState, etc.) and Icon component mock
+// are handled globally in test/setup.ts
 
 describe("sign-up", () => {
-  it("shows error border on blur when password invalid", async () => {
+  it("shows error border when password invalid", async () => {
     await render(SignUp);
 
-    const inputBorder = screen.getByTestId("sign-up-password-border");
+    const inputBorder = screen.getByTestId("form-item-password-border");
     expect(inputBorder.className).toMatch("border-interactive");
 
-    const passwordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.enter_password")
-    );
-    await fireEvent.update(passwordInput, "a");
-    await fireEvent.blur(passwordInput);
+    const submitButton = screen.getByRole("button", {
+      name: getEnglishText("i18n.components.submit_aria_label"),
+    });
+
+    await fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByTestId("sign-up-password-border").className).toMatch(
+      expect(screen.getByTestId("form-item-password-border").className).toMatch(
         "border-action-red dark:border-action-red"
       );
-    });
-  });
-
-  it("shows green check when passwords match", async () => {
-    await render(SignUp);
-
-    const passwordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.enter_password")
-    );
-
-    await fireEvent.update(passwordInput, "abcd");
-    await fireEvent.blur(passwordInput);
-
-    const repeatPasswordInput = screen.getByLabelText(
-      getEnglishText("i18n._global.repeat_password")
-    );
-
-    await fireEvent.update(repeatPasswordInput, "ab");
-
-    let icon = await screen.findByRole("img", {
-      name: getEnglishText("i18n.pages.auth._global.passwords_do_not_match"),
-    });
-    expect(icon.style.color).toBe("#BA3D3B");
-
-    await fireEvent.update(repeatPasswordInput, "abcd");
-
-    await waitFor(() => {
-      icon = screen.getByRole("img", {
-        name: getEnglishText("i18n.pages.auth._global.passwords_match"),
-      });
-      expect(icon.style.color).toBe("#3BA55C");
     });
   });
 

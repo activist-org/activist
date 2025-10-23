@@ -5,7 +5,7 @@ import { getActivePinia } from "pinia";
 const render: typeof renderSuspended = (component, options = {}) => {
   // Set up Pinia.
   options.global = options.global ?? {};
-  const plugins = options.global.plugins;
+  const { plugins } = options.global;
   options.global.plugins = plugins
     ? [getActivePinia()!, ...plugins]
     : [getActivePinia()!];

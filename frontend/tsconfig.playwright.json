@@ -1,0 +1,15 @@
+{
+  "extends": "./.nuxt/tsconfig.node.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "baseUrl": ".",
+    "types": ["@types/node", "playwright"],
+    "paths": {
+      "~": ["./app"],
+      "~/*": ["./app/*", "./*"],
+      "~~": ["."],
+      "~~/*": ["./*"]
+    }
+  },
+  "include": ["playwright.config.mts", "test-e2e/**/*.ts", "test-e2e/**/*.mts"]
+}

@@ -1,0 +1,22 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<template>
+  <div
+    class="card-style flex h-full w-full items-center justify-center bg-layer-2"
+  >
+    <div
+      class="rounded-full bg-distinct-text p-6 dark:bg-menu-selection md:p-8"
+    >
+      <Icon
+        :color="$colorMode.value === 'dark' ? 'white' : 'black'"
+        :name="IconMap.VIDEO"
+        size="75px"
+      />
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { IconMap } from "~/types/icon-map";
+
+defineProps<{ link: string }>();
+</script>

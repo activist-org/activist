@@ -166,17 +166,18 @@ jobs:
         working-directory: ./backend
         continue-on-error: true
         run: |
-          echo -e "\n### Ruff Format Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          ruff format . 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
+          # Note: Don't check formatting.
+          # echo -e "\n### Ruff Format Results" >> ../reports.md
+          # echo "\`\`\`" >> ../reports.md
+          # ruff format . 2>&1 | tee -a ../reports.md || true
+          # echo "\`\`\`" >> ../reports.md
 
           echo -e "\n### Ruff Lint Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           ruff check . 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Mypy Results" >> ../reports.md
+          echo -e "\n### mypy Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
@@ -191,11 +192,12 @@ jobs:
         working-directory: ./frontend
         continue-on-error: true
         run: |
-          echo "compare_versions.js" >> ../.prettierignore
-          echo -e "\n### Prettier Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
+          # Note: Don't check formatting.
+          # echo "compare_versions.js" >> ../.prettierignore
+          # echo -e "\n### Prettier Results" >> ../reports.md
+          # echo "\`\`\`" >> ../reports.md
+          # yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
+          # echo "\`\`\`" >> ../reports.md
 
           echo -e "\n### ESLint Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md

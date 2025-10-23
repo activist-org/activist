@@ -28,21 +28,14 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Execute i18n Key Identifiers Check
-        working-directory: ./frontend/i18n/check
-        run: python i18n_check_key_identifiers.py
+      - name: Create Environment and Install Dependencies
+        run: |
+          python -m pip install --upgrade uv
+          uv venv
+          . .venv/bin/activate
+          uv pip install -r backend/requirements-dev.txt
+          echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
-      - name: Execute i18n Unused Keys Check
-        if: always()
-        working-directory: ./frontend/i18n/check
-        run: python i18n_check_unused_keys.py
-
-      - name: Execute i18n Non Source Keys Check
-        if: always()
-        working-directory: ./frontend/i18n/check
-        run: python i18n_check_non_source_keys.py
-
-      - name: Execute i18n Repeat Values Check
-        if: always()
-        working-directory: ./frontend/i18n/check
-        run: python i18n_check_repeat_values.py
+      - name: Execute All i18n-check Key-Value Checks
+        run: |
+          i18n-check -a

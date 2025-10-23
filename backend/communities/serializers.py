@@ -20,7 +20,7 @@ class StatusSerializer(serializers.ModelSerializer[Status]):
         fields = "__all__"
 
 
-# MARK: Bridge Tables
+# MARK: Status Type
 
 
 class StatusTypeSerializer(serializers.ModelSerializer[StatusType]):

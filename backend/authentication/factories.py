@@ -4,11 +4,18 @@ Factories for creating mock instances of models in the authentication app.
 """
 
 # mypy: ignore-errors
+import datetime
 from typing import Any
 
 import factory
 
-from authentication.models import Support, SupportEntityType, UserModel
+from authentication.models import (
+    SessionModel,
+    Support,
+    SupportEntityType,
+    UserFlag,
+    UserModel,
+)
 
 # MARK: Support
 
@@ -44,6 +51,27 @@ class SupportFactory(factory.django.DjangoModelFactory):
     supported_type = factory.SubFactory(SupportEntityTypeFactory)
     supported_entity = factory.SubFactory(
         "communities.organizations.factories.OrganizationFactory"
+    )
+
+    # MARK: Session
+
+
+class SessionFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Session model instances.
+
+    Notes
+    -----
+    This class generates mock `Session` instances, which are used to track user sessions.
+    It requires a `UserModel` instance to be created or provided.
+    """
+
+    class Meta:
+        model = SessionModel
+
+    user = factory.SubFactory("authentication.factories.UserFactory")
+    last_activity = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
 
 
@@ -100,3 +128,18 @@ class UserFactory(factory.django.DjangoModelFactory):
         if not create:
             # Simple build, do nothing.
             return
+
+
+class UserFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory to create an instance of UserFlag model.
+    """
+
+    class Meta:
+        model = UserFlag
+
+    user = factory.SubFactory("authentication.factories.UserFactory")
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )

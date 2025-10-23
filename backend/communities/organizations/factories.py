@@ -17,6 +17,7 @@ from communities.organizations.models import (
     OrganizationFlag,
     OrganizationImage,
     OrganizationMember,
+    OrganizationResource,
     OrganizationSocialLink,
     OrganizationTask,
     OrganizationText,
@@ -49,22 +50,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     )
 
 
-class OrganizationFlagFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating a flag for an organization.
-    """
-
-    class Meta:
-        model = OrganizationFlag
-
-    created_by = factory.SubFactory("authentication.factories.UserFactory")
-    org = factory.SubFactory(OrganizationFactory)
-    created_at = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-
-
-# MARK: Bridge Tables
+# MARK: Application
 
 
 class OrganizationApplicationStatusFactory(factory.django.DjangoModelFactory):
@@ -98,6 +84,46 @@ class OrganizationApplicationFactory(factory.django.DjangoModelFactory):
     )
 
 
+# MARK: FAQ
+
+
+class OrganizationFaqFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating Faq model instances.
+    """
+
+    class Meta:
+        model = OrganizationFaq
+
+    iso = "en"
+    primary = factory.Faker("boolean")
+    question = factory.Faker(provider="text", locale="la")
+    answer = factory.Faker(provider="text", locale="la")
+    order = factory.Faker("random_int", min=0, max=100)
+    org = factory.SubFactory(OrganizationFactory)
+
+
+# MARK: Flag
+
+
+class OrganizationFlagFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating a flag for an organization.
+    """
+
+    class Meta:
+        model = OrganizationFlag
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    org = factory.SubFactory(OrganizationFactory)
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+# MARK: Image
+
+
 class OrganizationImageFactory(factory.django.DjangoModelFactory):
     """
     Factory for creating OrganizationImage model instances.
@@ -108,6 +134,9 @@ class OrganizationImageFactory(factory.django.DjangoModelFactory):
 
     org = factory.SubFactory(OrganizationFactory)
     image = factory.SubFactory("content.factories.ImageFactory")
+
+
+# MARK: Member
 
 
 class OrganizationMemberFactory(factory.django.DjangoModelFactory):
@@ -123,6 +152,36 @@ class OrganizationMemberFactory(factory.django.DjangoModelFactory):
     is_owner = factory.Faker("boolean")
     is_admin = factory.Faker("boolean")
     is_comms = factory.Faker("boolean")
+
+
+# MARK: Resource
+
+
+class OrganizationResourceFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating OrganizationResource model instances.
+    """
+
+    class Meta:
+        model = OrganizationResource
+
+    created_by = factory.SubFactory("authentication.factories.UserFactory")
+    name = factory.Faker(provider="text", locale="la", max_nb_chars=50)
+    description = factory.Faker(provider="text", locale="la")
+    url = "https://www.activist.org"
+    order = factory.Faker("random_int", min=0, max=100)
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
+    is_private = factory.Faker("boolean")
+    terms_checked = factory.Faker("boolean")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    last_updated = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+
+
+# MARK: Social Link
 
 
 class OrganizationSocialLinkFactory(factory.django.DjangoModelFactory):
@@ -144,19 +203,7 @@ class OrganizationSocialLinkFactory(factory.django.DjangoModelFactory):
     )
 
 
-class OrganizationFaqFactory(factory.django.DjangoModelFactory):
-    """
-    Factory for creating Faq model instances.
-    """
-
-    class Meta:
-        model = OrganizationFaq
-
-    iso = "en"
-    primary = factory.Faker("boolean")
-    question = factory.Faker(provider="text", locale="la")
-    answer = factory.Faker(provider="text", locale="la")
-    order = factory.Faker("random_int", min=1, max=100)
+# MARK: Task
 
 
 class OrganizationTaskFactory(factory.django.DjangoModelFactory):
@@ -170,6 +217,9 @@ class OrganizationTaskFactory(factory.django.DjangoModelFactory):
     org = factory.SubFactory(OrganizationFactory)
     task = factory.SubFactory("content.factories.TaskFactory")
     group = factory.SubFactory("communities.groups.factories.GroupFactory")
+
+
+# MARK: Text
 
 
 class OrganizationTextFactory(factory.django.DjangoModelFactory):

@@ -26,27 +26,27 @@ def test_discussion_delete():
 
     # Login to get token.
     login_response = client.post(
-        path="/v1/auth/sign_in/",
+        path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
     )
 
     assert login_response.status_code == 200
 
     login_body = login_response.json()
-    token = login_body["token"]
+    token = login_body["access"]
 
     # Authorized owner deletes the discussion.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/content/discussions/{discussion_thread.id}/")
+    response = client.delete(path=f"/v1/content/discussions/{discussion_thread.id}")
 
     assert response.status_code == 204
 
     # Authorized non-owner deletes the discussion.
     response = client.delete(
-        path=f"/v1/content/discussions/{unowned_discussion_thread.id}/"
+        path=f"/v1/content/discussions/{unowned_discussion_thread.id}"
     )
 
     assert response.status_code == 403
 
     body = response.json()
-    assert body["error"] == "You are not allowed to delete this discussion."
+    assert body["detail"] == "You are not allowed to delete this discussion."
