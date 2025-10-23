@@ -4,7 +4,7 @@
     <ModalUploadImageGroup
       @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
-      :entityId="group?.id || ''"
+      :groupId="group?.id || ''"
       :images="images || []"
     />
     <ModalUploadImageIcon
@@ -26,7 +26,7 @@
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage :group="group" :images="images" />
+        <NuxtPage />
       </div>
       <FooterWebsite
         class="pb-24 transition-[padding] duration-500 md:pb-12"

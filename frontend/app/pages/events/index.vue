@@ -25,13 +25,15 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvents } from "~/composables/queries/useGetEvents";
 import { ViewType } from "~/types/view-types";
 
-const eventStore = useEventStore();
-const { events } = storeToRefs(eventStore);
-
 const viewType = ref<ViewType>(ViewType.MAP);
+
 const route = useRoute();
+const query = computed(() => route.query);
+
+const { data: events } = useGetEvents(query);
 
 watchEffect(() => {
   const q = route.query.view;

@@ -14,7 +14,7 @@
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
-          v-if="organization.groups && organization.groups.length > 0"
+          v-if="organization?.groups && organization.groups.length > 0"
           ariaLabel="i18n.components.card_get_involved_organization.view_all_groups_aria_label"
           :cta="true"
           fontSize="sm"
@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="mt-4">
-      <div v-if="organization.groups && organization.groups.length > 0">
+      <div v-if="organization?.groups && organization.groups.length > 0">
         <p v-if="organization.texts.getInvolved">
           {{ organization.texts.getInvolved }}
         </p>
@@ -50,7 +50,7 @@
         </p>
         <Feed :organization="organization" />
       </div>
-      <div v-else-if="organization.getInvolvedUrl">
+      <div v-else-if="organization?.getInvolvedUrl">
         <p v-if="organization.texts.getInvolved">
           {{ organization.texts.getInvolved }}
         </p>
@@ -71,7 +71,7 @@
             $t(
               "i18n.components.card_get_involved_organization.join_organization_no_info",
               {
-                entity_name: organization.name,
+                entity_name: organization?.name,
               }
             )
           }}
@@ -82,6 +82,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextOrganization } = useModalHandlers(
@@ -93,7 +94,5 @@ const { userIsSignedIn } = useUser();
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(orgId || "");
 </script>

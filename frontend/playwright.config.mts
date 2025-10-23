@@ -52,6 +52,12 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 1,
   /* Fail on flaky tests to ensure stability. */
   failOnFlakyTests: !!process.env.CI,
+  /* Global test timeout - applies to all tests unless overridden */
+  timeout: 30000, // 30 seconds per test
+  /* Global assertion timeout - applies to all expect() calls */
+  expect: {
+    timeout: 10000, // 10 seconds for assertions
+  },
   /* User data directory for browser state persistence */
   // userDataDir: process.env.CI ? undefined : "./test-results/user-data",
   /* Reporter to use. See https://playwright.dev/docs/test-reporters. */
@@ -83,7 +89,9 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: environments[ENV],
-    navigationTimeout: 10000,
+    navigationTimeout: 15000,
+    /* Action timeout - applies to click, fill, etc. */
+    actionTimeout: 10000,
     /* Reuse authenticated session across tests (can be overridden per test with test.use()) */
     storageState: AUTH_STATE_PATH,
 

@@ -1,116 +1,119 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Locator, Page } from "playwright";
+import type { Page } from "playwright";
 
 import { expect } from "playwright/test";
 
 import { getEnglishText } from "~/utils/i18n";
 
-export const newSidebarLeft = (page: Page) => new SidebarLeft(page);
+export const newSidebarLeft = (page: Page) => {
+  // Private state patterns in closure and locators.
+  const collapsed = /w-20|w-16/;
+  const expanded = /w-60|w-56/;
+  const locked = /-rotate-180/;
 
-export class SidebarLeft {
-  public readonly root: Locator;
-  public readonly lockToggle: Locator;
-
-  private readonly page;
-  private collapsed = /w-20|w-16/;
-  private expanded = /w-60|w-56/;
-  private locked = /-rotate-180/;
-
-  constructor(page: Page) {
-    this.page = page;
-    this.root = page.locator("#sidebar-left");
-
-    this.lockToggle = this.root.getByRole("button", {
-      name: new RegExp(
-        getEnglishText(
-          "i18n.components.sidebar_left_header.sidebar_collapse_aria_label"
-        ),
-        "i"
+  const root = page.locator("#sidebar-left");
+  const lockToggle = root.getByRole("button", {
+    name: new RegExp(
+      getEnglishText(
+        "i18n.components.sidebar_left_header.sidebar_collapse_aria_label"
       ),
-    });
-  }
+      "i"
+    ),
+  });
 
-  async isCollapsed(): Promise<boolean> {
-    const classes = (await this.root.getAttribute("class")) ?? "";
-    return this.collapsed.test(classes);
-  }
+  return {
+    // MARK: Public Locators
+    root,
+    lockToggle,
 
-  async expectIsCollapsed(message?: string) {
-    await expect(this.root, message).toHaveClass(this.collapsed);
-  }
+    // MARK: State Check Methods
 
-  async isExpanded(): Promise<boolean> {
-    const classString = (await this.root.getAttribute("class")) ?? "";
-    return this.expanded.test(classString);
-  }
+    async isCollapsed(): Promise<boolean> {
+      const classes = (await root.getAttribute("class")) ?? "";
+      return collapsed.test(classes);
+    },
 
-  async expectIsExpanded(message?: string) {
-    await expect(this.root, message).toHaveClass(this.expanded);
-  }
+    async expectIsCollapsed(message?: string) {
+      await expect(root, message).toHaveClass(collapsed);
+    },
 
-  async isLockedOpen(): Promise<boolean> {
-    const classString = (await this.lockToggle.getAttribute("class")) ?? "";
-    return this.locked.test(classString);
-  }
+    async isExpanded(): Promise<boolean> {
+      const classString = (await root.getAttribute("class")) ?? "";
+      return expanded.test(classString);
+    },
 
-  async expectIsLockedOpen(message?: string) {
-    await expect(this.lockToggle, message).toHaveClass(this.locked);
-  }
+    async expectIsExpanded(message?: string) {
+      await expect(root, message).toHaveClass(expanded);
+    },
 
-  async isUnlocked(): Promise<boolean> {
-    const classString = (await this.lockToggle.getAttribute("class")) ?? "";
-    return !this.locked.test(classString);
-  }
+    async isLockedOpen(): Promise<boolean> {
+      const classString = (await lockToggle.getAttribute("class")) ?? "";
+      return locked.test(classString);
+    },
 
-  async expectIsUnlocked(message?: string) {
-    await expect(this.lockToggle, message).not.toHaveClass(this.locked);
-  }
+    async expectIsLockedOpen(message?: string) {
+      await expect(lockToggle, message).toHaveClass(locked);
+    },
 
-  async hover(): Promise<void> {
-    await this.root.hover();
-  }
+    async isUnlocked(): Promise<boolean> {
+      const classString = (await lockToggle.getAttribute("class")) ?? "";
+      return !locked.test(classString);
+    },
 
-  async mouseEnter(): Promise<void> {
-    // Determine the the width of the visible sidebar.
-    const boundingBox = await this.root.boundingBox();
-    const x = boundingBox?.x ?? 0;
-    const y = boundingBox?.y ?? 0;
-    // Move mouse to the center of the sidebar.
-    await this.page.mouse.move(x / 2, y / 2);
-  }
+    async expectIsUnlocked(message?: string) {
+      await expect(lockToggle, message).not.toHaveClass(locked);
+    },
 
-  // Hover to the right of the sidebar left.
-  async mouseLeave(): Promise<void> {
-    const boundingBox = await this.root.boundingBox();
-    if (!boundingBox) {
-      throw new Error("Unable to get bounding box of SidebarLeft");
-    }
+    // MARK: Interaction Methods
 
-    const { x, y, width, height } = boundingBox;
+    async hover(): Promise<void> {
+      await root.hover();
+    },
 
-    // Move the mouse to the right of the sidebar.
-    const outsideX = x + width + 100; // 10 pixels to the right of the sidebar
-    const outsideY = y + height / 2; // vertically centered
+    async mouseEnter(): Promise<void> {
+      // Determine the the width of the visible sidebar.
+      const boundingBox = await root.boundingBox();
+      const x = boundingBox?.x ?? 0;
+      const y = boundingBox?.y ?? 0;
+      // Move mouse to the center of the sidebar.
+      await page.mouse.move(x / 2, y / 2);
+    },
 
-    await this.page.mouse.move(outsideX, outsideY);
-  }
+    // Hover to the right of the sidebar left.
+    async mouseLeave(): Promise<void> {
+      const boundingBox = await root.boundingBox();
+      if (!boundingBox) {
+        throw new Error("Unable to get bounding box of SidebarLeft");
+      }
 
-  async open(): Promise<void> {
-    await this.mouseEnter();
-    await this.expectIsExpanded();
-  }
+      const { x, y, width, height } = boundingBox;
 
-  /**
-   * Has assertions to wait for unlock and collapse actions to complete.
-   */
-  async close(): Promise<void> {
-    const isLockedOpen =
-      (await this.isExpanded()) && (await this.isLockedOpen());
-    if (isLockedOpen) {
-      await this.lockToggle.click();
-      await this.expectIsUnlocked();
-    }
-    await this.mouseLeave();
-    await this.expectIsCollapsed();
-  }
-}
+      // Move the mouse to the right of the sidebar.
+      const outsideX = x + width + 100; // 10 pixels to the right of the sidebar
+      const outsideY = y + height / 2; // vertically centered
+
+      await page.mouse.move(outsideX, outsideY);
+    },
+
+    async open(): Promise<void> {
+      await this.mouseEnter();
+      await this.expectIsExpanded();
+    },
+
+    /**
+     * Has assertions to wait for unlock and collapse actions to complete.
+     */
+    async close(): Promise<void> {
+      const isLockedOpen =
+        (await this.isExpanded()) && (await this.isLockedOpen());
+      if (isLockedOpen) {
+        await lockToggle.click();
+        await this.expectIsUnlocked();
+      }
+      await this.mouseLeave();
+      await this.expectIsCollapsed();
+    },
+  };
+};
+
+export type SidebarLeft = ReturnType<typeof newSidebarLeft>;

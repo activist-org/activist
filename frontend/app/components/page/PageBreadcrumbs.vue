@@ -80,6 +80,8 @@ import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
 
 import { getGroup } from "~/services/communities/group/group";
+import { getOrganization } from "~/services/communities/organization/organization";
+import { getEvent } from "~/services/event/event";
 
 const url = window.location.href;
 let pageType = "";
@@ -114,17 +116,17 @@ const eventRegex =
 if (organizationRegex.test(url)) {
   pageType = "organization";
 
-  await organizationStore.fetchById(orgId);
-  organization = organizationStore.organization;
+  if (organizationStore.organization)
+    organization = organizationStore.organization;
+  else organization = await getOrganization(orgId || "");
 } else if (groupRegex.test(url)) {
   pageType = "group";
   if (groupStore.group) group = groupStore.group;
   else group = await getGroup(groupId);
 } else if (eventRegex.test(url)) {
   pageType = "event";
-
-  await eventStore.fetchById(eventId);
-  event = eventStore.event;
+  if (eventStore.event) event = eventStore.event;
+  else event = await getEvent(eventId || "");
 }
 
 const breadcrumbs = ref<string[]>([]);

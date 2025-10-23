@@ -353,7 +353,7 @@ Relationships between organizations will help users find similar organizations o
 
 > Linking events and organizations to decision making.
 
-Users will be able to subscribe for updates on events and organizations that work in relation to legislation and elections. this feature will be based on data from [Wikidata](https://www.wikidata.org), with open data generating the vote pages that our community then maintains.
+Users will be able to subscribe for updates on events and organizations that work in relation to legislation and elections. This feature will be based on data from [Wikidata](https://www.wikidata.org), with open data generating the vote pages that our community then maintains.
 
 <a id="securely-hosted"></a>
 
