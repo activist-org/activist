@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Config } from "tailwindcss";
 
-export default <Partial<Config>>{
+
+import { defineConfig } from "tailwindcss"; //update tailwindcss import type, defineconfig wraps the code and provides editor support as well as warnings for outdated usages
+//import scrollbar from "tailwind-scrollbar"; //scroll bar import 
+
+export default defineConfig({ //adjust for defineConfig
   content: [
     "~/components/**/*.{js,vue,ts}",
     "~/layouts/**/*.vue",
@@ -10,9 +13,11 @@ export default <Partial<Config>>{
     "./nuxt.config.{js,ts}",
     "./app.vue",
   ],
-  darkMode: "class",
+  //darkMode: "class",  this config option no longer exists in new tailwind, it is now manual in html
   plugins: [
-    require("tailwind-scrollbar")({ nocompatible: true }), // eslint-disable-line
+    require('tailwind-scrollbar')({
+      nocompatible: true, 
+      preferredStrategy: 'pseudoelements'}), // no import 
   ],
   theme: {
     extend: {
@@ -56,4 +61,4 @@ export default <Partial<Config>>{
       },
     },
   },
-};
+});
