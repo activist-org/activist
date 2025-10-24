@@ -149,10 +149,13 @@ const handleItemClick = (menuEntry: MenuEntry) => {
 };
 
 watchEffect(() => {
-  selectedMenuItem.value = useRouter().currentRoute.value.fullPath.includes(
-    "/organizations/"
-  )
-    ? menuEntryState.organizationEntry.value.find((e) => e.selected)
-    : menuEntryState.eventEntry.value.find((e) => e.selected);
+  const currentPath = useRouter().currentRoute.value.fullPath;
+  if (currentPath.includes("/organizations/")) {
+    selectedMenuItem.value = menuEntryState.organizationEntry.value.find((e) => e.selected);
+  } else if (currentPath.includes("/events/")) {
+    selectedMenuItem.value = menuEntryState.eventEntry.value.find((e) => e.selected);
+  } else {
+    selectedMenuItem.value = undefined;
+  }
 });
 </script>
