@@ -1,7 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex w-full flex-col space-y-2">
-    <div class="flex w-full flex-col items-center">
+  <div class="flex w-full flex-col space-y-2" data-testid="events-filter">
+    <div
+      class="flex w-full flex-col items-center"
+      data-testid="events-filter-view-type"
+    >
       <FormSelectorRadio
         v-if="!sidebar.collapsed || !sidebar.collapsedSwitch"
         @update:modelValue="updateViewType"
@@ -19,6 +22,7 @@
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-days"
         :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
         name="days"
       >
@@ -32,6 +36,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-event-type"
         :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
         name="type"
       >
@@ -45,6 +50,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-location-type"
         :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
         name="setting"
       >
@@ -58,6 +64,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        data-testid="events-filter-location"
         :label="$t('i18n._global.location')"
         name="location"
       >
@@ -80,6 +87,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-topics"
         :label="$t('i18n.components._global.topics')"
         name="topics"
       >
