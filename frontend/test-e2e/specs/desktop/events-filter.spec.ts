@@ -59,7 +59,6 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
 
   // MARK: Location Search
 
-  // This filter is not yet implemented.
   test("should filter events by location search", async ({
     page,
   }, testInfo) => {
