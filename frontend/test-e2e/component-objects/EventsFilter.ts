@@ -72,8 +72,7 @@ export const newEventsFilter = (parent: Page | Locator) => {
     /**
      * Helper method to get the location input field
      */
-    getLocationInput: () =>
-      root.getByTestId("events-filter-location").getByRole("searchbox"),
+    getLocationInput: () => root.locator("#form-item-location"),
   };
 };
 /**
