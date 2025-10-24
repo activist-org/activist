@@ -60,7 +60,7 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
   // MARK: Location Search
 
   // This filter is not yet implemented.
-  test.skip("should filter events by location search", async ({
+  test("should filter events by location search", async ({
     page,
   }, testInfo) => {
     logTestPath(testInfo);
@@ -72,12 +72,12 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
       await expect(locationInput).toBeVisible();
 
       // Enter location search term.
-      await locationInput.fill("San Francisco");
+      await locationInput.fill("Berlin");
       await locationInput.blur(); // Trigger onChange event.
 
       // Verify URL updates with location parameter.
-      await page.waitForURL(/location=San/, { timeout: 5000 });
-      await expect(page).toHaveURL(/location=San/);
+      await page.waitForURL(/location=Berlin/, { timeout: 5000 });
+      await expect(page).toHaveURL(/location=Berlin/);
     });
 
     await withTestStep(testInfo, "Clear location search", async () => {
