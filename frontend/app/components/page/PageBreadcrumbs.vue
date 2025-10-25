@@ -39,7 +39,7 @@
             class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
-            {{ group.name }}
+            {{ group.org.name }}
           </NuxtLink>
           <NuxtLink
             v-else-if="
@@ -113,18 +113,21 @@ const groupRegex =
 const eventRegex =
   /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/events\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).+$/;
 
-if (organizationRegex.test(url)) {
+// Note: We need to test for groups before organizations as the org test passes for groups.
+if (groupRegex.test(url)) {
+  pageType = "group";
+
+  if (groupStore.group) group = groupStore.group;
+  else group = await getGroup(groupId);
+} else if (organizationRegex.test(url)) {
   pageType = "organization";
 
   if (organizationStore.organization)
     organization = organizationStore.organization;
   else organization = await getOrganization(orgId || "");
-} else if (groupRegex.test(url)) {
-  pageType = "group";
-  if (groupStore.group) group = groupStore.group;
-  else group = await getGroup(groupId);
 } else if (eventRegex.test(url)) {
   pageType = "event";
+
   if (eventStore.event) event = eventStore.event;
   else event = await getEvent(eventId || "");
 }
