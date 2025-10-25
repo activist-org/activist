@@ -20,3 +20,4 @@ icalendar
 pillow
 psycopg2-binary
 python-dotenv
+zxcvbn

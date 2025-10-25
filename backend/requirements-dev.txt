@@ -30,6 +30,11 @@ charset-normalizer==3.4.3
     #   requests
 click==8.3.0
     # via pip-tools
+colorama==0.4.6
+    # via
+    #   build
+    #   click
+    #   pytest
 coverage[toml]==7.10.7
     # via pytest-cov
 distlib==0.4.0
@@ -240,6 +245,7 @@ typing-extensions==4.15.0
 tzdata==2025.2
     # via
     #   -r requirements.txt
+    #   django
     #   faker
     #   icalendar
 uritemplate==4.2.0
@@ -256,6 +262,8 @@ virtualenv==20.35.3
     # via pre-commit
 wheel==0.45.1
     # via pip-tools
+zxcvbn==4.5.0
+    # via -r requirements.txt
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
