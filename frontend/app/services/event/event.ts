@@ -26,7 +26,6 @@ export function mapEvent(res: EventResponse): EventT {
     type: res.type,
     onlineLocationLink: res.onlineLocationLink,
     offlineLocation: res.offlineLocation,
-    getInvolvedUrl: res.getInvolvedUrl,
     socialLinks: res.socialLinks ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],

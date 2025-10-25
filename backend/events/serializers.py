@@ -240,7 +240,6 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
             "topics",
             "orgs",
             "created_by",
-            "get_involved_url",
             "icon_url",
             "deletion_date",
         )

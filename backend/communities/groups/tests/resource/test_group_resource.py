@@ -53,7 +53,6 @@ def test_group_resource_serializer() -> None:
         tagline="Test tagline",
         location=location,
         category="test",
-        get_involved_url="http://example.com",
         terms_checked=True,
     )
 
@@ -101,7 +100,6 @@ def test_validate_group_with_group_instance_resource_serializer():
         tagline=fake.catch_phrase(),
         location=location,
         category=fake.word(),
-        get_involved_url=fake.url(),
         terms_checked=True,
     )
 
@@ -128,7 +126,6 @@ def test_validate_group_with_valid_uuid_resource_serializer():
         tagline=fake.catch_phrase(),
         location=location,
         category=fake.word(),
-        get_involved_url=fake.url(),
         terms_checked=True,
     )
 

@@ -35,7 +35,6 @@ class GroupFactory(factory.django.DjangoModelFactory):
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    get_involved_url = "https://activist.org/"
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )
@@ -176,4 +175,5 @@ class GroupTextFactory(factory.django.DjangoModelFactory):
     primary = factory.Faker("boolean")
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
+    get_involved_url = "https://activist.org/"
     donate_prompt = factory.Faker(provider="text", locale="la")

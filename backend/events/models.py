@@ -53,7 +53,6 @@ class Event(models.Model):
     offline_location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
     )
-    get_involved_url = models.URLField(blank=True)
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
