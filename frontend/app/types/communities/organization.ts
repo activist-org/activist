@@ -21,7 +21,6 @@ interface OrganizationBase extends Entity {
   tagline: string;
   iconUrl?: ContentImage;
   location: Location;
-  getInvolvedUrl: string;
   socialLinks: OrganizationSocialLink[];
   status: number;
   // statusUpdated?: string;
@@ -83,6 +82,7 @@ export interface OrganizationText {
   primary: boolean;
   description: string;
   getInvolved: string;
+  getInvolvedUrl?: string;
   donationPrompt: string;
 }
 
@@ -104,7 +104,6 @@ export const defaultOrganization: Organization = {
   createdBy: "",
   iconUrl: defaultContentImage,
   location: defaultLocation,
-  getInvolvedUrl: "",
   socialLinks: [defaultOrganizationSocialLink],
   status: 0,
   creationDate: "",
@@ -152,5 +151,5 @@ export interface OrganizationCreateFormData {
 export interface OrganizationUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedUrl: string;
+  getInvolvedUrl?: string;
 }
