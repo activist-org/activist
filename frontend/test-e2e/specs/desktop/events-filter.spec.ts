@@ -72,7 +72,7 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
 
       // Enter location search term.
       await locationInput.fill("Berlin");
-      await locationInput.blur(); // Trigger onChange event.
+      await locationInput.blur(); // trigger onChange event
 
       // Verify URL updates with location parameter.
       await page.waitForURL(/location=Berlin/, { timeout: 5000 });
@@ -85,7 +85,7 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
       await locationInput.blur();
 
       // Verify location parameter is removed from URL.
-      await page.waitForTimeout(500); // Brief wait for URL update.
+      await page.waitForTimeout(500); // brief wait for URL update
       expect(page.url()).not.toMatch(/location=/);
     });
   });
@@ -103,7 +103,7 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
       // Calculate expected date (7 days from now).
       const expectedDate = new Date();
       expectedDate.setDate(expectedDate.getDate() + 7);
-      const expectedDateStr = expectedDate.toISOString().split("T")[0]; // YYYY-MM-DD format.
+      const expectedDateStr = expectedDate.toISOString().split("T")[0]; // YYYY-MM-DD format
 
       // Set days ahead filter.
       const sevenDaysButton = eventsFilter.daysSection.getByRole("radio", {

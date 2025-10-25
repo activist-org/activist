@@ -27,42 +27,42 @@ export const newEventsFilter = (parent: Page | Locator) => {
 
   return {
     /**
-     * Root container of the events filter component
+     * Root container of the events filter component.
      */
     root,
 
     /**
-     * View type selector section (list, map, calendar views)
+     * View type selector section (list, map, calendar views).
      */
     viewTypeSection: root.getByTestId("events-filter-view-type"),
 
     /**
-     * Days ahead filter section (1, 7, 30 days)
+     * Days ahead filter section (1, 7, 30 days).
      */
     daysSection: root.getByTestId("events-filter-days"),
 
     /**
-     * Event type filter section (learn, action)
+     * Event type filter section (learn, action).
      */
     eventTypeSection: root.getByTestId("events-filter-event-type"),
 
     /**
-     * Location type filter section (offline/in-person, online)
+     * Location type filter section (offline/in-person, online).
      */
     locationTypeSection: root.getByTestId("events-filter-location-type"),
 
     /**
-     * Location search input section
+     * Location search input section.
      */
     locationSection: root.getByTestId("events-filter-location"),
 
     /**
-     * Topics combobox filter section
+     * Topics combobox filter section.
      */
     topicsSection: root.getByTestId("events-filter-topics"),
 
     /**
-     * Helper method to get a specific radio button within a section by its value
+     * Helper method to get a specific radio button within a section by its value.
      * @param section - The section locator containing the radio buttons
      * @param value - The value attribute of the radio button
      */
@@ -70,12 +70,12 @@ export const newEventsFilter = (parent: Page | Locator) => {
       section.getByRole("radio", { name: new RegExp(value, "i") }),
 
     /**
-     * Helper method to get the location input field
+     * Helper method to get the location input field.
      */
     getLocationInput: () => root.locator("#form-item-location"),
   };
 };
 /**
- * Type definition for the EventsFilter page object
+ * Type definition for the EventsFilter page object.
  */
 export type EventsFilter = ReturnType<typeof newEventsFilter>;

@@ -91,6 +91,7 @@ class Event(models.Model):
         ----------
         *args : Any
             Variable length argument list.
+
         **kwargs : Any
             Arbitrary keyword arguments.
 

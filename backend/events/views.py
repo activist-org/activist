@@ -116,6 +116,7 @@ class EventAPIView(GenericAPIView[Event]):
                 {"detail": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         except (IntegrityError, OperationalError) as e:
             logger.exception(f"Failed to create event for user {request.user.id}: {e}")
             Location.objects.filter(id=location.id).delete()
