@@ -26,6 +26,7 @@ repos:
     hooks:
       - id: spdx-license-checker
         name: run spdx-checker license check
+        exclude: ^(?:.*/)?__init__\.py$
         args: [-l, AGPL-3.0-or-later]
         types_or: [python, ts, javascript, vue, css, html]
 
