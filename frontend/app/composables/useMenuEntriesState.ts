@@ -123,12 +123,14 @@ const useMenuEntriesState = () => {
       } else {
         // Extract the last segment from the current route path
         const currentRoutePath = router.currentRoute.value.path;
-        const pathSegments = currentRoutePath.split("/").filter(seg => seg.length > 0);
+        const pathSegments = currentRoutePath
+          .split("/")
+          .filter((seg) => seg.length > 0);
         const currentPageName = pathSegments[pathSegments.length - 1];
-        
+
         // Extract the page name from the button label
         const buttonPageName = button.label.split(".").pop()!.toLowerCase();
-        
+
         // Match by comparing the page names
         button.selected = currentPageName === buttonPageName;
       }
