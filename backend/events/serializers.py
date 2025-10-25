@@ -224,9 +224,9 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
     org_id = serializers.PrimaryKeyRelatedField(
         queryset=Organization.objects.all(), source="orgs"
     )
-    group_id = serializers.PrimaryKeyRelatedField(
-        queryset=Group.objects.all(), source="groups"
-    )
+    # group_id = serializers.PrimaryKeyRelatedField(
+    #     queryset=Group.objects.all(), source="groups"
+    # )
 
     class Meta:
         model = Event
