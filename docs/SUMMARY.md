@@ -3,6 +3,7 @@
 ## Welcome
 
 * [Intro to activist](README.md)
+* [Onboarding](welcome/onboarding.md)
 * [Request access](welcome/request-access.md)
 * [Connect with us](welcome/connect-with-us.md)
 * [Support us](welcome/support-us.md)
