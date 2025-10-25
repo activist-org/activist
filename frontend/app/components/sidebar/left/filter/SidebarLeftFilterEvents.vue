@@ -237,14 +237,47 @@ const q = route.query.view;
 if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
   viewType.value = q as ViewType;
 }
+
+const convertActiveOnToDays = (activeOn: string): string | undefined => {
+  try {
+    const targetDate = new Date(activeOn);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    targetDate.setHours(0, 0, 0, 0);
+
+    const diffTime = targetDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 1) return "1";
+    if (diffDays <= 7) return "7";
+    if (diffDays <= 30) return "30";
+
+    return undefined;
+  } catch {
+    return undefined;
+  }
+};
+
 const formData = ref({});
 watch(
   route,
   (form) => {
-    formData.value = { ...form.query };
+    const queryData = { ...form.query };
+
+    if (queryData.active_on && typeof queryData.active_on === "string") {
+      const days = convertActiveOnToDays(queryData.active_on);
+      if (days) {
+        queryData.days = days;
+      }
+      // Remove active_on from formData since it's not a form field
+      delete queryData.active_on;
+    }
+
+    formData.value = queryData;
   },
   { immediate: true }
 );
+
 const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
