@@ -385,6 +385,30 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
             {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
         )
 
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = GroupFaq.objects.get(id=pk)
+
+        except GroupFaq.DoesNotExist as e:
+            logger.exception(f"FAQ with id {pk} does not exist for delete: {e}")
+            return Response(
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.group.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        group_id = faq.group.id
+        faq.delete()
+        logger.info(f"FAQ {pk} deleted for group {group_id} by user {request.user}")
+
+        return Response(
+            {"message": "FAQ deleted successfully."}, status=status.HTTP_204_NO_CONTENT
+        )
+
 
 # MARK: Social Link
 

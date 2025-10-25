@@ -83,6 +83,7 @@ export enum IconMap {
   TEXT_ITALIC = "bi:type-italic",
   TEXT_HEADER = "bi:h-square",
   TEXT_QUOTE = "bi:blockquote-left",
+  TRASH = "bi:trash",
   TWITTER = "simple-icons:twitter",
   VIDEO = "bi:camera-video",
   VISIBLE = "bi:eye-fill",

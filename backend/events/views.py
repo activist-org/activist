@@ -383,6 +383,30 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
             {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
         )
 
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = EventFaq.objects.get(id=pk)
+
+        except EventFaq.DoesNotExist as e:
+            logger.exception(f"FAQ with id {pk} does not exist for delete: {e}")
+            return Response(
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user != faq.event.created_by and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        event_id = faq.event.id
+        faq.delete()
+        logger.info(f"FAQ {pk} deleted for event {event_id} by user {request.user.id}")
+
+        return Response(
+            {"message": "FAQ deleted successfully."}, status=status.HTTP_204_NO_CONTENT
+        )
+
 
 # MARK: Resource
 

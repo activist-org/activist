@@ -8,6 +8,7 @@ import type { AppError } from "~/utils/errorHandler";
 
 import {
   createGroupFaq,
+  deleteGroupFaq,
   reorderGroupFaqs,
   updateGroupFaq,
 } from "~/services/communities/group/faq";
@@ -88,6 +89,26 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     }
   }
 
+  // Delete FAQ entry.
+  async function deleteFAQ(faqId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteGroupFaq(faqId);
+
+      // Refresh to get the updated list.
+      await refreshGroupData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Helper to refresh group data after mutations.
   async function refreshGroupData() {
     if (!currentGroupId.value) {
@@ -104,6 +125,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     createFAQ,
     updateFAQ,
     reorderFAQs,
+    deleteFAQ,
     refreshGroupData,
   };
 }

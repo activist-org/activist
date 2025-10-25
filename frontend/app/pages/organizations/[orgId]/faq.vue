@@ -54,7 +54,11 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :faqEntry="element" :pageType="'organization'" />
+          <CardFAQEntry
+            :faqEntry="element"
+            :pageType="'organization'"
+            @delete-faq="handleDeleteFAQ"
+          />
         </template>
       </draggable>
     </div>
@@ -76,7 +80,7 @@ const { data: organization } = useGetOrganization(
   useRoute().params.orgId as string
 );
 
-const { reorderFAQs } = useOrganizationFAQEntryMutations(
+const { reorderFAQs, deleteFAQ } = useOrganizationFAQEntryMutations(
   useRoute().params.orgId as string
 );
 
@@ -96,6 +100,10 @@ const onDragEnd = async () => {
   });
 
   await reorderFAQs(faqList.value);
+};
+
+const handleDeleteFAQ = async (faqId: string) => {
+  await deleteFAQ(faqId);
 };
 </script>
 
