@@ -58,6 +58,39 @@ const formKey = ref(0);
 // Prevent duplicate submissions.
 const isSubmitting = ref(false);
 
+// Get modals store to watch when modal opens.
+const modals = useModals();
+
+// Watch organization data and sync socialLinksRef whenever it changes.
+// This handles cases where organization data loads after modal component mounts.
+watch(
+  () => organization.value?.socialLinks,
+  (newSocialLinks) => {
+    if (newSocialLinks && newSocialLinks.length > 0) {
+      socialLinksRef.value = newSocialLinks.map((l, idx) => ({
+        ...l,
+        key: l.id ?? String(idx),
+      }));
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+// Watch when modal opens and refresh socialLinksRef.
+// This ensures we always have the latest data when the modal is displayed.
+watch(
+  () => modals.modals[modalName]?.isOpen,
+  (isOpen) => {
+    if (isOpen && organization.value?.socialLinks) {
+      // Refresh socialLinksRef with latest organization data whenever modal opens.
+      socialLinksRef.value = organization.value.socialLinks.map((l, idx) => ({
+        ...l,
+        key: l.id ?? String(idx),
+      }));
+    }
+  }
+);
+
 // Handle updates from FormSocialLink (dragging, removing, adding).
 function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
   const oldLength = socialLinksRef.value?.length || 0;
