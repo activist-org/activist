@@ -218,7 +218,6 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
             "category",
             "get_involved_url",
             "icon_url",
-            "events",
         )
 
 
