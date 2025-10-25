@@ -7,8 +7,8 @@ import type { Location } from "~/types/content/location";
 import type { Resource } from "~/types/content/resource";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Topic, TopicEnum } from "~/types/content/topics";
+import type { Entity } from "~/types/entity";
 
-import type { Entity } from "../entity";
 // MARK: Main Table
 
 interface EventBase extends Entity {

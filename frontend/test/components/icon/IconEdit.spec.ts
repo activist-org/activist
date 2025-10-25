@@ -8,7 +8,7 @@ describe("Tests for IconEdit", () => {
   const entityMock = { id: 1, name: "test-entity", createdBy: 1 };
 
   it("renders icon when user is admin", async () => {
-    // Override useUser for this test
+    // Override useUser for this test.
     globalThis.data = { value: { user: { id: 1, isAdmin: true } } };
 
     const wrapper = mount(IconEdit, {

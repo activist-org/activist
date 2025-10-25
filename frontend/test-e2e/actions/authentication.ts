@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "playwright";
 
+import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
-
-import { newSidebarLeft } from "../component-objects/SidebarLeft";
 
 /**
  * Sign in as admin user and navigate to home page

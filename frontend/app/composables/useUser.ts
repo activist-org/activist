@@ -7,35 +7,28 @@ export const useUser = () => {
   const userIsAdmin = !!data.value?.user?.isAdmin;
   const roles: unknown[] = [];
 
-  // TODO: This functions can be expanded to include more complex permission logic
-
+  // TODO: This functions can be expanded to include more complex permission logic.
   const canEdit = (entity?: Entity | null) => {
     if (!userIsSignedIn) return false;
-
-    // Check if user is admin
     if (userIsAdmin) return true;
 
-    // Check if user is the creator of the entity
+    // Check if user is the creator of the entity.
     return entity?.createdBy === data.value?.user?.id;
   };
 
   const canDelete = (entity?: Entity) => {
     if (!userIsSignedIn) return false;
-
-    // Check if user is admin
     if (userIsAdmin) return true;
 
+    // Check if user is the creator of the entity.
     return entity?.createdBy === data.value?.user?.id;
   };
 
   const canCreate = () => {
     if (!userIsSignedIn) return false;
-
-    // Check if user is admin
     if (userIsAdmin) return true;
-    // Additional logic can be added here based on roles or other criteria
 
-    return true; // Default to allowing creation for signed-in users
+    return true; // default to allowing creation for signed-in users
   };
 
   const canView = () => {
