@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { signOut } from "~/test-e2e/actions/authentication";
 import { expect, test } from "~/test-e2e/global-fixtures";
 
