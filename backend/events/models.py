@@ -28,6 +28,13 @@ class Event(models.Model):
     orgs = models.ForeignKey(
         "communities.Organization", related_name="events", on_delete=models.CASCADE
     )
+    groups = models.ForeignKey(
+        "communities.Group",
+        related_name="events",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.ForeignKey(
@@ -47,7 +54,6 @@ class Event(models.Model):
     offline_location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
     )
-    get_involved_url = models.URLField(blank=True)
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()

@@ -121,12 +121,14 @@ const handleChange = (value: string) => {
   const query = { ...route.query, name: modelValue.value };
   useRouter().push({ query });
 };
+
 const isOrgPage = computed(() =>
   isCurrentRoutePathSubpageOf("organizations", routeName.value.toString())
 );
 const isEventPage = computed(() =>
   isCurrentRoutePathSubpageOf("events", routeName.value.toString())
 );
+
 const pathToSidebarTypeMap = [
   { path: "search", type: SidebarType.SEARCH },
   { path: "home", type: SidebarType.HOME },

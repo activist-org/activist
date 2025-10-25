@@ -33,12 +33,10 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Organization
-        django_get_or_create = ("created_by",)
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    get_involved_url = "https://activist.org/"
     terms_checked = factory.Faker("boolean")
     status = factory.SubFactory(
         "communities.factories.StatusTypeFactory", name="Active"
@@ -234,4 +232,5 @@ class OrganizationTextFactory(factory.django.DjangoModelFactory):
     primary = factory.Faker("boolean")
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
+    get_involved_url = "https://activist.org/"
     donate_prompt = factory.Faker(provider="text", locale="la")

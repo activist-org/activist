@@ -19,6 +19,7 @@ export async function updateEventTexts(
         primary: true,
         description: data.description,
         getInvolved: data.getInvolved,
+        getInvolvedUrl: data.getInvolvedUrl,
         donate_prompt: "",
         orgId: eventId,
         iso: "en",

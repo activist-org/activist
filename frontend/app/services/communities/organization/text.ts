@@ -19,6 +19,7 @@ export async function updateOrganizationTexts(
         primary: true,
         description: data.description,
         getInvolved: data.getInvolved,
+        getInvolvedUrl: data.getInvolvedUrl,
         donate_prompt: "",
         orgId: orgId,
         iso: "en",

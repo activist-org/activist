@@ -54,6 +54,7 @@
       >
         <template #item="{ element }">
           <CardResource
+            :entity="organization"
             :entityType="EntityType.ORGANIZATION"
             :isReduced="true"
             :resource="element"

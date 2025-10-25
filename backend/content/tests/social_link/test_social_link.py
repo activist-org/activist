@@ -165,7 +165,6 @@ def test_validate_group_with_group_instance():
         tagline=fake.catch_phrase(),
         location=location,
         category=fake.word(),
-        get_involved_url=fake.url(),
         terms_checked=True,
     )
 
@@ -192,7 +191,6 @@ def test_validate_group_with_valid_uuid():
         tagline=fake.catch_phrase(),
         location=location,
         category=fake.word(),
-        get_involved_url=fake.url(),
         terms_checked=True,
     )
 
