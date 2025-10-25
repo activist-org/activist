@@ -27,6 +27,13 @@ class Event(models.Model):
     orgs = models.ForeignKey(
         "communities.Organization", related_name="events", on_delete=models.CASCADE
     )
+    groups = models.ForeignKey(
+        "communities.Group",
+        related_name="events",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.ForeignKey(
