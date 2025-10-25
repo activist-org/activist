@@ -130,12 +130,13 @@ class Command(BaseCommand):
 
         # MARK: Load Data
 
-        with open(options["json_data_to_assign"], encoding="utf-8") as f:
-            json_data_to_assign = json.loads(f.read())
-
         assigned_org_fields = []
-        if "organizations" in json_data_to_assign:
-            assigned_org_fields = json_data_to_assign["organizations"]
+        if options["json_data_to_assign"]:
+            with open(options["json_data_to_assign"], encoding="utf-8") as f:
+                json_data_to_assign = json.loads(f.read())
+
+            if "organizations" in json_data_to_assign:
+                assigned_org_fields = json_data_to_assign["organizations"]
 
         # MARK: Clear Data
 
@@ -322,7 +323,9 @@ class Command(BaseCommand):
                         ]
 
                     for eo in range(num_events_per_org):
-                        if eo < len(assigned_org_event_fields):
+                        if assigned_org_event_fields and eo < len(
+                            assigned_org_event_fields
+                        ):
                             event_name = assigned_org_event_fields[eo]["name"]
                             event_tagline = assigned_org_event_fields[eo]["tagline"]
                             event_type = assigned_org_event_fields[eo]["type"]
@@ -332,6 +335,7 @@ class Command(BaseCommand):
                                 type=event_type,
                                 created_by=user,
                                 orgs=user_org,
+                                groups=None,
                             )
 
                         else:
@@ -348,6 +352,7 @@ class Command(BaseCommand):
                                 type=event_type,
                                 created_by=user,
                                 orgs=user_org,
+                                groups=None,
                             )
 
                         user_org_event.topics.set([user_topic])
@@ -657,7 +662,9 @@ class Command(BaseCommand):
                             ]["groups"][g]["events"]
 
                         for eg in range(num_events_per_group):
-                            if eg < len(assigned_org_group_event_fields):
+                            if assigned_org_group_event_fields and eg < len(
+                                assigned_org_group_event_fields
+                            ):
                                 org_group_event_name = assigned_org_group_event_fields[
                                     eg
                                 ]["name"]
@@ -673,7 +680,7 @@ class Command(BaseCommand):
                                     type=org_group_event_type,
                                     created_by=user,
                                     orgs=user_org,
-                                    group=user_org_group,
+                                    groups=user_org_group,
                                 )
 
                             else:
@@ -685,12 +692,12 @@ class Command(BaseCommand):
                                 )
 
                                 user_org_group_event = EventFactory(
-                                    name=f"{user_topic_name} Event [u{u}:o{o}:e{eg}]",
+                                    name=f"{user_topic_name} Event [u{u}:o{o}:g{g}:e{eg}]",
                                     tagline=f"{event_type_verb} {user_topic_name}",
                                     type=event_type,
                                     created_by=user,
                                     orgs=user_org,
-                                    group=user_org_group,
+                                    groups=user_org_group,
                                 )
 
                             user_org_group_event.topics.set([user_topic])
@@ -724,7 +731,9 @@ class Command(BaseCommand):
                             assigned_org_group_event_link_fields = []
                             if (
                                 n_orgs < len(assigned_org_fields)
-                                and "events" in assigned_org_fields[n_orgs]
+                                and "groups" in assigned_org_fields[n_orgs]
+                                and g < len(assigned_org_fields[n_orgs]["groups"])
+                                and "events" in assigned_org_fields[n_orgs]["groups"][g]
                                 and eg < len(assigned_org_group_event_fields)
                                 and "social_links"
                                 in assigned_org_group_event_fields[eg]
@@ -767,28 +776,34 @@ class Command(BaseCommand):
 
                             user_org_group_event_faqs: List[EventFaqFactory] = []
 
-                            assigned_org_event_faq_fields = []
+                            assigned_org_group_event_faq_fields = []
                             if (
                                 n_orgs < len(assigned_org_fields)
-                                and "events" in assigned_org_fields[n_orgs]
+                                and "groups" in assigned_org_fields[n_orgs]
+                                and g < len(assigned_org_fields[n_orgs]["groups"])
+                                and "events" in assigned_org_fields[n_orgs]["groups"][g]
                                 and eg < len(assigned_org_group_event_fields)
                                 and "faqs" in assigned_org_group_event_fields[eg]
                             ):
-                                assigned_org_event_faq_fields = assigned_org_fields[
-                                    n_orgs
-                                ]["events"][eg]["faqs"]
+                                assigned_org_group_event_faq_fields = (
+                                    assigned_org_fields[n_orgs]["events"][eg]["faqs"]
+                                )
 
-                            if assigned_org_event_faq_fields:
+                            if assigned_org_group_event_faq_fields:
                                 user_org_group_event_faqs.extend(
                                     EventFaqFactory(
                                         event=user_org_group_event,
                                         order=f,
-                                        **assigned_org_event_faq_fields[f],
+                                        **assigned_org_group_event_faq_fields[f],
                                     )
-                                    for f in range(len(assigned_org_event_faq_fields))
+                                    for f in range(
+                                        len(assigned_org_group_event_faq_fields)
+                                    )
                                 )
 
-                                n_faq_entries += len(assigned_org_event_faq_fields)
+                                n_faq_entries += len(
+                                    assigned_org_group_event_faq_fields
+                                )
 
                             else:
                                 user_org_group_event_faqs.extend(
@@ -805,7 +820,9 @@ class Command(BaseCommand):
                             assigned_org_group_event_resource_fields = []
                             if (
                                 n_orgs < len(assigned_org_fields)
-                                and "events" in assigned_org_fields[n_orgs]
+                                and "groups" in assigned_org_fields[n_orgs]
+                                and g < len(assigned_org_fields[n_orgs]["groups"])
+                                and "events" in assigned_org_fields[n_orgs]["groups"][g]
                                 and eg < len(assigned_org_group_event_fields)
                                 and "resources" in assigned_org_group_event_fields[eg]
                             ):

@@ -11,6 +11,7 @@ from uuid import UUID
 from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
 
+from communities.groups.models import Group
 from communities.organizations.models import Organization
 from content.models import Topic
 from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer
@@ -196,6 +197,19 @@ class EventOrganizationSerializer(serializers.ModelSerializer[Organization]):
         fields = "__all__"
 
 
+# MARK: Group
+
+
+class EventGroupSerializer(serializers.ModelSerializer[Group]):
+    """
+    Serializer for Group model data specific to events.
+    """
+
+    class Meta:
+        model = Group
+        fields = "__all__"
+
+
 # MARK: POST
 
 
@@ -209,6 +223,9 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
     offline_location = LocationSerializer(write_only=True)
     org_id = serializers.PrimaryKeyRelatedField(
         queryset=Organization.objects.all(), source="orgs"
+    )
+    group_id = serializers.PrimaryKeyRelatedField(
+        queryset=Group.objects.all(), source="groups"
     )
 
     class Meta:
@@ -243,6 +260,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     resources = EventResourceSerializer(many=True, read_only=True)
     faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)
+    groups = EventGroupSerializer(read_only=True)
 
     icon_url = ImageSerializer(required=False)
 
