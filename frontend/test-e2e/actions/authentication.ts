@@ -3,6 +3,8 @@ import type { Page } from "playwright";
 
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
 
+import { newSidebarLeft } from "../component-objects/SidebarLeft";
+
 /**
  * Sign in as admin user and navigate to home page
  * @param page - Playwright page object
@@ -73,4 +75,15 @@ export async function signIn(
   // Submit form and wait for successful navigation.
   await signInPage.signInButton.click();
   await page.waitForURL(expectedRedirect);
+}
+/** * Sign out the current user
+ * @param page - Playwright page object
+ */
+export async function signOut(page: Page) {
+  // Navigate to sign-out URL.
+  await page.goto("/home", { waitUntil: "load", timeout: 60000 });
+  const sidebarLeft = newSidebarLeft(page);
+  await sidebarLeft.open();
+  await page.getByTestId("dropdown-user-options").click();
+  await page.getByTestId("user-options-your-sign-out").click();
 }
