@@ -33,7 +33,6 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Organization
-        django_get_or_create = ("created_by",)
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")

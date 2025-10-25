@@ -46,8 +46,6 @@ class Group(models.Model):
 
     topics = models.ManyToManyField("content.Topic", blank=True)
 
-    events = models.ManyToManyField("events.Event", blank=True)
-
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="GroupFlag")
 
