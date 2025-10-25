@@ -32,9 +32,10 @@ class EventFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Event
-        django_get_or_create = ("created_by", "orgs")
 
     orgs = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
+    # Note: Events need organizations but do not need groups.
+    # groups = factory.SubFactory("communities.groups.factories.GroupFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
