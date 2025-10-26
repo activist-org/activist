@@ -10,14 +10,14 @@
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
           <BtnRouteExternal
-            v-if="organization?.getInvolvedUrl"
+            v-if="organization?.texts.getInvolvedUrl"
             ariaLabel="i18n._global.join_organization_aria_label"
             class="w-max"
             :cta="true"
             fontSize="sm"
             iconSize="1.45em"
             label="i18n._global.join_organization"
-            :linkTo="organization.getInvolvedUrl"
+            :linkTo="organization.texts.getInvolvedUrl"
             :rightIcon="IconMap.ARROW_RIGHT"
           />
           <!-- <BtnAction

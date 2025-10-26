@@ -8,6 +8,7 @@ import re
 from typing import Any, Sequence, Type
 from uuid import UUID
 
+from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -104,6 +105,16 @@ class EventAPIView(GenericAPIView[Event]):
             serializer.save(created_by=request.user, offline_location=location)
             logger.info(
                 f"Event created by user {request.user.id} with location {location.id}"
+            )
+
+        except ValidationError as e:
+            logger.exception(
+                f"Validation failed for event creation by user {request.user.id}: {e}"
+            )
+            Location.objects.filter(id=location.id).delete()
+            return Response(
+                {"detail": str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         except (IntegrityError, OperationalError) as e:
