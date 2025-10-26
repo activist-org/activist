@@ -414,7 +414,9 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
             status=status.HTTP_201_CREATED,
         )
 
-    def update(self, request: Request, pk: UUID | str) -> Response:
+    def update(
+        self, request: Request, pk: UUID | str, *args: Any, **kwargs: Any
+    ) -> Response:
         try:
             faq = EventResource.objects.get(id=pk)
 
@@ -430,7 +432,9 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer = self.get_serializer(
+            faq, data=request.data, partial=kwargs.get("partial", False)
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
