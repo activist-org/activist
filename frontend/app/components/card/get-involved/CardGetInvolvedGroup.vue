@@ -13,14 +13,14 @@
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
-          v-if="group?.getInvolvedUrl"
+          v-if="group?.texts.getInvolvedUrl"
           ariaLabel="i18n._global.join_group_aria_label"
           :cta="true"
           data-testid="get-involved-join-button"
           fontSize="sm"
           iconSize="1.45em"
           label="i18n._global.join_group"
-          :linkTo="group.getInvolvedUrl"
+          :linkTo="group.texts.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
       </div>

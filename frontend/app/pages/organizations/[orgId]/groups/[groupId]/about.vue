@@ -10,7 +10,7 @@
     <HeaderAppPageGroup>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
-          v-if="group?.getInvolvedUrl"
+          v-if="group?.texts.getInvolvedUrl"
           ariaLabel="i18n._global.join_group_aria_label"
           class="w-max"
           :cta="true"
@@ -18,7 +18,7 @@
           fontSize="sm"
           iconSize="1.45em"
           label="i18n._global.join_group"
-          :linkTo="group?.getInvolvedUrl"
+          :linkTo="group?.texts.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
         <!-- <BtnAction

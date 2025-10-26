@@ -25,7 +25,6 @@ export function mapOrganization(res: OrganizationResponse): OrganizationT {
     createdBy: res.createdBy,
     iconUrl: res.iconUrl,
     location: res.location,
-    getInvolvedUrl: res.getInvolvedUrl,
     socialLinks: res.socialLinks ?? [],
     status: res.status,
     creationDate: res.creationDate,

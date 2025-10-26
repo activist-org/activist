@@ -25,7 +25,7 @@ export function useGetGroup(id: MaybeRef<string>) {
   const query = useAsyncData(
     getKeyForGetGroup(groupId.value),
     async () => {
-      if (!groupId.value) {
+      if (!groupId.value || groupId.value === "") {
         return null;
       }
 
