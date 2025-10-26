@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLink
-    :to="localePath(item.url)"
     :aria-label="$t('i18n.components._global.navigate_to_group_aria_label')"
+    :to="localePath(item.url)"
   >
     <div
       class="cursor-pointer rounded-md border border-section-div bg-layer-2 p-2 elem-shadow-sm sm:p-3"
@@ -37,15 +37,15 @@
       >
         <img
           v-if="item.imgUrl"
-          :src="item.imgUrl"
           :alt="$t('i18n.components.feed_item.img_alt_text')"
+          :src="item.imgUrl"
         />
         <Icon
           v-else
+          :alt="$t('i18n.components.feed_item.img_alt_text')"
           class="fill-layer-1"
           name="IconGroup"
           size="6em"
-          :alt="$t('i18n.components.feed_item.img_alt_text')"
         />
       </div>
     </div>

@@ -3,7 +3,7 @@
   <LoadingScreen />
   <div>
     <NuxtLayout>
-      <Toaster :theme="isDark ? 'dark' : 'light'" :richColors="true" />
+      <Toaster :richColors="true" :theme="isDark ? 'dark' : 'light'" />
       <ModalCommandPalette :paletteData="commandPaletteData" />
       <NuxtPage />
     </NuxtLayout>
@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
+import "vue-sonner/style.css";
 
 import { commandPaletteData } from "~/types/command-palette";
 

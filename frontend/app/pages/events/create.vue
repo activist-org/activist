@@ -2,10 +2,10 @@
 <template>
   <div class="w-full">
     <IndicatorProcessProgress
-      type="default"
+      :end="pageCount"
       :progress="page + 1"
       :start="0"
-      :end="pageCount"
+      type="default"
     />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
@@ -45,65 +45,65 @@
             class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
           >
             <div class="w-1/2">
-              <h3 for="name" class="block font-medium">
+              <h3 class="block font-medium" for="name">
                 {{ $t("i18n.pages.events.create.events_name") }}*
               </h3>
               <input
-                v-model="formData.name"
                 id="name"
+                v-model="formData.name"
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-                type="text"
                 name="name"
                 :placeholder="
                   $t('i18n.pages.events.create.events_name_placeholder')
                 "
+                type="text"
               />
             </div>
             <div class="w-1/2">
-              <h3 for="tagline" class="block font-medium">
+              <h3 class="block font-medium" for="tagline">
                 {{ $t("i18n.pages._global.create.tagline") }}
               </h3>
               <input
-                v-model="formData.tagline"
                 id="tagline"
+                v-model="formData.tagline"
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-                type="text"
                 name="tagline"
                 :placeholder="
                   $t('i18n.pages.events.create.tagline_placeholder')
                 "
+                type="text"
               />
             </div>
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-            <h3 for="organizer" class="block font-medium">
+            <h3 class="block font-medium" for="organizer">
               {{ $t("i18n.pages.events.create.organizer") }}*
             </h3>
             <span id="organizer-instructions" class="block font-medium">
               {{ $t("i18n.pages.events.create.organizer_instructions") }}
             </span>
             <input
-              v-model="formData.organizer"
               id="organizer"
+              v-model="formData.organizer"
+              aria-describedby="organizer-instructions"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-              type="select"
               name="organizer"
               :placeholder="
                 $t('i18n.pages.events.create.organizer_placeholder')
               "
-              aria-describedby="organizer-instructions"
+              type="select"
             />
           </div>
           <div class="mx-14 mt-5 w-full">
             <CardConnectEvent />
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
-            <h3 for="description" class="block font-medium">
+            <h3 class="block font-medium" for="description">
               {{ $t("i18n._global.description") }}*
             </h3>
             <textarea
-              v-model="formData.description"
               id="description"
+              v-model="formData.description"
               class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
               name="description"
               :placeholder="
@@ -117,29 +117,29 @@
             class="card-style mx-14 flex w-full justify-start gap-6 px-5 py-6"
           >
             <div class="w-1/5">
-              <h3 for="event-type" class="block font-medium">
+              <h3 class="block font-medium" for="event-type">
                 {{ $t("i18n.pages.events.create.event_type") }}*
               </h3>
               <FormRadioGroup
-                @update:modelValue="updateEventType"
                 id="event-type"
+                @update:modelValue="updateEventType"
                 class="mt-2.5"
-                name="event-type"
                 :modelValue="eventTypeValue"
+                name="event-type"
                 :options="eventTypeOptions"
               />
             </div>
             <div class="w-3/5">
-              <h3 for="format" class="block font-medium">
+              <h3 class="block font-medium" for="format">
                 {{ $t("i18n.pages.events.create.format") }}
               </h3>
               <input
-                v-model="formData.format"
                 id="format"
+                v-model="formData.format"
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-                type="text"
                 name="format"
                 :placeholder="$t('i18n.pages.events.create.format_placeholder')"
+                type="text"
               />
             </div>
           </div>
@@ -154,17 +154,17 @@
             class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
           >
             <div class="w-full">
-              <h3 for="roles" class="block font-medium">
+              <h3 class="block font-medium" for="roles">
                 {{ $t("i18n.pages.events.create.roles") }}*
               </h3>
               <!-- TODO: replace this input with something that lets you make roles. -->
               <input
-                v-model="formData.roles"
                 id="roles"
+                v-model="formData.roles"
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-                type="text"
                 name="roles"
                 placeholder="Event roles"
+                type="text"
               />
             </div>
           </div>
@@ -177,44 +177,44 @@
             class="card-style mx-14 flex w-full justify-between gap-6 px-5 py-6"
           >
             <div class="w-1/5">
-              <h3 for="setting" class="block font-medium">
+              <h3 class="block font-medium" for="setting">
                 {{ $t("i18n.pages.events.create.setting") }}*
               </h3>
               <FormRadioGroup
-                @update:modelValue="updateSetting"
                 id="setting"
+                @update:modelValue="updateSetting"
                 class="mt-2"
-                name="setting"
                 :modelValue="settingValue"
+                name="setting"
                 :options="settingOptions"
               />
             </div>
             <div class="w-2/5">
-              <h3 for="location" class="block font-medium">
+              <h3 class="block font-medium" for="location">
                 {{ $t("i18n._global.location") }}*
               </h3>
               <input
-                v-model="formData.location"
                 id="location"
+                v-model="formData.location"
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-                type="text"
                 name="location"
                 :placeholder="
                   $t('i18n.pages.events.create.location_placeholder')
                 "
+                type="text"
               />
             </div>
             <div class="w-2/5">
-              <h3 for="link" class="block font-medium">
+              <h3 class="block font-medium" for="link">
                 {{ $t("i18n.pages._global.create.link") }}*
               </h3>
               <input
-                v-model="formData.link"
                 id="link"
+                v-model="formData.link"
                 class="mt-2 w-full rounded-md border border-section-div bg-layer-0 px-4 py-2"
-                type="url"
                 name="link"
                 :placeholder="$t('i18n.pages.events.create.link_placeholder')"
+                type="url"
               />
             </div>
           </div>
@@ -226,14 +226,14 @@
           <div class="mx-14 mt-5 flex w-full flex-col">
             <div class="flex space-x-2">
               <FormCheckbox id="terms" />
-              <label for="terms" class="flex font-medium">
+              <label class="flex font-medium" for="terms">
                 <p>
                   {{ $t("i18n.pages._global.terms_of_service_pt_1") }}&nbsp;
                 </p>
                 <NuxtLink
-                  :to="localePath('/legal/privacy-policy')"
-                  target="_blank"
                   class="link-text"
+                  target="_blank"
+                  :to="localePath('/legal/privacy-policy')"
                 >
                   {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
                 </NuxtLink>
@@ -276,36 +276,36 @@
           <BtnAction
             v-if="hasPreviousPage"
             @click="previousPage"
-            type="button"
+            ariaLabel="i18n.pages.events.create.go_to_previous_page"
             class="absolute left-0 mr-2"
             :class="{ 'placeholder-class': hasPreviousPage }"
             :cta="false"
-            label="i18n.pages.events.create.button_left"
-            leftIcon="←"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="i18n.pages.events.create.go_to_previous_page"
+            label="i18n.pages.events.create.button_left"
+            leftIcon="←"
+            type="button"
           />
           <BtnAction
             v-if="!hasNextPage"
-            type="submit"
-            :cta="true"
-            class="absolute right-0 ml-2 flex"
-            label="i18n.pages.events.create.submit"
-            fontSize="lg"
             ariaLabel="i18n.pages.events.create.submit_aria_label"
+            class="absolute right-0 ml-2 flex"
+            :cta="true"
+            fontSize="lg"
+            label="i18n.pages.events.create.submit"
+            type="submit"
           />
           <BtnAction
             v-if="hasNextPage"
             @click="nextPage"
-            type="button"
+            ariaLabel="i18n.pages.events.create.go_to_previous_page"
             class="absolute right-0 ml-2"
             :cta="false"
-            label="i18n.pages.events.create.button_right"
-            :rightIcon="IconMap.ARROW_RIGHT"
             fontSize="lg"
             iconSize="1.25em"
-            ariaLabel="i18n.pages.events.create.go_to_previous_page"
+            label="i18n.pages.events.create.button_right"
+            :rightIcon="IconMap.ARROW_RIGHT"
+            type="button"
           />
         </div>
       </form>

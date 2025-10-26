@@ -4,9 +4,7 @@ import { IconMap } from "~/types/icon-map";
 const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
   const { locale } = useI18n();
   const router = useRouter();
-
-  const id = (router.currentRoute.value.params.groupId ||
-    router.currentRoute.value.params.orgId ||
+  const id = (router.currentRoute.value.params.orgId ||
     router.currentRoute.value.params.eventId ||
     router.currentRoute.value.params.id) as string;
   const routeUrl = `/${locale.value}/${basePath}/${id}/${label
@@ -21,11 +19,13 @@ const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
     iconUrl,
     selected,
     id,
+    basePath, // add basePath so we can reconstruct the URL later
   };
 };
 
 const useMenuEntriesState = () => {
   const router = useRouter();
+  const { locale } = useI18n(); // move useI18n to top level
   const currentPath = ref(router.currentRoute.value.fullPath);
   let removeGuard: (() => void) | null = null;
 
@@ -95,8 +95,19 @@ const useMenuEntriesState = () => {
       ? organizationEntries
       : eventEntries;
 
+    // Update the id and routeUrl for each button based on current route params.
+    const currentId = (router.currentRoute.value.params.orgId ||
+      router.currentRoute.value.params.eventId ||
+      router.currentRoute.value.params.id) as string;
+
     for (const button of buttons.value) {
       button.selected = false;
+      // Update the id and routeUrl to reflect current route params.
+      button.id = currentId;
+      button.routeUrl = `/${locale.value}/${button.basePath}/${currentId}/${button.label
+        .split(".")
+        .pop()!
+        .toLowerCase()}`;
     }
 
     for (const button of buttons.value) {
@@ -114,8 +125,16 @@ const useMenuEntriesState = () => {
     }
   };
 
+  // Watch for route changes to update menu selection and set initial state.
+  watch(
+    () => router.currentRoute.value.path,
+    () => {
+      updateCurrentPath();
+    },
+    { immediate: true }
+  );
+
   onMounted(() => {
-    updateCurrentPath();
     removeGuard = router.afterEach(updateCurrentPath);
   });
 

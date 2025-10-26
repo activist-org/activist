@@ -7,3 +7,4 @@ dist/
 playwright-report/
 tests-examples/
 test-results/
+frontend/test-e2e/.auth/

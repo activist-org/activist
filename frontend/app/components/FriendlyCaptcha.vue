@@ -8,23 +8,23 @@
       v-if="!devMode.active"
       @done="verifyCaptcha"
       class="rounded-md"
-      :sitekey="`${FRIENDLY_CAPTCHA_KEY}`"
       :dark="$colorMode.value === 'dark'"
-      startMode="auto"
       :language="locale"
+      :sitekey="`${FRIENDLY_CAPTCHA_KEY}`"
+      startMode="auto"
     />
     <button
       v-else
       @click="verifyCaptcha(true)"
-      type="button"
+      :aria-label="
+        $t('i18n.components.friendly_captcha.dev_captcha_disabled_aria_label')
+      "
       class="style-btn flex w-full cursor-pointer items-center space-x-4 rounded-md p-1 px-3 text-lg shadow-none"
       :class="{
         'border-1 border border-primary-text bg-accepted-green/75 dark:border-accepted-green dark:bg-accepted-green/10 dark:text-accepted-green':
           localeValue,
       }"
-      :aria-label="
-        $t('i18n.components.friendly_captcha.dev_captcha_disabled_aria_label')
-      "
+      type="button"
     >
       <Icon :name="IconMap.SHIELD" size="28px" />
       <p v-if="!localeValue" class="font-bold">

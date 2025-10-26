@@ -1,16 +1,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardSearchResultEntity
-    :title="group.name"
-    :description="description"
-    :linkUrl="linkUrl"
     :ariaLabel="ariaLabel"
-    :imageUrl="imageUrl"
-    :imageAlt="imageAlt"
-    :iconName="defaultIconName"
+    data-testid="group-card"
+    :description="description"
     :entityName="group.groupName"
+    :iconName="defaultIconName"
+    :imageAlt="imageAlt"
+    :imageUrl="imageUrl"
     :isExternalLink="false"
     :isReduced="isReduced"
+    :linkUrl="linkUrl"
+    :title="group.name"
   >
     <template #menu>
       <MenuSearchResult
@@ -18,11 +19,9 @@
         :group="group"
       />
     </template>
-
     <template #desktop-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
     </template>
-
     <template #mobile-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
     </template>
@@ -45,7 +44,7 @@ const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
 
 const description = computed(() => {
-  return props.group.texts.description || "";
+  return props.group.texts[0]?.description || "";
 });
 
 const ariaLabel = computed(() => {

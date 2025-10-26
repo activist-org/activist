@@ -14,29 +14,29 @@
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
-          v-if="organization.groups && organization.groups.length > 0"
-          :cta="true"
-          :linkTo="'/organizations/' + orgId + '/groups'"
-          label="i18n.components.card_get_involved_organization.view_all_groups"
-          fontSize="sm"
+          v-if="organization?.groups && organization.groups.length > 0"
           ariaLabel="i18n.components.card_get_involved_organization.view_all_groups_aria_label"
+          :cta="true"
+          fontSize="sm"
+          label="i18n.components.card_get_involved_organization.view_all_groups"
+          :linkTo="'/organizations/' + orgId + '/groups'"
         />
         <BtnRouteInternal
-          v-if="organization && organization.getInvolvedUrl"
-          :cta="true"
-          :linkTo="organization.getInvolvedUrl"
-          label="i18n._global.join_organization"
-          fontSize="sm"
-          :rightIcon="IconMap.ARROW_RIGHT"
-          iconSize="1.45em"
+          v-if="organization?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.join_organization_aria_label"
+          :cta="true"
+          fontSize="sm"
+          iconSize="1.45em"
+          label="i18n._global.join_organization"
+          :linkTo="organization.texts[0]?.getInvolvedUrl"
+          :rightIcon="IconMap.ARROW_RIGHT"
         />
       </div>
     </div>
     <div class="mt-4">
-      <div v-if="organization.groups && organization.groups.length > 0">
-        <p v-if="organization.texts.getInvolved">
-          {{ organization.texts.getInvolved }}
+      <div v-if="organization?.groups && organization.groups.length > 0">
+        <p v-if="organization.texts[0]?.getInvolved">
+          {{ organization.texts[0]?.getInvolved }}
         </p>
         <p v-else>
           {{
@@ -50,9 +50,9 @@
         </p>
         <Feed :organization="organization" />
       </div>
-      <div v-else-if="organization.getInvolvedUrl">
-        <p v-if="organization.texts.getInvolved">
-          {{ organization.texts.getInvolved }}
+      <div v-else-if="organization?.texts[0]?.getInvolvedUrl">
+        <p v-if="organization.texts[0]?.getInvolved">
+          {{ organization.texts[0]?.getInvolved }}
         </p>
         <p v-else>
           {{
@@ -71,7 +71,7 @@
             $t(
               "i18n.components.card_get_involved_organization.join_organization_no_info",
               {
-                entity_name: organization.name,
+                entity_name: organization?.name,
               }
             )
           }}
@@ -82,6 +82,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextOrganization } = useModalHandlers(
@@ -93,7 +94,5 @@ const { userIsSignedIn } = useUser();
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(orgId || "");
 </script>

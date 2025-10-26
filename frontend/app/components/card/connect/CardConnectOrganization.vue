@@ -1,16 +1,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <CardConnect
-    :socialLinks="organization.socialLinks"
-    pageType="organization"
-  />
+  <CardConnect pageType="organization" :socialLinks="socialLinks" />
 </template>
 
 <script setup lang="ts">
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
+const paramsOrgId = useRoute().params.orgId;
+
+const { data: organization } = useGetOrganization(
+  typeof paramsOrgId === "string" ? paramsOrgId : ""
+);
+
+// Use computed to ensure social links are reactive to store changes.
+const socialLinks = computed(() => organization.value?.socialLinks || []);
 </script>

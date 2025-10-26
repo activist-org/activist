@@ -2,7 +2,7 @@
 <template>
   <div class="card-style px-5 py-5">
     <div class="flex flex-col gap-3">
-      <h3 for="feedback" class="text-left font-display">
+      <h3 class="text-left font-display" for="feedback">
         {{ header }}
       </h3>
       <p v-if="description">
@@ -11,32 +11,32 @@
       <div v-if="multiline">
         <!-- MARK: Mobile -->
         <textarea
-          v-if="!aboveMediumBP"
           id="feedback"
-          class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
-          type="text"
-          rows="5"
-          :placeholder="placeholder"
+          v-if="!aboveMediumBP"
           :aria-label="textAreaAriaLabel"
+          class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
+          :placeholder="placeholder"
+          rows="5"
+          type="text"
         ></textarea>
         <!-- MARK: Desktop -->
         <textarea
-          v-if="aboveMediumBP"
           id="feedback"
-          class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
-          type="text"
-          rows="3"
-          :placeholder="placeholder"
+          v-if="aboveMediumBP"
           :aria-label="textAreaAriaLabel"
+          class="block w-full resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
+          :placeholder="placeholder"
+          rows="3"
+          type="text"
         ></textarea>
       </div>
       <input
-        v-else
         id="feedback"
-        class="resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
-        type="text"
-        :placeholder="placeholder"
+        v-else
         :aria-label="textAreaAriaLabel"
+        class="resize-none overflow-y-scroll rounded-md border border-white bg-transparent px-3 py-2 dark:border-white md:resize-y md:overflow-hidden"
+        :placeholder="placeholder"
+        type="text"
       />
     </div>
   </div>

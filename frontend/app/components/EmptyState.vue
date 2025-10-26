@@ -1,6 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex w-full flex-col items-center bg-layer-0">
+  <div
+    class="flex w-full flex-col items-center bg-layer-0"
+    data-testid="empty-state"
+  >
     <PageContent
       :imgUrl="BOOTSTRAP_CLOUD_MOON_URL"
       imgAltText="i18n.components.empty_state.img_alt_text"
@@ -43,12 +46,12 @@
             header="i18n.components.empty_state.cta_header_no_permission"
           >
             <BtnRouteInternal
+              ariaLabel="i18n._global.return_home_aria_label"
               class="w-full"
               :cta="false"
+              fontSize="lg"
               label="i18n._global.return_home"
               linkTo="/home"
-              fontSize="lg"
-              ariaLabel="i18n._global.return_home_aria_label"
             />
           </PageCommunityFooter>
         </div>
@@ -61,39 +64,39 @@
           >
             <BtnRouteInternal
               v-if="pageType == 'organizations'"
+              ariaLabel="i18n.components.empty_state.create_organization_aria_label"
               class="w-full"
               :cta="true"
+              fontSize="lg"
               label="i18n.components.empty_state.create_organization"
               linkTo="/organizations/create"
-              fontSize="lg"
-              ariaLabel="i18n.components.empty_state.create_organization_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'groups'"
+              ariaLabel="i18n.components.empty_state.create_group_aria_label"
               class="w-full"
               :cta="true"
+              fontSize="lg"
               label="i18n._global.create_group"
               linkTo="/groups/create"
-              fontSize="lg"
-              ariaLabel="i18n.components.empty_state.create_group_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'events'"
+              ariaLabel="i18n.components.empty_state.create_event_aria_label"
               class="w-full"
               :cta="true"
+              fontSize="lg"
               label="i18n.components.empty_state.create_event"
               linkTo="/events/create"
-              fontSize="lg"
-              ariaLabel="i18n.components.empty_state.create_event_aria_label"
             />
             <BtnRouteInternal
               v-if="pageType == 'resources'"
+              ariaLabel="i18n.components.empty_state.create_resource_aria_label"
               class="w-full"
               :cta="true"
+              fontSize="lg"
               label="i18n._global.create_resource"
               linkTo="/resources/create"
-              fontSize="lg"
-              ariaLabel="i18n.components.empty_state.create_resource_aria_label"
             />
           </div>
           <PageCommunityFooter
@@ -101,12 +104,12 @@
             :helpNeeded="true"
           >
             <BtnRouteInternal
+              ariaLabel="i18n._global.return_home_aria_label"
               class="w-full"
               :cta="false"
+              fontSize="lg"
               label="i18n._global.return_home"
               linkTo="/home"
-              fontSize="lg"
-              ariaLabel="i18n._global.return_home_aria_label"
             />
           </PageCommunityFooter>
         </div>

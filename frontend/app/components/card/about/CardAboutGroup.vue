@@ -4,8 +4,8 @@
     <ModalQRCodeBtn
       v-if="group && !expandText"
       :group="group"
-      type="icon"
       reason-for-suggesting=""
+      type="icon"
     />
     <button
       v-if="expandText"
@@ -14,6 +14,7 @@
         expand_reduce_text();
       "
       class="absolute right-0 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
+      data-testid="collapse-text-icon-button"
     >
       <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
     </button>
@@ -26,6 +27,7 @@
           v-if="userIsSignedIn"
           @click="openModalTextGroup"
           @keydown.enter="openModalTextGroup"
+          data-testid="edit-icon"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -34,7 +36,7 @@
           </div> -->
         <div class="flex items-center gap-3">
           <MetaTagLocation
-            v-if="group.location"
+            v-if="group?.location"
             :location="group.location.displayName.split(',')[0] ?? ''"
           />
           <!-- <MetaTagMembers
@@ -49,7 +51,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ group.texts.description }}
+            {{ group?.texts[0]?.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -58,10 +60,11 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
+              data-testid="expand-text-button"
             >
               {{ $t("i18n.components.card.about._global.full_text") }}
             </button>
@@ -71,10 +74,11 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
+              data-testid="collapse-text-button"
             >
               {{ $t("i18n.components.card.about._global.reduce_text") }}
             </button>
@@ -86,6 +90,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetGroup } from "~/composables/queries/useGetGroup";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
@@ -93,11 +98,9 @@ const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 const { userIsSignedIn } = useUser();
 
 const paramsGroupId = useRoute().params.groupId;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-const { group } = groupStore;
+const { data: group } = useGetGroup(groupId);
 
 const description = ref();
 const descriptionExpandable = ref(false);

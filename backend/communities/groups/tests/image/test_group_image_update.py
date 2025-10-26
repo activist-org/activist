@@ -47,3 +47,29 @@ def test_group_update_sequence_index(client: Client) -> None:
     assert [item["id"] for item in new_images] == [
         str(img.id) for img in expected_order
     ]
+
+
+def test_group_image_update_404(client: Client):
+    image0 = ImageFactory()
+    image1 = ImageFactory()
+    image2 = ImageFactory()
+    images = [image0, image1, image2]
+    group = GroupFactory()
+
+    # Associate images with the group.
+    for i, image in enumerate(images):
+        GroupImageFactory(image=image, sequence_index=i)
+
+    sequences = [1, 2, 0]
+    # Update the sequence index of each image.
+    for i, image in enumerate(images):
+        response = client.put(
+            path=f"/v1/communities/group/{group.id}/images/{image.id}",
+            data={
+                "sequence_index": sequences[i],
+            },
+            content_type="application/json",
+        )
+        response_body = response.json()
+        assert response.status_code == 404
+        assert response_body["detail"] == "GroupImage relation not found."

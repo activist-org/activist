@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <header
-    ref="header"
     id="header"
+    ref="header"
     class="sticky top-0 z-10 drop-shadow-md duration-500"
     :class="{
       'bg-layer-2': headerOpacity == 1,
@@ -11,7 +11,7 @@
     }"
   >
     <!-- MARK: Mobile Header -->
-    <div v-if="!aboveMediumBP" id="mobile-header" class="flex px-4 py-3">
+    <div id="mobile-header" v-if="!aboveMediumBP" class="flex px-4 py-3">
       <div class="z-0 mx-auto">
         <div
           class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
@@ -27,14 +27,14 @@
       <SidebarRight>
         <div class="flex-col space-y-2">
           <DropdownCreate
-            v-if="userIsSignedIn && devMode.active"
             id="create"
+            v-if="userIsSignedIn && devMode.active"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
           <DropdownInfo
-            v-if="devMode.active"
             id="info"
+            v-if="devMode.active"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
           />
@@ -47,8 +47,8 @@
             :location="DropdownLocation.SIDE_MENU"
           />
           <DropdownUserOptions
-            v-if="devMode.active"
             id="user-options"
+            v-if="devMode.active"
             class="w-full"
             :location="DropdownLocation.SIDE_MENU"
             :userIsSignedIn="userIsSignedIn"
@@ -57,7 +57,7 @@
       </SidebarRight>
     </div>
     <!-- MARK: Desktop Header -->
-    <div v-if="aboveMediumBP" id="desktop-header" class="mx-auto py-3">
+    <div id="desktop-header" v-if="aboveMediumBP" class="mx-auto py-3">
       <div class="responsive-px-5 flex items-center justify-between">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
@@ -72,64 +72,64 @@
             <DropdownTheme />
             <DropdownLanguage />
             <BtnRouteInternal
-              v-if="aboveLargeBP && devMode.active"
               id="btn-sign-in-large"
-              class="block"
-              :cta="true"
-              label="i18n._global.sign_in"
-              linkTo="/auth/sign-in"
-              fontSize="sm"
-              ariaLabel="i18n._global.sign_in_aria_label"
-            />
-            <BtnRouteInternal
-              v-else-if="aboveMediumBP && devMode.active"
-              id="btn-sign-in-medium"
-              class="block"
-              :cta="true"
-              label="i18n._global.sign_in"
-              linkTo="/auth/sign-in"
-              fontSize="xs"
-              ariaLabel="i18n._global.sign_in_aria_label"
-            />
-            <BtnRouteInternal
               v-if="aboveLargeBP && devMode.active"
-              id="btn-sign-up-large"
+              ariaLabel="i18n._global.sign_in_aria_label"
               class="block"
               :cta="true"
-              label="i18n._global.sign_up"
-              linkTo="/auth/sign-up"
               fontSize="sm"
-              ariaLabel="i18n._global.sign_up_aria_label"
+              label="i18n._global.sign_in"
+              linkTo="/auth/sign-in"
             />
             <BtnRouteInternal
+              id="btn-sign-in-medium"
               v-else-if="aboveMediumBP && devMode.active"
-              id="btn-sign-up-medium"
+              ariaLabel="i18n._global.sign_in_aria_label"
               class="block"
               :cta="true"
+              fontSize="xs"
+              label="i18n._global.sign_in"
+              linkTo="/auth/sign-in"
+            />
+            <BtnRouteInternal
+              id="btn-sign-up-large"
+              v-if="aboveLargeBP && devMode.active"
+              ariaLabel="i18n._global.sign_up_aria_label"
+              class="block"
+              :cta="true"
+              fontSize="sm"
               label="i18n._global.sign_up"
               linkTo="/auth/sign-up"
-              fontSize="xs"
+            />
+            <BtnRouteInternal
+              id="btn-sign-up-medium"
+              v-else-if="aboveMediumBP && devMode.active"
               ariaLabel="i18n._global.sign_up_aria_label"
-            />
-            <BtnRouteInternal
-              v-if="aboveLargeBP && !devMode.active"
-              id="btn-get-in-touch-large"
               class="block"
               :cta="true"
-              label="i18n._global.support"
-              linkTo="https://docs.activist.org/activist/welcome/support-us"
-              fontSize="sm"
-              ariaLabel="i18n.components.header_website.support_aria_label"
-            />
-            <BtnRouteInternal
-              v-else-if="aboveMediumBP && !devMode.active"
-              id="btn-get-in-touch-medium"
-              class="block"
-              :cta="true"
-              label="i18n._global.support"
-              linkTo="https://docs.activist.org/activist/welcome/support-us"
               fontSize="xs"
+              label="i18n._global.sign_up"
+              linkTo="/auth/sign-up"
+            />
+            <BtnRouteInternal
+              id="btn-get-in-touch-large"
+              v-if="aboveLargeBP && !devMode.active"
               ariaLabel="i18n.components.header_website.support_aria_label"
+              class="block"
+              :cta="true"
+              fontSize="sm"
+              label="i18n._global.support"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
+            />
+            <BtnRouteInternal
+              id="btn-get-in-touch-medium"
+              v-else-if="aboveMediumBP && !devMode.active"
+              ariaLabel="i18n.components.header_website.support_aria_label"
+              class="block"
+              :cta="true"
+              fontSize="xs"
+              label="i18n._global.support"
+              linkTo="https://docs.activist.org/activist/welcome/support-us"
             />
           </div>
         </div>

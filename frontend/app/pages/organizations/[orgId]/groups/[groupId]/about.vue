@@ -2,23 +2,31 @@
 <template>
   <ModalSocialLinksGroup />
   <ModalTextGroup />
-  <Tabs class="pt-2 md:pt-0" :tabs="groupTabs" :selectedTab="0" />
+  <Tabs class="pt-2 md:pt-0" :selectedTab="0" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ group.name }}</Title>
+      <Title>{{ group?.name }}</Title>
     </Head>
     <HeaderAppPageGroup>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+        <ModalSharePage
+          v-if="group"
+          @closeModal="handleCloseModal"
+          :cta="true"
+          :group="group"
+          :isOpen="modalIsOpen"
+        />
         <BtnRouteExternal
-          v-if="group.getInvolvedUrl"
+          v-if="group?.texts[0]?.getInvolvedUrl"
+          ariaLabel="i18n._global.join_group_aria_label"
           class="w-max"
           :cta="true"
-          :linkTo="group.getInvolvedUrl"
-          label="i18n._global.join_group"
+          data-testid="header-join-button"
           fontSize="sm"
-          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18n._global.join_group_aria_label"
+          label="i18n._global.join_group"
+          :linkTo="group?.texts[0]?.getInvolvedUrl"
+          :rightIcon="IconMap.ARROW_RIGHT"
         />
         <!-- <BtnAction
           class="w-max"
@@ -32,20 +40,15 @@
         <BtnAction
           @click="openModal()"
           @keydown.enter="openModal()"
+          ariaLabel="i18n.pages.organizations.groups.about.share_group_aria_label"
           class="w-max"
           :cta="true"
-          :label="shareButtonLabel"
-          :hideLabelOnMobile="false"
+          data-testid="header-share-button"
           fontSize="sm"
-          :rightIcon="IconMap.SHARE"
+          :hideLabelOnMobile="false"
           iconSize="1.45em"
-          ariaLabel="i18n.pages.organizations.groups.about.share_group_aria_label"
-        />
-        <ModalSharePage
-          @closeModal="handleCloseModal"
-          :cta="true"
-          :group="group"
-          :isOpen="modalIsOpen"
+          :label="shareButtonLabel"
+          :rightIcon="IconMap.SHARE"
         />
       </div>
     </HeaderAppPageGroup>
@@ -53,25 +56,25 @@
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
-          'lg:mr-6 lg:space-x-6': !textExpanded,
+          'lg:space-x-6': !textExpanded,
         }"
       >
         <CardAboutGroup
           @expand-reduce-text="expandReduceText"
+          aboutType="organization"
           class="mb-6 lg:mb-0"
           :class="{
             'lg:col-span-2': !textExpanded,
             'lg:col-span-3': textExpanded,
           }"
-          aboutType="organization"
           :group="group"
         />
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
+            :entityId="group?.id || ''"
             :entityType="'group' as EntityType"
-            :images="group.images || []"
-            :entityId="group.id"
+            :images="images || []"
           />
         </div>
       </div>
@@ -82,15 +85,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
 import type { EntityType } from "~/types/entity";
 
+import { useGetGroup } from "~/composables/queries/useGetGroup";
+import { useGetGroupImages } from "~/composables/queries/useGetGroupImages";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  group: Group;
-}>();
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
+
+const { data: group } = useGetGroup(groupId);
+const { data: images } = useGetGroupImages(groupId);
 
 const aboveLargeBP = useBreakpoint("lg");
 

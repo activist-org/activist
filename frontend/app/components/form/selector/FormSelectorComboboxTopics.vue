@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <FormSelectorCombobox
-    @update:selectedOptions="(val: unknown) => handleChange(val as TopicEnum[])"
     :id="id"
-    :options="options"
-    :label="label"
+    @update:selectedOptions="(val: unknown) => handleChange(val as TopicEnum[])"
     :hasColOptions="hasColOptions"
+    :label="label"
+    :options="options"
     :selectedOptions="selectedTopics || []"
   />
 </template>
@@ -13,16 +13,14 @@
 <script setup lang="ts">
 import type { Topic, TopicEnum } from "~/types/content/topics";
 
+import { useGetTopics } from "~/composables/queries/useGetTopics";
 import { GLOBAL_TOPICS } from "~/types/content/topics";
 
 const { t } = useI18n();
-const topicsStore = useTopics();
-await topicsStore.fetchAll();
-
-const topics = topicsStore.topics || [];
+const { data: topics } = useGetTopics();
 
 const options = ref<{ label: string; value: TopicEnum; id: string }[]>([]);
-options.value = topics.map((topic: Topic) => ({
+options.value = topics.value.map((topic: Topic) => ({
   label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
   value: topic.type as TopicEnum,
   id: topic.id,

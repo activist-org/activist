@@ -48,21 +48,19 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 ```html
 <element
-  v-attributes=""
-  @attributes=""
-  ref=""
-  key=""
-  id=""
-  class=""
-  :class="{}"
-  props=""
-  other-attributes=""
-  aria-label=""
+  is="header"
+  id="uniqueID"
+  v-if="!visible"
+  v-for="item in items"
+  v-once
+  ref="header"
+  v-model="headerData"
+  my-prop="prop"
+  @click="functionCall"
+  v-text="textContent"
+  otherAttributesAlphabetically=""
 ></element>
 ```
-
-> [!NOTE]
-> Put the aria label as the last attribute on any given element so it's easy to see if it's missing (`aria-label` for as an HTML attribute and `ariaLabel` as a component prop)
 
 Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 
@@ -70,7 +68,7 @@ Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general s
 
 ### Page Routing [`⇧`](#contents)
 
-Page routing should use the `<NuxtLink />` component wherever possible to assure that the platform maintains the localization path of the user. If an external link via an `<a>` tag should be set, then please include `target="_blank"` to open a new tab (unless it's an email href).
+Page routing should use the `<NuxtLink />` component wherever possible to ensure that the platform maintains the localization path of the user. If an external link via an `<a>` tag should be set, then please include `target="_blank"` to open a new tab (unless it's an email href).
 
 <a id="breakpoints"></a>
 
@@ -179,7 +177,7 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
 
 ## Formatting [`⇧`](#contents)
 
-The activist frontend uses [Prettier](https://prettier.io/) to format the code and [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) to sort Tailwind CSS classes. Backend code that's written in Python should be formatted using [black](https://github.com/psf/black). The team suggests that you set up your environment to autoformat using te these formatters on save. We have workflows to check formatting for pull requests and will notify you if something's wrong :)
+The activist frontend uses [Prettier](https://prettier.io/) to format the code and [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) to sort Tailwind CSS classes. Backend code that's written in Python should be formatted using [black](https://github.com/psf/black). The team suggests that you set up your environment to autoformat using these formatters on save. We have workflows to check formatting for pull requests and will notify you if something's wrong :)
 
 <a id="colors"></a>
 
@@ -342,7 +340,7 @@ Localization keys should be defined based on the file in which they're used with
     - `"section_#_list_#_item_#_#"`: A subitem of the given item
 - If there are different uses of the same value in one file, then alphabetically combine the final keys with dashes (ex: `header_title`)
 - Please alphabetize the keys, with your code editor likely having built in functionality for this
-- Please always assign the full key as a string to assure that i18n content checks can pick up if the key has been used
+- Please always assign the full key as a string to ensure that i18n content checks can pick up if the key has been used
     - Eg: `section_1_2` and not `section_{var_number}_2`
     - This makes sure that content writers and the i18n team are only working with language that's actively in use
 
@@ -369,4 +367,4 @@ Code in the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), Ty
 
 ## Padding [`⇧`](#contents)
 
-There are a few custom padding classes that can be used for `px` and `py` styling as defined in [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css). Please use consistent custom padding classes to assure that elements move together at different breakpoints.
+There are a few custom padding classes that can be used for `px` and `py` styling as defined in [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css). Please use consistent custom padding classes to ensure that elements move together at different breakpoints.

@@ -1,7 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex w-full flex-col space-y-2">
-    <div class="flex w-full flex-col items-center">
+  <div class="flex w-full flex-col space-y-2" data-testid="events-filter">
+    <div
+      class="flex w-full flex-col items-center"
+      data-testid="events-filter-view-type"
+    >
       <FormSelectorRadio
         v-if="!sidebar.collapsed || !sidebar.collapsedSwitch"
         @update:modelValue="updateViewType"
@@ -12,86 +15,91 @@
     <Form
       @submit="handleSubmit"
       class="px-1"
+      :initial-values="formData"
+      :is-there-submit-button="false"
       :schema="schema"
       :send-on-change="true"
-      :is-there-submit-button="false"
-      :initial-values="formData"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
-        name="days"
+        data-testid="events-filter-days"
         :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
+        name="days"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
-          @update:modelValue="handleChange"
           :id="id"
+          @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionDays"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        name="type"
+        data-testid="events-filter-event-type"
         :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
+        name="type"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
-          @update:modelValue="handleChange"
           :id="id"
+          @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionEventTypes"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        name="setting"
+        data-testid="events-filter-location-type"
         :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
+        name="setting"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
-          @update:modelValue="handleChange"
           :id="id"
+          @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionLocations"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        data-testid="events-filter-location"
         :label="$t('i18n._global.location')"
         name="location"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInputSearch
+          :id="id"
           @blur="handleBlur"
           @update:modelValue="handleChange"
-          :id="id"
-          :modelValue="(value.value as string)"
-          :hasError="!!errorMessage.value"
-          :label="
-            $t('i18n.components.sidebar.left.filter._global.filter_by_location')
-          "
           :ariaLabel="
             $t(
               'i18n.components.sidebar.left.filter._global.search_button_aria_label'
             )
           "
+          :hasError="!!errorMessage.value"
+          :label="
+            $t('i18n.components.sidebar.left.filter._global.filter_by_location')
+          "
+          :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-topics"
         :label="$t('i18n.components._global.topics')"
         name="topics"
       >
         <!-- prettier-ignore-attribute :selected-options -->
         <FormSelectorCombobox
+          :id="id"
           @update:selectedOptions="
             (val: unknown) => handleChange(val as TopicEnum[])
           "
-          :id="id"
-          :selected-options="((value.value ?? []) as TopicEnum[])"
-          :options="optionsTopics"
           :label="$t('i18n.components._global.topics')"
+          :options="optionsTopics"
+          :selected-options="((value.value ?? []) as TopicEnum[])"
         />
       </FormItem>
     </Form>

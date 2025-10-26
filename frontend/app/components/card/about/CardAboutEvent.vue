@@ -23,7 +23,7 @@
               'line-clamp-2': !expandText,
             }"
           >
-            {{ event.texts.description }}
+            {{ event?.texts[0]?.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -32,10 +32,10 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
             >
               {{ $t("i18n.components.card.about._global.full_text") }}
             </button>
@@ -45,10 +45,10 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
             >
               {{ $t("i18n.components.card.about._global.reduce_text") }}
             </button>
@@ -60,16 +60,16 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
+
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const { userIsSignedIn } = useUser();
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId);
 
 const description = ref();
 const descriptionExpandable = ref(false);

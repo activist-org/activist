@@ -3,10 +3,10 @@
   <Form
     @submit="handleSubmit"
     class="px-1"
+    :initial-values="formData"
+    :is-there-submit-button="false"
     :schema="schema"
     :send-on-change="true"
-    :is-there-submit-button="false"
-    :initial-values="formData"
   >
     <FormItem
       v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -15,19 +15,19 @@
     >
       <!-- prettier-ignore-attribute :modelValue -->
       <FormTextInputSearch
+        :id="id"
         @blur="handleBlur"
         @update:modelValue="handleChange"
-        :id="id"
-        :modelValue="(value.value as string)"
-        :hasError="!!errorMessage.value"
-        :label="
-          $t('i18n.components.sidebar.left.filter._global.filter_by_location')
-        "
         :ariaLabel="
           $t(
             'i18n.components.sidebar.left.filter._global.search_button_aria_label'
           )
         "
+        :hasError="!!errorMessage.value"
+        :label="
+          $t('i18n.components.sidebar.left.filter._global.filter_by_location')
+        "
+        :modelValue="(value.value as string)"
       />
     </FormItem>
     <FormItem
@@ -37,10 +37,10 @@
     >
       <!-- prettier-ignore-attribute :selected-topics -->
       <FormSelectorComboboxTopics
+        :id="id"
         @update:selectedOptions="
           (val: unknown) => handleChange(val as TopicEnum[])
         "
-        :id="id"
         :label="$t('i18n.components._global.topics')"
         :selected-topics="((value.value ?? []) as TopicEnum[])"
       />

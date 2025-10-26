@@ -3,15 +3,17 @@
   <!-- organization.status === 1 means it's application is pending. -->
   <HeaderAppPage
     :header="headerName"
+    :statusPending="organization?.status === 1"
     :tagline="headerTagline"
     :underDevelopment="underDevelopment"
-    :statusPending="organization.status === 1"
   >
     <slot />
   </HeaderAppPage>
 </template>
 
 <script setup lang="ts">
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
+
 const props = defineProps<{
   header?: string;
   tagline?: string;
@@ -21,15 +23,13 @@ const props = defineProps<{
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(orgId || "");
 
 const headerName = computed<string>(() => {
   if (props.header) {
     return props.header;
   } else if (organization) {
-    return organization.name;
+    return organization.value?.name || "";
   } else {
     return "";
   }
@@ -39,7 +39,7 @@ const headerTagline = computed(() => {
   if (props.tagline) {
     return props.tagline;
   } else if (organization) {
-    return organization.tagline;
+    return organization.value?.tagline || "";
   } else {
     return "";
   }

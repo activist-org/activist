@@ -1,41 +1,65 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Tabs class="pt-2 md:pt-0" :tabs="groupTabs" :selectedTab="3" />
+  <Tabs class="pt-2 md:pt-0" :selectedTab="3" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ props.group.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ group?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
 
     <HeaderAppPageGroup
-      :header="props.group.name + ' ' + $t('i18n._global.faq')"
+      :header="group?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnAction
-          @click.stop="useModalHandlers('ModalFaqEntryGroup').openModal()"
-          @keydown.enter="useModalHandlers('ModalFaqEntryGroup').openModal()"
+          @click.stop="openModal()"
+          @keydown.enter="openModal()"
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
           class="w-max"
           :cta="true"
-          label="i18n.pages._global.new_faq"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.new_faq_aria_label"
+          label="i18n.pages._global.new_faq"
+          :leftIcon="IconMap.PLUS"
         />
         <ModalFaqEntryGroup />
       </div>
     </HeaderAppPageGroup>
 
-    <div v-if="props.group.faqEntries?.length" class="py-4">
+    <div
+      v-if="(group?.faqEntries || []).length"
+      class="py-4"
+      data-testid="organization-group-faq-list"
+    >
       <draggable
         v-model="faqList"
         @end="onDragEnd"
-        item-key="id"
+        :animation="150"
+        chosen-class="sortable-chosen"
         class="space-y-4"
+        :delay="0"
+        :delay-on-touch-start="false"
+        direction="vertical"
+        :disabled="false"
+        :distance="5"
+        drag-class="sortable-drag"
+        fallback-class="sortable-fallback"
+        :fallback-tolerance="0"
+        :force-fallback="false"
+        ghost-class="sortable-ghost"
+        handle=".drag-handle"
+        :invert-swap="false"
+        item-key="id"
+        :swap-threshold="0.5"
+        :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry pageType="group" :faqEntry="element" />
+          <CardFAQEntry
+            :entity="group"
+            :faqEntry="element"
+            :pageType="EntityType.GROUP"
+          />
         </template>
       </draggable>
     </div>
@@ -48,28 +72,65 @@
 import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
-import type { Group } from "~/types/communities/group";
 import type { FaqEntry } from "~/types/content/faq-entry";
 
-import { useGroupStore } from "~/stores/group";
+import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
+import { useGetGroup } from "~/composables/queries/useGetGroup";
+import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{ group: Group }>();
+const groupId = useRoute().params.groupId as string;
+const { data: group } = useGetGroup(groupId ?? "");
+
+const { openModal } = useModalHandlers("ModalFaqEntryGroup");
 
 const groupTabs = getGroupTabs();
-const groupStore = useGroupStore();
-
-const faqList = ref<FaqEntry[]>([...(props.group.faqEntries || [])]);
+const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
+const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 
 watch(
-  () => props.group.faqEntries,
+  () => group.value?.faqEntries,
   (newVal) => {
-    faqList.value = newVal?.slice() ?? [];
+    if (newVal) {
+      faqList.value = newVal.slice();
+    } else {
+      faqList.value = [];
+    }
   },
   { immediate: true }
 );
 
 const onDragEnd = async () => {
-  await groupStore.reorderFaqEntries(props.group, faqList.value);
+  faqList.value.forEach((faq, index) => {
+    faq.order = index;
+  });
+
+  await reorderFAQs(faqList.value);
 };
 </script>
+
+<style scoped>
+.sortable-ghost {
+  opacity: 0.4;
+  transition: opacity 0.05s ease;
+}
+
+.sortable-chosen {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: background-color 0.05s ease;
+}
+
+.sortable-drag {
+  transform: rotate(5deg);
+  transition: transform 0.05s ease;
+}
+
+.sortable-fallback {
+  display: none;
+}
+
+/* Ensure drag handles work properly. */
+.drag-handle {
+  user-select: none;
+}
+</style>

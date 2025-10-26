@@ -7,10 +7,10 @@
     /> -->
     <SidebarLeft
       v-if="aboveMediumBP"
-      @mouseover="sidebarHover = true"
+      @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
-      @blur="sidebarHover = false"
+      @mouseover="sidebarHover = true"
       class="block"
     />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
@@ -36,10 +36,6 @@ import {
 
 const aboveMediumBP = useBreakpoint("md");
 
-const eventStore = useEventStore();
-onMounted(() => {
-  eventStore.fetchAll();
-});
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 
@@ -49,16 +45,4 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
-
-const route = useRoute();
-
-watch(
-  route,
-  (form) => {
-    eventStore.fetchAll({
-      ...form.query,
-    });
-  },
-  { immediate: true }
-);
 </script>

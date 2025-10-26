@@ -38,7 +38,7 @@ export default defineNuxtConfig({
           signInResponseRefreshTokenPointer: "/refresh",
           refreshRequestTokenPointer: "/refresh",
           cookieName: "auth.refresh",
-          maxAgeInSeconds: 300,
+          maxAgeInSeconds: 86400, // 1d
           secureCookieAttribute: false,
           httpOnlyCookieAttribute: false,
         },
@@ -65,15 +65,13 @@ export default defineNuxtConfig({
         refreshRequestTokenPointer: "/access",
         type: "Token",
         headerName: "Authorization",
-        maxAgeInSeconds: 300,
+        maxAgeInSeconds: 3600, // 1hr
         secureCookieAttribute: false,
         httpOnlyCookieAttribute: false,
       },
     },
   },
-
-  modules: modules,
-
+  modules: process.env.VITEST ? [] : modules,
   ssr: false,
 
   devtools: {
@@ -140,7 +138,7 @@ export default defineNuxtConfig({
 
   vue: {
     compilerOptions: {
-      isCustomElement: (tag) =>
+      isCustomElement: (tag: string) =>
         ["swiper-slide", "swiper-container"].includes(tag),
     },
   },
@@ -149,13 +147,15 @@ export default defineNuxtConfig({
     "pages:extend": (pages: NuxtPage[]) => {
       applyMiddleware(pages);
     },
-    "app:resolve": (_app) => {
+    "app:resolve": (_app: unknown) => {
       // Note: For future implementation.
     },
   },
 
   nitro: {
-    preset: "netlify-static",
+    // Use node-server preset for local preview/Docker (creates .output/server/index.mjs)
+    // Use netlify-static preset for Netlify deployment (creates static site)
+    preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
   },
 
   plausible: {
@@ -198,4 +198,4 @@ export default defineNuxtConfig({
       maxUploadFileRequestInBytes: 5000000,
     },
   },
-});
+} as unknown as Parameters<typeof defineNuxtConfig>[0]);

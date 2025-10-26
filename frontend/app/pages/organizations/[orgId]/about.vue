@@ -4,21 +4,26 @@
   <ModalTextOrganization />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ organization.name }}</Title>
+      <Title>{{ organization?.name }}</Title>
     </Head>
     <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
+          <ModalSharePage
+            v-if="organization"
+            :cta="true"
+            :organization="organization as unknown as Organization"
+          />
           <BtnRouteExternal
-            v-if="organization.getInvolvedUrl"
+            v-if="organization?.texts[0]?.getInvolvedUrl"
+            ariaLabel="i18n._global.join_organization_aria_label"
             class="w-max"
             :cta="true"
-            :linkTo="organization.getInvolvedUrl"
-            label="i18n._global.join_organization"
             fontSize="sm"
-            :rightIcon="IconMap.ARROW_RIGHT"
             iconSize="1.45em"
-            ariaLabel="i18n._global.join_organization_aria_label"
+            label="i18n._global.join_organization"
+            :linkTo="organization.texts[0]?.getInvolvedUrl"
+            :rightIcon="IconMap.ARROW_RIGHT"
           />
           <!-- <BtnAction
           class="w-max"
@@ -33,24 +38,23 @@
           <BtnAction
             @click="openModalSharePage()"
             @keydown.enter="openModalSharePage()"
+            ariaLabel="i18n._global.share_organization_aria_label"
             class="w-max"
             :cta="true"
-            :label="shareButtonLabel"
-            :hideLabelOnMobile="false"
             fontSize="sm"
-            :rightIcon="IconMap.SHARE"
+            :hideLabelOnMobile="false"
             iconSize="1.45em"
-            ariaLabel="i18n._global.share_organization_aria_label"
+            :label="shareButtonLabel"
+            :rightIcon="IconMap.SHARE"
           />
         </div>
-        <ModalSharePage :cta="true" :organization="organization" />
       </div>
     </HeaderAppPageOrganization>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
-          'lg:mr-6 lg:space-x-6': !textExpanded,
+          'lg:space-x-6': !textExpanded,
         }"
       >
         <CardAboutOrganization
@@ -64,9 +68,9 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
+            :entityId="organization?.id ?? ''"
             :entityType="'organization' as EntityType"
-            :entityId="organization.id"
-            :images="organization.images || []"
+            :images="images || []"
           />
         </div>
       </div>
@@ -85,12 +89,18 @@
 import type { Organization } from "~/types/communities/organization";
 import type { EntityType } from "~/types/entity";
 
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
+import { useGetOrganizationImages } from "~/composables/queries/useGetOrganizationImages";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-defineProps<{
-  organization: Organization;
-}>();
+const { data: organization } = useGetOrganization(
+  (useRoute().params.orgId as string) ?? ""
+);
+
+const { data: images } = useGetOrganizationImages(
+  (useRoute().params.orgId as string) ?? ""
+);
 
 const aboveLargeBP = useBreakpoint("lg");
 

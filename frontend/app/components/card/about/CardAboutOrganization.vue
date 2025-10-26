@@ -4,8 +4,8 @@
     <ModalQRCodeBtn
       v-if="organization && !expandText"
       :organization="organization"
-      type="icon"
       reason-for-suggesting=""
+      type="icon"
     />
     <button
       v-if="expandText"
@@ -35,7 +35,7 @@
         <!-- <ShieldTopic :topic="organization.topic" /> -->
         <div class="flex items-center gap-3">
           <MetaTagLocation
-            v-if="organization.location"
+            v-if="organization?.location"
             :location="organization.location.displayName.split(',')[0] ?? ''"
           />
           <!-- <MetaTagMembers
@@ -50,7 +50,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ organization.texts.description }}
+            {{ organization?.texts[0]?.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -59,10 +59,11 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.full_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
+              data-testid="expand-text-button"
             >
               {{ $t("i18n.components.card.about._global.full_text") }}
             </button>
@@ -72,10 +73,11 @@
                 emit('expand-reduce-text');
                 expand_reduce_text();
               "
-              class="mt-1 font-semibold text-link-text focus-brand"
               :aria-label="
                 $t('i18n.components.card.about._global.reduce_text_aria_label')
               "
+              class="mt-1 font-semibold text-link-text focus-brand"
+              data-testid="collapse-text-button"
             >
               {{ $t("i18n.components.card.about._global.reduce_text") }}
             </button>
@@ -87,6 +89,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextOrganization } = useModalHandlers(
@@ -96,11 +99,9 @@ const { openModal: openModalTextOrganization } = useModalHandlers(
 const { userIsSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(orgId);
 
 const description = ref();
 const descriptionExpandable = ref(false);

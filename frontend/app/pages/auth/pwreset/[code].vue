@@ -3,8 +3,8 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <p>{{ $t("i18n.pages.auth.pwreset.code.please_enter_new_password") }}</p>
     <Form
-      @submit="handleSubmit"
       id="reset-password"
+      @submit="handleSubmit"
       :schema="resetPasswordSchema"
     >
       <FormItem
@@ -20,7 +20,7 @@
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInputPassword
-          @update:modelValue="handleChange"
+          :id="id"
           @blur="
             () => {
               handleBlur();
@@ -28,10 +28,10 @@
             }
           "
           @focus="isPasswordFieldFocused = true"
-          :id="id"
-          :modelValue="(passwordRef.value as string)"
+          @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
           :label="$t('i18n._global.enter_password')"
+          :modelValue="(passwordRef.value as string)"
         />
         <div class="flex flex-col space-y-4">
           <!-- prettier-ignore-attribute :passwordValue -->
@@ -62,16 +62,25 @@
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInputPassword
-          @update:modelValue="handleChange"
-          @blur="handleBlur"
           :id="id"
-          :modelValue="(confirmPassword.value as string)"
+          @blur="handleBlur"
+          @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
           :label="$t('i18n._global.repeat_password')"
+          :modelValue="(confirmPassword.value as string)"
         >
           <template #icons>
             <span>
               <Icon
+                aria-hidden="false"
+                aria-labelledby="sign-up-confirm-password-match"
+                :color="
+                  confirmPassword.value &&
+                  errorMessage.value !==
+                    $t('i18n.pages.auth._global.password_not_matched')
+                    ? '#3BA55C'
+                    : '#BA3D3B'
+                "
                 :name="
                   confirmPassword.value &&
                   errorMessage.value !==
@@ -80,15 +89,6 @@
                     : IconMap.X_LG
                 "
                 size="1.2em"
-                :color="
-                  confirmPassword.value &&
-                  errorMessage.value !==
-                    $t('i18n.pages.auth._global.password_not_matched')
-                    ? '#3BA55C'
-                    : '#BA3D3B'
-                "
-                aria-hidden="false"
-                aria-labelledby="sign-up-confirm-password-match"
               />
               <title id="sign-up-confirm-password-match" class="sr-only">
                 {{

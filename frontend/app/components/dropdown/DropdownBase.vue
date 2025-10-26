@@ -3,15 +3,16 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton
-        @focus="expandOnFocus"
         v-slot="{ open }"
+        @focus="expandOnFocus"
+        :aria-label="$t(`${menuButtonAriaLabel}`)"
         class="selected-option style-btn inline-flex w-full select-none whitespace-nowrap rounded-md border-none px-4 py-2 font-semibold"
         :class="{
           'pl-6': isSideMenu,
           'style-menu-option-cta flex items-center rounded-md pl-1':
             isSidebarLeftMenu,
         }"
-        :aria-label="$t(`${menuButtonAriaLabel}`)"
+        :data-testid="dataTestId"
       >
         <div
           class="flex items-center justify-between space-x-2 text-sm"
@@ -22,10 +23,10 @@
         >
           <div class="flex items-center space-x-2">
             <Icon
-              :name="menuButtonIcon"
               :class="{
                 'h-5 w-5 flex-shrink-0 text-center': isSidebarLeftMenu,
               }"
+              :name="menuButtonIcon"
               :size="isSidebarLeftMenu ? '1em' : ''"
             />
             <Transition name="text">
@@ -60,12 +61,12 @@
                 absolute: isSideMenu,
                 'absolute right-2': isSidebarLeftMenu,
               }"
-              :size="isSidebarLeftMenu ? '1rem' : ''"
               :name="
                 isSidebarLeftMenu
                   ? `${IconMap.CHEVRON_UP}`
                   : `${IconMap.CHEVRON_DOWN}`
               "
+              :size="isSidebarLeftMenu ? '1rem' : ''"
             />
           </Transition>
         </div>
@@ -98,6 +99,7 @@ const props = defineProps<{
   isMenuButtonUppercase?: boolean;
   isMenuButtonBold?: boolean;
   menuButtonLabel: string;
+  dataTestId?: string;
 }>();
 
 const sidebar = useSidebar();

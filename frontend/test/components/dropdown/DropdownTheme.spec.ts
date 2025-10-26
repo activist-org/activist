@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
+import { mockNuxtImport as _mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import DropdownTheme from "../../../app/components/dropdown/DropdownTheme.vue";
 import render from "../../../test/render";
 
-mockNuxtImport("useColorMode", () => useColorModeMock);
-
+// Note: useColorMode mock is handled globally in test/setup.ts.
 // Theme switching should be tested in the e2e tests.
 // Mocking theme switching to make it work in component tests is too complicated.
 describe("DropdownTheme", () => {

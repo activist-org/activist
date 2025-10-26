@@ -1,14 +1,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <CardConnect :socialLinks="event.socialLinks" pageType="event" />
+  <CardConnect pageType="event" :socialLinks="socialLinks" />
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
+
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
+const { data: event } = useGetEvent(eventId);
 
-const { event } = eventStore;
+// Use computed to ensure social links are reactive to store changes.
+const socialLinks = computed(() => event.value?.socialLinks ?? []);
 </script>

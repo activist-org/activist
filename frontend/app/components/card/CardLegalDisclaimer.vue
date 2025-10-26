@@ -7,7 +7,7 @@
   >
     <DisclosureButton class="rounded-md px-4 py-2 focus-brand">
       <div class="flex select-none items-center gap-3 text-primary-text">
-        <Icon :name="IconMap.LEGAL" class="fill-primary-text" />
+        <Icon class="fill-primary-text" :name="IconMap.LEGAL" />
         <p>{{ $t("i18n.components.card_legal_disclaimer.header") }}</p>
         <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
         <Icon v-else :name="IconMap.CHEVRON_DOWN" />

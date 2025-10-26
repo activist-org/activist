@@ -146,7 +146,6 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
         "org_name": new_org.org_name,
         "name": new_org.name,
         "tagline": new_org.tagline,
-        "get_involved_url": new_org.get_involved_url,
         "terms_checked": new_org.terms_checked,
         "is_high_risk": new_org.is_high_risk,
     }

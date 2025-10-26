@@ -1,6 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DropdownBase
+    dataTestId="dropdown-user-options"
+    :isMenuButtonBold="true"
+    :isMenuButtonUppercase="false"
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_PERSON"
     :menuButtonLabel="
@@ -8,8 +11,6 @@
         ? $t('i18n.components.dropdown_user_options.username')
         : $t('i18n.components.dropdown_user_options.join_activist')
     "
-    :isMenuButtonUppercase="false"
-    :isMenuButtonBold="true"
     menuButtonAriaLabel="i18n.components.dropdown_user_options.username_aria_label"
   >
     <DropdownItemsLayout
@@ -32,42 +33,48 @@ defineProps<{
 const { signOut } = useAuth();
 const userOptionsSignedIn: MenuSelector[] = [
   {
-    id: 1,
+    id: "user-options-your-profile",
+    "data-testid": "user-options-your-profile",
     label: "i18n.components.dropdown_user_options.your_profile",
     routeUrl: "/",
     iconUrl: `${IconMap.CIRCLE_PERSON}`,
     selected: false,
   },
   {
-    id: 2,
+    id: "user-options-your-events",
+    "data-testid": "user-options-your-events",
     label: "i18n.components.dropdown_user_options.your_events",
     routeUrl: "/",
     iconUrl: `${IconMap.EVENT}`,
     selected: false,
   },
   {
-    id: 3,
+    id: "user-options-your-orgs",
+    "data-testid": "user-options-your-orgs",
     label: "i18n.components.dropdown_user_options.your_orgs",
     routeUrl: "/",
     iconUrl: `${IconMap.ORGANIZATION}`,
     selected: false,
   },
   {
-    id: 4,
+    id: "user-options-your-notifications",
+    "data-testid": "user-options-your-notifications",
     label: "i18n._global.notifications",
     routeUrl: "/",
     iconUrl: `${IconMap.BELL}`,
     selected: false,
   },
   {
-    id: 5,
+    id: "user-options-your-settings",
+    "data-testid": "user-options-your-settings",
     label: "i18n._global.settings",
     routeUrl: "/",
     iconUrl: `${IconMap.SETTINGS}`,
     selected: false,
   },
   {
-    id: 6,
+    id: "user-options-your-sign-out",
+    "data-testid": "user-options-your-sign-out",
     label: "i18n.components.dropdown_user_options.sign_out",
     routeUrl: "/",
     iconUrl: `${IconMap.SIGN_OUT}`,
@@ -80,14 +87,16 @@ const userOptionsSignedIn: MenuSelector[] = [
 
 const userOptionsSignedOut: MenuSelector[] = [
   {
-    id: 1,
+    id: "user-options-sign-up",
+    "data-testid": "user-options-sign-up",
     label: "i18n._global.sign_up",
     routeUrl: "/auth/sign-up",
     iconUrl: `${IconMap.SIGN_IN}`,
     selected: false,
   },
   {
-    id: 1,
+    id: "user-options-sign-in",
+    "data-testid": "user-options-sign-in",
     label: "i18n._global.sign_in",
     routeUrl: "/auth/sign-in",
     iconUrl: `${IconMap.CIRCLE_PERSON}`,

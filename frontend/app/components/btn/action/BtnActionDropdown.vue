@@ -5,15 +5,15 @@
   >
     <button
       @click="emit('main-btn-clicked')"
+      :aria-label="$t(ariaLabel)"
       class="btn-base-class rounded-l-md rounded-r-none shadow-none xl:rounded-l-lg"
       :class="btnDynamicClass"
-      :aria-label="$t(ariaLabel)"
     >
       <BtnIconsLabel
-        :label="label"
         :hideLabelOnMobile="hideLabelOnMobile"
-        :leftIcon="leftIcon"
         :iconSize="iconSize"
+        :label="label"
+        :leftIcon="leftIcon"
       />
     </button>
     <Menu>
@@ -39,12 +39,12 @@
           <button
             @click="dropdownOptionsCallback(o)"
             @keypress.enter="dropdownOptionsCallback(o)"
-            tabindex="0"
             :class="{
               'bg-cta-orange/80 text-primary-text dark:bg-cta-orange/40 dark:text-cta-orange':
                 active,
               'text-primary-text': !active,
             }"
+            tabindex="0"
           >
             {{ o }}
           </button>

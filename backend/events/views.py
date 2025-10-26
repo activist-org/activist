@@ -8,6 +8,7 @@ import re
 from typing import Any, Sequence, Type
 from uuid import UUID
 
+from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -104,6 +105,16 @@ class EventAPIView(GenericAPIView[Event]):
             serializer.save(created_by=request.user, offline_location=location)
             logger.info(
                 f"Event created by user {request.user.id} with location {location.id}"
+            )
+
+        except ValidationError as e:
+            logger.exception(
+                f"Validation failed for event creation by user {request.user.id}: {e}"
+            )
+            Location.objects.filter(id=location.id).delete()
+            return Response(
+                {"detail": str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         except (IntegrityError, OperationalError) as e:
@@ -446,29 +457,20 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
     queryset = EventSocialLink.objects.all()
     serializer_class = EventSocialLinkSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    http_method_names = ["post", "put", "delete"]
 
-    def delete(self, request: Request) -> Response:
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        event: Event = serializer.validated_data["event"]
-
-        if request.user != event.created_by and not request.user.is_staff:
-            return Response(
-                {
-                    "detail": "You are not authorized to delete social links for this event."
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        EventSocialLink.objects.filter(event=event).delete()
-        logger.info(f"Social links deleted for event {event.id}")
-
-        return Response(
-            {"message": "Social links deleted successfully."},
-            status=status.HTTP_204_NO_CONTENT,
-        )
-
+    @extend_schema(
+        responses={
+            201: OpenApiResponse(
+                response={"message": "Social link created successfully."}
+            ),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to create social links for this event."
+                }
+            ),
+        }
+    )
     def create(self, request: Request) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -491,6 +493,20 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             status=status.HTTP_201_CREATED,
         )
 
+    @extend_schema(
+        responses={
+            200: OpenApiResponse(
+                response={"message": "Social link updated successfully."}
+            ),
+            400: OpenApiResponse(response={"detail": "Invalid request."}),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to update the social links for this event."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Social links not found."}),
+        }
+    )
     def update(self, request: Request, pk: UUID | str) -> Response:
         try:
             social_link = EventSocialLink.objects.get(id=pk)
@@ -527,6 +543,52 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
 
         return Response(
             {"detail": "Invalid request."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(
+                response={"message": "Social link deleted successfully."}
+            ),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to delete this social link."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "Social link not found."}),
+        }
+    )
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            social_link = EventSocialLink.objects.get(id=pk)
+
+        except EventSocialLink.DoesNotExist as e:
+            logger.exception(
+                f"Social link with id {pk} does not exist for deletion: {e}"
+            )
+            return Response(
+                {"detail": "Social link not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        event = social_link.event
+        if event is not None:
+            creator = event.created_by
+
+        else:
+            raise ValueError("Event is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this social link."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        social_link.delete()
+        logger.info(f"Social link {pk} deleted for event {event.id}")
+
+        return Response(
+            {"message": "Social link deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT,
         )
 
 
@@ -576,6 +638,9 @@ class EventTextViewSet(GenericAPIView[EventText]):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# MARK: Calendar
+
+
 class EventCalenderAPIView(APIView):
     queryset = Event.objects.all()
     permission_classes = [AllowAny]
@@ -591,6 +656,7 @@ class EventCalenderAPIView(APIView):
     )
     def get(self, request: Request) -> HttpResponse | Response:
         event_id = request.query_params.get("event_id")
+
         if not event_id:
             return Response(
                 {"detail": "Event ID is required."},

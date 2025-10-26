@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <MenuLinkWrapper :id="id" :to="routeUrl" :selected="selected">
+  <MenuLinkWrapper :id="id" :selected="selected" :to="routeUrl">
     <div
       class="group relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
     >

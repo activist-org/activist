@@ -12,8 +12,8 @@
       />
     </div>
     <div class="space-y-3 pt-3">
-      <p v-if="event.texts.getInvolved">
-        {{ event.texts.getInvolved }}
+      <p v-if="event?.texts[0]?.getInvolved">
+        {{ event.texts[0]?.getInvolved }}
       </p>
       <p v-else>
         {{ $t("i18n.components.card_get_involved_event.participate_subtext") }}
@@ -24,14 +24,14 @@
       <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" /> -->
       <div class="flex w-max pt-2">
         <BtnRouteInternal
+          ariaLabel="i18n._global.offer_to_help_aria_label"
           class="w-full"
           :cta="true"
-          linkTo="/"
-          label="i18n._global.offer_to_help"
           fontSize="sm"
-          :rightIcon="IconMap.ARROW_RIGHT"
           iconSize="1.45em"
-          ariaLabel="i18n._global.offer_to_help_aria_label"
+          label="i18n._global.offer_to_help"
+          linkTo="/"
+          :rightIcon="IconMap.ARROW_RIGHT"
         />
       </div>
     </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { IconMap } from "~/types/icon-map";
 
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
@@ -46,9 +47,7 @@ const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const { userIsSignedIn } = useUser();
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId);
 </script>

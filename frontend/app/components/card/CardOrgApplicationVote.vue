@@ -10,19 +10,19 @@
         class="mr-5 fill-primary-text"
       >
         <Icon
-          v-if="organization.iconUrl === undefined"
+          v-if="organization?.iconUrl === undefined"
           name="IconOrganization"
           size="3em"
         />
         <div v-else class="rounded border border-section-div">
           <img
-            :src="organization.iconUrl.fileObject"
-            class="h-full w-12"
             :alt="
               $t('i18n._global.entity_logo', {
-                entity_name: organization.name,
+                entity_name: organization?.name,
               })
             "
+            class="h-full w-12"
+            :src="organization?.iconUrl?.fileObject"
           />
         </div>
       </div>
@@ -30,25 +30,25 @@
     <div class="flex">
       <BtnAction
         @click="$emit('up-vote')"
-        class="mr-5 flex"
-        :cta="true"
-        :counter="upVotes"
-        fontSize="sm"
-        :leftIcon="IconMap.ARROW_UP"
-        iconSize="1.25em"
-        :disabled="isVotingDisabled"
         ariaLabel="i18n.components._global.upvote_application_aria_label"
+        class="mr-5 flex"
+        :counter="upVotes"
+        :cta="true"
+        :disabled="isVotingDisabled"
+        fontSize="sm"
+        iconSize="1.25em"
+        :leftIcon="IconMap.ARROW_UP"
       />
       <BtnAction
         @click="$emit('down-vote')"
-        class="flex"
-        :cta="true"
-        :counter="downVotes"
-        fontSize="sm"
-        :leftIcon="IconMap.ARROW_DOWN"
-        iconSize="1.25em"
-        :disabled="isVotingDisabled"
         ariaLabel="i18n.components.card_org_application_vote.downvote_application_aria_label"
+        class="flex"
+        :counter="downVotes"
+        :cta="true"
+        :disabled="isVotingDisabled"
+        fontSize="sm"
+        iconSize="1.25em"
+        :leftIcon="IconMap.ARROW_DOWN"
       />
     </div>
   </div>

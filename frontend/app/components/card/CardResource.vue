@@ -2,24 +2,30 @@
 <template>
   <div
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
+    :data-resource-id="resource.id"
+    data-testid="resource-card"
   >
     <div class="flex items-center space-x-2">
-      <Icon
-        :name="IconMap.GRIP"
+      <IconDraggableEdit
+        class="drag-handle cursor-grab select-none"
         :class="dragIconSizeClass"
-        class="cursor-grab"
+        data-testid="resource-drag-handle"
+        :entity="entity"
+        size="2em"
       />
       <div class="flex flex-col md:flex-row">
         <NuxtLink
-          :to="localePath(linkUrl)"
           :aria-label="$t(ariaLabel)"
+          data-testid="resource-link"
           target="_blank"
+          :to="localePath(linkUrl)"
         >
           <div class="h-min w-max rounded-md border border-section-div p-2">
             <Icon
-              :name="IconMap.RESOURCE"
-              :class="imageSizeClass"
               class="text-primary-text"
+              :class="imageSizeClass"
+              data-testid="resource-icon"
+              :name="IconMap.RESOURCE"
             />
           </div>
         </NuxtLink>
@@ -29,16 +35,16 @@
       <div class="-mb-2 flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <NuxtLink
-            :to="localePath(linkUrl)"
             :aria-label="$t(ariaLabel)"
             target="_blank"
+            :to="localePath(linkUrl)"
           >
             <h3 class="font-bold">
               {{ resource.name }}
             </h3>
           </NuxtLink>
           <MenuSearchResult
-            class="max-md:absolute max-md:right-0 max-md:top-0"
+            class="max-md:relative max-md:z-[60]"
             :resource="resource"
           />
         </div>
@@ -77,7 +83,11 @@
         {{ description }}
       </p>
     </div>
-    <IconEdit @click.stop="openModalEdit()" @keydown.enter="openModalEdit()" />
+    <IconEdit
+      @click.stop="openModalEdit()"
+      @keydown.enter="openModalEdit()"
+      :entity="entity"
+    />
     <ModalResourceGroup
       v-if="EntityType.GROUP === entityType"
       :resource="resource"
@@ -95,6 +105,7 @@
 
 <script setup lang="ts">
 import type { Resource } from "~/types/content/resource";
+import type { Entity } from "~/types/entity";
 
 import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
@@ -102,6 +113,7 @@ import { IconMap } from "~/types/icon-map";
 const props = defineProps<{
   resource: Resource;
   entityType: EntityType;
+  entity: Entity | null;
   isReduced?: boolean;
 }>();
 

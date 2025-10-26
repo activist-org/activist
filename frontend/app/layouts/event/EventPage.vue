@@ -8,10 +8,10 @@
     />
     <SidebarLeft
       v-if="aboveMediumBP"
-      @mouseover="sidebarHover = true"
+      @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
-      @blur="sidebarHover = false"
+      @mouseover="sidebarHover = true"
       class="block"
     />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
@@ -41,9 +42,7 @@ const aboveMediumBP = useBreakpoint("md");
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId || "");
 
 const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
   "ModalUploadImageIcon"

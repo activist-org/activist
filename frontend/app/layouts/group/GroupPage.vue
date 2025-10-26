@@ -4,29 +4,29 @@
     <ModalUploadImageGroup
       @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
-      :entityId="group.id || ''"
-      :images="group.images || []"
+      :groupId="group?.id || ''"
+      :images="images || []"
     />
     <ModalUploadImageIcon
-      @upload-complete="groupStore.fetchById(group.id)"
       @closeModal="handleCloseModalUploadImageIcon"
-      :entityId="group.id || ''"
+      :entityId="group?.id || ''"
       :entityType="EntityType.GROUP"
     />
     <SidebarLeft
       v-if="aboveMediumBP"
-      @mouseover="sidebarHover = true"
+      @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
-      @blur="sidebarHover = false"
+      @mouseover="sidebarHover = true"
       class="block"
     />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
       <div
+        v-if="group && images"
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage :group="group" />
+        <NuxtPage />
       </div>
       <FooterWebsite
         class="pb-24 transition-[padding] duration-500 md:pb-12"
@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { useGetGroup } from "~/composables/queries/useGetGroup";
+import { useGetGroupImages } from "~/composables/queries/useGetGroupImages";
 import { EntityType } from "~/types/entity";
 import {
   getSidebarContentDynamicClass,
@@ -47,10 +49,9 @@ const aboveMediumBP = useBreakpoint("md");
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
-const groupStore = useGroupStore();
-await groupStore.fetchById(groupId);
-await groupStore.fetchImages(groupId as string);
-const { group } = groupStore;
+const { data: group } = useGetGroup(groupId ?? "");
+const { data: images } = useGetGroupImages(groupId ?? "");
+
 const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
   "ModalUploadImageGroup"
 );

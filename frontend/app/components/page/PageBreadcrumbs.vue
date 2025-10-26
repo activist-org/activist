@@ -39,7 +39,7 @@
             class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
-            {{ group.name }}
+            {{ group.org.name }}
           </NuxtLink>
           <NuxtLink
             v-else-if="
@@ -60,9 +60,9 @@
         </span>
         <span v-else>
           <NuxtLink
+            aria-current="page"
             class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
-            aria-current="page"
           >
             {{ capitalizeFirstLetter(breadcrumb) }}
           </NuxtLink>
@@ -79,6 +79,10 @@ import type { Group } from "~/types/communities/group";
 import type { Organization } from "~/types/communities/organization";
 import type { Event } from "~/types/events/event";
 
+import { getGroup } from "~/services/communities/group/group";
+import { getOrganization } from "~/services/communities/organization/organization";
+import { getEvent } from "~/services/event/event";
+
 const url = window.location.href;
 let pageType = "";
 
@@ -86,11 +90,11 @@ const { locales } = useI18n();
 const localePath = useLocalePath();
 
 const paramsOrgId = useRoute().params.orgId;
-const paramsGroupId = useRoute().params.groupid;
-const paramsEventId = useRoute().params.eventid;
+const paramsGroupId = useRoute().params.groupId;
+const paramsEventId = useRoute().params.eventId;
 
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const organizationStore = useOrganizationStore();
@@ -109,21 +113,23 @@ const groupRegex =
 const eventRegex =
   /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/events\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).+$/;
 
-if (organizationRegex.test(url)) {
-  pageType = "organization";
-
-  await organizationStore.fetchById(orgId);
-  organization = organizationStore.organization;
-} else if (groupRegex.test(url)) {
+// Note: We need to test for groups before organizations as the org test passes for groups.
+if (groupRegex.test(url)) {
   pageType = "group";
 
-  await groupStore.fetchById(groupId);
-  group = groupStore.group;
+  if (groupStore.group) group = groupStore.group;
+  else group = await getGroup(groupId);
+} else if (organizationRegex.test(url)) {
+  pageType = "organization";
+
+  if (organizationStore.organization)
+    organization = organizationStore.organization;
+  else organization = await getOrganization(orgId || "");
 } else if (eventRegex.test(url)) {
   pageType = "event";
 
-  await eventStore.fetchById(eventId);
-  event = eventStore.event;
+  if (eventStore.event) event = eventStore.event;
+  else event = await getEvent(eventId || "");
 }
 
 const breadcrumbs = ref<string[]>([]);

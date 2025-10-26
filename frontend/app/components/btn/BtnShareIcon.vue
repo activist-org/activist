@@ -1,22 +1,22 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <component
-    v-if="type == 'vueSocials'"
-    @popup-close="nativeBehaviorOptions.onClose"
-    @popup-open="nativeBehaviorOptions.onOpen"
-    @popup-block="nativeBehaviorOptions.onBlock"
-    @popup-focus="nativeBehaviorOptions.onFocus"
     :is="vueSocials[socialComponent]"
+    v-if="type == 'vueSocials'"
+    @popup-block="nativeBehaviorOptions.onBlock"
+    @popup-close="nativeBehaviorOptions.onClose"
+    @popup-focus="nativeBehaviorOptions.onFocus"
+    @popup-open="nativeBehaviorOptions.onOpen"
     class="focus-brand"
-    :window-features="windowFeatures"
+    :native-behavior-options="nativeBehaviorOptions"
     :share-options="shareOptions"
     :use-native-behavior="useNativeBehavior"
-    :native-behavior-options="nativeBehaviorOptions"
+    :window-features="windowFeatures"
   >
     <MetaTagSocialMedia
       :iconName="iconName"
-      :text="text"
       :iconSize="iconSize"
+      :text="text"
     />
     <p
       v-if="reasonForSuggesting"
@@ -29,25 +29,25 @@
   <div
     v-else-if="type == 'redirect'"
     @click="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
-    @keypress.space="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
     @keypress.enter="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
+    @keypress.space="copyToClipboardThenOpenUrl(name, urlLink, redirectLink)"
     class="focus-brand"
-    tabindex="0"
     role="button"
+    tabindex="0"
   >
     <MetaTagSocialMedia
       v-if="!contentCopied"
       class="dark:hover:distinct-text text-primary-text hover:text-distinct-text"
       :iconName="iconName"
-      :text="text"
       :iconSize="iconSize"
+      :text="text"
     />
     <MetaTagSocialMedia
       v-if="contentCopied"
       class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
       :iconName="IconMap.SQUARE_CHECK"
-      :text="$t('i18n.components.btn_share_icon.url_copied')"
       :iconSize="iconSize"
+      :text="$t('i18n.components.btn_share_icon.url_copied')"
     />
     <p
       v-if="reasonForSuggesting"

@@ -2,11 +2,11 @@
 <template>
   <form class="h-full w-full rounded-[0.45em] elem-shadow-sm">
     <Calendar
-      :first-day-of-week="2"
-      :color="colorModePreference"
-      trim-weeks
-      expanded
       :attributes="calendar"
+      :color="colorModePreference"
+      expanded
+      :first-day-of-week="2"
+      trim-weeks
     >
       <template #day-popover="{ dayTitle, attributes }">
         <ul class="flex flex-col space-y-1">

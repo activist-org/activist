@@ -82,6 +82,8 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
         queryset=Topic.objects.filter(active=True),
         many=True,
         slug_field="type",
+        required=False,
+        allow_null=True,
     )
 
     class Meta:
@@ -214,9 +216,7 @@ class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
             "org",
             "created_by",
             "category",
-            "get_involved_url",
             "icon_url",
-            "events",
         )
 
 

@@ -16,21 +16,21 @@
       <div class="flex space-x-2 lg:space-x-3">
         <BtnRouteInternal
           v-if="aboveMediumBP"
+          ariaLabel="i18n.pages._global.new_discussion_aria_label"
           class="block w-max"
           :cta="true"
-          linkTo="/"
-          label="i18n.pages._global.new_discussion"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.new_discussion_aria_label"
+          label="i18n.pages._global.new_discussion"
+          :leftIcon="IconMap.PLUS"
+          linkTo="/"
         />
       </div>
     </HeaderAppPageEvent>
     <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
-        :discussionInput="event.discussion"
         :discussionEntries="[event.discussion?.entries]"
+        :discussionInput="event.discussion"
         :organizations="event.orgs"
       />
     </div> -->

@@ -3,10 +3,10 @@
   <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <div class="w-full">
     <IndicatorProcessProgress
-      type="default"
+      :end="1"
       :progress="1"
       :start="1"
-      :end="1"
+      type="default"
     />
     <div class="flex flex-col px-4 xl:px-8">
       <PageBreadcrumbs class="mt-2" />
@@ -19,11 +19,11 @@
         </p>
       </div>
       <Form
-        @submit="submit"
         id="organization-create-form"
-        :schema="schema"
+        @submit="submit"
         class="flex w-full flex-col items-center justify-center pt-4"
         class-button="mb-4"
+        :schema="schema"
         submit-label="i18n.pages.organizations.create.complete_application"
       >
         <!-- MARK: Name and Location -->
@@ -37,16 +37,16 @@
             >
               <!-- prettier-ignore-attribute :modelValue -->
               <FormTextInput
-                @input="handleChange"
-                @blur="handleBlur"
                 :id="id"
-                :modelValue="(value.value as string)"
+                @blur="handleBlur"
+                @input="handleChange"
                 :hasError="!!errorMessage.value"
                 :label="
                   $t(
                     'i18n.pages.organizations.create.organization_name_placeholder'
                   )
                 "
+                :modelValue="(value.value as string)"
               />
             </FormItem>
           </div>
@@ -59,14 +59,14 @@
             >
               <!-- prettier-ignore-attribute :modelValue -->
               <FormTextInput
-                @input="handleChange"
-                @blur="handleBlur"
                 :id="id"
-                :modelValue="(value.value as string)"
+                @blur="handleBlur"
+                @input="handleChange"
                 :hasError="!!errorMessage.value"
                 :label="
                   $t('i18n.pages.organizations.create.location_placeholder')
                 "
+                :modelValue="(value.value as string)"
               />
             </FormItem>
           </div>
@@ -80,9 +80,9 @@
             :required="true"
           >
             <FormTextArea
-              @input="handleChange"
-              @blur="handleBlur"
               :id="id"
+              @blur="handleBlur"
+              @input="handleChange"
               :hasError="!!errorMessage.value"
               :placeholder="
                 $t('i18n.pages.organizations.create.description_placeholder')
@@ -99,12 +99,12 @@
           >
             <!-- prettier-ignore-attribute :modelValue -->
             <FormTextInput
-              @input="handleChange"
-              @blur="handleBlur"
               :id="id"
-              :modelValue="(value.value as string)"
+              @blur="handleBlur"
+              @input="handleChange"
               :hasError="!!errorMessage.value"
               :label="$t('i18n.pages.organizations.create.tagline_placeholder')"
+              :modelValue="(value.value as string)"
             />
           </FormItem>
         </div>
@@ -116,10 +116,10 @@
           >
             <!-- prettier-ignore-attribute v-model -->
             <CardTopicSelection
-              v-model="(value.value as TopicEnum[])"
-              @input="handleChange"
-              @blur="handleBlur"
               :id="id"
+              v-model="(value.value as TopicEnum[])"
+              @blur="handleBlur"
+              @input="handleChange"
               class="mt-5"
               pageType="organization"
             />
@@ -133,12 +133,12 @@
         <div class="mt-5 flex flex-col">
           <div class="flex space-x-2">
             <FormCheckbox />
-            <label for="terms" class="flex font-medium">
+            <label class="flex font-medium" for="terms">
               <p>{{ $t("i18n.pages._global.terms_of_service_pt_1") }}&nbsp;</p>
               <NuxtLink
-                :to="localePath('/legal/privacy-policy')"
-                target="_blank"
                 class="link-text"
+                target="_blank"
+                :to="localePath('/legal/privacy-policy')"
               >
                 {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
               </NuxtLink>
@@ -155,7 +155,6 @@
 import { Toaster, toast } from "vue-sonner";
 import { z } from "zod";
 
-import type { OrganizationCreateFormData } from "~/types/communities/organization";
 import type { TopicEnum } from "~/types/content/topics";
 
 const schema = z.object({
@@ -167,13 +166,12 @@ const schema = z.object({
 });
 
 const localePath = useLocalePath();
-const organizationStore = useOrganizationStore();
 
-const submit = async (values: unknown) => {
-  const responseId = await organizationStore.create(
-    values as OrganizationCreateFormData
-  );
-
+const submit = async () => {
+  // const responseId = await organizationStore.create(
+  //   values as OrganizationCreateFormData
+  // );
+  const responseId = "test-id"; // TODO: Replace with actual response from store
   if (responseId) {
     navigateTo(localePath(`/organizations/${responseId}`));
   } else {

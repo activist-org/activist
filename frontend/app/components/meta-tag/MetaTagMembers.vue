@@ -2,8 +2,8 @@
 <template>
   <MetaTag
     :iconName="IconMap.PEOPLE"
-    :value="`${categorizeNumber(members)}`"
     :label="label"
+    :value="`${categorizeNumber(members)}`"
   />
 </template>
 

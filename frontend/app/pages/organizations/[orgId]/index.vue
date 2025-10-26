@@ -5,32 +5,32 @@
     class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8"
   >
     <Head>
-      <Title>{{ organization.name }} </Title>
+      <Title>{{ organization?.name }} </Title>
     </Head>
     <div class="mx-auto h-[260px] w-3/4">
       <ImageOrganization
-        :imgUrl="organization?.iconUrl?.fileObject"
         :alt="
           $t('i18n._global.entity_logo', {
             entity_name: organization?.name,
           })
         "
+        :imgUrl="organization?.iconUrl?.fileObject"
       />
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1 class="text-3xl font-bold">
-        {{ organization.name }}
+        {{ organization?.name }}
       </h1>
       <h2 class="text-center text-lg font-bold text-distinct-text">
-        {{ organization.tagline }}
+        {{ organization?.tagline }}
       </h2>
     </div>
     <div class="flex w-full flex-col items-center gap-4">
       <MenuLinkWrapper
         v-for="button in organizationButtons"
         :key="button.id"
-        :to="localePath(button.routeUrl)"
         :selected="button.selected"
+        :to="localePath(button.routeUrl)"
       >
         <div
           class="flex w-full items-center space-x-2 text-left text-sm font-medium"
@@ -38,8 +38,8 @@
           <span class="width-1/6">
             <Icon
               v-if="button.iconUrl"
-              :name="button.iconUrl"
               class="h-5 w-5 flex-shrink-0"
+              :name="button.iconUrl"
             />
           </span>
           <p
@@ -51,30 +51,30 @@
         </div>
       </MenuLinkWrapper>
       <BtnRouteInternal
+        ariaLabel="i18n._global.offer_to_help_aria_label"
         class="w-max"
         :cta="true"
-        linkTo="/"
-        label="i18n._global.offer_to_help"
         fontSize="base"
-        :rightIcon="IconMap.ARROW_RIGHT"
         iconSize="1.25em"
-        ariaLabel="i18n._global.offer_to_help_aria_label"
+        label="i18n._global.offer_to_help"
+        linkTo="/"
+        :rightIcon="IconMap.ARROW_RIGHT"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
 import type { MenuSelector } from "~/types/menu/menu-selector";
 
+import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import useMenuEntriesState from "~/composables/useMenuEntriesState";
 import { BreakpointMap } from "~/types/breakpoint-map";
 import { IconMap } from "~/types/icon-map";
 
-const props = defineProps<{
-  organization: Organization;
-}>();
+const { data: organization } = useGetOrganization(
+  useRoute().params.orgId as string
+);
 
 const localePath = useLocalePath();
 
@@ -96,12 +96,12 @@ const handleResize = () => {
 
     if (
       currentRoute.path !==
-        `/${locale.value}/organizations/${props.organization.id}/about` ||
+        `/${locale.value}/organizations/${organization.value?.id}/about` ||
       currentRoute.path ===
-        `/${locale.value}/organizations/${props.organization.id}/`
+        `/${locale.value}/organizations/${organization.value?.id}/`
     ) {
       navigateTo(
-        `/${locale.value}/organizations/${props.organization.id}/about`
+        `/${locale.value}/organizations/${organization.value?.id}/about`
       );
     }
   }

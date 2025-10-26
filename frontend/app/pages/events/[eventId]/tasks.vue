@@ -3,23 +3,23 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ event.name }}&nbsp;{{ $t("i18n.pages._global.tasks.tasks_lower") }}
+        {{ event?.name }}&nbsp;{{ $t("i18n.pages._global.tasks.tasks_lower") }}
       </Title>
     </Head>
     <HeaderAppPageEvent
-      :header="event.name + ' ' + $t('i18n.pages._global.tasks.tasks_lower')"
+      :header="event?.name + ' ' + $t('i18n.pages._global.tasks.tasks_lower')"
       :tagline="$t('i18n.pages._global.tasks.tasks_page_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
+          ariaLabel="i18n.pages._global.tasks.new_task_aria_label"
           class="w-max"
           :cta="true"
-          label="i18n.pages._global.tasks.new_task"
           fontSize="sm"
-          :leftIcon="IconMap.PLUS"
           iconSize="1.35em"
-          ariaLabel="i18n.pages._global.tasks.new_task_aria_label"
+          label="i18n.pages._global.tasks.new_task"
+          :leftIcon="IconMap.PLUS"
         />
       </div>
     </HeaderAppPageEvent>

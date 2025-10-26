@@ -12,9 +12,9 @@
       :id="uuid"
       class="h-5 w-full bg-transparent outline-none"
       :onInput="updateValue"
-      :value="modelValue"
       :placeholder="$t(placeholder)"
       type="text"
+      :value="modelValue"
     />
   </div>
 </template>

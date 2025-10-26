@@ -8,12 +8,12 @@
         <li v-for="(item, index) in menuItems" :key="index" class="flex-1">
           <MenuMobileSelector
             :id="getSelectorId(item.label)"
+            :active="true"
             class="rounded-none"
+            :iconUrl="item.iconUrl"
             :label="item.label"
             :routeUrl="item.routeUrl"
-            :iconUrl="item.iconUrl"
             :selected="isActive(item.routeUrl)"
-            :active="true"
           />
         </li>
       </ul>

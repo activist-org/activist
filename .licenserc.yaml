@@ -4,9 +4,9 @@ header:
   paths:
     - '**/*.vue'
     - '**/*.ts'
-    - '**/*.test.ts'
     - '**/*.d.ts'
     - '**/*.js'
+    - '**/*.html'
     - '**/*.css'
     - '**/*.py'
   paths-ignore:

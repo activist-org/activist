@@ -15,28 +15,37 @@
       }"
     >
       <DialogPanel
-        id="search-modal"
+        id="modal"
         :class="{
           'flex flex-col items-center': imageModal,
           'container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text card-style-base md:h-auto':
             !imageModal,
         }"
+        :data-testid="`modal-${modalName}`"
       >
         <button
+          id="modal-close-button"
           v-if="imageModal"
           @click="closeModal()"
-          id="close-search-modal"
-          class="absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
           :aria-label="
             $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
           "
+          class="absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
+          data-testid="modal-close-button"
+          role="button"
         >
           <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
         </button>
         <div v-else class="relative">
           <button
+            id="modal-close-button"
             @click="closeModal()"
+            :aria-label="
+              $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
+            "
             class="absolute right-0 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
+            data-testid="modal-close-button"
+            role="button"
           >
             <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
           </button>
@@ -45,12 +54,12 @@
           v-if="imageModal"
           @click="closeModal()"
           @keypress.esc="closeModal()"
-          tabindex="0"
-          role="button"
-          class="flex flex-col items-center justify-center focus-brand"
           :aria-label="
             $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
           "
+          class="flex flex-col items-center justify-center focus-brand"
+          role="button"
+          tabindex="0"
         >
           <slot />
         </div>

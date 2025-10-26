@@ -1,9 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <component
+    :is="infoComponent.is"
     @click="conditionallyLogOut()"
     @enter="conditionallyLogOut()"
-    :is="infoComponent.is"
     v-bind="infoComponent"
     class="flex w-full items-center rounded-md text-sm"
     :class="{
@@ -16,20 +16,20 @@
   >
     <Icon
       v-if="iconName"
-      :name="iconName"
-      size="1em"
       :class="{
         'h-5 w-5 flex-shrink-0': isSidebarLeftMenu,
       }"
+      :name="iconName"
+      size="1em"
     />
     <Transition>
       <component
+        :is="infoLabel.is"
         v-if="
           !isSidebarLeftMenu ||
           sidebar.collapsed == false ||
           sidebar.collapsedSwitch == false
         "
-        :is="infoLabel.is"
         v-bind="infoLabel"
       >
         {{ label }}
@@ -52,7 +52,7 @@ const props = defineProps<{
 }>();
 
 const sidebar = useSidebar();
-const { signOutUser } = useUser();
+const { signOut } = useAuth();
 
 const infoComponent = computed(() => {
   return props.isButton
@@ -90,7 +90,7 @@ const infoLabel = computed(() => {
 
 function conditionallyLogOut() {
   if (props.iconName === `${IconMap.SIGN_OUT}`) {
-    signOutUser();
+    signOut();
   }
 }
 </script>

@@ -3,9 +3,9 @@
   <!-- Note: image on top of content. -->
   <img
     v-if="!aboveMediumBP"
+    :alt="$t(imgAltText)"
     class="mb-4 h-40 sm:h-52"
     :src="imgUrl + '_' + $colorMode.value + '.png'"
-    :alt="$t(imgAltText)"
   />
   <div
     class="grid grid-cols-1 md:w-full 2xl:grid-cols-2"
@@ -17,9 +17,9 @@
       <!-- Note: image floating right of content. -->
       <img
         v-if="aboveMediumBP && !above2xlBP"
+        :alt="$t(imgAltText)"
         class="float-right block h-52 p-4 lg:h-64"
         :src="imgUrl + '_' + $colorMode.value + '.png'"
-        :alt="$t(imgAltText)"
       />
       <slot />
     </div>
@@ -27,9 +27,9 @@
       <!-- Note: image right of content. -->
       <img
         v-if="above2xlBP"
+        :alt="$t(imgAltText)"
         class="block h-72"
         :src="imgUrl + '_' + $colorMode.value + '.png'"
-        :alt="$t(imgAltText)"
       />
     </div>
   </div>

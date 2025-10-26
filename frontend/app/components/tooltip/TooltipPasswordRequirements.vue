@@ -13,13 +13,12 @@
     <div
       v-for="rule in validRules"
       :key="rule.rule"
-      :data-testid="rule.rule"
       class="flex items-center space-x-2 px-2"
+      :data-testid="rule.rule"
     >
       <Icon
         aria-hidden="false"
         :aria-labelledby="rule.rule"
-        role="img"
         :name="
           validRules.some((ruleV) => {
             ruleV.isValid && ruleV.rule === rule.rule;
@@ -27,6 +26,7 @@
             ? IconMap.CIRCLE_CHECK_FILL
             : IconMap.CIRCLE_X_FILL
         "
+        role="img"
         size="0.9em"
         :style="{ color: rule.isValid ? '#198754' : '#BA3D3B' }"
       />
