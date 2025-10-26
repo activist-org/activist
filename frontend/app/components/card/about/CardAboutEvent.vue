@@ -23,7 +23,7 @@
               'line-clamp-2': !expandText,
             }"
           >
-            {{ event?.texts?.description }}
+            {{ event?.texts[0]?.description }}
           </p>
           <div class="flex justify-center">
             <button

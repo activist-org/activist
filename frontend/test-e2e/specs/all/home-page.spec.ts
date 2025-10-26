@@ -10,6 +10,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/home");
   const { topicsFilter } = newHomePage(page);
 
+  // Home page topics filter requires data aggregation on first load (30-60s in dev mode).
   await expect(topicsFilter).toBeVisible({ timeout: 60000 });
 });
 

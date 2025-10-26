@@ -70,6 +70,9 @@ backend/media/images/*
 # LLMs
 .cursorrules
 
+# Scratch/temp development files
+.scratch/
+
 # ZAP Security Reports
 zap-reports/
 frontend/test-e2e/.auth/

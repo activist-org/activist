@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "playwright";
 
+import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
 
 /**
@@ -27,14 +28,12 @@ export async function signInAsAdmin(
   await signInPage.usernameInput.waitFor({ state: "visible", timeout: 30000 });
   await signInPage.usernameInput.fill(username);
   await signInPage.passwordInput.fill(password);
-  await page.waitForTimeout(500);
 
   // Click CAPTCHA if present.
   const { captcha } = signInPage;
   try {
     if (await captcha.isVisible({ timeout: 2000 })) {
       await captcha.click();
-      await page.waitForTimeout(500);
     }
   } catch {
     // CAPTCHA not present, continue.
@@ -75,4 +74,15 @@ export async function signIn(
   // Submit form and wait for successful navigation.
   await signInPage.signInButton.click();
   await page.waitForURL(expectedRedirect);
+}
+/** * Sign out the current user
+ * @param page - Playwright page object
+ */
+export async function signOut(page: Page) {
+  // Navigate to sign-out URL.
+  await page.goto("/home", { waitUntil: "load", timeout: 60000 });
+  const sidebarLeft = newSidebarLeft(page);
+  await sidebarLeft.open();
+  await page.getByTestId("dropdown-user-options").click();
+  await page.getByTestId("user-options-your-sign-out").click();
 }

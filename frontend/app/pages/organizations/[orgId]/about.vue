@@ -9,15 +9,20 @@
     <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
+          <ModalSharePage
+            v-if="organization"
+            :cta="true"
+            :organization="organization as unknown as Organization"
+          />
           <BtnRouteExternal
-            v-if="organization?.getInvolvedUrl"
+            v-if="organization?.texts[0]?.getInvolvedUrl"
             ariaLabel="i18n._global.join_organization_aria_label"
             class="w-max"
             :cta="true"
             fontSize="sm"
             iconSize="1.45em"
             label="i18n._global.join_organization"
-            :linkTo="organization.getInvolvedUrl"
+            :linkTo="organization.texts[0]?.getInvolvedUrl"
             :rightIcon="IconMap.ARROW_RIGHT"
           />
           <!-- <BtnAction
@@ -43,17 +48,13 @@
             :rightIcon="IconMap.SHARE"
           />
         </div>
-        <ModalSharePage
-          :cta="true"
-          :organization="organization as unknown as Organization"
-        />
       </div>
     </HeaderAppPageOrganization>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
-          'lg:mr-6 lg:space-x-6': !textExpanded,
+          'lg:space-x-6': !textExpanded,
         }"
       >
         <CardAboutOrganization

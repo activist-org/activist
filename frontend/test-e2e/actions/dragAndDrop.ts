@@ -5,6 +5,8 @@ import type { Locator, Page } from "@playwright/test";
  * Drag and drop utility functions for testing reorderable lists
  */
 
+// MARK: Order Getters
+
 /**
  * Gets the current order of resource cards by extracting their names/titles
  * This can be used to verify that drag and drop reordering worked correctly
@@ -62,6 +64,8 @@ export async function getFAQCardOrder(page: Page): Promise<string[]> {
   }
   return faqQuestions;
 }
+
+// MARK: Drag and Drop Actions
 
 /**
  * Performs a drag and drop operation from source to target using mouse events
@@ -138,6 +142,8 @@ export async function performDragAndDrop(
       // If classes don't clear, continue anyway (might have completed).
     });
 }
+
+// MARK: Verification
 
 /**
  * Verifies that two items were successfully reordered (swapped positions)

@@ -11,6 +11,7 @@
     <div class="sm:hidden">
       <Icon
         :alt="$t('i18n.components.modal_qr_code_btn.img_alt_text')"
+        class="-mb-1"
         :name="IconMap.QR_CODE"
         size="2em"
       />
@@ -18,6 +19,7 @@
     <div class="hidden sm:block">
       <Icon
         :alt="$t('i18n.components.modal_qr_code_btn.img_alt_text')"
+        class="-mb-1"
         :name="IconMap.QR_CODE"
         size="3em"
       />

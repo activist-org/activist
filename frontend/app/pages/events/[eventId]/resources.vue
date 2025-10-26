@@ -54,6 +54,7 @@
       >
         <template #item="{ element }">
           <CardResource
+            :entity="event"
             :entityType="EntityType.EVENT"
             :isReduced="true"
             :resource="element"

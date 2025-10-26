@@ -51,7 +51,7 @@ export async function reorderOrganizationResources(
     await Promise.all(
       resources.map((resource) =>
         put(
-          `/events/event_resources/${resource.id}`,
+          `/communities/organization_resources/${resource.id}`,
           {
             id: resource.id,
             order: resource.order,

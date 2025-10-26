@@ -22,21 +22,21 @@
           :linkTo="'/organizations/' + orgId + '/groups'"
         />
         <BtnRouteInternal
-          v-if="organization && organization.getInvolvedUrl"
+          v-if="organization?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.join_organization_aria_label"
           :cta="true"
           fontSize="sm"
           iconSize="1.45em"
           label="i18n._global.join_organization"
-          :linkTo="organization.getInvolvedUrl"
+          :linkTo="organization.texts[0]?.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
       </div>
     </div>
     <div class="mt-4">
       <div v-if="organization?.groups && organization.groups.length > 0">
-        <p v-if="organization.texts.getInvolved">
-          {{ organization.texts.getInvolved }}
+        <p v-if="organization.texts[0]?.getInvolved">
+          {{ organization.texts[0]?.getInvolved }}
         </p>
         <p v-else>
           {{
@@ -50,9 +50,9 @@
         </p>
         <Feed :organization="organization" />
       </div>
-      <div v-else-if="organization?.getInvolvedUrl">
-        <p v-if="organization.texts.getInvolved">
-          {{ organization.texts.getInvolved }}
+      <div v-else-if="organization?.texts[0]?.getInvolvedUrl">
+        <p v-if="organization.texts[0]?.getInvolved">
+          {{ organization.texts[0]?.getInvolved }}
         </p>
         <p v-else>
           {{
