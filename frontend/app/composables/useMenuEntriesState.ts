@@ -4,9 +4,7 @@ import { IconMap } from "~/types/icon-map";
 const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
   const { locale } = useI18n();
   const router = useRouter();
-
-  const id = (router.currentRoute.value.params.groupId ||
-    router.currentRoute.value.params.orgId ||
+  const id = (router.currentRoute.value.params.orgId ||
     router.currentRoute.value.params.eventId ||
     router.currentRoute.value.params.id) as string;
   const routeUrl = `/${locale.value}/${basePath}/${id}/${label
@@ -98,8 +96,7 @@ const useMenuEntriesState = () => {
       : eventEntries;
 
     // Update the id and routeUrl for each button based on current route params.
-    const currentId = (router.currentRoute.value.params.groupId ||
-      router.currentRoute.value.params.orgId ||
+    const currentId = (router.currentRoute.value.params.orgId ||
       router.currentRoute.value.params.eventId ||
       router.currentRoute.value.params.id) as string;
 
