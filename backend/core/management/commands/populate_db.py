@@ -163,6 +163,12 @@ class Command(BaseCommand):
                 for i in range(num_users)
             ]
 
+            # Confirm activist_0 for testing purposes.
+            if users:
+                users[0].is_confirmed = True
+                users[0].set_password("password")  # Ensure password is set
+                users[0].save()
+
             for u, user in enumerate(users):
                 user_topic = random.choice(topics)
                 user.topics.set([user_topic])
