@@ -17,6 +17,7 @@ import { IconMap } from "~/types/icon-map";
 const props = defineProps<{
   entity?: Entity | null;
 }>();
+
 const { canEdit } = useUser();
 const canEditEntity = computed(() => canEdit(props?.entity));
 </script>

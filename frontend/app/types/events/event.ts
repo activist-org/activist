@@ -17,7 +17,6 @@ interface EventBase extends Entity {
   type: EventType;
   onlineLocationLink?: string;
   offlineLocation?: Location;
-  getInvolvedUrl?: string;
   socialLinks: EventSocialLink[];
   faqEntries?: FaqEntry[];
   startTime: string;
@@ -67,6 +66,7 @@ export interface EventText {
   primary: boolean;
   description: string;
   getInvolved: string;
+  getInvolvedUrl?: string;
 }
 
 export const defaultEventText: EventText = {
@@ -119,5 +119,5 @@ export interface EventCreateFormData {
 export interface EventUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedUrl: string | undefined;
+  getInvolvedUrl?: string;
 }

@@ -4,9 +4,7 @@ import { IconMap } from "~/types/icon-map";
 const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
   const { locale } = useI18n();
   const router = useRouter();
-
-  const id = (router.currentRoute.value.params.groupId ||
-    router.currentRoute.value.params.orgId ||
+  const id = (router.currentRoute.value.params.orgId ||
     router.currentRoute.value.params.eventId ||
     router.currentRoute.value.params.id) as string;
   const routeUrl = `/${locale.value}/${basePath}/${id}/${label
@@ -27,6 +25,7 @@ const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
 
 const useMenuEntriesState = () => {
   const router = useRouter();
+  const { locale } = useI18n(); // move useI18n to top level
   const currentPath = ref(router.currentRoute.value.fullPath);
   let removeGuard: (() => void) | null = null;
 
@@ -91,15 +90,13 @@ const useMenuEntriesState = () => {
 
   const updateCurrentPath = () => {
     currentPath.value = router.currentRoute.value.fullPath;
-    const { locale } = useI18n();
 
     const buttons = currentPath.value.includes("/organizations/")
       ? organizationEntries
       : eventEntries;
 
     // Update the id and routeUrl for each button based on current route params.
-    const currentId = (router.currentRoute.value.params.groupId ||
-      router.currentRoute.value.params.orgId ||
+    const currentId = (router.currentRoute.value.params.orgId ||
       router.currentRoute.value.params.eventId ||
       router.currentRoute.value.params.id) as string;
 
@@ -128,9 +125,14 @@ const useMenuEntriesState = () => {
     }
   };
 
-  // Call updateCurrentPath immediately to set initial selected state.
-  // This ensures selectedMenuItem is set before components try to access it.
-  updateCurrentPath();
+  // Watch for route changes to update menu selection and set initial state.
+  watch(
+    () => router.currentRoute.value.path,
+    () => {
+      updateCurrentPath();
+    },
+    { immediate: true }
+  );
 
   onMounted(() => {
     removeGuard = router.afterEach(updateCurrentPath);
