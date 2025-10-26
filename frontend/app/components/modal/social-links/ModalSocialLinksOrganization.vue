@@ -23,22 +23,28 @@ import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 const modalName = "ModalSocialLinksOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-const { data: organization } = useGetOrganization(orgId || "");
-const { updateLink, deleteLink, createLinks } =
-  useOrganizationSocialLinksMutations(orgId || "");
+const paramsOrganizationId = useRoute().params.orgId;
+const orgId =
+  typeof paramsOrganizationId === "string" ? paramsOrganizationId : "";
+
+const { data: organization } = useGetOrganization(orgId);
+const { updateLink, createLinks, deleteLink } =
+  useOrganizationSocialLinksMutations(orgId);
 
 type SocialLinkWithKey = (OrganizationSocialLink | SocialLink) & {
   key: string;
 };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
-socialLinksRef.value = (organization.value?.socialLinks || []).map(
-  (l, idx) => ({
-    ...l,
-    key: l.id ?? String(idx),
-  })
+watch(
+  () => organization.value?.socialLinks ?? [],
+  (newVal) => {
+    socialLinksRef.value = (newVal || []).map((l, idx) => ({
+      ...l,
+      key: l?.id ?? String(idx),
+    }));
+  },
+  { immediate: true }
 );
 
 const formData = computed(() => ({
@@ -74,13 +80,12 @@ function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
   }
 }
 
-// Individual CRUD operations - no more "delete all and recreate"!
+// Individual CRUD operations.
 async function handleSubmit(values: unknown) {
   // Prevent duplicate submissions.
   if (isSubmitting.value) {
     return;
   }
-
   isSubmitting.value = true;
 
   try {
@@ -98,16 +103,19 @@ async function handleSubmit(values: unknown) {
 
     let allSuccess = true;
 
-    // 1. DELETE: Items that existed but are no longer in the list.
-    const toDelete = (organization.value?.socialLinks || []).filter(
-      (link) => link.id && !currentIds.has(link.id)
-    );
+    // MARK: DELETE
+
+    const toDelete =
+      organization.value?.socialLinks.filter(
+        (link) => link.id && !currentIds.has(link.id)
+      ) ?? [];
     for (const link of toDelete) {
       const success = await deleteLink(link.id!);
       if (!success) allSuccess = false;
     }
 
-    // 2. UPDATE: Items that still exist (have IDs and are in existing set).
+    // MARK: UPDATE
+
     const toUpdate =
       socialLinksRef.value?.filter(
         (link) => link.id && existingIds.has(link.id)
@@ -124,7 +132,7 @@ async function handleSubmit(values: unknown) {
           existing &&
           (existing.link !== formLink.link ||
             existing.label !== formLink.label ||
-            formIndex !== existing.order)
+            existing.order !== formIndex)
         ) {
           const success = await updateLink(refItem.id, {
             link: formLink.link,
@@ -136,7 +144,8 @@ async function handleSubmit(values: unknown) {
       }
     }
 
-    // 3. CREATE: Items without IDs (newly added).
+    // MARK: CREATE
+
     const toCreate = socialLinksRef.value?.filter((link) => !link.id) || [];
 
     const createData = toCreate
