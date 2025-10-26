@@ -50,7 +50,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ organization?.texts?.description }}
+            {{ organization?.texts[0]?.description }}
           </p>
           <div class="flex justify-center">
             <button

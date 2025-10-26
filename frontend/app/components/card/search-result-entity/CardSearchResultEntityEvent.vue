@@ -27,7 +27,6 @@
         />
       </div>
     </template>
-
     <template #menu>
       <MenuSearchResult
         class="max-md:absolute max-md:right-0 max-md:top-0"
@@ -78,7 +77,7 @@ const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
 
 const description = computed(() => {
-  return props.event.texts.description || "";
+  return props.event.texts[0]?.description || "";
 });
 
 const ariaLabel = computed(() => {

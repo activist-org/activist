@@ -28,7 +28,7 @@ export const newOrganizationGroupsPage = (page: Page) => ({
   getGroupLink: (index: number) =>
     page.getByTestId("group-card").nth(index).getByRole("link").first(),
   getGroupDescription: (index: number) =>
-    page.getByTestId("group-card").nth(index).getByTestId("group-description"),
+    page.getByTestId("group-card").nth(index).getByTestId("entity-description"),
   getGroupEntityName: (index: number) =>
     page.getByTestId("group-card").nth(index).getByTestId("group-entity-name"),
   getGroupLocation: (index: number) =>

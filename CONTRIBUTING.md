@@ -476,8 +476,9 @@ set -a && source ../.env.dev && set +a
 corepack enable
 yarn install
 yarn build  # answer no to all package installation prompts
-# Note that there may be an installation prompt high in the build logs. Hit 'n' to say no.
+# Note: There may be an installation prompt high in the build logs. Hit 'n' to say no.
 
+# Note: You may be asked to install extra dependencies in the next command.
 npx serve dist/  # start the frontend
 ```
 
