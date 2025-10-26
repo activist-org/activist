@@ -56,9 +56,9 @@
       >
         <template #item="{ element }">
           <CardFAQEntry
+            :entity="group"
             :faqEntry="element"
-            :pageType="'group'"
-            @delete-faq="handleDeleteFAQ"
+            :pageType="EntityType.GROUP"
           />
         </template>
       </draggable>
@@ -76,6 +76,7 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 
 import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
 import { useGetGroup } from "~/composables/queries/useGetGroup";
+import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
 const groupId = useRoute().params.groupId as string;

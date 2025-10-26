@@ -7,6 +7,7 @@ import type { Location } from "~/types/content/location";
 import type { Resource } from "~/types/content/resource";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Topic, TopicEnum } from "~/types/content/topics";
+import type { Entity } from "~/types/entity";
 import type { Event } from "~/types/events/event";
 
 import { defaultContentImage } from "~/types/content/file";
@@ -15,21 +16,16 @@ import { defaultLocation } from "~/types/location";
 
 // MARK: Main Table
 
-interface OrganizationBase {
-  id: string;
+interface OrganizationBase extends Entity {
   orgName: string;
-  name: string;
   tagline: string;
-  createdBy: string;
   iconUrl?: ContentImage;
   location: Location;
-  getInvolvedUrl: string;
   socialLinks: OrganizationSocialLink[];
   status: number;
   // statusUpdated?: string;
   // acceptanceDate?: string;
   // deletionDate?: string;
-  creationDate: string;
   // orgsInFavor?: Organization[];
   // orgsAgainst?: Organization[];
   // discussions?: Discussion[];
@@ -86,6 +82,7 @@ export interface OrganizationText {
   primary: boolean;
   description: string;
   getInvolved: string;
+  getInvolvedUrl?: string;
   donationPrompt: string;
 }
 
@@ -107,7 +104,6 @@ export const defaultOrganization: Organization = {
   createdBy: "",
   iconUrl: defaultContentImage,
   location: defaultLocation,
-  getInvolvedUrl: "",
   socialLinks: [defaultOrganizationSocialLink],
   status: 0,
   creationDate: "",
@@ -155,5 +151,5 @@ export interface OrganizationCreateFormData {
 export interface OrganizationUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedUrl: string;
+  getInvolvedUrl?: string;
 }

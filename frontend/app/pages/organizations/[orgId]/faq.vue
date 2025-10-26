@@ -55,9 +55,9 @@
       >
         <template #item="{ element }">
           <CardFAQEntry
+            :entity="organization"
             :faqEntry="element"
-            :pageType="'organization'"
-            @delete-faq="handleDeleteFAQ"
+            :pageType="EntityType.ORGANIZATION"
           />
         </template>
       </draggable>
@@ -74,6 +74,7 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 
 import { useOrganizationFAQEntryMutations } from "~/composables/mutations/useOrganizationFAQEntryMutations";
 import { useGetOrganization } from "~/composables/queries/useGetOrganization";
+import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
 const { data: organization } = useGetOrganization(

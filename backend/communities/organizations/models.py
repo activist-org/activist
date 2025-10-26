@@ -34,7 +34,6 @@ class Organization(models.Model):
     location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, null=False, blank=False
     )
-    get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     is_high_risk = models.BooleanField(default=False)
     status = models.ForeignKey(

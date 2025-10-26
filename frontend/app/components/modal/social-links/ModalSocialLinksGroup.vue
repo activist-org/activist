@@ -13,29 +13,36 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-
 import type { SocialLinkItem } from "~/components/form/FormSocialLink.vue";
 import type { GroupSocialLink } from "~/types/communities/group";
 import type { SocialLink } from "~/types/content/social-link";
 
 import { useGroupSocialLinksMutations } from "~/composables/mutations/useGroupSocialLinksMutations";
+import { useGetGroup } from "~/composables/queries/useGetGroup";
+
 const modalName = "ModalSocialLinksGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const groupStore = useGroupStore();
-const { updateLink, createLinks, deleteLink } = useGroupSocialLinksMutations(
-  groupStore.group.id
-);
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
+
+const { data: group } = useGetGroup(groupId);
+const { updateLink, createLinks, deleteLink } =
+  useGroupSocialLinksMutations(groupId);
+
 type SocialLinkWithKey = (GroupSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
-// Use storeToRefs to maintain reactivity.
-const { group } = storeToRefs(groupStore);
-socialLinksRef.value = (group.value.socialLinks || []).map((l, idx) => ({
-  ...l,
-  key: l.id ?? String(idx),
-}));
+watch(
+  () => group.value?.socialLinks ?? [],
+  (newVal) => {
+    socialLinksRef.value = (newVal || []).map((l, idx) => ({
+      ...l,
+      key: l?.id ?? String(idx),
+    }));
+  },
+  { immediate: true }
+);
 
 const formData = computed(() => ({
   socialLinks: (socialLinksRef.value || []).map((socialLink, index) => ({
@@ -63,14 +70,14 @@ function updateSocialLinksRef(updatedList: SocialLinkItem[]) {
 
   socialLinksRef.value = updatedList as SocialLinkWithKey[];
 
-  // Only reset form for drag operations (same length), not for add/remove
-  // Removing formKey increment on deletions prevents race condition during submission
+  // Only reset form for drag operations (same length), not for add/remove.
+  // Removing formKey increment on deletions prevents race condition during submission.
   if (!isAddOperation && !isRemoveOperation) {
     formKey.value++;
   }
 }
 
-// Individual CRUD operations - no more "delete all and recreate"!
+// Individual CRUD operations.
 async function handleSubmit(values: unknown) {
   // Prevent duplicate submissions.
   if (isSubmitting.value) {
@@ -84,23 +91,28 @@ async function handleSubmit(values: unknown) {
     ).socialLinks;
 
     // Track existing IDs.
-    const existingIds = new Set(group.value.socialLinks.map((link) => link.id));
+    const existingIds = new Set(
+      group.value?.socialLinks.map((link) => link.id)
+    );
     const currentIds = new Set(
       socialLinksRef.value?.map((link) => link.id).filter(Boolean)
     );
 
     let allSuccess = true;
 
-    // 1. DELETE: Items that existed but are no longer in the list.
-    const toDelete = group.value.socialLinks.filter(
-      (link) => link.id && !currentIds.has(link.id)
-    );
+    // MARK: DELETE
+
+    const toDelete =
+      group.value?.socialLinks.filter(
+        (link) => link.id && !currentIds.has(link.id)
+      ) ?? [];
     for (const link of toDelete) {
       const success = await deleteLink(link.id!);
       if (!success) allSuccess = false;
     }
 
-    // 2. UPDATE: Items that still exist (have IDs and are in existing set).
+    // MARK: UPDATE
+
     const toUpdate =
       socialLinksRef.value?.filter(
         (link) => link.id && existingIds.has(link.id)
@@ -110,7 +122,7 @@ async function handleSubmit(values: unknown) {
       const formLink = formValues?.[formIndex];
       if (formLink && refItem.id) {
         // Only update if link or label actually changed (ignore order for now).
-        const existing = group.value.socialLinks.find(
+        const existing = group.value?.socialLinks.find(
           (l) => l.id === refItem.id
         );
         if (
@@ -129,7 +141,8 @@ async function handleSubmit(values: unknown) {
       }
     }
 
-    // 3. CREATE: Items without IDs (newly added).
+    // MARK: CREATE
+
     const toCreate = socialLinksRef.value?.filter((link) => !link.id) || [];
 
     const createData = toCreate
@@ -143,7 +156,7 @@ async function handleSubmit(values: unknown) {
           order: formIndex,
         };
         // Don't create if link/label are empty OR if they match an existing link.
-        const isDuplicate = group.value.socialLinks.some(
+        const isDuplicate = group.value?.socialLinks.some(
           (existing) =>
             existing.link === data.link && existing.label === data.label
         );
@@ -161,7 +174,7 @@ async function handleSubmit(values: unknown) {
 
     if (allSuccess) {
       // Update local ref to reflect changes.
-      socialLinksRef.value = (group.value.socialLinks || []).map((l, idx) => ({
+      socialLinksRef.value = (group.value?.socialLinks || []).map((l, idx) => ({
         ...l,
         key: l.id ?? String(idx),
       }));

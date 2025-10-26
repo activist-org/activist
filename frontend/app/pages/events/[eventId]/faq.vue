@@ -54,8 +54,8 @@
         <template #item="{ element }">
           <CardFAQEntry
             :faqEntry="element"
-            :pageType="'event'"
-            @delete-faq="handleDeleteFAQ"
+            :entity="event"
+            :pageType="EntityType.EVENT"
           />
         </template>
       </draggable>
@@ -72,7 +72,9 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 
 import { useEventFAQEntryMutations } from "~/composables/mutations/useEventFAQEntryMutations";
 import { useGetEvent } from "~/composables/queries/useGetEvent";
+import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
+
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
