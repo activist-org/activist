@@ -56,11 +56,11 @@
               <IconDelete
                 @click.stop="handleDelete"
                 @keydown.enter="handleDelete"
-                class="flex"
-                data-testid="faq-delete-button"
                 :aria-label="
                   $t('i18n.components.card_faq_entry.delete_aria_label')
                 "
+                class="flex"
+                data-testid="faq-delete-button"
               />
               <ModalFaqEntryOrganization
                 v-if="pageType === 'organization'"

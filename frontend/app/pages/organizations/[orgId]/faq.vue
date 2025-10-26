@@ -55,6 +55,7 @@
       >
         <template #item="{ element }">
           <CardFAQEntry
+            @delete-faq="handleDeleteFAQ"
             :entity="organization"
             :faqEntry="element"
             :pageType="EntityType.ORGANIZATION"

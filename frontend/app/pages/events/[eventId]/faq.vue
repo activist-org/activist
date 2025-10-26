@@ -27,7 +27,7 @@
     </HeaderAppPageOrganization>
 
     <!-- FAQ list with drag-and-drop -->
-    <div v-if="(faqList || []).length > 0" class="py-4">
+    <div v-if="faqList.length > 0" class="py-4">
       <draggable
         v-model="faqList"
         @end="onDragEnd"
@@ -53,8 +53,9 @@
       >
         <template #item="{ element }">
           <CardFAQEntry
-            :faqEntry="element"
+            @delete-faq="handleDeleteFAQ"
             :entity="event"
+            :faqEntry="element"
             :pageType="EntityType.EVENT"
           />
         </template>
@@ -66,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -81,9 +83,15 @@ const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 const { data: event } = useGetEvent(eventId);
 const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 
-const faqList = computed<FaqEntry[]>(() => {
-  return event.value?.faqEntries || [];
-});
+const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
+
+watch(
+  () => event?.value?.faqEntries,
+  (newVal) => {
+    faqList.value = newVal?.slice() ?? [];
+  },
+  { immediate: true }
+);
 
 async function onDragEnd() {
   faqList.value.forEach((faq, index) => {
