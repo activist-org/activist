@@ -30,7 +30,7 @@ export function mapGroup(res: GroupResponse): GroupT {
     events: res.events ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
-    texts: res.texts?.[0] ?? defaultGroupText,
+    texts: res.texts ?? [defaultGroupText],
   };
 }
 

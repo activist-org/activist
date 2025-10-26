@@ -13,21 +13,21 @@
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">
         <BtnRouteInternal
-          v-if="group?.texts.getInvolvedUrl"
+          v-if="group?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.join_group_aria_label"
           :cta="true"
           data-testid="get-involved-join-button"
           fontSize="sm"
           iconSize="1.45em"
           label="i18n._global.join_group"
-          :linkTo="group.texts.getInvolvedUrl"
+          :linkTo="group.texts[0]?.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
       </div>
     </div>
     <div class="space-y-3 pt-3">
-      <p v-if="group?.texts?.getInvolved">
-        {{ group.texts.getInvolved }}
+      <p v-if="group?.texts[0]?.getInvolved">
+        {{ group.texts[0]?.getInvolved }}
       </p>
       <p v-else>
         {{
