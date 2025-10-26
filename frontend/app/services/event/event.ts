@@ -33,7 +33,7 @@ export function mapEvent(res: EventResponse): EventT {
     endTime: res.endTime,
     creationDate: res.creationDate,
     orgs: res.orgs,
-    texts: res.texts?.[0] ?? defaultEventText,
+    texts: res.texts ?? [defaultEventText],
   };
 }
 

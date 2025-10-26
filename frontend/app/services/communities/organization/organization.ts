@@ -33,7 +33,7 @@ export function mapOrganization(res: OrganizationResponse): OrganizationT {
     events: res.events ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
-    texts: res.texts?.[0] ?? defaultOrganizationText,
+    texts: res.texts ?? [defaultOrganizationText],
   };
 }
 

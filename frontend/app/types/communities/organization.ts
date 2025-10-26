@@ -41,7 +41,7 @@ interface OrganizationBase extends Entity {
 }
 
 export interface Organization extends OrganizationBase {
-  texts: OrganizationText;
+  texts: OrganizationText[];
 }
 
 // MARK: Bridge Tables
@@ -107,7 +107,7 @@ export const defaultOrganization: Organization = {
   socialLinks: [defaultOrganizationSocialLink],
   status: 0,
   creationDate: "",
-  texts: defaultOrganizationText,
+  texts: [defaultOrganizationText],
 };
 
 // MARK: Pinia Responses

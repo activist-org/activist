@@ -33,7 +33,7 @@ interface EventBase extends Entity {
 export type EventType = "action" | "learn";
 
 export interface Event extends EventBase {
-  texts: EventText;
+  texts: EventText[];
 }
 
 // MARK: Bridge Tables
