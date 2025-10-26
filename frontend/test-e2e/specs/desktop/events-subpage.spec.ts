@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "playwright/test";
 
+import { getEnglishText } from "../../../app/utils/i18n";
 import { runAccessibilityTest } from "../../accessibility/accessibilityTesting";
 import { newSidebarLeft } from "../../component-objects/SidebarLeft";
-import { getEnglishText } from "../../../app/utils/i18n";
 
 const MODAL_BUTTON_NAMES = [
   getEnglishText("i18n._global.share_event_aria_label"),
@@ -21,8 +21,10 @@ const EVENT_SUBPAGES = [
 
 test.beforeEach(async ({ page }) => {
   // Navigate to events page first, then to an event's about page.
-  await page.goto("/events?view=list", {timeout: 20000});
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Events home/i);
+  await page.goto("/events?view=list", { timeout: 20000 });
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    /Events home/i
+  );
 
   // Click on the first event to navigate to its about page.
   const firstEventLink = page
@@ -53,8 +55,8 @@ test.describe(
 
         const modal = page.locator("#search-modal").first();
         await expect(modal).toBeVisible();
-        // Close modal using the close button with proper selector
-        const closeButton = page.locator('button:has(.i-bi\\:x-circle-fill)');
+        // Close modal using the close button with proper selector.
+        const closeButton = page.locator("button:has(.i-bi\\:x-circle-fill)");
         await closeButton.click();
       }
     });
@@ -116,13 +118,15 @@ test.describe(
       await textarea.fill(newRandomText);
       await page.click("#form-submit-id");
 
-      //close modal
+      // Close modal.
       const closeButton = page.getByRole("button", {
-        name: getEnglishText("i18n.components.modal_base.close_modal_aria_label")
+        name: getEnglishText(
+          "i18n.components.modal_base.close_modal_aria_label"
+        ),
       });
       await closeButton.click();
 
-      //check if about event description changed
+      //check if about event description changed.
       const aboutSection = page.getByTestId("event-about-section");
       const paragraph = aboutSection.locator("p").first();
       await expect(paragraph).toHaveText(newRandomText);
