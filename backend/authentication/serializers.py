@@ -4,13 +4,13 @@ Serializers for the authentication app.
 """
 
 import logging
-import re
 from datetime import timedelta
 from typing import Any, Dict, Union
 
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
+from zxcvbn import zxcvbn
 
 from authentication.models import SessionModel, UserFlag, UserModel
 
@@ -55,19 +55,28 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
         dict[str, Union[str, Any]]
             Validated data for processing.
         """
-        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
 
-        if not re.match(pattern, data["password"]):
+        # zxcvbn analysis (main strength validation)
+        result = zxcvbn(data["password"])
+        score = result["score"]
+        crack_time = result["crack_times_display"][
+            "offline_fast_hashing_1e10_per_second"
+        ]
+        feedback = result["feedback"]
+
+        if score < 3:  # Require "good" or better (0-4 scale)
             logger.warning(
-                "Password validation failed for username: %s - password does not meet complexity requirements",
+                "Weak password for username: %s — estimated crack time: %s",
                 data.get("username", "unknown"),
+                crack_time,
             )
             raise serializers.ValidationError(
                 (
-                    "The field password must be at least 12 characters long and contain at least one special character."
+                    f"Weak password — estimated crack time: {crack_time}. "
+                    + " ".join(feedback.get("suggestions", []))
                 ),
                 code="invalid_password",
-            )
+            )  # Include estimated crack time in the error message
 
         if data["password"] != data["password_confirmed"]:
             logger.warning(

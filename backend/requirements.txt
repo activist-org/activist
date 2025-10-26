@@ -113,10 +113,14 @@ typing-extensions==4.15.0
     #   django-stubs-ext
     #   djangorestframework-stubs
 tzdata==2025.2
-    # via icalendar
+    # via
+    #   django
+    #   icalendar
 uritemplate==4.2.0
     # via drf-spectacular
 urllib3==2.5.0
     # via
     #   requests
     #   types-requests
+zxcvbn==4.5.0
+    # via -r requirements.in
