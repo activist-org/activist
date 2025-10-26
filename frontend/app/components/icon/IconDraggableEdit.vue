@@ -2,7 +2,7 @@
 <template>
   <div
     v-if="canEditEntity"
-    class="cursor-pointer text-primary-text hover:text-distinct-text"
+    class="cursor-grab text-primary-text hover:text-distinct-text"
     data-testid="icon-edit-draggable"
   >
     <Icon :name="IconMap.GRIP" :size="size ?? '1.2em'" />
