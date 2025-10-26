@@ -8,22 +8,18 @@ import type { Location } from "~/types/content/location";
 import type { Resource } from "~/types/content/resource";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Topic } from "~/types/content/topics";
-import type { InitialEntity } from "~/types/entity";
+import type { Entity, InitialEntity } from "~/types/entity";
 import type { Event } from "~/types/events/event";
 
 // MARK: Main Table
 
-interface GroupBase {
-  id: string;
+interface GroupBase extends Entity {
   groupName: string;
-  name: string;
   tagline: string;
   createdBy: User;
   iconUrl?: ContentImage;
   location: Location;
-  getInvolvedUrl: string;
   socialLinks: GroupSocialLink[];
-  creationDate: string;
   org: Organization;
   events?: Event[];
   faqEntries?: FaqEntry[];
@@ -65,6 +61,7 @@ export interface GroupText {
   primary: boolean;
   description: string;
   getInvolved: string;
+  getInvolvedUrl?: string;
   donationPrompt: string;
 }
 
@@ -121,5 +118,5 @@ export interface GroupCreateFormData {
 export interface GroupUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedUrl: string;
+  getInvolvedUrl?: string;
 }

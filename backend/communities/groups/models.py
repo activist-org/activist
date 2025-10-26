@@ -40,13 +40,10 @@ class Group(models.Model):
         "content.Location", on_delete=models.CASCADE, blank=False, null=False
     )
     category = models.CharField(max_length=255)
-    get_involved_url = models.URLField(blank=True)
     terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
-
-    events = models.ManyToManyField("events.Event", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="GroupFlag")

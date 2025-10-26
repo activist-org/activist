@@ -37,7 +37,7 @@ const formData = ref<EventUpdateTextFormData>({
 onMounted(() => {
   formData.value.description = event.value?.texts.description || "";
   formData.value.getInvolved = event.value?.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = event.value?.getInvolvedUrl || "";
+  formData.value.getInvolvedUrl = event.value?.texts.getInvolvedUrl || "";
 });
 
 watch(
@@ -45,7 +45,7 @@ watch(
   (newValues) => {
     formData.value.description = newValues?.texts.description || "";
     formData.value.getInvolved = newValues?.texts.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
+    formData.value.getInvolvedUrl = newValues?.texts.getInvolvedUrl || "";
   },
   {
     deep: true,

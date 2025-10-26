@@ -323,6 +323,7 @@ class Text(models.Model):
     primary = models.BooleanField(default=False)
     description = models.TextField(max_length=2500)
     get_involved = models.TextField(max_length=500, blank=True)
+    get_involved_url = models.URLField(blank=True)
 
     def __str__(self) -> str:
         return f"{self.iso} - {self.description[:50]}..."

@@ -29,13 +29,12 @@
               class="flex items-center space-x-5"
               :data-testid="`social-link-entry-${index}`"
             >
-              <Icon
+              <IconDraggableEdit
                 :aria-label="$t('i18n.components._global.draggable_element')"
-                class="drag-handle -mr-2 cursor-grab select-none"
-                :name="IconMap.GRIP"
+                class="drag-handle"
                 size="1em"
               />
-              <IconClose
+              <IconDelete
                 @click="handleRemoveByIndex(index)"
                 :data-testid="`social-link-remove-${index}`"
               />
@@ -105,7 +104,6 @@ import draggable from "vuedraggable";
 import { z } from "zod";
 
 import { useSortableList } from "~/composables/useSortableList";
-import { IconMap } from "~/types/icon-map";
 
 export interface SocialLinkItem {
   link: string;

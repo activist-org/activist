@@ -37,7 +37,7 @@ const formData = ref<GroupUpdateTextFormData>({
 onMounted(() => {
   formData.value.description = group.value?.texts.description || "";
   formData.value.getInvolved = group.value?.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = group.value?.getInvolvedUrl || "";
+  formData.value.getInvolvedUrl = group.value?.texts.getInvolvedUrl || "";
 });
 
 watch(
@@ -45,7 +45,7 @@ watch(
   (newValues) => {
     formData.value.description = newValues?.texts.description || "";
     formData.value.getInvolved = newValues?.texts.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
+    formData.value.getInvolvedUrl = newValues?.texts.getInvolvedUrl || "";
   },
   {
     deep: true,

@@ -37,7 +37,8 @@ const formData = ref<OrganizationUpdateTextFormData>({
 onMounted(() => {
   formData.value.description = organization.value?.texts.description || "";
   formData.value.getInvolved = organization.value?.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = organization.value?.getInvolvedUrl || "";
+  formData.value.getInvolvedUrl =
+    organization.value?.texts.getInvolvedUrl || "";
 });
 
 watch(
@@ -45,7 +46,7 @@ watch(
   (newValues) => {
     formData.value.description = newValues?.texts.description || "";
     formData.value.getInvolved = newValues?.texts.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
+    formData.value.getInvolvedUrl = newValues?.texts.getInvolvedUrl || "";
   },
   {
     deep: true,

@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { User } from "~/types/auth/user";
 import type { Organization } from "~/types/communities/organization";
 import type { DiscussionEntry } from "~/types/content/discussion";
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -8,24 +7,20 @@ import type { Location } from "~/types/content/location";
 import type { Resource } from "~/types/content/resource";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Topic, TopicEnum } from "~/types/content/topics";
+import type { Entity } from "~/types/entity";
 
 // MARK: Main Table
 
-interface EventBase {
-  id: string;
-  name: string;
+interface EventBase extends Entity {
   tagline?: string;
-  createdBy: User;
   iconUrl?: ContentImage;
   type: EventType;
   onlineLocationLink?: string;
   offlineLocation?: Location;
-  getInvolvedUrl?: string;
   socialLinks: EventSocialLink[];
   faqEntries?: FaqEntry[];
   startTime: string;
   endTime?: string;
-  creationDate?: string;
   // TODO: Convert to an array.
   orgs: Organization;
   discussion?: DiscussionEntry[];
@@ -71,6 +66,7 @@ export interface EventText {
   primary: boolean;
   description: string;
   getInvolved: string;
+  getInvolvedUrl?: string;
 }
 
 export const defaultEventText: EventText = {
@@ -123,5 +119,5 @@ export interface EventCreateFormData {
 export interface EventUpdateTextFormData {
   description: string;
   getInvolved: string;
-  getInvolvedUrl: string | undefined;
+  getInvolvedUrl?: string;
 }

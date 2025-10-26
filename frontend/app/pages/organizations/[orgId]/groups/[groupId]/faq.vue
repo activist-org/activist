@@ -55,7 +55,11 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :faqEntry="element" pageType="group" />
+          <CardFAQEntry
+            :entity="group"
+            :faqEntry="element"
+            :pageType="EntityType.GROUP"
+          />
         </template>
       </draggable>
     </div>
@@ -72,6 +76,7 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 
 import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
 import { useGetGroup } from "~/composables/queries/useGetGroup";
+import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
 const groupId = useRoute().params.groupId as string;
