@@ -9,14 +9,14 @@
     <HeaderAppPageEvent>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnRouteExternal
-          v-if="event?.getInvolvedUrl"
+          v-if="event?.texts.getInvolvedUrl"
           ariaLabel="i18n._global.offer_to_help_aria_label"
           class="w-max"
           :cta="true"
           fontSize="sm"
           iconSize="1.45em"
           label="i18n._global.offer_to_help"
-          :linkTo="event?.getInvolvedUrl"
+          :linkTo="event?.texts.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
         <!-- <BtnAction

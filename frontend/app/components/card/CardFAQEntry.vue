@@ -10,11 +10,11 @@
           class="flex gap-3"
           :class="{ 'items-center': !open, 'items-start': open }"
         >
-          <Icon
+          <IconDraggableEdit
             :aria-label="$t('i18n.components._global.draggable_element')"
             class="drag-handle -mr-2 cursor-grab select-none"
             data-testid="faq-drag-handle"
-            :name="IconMap.GRIP"
+            :entity="entity"
             size="1em"
           />
           <div class="flex text-primary-text">
@@ -51,6 +51,7 @@
                 "
                 class="flex"
                 data-testid="faq-edit-button"
+                :entity="entity"
               />
               <ModalFaqEntryOrganization
                 v-if="pageType === 'organization'"
@@ -84,11 +85,13 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
 import type { FaqEntry } from "~/types/content/faq-entry";
+import type { EntityType, Entity } from "~/types/entity";
 
 import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   faqEntry: FaqEntry;
-  pageType: "organization" | "group" | "event";
+  pageType: EntityType;
+  entity?: Entity | null;
 }>();
 </script>

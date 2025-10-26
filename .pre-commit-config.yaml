@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       # - id: trailing-whitespace  # handled by Ruff and Prettier
       - id: end-of-file-fixer
@@ -10,7 +10,7 @@ repos:
       # - id: pretty-format-json
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.10
+    rev: v0.14.1
     hooks:
       - id: ruff-check
         name: run ruff linting check
@@ -21,8 +21,17 @@ repos:
         name: run ruff formatting check
         files: ^backend/
 
+  - repo: https://github.com/to-sta/spdx-checker-pre-commit
+    rev: 0.1.3
+    hooks:
+      - id: spdx-license-checker
+        name: run spdx-checker license check
+        exclude: ^(?:.*/)?__init__\.py$
+        args: [-l, AGPL-3.0-or-later]
+        types_or: [python, ts, javascript, vue, css, html]
+
   - repo: https://github.com/numpy/numpydoc
-    rev: v1.8.0
+    rev: v1.9.0
     hooks:
       - id: numpydoc-validation
         name: run numpydoc docstring validation

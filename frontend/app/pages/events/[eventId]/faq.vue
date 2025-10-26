@@ -52,7 +52,11 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :faqEntry="element" :pageType="'event'" />
+          <CardFAQEntry
+            :entity="event"
+            :faqEntry="element"
+            :pageType="EntityType.EVENT"
+          />
         </template>
       </draggable>
     </div>
@@ -68,7 +72,9 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 
 import { useEventFAQEntryMutations } from "~/composables/mutations/useEventFAQEntryMutations";
 import { useGetEvent } from "~/composables/queries/useGetEvent";
+import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
+
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
