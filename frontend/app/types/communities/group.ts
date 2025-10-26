@@ -31,7 +31,7 @@ interface GroupBase extends Entity {
 }
 
 export interface Group extends GroupBase {
-  texts: GroupText;
+  texts: GroupText[];
 }
 
 // MARK: Bridge Tables

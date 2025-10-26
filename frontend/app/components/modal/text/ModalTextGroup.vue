@@ -35,17 +35,17 @@ const formData = ref<GroupUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = group.value?.texts.description || "";
-  formData.value.getInvolved = group.value?.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = group.value?.texts.getInvolvedUrl || "";
+  formData.value.description = group.value?.texts[0]?.description || "";
+  formData.value.getInvolved = group.value?.texts[0]?.getInvolved || "";
+  formData.value.getInvolvedUrl = group.value?.texts[0]?.getInvolvedUrl || "";
 });
 
 watch(
   group,
   (newValues) => {
-    formData.value.description = newValues?.texts.description || "";
-    formData.value.getInvolved = newValues?.texts.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.texts.getInvolvedUrl || "";
+    formData.value.description = newValues?.texts[0]?.description || "";
+    formData.value.getInvolved = newValues?.texts[0]?.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues?.texts[0]?.getInvolvedUrl || "";
   },
   {
     deep: true,
@@ -55,7 +55,7 @@ watch(
 async function handleSubmit(values: unknown) {
   const response = await updateTexts(
     values as GroupUpdateTextFormData,
-    String(group.value?.texts.id)
+    String(group.value?.texts[0]?.id)
   );
   if (response) {
     handleCloseModal();

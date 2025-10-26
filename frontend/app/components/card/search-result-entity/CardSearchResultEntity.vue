@@ -72,10 +72,10 @@
         <p
           class="justify-center md:justify-start md:px-0 md:py-0"
           :class="{
-            'line-clamp-3': isReduced,
+            'line-clamp-3 lg:line-clamp-4': isReduced,
             'line-clamp-4 lg:line-clamp-5': !isReduced,
           }"
-          data-testid="group-description"
+          data-testid="entity-description"
         >
           {{ description }}
         </p>
