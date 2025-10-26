@@ -25,7 +25,7 @@ const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
 
 const useMenuEntriesState = () => {
   const router = useRouter();
-  const { locale } = useI18n(); // Move useI18n to top level
+  const { locale } = useI18n(); // move useI18n to top level
   const currentPath = ref(router.currentRoute.value.fullPath);
   let removeGuard: (() => void) | null = null;
 
@@ -118,33 +118,20 @@ const useMenuEntriesState = () => {
           button.selected = false;
         }
       } else {
-        // Extract the last segment from the current route path
-        const currentRoutePath = router.currentRoute.value.path;
-        const pathSegments = currentRoutePath
-          .split("/")
-          .filter((seg) => seg.length > 0);
-        const currentPageName = pathSegments[pathSegments.length - 1];
-
-        // Extract the page name from the button label
-        const buttonPageName = button.label.split(".").pop()!.toLowerCase();
-
-        // Match by comparing the page names
-        button.selected = currentPageName === buttonPageName;
+        button.selected = currentPath.value.endsWith(
+          button.routeUrl.split("/").pop()!
+        );
       }
     }
   };
 
-  // Call updateCurrentPath immediately to set initial selected state.
-  // This ensures selectedMenuItem is set before components try to access it.
-  updateCurrentPath();
-
-  // Watch for route changes to update menu selection
+  // Watch for route changes to update menu selection and set initial state.
   watch(
     () => router.currentRoute.value.path,
     () => {
       updateCurrentPath();
     },
-    { immediate: false }
+    { immediate: true }
   );
 
   onMounted(() => {
