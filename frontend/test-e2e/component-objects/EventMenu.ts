@@ -3,5 +3,7 @@ import type { Locator, Page } from "@playwright/test";
 
 import { newCommunityMenu } from "./CommunityMenu";
 
-export const newEventMenu = (parent: Page | Locator) =>
-  newCommunityMenu(parent, "event");
+export const newEventMenu = (parent: Page | Locator) => ({
+  ...newCommunityMenu(parent, "event"),
+  questionsOption: parent.locator("#event-faq"),
+});

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { navigateToFirstOrganization } from "~/test-e2e/actions/navigation";
+import { navigateToFirstEvent } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
+import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
 import { submitModalWithRetry } from "~/test-e2e/utils/modalHelpers";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
-  await navigateToFirstOrganization(page);
+  await navigateToFirstEvent(page);
 
   // Wait for auth state to be fully loaded.
   await page.waitForLoadState("domcontentloaded");
@@ -24,7 +24,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe(
-  "Organization About Page - Social Links",
+  "Event About Page - Social Links",
   { tag: ["@desktop", "@mobile"] },
   () => {
     test.setTimeout(60000); // Increased timeout for slow dev mode loading
@@ -34,11 +34,11 @@ test.describe(
     }) => {
       // MARK: Setup
 
-      const organizationPage = newOrganizationPage(page);
-      const { aboutPage, socialLinksModal } = organizationPage;
+      const eventPage = newEventPage(page);
+      const { aboutPage, socialLinksModal } = eventPage;
 
       // Ensure we're on the About page.
-      await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {});
+      await expect(page).toHaveURL(/.*\/events\/.*\/about/, {});
 
       // Wait for page to be fully loaded (network requests complete) - longer timeout for dev mode.
       await page.waitForLoadState("domcontentloaded");
@@ -114,7 +114,7 @@ test.describe(
       await expect(socialLinksModal.modal).not.toBeVisible({});
 
       // Verify the new social link appears on the Connect card.
-      const { connectCard } = organizationPage.aboutPage;
+      const { connectCard } = eventPage.aboutPage;
 
       // Check if social links were created (with flexible timeout).
       let allSocialLinks = 0;
@@ -279,7 +279,6 @@ test.describe(
         "DELETE"
       );
       // MARK: Verification
-
       // Verify the deleted social link no longer appears on the Connect card
       // Use getByTestId and filter by text since accessible name might include icon.
       await expect(
