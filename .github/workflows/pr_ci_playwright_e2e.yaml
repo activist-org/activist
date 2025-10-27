@@ -110,15 +110,6 @@ jobs:
           PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
         run: sudo -E yarn playwright test
 
-      - name: Show Logs on Failure
-        if: failure()
-        run: |
-          echo "=== Backend Logs ==="
-          docker compose --env-file .env.dev logs backend --tail=100
-          echo ""
-          echo "=== Frontend Server Logs ==="
-          cat frontend/server.log || true
-
       - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
