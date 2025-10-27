@@ -30,19 +30,12 @@
 </template>
 
 <script setup lang="ts">
-import type { OrganizationFilters } from "~/types/communities/organization";
-
-import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
 import {
   getSidebarContentDynamicClass,
   getSidebarFooterDynamicClass,
 } from "~/utils/sidebarUtils";
 
 const aboveMediumBP = useBreakpoint("md");
-const route = useRoute();
-const query = computed(() => route.params?.query);
-
-useGetOrganizations(query as Ref<OrganizationFilters>);
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

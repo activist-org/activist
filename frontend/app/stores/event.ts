@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Event } from "~/types/events/event";
+import type { Event, EventFilters } from "~/types/events/event";
 
 interface EventStore {
   event: Event;
   events: Event[];
+  filters: EventFilters;
 }
 
 export const useEventStore = defineStore("event", {
@@ -12,6 +13,7 @@ export const useEventStore = defineStore("event", {
   state: (): EventStore => ({
     event: null as unknown as Event,
     events: [],
+    filters: {} as EventFilters,
   }),
   actions: {
     setEvent(event: Event) {
@@ -27,6 +29,13 @@ export const useEventStore = defineStore("event", {
 
     getEvents(): Event[] {
       return this.events;
+    },
+    setFilters(filters: EventFilters) {
+      this.filters = filters;
+    },
+
+    getFilters(): EventFilters {
+      return this.filters;
     },
   },
 });
