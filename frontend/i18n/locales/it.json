@@ -1,6 +1,5 @@
 {
   "i18n._global.about": "Informazioni",
-  "i18n._global.activist_icon_img_alt_text": "L'icona activist: una lettera minuscola con un semicerchio che punta verso il basso e a sinistra nel centro.",
   "i18n._global.auth.reset_password": "reimposta password",
   "i18n._global.auth.reset_password_forgot_password": "Dimenticata la password?",
   "i18n._global.contact": "Contatti",
@@ -534,6 +533,7 @@
   "i18n.pages.home.index.header": "Benvenuto, username",
   "i18n.pages.home.index.subheader": "I tuoi argomenti in sintesi",
   "i18n.pages.index.about_us": "Chi siamo",
+  "i18n.pages.index.activist_icon_img_alt_text": "L'icona activist: una lettera minuscola con un semicerchio che punta verso il basso e a sinistra nel centro.",
   "i18n.pages.index.activist_section_btn_aria_label": "Scopri di più di activist nella documentazione",
   "i18n.pages.index.activist_section_tagline": "La nostra comunità e i nostri obiettivi",
   "i18n.pages.index.activist_section_text": "Siamo un team globale di collaboratori con un obiettivo comune: aggiorniamo il modo in cui le persone possono diventare politicamente attive e organizzarsi.",

@@ -1,6 +1,5 @@
 {
   "i18n._global.about": "À propos",
-  "i18n._global.activist_icon_img_alt_text": "L’icône d'activist : une lettre a minuscule avec un demi-cercle pointant vers le bas et à gauche au centre.",
   "i18n._global.auth.reset_password": "Réinitialiser mot de passe",
   "i18n._global.auth.reset_password_forgot_password": "Mot de passe oublié ?",
   "i18n._global.contact": "Contact",
@@ -562,6 +561,7 @@
   "i18n.pages.home.index.header": "Bienvenue, username",
   "i18n.pages.home.index.subheader": "Vos sujets en un coup d’œil",
   "i18n.pages.index.about_us": "À propos de nous",
+  "i18n.pages.index.activist_icon_img_alt_text": "L’icône d'activist : une lettre a minuscule avec un demi-cercle pointant vers le bas et à gauche au centre.",
   "i18n.pages.index.activist_section_btn_aria_label": "Apprennez en plus a propos d'activist dans la documentation",
   "i18n.pages.index.activist_section_tagline": "Notre communauté et nos objectifs",
   "i18n.pages.index.activist_section_text": "Nous sommes une équipe mondiale de contributeurs avec un objectif commun : mettre à jour la façon dont les gens peuvent devenir politiquement actifs et organisés.",
