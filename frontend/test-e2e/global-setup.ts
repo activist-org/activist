@@ -2,7 +2,10 @@
 import { chromium, type FullConfig } from "@playwright/test";
 
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
-import { waitForServerReady } from "~/test-e2e/utils/server-readiness";
+import {
+  quickServerHealthCheck,
+  waitForServerReady,
+} from "~/test-e2e/utils/server-readiness";
 
 /**
  * Global setup runs once before all tests
@@ -73,50 +76,83 @@ async function globalSetup(config: FullConfig) {
     }
   }
 
-  // Wait for server to be fully ready before proceeding
-  // eslint-disable-next-line no-console
-  console.log("⏳ Waiting for server to be ready...");
-  await waitForServerReady({
-    baseURL,
-    maxRetries: 15, // More retries for slow startup
-    retryDelay: 3000, // Longer delay between retries
-    timeout: 15000, // Longer timeout per request
-  });
+  // Wait for server to be fully ready (skip if local and already responding)
+  const isCI = process.env.CI === "true";
+  const skipWarmup = !isCI && (await quickServerHealthCheck(baseURL));
+
+  if (!skipWarmup) {
+    // eslint-disable-next-line no-console
+    console.log("⏳ Waiting for server to be ready...");
+    await waitForServerReady({
+      baseURL,
+      maxRetries: 15, // More retries for slow startup
+      retryDelay: 3000, // Longer delay between retries
+      timeout: 15000, // Longer timeout per request
+    });
+  } else {
+    // eslint-disable-next-line no-console
+    console.log("✓ Server already responding (skipped warm-up check)");
+  }
 
   // eslint-disable-next-line no-console
   console.log("🔐 Setting up authenticated session...");
 
-  const browser = await chromium.launch();
-  const context = await browser.newContext({ baseURL });
-  const page = await context.newPage();
+  const maxAuthRetries = 3;
+  let authSuccess = false;
+  let lastError: Error | undefined;
 
-  try {
-    // Navigate to sign-in page directly
-    await page.goto("/auth/sign-in", { waitUntil: "load", timeout: 60000 });
+  for (let attempt = 1; attempt <= maxAuthRetries; attempt++) {
+    const browser = await chromium.launch();
+    const context = await browser.newContext({ baseURL });
+    const page = await context.newPage();
 
-    // eslint-disable-next-line no-console
-    console.log("📝 Filling in credentials...");
+    try {
+      if (attempt > 1) {
+        // eslint-disable-next-line no-console
+        console.log(`🔄 Retry attempt ${attempt}/${maxAuthRetries}...`);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
 
-    // Sign in without navigating again (skipNavigation = true)
-    await signInAsAdmin(page, "admin", "admin", true);
+      // Navigate to sign-in page directly
+      await page.goto("/auth/sign-in", { waitUntil: "load", timeout: 60000 });
 
-    // eslint-disable-next-line no-console
-    console.log("✓ Successfully authenticated");
+      // eslint-disable-next-line no-console
+      console.log("📝 Filling in credentials...");
 
-    // Wait for page to be fully ready before saving state
-    await page.waitForLoadState("domcontentloaded", { timeout: 30000 });
+      // Sign in without navigating again (skipNavigation = true)
+      await signInAsAdmin(page, "admin", "admin", true);
 
-    // Save authentication state to file
-    await context.storageState({ path: authFile });
+      // eslint-disable-next-line no-console
+      console.log("✓ Successfully authenticated");
 
-    // eslint-disable-next-line no-console
-    console.log("✅ Authentication state saved to test-e2e/.auth/admin.json");
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("❌ Global setup failed:", error);
-    throw error;
-  } finally {
-    await browser.close();
+      // Wait for page to be fully ready before saving state
+      await page.waitForLoadState("domcontentloaded", { timeout: 30000 });
+
+      // Save authentication state to file
+      await context.storageState({ path: authFile });
+
+      // eslint-disable-next-line no-console
+      console.log("✅ Authentication state saved to test-e2e/.auth/admin.json");
+
+      authSuccess = true;
+      await browser.close();
+      break;
+    } catch (error) {
+      lastError = error as Error;
+      await browser.close();
+
+      if (attempt === maxAuthRetries) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `❌ Global setup failed after ${maxAuthRetries} attempts:`,
+          error
+        );
+      }
+    }
+  }
+
+  if (!authSuccess) {
+    throw lastError || new Error("Authentication failed after retries");
   }
 }
 

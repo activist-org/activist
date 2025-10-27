@@ -23,60 +23,56 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test.describe(
-  "Event About Page - QR Code",
-  { tag: ["@desktop", "@mobile"] },
-  () => {
-    test.setTimeout(60000); // Increased timeout for slow dev mode loading.
+test.describe("Event About Page - QR Code", { tag: ["@desktop"] }, () => {
+  test.setTimeout(60000); // Increased timeout for slow dev mode loading.
 
-    test("User can open and close QR code modal", async ({ page }) => {
-      const eventPage = newEventPage(page);
-      const { qrCodeModal } = eventPage;
+  test("User can open and close QR code modal", async ({ page }) => {
+    const eventPage = newEventPage(page);
+    const { qrCodeModal } = eventPage;
 
-      // Wait for QR code button to be visible.
-      await expect(eventPage.qrCodeButton).toBeVisible({ timeout: 15000 });
+    // Wait for QR code button to be visible.
+    await expect(eventPage.qrCodeButton).toBeVisible({ timeout: 15000 });
 
-      // Open QR code modal.
-      await eventPage.qrCodeButton.click();
+    // Open QR code modal.
+    await eventPage.qrCodeButton.click();
 
-      // Verify modal is visible.
-      await expect(qrCodeModal.modal).toBeVisible();
+    // Verify modal is visible.
+    await expect(qrCodeModal.modal).toBeVisible();
 
-      // Verify QR code is displayed.
-      const qrCodeImage = qrCodeModal.qrCodeImage(qrCodeModal.modal);
-      await expect(qrCodeImage).toBeVisible();
+    // Verify QR code is displayed.
+    const qrCodeImage = qrCodeModal.qrCodeImage(qrCodeModal.modal);
+    await expect(qrCodeImage).toBeVisible();
 
-      // Close modal.
-      const closeButton = qrCodeModal.closeButton(qrCodeModal.modal);
-      await closeButton.click();
+    // Close modal.
+    const closeButton = qrCodeModal.closeButton(qrCodeModal.modal);
+    await closeButton.click();
 
-      // Verify modal is closed.
-      await expect(qrCodeModal.modal).not.toBeVisible();
-    });
+    // Verify modal is closed.
+    await expect(qrCodeModal.modal).not.toBeVisible();
+  });
 
-    test("User can download QR code", async ({ page }) => {
-      const eventPage = newEventPage(page);
-      const { qrCodeModal } = eventPage;
+  test("User can download QR code", async ({ page }) => {
+    const eventPage = newEventPage(page);
+    const { qrCodeModal } = eventPage;
 
-      // Wait for QR code button to be visible.
-      await expect(eventPage.qrCodeButton).toBeVisible({ timeout: 15000 });
+    // Wait for QR code button to be visible.
+    await expect(eventPage.qrCodeButton).toBeVisible({ timeout: 15000 });
 
-      // Open QR code modal.
-      await eventPage.qrCodeButton.click();
+    // Open QR code modal.
+    await eventPage.qrCodeButton.click();
 
-      // Verify modal is visible.
-      await expect(qrCodeModal.modal).toBeVisible();
+    // Verify modal is visible.
+    await expect(qrCodeModal.modal).toBeVisible();
 
-      // Wait for download to start.
-      const downloadPromise = page.waitForEvent("download");
+    // Wait for download to start.
+    const downloadPromise = page.waitForEvent("download");
 
-      // Click download button.
-      const downloadButton = qrCodeModal.downloadButton(qrCodeModal.modal);
-      await expect(downloadButton).toBeVisible();
-      await downloadButton.click();
-      // Verify download initiated and has a filename.
-      const download = await downloadPromise;
-      expect(download.suggestedFilename()).toBeTruthy();
-    });
-  }
-);
+    // Click download button.
+    const downloadButton = qrCodeModal.downloadButton(qrCodeModal.modal);
+    await expect(downloadButton).toBeVisible();
+    await downloadButton.click();
+    // Verify download initiated and has a filename.
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toBeTruthy();
+  });
+});

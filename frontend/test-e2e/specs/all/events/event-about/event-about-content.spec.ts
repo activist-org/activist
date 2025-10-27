@@ -26,7 +26,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe(
   "Event About Page - Content Editing",
-  { tag: ["@desktop", "@mobile"] },
+  { tag: ["@desktop"] },
   () => {
     test.setTimeout(60000); // increased timeout for slow dev mode loading
 

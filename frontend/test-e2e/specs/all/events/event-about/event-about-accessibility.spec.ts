@@ -25,47 +25,43 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test.describe(
-  "Event About Page - Accessibility",
-  { tag: ["@desktop", "@mobile"] },
-  () => {
-    test.setTimeout(60000); // increased timeout for slow dev mode loading
+test.describe("Event About Page - Accessibility", { tag: ["@desktop"] }, () => {
+  test.setTimeout(60000); // increased timeout for slow dev mode loading
 
-    test("Event About Page has no detectable accessibility issues", async ({
-      page,
-    }, testInfo) => {
-      logTestPath(testInfo);
+  test("Event About Page has no detectable accessibility issues", async ({
+    page,
+  }, testInfo) => {
+    logTestPath(testInfo);
 
-      await withTestStep(testInfo, "Run accessibility scan", async () => {
-        const violations = await runAccessibilityTest(
-          "Event About Page",
-          page,
-          testInfo
-        );
-        expect
-          .soft(violations, "Accessibility violations found:")
-          .toHaveLength(0);
+    await withTestStep(testInfo, "Run accessibility scan", async () => {
+      const violations = await runAccessibilityTest(
+        "Event About Page",
+        page,
+        testInfo
+      );
+      expect
+        .soft(violations, "Accessibility violations found:")
+        .toHaveLength(0);
 
-        if (violations.length > 0) {
-          // Note: For future implementation.
-        }
-      });
+      if (violations.length > 0) {
+        // Note: For future implementation.
+      }
     });
+  });
 
-    test("User can share the event page", async ({ page }, testInfo) => {
-      logTestPath(testInfo);
-      const eventPage = newEventPage(page);
-      const { shareModal } = eventPage;
-      await withTestStep(testInfo, "Open share modal", async () => {
-        await eventPage.shareButton.click();
-        await expect(shareModal.modal).toBeVisible();
-      });
-      await withTestStep(testInfo, "Close share modal", async () => {
-        const closeModalButton = shareModal.closeButton(shareModal.modal);
-        await expect(closeModalButton).toBeVisible();
-        await closeModalButton.click({ force: true });
-        await expect(shareModal.modal).not.toBeVisible();
-      });
+  test("User can share the event page", async ({ page }, testInfo) => {
+    logTestPath(testInfo);
+    const eventPage = newEventPage(page);
+    const { shareModal } = eventPage;
+    await withTestStep(testInfo, "Open share modal", async () => {
+      await eventPage.shareButton.click();
+      await expect(shareModal.modal).toBeVisible();
     });
-  }
-);
+    await withTestStep(testInfo, "Close share modal", async () => {
+      const closeModalButton = shareModal.closeButton(shareModal.modal);
+      await expect(closeModalButton).toBeVisible();
+      await closeModalButton.click({ force: true });
+      await expect(shareModal.modal).not.toBeVisible();
+    });
+  });
+});

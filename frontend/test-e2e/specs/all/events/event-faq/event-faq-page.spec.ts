@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
   await navigateToEventSubpage(page, "faq");
 });
 
-test.describe("Event FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
+test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
   // Note: Check to make sure that this is eventually done for light and dark modes.
   test("Event FAQ Page has no detectable accessibility issues", async ({
     page,

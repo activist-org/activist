@@ -29,8 +29,13 @@ jobs:
       - name: Run Docker Compose
         run: docker compose --env-file .env.dev up --build -d backend db
 
-      - name: Check Docker Container Logs
-        run: docker compose --env-file .env.dev logs
+      - name: Wait for Database
+        run: |
+          timeout 60 bash -c 'until docker compose --env-file .env.dev exec -T db pg_isready -U postgres; do sleep 2; done'
+
+      - name: Wait for Backend
+        run: |
+          timeout 90 bash -c 'until curl -s http://localhost:8000 >/dev/null; do sleep 2; done'
 
       - name: Setup Node Environment
         uses: actions/setup-node@v4
@@ -41,52 +46,78 @@ jobs:
         with:
           env-file: .env.dev
 
-      - name: Clean Yarn Cache
+      - name: Install Dependencies and Build
         working-directory: ./frontend
-        run: sudo yarn cache clean
-
-      - name: Install dependencies via Yarn
-        working-directory: ./frontend
+        env:
+          VITE_FRONTEND_URL: http://localhost:3000
+          VITE_BACKEND_URL: http://localhost:8000
+          VITE_API_URL: http://localhost:8000/v1
         run: |
-          corepack enable
+          sudo corepack enable
           sudo yarn install
-          sudo yarn build
+          sudo -E yarn build
 
-      - name: Run Node Server
-        working-directory: ./frontend
-        run: nohup node .output/server/index.mjs &
+          if [ ! -f "dist/index.html" ]; then
+            echo "Build failed: dist/index.html not found"
+            exit 1
+          fi
 
       - name: Install Playwright Browsers
         working-directory: ./frontend
-        run: sudo yarn playwright install --with-deps
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
+        run: |
+          sudo mkdir -p /opt/playwright-browsers
+          sudo -E yarn playwright install --with-deps chromium
+          sudo chmod -R 755 /opt/playwright-browsers
 
-      - name: Wait for Web Server
+      - name: Start Static Server
         working-directory: ./frontend
         run: |
-          MAX_ATTEMPTS=3
-          WAIT_TIME=30
-          ATTEMPT=1
-          while [[ $ATTEMPT -le $MAX_ATTEMPTS ]]; do
-            echo "Attempt $ATTEMPT of $MAX_ATTEMPTS"
-            yarn wait-on http://localhost:3000 --timeout ${WAIT_TIME}000
-            STATUS=$?
-            if [[ $STATUS -eq 0 ]]; then
-              echo "Server is ready!"
-              break
-            else
-              echo "Server not ready, retrying..."
-              ATTEMPT=$((ATTEMPT + 1))
-              if [[ $ATTEMPT -gt $MAX_ATTEMPTS ]]; then
-                echo "Server failed to start after $MAX_ATTEMPTS attempts."
-                exit 1
-              fi
-              sleep 1
-            fi
-          done
+          npm install -g serve
+          nohup serve dist -l 3000 > server.log 2>&1 &
+          echo $! > server.pid
+          sleep 3
+
+          if ! ps -p $(cat server.pid) > /dev/null; then
+            echo "Server failed to start:"
+            cat server.log
+            exit 1
+          fi
+
+      - name: Wait for Frontend
+        working-directory: ./frontend
+        run: |
+          yarn wait-on http://localhost:3000 --timeout 60000 || {
+            echo "Frontend server not responding:"
+            cat server.log
+            exit 1
+          }
+
+      - name: Warm Up Backend
+        run: |
+          curl -s -X OPTIONS http://localhost:8000/v1/auth/sign_in > /dev/null || true
+          curl -s http://localhost:8000/v1/entities/users/ > /dev/null || true
+          curl -s http://localhost:8000/v1/entities/organizations/ > /dev/null || true
+          curl -s http://localhost:8000/v1/entities/events/ > /dev/null || true
+          sleep 3
 
       - name: Run Playwright Tests
         working-directory: ./frontend
-        run: sudo yarn playwright test
+        env:
+          FAST_TESTS: true  # Only Desktop Chrome + Mobile Chrome
+          SKIP_WEBSERVER: true  # Server already started manually
+          PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
+        run: sudo -E yarn playwright test
+
+      - name: Show Logs on Failure
+        if: failure()
+        run: |
+          echo "=== Backend Logs ==="
+          docker compose --env-file .env.dev logs backend --tail=100
+          echo ""
+          echo "=== Frontend Server Logs ==="
+          cat frontend/server.log || true
 
       - name: Upload Playwright Report
         if: always()
