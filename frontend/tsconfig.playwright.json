@@ -1,9 +1,7 @@
 {
+  "extends": "./.nuxt/tsconfig.node.json",
   "compilerOptions": {
-    "strict": true,
     "module": "ESNext",
-    "moduleResolution": "bundler",
-    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "types": ["@types/node", "playwright"],
     "paths": {

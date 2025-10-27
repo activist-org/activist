@@ -29,9 +29,10 @@ async function isTokenExpired(page: Page): Promise<boolean> {
   }
 
   try {
-    const payload = JSON.parse(
-      Buffer.from(authToken.value.split(".")[1], "base64").toString()
-    );
+    const jwtPart = authToken.value.split(".")[1];
+    if (!jwtPart) return false;
+
+    const payload = JSON.parse(Buffer.from(jwtPart, "base64").toString());
     const jwtExp = payload.exp * 1000;
     const minutesUntilExpiry = (jwtExp - Date.now()) / 1000 / 60;
 
