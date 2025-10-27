@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
-import { navigateToFirstEvent } from "~/test-e2e/actions/navigation";
+import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
-  await navigateToFirstEvent(page);
+  await navigateToEventSubpage(page, "about");
 
   // Wait for auth state to be fully loaded.
   await page.waitForLoadState("domcontentloaded");
@@ -20,6 +20,7 @@ test.beforeEach(async ({ page }) => {
     );
     expect(isReady).toBe(true);
   }).toPass({
+    timeout: 10000,
     intervals: [100, 250],
   });
 });

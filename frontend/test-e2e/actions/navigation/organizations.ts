@@ -34,7 +34,7 @@ export async function navigateToFirstOrganization(page: Page) {
 
   // Wait for organization link to be available (should be quick after card is visible).
   await expect(organizationsHomePage.organizationLink).toBeVisible({
-    timeout: 10000,
+    timeout: 5000,
   });
 
   // Get the href attribute to extract the organization UUID.
@@ -111,17 +111,17 @@ export async function navigateToOrganizationSubpage(
 
   if (isMobileLayout) {
     // Mobile layout: requires opening dropdown menu first.
-    await submenu.waitFor({ timeout: 10000 });
+    await submenu.waitFor({ timeout: 5000 });
 
     const listboxButton = submenu.getByRole("button");
-    await listboxButton.waitFor({ state: "attached", timeout: 10000 });
+    await listboxButton.waitFor({ state: "attached", timeout: 5000 });
 
     // Check if the dropdown is already open before clicking.
     const isAlreadyOpen =
       (await listboxButton.getAttribute("aria-expanded")) === "true";
     if (!isAlreadyOpen) {
       await listboxButton.click();
-      await page.getByRole("listbox").waitFor({ timeout: 10000 });
+      await page.getByRole("listbox").waitFor({ timeout: 5000 });
     }
 
     // Wait for the page to be fully loaded and menu entries to be initialized.
@@ -131,7 +131,7 @@ export async function navigateToOrganizationSubpage(
     await expect(organizationPage.pageHeading).toBeVisible();
 
     // Wait for the dropdown options to be rendered.
-    await page.getByRole("listbox").waitFor({ timeout: 10000 });
+    await page.getByRole("listbox").waitFor({ timeout: 5000 });
 
     // Use original subpage name for i18n lookup, not the mapped menuSubpage.
     const i18nKeyMap: Record<string, string> = {

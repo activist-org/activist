@@ -43,10 +43,10 @@ export async function navigateToOrganizationGroupSubpage(
     // Use getByRole to find the ListboxButton within the submenu context.
     // Since the ListboxButton is inside the #submenu container, we can be more specific.
     const submenu = page.locator("#submenu"); // We still need this for context since it's conditionally rendered
-    await submenu.waitFor({ timeout: 10000 });
+    await submenu.waitFor({ timeout: 5000 });
 
     const listboxButton = submenu.getByRole("button");
-    await listboxButton.waitFor({ state: "attached", timeout: 10000 });
+    await listboxButton.waitFor({ state: "attached", timeout: 5000 });
 
     // Check if the dropdown is already open before clicking.
     const isAlreadyOpen =
@@ -54,7 +54,7 @@ export async function navigateToOrganizationGroupSubpage(
     if (!isAlreadyOpen) {
       await listboxButton.click();
       // Wait for the dropdown to actually open using getByRole.
-      await page.getByRole("listbox").waitFor({ timeout: 10000 });
+      await page.getByRole("listbox").waitFor({ timeout: 5000 });
     }
 
     // Wait for the page to be fully loaded and menu entries to be initialized.
@@ -104,7 +104,7 @@ export async function navigateToOrganizationGroupSubpage(
         .isVisible()
         .catch(() => false);
       expect(groupsListVisible || emptyStateVisible).toBe(true);
-    }).toPass({ timeout: 15000 });
+    }).toPass({ timeout: 10000 });
   } catch {
     // Fallback: just wait for the page to load and continue.
     // Groups list/empty state not found, continuing with fallback approach.
@@ -146,27 +146,28 @@ export async function navigateToOrganizationGroupSubpage(
 
   // Navigate to the first group and wait for the navigation to be successful.
   await groupsPage.navigateToGroup(0);
-  await page.waitForURL(`**/groups/${groupId}/**`, { timeout: 10000 });
+  await page.waitForURL(`**/groups/${groupId}/**`, { timeout: 5000 });
   await page.waitForLoadState("domcontentloaded");
 
   // Now navigate to the specific subpage using the tab navigation.
   // The subpage should be accessible via the tab list.
   const tabList = page.getByRole("tablist");
-  await expect(tabList).toBeVisible({ timeout: 15000 });
+  await expect(tabList).toBeVisible({ timeout: 5000 });
 
   // Find the specific tab for the subpage by its content.
   const subpageTab = page.getByRole("tab", { name: subpage });
-  await expect(subpageTab).toBeVisible({ timeout: 15000 });
+  await expect(subpageTab).toBeVisible({ timeout: 5000 });
 
   // Click the tab to navigate to the subpage.
-  await subpageTab.click({ timeout: 15000 });
+  await subpageTab.click({ timeout: 5000 });
 
   // Wait for navigation to complete.
   await page.waitForLoadState("domcontentloaded");
-  await page.waitForURL(`**/groups/${groupId}/${subpage}`, { timeout: 10000 });
+  await page.waitForURL(`**/groups/${groupId}/${subpage}`, { timeout: 5000 });
 
   // Verify we're on the correct group subpage.
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
   return {
     organizationId,
     groupId,

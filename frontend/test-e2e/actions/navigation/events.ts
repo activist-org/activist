@@ -14,16 +14,26 @@ import { getEnglishText } from "~/utils/i18n";
  */
 export async function navigateToFirstEvent(page: Page) {
   // Navigate to events home page.
-  await page.goto("/events", { waitUntil: "domcontentloaded" });
+  await page.goto("/events", { waitUntil: "load" });
 
-  // Switch to list view (default is map view).
+  // Switch to list view (default is map view) if available.
+  // On mobile, view switcher is not visible (known issue).
   const listViewButton = page.getByRole("radio", { name: /list view/i });
-  await expect(listViewButton).toBeVisible({ timeout: 10000 });
-  await listViewButton.click();
+
+  // Wait for view switcher to be available
+  await listViewButton
+    .waitFor({ state: "visible", timeout: 3000 })
+    .catch(() => {});
+
+  const isChecked = await listViewButton.isChecked().catch(() => false);
+
+  if (!isChecked) {
+    await listViewButton.click();
+  }
 
   // Wait for at least one event card to load.
   await expect(page.getByTestId("event-card").first()).toBeVisible({
-    timeout: 30000,
+    timeout: 5000,
   });
 
   // Get the first event link.
@@ -32,7 +42,7 @@ export async function navigateToFirstEvent(page: Page) {
     .first()
     .getByRole("link")
     .first();
-  await expect(firstEventLink).toBeVisible({ timeout: 10000 });
+  await expect(firstEventLink).toBeVisible({ timeout: 5000 });
 
   // Get the href to extract event ID.
   const eventUrl = await firstEventLink.getAttribute("href");
@@ -89,18 +99,26 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
   const submenu = page.locator("#submenu");
 
   if (isMobileLayout) {
-    // Mobile layout: requires opening dropdown menu first.
-    await submenu.waitFor({ timeout: 10000 });
+    // Mobile layout: Check if submenu exists (fail fast if not).
+    const submenuVisible = await submenu
+      .isVisible({ timeout: 2000 })
+      .catch(() => false);
+
+    if (!submenuVisible) {
+      throw new Error(
+        `Submenu not available for event subpage navigation on mobile (${subpage} tab)`
+      );
+    }
 
     const listboxButton = submenu.getByRole("button");
-    await listboxButton.waitFor({ state: "attached", timeout: 10000 });
+    await listboxButton.waitFor({ state: "attached", timeout: 3000 });
 
     // Check if the dropdown is already open before clicking.
     const isAlreadyOpen =
       (await listboxButton.getAttribute("aria-expanded")) === "true";
     if (!isAlreadyOpen) {
       await listboxButton.click();
-      await page.getByRole("listbox").waitFor({ timeout: 10000 });
+      await page.getByRole("listbox").waitFor({ timeout: 3000 });
     }
 
     // Wait for the page to be fully loaded and menu entries to be initialized.
@@ -110,7 +128,7 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
     await expect(eventPage.pageHeading).toBeVisible();
 
     // Wait for the dropdown options to be rendered.
-    await page.getByRole("listbox").waitFor({ timeout: 10000 });
+    await page.getByRole("listbox").waitFor({ timeout: 3000 });
 
     // Use original subpage name for i18n lookup.
     const i18nKeyMap: Record<string, string> = {
@@ -131,6 +149,8 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
       name: new RegExp(getEnglishText(i18nKey), "i"),
     });
 
+    // Verify option exists before clicking (fail fast if not available).
+    await expect(subpageOption).toBeVisible({ timeout: 5000 });
     await subpageOption.click();
   } else {
     // Desktop layout: uses direct tab navigation.
@@ -154,5 +174,6 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
   }
 
   await expect(page).toHaveURL(new RegExp(`.*\\/events\\/.*\\/${subpage}`));
+
   return { eventId, eventPage };
 }

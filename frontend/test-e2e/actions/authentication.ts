@@ -2,7 +2,10 @@
 import type { Page } from "playwright";
 
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
+import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
+
+// MARK: Sign In Actions
 
 /**
  * Sign in as admin user and navigate to home page
@@ -75,14 +78,32 @@ export async function signIn(
   await signInPage.signInButton.click();
   await page.waitForURL(expectedRedirect);
 }
-/** * Sign out the current user
+
+// MARK: Sign Out Actions
+
+/**
+ * Sign out the current user
  * @param page - Playwright page object
  */
 export async function signOut(page: Page) {
-  // Navigate to sign-out URL.
+  // Navigate to home page
   await page.goto("/home", { waitUntil: "load", timeout: 60000 });
-  const sidebarLeft = newSidebarLeft(page);
-  await sidebarLeft.open();
-  await page.getByTestId("dropdown-user-options").click();
-  await page.getByTestId("user-options-your-sign-out").click();
+
+  // Detect mobile layout
+  const viewportSize = page.viewportSize();
+  const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
+
+  if (isMobileLayout) {
+    // Mobile: Open hamburger menu, then user dropdown, then sign out
+    const sidebarRight = newSidebarRight(page);
+    await sidebarRight.openButton.click();
+    await page.getByTestId("dropdown-user-options").click();
+    await page.getByTestId("user-options-your-sign-out").click();
+  } else {
+    // Desktop: Hover to open sidebar left, then user dropdown, then sign out
+    const sidebarLeft = newSidebarLeft(page);
+    await sidebarLeft.open();
+    await page.getByTestId("dropdown-user-options").click();
+    await page.getByTestId("user-options-your-sign-out").click();
+  }
 }

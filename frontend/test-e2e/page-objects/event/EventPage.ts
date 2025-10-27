@@ -3,6 +3,7 @@ import type { Page } from "@playwright/test";
 
 import { newEditModal } from "~/test-e2e/component-objects/EditModal";
 import { newEventMenu } from "~/test-e2e/component-objects/EventMenu";
+import { newQRCodeModal } from "~/test-e2e/component-objects/QRCodeModal";
 import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSocialLinksModal } from "~/test-e2e/component-objects/SocialLinksModal";
@@ -21,6 +22,12 @@ export const newEventPage = (page: Page) => ({
       "i"
     ),
   }),
+  qrCodeButton: page.getByRole("button", {
+    name: new RegExp(
+      getEnglishText("i18n.components.modal_qr_code_btn.open_modal_aria_label"),
+      "i"
+    ),
+  }),
 
   // MARK: Navigation Components
 
@@ -30,6 +37,7 @@ export const newEventPage = (page: Page) => ({
   // MARK: Modals
 
   shareModal: newShareModal(page),
+  qrCodeModal: newQRCodeModal(page),
   editModal: newEditModal(page),
   socialLinksModal: newSocialLinksModal(page),
 

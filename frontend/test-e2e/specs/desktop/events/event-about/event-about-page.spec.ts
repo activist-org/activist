@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { navigateToFirstEvent } from "~/test-e2e/actions/navigation";
+import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
-  await navigateToFirstEvent(page);
+  await navigateToEventSubpage(page, "about");
 });
 
 test.describe("Event About Page", { tag: "@desktop" }, () => {

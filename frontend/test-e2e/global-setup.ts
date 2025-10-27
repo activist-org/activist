@@ -28,34 +28,43 @@ async function globalSetup(config: FullConfig) {
         (c: { name: string }) => c.name === "auth.token"
       );
 
-      if (authToken && authToken.expires) {
-        const expiresAt = authToken.expires * 1000; // Convert to milliseconds
-        const now = Date.now();
-        const timeUntilExpiry = expiresAt - now;
-        const minutesUntilExpiry = timeUntilExpiry / 1000 / 60;
+      if (authToken && authToken.value) {
+        // Decode JWT to check actual token expiration (not just cookie expiration).
+        try {
+          const payload = JSON.parse(
+            Buffer.from(authToken.value.split(".")[1], "base64").toString()
+          );
+          const jwtExp = payload.exp * 1000; // Convert to milliseconds
+          const now = Date.now();
+          const timeUntilExpiry = jwtExp - now;
+          const minutesUntilExpiry = timeUntilExpiry / 1000 / 60;
 
-        // Only reuse if token has at least 5 minutes left
-        if (minutesUntilExpiry > 5) {
-          const stats = fs.statSync(authFile);
-          const ageInHours = (now - stats.mtimeMs) / 1000 / 60 / 60;
-          const displayAge =
-            ageInHours < 1
-              ? `${Math.round(ageInHours * 60)}m`
-              : `${Math.round(ageInHours)}h`;
-          const displayExpiry =
-            minutesUntilExpiry < 60
-              ? `${Math.round(minutesUntilExpiry)}m`
-              : `${Math.round(minutesUntilExpiry / 60)}h`;
+          // Only reuse if JWT token has at least 5 minutes left
+          if (minutesUntilExpiry > 5) {
+            const stats = fs.statSync(authFile);
+            const ageInHours = (now - stats.mtimeMs) / 1000 / 60 / 60;
+            const displayAge =
+              ageInHours < 1
+                ? `${Math.round(ageInHours * 60)}m`
+                : `${Math.round(ageInHours)}h`;
+            const displayExpiry =
+              minutesUntilExpiry < 60
+                ? `${Math.round(minutesUntilExpiry)}m`
+                : `${Math.round(minutesUntilExpiry / 60)}h`;
+            // eslint-disable-next-line no-console
+            console.log(
+              `✓ Using existing authenticated session (${displayAge} old, expires in ${displayExpiry})`
+            );
+            return;
+          } else {
+            // eslint-disable-next-line no-console
+            console.log(
+              "⚠️  JWT token expired or expiring soon, creating new session..."
+            );
+          }
+        } catch {
           // eslint-disable-next-line no-console
-          console.log(
-            `✓ Using existing authenticated session (${displayAge} old, expires in ${displayExpiry})`
-          );
-          return;
-        } else {
-          // eslint-disable-next-line no-console
-          console.log(
-            "⚠️  Auth token expired or expiring soon, creating new session..."
-          );
+          console.log("⚠️  Failed to decode JWT, creating new session...");
         }
       }
     } catch {
