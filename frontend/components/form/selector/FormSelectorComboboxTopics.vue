@@ -1,10 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <FormSelectorCombobox
-    @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
     :id="id"
-    :options="options"
+    @update:selectedOptions="(val: unknown) => handleChange(val as Topic[])"
     :label="label"
+    :options="options"
   />
 </template>
 
