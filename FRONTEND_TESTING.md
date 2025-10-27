@@ -21,8 +21,7 @@ Not every test belongs in the E2E test suite. Tests that should go in the E2E te
 
 1. Testing full user stories such as:
     - Creating an account
-    - Creating an event, organization, etc
-    - Deleting an event, organization, etc
+    - Creating or deleting an event, organization, etc
 2. Testing UI functions that make network requests such as:
     - UI components that fetch data from our backend when they render
 3. Testing features that only work in a full browser such as:
@@ -38,7 +37,7 @@ Write your tests under `frontend/test-e2e/specs`. Inside this folder are more fo
 - `mobile` for mobile environments
 - `all` for tests that run in both mobile and desktop environments
 
-While the folders are organized this way for convenience, if you are writing a new test suite you will have to use tags to tell playwright which environments to run the suite in. This is done in the describe block:
+While the folders are organized this way for convenience, if you are writing a new test suite you will need to use tags to tell playwright which environments to run the suite in. This is done in the describe block:
 
 ```typescript
 // A test suite in the "all" folder:
@@ -64,14 +63,14 @@ We want the E2E test suite to be as easy to read as possible. That means most of
 
 Instead of building large page objects that do everything, we recommend creating small component objects:
 
-- Most component objects should be simple javascript objects created with a factory function such as [ThemeMenu.ts](frontend/test-e2e/component-objects/ThemeMenu.ts)
-- In rare occasions where a component requires more complicate code, you may use a class such as [SidebarLeft.ts](frontend/test-e2e/component-objects/SidebarLeft.ts)
-- Use component objects directly in your tests instead combining them into larger objects
+- Most component objects should be simple Javascript objects created with a factory function such as [ThemeMenu.ts](frontend/test-e2e/component-objects/ThemeMenu.ts)
+- In rare occasions where a component requires more complicated code, you may use a class such as [SidebarLeft.ts](frontend/test-e2e/component-objects/SidebarLeft.ts)
+- Use component objects directly in your tests instead of combining them into larger objects
 
 > [!NOTE]
 > You may notice we do have a page-objects directory, but the objects in there are written just like component-objects.
 
-#### 2. Code re-use
+#### 2. Code reuse
 
 Avoiding complicated patterns means there will be more duplicate code in the E2E tests. This is fine and preferable to code that difficult to read. However, if there are sequences of user actions you want to re-use between tests, we recommend using simple functions:
 

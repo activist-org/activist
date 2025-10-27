@@ -12,6 +12,7 @@
           'style-menu-option-cta flex items-center rounded-md pl-1':
             isSidebarLeftMenu,
         }"
+        :data-testid="dataTestId"
       >
         <div
           class="flex items-center justify-between space-x-2 text-sm"
@@ -98,6 +99,7 @@ const props = defineProps<{
   isMenuButtonUppercase?: boolean;
   isMenuButtonBold?: boolean;
   menuButtonLabel: string;
+  dataTestId?: string;
 }>();
 
 const sidebar = useSidebar();

@@ -25,13 +25,12 @@ export function mapGroup(res: GroupResponse): GroupT {
     createdBy: res.createdBy,
     iconUrl: res.iconUrl,
     location: res.location,
-    getInvolvedUrl: res.getInvolvedUrl,
     socialLinks: res.socialLinks,
     creationDate: res.creationDate,
     events: res.events ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
-    texts: res.texts?.[0] ?? defaultGroupText,
+    texts: res.texts ?? [defaultGroupText],
   };
 }
 

@@ -19,11 +19,9 @@
         :organization="organization"
       />
     </template>
-
     <template #desktop-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
     </template>
-
     <template #mobile-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
     </template>
@@ -46,7 +44,7 @@ const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
 
 const description = computed(() => {
-  return props.organization.texts.description || "";
+  return props.organization.texts[0]?.description || "";
 });
 
 const ariaLabel = computed(() => {

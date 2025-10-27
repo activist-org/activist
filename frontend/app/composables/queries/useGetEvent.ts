@@ -25,7 +25,7 @@ export function useGetEvent(id: MaybeRef<string>) {
   const query = useAsyncData(
     getKeyForGetEvent(eventId.value),
     async () => {
-      if (!eventId.value && eventId.value === "") return null;
+      if (!eventId.value || eventId.value === "") return null;
       try {
         const event = await getEvent(eventId.value);
         // Cache the result in store.
