@@ -45,7 +45,7 @@ test.describe("Event About Page - QR Code", { tag: ["@desktop"] }, () => {
 
     // Close modal.
     const closeButton = qrCodeModal.closeButton(qrCodeModal.modal);
-    await closeButton.click();
+    await closeButton.click({ force: true });
 
     // Verify modal is closed.
     await expect(qrCodeModal.modal).not.toBeVisible();

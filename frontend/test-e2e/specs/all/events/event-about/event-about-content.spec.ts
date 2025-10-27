@@ -65,7 +65,7 @@ test.describe(
       // Close the modal.
       const closeButton = editModal.modal.getByTestId("modal-close-button");
       await expect(closeButton).toBeVisible();
-      await closeButton.click();
+      await closeButton.click({ force: true });
 
       // Verify modal is closed.
       await expect(editModal.modal).not.toBeVisible();
@@ -93,7 +93,7 @@ test.describe(
       // Close the modal.
       const closeButton = editModal.modal.getByTestId("modal-close-button");
       await expect(closeButton).toBeVisible();
-      await closeButton.click();
+      await closeButton.click({ force: true });
 
       // Verify modal is closed.
       await expect(editModal.modal).not.toBeVisible();

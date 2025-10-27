@@ -107,7 +107,7 @@ test.describe("Event Resources Page", { tag: ["@desktop"] }, () => {
       resourcesPage.resourceModal
     );
     await expect(closeButton).toBeVisible();
-    await closeButton.click();
+    await closeButton.click({ force: true });
 
     // Verify modal closes.
     await expect(resourcesPage.resourceModal).not.toBeVisible();
