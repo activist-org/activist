@@ -53,7 +53,7 @@
         btnUrl1="https://docs.activist.org/activist"
         contentPosition="right"
         header="i18n.pages.index.about_us"
-        imageAltText="i18n.pages.index.activist_icon_img_alt_text"
+        imageAltText="i18n._global.activist_icon_img_alt_text"
         imgUrl="/icons/activist/activist_icon"
         tagline="i18n.pages.index.activist_section_tagline"
         text="i18n.pages.index.activist_section_text"
