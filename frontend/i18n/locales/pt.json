@@ -1,6 +1,5 @@
 {
   "i18n._global.about": "Sobre",
-  "i18n._global.activist_icon_img_alt_text": "O ícone do ativista: uma letra a minúscula com um semicírculo apontando para baixo e para a esquerda no centro.",
   "i18n._global.auth.reset_password": "Redefinir senha",
   "i18n._global.auth.reset_password_forgot_password": "Esqueceu sua senha?",
   "i18n._global.contact": "Contato",
@@ -481,6 +480,7 @@
   "i18n.pages.home.index.header": "Seja bem-vindo(a), nome de usuário",
   "i18n.pages.home.index.subheader": "Resumo rápido dos seus tópicos",
   "i18n.pages.index.about_us": "Conheça a gente",
+  "i18n.pages.index.activist_icon_img_alt_text": "O ícone do ativista: uma letra a minúscula com um semicírculo apontando para baixo e para a esquerda no centro.",
   "i18n.pages.index.activist_section_btn_aria_label": "Saiba mais sobre o activist na documentação",
   "i18n.pages.index.activist_section_tagline": "Quem somos e o que queremos",
   "i18n.pages.index.activist_section_text": "Somos uma rede global de pessoas unidas por um objetivo: reinventar as formas de organização e participação política.",

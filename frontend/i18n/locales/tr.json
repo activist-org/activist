@@ -1,6 +1,5 @@
 {
   "i18n._global.about": "Hakkında",
-  "i18n._global.activist_icon_img_alt_text": "El aktivist simgesi: ortasında sola ve aşağıya doğru bakan yarım daire bulunan küçük a harfi.",
   "i18n._global.auth.reset_password": "Parolayı sıfırla",
   "i18n._global.auth.reset_password_forgot_password": "Şifrenizi mi unuttunuz?",
   "i18n._global.contact": "İletişim",
@@ -143,5 +142,6 @@
   "i18n.components.card_metrics_overview.header": "Son aktivite",
   "i18n.components.card_metrics_overview.new_organizations": "Yeni kuruluşlar",
   "i18n.components.card_org_application_vote.downvote_application_aria_label": "Aktiviste katılan kuruluşu desteklememek için oy verin",
-  "i18n.components.card_resource.navigate_to_resource_aria_label": "Bu kaynağın sayfasına gidin"
+  "i18n.components.card_resource.navigate_to_resource_aria_label": "Bu kaynağın sayfasına gidin",
+  "i18n.pages.index.activist_icon_img_alt_text": "El aktivist simgesi: ortasında sola ve aşağıya doğru bakan yarım daire bulunan küçük a harfi."
 }

@@ -6,6 +6,7 @@ export interface MenuSelector {
   iconUrl: string;
   selected: boolean;
   onClick?: () => void;
+  "data-testid"?: string;
 }
 
 export interface BarMenu {

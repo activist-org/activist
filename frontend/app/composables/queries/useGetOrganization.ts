@@ -25,7 +25,7 @@ export function useGetOrganization(id: MaybeRef<string>) {
   const query = useAsyncData(
     getKeyForGetOrganization(organizationId.value),
     async () => {
-      if (!organizationId.value && organizationId.value === "") return null;
+      if (!organizationId.value || organizationId.value === "") return null;
 
       try {
         const organization = await getOrganization(organizationId.value);
