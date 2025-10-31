@@ -295,7 +295,9 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             and self._invalid_dates(creation_date, deletion_date)
         ):
             raise serializers.ValidationError(
-                ("The creation date must be before the deletion date, and both of them should be future date."),
+                (
+                    "The creation date must be before the deletion date, and both of them should be a future date."
+                ),
                 code="invalid_date_order",
             )
 
@@ -347,7 +349,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         Returns
         -------
         bool
-            True if the start is after the end , or start is before current time(invalid).
+            True if the start is after the end time, or start is before current time (invalid).
             False otherwise (valid).
         """
 
@@ -355,12 +357,11 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         # Convert to datetime if they're strings.
         start_dt = parse_datetime(start) if isinstance(start, str) else start
         end_dt = parse_datetime(end) if isinstance(end, str) else end
-        
 
         return (
             isinstance(start_dt, datetime)
             and isinstance(end_dt, datetime)
-            and (start_dt >= end_dt or start_dt<curr_dt)
+            and (start_dt > end_dt or start_dt < curr_dt)
         )
 
 

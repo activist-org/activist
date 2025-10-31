@@ -72,7 +72,6 @@ services:
       fi"
     volumes:
       - ./frontend:/app
-      - /app/node_modules
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
       - "24678:24678"
