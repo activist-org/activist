@@ -12,17 +12,10 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          @click.stop="openModal()"
-          @keydown.enter="openModal()"
+        <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n._global.new_resource"
-          :leftIcon="IconMap.PLUS"
-          linkTo="/"
+          :element="$t('i18n._global.resources_lower')"
+          :onClick="() => openModal()"
         />
       </div>
       <ModalResourceEvent />
@@ -74,7 +67,6 @@ import type { Resource } from "~/types/content/resource";
 import { useEventResourcesMutations } from "~/composables/mutations/useEventResourcesMutations";
 import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 
 const route = useRoute();
 const eventId = (route.params.eventId as string) ?? "";
