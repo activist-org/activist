@@ -14,7 +14,7 @@
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
-          :onClick="() => useModalHandlers('ModalFaqEntryEvent').openModal()"
+          :onClick="openModal"
         />
         <ModalFaqEntryEvent />
       </div>
@@ -73,7 +73,7 @@ const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
 const { reorderFAQs } = useEventFAQEntryMutations(eventId);
-
+const { openModal } = useModalHandlers("ModalFaqEntryEvent");
 const faqList = computed<FaqEntry[]>(() => {
   return event.value?.faqEntries || [];
 });
