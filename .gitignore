@@ -24,6 +24,9 @@ venv/
 # Testing
 .coverage
 cov_html/
+# Vitest coverage
+coverage/
+frontend/coverage/
 # For Docker testing add ./tmp:/tmp to the needed container.
 /tmp
 
