@@ -352,7 +352,6 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             True if the start is after the end time, or start is before current time (invalid).
             False otherwise (valid).
         """
-
         curr_dt = datetime.now()
         # Convert to datetime if they're strings.
         start_dt = parse_datetime(start) if isinstance(start, str) else start
