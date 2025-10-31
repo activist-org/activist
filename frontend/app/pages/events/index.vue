@@ -37,7 +37,7 @@ const route = useRoute();
 
 const filters = computed<EventFilters>(() => {
   const { view, ...rest } = route.query; // omit view
-  return rest as unknown as EventFilters; // cast to your filter shape
+  return rest as unknown as EventFilters;
 });
 
 const { data: events, pending } = useGetEvents(filters);
