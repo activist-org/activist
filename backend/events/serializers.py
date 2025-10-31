@@ -360,7 +360,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         return (
             isinstance(start_dt, datetime)
             and isinstance(end_dt, datetime)
-            and (start_dt > end_dt or start_dt < curr_dt)
+            and (start_dt >= end_dt or start_dt < curr_dt)
         )
 
 
