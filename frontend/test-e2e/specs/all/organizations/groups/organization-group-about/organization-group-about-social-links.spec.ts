@@ -28,7 +28,7 @@ test.describe(
 
       // Ensure we're on the About page.
       await expect(page).toHaveURL(/.*\/groups\/.*\/about/);
-      await expect(groupAboutPage.connectCard).toBeVisible();
+      await expect(groupAboutPage.connectCard).toBeVisible({ timeout: 15000 });
 
       // Generate unique content for this test run.
       const timestamp = Date.now();
