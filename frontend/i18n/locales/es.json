@@ -1,5 +1,6 @@
 {
   "i18n._global.about": "Acerca de",
+  "i18n._global.activist_icon_img_alt_text": "El icono de activist: una letra a minúscula con un semicírculo al centro que apunta hacia el cuadrante inferior izquierdo.",
   "i18n._global.auth.reset_password": "Restablecer contraseña",
   "i18n._global.auth.reset_password_forgot_password": "¿Olvidó su contraseña?",
   "i18n._global.contact": "Contacto",
@@ -488,7 +489,6 @@
   "i18n.pages.home.index.header": "Le damos la bienvenida, usuario",
   "i18n.pages.home.index.subheader": "Sus temas de un vistazo",
   "i18n.pages.index.about_us": "Sobre nosotros",
-  "i18n.pages.index.activist_icon_img_alt_text": "El icono de activist: una letra a minúscula con un semicírculo al centro que apunta hacia el cuadrante inferior izquierdo.",
   "i18n.pages.index.activist_section_btn_aria_label": "Obtenga más información sobre activist en la documentación",
   "i18n.pages.index.activist_section_tagline": "Nuestra comunidad y metas",
   "i18n.pages.index.activist_section_text": "Somos un equipo global de colaboradores con un objetivo común: actualizar cómo las personas pueden volverse políticamente activas y organizadas.",

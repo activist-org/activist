@@ -12,7 +12,8 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <div v-if="organizations.length > 0">
+    <Loading v-if="pending" :loading="pending" />
+    <div v-else-if="organizations.length > 0 && !pending">
       <div v-for="org in organizations" class="space-y-6 pb-6 pt-3 md:pt-4">
         <CardSearchResultEntityOrganization
           :isPrivate="false"
@@ -28,5 +29,5 @@
 import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
 const route = useRoute();
 const query = computed(() => route.query);
-const { data: organizations } = useGetOrganizations(query);
+const { data: organizations, pending } = useGetOrganizations(query);
 </script>

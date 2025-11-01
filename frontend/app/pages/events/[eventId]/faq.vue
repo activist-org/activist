@@ -11,16 +11,10 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          @click.stop="useModalHandlers('ModalFaqEntryEvent').openModal()"
-          @keydown.enter="useModalHandlers('ModalFaqEntryEvent').openModal()"
+        <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n.pages._global.new_faq"
-          :leftIcon="IconMap.PLUS"
+          :element="$t('i18n._global.faq')"
+          :onClick="openModal"
         />
         <ModalFaqEntryEvent />
       </div>
@@ -73,14 +67,13 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 import { useEventFAQEntryMutations } from "~/composables/mutations/useEventFAQEntryMutations";
 import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
 const { reorderFAQs } = useEventFAQEntryMutations(eventId);
-
+const { openModal } = useModalHandlers("ModalFaqEntryEvent");
 const faqList = computed<FaqEntry[]>(() => {
   return event.value?.faqEntries || [];
 });

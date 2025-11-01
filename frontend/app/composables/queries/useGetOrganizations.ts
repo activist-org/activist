@@ -6,7 +6,7 @@ import type {
 
 import { useToaster } from "~/composables/useToaster";
 import { listOrganizations } from "~/services/communities/organization/organization";
-
+import { useOrganizationStore } from "~/stores/organization";
 export const getKeyForGetOrganizations = (filters: OrganizationFilters) =>
   `organizations-list:${JSON.stringify(filters)}`;
 
@@ -15,14 +15,15 @@ export function useGetOrganizations(
 ) {
   const store = useOrganizationStore();
   const { showToastError } = useToaster();
-
+  const orgFilters = computed(() => unref(filters));
   // Use AsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<OrganizationT[]>(
-    () => getKeyForGetOrganizations(unref(filters)),
+    () => getKeyForGetOrganizations(orgFilters.value),
     async () => {
       try {
-        const organizations = await listOrganizations(unref(filters));
+        const organizations = await listOrganizations(orgFilters.value);
         store.setOrganizations(organizations);
+        store.setFilters(orgFilters.value);
         return organizations as OrganizationT[];
       } catch (error) {
         showToastError((error as AppError).message);
@@ -30,17 +31,21 @@ export function useGetOrganizations(
       }
     },
     {
-      watch: [filters],
+      watch: [orgFilters.value],
       immediate: true,
-      default: () => [],
       getCachedData: (key, nuxtApp) => {
-        if (store.getOrganizations().length > 0) {
+        if (
+          store.getOrganizations().length > 0 &&
+          JSON.stringify(store.getFilters()) ===
+            JSON.stringify(orgFilters.value)
+        ) {
           return store.getOrganizations();
         }
         return nuxtApp.isHydrating
           ? nuxtApp.payload.data[key]
           : nuxtApp.static.data[key];
       },
+      default: () => [],
     }
   );
 
@@ -49,6 +54,6 @@ export function useGetOrganizations(
     pending,
     error,
     refresh,
-    filters,
+    filters: orgFilters.value,
   };
 }
