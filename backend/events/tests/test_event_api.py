@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Any, TypedDict
 
 import pytest
-from dateutil import relativedelta
+from dateutil.relativedelta import relativedelta
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
