@@ -4,7 +4,7 @@ Serializers for the events app.
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, Union
 from uuid import UUID
 
@@ -352,7 +352,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
             True if the start is after the end time, or start is before current time (invalid).
             False otherwise (valid).
         """
-        curr_dt = datetime.now()
+        curr_dt = datetime.now(timezone.utc)
         # Convert to datetime if they're strings.
         start_dt = parse_datetime(start) if isinstance(start, str) else start
         end_dt = parse_datetime(end) if isinstance(end, str) else end
