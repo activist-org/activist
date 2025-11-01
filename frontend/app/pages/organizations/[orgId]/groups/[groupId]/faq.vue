@@ -56,6 +56,7 @@
       >
         <template #item="{ element }">
           <CardFAQEntry
+            @delete-faq="handleDeleteFAQ"
             :entity="group"
             :faqEntry="element"
             :pageType="EntityType.GROUP"
@@ -85,7 +86,7 @@ const { data: group } = useGetGroup(groupId ?? "");
 const { openModal } = useModalHandlers("ModalFaqEntryGroup");
 
 const groupTabs = getGroupTabs();
-const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
+const { reorderFAQs, deleteFAQ } = useGroupFAQEntryMutations(groupId);
 const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 
 watch(
@@ -106,6 +107,10 @@ const onDragEnd = async () => {
   });
 
   await reorderFAQs(faqList.value);
+};
+
+const handleDeleteFAQ = async (faqId: string) => {
+  await deleteFAQ(faqId);
 };
 </script>
 

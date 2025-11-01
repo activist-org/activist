@@ -8,6 +8,7 @@ import type { AppError } from "~/utils/errorHandler";
 
 import {
   createEventFaq,
+  deleteEventFaq,
   reorderEventFaqs,
   updateEventFaq,
 } from "~/services/event/faq";
@@ -90,6 +91,26 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
+  // Delete FAQ entry.
+  async function deleteFAQ(faqId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteEventFaq(faqId);
+
+      // Refresh to get the updated list.
+      await refreshEventData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
@@ -104,6 +125,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     createFAQ,
     updateFAQ,
     reorderFAQs,
+    deleteFAQ,
     refreshEventData,
   };
 }

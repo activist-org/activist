@@ -53,6 +53,15 @@
                 data-testid="faq-edit-button"
                 :entity="entity"
               />
+              <IconDelete
+                @click.stop="handleDelete"
+                @keydown.enter="handleDelete"
+                :aria-label="
+                  $t('i18n.components.card_faq_entry.delete_aria_label')
+                "
+                class="flex"
+                data-testid="faq-delete-button"
+              />
               <ModalFaqEntryOrganization
                 v-if="pageType === 'organization'"
                 :faqEntry="faqEntry"
@@ -94,4 +103,16 @@ const props = defineProps<{
   pageType: EntityType;
   entity?: Entity | null;
 }>();
+
+const emit = defineEmits<{
+  (e: "delete-faq", faqId: string): void;
+}>();
+
+const { t } = useI18n();
+
+const handleDelete = () => {
+  if (confirm(t("i18n.components.card_faq_entry.delete_confirmation"))) {
+    emit("delete-faq", props.faqEntry.id);
+  }
+};
 </script>

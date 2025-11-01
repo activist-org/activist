@@ -2,7 +2,7 @@
 
 import type { FaqEntry } from "~/types/content/faq-entry";
 
-import { post, put } from "~/services/http";
+import { del, post, put } from "~/services/http";
 import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Create
@@ -62,6 +62,17 @@ export async function reorderOrganizationFaqs(faqs: FaqEntry[]): Promise<void> {
         { headers: { "Content-Type": "application/json" } }
       )
     );
+  } catch (e) {
+    const err = errorHandler(e);
+    throw err;
+  }
+}
+
+// MARK: Delete
+
+export async function deleteOrganizationFaq(faqId: string): Promise<void> {
+  try {
+    await del(`/communities/organization_faqs/${faqId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
