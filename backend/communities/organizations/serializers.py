@@ -84,6 +84,8 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
         queryset=Topic.objects.filter(active=True),
         many=True,
         slug_field="type",
+        required=False,
+        allow_null=True,
     )
 
     class Meta:
