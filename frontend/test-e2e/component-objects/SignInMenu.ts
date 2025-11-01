@@ -13,7 +13,7 @@ export const newSignInMenu = (parent: Page | Locator) => {
         "i"
       ),
     }),
-    // MenuLinkWrapper renders as <a>, so use role="link"
+    // MenuLinkWrapper renders as <a>, so use role="link".
     signInOption: parent.locator("#user-options").getByRole("link", {
       name: new RegExp(getEnglishText("i18n._global.sign_in"), "i"),
     }),

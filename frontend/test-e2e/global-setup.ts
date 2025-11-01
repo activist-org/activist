@@ -22,7 +22,7 @@ async function globalSetup(config: FullConfig) {
   const path = await import("path");
   const authFile = path.join(__dirname, ".auth", "admin.json");
 
-  // Check if auth state already exists and tokens are still valid
+  // Check if auth state already exists and tokens are still valid.
   if (fs.existsSync(authFile)) {
     try {
       const authData = JSON.parse(fs.readFileSync(authFile, "utf-8"));
@@ -37,12 +37,12 @@ async function globalSetup(config: FullConfig) {
           const payload = JSON.parse(
             Buffer.from(authToken.value.split(".")[1], "base64").toString()
           );
-          const jwtExp = payload.exp * 1000; // Convert to milliseconds
+          const jwtExp = payload.exp * 1000; // convert to milliseconds
           const now = Date.now();
           const timeUntilExpiry = jwtExp - now;
           const minutesUntilExpiry = timeUntilExpiry / 1000 / 60;
 
-          // Only reuse if JWT token has at least 5 minutes left
+          // Only reuse if JWT token has at least 5 minutes left.
           if (minutesUntilExpiry > 5) {
             const stats = fs.statSync(authFile);
             const ageInHours = (now - stats.mtimeMs) / 1000 / 60 / 60;
@@ -76,7 +76,7 @@ async function globalSetup(config: FullConfig) {
     }
   }
 
-  // Wait for server to be fully ready (skip if local and already responding)
+  // Wait for server to be fully ready (skip if local and already responding).
   const isCI = process.env.CI === "true";
   const skipWarmup = !isCI && (await quickServerHealthCheck(baseURL));
 
@@ -85,9 +85,9 @@ async function globalSetup(config: FullConfig) {
     console.log("⏳ Waiting for server to be ready...");
     await waitForServerReady({
       baseURL,
-      maxRetries: 15, // More retries for slow startup
-      retryDelay: 3000, // Longer delay between retries
-      timeout: 15000, // Longer timeout per request
+      maxRetries: 15, // more retries for slow startup
+      retryDelay: 3000, // longer delay between retries
+      timeout: 15000, // longer timeout per request
     });
   } else {
     // eslint-disable-next-line no-console
@@ -113,22 +113,22 @@ async function globalSetup(config: FullConfig) {
         await new Promise((resolve) => setTimeout(resolve, 2000));
       }
 
-      // Navigate to sign-in page directly
+      // Navigate to sign-in page directly.
       await page.goto("/auth/sign-in", { waitUntil: "load", timeout: 60000 });
 
       // eslint-disable-next-line no-console
       console.log("📝 Filling in credentials...");
 
-      // Sign in without navigating again (skipNavigation = true)
+      // Sign in without navigating again (skipNavigation = true).
       await signInAsAdmin(page, "admin", "admin", true);
 
       // eslint-disable-next-line no-console
       console.log("✓ Successfully authenticated");
 
-      // Wait for page to be fully ready before saving state
+      // Wait for page to be fully ready before saving state.
       await page.waitForLoadState("domcontentloaded", { timeout: 30000 });
 
-      // Save authentication state to file
+      // Save authentication state to file.
       await context.storageState({ path: authFile });
 
       // eslint-disable-next-line no-console

@@ -5,7 +5,7 @@ import { test as base, expect as baseExpect } from "@playwright/test";
 
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 
-// Track last renewal time per worker to avoid redundant re-auths
+// Track last renewal time per worker to avoid redundant re-auths.
 let lastRenewalTime = 0;
 
 /**
@@ -18,7 +18,7 @@ async function isTokenExpired(page: Page): Promise<boolean> {
   const authToken = cookies.find((c) => c.name === "auth.token");
 
   if (!authToken?.value) {
-    return false; // No token = probably @unauth test
+    return false; // no token = probably @unauth test
   }
 
   // Don't check again if we just renewed within the last 3 minutes.
@@ -50,7 +50,7 @@ async function isTokenExpired(page: Page): Promise<boolean> {
  */
 export const test = base.extend<{ page: Page }>({
   page: async ({ page }, use, testInfo) => {
-    // Skip token renewal for @unauth tests (sign-in, sign-up tests)
+    // Skip token renewal for @unauth tests (sign-in, sign-up tests).
     const isUnauthTest = testInfo.tags.includes("@unauth");
 
     if (!isUnauthTest) {
@@ -63,12 +63,12 @@ export const test = base.extend<{ page: Page }>({
         await page.goto("/auth/sign-in", { waitUntil: "load" });
         await signInAsAdmin(page, "admin", "admin", true);
 
-        // Update the admin.json file so subsequent tests get fresh token
+        // Update the admin.json file so subsequent tests get fresh token.
         const path = await import("path");
         const authFile = path.join(__dirname, ".auth", "admin.json");
         await page.context().storageState({ path: authFile });
 
-        // Update renewal timestamp
+        // Update renewal timestamp.
         lastRenewalTime = Date.now();
 
         // eslint-disable-next-line no-console

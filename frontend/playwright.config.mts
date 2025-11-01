@@ -247,7 +247,7 @@ export default defineConfig({
     ? undefined
     : process.env.USE_PREVIEW
       ? {
-          // Use built version (faster, no compilation during tests)
+          // Use built version (faster, no compilation during tests).
           command: "yarn build:local && yarn preview",
           url: "http://localhost:3000",
           reuseExistingServer: !process.env.CI,
@@ -256,7 +256,7 @@ export default defineConfig({
           stderr: "pipe",
         }
       : {
-          // Use dev server (default, with hot reload)
+          // Use dev server (default, with hot reload).
           command: "yarn dev:local",
           url: "http://localhost:3000",
           reuseExistingServer: !process.env.CI,

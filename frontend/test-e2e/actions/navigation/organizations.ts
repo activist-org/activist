@@ -218,7 +218,7 @@ export async function navigateToFirstOrganizationEvent(page: Page) {
     throw new Error("Could not get event URL");
   }
 
-  // Extract event ID from the URL (assuming format like /events/{uuid}).
+  // Extract event ID from the URL.
   const eventId = eventUrl.match(/\/events\/([a-f0-9-]{36})/)?.[1];
 
   if (!eventId) {

@@ -112,6 +112,6 @@ test.describe("Event Resources Page", { tag: ["@desktop"] }, () => {
     // Verify modal closes.
     await expect(resourcesPage.resourceModal).not.toBeVisible();
     // Note: We could add more specific modal testing here.
-    // but that might be better suited for a dedicated modal test.
+    // This might be better suited for a dedicated modal test.
   });
 });

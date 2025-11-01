@@ -86,21 +86,20 @@ export async function signIn(
  * @param page - Playwright page object
  */
 export async function signOut(page: Page) {
-  // Navigate to home page
   await page.goto("/home", { waitUntil: "load", timeout: 60000 });
 
-  // Detect mobile layout
+  // Detect mobile layout.
   const viewportSize = page.viewportSize();
   const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
 
   if (isMobileLayout) {
-    // Mobile: Open hamburger menu, then user dropdown, then sign out
+    // Mobile: Open hamburger menu, then user dropdown, then sign out.
     const sidebarRight = newSidebarRight(page);
     await sidebarRight.openButton.click();
     await page.getByTestId("dropdown-user-options").click();
     await page.getByTestId("user-options-your-sign-out").click();
   } else {
-    // Desktop: Hover to open sidebar left, then user dropdown, then sign out
+    // Desktop: Hover to open sidebar left, then user dropdown, then sign out.
     const sidebarLeft = newSidebarLeft(page);
     await sidebarLeft.open();
     await page.getByTestId("dropdown-user-options").click();

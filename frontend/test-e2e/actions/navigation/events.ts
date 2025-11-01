@@ -20,7 +20,7 @@ export async function navigateToFirstEvent(page: Page) {
   // On mobile, view switcher is not visible (known issue).
   const listViewButton = page.getByRole("radio", { name: /list view/i });
 
-  // Wait for view switcher to be available
+  // Wait for view switcher to be available.
   await listViewButton
     .waitFor({ state: "visible", timeout: 3000 })
     .catch(() => {});
@@ -65,8 +65,9 @@ export async function navigateToFirstEvent(page: Page) {
   // Verify we're on the event page.
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
-  const newEventPage = (await import("~/test-e2e/page-objects/event/EventPage"))
-    .newEventPage;
+  const { newEventPage } = await import(
+    "~/test-e2e/page-objects/event/EventPage"
+  );
   const eventPage = newEventPage(page);
 
   return {
@@ -124,10 +125,8 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
     // Wait for the page to be fully loaded and menu entries to be initialized.
     await page.waitForLoadState("domcontentloaded");
 
-    // Wait for the event page heading to be visible (ensures page is loaded).
+    // Wait for the event page heading and dropdown to be visible (ensures page is loaded).
     await expect(eventPage.pageHeading).toBeVisible();
-
-    // Wait for the dropdown options to be rendered.
     await page.getByRole("listbox").waitFor({ timeout: 3000 });
 
     // Use original subpage name for i18n lookup.

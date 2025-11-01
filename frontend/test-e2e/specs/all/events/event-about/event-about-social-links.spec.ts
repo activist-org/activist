@@ -272,7 +272,9 @@ test.describe("Event About Page - Social Links", { tag: ["@desktop"] }, () => {
       deleteSubmitButton,
       "DELETE"
     );
+
     // MARK: Verification
+
     // Verify the deleted social link no longer appears on the Connect card
     // Use getByTestId and filter by text since accessible name might include icon.
     await expect(

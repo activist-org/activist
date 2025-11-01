@@ -42,7 +42,7 @@ export async function navigateToOrganizationGroupSubpage(
     // Mobile layout: requires opening dropdown menu first.
     // Use getByRole to find the ListboxButton within the submenu context.
     // Since the ListboxButton is inside the #submenu container, we can be more specific.
-    const submenu = page.locator("#submenu"); // We still need this for context since it's conditionally rendered
+    const submenu = page.locator("#submenu"); // needed for context since it's conditionally rendered
     await submenu.waitFor({ timeout: 5000 });
 
     const listboxButton = submenu.getByRole("button");
@@ -53,16 +53,12 @@ export async function navigateToOrganizationGroupSubpage(
       (await listboxButton.getAttribute("aria-expanded")) === "true";
     if (!isAlreadyOpen) {
       await listboxButton.click();
-      // Wait for the dropdown to actually open using getByRole.
       await page.getByRole("listbox").waitFor({ timeout: 5000 });
     }
 
-    // Wait for the page to be fully loaded and menu entries to be initialized.
+    // Wait for the page and dropdown to be fully loaded and menu entries to be initialized.
     await page.waitForLoadState("domcontentloaded");
     await expect(organizationPage.pageHeading).toBeVisible();
-
-    // Wait for the dropdown options to be rendered - they appear in a transition.
-    // The dropdown options are in ListboxOptions which appear after clicking the button.
     await page.getByRole("listbox").waitFor({ timeout: 10000 });
 
     // Wait for the groups option to be visible and clickable.
@@ -80,7 +76,7 @@ export async function navigateToOrganizationGroupSubpage(
     // Click the option - the NuxtLink's @click handler will navigate using the updated routeUrl.
     await groupsOption.click();
   } else {
-    // Desktop layout: direct click
+    // Desktop layout: direct click.
     await expect(organizationPage.menu.groupsOption).toBeVisible();
     await organizationPage.menu.groupsOption.click();
   }
@@ -137,7 +133,7 @@ export async function navigateToOrganizationGroupSubpage(
     throw new Error("Could not get group URL");
   }
 
-  // Extract group ID from the URL (assuming format like /groups/{uuid}).
+  // Extract group ID from the URL.
   const groupId = groupUrl.match(/\/groups\/([a-f0-9-]{36})/)?.[1];
 
   if (!groupId) {
