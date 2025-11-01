@@ -1,5 +1,6 @@
 {
   "i18n._global.about": "About",
+  "i18n._global.activist_icon_img_alt_text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center.",
   "i18n._global.auth.reset_password": "Reset password",
   "i18n._global.auth.reset_password_forgot_password": "Forgot your password?",
   "i18n._global.contact": "Contact",
@@ -562,7 +563,6 @@
   "i18n.pages.home.index.header": "Welcome, username",
   "i18n.pages.home.index.subheader": "Your topics at a glance",
   "i18n.pages.index.about_us": "About us",
-  "i18n.pages.index.activist_icon_img_alt_text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center.",
   "i18n.pages.index.activist_section_btn_aria_label": "Learn more about activist in the documentation",
   "i18n.pages.index.activist_section_tagline": "Our community and goals",
   "i18n.pages.index.activist_section_text": "We're a global team of contributors with a shared goal: Let's update how people can get politically active and organized.",

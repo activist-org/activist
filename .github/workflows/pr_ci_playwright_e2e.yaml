@@ -105,8 +105,8 @@ jobs:
       - name: Run Playwright Tests
         working-directory: ./frontend
         env:
-          FAST_TESTS: true  # Only Desktop Chrome + Mobile Chrome
-          SKIP_WEBSERVER: true  # Server already started manually
+          FAST_TESTS: true # only Desktop Chrome + Mobile Chrome
+          SKIP_WEBSERVER: true # Server already started manually
           PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
         run: sudo -E yarn playwright test
 
