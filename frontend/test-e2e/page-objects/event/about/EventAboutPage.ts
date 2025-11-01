@@ -9,7 +9,7 @@ export const newEventAboutPage = (page: Page) => ({
   aboutCard: page.getByTestId("card-about"),
   aboutCardEditIcon: page
     .getByTestId("card-about")
-    .locator("div.cursor-pointer")
+    .getByTestId("icon-edit")
     .first(),
   aboutExpandTextButton: page.getByTestId("expand-text-button"),
   aboutCollapseTextButton: page.getByTestId("collapse-text-button"),
@@ -19,7 +19,7 @@ export const newEventAboutPage = (page: Page) => ({
   getInvolvedCard: page.getByTestId("card-get-involved"),
   getInvolvedCardEditIcon: page
     .getByTestId("card-get-involved")
-    .locator("div.cursor-pointer")
+    .getByTestId("icon-edit")
     .first(),
   getInvolvedCardText: page
     .getByTestId("card-get-involved")
@@ -39,7 +39,7 @@ export const newEventAboutPage = (page: Page) => ({
   connectCard: page.getByTestId("card-connect"),
   connectCardEditIcon: page
     .getByTestId("card-connect")
-    .locator("div.cursor-pointer")
+    .getByTestId("edit-icon")
     .first(),
 
   // MARK: Media
