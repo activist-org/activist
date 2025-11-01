@@ -12,7 +12,8 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <div v-if="events.length > 0">
+    <Loading v-if="pending" :loading="pending" />
+    <div v-else-if="events.length > 0 && !pending">
       <EventsList v-if="viewType === ViewType.LIST" :events="events" />
       <EventsMap v-else-if="viewType === ViewType.MAP" :events="events" />
       <EventsCalendar
@@ -25,15 +26,21 @@
 </template>
 
 <script setup lang="ts">
+import type { EventFilters } from "~/types/events/event";
+
 import { useGetEvents } from "~/composables/queries/useGetEvents";
 import { ViewType } from "~/types/view-types";
 
 const viewType = ref<ViewType>(ViewType.MAP);
 
 const route = useRoute();
-const query = computed(() => route.query);
 
-const { data: events } = useGetEvents(query);
+const filters = computed<EventFilters>(() => {
+  const { view, ...rest } = route.query; // omit view
+  return rest as unknown as EventFilters;
+});
+
+const { data: events, pending } = useGetEvents(filters);
 
 watchEffect(() => {
   const q = route.query.view;

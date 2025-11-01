@@ -13,14 +13,15 @@ export function useGetEvents(
 ) {
   const store = useEventStore();
   const { showToastError } = useToaster();
-
+  const eventFilters = computed(() => unref(filters));
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<EventT[]>(
     () => getKeyForGetEvents(unref(filters)),
     async () => {
       try {
-        const events = await listEvents(unref(filters));
+        const events = await listEvents(eventFilters.value);
         store.setEvents(events);
+        store.setFilters(eventFilters.value);
         return events as EventT[];
       } catch (error) {
         showToastError((error as AppError).message);
@@ -28,10 +29,14 @@ export function useGetEvents(
       }
     },
     {
-      watch: [filters],
+      watch: [eventFilters.value],
       immediate: true,
       getCachedData: (key, nuxtApp) => {
-        if (store.getEvents().length > 0) {
+        if (
+          store.getEvents().length > 0 &&
+          JSON.stringify(store.getFilters()) ===
+            JSON.stringify(eventFilters.value)
+        ) {
           return store.getEvents();
         }
         return nuxtApp.isHydrating
@@ -47,6 +52,6 @@ export function useGetEvents(
     pending,
     error,
     refresh,
-    filters,
+    filters: eventFilters.value,
   };
 }

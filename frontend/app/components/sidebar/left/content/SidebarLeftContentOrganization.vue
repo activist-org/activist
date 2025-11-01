@@ -24,7 +24,7 @@
         "
       />
       <!-- Change this button to use a button component not make one here. -->
-      <button
+      <IconEdit
         v-if="
           showButton &&
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
@@ -36,9 +36,7 @@
           )
         "
         class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-      >
-        <Icon :name="IconMap.EDIT" size="1em" />
-      </button>
+      />
     </div>
     <ul
       id="submenu"
@@ -63,7 +61,6 @@
 
 <script setup lang="ts">
 import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   name: string;

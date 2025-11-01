@@ -79,6 +79,7 @@
   "i18n.components._global.upload": "Upload",
   "i18n.components._global.upload_image": "Upload image",
   "i18n.components._global.upvote_application_aria_label": "Vote to support the organization joining activist",
+  "i18n.components.btn_action_add.add_element": "Add new {element}",
   "i18n.components.btn_road_map.aria_label": "Learn about the activist roadmap",
   "i18n.components.btn_share_icon.opening_instagram": "Opening Instagram",
   "i18n.components.btn_share_icon.opening_matrix": "Opening Matrix",
