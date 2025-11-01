@@ -16,7 +16,7 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
     await page.waitForFunction(
       ({ tabSelector, expected }) => {
         const tabs = document.querySelectorAll(tabSelector);
-        for (const tab of tabs) {
+        for (const tab of Array.from(tabs)) {
           if (tab.getAttribute("aria-selected") === expected) {
             return true;
           }

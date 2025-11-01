@@ -110,7 +110,7 @@ test.describe(
         // Close the modal.
         const closeButton = shareModal.closeButton(shareModal.modal);
         await expect(closeButton).toBeVisible();
-        await closeButton.click();
+        await closeButton.click({ force: true });
         // Verify modal closes.
         await expect(shareModal.modal).not.toBeVisible();
       } else {
