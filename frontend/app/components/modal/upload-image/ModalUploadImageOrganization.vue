@@ -26,10 +26,6 @@
           fontSize="sm"
           iconSize="1.25em"
           label="i18n.components._global.upload"
-<<<<<<< HEAD
-=======
-          data-testid="upload-image-upload-button"
->>>>>>> 47c248de (eslint fix)
           :leftIcon="IconMap.ARROW_UP"
         />
       </div>
