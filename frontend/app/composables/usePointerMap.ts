@@ -24,7 +24,9 @@ export const usePointerMap = () => {
     const marker = new maplibregl.Marker({
       color: pointer.color,
     });
-    marker.getElement().id = `pointer-${pointer.id}`;
+    const element = marker.getElement();
+    element.id = `pointer-${pointer.id}`;
+    element.setAttribute("role", "button");
     marker.addClassName("cursor-pointer");
     marker.setLngLat([
       parseFloat(pointer.location.lon),
@@ -39,11 +41,11 @@ export const usePointerMap = () => {
     }
     if (directions) {
       directions.interactive = true;
-      marker.getElement().addEventListener("mouseenter", () => {
+      element.addEventListener("mouseenter", () => {
         directions.interactive = false;
       });
 
-      marker.getElement().addEventListener("mouseleave", () => {
+      element.addEventListener("mouseleave", () => {
         directions.interactive = true;
       });
     }
