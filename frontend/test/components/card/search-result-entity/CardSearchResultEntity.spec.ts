@@ -53,7 +53,7 @@ describe("CardSearchResultEntity.vue", () => {
 
     const entityName = screen.getByTestId("group-entity-name");
     expect(entityName).toBeDefined();
-    expect(entityName.textContent).toBe("@test_org");
+    expect(entityName.textContent?.trim()).toBe("@test_org");
   });
 
   it("não renderiza o nome da entidade quando não fornecido", async () => {
