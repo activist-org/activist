@@ -55,7 +55,7 @@ export const newOrganizationAboutPage = (page: Page) => ({
   connectCard: page.getByTestId("card-connect"),
   connectCardEditIcon: page
     .getByTestId("card-connect")
-    .getByTestId("edit-icon")
+    .getByTestId("icon-edit")
     .first(),
 
   // MARK: Media

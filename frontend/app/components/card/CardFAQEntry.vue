@@ -2,7 +2,7 @@
 <template>
   <Disclosure v-slot="{ open }" as="div" class="card-style">
     <div data-testid="faq-card">
-      <div class="flex items-start gap-2">
+      <div class="flex items-center gap-2">
         <DisclosureButton
           class="flex-1 rounded-md px-4 py-2 focus-brand"
           data-testid="faq-disclosure-button"
@@ -41,34 +41,32 @@
             </div>
           </div>
         </DisclosureButton>
-        <div class="flex-shrink-0 pt-2">
-          <IconEdit
-            @click="
-              useModalHandlers(
-                `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
-                  props.faqEntry.id
-              ).openModal()
-            "
-            class="flex"
-            data-testid="faq-edit-button"
-            :entity="entity"
-          />
-          <ModalFaqEntryOrganization
-            v-if="pageType === 'organization'"
-            :faqEntry="faqEntry"
-          />
-          <ModalFaqEntryGroup
-            v-else-if="pageType === 'group'"
-            :faqEntry="faqEntry"
-          />
-          <ModalFaqEntryEvent
-            v-else-if="pageType === 'event'"
-            :faqEntry="faqEntry"
-          />
-        </div>
+        <IconEdit
+          @click="
+            useModalHandlers(
+              `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                props.faqEntry.id
+            ).openModal()
+          "
+          class="flex pr-2"
+          data-testid="faq-edit-button"
+          :entity="entity"
+        />
+        <ModalFaqEntryOrganization
+          v-if="pageType === 'organization'"
+          :faqEntry="faqEntry"
+        />
+        <ModalFaqEntryGroup
+          v-else-if="pageType === 'group'"
+          :faqEntry="faqEntry"
+        />
+        <ModalFaqEntryEvent
+          v-else-if="pageType === 'event'"
+          :faqEntry="faqEntry"
+        />
       </div>
       <DisclosurePanel
-        class="mt-2 border-t border-section-div px-4 py-2 focus-within:border-0"
+        class="mt-2 border-t border-section-div py-2 pl-4 focus-within:border-0"
         data-testid="faq-disclosure-panel"
       >
         <p class="select-text text-left" data-testid="faq-answer">
@@ -83,7 +81,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
 import type { FaqEntry } from "~/types/content/faq-entry";
-import type { EntityType, Entity } from "~/types/entity";
+import type { Entity, EntityType } from "~/types/entity";
 
 import { IconMap } from "~/types/icon-map";
 
