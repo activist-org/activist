@@ -18,7 +18,7 @@ describe("Form component", () => {
     const nameError = await screen.findByTestId("form-item-name-error");
     expect(nameError.textContent).toBe("Required");
 
-    // Family Members validation (no members initially—should be valid)
+    // Family Members validation (no members initially—should be valid).
     expect(
       screen.queryByTestId("form-item-familyMembers.0.name-error")
     ).toBeNull();
@@ -33,13 +33,13 @@ describe("Form component", () => {
     await fireEvent.update(nameInput, "Alice");
     await fireEvent.update(emailInput, "alice@example.com");
 
-    // Add family member
+    // Add family member.
     const addMemberBtn = screen.getByRole("button", {
       name: "family-member-add-aria-label",
     });
     await fireEvent.click(addMemberBtn);
 
-    // Fill family member name
+    // Fill family member name.
     const familyMemberNameInput = screen.getByLabelText("Family members name");
     await fireEvent.update(familyMemberNameInput, "Bob");
 
@@ -49,19 +49,19 @@ describe("Form component", () => {
 
     await fireEvent.click(submitBtn);
 
-    // Could check for successful event if the form has a message or emitted handler
+    // Could check for successful event if the form has a message or emitted handler.
   });
 
   it("shows and clears error for family member after invalid and valid input", async () => {
     await render(FormTemplate);
 
-    // Add a family member
+    // Add a family member.
     const addMemberBtn = screen.getByRole("button", {
       name: "family-member-add-aria-label",
     });
     await fireEvent.click(addMemberBtn);
 
-    // Try to submit with incomplete family member
+    // Try to submit with incomplete family member.
     const submitBtn = screen.getByRole("button", {
       name: getEnglishText("i18n.components.submit_aria_label"),
     });
@@ -72,12 +72,12 @@ describe("Form component", () => {
     );
     expect(famNameError.textContent).toBe("Required");
 
-    // Correct family member name
+    // Correct family member name.
     const familyMemberNameInput = screen.getByLabelText("Family members name");
     await fireEvent.update(familyMemberNameInput, "Bob");
     await fireEvent.blur(familyMemberNameInput);
 
-    // Wait for error to clear
+    // Wait for error to clear.
     await new Promise((r) => setTimeout(r, 100));
     expect(
       screen.queryByTestId("form-item-familyMembers.0.name-error")
@@ -92,15 +92,15 @@ describe("Form component", () => {
     });
     await fireEvent.click(addMemberBtn);
 
-    // Add more than one
+    // Add more than one.
     await fireEvent.click(addMemberBtn);
-    // Remove the first member
+    // Remove the first member.
     const removeBtns = screen.getAllByRole("button", {
       name: "family-member-remove-aria-label",
     });
     await fireEvent.click(removeBtns[0]);
 
-    // Only one family member input should remain
+    // Only one family member input should remain.
     const memberInputs = screen.getAllByLabelText("Family members name");
     expect(memberInputs).toHaveLength(1);
   });

@@ -99,7 +99,7 @@
             </template>
           </draggable>
         </div>
-        <div class="flex space-x-2">
+        <div class="flex space-x-2 pt-4">
           <BtnAction
             @click="
               push({

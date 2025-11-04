@@ -72,7 +72,7 @@ async function handleSubmit(values: unknown) {
   // Track existing IDs.
   const existingIds = [...(group.value?.socialLinks || [])];
 
-  // MARK: DELETE
+  // MARK: Delete
 
   const toDelete =
     existingIds.filter(
@@ -81,7 +81,7 @@ async function handleSubmit(values: unknown) {
     ) ?? [];
   await Promise.all(toDelete.map((link) => deleteLink(link.id!)));
 
-  // MARK: UPDATE
+  // MARK: Update
 
   const toUpdate =
     formValues.filter(
@@ -105,7 +105,7 @@ async function handleSubmit(values: unknown) {
     })
   );
 
-  // MARK: CREATE
+  // MARK: Create
 
   const toCreate = formValues?.filter((link) => link.id === "") || [];
   if (toCreate.length > 0) {
