@@ -41,7 +41,7 @@ test.describe(
 
       // Add a new social link.
       const connectCardEditIcon =
-        groupAboutPage.connectCard.getByTestId("edit-icon");
+        groupAboutPage.connectCard.getByTestId("icon-edit");
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
