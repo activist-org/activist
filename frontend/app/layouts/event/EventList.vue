@@ -1,10 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <!-- <ModalUploadImage
-      @closeModal="handleCloseModalUploadImage"
-      @upload-complete="handleUploadComplete"
-    /> -->
+    <!-- SidebarLeft, ModalUploadImage, etc -->
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"
@@ -13,15 +10,15 @@
       @mouseover="sidebarHover = true"
       class="block"
     />
-    <div class="flex flex-col md:h-screen md:overflow-y-scroll">
+    <div class="grid h-full w-full grid-rows-[1fr_30vh]">
       <div
-        class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
+        class="overflow-y-scroll bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
         <NuxtPage />
       </div>
       <FooterWebsite
-        class="pb-24 transition-[padding] duration-500 md:pb-12"
+        class="transition-[padding] duration-500 md:pb-12"
         :class="sidebarFooterDynamicClass"
       />
     </div>
