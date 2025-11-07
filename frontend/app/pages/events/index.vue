@@ -25,9 +25,7 @@
       />
       <!-- The bottom sentinel for Intersection Observer -->
       <div ref="bottomSentinel">
-        <h1 v-if="loadingFetchMore && pending">
-Loading...
-</h1>
+        <BouncingLoader v-if="loadingFetchMore && pending" />
       </div>
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
@@ -38,6 +36,7 @@ Loading...
 import type { EventFilters } from "~/types/events/event";
 
 import { useGetEvents } from "~/composables/queries/useGetEvents";
+import { useInfiniteScroll } from "~/composables/useInfiniteScroll";
 import { ViewType } from "~/types/view-types";
 
 const viewType = ref<ViewType>(ViewType.MAP);
@@ -47,6 +46,7 @@ const filters = computed<EventFilters>(() => {
   const { view, ...rest } = route.query; // omit view
   return rest as unknown as EventFilters;
 });
+
 watch(
   filters,
   () => {
@@ -58,7 +58,16 @@ watch(
 const { data: events, pending, getMore } = useGetEvents(filters);
 
 const bottomSentinel = ref<HTMLElement | null>(null);
-let observer: IntersectionObserver | null = null;
+const canFetchMore = computed(() => viewType.value === ViewType.LIST);
+const changeFetchMore = () => {
+  loadingFetchMore.value = true;
+};
+useInfiniteScroll({
+  sentinel: bottomSentinel,
+  fetchMore: getMore,
+  canFetchMore,
+  callback: changeFetchMore,
+});
 
 const showEvents = computed(() => {
   if (events.value.length > 0) {
@@ -68,45 +77,6 @@ const showEvents = computed(() => {
     return !pending.value;
   }
   return false;
-});
-onMounted(async () => {
-  await nextTick();
-  observer = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0];
-      if (
-        entry?.isIntersecting &&
-        !pending.value &&
-        viewType.value === ViewType.LIST
-      ) {
-        loadingFetchMore.value = true;
-        getMore();
-      }
-    },
-    {
-      root: null, // the window/viewport
-      rootMargin: "0px",
-      threshold: 0.1,
-    }
-  );
-  if (bottomSentinel.value) observer.observe(bottomSentinel.value);
-});
-
-watch(
-  bottomSentinel,
-  (newVal) => {
-    if (observer && newVal) {
-      observer.observe(newVal);
-    }
-  },
-  { immediate: true, deep: true }
-);
-
-onUnmounted(() => {
-  if (observer && bottomSentinel.value) {
-    observer.unobserve(bottomSentinel.value);
-    observer.disconnect();
-  }
 });
 
 watchEffect(() => {

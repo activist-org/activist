@@ -19,3 +19,8 @@ export interface Pagination {
   page: number;
   page_size: number;
 }
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  isLastPage: boolean;
+}

@@ -5,6 +5,7 @@
 import type {
   EventCreateFormData,
   EventFilters,
+  EventsPaginatedResponse,
   EventResponse,
   EventsResponseBody,
   Event as EventT,
@@ -55,7 +56,7 @@ export async function getEvent(id: string): Promise<EventT> {
 
 export async function listEvents(
   filters: EventFilters & Pagination = { page: 1, page_size: 10 }
-): Promise<EventT[]> {
+): Promise<EventsPaginatedResponse> {
   try {
     const query = new URLSearchParams(
       filters as unknown as Record<string, string>
@@ -64,7 +65,7 @@ export async function listEvents(
       `/events/events?${query.toString()}`,
       { withoutAuth: true }
     );
-    return res.results.map(mapEvent);
+    return { data: res.results.map(mapEvent), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
   }
