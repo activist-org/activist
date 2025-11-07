@@ -8,7 +8,7 @@
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="block"
+      class="fixed top-0 z-20 h-screen"
     />
     <div class="grid h-full w-full grid-rows-[1fr_30vh]">
       <div
