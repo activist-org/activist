@@ -9,7 +9,6 @@ import type {
   OrganizationsResponseBody,
   Organization as OrganizationT,
 } from "~/types/communities/organization";
-import type { Pagination } from "~/types/http";
 
 import { del, get, post } from "~/services/http";
 import { defaultOrganizationText } from "~/types/communities/organization";
@@ -55,7 +54,7 @@ export async function getOrganization(id: string): Promise<OrganizationT> {
 // MARK: List All
 
 export async function listOrganizations(
-  filters: OrganizationFilters & Pagination = { page: 1, page_size: 10 }
+  filters: OrganizationFilters
 ): Promise<OrganizationT[]> {
   try {
     const query = new URLSearchParams(

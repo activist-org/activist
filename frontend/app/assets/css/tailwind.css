@@ -74,7 +74,7 @@ MARK: Base
 
 @layer base {
   body {
-    @apply bg-layer-2 h-screen w-screen overflow-scroll;
+    @apply h-screen w-screen overflow-scroll bg-layer-2;
   }
   * {
     @apply scrollbar scrollbar-track-transparent scrollbar-thumb-distinct-text scrollbar-thumb-rounded-md scrollbar-w-2;
