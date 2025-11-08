@@ -23,9 +23,9 @@
         v-else-if="viewType === ViewType.CALENDAR"
         :events="events"
       />
-      <!-- The bottom sentinel for Intersection Observer -->
+      <!-- The bottom sentinel for Intersection Observer. -->
       <div ref="bottomSentinel">
-        <BouncingLoader v-if="loadingFetchMore && pending" />
+        <Loading v-if="loadingFetchMore && pending" />
       </div>
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
@@ -50,7 +50,7 @@ const filters = computed<EventFilters>(() => {
 watch(
   filters,
   () => {
-    // Reset loading more state when filters change
+    // Reset loading more state when filters change.
     loadingFetchMore.value = false;
   },
   { immediate: true, deep: true }

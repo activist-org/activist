@@ -12,11 +12,11 @@
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="block"
+      class="fixed top-0 z-20 h-screen"
     />
-    <div class="grid h-full w-full grid-rows-[1fr_30vh] overflow-y-scroll">
+    <div class="flex flex-col">
       <div
-        class="h-[calc(100% - 30vh)] bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
+        class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
         <NuxtPage :event="event" />

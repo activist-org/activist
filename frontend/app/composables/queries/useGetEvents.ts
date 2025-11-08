@@ -32,7 +32,8 @@ export function useGetEvents(
         const eventsCached = store.getEvents();
         const pageCached = store.getPage();
         isLastPageRef.value = isLastPage;
-        // Append new events to cached events if page > 1
+
+        // Append new events to cached events if page > 1.
         if (
           eventsCached.length > 0 &&
           JSON.stringify(store.getFilters()) ===
@@ -43,7 +44,7 @@ export function useGetEvents(
           return [...eventsCached, ...events] as EventT[];
         }
         store.setEvents(events);
-        // Reset to page 1 if filters changed
+        // Reset to page 1 if filters changed.
         if (
           JSON.stringify(store.getFilters()) !==
           JSON.stringify(eventFilters.value)
@@ -64,7 +65,7 @@ export function useGetEvents(
       watch: [eventFilters, page],
       immediate: true,
       getCachedData: (key, nuxtApp) => {
-        // Return cached data from store if available and filters/page match
+        // Return cached data from store if available and filters/page match.
         if (
           store.getEvents().length > 0 &&
           JSON.stringify(store.getFilters()) ===
