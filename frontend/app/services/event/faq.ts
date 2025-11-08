@@ -2,7 +2,7 @@
 
 import type { FaqEntry } from "~/types/content/faq-entry";
 
-import { post, put } from "~/services/http";
+import { del, post, put } from "~/services/http";
 import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Create
@@ -73,6 +73,17 @@ export async function reorderEventFaqs(
         )
       )
     );
+  } catch (e) {
+    const err = errorHandler(e);
+    throw err;
+  }
+}
+
+// MARK: Delete
+
+export async function deleteEventFaq(faqId: string): Promise<void> {
+  try {
+    await del(`/events/event_faqs/${faqId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;
