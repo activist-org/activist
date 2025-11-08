@@ -4,23 +4,20 @@
     <Head>
       <Title>{{ event?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
-
-    <HeaderAppPageOrganization
+    <HeaderAppPageEvent
       :header="event?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
+        <ModalFaqEntryEvent />
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
           :onClick="openModal"
         />
-        <ModalFaqEntryEvent />
       </div>
-    </HeaderAppPageOrganization>
-
-    <!-- FAQ list with drag-and-drop -->
+    </HeaderAppPageEvent>
     <div v-if="faqList.length > 0" class="py-4">
       <draggable
         v-model="faqList"
@@ -55,13 +52,11 @@
         </template>
       </draggable>
     </div>
-
     <EmptyState v-else class="py-4" pageType="faq" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -70,15 +65,23 @@ import { useEventFAQEntryMutations } from "~/composables/mutations/useEventFAQEn
 import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { EntityType } from "~/types/entity";
 
+const { openModal } = useModalHandlers("ModalFAQEntryEvent");
+
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
 const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 
-const faqList = computed<FaqEntry[]>(() => {
-  return event.value?.faqEntries || [];
-});
+const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
+
+watch(
+  () => event?.value?.faqEntries,
+  (newVal) => {
+    faqList.value = newVal?.slice() ?? [];
+  },
+  { immediate: true }
+);
 
 async function onDragEnd() {
   faqList.value.forEach((faq, index) => {

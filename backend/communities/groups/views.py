@@ -105,11 +105,11 @@ class GroupAPIView(GenericAPIView[Group]):
         try:
             serializer.save(created_by=request.user, location=location)
             logger.info(
-                f"Group created by user {request.user} with location {location.id}"
+                f"Group created by user {request.user.id} with location {location.id}"
             )
 
         except (IntegrityError, OperationalError) as e:
-            logger.exception(f"Failed to create group for user {request.user}: {e}")
+            logger.exception(f"Failed to create group for user {request.user.id}: {e}")
             Location.objects.filter(id=location.id).delete()
             return Response(
                 {"detail": "Failed to create group."},
@@ -263,7 +263,7 @@ class GroupFlagAPIView(GenericAPIView[GroupFlag]):
             serializer.save(created_by=request.user)
 
         except (IntegrityError, OperationalError) as e:
-            logger.exception(f"Failed to create flag for user {request.user}: {e}")
+            logger.exception(f"Failed to create flag for user {request.user.id}: {e}")
             return Response(
                 {"detail": "Failed to create flag."}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -355,7 +355,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
             )
 
         serializer.save()
-        logger.info(f"FAQ created for group {group.id} by user {request.user}")
+        logger.info(f"FAQ created for group {group.id} by user {request.user.id}")
 
         return Response(
             {"message": "FAQ created successfully."}, status=status.HTTP_201_CREATED
@@ -385,6 +385,17 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
             {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
         )
 
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "FAQ deleted successfully."}),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to delete the faqs for this group."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "FAQ not found."}),
+        }
+    )
     def destroy(self, request: Request, pk: UUID | str) -> Response:
         try:
             faq = GroupFaq.objects.get(id=pk)
@@ -395,15 +406,21 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
                 {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != faq.group.created_by and not request.user.is_staff:
+        group = faq.group
+        if group is not None:
+            creator = group.created_by
+
+        else:
+            raise ValueError("Org is None.")
+
+        if request.user != creator and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to delete this FAQ."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        group_id = faq.group.id
         faq.delete()
-        logger.info(f"FAQ {pk} deleted for group {group_id} by user {request.user}")
+        logger.info(f"FAQ {pk} deleted for group {group.id} by user {request.user.id}")
 
         return Response(
             {"message": "FAQ deleted successfully."}, status=status.HTTP_204_NO_CONTENT
@@ -512,7 +529,7 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             ),
             403: OpenApiResponse(
                 response={
-                    "detail": "You are not authorized to delete this social link."
+                    "detail": "You are not authorized to delete the social links for this group."
                 }
             ),
             404: OpenApiResponse(response={"detail": "Social link not found."}),
@@ -544,7 +561,9 @@ class GroupSocialLinkViewSet(viewsets.ModelViewSet[GroupSocialLink]):
             )
 
         social_link.delete()
-        logger.info(f"Social link {pk} deleted for group {group.id}")
+        logger.info(
+            f"Social link {pk} deleted for group {group.id} by user {request.user.id}"
+        )
 
         return Response(
             {"message": "Social link deleted successfully."},
