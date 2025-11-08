@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/getting-started/testing
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// See: https://nuxt.com/docs/getting-started/testing
 import { defineVitestConfig } from "@nuxt/test-utils/config";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
