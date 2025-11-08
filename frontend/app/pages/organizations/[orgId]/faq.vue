@@ -10,16 +10,19 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
+        <ModalFaqEntryOrganization />
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
-          :onClick="useModalHandlers('ModalFaqEntryOrganization').openModal"
+          :onClick="openModal"
         />
-        <ModalFaqEntryOrganization />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="(organization?.faqEntries || []).length > 0" class="py-4">
-      <!-- Draggable list -->
+    <div
+      v-if="faqList.length > 0"
+      class="py-4"
+      data-testid="organization-faq-list"
+    >
       <draggable
         v-model="faqList"
         @end="onDragEnd"
@@ -45,6 +48,7 @@
       >
         <template #item="{ element }">
           <CardFAQEntry
+            @delete-faq="handleDeleteFAQ"
             :entity="organization"
             :faqEntry="element"
             :pageType="EntityType.ORGANIZATION"
@@ -57,7 +61,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
 import type { FaqEntry } from "~/types/content/faq-entry";
@@ -66,13 +69,13 @@ import { useOrganizationFAQEntryMutations } from "~/composables/mutations/useOrg
 import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import { EntityType } from "~/types/entity";
 
-const { data: organization } = useGetOrganization(
-  useRoute().params.orgId as string
-);
+const { openModal } = useModalHandlers("ModalFaqEntryOrganization");
 
-const { reorderFAQs } = useOrganizationFAQEntryMutations(
-  useRoute().params.orgId as string
-);
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
+
+const { data: organization } = useGetOrganization(orgId);
+const { reorderFAQs, deleteFAQ } = useOrganizationFAQEntryMutations(orgId);
 
 const faqList = ref<FaqEntry[]>([...(organization?.value?.faqEntries || [])]);
 
@@ -90,6 +93,10 @@ const onDragEnd = async () => {
   });
 
   await reorderFAQs(faqList.value);
+};
+
+const handleDeleteFAQ = async (faqId: string) => {
+  await deleteFAQ(faqId);
 };
 </script>
 

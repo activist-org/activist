@@ -394,6 +394,47 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
             {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
         )
 
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "FAQ deleted successfully."}),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to delete the faqs for this event."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "FAQ not found."}),
+        }
+    )
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = EventFaq.objects.get(id=pk)
+
+        except EventFaq.DoesNotExist as e:
+            logger.exception(f"FAQ with id {pk} does not exist for delete: {e}")
+            return Response(
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        event = faq.event
+        if event is not None:
+            creator = event.created_by
+
+        else:
+            raise ValueError("Org is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        faq.delete()
+        logger.info(f"FAQ {pk} deleted for event {event.id} by user {request.user.id}")
+
+        return Response(
+            {"message": "FAQ deleted successfully."}, status=status.HTTP_204_NO_CONTENT
+        )
+
 
 # MARK: Resource
 
@@ -552,7 +593,7 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             ),
             403: OpenApiResponse(
                 response={
-                    "detail": "You are not authorized to delete this social link."
+                    "detail": "You are not authorized to delete this social links for this event."
                 }
             ),
             404: OpenApiResponse(response={"detail": "Social link not found."}),
@@ -584,7 +625,9 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
             )
 
         social_link.delete()
-        logger.info(f"Social link {pk} deleted for event {event.id}")
+        logger.info(
+            f"Social link {pk} deleted for event {event.id} by user {request.user.id}"
+        )
 
         return Response(
             {"message": "Social link deleted successfully."},
