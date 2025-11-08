@@ -20,7 +20,7 @@
       </div>
     </HeaderAppPageGroup>
     <div
-      v-if="(group?.faqEntries || []).length"
+      v-if="faqList.length > 0"
       class="py-4"
       data-testid="organization-group-faq-list"
     >

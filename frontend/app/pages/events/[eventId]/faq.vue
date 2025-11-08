@@ -18,14 +18,13 @@
         />
       </div>
     </HeaderAppPageEvent>
-    <div v-if="faqList.length > 0" class="py-4">
+    <div v-if="faqList.length > 0" class="py-4" data-testid="event-faq-list">
       <draggable
         v-model="faqList"
         @end="onDragEnd"
         :animation="150"
         :chosen-class="'sortable-chosen'"
         class="space-y-4"
-        data-testid="event-faq-list"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
