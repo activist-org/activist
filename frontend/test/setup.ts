@@ -106,8 +106,8 @@ const i18n = createI18n({
   locale: "en",
   fallbackLocale: "en",
   messages: Object.assign({ en }),
-  // Suppress missing key warnings in test environment
-  // (test keys like "i18n.test.button" don't exist in locale files)
+  // Suppress missing key warnings in test environment.
+  // Test keys like "i18n.test.button" don't exist in locale files.
   missingWarn: false,
   fallbackWarn: false,
 });
@@ -210,11 +210,11 @@ const originalWarn = console.warn;
 const originalError = console.error;
 
 beforeEach(() => {
-  // Suppress Vue warnings for known test-related issues
+  // Suppress Vue warnings for known test-related issues.
   // eslint-disable-next-line no-console
   console.warn = (...args: unknown[]) => {
     const message = String(args[0] || "");
-    // Skip warnings for known test component issues
+    // Skip warnings for known test component issues.
     if (
       message.includes("FriendlyCaptcha") ||
       message.includes("Draggable") ||
@@ -229,7 +229,7 @@ beforeEach(() => {
   // eslint-disable-next-line no-console
   console.error = (...args: unknown[]) => {
     const message = String(args[0] || "");
-    // Skip errors for known test component issues
+    // Skip errors for known test component issues.
     if (
       message.includes("FriendlyCaptcha") ||
       message.includes("Draggable") ||
@@ -243,7 +243,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // Restore original console methods
+  // Restore original console methods.
   // eslint-disable-next-line no-console
   console.warn = originalWarn;
   // eslint-disable-next-line no-console

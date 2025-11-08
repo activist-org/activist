@@ -118,12 +118,12 @@ describe("BtnShareIcon", () => {
       const button = screen.getByRole("button");
       await fireEvent.click(button);
 
-      // Wait for async clipboard operation
+      // Wait for async clipboard operation.
       await flushPromises();
 
       expect(mockWriteText).toHaveBeenCalledWith("https://signal.me");
 
-      // Advance timers to trigger setTimeout
+      // Advance timers to trigger setTimeout.
       vi.advanceTimersByTime(2000);
       await flushPromises();
 

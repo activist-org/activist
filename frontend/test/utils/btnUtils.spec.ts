@@ -43,7 +43,7 @@ describe("utils/btnUtils", () => {
         expect(result.value).toMatchObject({
           "text-xs": true,
         });
-        // Verify other font sizes are false
+        // Verify other font sizes are false.
         expect(result.value["text-sm"]).toBe(false);
         expect(result.value["text-base"]).toBe(false);
         expect(result.value["text-lg"]).toBe(false);
@@ -133,7 +133,7 @@ describe("utils/btnUtils", () => {
         });
       });
 
-      // Keep the original merged test case from feat/services-unit-tests branch
+      // Keep the original merged test case from feat/services-unit-tests branch.
       it("returns classes for cta and font sizes", () => {
         const small = getBtnDynamicClass(true, "sm").value as Record<
           string,
@@ -168,7 +168,7 @@ describe("utils/btnUtils", () => {
 
       it("returns expected structure shape", () => {
         const result = getBtnDynamicClass(true, "base");
-        const value = result.value;
+        const { value } = result;
 
         expect(value).toHaveProperty("style-cta");
         expect(value).toHaveProperty("style-cta-secondary");
@@ -194,7 +194,7 @@ describe("utils/btnUtils", () => {
       fontSizes.forEach((fontSize) => {
         it(`CTA true with ${fontSize} font size has only one font size class true`, () => {
           const result = getBtnDynamicClass(true, fontSize);
-          const value = result.value;
+          const { value } = result;
 
           const fontSizeKeys = [
             "text-xs",
@@ -212,7 +212,7 @@ describe("utils/btnUtils", () => {
 
         it(`CTA false with ${fontSize} font size has only one font size class true`, () => {
           const result = getBtnDynamicClass(false, fontSize);
-          const value = result.value;
+          const { value } = result;
 
           const fontSizeKeys = [
             "text-xs",
@@ -232,7 +232,7 @@ describe("utils/btnUtils", () => {
       fontSizes.forEach((fontSize) => {
         it(`CTA classes are mutually exclusive with ${fontSize} font size (CTA true)`, () => {
           const result = getBtnDynamicClass(true, fontSize);
-          const value = result.value;
+          const { value } = result;
 
           expect(value["style-cta"]).toBe(true);
           expect(value["style-cta-secondary"]).toBe(false);
@@ -240,7 +240,7 @@ describe("utils/btnUtils", () => {
 
         it(`CTA classes are mutually exclusive with ${fontSize} font size (CTA false)`, () => {
           const result = getBtnDynamicClass(false, fontSize);
-          const value = result.value;
+          const { value } = result;
 
           expect(value["style-cta"]).toBe(false);
           expect(value["style-cta-secondary"]).toBe(true);
