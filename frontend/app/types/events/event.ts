@@ -8,6 +8,7 @@ import type { Resource } from "~/types/content/resource";
 import type { SocialLink } from "~/types/content/social-link";
 import type { Topic, TopicEnum } from "~/types/content/topics";
 import type { Entity } from "~/types/entity";
+import type { PaginatedResponse } from "~/types/http";
 
 // MARK: Main Table
 
@@ -35,6 +36,8 @@ export type EventType = "action" | "learn";
 export interface Event extends EventBase {
   texts: EventText[];
 }
+
+export type EventsPaginatedResponse = PaginatedResponse<Event>;
 
 // MARK: Bridge Tables
 

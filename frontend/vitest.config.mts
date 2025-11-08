@@ -16,5 +16,16 @@ export default defineVitestConfig({
     ],
     globals: true,
     setupFiles: ["./test/setup.ts"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      reportsDirectory: "./app/coverage",
+      thresholds: {
+        statements: 5,
+        branches: 5,
+        functions: 5,
+        lines: 5,
+      },
+    },
   },
 });

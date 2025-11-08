@@ -5,10 +5,12 @@
 import type {
   EventCreateFormData,
   EventFilters,
+  EventsPaginatedResponse,
   EventResponse,
   EventsResponseBody,
   Event as EventT,
 } from "~/types/events/event";
+import type { Pagination } from "~/types/http";
 
 import { del, get, post } from "~/services/http";
 import { defaultEventText } from "~/types/events/event";
@@ -53,15 +55,17 @@ export async function getEvent(id: string): Promise<EventT> {
 // MARK: List All
 
 export async function listEvents(
-  filters: EventFilters = {}
-): Promise<EventT[]> {
+  filters: EventFilters & Pagination = { page: 1, page_size: 10 }
+): Promise<EventsPaginatedResponse> {
   try {
-    const query = new URLSearchParams(filters as Record<string, string>);
+    const query = new URLSearchParams(
+      filters as unknown as Record<string, string>
+    );
     const res = await get<EventsResponseBody>(
       `/events/events?${query.toString()}`,
       { withoutAuth: true }
     );
-    return res.results.map(mapEvent);
+    return { data: res.results.map(mapEvent), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
   }
