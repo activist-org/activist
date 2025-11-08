@@ -54,10 +54,12 @@ export async function getOrganization(id: string): Promise<OrganizationT> {
 // MARK: List All
 
 export async function listOrganizations(
-  filters: OrganizationFilters = {}
+  filters: OrganizationFilters
 ): Promise<OrganizationT[]> {
   try {
-    const query = new URLSearchParams(filters as Record<string, string>);
+    const query = new URLSearchParams(
+      filters as unknown as Record<string, string>
+    );
     const res = await get<OrganizationsResponseBody>(
       `/communities/organizations?${query.toString()}`,
       { withoutAuth: true }

@@ -17,9 +17,9 @@
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="block"
+      class="fixed top-0 z-20 h-screen"
     />
-    <div class="flex flex-col md:h-screen md:overflow-y-scroll">
+    <div class="flex flex-col">
       <div
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
