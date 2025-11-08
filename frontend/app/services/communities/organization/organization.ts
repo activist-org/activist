@@ -87,7 +87,8 @@ export async function createOrganization(
     };
     const res = await post<OrganizationResponse, typeof payload>(
       `/communities/organizations`,
-      payload
+      payload,
+      { headers: { "Content-Type": "application/json" } }
     );
     return res.id;
   } catch (e) {
