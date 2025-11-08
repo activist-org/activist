@@ -1,4 +1,4 @@
-FROM node:24-alpine
+FROM node:20-bookworm
 
 # Set work dir for relative paths
 WORKDIR /app
