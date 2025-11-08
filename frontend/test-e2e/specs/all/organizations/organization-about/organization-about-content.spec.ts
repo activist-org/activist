@@ -10,14 +10,15 @@ test.beforeEach(async ({ page }) => {
   // Wait for auth state to be fully loaded.
   await page.waitForLoadState("domcontentloaded");
 
-  // Wait intelligently for auth state to hydrate (no arbitrary delay).
+  // Wait for page to be fully loaded (no arbitrary delay).
   await expect(async () => {
-    // Verify page is interactive and auth state is ready.
+    // Verify page is interactive and fully rendered.
     const isReady = await page.evaluate(
       () => document.readyState === "complete"
     );
     expect(isReady).toBe(true);
   }).toPass({
+    timeout: 10000,
     intervals: [100, 250],
   });
 });
