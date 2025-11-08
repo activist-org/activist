@@ -8,6 +8,7 @@ import type { AppError } from "~/utils/errorHandler";
 
 import {
   createOrganizationFaq,
+  deleteOrganizationFaq,
   reorderOrganizationFaqs,
   updateOrganizationFaq,
 } from "~/services/communities/organization/faq";
@@ -93,6 +94,26 @@ export function useOrganizationFAQEntryMutations(
     }
   }
 
+  // Delete FAQ entry.
+  async function deleteFAQ(faqId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteOrganizationFaq(faqId);
+
+      // Refresh to get the updated list.
+      await refreshOrganizationData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Helper to refresh organization data after mutations.
   async function refreshOrganizationData() {
     if (!currentOrganizationId.value) {
@@ -111,6 +132,7 @@ export function useOrganizationFAQEntryMutations(
     createFAQ,
     updateFAQ,
     reorderFAQs,
+    deleteFAQ,
     refreshOrganizationData,
   };
 }

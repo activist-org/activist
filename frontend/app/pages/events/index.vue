@@ -12,14 +12,21 @@
         <ComboboxTopics />
       </div>
     </HeaderAppPage>
-    <Loading v-if="pending" :loading="pending" />
-    <div v-else-if="events.length > 0 && !pending">
+    <Loading
+      v-if="pending && !loadingFetchMore"
+      :loading="pending && !loadingFetchMore"
+    />
+    <div v-else-if="showEvents">
       <EventsList v-if="viewType === ViewType.LIST" :events="events" />
       <EventsMap v-else-if="viewType === ViewType.MAP" :events="events" />
       <EventsCalendar
         v-else-if="viewType === ViewType.CALENDAR"
         :events="events"
       />
+      <!-- The bottom sentinel for Intersection Observer. -->
+      <div ref="bottomSentinel">
+        <Loading v-if="loadingFetchMore && pending" />
+      </div>
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
   </div>
@@ -29,18 +36,48 @@
 import type { EventFilters } from "~/types/events/event";
 
 import { useGetEvents } from "~/composables/queries/useGetEvents";
+import { useInfiniteScroll } from "~/composables/useInfiniteScroll";
 import { ViewType } from "~/types/view-types";
 
 const viewType = ref<ViewType>(ViewType.MAP);
-
 const route = useRoute();
-
+const loadingFetchMore = ref(false);
 const filters = computed<EventFilters>(() => {
   const { view, ...rest } = route.query; // omit view
   return rest as unknown as EventFilters;
 });
 
-const { data: events, pending } = useGetEvents(filters);
+watch(
+  filters,
+  () => {
+    // Reset loading more state when filters change.
+    loadingFetchMore.value = false;
+  },
+  { immediate: true, deep: true }
+);
+const { data: events, pending, getMore } = useGetEvents(filters);
+
+const bottomSentinel = ref<HTMLElement | null>(null);
+const canFetchMore = computed(() => viewType.value === ViewType.LIST);
+const changeFetchMore = () => {
+  loadingFetchMore.value = true;
+};
+useInfiniteScroll({
+  sentinel: bottomSentinel,
+  fetchMore: getMore,
+  canFetchMore,
+  callback: changeFetchMore,
+});
+
+const showEvents = computed(() => {
+  if (events.value.length > 0) {
+    if (loadingFetchMore.value) {
+      return true;
+    }
+    return !pending.value;
+  }
+  return false;
+});
 
 watchEffect(() => {
   const q = route.query.view;
