@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "@playwright/test";
 
+import { getEnglishText } from "~/utils/i18n";
+
 export const newQRCodeModal = (page: Page) => ({
   modal: page.locator("#modal").first(),
   closeButton: (modal: Locator) => modal.getByTestId("modal-close-button"),
@@ -12,9 +14,14 @@ export const newQRCodeModal = (page: Page) => ({
     modal.locator("button").filter({ has: modal.locator("#qr-code") }),
   tooltip: (modal: Locator) => modal.locator("[role='tooltip']"),
 
-  // Download functionality.
-  downloadDropdown: (modal: Locator) =>
-    modal.locator("[aria-label*='qr_code_options']"),
+  // Download functionality (BtnActionDropdown main button).
   downloadButton: (modal: Locator) =>
-    modal.locator("[aria-label*='download_qr_code']"),
+    modal.getByRole("button", {
+      name: new RegExp(
+        getEnglishText(
+          "i18n.components.modal_qr_code.download_qr_code_aria_label"
+        ),
+        "i"
+      ),
+    }),
 });

@@ -10,20 +10,10 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          @click.stop="
-            useModalHandlers('ModalFaqEntryOrganization').openModal()
-          "
-          @keydown.enter="
-            useModalHandlers('ModalFaqEntryOrganization').openModal()
-          "
+        <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n.pages._global.new_faq"
-          :leftIcon="IconMap.PLUS"
+          :element="$t('i18n._global.faq')"
+          :onClick="useModalHandlers('ModalFaqEntryOrganization').openModal"
         />
         <ModalFaqEntryOrganization />
       </div>
@@ -76,7 +66,6 @@ import type { FaqEntry } from "~/types/content/faq-entry";
 import { useOrganizationFAQEntryMutations } from "~/composables/mutations/useOrganizationFAQEntryMutations";
 import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 
 const { data: organization } = useGetOrganization(
   useRoute().params.orgId as string

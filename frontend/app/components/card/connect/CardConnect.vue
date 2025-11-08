@@ -10,7 +10,7 @@
         @click="openModalSocialLinks"
         @keydown.enter="openModalSocialLinks"
         class="flex"
-        data-testid="edit-icon"
+        data-testid="icon-edit"
       />
     </div>
     <ul
