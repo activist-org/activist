@@ -7,6 +7,7 @@ import {
   createEventFaq,
   updateEventFaq,
   reorderEventFaqs,
+  deleteEventFaq,
 } from "../../../app/services/event/faq";
 import { AppError } from "../../../app/utils/errorHandler";
 import {
@@ -99,6 +100,25 @@ describe("services/event/faq", () => {
     });
   });
 
+  // MARK: - Delete
+
+  it("deleteEventFaq() calls DELETE endpoint", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await deleteEventFaq("faq-123");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(fetchMock, 0);
+    expect(url).toContain("/events/event_faqs/faq-123");
+    expect(opts.method).toBe("DELETE");
+  });
+
+  it("deleteEventFaq() handles successful deletion", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await expect(deleteEventFaq("faq-456")).resolves.toBeUndefined();
+  });
+
   // MARK: - Error Handling
 
   it("propagates AppError on failure", async () => {
@@ -107,5 +127,11 @@ describe("services/event/faq", () => {
     await expect(
       createEventFaq("evt-err", { id: "x" } as unknown as FaqEntry)
     ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it("deleteEventFaq() propagates AppError on failure", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockRejectedValueOnce(new Error("delete failed"));
+    await expect(deleteEventFaq("faq-err")).rejects.toBeInstanceOf(AppError);
   });
 });
