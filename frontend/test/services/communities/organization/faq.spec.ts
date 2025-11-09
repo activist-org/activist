@@ -7,6 +7,7 @@ import {
   createOrganizationFaq,
   updateOrganizationFaq,
   reorderOrganizationFaqs,
+  deleteOrganizationFaq,
 } from "../../../../app/services/communities/organization/faq";
 import { AppError } from "../../../../app/utils/errorHandler";
 import {
@@ -81,6 +82,25 @@ describe("services/communities/organization/faq", () => {
     expect(secondOpts.method).toBe("PUT");
   });
 
+  // MARK: - Delete
+
+  it("deleteOrganizationFaq() calls DELETE endpoint", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await deleteOrganizationFaq("faq-123");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(fetchMock, 0);
+    expect(url).toContain("/communities/organization_faqs/faq-123");
+    expect(opts.method).toBe("DELETE");
+  });
+
+  it("deleteOrganizationFaq() handles successful deletion", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await expect(deleteOrganizationFaq("faq-456")).resolves.toBeUndefined();
+  });
+
   // MARK: - Error Handling
 
   it("propagates AppError on failure", async () => {
@@ -89,5 +109,13 @@ describe("services/communities/organization/faq", () => {
     await expect(
       createOrganizationFaq("org-err", { id: "x" } as unknown as FaqEntry)
     ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it("deleteOrganizationFaq() propagates AppError on failure", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockRejectedValueOnce(new Error("delete failed"));
+    await expect(deleteOrganizationFaq("faq-err")).rejects.toBeInstanceOf(
+      AppError
+    );
   });
 });
