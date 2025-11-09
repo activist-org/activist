@@ -7,6 +7,7 @@ import {
   createGroupFaq,
   updateGroupFaq,
   reorderGroupFaqs,
+  deleteGroupFaq,
 } from "../../../../app/services/communities/group/faq";
 import { AppError } from "../../../../app/utils/errorHandler";
 import {
@@ -81,6 +82,25 @@ describe("services/communities/group/faq", () => {
     expect(secondOpts.method).toBe("PUT");
   });
 
+  // MARK: - Delete
+
+  it("deleteGroupFaq() calls DELETE endpoint", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await deleteGroupFaq("faq-123");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(fetchMock, 0);
+    expect(url).toContain("/communities/group_faqs/faq-123");
+    expect(opts.method).toBe("DELETE");
+  });
+
+  it("deleteGroupFaq() handles successful deletion", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await expect(deleteGroupFaq("faq-456")).resolves.toBeUndefined();
+  });
+
   // MARK: - Error Handling
 
   it("propagates AppError on failure", async () => {
@@ -89,5 +109,11 @@ describe("services/communities/group/faq", () => {
     await expect(
       createGroupFaq("grp-err", { id: "x" } as unknown as FaqEntry)
     ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it("deleteGroupFaq() propagates AppError on failure", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockRejectedValueOnce(new Error("delete failed"));
+    await expect(deleteGroupFaq("faq-err")).rejects.toBeInstanceOf(AppError);
   });
 });
