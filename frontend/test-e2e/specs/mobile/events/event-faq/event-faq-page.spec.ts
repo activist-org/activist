@@ -4,22 +4,23 @@ import {
   performDragAndDrop,
   verifyReorder,
 } from "~/test-e2e/actions/dragAndDrop";
-import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
+import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
+import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
 import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
-  await navigateToOrganizationSubpage(page, "faq");
+  await navigateToEventSubpage(page, "faq");
 });
 
-test.describe("Organization FAQ Page - Desktop", { tag: "@desktop" }, () => {
-  test("User can reorder FAQ entries using drag and drop on desktop", async ({
+test.describe("Event FAQ Page - Mobile", { tag: "@mobile" }, () => {
+  test.skip("User can reorder FAQ entries using drag and drop on mobile", async ({
     page,
   }) => {
-    const organizationPage = newOrganizationPage(page);
-    const { faqPage } = organizationPage;
+    // TODO: Known issue - cannot navigate to events on mobile yet
+    const eventPage = newEventPage(page);
+    const { faqPage } = eventPage;
 
     // Wait for FAQ entries to load completely.
     await page.waitForLoadState("domcontentloaded");
@@ -35,10 +36,11 @@ test.describe("Organization FAQ Page - Desktop", { tag: "@desktop" }, () => {
     const firstQuestion = initialOrder[0];
     const secondQuestion = initialOrder[1];
 
-    // Verify drag handles are visible.
+    // Verify drag handles are visible and get their properties.
     const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
     const secondFAQDragHandle = faqPage.getFAQDragHandle(1);
 
+    // Quick validation that drag handles are ready.
     await expect(firstFAQDragHandle).toBeVisible();
     await expect(secondFAQDragHandle).toBeVisible();
 
@@ -47,6 +49,8 @@ test.describe("Organization FAQ Page - Desktop", { tag: "@desktop" }, () => {
     await expect(secondFAQDragHandle).toContainClass("drag-handle");
 
     // Perform drag and drop using shared utility.
+    // NOTE: We use mouse events with delays instead of dragTo() because
+    // dragTo() executes too quickly for vuedraggable to process the drag sequence.
     await performDragAndDrop(page, firstFAQDragHandle, secondFAQDragHandle);
 
     // Verify the reorder using shared utility.

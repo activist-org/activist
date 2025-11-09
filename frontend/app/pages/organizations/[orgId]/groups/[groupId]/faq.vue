@@ -73,7 +73,7 @@ const groupTabs = getGroupTabs();
 
 const { openModal } = useModalHandlers("ModalFaqEntryGroup");
 
-const paramsGroupId = useRoute().params.eventId;
+const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);

@@ -7,6 +7,7 @@ import {
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
+import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
@@ -23,44 +24,40 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
     // Wait for FAQ entries to load completely.
     await page.waitForLoadState("domcontentloaded");
 
-    const faqCount = await faqPage.getFAQCount();
+    // Ensure we have at least 2 FAQs for testing (create them if needed).
+    const faqCount = await ensureMinimumFAQs(page, faqPage, 2);
 
-    if (faqCount >= 2) {
-      // Get initial order of first 2 FAQ questions for drag and drop test.
-      const initialOrder = await getFAQCardOrder(page);
-      const firstQuestion = initialOrder[0];
-      const secondQuestion = initialOrder[1];
+    // Verify we have at least 2 FAQs.
+    expect(faqCount).toBeGreaterThanOrEqual(2);
 
-      // Verify drag handles are visible and get their properties.
-      const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
-      const secondFAQDragHandle = faqPage.getFAQDragHandle(1);
+    // Get initial order of first 2 FAQ questions for drag and drop test.
+    const initialOrder = await getFAQCardOrder(page);
+    const firstQuestion = initialOrder[0];
+    const secondQuestion = initialOrder[1];
 
-      // Quick validation that drag handles are ready.
-      await expect(firstFAQDragHandle).toBeVisible();
-      await expect(secondFAQDragHandle).toBeVisible();
+    // Verify drag handles are visible and get their properties.
+    const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
+    const secondFAQDragHandle = faqPage.getFAQDragHandle(1);
 
-      // Validate drag handles have the correct CSS class.
-      await expect(firstFAQDragHandle).toContainClass("drag-handle");
-      await expect(secondFAQDragHandle).toContainClass("drag-handle");
+    // Quick validation that drag handles are ready.
+    await expect(firstFAQDragHandle).toBeVisible();
+    await expect(secondFAQDragHandle).toBeVisible();
 
-      // Perform drag and drop using shared utility.
-      // NOTE: We use mouse events with delays instead of dragTo() because
-      // dragTo() executes too quickly for vuedraggable to process the drag sequence.
-      await performDragAndDrop(page, firstFAQDragHandle, secondFAQDragHandle);
+    // Validate drag handles have the correct CSS class.
+    await expect(firstFAQDragHandle).toContainClass("drag-handle");
+    await expect(secondFAQDragHandle).toContainClass("drag-handle");
 
-      // Verify the reorder using shared utility.
-      await verifyReorder(
-        page,
-        firstQuestion ?? "",
-        secondQuestion ?? "",
-        getFAQCardOrder
-      );
-    } else {
-      // Skip test if insufficient FAQ entries for drag and drop testing.
-      test.skip(
-        faqCount >= 2,
-        "Need at least 2 FAQ entries to test drag and drop functionality"
-      );
-    }
+    // Perform drag and drop using shared utility.
+    // NOTE: We use mouse events with delays instead of dragTo() because
+    // dragTo() executes too quickly for vuedraggable to process the drag sequence.
+    await performDragAndDrop(page, firstFAQDragHandle, secondFAQDragHandle);
+
+    // Verify the reorder using shared utility.
+    await verifyReorder(
+      page,
+      firstQuestion ?? "",
+      secondQuestion ?? "",
+      getFAQCardOrder
+    );
   });
 });
