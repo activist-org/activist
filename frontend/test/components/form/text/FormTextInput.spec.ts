@@ -20,7 +20,7 @@ const TestWrapper = defineComponent({
       :label="label"
       v-model="modelValue"
     />
-  `
+  `,
 });
 
 // Label class helpers
@@ -38,15 +38,17 @@ function expectShrunkLabel(label: HTMLElement) {
 
 // Legend class helpers
 function expectNormalLegend(legend: HTMLElement) {
-  expect(Array.from(legend.classList), "Hidden legend should be normal size").toContain(
-    "max-w-[0.01px]"
-  );
+  expect(
+    Array.from(legend.classList),
+    "Hidden legend should be normal size"
+  ).toContain("max-w-[0.01px]");
 }
 
 function expectShrunkLegend(legend: HTMLElement) {
-  expect(Array.from(legend.classList), "Hidden legend should be shrunk").not.toContain(
-    "max-w-[0.01px]"
-  );
+  expect(
+    Array.from(legend.classList),
+    "Hidden legend should be shrunk"
+  ).not.toContain("max-w-[0.01px]");
 }
 
 describe("FormTextInput", () => {
@@ -58,17 +60,17 @@ describe("FormTextInput", () => {
       },
     });
 
-    let label = screen.getByText("test focus", { selector: 'label' });
+    let label = screen.getByText("test focus", { selector: "label" });
     expectNormalLabel(label);
 
     let legend = screen.getByTestId("hidden-legend");
     expectNormalLegend(legend);
 
-    const input = screen.getByLabelText("test focus", { selector: 'input' });
+    const input = screen.getByLabelText("test focus", { selector: "input" });
     await fireEvent.focus(input);
 
     await waitFor(() => {
-      label = screen.getByText("test focus", { selector: 'label' });
+      label = screen.getByText("test focus", { selector: "label" });
       expectShrunkLabel(label);
 
       legend = screen.getByTestId("hidden-legend");
@@ -84,13 +86,13 @@ describe("FormTextInput", () => {
       },
     });
 
-    const input = screen.getByLabelText("test blur", { selector: 'input' });
+    const input = screen.getByLabelText("test blur", { selector: "input" });
     await fireEvent.focus(input);
     await fireEvent.update(input, "text"); // update() instead of input() for v-model compatibility
     await fireEvent.blur(input);
 
     await waitFor(() => {
-      const label = screen.getByText("test blur", { selector: 'label' });
+      const label = screen.getByText("test blur", { selector: "label" });
       expectShrunkLabel(label);
 
       const legend = screen.getByTestId("hidden-legend");
@@ -102,7 +104,7 @@ describe("FormTextInput", () => {
     await fireEvent.blur(input);
 
     await waitFor(() => {
-      const label = screen.getByText("test blur", { selector: 'label' });
+      const label = screen.getByText("test blur", { selector: "label" });
       expectNormalLabel(label);
 
       const legend = screen.getByTestId("hidden-legend");
