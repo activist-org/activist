@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
+
 import TooltipBase from '../../../app/components/tooltip/TooltipBase.vue'
 
-describe('TooltipBase.vue', () => {
+describe('TooltipBase component', () => {
   it('renders header and text when provided', () => {
     const wrapper = mount(TooltipBase, {
       props: {
@@ -11,16 +12,16 @@ describe('TooltipBase.vue', () => {
       }
     })
 
-    expect(wrapper.find('h4').exists()).toBe(true)
-    expect(wrapper.find('h4').text()).toBe('Tooltip Title')
-    expect(wrapper.find('p').exists()).toBe(true)
-    expect(wrapper.find('p').text()).toBe('Some tooltip body text.')
+    expect(wrapper.find('[data-testid="tooltip-header"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="tooltip-header"]').text()).toBe('Tooltip Title')
+    expect(wrapper.find('[data-testid="tooltip-text"]').exists()).toBe(true)
+    expect(wrapper.find('[data-testid="tooltip-text"]').text()).toBe('Some tooltip body text.')
   })
 
   it('does not render header or text when not provided', () => {
     const wrapper = mount(TooltipBase)
-    expect(wrapper.find('h4').exists()).toBe(false)
-    expect(wrapper.find('p').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="tooltip-header"]').exists()).toBe(false)
+    expect(wrapper.find('[data-testid="tooltip-text"]').exists()).toBe(false)
   })
 
   it('renders slot content when provided', () => {
