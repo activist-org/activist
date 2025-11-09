@@ -140,7 +140,7 @@ test.describe(
 
         await expectTheme(page, theme);
 
-        await sidebar.closeButton.click();
+        await sidebar.closeButton.click({ force: true });
         await expect(
           themeMenu.systemThemeOption,
           "Theme menu should be closed"

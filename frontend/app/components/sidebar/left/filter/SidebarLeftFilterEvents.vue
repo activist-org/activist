@@ -241,15 +241,17 @@ const updateViewType = (
 };
 
 const viewType = ref(ViewType.MAP);
-const q = route.query.view;
-if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
-  viewType.value = q as ViewType;
-}
 const formData = ref({});
 watch(
   route,
   (form) => {
-    formData.value = { ...form.query };
+    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
+    formData.value = { ...rest };
+    viewType.value =
+      typeof view === "string" &&
+      Object.values(ViewType).includes(view as ViewType)
+        ? (view as ViewType)
+        : ViewType.MAP;
   },
   { immediate: true }
 );
@@ -271,7 +273,7 @@ const handleSubmit = (_values: unknown) => {
       ) {
         return;
       }
-      if (key === "viewType") return;
+      if (key === "view") return;
       values[key] = input[key];
     }
     if (route.query.name && route.query.name !== "")
@@ -280,6 +282,7 @@ const handleSubmit = (_values: unknown) => {
   router.push({
     query: {
       ...(values as LocationQueryRaw),
+      view: viewType.value,
     },
   });
 };

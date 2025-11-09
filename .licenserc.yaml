@@ -2,13 +2,16 @@ header:
   license:
     content: "SPDX-License-Identifier: AGPL-3.0-or-later"
   paths:
-    - '**/*.vue'
-    - '**/*.ts'
-    - '**/*.d.ts'
-    - '**/*.js'
-    - '**/*.html'
     - '**/*.css'
+    - '**/*.d.ts'
+    - '**/*.html'
+    - '**/*.js'
+    - '**/*.ts'
+    - '**/*.mjs'
+    - '**/*.mts'
     - '**/*.py'
+    - '**/*.ts'
+    - '**/*.vue'
   paths-ignore:
     - 'dist'
     - 'node_modules'

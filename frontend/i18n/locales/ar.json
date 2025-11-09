@@ -1,5 +1,6 @@
 {
   "i18n._global.about": "عن المنصة",
+  "i18n._global.activist_icon_img_alt_text": ".صغير مكتوب بخط إنجليزي، مع نصف دائرة تشير إلى الأسفل وإلى اليسار في الوسط (a) حرف :activist رمز",
   "i18n._global.auth.reset_password": "إعادة تعيين كلمة المرور",
   "i18n._global.auth.reset_password_forgot_password": "هل نسيت كلمة المرور؟",
   "i18n._global.contact": "تواصل",
@@ -530,7 +531,6 @@
   "i18n.pages.home.index.header": "مرحبًا، اسم المستخدم",
   "i18n.pages.home.index.subheader": "مواضيعك في لمحة",
   "i18n.pages.index.about_us": "من نحن",
-  "i18n.pages.index.activist_icon_img_alt_text": ".صغير مكتوب بخط إنجليزي، مع نصف دائرة تشير إلى الأسفل وإلى اليسار في الوسط (a) حرف :activist رمز",
   "i18n.pages.index.activist_section_btn_aria_label": "في التوثيق activist تعرف أكثر على",
   "i18n.pages.index.activist_section_tagline": "مجتمعنا وأهدافنا",
   "i18n.pages.index.activist_section_text": ".نحن فريق عالمي من المساهمين يشارك هدفًا واحدًا: لنُحدِّث الطريقة التي يمكن للناس من خلالها الانخراط سياسيًا وتنظيم أنفسهم",

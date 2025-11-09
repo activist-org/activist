@@ -176,16 +176,7 @@ export default defineConfig({
             workers: process.env.CI ? 1 : 1,
             use: {
               ...devices["Desktop Safari"],
-              // WebKit performance optimizations
-              launchOptions: {
-                args: [
-                  "--disable-web-security",
-                  "--disable-features=VizDisplayCompositor",
-                  "--disable-background-timer-throttling",
-                  "--disable-backgrounding-occluded-windows",
-                  "--disable-renderer-backgrounding",
-                ],
-              },
+              // WebKit doesn't support Chromium-specific launch args
               // Reuse browser state for faster authentication.
               // userDataDir: process.env.CI
               //   ? undefined
@@ -252,23 +243,25 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests. */
-  webServer: process.env.USE_PREVIEW
-    ? {
-        // Use built version (faster, no compilation during tests)
-        command: "yarn build:local && yarn preview",
-        url: "http://localhost:3000",
-        reuseExistingServer: !process.env.CI,
-        timeout: 180000, // 3 minutes for build + server startup
-        stdout: "pipe",
-        stderr: "pipe",
-      }
-    : {
-        // Use dev server (default, with hot reload)
-        command: "yarn dev:local",
-        url: "http://localhost:3000",
-        reuseExistingServer: !process.env.CI,
-        timeout: 120000, // 2 minutes for server startup
-        stdout: "pipe",
-        stderr: "pipe",
-      },
+  webServer: process.env.SKIP_WEBSERVER
+    ? undefined
+    : process.env.USE_PREVIEW
+      ? {
+          // Use built version (faster, no compilation during tests).
+          command: "yarn build:local && yarn preview",
+          url: "http://localhost:3000",
+          reuseExistingServer: !process.env.CI,
+          timeout: 180000, // 3 minutes for build + server startup
+          stdout: "pipe",
+          stderr: "pipe",
+        }
+      : {
+          // Use dev server (default, with hot reload).
+          command: "yarn dev:local",
+          url: "http://localhost:3000",
+          reuseExistingServer: !process.env.CI,
+          timeout: 120000, // 2 minutes for server startup
+          stdout: "pipe",
+          stderr: "pipe",
+        },
 });

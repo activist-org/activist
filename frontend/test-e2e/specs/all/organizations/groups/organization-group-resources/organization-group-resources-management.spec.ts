@@ -37,6 +37,7 @@ test.beforeEach(async ({ page }) => {
     );
     expect(isReady).toBe(true);
   }).toPass({
+    timeout: 10000,
     intervals: [100, 250],
   });
 });
