@@ -7,10 +7,10 @@
       'elem-shadow-md w-min px-3 py-2': slots.default,
     }"
   >
-    <h4 v-if="header">
+    <h4 v-if="header" data-testid="tooltip-header">
       {{ header }}
     </h4>
-    <p v-if="text" class="text-left">
+    <p v-if="text" class="text-left" data-testid="tooltip-text">
       {{ text }}
     </p>
     <slot />
