@@ -45,10 +45,19 @@ class EventFactory(factory.django.DjangoModelFactory):
     is_private = factory.Faker("boolean")
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+        + datetime.timedelta(
+            # Events from 30 days ago to 90 days ahead
+            days=random.randint(-30, 90),
+            # Events between 8 AM and 8 PM
+            hours=random.randint(8, 20),
+            # Round to 15-minute intervals
+            minutes=random.choice([0, 15, 30, 45]),
+        )
     )
     end_time = factory.LazyAttribute(
-        lambda x: (
-            datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1)
+        lambda obj: obj.start_time
+        + datetime.timedelta(
+            hours=random.randint(1, 8)  # Events last 1-8 hours
         )
     )
     creation_date = factory.LazyFunction(
