@@ -478,6 +478,49 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
             {"message": "FAQ updated successfully."}, status=status.HTTP_200_OK
         )
 
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "FAQ deleted successfully."}),
+            403: OpenApiResponse(
+                response={
+                    "detail": "You are not authorized to delete the faqs for this organization."
+                }
+            ),
+            404: OpenApiResponse(response={"detail": "FAQ not found."}),
+        }
+    )
+    def destroy(self, request: Request, pk: UUID | str) -> Response:
+        try:
+            faq = OrganizationFaq.objects.get(id=pk)
+
+        except OrganizationFaq.DoesNotExist as e:
+            logger.exception(f"FAQ with id {pk} does not exist for delete: {e}")
+            return Response(
+                {"detail": "FAQ not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        org = faq.org
+        if org is not None:
+            creator = org.created_by
+
+        else:
+            raise ValueError("Org is None.")
+
+        if request.user != creator and not request.user.is_staff:
+            return Response(
+                {"detail": "You are not authorized to delete this FAQ."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        faq.delete()
+        logger.info(
+            f"FAQ {pk} deleted for organization {org.id} by user {request.user.id}"
+        )
+
+        return Response(
+            {"message": "FAQ deleted successfully."}, status=status.HTTP_204_NO_CONTENT
+        )
+
 
 # MARK: Social Link
 
@@ -613,7 +656,9 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
             )
 
         social_link.delete()
-        logger.info(f"Social link {pk} deleted for org {org.id}")
+        logger.info(
+            f"Social link {pk} deleted for org {org.id} by user {request.user.id}"
+        )
 
         return Response(
             {"message": "Social link deleted successfully."},
