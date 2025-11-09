@@ -46,8 +46,20 @@ class EventFactory(factory.django.DjangoModelFactory):
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
         + datetime.timedelta(
-            # Events from 30 days ago to 90 days ahead
-            days=random.randint(-30, 90),
+            # Weighted distribution: more events in near future
+            # 30% within 1 day, 30% within 7 days, 20% within 30 days,
+            # 10% past events, 10% far future (30-90 days)
+            days=random.choices(
+                [
+                    random.randint(0, 1),  # Today/tomorrow
+                    random.randint(2, 7),  # This week
+                    random.randint(8, 30),  # This month
+                    random.randint(-30, -1),  # Past events
+                    random.randint(31, 90),  # Far future
+                ],
+                weights=[30, 30, 20, 10, 10],
+                k=1,
+            )[0],
             # Events between 8 AM and 8 PM
             hours=random.randint(8, 20),
             # Round to 15-minute intervals
