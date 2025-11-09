@@ -95,9 +95,10 @@ describe("services/event", () => {
     const [, opts] = getFetchCall(fetchMock);
     expect(opts.headers?.Authorization).toBeUndefined();
 
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe("evt-2");
-    expect(result[0].texts).toEqual([defaultEventText]);
+    expect(result.data).toHaveLength(1);
+    expect(result.data[0].id).toBe("evt-2");
+    expect(result.data[0].texts).toEqual([defaultEventText]);
+    expect(result.isLastPage).toBe(true);
   });
 
   // MARK: - Create
