@@ -45,12 +45,14 @@ describe("TooltipBase component", () => {
     expect(classes).toContain("tooltip");
     expect(classes).toContain("z-20");
     expect(classes).toContain("bg-layer-1");
-    // Conditional class block
+
+    // Conditional class block.
     expect(classes).toContain("w-max");
     expect(classes).toContain("px-2");
     expect(classes).toContain("py-1");
     expect(classes).toContain("elem-shadow-sm");
-    // Should NOT include slot-based classes
+
+    // Should NOT include slot-based classes.
     expect(classes).not.toContain("elem-shadow-md");
   });
 

@@ -6,7 +6,7 @@ import { defineComponent, ref } from "vue";
 import FormTextInput from "../../../../app/components/form/text/FormTextInput.vue";
 import render from "../../../render";
 
-// Test wrapper to enable v-model for correct reactivity in tests
+// Test wrapper to enable v-model for correct reactivity in tests.
 const TestWrapper = defineComponent({
   components: { FormTextInput },
   props: ["id", "label"],
@@ -23,7 +23,8 @@ const TestWrapper = defineComponent({
   `,
 });
 
-// Label class helpers
+// MARK: Label Helpers
+
 function expectNormalLabel(label: HTMLElement) {
   expect(label.className, "Label should be normal size").toMatch(
     "translate-y-[0.6rem] pl-[12px]"
@@ -36,7 +37,8 @@ function expectShrunkLabel(label: HTMLElement) {
   );
 }
 
-// Legend class helpers
+// MARK: Legend Helpers
+
 function expectNormalLegend(legend: HTMLElement) {
   expect(
     Array.from(legend.classList),
