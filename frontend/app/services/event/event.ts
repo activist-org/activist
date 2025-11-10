@@ -90,7 +90,8 @@ export async function createEvent(
     };
     const res = await post<EventResponse, typeof payload>(
       `/events/events`,
-      payload
+      payload,
+      { headers: { "Content-Type": "application/json" } }
     );
     return res.id;
   } catch (e) {
