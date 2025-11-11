@@ -11,9 +11,5 @@
       "~~/*": ["./*"]
     }
   },
-  "include": [
-    "test/**/*.ts",
-    "test/**/*.d.ts",
-    "vitest-globals.d.ts"
-  ]
+  "include": ["test/**/*.ts", "test/**/*.d.ts", "test/vitest-globals.d.ts"]
 }
