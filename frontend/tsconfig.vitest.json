@@ -10,6 +10,5 @@
       "~~": ["."],
       "~~/*": ["./*"]
     }
-  },
-  "include": ["test/**/*.ts", "test/**/*.d.ts", "test/vitest-globals.d.ts"]
+  }
 }
