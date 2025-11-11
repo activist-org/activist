@@ -4,7 +4,7 @@ import logging
 import pytest
 from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory, UserFlagFactory
+from authentication.factories import UserFactory
 
 logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db

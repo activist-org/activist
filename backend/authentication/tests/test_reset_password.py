@@ -2,10 +2,6 @@
 import logging
 
 import pytest
-from django.core import mail
-from rest_framework.test import APIClient
-
-from authentication.factories import UserFactory
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +28,7 @@ def test_pwreset(authenticated_client) -> None:
     """
     logger.info("Starting password reset test with various scenarios")
 
-    client,user = authenticated_client
+    client, user = authenticated_client
 
     # 2. Password reset with invalid email.
     response = client.post(
