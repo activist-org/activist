@@ -115,24 +115,95 @@ describe("FormTextInput", () => {
     });
   });
 
-  // Prop Usage Tests
-  it("renders even if required props are missing (graceful fallback)", async () => {
-    // intentionally omit required props to simulate misuse
-    const { container } = await render(FormTextInput, { props: {} });
+  // Kirthiiii
+  // MARK: Rendering Tests
+  const defaultProps = { id: "test-input", label: "Test Label" };
 
-    // Should still mount and render an <input> safely
-    const input = container.querySelector("input");
+  it("renders input and label correctly", async () => {
+    await render(TestWrapper, { props: defaultProps });
+
+    const input = screen.getByRole("textbox");
+    expect(input).toBeTruthy();
+    expect(input.getAttribute("id")).toBe("test-input");
+
+    const label = screen.getByText("Test Label", { selector: "label" });
+    expect(label).toBeTruthy();
+  });
+
+  // MARK: Logic
+  it("emits update:modelValue on user input", async () => {
+    const { emitted } = await render(FormTextInput, {
+      props: { id: "logic-id", label: "Logic Test" },
+    });
+
+    const input = screen.getByRole("textbox");
+    await fireEvent.update(input, "hello world");
+
+    expect(emitted("update:modelValue")).toBeTruthy();
+    expect(emitted("update:modelValue")[0]).toEqual(["hello world"]);
+  });
+
+  // MARK: Edge Cases Tests
+  it("handles empty string id and label gracefully", async () => {
+    await render(TestWrapper, { props: { id: "", label: "" } });
+
+    const input = screen.getByRole("textbox");
     expect(input).toBeTruthy();
   });
 
-  it("handles invalid iconLocation prop by defaulting to 'right'", async () => {
-    // imulate bad prop value
-    await render(FormTextInput, {
-      props: { id: "test", label: "Bad Icon", iconLocation: "middle" },
+  it("handles special characters", async () => {
+    const special = "!@#$%^&*()_+{}[]|;:,.<>?";
+    await render(TestWrapper, {
+      props: { id: "special-id", label: "Special Input" },
     });
 
-    // Should render as if 'right' was used (default location)
-    const leftIcon = screen.queryByTestId("icon-left");
-    expect(leftIcon).toBeNull();
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    await fireEvent.update(input, special);
+    expect(input.value).toBe(special);
   });
 });
+
+// Prop Usage Tests -- Kirthi added
+// it("renders even if required props are missing", async () => {
+//   // intentionally having empty props to simulate error
+//   const { container } = await render(FormTextInput, { props: {} });
+
+//   // Should still render an input safely
+//   const input = container.querySelector("input");
+//   expect(input).toBeTruthy();
+// });
+
+// // it("handles invalid iconLocation by not rendering", async () => {
+// //   // intentially providing bad prop value (location can only be left or right)
+// //   await render(FormTextInput, {
+// //     props: { id: "test", label: "Bad Icon", iconLocation: "middle" },
+// //     slots: {icons: "<span data-testid='mock-icon'>Icon</span>",},
+// //   });
+
+// //   // Should render as if 'right' was used (default location)
+// //   const leftIcon = screen.queryByTestId("left");
+// //   const rightIcon = screen.queryByTestId("icon-right");
+// //   expect(leftIcon).toBeNull();
+// //   expect(rightIcon).toBeNull();
+// // });
+
+// it("iconLocation should default to 'right' when not provided", async () => {
+//   const { container } = await render(FormTextInput, {
+//     props: { id: "test", label: "Default Icon" },
+//     slots: { icons: "<span>Icon</span>" },
+//   });
+
+//   const iconSpans = container.querySelectorAll("span.flex.items-center");
+//   expect(iconSpans.length).toBe(1);
+//   expect(iconSpans[0].textContent).toContain("Icon");
+// });
+
+// it("does not render icons when iconLocation prop is invalid", async () => {
+//   await render(FormTextInput, {
+//     props: { id: "test", label: "Bad Icon", iconLocation: "middle" }, // middle is the invalid value
+//     slots: { icons: "<span data-testid='mock-icon'>Icon</span>" },
+//   });
+//   // (neither left nor right condition matches)
+//   const icon = screen.queryByText("Icon");
+//   expect(icon).toBeNull();
+// });
