@@ -75,7 +75,6 @@ describe("FormTextInput", () => {
     await waitFor(() => {
       label = screen.getByText("test focus", { selector: "label" });
       expectShrunkLabel(label);
-      expectNormalLabel(label);
 
       legend = screen.getByTestId("hidden-legend");
       expectShrunkLegend(legend);
@@ -162,49 +161,66 @@ describe("FormTextInput", () => {
     await fireEvent.update(input, special);
     expect(input.value).toBe(special);
   });
+
+  // MARK: Accessibility Test
+  // it("respects aria-hidden on fieldset for accessibility", async () => {
+  //   await render(FormTextInput, {
+  //     props: defaultProps,
+  //   });
+
+  //   // Locate the fieldset that visually wraps the input border
+  //   const fieldset = screen.getByTestId("test-password-border");
+  //   expect(fieldset).toBeTruthy();
+
+  //   // Accessibility rule: fieldset should be hidden from assistive tech
+  //   expect(fieldset.getAttribute("aria-hidden")).toBe("true");
+
+  //   // Ensure the fieldset has no accessible label
+  //   const legend = fieldset.querySelector("legend");
+  //   expect(legend).toBeTruthy();
+  //   expect(legend?.textContent?.trim()).toBe("Password");
+
+  //   // Now check the actual input is still accessible via label
+  //   const input = screen.getByLabelText("Password");
+  //   expect(input).toBeTruthy();
+  //   expect(input.getAttribute("id")).toBe("test-password");
+  // });
+
+  // MARK: - Style Coverage Tests
+
+  // it("applies correct border color for normal and error states", async () => {
+  //   // Normal state → border-interactive
+  //   await render(FormTextInput, { props: defaultProps });
+  //   const normalBorder = screen.getByTestId("test-password-border");
+  //   expect(normalBorder.className).toContain("border-interactive");
+  //   expect(normalBorder.className).not.toContain("border-action-red");
+
+  //   // Error state → border-action-red
+  //   await render(FormTextInput, {
+  //     props: { ...defaultProps, hasError: true },
+  //   });
+  //   const errorBorder = screen.getByTestId("test-password-border");
+  //   expect(errorBorder.className).toContain("border-action-red");
+  // });
+
+  // it("shrinks and expands label correctly on focus and blur", async () => {
+  //   await render(FormTextInput, { props: defaultProps });
+
+  //   const input = screen.getByRole("textbox");
+  //   const border = screen.getByTestId("test-password-border");
+  //   const label = border.closest(".border-box")?.parentElement?.querySelector("label");
+  //   expect(label?.className).toMatch(/translate-y-\[0\.6rem\]/);
+
+  //   await fireEvent.focus(input);
+  //   await waitFor(() => {
+  //     const updated = border.closest(".border-box")?.parentElement?.querySelector("label");
+  //     expect(updated?.className).toMatch(/text-sm/);
+  //   });
+
+  //   await fireEvent.blur(input);
+  //   await waitFor(() => {
+  //     const updated = border.closest(".border-box")?.parentElement?.querySelector("label");
+  //     expect(updated?.className).toMatch(/translate-y-\[0\.6rem\]/);
+  //   });
+  // });
 });
-
-// Prop Usage Tests -- Kirthi added
-// it("renders even if required props are missing", async () => {
-//   // intentionally having empty props to simulate error
-//   const { container } = await render(FormTextInput, { props: {} });
-
-//   // Should still render an input safely
-//   const input = container.querySelector("input");
-//   expect(input).toBeTruthy();
-// });
-
-// // it("handles invalid iconLocation by not rendering", async () => {
-// //   // intentially providing bad prop value (location can only be left or right)
-// //   await render(FormTextInput, {
-// //     props: { id: "test", label: "Bad Icon", iconLocation: "middle" },
-// //     slots: {icons: "<span data-testid='mock-icon'>Icon</span>",},
-// //   });
-
-// //   // Should render as if 'right' was used (default location)
-// //   const leftIcon = screen.queryByTestId("left");
-// //   const rightIcon = screen.queryByTestId("icon-right");
-// //   expect(leftIcon).toBeNull();
-// //   expect(rightIcon).toBeNull();
-// // });
-
-// it("iconLocation should default to 'right' when not provided", async () => {
-//   const { container } = await render(FormTextInput, {
-//     props: { id: "test", label: "Default Icon" },
-//     slots: { icons: "<span>Icon</span>" },
-//   });
-
-//   const iconSpans = container.querySelectorAll("span.flex.items-center");
-//   expect(iconSpans.length).toBe(1);
-//   expect(iconSpans[0].textContent).toContain("Icon");
-// });
-
-// it("does not render icons when iconLocation prop is invalid", async () => {
-//   await render(FormTextInput, {
-//     props: { id: "test", label: "Bad Icon", iconLocation: "middle" }, // middle is the invalid value
-//     slots: { icons: "<span data-testid='mock-icon'>Icon</span>" },
-//   });
-//   // (neither left nor right condition matches)
-//   const icon = screen.queryByText("Icon");
-//   expect(icon).toBeNull();
-// });
