@@ -26,7 +26,7 @@ const toastScenarios: ToastScenario[] = [
   { label: "success", method: "showToastSuccess", spy: toastMock.success },
 ];
 
-describe("useToaster", () => {
+describe("useToaster composable", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
