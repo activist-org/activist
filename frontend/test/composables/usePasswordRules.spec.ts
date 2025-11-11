@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import usePasswordRules from "~/composables/usePasswordRules";
 
 describe("usePasswordRules composable", () => {
   const { checkRules, isAllRulesValid, isPasswordMatch } = usePasswordRules();
 
-  // MARK: - checkRules Function
+  // MARK: checkRules
 
   describe("checkRules", () => {
     it("returns validation results for all rules", () => {
@@ -157,7 +157,7 @@ describe("usePasswordRules composable", () => {
       const results = checkRules("ValidPass123é");
       const rule = results.find((r) => r.rule === "contains-special-chars");
 
-      // Non-ASCII characters should be treated as special chars
+      // Non-ASCII characters should be treated as special chars.
       expect(rule!.isValid).toBe(true);
     });
 
@@ -183,7 +183,7 @@ describe("usePasswordRules composable", () => {
     });
   });
 
-  // MARK: - isAllRulesValid Function
+  // MARK: isAllRulesValid
 
   describe("isAllRulesValid", () => {
     it("returns true for valid password with all rules satisfied", () => {
@@ -251,7 +251,7 @@ describe("usePasswordRules composable", () => {
     });
   });
 
-  // MARK: - isPasswordMatch Function
+  // MARK: isPasswordMatch
 
   describe("isPasswordMatch", () => {
     it("returns true when passwords match", () => {
@@ -319,21 +319,21 @@ describe("usePasswordRules composable", () => {
     });
   });
 
-  // MARK: - Integration Tests
+  // MARK: Integration Tests
 
   describe("Integration scenarios", () => {
     it("validates a complete password creation flow", () => {
       const password = "SecureP@ssw0rd!";
       const confirmPassword = "SecureP@ssw0rd!";
 
-      // Check all individual rules
+      // Check all individual rules.
       const ruleResults = checkRules(password);
       expect(ruleResults.every((r) => r.isValid)).toBe(true);
 
-      // Check overall validation
+      // Check overall validation.
       expect(isAllRulesValid(password)).toBe(true);
 
-      // Check password match
+      // Check password match.
       expect(isPasswordMatch(password, confirmPassword)).toBe(true);
     });
 
@@ -341,14 +341,14 @@ describe("usePasswordRules composable", () => {
       const password = "weak";
       const confirmPassword = "different";
 
-      // Check all individual rules
+      // Check all individual rules.
       const ruleResults = checkRules(password);
       expect(ruleResults.every((r) => r.isValid)).toBe(false);
 
-      // Check overall validation
+      // Check overall validation.
       expect(isAllRulesValid(password)).toBe(false);
 
-      // Check password match
+      // Check password match.
       expect(isPasswordMatch(password, confirmPassword)).toBe(false);
     });
 
@@ -374,13 +374,13 @@ describe("usePasswordRules composable", () => {
       }));
 
       expect(feedback).toHaveLength(5);
-      // Should have both passing and failing rules
+      // Should have both passing and failing rules.
       expect(feedback.some((f) => f.status === "✓")).toBe(true);
       expect(feedback.some((f) => f.status === "✗")).toBe(true);
     });
   });
 
-  // MARK: - Edge Cases
+  // MARK: Edge Cases
 
   describe("Edge cases and error handling", () => {
     it("handles password with only numbers", () => {

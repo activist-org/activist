@@ -2,9 +2,10 @@
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
-import FormTextInputPassword from "../../../../app/components/form/text/FormTextInputPassword.vue";
-import { IconMap } from "../../../../app/types/icon-map";
-import { getEnglishText } from "../../../../app/utils/i18n";
+import FormTextInputPassword from "~/components/form/text/FormTextInputPassword.vue";
+import { IconMap } from "~/types/icon-map";
+import { getEnglishText } from "~/utils/i18n";
+
 import render from "../../../../test/render";
 
 // Note: Auto-import mocks (useI18n, etc.) are handled globally in test/setup.ts.
@@ -15,7 +16,7 @@ describe("FormTextInputPassword", () => {
     label: "Password",
   };
 
-  // MARK: - Basic Rendering Tests
+  // MARK: Basic Rendering Tests
 
   it("renders with password input type by default", async () => {
     await render(FormTextInputPassword, {
@@ -37,7 +38,7 @@ describe("FormTextInputPassword", () => {
     expect(toggleButton.getAttribute("type")).toBe("button");
   });
 
-  // MARK: - Toggle Functionality Tests
+  // MARK: Toggle Functionality Tests
 
   it("toggles input type between password and text when button is clicked", async () => {
     await render(FormTextInputPassword, {
@@ -65,7 +66,7 @@ describe("FormTextInputPassword", () => {
     });
   });
 
-  // MARK: - Icon Tests
+  // MARK: Icon Tests
 
   it("displays visible icon when password is hidden", async () => {
     await render(FormTextInputPassword, {
@@ -112,7 +113,7 @@ describe("FormTextInputPassword", () => {
     });
   });
 
-  // MARK: - Accessibility Tests
+  // MARK: Accessibility Tests
 
   it("updates aria-label when password visibility is toggled", async () => {
     await render(FormTextInputPassword, {
@@ -148,7 +149,7 @@ describe("FormTextInputPassword", () => {
     });
   });
 
-  // MARK: - Props Tests
+  // MARK: Props Tests
 
   it("applies hasError prop to FormTextInput", async () => {
     // Style classes verified against frontend/app/assets/css/tailwind.css
@@ -215,7 +216,7 @@ describe("FormTextInputPassword", () => {
     expect(input.getAttribute("id")).toBe("test-password");
   });
 
-  // MARK: - Input Behavior Tests
+  // MARK: Input Behavior Tests
 
   it("allows input of text when password is visible", async () => {
     await render(FormTextInputPassword, {
@@ -238,7 +239,7 @@ describe("FormTextInputPassword", () => {
     expect(input.value).toBe("mySecretPassword");
   });
 
-  // MARK: - modelValue Tests
+  // MARK: modelValue Tests
 
   it("emits update:modelValue when input value changes", async () => {
     const { emitted } = await render(FormTextInputPassword, {
@@ -314,7 +315,7 @@ describe("FormTextInputPassword", () => {
     expect(input.value).toBe("");
   });
 
-  // MARK: - Style Coverage Tests
+  // MARK: Style Coverage Tests
 
   it("shrinks label when input is focused", async () => {
     // Style classes verified against frontend/app/assets/css/tailwind.css
@@ -369,7 +370,7 @@ describe("FormTextInputPassword", () => {
     });
   });
 
-  // MARK: - Edge Cases Tests
+  // MARK: Edge Cases Tests
 
   it("handles icons slot content", async () => {
     await render(FormTextInputPassword, {
