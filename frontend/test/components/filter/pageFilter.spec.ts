@@ -2,7 +2,7 @@
 import { render, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
-import PageFilter from "../../../app/components/page/PageFilter.vue";
+import PageFilter from "~/components/page/PageFilter.vue";
 
 // Note: This test provides its own useDevice mock via global.provide
 // Other auto-imports are handled globally in test/setup.ts
