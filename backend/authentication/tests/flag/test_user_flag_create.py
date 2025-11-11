@@ -4,41 +4,16 @@ import logging
 import pytest
 from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
+from authentication.factories import UserFactory, UserFlagFactory
 
 logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-def test_user_flag_create():
+def test_user_flag_create(authenticated_client):
     logger.info("Starting test_user_flag_create test")
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.save()
-    logger.debug(f"Created test user: {test_username}")
-
-    flagged_user = UserFactory(
-        username="flagged_user", is_confirmed=True, verified=True
-    )
-    logger.debug(f"Created flagged user: {flagged_user.username}")
-
-    logger.debug("Attempting user login")
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login.status_code == 200
-    logger.debug(f"Login successful, status: {login.status_code}")
-
-    login_body = login.json()
-    token = login_body["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    client, user = authenticated_client
+    flagged_client, flagged_user = authenticated_client
 
     logger.debug("Creating user flag")
     response = client.post(

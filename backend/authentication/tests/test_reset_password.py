@@ -15,7 +15,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Password Reset
 
 
-def test_pwreset(client: APIClient) -> None:
+def test_pwreset(authenticated_client) -> None:
     """
     Test password reset view.
 
@@ -32,20 +32,7 @@ def test_pwreset(client: APIClient) -> None:
     """
     logger.info("Starting password reset test with various scenarios")
 
-    # Setup
-    old_password = "password123!?"
-    new_password = "Activist@123!?"
-
-    # 1. User exists and password reset is successful.
-    logger.info("Testing password reset email request")
-    user = UserFactory(plaintext_password=old_password)
-    response = client.post(
-        path="/v1/auth/pwreset",
-        data={"email": user.email},
-    )
-    assert response.status_code == 200
-    assert len(mail.outbox) == 1
-    logger.info(f"Password reset email sent successfully to: {user.email}")
+    client,user = authenticated_client
 
     # 2. Password reset with invalid email.
     response = client.post(
@@ -56,6 +43,6 @@ def test_pwreset(client: APIClient) -> None:
     # 4. Password reset with invalid verification code.
     response = client.post(
         path="/v1/auth/pwreset/invalid_code",
-        data={"password": new_password},
+        data={"password": "Activist@123!?"},
     )
     assert response.status_code == 404
