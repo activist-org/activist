@@ -75,6 +75,7 @@ describe("FormTextInput", () => {
     await waitFor(() => {
       label = screen.getByText("test focus", { selector: "label" });
       expectShrunkLabel(label);
+      expectNormalLabel(label);
 
       legend = screen.getByTestId("hidden-legend");
       expectShrunkLegend(legend);
