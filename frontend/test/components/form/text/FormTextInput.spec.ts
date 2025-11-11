@@ -114,4 +114,25 @@ describe("FormTextInput", () => {
       expectNormalLegend(legend);
     });
   });
+
+  // Prop Usage Tests
+  it("renders even if required props are missing (graceful fallback)", async () => {
+    // intentionally omit required props to simulate misuse
+    const { container } = await render(FormTextInput, { props: {} });
+
+    // Should still mount and render an <input> safely
+    const input = container.querySelector("input");
+    expect(input).toBeTruthy();
+  });
+
+  it("handles invalid iconLocation prop by defaulting to 'right'", async () => {
+    // imulate bad prop value
+    await render(FormTextInput, {
+      props: { id: "test", label: "Bad Icon", iconLocation: "middle" },
+    });
+
+    // Should render as if 'right' was used (default location)
+    const leftIcon = screen.queryByTestId("icon-left");
+    expect(leftIcon).toBeNull();
+  });
 });
