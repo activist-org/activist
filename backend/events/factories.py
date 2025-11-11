@@ -22,11 +22,6 @@ from events.models import (
     Role,
 )
 
-ORG_FACTORY_PATH = "communities.organizations.factories.OrganizationFactory"
-EVENT_LOCATION_FACTORY_PATH = "content.factories.EventLocationFactory"
-ATTENDEE_STATUS_FACTORY_PATH = "events.factories.EventAttendeeStatusFactory"
-ENTITY_LOCATION_FACTORY_PATH = "content.factories.EntityLocationFactory"
-
 # MARK: Event
 
 
@@ -38,7 +33,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
 
-    orgs = factory.SubFactory(ORG_FACTORY_PATH)
+    orgs = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
     # Note: Events need organizations but do not need groups.
     # groups = factory.SubFactory("communities.groups.factories.GroupFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
@@ -46,35 +41,38 @@ class EventFactory(factory.django.DjangoModelFactory):
     tagline = factory.Faker("word")
     type = random.choice(["learn", "action"])
     online_location_link = factory.Faker("url")
-    offline_location = factory.SubFactory(EVENT_LOCATION_FACTORY_PATH)
+    offline_location = factory.SubFactory("content.factories.EventLocationFactory")
     is_private = factory.Faker("boolean")
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
         + datetime.timedelta(
-            # Weighted distribution: more events in near future
-            # 30% within 1 day, 30% within 7 days, 20% within 30 days,
-            # 10% past events, 10% far future (30-90 days)
+            # Weighted distribution:
+            # - 30% within 1 day
+            # - 30% within 7 days
+            # - 20% within 30 days
+            # - 10% far future (30-90 days)
+            # - 10% past events
             days=random.choices(
                 [
                     random.randint(0, 1),  # Today/tomorrow
-                    random.randint(2, 7),  # This week
-                    random.randint(8, 30),  # This month
-                    random.randint(-30, -1),  # Past events
-                    random.randint(31, 90),  # Far future
+                    random.randint(2, 7),  # this week
+                    random.randint(8, 30),  # this month
+                    random.randint(31, 90),  # far future
+                    random.randint(-30, -1),  # past events
                 ],
                 weights=[30, 30, 20, 10, 10],
                 k=1,
             )[0],
-            # Events between 8 AM and 8 PM
+            # Events between 8 AM and 8 PM.
             hours=random.randint(8, 20),
-            # Round to 15-minute intervals
+            # Round to 15-minute intervals.
             minutes=random.choice([0, 15, 30, 45]),
         )
     )
     end_time = factory.LazyAttribute(
         lambda obj: obj.start_time
         + datetime.timedelta(
-            hours=random.randint(1, 8)  # Events last 1-8 hours
+            hours=random.randint(1, 8)  # events last 1-8 hours
         )
     )
     creation_date = factory.LazyFunction(
@@ -127,7 +125,7 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
     event = factory.SubFactory(EventFactory)
     user = factory.SubFactory("authentication.factories.UserFactory")
     role = factory.SubFactory(RoleFactory)
-    attendee_status = factory.SubFactory(ATTENDEE_STATUS_FACTORY_PATH)
+    attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
 
 
 # MARK: Attendee Status
@@ -219,7 +217,7 @@ class EventResourceFactory(factory.django.DjangoModelFactory):
     description = factory.Faker(provider="text", locale="la")
     url = "https://www.activist.org"
     order = factory.Faker("random_int", min=0, max=100)
-    location = factory.SubFactory(ENTITY_LOCATION_FACTORY_PATH)
+    location = factory.SubFactory("content.factories.EntityLocationFactory")
     is_private = factory.Faker("boolean")
     terms_checked = factory.Faker("boolean")
     creation_date = factory.LazyFunction(
