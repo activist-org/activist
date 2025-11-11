@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 
 import usePasswordRules from "~/composables/usePasswordRules";
 
-describe("usePasswordRules", () => {
+describe("usePasswordRules composable", () => {
   const { checkRules, isAllRulesValid, isPasswordMatch } = usePasswordRules();
 
   // MARK: - checkRules Function
