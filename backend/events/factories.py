@@ -22,6 +22,11 @@ from events.models import (
     Role,
 )
 
+ORG_FACTORY_PATH = "communities.organizations.factories.OrganizationFactory"
+EVENT_LOCATION_FACTORY_PATH = "content.factories.EventLocationFactory"
+ATTENDEE_STATUS_FACTORY_PATH = "events.factories.EventAttendeeStatusFactory"
+ENTITY_LOCATION_FACTORY_PATH = "content.factories.EntityLocationFactory"
+
 # MARK: Event
 
 
@@ -33,7 +38,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
 
-    orgs = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
+    orgs = factory.SubFactory(ORG_FACTORY_PATH)
     # Note: Events need organizations but do not need groups.
     # groups = factory.SubFactory("communities.groups.factories.GroupFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
@@ -41,7 +46,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     tagline = factory.Faker("word")
     type = random.choice(["learn", "action"])
     online_location_link = factory.Faker("url")
-    offline_location = factory.SubFactory("content.factories.EventLocationFactory")
+    offline_location = factory.SubFactory(EVENT_LOCATION_FACTORY_PATH)
     is_private = factory.Faker("boolean")
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
@@ -122,7 +127,7 @@ class EventAttendeeFactory(factory.django.DjangoModelFactory):
     event = factory.SubFactory(EventFactory)
     user = factory.SubFactory("authentication.factories.UserFactory")
     role = factory.SubFactory(RoleFactory)
-    attendee_status = factory.SubFactory("events.factories.EventAttendeeStatusFactory")
+    attendee_status = factory.SubFactory(ATTENDEE_STATUS_FACTORY_PATH)
 
 
 # MARK: Attendee Status
@@ -214,7 +219,7 @@ class EventResourceFactory(factory.django.DjangoModelFactory):
     description = factory.Faker(provider="text", locale="la")
     url = "https://www.activist.org"
     order = factory.Faker("random_int", min=0, max=100)
-    location = factory.SubFactory("content.factories.EntityLocationFactory")
+    location = factory.SubFactory(ENTITY_LOCATION_FACTORY_PATH)
     is_private = factory.Faker("boolean")
     terms_checked = factory.Faker("boolean")
     creation_date = factory.LazyFunction(
