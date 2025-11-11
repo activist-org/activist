@@ -54,7 +54,7 @@ class EventFactory(factory.django.DjangoModelFactory):
             # - 10% past events
             days=random.choices(
                 [
-                    random.randint(0, 1),  # Today/tomorrow
+                    random.randint(0, 1),  # today or tomorrow
                     random.randint(2, 7),  # this week
                     random.randint(8, 30),  # this month
                     random.randint(31, 90),  # far future
