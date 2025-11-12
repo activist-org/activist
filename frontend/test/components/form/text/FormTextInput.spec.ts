@@ -10,7 +10,7 @@ import render from "../../../render";
 // Test wrapper to enable v-model for correct reactivity in tests.
 const TestWrapper = defineComponent({
   components: { FormTextInput },
-  props: ["id", "label"],
+  props: ["id", "label", "hasError"],
   setup(_props) {
     const modelValue = ref("");
     return { modelValue };
@@ -19,7 +19,8 @@ const TestWrapper = defineComponent({
     <FormTextInput
       :id="id"
       :label="label"
-      v-model="modelValue"
+      :hasError="hasError"
+      v-model=""
     />
   `,
 });
@@ -115,10 +116,9 @@ describe("FormTextInput", () => {
     });
   });
 
-  // Kirthiiii
-  // MARK: Rendering Tests
-  const defaultProps = { id: "test-input", label: "Test Label" };
+  // MARK: Basic Rendering
 
+  const defaultProps = { id: "test-input", label: "Test Label" };
   it("renders input and label correctly", async () => {
     await render(TestWrapper, { props: defaultProps });
 
@@ -131,7 +131,8 @@ describe("FormTextInput", () => {
   });
 
   // MARK: Logic
-  it("emits update:modelValue on user input", async () => {
+
+  it("emits update:modelValue on user input. Reactivity logic works", async () => {
     const { emitted } = await render(FormTextInput, {
       props: { id: "logic-id", label: "Logic Test" },
     });
@@ -143,7 +144,39 @@ describe("FormTextInput", () => {
     expect(emitted("update:modelValue")[0]).toEqual(["hello world"]);
   });
 
-  // MARK: Edge Cases Tests
+  it("emits empty string when input is cleared", async () => {
+    const { emitted } = await render(FormTextInput, {
+      props: { id: "logic-clear", label: "Clear Test" },
+    });
+
+    const input = screen.getByRole("textbox");
+    await fireEvent.update(input, "some text");
+    await fireEvent.update(input, "");
+
+    const events = emitted("update:modelValue")!;
+    expect(events.at(-1)).toEqual([""]);
+  });
+
+  // MARK: Props
+
+  it("applies error border when hasError is true", async () => {
+    await render(TestWrapper, { props: { ...defaultProps, hasError: true } });
+
+    const border = screen.getByTestId(`${defaultProps.id}-border`);
+    expect(border.className).not.toContain("border-interactive");
+    expect(border.className).toContain("border-action-red");
+  });
+
+  it("uses default hasError value of false when not provided", async () => {
+    await render(TestWrapper, { props: { ...defaultProps } });
+
+    const border = screen.getByTestId(`${defaultProps.id}-border`);
+    expect(border.className).toContain("border-interactive");
+    expect(border.className).not.toContain("border-action-red");
+  });
+
+  // MARK: Edge Cases
+
   it("handles empty string id and label gracefully", async () => {
     await render(TestWrapper, { props: { id: "", label: "" } });
 
@@ -162,7 +195,21 @@ describe("FormTextInput", () => {
     expect(input.value).toBe(special);
   });
 
+  it("resets shrinkLabel to false on blur if input is empty", async () => {
+    await render(TestWrapper, {
+      props: { id: "blur-empty-id", label: "Blur Test" },
+    });
+
+    const input = screen.getByRole("textbox");
+    await fireEvent.focus(input);
+    await fireEvent.blur(input); // empty, should expand label
+
+    const label = screen.getByText("Blur Test", { selector: "label" });
+    expect(label.className).toMatch("translate-y-[0.6rem]");
+  });
+
   // MARK: Accessibility Test
+
   // it("respects aria-hidden on fieldset for accessibility", async () => {
   //   await render(FormTextInput, {
   //     props: defaultProps,
@@ -186,7 +233,7 @@ describe("FormTextInput", () => {
   //   expect(input.getAttribute("id")).toBe("test-password");
   // });
 
-  // MARK: - Style Coverage Tests
+  // MARK: Style Coverage Tests
 
   // it("applies correct border color for normal and error states", async () => {
   //   // Normal state → border-interactive
