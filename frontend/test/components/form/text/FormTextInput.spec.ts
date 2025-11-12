@@ -300,7 +300,6 @@ describe("FormTextInput", () => {
     expect(label).toBeTruthy();
     expect(label?.textContent).toContain("Test Label");
   });
-  
 
   // MARK: Style
 
@@ -308,24 +307,26 @@ describe("FormTextInput", () => {
     await render(FormTextInput, {
       props: { id: "test-input", label: "Test Label", iconLocation: "left" },
     });
-  
+
     const label = document.querySelector(`label[for='test-input']`);
     expect(label?.className).toContain("pl-[3.4rem]");
     expect(label?.className).toContain("translate-y-[0.6rem]");
   });
-  
+
   it("shrinks label on focus (adds translate-x and text-sm classes)", async () => {
-    await render(FormTextInput, { props: { id: "test-input", label: "Test Label" } });
-  
+    await render(FormTextInput, {
+      props: { id: "test-input", label: "Test Label" },
+    });
+
     const input = document.getElementById("test-input");
-    let label = document.querySelector(`label[for='test-input']`);
-  
+    const label = document.querySelector(`label[for='test-input']`);
+
     expect(label?.className).toMatch("translate-y-[0.6rem]");
     expect(label?.className).not.toMatch("translate-x-4");
     expect(label?.className).not.toMatch("text-sm");
-  
+
     await fireEvent.focus(input!);
-  
+
     await waitFor(() => {
       const label = document.querySelector(`label[for='test-input']`);
       expect(label?.className).not.toMatch("translate-y-[0.6rem]");
@@ -337,7 +338,9 @@ describe("FormTextInput", () => {
   it("renders top-level container with correct layout classes", async () => {
     await render(FormTextInput, { props: { id: "layout", label: "Layout" } });
 
-    const container = screen.getByTestId("layout-border").closest("div")?.parentElement;
+    const container = screen
+      .getByTestId("layout-border")
+      .closest("div")?.parentElement;
     expect(container?.className).toContain("flex-col");
     expect(container?.className).toContain("w-full");
   });
