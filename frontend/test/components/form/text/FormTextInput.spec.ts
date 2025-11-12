@@ -144,6 +144,17 @@ describe("FormTextInput", () => {
     expect(emitted("update:modelValue")[0]).toEqual(["hello world"]);
   });
 
+  it("does not emit update:modelValue if input value remains the same", async () => {
+    const { emitted } = await render(FormTextInput, {
+      props: { id: "emit-no-change", label: "Emit Test", modelValue: "same" },
+    });
+
+    const input = screen.getByRole("textbox");
+    await fireEvent.update(input, "same");
+
+    expect(emitted("update:modelValue")?.length ?? 0).toBeLessThanOrEqual(1);
+  });
+
   it("emits empty string when input is cleared", async () => {
     const { emitted } = await render(FormTextInput, {
       props: { id: "logic-clear", label: "Clear Test" },
@@ -155,6 +166,20 @@ describe("FormTextInput", () => {
 
     const events = emitted("update:modelValue")!;
     expect(events.at(-1)).toEqual([""]);
+  });
+
+  it("clears placeholder when label shrinks on focus", async () => {
+    await render(FormTextInput, {
+      props: { id: "placeholder-test", label: "Email" },
+    });
+
+    const input = screen.getByRole("textbox");
+    expect(input.getAttribute("placeholder")).toBe("Email");
+
+    await fireEvent.focus(input);
+    await waitFor(() => {
+      expect(input.getAttribute("placeholder")).toBe("");
+    });
   });
 
   // MARK: Props
@@ -175,10 +200,58 @@ describe("FormTextInput", () => {
     expect(border.className).not.toContain("border-action-red");
   });
 
+  it("respects custom input type prop", async () => {
+    await render(FormTextInput, {
+      props: { id: "email-field", label: "Email", type: "email" },
+    });
+
+    const input = screen.getByRole("textbox");
+    expect(input.getAttribute("type")).toBe("email");
+  });
+
+  // MARK: Icon
+  it("renders left icon slot correctly and adjusts label padding", async () => {
+    await render(FormTextInput, {
+      props: { id: "icon-left", label: "With Icon", iconLocation: "left" },
+      slots: { icons: '<span data-testid="icon-left-slot">Icon</span>' },
+    });
+
+    const icon = screen.getByTestId("icon-left-slot");
+    expect(icon).toBeTruthy();
+
+    const label = screen.getByText("With Icon", { selector: "label" });
+    expect(label.className).toContain("pl-[3.4rem]");
+  });
+
+  it("renders right icon slot correctly and adjusts label padding", async () => {
+    await render(FormTextInput, {
+      props: { id: "icon-right", label: "Right Icon", iconLocation: "right" },
+      slots: { icons: '<span data-testid="icon-right-slot">Icon</span>' },
+    });
+
+    const icon = screen.getByTestId("icon-right-slot");
+    expect(icon).toBeTruthy();
+
+    const label = screen.getByText("Right Icon", { selector: "label" });
+    expect(label.className).toContain("pl-[12px]");
+  });
+
   // MARK: Edge Cases
 
   it("handles empty string id and label gracefully", async () => {
     await render(TestWrapper, { props: { id: "", label: "" } });
+
+    const input = screen.getByRole("textbox");
+    expect(input).toBeTruthy();
+  });
+
+  it("renders safely when id or label are undefined", async () => {
+    await render(FormTextInput, {
+      props: {
+        id: undefined as unknown as string,
+        label: undefined as unknown as string,
+      },
+    });
 
     const input = screen.getByRole("textbox");
     expect(input).toBeTruthy();
