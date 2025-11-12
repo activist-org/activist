@@ -54,7 +54,7 @@
     "eslint-plugin-vuejs-accessibility": "2.4.1",
     "happy-dom": "16.8.1",
     "lint-staged": "16.1.0",
-    "next-auth": "~4.21.1",
+    "next-auth": "~4.24.12",
     "nuxt": "4.1.2",
     "nuxt-security": "2.4.0",
     "playwright-core": "1.55.1",
