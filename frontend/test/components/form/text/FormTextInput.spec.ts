@@ -281,66 +281,64 @@ describe("FormTextInput", () => {
     expect(label.className).toMatch("translate-y-[0.6rem]");
   });
 
-  // MARK: Accessibility Test
+  // MARK: Accessibility
 
-  // it("respects aria-hidden on fieldset for accessibility", async () => {
-  //   await render(FormTextInput, {
-  //     props: defaultProps,
-  //   });
+  it("hides decorative fieldset for accessibility", async () => {
+    await render(FormTextInput, { props: defaultProps });
 
-  //   // Locate the fieldset that visually wraps the input border
-  //   const fieldset = screen.getByTestId("test-password-border");
-  //   expect(fieldset).toBeTruthy();
+    const fieldset = screen.getByTestId("test-input-border");
+    expect(fieldset.getAttribute("aria-hidden")).toBe("true");
+  });
 
-  //   // Accessibility rule: fieldset should be hidden from assistive tech
-  //   expect(fieldset.getAttribute("aria-hidden")).toBe("true");
+  it("associates input and label correctly via id and for attributes", async () => {
+    await render(FormTextInput, { props: defaultProps });
 
-  //   // Ensure the fieldset has no accessible label
-  //   const legend = fieldset.querySelector("legend");
-  //   expect(legend).toBeTruthy();
-  //   expect(legend?.textContent?.trim()).toBe("Password");
+    const input = document.getElementById("test-input");
+    const label = document.querySelector(`label[for='test-input']`);
 
-  //   // Now check the actual input is still accessible via label
-  //   const input = screen.getByLabelText("Password");
-  //   expect(input).toBeTruthy();
-  //   expect(input.getAttribute("id")).toBe("test-password");
-  // });
+    expect(input).toBeTruthy();
+    expect(label).toBeTruthy();
+    expect(label?.textContent).toContain("Test Label");
+  });
+  
 
-  // MARK: Style Coverage Tests
+  // MARK: Style
 
-  // it("applies correct border color for normal and error states", async () => {
-  //   // Normal state → border-interactive
-  //   await render(FormTextInput, { props: defaultProps });
-  //   const normalBorder = screen.getByTestId("test-password-border");
-  //   expect(normalBorder.className).toContain("border-interactive");
-  //   expect(normalBorder.className).not.toContain("border-action-red");
+  it("positions label correctly for left icon", async () => {
+    await render(FormTextInput, {
+      props: { id: "test-input", label: "Test Label", iconLocation: "left" },
+    });
+  
+    const label = document.querySelector(`label[for='test-input']`);
+    expect(label?.className).toContain("pl-[3.4rem]");
+    expect(label?.className).toContain("translate-y-[0.6rem]");
+  });
+  
+  it("shrinks label on focus (adds translate-x and text-sm classes)", async () => {
+    await render(FormTextInput, { props: { id: "test-input", label: "Test Label" } });
+  
+    const input = document.getElementById("test-input");
+    let label = document.querySelector(`label[for='test-input']`);
+  
+    expect(label?.className).toMatch("translate-y-[0.6rem]");
+    expect(label?.className).not.toMatch("translate-x-4");
+    expect(label?.className).not.toMatch("text-sm");
+  
+    await fireEvent.focus(input!);
+  
+    await waitFor(() => {
+      const label = document.querySelector(`label[for='test-input']`);
+      expect(label?.className).not.toMatch("translate-y-[0.6rem]");
+      expect(label?.className).toMatch("translate-x-4");
+      expect(label?.className).toMatch("text-sm");
+    });
+  });
 
-  //   // Error state → border-action-red
-  //   await render(FormTextInput, {
-  //     props: { ...defaultProps, hasError: true },
-  //   });
-  //   const errorBorder = screen.getByTestId("test-password-border");
-  //   expect(errorBorder.className).toContain("border-action-red");
-  // });
+  it("renders top-level container with correct layout classes", async () => {
+    await render(FormTextInput, { props: { id: "layout", label: "Layout" } });
 
-  // it("shrinks and expands label correctly on focus and blur", async () => {
-  //   await render(FormTextInput, { props: defaultProps });
-
-  //   const input = screen.getByRole("textbox");
-  //   const border = screen.getByTestId("test-password-border");
-  //   const label = border.closest(".border-box")?.parentElement?.querySelector("label");
-  //   expect(label?.className).toMatch(/translate-y-\[0\.6rem\]/);
-
-  //   await fireEvent.focus(input);
-  //   await waitFor(() => {
-  //     const updated = border.closest(".border-box")?.parentElement?.querySelector("label");
-  //     expect(updated?.className).toMatch(/text-sm/);
-  //   });
-
-  //   await fireEvent.blur(input);
-  //   await waitFor(() => {
-  //     const updated = border.closest(".border-box")?.parentElement?.querySelector("label");
-  //     expect(updated?.className).toMatch(/translate-y-\[0\.6rem\]/);
-  //   });
-  // });
+    const container = screen.getByTestId("layout-border").closest("div")?.parentElement;
+    expect(container?.className).toContain("flex-col");
+    expect(container?.className).toContain("w-full");
+  });
 });
