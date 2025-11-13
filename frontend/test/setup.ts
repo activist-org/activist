@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { config } from "@vue/test-utils";
 import { createPinia, defineStore, setActivePinia } from "pinia";
-import { afterAll, afterEach, vi } from "vitest";
+import { afterAll, afterEach, beforeEach, vi } from "vitest";
 import { createI18n } from "vue-i18n";
-
-import type { UseColorModeFn as _UseColorModeFn } from "../test/vitest-globals";
 
 import en from "../i18n/locales/en-US.json" assert { type: "json" };
 
@@ -58,7 +56,6 @@ globalThis.useUser = () => ({
   userIsAdmin: false,
   roles: [],
   signOutUser: () => {},
-  canEdit: canEditMock,
   canDelete: () => false,
   canCreate: () => false,
   canView: () => true,
@@ -75,7 +72,6 @@ const useColorModeFn = () => ({
   value: "dark" as const,
 });
 
-// @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorModeMock = vi.fn(useColorModeFn);
 // @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorMode = () => globalThis.useColorModeMock();
@@ -106,6 +102,10 @@ const i18n = createI18n({
   locale: "en",
   fallbackLocale: "en",
   messages: Object.assign({ en }),
+  // Suppress missing key warnings in test environment.
+  // Test keys like "i18n.test.button" don't exist in locale files.
+  missingWarn: false,
+  fallbackWarn: false,
 });
 
 config.global.plugins.push(i18n);
@@ -194,7 +194,57 @@ config.global.components = {
   },
 };
 
+// ================================
+// SUPPRESS VUE WARNINGS IN TESTS
+// ================================
+// Suppress known Vue warnings that don't affect test functionality:
+// - FriendlyCaptcha missing modelValue prop (from sign-up.spec.ts)
+// - Draggable missing itemKey prop (from ImageFileDropzoneMultiple.spec.ts)
+// eslint-disable-next-line no-console
+const originalWarn = console.warn;
+// eslint-disable-next-line no-console
+const originalError = console.error;
+
+beforeEach(() => {
+  // Suppress Vue warnings for known test-related issues.
+  // eslint-disable-next-line no-console
+  console.warn = (...args: unknown[]) => {
+    const message = String(args[0] || "");
+    // Skip warnings for known test component issues.
+    if (
+      message.includes("FriendlyCaptcha") ||
+      message.includes("Draggable") ||
+      message.includes("Invalid prop") ||
+      message.includes("Missing required prop")
+    ) {
+      return;
+    }
+    originalWarn(...args);
+  };
+
+  // eslint-disable-next-line no-console
+  console.error = (...args: unknown[]) => {
+    const message = String(args[0] || "");
+    // Skip errors for known test component issues.
+    if (
+      message.includes("FriendlyCaptcha") ||
+      message.includes("Draggable") ||
+      message.includes("Invalid prop") ||
+      message.includes("Missing required prop")
+    ) {
+      return;
+    }
+    originalError(...args);
+  };
+});
+
 afterEach(() => {
+  // Restore original console methods.
+  // eslint-disable-next-line no-console
+  console.warn = originalWarn;
+  // eslint-disable-next-line no-console
+  console.error = originalError;
+
   // Clean up Pinia.
   setActivePinia(createPinia());
 

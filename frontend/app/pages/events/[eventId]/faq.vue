@@ -4,31 +4,27 @@
     <Head>
       <Title>{{ event?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
-
-    <HeaderAppPageOrganization
+    <HeaderAppPageEvent
       :header="event?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
+        <ModalFaqEntryEvent />
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
           :onClick="openModal"
         />
-        <ModalFaqEntryEvent />
       </div>
-    </HeaderAppPageOrganization>
-
-    <!-- FAQ list with drag-and-drop -->
-    <div v-if="(faqList || []).length > 0" class="py-4">
+    </HeaderAppPageEvent>
+    <div v-if="faqList.length > 0" class="py-4" data-testid="event-faq-list">
       <draggable
         v-model="faqList"
         @end="onDragEnd"
         :animation="150"
         :chosen-class="'sortable-chosen'"
         class="space-y-4"
-        data-testid="event-faq-list"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -47,6 +43,7 @@
       >
         <template #item="{ element }">
           <CardFAQEntry
+            @delete-faq="handleDeleteFAQ"
             :entity="event"
             :faqEntry="element"
             :pageType="EntityType.EVENT"
@@ -54,7 +51,6 @@
         </template>
       </draggable>
     </div>
-
     <EmptyState v-else class="py-4" pageType="faq" :permission="false" />
   </div>
 </template>
@@ -68,15 +64,23 @@ import { useEventFAQEntryMutations } from "~/composables/mutations/useEventFAQEn
 import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { EntityType } from "~/types/entity";
 
+const { openModal } = useModalHandlers("ModalFAQEntryEvent");
+
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
-const { reorderFAQs } = useEventFAQEntryMutations(eventId);
-const { openModal } = useModalHandlers("ModalFaqEntryEvent");
-const faqList = computed<FaqEntry[]>(() => {
-  return event.value?.faqEntries || [];
-});
+const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
+
+const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
+
+watch(
+  () => event?.value?.faqEntries,
+  (newVal) => {
+    faqList.value = newVal?.slice() ?? [];
+  },
+  { immediate: true }
+);
 
 async function onDragEnd() {
   faqList.value.forEach((faq, index) => {
@@ -84,6 +88,10 @@ async function onDragEnd() {
   });
 
   await reorderFAQs(faqList.value);
+}
+
+async function handleDeleteFAQ(faqId: string) {
+  await deleteFAQ(faqId);
 }
 </script>
 
