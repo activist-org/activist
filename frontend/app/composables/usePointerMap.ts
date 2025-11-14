@@ -4,10 +4,6 @@ import type MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import { layersFactory } from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 
-import type { Pointer, RouteProfile } from "~/types/map";
-
-import { useRouting } from "./useRoutingMap";
-
 export const usePointerMap = () => {
   const {
     addDirectionsLayer,

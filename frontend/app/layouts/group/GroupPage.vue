@@ -37,13 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-import { useGetGroupImages } from "~/composables/queries/useGetGroupImages";
-import { EntityType } from "~/types/entity";
-import {
-  getSidebarContentDynamicClass,
-  getSidebarFooterDynamicClass,
-} from "~/utils/sidebarUtils";
 
 const aboveMediumBP = useBreakpoint("md");
 

@@ -3,7 +3,7 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   const organizationsHomePage = newOrganizationsHomePage(page);

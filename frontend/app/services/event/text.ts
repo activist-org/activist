@@ -1,11 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { EventUpdateTextFormData } from "~/types/events/event";
-import type { AcceptedBody } from "~/types/http";
-
 import { put } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
-
 // MARK: Update
 
 export async function updateEventTexts(

@@ -35,13 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import { useGetOrganizationImages } from "~/composables/queries/useGetOrganizationImages";
-import { EntityType } from "~/types/entity";
-import {
-  getSidebarContentDynamicClass,
-  getSidebarFooterDynamicClass,
-} from "~/utils/sidebarUtils";
 
 const aboveMediumBP = useBreakpoint("md");
 

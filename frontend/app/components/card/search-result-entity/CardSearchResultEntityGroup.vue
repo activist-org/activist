@@ -29,10 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
-
-import { useLinkURL } from "~/composables/useLinkURL";
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   group: Group;

@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
-import type { AcceptedBody } from "~/types/http";
-
 import { put } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Update
 

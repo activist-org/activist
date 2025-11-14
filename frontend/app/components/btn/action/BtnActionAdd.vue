@@ -15,10 +15,7 @@
   />
 </template>
 <script setup lang="ts">
-import type { BtnAction } from "~/types/btn-props";
-
-import { IconMap } from "~/types/icon-map";
-
+import type { BtnAction } from "#shared/types/btn-props";
 const { canCreate } = useUser();
 const canAdd = computed(() => canCreate());
 type Props = Omit<BtnAction, "label" | "leftIcon" | "cta" | "fontSize"> & {

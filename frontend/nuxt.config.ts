@@ -4,7 +4,7 @@ import type { NuxtPage } from "nuxt/schema";
 
 import tailwindcss from "@tailwindcss/vite";
 
-import locales from "./app/utils/locales";
+import locales from "./shared/utils/locales";
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
 import modules from "./modules";

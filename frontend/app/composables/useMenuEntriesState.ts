@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { IconMap } from "~/types/icon-map";
 
 const createMenuEntry = (label: string, basePath: string, iconUrl: string) => {
   const { locale } = useI18n();

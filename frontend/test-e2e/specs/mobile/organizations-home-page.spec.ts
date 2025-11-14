@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/organizations");

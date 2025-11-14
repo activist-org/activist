@@ -85,12 +85,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EntityType } from "~/types/entity";
-
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-import { useGetGroupImages } from "~/composables/queries/useGetGroupImages";
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
@@ -100,7 +94,7 @@ const { data: images } = useGetGroupImages(groupId);
 
 const aboveLargeBP = useBreakpoint("lg");
 
-const groupTabs = getGroupTabs();
+const groupTabs = useGetGroupTabs();
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

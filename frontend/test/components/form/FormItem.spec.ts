@@ -3,7 +3,7 @@ import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import FormTemplate from "~/components/form/FormTemplate.vue";
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 import render from "../../render";
 

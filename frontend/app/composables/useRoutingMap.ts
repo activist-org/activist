@@ -5,7 +5,6 @@ import type { LayerSpecification } from "maplibre-gl";
 import MapLibreGlDirections from "@maplibre/maplibre-gl-directions";
 import { ref } from "vue";
 
-import type { RouteProfile } from "~/types/map";
 
 export const useRouting = () => {
   const { t } = useI18n();

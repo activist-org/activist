@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { ContentImage, FileUploadMix } from "~/types/content/file";
 
-import { UploadableFile } from "~/types/content/file";
-
-const { token } = useAuth();
 
 const defaultImageUrls = computed(() => {
   const colorMode = useColorMode();
@@ -17,6 +13,7 @@ const defaultImageUrls = computed(() => {
 
 export function useFileManager() {
   const uploadError = ref(false);
+  const { token } = useAuth();
 
   async function deleteImage(imageId: string) {
     if (!imageId) {

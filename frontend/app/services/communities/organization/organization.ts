@@ -2,21 +2,12 @@
 // Organizations service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import type {
-  OrganizationCreateFormData,
-  OrganizationFilters,
-  OrganizationResponse,
-  OrganizationsResponseBody,
-  Organization as OrganizationT,
-} from "~/types/communities/organization";
 
 import { del, get, post } from "~/services/http";
-import { defaultOrganizationText } from "~/types/communities/organization";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Map API Response to Type
 
-export function mapOrganization(res: OrganizationResponse): OrganizationT {
+export function mapOrganization(res: OrganizationResponse): Organization {
   return {
     id: res.id,
     orgName: res.orgName,
@@ -33,13 +24,13 @@ export function mapOrganization(res: OrganizationResponse): OrganizationT {
     events: res.events ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
-    texts: res.texts ?? [defaultOrganizationText],
+    texts: res.texts ?? [],
   };
 }
 
 // MARK: Get by ID
 
-export async function getOrganization(id: string): Promise<OrganizationT> {
+export async function getOrganization(id: string): Promise<Organization> {
   try {
     const res = await get<OrganizationResponse>(
       `/communities/organizations/${id}`,
@@ -55,7 +46,7 @@ export async function getOrganization(id: string): Promise<OrganizationT> {
 
 export async function listOrganizations(
   filters: OrganizationFilters
-): Promise<OrganizationT[]> {
+): Promise<Organization[]> {
   try {
     const query = new URLSearchParams(
       filters as unknown as Record<string, string>

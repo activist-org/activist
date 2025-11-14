@@ -22,9 +22,6 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
 
-import useFormInput from "~/composables/useFormSetup";
-import { IconMap } from "~/types/icon-map";
-
 export interface Props {
   placeholder?: string;
   modelValue?: [string, number];
@@ -36,6 +33,6 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(["update:modelValue"]);
-const { updateValue } = useFormInput(props, emit, true);
+const { updateValue } = useFormSetup(props, emit, true);
 const uuid = props.id ?? uuidv4();
 </script>

@@ -25,10 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import {
-  getSidebarContentDynamicClass,
-  getSidebarFooterDynamicClass,
-} from "~/utils/sidebarUtils";
 
 const aboveMediumBP = useBreakpoint("md");
 

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { getBtnDynamicClass } from "~/utils/btnUtils";
+import { getBtnDynamicClass } from "#shared/utils/btnUtils";
 
 type TestGlobals = {
   computed: <T>(fn: () => T) => { value: T };

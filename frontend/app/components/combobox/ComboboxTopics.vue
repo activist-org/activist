@@ -84,6 +84,7 @@
 </template>
 
 <script setup lang="ts">
+  import { GLOBAL_TOPICS } from "#shared/constants/topics";
 import {
   Combobox,
   ComboboxButton,
@@ -93,8 +94,6 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 
-import { GLOBAL_TOPICS } from "~/types/content/topics";
-import { IconMap } from "~/types/icon-map";
 
 const { t } = useI18n();
 

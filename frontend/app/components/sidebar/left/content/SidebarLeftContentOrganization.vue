@@ -60,7 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
 
 const props = defineProps<{
   name: string;

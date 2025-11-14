@@ -3,7 +3,7 @@ import type { Page } from "playwright";
 
 import { expect } from "playwright/test";
 
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 export const newSidebarLeft = (page: Page) => {
   // Private state patterns in closure and locators.

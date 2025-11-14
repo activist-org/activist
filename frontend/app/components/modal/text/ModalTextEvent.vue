@@ -14,10 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EventUpdateTextFormData } from "~/types/events/event";
-
-import { useEventTextsMutations } from "~/composables/mutations/useEventTextsMutations";
-import { useGetEvent } from "~/composables/queries/useGetEvent";
 
 const modalName = "ModalTextEvent";
 const { handleCloseModal } = useModalHandlers(modalName);

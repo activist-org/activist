@@ -58,8 +58,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetEvent } from "~/composables/queries/useGetEvent";
-
 const props = defineProps<{
   name: string;
   logoUrl?: string;

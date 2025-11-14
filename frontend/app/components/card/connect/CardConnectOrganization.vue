@@ -4,8 +4,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-
 const paramsOrgId = useRoute().params.orgId;
 
 const { data: organization } = useGetOrganization(

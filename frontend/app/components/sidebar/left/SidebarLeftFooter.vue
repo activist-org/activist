@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownLocation } from "~/types/location";
 
 defineProps<{
   sidebarContentScrollable: boolean;

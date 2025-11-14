@@ -11,10 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import type { FaqEntry } from "~/types/content/faq-entry";
-
-import { useEventFAQEntryMutations } from "~/composables/mutations/useEventFAQEntryMutations";
-import { useGetEvent } from "~/composables/queries/useGetEvent";
 
 const props = defineProps<{
   faqEntry?: FaqEntry;

@@ -33,11 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EventFilters } from "~/types/events/event";
-
-import { useGetEvents } from "~/composables/queries/useGetEvents";
-import { useInfiniteScroll } from "~/composables/useInfiniteScroll";
-import { ViewType } from "~/types/view-types";
 
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();

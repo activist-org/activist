@@ -32,12 +32,8 @@
 <script setup lang="ts">
 import type { PopoverVisibility } from "v-calendar/dist/types/src/utils/popovers.js";
 
-import type { Event } from "~/types/events/event";
-
-import { getAllDaysInRange } from "~/utils/utils";
-
 const props = defineProps<{
-  events: Event[];
+  events: Activity[];
 }>();
 const { getEventColorByType } = useColor();
 const localePath = useLocalePath();

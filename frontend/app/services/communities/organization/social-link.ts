@@ -1,15 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { SocialLinkFormData } from "~/types/content/social-link";
-
 import { del, post, put } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Create
 
 export async function createOrganizationSocialLinks(
   organizationId: string,
-  links: SocialLinkFormData[]
+  links: SocialLinkInput[]
 ): Promise<void> {
   try {
     await Promise.all(

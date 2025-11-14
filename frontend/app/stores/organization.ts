@@ -1,9 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type {
-  Organization,
-  OrganizationFilters,
-} from "~/types/communities/organization";
-import type { ContentImage } from "~/types/content/file";
 
 interface OrganizationStore {
   organization: Organization;

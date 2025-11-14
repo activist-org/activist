@@ -11,7 +11,7 @@ import {
   OUR_SUPPORTERS_VIEW_LINK_NAME,
 } from "~/test-e2e/accessibility/accessible-names";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 test.describe(
   "Landing Page - Features & CTA",

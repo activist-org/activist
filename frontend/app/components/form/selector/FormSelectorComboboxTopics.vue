@@ -11,10 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Topic, TopicEnum } from "~/types/content/topics";
-
-import { useGetTopics } from "~/composables/queries/useGetTopics";
-import { GLOBAL_TOPICS } from "~/types/content/topics";
+import { GLOBAL_TOPICS } from "#shared/constants/topics";
 
 const { t } = useI18n();
 const { data: topics } = useGetTopics();

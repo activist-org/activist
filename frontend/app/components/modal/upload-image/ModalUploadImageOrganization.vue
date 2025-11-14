@@ -35,15 +35,6 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-import type {
-  ContentImage,
-  FileUploadMix,
-  UploadableFile,
-} from "~/types/content/file";
-
-import { useOrganizationImageMutations } from "~/composables/mutations/useOrganizationImageMutations";
-import { useGetOrganizationImages } from "~/composables/queries/useGetOrganizationImages";
-import { IconMap } from "~/types/icon-map";
 
 interface Props {
   orgId: string;

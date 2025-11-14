@@ -1,9 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type {
-  AcceptedBody,
-  ServiceOptions,
-  ServiceOptionsWithBody,
-} from "~/types/http";
 
 function baseURL() {
   return BASE_BACKEND_URL as string;

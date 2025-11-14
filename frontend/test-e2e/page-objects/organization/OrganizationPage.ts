@@ -15,7 +15,7 @@ import { newOrganizationGroupFAQPage } from "~/test-e2e/page-objects/organizatio
 import { newOrganizationGroupResourcesPage } from "~/test-e2e/page-objects/organization/groups/resources/OrganizationGroupResourcesPage";
 import { newOrganizationGroupsPage } from "~/test-e2e/page-objects/organization/OrganizationGroupsPage";
 import { newOrganizationResourcesPage } from "~/test-e2e/page-objects/organization/resources/OrganizationResourcesPage";
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 export const newOrganizationPage = (page: Page) => ({
   // MARK: Main Page

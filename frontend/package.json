@@ -22,7 +22,8 @@
     "test:clean": "rm -rf ./test-results/user-data && cross-env TEST_ENV=local playwright test",
     "typecheck": "nuxi typecheck",
     "format": "yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "restart:type": "rm -rf .nuxt && rm -rf node_modules && yarn install"
   },
   "devDependencies": {
     "@headlessui/vue": "1.7.23",

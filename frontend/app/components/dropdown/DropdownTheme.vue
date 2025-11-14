@@ -32,10 +32,6 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 
-import type { DropdownLocation } from "~/types/location";
-
-import { IconMap } from "~/types/icon-map";
-
 defineProps<{
   location?: DropdownLocation;
 }>();

@@ -33,9 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "~/types/content/resource";
-
-import { IconMap } from "~/types/icon-map";
 
 defineProps<{
   resource: Resource;

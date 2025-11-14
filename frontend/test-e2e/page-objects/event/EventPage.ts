@@ -10,7 +10,7 @@ import { newSocialLinksModal } from "~/test-e2e/component-objects/SocialLinksMod
 import { newEventAboutPage } from "~/test-e2e/page-objects/event/about/EventAboutPage";
 import { newEventFAQPage } from "~/test-e2e/page-objects/event/faq/EventFAQPage";
 import { newEventResourcesPage } from "~/test-e2e/page-objects/event/resources/EventResourcesPage";
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 export const newEventPage = (page: Page) => ({
   // MARK: Main Page

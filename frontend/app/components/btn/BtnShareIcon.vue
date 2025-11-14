@@ -72,7 +72,6 @@ import {
   STwitter,
 } from "vue-socials";
 
-import { IconMap } from "~/types/icon-map";
 
 const vueSocials: { [key: string]: Component } = {
   SEmail,

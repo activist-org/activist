@@ -13,17 +13,8 @@
 <script setup lang="ts">
 import type { GeoJsonProperties } from "geojson";
 
-import type { Event, EventType } from "~/types/events/event";
-
-import {
-  MapType,
-  type ClusterProperties,
-  type PointerCluster,
-  type PopupContent,
-} from "~/types/map";
-
 const props = defineProps<{
-  events: Event[];
+  events: Activity[];
 }>();
 
 const { t } = useI18n();

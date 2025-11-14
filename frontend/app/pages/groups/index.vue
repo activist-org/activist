@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
 
 defineProps<{
   groups: Group[];

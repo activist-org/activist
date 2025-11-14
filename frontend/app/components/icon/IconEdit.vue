@@ -13,9 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Entity } from "~/types/entity";
 
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   entity?: Entity | null;

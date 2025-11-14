@@ -8,9 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Event, EventType } from "~/types/events/event";
+import { MapType } from "#shared/types/map";
 
-import { MapType, type Pointer } from "~/types/map";
 
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
@@ -18,7 +17,7 @@ const locationIcon = `/icons/map/tooltip_location.png`;
 const { getEventColorByType } = useColor();
 
 const props = defineProps<{
-  event: Event;
+  event: Activity;
 }>();
 const { event } = props;
 const buildExpandedTooltip = () => {

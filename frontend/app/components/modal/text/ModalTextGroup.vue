@@ -14,10 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import type { GroupUpdateTextFormData } from "~/types/communities/group";
-
-import { useGroupTextsMutations } from "~/composables/mutations/useGroupTextsMutations";
-import { useGetGroup } from "~/composables/queries/useGetGroup";
 
 const modalName = "ModalTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);

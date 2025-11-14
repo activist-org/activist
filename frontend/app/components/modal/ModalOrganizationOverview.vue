@@ -25,10 +25,8 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-import type { Event } from "~/types/events/event";
-
 defineProps<{
-  event?: Event;
+  event?: Activity;
 }>();
 const modalName = "ModalOrganizationOverview";
 </script>
