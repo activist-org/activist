@@ -1,14 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-// Import the functions under test
-import {
-  get,
-  post,
-  put,
-  del,
-  fetchWithoutToken,
-} from "../../app/services/http";
+import { del, fetchWithoutToken, get, post, put } from "~/app/services/http";
+
 import { expectRequest, getFetchCall } from "./helpers";
 
 type FetchOptionsShape = Record<string, unknown>;
@@ -32,10 +26,10 @@ describe("services/http", () => {
   let fetchRawMock: ReturnType<typeof vi.fn<FetchRawFn>>;
 
   beforeEach(() => {
-    // Reset globals and mocks before each test
+    // Reset globals and mocks before each test.
     globalThis.BASE_BACKEND_URL = "https://api.example.test";
 
-    // Default auth: present token
+    // Default auth: present token.
     globalThis.useAuth = () => ({ token: { value: "Bearer test-token" } });
 
     fetchMock = vi.fn<FetchFn>();
@@ -48,7 +42,7 @@ describe("services/http", () => {
     vi.restoreAllMocks();
   });
 
-  // MARK: - GET Method
+  // MARK: GET Method
 
   it("get() sets baseURL, GET method, and includes Authorization by default", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
@@ -88,7 +82,7 @@ describe("services/http", () => {
   });
 
   it("get() keeps caller Authorization when no token available", async () => {
-    // Simulate missing token so service does not add Authorization
+    // Simulate missing token so service does not add Authorization.
     globalThis.useAuth = () => ({ token: { value: undefined } });
     fetchMock.mockResolvedValueOnce({ ok: true });
 
@@ -116,7 +110,7 @@ describe("services/http", () => {
     expect(call.headers?.["X-Custom"]).toBe("1");
   });
 
-  // MARK: - POST Method
+  // MARK: POST Method
 
   it("post() sends body and includes Authorization", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
@@ -133,7 +127,7 @@ describe("services/http", () => {
     expect(opts.headers?.Authorization).toBe("Bearer test-token");
   });
 
-  // MARK: - PUT Method
+  // MARK: PUT Method
 
   it("put() sends body, merges headers, and includes Authorization unless withoutAuth", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
@@ -155,7 +149,7 @@ describe("services/http", () => {
     });
   });
 
-  // MARK: - DELETE Method
+  // MARK: DELETE Method
 
   it("del() sets DELETE method and respects withoutAuth", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
@@ -169,7 +163,7 @@ describe("services/http", () => {
     expect(opts.headers?.Authorization).toBeUndefined();
   });
 
-  // MARK: - Fetch Without Token
+  // MARK: Fetch Without Token
 
   it("fetchWithoutToken() calls $fetch.raw with absolute URL and returns _data", async () => {
     const rawResponse = { _data: { ok: true, value: 42 } } as const;
@@ -199,10 +193,10 @@ describe("services/http", () => {
     expect(result).toEqual(rawResponse._data);
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("authHeader() gracefully handles absence of useAuth() (no throw)", async () => {
-    // Simulate useAuth throwing (caught in authHeader())
+    // Simulate useAuth throwing (caught in authHeader()).
     globalThis.useAuth = (() => {
       throw new Error("no auth context");
     }) as typeof globalThis.useAuth;
@@ -213,7 +207,7 @@ describe("services/http", () => {
     const call = fetchMock.mock.calls[0][1] as {
       headers?: Record<string, string>;
     };
-    // Should not include Authorization if useAuth is not available
+    // Should not include Authorization if useAuth is not available.
     expect(call.headers?.Authorization).toBeUndefined();
   });
 });

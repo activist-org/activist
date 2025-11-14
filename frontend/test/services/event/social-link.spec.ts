@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import type { SocialLinkFormData } from "../../../app/types/content/social-link";
+import type { SocialLinkFormData } from "~/app/types/content/social-link";
 
 import {
   createEventSocialLinks,
-  updateEventSocialLink,
   deleteEventSocialLink,
   replaceAllEventSocialLinks,
-} from "../../../app/services/event/social-link";
-import { AppError } from "../../../app/utils/errorHandler";
+  updateEventSocialLink,
+} from "~/app/services/event/social-link";
+import { AppError } from "~/app/utils/errorHandler";
+
 import {
   expectJsonRequest,
   expectRequest,
@@ -35,7 +36,7 @@ describe("services/event/social-link", () => {
     });
   });
 
-  // MARK: - Update
+  // MARK: Update
 
   it("updateEventSocialLink() PUTs JSON with event", async () => {
     const { fetchMock } = getMocks();
@@ -71,7 +72,7 @@ describe("services/event/social-link", () => {
     });
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();

@@ -7,9 +7,10 @@ import {
   createEvent,
   deleteEvent,
   mapEvent,
-} from "../../../app/services/event/event";
-import { defaultEventText } from "../../../app/types/events/event";
-import { AppError } from "../../../app/utils/errorHandler";
+} from "~/app/services/event/event";
+import { defaultEventText } from "~/app/types/events/event";
+import { AppError } from "~/app/utils/errorHandler";
+
 import {
   expectJsonRequest,
   expectRequest,
@@ -20,7 +21,7 @@ import {
 describe("services/event", () => {
   const getMocks = setupServiceTestMocks();
 
-  // MARK: - Get
+  // MARK: Get
 
   it("getEvent() requests by ID with withoutAuth and maps response", async () => {
     const { fetchMock } = getMocks();
@@ -49,14 +50,14 @@ describe("services/event", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expectRequest(fetchMock, /\/events\/events\/evt-1$/, "GET");
     const [, opts] = getFetchCall(fetchMock);
-    // withoutAuth: true should omit Authorization
+    // withoutAuth: true should omit Authorization.
     expect(opts.headers?.Authorization).toBeUndefined();
 
     expect(result.id).toBe("evt-1");
     expect(result.texts).toEqual([defaultEventText]);
   });
 
-  // MARK: - List
+  // MARK: List
 
   it("listEvents() builds query from filters, uses withoutAuth, and maps items", async () => {
     const { fetchMock } = getMocks();
@@ -77,7 +78,7 @@ describe("services/event", () => {
       endTime: undefined,
       creationDate: "2025-02-01",
       orgs: { id: "org2", name: "Org" },
-      // Undefined to exercise defaulting in mapEvent
+      // Undefined to exercise defaulting in mapEvent.
       texts: undefined,
     } as unknown as ApiItem;
     const responseBody = {
@@ -101,7 +102,7 @@ describe("services/event", () => {
     expect(result.isLastPage).toBe(true);
   });
 
-  // MARK: - Create
+  // MARK: Create
 
   it("createEvent() builds payload and returns created id", async () => {
     const { fetchMock } = getMocks();
@@ -120,7 +121,7 @@ describe("services/event", () => {
     const id = await createEvent({ ...form });
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    // The service constructs a specific payload subset
+    // The service constructs a specific payload subset.
     expectJsonRequest(fetchMock, "/events/events", "POST", {
       name: form.name,
       location: form.location,
@@ -134,7 +135,7 @@ describe("services/event", () => {
     expect(id).toBe("evt-3");
   });
 
-  // MARK: - Delete
+  // MARK: Delete
 
   it("deleteEvent() calls DELETE on the event endpoint", async () => {
     const { fetchMock } = getMocks();
@@ -146,7 +147,7 @@ describe("services/event", () => {
     expectRequest(fetchMock, /\/events\/events\/evt-4$/, "DELETE");
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError via errorHandler on failure", async () => {
     const { fetchMock } = getMocks();
@@ -155,7 +156,7 @@ describe("services/event", () => {
     await expect(getEvent("evt-err")).rejects.toBeInstanceOf(AppError);
   });
 
-  // MARK: - Mapping
+  // MARK: Mapping
 
   it("mapEvent() defaults missing arrays and texts", () => {
     const minimal = {

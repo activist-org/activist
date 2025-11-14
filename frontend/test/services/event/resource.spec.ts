@@ -1,17 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import type {
-  Resource,
-  ResourceInput,
-} from "../../../app/types/content/resource";
+import type { Resource, ResourceInput } from "~/app/types/content/resource";
 
 import {
   createEventResource,
-  updateEventResource,
   reorderEventResources,
-} from "../../../app/services/event/resource";
-import { AppError } from "../../../app/utils/errorHandler";
+  updateEventResource,
+} from "~/app/services/event/resource";
+import { AppError } from "~/app/utils/errorHandler";
+
 import {
   expectJsonRequest,
   getFetchCall,
@@ -21,7 +19,7 @@ import {
 describe("services/event/resource", () => {
   const getMocks = setupServiceTestMocks();
 
-  // MARK: - Create
+  // MARK: Create
 
   it("createEventResource() posts JSON with event", async () => {
     const { fetchMock } = getMocks();
@@ -41,7 +39,7 @@ describe("services/event/resource", () => {
     });
   });
 
-  // MARK: - Update
+  // MARK: Update
 
   it("updateEventResource() puts JSON with event", async () => {
     const { fetchMock } = getMocks();
@@ -61,7 +59,7 @@ describe("services/event/resource", () => {
     });
   });
 
-  // MARK: - Reorder
+  // MARK: Reorder
 
   it("reorderEventResources() PUTs id/order/event for each", async () => {
     const { fetchMock } = getMocks();
@@ -98,7 +96,7 @@ describe("services/event/resource", () => {
     });
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();

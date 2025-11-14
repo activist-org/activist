@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import type { FaqEntry } from "../../../app/types/content/faq-entry";
+import type { FaqEntry } from "~/app/types/content/faq-entry";
 
 import {
   createEventFaq,
-  updateEventFaq,
-  reorderEventFaqs,
   deleteEventFaq,
-} from "../../../app/services/event/faq";
-import { AppError } from "../../../app/utils/errorHandler";
+  reorderEventFaqs,
+  updateEventFaq,
+} from "~/app/services/event/faq";
+import { AppError } from "~/app/utils/errorHandler";
+
 import {
   expectJsonRequest,
   getFetchCall,
@@ -19,7 +20,7 @@ import {
 describe("services/event/faq", () => {
   const getMocks = setupServiceTestMocks();
 
-  // MARK: - Create
+  // MARK: Create
 
   it("createEventFaq() posts JSON with event", async () => {
     const { fetchMock } = getMocks();
@@ -42,7 +43,7 @@ describe("services/event/faq", () => {
     });
   });
 
-  // MARK: - Update
+  // MARK: Update
 
   it("updateEventFaq() puts JSON with event", async () => {
     const { fetchMock } = getMocks();
@@ -65,7 +66,7 @@ describe("services/event/faq", () => {
     });
   });
 
-  // MARK: - Reorder
+  // MARK: Reorder
 
   it("reorderEventFaqs() PUTs id/order/event for each", async () => {
     const { fetchMock } = getMocks();
@@ -100,7 +101,7 @@ describe("services/event/faq", () => {
     });
   });
 
-  // MARK: - Delete
+  // MARK: Delete
 
   it("deleteEventFaq() calls DELETE endpoint", async () => {
     const { fetchMock } = getMocks();
@@ -119,7 +120,7 @@ describe("services/event/faq", () => {
     await expect(deleteEventFaq("faq-456")).resolves.toBeUndefined();
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();

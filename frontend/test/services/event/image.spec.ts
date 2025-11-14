@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { uploadEventIconImage } from "../../../app/services/event/image";
-import { AppError } from "../../../app/utils/errorHandler";
+import { uploadEventIconImage } from "~/app/services/event/image";
+import { AppError } from "~/app/utils/errorHandler";
+
 import { getFetchCall, setupServiceTestMocks } from "../helpers";
 
 function isFormData(value: unknown): value is FormData {
@@ -26,7 +27,7 @@ describe("services/event/image", () => {
     expect(isFormData(opts.body)).toBe(true);
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();
