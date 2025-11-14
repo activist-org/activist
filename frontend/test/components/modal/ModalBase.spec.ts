@@ -3,15 +3,14 @@ import type { VueWrapper } from "@vue/test-utils";
 import type { RouteLocationNormalized } from "vue-router";
 
 import { mount } from "@vue/test-utils";
-import { setActivePinia, createPinia } from "pinia";
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { ref, nextTick } from "vue";
+import { createPinia, setActivePinia } from "pinia";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { nextTick, ref } from "vue";
 
 import ModalBase from "~/components/modal/ModalBase.vue";
 
-// ----------------------
-// Mock composables & state.
-// ----------------------
+// MARK: Mock composables & state
+
 const mockRoute = ref<Partial<RouteLocationNormalized>>({
   path: "/test",
   fullPath: "/test",
@@ -24,9 +23,8 @@ const mockRoute = ref<Partial<RouteLocationNormalized>>({
 
 vi.mock("vue-router", () => ({ useRoute: () => mockRoute }));
 
-// ----------------------
-// Stubs & helper functions.
-// ----------------------
+// MARK: Stubs & Helper
+
 const dialogStubConfig = {
   props: ["open"],
   template: `<div class="dialog-stub" :data-open="open"><slot /></div>`,
@@ -54,7 +52,8 @@ const createWrapper = (props: Partial<ModalProps> = {}, slots = {}) =>
     attachTo: document.body,
   });
 
-// Reusable assertions.
+// MARK: Reusable Assertions
+
 const assertCloseButton = (wrapper: VueWrapper) => {
   const button = wrapper.find('[data-testid="modal-close-button"]');
   expect(button.exists()).toBe(true);
@@ -64,9 +63,8 @@ const assertCloseButton = (wrapper: VueWrapper) => {
   expect(button.attributes("role")).toBe("button");
 };
 
-// ----------------------
-// Tests
-// ----------------------
+// MARK: Tests
+
 describe("ModalBase component", () => {
   let wrapper: VueWrapper;
   let pinia: ReturnType<typeof createPinia>;
@@ -74,11 +72,11 @@ describe("ModalBase component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    // Create a fresh Pinia instance for each test
+    // Create a fresh Pinia instance for each test.
     pinia = createPinia();
     setActivePinia(pinia);
 
-    // Initialize the modal store
+    // Initialize the modal store.
     const modalsStore = useModals();
     modalsStore.modals.testModal = { isOpen: false };
 
@@ -87,9 +85,8 @@ describe("ModalBase component", () => {
     mockRoute.value.fullPath = "/test";
   });
 
-  // ----------------------
-  // Accessibility.
-  // ----------------------
+  // MARK: Accessibility
+
   describe("Accessibility - ARIA Attributes", () => {
     it("sets role and tabindex on image modal content", () => {
       wrapper = createWrapper({ imageModal: true });
@@ -107,9 +104,8 @@ describe("ModalBase component", () => {
     });
   });
 
-  // ----------------------
-  // Rendering & Close Button.
-  // ----------------------
+  // MARK: Rendering & Close Button
+
   describe("Rendering & Close Button", () => {
     it("renders modal with correct data-testid", () => {
       wrapper = createWrapper();
@@ -132,9 +128,8 @@ describe("ModalBase component", () => {
     });
   });
 
-  // ----------------------
-  // Dynamic Classes & Variants
-  // ----------------------
+  // MARK: Dynamic Classes & Variants
+
   describe.each([
     {
       imageModal: false,
@@ -158,9 +153,8 @@ describe("ModalBase component", () => {
     });
   });
 
-  // ----------------------
-  // Modal State Management
-  // ----------------------
+  // MARK: Modal State Management
+
   describe("Modal State Management", () => {
     it("starts closed", () => {
       wrapper = createWrapper();
@@ -171,24 +165,24 @@ describe("ModalBase component", () => {
     it("reacts to modal open state changes", async () => {
       const modalsStore = useModals();
 
-      // Ensure modal starts closed
+      // Ensure modal starts closed.
       modalsStore.modals.testModal = { isOpen: false };
       wrapper = createWrapper();
       await nextTick();
 
-      // Initial state should be closed
+      // Initial state should be closed.
       expect(wrapper.find(".dialog-stub").attributes("data-open")).toBe(
         "false"
       );
 
-      // Open the modal using the store action
+      // Open the modal using the store action.
       modalsStore.openModal("testModal");
       await nextTick();
 
-      // Check the dialog is now open
+      // Check the dialog is now open.
       expect(wrapper.find(".dialog-stub").attributes("data-open")).toBe("true");
 
-      // Close the modal using the store action
+      // Close the modal using the store action.
       modalsStore.closeModal("testModal");
       await nextTick();
 
@@ -198,9 +192,8 @@ describe("ModalBase component", () => {
     });
   });
 
-  // ----------------------
-  // Close Functionality.
-  // ----------------------
+  // MARK: Close Functionality
+
   describe("Close Modal Functionality", () => {
     beforeEach(() => {
       const modalsStore = useModals();
@@ -243,9 +236,8 @@ describe("ModalBase component", () => {
     });
   });
 
-  // ----------------------
-  // Visual & Responsive Styling.
-  // ----------------------
+  // MARK: Visual & Responsive Styling
+
   describe("Visual & Responsive Styling", () => {
     it("includes dark mode backdrop classes", () => {
       wrapper = createWrapper();

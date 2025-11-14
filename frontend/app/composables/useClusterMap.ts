@@ -113,7 +113,7 @@ export const useClusterMap = () => {
     ].join(" ");
   };
 
-  // TODO: REFACTOR THIS FUNCTION TO MAKE IT MORE READABLE
+  // TODO: Refactor function to make it more readable.
   const updateMarkers = (
     map: maplibregl.Map,
     markers: { [key: string]: maplibregl.Marker },
