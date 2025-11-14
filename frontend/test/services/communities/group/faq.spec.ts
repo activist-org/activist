@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect } from "vitest";
 
-import type { FaqEntry } from "../../../../app/types/content/faq-entry";
+import type { FaqEntry } from "~/types/content/faq-entry";
 
 import {
   createGroupFaq,
   updateGroupFaq,
   reorderGroupFaqs,
   deleteGroupFaq,
-} from "../../../../app/services/communities/group/faq";
-import { AppError } from "../../../../app/utils/errorHandler";
+} from "~/services/communities/group/faq";
+import { AppError } from "~/utils/errorHandler";
+
 import {
   expectJsonRequest,
   getFetchCall,
@@ -41,7 +42,7 @@ describe("services/communities/group/faq", () => {
     });
   });
 
-  // MARK: - Update
+  // MARK: Update
 
   it("updateGroupFaq() puts JSON to group_faqs/:id", async () => {
     const { fetchMock } = getMocks();
@@ -82,7 +83,7 @@ describe("services/communities/group/faq", () => {
     expect(secondOpts.method).toBe("PUT");
   });
 
-  // MARK: - Delete
+  // MARK: Delete
 
   it("deleteGroupFaq() calls DELETE endpoint", async () => {
     const { fetchMock } = getMocks();
@@ -101,7 +102,7 @@ describe("services/communities/group/faq", () => {
     await expect(deleteGroupFaq("faq-456")).resolves.toBeUndefined();
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();

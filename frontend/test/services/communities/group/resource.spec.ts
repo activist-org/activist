@@ -1,17 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import type {
-  Resource,
-  ResourceInput,
-} from "../../../../app/types/content/resource";
+import type { Resource, ResourceInput } from "~/types/content/resource";
 
 import {
   createGroupResource,
-  updateGroupResource,
   reorderGroupResources,
-} from "../../../../app/services/communities/group/resource";
-import { AppError } from "../../../../app/utils/errorHandler";
+  updateGroupResource,
+} from "~/services/communities/group/resource";
+import { AppError } from "~/utils/errorHandler";
+
 import {
   expectJsonRequest,
   getFetchCall,
@@ -41,7 +39,7 @@ describe("services/communities/group/resource", () => {
     });
   });
 
-  // MARK: - Update
+  // MARK: Update
 
   it("updateGroupResource() puts JSON to group_resources/:id", async () => {
     const { fetchMock } = getMocks();
@@ -107,7 +105,7 @@ describe("services/communities/group/resource", () => {
     });
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { updateGroupTexts } from "../../../../app/services/communities/group/text";
-import { AppError } from "../../../../app/utils/errorHandler";
+import { updateGroupTexts } from "~/services/communities/group/text";
+import { AppError } from "~/utils/errorHandler";
+
 import { expectJsonRequest, setupServiceTestMocks } from "../../helpers";
 
 describe("services/communities/group/text", () => {
@@ -35,7 +36,7 @@ describe("services/communities/group/text", () => {
     });
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();

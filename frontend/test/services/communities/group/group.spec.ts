@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import {
   getGroup,
   listGroups,
   mapGroup,
-} from "../../../../app/services/communities/group/group";
-import { defaultGroupText } from "../../../../app/types/communities/group";
-import { AppError } from "../../../../app/utils/errorHandler";
+} from "~/services/communities/group/group";
+import { defaultGroupText } from "~/types/communities/group";
+import { AppError } from "~/utils/errorHandler";
+
 import {
   expectRequest,
   getFetchCall,
@@ -17,7 +18,7 @@ import {
 describe("services/communities/group", () => {
   const getMocks = setupServiceTestMocks();
 
-  // MARK: - Get
+  // MARK: Get
 
   it("getGroup() requests by ID with withoutAuth and maps response", async () => {
     const { fetchMock } = getMocks();
@@ -51,7 +52,7 @@ describe("services/communities/group", () => {
     expect(result.texts).toEqual([defaultGroupText]);
   });
 
-  // MARK: - List
+  // MARK: List
 
   it("listGroups() calls the list endpoint and maps results", async () => {
     const { fetchMock } = getMocks();
@@ -84,7 +85,7 @@ describe("services/communities/group", () => {
     const result = await listGroups();
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    // Note: endpoint is singular "group" per current service implementation
+    // Note: endpoint is singular "group" per current service implementation.
     expectRequest(fetchMock, /\/communities\/group$/, "GET");
     const [, opts] = getFetchCall(fetchMock);
     expect(opts.headers?.Authorization).toBeUndefined();
@@ -94,7 +95,7 @@ describe("services/communities/group", () => {
     expect(result[0].texts).toEqual([defaultGroupText]);
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError via errorHandler on failure", async () => {
     const { fetchMock } = getMocks();
@@ -102,7 +103,7 @@ describe("services/communities/group", () => {
     await expect(getGroup("grp-err")).rejects.toBeInstanceOf(AppError);
   });
 
-  // MARK: - Mapping
+  // MARK: Mapping
 
   it("mapGroup() defaults missing arrays and texts", () => {
     const minimal = {
