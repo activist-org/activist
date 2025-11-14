@@ -50,9 +50,13 @@
       ghost-class="opacity-0"
       tag="div"
     >
-      <template #item="{ element: file }">
+      <template #item="{ element: file, index }">
         <span class="pb-4">
-          <button @click="handleRemoveFile(file)" class="text-action-red">
+          <button
+            @click="handleRemoveFile(file)"
+            class="text-action-red"
+            :data-testid="`upload-image-remove-${index}`"
+          >
             <Icon :name="IconMap.X_SM" size="1.5em" />
           </button>
           <img
