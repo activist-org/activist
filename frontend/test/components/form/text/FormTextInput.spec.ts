@@ -55,7 +55,7 @@ function expectShrunkLegend(legend: HTMLElement) {
   ).not.toContain("max-w-[0.01px]");
 }
 
-describe("FormTextInput", () => {
+describe("FormTextInput component", () => {
   it("shrinks label when focused", async () => {
     await render(TestWrapper, {
       props: {
