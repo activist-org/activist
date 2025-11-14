@@ -2,7 +2,7 @@
 import { useDebounceFn } from "@vueuse/core";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import useFormInput from "../../app/composables/useFormSetup";
+import useFormInput from "~/composables/useFormSetup";
 
 const debounceRunnerMock = vi.fn<(value: string | boolean) => void>();
 let capturedDebounceCallback: ((value: string | boolean) => void) | null = null;

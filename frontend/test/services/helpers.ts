@@ -43,7 +43,7 @@ export function setupServiceTestMocks() {
   return () => mocks;
 }
 
-// Common fetch options types
+// Common fetch options types.
 export type FetchOptions = {
   method: string;
   baseURL: string;
@@ -53,7 +53,7 @@ export type FetchOptions = {
 
 export type FetchCall = [string, FetchOptions];
 
-// Extract fetch call arguments with proper typing
+// Extract fetch call arguments with proper typing.
 export function getFetchCall(
   fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
   index = 0
@@ -61,7 +61,7 @@ export function getFetchCall(
   return fetchMock.mock.calls[index] as FetchCall;
 }
 
-// Assert common HTTP request properties
+// Assert common HTTP request properties.
 export function expectJsonRequest(
   fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
   expectedUrl: string | RegExp,
@@ -82,7 +82,7 @@ export function expectJsonRequest(
   }
 }
 
-// Assert simple HTTP request (no body checks)
+// Assert simple HTTP request (no body checks).
 export function expectRequest(
   fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
   expectedUrl: string | RegExp,
