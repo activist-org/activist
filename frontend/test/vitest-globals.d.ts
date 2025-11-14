@@ -9,5 +9,8 @@ export type UseColorModeFn = () => {
 
 // Note: Can't define anything here that conflicts with Nuxt's auto-imports.
 declare global {
+  // interface GlobalThis {
+  //   useColorModeMock: Mock<UseColorModeFn>;
+  // }
   const useColorModeMock: Mock<UseColorModeFn>;
 }

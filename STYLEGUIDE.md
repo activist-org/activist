@@ -26,6 +26,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Images and icons](#images-and-icons)
 - [Tab size](#tab-size)
 - [Padding](#padding)
+- [Comments](#comments)
 
 <a id="vue-and-nuxt"></a>
 
@@ -368,3 +369,14 @@ Code in the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), Ty
 ## Padding [`⇧`](#contents)
 
 There are a few custom padding classes that can be used for `px` and `py` styling as defined in [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css). Please use consistent custom padding classes to ensure that elements move together at different breakpoints.
+
+<a id="comments"></a>
+
+## Comments [`⇧`](#contents)
+
+Please write all comments that are their own lines as complete sentences that start with a capital letter and end in punctuation - likely a period. Inline comments should not be capitalized and should not end in punctuation. If you're writing short comments for sections, please make these `MARK:` comments so that the sections appear in the code editor minimap. `MARK:` comments should be written as section headers with all non stop words capitalized and shouldn't have punctuation at the end.
+
+<!--
+Regex to find incorrect comments:
+^\s*(?:\/\/|#)(?!.*(SPDX|eslint-disable|MARK:|mypy:))(?:\s*$|.*[^\.\s]\s*$)
+ -->
