@@ -42,7 +42,7 @@ describe("services/http", () => {
     vi.restoreAllMocks();
   });
 
-  // MARK: GET Method
+  // MARK: Get
 
   it("get() sets baseURL, GET method, and includes Authorization by default", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
@@ -110,7 +110,7 @@ describe("services/http", () => {
     expect(call.headers?.["X-Custom"]).toBe("1");
   });
 
-  // MARK: POST Method
+  // MARK: Post
 
   it("post() sends body and includes Authorization", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
@@ -127,7 +127,7 @@ describe("services/http", () => {
     expect(opts.headers?.Authorization).toBe("Bearer test-token");
   });
 
-  // MARK: PUT Method
+  // MARK: Put
 
   it("put() sends body, merges headers, and includes Authorization unless withoutAuth", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
@@ -149,7 +149,7 @@ describe("services/http", () => {
     });
   });
 
-  // MARK: DELETE Method
+  // MARK: Delete
 
   it("del() sets DELETE method and respects withoutAuth", async () => {
     fetchMock.mockResolvedValueOnce({ ok: true });
