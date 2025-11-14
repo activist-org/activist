@@ -4,8 +4,6 @@ import { createPinia, defineStore, setActivePinia } from "pinia";
 import { afterAll, afterEach, beforeEach, vi } from "vitest";
 import { createI18n } from "vue-i18n";
 
-import type { UseColorModeFn as _UseColorModeFn } from "../test/vitest-globals";
-
 import en from "../i18n/locales/en-US.json" assert { type: "json" };
 
 // Set up Pinia.
@@ -58,7 +56,6 @@ globalThis.useUser = () => ({
   userIsAdmin: false,
   roles: [],
   signOutUser: () => {},
-  canEdit: canEditMock,
   canDelete: () => false,
   canCreate: () => false,
   canView: () => true,
@@ -75,7 +72,6 @@ const useColorModeFn = () => ({
   value: "dark" as const,
 });
 
-// @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorModeMock = vi.fn(useColorModeFn);
 // @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorMode = () => globalThis.useColorModeMock();
