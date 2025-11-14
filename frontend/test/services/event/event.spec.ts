@@ -7,9 +7,9 @@ import {
   createEvent,
   deleteEvent,
   mapEvent,
-} from "~/app/services/event/event";
-import { defaultEventText } from "~/app/types/events/event";
-import { AppError } from "~/app/utils/errorHandler";
+} from "~/services/event/event";
+import { defaultEventText } from "~/types/events/event";
+import { AppError } from "~/utils/errorHandler";
 
 import {
   expectJsonRequest,
