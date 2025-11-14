@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import {
-  getOrganization,
-  listOrganizations,
   createOrganization,
   deleteOrganization,
+  getOrganization,
+  listOrganizations,
   mapOrganization,
-} from "../../../../app/services/communities/organization/organization";
-import { defaultOrganizationText } from "../../../../app/types/communities/organization";
-import { AppError } from "../../../../app/utils/errorHandler";
+} from "~/services/communities/organization/organization";
+import { defaultOrganizationText } from "~/types/communities/organization";
+import { AppError } from "~/utils/errorHandler";
+
 import {
   expectJsonRequest,
   expectRequest,
@@ -20,7 +21,7 @@ import {
 describe("services/communities/organization", () => {
   const getMocks = setupServiceTestMocks();
 
-  // MARK: - Get
+  // MARK: Get
 
   it("getOrganization() requests by ID with withoutAuth and maps response", async () => {
     const { fetchMock } = getMocks();
@@ -55,7 +56,7 @@ describe("services/communities/organization", () => {
     expect(result.texts).toEqual([defaultOrganizationText]);
   });
 
-  // MARK: - List
+  // MARK: List
 
   it("listOrganizations() builds query from filters, uses withoutAuth, and maps items", async () => {
     const { fetchMock } = getMocks();
@@ -98,7 +99,7 @@ describe("services/communities/organization", () => {
     expect(result[0].texts).toEqual([defaultOrganizationText]);
   });
 
-  // MARK: - Create
+  // MARK: Create
 
   it("createOrganization() builds payload and returns created id", async () => {
     const { fetchMock } = getMocks();
@@ -132,7 +133,7 @@ describe("services/communities/organization", () => {
     expect(id).toBe("org-3");
   });
 
-  // MARK: - Delete
+  // MARK: Delete
 
   it("deleteOrganization() calls DELETE on the endpoint", async () => {
     const { fetchMock } = getMocks();
@@ -144,7 +145,7 @@ describe("services/communities/organization", () => {
     expectRequest(fetchMock, /\/communities\/organizations\/org-4$/, "DELETE");
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError via errorHandler on failure", async () => {
     const { fetchMock } = getMocks();
@@ -152,7 +153,7 @@ describe("services/communities/organization", () => {
     await expect(getOrganization("org-err")).rejects.toBeInstanceOf(AppError);
   });
 
-  // MARK: - Mapping
+  // MARK: Mapping
 
   it("mapOrganization() defaults missing arrays and texts", () => {
     const minimal = {

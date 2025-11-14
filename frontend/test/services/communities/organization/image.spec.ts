@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import type { ContentImage } from "../../../../app/types/content/file";
+import type { ContentImage } from "~/types/content/file";
 
 import {
-  uploadOrganizationIconImage,
-  updateOrganizationImage,
   fetchOrganizationImages,
+  updateOrganizationImage,
+  uploadOrganizationIconImage,
   uploadOrganizationImages,
-} from "../../../../app/services/communities/organization/image";
-import { AppError } from "../../../../app/utils/errorHandler";
+} from "~/services/communities/organization/image";
+import { AppError } from "~/utils/errorHandler";
+
 import {
   expectJsonRequest,
   expectRequest,
@@ -39,7 +40,7 @@ describe("services/communities/organization/image", () => {
     expect(isFormData(opts.body)).toBe(true);
   });
 
-  // MARK: - Update
+  // MARK: Update
 
   it("updateOrganizationImage() puts JSON with content-type header", async () => {
     const { fetchMock } = getMocks();
@@ -93,7 +94,7 @@ describe("services/communities/organization/image", () => {
     expect(isFormData(opts.body)).toBe(true);
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();

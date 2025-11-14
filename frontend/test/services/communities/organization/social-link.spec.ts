@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import type { SocialLinkFormData } from "../../../../app/types/content/social-link";
+import type { SocialLinkFormData } from "~/types/content/social-link";
 
 import {
   createOrganizationSocialLinks,
-  updateOrganizationSocialLink,
   deleteOrganizationSocialLink,
   replaceAllOrganizationSocialLinks,
-} from "../../../../app/services/communities/organization/social-link";
-import { AppError } from "../../../../app/utils/errorHandler";
+  updateOrganizationSocialLink,
+} from "~/services/communities/organization/social-link";
+import { AppError } from "~/utils/errorHandler";
+
 import {
   expectJsonRequest,
   expectRequest,
@@ -43,7 +44,7 @@ describe("services/communities/organization/social-link", () => {
     );
   });
 
-  // MARK: - Update
+  // MARK: Update
 
   it("updateOrganizationSocialLink() PUTs JSON with org", async () => {
     const { fetchMock } = getMocks();
@@ -86,7 +87,7 @@ describe("services/communities/organization/social-link", () => {
       { link: "https://a", label: "a", order: 0 },
     ]);
 
-    // First delete call
+    // First delete call.
     expectJsonRequest(
       fetchMock,
       "/communities/organization_social_links",
@@ -97,7 +98,7 @@ describe("services/communities/organization/social-link", () => {
     );
   });
 
-  // MARK: - Error Handling
+  // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
     const { fetchMock } = getMocks();
