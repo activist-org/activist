@@ -20,7 +20,7 @@ export const newOrganizationsHomePage = (page: Page) => ({
     })
     .first(),
 
-  // Organization menu functionality (using the new generic menu selectors)
+  // Organization menu functionality (using the new generic menu selectors).
   getOrganizationMenuButton: (index: number) =>
     page.getByTestId("organization-card").nth(index).getByTestId("menu-button"),
   getOrganizationMenuTooltip: (index: number) =>
