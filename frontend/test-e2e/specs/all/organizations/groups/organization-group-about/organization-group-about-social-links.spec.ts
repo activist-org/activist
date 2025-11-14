@@ -119,7 +119,7 @@ test.describe(
 
       // MARK: Update
 
-      // Edit the social link we just created
+      // Edit the social link we just created.
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
@@ -227,7 +227,7 @@ test.describe(
 
       // MARK: Delete
 
-      // Remove the social link we updated
+      // Remove the social link we updated.
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
@@ -291,7 +291,7 @@ test.describe(
 
       // MARK: Verification
 
-      // Verify the deleted social link no longer appears on the Connect card
+      // Verify the deleted social link no longer appears on the Connect card.
       // Wait for the modal to close and page to update.
       await expect(groupAboutPage.socialLinksModal).not.toBeVisible({});
       // Verify the updated social link no longer exists.

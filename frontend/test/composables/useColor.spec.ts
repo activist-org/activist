@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { mockNuxtImport as _mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { describe, expect, it } from "vitest";
 
-import { useColor } from "../../app/composables/useColor";
+import { useColor } from "~/composables/useColor";
 
 // Note: useColorMode mock is handled globally in test/setup.ts
 

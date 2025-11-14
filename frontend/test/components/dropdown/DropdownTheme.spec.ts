@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { mockNuxtImport as _mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
-import DropdownTheme from "../../../app/components/dropdown/DropdownTheme.vue";
+import DropdownTheme from "~/components/dropdown/DropdownTheme.vue";
+
 import render from "../../../test/render";
 
 // Note: useColorMode mock is handled globally in test/setup.ts.

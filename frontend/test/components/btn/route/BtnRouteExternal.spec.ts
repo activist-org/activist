@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { screen } from "@testing-library/vue";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import BtnRouteExternal from "../../../../app/components/btn/route/BtnRouteExternal.vue";
+import BtnRouteExternal from "~/components/btn/route/BtnRouteExternal.vue";
+
 import { renderButton } from "../helpers";
 
 describe("BtnRouteExternal", () => {

@@ -92,13 +92,13 @@ test.describe(
       const disclosureButton = newFaqCard.getByTestId("faq-disclosure-button");
       const answerElement = newFaqCard.getByTestId("faq-answer");
 
-      // Check if the FAQ is already expanded, if not, click to expand it
+      // Check if the FAQ is already expanded, if not, click to expand it.
       const isExpanded = await answerElement.isVisible();
       if (!isExpanded) {
         await disclosureButton.click();
       }
 
-      // Wait for the answer to be visible and verify the content
+      // Wait for the answer to be visible and verify the content.
       await expect(answerElement).toBeVisible();
       await expect(answerElement).toContainText(testAnswer);
     });
@@ -263,7 +263,7 @@ test.describe(
           await disclosureButton.click();
         }
 
-        // Wait for the answer to be visible and verify the content
+        // Wait for the answer to be visible and verify the content.
         await expect(answerElement).toBeVisible();
         await expect(answerElement).toContainText(updatedAnswer);
 

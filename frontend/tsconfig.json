@@ -16,6 +16,9 @@
     },
     {
       "path": "./tsconfig.playwright.json"
+    },
+    {
+      "path": "./tsconfig.vitest.json"
     }
   ],
   "compilerOptions": {

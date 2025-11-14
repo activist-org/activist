@@ -2,8 +2,9 @@
 import { fireEvent, screen, waitFor, within } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
-import SignUp from "../../../app/pages/auth/sign-up.vue";
-import { getEnglishText } from "../../../app/utils/i18n";
+import SignUp from "~/pages/auth/sign-up.vue";
+import { getEnglishText } from "~/utils/i18n";
+
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_RATING as RATING,
@@ -11,7 +12,7 @@ import {
 import render from "../../../test/render";
 
 // Note: Auto-import mocks (useI18n, useAuthState, etc.) and Icon component mock
-// are handled globally in test/setup.ts
+// are handled globally in test/setup.ts.
 
 describe("sign-up", () => {
   it("shows error border when password invalid", async () => {

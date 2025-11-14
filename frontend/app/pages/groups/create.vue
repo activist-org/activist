@@ -142,7 +142,7 @@ const submit = async () => {
     body: JSON.stringify(payload),
   });
 
-  //TODO: Push notification with toast should be added here
+  // TODO: Push notification with toast should be added here.
 
   window.location.href = "/organizations";
 };

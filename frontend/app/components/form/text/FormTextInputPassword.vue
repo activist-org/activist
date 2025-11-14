@@ -2,8 +2,10 @@
 <template>
   <FormTextInput
     :id="id"
+    @update:modelValue="(val) => emit('update:modelValue', val)"
     :hasError="hasError"
     :label="label"
+    :modelValue="modelValue"
     :type="isPassword ? 'password' : 'text'"
   >
     <template #icons>
@@ -39,11 +41,17 @@ export interface Props {
   id: string;
   label: string;
   hasError?: boolean;
+  modelValue?: string;
 }
 
 withDefaults(defineProps<Props>(), {
   hasError: false,
+  modelValue: "",
 });
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value: string): void;
+}>();
 
 const isPassword = ref<boolean>(true);
 
