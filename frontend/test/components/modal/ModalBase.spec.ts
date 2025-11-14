@@ -67,7 +67,7 @@ const assertCloseButton = (wrapper: VueWrapper) => {
 // ----------------------
 // Tests
 // ----------------------
-describe("ModalBase.vue", () => {
+describe("ModalBase component", () => {
   let wrapper: VueWrapper;
   let pinia: ReturnType<typeof createPinia>;
 
