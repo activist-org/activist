@@ -1,4 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test configurations used in all apps.
+"""
+
 from typing import cast
 
 import pytest
@@ -11,7 +15,7 @@ from authentication.models import UserModel
 @pytest.fixture
 def authenticated_client() -> tuple[APIClient, UserModel]:
     """
-    Returns an authenticated APIClient with a test user.
+    Return an authenticated APIClient with a test user.
 
     The client is authenticated using DRF's force_authenticate method,
     bypassing the need for actual login requests and token management.
@@ -25,12 +29,13 @@ def authenticated_client() -> tuple[APIClient, UserModel]:
     test_username = "test_user_authenticated"
     test_pass = "Activist@123!?"
 
-    # Create a confirmed user with a strong password
+    # Create a confirmed user with a strong password.
     user: UserModel = cast(
-        UserModel, UserFactory(username=test_username, plaintext_password=test_pass)
-    )  # type: ignore[no-untyped-call]
+        UserModel,
+        UserFactory(username=test_username, plaintext_password=test_pass),  # type: ignore[no-untyped-call]
+    )
 
-    # Authenticate the client using DRF's force_authenticate
+    # Authenticate the client using DRF's force_authenticate.
     client.force_authenticate(user=user)
 
     return client, user
