@@ -50,9 +50,9 @@ class Event(models.Model):
         ("offline", "Offline"),
     ]
     setting = models.CharField(max_length=255, choices=SETTING_CHOICES)
-    online_location_link = models.CharField(max_length=255, blank=True)
+    online_location_link = models.CharField(max_length=255, blank=True, null=True)
     offline_location = models.OneToOneField(
-        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+        "content.Location", on_delete=models.CASCADE, blank=True, null=True
     )
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
