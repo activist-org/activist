@@ -102,31 +102,3 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  e2e-test:
-    env_file:
-      - .env.dev
-    build:
-      context: ./frontend
-    container_name: e2e-test 
-    depends_on:
-      - frontend
-    environment:
-      - BASE_URL=http://frontend:3000
-    networks:
-      - e2e-network
-    volumes:
-      - ./frontend:/app
-    command:
-      - sh
-      - -c
-      - |
-        echo "Container up and running....." &&
-        corepack enable && yarn install &&
-        yarn playwright install-deps &&
-        yarn playwright install &&
-        yarn dev:local
-
-networks:
-  e2e-network:
-    driver: bridge
