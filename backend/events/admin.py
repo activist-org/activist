@@ -24,7 +24,9 @@ from events.models import (
 
 
 class EventAdminForm(ModelForm):  # type: ignore[type-arg]
-    """Custom form for Event admin to handle conditional validation."""
+    """
+    Custom form for Event admin to handle conditional validation.
+    """
 
     def clean(self) -> dict[str, Any]:
         """
@@ -47,8 +49,8 @@ class EventAdminForm(ModelForm):  # type: ignore[type-arg]
                         "online_location_link": "Online location link is required for online events."
                     }
                 )
-            if offline_location:
-                cleaned_data["offline_location"] = None
+
+            cleaned_data["offline_location"] = None
 
         elif setting == "offline":
             if not offline_location:
@@ -57,14 +59,16 @@ class EventAdminForm(ModelForm):  # type: ignore[type-arg]
                         "offline_location": "Offline location is required for offline events."
                     }
                 )
-            if online_location_link:
-                cleaned_data["online_location_link"] = None
+
+            cleaned_data["online_location_link"] = None
 
         return cleaned_data
 
 
 class EventAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
-    """Admin interface for Event model."""
+    """
+    Admin interface for Event model.
+    """
 
     class Meta:
         model = Event
