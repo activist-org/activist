@@ -453,7 +453,13 @@ activist uses [Playwright](https://playwright.dev/) for end to end testing. You'
 yarn playwright install --with-deps
 ```
 
-To run the end to end tests locally, please run the following commands:
+To run the end to end tests using Docker, please run the following:
+
+```bash
+docker compose -f docker-compose.e2e.yml --env-file .env.dev up --build
+```
+
+Alternatively, to run the end to end tests locally, please run the following commands:
 
 ```bash
 docker compose --env-file .env.dev up backend db # run backend and db in docker
