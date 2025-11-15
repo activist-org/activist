@@ -10,6 +10,11 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DATABASE_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     env_file:
@@ -91,3 +96,9 @@ services:
       - "24678:24678"
     environment:
       - USE_PREVIEW=${USE_PREVIEW:-false}
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
