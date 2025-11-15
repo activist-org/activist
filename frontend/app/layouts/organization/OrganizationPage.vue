@@ -53,6 +53,8 @@ const { data: images } = useGetOrganizationImages(orgId || "");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
+const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
+  useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
   sidebarContentScrollable.value,
   sidebarHover

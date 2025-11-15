@@ -23,10 +23,9 @@ function removeLocaleSegment(segments: string[]): string[] {
   return segments;
 }
 
-export function isTopLevelRouteActive(routePath: string): boolean {
-  const route = useRoute();
+export function isTopLevelRouteActive(routePath: string, currentRoutePath: string): boolean {
 
-  const currentPath = normalizePath(route.path);
+  const currentPath = normalizePath(currentRoutePath);
   const targetPath = normalizePath(routePath);
 
   let currentSegments = currentPath.split("/");
