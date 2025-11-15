@@ -48,7 +48,7 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
     await expect(secondFAQDragHandle).toContainClass("drag-handle");
 
     // Perform drag and drop using shared utility.
-    // NOTE: We use mouse events with delays instead of dragTo() because
+    // Note: We use mouse events with delays instead of dragTo() because
     // dragTo() executes too quickly for vuedraggable to process the drag sequence.
     await performDragAndDrop(page, firstFAQDragHandle, secondFAQDragHandle);
 

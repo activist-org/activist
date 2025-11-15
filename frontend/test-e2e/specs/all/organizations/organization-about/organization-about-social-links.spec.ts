@@ -58,7 +58,7 @@ test.describe(
 
       // MARK: Create
 
-      // Add a new social link
+      // Add a new social link.
       await aboutPage.connectCardEditIcon.click();
       await expect(socialLinksModal.modal).toBeVisible();
 
@@ -68,7 +68,7 @@ test.describe(
         .all();
       const initialCount = existingEntries.length;
 
-      // Add a new social link
+      // Add a new social link.
       const addButton = socialLinksModal.addButton(socialLinksModal.modal);
       await expect(addButton).toBeVisible();
       // Use JavaScript click to bypass viewport restrictions on mobile.
@@ -133,7 +133,7 @@ test.describe(
 
       // MARK: Update
 
-      // Edit the social link we just created
+      // Edit the social link we just created.
       await aboutPage.connectCardEditIcon.click();
       await expect(socialLinksModal.modal).toBeVisible();
 
@@ -281,7 +281,7 @@ test.describe(
       );
       // MARK: Verification
 
-      // Verify the deleted social link no longer appears on the Connect card
+      // Verify the deleted social link no longer appears on the Connect card.
       // Use getByTestId and filter by text since accessible name might include icon.
       await expect(
         connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })

@@ -4,8 +4,6 @@ import { createPinia, defineStore, setActivePinia } from "pinia";
 import { afterAll, afterEach, beforeEach, vi } from "vitest";
 import { createI18n } from "vue-i18n";
 
-import type { UseColorModeFn as _UseColorModeFn } from "../test/vitest-globals";
-
 import en from "../i18n/locales/en-US.json" assert { type: "json" };
 
 // Set up Pinia.
@@ -14,9 +12,8 @@ setActivePinia(createPinia());
 // Auto-import version of define store doesn't exist in the test env.
 globalThis.defineStore = defineStore;
 
-// ================================
-// GLOBAL AUTO-IMPORT MOCKS
-// ================================
+// MARK: Global Auto-Import Mocs
+
 // These mocks are necessary because components were updated to use Nuxt auto-imports
 // (e.g., commit 82089827 added useI18n() to FormTextEntity.vue), but the tests were
 // never updated to handle these dependencies. Without these mocks, tests fail with
@@ -58,7 +55,6 @@ globalThis.useUser = () => ({
   userIsAdmin: false,
   roles: [],
   signOutUser: () => {},
-  canEdit: canEditMock,
   canDelete: () => false,
   canCreate: () => false,
   canView: () => true,
@@ -75,7 +71,6 @@ const useColorModeFn = () => ({
   value: "dark" as const,
 });
 
-// @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorModeMock = vi.fn(useColorModeFn);
 // @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorMode = () => globalThis.useColorModeMock();
@@ -114,11 +109,10 @@ const i18n = createI18n({
 
 config.global.plugins.push(i18n);
 
-// ================================
-// COMPONENT MOCKS
-// ================================
-// Mock Icon component to resolve accessibility issues in password validation tests
-// The sign-up tests expect icons with specific aria-labels and colors for password validation
+// MARK: Component Mocks
+
+// Mock Icon component to resolve accessibility issues in password validation tests.
+// The sign-up tests expect icons with specific aria-labels and colors for password validation.
 config.global.components = {
   Icon: {
     template: `
@@ -198,9 +192,8 @@ config.global.components = {
   },
 };
 
-// ================================
-// SUPPRESS VUE WARNINGS IN TESTS
-// ================================
+// MARK: Suppress Warnings
+
 // Suppress known Vue warnings that don't affect test functionality:
 // - FriendlyCaptcha missing modelValue prop (from sign-up.spec.ts)
 // - Draggable missing itemKey prop (from ImageFileDropzoneMultiple.spec.ts)
