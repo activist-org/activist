@@ -220,6 +220,7 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
 
     texts = EventTextSerializer(write_only=True, required=False)
     social_links = EventSocialLinkSerializer(write_only=True, required=False)
+    offline_location = LocationSerializer(write_only=True)
     org_id = serializers.PrimaryKeyRelatedField(
         queryset=Organization.objects.all(), source="orgs"
     )
@@ -231,7 +232,6 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
         model = Event
 
         exclude = (
-            "offline_location",
             "discussions",
             "formats",
             "roles",
