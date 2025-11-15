@@ -47,8 +47,13 @@ repos:
         types: [python]
         pass_filenames: false
 
-  - repo: local
-    hooks:
+      - id: prettier-eslint-checks
+        name: run prettier and eslint checks
+        files: ^frontend/
+        entry: python -m pre_commit_scripts.prettier_eslint_checks
+        language: python
+        pass_filenames: false
+
       - id: run-i18n-check
         name: run i18n-check key-value checks
         files: ^frontend/
@@ -57,10 +62,3 @@ repos:
         pass_filenames: false
         additional_dependencies:
           - i18n-check
-
-      - id: prettier-eslint-checks
-        name: run prettier and eslint checks
-        files: ^frontend/
-        entry: python -m pre_commit_scripts.prettier_eslint_checks
-        language: python
-        pass_filenames: false
