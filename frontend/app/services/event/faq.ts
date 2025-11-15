@@ -59,14 +59,16 @@ export async function reorderEventFaqs(
 ): Promise<void> {
   try {
     await Promise.all(
-      faqs.map(
-        (f) =>
-          put(`/events/event_faqs/${f.id}`, {
+      faqs.map((f) =>
+        put(
+          `/events/event_faqs/${f.id}`,
+          {
             id: f.id,
             order: f.order,
             event: eventId,
-          }),
-        { headers: { "Content-Type": "application/json" } }
+          },
+          { headers: { "Content-Type": "application/json" } }
+        )
       )
     );
   } catch (e) {

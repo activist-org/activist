@@ -35,7 +35,7 @@ urlpatterns = [
     path("v1/content/", include("content.urls", namespace="content")),
     path("v1/communities/", include("communities.urls", namespace="communities")),
     path("v1/events/", include("events.urls", namespace="events")),
-    # API DOCUMENTATION
+    # MARK: API Documentation
     path("v1/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "v1/schema/auth/",

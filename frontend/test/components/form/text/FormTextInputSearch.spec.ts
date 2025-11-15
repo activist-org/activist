@@ -206,8 +206,8 @@ describe("FormTextInputSearch", () => {
       const input = screen.getByLabelText("Search") as HTMLInputElement;
       expect(input.value).toBe("initial");
 
-      // The component watches modelValue, but testing prop updates via rerender
-      // is complex. Instead, verify the watch logic works by checking initial render.
+      // The component watches modelValue, but testing prop updates via rerender is complex.
+      // Instead, verify the watch logic works by checking initial render.
     });
 
     it("accepts hasError prop (for future implementation)", async () => {
