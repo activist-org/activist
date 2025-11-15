@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
-
+const { REQUEST_ACCESS_URL } = useGetBaseURLs();
 const devMode = useDevMode();
 devMode.check();
 </script>

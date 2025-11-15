@@ -257,7 +257,7 @@ const getCurrentName = () => {
       ? props?.organization?.name
       : "";
 };
-
+const { BASE_FRONTEND_URL } = useGetBaseURLs();
 // Function to grab the url to the base id of the entity to share.
 const getCurrentUrl = () => {
   if (props.organization) {

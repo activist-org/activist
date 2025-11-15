@@ -22,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+const { BASE_BACKEND_URL } = useGetBaseURLs();
 const { data: resources } = await useFetch(
   `${BASE_BACKEND_URL}/content/resources`,
   {

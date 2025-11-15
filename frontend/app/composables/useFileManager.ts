@@ -1,20 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 
-const defaultImageUrls = computed(() => {
-  const colorMode = useColorMode();
-  const imageColor = colorMode.value === "light" ? "light" : "dark";
-  return [
-    `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
-    `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
-    `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
-  ];
-});
 
 export function useFileManager() {
   const uploadError = ref(false);
   const { token } = useAuth();
-
+  const { BASE_BACKEND_URL } = useGetBaseURLs();
+  
   async function deleteImage(imageId: string) {
     if (!imageId) {
       return;
@@ -35,6 +27,15 @@ export function useFileManager() {
     }
   }
 
+  const defaultImageUrls = computed(() => {
+    const colorMode = useColorMode();
+    const imageColor = colorMode.value === "light" ? "light" : "dark";
+    return [
+      `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
+      `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
+      `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
+    ];
+  });
   function getIconImage(files: File[]) {
     if (files[0]) {
       return new UploadableFile(files[0]);
