@@ -28,7 +28,7 @@ test.describe(
 
       // Ensure we're on the About page.
       await expect(page).toHaveURL(/.*\/groups\/.*\/about/);
-      await expect(groupAboutPage.connectCard).toBeVisible();
+      await expect(groupAboutPage.connectCard).toBeVisible({ timeout: 15000 });
 
       // Generate unique content for this test run.
       const timestamp = Date.now();
@@ -41,7 +41,7 @@ test.describe(
 
       // Add a new social link.
       const connectCardEditIcon =
-        groupAboutPage.connectCard.getByTestId("edit-icon");
+        groupAboutPage.connectCard.getByTestId("icon-edit");
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
@@ -119,7 +119,7 @@ test.describe(
 
       // MARK: Update
 
-      // Edit the social link we just created
+      // Edit the social link we just created.
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
@@ -227,7 +227,7 @@ test.describe(
 
       // MARK: Delete
 
-      // Remove the social link we updated
+      // Remove the social link we updated.
       await connectCardEditIcon.click();
       await expect(groupAboutPage.socialLinksModal).toBeVisible();
 
@@ -291,7 +291,7 @@ test.describe(
 
       // MARK: Verification
 
-      // Verify the deleted social link no longer appears on the Connect card
+      // Verify the deleted social link no longer appears on the Connect card.
       // Wait for the modal to close and page to update.
       await expect(groupAboutPage.socialLinksModal).not.toBeVisible({});
       // Verify the updated social link no longer exists.

@@ -128,7 +128,7 @@ activist is very open to contributions from people in the early stages of their 
 ## Development environment [`⇧`](#contents)
 
 > [!NOTE]
-> Windows users should be aware that Docker development requires [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/windows/wsl/) version 2 or higher.
+> Windows users should be aware that Docker development requires [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/windows/wsl/) version 2 or higher. The community would suggest that you clone the repository directly into your WSL environment.
 
 1. First and foremost, please see the suggested IDE setup in the dropdown below to make sure that your editor is ready for development.
 
@@ -453,7 +453,24 @@ activist uses [Playwright](https://playwright.dev/) for end to end testing. You'
 yarn playwright install --with-deps
 ```
 
-To run the end to end tests locally, please run the following commands:
+Please run the following to run the end to end testing suite:
+
+```bash
+# Note: There may be an installation prompts in the build logs. Hit 'n' to say no.
+# macOS:
+sh run-e2e-tests.sh
+# Linux or Windows using WSL:
+bash run-e2e-tests.sh
+
+# After the tests finish, run the following to see the Playwright HTML report:
+yarn playwright show-report
+
+# Note: If you stop the script before it finishes, please run the following to stop all background processes:
+docker compose --env-file .env.dev down
+yarn kill-port 3000
+```
+
+Alternatively, to run the end to end tests using the separate commands, please run the following:
 
 ```bash
 docker compose --env-file .env.dev up backend db # run backend and db in docker
@@ -489,7 +506,7 @@ cd frontend
 
 yarn test:local
 
-# If tests don't pass, then as prompted run the following to see the HTML report:
+# After the tests finish, run the following to see the Playwright HTML report:
 yarn playwright show-report
 ```
 

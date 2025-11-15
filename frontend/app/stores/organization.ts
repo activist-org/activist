@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Organization } from "~/types/communities/organization";
+import type {
+  Organization,
+  OrganizationFilters,
+} from "~/types/communities/organization";
 import type { ContentImage } from "~/types/content/file";
 
 interface OrganizationStore {
   organization: Organization;
   organizations: Organization[];
   images: ContentImage[];
+  filters: OrganizationFilters;
 }
 
 export const useOrganizationStore = defineStore("organization", {
@@ -13,6 +17,7 @@ export const useOrganizationStore = defineStore("organization", {
     organization: null as unknown as Organization,
     images: [] as ContentImage[],
     organizations: [],
+    filters: {} as OrganizationFilters,
   }),
   actions: {
     // MARK: Set Organizations
@@ -38,6 +43,12 @@ export const useOrganizationStore = defineStore("organization", {
     },
     clearImages() {
       this.images = [];
+    },
+    getFilters() {
+      return this.filters;
+    },
+    setFilters(filters: OrganizationFilters) {
+      this.filters = filters;
     },
   },
 });

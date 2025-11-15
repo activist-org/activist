@@ -11,14 +11,15 @@ test.beforeEach(async ({ page }) => {
   // Wait for auth state to be fully loaded.
   await page.waitForLoadState("domcontentloaded");
 
-  // Wait intelligently for auth state to hydrate (no arbitrary delay).
+  // Wait for page to be fully loaded (no arbitrary delay).
   await expect(async () => {
-    // Verify page is interactive and auth state is ready.
+    // Verify page is interactive and fully rendered.
     const isReady = await page.evaluate(
       () => document.readyState === "complete"
     );
     expect(isReady).toBe(true);
   }).toPass({
+    timeout: 10000,
     intervals: [100, 250],
   });
 });
@@ -57,7 +58,7 @@ test.describe(
 
       // MARK: Create
 
-      // Add a new social link
+      // Add a new social link.
       await aboutPage.connectCardEditIcon.click();
       await expect(socialLinksModal.modal).toBeVisible();
 
@@ -67,7 +68,7 @@ test.describe(
         .all();
       const initialCount = existingEntries.length;
 
-      // Add a new social link
+      // Add a new social link.
       const addButton = socialLinksModal.addButton(socialLinksModal.modal);
       await expect(addButton).toBeVisible();
       // Use JavaScript click to bypass viewport restrictions on mobile.
@@ -132,7 +133,7 @@ test.describe(
 
       // MARK: Update
 
-      // Edit the social link we just created
+      // Edit the social link we just created.
       await aboutPage.connectCardEditIcon.click();
       await expect(socialLinksModal.modal).toBeVisible();
 
@@ -280,7 +281,7 @@ test.describe(
       );
       // MARK: Verification
 
-      // Verify the deleted social link no longer appears on the Connect card
+      // Verify the deleted social link no longer appears on the Connect card.
       // Use getByTestId and filter by text since accessible name might include icon.
       await expect(
         connectCard.getByTestId("social-link").filter({ hasText: updatedLabel })

@@ -27,7 +27,7 @@ test.describe(
 
       // Click the edit icon to open the edit modal.
       const aboutCardEditIcon =
-        groupAboutPage.aboutCard.getByTestId("edit-icon");
+        groupAboutPage.aboutCard.getByTestId("icon-edit");
       await expect(aboutCardEditIcon).toBeVisible();
       await aboutCardEditIcon.click();
 
