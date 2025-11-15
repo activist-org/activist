@@ -8,11 +8,11 @@ import { getEnglishText } from "~/utils/i18n";
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_RATING as RATING,
-} from "../../../test-utils/constants";
+} from "../../../test/constants";
 import render from "../../../test/render";
 
 // Note: Auto-import mocks (useI18n, useAuthState, etc.) and Icon component mock
-// are handled globally in test/setup.ts
+// are handled globally in test/setup.ts.
 
 describe("sign-up", () => {
   it("shows error border when password invalid", async () => {

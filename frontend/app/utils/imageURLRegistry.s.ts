@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Section: activist
+
+// MARK: activist
+
 export const FAVICON_URL = "/icons/favicons/favicon.svg";
 
 export const ACTIVIST_ICON_LIGHT_URL =
@@ -14,21 +16,24 @@ export const ACTIVIST_OPEN_GRAPH_URL =
 export const ACTIVIST_TWITTER_OPEN_GRAPH_URL =
   "/images/activist/activistTwitterOpenGraphImage.png";
 
-// Section: Art
+// MARK: Art
+
 export const GET_ACTIVE_IMAGE_URL = "/images/content_pages/art/get_active";
 export const GET_ORGANIZED_IMAGE_URL =
   "/images/content_pages/art/get_organized";
 export const GROW_ORGANIZATION_IMAGE_URL =
   "/images/content_pages/art/grow_organization";
 
-// Section: Mockups
+// MARK: Mockups
+
 export const GET_ACTIVE_MOCKUP_URL = "/images/content_pages/mockups/get_active";
 export const GET_ORGANIZED_MOCKUP_URL =
   "/images/content_pages/mockups/get_organized";
 export const GROW_ORGANIZATION_MOCKUP_URL =
   "/images/content_pages/mockups/grow_organization";
 
-// Section: Icon Libraries
+// MARK: Icon Libraries
+
 export const ARCTICONS_BIKE_LOCATION =
   "/icons/from_library/arcticons_bike_location";
 export const BOOTSTRAP_CALENDAR_CHECK_URL =
