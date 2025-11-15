@@ -57,7 +57,7 @@ const canFetchMore = computed(() => viewType.value === ViewType.LIST);
 const changeFetchMore = () => {
   loadingFetchMore.value = true;
 };
-useInfiniteScroll({
+useCustomInfiniteScroll({
   sentinel: bottomSentinel,
   fetchMore: getMore,
   canFetchMore,

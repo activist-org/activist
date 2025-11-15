@@ -4,10 +4,10 @@ import type { NuxtPage } from "nuxt/schema";
 
 import tailwindcss from "@tailwindcss/vite";
 
-import locales from "./shared/utils/locales";
 import applyMiddleware from "./applyMiddleware";
 import head from "./head";
 import modules from "./modules";
+import locales from "./shared/utils/locales";
 
 export default defineNuxtConfig({
   app: {
@@ -79,9 +79,9 @@ export default defineNuxtConfig({
   },
 
   plugins: ["~/plugins/i18n-head.ts"],
-
+  // Auto import services and stores.
   imports: {
-    dirs: ["./stores"],
+    dirs: ["./stores", "./services"],
   },
 
   vite: {
