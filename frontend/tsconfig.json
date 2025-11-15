@@ -1,5 +1,4 @@
 {
-  // https://nuxt.com/docs/guide/concepts/typescript
   "files": [],
   "references": [
     {
@@ -16,6 +15,9 @@
     },
     {
       "path": "./tsconfig.playwright.json"
+    },
+    {
+      "path": "./tsconfig.vitest.json"
     }
   ],
   "compilerOptions": {

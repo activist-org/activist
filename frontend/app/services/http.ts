@@ -26,8 +26,8 @@ export function get<T>(url: string, options?: ServiceOptions) {
   return $fetch<T>(url, {
     baseURL: baseURL(),
     method: "GET" as const,
-    headers,
     ...options,
+    headers,
   });
 }
 

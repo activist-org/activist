@@ -2,7 +2,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { toast } from "vue-sonner";
 
-import { useToaster } from "../../app/composables/useToaster";
+import { useToaster } from "~/composables/useToaster";
 
 vi.mock("vue-sonner", () => ({
   toast: {
