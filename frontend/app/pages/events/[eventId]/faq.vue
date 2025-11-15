@@ -64,7 +64,7 @@ import { useEventFAQEntryMutations } from "~/composables/mutations/useEventFAQEn
 import { useGetEvent } from "~/composables/queries/useGetEvent";
 import { EntityType } from "~/types/entity";
 
-const { openModal } = useModalHandlers("ModalFAQEntryEvent");
+const { openModal } = useModalHandlers("ModalFaqEntryEvent");
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
