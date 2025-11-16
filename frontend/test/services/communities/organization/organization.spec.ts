@@ -8,8 +8,8 @@ import {
   listOrganizations,
   mapOrganization,
 } from "~/services/communities/organization/organization";
-import { defaultOrganizationText } from "~/types/communities/organization";
-import { AppError } from "~/utils/errorHandler";
+import { defaultOrganizationText } from "#shared/constants/organization";
+import { AppError } from "#shared/utils/errorHandler";
 
 import {
   expectJsonRequest,
@@ -96,7 +96,7 @@ describe("services/communities/organization", () => {
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("org-2");
-    expect(result[0].texts).toEqual([defaultOrganizationText]);
+    expect(result[0].texts).toEqual([]);
   });
 
   // MARK: Create
@@ -175,7 +175,7 @@ describe("services/communities/organization", () => {
       texts: undefined,
     } as unknown as Parameters<typeof mapOrganization>[0];
     const mapped = mapOrganization(minimal);
-    expect(mapped.texts).toEqual([defaultOrganizationText]);
+    expect(mapped.texts).toEqual([]);
     expect(mapped.socialLinks).toEqual([]);
     expect(mapped.images).toEqual([]);
     expect(mapped.groups).toEqual([]);

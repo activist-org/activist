@@ -2,7 +2,7 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { FileUploadMix, UploadableFile } from "~/types/content/file";
+import type { FileUploadMix, UploadableFile } from "#shared/types/content/file";
 
 import FileDropZone from "~/components/image/ImageFileDropZone.vue";
 import MultipleImageDropzone from "~/components/image/ImageMultipleFileDropZone.vue";

@@ -2,8 +2,6 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { defaultEventText } from "#shared/constants/event";
-
 import { del, get, post } from "~/services/http";
 
 // MARK: Map API Response to Type
@@ -25,7 +23,7 @@ export function mapEvent(res: EventResponse): EventResponse {
     endTime: res.endTime,
     creationDate: res.creationDate,
     orgs: res.orgs,
-    texts: res.texts ?? [defaultEventText],
+    texts: res.texts ?? [],
   };
 }
 

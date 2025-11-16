@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 
 import { uploadEventIconImage } from "~/services/event/image";
-import { AppError } from "~/utils/errorHandler";
+import { AppError } from "#shared/utils/errorHandler";
 
 import { getFetchCall, setupServiceTestMocks } from "../helpers";
 

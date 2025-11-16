@@ -8,8 +8,8 @@ import {
   deleteEvent,
   mapEvent,
 } from "~/services/event/event";
-import { defaultEventText } from "~/types/events/event";
-import { AppError } from "~/utils/errorHandler";
+import { defaultEventText } from "#shared/constants/event";
+import { AppError } from "#shared/utils/errorHandler";
 
 import {
   expectJsonRequest,
@@ -98,7 +98,7 @@ describe("services/event", () => {
 
     expect(result.data).toHaveLength(1);
     expect(result.data[0].id).toBe("evt-2");
-    expect(result.data[0].texts).toEqual([defaultEventText]);
+    expect(result.data[0].texts).toEqual([]);
     expect(result.isLastPage).toBe(true);
   });
 
@@ -178,7 +178,7 @@ describe("services/event", () => {
       texts: undefined,
     } as unknown as Parameters<typeof mapEvent>[0];
     const mapped = mapEvent(minimal);
-    expect(mapped.texts).toEqual([defaultEventText]);
+    expect(mapped.texts).toEqual([]);
     expect(mapped.socialLinks).toEqual([]);
     expect(mapped.resources).toEqual([]);
     expect(mapped.faqEntries).toEqual([]);

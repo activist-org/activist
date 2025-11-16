@@ -6,8 +6,8 @@ import {
   listGroups,
   mapGroup,
 } from "~/services/communities/group/group";
-import { defaultGroupText } from "~/types/communities/group";
-import { AppError } from "~/utils/errorHandler";
+import { defaultGroupText } from "#shared/constants/group";
+import { AppError } from "#shared/utils/errorHandler";
 
 import {
   expectRequest,
@@ -92,7 +92,7 @@ describe("services/communities/group", () => {
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("grp-2");
-    expect(result[0].texts).toEqual([defaultGroupText]);
+    expect(result[0].texts).toEqual([]);
   });
 
   // MARK: Error Handling
@@ -124,7 +124,7 @@ describe("services/communities/group", () => {
       texts: undefined,
     } as unknown as Parameters<typeof mapGroup>[0];
     const mapped = mapGroup(minimal);
-    expect(mapped.texts).toEqual([defaultGroupText]);
+    expect(mapped.texts).toEqual([]);
     expect(mapped.images).toEqual([]);
     expect(mapped.events).toEqual([]);
     expect(mapped.resources).toEqual([]);

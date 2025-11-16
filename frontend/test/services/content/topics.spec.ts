@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect } from "vitest";
 
-import type { Topic } from "~/types/content/topics";
+import type { Topic } from "#shared/types/content/topics";
 
 import { listTopics } from "~/services/content/topics";
-import { AppError } from "~/utils/errorHandler";
+import { AppError } from "#shared/utils/errorHandler";
 
 import { expectRequest, getFetchCall, setupServiceTestMocks } from "../helpers";
 

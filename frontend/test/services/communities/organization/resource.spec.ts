@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import type { Resource, ResourceInput } from "~/types/content/resource";
+import type { Resource, ResourceInput } from "#shared/types/content/resource";
 
 import {
   createOrganizationResource,
   reorderOrganizationResources,
   updateOrganizationResource,
 } from "~/services/communities/organization/resource";
-import { AppError } from "~/utils/errorHandler";
+import { AppError } from "#shared/utils/errorHandler";
 
 import {
   expectJsonRequest,

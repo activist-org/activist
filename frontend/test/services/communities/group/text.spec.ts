@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 
 import { updateGroupTexts } from "~/services/communities/group/text";
-import { AppError } from "~/utils/errorHandler";
+import { AppError } from "#shared/utils/errorHandler";
 
 import { expectJsonRequest, setupServiceTestMocks } from "../../helpers";
 
