@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { AppError } from "#shared/utils/errorHandler";
 import { describe, expect, it } from "vitest";
+import { defaultOrganizationText } from "~constants/organization";
 
 import {
   createOrganization,
@@ -8,8 +10,6 @@ import {
   listOrganizations,
   mapOrganization,
 } from "~/services/communities/organization/organization";
-import { defaultOrganizationText } from "#shared/constants/organization";
-import { AppError } from "#shared/utils/errorHandler";
 
 import {
   expectJsonRequest,

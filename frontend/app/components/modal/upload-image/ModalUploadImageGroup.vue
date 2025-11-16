@@ -35,7 +35,6 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-
 interface Props {
   groupId: string;
   uploadLimit?: number;

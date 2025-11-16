@@ -45,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   group?: Group;
 }>();

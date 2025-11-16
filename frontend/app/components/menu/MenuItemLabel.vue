@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   isSidebarLeftMenu?: boolean | undefined;
   isButton: boolean;

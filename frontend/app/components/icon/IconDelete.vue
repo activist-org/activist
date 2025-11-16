@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-
 const { canDelete } = useUser();
 const canDeleteEntity = computed(() => canDelete());
 </script>

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { getEnglishText } from "#shared/utils/i18n";
+
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
-import { getEnglishText } from "#shared/utils/i18n";
 
 test.describe(
   "Landing Page - Accessibility",

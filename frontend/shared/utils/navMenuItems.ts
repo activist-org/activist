@@ -3,7 +3,7 @@ import { IconMap } from "#shared/types/icon-map";
 
 export const menuItems = [
   {
-    label: "i18n._global.home",
+    label: "i18n.pages.home.index.home",
     routeUrl: "/home",
     iconUrl: `${IconMap.HOME}`,
   },

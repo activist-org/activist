@@ -1,6 +1,7 @@
-export * from './organization'
-export * from './faq'
-export * from './resource'
-export * from './social-link'
-export * from './image'
-export * from './text'
+// SPDX-License-Identifier: AGPL-3.0-or-later
+export * from "./faq";
+export * from "./image";
+export * from "./organization";
+export * from "./resource";
+export * from "./social-link";
+export * from "./text";

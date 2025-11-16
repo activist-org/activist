@@ -8,7 +8,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   numAttending: number;
   label: string;

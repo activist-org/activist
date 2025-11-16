@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 export function getBtnDynamicClass(cta: boolean, fontSize: string) {
-  return{
+  return {
     "style-cta": cta,
     "style-cta-secondary": !cta,
     "text-xs": fontSize === "xs",

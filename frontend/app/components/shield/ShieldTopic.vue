@@ -25,7 +25,6 @@
 </template>
 
 <script setup lang="ts">
-
 export interface Props {
   topic: string;
   active?: boolean;

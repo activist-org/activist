@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-
 export interface Props {
   id: string;
   label: string;

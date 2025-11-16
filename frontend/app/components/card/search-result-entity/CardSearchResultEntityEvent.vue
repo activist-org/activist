@@ -62,9 +62,8 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
-  event: Activity;
+  event: CommunityEvent;
   isPrivate?: boolean;
   isReduced?: boolean;
 }>();

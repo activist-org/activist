@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownLocation } from "#shared/types/location";
 defineProps<{
   location?: DropdownLocation;
   userIsSignedIn: boolean;

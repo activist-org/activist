@@ -6,7 +6,7 @@ export interface Discussion {
   title: string;
   createdBy: User;
   orgId?: Organization;
-  eventId?: Activity;
+  eventId?: CommunityEvent;
   // voteId?: Vote;
   category: string;
   upVoters: User[];

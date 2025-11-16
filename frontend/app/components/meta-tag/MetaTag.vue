@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   iconName: string;
   value: string;

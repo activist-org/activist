@@ -42,7 +42,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   userIsAdmin: boolean;
   donationPrompt?: string;

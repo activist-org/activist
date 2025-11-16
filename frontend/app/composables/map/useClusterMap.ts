@@ -5,7 +5,6 @@ import type { Feature, GeoJsonProperties, Point } from "geojson";
 import { layersFactory } from "@maplibre/maplibre-gl-directions";
 import maplibregl from "maplibre-gl";
 
-
 export const useClusterMap = () => {
   const { createPointerMarker } = usePointerMap();
   const {

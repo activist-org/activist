@@ -13,8 +13,6 @@
 </template>
 
 <script setup lang="ts">
-
-
 const props = defineProps<{
   entity?: Entity | null;
 }>();

@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   sidebarContentScrollable: boolean;
 }>();

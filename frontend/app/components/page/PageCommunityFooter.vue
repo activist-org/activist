@@ -114,7 +114,6 @@
 </template>
 
 <script setup lang="ts">
-
 export interface Props {
   header?: string;
   helpNeeded?: boolean;

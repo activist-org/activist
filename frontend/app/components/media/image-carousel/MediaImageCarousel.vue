@@ -47,7 +47,6 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
-
 interface Props {
   fullscreen: boolean;
   imageUrls: string[];

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export interface Topic {
   type: TopicEnum;
   active: boolean;
@@ -13,7 +14,6 @@ export interface TopicTag {
   label: string;
   topic: TopicEnum;
 }
-
 
 // MARK: Pinia Responses
 

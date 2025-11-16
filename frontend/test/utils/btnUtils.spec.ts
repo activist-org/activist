@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { getBtnDynamicClass } from "#shared/utils/btnUtils";
+import { getBtnDynamicClass } from "../../shared/utils/btnUtils";
 
 describe("utils/btnUtils", () => {
   describe("getBtnDynamicClass", () => {
@@ -81,9 +81,9 @@ describe("utils/btnUtils", () => {
         expect(result).toMatchObject({
           "text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3": true,
         });
-        expect(
-          result["text-base sm:text-lg xl:text-xl xl:px-6 xl:py-3"]
-        ).toBe(false);
+        expect(result["text-base sm:text-lg xl:text-xl xl:px-6 xl:py-3"]).toBe(
+          false
+        );
       });
 
       it("applies responsive classes for 3xl font size", () => {
@@ -91,9 +91,9 @@ describe("utils/btnUtils", () => {
         expect(result).toMatchObject({
           "text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3": true,
         });
-        expect(
-          result["text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3"]
-        ).toBe(false);
+        expect(result["text-base sm:text-lg xl:text-2xl xl:px-6 xl:py-3"]).toBe(
+          false
+        );
       });
     });
 
@@ -127,18 +127,12 @@ describe("utils/btnUtils", () => {
 
       // Keep the original merged test case from feat/services-unit-tests branch.
       it("returns classes for cta and font sizes", () => {
-        const small = getBtnDynamicClass(true, "sm") as Record<
-          string,
-          boolean
-        >;
+        const small = getBtnDynamicClass(true, "sm") as Record<string, boolean>;
         expect(small["style-cta"]).toBe(true);
         expect(small["style-cta-secondary"]).toBe(false);
         expect(small["text-sm"]).toBe(true);
 
-        const xl = getBtnDynamicClass(false, "xl") as Record<
-          string,
-          boolean
-        >;
+        const xl = getBtnDynamicClass(false, "xl") as Record<string, boolean>;
         expect(xl["style-cta"]).toBe(false);
         expect(xl["style-cta-secondary"]).toBe(true);
         expect(xl["text-base sm:text-lg xl:text-xl xl:px-6 xl:py-3"]).toBe(
@@ -164,7 +158,9 @@ describe("utils/btnUtils", () => {
             "text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3",
           ];
 
-          const trueClasses = fontSizeKeys.filter((key) => result[key] === true);
+          const trueClasses = fontSizeKeys.filter(
+            (key) => result[key] === true
+          );
           expect(trueClasses).toHaveLength(1);
         });
 
@@ -181,7 +177,9 @@ describe("utils/btnUtils", () => {
             "text-base sm:text-lg xl:text-3xl xl:px-6 xl:py-3",
           ];
 
-          const trueClasses = fontSizeKeys.filter((key) => result[key] === true);
+          const trueClasses = fontSizeKeys.filter(
+            (key) => result[key] === true
+          );
           expect(trueClasses).toHaveLength(1);
         });
       });

@@ -22,7 +22,7 @@ export function useGetEvent(id: MaybeRef<string>) {
         const event = await getEvent(eventId.value);
         // Cache the result in store.
         store.setEvent(event);
-        return event as Activity;
+        return event as CommunityEvent;
       } catch (error) {
         showToastError((error as AppError).message);
         throw error;
@@ -49,7 +49,9 @@ export function useGetEvent(id: MaybeRef<string>) {
   );
 
   // Return cached data if available, otherwise data from useAsyncData.
-  const data = computed<Activity | null>(() => query.data.value as Activity | null);
+  const data = computed<CommunityEvent | null>(
+    () => query.data.value as CommunityEvent | null
+  );
 
   // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() => query.pending.value);

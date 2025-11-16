@@ -8,8 +8,8 @@ import type { Locator, Page } from "@playwright/test";
  * - View type selector (list, map, calendar)
  * - Days ahead selector (1, 7, 30)
  * - Event type selector (learn, action)
- * - PhysicalLocation type selector (offline, online)
- * - PhysicalLocation search input
+ * - Location type selector (offline, online)
+ * - Location search input
  * - Topics combobox
  *
  * @param parent - The parent Page or Locator to scope the component within
@@ -47,12 +47,12 @@ export const newEventsFilter = (parent: Page | Locator) => {
     eventTypeSection: root.getByTestId("events-filter-event-type"),
 
     /**
-     * PhysicalLocation type filter section (offline/in-person, online).
+     * Location type filter section (offline/in-person, online).
      */
     locationTypeSection: root.getByTestId("events-filter-location-type"),
 
     /**
-     * PhysicalLocation search input section.
+     * Location search input section.
      */
     locationSection: root.getByTestId("events-filter-location"),
 

@@ -6,7 +6,6 @@ export interface ContentImage {
   sequence_index?: number;
 }
 
-
 export interface FileUploadMix {
   type: "file" | "upload";
   data: UploadableFile | ContentImage;

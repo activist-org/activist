@@ -83,7 +83,6 @@
 </template>
 
 <script setup lang="ts">
-
 const sidebar = useSidebar();
 const route = useRoute();
 const { currentRoute } = useRouter();

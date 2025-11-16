@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   imageUrls: string[];
   entityType: EntityType;

@@ -11,7 +11,7 @@ export function useGetEvents(
   const { showToastError } = useToaster();
   const eventFilters = computed(() => unref(filters));
   // UseAsyncData for SSR, hydration, and cache.
-  const { data, pending, error, refresh } = useAsyncData<Activity[]>(
+  const { data, pending, error, refresh } = useAsyncData<CommunityEvent[]>(
     () => getKeyForGetEvents(),
     async () => {
       try {
@@ -36,7 +36,7 @@ export function useGetEvents(
           page.value > pageCached
         ) {
           store.setEvents([...eventsCached, ...events]);
-          return [...eventsCached, ...events] as Activity[];
+          return [...eventsCached, ...events] as CommunityEvent[];
         }
         store.setEvents(events);
         // Reset to page 1 if filters changed.
@@ -50,7 +50,7 @@ export function useGetEvents(
           store.setPage(page.value);
         }
         store.setFilters(eventFilters.value);
-        return events as Activity[];
+        return events as CommunityEvent[];
       } catch (error) {
         showToastError((error as AppError).message);
         throw error;

@@ -72,7 +72,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   status: number;
   organization: Organization;

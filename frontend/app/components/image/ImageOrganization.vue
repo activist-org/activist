@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   imgUrl?: string;
   alt?: string;

@@ -60,7 +60,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   name: string;
   logoUrl?: string;

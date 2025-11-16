@@ -11,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { GLOBAL_TOPICS } from "#shared/constants/topics";
-
 const { t } = useI18n();
 const { data: topics } = useGetTopics();
 

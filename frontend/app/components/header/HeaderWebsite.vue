@@ -139,8 +139,6 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownLocation } from "#shared/types/location";
-
 const aboveMediumBP = useBreakpoint("md");
 const aboveLargeBP = useBreakpoint("lg");
 

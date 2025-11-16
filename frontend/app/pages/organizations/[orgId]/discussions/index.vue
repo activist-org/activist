@@ -42,7 +42,6 @@
 </template>
 
 <script setup lang="ts">
-
 const aboveMediumBP = useBreakpoint("md");
 
 defineProps<{

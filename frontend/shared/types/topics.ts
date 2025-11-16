@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 export enum TopicEnum {
   ACCESSIBILITY = "ACCESSIBILITY",
   ANIMAL_RIGHTS = "ANIMAL_RIGHTS",

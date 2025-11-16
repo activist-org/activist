@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
 
+import { getEnglishText } from "#shared/utils/i18n";
+
 import { newEditModal } from "~/test-e2e/component-objects/EditModal";
 import { newOrganizationMenu } from "~/test-e2e/component-objects/OrganizationMenu";
 import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
@@ -15,7 +17,6 @@ import { newOrganizationGroupFAQPage } from "~/test-e2e/page-objects/organizatio
 import { newOrganizationGroupResourcesPage } from "~/test-e2e/page-objects/organization/groups/resources/OrganizationGroupResourcesPage";
 import { newOrganizationGroupsPage } from "~/test-e2e/page-objects/organization/OrganizationGroupsPage";
 import { newOrganizationResourcesPage } from "~/test-e2e/page-objects/organization/resources/OrganizationResourcesPage";
-import { getEnglishText } from "#shared/utils/i18n";
 
 export const newOrganizationPage = (page: Page) => ({
   // MARK: Main Page

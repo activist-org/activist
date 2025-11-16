@@ -21,8 +21,6 @@
 </template>
 
 <script setup lang="ts">
-// import type { Organization } from "#shared/types/communities/organization";
-
 // defineProps<{
 //   organization: Organization;
 // }>();

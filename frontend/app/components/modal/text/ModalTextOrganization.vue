@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-
 const modalName = "ModalTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 

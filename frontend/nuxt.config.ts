@@ -81,7 +81,7 @@ export default defineNuxtConfig({
   plugins: ["~/plugins/i18n-head.ts"],
   // Auto import services and stores.
   imports: {
-    dirs: ["./stores", "./services"],
+    dirs: ["./constants", "./services", "./stores"],
   },
 
   vite: {

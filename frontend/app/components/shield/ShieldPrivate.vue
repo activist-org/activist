@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-
 export interface Props {
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   type?: "default" | "group";

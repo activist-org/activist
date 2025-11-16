@@ -11,9 +11,5 @@
       "~~/*": ["./*"],
       "#shared/*": ["./shared/*"]
     }
-  },
-  "include": [
-    "tests/**/*.ts",
-    "tests/**/*.d.ts"
-  ]
+  }
 }

@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-
 export interface Props {
   label: string;
   active?: boolean;

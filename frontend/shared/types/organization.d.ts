@@ -17,7 +17,7 @@ interface OrganizationBase extends Entity {
   // discussions?: Discussion[];
   faqEntries?: FaqEntry[];
   groups?: Group[];
-  events?: Activity[];
+  events?: CommunityEvent[];
   resources?: Resource[];
   images?: ContentImage[];
   // task?: Task[];

@@ -27,7 +27,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   message: string;
   onConfirmation?: () => Promise<void> | void;

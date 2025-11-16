@@ -1,9 +1,10 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 const aboveMediumBP = useBreakpoint("md");
 
 export function useLinkURL(props: {
   organization?: Organization;
   group?: Group;
-  event?: Activity;
+  event?: CommunityEvent;
   resource?: Resource;
   user?: User;
 }) {

@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts">
-
-
 const aboveMediumBP = useBreakpoint("md");
 
 const paramsEventId = useRoute().params.eventId;

@@ -41,7 +41,6 @@
 </template>
 
 <script setup lang="ts">
-
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const { userIsSignedIn } = useUser();

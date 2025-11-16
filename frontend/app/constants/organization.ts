@@ -1,7 +1,4 @@
-import { defaultContentImage } from "#shared/constants/file";
-import { defaultLocation } from "#shared/constants/location";
-import { defaultSocialLink } from "#shared/constants/social-link";
-
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export const defaultOrganizationSocialLink = {
   orgId: "",
   ...defaultSocialLink,

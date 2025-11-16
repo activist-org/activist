@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   organization: Organization;
   isOpen: boolean;

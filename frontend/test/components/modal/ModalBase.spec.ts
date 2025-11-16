@@ -7,7 +7,7 @@ import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick, ref } from "vue";
 
-import ModalBase from "~/components/modal/ModalBase.vue";
+import ModalBase from "../../../app/components/modal/ModalBase.vue";
 
 // MARK: Mock composables & state
 

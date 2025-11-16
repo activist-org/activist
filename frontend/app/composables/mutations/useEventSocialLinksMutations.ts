@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Update event social links with error handling and store updates.
 
-
 export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 

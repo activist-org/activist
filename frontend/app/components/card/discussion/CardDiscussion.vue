@@ -87,7 +87,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   isPrivate?: boolean;
   discussion: Discussion;

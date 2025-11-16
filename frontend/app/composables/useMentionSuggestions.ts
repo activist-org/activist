@@ -1,11 +1,11 @@
-import type { MentionProps, RendererProps } from "#shared/types/mention-suggestions"
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Instance as TippyInstance } from "tippy.js";
 
 import { VueRenderer } from "@tiptap/vue-3";
 import tippy from "tippy.js";
 
-// This composable expects your Vue SFC to be passed as an argument
-export function useMentionSuggestion(MentionList: any) {
+// This composable expects your Vue SFC to be passed as an argument.
+export function useMentionSuggestion(MentionList: Component) {
   function getItems({ query }: MentionProps): string[] {
     return ["Jay Doe", "Jane Doe", "John Doe"]
       .filter((item) => item.toLowerCase().startsWith(query.toLowerCase()))

@@ -130,7 +130,6 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 
-
 interface Tag {
   id: number;
   name: string;

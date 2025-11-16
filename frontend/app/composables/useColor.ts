@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 type ColorKey = `${EventType}_${"light" | "dark"}`;
 
 const colorByType: Record<ColorKey, ColorByEventTypeAndTheme> = {

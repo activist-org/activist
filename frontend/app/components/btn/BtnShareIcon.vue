@@ -72,7 +72,6 @@ import {
   STwitter,
 } from "vue-socials";
 
-
 const vueSocials: { [key: string]: Component } = {
   SEmail,
   SFacebook,

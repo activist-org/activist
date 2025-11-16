@@ -109,7 +109,6 @@
 <script setup lang="ts">
 import type { LocationQueryRaw } from "vue-router";
 
-import { GLOBAL_TOPICS } from "#shared/constants/topics";
 import { z } from "zod";
 
 const { t } = useI18n();

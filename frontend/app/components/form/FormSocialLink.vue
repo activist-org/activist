@@ -125,9 +125,8 @@
 import draggable from "vuedraggable";
 import { z } from "zod";
 
-
 defineProps<{
-  formData: SocialLinkFormData;
+  formData: { socialLinks: SocialLinkFormData[] };
   handleSubmit: (values: unknown) => Promise<void>;
   submitLabel: string;
   title?: string;

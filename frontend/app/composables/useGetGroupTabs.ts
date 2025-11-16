@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export function useGetGroupTabs(): TabPage[] {
   const { t } = useI18n();
   const route = useRoute();

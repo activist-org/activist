@@ -8,7 +8,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   members: number;
   label?: string;

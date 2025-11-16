@@ -80,7 +80,6 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 
-
 const { currentRoute } = useRouter();
 
 const routeName = computed(() => {

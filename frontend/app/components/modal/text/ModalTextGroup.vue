@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-
 const modalName = "ModalTextGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 

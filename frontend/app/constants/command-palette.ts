@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Note: This could be in a Pinia store.
-
 export const commandPaletteData = [
   {
     id: 7,
@@ -67,7 +66,7 @@ export const commandPaletteData = [
     category: "upcoming-events",
     path: "upcoming-events",
     iconName: "EVENT",
-    displayName: "i18n.types.command_palette.upcoming_events",
+    displayName: "i18n.constants.command_palette.upcoming_events",
     action: () => {
       // Note: For future implementation.
     },

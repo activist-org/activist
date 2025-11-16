@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 interface EventStore {
-  event: Activity;
-  events: Activity[];
+  event: CommunityEvent;
+  events: CommunityEvent[];
   filters: EventFilters;
   page: number;
 }
@@ -11,13 +11,13 @@ export const useEventStore = defineStore("event", {
   // MARK: Properties
 
   state: (): EventStore => ({
-    event: null as unknown as Activity,
+    event: null as unknown as CommunityEvent,
     events: [],
     filters: {} as EventFilters,
     page: 0,
   }),
   actions: {
-    setEvent(event: Activity) {
+    setEvent(event: CommunityEvent) {
       this.event = event;
     },
 
@@ -28,14 +28,14 @@ export const useEventStore = defineStore("event", {
       this.page = page;
     },
 
-    getEvent(): Activity {
+    getEvent(): CommunityEvent {
       return this.event;
     },
-    setEvents(events: Activity[]) {
+    setEvents(events: CommunityEvent[]) {
       this.events = events;
     },
 
-    getEvents(): Activity[] {
+    getEvents(): CommunityEvent[] {
       return this.events;
     },
     setFilters(filters: EventFilters) {

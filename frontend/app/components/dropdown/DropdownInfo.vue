@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   location?: DropdownLocation;
 }>();

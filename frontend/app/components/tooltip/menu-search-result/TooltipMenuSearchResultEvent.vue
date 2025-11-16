@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  event: Activity;
+  event: CommunityEvent;
 }>();
 
 const emit = defineEmits(["tab"]);

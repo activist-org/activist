@@ -37,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-
 const aboveMediumBP = useBreakpoint("md");
 
 const paramsGroupId = useRoute().params.groupId;

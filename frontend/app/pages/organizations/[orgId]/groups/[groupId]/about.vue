@@ -85,7 +85,6 @@
 </template>
 
 <script setup lang="ts">
-
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 

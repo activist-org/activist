@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-
 const currentWidth = ref(window.innerWidth);
 const isMobileDevice = ref(false);
 let resizeTimeout: ReturnType<typeof setTimeout> | null = null;

@@ -1,7 +1,8 @@
+import type { SocialLinkFormData } from "#shared/types/content/social-link";
+
+import { AppError } from "#shared/utils/errorHandler";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
-
-import type { SocialLinkFormData } from "#shared/types/content/social-link";
 
 import {
   createEventSocialLinks,
@@ -9,7 +10,6 @@ import {
   replaceAllEventSocialLinks,
   updateEventSocialLink,
 } from "~/services/event/social-link";
-import { AppError } from "#shared/utils/errorHandler";
 
 import {
   expectJsonRequest,

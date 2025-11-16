@@ -8,7 +8,10 @@ export interface SocialLink {
   lastUpdated: string;
 }
 
-export type SocialLinkInput = Omit<SocialLink, "id" | "creationDate" | "lastUpdated"> & { id?: string };
+export type SocialLinkInput = Omit<
+  SocialLink,
+  "id" | "creationDate" | "lastUpdated"
+> & { id?: string };
 
 export interface SocialLinkFormData {
   socialLinks: SocialLinkInput[];

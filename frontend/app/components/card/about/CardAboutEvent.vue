@@ -60,7 +60,6 @@
 </template>
 
 <script setup lang="ts">
-
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const { userIsSignedIn } = useUser();

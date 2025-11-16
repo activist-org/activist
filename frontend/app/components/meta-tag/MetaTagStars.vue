@@ -4,7 +4,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   stars: number;
   label: string;

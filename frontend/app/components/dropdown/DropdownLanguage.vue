@@ -33,7 +33,6 @@ import type { LocaleObject } from "@nuxtjs/i18n";
 
 import { MenuItem } from "@headlessui/vue";
 
-
 defineProps<{
   location?: DropdownLocation;
 }>();

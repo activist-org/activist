@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-
 const modalName = "ModalSocialLinksGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 

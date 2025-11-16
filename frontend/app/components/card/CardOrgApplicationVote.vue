@@ -55,7 +55,6 @@
 </template>
 
 <script setup lang="ts">
-
 /**
  * The component public properties.
  */

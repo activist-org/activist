@@ -22,12 +22,12 @@ interface EventBase extends Entity {
 }
 
 export type EventType = "action" | "learn";
-// Note: Activity is used in the frontend to refer to events since "event" is a reserved word in JS.
-export interface Activity extends EventBase {
+// Note: CommunityEvent is used in the frontend to refer to events since "event" is a reserved word in JS.
+export interface CommunityEvent extends EventBase {
   texts: EventText[];
 }
 
-export type EventsPaginatedResponse = PaginatedResponse<Activity>;
+export type EventsPaginatedResponse = PaginatedResponse<CommunityEvent>;
 // MARK: Bridge Tables
 
 export interface EventAttendee {

@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   group: Group;
   isPrivate?: boolean;

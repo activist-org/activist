@@ -2,7 +2,6 @@
 // Organizations service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-
 import { del, get, post } from "~/services/http";
 
 // MARK: Map API Response to Type

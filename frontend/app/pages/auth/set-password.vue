@@ -64,7 +64,6 @@
 </template>
 
 <script setup lang="ts">
-
 const userName = ref("");
 const password = ref("");
 const confirmPassword = ref("");

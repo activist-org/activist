@@ -99,8 +99,6 @@
 </template>
 
 <script setup lang="ts">
-  import { GLOBAL_TOPICS } from "#shared/constants/topics";
-
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {

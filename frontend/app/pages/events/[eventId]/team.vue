@@ -36,8 +36,7 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
-  event: Activity;
+  event: CommunityEvent;
 }>();
 </script>

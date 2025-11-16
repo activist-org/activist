@@ -2,7 +2,6 @@
 // Read a single images organization with useAsyncData. Store-first, then fetch if missing.
 // After fetch, cache it via store. You can always call refresh() to force refetch.
 
-
 export const getKeyForGetOrganizationImages = (id: string) =>
   `organizationImages:${id}`;
 

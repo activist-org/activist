@@ -15,7 +15,7 @@ export interface BtnAction extends BtnBase {
   counter?: number;
 }
 
-export interface BtnActionDropdown extends BtnAction{
+export interface BtnActionDropdown extends BtnAction {
   dropdownIcon: string;
   dropdownOptions: string[];
   dropdownOptionsCallback: (option: string) => void;
@@ -27,4 +27,3 @@ export interface BtnRoute extends BtnBase {
   leftIcon?: string;
   rightIcon?: string;
 }
-

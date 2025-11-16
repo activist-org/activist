@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-
 withDefaults(
   defineProps<{
     eventType: "action" | "learn";

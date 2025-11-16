@@ -32,7 +32,6 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 
-
 const props = defineProps<{
   location?: DropdownLocation;
   options: MenuSelector[];

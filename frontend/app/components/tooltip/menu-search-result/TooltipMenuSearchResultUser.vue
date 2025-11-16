@@ -37,8 +37,6 @@
 </template>
 
 <script setup lang="ts">
-
-
 defineProps<{
   user: User;
 }>();

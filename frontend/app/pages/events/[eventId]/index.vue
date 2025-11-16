@@ -66,9 +66,8 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
-  event: Activity;
+  event: CommunityEvent;
 }>();
 
 const localPath = useLocalePath();

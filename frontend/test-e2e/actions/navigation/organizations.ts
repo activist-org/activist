@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "playwright";
 
+import { getEnglishText } from "#shared/utils/i18n";
 import { expect } from "playwright/test";
 
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
-import { getEnglishText } from "#shared/utils/i18n";
 
 // MARK: First Organization
 
@@ -141,7 +141,7 @@ export async function navigateToOrganizationSubpage(
       groups: "i18n.composables.use_menu_entries_state.groups",
       affiliates: "i18n.composables.use_menu_entries_state.affiliates",
       tasks: "i18n.composables.use_menu_entries_state.tasks",
-      discussions: "i18n._global.discussions",
+      discussions: "i18n.composables.use_menu_entries_state.discussions",
       settings: "i18n._global.settings",
     };
 

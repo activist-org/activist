@@ -182,7 +182,6 @@
 import { FetchError } from "ofetch";
 import { z } from "zod";
 
-
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
 

@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   groups: Group[];
 }>();

@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   sidebarType:
     | SidebarType.ORGANIZATIONS_PAGE

@@ -14,7 +14,7 @@
 import type { GeoJsonProperties } from "geojson";
 
 const props = defineProps<{
-  events: Activity[];
+  events: CommunityEvent[];
 }>();
 
 const { t } = useI18n();

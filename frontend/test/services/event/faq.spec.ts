@@ -1,7 +1,8 @@
+import type { FaqEntry } from "#shared/types/content/faq-entry";
+
+import { AppError } from "#shared/utils/errorHandler";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
-
-import type { FaqEntry } from "#shared/types/content/faq-entry";
 
 import {
   createEventFaq,
@@ -9,7 +10,6 @@ import {
   reorderEventFaqs,
   updateEventFaq,
 } from "~/services/event/faq";
-import { AppError } from "#shared/utils/errorHandler";
 
 import {
   expectJsonRequest,

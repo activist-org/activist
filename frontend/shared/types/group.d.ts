@@ -11,7 +11,7 @@ interface GroupBase extends Entity {
   location: PhysicalLocation;
   socialLinks: GroupSocialLink[];
   org: Organization;
-  events?: Activity[];
+  events?: CommunityEvent[];
   faqEntries?: FaqEntry[];
   resources?: Resource[];
   images?: ContentImage[];

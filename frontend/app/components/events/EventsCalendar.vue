@@ -33,7 +33,7 @@
 import type { PopoverVisibility } from "v-calendar/dist/types/src/utils/popovers.js";
 
 const props = defineProps<{
-  events: Activity[];
+  events: CommunityEvent[];
 }>();
 const { getEventColorByType } = useColor();
 const localePath = useLocalePath();

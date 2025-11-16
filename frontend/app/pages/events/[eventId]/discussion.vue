@@ -39,9 +39,8 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
-  event: Activity;
+  event: CommunityEvent;
 }>();
 
 const aboveMediumBP = useBreakpoint("md");

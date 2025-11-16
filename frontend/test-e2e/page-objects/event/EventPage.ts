@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
 
+import { getEnglishText } from "#shared/utils/i18n";
+
 import { newEditModal } from "~/test-e2e/component-objects/EditModal";
 import { newEventMenu } from "~/test-e2e/component-objects/EventMenu";
 import { newQRCodeModal } from "~/test-e2e/component-objects/QRCodeModal";
@@ -10,7 +12,6 @@ import { newSocialLinksModal } from "~/test-e2e/component-objects/SocialLinksMod
 import { newEventAboutPage } from "~/test-e2e/page-objects/event/about/EventAboutPage";
 import { newEventFAQPage } from "~/test-e2e/page-objects/event/faq/EventFAQPage";
 import { newEventResourcesPage } from "~/test-e2e/page-objects/event/resources/EventResourcesPage";
-import { getEnglishText } from "#shared/utils/i18n";
 
 export const newEventPage = (page: Page) => ({
   // MARK: Main Page

@@ -221,7 +221,7 @@ const props = defineProps<{
   cta: BtnAction["cta"];
   organization?: Organization;
   group?: Group;
-  event?: Activity;
+  event?: CommunityEvent;
   resource?: Resource;
   user?: User;
 }>();

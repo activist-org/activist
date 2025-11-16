@@ -120,7 +120,7 @@ import { DialogTitle } from "@headlessui/vue";
 const props = defineProps<{
   organization?: Organization;
   group?: Group;
-  event?: Activity;
+  event?: CommunityEvent;
   resource?: Resource;
   user?: User;
 }>();

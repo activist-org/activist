@@ -47,7 +47,6 @@
 </template>
 
 <script setup lang="ts">
-
 const { data: organization } = useGetOrganization(
   (useRoute().params.orgId as string) ?? ""
 );

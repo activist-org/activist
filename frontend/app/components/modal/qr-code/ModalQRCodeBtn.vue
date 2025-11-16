@@ -59,11 +59,10 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   organization?: Organization;
   group?: Group;
-  event?: Activity;
+  event?: CommunityEvent;
   resource?: Resource;
   user?: User;
   type: "icon" | "meta-tag";

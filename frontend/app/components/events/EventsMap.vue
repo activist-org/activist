@@ -10,8 +10,7 @@
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
-  events: Activity[];
+  events: CommunityEvent[];
 }>();
 </script>

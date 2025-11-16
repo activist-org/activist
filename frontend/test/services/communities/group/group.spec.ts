@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { AppError } from "#shared/utils/errorHandler";
 import { describe, expect, it } from "vitest";
+import { defaultGroupText } from "~constants/group";
 
 import {
   getGroup,
   listGroups,
   mapGroup,
 } from "~/services/communities/group/group";
-import { defaultGroupText } from "#shared/constants/group";
-import { AppError } from "#shared/utils/errorHandler";
 
 import {
   expectRequest,
