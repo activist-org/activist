@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import type { SocialLinkFormData } from "../../shared/types/content/social-link";
+import type { SocialLinkFormData } from "../../../shared/types/social-link";
 
 import {
   createEventSocialLinks,

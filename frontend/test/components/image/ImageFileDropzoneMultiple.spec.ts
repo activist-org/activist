@@ -2,7 +2,8 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { FileUploadMix, UploadableFile } from "../../../shared/types/file";
+import type { UploadableFile } from "../../../shared/types/file";
+import type { FileUploadMix } from "../../../shared/types/file-type";
 
 import FileDropZone from "../../../app/components/image/ImageFileDropZone.vue";
 import MultipleImageDropzone from "../../../app/components/image/ImageMultipleFileDropZone.vue";

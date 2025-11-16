@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { ContentImage } from "#shared/types/content/file";
-
-import { AppError } from "#shared/utils/errorHandler";
 import { describe, expect, it } from "vitest";
+
+import type { ContentImage } from "../../../../shared/types/file-type";
 
 import {
   fetchOrganizationImages,
   updateOrganizationImage,
   uploadOrganizationIconImage,
   uploadOrganizationImages,
-} from "~/services/communities/organization/image";
-
+} from "../../../../app/services/communities/organization/image";
+import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
   expectRequest,

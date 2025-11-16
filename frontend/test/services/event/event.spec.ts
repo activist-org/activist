@@ -8,7 +8,7 @@ import {
   getEvent,
   listEvents,
   mapEvent,
-} from "../../../services/event/event";
+} from "../../../app/services/event/event";
 import { AppError } from "../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,

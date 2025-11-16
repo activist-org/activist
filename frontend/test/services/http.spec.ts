@@ -1,8 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { del, fetchWithoutToken, get, post, put } from "~/services/http";
-
+import {
+  del,
+  fetchWithoutToken,
+  get,
+  post,
+  put,
+} from "../../app/services/http";
 import { expectRequest, getFetchCall } from "./helpers";
 
 type FetchOptionsShape = Record<string, unknown>;
@@ -11,15 +16,6 @@ type FetchRawFn = (
   url: string,
   opts: FetchOptionsShape
 ) => Promise<{ _data: unknown }>;
-interface FetchGlobal extends FetchFn {
-  raw: FetchRawFn;
-}
-
-declare global {
-  var $fetch: FetchGlobal;
-  var BASE_BACKEND_URL: string;
-  var useAuth: () => { token?: { value?: string } };
-}
 
 describe("services/http", () => {
   let fetchMock: ReturnType<typeof vi.fn<FetchFn>>;

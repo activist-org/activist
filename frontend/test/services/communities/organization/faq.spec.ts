@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { FaqEntry } from "#shared/types/content/faq-entry";
-
-import { AppError } from "#shared/utils/errorHandler";
 import { describe, expect, it } from "vitest";
+
+import type { FaqEntry } from "../../../../shared/types/faq-entry";
 
 import {
   createOrganizationFaq,
   deleteOrganizationFaq,
   reorderOrganizationFaqs,
   updateOrganizationFaq,
-} from "~/services/communities/organization/faq";
-
+} from "../../../../app/services/communities/organization/faq";
+import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
   getFetchCall,

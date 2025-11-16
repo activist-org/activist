@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import type { Topic } from "../../../shared/types/content/topics";
+import type { Topic } from "../../../shared/types/topics-type";
 
 import { listTopics } from "../../../app/services/content/topics";
 import { AppError } from "../../../shared/utils/errorHandler";

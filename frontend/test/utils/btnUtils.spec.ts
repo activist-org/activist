@@ -159,7 +159,7 @@ describe("utils/btnUtils", () => {
           ];
 
           const trueClasses = fontSizeKeys.filter(
-            (key) => result[key] === true
+            (key) => result[key as keyof typeof result]
           );
           expect(trueClasses).toHaveLength(1);
         });
@@ -178,7 +178,7 @@ describe("utils/btnUtils", () => {
           ];
 
           const trueClasses = fontSizeKeys.filter(
-            (key) => result[key] === true
+            (key) => result[key as keyof typeof result]
           );
           expect(trueClasses).toHaveLength(1);
         });

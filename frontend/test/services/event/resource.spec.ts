@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import type {
-  Resource,
-  ResourceInput,
-} from "../../../shared/types/content/resource";
+import type { Resource, ResourceInput } from "../../../shared/types/resource";
 
 import {
   createEventResource,
