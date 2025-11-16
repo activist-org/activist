@@ -268,9 +268,11 @@ watch(
   (form) => {
     const queryData = { ...(form.query as Record<string, unknown>) };
     const { view, ...rest } = queryData;
-    
-    if (typeof view === "string" &&
-        Object.values(ViewType).includes(view as ViewType)) {
+
+    if (
+      typeof view === "string" &&
+      Object.values(ViewType).includes(view as ViewType)
+    ) {
       viewType.value = view as ViewType;
     } else {
       viewType.value = ViewType.MAP;
