@@ -9,7 +9,7 @@ import pytest
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
-from authentication.models import UserModel
+from authentication.models import SessionModel, UserModel
 
 
 @pytest.fixture
@@ -37,5 +37,8 @@ def authenticated_client() -> tuple[APIClient, UserModel]:
 
     # Authenticate the client using DRF's force_authenticate.
     client.force_authenticate(user=user)
+
+    # Create a session for the user to match the behavior of actual sign-in.
+    SessionModel.objects.create(user=user)
 
     return client, user
