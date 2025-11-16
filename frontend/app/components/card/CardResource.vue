@@ -174,7 +174,8 @@ const getDeleteMutation = () => {
       case EntityType.GROUP:
         return useGroupResourcesMutations(props.entity.id).deleteResource;
       case EntityType.ORGANIZATION:
-        return useOrganizationResourcesMutations(props.entity.id).deleteResource;
+        return useOrganizationResourcesMutations(props.entity.id)
+          .deleteResource;
       case EntityType.EVENT:
         return useEventResourcesMutations(props.entity.id).deleteResource;
       default:
