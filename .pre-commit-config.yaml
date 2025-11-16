@@ -9,7 +9,7 @@ repos:
       - id: check-added-large-files
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.1
+    rev: v0.14.5
     hooks:
       - id: ruff-check
         name: run ruff linting check
@@ -20,6 +20,14 @@ repos:
         name: run ruff formatting check
         files: ^backend/
 
+  - repo: https://github.com/numpy/numpydoc
+    rev: v1.9.0
+    hooks:
+      - id: numpydoc-validation
+        name: run numpydoc docstring validation
+        files: ^backend/
+        exclude: ^backend/(.*/?(tests(/.*)?|views\.py|__init__\.py))$
+
   - repo: https://github.com/to-sta/spdx-checker-pre-commit
     rev: 0.1.3
     hooks:
@@ -28,14 +36,6 @@ repos:
         exclude: ^(?:.*/)?__init__\.py$
         args: [-l, AGPL-3.0-or-later]
         types_or: [python, ts, javascript, vue, css, html]
-
-  - repo: https://github.com/numpy/numpydoc
-    rev: v1.9.0
-    hooks:
-      - id: numpydoc-validation
-        name: run numpydoc docstring validation
-        files: ^backend/
-        exclude: ^backend/(.*/?(tests(/.*)?|views\.py|__init__\.py))$
 
   - repo: local
     hooks:
@@ -47,8 +47,13 @@ repos:
         types: [python]
         pass_filenames: false
 
-  - repo: local
-    hooks:
+      - id: prettier-eslint-checks
+        name: run prettier and eslint checks
+        files: ^frontend/
+        entry: python -m pre_commit_scripts.prettier_eslint_checks
+        language: python
+        pass_filenames: false
+
       - id: run-i18n-check
         name: run i18n-check key-value checks
         files: ^frontend/
@@ -57,10 +62,3 @@ repos:
         pass_filenames: false
         additional_dependencies:
           - i18n-check
-
-      - id: prettier-eslint-checks
-        name: run prettier and eslint checks
-        files: ^frontend/
-        entry: python -m pre_commit_scripts.prettier_eslint_checks
-        language: python
-        pass_filenames: false
