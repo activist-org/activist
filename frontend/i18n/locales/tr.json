@@ -29,6 +29,7 @@
   "i18n._global.on_github": "GitHub üzerinde",
   "i18n._global.organization": "Organizasyon",
   "i18n._global.organization_name": "Organizasyon Adı",
+  "i18n._global.organizations": "Organizasyonlar",
   "i18n._global.public_matrix_chat_rooms": "herkese açık Matrix sohbet odaları",
   "i18n._global.repeat_password": "Şifreyi tekrar gir",
   "i18n._global.resources": "Kaynaklar",
@@ -142,6 +143,5 @@
   "i18n.components.card_metrics_overview.header": "Son aktivite",
   "i18n.components.card_metrics_overview.new_organizations": "Yeni kuruluşlar",
   "i18n.components.card_org_application_vote.downvote_application_aria_label": "Aktiviste katılan kuruluşu desteklememek için oy verin",
-  "i18n.components.card_resource.navigate_to_resource_aria_label": "Bu kaynağın sayfasına gidin",
-  "i18n.components.modal_organization_overview.organizations": "Organizasyonlar"
+  "i18n.components.card_resource.navigate_to_resource_aria_label": "Bu kaynağın sayfasına gidin"
 }
