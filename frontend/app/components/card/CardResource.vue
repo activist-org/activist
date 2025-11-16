@@ -83,11 +83,18 @@
         {{ description }}
       </p>
     </div>
-    <IconEdit
-      @click.stop="openModalEdit()"
-      @keydown.enter="openModalEdit()"
-      :entity="entity"
-    />
+    <div class="flex items-center space-x-2">
+      <IconEdit
+        @click.stop="openModalEdit()"
+        @keydown.enter="openModalEdit()"
+        :entity="entity"
+      />
+      <IconDelete
+        @click.stop="openModalDeleteConfirm()"
+        @keydown.enter="openModalDeleteConfirm()"
+        :entity="entity"
+      />
+    </div>
     <ModalResourceGroup
       v-if="EntityType.GROUP === entityType"
       :resource="resource"
@@ -100,6 +107,12 @@
       v-if="EntityType.ORGANIZATION === entityType"
       :resource="resource"
     />
+    <ModalAlert
+      :confirmBtnLabel="'i18n.components.card_resource.confirm_delete'"
+      :message="'i18n.components.card_resource.confirm_delete_message'"
+      :name="modalAlertName"
+      :onConfirmation="handleDeleteResource"
+    />
   </div>
 </template>
 
@@ -107,6 +120,9 @@
 import type { Resource } from "~/types/content/resource";
 import type { Entity } from "~/types/entity";
 
+import { useEventResourcesMutations } from "~/composables/mutations/useEventResourcesMutations";
+import { useGroupResourcesMutations } from "~/composables/mutations/useGroupResourcesMutations";
+import { useOrganizationResourcesMutations } from "~/composables/mutations/useOrganizationResourcesMutations";
 import { EntityType } from "~/types/entity";
 import { IconMap } from "~/types/icon-map";
 
@@ -145,5 +161,33 @@ const dragIconSizeClass = computed(() => ({
 const openModalEdit = () => {
   const name = `ModalResource${props.entityType.charAt(0).toUpperCase() + props.entityType.slice(1)}${props.resource.id}`;
   useModalHandlers(name).openModal();
+};
+
+// Delete confirmation modal
+const modalAlertName = `ModalAlertResource${props.resource.id}`;
+const { openModal: openModalDeleteConfirm } = useModalHandlers(modalAlertName);
+
+// Get the appropriate delete mutation based on entity type
+const getDeleteMutation = () => {
+  if (props.entity) {
+    switch (props.entityType) {
+      case EntityType.GROUP:
+        return useGroupResourcesMutations(props.entity.id).deleteResource;
+      case EntityType.ORGANIZATION:
+        return useOrganizationResourcesMutations(props.entity.id).deleteResource;
+      case EntityType.EVENT:
+        return useEventResourcesMutations(props.entity.id).deleteResource;
+      default:
+        return null;
+    }
+  }
+  return null;
+};
+
+const handleDeleteResource = async () => {
+  const deleteResource = getDeleteMutation();
+  if (deleteResource && props.resource.id) {
+    await deleteResource(props.resource.id);
+  }
 };
 </script>
