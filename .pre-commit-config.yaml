@@ -2,12 +2,11 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      # - id: trailing-whitespace  # handled by Ruff and Prettier
+      - id: trailing-whitespace
       - id: end-of-file-fixer
         exclude: ^docs/|README.md$
       - id: check-yaml
       - id: check-added-large-files
-      # - id: pretty-format-json
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.1
@@ -48,8 +47,13 @@ repos:
         types: [python]
         pass_filenames: false
 
-  - repo: local
-    hooks:
+      - id: prettier-eslint-checks
+        name: run prettier and eslint checks
+        files: ^frontend/
+        entry: python -m pre_commit_scripts.prettier_eslint_checks
+        language: python
+        pass_filenames: false
+
       - id: run-i18n-check
         name: run i18n-check key-value checks
         files: ^frontend/
@@ -58,10 +62,3 @@ repos:
         pass_filenames: false
         additional_dependencies:
           - i18n-check
-
-      - id: prettier-eslint-checks
-        name: run prettier and eslint checks
-        files: ^frontend/
-        entry: python -m pre_commit_scripts.prettier_eslint_checks
-        language: python
-        pass_filenames: false

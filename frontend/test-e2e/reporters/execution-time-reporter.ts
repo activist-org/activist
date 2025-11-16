@@ -193,7 +193,7 @@ class ExecutionTimeReporter implements Reporter {
     if (slowTests.length > 0) {
       // eslint-disable-next-line no-console
       console.log(
-        `⚠️  ${slowTests.length} tests are significantly slower than average (>${((avgDuration * 2) / 1000).toFixed(2)}s)`
+        `⚠️ ${slowTests.length} tests are significantly slower than average (>${((avgDuration * 2) / 1000).toFixed(2)}s)`
       );
     }
 

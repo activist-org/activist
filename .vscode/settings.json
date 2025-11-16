@@ -9,5 +9,4 @@
   "css.customData": [
     ".vscode/tailwind.json"
   ],
-  "vitest.rootConfig": "./frontend/vitest.config.mts",
 }

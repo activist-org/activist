@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+from datetime import datetime
 from typing import Any, TypedDict
 
 import pytest
+from dateutil.relativedelta import relativedelta
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -158,10 +160,13 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
 
     # MARK: Detail PUT
 
+    start_date = datetime.now() + relativedelta(years=2)
+    end_dt = datetime.now() + relativedelta(years=2, days=1)
+
     payload = {
         "name": "new_event",
-        "start_time": "2020-09-18T21:39:14",
-        "end_time": "2020-09-18T21:39:14",
+        "start_time": start_date,
+        "end_time": end_dt,
         "terms_checked": True,
     }
     response = client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")

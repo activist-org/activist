@@ -241,10 +241,6 @@ const updateViewType = (
 };
 
 const viewType = ref(ViewType.MAP);
-const q = route.query.view;
-if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
-  viewType.value = q as ViewType;
-}
 
 const convertActiveOnToDays = (activeOn: string): string | undefined => {
   try {
@@ -270,18 +266,24 @@ const formData = ref({});
 watch(
   route,
   (form) => {
-    const queryData = { ...form.query };
-
-    if (queryData.active_on && typeof queryData.active_on === "string") {
-      const days = convertActiveOnToDays(queryData.active_on);
-      if (days) {
-        queryData.days = days;
-      }
-      // Remove active_on from formData since it's not a form field
-      delete queryData.active_on;
+    const queryData = { ...(form.query as Record<string, unknown>) };
+    const { view, ...rest } = queryData;
+    
+    if (typeof view === "string" &&
+        Object.values(ViewType).includes(view as ViewType)) {
+      viewType.value = view as ViewType;
+    } else {
+      viewType.value = ViewType.MAP;
     }
 
-    formData.value = queryData;
+    // Convert active_on → days (from "bugfix" branch)
+    if (rest.active_on && typeof rest.active_on === "string") {
+      const days = convertActiveOnToDays(rest.active_on);
+      if (days) rest.days = days;
+      delete rest.active_on;
+    }
+
+    formData.value = rest;
   },
   { immediate: true }
 );
@@ -304,7 +306,7 @@ const handleSubmit = (_values: unknown) => {
       ) {
         return;
       }
-      if (key === "viewType") return;
+      if (key === "view") return;
       values[key] = input[key];
     }
     if (route.query.name && route.query.name !== "")
@@ -313,6 +315,7 @@ const handleSubmit = (_values: unknown) => {
   router.push({
     query: {
       ...(values as LocationQueryRaw),
+      view: viewType.value,
     },
   });
 };
