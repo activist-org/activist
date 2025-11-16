@@ -8,6 +8,7 @@ import type { AppError } from "~/utils/errorHandler";
 
 import {
   createOrganizationResource,
+  deleteOrganizationResource,
   reorderOrganizationResources,
   updateOrganizationResource,
 } from "~/services/communities/organization/resource";
@@ -73,6 +74,26 @@ export function useOrganizationResourcesMutations(
     }
   }
 
+  // Delete existing resource.
+  async function deleteResource(resourceId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteOrganizationResource(resourceId);
+
+      // Invalidate cache and refetch fresh data.
+      await refreshOrganizationData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Reorder multiple resource entries.
   async function reorderResources(resources: Resource[]) {
     loading.value = true;
@@ -112,6 +133,7 @@ export function useOrganizationResourcesMutations(
     error: readonly(error),
     createResource,
     updateResource,
+    deleteResource,
     reorderResources,
     refreshOrganizationData,
   };
