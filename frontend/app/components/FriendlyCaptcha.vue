@@ -44,6 +44,7 @@ const devMode = useDevMode();
 devMode.check();
 const localeValue = ref(false);
 const { FRIENDLY_CAPTCHA_KEY } = useGetBaseURLs();
+
 interface Props {
   modelValue: boolean;
 }

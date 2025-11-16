@@ -28,5 +28,6 @@ import { DialogTitle } from "@headlessui/vue";
 defineProps<{
   event?: CommunityEvent;
 }>();
+
 const modalName = "ModalOrganizationOverview";
 </script>

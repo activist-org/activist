@@ -58,6 +58,7 @@
 import type { BtnActionDropdown } from "#shared/types/btn-props";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+
 const props = defineProps<BtnActionDropdown>();
 
 const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);

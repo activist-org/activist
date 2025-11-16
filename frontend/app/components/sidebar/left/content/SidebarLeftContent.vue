@@ -30,6 +30,7 @@ const props = defineProps<{
     | SidebarType.GROUP_PAGE;
   logoUrl?: string;
 }>();
+
 const logoUrl = ref(props.logoUrl);
 
 const sidebarTypeToDisplay = computed(() => props.sidebarType);
