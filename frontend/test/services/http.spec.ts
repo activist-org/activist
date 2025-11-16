@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals";
+
 import {
   del,
   fetchWithoutToken,
@@ -9,13 +11,6 @@ import {
   put,
 } from "../../app/services/http";
 import { expectRequest, getFetchCall } from "./helpers";
-
-type FetchOptionsShape = Record<string, unknown>;
-type FetchFn = (url: string, opts: FetchOptionsShape) => Promise<unknown>;
-type FetchRawFn = (
-  url: string,
-  opts: FetchOptionsShape
-) => Promise<{ _data: unknown }>;
 
 describe("services/http", () => {
   let fetchMock: ReturnType<typeof vi.fn<FetchFn>>;
@@ -26,7 +21,19 @@ describe("services/http", () => {
     globalThis.BASE_BACKEND_URL = "https://api.example.test";
 
     // Default auth: present token.
-    globalThis.useAuth = () => ({ token: { value: "Bearer test-token" } });
+    globalThis.useAuth = () => ({
+      signIn: async () => {
+        return Promise.resolve();
+      },
+      signOut: async () => {
+        return Promise.resolve();
+      },
+      data: { value: null },
+      signUp: async () => {
+        return Promise.resolve();
+      },
+      token: { value: "Bearer test-token" },
+    });
 
     fetchMock = vi.fn<FetchFn>();
     fetchRawMock = vi.fn<FetchRawFn>();
@@ -79,7 +86,19 @@ describe("services/http", () => {
 
   it("get() keeps caller Authorization when no token available", async () => {
     // Simulate missing token so service does not add Authorization.
-    globalThis.useAuth = () => ({ token: { value: undefined } });
+    globalThis.useAuth = () => ({
+      token: { value: null },
+      signIn: async () => {
+        return Promise.resolve();
+      },
+      signOut: async () => {
+        return Promise.resolve();
+      },
+      data: { value: null },
+      signUp: async () => {
+        return Promise.resolve();
+      },
+    });
     fetchMock.mockResolvedValueOnce({ ok: true });
 
     await get("/no-token", {
