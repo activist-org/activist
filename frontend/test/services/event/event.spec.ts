@@ -1,16 +1,15 @@
-import { AppError } from "#shared/utils/errorHandler";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
-import { defaultEventText } from "~constants/event";
 
+import { defaultEventText } from "../../../app/constants/event";
 import {
   createEvent,
   deleteEvent,
   getEvent,
   listEvents,
   mapEvent,
-} from "~/services/event/event";
-
+} from "../../../services/event/event";
+import { AppError } from "../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
   expectRequest,

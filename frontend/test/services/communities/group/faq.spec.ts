@@ -1,7 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { FaqEntry } from "#shared/types/faq-entry";
 
 import { AppError } from "#shared/utils/errorHandler";
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
 import {

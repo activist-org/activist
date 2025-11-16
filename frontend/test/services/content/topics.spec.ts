@@ -1,11 +1,10 @@
-import type { Topic } from "#shared/types/content/topics";
-
-import { AppError } from "#shared/utils/errorHandler";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { listTopics } from "~/services/content/topics";
+import type { Topic } from "../../../shared/types/content/topics";
 
+import { listTopics } from "../../../app/services/content/topics";
+import { AppError } from "../../../shared/utils/errorHandler";
 import { expectRequest, getFetchCall, setupServiceTestMocks } from "../helpers";
 
 describe("services/content/topics", () => {
