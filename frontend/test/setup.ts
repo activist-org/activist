@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { config } from "@vue/test-utils";
 import { createPinia, defineStore, setActivePinia } from "pinia";
-import { afterAll, afterEach, beforeEach, vi } from "vitest";
+import { afterEach, beforeEach, vi } from "vitest";
 import { createI18n } from "vue-i18n";
 
 import en from "../i18n/locales/en-US.json" assert { type: "json" };
 
 // Set up Pinia.
 setActivePinia(createPinia());
-
 // Auto-import version of define store doesn't exist in the test env.
 globalThis.defineStore = defineStore;
 
@@ -35,12 +34,12 @@ globalThis.useDevice = () => ({
   isDesktop: true,
 });
 
-globalThis.useLocalStorage = (key: string, defaultValue: unknown) => ({
+globalThis.useLocalStorage = <T>(key: string, defaultValue: T) => ({
   value: defaultValue,
 });
 
 globalThis.useAuthState = () => ({
-  data: { value: null }, // nock no user signed in
+  data: { value: null }, // mock no user signed in
 });
 
 globalThis.useAuth = () => ({
@@ -72,7 +71,6 @@ const useColorModeFn = () => ({
 });
 
 globalThis.useColorModeMock = vi.fn(useColorModeFn);
-// @ts-expect-error: Property doesn't exist on globalThis
 globalThis.useColorMode = () => globalThis.useColorModeMock();
 
 // Mock the dev mode store to fix FriendlyCaptcha component.
@@ -246,13 +244,6 @@ afterEach(() => {
   setActivePinia(createPinia());
 
   // Clean up color mode mock.
-  // @ts-expect-error: Property doesn't exist on globalThis
   globalThis.useColorModeMock.mockReset();
-  // @ts-expect-error: Property doesn't exist on globalThis
   globalThis.useColorModeMock.mockImplementation(useColorModeFn);
-});
-
-afterAll(() => {
-  // @ts-expect-error: Property doesn't exist on globalThis
-  delete globalThis.useColorModeMock;
 });
