@@ -1,20 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
-import type { MaybeRef } from "vue";
-
-import type { ContentImage, UploadableFile } from "~/types/content/file";
-import type { AppError } from "~/utils/errorHandler";
-
-import {
-  updateOrganizationImage,
-  uploadOrganizationIconImage,
-  uploadOrganizationImages,
-} from "~/services/communities/organization/image";
-
-import { getKeyForGetOrganization } from "../queries/useGetOrganization";
-import { getKeyForGetOrganizationImages } from "../queries/useGetOrganizationImages";
-
 export function useOrganizationImageMutations(
   organizationId: MaybeRef<string>
 ) {

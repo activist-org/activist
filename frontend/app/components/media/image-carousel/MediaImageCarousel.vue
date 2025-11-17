@@ -47,8 +47,6 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
-import { EntityType } from "~/types/entity";
-
 interface Props {
   fullscreen: boolean;
   imageUrls: string[];

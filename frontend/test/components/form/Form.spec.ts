@@ -3,7 +3,7 @@ import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import FormTemplate from "../../../app/components/form/FormTemplate.vue";
-import { getEnglishText } from "../../../app/utils/i18n";
+import { getEnglishText } from "../../../shared/utils/i18n";
 import render from "../../../test/render";
 
 describe("Form component", () => {

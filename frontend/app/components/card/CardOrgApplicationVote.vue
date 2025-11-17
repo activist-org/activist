@@ -55,10 +55,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-
-import { IconMap } from "~/types/icon-map";
-
 /**
  * The component public properties.
  */

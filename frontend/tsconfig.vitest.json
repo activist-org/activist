@@ -1,0 +1,15 @@
+{
+  "extends": "./.nuxt/tsconfig.node.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "baseUrl": ".",
+    "types": ["@types/node", "vitest"],
+    "paths": {
+      "~": ["./app"],
+      "~/*": ["./app/*", "./*"],
+      "~~": ["."],
+      "~~/*": ["./*"],
+      "#shared/*": ["./shared/*"]
+    }
+  }
+}

@@ -15,11 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
-
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import { BreakpointMap } from "~/types/breakpoint-map";
-
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 

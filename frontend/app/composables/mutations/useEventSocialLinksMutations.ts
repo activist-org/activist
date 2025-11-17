@@ -1,20 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Update event social links with error handling and store updates.
 
-import type { MaybeRef } from "vue";
-
-import type { SocialLinkFormData } from "~/types/content/social-link";
-import type { AppError } from "~/utils/errorHandler";
-
-import {
-  createEventSocialLinks,
-  deleteEventSocialLink,
-  replaceAllEventSocialLinks,
-  updateEventSocialLink,
-} from "~/services/event/social-link";
-
-import { getKeyForGetEvent } from "../queries/useGetEvent";
-
 export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -51,7 +37,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   }
 
   // Create multiple social links.
-  async function createLinks(links: SocialLinkFormData[]) {
+  async function createLinks(links: SocialLinkInput[]) {
     if (!currentEventId.value || !links.length) return false;
 
     loading.value = true;

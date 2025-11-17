@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { screen } from "@testing-library/vue";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import BtnAction from "../../../../app/components/btn/action/BtnAction.vue";
 import { renderButton } from "../helpers";

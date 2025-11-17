@@ -11,11 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource, ResourceInput } from "~/types/content/resource";
-
-import { useEventResourcesMutations } from "~/composables/mutations/useEventResourcesMutations";
-import { useGetEvent } from "~/composables/queries/useGetEvent";
-
 const props = defineProps<{
   resource?: Resource;
 }>();

@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-
 """
 Tests for serializers in the authentication app.
 """

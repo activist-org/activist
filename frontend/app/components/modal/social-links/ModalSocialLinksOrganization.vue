@@ -11,12 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import type { OrganizationSocialLink } from "~/types/communities/organization";
-import type { SocialLink } from "~/types/content/social-link";
-
-import { useOrganizationSocialLinksMutations } from "~/composables/mutations/useOrganizationSocialLinksMutations";
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-
 const modalName = "ModalSocialLinksOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 

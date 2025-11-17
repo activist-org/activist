@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { getEnglishText } from "#shared/utils/i18n";
+
 import {
   FOOTER_ABOUT_LINK_NAME,
   FOOTER_DOCUMENTATION_LINK_NAME,
@@ -11,7 +13,6 @@ import {
   OUR_SUPPORTERS_VIEW_LINK_NAME,
 } from "~/test-e2e/accessibility/accessible-names";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { getEnglishText } from "~/utils/i18n";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");

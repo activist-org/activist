@@ -1,10 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { EventFilters, Event as EventT } from "~/types/events/event";
-
-import { useToaster } from "~/composables/useToaster";
-import { listEvents } from "~/services/event/event";
-import { useEventStore } from "~/stores/event";
-
 export const getKeyForGetEvents = () => `events-list`;
 
 export function useGetEvents(
@@ -16,7 +10,7 @@ export function useGetEvents(
   const { showToastError } = useToaster();
   const eventFilters = computed(() => unref(filters));
   // UseAsyncData for SSR, hydration, and cache.
-  const { data, pending, error, refresh } = useAsyncData<EventT[]>(
+  const { data, pending, error, refresh } = useAsyncData<CommunityEvent[]>(
     () => getKeyForGetEvents(),
     async () => {
       try {
@@ -41,7 +35,7 @@ export function useGetEvents(
           page.value > pageCached
         ) {
           store.setEvents([...eventsCached, ...events]);
-          return [...eventsCached, ...events] as EventT[];
+          return [...eventsCached, ...events] as CommunityEvent[];
         }
         store.setEvents(events);
         // Reset to page 1 if filters changed.
@@ -55,7 +49,7 @@ export function useGetEvents(
           store.setPage(page.value);
         }
         store.setFilters(eventFilters.value);
-        return events as EventT[];
+        return events as CommunityEvent[];
       } catch (error) {
         showToastError((error as AppError).message);
         throw error;
