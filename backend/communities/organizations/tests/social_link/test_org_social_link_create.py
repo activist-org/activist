@@ -12,32 +12,12 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_org_social_link_create_200():
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.verified = True
-    user.is_confirmed = True
-    user.is_staff = True
-    user.save()
+def test_org_social_link_create_200(authenticated_client):
+    client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)
 
     social_links = OrganizationSocialLinkFactory(org=org)
-
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login.status_code == 200
-
-    login_body = login.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     response = client.post(
         path="/v1/communities/organization_social_links",
