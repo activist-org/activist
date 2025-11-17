@@ -2,8 +2,7 @@
 import { screen } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
-import BtnActionDropdown from "~/components/btn/action/BtnActionDropdown.vue";
-
+import BtnActionDropdown from "../../../../app/components/btn/action/BtnActionDropdown.vue";
 import { renderButton } from "../helpers";
 
 vi.mock("@headlessui/vue", () => ({

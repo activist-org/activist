@@ -1,10 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Topic } from "~/types/content/topics";
-
-import { useToaster } from "~/composables/useToaster";
-import { listTopics } from "~/services/content/topics";
-import { useTopics } from "~/stores/topics";
-
 export const getKeyForGetTopics = () => `topics-list`;
 
 export function useGetTopics() {

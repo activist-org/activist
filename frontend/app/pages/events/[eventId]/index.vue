@@ -66,15 +66,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
-import type { MenuSelector } from "~/types/menu/menu-selector";
-
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
-  event: Event;
+  event: CommunityEvent;
 }>();
 
 const localPath = useLocalePath();

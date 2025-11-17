@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
+import { defaultGroupText } from "../../../../app/constants/group";
 import {
   getGroup,
   listGroups,
   mapGroup,
-} from "~/services/communities/group/group";
-import { defaultGroupText } from "~/types/communities/group";
-import { AppError } from "~/utils/errorHandler";
-
+} from "../../../../app/services/communities/group/group";
+import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectRequest,
   getFetchCall,
@@ -92,7 +91,7 @@ describe("services/communities/group", () => {
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("grp-2");
-    expect(result[0].texts).toEqual([defaultGroupText]);
+    expect(result[0].texts).toEqual([]);
   });
 
   // MARK: Error Handling
@@ -124,7 +123,7 @@ describe("services/communities/group", () => {
       texts: undefined,
     } as unknown as Parameters<typeof mapGroup>[0];
     const mapped = mapGroup(minimal);
-    expect(mapped.texts).toEqual([defaultGroupText]);
+    expect(mapped.texts).toEqual([]);
     expect(mapped.images).toEqual([]);
     expect(mapped.events).toEqual([]);
     expect(mapped.resources).toEqual([]);

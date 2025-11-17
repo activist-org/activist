@@ -155,8 +155,6 @@
 import { Toaster, toast } from "vue-sonner";
 import { z } from "zod";
 
-import type { TopicEnum } from "~/types/content/topics";
-
 const schema = z.object({
   name: z.string().min(1, "Organization name is required"),
   tagline: z.string().optional(),

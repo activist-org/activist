@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Location, PiniaResLocation } from "~/types/content/location";
-
 interface LocationStore {
   loading: boolean;
-  location: Location;
-  locations: Location[];
+  location: PhysicalLocation;
+  locations: PhysicalLocation[];
 }
 
 export const useLocationStore = defineStore("location", {
@@ -13,13 +11,7 @@ export const useLocationStore = defineStore("location", {
   state: (): LocationStore => ({
     loading: false,
 
-    location: {
-      id: "",
-      lat: "",
-      lon: "",
-      bbox: [""],
-      displayName: "",
-    },
+    location: null as unknown as PhysicalLocation,
 
     locations: [],
   }),
@@ -35,11 +27,7 @@ export const useLocationStore = defineStore("location", {
 
       const location = locationRes._value;
 
-      this.location.id = location.id;
-      this.location.lat = location.lat;
-      this.location.lon = location.lon;
-      this.location.bbox = location.bbox;
-      this.location.displayName = location.displayName;
+      this.location = location;
 
       this.loading = false;
     },

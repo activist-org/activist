@@ -22,10 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import type { BtnAction } from "~/types/btn-props";
-
-import { getBtnDynamicClass } from "~/utils/btnUtils";
+import type { BtnAction } from "#shared/types/btn-props";
 
 const props = defineProps<BtnAction>();
-const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
+const btnDynamicClass = computed(() =>
+  getBtnDynamicClass(props.cta, props.fontSize)
+);
 </script>

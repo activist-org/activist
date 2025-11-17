@@ -11,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 const { canDelete } = useUser();
 const canDeleteEntity = computed(() => canDelete());
 </script>

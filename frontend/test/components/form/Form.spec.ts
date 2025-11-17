@@ -2,9 +2,8 @@
 import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
-import FormTemplate from "~/components/form/FormTemplate.vue";
-import { getEnglishText } from "~/utils/i18n";
-
+import FormTemplate from "../../../app/components/form/FormTemplate.vue";
+import { getEnglishText } from "../../../shared/utils/i18n";
 import render from "../../../test/render";
 
 describe("Form component", () => {

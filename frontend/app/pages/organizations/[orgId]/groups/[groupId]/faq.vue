@@ -63,13 +63,7 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-import type { FaqEntry } from "~/types/content/faq-entry";
-
-import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-import { EntityType } from "~/types/entity";
-
-const groupTabs = getGroupTabs();
+const groupTabs = useGetGroupTabs();
 
 const { openModal } = useModalHandlers("ModalFaqEntryGroup");
 

@@ -13,8 +13,6 @@ import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
 import "vue-sonner/style.css";
 
-import { commandPaletteData } from "~/types/command-palette";
-
 const { openModal: openModalCommandPalette } = useModalHandlers(
   "ModalCommandPalette"
 );

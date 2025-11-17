@@ -62,12 +62,6 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-import type { FaqEntry } from "~/types/content/faq-entry";
-
-import { useOrganizationFAQEntryMutations } from "~/composables/mutations/useOrganizationFAQEntryMutations";
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import { EntityType } from "~/types/entity";
-
 const { openModal } = useModalHandlers("ModalFaqEntryOrganization");
 
 const paramsOrgId = useRoute().params.orgId;

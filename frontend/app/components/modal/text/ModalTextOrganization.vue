@@ -14,11 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
-
-import { useOrganizationTextsMutations } from "~/composables/mutations/useOrganizationTextsMutations";
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-
 const modalName = "ModalTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 

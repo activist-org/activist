@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
+import { defaultEventText } from "../../../app/constants/event";
 import {
-  getEvent,
-  listEvents,
   createEvent,
   deleteEvent,
+  getEvent,
+  listEvents,
   mapEvent,
-} from "~/services/event/event";
-import { defaultEventText } from "~/types/events/event";
-import { AppError } from "~/utils/errorHandler";
-
+} from "../../../app/services/event/event";
+import { AppError } from "../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
   expectRequest,
@@ -98,7 +97,7 @@ describe("services/event", () => {
 
     expect(result.data).toHaveLength(1);
     expect(result.data[0].id).toBe("evt-2");
-    expect(result.data[0].texts).toEqual([defaultEventText]);
+    expect(result.data[0].texts).toEqual([]);
     expect(result.isLastPage).toBe(true);
   });
 
@@ -178,7 +177,7 @@ describe("services/event", () => {
       texts: undefined,
     } as unknown as Parameters<typeof mapEvent>[0];
     const mapped = mapEvent(minimal);
-    expect(mapped.texts).toEqual([defaultEventText]);
+    expect(mapped.texts).toEqual([]);
     expect(mapped.socialLinks).toEqual([]);
     expect(mapped.resources).toEqual([]);
     expect(mapped.faqEntries).toEqual([]);

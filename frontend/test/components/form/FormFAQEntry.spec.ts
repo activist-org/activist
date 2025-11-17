@@ -2,8 +2,7 @@
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
-import FormFAQEntry from "~/components/form/FormFAQEntry.vue";
-
+import FormFAQEntry from "../../../app/components/form/FormFAQEntry.vue";
 import render from "../../render";
 
 const SUBMIT_LABEL_KEY =

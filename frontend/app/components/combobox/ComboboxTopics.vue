@@ -93,9 +93,6 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 
-import { GLOBAL_TOPICS } from "~/types/content/topics";
-import { IconMap } from "~/types/icon-map";
-
 const { t } = useI18n();
 
 const topics = [{ id: 1, name: "i18n.components.combobox_topics.all_topics" }];

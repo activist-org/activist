@@ -55,12 +55,6 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-import type { UploadableFile } from "~/types/content/file";
-
-import { useEventImageIconMutations } from "~/composables/mutations/useEventImageIconMutations";
-import { useOrganizationImageMutations } from "~/composables/mutations/useOrganizationImageMutations";
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 const modals = useModals();
 const modalName = "ModalUploadImageIcon";
 const uploadError = ref(false);
