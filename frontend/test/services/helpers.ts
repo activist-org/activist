@@ -1,23 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { beforeEach, expect, vi } from "vitest";
 
-type FetchOptionsShape = Record<string, unknown>;
-type FetchFn = (url: string, opts: FetchOptionsShape) => Promise<unknown>;
-type FetchRawFn = (
-  url: string,
-  opts: FetchOptionsShape
-) => Promise<{ _data: unknown }>;
-interface FetchGlobal extends FetchFn {
-  raw: FetchRawFn;
-}
+import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals.d.ts";
 
 type TestGlobals = {
   $fetch: FetchGlobal;
   BASE_BACKEND_URL: string;
   useAuth: () => { token?: { value?: string } };
 };
-
-export type { FetchFn, FetchRawFn, FetchGlobal, TestGlobals };
 
 export function setupServiceTestMocks() {
   const mocks = {

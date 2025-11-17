@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Mock } from "vitest";
 import type { Composer } from "vue-i18n";
-type FetchOptionsShape = Record<string, unknown>;
-type FetchFn = (url: string, opts: FetchOptionsShape) => Promise<unknown>;
-type FetchRawFn = (
+export type FetchOptionsShape = Record<string, unknown>;
+export type FetchFn = (
+  url: string,
+  opts: FetchOptionsShape
+) => Promise<unknown>;
+export type FetchRawFn = (
   url: string,
   opts: FetchOptionsShape
 ) => Promise<{ _data: unknown }>;
-interface FetchGlobal extends FetchFn {
+export interface FetchGlobal extends FetchFn {
   raw: FetchRawFn;
 }
 /**
