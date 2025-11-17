@@ -2,6 +2,7 @@
 import type { Component } from "vue";
 
 import render from "../../../test/render";
+
 export async function renderButton(
   component: Component,
   props: Record<string, unknown>,

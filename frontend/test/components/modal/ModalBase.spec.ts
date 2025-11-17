@@ -7,8 +7,8 @@ import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick, ref } from "vue";
 
-import ModalBase from "~/components/modal/ModalBase.vue";
-
+import ModalBase from "../../../app/components/modal/ModalBase.vue";
+import { useModals } from "../../../app/stores/modals";
 // MARK: Mock composables & state
 
 const mockRoute = ref<Partial<RouteLocationNormalized>>({

@@ -54,14 +54,11 @@
 </template>
 
 <script setup lang="ts">
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-import { IconMap } from "~/types/icon-map";
-
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
-const groupTabs = getGroupTabs();
+const groupTabs = useGetGroupTabs();
 
 const downloadCalendarEntries = () => {};
 </script>

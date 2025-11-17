@@ -1,10 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type {
-  AcceptedBody,
-  ServiceOptions,
-  ServiceOptionsWithBody,
-} from "~/types/http";
-
 function baseURL() {
   return BASE_BACKEND_URL as string;
 }
@@ -93,7 +87,7 @@ export const fetchWithoutToken = async (
   method: "GET" | "POST" = "GET",
   body?: object | undefined
 ) => {
-  const res = await $fetch.raw(BASE_BACKEND_URL + url, {
+  const res = await $fetch.raw(baseURL() + url, {
     data,
     headers: {},
     method,

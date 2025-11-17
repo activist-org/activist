@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "@playwright/test";
 
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 /**
  * Resource Modal Feature

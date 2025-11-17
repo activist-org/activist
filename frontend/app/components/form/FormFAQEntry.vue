@@ -45,8 +45,6 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { FaqEntry } from "~/types/content/faq-entry";
-
 defineProps<{
   formData?: FaqEntry;
   handleSubmit: (values: unknown) => Promise<void>;

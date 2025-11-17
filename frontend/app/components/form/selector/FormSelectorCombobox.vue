@@ -74,7 +74,6 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 
-import { IconMap } from "~/types/icon-map";
 interface Option {
   id: number | string;
   label: string;

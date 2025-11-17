@@ -65,13 +65,6 @@
 </template>
 
 <script setup lang="ts">
-import type { MenuSelector } from "~/types/menu/menu-selector";
-
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
-
 const { data: organization } = useGetOrganization(
   useRoute().params.orgId as string
 );
