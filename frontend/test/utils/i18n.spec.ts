@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect } from "vitest";
 
-import { getLocaleText, getEnglishText } from "../../app/utils/i18n";
-import { LOCALE_CODE } from "../../app/utils/locales";
+import { getLocaleText, getEnglishText } from "../../shared/utils/i18n";
+import { LOCALE_CODE } from "../../shared/utils/locales";
 
 describe("utils/i18n", () => {
   // MARK: - Basic Functionality

@@ -2,8 +2,8 @@
 import { FetchError } from "ofetch";
 import { describe, it, expect } from "vitest";
 
-import { AppErrorCause } from "../../app/types/error";
-import { AppError, errorHandler } from "../../app/utils/errorHandler";
+import { AppErrorCause } from "../../shared/types/error";
+import { AppError, errorHandler } from "../../shared/utils/errorHandler";
 
 describe("utils/errorHandler", () => {
   // MARK: - AppError Handling

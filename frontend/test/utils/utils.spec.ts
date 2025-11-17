@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect } from "vitest";
 
-import { getAllDaysInRange } from "../../app/utils/utils";
+import { getAllDaysInRange } from "../../shared/utils/utils";
 
 describe("utils/utils", () => {
   it("getAllDaysInRange returns inclusive dates", () => {
