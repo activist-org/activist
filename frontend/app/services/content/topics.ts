@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import { get } from "~/services/http";
 
 // MARK: Map API Response to Type

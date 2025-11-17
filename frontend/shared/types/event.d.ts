@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 // MARK: Main Table
 
 interface EventBase extends Entity {
@@ -28,6 +27,7 @@ export interface CommunityEvent extends EventBase {
 }
 
 export type EventsPaginatedResponse = PaginatedResponse<CommunityEvent>;
+
 // MARK: Bridge Tables
 
 export interface EventAttendee {

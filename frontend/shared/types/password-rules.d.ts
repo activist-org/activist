@@ -5,6 +5,7 @@ export type RuleFunctionsKey =
   | "lower-case-letters"
   | "contains-numbers"
   | "contains-special-chars";
+
 export interface PasswordRules {
   isValid: boolean;
   rule: RuleFunctionsKey;

@@ -137,6 +137,7 @@ const submit = async () => {
     high_risk: false,
     total_flags: 0,
   };
+
   await useFetch(`${BASE_BACKEND_URL}/v1/content/resources`, {
     method: "POST",
     body: JSON.stringify(payload),

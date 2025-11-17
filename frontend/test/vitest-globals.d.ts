@@ -19,7 +19,7 @@ export interface FetchGlobal extends FetchFn {
  */
 type AuthUser = { [key: string]: unknown } | null;
 
-// These types are based on the mocks in `tests/setup.ts`
+// These types are based on the mocks in `tests/setup.ts`.
 declare global {
   const defineStore: typeof import("pinia").defineStore;
 

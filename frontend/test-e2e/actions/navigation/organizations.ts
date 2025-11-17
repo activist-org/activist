@@ -141,7 +141,7 @@ export async function navigateToOrganizationSubpage(
       groups: "i18n.composables.use_menu_entries_state.groups",
       affiliates: "i18n.composables.use_menu_entries_state.affiliates",
       tasks: "i18n.composables.use_menu_entries_state.tasks",
-      discussions: "i18n.composables.use_menu_entries_state.discussions",
+      discussions: "i18n._global.discussions",
       settings: "i18n._global.settings",
     };
 

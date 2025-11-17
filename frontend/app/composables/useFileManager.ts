@@ -32,6 +32,7 @@ export function useFileManager() {
       `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
     ];
   });
+
   function getIconImage(files: File[]) {
     if (files[0]) {
       return new UploadableFile(files[0]);
