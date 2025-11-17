@@ -21,35 +21,35 @@ type AuthUser = { [key: string]: unknown } | null;
 
 // These types are based on the mocks in `tests/setup.ts`
 declare global {
-  var defineStore: typeof import("pinia").defineStore;
+  const defineStore: typeof import("pinia").defineStore;
 
-  var useI18n: () => Composer;
+  const useI18n: () => Composer;
 
-  var useLocalePath: () => (path: string) => string;
+  const useLocalePath: () => (path: string) => string;
 
-  var useRoute: () => {
+  const useRoute: () => {
     params: Record<string, unknown>;
     query: Record<string, unknown>;
   };
 
-  var useDevice: () => {
+  const useDevice: () => {
     isMobile: boolean;
     isTablet: boolean;
     isDesktop: boolean;
   };
 
-  var useLocalStorage: <T>(key: string, defaultValue: T) => { value: T };
+  const useLocalStorage: <T>(key: string, defaultValue: T) => { value: T };
 
-  var useAuthState: () => { data: { value: AuthUser } };
+  const useAuthState: () => { data: { value: AuthUser } };
 
-  var useAuth: () => {
+  const useAuth: () => {
     signUp: () => Promise<void>;
     signIn: () => Promise<void>;
     signOut: () => Promise<void>;
     data: { value: AuthUser };
   };
 
-  var useUser: () => {
+  const useUser: () => {
     userIsSignedIn: boolean;
     userIsAdmin: boolean;
     roles: string[];
@@ -59,26 +59,26 @@ declare global {
     canView: () => boolean;
   };
 
-  var useDebounceFn: <T extends (...args: unknown[]) => unknown>(
+  const useDebounceFn: <T extends (...args: unknown[]) => unknown>(
     fn: T,
     delay: number
   ) => T;
 
-  var useColorModeMock: Mock<
+  const useColorModeMock: Mock<
     () => { preference: "dark" | "light"; value: "dark" | "light" }
   >;
 
-  var useColorMode: () => ReturnType<typeof useColorModeMock>;
+  const useColorMode: () => ReturnType<typeof useColorModeMock>;
 
-  var useDevMode: () => { active: { value: boolean }; check: () => void };
+  const useDevMode: () => { active: { value: boolean }; check: () => void };
 
-  var data: { value: AuthUser };
+  const data: { value: AuthUser };
 
-  var useAuthStateMock: Mock<() => { data: { value: AuthUser } }>;
+  const useAuthStateMock: Mock<() => { data: { value: AuthUser } }>;
 
-  var $fetch: FetchGlobal;
+  const $fetch: FetchGlobal;
 
-  var BASE_BACKEND_URL: string;
+  const BASE_BACKEND_URL: string;
 }
 
 export {};

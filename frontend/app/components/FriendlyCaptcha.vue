@@ -21,7 +21,7 @@
       "
       class="style-btn flex w-full cursor-pointer items-center space-x-4 rounded-md p-1 px-3 text-lg shadow-none"
       :class="{
-        'border-1 border border-primary-text bg-accepted-green/75 dark:border-accepted-green dark:bg-accepted-green/10 dark:text-accepted-green':
+        'border-1 border-primary-text bg-accepted-green/75 dark:border-accepted-green dark:bg-accepted-green/10 dark:text-accepted-green':
           localeValue,
       }"
       type="button"
