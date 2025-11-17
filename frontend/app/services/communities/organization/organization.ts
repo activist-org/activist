@@ -13,6 +13,7 @@ import type {
 import { del, get, post } from "~/services/http";
 import { defaultOrganizationText } from "~/types/communities/organization";
 import { errorHandler } from "~/utils/errorHandler";
+import type { Pagination } from "~/types/http";
 
 // MARK: Map API Response to Type
 
@@ -54,7 +55,7 @@ export async function getOrganization(id: string): Promise<OrganizationT> {
 // MARK: List All
 
 export async function listOrganizations(
-  filters: OrganizationFilters
+  filters: OrganizationFilters & Partial<Pagination> = {}
 ): Promise<OrganizationT[]> {
   try {
     const query = new URLSearchParams(
