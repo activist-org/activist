@@ -22,30 +22,9 @@ from events.models import Event
 from .populate_db_helpers.populate_org_events import create_org_events
 from .populate_db_helpers.populate_org_group_event import create_group_events
 from .populate_db_helpers.populate_org_groups import create_org_groups
-from .populate_db_helpers.populate_orgs import create_organization
+from .populate_db_helpers.populate_orgs import create_organization, get_topic_label
 
 # MARK: Utils and Types
-
-
-def get_topic_label(topic: Topic) -> str:
-    """
-    Return the label of a topic from the object.
-
-    Parameters
-    ----------
-    topic : Topic
-        The topic object that the label should be derived for.
-
-    Returns
-    -------
-    str
-        The human readable name of the topic.
-    """
-    return (
-        " ".join([t[0] + t[1:].lower() for t in topic.type.split("_")])
-        .replace("Womens", "Women's")
-        .replace("Lgbtqia", "LGBTQIA+")
-    )
 
 
 class Options(TypedDict):

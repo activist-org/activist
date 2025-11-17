@@ -15,10 +15,22 @@ from communities.organizations.models import Organization
 from content.models import Topic
 
 
-def _get_topic_label(topic: Topic) -> str:
-    t = getattr(topic, "type", str(topic))
+def get_topic_label(topic: Topic) -> str:
+    """
+    Return the label of a topic from the object.
+
+    Parameters
+    ----------
+    topic : Topic
+        The topic object that the label should be derived for.
+
+    Returns
+    -------
+    str
+        The human readable name of the topic.
+    """
     return (
-        " ".join([p[0] + p[1:].lower() for p in t.split("_")])
+        " ".join([t[0] + t[1:].lower() for t in topic.type.split("_")])
         .replace("Womens", "Women's")
         .replace("Lgbtqia", "LGBTQIA+")
     )
@@ -45,7 +57,7 @@ def create_organization(
     # determine per-user org index (used for stable fallback naming)
     per_user_org_index = Organization.objects.filter(created_by=user).count()
 
-    user_topic_name = _get_topic_label(user_topic)
+    user_topic_name = get_topic_label(user_topic)
 
     # basic fields with fallbacks
     org_id = (
