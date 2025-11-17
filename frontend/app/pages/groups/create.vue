@@ -136,7 +136,6 @@ const submit = async () => {
     high_risk: false,
     total_flags: 0,
   };
-  const { BASE_BACKEND_URL } = useGetBaseURLs();
   await useFetch(`${BASE_BACKEND_URL}/v1/communities/organizations`, {
     method: "POST",
     body: JSON.stringify(payload),

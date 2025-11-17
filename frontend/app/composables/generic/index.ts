@@ -2,7 +2,6 @@
 export * from "./useBreakpoint";
 export * from "./useCustomInfiniteScroll";
 export * from "./useDebounce";
-export * from "./useGetBaseURLs";
 export * from "./useModalHandlers";
 export * from "./useSortableList";
 export * from "./useTabNavigationEmit";

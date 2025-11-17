@@ -127,7 +127,6 @@ const props = defineProps<{
 }>();
 
 const aboveMediumBP = useBreakpoint("md");
-const { BASE_FRONTEND_URL } = useGetBaseURLs();
 const { linkUrl } = useLinkURL(props);
 const modalName = "ModalsQRCode";
 

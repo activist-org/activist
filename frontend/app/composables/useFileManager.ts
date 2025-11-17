@@ -2,7 +2,6 @@
 export function useFileManager() {
   const uploadError = ref(false);
   const { token } = useAuth();
-  const { BASE_BACKEND_URL } = useGetBaseURLs();
 
   async function deleteImage(imageId: string) {
     if (!imageId) {

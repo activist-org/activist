@@ -388,8 +388,6 @@ const formData = ref({
   date: "",
 });
 
-const { BASE_BACKEND_URL } = useGetBaseURLs();
-
 const submit = async () => {
   const { data: _responseData } = await useFetch(
     BASE_BACKEND_URL + "/communities/events",

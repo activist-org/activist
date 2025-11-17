@@ -89,7 +89,6 @@ const imageAlt = computed(() => {
     }
   );
 });
-const { BASE_BACKEND_URL_NO_V1 } = useGetBaseURLs();
 const imageUrl = computed(() => {
   if (props.event?.iconUrl?.fileObject) {
     return `${BASE_BACKEND_URL_NO_V1}${props.event.iconUrl.fileObject}`;

@@ -68,7 +68,6 @@ const props = defineProps<{
 const logoUrl = ref(props.logoUrl);
 
 const { openModal } = useModalHandlers("ModalUploadImageIcon");
-const { BASE_BACKEND_URL_NO_V1 } = useGetBaseURLs();
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
 
