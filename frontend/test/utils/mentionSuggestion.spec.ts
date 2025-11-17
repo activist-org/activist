@@ -7,7 +7,7 @@ describe("utils/mentionSuggestion", () => {
   // MARK: - Query Filtering
 
   // Mock component for useMentionSuggestion
-   
+
   const MockMentionList = {} as Component;
   const { getItems } = useMentionSuggestion(MockMentionList);
 
