@@ -2,8 +2,7 @@
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
-import FormTextInputSearch from "~/components/form/text/FormTextInputSearch.vue";
-
+import FormTextInputSearch from "../../../../app/components/form/text/FormTextInputSearch.vue";
 import render from "../../../../test/render";
 
 /**

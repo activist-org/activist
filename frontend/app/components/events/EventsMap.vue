@@ -10,9 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
-
 defineProps<{
-  events: Event[];
+  events: CommunityEvent[];
 }>();
 </script>

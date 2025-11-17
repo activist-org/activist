@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { updateEventTexts } from "~/services/event/text";
-import { AppError } from "~/utils/errorHandler";
-
+import { updateEventTexts } from "../../../app/services/event/text";
+import { AppError } from "../../../shared/utils/errorHandler";
 import { expectJsonRequest, setupServiceTestMocks } from "../helpers";
 
 describe("services/event/text", () => {

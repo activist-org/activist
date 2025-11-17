@@ -17,9 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { useDebounce } from "~/composables/useDebounce";
-import { IconMap } from "~/types/icon-map";
-
 export interface Props {
   id: string;
   label: string;

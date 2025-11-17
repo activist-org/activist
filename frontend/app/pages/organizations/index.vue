@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
 const route = useRoute();
 const query = computed(() => route.query);
 const { data: organizations, pending } = useGetOrganizations(query);

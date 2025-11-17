@@ -1,15 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
-import type { MaybeRef } from "vue";
-
-import type { UploadableFile } from "~/types/content/file";
-
-import { uploadEventIconImage } from "~/services/event/image";
-import { errorHandler } from "~/utils/errorHandler";
-
-import { getKeyForGetEvent } from "../queries/useGetEvent";
-
 export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 

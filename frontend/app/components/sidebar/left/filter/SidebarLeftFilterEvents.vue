@@ -111,11 +111,6 @@ import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
 
-import type { TopicEnum } from "~/types/content/topics";
-
-import { GLOBAL_TOPICS } from "~/types/content/topics";
-import { IconMap } from "~/types/icon-map";
-import { ViewType } from "~/types/view-types";
 const { t } = useI18n();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({

@@ -182,8 +182,6 @@
 import { FetchError } from "ofetch";
 import { z } from "zod";
 
-import { IconMap } from "~/types/icon-map";
-
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
 

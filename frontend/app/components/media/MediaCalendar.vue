@@ -22,6 +22,7 @@
 <script setup lang="ts">
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
+
 type CalendarProps = InstanceType<typeof Calendar>["$props"];
 type InferredAttributes = CalendarProps extends { attributes?: infer A }
   ? A

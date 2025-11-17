@@ -2,7 +2,7 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 
-import TooltipBase from "~/components/tooltip/TooltipBase.vue";
+import TooltipBase from "../../../app/components/tooltip/TooltipBase.vue";
 
 describe("TooltipBase component", () => {
   it("renders header and text when provided", () => {

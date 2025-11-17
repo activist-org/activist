@@ -14,10 +14,9 @@
     :leftIcon="IconMap.PLUS"
   />
 </template>
-<script setup lang="ts">
-import type { BtnAction } from "~/types/btn-props";
 
-import { IconMap } from "~/types/icon-map";
+<script setup lang="ts">
+import type { BtnAction } from "#shared/types/btn-props";
 
 const { canCreate } = useUser();
 const canAdd = computed(() => canCreate());

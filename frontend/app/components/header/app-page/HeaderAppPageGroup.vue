@@ -10,8 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-
 const props = defineProps<{
   header?: string;
   tagline?: string;

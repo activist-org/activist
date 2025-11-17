@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "playwright";
 
+import { getEnglishText } from "#shared/utils/i18n";
 import { expect, test } from "playwright/test";
 
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { getEnglishText } from "~/utils/i18n";
 
 import { navigateToFirstOrganization } from "./organizations";
 

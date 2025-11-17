@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { UploadableFile } from "~/types/content/file";
-
 import { post } from "~/services/http";
-import { EntityType } from "~/types/entity";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Upload
 

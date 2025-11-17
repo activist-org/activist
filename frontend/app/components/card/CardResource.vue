@@ -104,12 +104,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "~/types/content/resource";
-import type { Entity } from "~/types/entity";
-
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   resource: Resource;
   entityType: EntityType;
