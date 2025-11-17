@@ -25,16 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import {
-  getSidebarContentDynamicClass,
-  getSidebarFooterDynamicClass,
-} from "~/utils/sidebarUtils";
-
 const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
-
+const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
+  useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
   sidebarContentScrollable.value,
   sidebarHover

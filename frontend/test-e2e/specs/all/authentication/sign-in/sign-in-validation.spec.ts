@@ -8,7 +8,7 @@ import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_PROGRESS as PROGRESS,
   PASSWORD_RATING as RATING,
-} from "~/test-utils/constants";
+} from "~/test/constants";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/auth/sign-in");

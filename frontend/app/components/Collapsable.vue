@@ -19,8 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 interface Props {
   isOpen?: boolean;
   label: string;

@@ -11,12 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import type { GroupSocialLink } from "~/types/communities/group";
-import type { SocialLink } from "~/types/content/social-link";
-
-import { useGroupSocialLinksMutations } from "~/composables/mutations/useGroupSocialLinksMutations";
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-
 const modalName = "ModalSocialLinksGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 

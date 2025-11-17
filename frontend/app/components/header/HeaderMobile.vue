@@ -54,8 +54,6 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownLocation, SearchBarLocation } from "~/types/location";
-
 const aboveMediumBP = useBreakpoint("md");
 
 const { userIsSignedIn } = useUser();

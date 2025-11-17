@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
 
-import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
-// Import page-specific features
+import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
+
 import { ResourceCard } from "./features/ResourceCard";
 import { ResourceDragDrop } from "./features/ResourceDragDrop";
 import { ResourceList } from "./features/ResourceList";

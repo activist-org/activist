@@ -1,15 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Read a single group with useAsyncData. Store-first, then fetch if missing.
 // After fetch, cache it via store. You can always call refresh() to force refetch.
-
-import type { MaybeRef } from "vue";
-
-import type { ContentImage } from "~/types/content/file";
-import type { AppError } from "~/utils/errorHandler";
-
-import { fetchGroupImages } from "~/services/communities/group/image";
-import { useGroupStore } from "~/stores/group";
-
 export const getKeyForGetGroupImages = (id: string) => `groupImages:${id}`;
 
 export function useGetGroupImages(id: MaybeRef<string>) {

@@ -27,8 +27,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   message: string;
   onConfirmation?: () => Promise<void> | void;

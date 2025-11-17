@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "playwright";
 
+import { getEnglishText } from "#shared/utils/i18n";
 import { expect } from "playwright/test";
-
-import { getEnglishText } from "~/utils/i18n";
 
 // MARK: First Event
 
