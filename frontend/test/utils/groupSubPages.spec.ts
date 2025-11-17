@@ -13,8 +13,8 @@ describe("utils/groupSubPages", () => {
     Object.assign(globalThis, {
       useRoute: () => ({ params: { orgId: "o1", groupId: "g1" } }),
     });
-    const mod = await import("../../app/utils/groupSubPages");
-    const tabs = mod.getGroupTabs();
+    const mod = await import("../../app/composables/useGetGroupTabs");
+    const tabs = mod.useGetGroupTabs();
     expect(tabs).toHaveLength(4);
     expect(tabs[0]!.label.toLowerCase()).toBe("about");
     expect(tabs[1]!.label.toLowerCase()).toBe("events");

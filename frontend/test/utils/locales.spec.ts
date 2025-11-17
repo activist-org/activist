@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect } from "vitest";
 
-import locales, { LOCALE_CODE, LOCALE_NAME } from "../../app/utils/locales";
+import locales, { LOCALE_CODE, LOCALE_NAME } from "../../shared/utils/locales";
 
 describe("utils/locales", () => {
   // MARK: - Locale Codes and Names

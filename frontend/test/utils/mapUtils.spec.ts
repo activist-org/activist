@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect } from "vitest";
 
-import { ColorByEventType } from "../../app/types/map";
-import { colorByType } from "../../app/utils/mapUtils";
+import { ColorByEventType } from "../../shared/types/color";
+import { colorByType } from "../../shared/utils/mapUtils";
 
 describe("utils/mapUtils", () => {
   // MARK: - Color Mapping

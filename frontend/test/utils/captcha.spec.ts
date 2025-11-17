@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect } from "vitest";
 
-import { FRIENDLY_CAPTCHA_KEY } from "../../app/utils/captcha";
+import { FRIENDLY_CAPTCHA_KEY } from "../../app/constants/baseUrls";
 
 describe("utils/captcha", () => {
   // MARK: - Environment Variable

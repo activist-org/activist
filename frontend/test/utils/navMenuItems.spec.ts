@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect } from "vitest";
 
-import { menuItems } from "../../app/utils/navMenuItems";
+import { menuItems } from "../../app/constants/navMenuItems";
 
 describe("utils/navMenuItems", () => {
   // MARK: - Menu Structure

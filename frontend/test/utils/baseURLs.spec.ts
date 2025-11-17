@@ -7,7 +7,7 @@ import {
   BASE_BACKEND_URL,
   BASE_BACKEND_URL_NO_V1,
   REQUEST_ACCESS_URL,
-} from "../../app/utils/baseURLs";
+} from "../../app/constants/baseUrls";
 
 describe("utils/baseURLs", () => {
   // MARK: - Fixed Constants
