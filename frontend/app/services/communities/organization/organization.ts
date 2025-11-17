@@ -55,7 +55,7 @@ export async function getOrganization(id: string): Promise<OrganizationT> {
 // MARK: List All
 
 export async function listOrganizations(
-  filters: OrganizationFilters & Partial<Pagination> = {}
+  filters: OrganizationFilters & Pagination = { page: 1, page_size: 10 }
 ): Promise<OrganizationT[]> {
   try {
     const query = new URLSearchParams(
