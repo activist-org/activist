@@ -30,7 +30,7 @@
 
       <!-- sentinel -->
       <div ref="bottomSentinel">
-        <h1 v-if="loadingFetchMore">Loading...</h1>
+        <h1 v-if="loadingFetchMore && pending">Loading...</h1>
       </div>
     </div>
 
@@ -42,7 +42,10 @@
 import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
 
 const route = useRoute();
-const filters = computed(() => route.query);
+const filters = computed<orgFilters>(() => {
+  const { view, ...rest } = route.query; // omit view
+  return rest as unknown as orgFilters;
+});
 
 const loadingFetchMore = ref(false);
 const { data: organizations, pending, getMore } = useGetOrganizations(filters);
