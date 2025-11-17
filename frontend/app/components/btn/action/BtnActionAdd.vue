@@ -14,8 +14,10 @@
     :leftIcon="IconMap.PLUS"
   />
 </template>
+
 <script setup lang="ts">
 import type { BtnAction } from "#shared/types/btn-props";
+
 const { canCreate } = useUser();
 const canAdd = computed(() => canCreate());
 type Props = Omit<BtnAction, "label" | "leftIcon" | "cta" | "fontSize"> & {

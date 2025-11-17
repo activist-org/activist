@@ -22,6 +22,7 @@ const props = defineProps<{
     | SidebarType.RESOURCES_PAGE;
   logoUrl?: string;
 }>();
+
 const logoUrl = ref(props.logoUrl);
 
 const sidebarTypeToDisplay = computed(() => props.sidebarType);

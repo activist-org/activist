@@ -19,6 +19,7 @@
 
 <script setup lang="ts">
 import type { BtnAction } from "#shared/types/btn-props";
+
 const props = defineProps<BtnAction>();
 
 function loadBtnDynamicClass() {

@@ -14,6 +14,7 @@ const props = defineProps<{
   entity?: Entity | null;
   size?: string | number;
 }>();
+
 const { canEdit } = useUser();
 const canEditEntity = computed(() => canEdit(props?.entity));
 </script>

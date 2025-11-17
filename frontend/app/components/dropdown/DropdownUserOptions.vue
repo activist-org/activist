@@ -25,6 +25,7 @@ defineProps<{
   location?: DropdownLocation;
   userIsSignedIn: boolean;
 }>();
+
 const { signOut } = useAuth();
 const userOptionsSignedIn: MenuSelector[] = [
   {

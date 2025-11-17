@@ -8,15 +8,17 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{
+  event: CommunityEvent;
+}>();
+
+const { event } = props;
+
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
 const { getEventColorByType } = useColor();
 
-const props = defineProps<{
-  event: CommunityEvent;
-}>();
-const { event } = props;
 const buildExpandedTooltip = () => {
   const root = document.createElement("div");
   root.className = "w-[220px] cursor-pointer font-sans";

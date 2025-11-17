@@ -117,6 +117,7 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
+
 const props = defineProps<{
   organization?: Organization;
   group?: Group;
