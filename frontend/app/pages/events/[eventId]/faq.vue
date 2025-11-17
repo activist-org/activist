@@ -64,7 +64,7 @@ import draggable from "vuedraggable";
 import { useEventFAQEntryMutations } from "~/composables/mutations";
 import { useGetEvent } from "~/composables/queries";
 
-const { openModal } = useModalHandlers("ModalFAQEntryEvent");
+const { openModal } = useModalHandlers("ModalFaqEntryEvent");
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
