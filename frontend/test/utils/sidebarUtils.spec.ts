@@ -32,10 +32,13 @@ describe("utils/sidebarUtils", () => {
         ({ collapsed: false, collapsedSwitch: false }) as SidebarState,
     }));
     const hover: Ref<boolean> = { value: true };
-    const mod = await import("../../app/utils/sidebarUtils");
+    const mod = await import("../../app/composables/useSidebarClass");
+    const { getSidebarContentDynamicClass } = mod.useSidebarClass();
 
-    const content = mod.getSidebarContentDynamicClass(true, hover)
-      .value as Record<string, MaybeRefBool>;
+    const content = getSidebarContentDynamicClass(true, hover).value as Record<
+      string,
+      MaybeRefBool
+    >;
     // Validate shape: expected class keys are present
     expect(Object.keys(content)).toEqual(
       expect.arrayContaining([
@@ -46,7 +49,8 @@ describe("utils/sidebarUtils", () => {
       ])
     );
 
-    const footer = mod.getSidebarFooterDynamicClass(hover).value as Record<
+    const { getSidebarFooterDynamicClass } = mod.useSidebarClass();
+    const footer = getSidebarFooterDynamicClass(hover).value as Record<
       string,
       MaybeRefBool
     >;
@@ -77,10 +81,13 @@ describe("utils/sidebarUtils", () => {
         ({ collapsed: true, collapsedSwitch: true }) as SidebarState,
     }));
     const hover: Ref<boolean> = { value: true };
-    const mod = await import("../../app/utils/sidebarUtils");
+    const mod = await import("../../app/composables/useSidebarClass");
+    const { getSidebarContentDynamicClass } = mod.useSidebarClass();
 
-    const content = mod.getSidebarContentDynamicClass(true, hover)
-      .value as Record<string, MaybeRefBool>;
+    const content = getSidebarContentDynamicClass(true, hover).value as Record<
+      string,
+      MaybeRefBool
+    >;
     expect(Object.keys(content)).toEqual(
       expect.arrayContaining([
         "md:pl-16 xl:pl-56",
@@ -90,7 +97,8 @@ describe("utils/sidebarUtils", () => {
       ])
     );
 
-    const footer = mod.getSidebarFooterDynamicClass(hover).value as Record<
+    const { getSidebarFooterDynamicClass } = mod.useSidebarClass();
+    const footer = getSidebarFooterDynamicClass(hover).value as Record<
       string,
       MaybeRefBool
     >;
