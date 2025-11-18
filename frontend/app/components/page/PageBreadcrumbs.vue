@@ -75,10 +75,6 @@
 <script setup lang="ts">
 import { validate as isValidUUID } from "uuid";
 
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Event } from "~/types/events/event";
-
 import { getGroup } from "~/services/communities/group/group";
 import { getOrganization } from "~/services/communities/organization/organization";
 import { getEvent } from "~/services/event/event";
@@ -103,7 +99,7 @@ const eventStore = useEventStore();
 
 let organization: Organization;
 let group: Group;
-let event: Event;
+let event: CommunityEvent;
 
 // Note: UUID Regex: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.
 const organizationRegex =

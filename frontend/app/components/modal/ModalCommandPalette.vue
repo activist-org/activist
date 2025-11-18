@@ -74,8 +74,6 @@ import {
 } from "@headlessui/vue";
 import { useRouter } from "vue-router";
 
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   paletteData: Command[];
 }>();

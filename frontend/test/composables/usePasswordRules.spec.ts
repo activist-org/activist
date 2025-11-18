@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import usePasswordRules from "~/composables/usePasswordRules";
+import usePasswordRules from "../../app/composables/usePasswordRules";
 
 describe("usePasswordRules composable", () => {
   const { checkRules, isAllRulesValid, isPasswordMatch } = usePasswordRules();

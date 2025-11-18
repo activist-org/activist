@@ -118,25 +118,15 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-import type { User } from "~/types/auth/user";
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Resource } from "~/types/content/resource";
-import type { Event } from "~/types/events/event";
-
-import { useLinkURL } from "~/composables/useLinkURL";
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   organization?: Organization;
   group?: Group;
-  event?: Event;
+  event?: CommunityEvent;
   resource?: Resource;
   user?: User;
 }>();
 
 const aboveMediumBP = useBreakpoint("md");
-
 const { linkUrl } = useLinkURL(props);
 const modalName = "ModalsQRCode";
 

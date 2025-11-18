@@ -163,11 +163,6 @@ import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { Markdown } from "tiptap-markdown";
 
-import type { DiscussionInput } from "~/types/content/discussion";
-
-import { IconMap } from "~/types/icon-map";
-import Suggestion from "~/utils/mentionSuggestion";
-
 const showTooltip = ref(false);
 const props = defineProps<{
   discussionInput: DiscussionInput;

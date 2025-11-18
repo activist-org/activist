@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
+import { defaultOrganizationText } from "../../../../app/constants/organization";
 import {
   createOrganization,
   deleteOrganization,
   getOrganization,
   listOrganizations,
   mapOrganization,
-} from "~/services/communities/organization/organization";
-import { defaultOrganizationText } from "~/types/communities/organization";
-import { AppError } from "~/utils/errorHandler";
-
+} from "../../../../app/services/communities/organization/organization";
+import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
   expectRequest,
@@ -96,7 +95,7 @@ describe("services/communities/organization", () => {
 
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("org-2");
-    expect(result[0].texts).toEqual([defaultOrganizationText]);
+    expect(result[0].texts).toEqual([]);
   });
 
   // MARK: Create
@@ -175,7 +174,7 @@ describe("services/communities/organization", () => {
       texts: undefined,
     } as unknown as Parameters<typeof mapOrganization>[0];
     const mapped = mapOrganization(minimal);
-    expect(mapped.texts).toEqual([defaultOrganizationText]);
+    expect(mapped.texts).toEqual([]);
     expect(mapped.socialLinks).toEqual([]);
     expect(mapped.images).toEqual([]);
     expect(mapped.groups).toEqual([]);

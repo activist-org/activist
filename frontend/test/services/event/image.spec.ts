@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { uploadEventIconImage } from "~/services/event/image";
-import { AppError } from "~/utils/errorHandler";
-
+import { uploadEventIconImage } from "../../../app/services/event/image";
+import { AppError } from "../../../shared/utils/errorHandler";
 import { getFetchCall, setupServiceTestMocks } from "../helpers";
 
 function isFormData(value: unknown): value is FormData {

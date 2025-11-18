@@ -95,11 +95,6 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
-import type { FaqEntry } from "~/types/content/faq-entry";
-import type { Entity, EntityType } from "~/types/entity";
-
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   faqEntry: FaqEntry;
   pageType: EntityType;
