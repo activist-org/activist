@@ -137,6 +137,18 @@ const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 
+const groupResourcesMutations = props.entity
+  ? useGroupResourcesMutations(props.entity.id)
+  : null;
+
+const organizationResourcesMutations = props.entity
+  ? useOrganizationResourcesMutations(props.entity.id)
+  : null;
+
+const eventResourcesMutations = props.entity
+  ? useEventResourcesMutations(props.entity.id)
+  : null;
+
 const description = computed(() => {
   return props.resource.description || "";
 });
@@ -167,26 +179,15 @@ const openModalEdit = () => {
 const modalAlertName = `ModalAlertResource${props.resource.id}`;
 const { openModal: openModalDeleteConfirm } = useModalHandlers(modalAlertName);
 
-// Get the appropriate delete mutation based on entity type
-const getDeleteMutation = () => {
-  if (props.entity) {
-    switch (props.entityType) {
-      case EntityType.GROUP:
-        return useGroupResourcesMutations(props.entity.id).deleteResource;
-      case EntityType.ORGANIZATION:
-        return useOrganizationResourcesMutations(props.entity.id)
-          .deleteResource;
-      case EntityType.EVENT:
-        return useEventResourcesMutations(props.entity.id).deleteResource;
-      default:
-        return null;
-    }
-  }
-  return null;
+// Map entity type to delete mutation
+const deleteByEntityType = {
+  [EntityType.GROUP]: groupResourcesMutations?.deleteResource,
+  [EntityType.ORGANIZATION]: organizationResourcesMutations?.deleteResource,
+  [EntityType.EVENT]: eventResourcesMutations?.deleteResource,
 };
 
 const handleDeleteResource = async () => {
-  const deleteResource = getDeleteMutation();
+  const deleteResource = deleteByEntityType[props.entityType];
   if (deleteResource && props.resource.id) {
     await deleteResource(props.resource.id);
   }
