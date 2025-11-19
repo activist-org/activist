@@ -30,9 +30,7 @@
 
       <!-- sentinel -->
       <div ref="bottomSentinel">
-        <h1 v-if="loadingFetchMore && pending">
-Loading...
-</h1>
+        <Loading v-if="loadingFetchMore && pending" />
       </div>
     </div>
 
@@ -41,7 +39,6 @@ Loading...
 </template>
 
 <script setup lang="ts">
-import type { OrganizationFilters } from "~~/shared/types/organization";
 
 import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
 

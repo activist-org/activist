@@ -3,8 +3,6 @@
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
 import { del, get, post } from "~/services/http";
-// import { errorHandler } from "~/utils/errorHandler";
-// import type { Pagination } from "~/types/http";
 
 // MARK: Map API Response to Type
 
