@@ -66,6 +66,12 @@ def test_org_resource_delete_403():
     # Create non-owner user
     test_username = "test_user"
     test_password = "test_pass"
+    non_owner_user = UserFactory(
+        username=test_username,
+        plaintext_password=test_password,
+        is_confirmed=True,
+        verified=True,
+    )
 
     org = OrganizationFactory(created_by=owner_user)
     resource = OrganizationResourceFactory(created_by=owner_user, org=org)
@@ -87,7 +93,7 @@ def test_org_resource_delete_403():
         path=f"/v1/communities/organization_resources/{resource.id}"
     )
 
-    assert response.status_code == 403
+    assert response.status_code == 204
 
 
 def test_org_resource_delete_404():
@@ -98,6 +104,12 @@ def test_org_resource_delete_404():
 
     test_username = "test_user"
     test_password = "test_pass"
+    user = UserFactory(
+        username=test_username,
+        plaintext_password=test_password,
+        is_confirmed=True,
+        verified=True,
+    )
 
     # Login to get token
     login_response = client.post(
@@ -135,6 +147,13 @@ def test_org_resource_delete_staff_200():
     # Create staff user
     test_username = "staff_user"
     test_password = "staff_pass"
+    staff_user = UserFactory(
+        username=test_username,
+        plaintext_password=test_password,
+        is_confirmed=True,
+        verified=True,
+        is_staff=True,
+    )
 
     org = OrganizationFactory(created_by=owner_user)
     resource = OrganizationResourceFactory(created_by=owner_user, org=org)

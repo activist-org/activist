@@ -37,4 +37,6 @@ def test_event_resource_list_empty():
 
     assert response.status_code == 200
     response_body = response.json()
-    assert isinstance(response_body, list)
+    assert isinstance(response_body, dict)
+    assert response_body["count"] == 0
+    assert response_body["results"] == []
