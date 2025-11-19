@@ -39,8 +39,7 @@ def test_group_resource_delete_200():
 
     # Delete the resource as the owner
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(
-        path=f"/v1/communities/group_resources/{resource.id}")
+    response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
 
     assert response.status_code == 204
 
@@ -87,8 +86,7 @@ def test_group_resource_delete_403():
 
     # Try to delete the resource as non-owner
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(
-        path=f"/v1/communities/group_resources/{resource.id}")
+    response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
 
     assert response.status_code == 204  # Temporarily changed to pass
 
@@ -122,8 +120,7 @@ def test_group_resource_delete_404():
     # Try to delete non-existent resource
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     fake_uuid = "00000000-0000-0000-0000-000000000000"
-    response = client.delete(
-        path=f"/v1/communities/group_resources/{fake_uuid}")
+    response = client.delete(path=f"/v1/communities/group_resources/{fake_uuid}")
 
     assert response.status_code == 404
 
@@ -169,7 +166,6 @@ def test_group_resource_delete_staff_200():
 
     # Delete the resource as staff
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(
-        path=f"/v1/communities/group_resources/{resource.id}")
+    response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
 
     assert response.status_code == 204
