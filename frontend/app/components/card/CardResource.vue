@@ -117,14 +117,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource } from "~/types/content/resource";
-import type { Entity } from "~/types/entity";
-
 import { useEventResourcesMutations } from "~/composables/mutations/useEventResourcesMutations";
 import { useGroupResourcesMutations } from "~/composables/mutations/useGroupResourcesMutations";
 import { useOrganizationResourcesMutations } from "~/composables/mutations/useOrganizationResourcesMutations";
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   resource: Resource;

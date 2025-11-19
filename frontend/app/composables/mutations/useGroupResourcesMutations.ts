@@ -3,9 +3,6 @@
 
 import type { MaybeRef } from "vue";
 
-import type { Resource, ResourceInput } from "~/types/content/resource";
-import type { AppError } from "~/utils/errorHandler";
-
 import {
   createGroupResource,
   deleteGroupResource,

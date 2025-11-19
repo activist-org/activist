@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { Resource, ResourceInput } from "~/types/content/resource";
-
 import { del, post, put } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Create
 
