@@ -39,50 +39,52 @@
 </template>
 
 <script setup lang="ts">
-
-import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
-
+const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
+const loadingFetchMore = ref(false);
 const filters = computed<OrganizationFilters>(() => {
   const { view, ...rest } = route.query; // omit view
   return rest as unknown as OrganizationFilters;
 });
 
-const loadingFetchMore = ref(false);
+watch(
+  filters,
+  () => {
+    loadingFetchMore.value = false;
+  },
+  { immediate: true, deep: true }
+);
 const { data: organizations, pending, getMore } = useGetOrganizations(filters);
-
 const bottomSentinel = ref<HTMLElement | null>(null);
-let observer: IntersectionObserver | null = null;
+const canFetchMore = computed(() => viewType.value === ViewType.LIST);
+const changeFetchMore = () => {
+  loadingFetchMore.value = true;
+};
+
+useCustomInfiniteScroll({
+  sentinel: bottomSentinel,
+  fetchMore: getMore,
+  canFetchMore,
+  callback: changeFetchMore,
+});
 
 const showOrganizations = computed(() => {
-  return organizations.value.length > 0;
-});
-
-watch(pending, (newVal, oldVal) => {
-  if (oldVal === true && newVal === false) {
-    loadingFetchMore.value = false;
+  if (organizations.value.length > 0) {
+    if (loadingFetchMore.value) {
+      return true;
+    }
+    return !pending.value;
   }
+  return false;
 });
 
-onMounted(async () => {
-  await nextTick();
-  observer = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0];
-      if (entry && entry.isIntersecting && !pending.value) {
-        loadingFetchMore.value = true;
-        getMore();
-      }
-    },
-    { root: null, rootMargin: "0px", threshold: 0.1 }
-  );
-  if (bottomSentinel.value) observer.observe(bottomSentinel.value);
-});
-
-onUnmounted(() => {
-  if (observer && bottomSentinel.value) {
-    observer.unobserve(bottomSentinel.value);
-    observer.disconnect();
+watchEffect(() => {
+  const q = route.query.view;
+  if (
+    typeof q === "string" &&
+    Object.values(ViewType).includes(q as ViewType)
+  ) {
+    viewType.value = q as ViewType;
   }
 });
 </script>
