@@ -63,7 +63,7 @@ def test_group_resource_delete_403():
     # Create non-owner user
     test_username = "test_user"
     test_password = "test_pass"
-    non_owner_user = UserFactory(
+    UserFactory(
         username=test_username,
         plaintext_password=test_password,
         is_confirmed=True,
@@ -99,7 +99,7 @@ def test_group_resource_delete_404():
 
     test_username = "test_user"
     test_password = "test_pass"
-    user = UserFactory(
+    UserFactory(
         username=test_username,
         plaintext_password=test_password,
         is_confirmed=True,
@@ -142,7 +142,7 @@ def test_group_resource_delete_staff_200():
     # Create staff user
     test_username = "staff_user"
     test_password = "staff_pass"
-    staff_user = UserFactory(
+    UserFactory(
         username=test_username,
         plaintext_password=test_password,
         is_confirmed=True,
