@@ -30,7 +30,9 @@
 
       <!-- sentinel -->
       <div ref="bottomSentinel">
-        <h1 v-if="loadingFetchMore && pending">Loading...</h1>
+        <h1 v-if="loadingFetchMore && pending">
+Loading...
+</h1>
       </div>
     </div>
 
@@ -39,8 +41,9 @@
 </template>
 
 <script setup lang="ts">
+import type { OrganizationFilters } from "~~/shared/types/organization";
+
 import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
-import type { OrganizationFilters} from "~~/shared/types/organization";
 
 const route = useRoute();
 const filters = computed<OrganizationFilters>(() => {

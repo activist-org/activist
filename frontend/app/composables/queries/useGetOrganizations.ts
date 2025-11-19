@@ -16,7 +16,7 @@ export function useGetOrganizations(
       try {
         //const organizations = await listOrganizations(orgFilters.value);
         const organizations = await listOrganizations({
-          ...(orgFilters.value as any),
+          ...orgFilters.value,
           page: page.value,
           page_size: 10,
         });
