@@ -30,9 +30,7 @@
 
       <!-- sentinel -->
       <div ref="bottomSentinel">
-        <h1 v-if="loadingFetchMore && pending">
-Loading...
-</h1>
+        <Loading v-if="loadingFetchMore && pending" />
       </div>
     </div>
 
