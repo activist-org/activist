@@ -37,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
 const { showToastError } = useToaster();
 const props = defineProps<{
   name: string;

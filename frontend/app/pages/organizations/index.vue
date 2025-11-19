@@ -40,11 +40,12 @@
 
 <script setup lang="ts">
 import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
+import type { OrganizationFilters} from "~~/shared/types/organization";
 
 const route = useRoute();
-const filters = computed<orgFilters>(() => {
+const filters = computed<OrganizationFilters>(() => {
   const { view, ...rest } = route.query; // omit view
-  return rest as unknown as orgFilters;
+  return rest as unknown as OrganizationFilters;
 });
 
 const loadingFetchMore = ref(false);
@@ -68,7 +69,7 @@ onMounted(async () => {
   observer = new IntersectionObserver(
     (entries) => {
       const entry = entries[0];
-      if (entry.isIntersecting && !pending.value) {
+      if (entry && entry.isIntersecting && !pending.value) {
         loadingFetchMore.value = true;
         getMore();
       }

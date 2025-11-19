@@ -19,6 +19,8 @@ services:
   backend:
     env_file:
       - .env.dev
+    depends_on:
+      - db
     build:
       context: ./backend
     container_name: django_backend
@@ -56,8 +58,6 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - VITE_FRONTEND_URL=${VITE_FRONTEND_URL}
       - VITE_BACKEND_URL=${VITE_BACKEND_URL}
-    depends_on:
-      - db
     healthcheck:
       test:
         [

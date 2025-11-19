@@ -22,8 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { SidebarType } from "~/types/sidebar-type";
-
 const props = defineProps<{
   name: string;
   sidebarType:
@@ -32,6 +30,7 @@ const props = defineProps<{
     | SidebarType.GROUP_PAGE;
   logoUrl?: string;
 }>();
+
 const logoUrl = ref(props.logoUrl);
 
 const sidebarTypeToDisplay = computed(() => props.sidebarType);

@@ -2,8 +2,7 @@
 import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
-import BtnTag from "~/components/btn/BtnTag.vue";
-
+import BtnTag from "../../../app/components/btn/BtnTag.vue";
 import { renderButton } from "./helpers";
 
 describe("BtnTag", () => {

@@ -1,22 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { ContentImage, FileUploadMix } from "~/types/content/file";
-
-import { UploadableFile } from "~/types/content/file";
-
-const { token } = useAuth();
-
-const defaultImageUrls = computed(() => {
-  const colorMode = useColorMode();
-  const imageColor = colorMode.value === "light" ? "light" : "dark";
-  return [
-    `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
-    `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
-    `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
-  ];
-});
-
 export function useFileManager() {
   const uploadError = ref(false);
+  const { token } = useAuth();
 
   async function deleteImage(imageId: string) {
     if (!imageId) {
@@ -37,6 +22,16 @@ export function useFileManager() {
       void error;
     }
   }
+
+  const defaultImageUrls = computed(() => {
+    const colorMode = useColorMode();
+    const imageColor = colorMode.value === "light" ? "light" : "dark";
+    return [
+      `${GET_ACTIVE_IMAGE_URL}_${imageColor}.png`,
+      `${GET_ORGANIZED_IMAGE_URL}_${imageColor}.png`,
+      `${GROW_ORGANIZATION_IMAGE_URL}_${imageColor}.png`,
+    ];
+  });
 
   function getIconImage(files: File[]) {
     if (files[0]) {

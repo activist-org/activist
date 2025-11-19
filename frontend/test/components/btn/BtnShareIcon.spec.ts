@@ -3,8 +3,7 @@ import { fireEvent, screen } from "@testing-library/vue";
 import { flushPromises } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import BtnShareIcon from "~/components/btn/BtnShareIcon.vue";
-
+import BtnShareIcon from "../../../app/components/btn/BtnShareIcon.vue";
 import render from "../../../test/render";
 
 vi.mock("vue-socials", () => ({

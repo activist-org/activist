@@ -37,8 +37,6 @@
 <script setup lang="ts">
 import { Switch } from "@headlessui/vue";
 
-import { IconMap } from "~/types/icon-map";
-
 defineProps<{
   tags: string[];
 }>();

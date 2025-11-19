@@ -2,14 +2,6 @@
 // Read a single images organization with useAsyncData. Store-first, then fetch if missing.
 // After fetch, cache it via store. You can always call refresh() to force refetch.
 
-import type { MaybeRef } from "vue";
-
-import type { ContentImage } from "~/types/content/file";
-import type { AppError } from "~/utils/errorHandler";
-
-import { fetchOrganizationImages } from "~/services/communities/organization/image";
-import { useOrganizationStore } from "~/stores/organization";
-
 export const getKeyForGetOrganizationImages = (id: string) =>
   `organizationImages:${id}`;
 

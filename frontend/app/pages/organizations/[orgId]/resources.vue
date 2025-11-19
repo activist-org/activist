@@ -62,12 +62,6 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-import type { Resource } from "~/types/content/resource";
-
-import { useOrganizationResourcesMutations } from "~/composables/mutations/useOrganizationResourcesMutations";
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import { EntityType } from "~/types/entity";
-
 const { openModal } = useModalHandlers("ModalResourceOrganization");
 
 const route = useRoute();

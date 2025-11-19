@@ -3,8 +3,7 @@ import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 import { defineComponent, ref } from "vue";
 
-import FormTextInput from "~/components/form/text/FormTextInput.vue";
-
+import FormTextInput from "../../../../app/components/form/text/FormTextInput.vue";
 import render from "../../../render";
 
 // Test wrapper to enable v-model for correct reactivity in tests.
@@ -55,7 +54,7 @@ function expectShrunkLegend(legend: HTMLElement) {
   ).not.toContain("max-w-[0.01px]");
 }
 
-describe("FormTextInput", () => {
+describe("FormTextInput component", () => {
   it("shrinks label when focused", async () => {
     await render(TestWrapper, {
       props: {

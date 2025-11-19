@@ -38,8 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 const isLoading = ref(false);
 const GitHubData = reactive({
   forks_count: 0,

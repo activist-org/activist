@@ -2,23 +2,11 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import type {
-  EventCreateFormData,
-  EventFilters,
-  EventsPaginatedResponse,
-  EventResponse,
-  EventsResponseBody,
-  Event as EventT,
-} from "~/types/events/event";
-import type { Pagination } from "~/types/http";
-
 import { del, get, post } from "~/services/http";
-import { defaultEventText } from "~/types/events/event";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Map API Response to Type
 
-export function mapEvent(res: EventResponse): EventT {
+export function mapEvent(res: EventResponse): EventResponse {
   return {
     id: res.id,
     name: res.name,
@@ -35,13 +23,13 @@ export function mapEvent(res: EventResponse): EventT {
     endTime: res.endTime,
     creationDate: res.creationDate,
     orgs: res.orgs,
-    texts: res.texts ?? [defaultEventText],
+    texts: res.texts ?? [],
   };
 }
 
 // MARK: Get by ID
 
-export async function getEvent(id: string): Promise<EventT> {
+export async function getEvent(id: string): Promise<EventResponse> {
   try {
     const res = await get<EventResponse>(`/events/events/${id}`, {
       withoutAuth: true,

@@ -29,11 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-
-import { useLinkURL } from "~/composables/useLinkURL";
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   organization: Organization;
   isPrivate?: boolean;
