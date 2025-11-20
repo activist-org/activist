@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
 const loadingFetchMore = ref(false);
 const filters = computed<OrganizationFilters>(() => {
@@ -56,7 +55,6 @@ watch(
 );
 const { data: organizations, pending, getMore } = useGetOrganizations(filters);
 const bottomSentinel = ref<HTMLElement | null>(null);
-const canFetchMore = computed(() => viewType.value === ViewType.LIST);
 const changeFetchMore = () => {
   loadingFetchMore.value = true;
 };
@@ -64,7 +62,6 @@ const changeFetchMore = () => {
 useCustomInfiniteScroll({
   sentinel: bottomSentinel,
   fetchMore: getMore,
-  canFetchMore,
   callback: changeFetchMore,
 });
 
@@ -76,15 +73,5 @@ const showOrganizations = computed(() => {
     return !pending.value;
   }
   return false;
-});
-
-watchEffect(() => {
-  const q = route.query.view;
-  if (
-    typeof q === "string" &&
-    Object.values(ViewType).includes(q as ViewType)
-  ) {
-    viewType.value = q as ViewType;
-  }
 });
 </script>

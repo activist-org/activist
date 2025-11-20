@@ -14,7 +14,6 @@ export function useGetOrganizations(
     () => getKeyForGetOrganizations(orgFilters.value),
     async () => {
       try {
-        //const organizations = await listOrganizations(orgFilters.value);
         const organizations = await listOrganizations({
           ...orgFilters.value,
           page: page.value,
@@ -34,6 +33,16 @@ export function useGetOrganizations(
         }
 
         store.setOrganizations(organizations);
+        if (
+          JSON.stringify(store.getFilters()) !==
+          JSON.stringify(orgFilters.value)
+        ) {
+          store.setPage(1);
+          page.value = 1;
+        } else {
+          store.setPage(page.value);
+        }
+
         store.setFilters(orgFilters.value);
         store.setPage(page.value);
         return organizations as Organization[];
