@@ -156,39 +156,43 @@ class Command(BaseCommand):
                     assigned_events = (
                         assigned_org_spec.get("events", []) if assigned_org_spec else []
                     )
-                    s, r, f = create_org_events(
-                        user=user,
-                        user_topic=user_topic,
-                        user_topic_name=user_topic_name,
-                        user_org=user_org,
-                        assigned_events=assigned_events,
-                        num_events_per_org=num_events_per_org,
-                        num_faq_entries_per_entity=num_faq_entries_per_entity,
-                        num_resources_per_entity=num_resources_per_entity,
+                    org_events_social_links, org_events_resources, org_events_faqs = (
+                        create_org_events(
+                            user=user,
+                            user_topic=user_topic,
+                            user_topic_name=user_topic_name,
+                            user_org=user_org,
+                            assigned_events=assigned_events,
+                            num_events_per_org=num_events_per_org,
+                            num_faq_entries_per_entity=num_faq_entries_per_entity,
+                            num_resources_per_entity=num_resources_per_entity,
+                        )
                     )
 
-                    n_social_links += s
-                    n_resources += r
-                    n_faq_entries += f
+                    n_social_links += org_events_social_links
+                    n_resources += org_events_resources
+                    n_faq_entries += org_events_faqs
 
                     # MARK: Org Groups
                     assigned_groups = (
                         assigned_org_spec.get("groups", []) if assigned_org_spec else []
                     )
-                    groups, gs, gr, gf = create_org_groups(
-                        user=user,
-                        user_topic=user_topic,
-                        user_topic_name=user_topic_name,
-                        user_org=user_org,
-                        assigned_groups=assigned_groups,
-                        num_groups_per_org=num_groups_per_org,
-                        num_faq_entries_per_entity=num_faq_entries_per_entity,
-                        num_resources_per_entity=num_resources_per_entity,
+                    groups, groups_social_links, groups_resources, groups_faqs = (
+                        create_org_groups(
+                            user=user,
+                            user_topic=user_topic,
+                            user_topic_name=user_topic_name,
+                            user_org=user_org,
+                            assigned_groups=assigned_groups,
+                            num_groups_per_org=num_groups_per_org,
+                            num_faq_entries_per_entity=num_faq_entries_per_entity,
+                            num_resources_per_entity=num_resources_per_entity,
+                        )
                     )
 
-                    n_social_links += gs
-                    n_resources += gr
-                    n_faq_entries += gf
+                    n_social_links += groups_social_links
+                    n_resources += groups_resources
+                    n_faq_entries += groups_faqs
 
                     # MARK: Org Group Events
 
@@ -201,7 +205,11 @@ class Command(BaseCommand):
                         assigned_group_events = (
                             group_spec.get("events", []) if group_spec else []
                         )
-                        s, r, f = create_group_events(
+                        (
+                            group_events_social_links,
+                            group_events_resources,
+                            group_events_faqs,
+                        ) = create_group_events(
                             user=user,
                             user_topic=user_topic,
                             user_topic_name=user_topic_name,
@@ -213,9 +221,9 @@ class Command(BaseCommand):
                             num_resources_per_entity=num_resources_per_entity,
                         )
 
-                        n_social_links += s
-                        n_resources += r
-                        n_faq_entries += f
+                        n_social_links += group_events_social_links
+                        n_resources += group_events_resources
+                        n_faq_entries += group_events_faqs
 
             # MARK: Print Output
 
