@@ -7,6 +7,7 @@ export function useGetOrganizations(
 ) {
   const store = useOrganizationStore();
   const page = ref(1);
+  const isLastPageRef = ref(false);
   const { showToastError } = useToaster();
   const orgFilters = computed(() => unref({ ...filters }));
   // Use AsyncData for SSR, hydration, and cache.
@@ -14,13 +15,19 @@ export function useGetOrganizations(
     () => getKeyForGetOrganizations(orgFilters.value),
     async () => {
       try {
-        const organizations = await listOrganizations({
+        const { data: organizations, isLastPage } = await listOrganizations({
           ...orgFilters.value,
-          page: page.value,
+          page:
+            JSON.stringify(store.getFilters()) ===
+            JSON.stringify(orgFilters.value)
+              ? page.value
+              : 1,
           page_size: 10,
         });
         const organizationsCached = store.getOrganizations();
         const pageCached = store.getPage();
+        isLastPageRef.value = isLastPage;
+
         // Append new events to cached events if page > 1
         if (
           organizationsCached.length > 0 &&
@@ -71,7 +78,8 @@ export function useGetOrganizations(
     }
   );
 
-  const getMore = async () => {
+  const getMore = () => {
+    if (isLastPageRef.value) return;
     page.value += 1;
   };
 

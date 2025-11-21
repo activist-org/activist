@@ -14,7 +14,9 @@
       </div>
     </HeaderAppPage>
 
-    <Loading v-if="pending && !loadingFetchMore" />
+    <Loading v-if="pending && !loadingFetchMore" 
+    :loading="pending && !loadingFetchMore"
+    />
 
     <div v-else-if="showOrganizations">
       <div
@@ -30,7 +32,9 @@
 
       <!-- sentinel -->
       <div ref="bottomSentinel">
-        <Loading v-if="loadingFetchMore && pending" />
+        <Loading v-if="loadingFetchMore && pending" 
+        :loading="loadingFetchMore && pending"
+        />
       </div>
     </div>
 
@@ -55,6 +59,7 @@ watch(
 );
 const { data: organizations, pending, getMore } = useGetOrganizations(filters);
 const bottomSentinel = ref<HTMLElement | null>(null);
+const canFetchMore = ref(true);
 const changeFetchMore = () => {
   loadingFetchMore.value = true;
 };
@@ -62,6 +67,7 @@ const changeFetchMore = () => {
 useCustomInfiniteScroll({
   sentinel: bottomSentinel,
   fetchMore: getMore,
+  canFetchMore,
   callback: changeFetchMore,
 });
 
