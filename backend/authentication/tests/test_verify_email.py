@@ -3,7 +3,6 @@ import logging
 import uuid
 
 import pytest
-from faker import Faker
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +24,7 @@ def test_verify_email(authenticated_client) -> None:
     user.verification_code = uuid.uuid4()
     user.save()
 
-    #1. valid verification code
+    # 1. valid verification code
     logger.info("Testing valid email verification")
     response = client.post(path=f"/v1/auth/verify_email/{user.verification_code}")
     assert response.status_code == 200

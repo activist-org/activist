@@ -4,9 +4,6 @@ from unittest.mock import patch
 
 import pytest
 from django.core import mail
-from rest_framework.test import APIClient
-
-from authentication.factories import UserFactory
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +36,7 @@ def test_pwreset_invalid_email(authenticated_client) -> None:
     Test password reset attempt with an invalid email.
     """
     logger.info("Testing password reset with invalid email")
-    client,user = authenticated_client
+    client, user = authenticated_client
     response = client.post(
         path="/v1/auth/pwreset", data={"email": "invalid_email@example.com"}
     )

@@ -3,10 +3,6 @@ import logging
 import uuid
 
 import pytest
-from faker import Faker
-from rest_framework.test import APIClient
-
-from authentication.factories import UserFactory
 
 logger = logging.getLogger(__name__)
 
