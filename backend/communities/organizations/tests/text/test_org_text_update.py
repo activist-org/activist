@@ -2,9 +2,7 @@
 from uuid import uuid4
 
 import pytest
-from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationTextFactory,
@@ -13,31 +11,12 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_org_text_update():
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = False
-    user.save()
+def test_org_text_update(authenticated_client):
+    client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)
     texts = OrganizationTextFactory(org=org)
 
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login.status_code == 200
-
-    login_body = login.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
         path=f"/v1/communities/organization_texts/{texts.id}",
         data={
@@ -49,31 +28,12 @@ def test_org_text_update():
     assert response.status_code == 200
 
 
-def test_org_text_update_403():
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = False
-    user.save()
+def test_org_text_update_403(authenticated_client):
+    client, user = authenticated_client
 
     org = OrganizationFactory()
     texts = OrganizationTextFactory(org=org)
 
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login.status_code == 200
-
-    login_body = login.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
         path=f"/v1/communities/organization_texts/{texts.id}",
         data={"description": "New test description for this organization."},
@@ -87,30 +47,11 @@ def test_org_text_update_403():
     )
 
 
-def test_org_text_update_404():
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = False
-    user.save()
+def test_org_text_update_404(authenticated_client):
+    client, user = authenticated_client
 
     bad_texts_id = uuid4()
 
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login.status_code == 200
-
-    login_body = login.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
         path=f"/v1/communities/organization_texts/{bad_texts_id}",
         data={"description": "New test description for this organization."},

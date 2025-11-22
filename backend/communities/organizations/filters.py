@@ -19,7 +19,6 @@ class OrganizationFilter(django_filters.FilterSet):  # type: ignore[misc]
         field_name="topics__type",  # simply "topics" if you want to filter by ID
         to_field_name="type",  # the field on Topic model to match against
         queryset=Topic.objects.all(),
-        conjoined=True,
     )
     location = django_filters.CharFilter(
         field_name="location__display_name",
