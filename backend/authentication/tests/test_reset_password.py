@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import logging
+from unittest.mock import patch
 
 import pytest
 from django.core import mail
@@ -15,47 +16,72 @@ pytestmark = pytest.mark.django_db
 # MARK: Password Reset
 
 
-def test_pwreset(client: APIClient) -> None:
+def test_pwreset_email_sent_successfully(authenticated_client) -> None:
     """
-    Test password reset view.
+    Test that password reset email is sent successfully for a valid user.
 
-    This test covers various password reset scenarios:
-    1. Password reset email is sent successfully for a valid user.
-    2. Password reset attempt with an invalid email.
-    3. Password reset is performed successfully with a valid verification code.
-    4. Password reset attempt with an invalid verification code.
-
-    Parameters
-    ----------
-    client : APIClient
-        An authenticated client.
     """
-    logger.info("Starting password reset test with various scenarios")
+    logger.info("Testing password reset email request for valid user")
+    client, user = authenticated_client
 
-    # Setup
-    old_password = "password123!?"
-    new_password = "Activist@123!?"
-
-    # 1. User exists and password reset is successful.
-    logger.info("Testing password reset email request")
-    user = UserFactory(plaintext_password=old_password)
     response = client.post(
         path="/v1/auth/pwreset",
         data={"email": user.email},
     )
+
     assert response.status_code == 200
     assert len(mail.outbox) == 1
     logger.info(f"Password reset email sent successfully to: {user.email}")
 
-    # 2. Password reset with invalid email.
+
+def test_pwreset_invalid_email(authenticated_client) -> None:
+    """
+    Test password reset attempt with an invalid email.
+    """
+    logger.info("Testing password reset with invalid email")
+    client,user = authenticated_client
     response = client.post(
         path="/v1/auth/pwreset", data={"email": "invalid_email@example.com"}
     )
+
     assert response.status_code == 404
 
-    # 4. Password reset with invalid verification code.
+
+def test_pwreset_invalid_verification_code(authenticated_client) -> None:
+    """
+    Test password reset attempt with an invalid verification code.
+    """
+    logger.info("Testing password reset with invalid verification code")
+    client, user = authenticated_client
+    new_password = "Activist@123!?"
+
     response = client.post(
         path="/v1/auth/pwreset/invalid_code",
         data={"password": new_password},
     )
+
     assert response.status_code == 404
+
+
+def test_pwreset_email_sending_failure(authenticated_client) -> None:
+    """
+    Test password reset when email sending fails.
+
+    This test verifies that the except block in PasswordResetView is triggered
+    when send_mail raises an exception, and that the view returns a 500 error.
+    """
+    logger.info("Testing password reset email sending failure")
+    client, user = authenticated_client
+
+    # Mock send_mail to raise an exception
+    with patch("authentication.views.send_mail") as mock_send_mail:
+        mock_send_mail.side_effect = Exception("SMTP server error")
+
+        response = client.post(
+            path="/v1/auth/pwreset",
+            data={"email": user.email},
+        )
+
+        assert response.status_code == 500
+        assert response.data["detail"] == "Failed to send password reset email."
+        mock_send_mail.assert_called_once()

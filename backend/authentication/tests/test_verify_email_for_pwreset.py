@@ -16,40 +16,14 @@ pytestmark = pytest.mark.django_db
 # MARK: Verify Email Pwd Reset
 
 
-def test_verify_email_for_reset_password(client: APIClient) -> None:
+def test_verify_email_for_reset_password_valid_code(authenticated_client) -> None:
     """
-    Test email verification view.
+    Test email verification with valid verification code and new password.
 
-    This test covers several reset password verification scenarios:
-    1. Valid verification code and new password.
-    2. Invalid verification code and new password.
-
-    Parameters
-    ----------
-    client : APIClient
-        An authenticated client.
     """
-    logger.info("Starting email verification test with various scenarios")
-    fake = Faker()
-    username = fake.user_name()
-    email = fake.email()
-    password = fake.password(
-        length=12, special_chars=True, digits=True, upper_case=True
-    )
-    new_password = fake.password(
-        length=12, special_chars=True, digits=True, upper_case=True
-    )
-
-    user = UserFactory(
-        username=username,
-        email=email,
-        plaintext_password=password,
-        is_confirmed=False,
-        verification_code=uuid.uuid4(),
-    )
-
-    # 1. Valid verification code.
-    logger.info("Testing valid email verification")
+    logger.info("Testing valid email verification for password reset")
+    client, user = authenticated_client
+    new_password = "Activist@123!?"
     response = client.post(
         path=f"/v1/auth/verify_email_password/{user.verification_code}",
         data={"new_password": new_password},
@@ -58,16 +32,39 @@ def test_verify_email_for_reset_password(client: APIClient) -> None:
 
     user.refresh_from_db()
     assert user.check_password(new_password) is True
-    assert user.check_password(password) is False
-    logger.info(f"Successfully verified email for user: {username}")
+    assert user.check_password(user.password) is False
+    logger.info(f"Successfully verified email for user: {user.username}")
 
-    # 2. Invalid verification code.
-    logger.info("Testing invalid email verification")
-    response = client.post(path="/v1/auth/verify_email_password/invalid_code")
+
+def test_verify_email_for_reset_password_invalid_code(authenticated_client) -> None:
+    """
+    Test email verification with invalid verification code.
+
+    """
+    client, user = authenticated_client
+    invalid_code = uuid.uuid4()
+    logger.info("Testing invalid email verification code for password reset")
+    response = client.post(path=f"/v1/auth/verify_email_password/{invalid_code}")
     assert response.status_code == 404
+    assert response.data["detail"] == "User does not exist."
 
-    # 3. Reusing an already used verification code.
+
+def test_verify_email_for_reset_password_reused_code(authenticated_client) -> None:
+    """
+    Test that already used verification code cannot be reused.
+    """
     logger.info("Testing reuse of already used verification code")
+    client, user = authenticated_client
+    new_password = "Activist@123!?"
+
+    # Use the verification code once
+    response = client.post(
+        path=f"/v1/auth/verify_email_password/{user.verification_code}",
+        data={"new_password": new_password},
+    )
+    assert response.status_code == 200
+
+    # Attempt to reuse the same verification code
     response = client.post(
         path=f"/v1/auth/verify_email_password/{user.verification_code}"
     )
