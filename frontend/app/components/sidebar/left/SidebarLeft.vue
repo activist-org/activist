@@ -83,14 +83,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-import { SearchBarLocation } from "~/types/location";
-import { SidebarType } from "~/types/sidebar-type";
-import {
-  currentRoutePathIncludes,
-  isCurrentRoutePathSubpageOf,
-} from "~/utils/routeUtils";
-
 const sidebar = useSidebar();
 const route = useRoute();
 const { currentRoute } = useRouter();

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // See: https://nuxt.com/docs/getting-started/testing
 import { defineVitestConfig } from "@nuxt/test-utils/config";
-import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,10 +27,10 @@ export default defineVitestConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: resolve(__dirname, "coverage"),
       thresholds: {
-        statements: 5,
-        branches: 5,
-        functions: 5,
-        lines: 5,
+        statements: 25,
+        branches: 25,
+        functions: 25,
+        lines: 25,
       },
     },
   },

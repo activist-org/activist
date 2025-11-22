@@ -1,16 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { User } from "~/types/auth/user";
-import type { Group } from "~/types/communities/group";
-import type { Organization } from "~/types/communities/organization";
-import type { Resource } from "~/types/content/resource";
-import type { Event } from "~/types/events/event";
-
 const aboveMediumBP = useBreakpoint("md");
 
 export function useLinkURL(props: {
   organization?: Organization;
   group?: Group;
-  event?: Event;
+  event?: CommunityEvent;
   resource?: Resource;
   user?: User;
 }) {

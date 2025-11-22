@@ -1,20 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Update organization social links with error handling and store updates.
 
-import type { MaybeRef } from "vue";
-
-import type { SocialLinkFormData } from "~/types/content/social-link";
-import type { AppError } from "~/utils/errorHandler";
-
-import {
-  createOrganizationSocialLinks,
-  deleteOrganizationSocialLink,
-  replaceAllOrganizationSocialLinks,
-  updateOrganizationSocialLink,
-} from "~/services/communities/organization/social-link";
-
-import { getKeyForGetOrganization } from "../queries/useGetOrganization";
-
 export function useOrganizationSocialLinksMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -55,7 +41,7 @@ export function useOrganizationSocialLinksMutations(
   }
 
   // Create multiple social links.
-  async function createLinks(links: SocialLinkFormData[]) {
+  async function createLinks(links: SocialLinkInput[]) {
     if (!currentOrganizationId.value || !links.length) {
       return false;
     }

@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 // import {
 //   PASSWORD_STRENGTH_COLOR as COLOR,
 //   PASSWORD_RATING as RATING,
-// } from "~/test-utils/constants";
+// } from "../../constants";
 
 // describe("reset-password", () => {
 //   it("shows error border on blur when password invalid", async () => {

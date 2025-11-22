@@ -60,8 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-
 const props = defineProps<{
   name: string;
   logoUrl?: string;
@@ -70,7 +68,6 @@ const props = defineProps<{
 const logoUrl = ref(props.logoUrl);
 
 const { openModal } = useModalHandlers("ModalUploadImageIcon");
-
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
 

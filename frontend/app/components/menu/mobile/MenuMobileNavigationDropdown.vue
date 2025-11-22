@@ -80,15 +80,6 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 
-import type MenuEntry from "~/types/menu/menu-entry";
-
-import { IconMap } from "~/types/icon-map";
-import { SidebarType } from "~/types/sidebar-type";
-import {
-  currentRoutePathIncludes,
-  isCurrentRoutePathSubpageOf,
-} from "~/utils/routeUtils";
-
 const { currentRoute } = useRouter();
 
 const routeName = computed(() => {

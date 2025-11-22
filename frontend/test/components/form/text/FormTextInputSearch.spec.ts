@@ -2,8 +2,7 @@
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
-import FormTextInputSearch from "~/components/form/text/FormTextInputSearch.vue";
-
+import FormTextInputSearch from "../../../../app/components/form/text/FormTextInputSearch.vue";
 import render from "../../../../test/render";
 
 /**
@@ -206,8 +205,8 @@ describe("FormTextInputSearch", () => {
       const input = screen.getByLabelText("Search") as HTMLInputElement;
       expect(input.value).toBe("initial");
 
-      // The component watches modelValue, but testing prop updates via rerender
-      // is complex. Instead, verify the watch logic works by checking initial render.
+      // The component watches modelValue, but testing prop updates via rerender is complex.
+      // Instead, verify the watch logic works by checking initial render.
     });
 
     it("accepts hasError prop (for future implementation)", async () => {

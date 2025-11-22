@@ -1,8 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Topic } from "~/types/content/topics";
-
 import { get } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Map API Response to Type
 

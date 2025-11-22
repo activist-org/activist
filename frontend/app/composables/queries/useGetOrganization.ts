@@ -2,14 +2,6 @@
 // Read a single event with useAsyncData. Store-first, then fetch if missing.
 // After fetch, cache it via store. You can always call refresh() to force refetch.
 
-import type { MaybeRef } from "vue";
-
-import type { Organization } from "~/types/communities/organization";
-import type { AppError } from "~/utils/errorHandler";
-
-import { getOrganization } from "~/services/communities/organization/organization";
-import { useOrganizationStore } from "~/stores/organization";
-
 export const getKeyForGetOrganization = (id: string) => `organization:${id}`;
 
 export function useGetOrganization(id: MaybeRef<string>) {

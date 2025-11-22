@@ -125,25 +125,8 @@
 import draggable from "vuedraggable";
 import { z } from "zod";
 
-export interface SocialLinkItem {
-  link: string;
-  label: string;
-  order: number;
-  id?: string;
-  key?: string;
-  creationDate?: string;
-  lastUpdated?: string;
-  groupId?: string;
-  orgId?: string;
-  eventId?: string;
-}
-
-interface SocialLinkFormData {
-  socialLinks: SocialLinkItem[];
-}
-
 defineProps<{
-  formData: SocialLinkFormData;
+  formData: { socialLinks: SocialLinkFormData[] };
   handleSubmit: (values: unknown) => Promise<void>;
   submitLabel: string;
   title?: string;

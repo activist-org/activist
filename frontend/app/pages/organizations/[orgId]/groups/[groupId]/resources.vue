@@ -73,19 +73,12 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-import type { Resource } from "~/types/content/resource";
-
-import { useGroupResourcesMutations } from "~/composables/mutations/useGroupResourcesMutations";
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
-
 const { openModal } = useModalHandlers("ModalResourceGroup");
 const groupId = (useRoute().params.groupId as string) ?? "";
 
 const { data: group } = useGetGroup(groupId);
 const resourceList = ref<Resource[]>([...(group.value?.resources || [])]);
-const groupTabs = getGroupTabs();
+const groupTabs = useGetGroupTabs();
 const { reorderResources } = useGroupResourcesMutations(groupId);
 const onDragEnd = () => {
   resourceList.value = resourceList.value.map((resource, index) => ({

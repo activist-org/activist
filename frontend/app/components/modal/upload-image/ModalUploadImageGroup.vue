@@ -35,15 +35,6 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-import type {
-  ContentImage,
-  FileUploadMix,
-  UploadableFile,
-} from "~/types/content/file";
-
-import { useGroupImageMutations } from "~/composables/mutations/useGroupImageMutations";
-import { IconMap } from "~/types/icon-map";
-
 interface Props {
   groupId: string;
   uploadLimit?: number;

@@ -2,21 +2,13 @@
 // Organizations service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import type {
-  OrganizationCreateFormData,
-  OrganizationFilters,
-  OrganizationResponse,
-  OrganizationsResponseBody,
-  Organization as OrganizationT,
-} from "~/types/communities/organization";
-
 import { del, get, post } from "~/services/http";
-import { defaultOrganizationText } from "~/types/communities/organization";
-import { errorHandler } from "~/utils/errorHandler";
+type OrganizationPaginatedResponse =
+  globalThis.PaginatedResponse<globalThis.Organization>;
 
 // MARK: Map API Response to Type
 
-export function mapOrganization(res: OrganizationResponse): OrganizationT {
+export function mapOrganization(res: OrganizationResponse): Organization {
   return {
     id: res.id,
     orgName: res.orgName,
@@ -33,13 +25,13 @@ export function mapOrganization(res: OrganizationResponse): OrganizationT {
     events: res.events ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
-    texts: res.texts ?? [defaultOrganizationText],
+    texts: res.texts ?? [],
   };
 }
 
 // MARK: Get by ID
 
-export async function getOrganization(id: string): Promise<OrganizationT> {
+export async function getOrganization(id: string): Promise<Organization> {
   try {
     const res = await get<OrganizationResponse>(
       `/communities/organizations/${id}`,
@@ -54,17 +46,28 @@ export async function getOrganization(id: string): Promise<OrganizationT> {
 // MARK: List All
 
 export async function listOrganizations(
-  filters: OrganizationFilters
-): Promise<OrganizationT[]> {
+  filters: OrganizationFilters & Pagination = { page: 1, page_size: 10 }
+): Promise<OrganizationPaginatedResponse> {
   try {
-    const query = new URLSearchParams(
-      filters as unknown as Record<string, string>
-    );
+    const query = new URLSearchParams();
+    // Handle topics specially: arrays become repeated params (?topics=A&topics=B).
+    const { topics, ...rest } = filters;
+    if (topics) {
+      topics.forEach((t) => {
+        if (!t) return;
+        query.append("topics", String(t));
+      });
+    }
+    // Add the remaining filters as single query params.
+    Object.entries(rest).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+      query.append(key, String(value));
+    });
     const res = await get<OrganizationsResponseBody>(
       `/communities/organizations?${query.toString()}`,
       { withoutAuth: true }
     );
-    return res.results.map(mapOrganization);
+    return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
   }
