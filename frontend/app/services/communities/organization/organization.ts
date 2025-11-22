@@ -3,8 +3,8 @@
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
 import { del, get, post } from "~/services/http";
-// import { errorHandler } from "~/utils/errorHandler";
-// import type { Pagination } from "~/types/http";
+type OrganizationPaginatedResponse =
+  globalThis.PaginatedResponse<globalThis.Organization>;
 
 // MARK: Map API Response to Type
 
@@ -47,7 +47,7 @@ export async function getOrganization(id: string): Promise<Organization> {
 
 export async function listOrganizations(
   filters: OrganizationFilters & Pagination = { page: 1, page_size: 10 }
-): Promise<Organization[]> {
+): Promise<OrganizationPaginatedResponse> {
   try {
     const query = new URLSearchParams();
     // Handle topics specially: arrays become repeated params (?topics=A&topics=B).
@@ -67,7 +67,7 @@ export async function listOrganizations(
       `/communities/organizations?${query.toString()}`,
       { withoutAuth: true }
     );
-    return res.results.map(mapOrganization);
+    return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
   }

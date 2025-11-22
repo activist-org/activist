@@ -28,7 +28,10 @@
       />
       <!-- The bottom sentinel for Intersection Observer. -->
       <div ref="bottomSentinel">
-        <Loading v-if="loadingFetchMore && pending" />
+        <Loading
+          v-if="loadingFetchMore && pending"
+          :loading="loadingFetchMore && pending"
+        />
       </div>
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
@@ -38,8 +41,9 @@
 <script setup lang="ts">
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
-const loadingFetchMore = ref(false);
 const router = useRouter();
+const loadingFetchMore = ref(false);
+
 const filters = computed<EventFilters>(() => {
   const { view, ...rest } = route.query; // omit view
   return rest as unknown as EventFilters;
@@ -83,6 +87,7 @@ const canFetchMore = computed(() => viewType.value === ViewType.LIST);
 const changeFetchMore = () => {
   loadingFetchMore.value = true;
 };
+
 useCustomInfiniteScroll({
   sentinel: bottomSentinel,
   fetchMore: getMore,

@@ -4,7 +4,6 @@
     <Head>
       <Title>{{ $t("i18n.pages.organizations.index.header_title") }}</Title>
     </Head>
-
     <HeaderAppPage
       :header="$t('i18n.pages.organizations.index.header_title')"
       :tagline="$t('i18n.pages.organizations.index.subheader')"
@@ -16,9 +15,10 @@
         />
       </div>
     </HeaderAppPage>
-
-    <Loading v-if="pending && !loadingFetchMore" />
-
+    <Loading
+      v-if="pending && !loadingFetchMore"
+      :loading="pending && !loadingFetchMore"
+    />
     <div v-else-if="showOrganizations">
       <div
         v-for="org in organizations"
@@ -30,28 +30,27 @@
           :organization="org"
         />
       </div>
-
-      <!-- sentinel -->
       <div ref="bottomSentinel">
-        <Loading v-if="loadingFetchMore && pending" />
+        <!-- The bottom sentinel for Intersection Observer. -->
+        <Loading
+          v-if="loadingFetchMore && pending"
+          :loading="loadingFetchMore && pending"
+        />
       </div>
     </div>
-
     <EmptyState v-else pageType="organizations" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { OrganizationFilters } from "~~/shared/types/organization";
-
-import { useGetOrganizations } from "~/composables/queries/useGetOrganizations";
-
 const route = useRoute();
-const filters = computed<OrganizationFilters>(() => {
-  const { view, ...rest } = route.query; // omit view
-  return rest as unknown as OrganizationFilters;
-});
 const router = useRouter();
+const loadingFetchMore = ref(false);
+
+const filters = computed<OrganizationFilters>(() => {
+  // Note: We do not have a view filter for organizations.
+  return route.query as unknown as OrganizationFilters;
+});
 const selectedTopics = ref<TopicEnum[]>([]);
 watch(
   () => route.query.topics,
@@ -75,41 +74,37 @@ const handleSelectedTopicsUpdate = (selectedTopics: TopicEnum[]) => {
   }
   router.replace({ query });
 };
-const loadingFetchMore = ref(false);
+
+watch(
+  filters,
+  () => {
+    // Reset loading more state when filters change.
+    loadingFetchMore.value = false;
+  },
+  { immediate: true, deep: true }
+);
 const { data: organizations, pending, getMore } = useGetOrganizations(filters);
 
 const bottomSentinel = ref<HTMLElement | null>(null);
-let observer: IntersectionObserver | null = null;
+const canFetchMore = ref(true);
+const changeFetchMore = () => {
+  loadingFetchMore.value = true;
+};
+
+useCustomInfiniteScroll({
+  sentinel: bottomSentinel,
+  fetchMore: getMore,
+  canFetchMore,
+  callback: changeFetchMore,
+});
 
 const showOrganizations = computed(() => {
-  return organizations.value.length > 0;
-});
-
-watch(pending, (newVal, oldVal) => {
-  if (oldVal === true && newVal === false) {
-    loadingFetchMore.value = false;
+  if (organizations.value.length > 0) {
+    if (loadingFetchMore.value) {
+      return true;
+    }
+    return !pending.value;
   }
-});
-
-onMounted(async () => {
-  await nextTick();
-  observer = new IntersectionObserver(
-    (entries) => {
-      const entry = entries[0];
-      if (entry && entry.isIntersecting && !pending.value) {
-        loadingFetchMore.value = true;
-        getMore();
-      }
-    },
-    { root: null, rootMargin: "0px", threshold: 0.1 }
-  );
-  if (bottomSentinel.value) observer.observe(bottomSentinel.value);
-});
-
-onUnmounted(() => {
-  if (observer && bottomSentinel.value) {
-    observer.unobserve(bottomSentinel.value);
-    observer.disconnect();
-  }
+  return false;
 });
 </script>

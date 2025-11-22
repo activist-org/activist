@@ -93,9 +93,10 @@ describe("services/communities/organization", () => {
     const [, opts] = getFetchCall(fetchMock);
     expect(opts.headers?.Authorization).toBeUndefined();
 
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe("org-2");
-    expect(result[0].texts).toEqual([]);
+    expect(result.data).toHaveLength(1);
+    expect(result.data[0].id).toBe("org-2");
+    expect(result.data[0].texts).toEqual([]);
+    expect(result.isLastPage).toBe(true);
   });
 
   // MARK: Create
