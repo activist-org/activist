@@ -1,15 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
-import type { MaybeRef } from "vue";
-
-import {
-  createOrganizationResource,
-  deleteOrganizationResource,
-  reorderOrganizationResources,
-  updateOrganizationResource,
-} from "~/services/communities/organization/resource";
-
 import { getKeyForGetOrganization } from "../queries/useGetOrganization";
 
 export function useOrganizationResourcesMutations(

@@ -117,10 +117,6 @@
 </template>
 
 <script setup lang="ts">
-import { useEventResourcesMutations } from "~/composables/mutations/useEventResourcesMutations";
-import { useGroupResourcesMutations } from "~/composables/mutations/useGroupResourcesMutations";
-import { useOrganizationResourcesMutations } from "~/composables/mutations/useOrganizationResourcesMutations";
-
 const props = defineProps<{
   resource: Resource;
   entityType: EntityType;
@@ -132,17 +128,17 @@ const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 
-const groupResourcesMutations = props.entity
-  ? useGroupResourcesMutations(props.entity.id)
-  : null;
+const groupResourcesMutations = useGroupResourcesMutations(
+  props.entity?.id ?? ""
+);
 
-const organizationResourcesMutations = props.entity
-  ? useOrganizationResourcesMutations(props.entity.id)
-  : null;
+const organizationResourcesMutations = useOrganizationResourcesMutations(
+  props.entity?.id ?? ""
+);
 
-const eventResourcesMutations = props.entity
-  ? useEventResourcesMutations(props.entity.id)
-  : null;
+const eventResourcesMutations = useEventResourcesMutations(
+  props.entity?.id ?? ""
+);
 
 const description = computed(() => {
   return props.resource.description || "";
@@ -170,11 +166,11 @@ const openModalEdit = () => {
   useModalHandlers(name).openModal();
 };
 
-// Delete confirmation modal
+// Delete confirmation modal.
 const modalAlertName = `ModalAlertResource${props.resource.id}`;
 const { openModal: openModalDeleteConfirm } = useModalHandlers(modalAlertName);
 
-// Map entity type to delete mutation
+// Map entity type to delete mutation.
 const deleteByEntityType = {
   [EntityType.GROUP]: groupResourcesMutations?.deleteResource,
   [EntityType.ORGANIZATION]: organizationResourcesMutations?.deleteResource,

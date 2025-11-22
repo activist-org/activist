@@ -1,17 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
-import type { MaybeRef } from "vue";
-
-import {
-  createEventResource,
-  deleteEventResource,
-  reorderEventResources,
-  updateEventResource,
-} from "~/services/event/resource";
-
-import { getKeyForGetEvent } from "../queries/useGetEvent";
-
 export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
