@@ -47,7 +47,7 @@ export async function listEvents(
 ): Promise<EventsPaginatedResponse> {
   try {
     const query = new URLSearchParams();
-    // Handle topics specially: arrays become repeated params (?topics=A&topics=B)
+    // Handle topics specially: arrays become repeated params (?topics=A&topics=B).
     const { topics, ...rest } = filters;
     if (topics) {
       topics.forEach((t) => {
@@ -55,7 +55,7 @@ export async function listEvents(
         query.append("topics", String(t));
       });
     }
-    // Add the remaining filters as single query params
+    // Add the remaining filters as single query params.
     Object.entries(rest).forEach(([key, value]) => {
       if (value === undefined || value === null) return;
       query.append(key, String(value));

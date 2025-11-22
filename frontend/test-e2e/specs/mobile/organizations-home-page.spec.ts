@@ -86,15 +86,6 @@ test.describe("Organizations Home Page", { tag: "@mobile" }, () => {
 
     // Reset filter to show all organizations again.
     await organizationsHomePage.comboboxButton.click();
-    // Select "All Topics" option has been commented out as it is not yet implemented or available.
-    // await page
-    //   .getByRole("option", {
-    //     name: new RegExp(
-    //       getEnglishText("i18n.components.combobox_topics.all_topics"),
-    //       "i"
-    //     ),
-    //   })
-    //   .click();
     await expect(page.locator('[data-testid="organization-card"]')).toHaveCount(
       9
     );

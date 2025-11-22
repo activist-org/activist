@@ -1,5 +1,4 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<!-- * NOTE: THIS COMPONENT WILL BE REMOVED AND REPLACED WITH A REFACTORED VERSION USING LISTBOX HEADLESS/UI -->
 <template>
   <div id="topics-dropdown" class="z-10 flex">
     <Combobox v-model="selectedTopics" multiple>
@@ -124,7 +123,7 @@ watch(
   { immediate: true }
 );
 
-// Re-sort options when selectedTopics changes to keep selected items on top
+// Re-sort options when selectedTopics changes to keep selected items on top.
 watch(
   selectedTopics,
   (newVal) => {
@@ -147,7 +146,7 @@ watch(
         return 0;
       }
     });
-    // Emit only the values of the selected topics
+    // Emit only the values of the selected topics.
     emit(
       "update:selectedTopics",
       options.value
