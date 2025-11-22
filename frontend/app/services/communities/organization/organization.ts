@@ -3,7 +3,8 @@
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
 import { del, get, post } from "~/services/http";
-type OrganizationPaginatedResponse = globalThis.PaginatedResponse<globalThis.Organization>
+type OrganizationPaginatedResponse =
+  globalThis.PaginatedResponse<globalThis.Organization>;
 
 // MARK: Map API Response to Type
 

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export const getKeyForGetOrganizations = (filters: OrganizationFilters) =>
-  `organizations-list:${JSON.stringify(filters)}`;
+export const getKeyForGetOrganizations = () => `organizations-list`;
 
 export function useGetOrganizations(
   filters: Ref<OrganizationFilters> | ComputedRef<OrganizationFilters>
@@ -9,10 +8,10 @@ export function useGetOrganizations(
   const page = ref(1);
   const isLastPageRef = ref(false);
   const { showToastError } = useToaster();
-  const orgFilters = computed(() => unref({ ...filters }));
+  const orgFilters = computed(() => unref(filters));
   // Use AsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
-    () => getKeyForGetOrganizations(orgFilters.value),
+    () => getKeyForGetOrganizations(),
     async () => {
       try {
         const { data: organizations, isLastPage } = await listOrganizations({
@@ -28,7 +27,7 @@ export function useGetOrganizations(
         const pageCached = store.getPage();
         isLastPageRef.value = isLastPage;
 
-        // Append new events to cached events if page > 1
+        // Append new events to cached events if page > 1.
         if (
           organizationsCached.length > 0 &&
           JSON.stringify(store.getFilters()) ===
