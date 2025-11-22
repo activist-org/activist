@@ -9,7 +9,10 @@
       :tagline="$t('i18n.pages.events.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <ComboboxTopics />
+        <ComboboxTopics
+          @update:selectedTopics="handleSelectedTopicsUpdate"
+          :receivedSelectedTopics="selectedTopics"
+        />
       </div>
     </HeaderAppPage>
     <Loading
@@ -25,7 +28,10 @@
       />
       <!-- The bottom sentinel for Intersection Observer. -->
       <div ref="bottomSentinel">
-        <Loading v-if="loadingFetchMore && pending" />
+        <Loading
+          v-if="loadingFetchMore && pending"
+          :loading="loadingFetchMore && pending"
+        />
       </div>
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
@@ -35,11 +41,36 @@
 <script setup lang="ts">
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
+const router = useRouter();
 const loadingFetchMore = ref(false);
+
 const filters = computed<EventFilters>(() => {
   const { view, ...rest } = route.query; // omit view
   return rest as unknown as EventFilters;
 });
+const selectedTopics = ref<TopicEnum[]>([]);
+watch(
+  () => route.query.topics,
+  (newVal) => {
+    if (Array.isArray(newVal)) {
+      selectedTopics.value = newVal as TopicEnum[];
+    } else if (typeof newVal === "string") {
+      selectedTopics.value = [newVal as TopicEnum];
+    } else {
+      selectedTopics.value = [];
+    }
+  },
+  { immediate: true }
+);
+const handleSelectedTopicsUpdate = (selectedTopics: TopicEnum[]) => {
+  const query = { ...route.query };
+  if (selectedTopics.length > 0) {
+    query.topics = selectedTopics;
+  } else {
+    delete query.topics;
+  }
+  router.replace({ query });
+};
 
 watch(
   filters,
@@ -56,6 +87,7 @@ const canFetchMore = computed(() => viewType.value === ViewType.LIST);
 const changeFetchMore = () => {
   loadingFetchMore.value = true;
 };
+
 useCustomInfiniteScroll({
   sentinel: bottomSentinel,
   fetchMore: getMore,

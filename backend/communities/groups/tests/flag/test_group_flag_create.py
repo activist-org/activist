@@ -8,31 +8,14 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_create():
+def test_group_flag_create(authenticated_client):
     """
     Test to create a flag for a group.
     """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.save()
+    client, user = authenticated_client
 
     group = GroupFactory()
 
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login.status_code == 200
-
-    login_body = login.json()
-    token = login_body["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/communities/group_flags",
         data={"group": group.id, "created_by": user.id},

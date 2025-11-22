@@ -162,7 +162,6 @@
   "i18n.components.card_topic_selection.subtext_organization": "Please select topics that this organization predominantly works on so the community can more easily find it.",
   "i18n.components.card_topic_selection.subtext_resource": "Please select topics that this resource is related to so the community can more easily find it.",
   "i18n.components.card_topic_selection.view_all_topics": "View all topics",
-  "i18n.components.combobox_topics.all_topics": "All Topics",
   "i18n.components.combobox_topics.filter_by_topic": "Filter by topic",
   "i18n.components.combobox_topics.no_matching_topics": "No matching topics.",
   "i18n.components.combobox_topics.toggle_dropdown": "Toggle dropdown",
