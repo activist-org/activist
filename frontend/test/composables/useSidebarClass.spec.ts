@@ -10,6 +10,7 @@ import { useSidebarClass } from "../../app/composables/useSidebarClass";
 describe("useSidebarClass", () => {
   it("getSidebarContentDynamicClass returns expanded classes when expanded and not scrollable", () => {
     const { getSidebarContentDynamicClass } = useSidebarClass();
+
     const sidebarHover = ref(false);
     const classes = getSidebarContentDynamicClass(false, sidebarHover).value;
 
@@ -35,6 +36,7 @@ describe("useSidebarClass", () => {
       collapsedSwitch: true,
     }));
     const { getSidebarContentDynamicClass } = useSidebarClass();
+
     const sidebarHover = ref(true);
     const classes = getSidebarContentDynamicClass(false, sidebarHover).value;
 
@@ -43,6 +45,7 @@ describe("useSidebarClass", () => {
 
   it("getSidebarFooterDynamicClass returns expected classes for footer", () => {
     const { getSidebarFooterDynamicClass } = useSidebarClass();
+
     const sidebarHover = ref(false);
     const classes = getSidebarFooterDynamicClass(sidebarHover).value;
 
