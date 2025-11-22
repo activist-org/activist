@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
-import type { FaqEntry } from "~/types/content/faq-entry";
-
 import { del, post, put } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Create
 
@@ -61,14 +57,16 @@ export async function reorderEventFaqs(
 ): Promise<void> {
   try {
     await Promise.all(
-      faqs.map(
-        (f) =>
-          put(`/events/event_faqs/${f.id}`, {
+      faqs.map((f) =>
+        put(
+          `/events/event_faqs/${f.id}`,
+          {
             id: f.id,
             order: f.order,
             event: eventId,
-          }),
-        { headers: { "Content-Type": "application/json" } }
+          },
+          { headers: { "Content-Type": "application/json" } }
+        )
       )
     );
   } catch (e) {

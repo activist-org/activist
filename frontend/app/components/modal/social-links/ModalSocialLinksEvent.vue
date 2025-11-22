@@ -10,12 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import type { SocialLink } from "~/types/content/social-link";
-import type { EventSocialLink } from "~/types/events/event";
-
-import { useEventSocialLinksMutations } from "~/composables/mutations/useEventSocialLinksMutations";
-import { useGetEvent } from "~/composables/queries/useGetEvent";
-
 const modalName = "ModalSocialLinksEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 

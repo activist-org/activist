@@ -60,8 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetEvent } from "~/composables/queries/useGetEvent";
-
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const { userIsSignedIn } = useUser();

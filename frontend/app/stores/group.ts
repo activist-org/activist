@@ -1,7 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Group } from "~/types/communities/group";
-import type { ContentImage } from "~/types/content/file";
-
 interface GroupStore {
   group: Group;
   groups: Group[];

@@ -54,7 +54,7 @@ describe("FormTextInputSearch", () => {
       const searchButton = screen.getByRole("button", {
         name: "Search button",
       });
-      // Icon component is mocked in setup.ts, check for img role
+      // Icon component is mocked in setup.ts, check for img role.
       const icon = searchButton.querySelector('[role="img"]');
       expect(icon).toBeDefined();
     });
@@ -98,21 +98,21 @@ describe("FormTextInputSearch", () => {
 
       const input = screen.getByLabelText("Search");
 
-      // Type multiple times quickly
+      // Type multiple times quickly.
       await fireEvent.update(input, "a");
       await fireEvent.update(input, "ab");
       await fireEvent.update(input, "abc");
 
-      // Should not emit immediately
+      // Should not emit immediately.
       expect(emitted("update:modelValue")).toBeUndefined();
 
-      // Advance timers by 300ms
+      // Advance timers by 300ms.
       vi.advanceTimersByTime(300);
 
       await waitFor(() => {
         const emissions = emitted("update:modelValue");
         expect(emissions).toBeDefined();
-        // Should only emit once after debounce
+        // Should only emit once after debounce.
         expect(emissions?.length).toBe(1);
         expect(emissions?.[0]).toEqual(["abc"]);
       });
@@ -129,7 +129,7 @@ describe("FormTextInputSearch", () => {
 
       const input = screen.getByLabelText("Search");
 
-      // Simulate rapid typing
+      // Simulate rapid typing.
       await fireEvent.update(input, "t");
       vi.advanceTimersByTime(100);
 
@@ -141,13 +141,13 @@ describe("FormTextInputSearch", () => {
 
       await fireEvent.update(input, "test");
 
-      // Let debounce complete
+      // Let debounce complete.
       vi.advanceTimersByTime(300);
 
       await waitFor(() => {
         const emissions = emitted("update:modelValue");
         expect(emissions).toBeDefined();
-        // Should only emit the final value after debounce
+        // Should only emit the final value after debounce.
         expect(emissions?.[emissions.length - 1]).toEqual(["test"]);
       });
 
@@ -194,7 +194,7 @@ describe("FormTextInputSearch", () => {
     });
 
     it("updates when modelValue prop changes externally", async () => {
-      // Test that the watch updates localValue when prop changes
+      // Test that the watch updates localValue when prop changes.
       await render(FormTextInputSearch, {
         props: {
           ...defaultProps,
@@ -205,8 +205,8 @@ describe("FormTextInputSearch", () => {
       const input = screen.getByLabelText("Search") as HTMLInputElement;
       expect(input.value).toBe("initial");
 
-      // The component watches modelValue, but testing prop updates via rerender
-      // is complex. Instead, verify the watch logic works by checking initial render.
+      // The component watches modelValue, but testing prop updates via rerender is complex.
+      // Instead, verify the watch logic works by checking initial render.
     });
 
     it("accepts hasError prop (for future implementation)", async () => {
@@ -219,7 +219,7 @@ describe("FormTextInputSearch", () => {
         },
       });
 
-      // Component renders successfully with hasError prop
+      // Component renders successfully with hasError prop.
       const input = screen.getByLabelText("Search");
       expect(input).toBeDefined();
     });
@@ -296,7 +296,7 @@ describe("FormTextInputSearch", () => {
         name: "Search button",
       });
       expect(searchButton.getAttribute("type")).toBe("button");
-      // Button should be focusable (not disabled)
+      // Button should be focusable (not disabled).
       expect(searchButton.hasAttribute("disabled")).toBe(false);
     });
   });
@@ -307,14 +307,14 @@ describe("FormTextInputSearch", () => {
         props: defaultProps,
       });
 
-      // Search icon should be on the left based on component implementation
+      // Search icon should be on the left based on component implementation.
       const input = screen.getByRole("textbox");
 
-      // Verify the label positioning for left icon location
+      // Verify the label positioning for left icon location.
       const container = input.closest(".primary-text");
       expect(container).toBeDefined();
 
-      // Check that icon button is present before input
+      // Check that icon button is present before input.
       const searchButton = screen.getByRole("button", {
         name: "Search button",
       });
@@ -479,11 +479,11 @@ describe("FormTextInputSearch", () => {
         props: defaultProps,
       });
 
-      // Should have characteristics of FormTextInput
+      // Should have characteristics of FormTextInput.
       const input = screen.getByRole("textbox");
       expect(input).toBeDefined();
 
-      // Check for label by using getByLabelText instead of getByText
+      // Check for label by using getByLabelText instead of getByText.
       const labeledInput = screen.getByLabelText("Search");
       expect(labeledInput).toBeDefined();
     });
@@ -512,11 +512,11 @@ describe("FormTextInputSearch", () => {
       const input = screen.getByLabelText("Search") as HTMLInputElement;
 
       await fireEvent.update(input, "typing");
-      // Immediately check value without waiting for debounce
+      // Immediately check value without waiting for debounce.
       expect(input.value).toBe("typing");
 
-      // But event should not have emitted yet
-      vi.advanceTimersByTime(100); // Less than debounce time
+      // But event should not have emitted yet.
+      vi.advanceTimersByTime(100); // less than debounce time
 
       await fireEvent.update(input, "typing more");
       expect(input.value).toBe("typing more");
@@ -525,7 +525,7 @@ describe("FormTextInputSearch", () => {
     });
 
     it("maintains initial value across component lifecycle", async () => {
-      // Tests that initial modelValue is set correctly and persists
+      // Tests that initial modelValue is set correctly and persists.
       await render(FormTextInputSearch, {
         props: {
           ...defaultProps,
@@ -536,7 +536,7 @@ describe("FormTextInputSearch", () => {
       const input = screen.getByLabelText("Search") as HTMLInputElement;
       expect(input.value).toBe("initial value");
 
-      // Verify value persists through focus/blur
+      // Verify value persists through focus/blur.
       await fireEvent.focus(input);
       expect(input.value).toBe("initial value");
 

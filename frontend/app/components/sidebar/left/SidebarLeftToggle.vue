@@ -15,8 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 defineProps<{
   chevronDirection: "left" | "right";
   iconSize: string;

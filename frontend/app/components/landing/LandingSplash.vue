@@ -60,7 +60,6 @@
 
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
-
 const devMode = useDevMode();
 devMode.check();
 </script>

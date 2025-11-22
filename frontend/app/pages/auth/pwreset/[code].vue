@@ -109,7 +109,6 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import { IconMap } from "~/types/icon-map";
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
 

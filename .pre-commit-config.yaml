@@ -2,15 +2,14 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      # - id: trailing-whitespace  # handled by Ruff and Prettier
+      - id: trailing-whitespace
       - id: end-of-file-fixer
         exclude: ^docs/|README.md$
       - id: check-yaml
       - id: check-added-large-files
-      # - id: pretty-format-json
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.1
+    rev: v0.14.5
     hooks:
       - id: ruff-check
         name: run ruff linting check
@@ -21,15 +20,6 @@ repos:
         name: run ruff formatting check
         files: ^backend/
 
-  - repo: https://github.com/to-sta/spdx-checker-pre-commit
-    rev: 0.1.3
-    hooks:
-      - id: spdx-license-checker
-        name: run spdx-checker license check
-        exclude: ^(?:.*/)?__init__\.py$
-        args: [-l, AGPL-3.0-or-later]
-        types_or: [python, ts, javascript, vue, css, html]
-
   - repo: https://github.com/numpy/numpydoc
     rev: v1.9.0
     hooks:
@@ -37,6 +27,15 @@ repos:
         name: run numpydoc docstring validation
         files: ^backend/
         exclude: ^backend/(.*/?(tests(/.*)?|views\.py|__init__\.py))$
+
+  - repo: https://github.com/to-sta/spdx-checker-pre-commit
+    rev: 0.1.5
+    hooks:
+      - id: spdx-license-checker
+        name: run spdx-checker license check
+        exclude: ^(?:.*/)?__init__\.py$
+        args: [-l, AGPL-3.0-or-later]
+        types_or: [python, ts, javascript, vue, css, html]
 
   - repo: local
     hooks:
@@ -48,8 +47,13 @@ repos:
         types: [python]
         pass_filenames: false
 
-  - repo: local
-    hooks:
+      - id: prettier-eslint-checks
+        name: run prettier and eslint checks
+        files: ^frontend/
+        entry: python -m pre_commit_scripts.prettier_eslint_checks
+        language: python
+        pass_filenames: false
+
       - id: run-i18n-check
         name: run i18n-check key-value checks
         files: ^frontend/
@@ -58,10 +62,3 @@ repos:
         pass_filenames: false
         additional_dependencies:
           - i18n-check
-
-      - id: prettier-eslint-checks
-        name: run prettier and eslint checks
-        files: ^frontend/
-        entry: python -m pre_commit_scripts.prettier_eslint_checks
-        language: python
-        pass_filenames: false

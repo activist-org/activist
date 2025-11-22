@@ -22,7 +22,8 @@
     "test:clean": "rm -rf ./test-results/user-data && cross-env TEST_ENV=local playwright test",
     "typecheck": "nuxi typecheck",
     "format": "yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "restart:types": "rm -rf .nuxt && rm -rf node_modules && yarn install"
   },
   "devDependencies": {
     "@headlessui/vue": "1.7.23",
@@ -53,6 +54,7 @@
     "eslint-plugin-vue": "10.5.0",
     "eslint-plugin-vuejs-accessibility": "2.4.1",
     "happy-dom": "16.8.1",
+    "kill-port": "2.0.1",
     "lint-staged": "16.1.0",
     "next-auth": "~4.21.1",
     "nuxt": "4.1.2",

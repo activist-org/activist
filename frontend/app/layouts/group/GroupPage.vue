@@ -37,14 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-import { useGetGroupImages } from "~/composables/queries/useGetGroupImages";
-import { EntityType } from "~/types/entity";
-import {
-  getSidebarContentDynamicClass,
-  getSidebarFooterDynamicClass,
-} from "~/utils/sidebarUtils";
-
 const aboveMediumBP = useBreakpoint("md");
 
 const paramsGroupId = useRoute().params.groupId;
@@ -65,7 +57,8 @@ const handleUploadComplete = () => {
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
-
+const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
+  useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
   sidebarContentScrollable.value,
   sidebarHover

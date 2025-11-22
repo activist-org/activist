@@ -86,14 +86,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-import type { EntityType } from "~/types/entity";
-
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import { useGetOrganizationImages } from "~/composables/queries/useGetOrganizationImages";
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
-
 const { data: organization } = useGetOrganization(
   (useRoute().params.orgId as string) ?? ""
 );

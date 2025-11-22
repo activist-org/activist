@@ -2,69 +2,33 @@
 from uuid import uuid4
 
 import pytest
-from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import OrganizationFlagFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_retrieve():
+def test_org_flag_retrieve(authenticated_client):
     """
     Test to retrieve a flag of an organization.
     """
-    client = APIClient()
+    client, user = authenticated_client
 
     flag = OrganizationFlagFactory()
 
-    test_username = "username"
-    test_password = "password"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-    assert login.status_code == 200
-    login_body = login.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.get(path=f"/v1/communities/organization_flags/{flag.id}")
 
     assert response.status_code == 200
 
 
-def test_org_flag_retrieve_does_not_exist():
+def test_org_flag_retrieve_does_not_exist(authenticated_client):
     """
     Test to retrieve a flag of an organization.
     """
-    client = APIClient()
+    client, user = authenticated_client
 
     flag = uuid4()
 
-    test_username = "username"
-    test_password = "password"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-    assert login.status_code == 200
-
-    login_body = login.json()
-    token = login_body["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.get(path=f"/v1/communities/organization_flags/{flag}")
     response_body = response.json()
 

@@ -62,12 +62,6 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-import type { Resource } from "~/types/content/resource";
-
-import { useEventResourcesMutations } from "~/composables/mutations/useEventResourcesMutations";
-import { useGetEvent } from "~/composables/queries/useGetEvent";
-import { EntityType } from "~/types/entity";
-
 const route = useRoute();
 const eventId = (route.params.eventId as string) ?? "";
 

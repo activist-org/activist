@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 export interface Props {
   type?: "default" | "action" | "learn";
   progress: number;

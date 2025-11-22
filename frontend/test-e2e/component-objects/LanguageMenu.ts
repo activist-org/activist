@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 
-import { getEnglishText } from "~/utils/i18n";
-import { LOCALE_CODE } from "~/utils/locales";
+import { getEnglishText } from "#shared/utils/i18n";
+import { LOCALE_CODE } from "#shared/utils/locales";
 
 const getMenuLocator = (parent: Page | Locator) =>
   parent.locator(".dropdown-language").getByRole("menu");

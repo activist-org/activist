@@ -29,8 +29,6 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
 
-import useFormInput from "~/composables/useFormSetup";
-
 export interface Props {
   label?: string;
   modelValue?: boolean;
@@ -45,7 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(["update:modelValue"]);
-const { updateValue } = useFormInput(props, emit);
+const { updateValue } = useFormSetup(props, emit);
 const uuid = uuidv4();
 const customColorClass =
   props.customColor !== ""

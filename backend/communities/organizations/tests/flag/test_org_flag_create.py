@@ -8,32 +8,14 @@ from communities.organizations.factories import OrganizationFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_create():
+def test_org_flag_create(authenticated_client):
     """
     Test to create a flag for an organization.
     """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_pass = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_pass)
-    user.is_confirmed = True
-    user.verified = True
-    user.save()
+    client, user = authenticated_client
 
     org = OrganizationFactory()
 
-    # Login to get token.
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_pass},
-    )
-
-    assert login.status_code == 200
-
-    login_body = login.json()
-    token = login_body["access"]
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/communities/organization_flags",
         data={"created_by": user.id, "org": org.id},

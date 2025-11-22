@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { mount } from "@vue/test-utils";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import IconEdit from "~/components/icon/IconEdit.vue";
+import IconEdit from "../../../app/components/icon/IconEdit.vue";
 
 describe("Tests for IconEdit", () => {
   const entityMock = { id: 1, name: "test-entity", createdBy: 1 };
