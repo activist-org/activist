@@ -155,7 +155,6 @@
   "i18n.components.card_topic_selection.subtext_organization": "يرجى اختيار المواضيع التي تركز عليها هذه المنظمة ليسهل على المجتمع العثور عليها.",
   "i18n.components.card_topic_selection.subtext_resource": "يرجى اختيار المواضيع المرتبطة بهذا المورد ليسهل على المجتمع العثور عليه.",
   "i18n.components.card_topic_selection.view_all_topics": "عرض جميع المواضيع",
-  "i18n.components.combobox_topics.all_topics": "جميع المواضيع",
   "i18n.components.combobox_topics.filter_by_topic": "تصفية حسب الموضوع",
   "i18n.components.combobox_topics.no_matching_topics": "لا توجد مواضيع مطابقة.",
   "i18n.components.combobox_topics.toggle_dropdown": "تبديل القائمة المنسدلة",
