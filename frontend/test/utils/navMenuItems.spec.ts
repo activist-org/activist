@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { menuItems } from "../../app/constants/navMenuItems";
 
 describe("utils/navMenuItems", () => {
-  // MARK: - Menu Structure
+  // MARK: Menu Structure
 
   it("defines three top-level nav items with labels, routes, and icons", () => {
     expect(menuItems).toHaveLength(3);

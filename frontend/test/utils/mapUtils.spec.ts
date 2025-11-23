@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { ColorByEventType } from "../../shared/types/color";
 import { colorByType } from "../../shared/utils/mapUtils";
 
 describe("utils/mapUtils", () => {
-  // MARK: - Color Mapping
+  // MARK: Color Mapping
 
   it("maps event types to color enum", () => {
     expect(colorByType.learn).toBe(ColorByEventType.LEARN);
@@ -20,7 +20,7 @@ describe("utils/mapUtils", () => {
     expect(colorByType.action).toBe("#BA3D3B");
   });
 
-  // MARK: - Structure Validation
+  // MARK: Structure Validation
 
   it("exports exactly two event type mappings", () => {
     const keys = Object.keys(colorByType);

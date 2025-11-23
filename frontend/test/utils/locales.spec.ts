@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import locales, { LOCALE_CODE, LOCALE_NAME } from "../../shared/utils/locales";
 
 describe("utils/locales", () => {
-  // MARK: - Locale Codes and Names
+  // MARK: Locale Codes and Names
 
   it("exports expected locale codes and names", () => {
     const codes = locales.map((l) => l.code);
@@ -22,7 +22,7 @@ describe("utils/locales", () => {
     );
   });
 
-  // MARK: - Translation Files
+  // MARK: Translation Files
 
   it("has translation files assigned", () => {
     for (const l of locales) {

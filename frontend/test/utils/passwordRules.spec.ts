@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { passwordRules } from "../../app/constants/passwordRules";
 
 describe("utils/passwordRules", () => {
-  // MARK: - Structure
+  // MARK: Structure
 
   it("exports five default rules in correct order", () => {
     expect(Array.isArray(passwordRules)).toBe(true);
@@ -24,7 +24,7 @@ describe("utils/passwordRules", () => {
     }
   });
 
-  // MARK: - Validation
+  // MARK: Validation
 
   it("each rule has required properties", () => {
     for (const rule of passwordRules) {

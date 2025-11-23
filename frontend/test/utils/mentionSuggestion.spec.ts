@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Component } from "vue";
 
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { useMentionSuggestion } from "../../app/composables/useMentionSuggestions";
 
 describe("utils/mentionSuggestion", () => {
-  // MARK: - Query Filtering
+  // MARK: Query Filtering
 
   // Mock component for useMentionSuggestion
 

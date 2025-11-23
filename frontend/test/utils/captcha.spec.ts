@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { FRIENDLY_CAPTCHA_KEY } from "../../app/constants/baseUrls";
 
 describe("utils/captcha", () => {
-  // MARK: - Environment Variable
+  // MARK: Environment Variable
 
   it("exposes FRIENDLY_CAPTCHA_KEY as string or undefined from env", () => {
     if (FRIENDLY_CAPTCHA_KEY !== undefined) {
@@ -14,7 +14,7 @@ describe("utils/captcha", () => {
     }
   });
 
-  // MARK: - Validation
+  // MARK: Validation
 
   it("FRIENDLY_CAPTCHA_KEY is non-empty string when defined", () => {
     if (FRIENDLY_CAPTCHA_KEY !== undefined) {

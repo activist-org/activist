@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 type Ref<T> = { value: T };
 type SidebarState = { collapsed: boolean; collapsedSwitch: boolean };
@@ -7,7 +7,7 @@ type SidebarState = { collapsed: boolean; collapsedSwitch: boolean };
 type MaybeRefBool = boolean | { value: boolean } | undefined | null;
 
 describe("utils/sidebarUtils", () => {
-  // MARK: - Content and Footer Classes
+  // MARK: Content and Footer Classes
 
   it("content/footer classes for expanded sidebar with scroll", async () => {
     vi.resetModules();

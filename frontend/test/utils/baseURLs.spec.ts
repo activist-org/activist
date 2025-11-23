@@ -10,7 +10,7 @@ import {
 } from "../../app/constants/baseUrls";
 
 describe("utils/baseURLs", () => {
-  // MARK: - Fixed Constants
+  // MARK: Fixed Constants
 
   it("exports fixed constants for activist and request access", () => {
     expect(ACTIVIST_URL).toBe("https://activist.org");
@@ -19,7 +19,7 @@ describe("utils/baseURLs", () => {
     );
   });
 
-  // MARK: - Environment Variables
+  // MARK: Environment Variables
 
   it("exposes environment-derived URLs as strings or undefined", () => {
     // In test, these may be undefined depending on Vite env; only assert type surface.
