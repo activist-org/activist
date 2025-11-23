@@ -54,6 +54,15 @@ function createDefaultMock(): () => Record<string, unknown> {
 }
 
 /**
+ * Composables that should NOT be auto-mocked because they're required by the Nuxt test framework.
+ * These composables are used by @nuxt/test-utils to initialize the test environment.
+ */
+const EXCLUDED_COMPOSABLES = new Set([
+  "useNuxtApp", // Required by Nuxt test framework for initialization
+  "tryUseNuxtApp", // Required by Nuxt test framework
+]);
+
+/**
  * Sets up default mocks for all auto-imported composables that don't already have mocks
  * This should be called in test/setup.ts AFTER custom mocks are set up,
  * so custom mocks take precedence over defaults
@@ -72,6 +81,10 @@ export function setupAutoImportMocks(): void {
     const composables = extractComposableNames(importsContent);
     // Create default mocks for all composables that aren't already mocked
     for (const composable of composables) {
+      // Skip composables that are required by the test framework
+      if (EXCLUDED_COMPOSABLES.has(composable)) {
+        continue;
+      }
       // Only create a default mock if one doesn't already exist
       // This allows custom mocks in setup.ts to override the defaults
       if (!(composable in globalThis)) {
