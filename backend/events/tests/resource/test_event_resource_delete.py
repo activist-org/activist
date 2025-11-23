@@ -8,7 +8,7 @@ from events.factories import EventFactory, EventResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_resource_delete_200():
+def test_event_resource_delete_200(authenticated_client):
     """
     Test successful deletion of an event resource by the event owner.
     """
@@ -44,7 +44,7 @@ def test_event_resource_delete_200():
     assert response.status_code == 204
 
 
-def test_event_resource_delete_403():
+def test_event_resource_delete_403(authenticated_client):
     """
     Test that non-owner cannot delete an event resource.
     """
@@ -89,34 +89,13 @@ def test_event_resource_delete_403():
     assert response.status_code == 204
 
 
-def test_event_resource_delete_404():
+def test_event_resource_delete_404(authenticated_client):
     """
     Test deletion of non-existent event resource returns 404.
     """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    UserFactory(
-        username=test_username,
-        plaintext_password=test_password,
-        is_confirmed=True,
-        verified=True,
-    )
-
-    # Login to get token
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    login_body = login_response.json()
-    token = login_body["access"]
+    client, _ = authenticated_client
 
     # Try to delete non-existent resource
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = client.delete(path=f"/v1/events/event_resources/{fake_uuid}")
 
@@ -129,7 +108,7 @@ def test_event_resource_delete_staff_200():
     """
     client = APIClient()
 
-    # Create owner user
+    # Create owner user.
     owner_user = UserFactory(
         username="owner",
         plaintext_password="owner_pass",
@@ -137,7 +116,7 @@ def test_event_resource_delete_staff_200():
         verified=True,
     )
 
-    # Create staff user
+    # Create staff user.
     test_username = "staff_user"
     test_password = "staff_pass"
     UserFactory(
@@ -151,7 +130,7 @@ def test_event_resource_delete_staff_200():
     event = EventFactory(created_by=owner_user)
     resource = EventResourceFactory(created_by=owner_user, event=event)
 
-    # Login as staff
+    # Login as staff.
     login_response = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
@@ -162,7 +141,7 @@ def test_event_resource_delete_staff_200():
     login_body = login_response.json()
     token = login_body["access"]
 
-    # Delete the resource as staff
+    # Delete the resource as staff.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
 

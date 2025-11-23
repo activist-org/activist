@@ -19,8 +19,8 @@ def test_event_resource_retrieve_200():
     resource = EventResourceFactory(created_by=user, event=event)
 
     response = client.get(path=f"/v1/events/event_resources/{resource.id}")
-
     assert response.status_code == 200
+
     response_body = response.json()
     assert response_body["id"] == str(resource.id)
     assert response_body["name"] == resource.name

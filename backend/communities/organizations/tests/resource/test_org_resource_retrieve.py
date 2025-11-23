@@ -22,8 +22,8 @@ def test_org_resource_retrieve_200():
     resource = OrganizationResourceFactory(created_by=user, org=org)
 
     response = client.get(path=f"/v1/communities/organization_resources/{resource.id}")
-
     assert response.status_code == 200
+
     response_body = response.json()
     assert response_body["id"] == str(resource.id)
     assert response_body["name"] == resource.name

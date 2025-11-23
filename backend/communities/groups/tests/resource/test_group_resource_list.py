@@ -17,12 +17,12 @@ def test_group_resource_list():
     user = UserFactory()
     group = GroupFactory(created_by=user)
 
-    # Create multiple resources
+    # Create multiple resources.
     GroupResourceFactory.create_batch(3, group=group, created_by=user)
 
     response = client.get(path="/v1/communities/group_resources")
-
     assert response.status_code == 200
+
     response_body = response.json()
     assert len(response_body) >= 3
 
@@ -37,7 +37,8 @@ def test_group_resource_list_empty():
 
     assert response.status_code == 200
     response_body = response.json()
-    # API returns paginated response
+
+    # API returns paginated response.
     assert "results" in response_body
     assert response_body["count"] == 0
     assert response_body["results"] == []

@@ -19,8 +19,8 @@ def test_group_resource_retrieve_200():
     resource = GroupResourceFactory(created_by=user, group=group)
 
     response = client.get(path=f"/v1/communities/group_resources/{resource.id}")
-
     assert response.status_code == 200
+
     response_body = response.json()
     assert response_body["id"] == str(resource.id)
     assert response_body["name"] == resource.name

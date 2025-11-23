@@ -20,12 +20,12 @@ def test_org_resource_list():
     user = UserFactory()
     org = OrganizationFactory(created_by=user)
 
-    # Create multiple resources
+    # Create multiple resources.
     OrganizationResourceFactory.create_batch(3, org=org, created_by=user)
 
     response = client.get(path="/v1/communities/organization_resources")
-
     assert response.status_code == 200
+
     response_body = response.json()
     assert len(response_body) >= 3
 
@@ -37,8 +37,9 @@ def test_org_resource_list_empty():
     client = APIClient()
 
     response = client.get(path="/v1/communities/organization_resources")
-
     assert response.status_code == 200
+
+    # API returns paginated response.
     response_body = response.json()
     assert isinstance(response_body, dict)
     assert response_body["count"] == 0

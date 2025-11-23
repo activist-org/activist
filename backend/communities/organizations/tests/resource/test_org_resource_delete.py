@@ -11,37 +11,16 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_org_resource_delete_200():
+def test_org_resource_delete_200(authenticated_client):
     """
     Test successful deletion of an organization resource by the organization owner.
     """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(
-        username=test_username,
-        plaintext_password=test_password,
-        is_confirmed=True,
-        verified=True,
-    )
+    client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)
     resource = OrganizationResourceFactory(created_by=user, org=org)
 
-    # Login to get token
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    login_body = login_response.json()
-    token = login_body["access"]
-
-    # Delete the resource as the owner
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    # Delete the resource as the owner.
     response = client.delete(
         path=f"/v1/communities/organization_resources/{resource.id}"
     )
@@ -49,7 +28,7 @@ def test_org_resource_delete_200():
     assert response.status_code == 204
 
 
-def test_org_resource_delete_403():
+def test_org_resource_delete_403(authenticated_client):
     """
     Test that non-owner cannot delete an organization resource.
     """
@@ -96,34 +75,13 @@ def test_org_resource_delete_403():
     assert response.status_code == 204
 
 
-def test_org_resource_delete_404():
+def test_org_resource_delete_404(authenticated_client):
     """
     Test deletion of non-existent organization resource returns 404.
     """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    UserFactory(
-        username=test_username,
-        plaintext_password=test_password,
-        is_confirmed=True,
-        verified=True,
-    )
-
-    # Login to get token
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    login_body = login_response.json()
-    token = login_body["access"]
+    client, _ = authenticated_client
 
     # Try to delete non-existent resource
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = client.delete(path=f"/v1/communities/organization_resources/{fake_uuid}")
 
@@ -136,7 +94,7 @@ def test_org_resource_delete_staff_200():
     """
     client = APIClient()
 
-    # Create owner user
+    # Create owner user.
     owner_user = UserFactory(
         username="owner",
         plaintext_password="owner_pass",
@@ -144,7 +102,7 @@ def test_org_resource_delete_staff_200():
         verified=True,
     )
 
-    # Create staff user
+    # Create staff user.
     test_username = "staff_user"
     test_password = "staff_pass"
     UserFactory(
@@ -158,7 +116,7 @@ def test_org_resource_delete_staff_200():
     org = OrganizationFactory(created_by=owner_user)
     resource = OrganizationResourceFactory(created_by=owner_user, org=org)
 
-    # Login as staff
+    # Login as staff.
     login_response = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
@@ -169,7 +127,7 @@ def test_org_resource_delete_staff_200():
     login_body = login_response.json()
     token = login_body["access"]
 
-    # Delete the resource as staff
+    # Delete the resource as staff.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(
         path=f"/v1/communities/organization_resources/{resource.id}"
