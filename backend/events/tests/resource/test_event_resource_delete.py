@@ -12,33 +12,12 @@ def test_event_resource_delete_200(authenticated_client):
     """
     Test successful deletion of an event resource by the event owner.
     """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(
-        username=test_username,
-        plaintext_password=test_password,
-        is_confirmed=True,
-        verified=True,
-    )
+    client, user = authenticated_client
 
     event = EventFactory(created_by=user)
     resource = EventResourceFactory(created_by=user, event=event)
 
-    # Login to get token
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    login_body = login_response.json()
-    token = login_body["access"]
-
     # Delete the resource as the owner
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
 
     assert response.status_code == 204
@@ -50,7 +29,7 @@ def test_event_resource_delete_403(authenticated_client):
     """
     client = APIClient()
 
-    # Create owner user
+    # Create owner user.
     owner_user = UserFactory(
         username="owner",
         plaintext_password="owner_pass",
@@ -58,7 +37,7 @@ def test_event_resource_delete_403(authenticated_client):
         verified=True,
     )
 
-    # Create non-owner user
+    # Create non-owner user.
     test_username = "test_user"
     test_password = "test_pass"
     UserFactory(
@@ -71,7 +50,7 @@ def test_event_resource_delete_403(authenticated_client):
     event = EventFactory(created_by=owner_user)
     resource = EventResourceFactory(created_by=owner_user, event=event)
 
-    # Login as non-owner
+    # Login as non-owner.
     login_response = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
@@ -82,7 +61,7 @@ def test_event_resource_delete_403(authenticated_client):
     login_body = login_response.json()
     token = login_body["access"]
 
-    # Try to delete the resource as non-owner
+    # Try to delete the resource as non-owner.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
 
@@ -95,7 +74,7 @@ def test_event_resource_delete_404(authenticated_client):
     """
     client, _ = authenticated_client
 
-    # Try to delete non-existent resource
+    # Try to delete non-existent resource.
     fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = client.delete(path=f"/v1/events/event_resources/{fake_uuid}")
 

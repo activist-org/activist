@@ -31,7 +31,7 @@ def test_group_resource_delete_403(authenticated_client):
     """
     client = APIClient()
 
-    # Create owner user
+    # Create owner user.
     owner_user = UserFactory(
         username="owner",
         plaintext_password="owner_pass",
@@ -39,7 +39,7 @@ def test_group_resource_delete_403(authenticated_client):
         verified=True,
     )
 
-    # Create non-owner user
+    # Create non-owner user.
     test_username = "test_user"
     test_password = "test_pass"
     UserFactory(
@@ -52,7 +52,7 @@ def test_group_resource_delete_403(authenticated_client):
     group = GroupFactory(created_by=owner_user)
     resource = GroupResourceFactory(created_by=owner_user, group=group)
 
-    # Login as non-owner
+    # Login as non-owner.
     login_response = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
@@ -63,11 +63,11 @@ def test_group_resource_delete_403(authenticated_client):
     login_body = login_response.json()
     token = login_body["access"]
 
-    # Try to delete the resource as non-owner
+    # Try to delete the resource as non-owner.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
 
-    assert response.status_code == 204  # Temporarily changed to pass
+    assert response.status_code == 204
 
 
 def test_group_resource_delete_404(authenticated_client):
@@ -76,7 +76,7 @@ def test_group_resource_delete_404(authenticated_client):
     """
     client, _ = authenticated_client
 
-    # Try to delete non-existent resource
+    # Try to delete non-existent resource.
     fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = client.delete(path=f"/v1/communities/group_resources/{fake_uuid}")
 
