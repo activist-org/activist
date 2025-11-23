@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
+import { getKeyForGetOrganization } from "../queries/useGetOrganization";
+
 export function useOrganizationResourcesMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -60,6 +62,26 @@ export function useOrganizationResourcesMutations(
     }
   }
 
+  // Delete existing resource.
+  async function deleteResource(resourceId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteOrganizationResource(resourceId);
+
+      // Invalidate cache and refetch fresh data.
+      await refreshOrganizationData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Reorder multiple resource entries.
   async function reorderResources(resources: Resource[]) {
     loading.value = true;
@@ -99,6 +121,7 @@ export function useOrganizationResourcesMutations(
     error: readonly(error),
     createResource,
     updateResource,
+    deleteResource,
     reorderResources,
     refreshOrganizationData,
   };

@@ -55,6 +55,26 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     }
   }
 
+  // Delete existing resource.
+  async function deleteResource(resourceId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteGroupResource(resourceId);
+
+      // Invalidate cache and refetch fresh data.
+      await refreshGroupData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Reorder multiple resource entries.
   async function reorderResources(resources: Resource[]) {
     loading.value = true;
@@ -89,6 +109,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     error: readonly(error),
     createResource,
     updateResource,
+    deleteResource,
     reorderResources,
     refreshGroupData,
   };

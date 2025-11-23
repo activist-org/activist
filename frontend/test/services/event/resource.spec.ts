@@ -95,6 +95,25 @@ describe("services/event/resource", () => {
     });
   });
 
+  // MARK: Delete
+
+  it("deleteEventResource() calls DELETE endpoint", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await deleteEventResource("resource-123");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(fetchMock, 0);
+    expect(url).toContain("/events/event_resources/resource-123");
+    expect(opts.method).toBe("DELETE");
+  });
+
+  it("deleteEventResource() handles successful deletion", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await expect(deleteEventResource("resource-456")).resolves.toBeUndefined();
+  });
+
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {

@@ -83,11 +83,18 @@
         {{ description }}
       </p>
     </div>
-    <IconEdit
-      @click.stop="openModalEdit()"
-      @keydown.enter="openModalEdit()"
-      :entity="entity"
-    />
+    <div class="flex items-center space-x-2">
+      <IconEdit
+        @click.stop="openModalEdit()"
+        @keydown.enter="openModalEdit()"
+        :entity="entity"
+      />
+      <IconDelete
+        @click.stop="openModalDeleteConfirm()"
+        @keydown.enter="openModalDeleteConfirm()"
+        :entity="entity"
+      />
+    </div>
     <ModalResourceGroup
       v-if="EntityType.GROUP === entityType"
       :resource="resource"
@@ -99,6 +106,12 @@
     <ModalResourceOrganization
       v-if="EntityType.ORGANIZATION === entityType"
       :resource="resource"
+    />
+    <ModalAlert
+      :confirmBtnLabel="'i18n.components.card_resource.confirm_delete'"
+      :message="'i18n.components.card_resource.confirm_delete_message'"
+      :name="modalAlertName"
+      :onConfirmation="handleDeleteResource"
     />
   </div>
 </template>
@@ -114,6 +127,18 @@ const props = defineProps<{
 const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
+
+const groupResourcesMutations = useGroupResourcesMutations(
+  props.entity?.id ?? ""
+);
+
+const organizationResourcesMutations = useOrganizationResourcesMutations(
+  props.entity?.id ?? ""
+);
+
+const eventResourcesMutations = useEventResourcesMutations(
+  props.entity?.id ?? ""
+);
 
 const description = computed(() => {
   return props.resource.description || "";
@@ -139,5 +164,23 @@ const dragIconSizeClass = computed(() => ({
 const openModalEdit = () => {
   const name = `ModalResource${props.entityType.charAt(0).toUpperCase() + props.entityType.slice(1)}${props.resource.id}`;
   useModalHandlers(name).openModal();
+};
+
+// Delete confirmation modal.
+const modalAlertName = `ModalAlertResource${props.resource.id}`;
+const { openModal: openModalDeleteConfirm } = useModalHandlers(modalAlertName);
+
+// Map entity type to delete mutation.
+const deleteByEntityType = {
+  [EntityType.GROUP]: groupResourcesMutations?.deleteResource,
+  [EntityType.ORGANIZATION]: organizationResourcesMutations?.deleteResource,
+  [EntityType.EVENT]: eventResourcesMutations?.deleteResource,
+};
+
+const handleDeleteResource = async () => {
+  const deleteResource = deleteByEntityType[props.entityType];
+  if (deleteResource && props.resource.id) {
+    await deleteResource(props.resource.id);
+  }
 };
 </script>
