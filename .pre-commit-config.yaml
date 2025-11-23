@@ -29,7 +29,7 @@ repos:
         exclude: ^backend/(.*/?(tests(/.*)?|views\.py|__init__\.py))$
 
   - repo: https://github.com/to-sta/spdx-checker-pre-commit
-    rev: 0.1.3
+    rev: 0.1.5
     hooks:
       - id: spdx-license-checker
         name: run spdx-checker license check

@@ -154,7 +154,6 @@
   "i18n.components.card_topic_selection.subtext_organization": "Por favor, selecione tópicos em que esta organização predominantemente trabalha para que a comunidade possa encontrá-la mais facilmente.",
   "i18n.components.card_topic_selection.subtext_resource": "Por favor, selecione tópicos a que este recurso está relacionado para que a comunidade possa encontrá-lo mais facilmente.",
   "i18n.components.card_topic_selection.view_all_topics": "Ver todos os tópicos",
-  "i18n.components.combobox_topics.all_topics": "Todos os Tópicos",
   "i18n.components.combobox_topics.filter_by_topic": "Filtrar por tópico",
   "i18n.components.combobox_topics.no_matching_topics": "Nenhum tópico correspondente.",
   "i18n.components.combobox_topics.toggle_dropdown": "Alternar lista suspensa",

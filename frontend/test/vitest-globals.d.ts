@@ -70,6 +70,12 @@ declare global {
 
   const useColorMode: () => ReturnType<typeof useColorModeMock>;
 
+  const useSidebarMock: Mock<
+    () => { collapsed: boolean; collapsedSwitch: boolean }
+  >;
+
+  const useSidebar: () => ReturnType<typeof useSidebarMock>;
+
   const useDevMode: () => { active: { value: boolean }; check: () => void };
 
   const data: { value: AuthUser };
