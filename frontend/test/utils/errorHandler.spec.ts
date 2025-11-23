@@ -6,7 +6,7 @@ import { AppErrorCause } from "../../shared/types/error";
 import { AppError, errorHandler } from "../../shared/utils/errorHandler";
 
 describe("utils/errorHandler", () => {
-  // MARK: - AppError Handling
+  // MARK: AppError Handling
 
   it("returns AppError as-is", () => {
     const err = new AppError("oops", AppErrorCause.UNKNOWN, { status: 418 });
@@ -41,7 +41,7 @@ describe("utils/errorHandler", () => {
     return fe;
   }
 
-  // MARK: - FetchError Mapping
+  // MARK: FetchError Mapping
 
   it("maps status codes to causes and extracts message fields", () => {
     const table: Array<

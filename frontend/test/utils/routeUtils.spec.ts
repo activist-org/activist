@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 describe("utils/routeUtils", () => {
   it("isCurrentRoutePathSubpageOf returns true for valid subpages", async () => {
@@ -26,12 +26,12 @@ describe("utils/routeUtils", () => {
     );
   });
 
-  // MARK: - Edge Cases
+  // MARK: Edge Cases
 
   it("isCurrentRoutePathSubpageOf handles empty path", async () => {
     const mod = await import("../../shared/utils/routeUtils");
-    // Empty path splits by "-", so "groups-members" becomes ["groups", "members"]
-    // This returns true because segments.length > 1 and subpage is "members"
+    // Empty path splits by "-", so "groups-members" becomes ["groups", "members"].
+    // This returns true because segments.length > 1 and subpage is "members".
     expect(mod.isCurrentRoutePathSubpageOf("", "en___groups-members")).toBe(
       true
     );

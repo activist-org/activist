@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { getAllDaysInRange } from "../../shared/utils/utils";
 
@@ -22,7 +22,7 @@ describe("utils/utils", () => {
     expect(out[0]!.toISOString().slice(0, 10)).toBe("2024-06-15");
   });
 
-  // MARK: - Edge Cases
+  // MARK: Edge Cases
 
   it("returns empty array when end is before start", () => {
     const start = new Date("2024-12-31");
@@ -81,7 +81,7 @@ describe("utils/utils", () => {
     const end = new Date("2024-01-02T12:00:00Z");
     const out = getAllDaysInRange({ start, end });
     expect(out).toHaveLength(2);
-    // Each date should be independent
+    // Each date should be independent.
     expect(out[0]).not.toBe(start);
     expect(out[1]).not.toBe(end);
   });
@@ -99,11 +99,11 @@ describe("utils/utils", () => {
     const end = new Date("2024-01-02");
     const out = getAllDaysInRange({ start, end });
 
-    // Each returned date should be a new object
+    // Each returned date should be a new object.
     expect(out[0]).not.toBe(start);
     expect(out[1]).not.toBe(end);
 
-    // Mutating returned dates should not affect each other
+    // Mutating returned dates should not affect each other.
     out[0]!.setFullYear(2099);
     expect(out[1]!.getFullYear()).toBe(2024);
     expect(out[0]!.getFullYear()).toBe(2099);

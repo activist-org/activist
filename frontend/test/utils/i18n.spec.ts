@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { getLocaleText, getEnglishText } from "../../shared/utils/i18n";
-import { LOCALE_CODE } from "../../shared/utils/locales";
+import { getEnglishText, getLocaleText } from "../../shared/utils/i18n";
+import { LOCALE_CODE, locales } from "../../shared/utils/locales";
 
 describe("utils/i18n", () => {
-  // MARK: - Basic Functionality
+  // MARK: Basic Functionality
 
   it("getLocaleText returns en as default and correct map for specific code", () => {
     const en = getLocaleText();
@@ -13,7 +13,8 @@ describe("utils/i18n", () => {
 
     const fr = getLocaleText(LOCALE_CODE.FRENCH);
     expect(typeof fr).toBe("object");
-    // ensure different locale maps are not empty
+
+    // Ensure different locale maps are not empty.
     expect(Object.keys(en).length).toBeGreaterThan(0);
     expect(Object.keys(fr).length).toBeGreaterThan(0);
   });
@@ -24,24 +25,20 @@ describe("utils/i18n", () => {
     expect(defaultLocale).toEqual(englishLocale);
   });
 
-  // MARK: - Locale Support
+  // MARK: Locale Support
 
   it("getLocaleText returns objects for all supported locales", () => {
-    const supportedLocales = [
-      LOCALE_CODE.ENGLISH,
-      LOCALE_CODE.ARABIC,
-      LOCALE_CODE.FRENCH,
-      LOCALE_CODE.GERMAN,
-      LOCALE_CODE.ITALIAN,
-      LOCALE_CODE.PORTUGUESE,
-      LOCALE_CODE.SPANISH,
-    ];
+    const supportedLocales = Object.values(LOCALE_CODE);
 
     for (const locale of supportedLocales) {
       const localeText = getLocaleText(locale);
       expect(typeof localeText).toBe("object");
       expect(Object.keys(localeText).length).toBeGreaterThan(0);
     }
+  });
+
+  it("LOCALE_CODE and locales have the same length", () => {
+    expect(Object.values(LOCALE_CODE).length).toEqual(locales.length);
   });
 
   it("all locale files contain string key-value pairs", () => {
@@ -55,7 +52,7 @@ describe("utils/i18n", () => {
       const localeText = getLocaleText(locale);
       for (const [key, value] of Object.entries(localeText)) {
         expect(typeof key).toBe("string");
-        // Value can be string or object (for nested translations)
+        // Value can be string or object (for nested translations).
         expect(["string", "object"]).toContain(typeof value);
       }
     }
@@ -75,7 +72,7 @@ describe("utils/i18n", () => {
     const en = getLocaleText(LOCALE_CODE.ENGLISH);
     const fr = getLocaleText(LOCALE_CODE.FRENCH);
 
-    // Locales should not be identical
+    // Locales should not be identical.
     expect(en).not.toEqual(fr);
   });
 
@@ -98,14 +95,14 @@ describe("utils/i18n", () => {
     }
   });
 
-  // MARK: - Edge Cases
+  // MARK: Edge Cases
 
   it("getLocaleText returns undefined for invalid locale code", () => {
-    // TypeScript prevents invalid codes at compile time, but test runtime behavior
+    // TypeScript prevents invalid codes at compile time, but test runtime behavior.
     const invalidLocale =
       "invalid-code" as unknown as typeof LOCALE_CODE.ENGLISH;
     const result = getLocaleText(invalidLocale);
-    // Invalid locale codes return undefined (no fallback)
+    // Invalid locale codes return undefined (no fallback).
     expect(result).toBeUndefined();
   });
 
@@ -123,7 +120,7 @@ describe("utils/i18n", () => {
     const englishLocale = getLocaleText(LOCALE_CODE.ENGLISH);
     const keys = Object.keys(englishLocale);
 
-    // Find a key that might have nested structure
+    // Find a key that might have nested structure.
     for (const key of keys) {
       const value = englishLocale[key];
       if (typeof value === "object" && value !== null) {
@@ -154,10 +151,10 @@ describe("utils/i18n", () => {
       const localeText = getLocaleText(locale);
       const localeKeys = Object.keys(localeText);
 
-      // Each locale should have some keys (not necessarily all the same)
+      // Each locale should have some keys (not necessarily all the same).
       expect(localeKeys.length).toBeGreaterThan(0);
 
-      // Check that there's some overlap in keys
+      // Check that there's some overlap in keys.
       const commonKeys = englishKeys.filter((key) => localeKeys.includes(key));
       expect(commonKeys.length).toBeGreaterThan(0);
     }
