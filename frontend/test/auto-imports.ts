@@ -6,9 +6,12 @@
  * for all use* composables that aren't already mocked.
  */
 
-import { readFileSync, existsSync } from "node:fs";
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+// @ts-expect-error - Node.js built-in modules available at runtime
+import { readFileSync, existsSync } from "fs";
+// @ts-expect-error - Node.js built-in modules available at runtime
+import { join, dirname } from "path";
+// @ts-expect-error - Node.js built-in modules available at runtime
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
