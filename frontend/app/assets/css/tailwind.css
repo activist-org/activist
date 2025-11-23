@@ -159,7 +159,7 @@ MARK: Base
   */
 
   .btn-base-class {
-    @apply w-fit select-none px-4 py-2 text-center font-semibold elem-shadow-sm focus-brand;
+    @apply w-fit cursor-pointer select-none px-4 py-2 text-center font-semibold elem-shadow-sm focus-brand;
   }
 
   .style-btn {
