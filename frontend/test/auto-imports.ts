@@ -6,6 +6,8 @@
  * for all use* composables that aren't already mocked.
  */
 
+/// <reference types="node" />
+
 import { readFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
