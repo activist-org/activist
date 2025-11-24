@@ -3,11 +3,12 @@
 A class for filtering events based on user defined properties.
 """
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import Any, Union
 
 import django_filters
 from django.db.models.query import QuerySet
+from django.utils import timezone
 
 from content.models import Topic
 from events.models import Event
@@ -38,9 +39,15 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         field_name="setting",
         lookup_expr="iexact",
     )
+
     active_on = django_filters.DateTimeFilter(
         method="filter_active_on",
         label="Active on (exact datetime)",
+    )
+
+    days_ahead = django_filters.NumberFilter(
+        method="filter_days_ahead",
+        label="Upcoming events within N days",
     )
 
     def filter_active_on(
@@ -69,6 +76,45 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         end = datetime.combine(day, datetime.max.time())
         return queryset.filter(start_time__lte=end, end_time__gte=start)
 
+    def filter_days_ahead(
+        self, queryset: QuerySet[Any, Any], name: str, days: int
+    ) -> QuerySet[Any, Any]:
+        """
+        Filter events occurring within the next `days` days.
+
+        Parameters
+        ----------
+        queryset : QuerySet[Any, Any]
+            Base queryset.
+
+        name : str
+            Filter field name (`days_ahead`).
+
+        days : int
+            Number of days into the future.
+
+        Returns
+        -------
+        QuerySet[Any, Any]
+            Events starting between now and now + days.
+        """
+        now = timezone.now()
+        try:
+            days_int = int(days)
+        except Exception:
+            return queryset.none()
+
+        end = now + timedelta(days=days_int)
+        return queryset.filter(start_time__gte=now, start_time__lte=end)
+
     class Meta:
         model = Event
-        fields = ["name", "topics", "type", "setting", "active_on", "location"]
+        fields = [
+            "name",
+            "topics",
+            "type",
+            "setting",
+            "active_on",
+            "location",
+            "days_ahead",
+        ]

@@ -45,6 +45,7 @@ export interface EventFilters {
   active_on?: string; // ISO date string
   topics?: TopicEnum[]; // array of topic IDs
   name?: string; // search term for event name
+  days_ahead?: string; // number of days in the future
 }
 
 export interface EventSocialLink extends SocialLink {
