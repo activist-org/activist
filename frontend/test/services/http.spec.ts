@@ -1,7 +1,23 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * REFACTORED: This test demonstrates overriding composables in beforeEach and per-test.
+ * - useAuth() is mocked in test/setup.ts with default behavior
+ * - We override it in beforeEach() to reset to a default state for each test
+ * - Individual tests override it again within the test for specific scenarios
+ *   (e.g., no token, throwing errors)
+ * - This pattern is useful when you need:
+ *   - A default mock setup for most tests (in beforeEach)
+ *   - Specific behavior for individual tests (override within test)
+ *   - Error handling and edge case testing
+ */
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals";
+import type {
+  FetchFn,
+  FetchRawFn,
+  FetchGlobal,
+  GlobalThisTest,
+} from "../vitest-globals";
 
 import {
   del,
@@ -18,10 +34,13 @@ describe("services/http", () => {
 
   beforeEach(() => {
     // Reset globals and mocks before each test.
-    globalThis.BASE_BACKEND_URL = "https://api.example.test";
+    const global = globalThis as GlobalThisTest;
+    global.BASE_BACKEND_URL = "https://api.example.test";
 
     // Default auth: present token.
-    globalThis.useAuth = () => ({
+    // Override useAuth in beforeEach to reset to default state for each test.
+    // Individual tests can override again for specific scenarios.
+    global.useAuth = () => ({
       signIn: async () => {
         return Promise.resolve();
       },
@@ -40,7 +59,7 @@ describe("services/http", () => {
     const combined = Object.assign(fetchMock, {
       raw: fetchRawMock,
     }) as FetchGlobal;
-    globalThis.$fetch = combined;
+    global.$fetch = combined;
 
     vi.restoreAllMocks();
   });
@@ -85,8 +104,10 @@ describe("services/http", () => {
   });
 
   it("get() keeps caller Authorization when no token available", async () => {
-    // Simulate missing token so service does not add Authorization.
-    globalThis.useAuth = () => ({
+    // Override useAuth for this specific test scenario (no token).
+    // This shows overriding the beforeEach default for a specific test.
+    const global = globalThis as GlobalThisTest;
+    global.useAuth = () => ({
       token: { value: null },
       signIn: async () => {
         return Promise.resolve();
@@ -211,10 +232,12 @@ describe("services/http", () => {
   // MARK: Error Handling
 
   it("authHeader() gracefully handles absence of useAuth() (no throw)", async () => {
-    // Simulate useAuth throwing (caught in authHeader()).
-    globalThis.useAuth = (() => {
+    // Override useAuth to throw an error for this error-handling test.
+    // This demonstrates overriding for edge cases/error scenarios.
+    const global = globalThis as GlobalThisTest;
+    global.useAuth = (() => {
       throw new Error("no auth context");
-    }) as typeof globalThis.useAuth;
+    }) as typeof global.useAuth;
     fetchMock.mockResolvedValueOnce({ ok: true });
 
     await get("/no-auth-provider");

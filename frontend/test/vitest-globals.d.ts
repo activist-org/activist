@@ -87,4 +87,17 @@ declare global {
   const BASE_BACKEND_URL: string;
 }
 
+// Helper type for accessing globalThis properties in tests
+export type GlobalThisTest = typeof globalThis & {
+  BASE_BACKEND_URL: string;
+  useAuth: () => {
+    signUp: () => Promise<void>;
+    signIn: () => Promise<void>;
+    signOut: () => Promise<void>;
+    data: { value: AuthUser };
+    token?: { value: string | null };
+  };
+  $fetch: FetchGlobal;
+};
+
 export {};

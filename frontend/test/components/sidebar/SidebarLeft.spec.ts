@@ -1,10 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
  * Unit tests for SidebarLeft.vue
+ *
+ * REFACTORED: This test demonstrates how auto-import mocking works in practice.
+ * - useRouter() is automatically mocked by setupAutoImportMocks() in test/setup.ts
+ * - We override it here with test-specific behavior (custom mocks take precedence)
+ * - useRoute() is manually mocked in setup.ts, but we override it for test-specific behavior
+ * - This shows that auto-mocks provide sensible defaults, but can be overridden when needed
  */
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { nextTick, ref } from "vue";
+import { nextTick, reactive, ref } from "vue";
 
 import SidebarLeft from "../../../app/components/sidebar/left/SidebarLeft.vue";
 
@@ -29,13 +35,21 @@ vi.mock("~/utils/routeUtils", () => ({
   isCurrentRoutePathSubpageOf: () => false,
 }));
 
-vi.mock("vue-router", () => ({
-  useRoute: () => ({ query: {}, path: "/home", name: "home" }),
-  useRouter: () => ({
-    currentRoute: { value: { name: "home" } },
-    push: vi.fn(),
-  }),
-}));
+// MARK: Router mocks
+// BEFORE: We used vi.mock("vue-router", ...) to mock useRouter and useRoute
+// AFTER: useRouter() is automatically mocked by setupAutoImportMocks() in test/setup.ts,
+//        but we override it here with test-specific behavior (custom mocks take precedence).
+//        This demonstrates that auto-mocks provide sensible defaults ({ value: {} }),
+//        but can be overridden when you need specific behavior for your tests.
+const mockRouterPush = vi.fn();
+globalThis.useRouter = () => ({
+  currentRoute: { value: { name: "home" } },
+  push: mockRouterPush,
+});
+
+// useRoute() is already mocked in test/setup.ts with default behavior,
+// but we override it here for test-specific behavior (route name "home").
+globalThis.useRoute = () => ({ query: {}, path: "/home", name: "home" });
 
 // Provide a minimal global auto-import for useState used inside component.
 // In the Nuxt environment useState is auto-imported; tests run without that, so we add it.
