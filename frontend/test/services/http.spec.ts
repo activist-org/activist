@@ -12,12 +12,7 @@
  */
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type {
-  FetchFn,
-  FetchRawFn,
-  FetchGlobal,
-  GlobalThisTest,
-} from "../vitest-globals";
+import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals";
 
 import {
   del,
@@ -34,13 +29,12 @@ describe("services/http", () => {
 
   beforeEach(() => {
     // Reset globals and mocks before each test.
-    const global = globalThis as GlobalThisTest;
-    global.BASE_BACKEND_URL = "https://api.example.test";
+    globalThis.BASE_BACKEND_URL = "https://api.example.test";
 
     // Default auth: present token.
     // Override useAuth in beforeEach to reset to default state for each test.
     // Individual tests can override again for specific scenarios.
-    global.useAuth = () => ({
+    globalThis.useAuth = () => ({
       signIn: async () => {
         return Promise.resolve();
       },
@@ -59,7 +53,7 @@ describe("services/http", () => {
     const combined = Object.assign(fetchMock, {
       raw: fetchRawMock,
     }) as FetchGlobal;
-    global.$fetch = combined;
+    globalThis.$fetch = combined;
 
     vi.restoreAllMocks();
   });
@@ -106,8 +100,7 @@ describe("services/http", () => {
   it("get() keeps caller Authorization when no token available", async () => {
     // Override useAuth for this specific test scenario (no token).
     // This shows overriding the beforeEach default for a specific test.
-    const global = globalThis as GlobalThisTest;
-    global.useAuth = () => ({
+    globalThis.useAuth = () => ({
       token: { value: null },
       signIn: async () => {
         return Promise.resolve();
@@ -234,8 +227,7 @@ describe("services/http", () => {
   it("authHeader() gracefully handles absence of useAuth() (no throw)", async () => {
     // Override useAuth to throw an error for this error-handling test.
     // This demonstrates overriding for edge cases/error scenarios.
-    const global = globalThis as GlobalThisTest;
-    global.useAuth = (() => {
+    globalThis.useAuth = (() => {
       throw new Error("no auth context");
     }) as typeof global.useAuth;
     fetchMock.mockResolvedValueOnce({ ok: true });
