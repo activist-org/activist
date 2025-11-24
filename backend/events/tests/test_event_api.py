@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 from datetime import datetime
 from typing import Any, TypedDict
+from unittest.mock import patch
+from uuid import uuid4
 
 import pytest
 from dateutil.relativedelta import relativedelta
@@ -143,6 +145,20 @@ def test_EventListAPIView(logged_in_user) -> None:
 
 
 @pytest.mark.django_db
+def test_EventListAPIView_no_pagination(authenticated_client) -> None:
+    client, user = authenticated_client
+
+    with patch("events.views.EventAPIView.paginate_queryset") as mock_paginate:
+        mock_paginate.return_value = None
+
+        response = client.get(path=EVENTS_URL)
+
+        assert response.status_code == 200
+        # Verify that paginate_queryset was called
+        mock_paginate.assert_called_once()
+
+
+@pytest.mark.django_db
 def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-def]
     client = APIClient()
 
@@ -190,3 +206,30 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
 
     assert response.status_code == 204
     assert not Event.objects.filter(id=new_event.id).exists()
+
+
+@pytest.mark.django_db
+def test_EventDetailAPIView_failure(authenticated_client) -> None:
+    client, user = authenticated_client
+    uuid = uuid4()
+    with patch("events.views.EventDetailAPIView.queryset.get") as mock_queryset:
+        mock_queryset.side_effect = Event.DoesNotExist
+
+        response = client.get(path=f"{EVENTS_URL}/{uuid}")
+
+        assert response.status_code == 404
+        assert response.data["detail"] == "Event Not Found."
+        # Verify that paginate_queryset was called
+        mock_queryset.assert_called_once()
+
+        # verify for PUT method
+        response = client.put(path=f"{EVENTS_URL}/{uuid}")
+
+        assert response.status_code == 404
+        assert response.data["detail"] == "Event Not Found."
+
+        # verify for DELETE method
+        response = client.delete(path=f"{EVENTS_URL}/{uuid}")
+
+        assert response.status_code == 404
+        assert response.data["detail"] == "Event Not Found."
