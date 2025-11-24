@@ -10,6 +10,8 @@
  */
 import { describe, expect, it } from "vitest";
 
+import type { GlobalThisTest } from "../vitest-globals";
+
 import { useColor } from "../../app/composables/useColor";
 
 // useColorMode mock is handled globally in test/setup.ts as a spy function
@@ -17,7 +19,7 @@ import { useColor } from "../../app/composables/useColor";
 
 describe("useColorModeImage", () => {
   it("adds _light to image path", () => {
-    globalThis.useColorModeMock.mockImplementation(() => ({
+    (globalThis as GlobalThisTest).useColorModeMock.mockImplementation(() => ({
       preference: "light",
       value: "light",
     }));
@@ -29,7 +31,7 @@ describe("useColorModeImage", () => {
   });
 
   it("adds _dark to image path", () => {
-    globalThis.useColorModeMock.mockImplementation(() => ({
+    (globalThis as GlobalThisTest).useColorModeMock.mockImplementation(() => ({
       preference: "dark",
       value: "dark",
     }));
@@ -41,7 +43,7 @@ describe("useColorModeImage", () => {
   });
 
   it("uses .png as default extension", () => {
-    globalThis.useColorModeMock.mockImplementation(() => ({
+    (globalThis as GlobalThisTest).useColorModeMock.mockImplementation(() => ({
       preference: "light",
       value: "light",
     }));

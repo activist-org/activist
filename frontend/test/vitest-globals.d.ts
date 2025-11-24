@@ -98,6 +98,9 @@ export type GlobalThisTest = typeof globalThis & {
     token?: { value: string | null };
   };
   $fetch: FetchGlobal;
+  useColorModeMock: Mock<
+    () => { preference: "dark" | "light"; value: "dark" | "light" }
+  >;
 };
 
 export {};
