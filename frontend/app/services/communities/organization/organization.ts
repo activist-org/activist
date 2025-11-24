@@ -3,8 +3,8 @@
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
 import { del, get, post } from "~/services/http";
-// import { errorHandler } from "~/utils/errorHandler";
-// import type { Pagination } from "~/types/http";
+type OrganizationPaginatedResponse =
+  globalThis.PaginatedResponse<globalThis.Organization>;
 
 // MARK: Map API Response to Type
 
@@ -47,16 +47,27 @@ export async function getOrganization(id: string): Promise<Organization> {
 
 export async function listOrganizations(
   filters: OrganizationFilters & Pagination = { page: 1, page_size: 10 }
-): Promise<Organization[]> {
+): Promise<OrganizationPaginatedResponse> {
   try {
-    const query = new URLSearchParams(
-      filters as unknown as Record<string, string>
-    );
+    const query = new URLSearchParams();
+    // Handle topics specially: arrays become repeated params (?topics=A&topics=B).
+    const { topics, ...rest } = filters;
+    if (topics) {
+      topics.forEach((t) => {
+        if (!t) return;
+        query.append("topics", String(t));
+      });
+    }
+    // Add the remaining filters as single query params.
+    Object.entries(rest).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+      query.append(key, String(value));
+    });
     const res = await get<OrganizationsResponseBody>(
       `/communities/organizations?${query.toString()}`,
       { withoutAuth: true }
     );
-    return res.results.map(mapOrganization);
+    return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
   }

@@ -29,7 +29,6 @@
         :animation="150"
         chosen-class="sortable-chosen"
         class="space-y-4"
-        data-testid="organization-faq-list"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"

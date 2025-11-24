@@ -155,7 +155,6 @@
   "i18n.components.card_topic_selection.subtext_organization": "Seleccione los temas en los que este grupo trabaja predominantemente para que la comunidad pueda encontrarlos más fácilmente.",
   "i18n.components.card_topic_selection.subtext_resource": "Seleccione los temas relacionados con este recurso para que la comunidad pueda encontrarlos más fácilmente.",
   "i18n.components.card_topic_selection.view_all_topics": "Ver todos los temas",
-  "i18n.components.combobox_topics.all_topics": "Todos los temas",
   "i18n.components.combobox_topics.filter_by_topic": "Filtrar por tema",
   "i18n.components.combobox_topics.no_matching_topics": "No hay temas coincidentes.",
   "i18n.components.combobox_topics.toggle_dropdown": "Alternar lista desplegable",

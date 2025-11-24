@@ -125,6 +125,27 @@ describe("services/communities/organization/resource", () => {
     );
   });
 
+  // MARK: Delete
+
+  it("deleteOrganizationResource() calls DELETE endpoint", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await deleteOrganizationResource("resource-123");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(fetchMock, 0);
+    expect(url).toContain("/communities/organization_resources/resource-123");
+    expect(opts.method).toBe("DELETE");
+  });
+
+  it("deleteOrganizationResource() handles successful deletion", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await expect(
+      deleteOrganizationResource("resource-456")
+    ).resolves.toBeUndefined();
+  });
+
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
