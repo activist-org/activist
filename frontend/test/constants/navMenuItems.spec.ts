@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { menuItems } from "../../app/constants/navMenuItems";
 
-describe("utils/navMenuItems", () => {
+describe("constants/navMenuItems", () => {
   // MARK: Menu Structure
 
   it("defines three top-level nav items with labels, routes, and icons", () => {

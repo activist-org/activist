@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { passwordRules } from "../../app/constants/passwordRules";
 
-describe("utils/passwordRules", () => {
+describe("constants/passwordRules", () => {
   // MARK: Structure
 
   it("exports five default rules in correct order", () => {

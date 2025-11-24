@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 
 import { useMentionSuggestion } from "../../app/composables/useMentionSuggestions";
 
-describe("utils/mentionSuggestion", () => {
+describe("useMentionSuggestions", () => {
   // MARK: Query Filtering
 
   // Mock component for useMentionSuggestion

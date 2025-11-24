@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { FRIENDLY_CAPTCHA_KEY } from "../../app/constants/baseUrls";
 
-describe("utils/captcha", () => {
+describe("constants/captcha", () => {
   // MARK: Environment Variable
 
   it("exposes FRIENDLY_CAPTCHA_KEY as string or undefined from env", () => {

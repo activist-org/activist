@@ -9,7 +9,7 @@ import {
   REQUEST_ACCESS_URL,
 } from "../../app/constants/baseUrls";
 
-describe("utils/baseURLs", () => {
+describe("constants/baseUrls", () => {
   // MARK: Fixed Constants
 
   it("exports fixed constants for activist and request access", () => {
