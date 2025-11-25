@@ -159,7 +159,6 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
         org__org_name=new_org.org_name
     ).exists()
 
-
 @pytest.mark.django_db
 def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     """
