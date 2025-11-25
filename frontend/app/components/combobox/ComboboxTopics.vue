@@ -142,9 +142,8 @@ watch(
       }
       if (!aSelected && bSelected) {
         return 1;
-      } else {
-        return 0;
       }
+      return a.label.localeCompare(b.label);
     });
     // Emit only the values of the selected topics.
     emit(
