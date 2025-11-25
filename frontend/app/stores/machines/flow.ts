@@ -1,36 +1,49 @@
-/* flowBaseModal.ts
-   Flow-based Pinia store factory where each node holds its own nodeData.
-   - Nodes now include optional `type: NodeType` which indicates purpose:
-     'screen' (UI), 'logic' (compute/branch), 'calculator' (compute-only),
-     'action' (fire side-effect), 'external' (handed to external handler).
-   - Missing type defaults to 'screen' for backward compatibility.
-   - The factory remains UI-agnostic; composables use node.type to decide behavior.
-*/
-import { defineStore } from "pinia";
+/**
+ * stores/machines/flowBaseModal.ts
+ *
+ * A generic Pinia store factory for creating sophisticated, multi-step flow machines.
+ * This factory includes all the advanced features we've designed:
+ *
+ * - Co-located Node Configuration: Each node can define its own UI component directly.
+ * - Logic-Only Steps: Supports nodes without a UI component for branching, calculations, or side-effects.
+ * - History-Based Navigation: A universal `prev()` action that automatically tracks the user's path,
+ *   handles loops correctly, and skips over logic-only steps when going back.
+ * - Progress Calculation: Built-in getters (`currentStep`, `totalSteps`) that correctly calculate
+ *   progress, ignoring any non-visible logic steps.
+ */
+import { defineStore, type Store } from "pinia";
+import type { Component } from "vue";
 
-export type NextPrevFn = (nodeData: Record<string, any>, allNodeData: Record<string, any>) => string | null | undefined;
+// The function signature for a dynamic `next` property on a node.
+export type NextFn = (nodeData: Record<string, any>, allNodeData: Record<string, any>) => string | null | undefined;
 
+// The different types a node can be. 'screen' is default.
 export type NodeType = "screen" | "logic" | "calculator" | "action" | "external";
 
-export type NodeConfig = {
+// The complete configuration for a single node in the flow.
+export interface NodeConfig {
   id: string;
-  next?: string | NextPrevFn;
-  prev?: string | NextPrevFn;
   label?: string;
-  // optional type/role for the node (defaults to 'screen')
+  next?: string | NextFn;
   type?: NodeType;
-};
+  // A node can directly define its UI component (lazy-loaded for performance).
+  component?: Component | (() => Promise<any>);
+}
 
+// The options required to create a new flow store instance.
 export interface FlowStoreOptions {
   storeId: string;
   defaultNodeId: string;
   nodes: NodeConfig[];
-  // initial nodeData map: { nodeId: {} }
   initialNodeData?: Record<string, any>;
-  // when flow is closed, discard nodeData and reset nodeId (default true)
   discardOnClose?: boolean;
 }
 
+/**
+ * Creates a new flow store instance with all advanced features.
+ * @param opts The configuration options for the store.
+ * @returns A Pinia store definition.
+ */
 export function createFlowStore(opts: FlowStoreOptions) {
   const {
     storeId,
@@ -40,174 +53,150 @@ export function createFlowStore(opts: FlowStoreOptions) {
     discardOnClose = true,
   } = opts;
 
-  // Note: we do not capture nodesById in a closure that cannot change;
-  // compute it on-demand inside getters/actions if needed.
-  function makeNodesById(arr: NodeConfig[]) {
-    return Object.fromEntries(arr.map((n) => [n.id, n]));
-  }
-
-  const initialNodesById = makeNodesById(nodes);
-
   return defineStore(storeId, {
     state: () => ({
-      // neutral "active" flag replaces modal-specific naming
-      active: false as boolean,
-      nodeId: defaultNodeId as string,
-      nodes: nodes as NodeConfig[],
-      nodeData: { ...initialNodeData } as Record<string, any>, // per-node data
+      active: false,
+      nodeId: defaultNodeId,
+      nodes: nodes,
+      nodeData: { ...initialNodeData },
+      history: [] as string[], // The history stack for `prev()` navigation
+      saving: false,
       saveResult: null as any | null,
-      saving: false as boolean,
-      // internals for reset
-      _initialNodeData: { ...initialNodeData } as Record<string, any>,
-      _defaultNodeId: defaultNodeId as string,
-      _discardOnClose: discardOnClose as boolean,
-      // keep an initial map for quick lookups if not reconfigured
-      _initialNodesById: initialNodesById as Record<string, NodeConfig>,
     }),
 
     getters: {
-      currentNode(state) {
-        // compute fresh lookup from state.nodes so runtime reconfigure works
+      /**
+       * The configuration object for the currently active node.
+       */
+      currentNode(state): NodeConfig | null {
         const lookup = Object.fromEntries(state.nodes.map((n) => [n.id, n]));
-        const node = lookup[state.nodeId] ?? null;
-        // return node with defaulted type for convenience
-        if (!node) return null;
-        return { ...node, type: node.type ?? ("screen" as NodeType) };
+        return lookup[state.nodeId] ?? null;
       },
-      nodeIndex(state) {
-        return state.nodes.findIndex((n) => n.id === state.nodeId);
+
+      /**
+       * A filtered list of nodes that are visible to the user (i.e., have a component).
+       * This is the basis for all progress calculations.
+       */
+      visibleNodes(state): NodeConfig[] {
+        return state.nodes.filter(
+          (node) => !!node.component || (node.type !== 'logic' && node.type !== 'action')
+        );
       },
-      nodesList(state) {
-        return state.nodes.map((n) => n.id);
+
+      /**
+       * The total number of visible steps in the flow.
+       * Perfect for `x of N` progress indicators.
+       */
+      totalSteps(): number {
+        return this.visibleNodes.length;
+      },
+
+      /**
+       * The 1-based index of the current step within the visible steps.
+       * Intelligently finds the last visible step if the user is on a logic node.
+       */
+      currentStep(state): number {
+        const currentVisibleIndex = this.visibleNodes.findIndex((node) => node.id === state.nodeId);
+        if (currentVisibleIndex !== -1) {
+          return currentVisibleIndex + 1;
+        }
+
+        // If on a logic node, look backward through history to find the last visible step's index.
+        for (let i = state.history.length - 1; i >= 0; i--) {
+          const lastNodeId = state.history[i];
+          const lastVisibleIndex = this.visibleNodes.findIndex((node) => node.id === lastNodeId);
+          if (lastVisibleIndex !== -1) {
+            return lastVisibleIndex + 1;
+          }
+        }
+        return 1; // Fallback
       },
     },
 
     actions: {
       /**
-       * Start the flow. Optionally provide draftNodeData to seed per-node data.
-       * This is generic (not modal-specific).
+       * Starts or restarts the flow.
        */
       start(draftNodeData?: Record<string, any>) {
-        this.nodeId = this._defaultNodeId;
+        this.resetToInitial();
         this.active = true;
-        // merge provided draftNodeData into per-node data
-        this.nodeData = { ...this._initialNodeData, ...(draftNodeData || {}) };
-        this.saveResult = null;
-        this.saving = false;
-      },
-
-      /**
-       * Close the flow. By default respects the store's discardOnClose setting.
-       * Pass discard=true to force discarding context on close, or false to keep it in-memory.
-       */
-      close(discard?: boolean) {
-        this.active = false;
-        const shouldDiscard = discard === undefined ? this._discardOnClose : !!discard;
-        if (shouldDiscard) {
-          this.nodeId = this._defaultNodeId;
-          this.nodeData = { ...this._initialNodeData };
-          this.saveResult = null;
-          this.saving = false;
+        if (draftNodeData) {
+          this.nodeData = { ...this.nodeData, ...draftNodeData };
         }
       },
 
+      /**
+       * Closes the flow, optionally discarding state.
+       */
+      close(discard?: boolean) {
+        this.active = false;
+        if (discard ?? discardOnClose) {
+          this.resetToInitial();
+        }
+      },
+
+      /**
+       * Jumps to a specific node, updating history.
+       */
       goto(nodeId: string) {
         const lookup = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
-        if (!lookup[nodeId]) return;
+        if (!lookup[nodeId] || nodeId === this.nodeId) return;
+
+        this.history.push(this.nodeId);
         this.nodeId = nodeId;
       },
 
       /**
-       * Compute next using node.next (string or function).
-       * If nextNodeData is provided, shallow-merge it into the current node's nodeData
-       * BEFORE computing the next node. This ensures dynamic next functions can
-       * react to values just saved and that saving + navigation is atomic from the caller POV.
+       * Advances to the next node, updating history.
        */
       next(nextNodeData?: Record<string, any>) {
-        const lookup = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
         const currentId = this.nodeId;
-        const node = lookup[currentId];
+        const node = this.currentNode;
         if (!node || !node.next) return;
 
-        // merge provided data into the current node's data first
         if (nextNodeData && Object.keys(nextNodeData).length) {
-          const prev = this.nodeData[currentId] ?? {};
-          this.nodeData = { ...this.nodeData, [currentId]: { ...prev, ...nextNodeData } };
+          this.nodeData[currentId] = { ...(this.nodeData[currentId] || {}), ...nextNodeData };
         }
 
-        // compute next using the (potentially) updated nodeData
-        const nextId =
-          typeof node.next === "function"
-            ? node.next(this.nodeData[currentId] ?? {}, this.nodeData)
-            : node.next;
+        const nextId = typeof node.next === 'function' ? node.next(this.nodeData[currentId] ?? {}, this.nodeData) : node.next;
+        const lookup = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
+
         if (nextId && lookup[nextId]) {
+          this.history.push(currentId);
           this.nodeId = nextId;
         }
       },
 
+      /**
+       * Goes back to the last screen in the history, skipping over any logic-only steps.
+       */
       prev() {
-        const lookup = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
-        const node = lookup[this.nodeId];
-        if (!node) return;
-        if (!node.prev) {
-          const idx = this.nodes.findIndex((n) => n.id === this.nodeId);
-          if (idx > 0) this.nodeId = this.nodes[idx - 1].id;
-          return;
-        }
-        const prevId =
-          typeof node.prev === "function"
-            ? node.prev(this.nodeData[this.nodeId] ?? {}, this.nodeData)
-            : node.prev;
-        if (prevId && lookup[prevId]) {
-          this.nodeId = prevId;
-        }
-      },
+        if (this.history.length === 0) return;
 
-      // Replace or merge node-specific data. If merge === true, shallow-merge with existing nodeData[nodeId]
-      updateNode(nodeId: string, payload: Record<string, any>, merge = true) {
-        const lookup = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
-        if (!lookup[nodeId]) return;
-        if (merge) {
-          this.nodeData = { ...this.nodeData, [nodeId]: { ...(this.nodeData[nodeId] || {}), ...payload } };
-        } else {
-          this.nodeData = { ...this.nodeData, [nodeId]: payload };
+        const nodesById = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
+        let previousNodeId = this.history.pop();
+
+        while (previousNodeId) {
+          const previousNodeConfig = nodesById[previousNodeId];
+          const isScreen = !!previousNodeConfig?.component || (previousNodeConfig?.type !== 'logic' && previousNodeConfig?.type !== 'action');
+
+          if (isScreen) {
+            this.nodeId = previousNodeId;
+            return;
+          }
+
+          previousNodeId = this.history.length > 0 ? this.history.pop() : undefined;
         }
       },
 
-      // convenience: update field on current node
-      updateCurrentField(field: string, value: any) {
-        const nid = this.nodeId;
-        const prev = this.nodeData[nid] ?? {};
-        this.nodeData = { ...this.nodeData, [nid]: { ...prev, [field]: value } };
-      },
-
-      // convenience: set whole node data
-      setNode(nodeId: string, value: any) {
-        const lookup = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
-        if (!lookup[nodeId]) return;
-        this.nodeData = { ...this.nodeData, [nodeId]: value };
-      },
-
-      async submit(saveFn: (payload: any) => Promise<any>) {
-        try {
-          this.saving = true;
-          this.saveResult = null;
-          // payload is the whole nodeData map; caller can decide what to extract
-          const result = await saveFn(this.nodeData);
-          this.saveResult = result;
-          return result;
-        } catch (err: any) {
-          this.saveResult = { _error: err?.message ?? "Save failed" };
-          return this.saveResult;
-        } finally {
-          this.saving = false;
-        }
-      },
-
-      // explicit reset action
+      /**
+       * Resets the entire flow state to its initial configuration.
+       */
       resetToInitial() {
-        this.nodeId = this._defaultNodeId;
-        this.nodeData = { ...this._initialNodeData };
+        this.active = false;
+        this.nodeId = defaultNodeId;
+        this.nodeData = { ...initialNodeData };
+        this.history = [];
         this.saveResult = null;
         this.saving = false;
       },
