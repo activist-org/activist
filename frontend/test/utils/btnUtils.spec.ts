@@ -11,6 +11,7 @@ describe("utils/btnUtils", () => {
       expect(typeof result).toBe("object");
     });
 
+    // MARK: CTA Flag Behavior
     describe("CTA flag behavior", () => {
       it("sets style-cta to true when cta is true", () => {
         const result = getBtnDynamicClass(true, "base");
@@ -29,6 +30,7 @@ describe("utils/btnUtils", () => {
       });
     });
 
+    // MARK: Font Size Classes
     describe("font size classes", () => {
       it("applies text-xs class for xs font size", () => {
         const result = getBtnDynamicClass(true, "xs");
@@ -97,6 +99,7 @@ describe("utils/btnUtils", () => {
       });
     });
 
+    // MARK: Combined Behavior
     describe("combined behavior", () => {
       it("combines CTA true with base font size correctly", () => {
         const result = getBtnDynamicClass(true, "base");
@@ -141,6 +144,7 @@ describe("utils/btnUtils", () => {
       });
     });
 
+    // MARK: Edge Cases
     describe("edge cases", () => {
       const fontSizes = ["xs", "sm", "base", "lg", "xl", "2xl", "3xl"] as const;
 
