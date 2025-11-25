@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Populate the database with organizations.
+"""
 
 # mypy: ignore-errors
+import contextlib
 from typing import Any, Dict, List, Tuple
 
 from authentication.models import UserModel
@@ -46,20 +50,40 @@ def create_organization(
     """
     Create one organization for `user`.
 
-    - If `assigned_org_fields` has items, this function will consume (pop) the first
-      item and use values from it where provided.
-    - If `assigned_org_fields` is empty, deterministic fallback names are used.
-    - Returns (user_org, n_social_links_created, n_resources_created, n_faq_entries_created, assigned_fields_used)
+    Parameters
+    ----------
+    user : UserModel
+        The user for which entities are being generated for.
+
+    user_topic : Topic
+        The topic of the user.
+
+    assigned_org_fields : List[Dict[str, Any]]
+        The data to assign to the generated organization.
+
+        - If not empty, this function will consume (pop) the first item and use values from it where provided.
+        - If empty, deterministic fallback names are used.
+
+    num_faq_entries_per_entity : int
+        The number of FAQ entries that should be assigned to each entity from populate_db.
+
+    num_resources_per_entity : int
+        The number of resources that should be assigned to each entity from populate_db.
+
+    Returns
+    -------
+    Tuple[Organization, int, int, int, Dict[str, Any]]
+        The organization created along with the number of social links, resources and faq entries created for it.
     """
-    # consume assigned fields if present (caller can pass the global list)
+    # Consume assigned fields if present (caller can pass the global list).
     assigned = assigned_org_fields.pop(0) if assigned_org_fields else {}
 
-    # determine per-user org index (used for stable fallback naming)
+    # Determine per-user org index (used for stable fallback naming).
     per_user_org_index = Organization.objects.filter(created_by=user).count()
 
     user_topic_name = get_topic_label(user_topic)
 
-    # basic fields with fallbacks
+    # Basic fields with fallbacks.
     org_id = (
         assigned.get("org_name")
         or f"organization_{user.username}_o{per_user_org_index}"
@@ -75,12 +99,14 @@ def create_organization(
     )
     user_org.topics.set([user_topic])
 
-    # texts
+    # MARK: Texts
+
     assigned_texts = assigned.get("texts", {})
     org_texts = OrganizationTextFactory(iso="en", primary=True, **assigned_texts)
     user_org.texts.set([org_texts])
 
-    # social links
+    # MARK: Social Links
+
     n_social_links = 0
     assigned_links = assigned.get("social_links", [])
     if assigned_links:
@@ -89,15 +115,18 @@ def create_organization(
             for i in range(len(assigned_links))
         ]
         n_social_links += len(assigned_links)
+
     else:
         social_objs = [
             OrganizationSocialLinkFactory(label=f"Social Link {s}", order=s)
             for s in range(3)
         ]
         n_social_links += 3
+
     user_org.social_links.set(social_objs)
 
-    # faqs
+    # MARK: FAQs
+
     n_faq_entries = 0
     assigned_faqs = assigned.get("faqs", [])
     if assigned_faqs:
@@ -106,15 +135,18 @@ def create_organization(
             for i in range(len(assigned_faqs))
         ]
         n_faq_entries += len(assigned_faqs)
+
     else:
         faq_objs = [
             OrganizationFaqFactory(org=user_org, order=i)
             for i in range(num_faq_entries_per_entity)
         ]
         n_faq_entries += num_faq_entries_per_entity
+
     user_org.faqs.set(faq_objs)
 
-    # resources
+    # MARK: Resources
+
     n_resources = 0
     assigned_resources = assigned.get("resources", [])
     if assigned_resources:
@@ -128,14 +160,15 @@ def create_organization(
                 )
             )
             n_resources += 1
+
     else:
         for i in range(num_resources_per_entity):
             res = OrganizationResourceFactory(created_by=user, org=user_org, order=i)
             user_org.resources.add(res)
-            try:
+
+            with contextlib.suppress(Exception):
                 res.topics.set([user_topic])
-            except Exception:
-                pass
+
             n_resources += 1
 
     return user_org, n_social_links, n_resources, n_faq_entries, assigned

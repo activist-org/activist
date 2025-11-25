@@ -19,10 +19,10 @@ from communities.organizations.models import Organization
 from content.models import Topic
 from events.models import Event
 
-from .populate_db_helpers.populate_org_events import create_org_events
-from .populate_db_helpers.populate_org_group_event import create_group_events
-from .populate_db_helpers.populate_org_groups import create_org_groups
-from .populate_db_helpers.populate_orgs import create_organization, get_topic_label
+from .populate_db_utils.populate_org_events import create_org_events
+from .populate_db_utils.populate_org_group_event import create_group_events
+from .populate_db_utils.populate_org_groups import create_org_groups
+from .populate_db_utils.populate_orgs import create_organization, get_topic_label
 
 # MARK: Utils and Types
 
@@ -131,13 +131,14 @@ class Command(BaseCommand):
                 users[0].set_password("password")  # ensure password is set
                 users[0].save()
 
-            for u, user in enumerate(users):
+            for user in users:
                 user_topic = random.choice(topics)
                 user.topics.set([user_topic])
                 user_topic_name = get_topic_label(topic=user_topic)
 
-                for o in range(num_orgs_per_user):
-                    # MARK: Org
+                for _ in range(num_orgs_per_user):
+                    # MARK: Orgs
+
                     user_org, s_links, resources, faqs, assigned_org_spec = (
                         create_organization(
                             user=user,
@@ -153,6 +154,7 @@ class Command(BaseCommand):
                     n_resources += resources
 
                     # MARK: Org Events
+
                     assigned_events = (
                         assigned_org_spec.get("events", []) if assigned_org_spec else []
                     )
@@ -174,6 +176,7 @@ class Command(BaseCommand):
                     n_faq_entries += org_events_faqs
 
                     # MARK: Org Groups
+
                     assigned_groups = (
                         assigned_org_spec.get("groups", []) if assigned_org_spec else []
                     )
@@ -214,7 +217,7 @@ class Command(BaseCommand):
                             user_topic=user_topic,
                             user_topic_name=user_topic_name,
                             user_org=user_org,
-                            group=user_org_group,
+                            user_org_group=user_org_group,
                             assigned_group_events=assigned_group_events,
                             num_events_per_group=num_events_per_group,
                             num_faq_entries_per_entity=num_faq_entries_per_entity,
