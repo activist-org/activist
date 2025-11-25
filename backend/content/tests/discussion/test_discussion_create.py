@@ -2,18 +2,13 @@
 import pytest
 from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
 from content.factories import DiscussionFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_discussion_create():
-    client = APIClient()
-
-    test_username = "test_user"
-    test_pass = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_pass)
+def test_discussion_create(authenticated_client):
+    client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True
     user.save()
@@ -22,21 +17,26 @@ def test_discussion_create():
         title="Unique Title", category="Unique Category"
     )
 
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_pass},
-    )
-
-    assert login_response.status_code == 200
-
-    login_body = login_response.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(
         path="/v1/content/discussions",
         data={"title": discussion_thread.title, "category": discussion_thread.category},
     )
 
     assert response.status_code == 201
+
+
+def test_discussion_create_not_authorized():
+    """Test that unauthenticated users cannot create discussions"""
+    client = APIClient()
+
+    discussion_thread = DiscussionFactory(
+        title="Unique Title", category="Unique Category"
+    )
+
+    response = client.post(
+        path="/v1/content/discussions",
+        data={"title": discussion_thread.title, "category": discussion_thread.category},
+    )
+
+    # IsAuthenticatedOrReadOnly returns 401 for unauthenticated write requests
+    assert response.status_code == 401
