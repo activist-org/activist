@@ -48,7 +48,7 @@ const closeMenuState = () => {
 
 watch(() => route.path, closeMenuState);
 
-onClickOutside(target as unknown as MaybeElementRef, closeMenuState, {
-  ignore: [ignoreElRef as unknown as MaybeElementRef],
+onClickOutside(target as MaybeElementRef, closeMenuState, {
+  ignore: [ignoreElRef as MaybeElementRef],
 });
 </script>

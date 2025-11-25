@@ -92,7 +92,7 @@ const changeFetchMore = () => {
 };
 
 useCustomInfiniteScroll({
-  sentinel: bottomSentinel as unknown as Ref<HTMLElement | null>,
+  sentinel: bottomSentinel as Ref<HTMLElement | null>,
   fetchMore: getMore,
   canFetchMore,
   callback: changeFetchMore,
