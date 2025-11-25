@@ -248,13 +248,8 @@ class ResourceViewSet(viewsets.ModelViewSet[Resource]):
         serializer = self.get_serializer(query)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def list(self, request: Request) -> Response:
-        if request.user.is_authenticated:
-            query = self.queryset.filter(
-                Q(is_private=False) | Q(is_private=True, created_by=request.user)
-            )
-        else:
-            query = self.queryset.filter(is_private=False)
+    def list(self) -> Response:
+        query = self.queryset.filter(is_private=False)
 
         serializer = self.get_serializer(query, many=True)
 
