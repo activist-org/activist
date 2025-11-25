@@ -1,6 +1,8 @@
-import { createPinia, setActivePinia } from "pinia";
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it } from "vitest";
+
+import type { CommunityEvent } from "../../shared/types/event";
 
 import { useEventStore } from "../../app/stores/event";
 import { createMockEvent, createMockEventFilters } from "./helpers";
@@ -38,14 +40,18 @@ describe("useEventStore", () => {
   describe("Getter Actions", () => {
     it("getEvent returns current event", () => {
       const store = useEventStore();
-      const mockEvent = createMockEvent({ id: "event-1" });
+      const mockEvent = createMockEvent({
+        id: "event-1",
+      } as Partial<CommunityEvent>);
       store.setEvent(mockEvent);
       expect(store.getEvent()).toEqual(mockEvent);
     });
 
     it("getEvents returns current events array", () => {
       const store = useEventStore();
-      const mockEvents = [createMockEvent({ id: "event-1" })];
+      const mockEvents = [
+        createMockEvent({ id: "event-1" } as Partial<CommunityEvent>),
+      ];
       store.setEvents(mockEvents);
       expect(store.getEvents()).toEqual(mockEvents);
     });
@@ -68,7 +74,9 @@ describe("useEventStore", () => {
   describe("Setter Actions", () => {
     it("setEvent updates event state", () => {
       const store = useEventStore();
-      const mockEvent = createMockEvent({ id: "event-1" });
+      const mockEvent = createMockEvent({
+        id: "event-1",
+      } as Partial<CommunityEvent>);
       store.setEvent(mockEvent);
       expect(store.event).toEqual(mockEvent);
     });
@@ -76,8 +84,8 @@ describe("useEventStore", () => {
     it("setEvents updates events array", () => {
       const store = useEventStore();
       const mockEvents = [
-        createMockEvent({ id: "event-1" }),
-        createMockEvent({ id: "event-2" }),
+        createMockEvent({ id: "event-1" } as Partial<CommunityEvent>),
+        createMockEvent({ id: "event-2" } as Partial<CommunityEvent>),
       ];
       store.setEvents(mockEvents);
       expect(store.events).toEqual(mockEvents);
@@ -105,7 +113,10 @@ describe("useEventStore", () => {
   describe("Integration Tests", () => {
     it("setting event then getting it returns the same event", () => {
       const store = useEventStore();
-      const mockEvent = createMockEvent({ id: "event-1", name: "Test Event" });
+      const mockEvent = createMockEvent({
+        id: "event-1",
+        name: "Test Event",
+      } as Partial<CommunityEvent>);
       store.setEvent(mockEvent);
       expect(store.getEvent()).toEqual(mockEvent);
       expect(store.getEvent().id).toBe("event-1");
@@ -114,8 +125,8 @@ describe("useEventStore", () => {
     it("setting events array then getting it returns the same array", () => {
       const store = useEventStore();
       const mockEvents = [
-        createMockEvent({ id: "event-1" }),
-        createMockEvent({ id: "event-2" }),
+        createMockEvent({ id: "event-1" } as Partial<CommunityEvent>),
+        createMockEvent({ id: "event-2" } as Partial<CommunityEvent>),
       ];
       store.setEvents(mockEvents);
       expect(store.getEvents()).toEqual(mockEvents);
@@ -142,10 +153,12 @@ describe("useEventStore", () => {
 
     it("can set event independently of events array", () => {
       const store = useEventStore();
-      const singleEvent = createMockEvent({ id: "event-single" });
+      const singleEvent = createMockEvent({
+        id: "event-single",
+      } as Partial<CommunityEvent>);
       const eventsArray = [
-        createMockEvent({ id: "event-1" }),
-        createMockEvent({ id: "event-2" }),
+        createMockEvent({ id: "event-1" } as Partial<CommunityEvent>),
+        createMockEvent({ id: "event-2" } as Partial<CommunityEvent>),
       ];
 
       store.setEvent(singleEvent);
@@ -159,7 +172,9 @@ describe("useEventStore", () => {
 
     it("can update filters without affecting other state", () => {
       const store = useEventStore();
-      const mockEvent = createMockEvent({ id: "event-1" });
+      const mockEvent = createMockEvent({
+        id: "event-1",
+      } as Partial<CommunityEvent>);
       const mockEvents = [mockEvent];
       const mockFilters = createMockEventFilters({ setting: "action" });
 
