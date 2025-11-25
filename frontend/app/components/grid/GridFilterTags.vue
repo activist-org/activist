@@ -70,7 +70,9 @@ const keyboardEvent = (e: KeyboardEvent) => {
       (switches.value[nextIndex]?.childNodes[2] as HTMLInputElement).focus();
       break;
     case "Enter":
-      currentSwitch = switches.value[currentIndex];
+      currentSwitch = switches.value[
+        currentIndex
+      ] as unknown as HTMLElement | null;
       if (currentSwitch && currentSwitch.childNodes.length >= 3) {
         const tag = currentSwitch.childNodes[2]?.textContent?.trim() || "";
         selected.value[tag] = !selected.value[tag];
