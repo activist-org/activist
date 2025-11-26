@@ -72,3 +72,19 @@ export function currentRoutePathIncludes(
   const baseName = removeLocaleFromRouteName(routeName);
   return baseName.includes(path);
 }
+
+/**
+ * Normalizes Vue Router query parameter to always be an array.
+ * Vue Router returns string for single value, array for multiple.
+ *
+ * @param topics - Query parameter value (string | string[] | undefined)
+ * @returns Array of topics, or empty array if undefined
+ */
+export function normalizeTopicsQuery(
+  topics: string | string[] | undefined
+): string[] {
+  if (!topics) return [];
+  if (Array.isArray(topics)) return topics;
+  if (typeof topics === "string") return [topics];
+  return [];
+}
