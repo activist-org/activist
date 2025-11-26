@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { normalizeTopicsQuery } from "~/shared/utils/routeUtils";
+import { normalizeTopicsQuery } from "#shared/utils/routeUtils";
 
 const route = useRoute();
 const router = useRouter();

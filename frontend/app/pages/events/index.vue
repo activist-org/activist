@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { normalizeTopicsQuery } from "~/shared/utils/routeUtils";
+import { normalizeTopicsQuery } from "#shared/utils/routeUtils";
 
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
