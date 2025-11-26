@@ -1,36 +1,59 @@
-/**
- * stores/machines/flowBaseModal.ts
+/*
+ * flowBaseModal.ts
  *
- * A generic Pinia store factory for creating sophisticated, multi-step flow machines.
- * This factory includes all the advanced features we've designed:
+ * This file contains a generic Pinia store factory for creating sophisticated, multi-step flow machines.
+ * This is the final, professional version incorporating all architectural refinements.
  *
- * - Co-located Node Configuration: Each node can define its own UI component directly.
- * - Logic-Only Steps: Supports nodes without a UI component for branching, calculations, or side-effects.
- * - History-Based Navigation: A universal `prev()` action that automatically tracks the user's path,
- *   handles loops correctly, and skips over logic-only steps when going back.
- * - Progress Calculation: Built-in getters (`currentStep`, `totalSteps`) that correctly calculate
- *   progress, ignoring any non-visible logic steps.
+ * --- ARCHITECTURAL HIGHLIGHTS ---
+ *
+ * 1. `currentNode` as the Single Source of Truth:
+ *    The state directly holds the `currentNode: NodeConfig` object.
+ *
+ * 2. Co-located Node Configuration:
+ *    Nodes define their own UI via the `component` property.
+ *
+ * 3. `onExit` Actions for Side-Effects:
+ *    Nodes can have an `onExit` function that runs as a side-effect during the transition,
+ *    perfect for API calls or data manipulation without needing a separate "action" node.
+ *
+ * 4. Rich `context` for Functions:
+ *    The `next` and `onExit` functions now receive a full `context` object, giving them access
+ *    to all collected data (`allNodeData`) and the store's actions (`actions`).
+ *
+ * 5. Clean `next` function signatures:
+ *    The `next` function for logic nodes now has a clean signature, as it no longer receives
+ *    a useless `nodeData` argument.
  */
-import { defineStore, type Store } from "pinia";
-import type { Component } from "vue";
+import { defineStore } from "pinia";
 
-// The function signature for a dynamic `next` property on a node.
-export type NextFn = (nodeData: Record<string, any>, allNodeData: Record<string, any>) => string | null | undefined;
+/** The rich context object passed to `next` and `onExit` functions. */
+export interface FlowContext {
+  allNodeData: Record<string, any>;
+  actions: {
+    goto: (nodeId: string) => void;
+    submit: () => void;
+  };
+}
 
-// The different types a node can be. 'screen' is default.
-export type NodeType = "screen" | "logic" | "calculator" | "action" | "external";
+/** The function signature for a dynamic `next` property on a node. */
+export type NextFn = (context: FlowContext, nodeData?: Record<string, any>) => string | null | undefined;
+/** The function signature for the `onExit` side-effect action. */
+export type OnExitFn = (context: FlowContext, nodeData?: Record<string, any>) => void | Promise<void>;
 
-// The complete configuration for a single node in the flow.
+/** The different types a node can be. */
+export type NodeType = "screen" | "logic";
+
+/** The complete configuration for a single node in the flow. */
 export interface NodeConfig {
   id: string;
   label?: string;
-  next?: string | NextFn;
+  next?: string | NextFn | null;
+  onExit?: OnExitFn;
   type?: NodeType;
-  // A node can directly define its UI component (lazy-loaded for performance).
   component?: Component | (() => Promise<any>);
 }
 
-// The options required to create a new flow store instance.
+/** The options required to create a new flow store instance. */
 export interface FlowStoreOptions {
   storeId: string;
   defaultNodeId: string;
@@ -53,150 +76,127 @@ export function createFlowStore(opts: FlowStoreOptions) {
     discardOnClose = true,
   } = opts;
 
+  const nodesById = Object.fromEntries(nodes.map((n) => [n.id, n]));
+  const defaultNode = nodesById[defaultNodeId] ?? null;
+
   return defineStore(storeId, {
     state: () => ({
       active: false,
-      nodeId: defaultNodeId,
-      nodes: nodes,
+      currentNode: defaultNode,
+      nodes,
       nodeData: { ...initialNodeData },
-      history: [] as string[], // The history stack for `prev()` navigation
+      history: [] as string[],
+      isFinished: false,
       saving: false,
       saveResult: null as any | null,
     }),
 
     getters: {
-      /**
-       * The configuration object for the currently active node.
-       */
-      currentNode(state): NodeConfig | null {
-        const lookup = Object.fromEntries(state.nodes.map((n) => [n.id, n]));
-        return lookup[state.nodeId] ?? null;
+      nodeId(state): string | null {
+        return state.currentNode?.id ?? null;
       },
-
-      /**
-       * A filtered list of nodes that are visible to the user (i.e., have a component).
-       * This is the basis for all progress calculations.
-       */
       visibleNodes(state): NodeConfig[] {
         return state.nodes.filter(
-          (node) => !!node.component || (node.type !== 'logic' && node.type !== 'action')
+          (node) => !!node.component && node.type !== "logic"
         );
       },
-
-      /**
-       * The total number of visible steps in the flow.
-       * Perfect for `x of N` progress indicators.
-       */
       totalSteps(): number {
         return this.visibleNodes.length;
       },
-
-      /**
-       * The 1-based index of the current step within the visible steps.
-       * Intelligently finds the last visible step if the user is on a logic node.
-       */
       currentStep(state): number {
-        const currentVisibleIndex = this.visibleNodes.findIndex((node) => node.id === state.nodeId);
-        if (currentVisibleIndex !== -1) {
-          return currentVisibleIndex + 1;
-        }
-
-        // If on a logic node, look backward through history to find the last visible step's index.
+        const currentVisibleIndex = this.visibleNodes.findIndex((node) => node.id === this.nodeId);
+        if (currentVisibleIndex !== -1) return currentVisibleIndex + 1;
         for (let i = state.history.length - 1; i >= 0; i--) {
-          const lastNodeId = state.history[i];
-          const lastVisibleIndex = this.visibleNodes.findIndex((node) => node.id === lastNodeId);
-          if (lastVisibleIndex !== -1) {
-            return lastVisibleIndex + 1;
-          }
+          const lastVisibleIndex = this.visibleNodes.findIndex((node) => node.id === state.history[i]);
+          if (lastVisibleIndex !== -1) return lastVisibleIndex + 1;
         }
-        return 1; // Fallback
+        return 1;
       },
     },
 
     actions: {
-      /**
-       * Starts or restarts the flow.
-       */
-      start(draftNodeData?: Record<string, any>) {
-        this.resetToInitial();
-        this.active = true;
-        if (draftNodeData) {
-          this.nodeData = { ...this.nodeData, ...draftNodeData };
-        }
-      },
-
-      /**
-       * Closes the flow, optionally discarding state.
-       */
-      close(discard?: boolean) {
-        this.active = false;
-        if (discard ?? discardOnClose) {
-          this.resetToInitial();
-        }
-      },
-
-      /**
-       * Jumps to a specific node, updating history.
-       */
-      goto(nodeId: string) {
-        const lookup = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
-        if (!lookup[nodeId] || nodeId === this.nodeId) return;
-
-        this.history.push(this.nodeId);
-        this.nodeId = nodeId;
-      },
-
-      /**
-       * Advances to the next node, updating history.
-       */
-      next(nextNodeData?: Record<string, any>) {
-        const currentId = this.nodeId;
+      async next(nextNodeData?: Record<string, any>) {
         const node = this.currentNode;
-        if (!node || !node.next) return;
+        const currentId = this.nodeId;
+        if (!node || !currentId) return;
 
         if (nextNodeData && Object.keys(nextNodeData).length) {
           this.nodeData[currentId] = { ...(this.nodeData[currentId] || {}), ...nextNodeData };
         }
 
-        const nextId = typeof node.next === 'function' ? node.next(this.nodeData[currentId] ?? {}, this.nodeData) : node.next;
-        const lookup = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
+        const context: FlowContext = {
+          allNodeData: this.nodeData,
+          actions: { goto: this.goto, submit: this.submit },
+        };
 
-        if (nextId && lookup[nextId]) {
-          this.history.push(currentId);
-          this.nodeId = nextId;
+        if (node.onExit) {
+          await node.onExit(context, this.nodeData[currentId] ?? {});
+        }
+
+        const nextId = this.calculateNextNode(node, context, currentId);
+
+        if (!nextId || nextId === 'end') {
+          this.submit();
+          return;
+        }
+
+        const nextNode = nodesById[nextId];
+        if (nextNode) {
+          const isCurrentNodeScreen = !!node.component && node.type !== 'logic';
+          if (isCurrentNodeScreen) this.history.push(currentId);
+          this.currentNode = nextNode;
+        } else {
+          console.warn(`[FlowMachine] Node "${nextId}" not found. Ending flow.`);
+          this.submit();
         }
       },
 
-      /**
-       * Goes back to the last screen in the history, skipping over any logic-only steps.
-       */
+      calculateNextNode(node: NodeConfig, context: FlowContext, currentId: string): string | null | undefined {
+        if (!node.next) return null;
+        if (typeof node.next !== 'function') return node.next;
+        if (node.type === 'logic') return node.next(context);
+        return node.next(context, this.nodeData[currentId] ?? {});
+      },
+
+      start(draftNodeData?: Record<string, any>) {
+        this.resetToInitial();
+        this.active = true;
+        if (draftNodeData) this.nodeData = { ...this.nodeData, ...draftNodeData };
+      },
+
+      close(discard?: boolean) {
+        this.active = false;
+        if (discard ?? discardOnClose) this.resetToInitial();
+      },
+
       prev() {
-        if (this.history.length === 0) return;
-
-        const nodesById = Object.fromEntries(this.nodes.map((n) => [n.id, n]));
-        let previousNodeId = this.history.pop();
-
-        while (previousNodeId) {
-          const previousNodeConfig = nodesById[previousNodeId];
-          const isScreen = !!previousNodeConfig?.component || (previousNodeConfig?.type !== 'logic' && previousNodeConfig?.type !== 'action');
-
-          if (isScreen) {
-            this.nodeId = previousNodeId;
-            return;
-          }
-
-          previousNodeId = this.history.length > 0 ? this.history.pop() : undefined;
-        }
+        const previousNodeId = this.history.pop();
+        if (previousNodeId) this.currentNode = nodesById[previousNodeId] ?? null;
       },
 
-      /**
-       * Resets the entire flow state to its initial configuration.
-       */
+      goto(nodeId: string) {
+        const targetNode = nodesById[nodeId];
+        if (!targetNode || targetNode.id === this.nodeId) return;
+
+        const isCurrentNodeScreen = !!this.currentNode?.component && this.currentNode?.type !== 'logic';
+        if (isCurrentNodeScreen && this.nodeId) this.history.push(this.nodeId);
+        this.currentNode = targetNode;
+      },
+
+      submit() {
+        if (this.isFinished) return;
+        const finalData = Object.values(this.nodeData).reduce((acc, data) => ({ ...acc, ...data }), {});
+        this.saveResult = finalData;
+        this.isFinished = true;
+        this.active = false;
+      },
+
       resetToInitial() {
         this.active = false;
-        this.nodeId = defaultNodeId;
+        this.currentNode = defaultNode;
         this.nodeData = { ...initialNodeData };
         this.history = [];
+        this.isFinished = false;
         this.saveResult = null;
         this.saving = false;
       },
