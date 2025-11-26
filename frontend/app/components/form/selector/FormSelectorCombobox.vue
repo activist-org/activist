@@ -11,8 +11,9 @@
         <FormTextInput
           :id="inputId"
           :ref="
-            (el: unknown) => {
-              formInputRef = el as { $el?: HTMLElement } | null;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (el: any) => {
+              formInputRef = el;
             }
           "
           @update:modelValue="(val) => (query = val)"
@@ -116,7 +117,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const query = ref("");
 const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
-const actualInputRef = ref<HTMLInputElement | null>(null);
+// Use any type to avoid strict Headless UI type conflicts with DOM types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const actualInputRef = ref<any>(null);
 
 // Workaround: Headless UI tries to call setSelectionRange on the wrapper div
 // when using as="div", but divs don't have this method. We forward the call

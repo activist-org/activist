@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { LocationQueryValue } from "vue-router";
+
 import locales from "#shared/utils/locales";
 
 const localCodes = locales.map((l) => l.code);
@@ -76,15 +78,21 @@ export function currentRoutePathIncludes(
 /**
  * Normalizes Vue Router query parameter to always be an array.
  * Vue Router returns string for single value, array for multiple.
+ * LocationQueryValue can be string | null, so we need to handle null.
  *
- * @param topics - Query parameter value (string | string[] | undefined)
- * @returns Array of topics, or empty array if undefined
+ * @param topics - Query parameter value (LocationQueryValue | LocationQueryValue[] | undefined)
+ * @returns Array of topics, or empty array if undefined/null
  */
 export function normalizeTopicsQuery(
-  topics: string | string[] | undefined
+  topics: LocationQueryValue | LocationQueryValue[] | undefined
 ): string[] {
-  if (!topics) return [];
-  if (Array.isArray(topics)) return topics;
+  if (!topics || topics === null) return [];
+  if (Array.isArray(topics)) {
+    // Filter out null values from array
+    return topics.filter(
+      (t): t is string => t !== null && typeof t === "string"
+    );
+  }
   if (typeof topics === "string") return [topics];
   return [];
 }
