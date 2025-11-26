@@ -45,8 +45,19 @@ const router = useRouter();
 const loadingFetchMore = ref(false);
 
 const filters = computed<EventFilters>(() => {
-  const { view, ...rest } = route.query; // omit view
-  return rest as unknown as EventFilters;
+  const { view, topics, ...rest } = route.query; // omit view
+  const normalizedFilters: EventFilters = rest as unknown as EventFilters;
+
+  // Normalize topics to always be an array (Vue Router returns string for single value)
+  if (topics) {
+    if (Array.isArray(topics)) {
+      normalizedFilters.topics = topics as TopicEnum[];
+    } else if (typeof topics === "string") {
+      normalizedFilters.topics = [topics as TopicEnum];
+    }
+  }
+
+  return normalizedFilters;
 });
 const selectedTopics = ref<TopicEnum[]>([]);
 watch(

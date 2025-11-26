@@ -49,7 +49,20 @@ const loadingFetchMore = ref(false);
 
 const filters = computed<OrganizationFilters>(() => {
   // Note: We do not have a view filter for organizations.
-  return route.query as unknown as OrganizationFilters;
+  const { topics, ...rest } = route.query;
+  const normalizedFilters: OrganizationFilters =
+    rest as unknown as OrganizationFilters;
+
+  // Normalize topics to always be an array (Vue Router returns string for single value)
+  if (topics) {
+    if (Array.isArray(topics)) {
+      normalizedFilters.topics = topics as TopicEnum[];
+    } else if (typeof topics === "string") {
+      normalizedFilters.topics = [topics as TopicEnum];
+    }
+  }
+
+  return normalizedFilters;
 });
 const selectedTopics = ref<TopicEnum[]>([]);
 watch(
