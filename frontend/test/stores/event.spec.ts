@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { CommunityEvent } from "../../shared/types/event";
 
 import { useEventStore } from "../../app/stores/event";
-import { createMockEvent, createMockEventFilters } from "./helpers";
+import { createMockEvent, createMockEventFilters } from "../mocks/factories";
 
 describe("useEventStore", () => {
   beforeEach(() => {

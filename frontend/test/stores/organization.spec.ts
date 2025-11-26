@@ -9,7 +9,7 @@ import {
   createMockContentImage,
   createMockOrganization,
   createMockOrganizationFilters,
-} from "./helpers";
+} from "../mocks/factories";
 
 describe("useOrganizationStore", () => {
   beforeEach(() => {

@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { Group } from "../../shared/types/group";
 
 import { useGroupStore } from "../../app/stores/group";
-import { createMockContentImage, createMockGroup } from "./helpers";
+import { createMockContentImage, createMockGroup } from "../mocks/factories";
 
 describe("useGroupStore", () => {
   beforeEach(() => {

@@ -3,7 +3,7 @@ import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { useTopics } from "../../app/stores/topics";
-import { createMockTopic } from "./helpers";
+import { createMockTopic } from "../mocks/factories";
 
 describe("useTopics", () => {
   beforeEach(() => {
