@@ -22,7 +22,7 @@
           :placeholder="label"
         />
       </ComboboxInput>
-      <!-- Minimal visible button to open combobox - required for Headless UI v1 -->
+      <!-- Minimal visible button to open combobox for programmatic control -->
       <ComboboxButton
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
