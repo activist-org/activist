@@ -113,12 +113,21 @@ const selectedTopics = ref<{ label: string; value: TopicEnum; id: string }[]>(
   []
 );
 
+// Flag to prevent emitting when updating from props
+const isUpdatingFromProps = ref(false);
+
 watch(
   () => props.receivedSelectedTopics,
   (newVal) => {
+    // Set flag to prevent emission during prop update
+    isUpdatingFromProps.value = true;
     selectedTopics.value = options.value.filter((option) =>
       newVal?.includes(option.value)
     );
+    // Clear flag after update completes
+    nextTick(() => {
+      isUpdatingFromProps.value = false;
+    });
   },
   { immediate: true }
 );
@@ -146,18 +155,21 @@ watch(
         return 0;
       }
     });
-    // Emit only the values of the selected topics.
-    emit(
-      "update:selectedTopics",
-      options.value
-        .filter((option) =>
-          newVal.some(
-            (selected: { label: string; value: TopicEnum; id: string }) =>
-              selected.value === option.value
+    // Only emit if this change came from user interaction, not from prop update
+    if (!isUpdatingFromProps.value) {
+      // Emit only the values of the selected topics.
+      emit(
+        "update:selectedTopics",
+        options.value
+          .filter((option) =>
+            newVal.some(
+              (selected: { label: string; value: TopicEnum; id: string }) =>
+                selected.value === option.value
+            )
           )
-        )
-        .map((option) => option.value)
-    );
+          .map((option) => option.value)
+      );
+    }
   },
   { immediate: true, deep: true }
 );
