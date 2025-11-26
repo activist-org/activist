@@ -102,9 +102,9 @@ const { data: topics } = useGetTopics();
 const options = ref<{ label: string; value: TopicEnum; id: string }[]>([]);
 options.value = topics.value
   .map((topic: Topic) => ({
-  label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
-  value: topic.type as TopicEnum,
-  id: topic.id,
+    label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
+    value: topic.type as TopicEnum,
+    id: topic.id,
   }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
