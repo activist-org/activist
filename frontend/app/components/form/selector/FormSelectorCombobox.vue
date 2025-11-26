@@ -199,16 +199,6 @@ watch(
   { immediate: true }
 );
 
-// Ensure setSelectionRange is set up on mount
-onMounted(() => {
-  nextTick(() => {
-    // Re-run setup in case refs weren't ready initially
-    if (formInputRef.value?.$el && actualInputRef.value) {
-      // Input is already cached, method should already be set up via ref callback
-    }
-  });
-});
-
 const onClick = (option: Option) => {
   internalSelectedOptions.value = internalSelectedOptions.value.filter(
     (o: Option) => o.id !== option.id
