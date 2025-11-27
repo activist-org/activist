@@ -6,6 +6,7 @@ import type {
 } from "../../shared/types/event";
 import type { ContentImage } from "../../shared/types/file-type";
 import type { Group, GroupText } from "../../shared/types/group";
+import type { PhysicalLocation } from "../../shared/types/location-type";
 import type {
   Organization,
   OrganizationFilters,
@@ -30,16 +31,6 @@ import {
   defaultTopicData,
   defaultUserData,
 } from "./data";
-
-// PhysicalLocation is exported from location.d.ts, but location.ts exists and takes precedence
-// in module resolution. We define it inline to avoid the conflict.
-interface PhysicalLocation {
-  id: string;
-  lat: string;
-  lon: string;
-  bbox: string[];
-  displayName: string;
-}
 
 /**
  * Factory functions for creating mock store data.

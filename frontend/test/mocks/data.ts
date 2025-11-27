@@ -21,7 +21,7 @@ export const defaultUserData = {
   id: "user-1",
   userName: "testuser",
   name: "Test User",
-  socialLinks: [],
+  socialLinks: [] as string[],
 } as const;
 
 // MARK: PhysicalLocation
@@ -30,7 +30,7 @@ export const defaultPhysicalLocationData = {
   id: "loc-1",
   lat: "0.0",
   lon: "0.0",
-  bbox: [],
+  bbox: [] as string[],
   displayName: "Test Location",
 } as const;
 
