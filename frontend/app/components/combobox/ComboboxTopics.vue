@@ -135,10 +135,7 @@ const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
 );
 watch(
   () => props.receivedSelectedTopics,
-  (
-    newValReceived:
-      TopicEnum[] | undefined
-  ) => {
+  (newValReceived: TopicEnum[] | undefined) => {
     // if incoming prop is empty, clear the local selection
     if (!newValReceived || newValReceived.length === 0) {
       selectedTopics.value = [];
@@ -155,10 +152,7 @@ watch(
   selectedTopics,
   (newVal) => {
     if (!newVal) return;
-    emit(
-      "update:selectedTopics",
-      [...newVal]
-    );
+    emit("update:selectedTopics", [...newVal]);
   },
   { immediate: true }
 );
