@@ -48,7 +48,7 @@
               v-slot="{ selected, active }"
               @click="inputFocussed = false"
               as="template"
-              :value="topic"
+              :value="topic.value"
             >
               <li
                 class="relative cursor-default select-none py-2 pl-10 pr-4"
@@ -99,54 +99,28 @@ const { t } = useI18n();
 
 const { data: topics } = useGetTopics();
 
-const options = ref<{ label: string; value: TopicEnum; id: string }[]>([]);
-options.value = topics.value
-  .map((topic: Topic) => ({
-    label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
-    value: topic.type as TopicEnum,
-    id: topic.id,
-  }))
-  .sort((a, b) => a.label.localeCompare(b.label));
-
 const emit = defineEmits<{
   (e: "update:selectedTopics", value: TopicEnum[]): void;
 }>();
 
-const selectedTopics = ref<{ label: string; value: TopicEnum; id: string }[]>(
-  []
-);
-
-// Flag to prevent emitting when updating from props
-const isUpdatingFromProps = ref(false);
-
-watch(
-  () => props.receivedSelectedTopics,
-  (newVal) => {
-    // Set flag to prevent emission during prop update
-    isUpdatingFromProps.value = true;
-    selectedTopics.value = options.value.filter((option) =>
-      newVal?.includes(option.value)
-    );
-    // Clear flag after update completes
-    nextTick(() => {
-      isUpdatingFromProps.value = false;
-    });
-  },
-  { immediate: true }
-);
-
-// Re-sort options when selectedTopics changes to keep selected items on top.
-watch(
-  selectedTopics,
-  (newVal) => {
-    options.value = options.value.sort((a, b) => {
-      const aSelected = newVal.some(
-        (selected: { label: string; value: TopicEnum; id: string }) =>
-          selected.value === a.value
+const selectedTopics = ref<TopicEnum[]>([]);
+const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
+  () => {
+    const topicsOptions = topics.value
+      .map((topic: Topic) => ({
+        label: t(
+          GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""
+        ),
+        value: topic.type as TopicEnum,
+        id: topic.id,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+    return topicsOptions.sort((a, b) => {
+      const aSelected = selectedTopics.value.some(
+        (selected: TopicEnum) => selected === a.value
       );
-      const bSelected = newVal.some(
-        (selected: { label: string; value: TopicEnum; id: string }) =>
-          selected.value === b.value
+      const bSelected = selectedTopics.value.some(
+        (selected: TopicEnum) => selected === b.value
       );
 
       if (aSelected && !bSelected) {
@@ -157,23 +131,36 @@ watch(
       }
       return a.label.localeCompare(b.label);
     });
-    // Only emit if this change came from user interaction, not from prop update
-    if (!isUpdatingFromProps.value) {
-      // Emit only the values of the selected topics.
-      emit(
-        "update:selectedTopics",
-        options.value
-          .filter((option) =>
-            newVal.some(
-              (selected: { label: string; value: TopicEnum; id: string }) =>
-                selected.value === option.value
-            )
-          )
-          .map((option) => option.value)
-      );
+  }
+);
+watch(
+  () => props.receivedSelectedTopics,
+  (
+    newValReceived:
+      TopicEnum[] | undefined
+  ) => {
+    // if incoming prop is empty, clear the local selection
+    if (!newValReceived || newValReceived.length === 0) {
+      selectedTopics.value = [];
+      return;
     }
+
+    // sync selected topics (store primitives)
+    selectedTopics.value = [...newValReceived];
   },
-  { immediate: true, deep: true }
+  { immediate: true }
+);
+// Re-sort options when selectedTopics changes to keep selected items on top.
+watch(
+  selectedTopics,
+  (newVal) => {
+    if (!newVal || newVal.length === 0) return;
+    emit(
+      "update:selectedTopics",
+      [...newVal]
+    );
+  },
+  { immediate: true }
 );
 const query = ref("");
 const inputFocussed = ref(false);
