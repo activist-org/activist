@@ -80,19 +80,19 @@ export function currentRoutePathIncludes(
  * Vue Router returns string for single value, array for multiple.
  * LocationQueryValue can be string | null, so we need to handle null.
  *
- * @param topics - Query parameter value (LocationQueryValue | LocationQueryValue[] | undefined)
- * @returns Array of topics, or empty array if undefined/null
+ * @param arr - Query parameter value (LocationQueryValue | LocationQueryValue[] | undefined)
+ * @returns Array of strings, or empty array if undefined/null
  */
-export function normalizeTopicsQuery(
-  topics: LocationQueryValue | LocationQueryValue[] | undefined
+export function normalizeArrayFromURLQuery(
+  arr: LocationQueryValue | LocationQueryValue[] | undefined
 ): string[] {
-  if (!topics || topics === null) return [];
-  if (Array.isArray(topics)) {
+  if (!arr || arr === null) return [];
+  if (Array.isArray(arr)) {
     // Filter out null values from array
-    return topics.filter(
+    return arr.filter(
       (t): t is string => t !== null && typeof t === "string"
     );
   }
-  if (typeof topics === "string") return [topics];
+  if (typeof arr === "string") return [arr];
   return [];
 }

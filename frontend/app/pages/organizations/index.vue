@@ -43,7 +43,6 @@
 </template>
 
 <script setup lang="ts">
-import { normalizeTopicsQuery } from "#shared/utils/routeUtils";
 
 const route = useRoute();
 const router = useRouter();
@@ -56,7 +55,7 @@ const filters = computed<OrganizationFilters>(() => {
     rest as unknown as OrganizationFilters;
 
   // Normalize topics to always be an array (Vue Router returns string for single value)
-  normalizedFilters.topics = normalizeTopicsQuery(topics) as TopicEnum[];
+  normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
 
   return normalizedFilters;
 });
@@ -64,7 +63,7 @@ const selectedTopics = ref<TopicEnum[]>([]);
 watch(
   () => route.query.topics,
   (newVal) => {
-    selectedTopics.value = normalizeTopicsQuery(newVal) as TopicEnum[];
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicEnum[];
   },
   { immediate: true }
 );

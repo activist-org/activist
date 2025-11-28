@@ -39,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { normalizeTopicsQuery } from "#shared/utils/routeUtils";
 
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
@@ -51,7 +50,7 @@ const filters = computed<EventFilters>(() => {
   const normalizedFilters: EventFilters = rest as unknown as EventFilters;
 
   // Normalize topics to always be an array (Vue Router returns string for single value)
-  normalizedFilters.topics = normalizeTopicsQuery(topics) as TopicEnum[];
+  normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
 
   return normalizedFilters;
 });
@@ -59,7 +58,7 @@ const selectedTopics = ref<TopicEnum[]>([]);
 watch(
   () => route.query.topics,
   (newVal) => {
-    selectedTopics.value = normalizeTopicsQuery(newVal) as TopicEnum[];
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicEnum[];
   },
   { immediate: true }
 );
