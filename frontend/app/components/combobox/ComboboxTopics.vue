@@ -104,6 +104,9 @@ const emit = defineEmits<{
 }>();
 
 const selectedTopics = ref<TopicEnum[]>([]);
+// Flag to prevent emitting when updating from props (prevents infinite loop)
+const isSyncingFromProps = ref(false);
+
 const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
   () => {
     const topicsOptions = topics.value
@@ -136,14 +139,21 @@ const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
 watch(
   () => props.receivedSelectedTopics,
   (newValReceived: TopicEnum[] | undefined) => {
+    // Set flag to prevent emission during prop update
+    isSyncingFromProps.value = true;
+
     // if incoming prop is empty, clear the local selection
     if (!newValReceived || newValReceived.length === 0) {
       selectedTopics.value = [];
-      return;
+    } else {
+      // sync selected topics (store primitives)
+      selectedTopics.value = [...newValReceived];
     }
 
-    // sync selected topics (store primitives)
-    selectedTopics.value = [...newValReceived];
+    // Clear flag after sync completes
+    nextTick(() => {
+      isSyncingFromProps.value = false;
+    });
   },
   { immediate: true }
 );
@@ -151,8 +161,12 @@ watch(
 watch(
   selectedTopics,
   (newVal) => {
-    if (!newVal) return;
-    emit("update:selectedTopics", [...newVal]);
+    // Only emit if this change came from user interaction, not from prop update
+    if (!isSyncingFromProps.value) {
+      // Emit all changes, including empty arrays to allow URL query param clearing
+      // Empty arrays are emitted when user deselects all options
+      emit("update:selectedTopics", newVal ? [...newVal] : []);
+    }
   },
   { immediate: true }
 );
