@@ -30,7 +30,9 @@ export function useCustomInfiniteScroll(options: {
       },
       { root: null, threshold, rootMargin }
     );
-    if (sentinel.value) observer.value.observe(sentinel.value);
+    if (sentinel.value && observer.value) {
+      observer.value.observe(sentinel.value);
+    }
   });
 
   watch(
