@@ -89,7 +89,7 @@ describe("FormSocialLink", () => {
   it("validates invalid URL and prevents submit when data is invalid", async () => {
     const handleSubmit = vi.fn().mockResolvedValue(undefined);
 
-    // Start with invalid data: empty label + invalid URL
+    // Start with invalid data: empty label  or  invalid URL
     const formData = {
       socialLinks: [
         createSocialLink({
@@ -126,7 +126,6 @@ describe("FormSocialLink", () => {
     expect(urlError.textContent || "").toMatch(/valid url/i);
 
     // Style coverage: invalid URL field should get error border color.
-    // The border class is applied to the fieldset wrapper, not the input itself.
     const urlBorder = screen.getByTestId(
       "form-item-socialLinks.0.link-border"
     ) as HTMLElement;
