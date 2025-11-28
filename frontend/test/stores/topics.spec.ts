@@ -7,11 +7,12 @@ import { createMockTopic } from "../mocks/factories";
 
 describe("useTopics", () => {
   beforeEach(() => {
-    // Create fresh Pinia instance for each test to ensure isolation
+    // Create fresh Pinia instance for each test to ensure isolation.
     setActivePinia(createPinia());
   });
 
   // MARK: Initial State
+
   describe("Initial State", () => {
     it("initializes with empty topics array", () => {
       const store = useTopics();
@@ -20,6 +21,7 @@ describe("useTopics", () => {
   });
 
   // MARK: Getter Actions
+
   describe("Getter Actions", () => {
     it("getTopics returns current topics array", () => {
       const store = useTopics();
@@ -30,6 +32,7 @@ describe("useTopics", () => {
   });
 
   // MARK: Setter Actions
+
   describe("Setter Actions", () => {
     it("setTopics updates topics array", () => {
       const store = useTopics();
@@ -44,6 +47,7 @@ describe("useTopics", () => {
   });
 
   // MARK: Integration Tests
+
   describe("Integration Tests", () => {
     it("setting topics then getting them returns the same array", () => {
       const store = useTopics();
@@ -64,7 +68,7 @@ describe("useTopics", () => {
       expect(store.topics).toEqual(mockTopics);
       expect(store.getTopics()).toEqual(mockTopics);
 
-      // Update topics
+      // Update topics.
       const updatedTopics = [
         createMockTopic({ id: "topic-1" }),
         createMockTopic({ id: "topic-2" }),
@@ -77,6 +81,7 @@ describe("useTopics", () => {
   });
 
   // MARK: Edge Cases
+
   describe("Edge Cases", () => {
     it("handles setting empty topics array", () => {
       const store = useTopics();

@@ -1,4 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * Factory functions for creating mock store data.
+ * These ensure consistent test data structure across all store tests.
+ */
 import type {
   CommunityEvent,
   EventFilters,
@@ -31,11 +35,6 @@ import {
   defaultTopicData,
   defaultUserData,
 } from "./data";
-
-/**
- * Factory functions for creating mock store data.
- * These ensure consistent test data structure across all store tests.
- */
 
 // MARK: ContentImage
 

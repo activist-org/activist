@@ -9,11 +9,12 @@ import { createMockContentImage, createMockGroup } from "../mocks/factories";
 
 describe("useGroupStore", () => {
   beforeEach(() => {
-    // Create fresh Pinia instance for each test to ensure isolation
+    // Create fresh Pinia instance for each test to ensure isolation.
     setActivePinia(createPinia());
   });
 
   // MARK: Initial State
+
   describe("Initial State", () => {
     it("initializes with null group", () => {
       const store = useGroupStore();
@@ -32,6 +33,7 @@ describe("useGroupStore", () => {
   });
 
   // MARK: Getter Actions
+
   describe("Getter Actions", () => {
     it("getGroup returns current group", () => {
       const store = useGroupStore();
@@ -56,6 +58,7 @@ describe("useGroupStore", () => {
   });
 
   // MARK: Setter Actions
+
   describe("Setter Actions", () => {
     it("setGroup updates group state", () => {
       const store = useGroupStore();
@@ -88,6 +91,7 @@ describe("useGroupStore", () => {
   });
 
   // MARK: Conditional Clear Actions
+
   describe("Conditional Clear Actions", () => {
     it("clearGroupImages clears images only if group.id matches", () => {
       const store = useGroupStore();
@@ -100,7 +104,7 @@ describe("useGroupStore", () => {
       store.setGroup(mockGroup);
       store.setGroupImages(mockImages);
 
-      // Clear with matching id - should clear images
+      // Clear with matching id - should clear images.
       store.clearGroupImages("group-1");
       expect(store.getGroupImages()).toEqual([]);
       expect(store.images).toHaveLength(0);
@@ -117,7 +121,7 @@ describe("useGroupStore", () => {
       store.setGroup(mockGroup);
       store.setGroupImages(mockImages);
 
-      // Clear with non-matching id - should not clear images
+      // Clear with non-matching id - should not clear images.
       store.clearGroupImages("group-2");
       expect(store.getGroupImages()).toEqual(mockImages);
       expect(store.images).toHaveLength(2);
@@ -127,15 +131,15 @@ describe("useGroupStore", () => {
       const store = useGroupStore();
       const mockImages = [createMockContentImage({ id: "img-1" })];
 
-      // Group is null by default
+      // Group is null by default.
       expect(store.group).toBeNull();
       store.setGroupImages(mockImages);
 
-      // Attempt to clear - should throw error when accessing group.id on null
+      // Attempt to clear - should throw error when accessing group.id on null.
       expect(() => {
         store.clearGroupImages("group-1");
       }).toThrow();
-      // Images should remain since error prevents clearing
+      // Images should remain since error prevents clearing.
       expect(store.getGroupImages()).toEqual(mockImages);
     });
 
@@ -145,7 +149,7 @@ describe("useGroupStore", () => {
 
       store.setGroup(mockGroup);
 
-      // Clear with matching id - should set group to null
+      // Clear with matching id - should set group to null.
       store.clearGroup("group-1");
       expect(store.getGroup()).toBeNull();
       expect(store.group).toBeNull();
@@ -157,7 +161,7 @@ describe("useGroupStore", () => {
 
       store.setGroup(mockGroup);
 
-      // Clear with non-matching id - should not clear group
+      // Clear with non-matching id - should not clear group.
       store.clearGroup("group-2");
       expect(store.getGroup()).toEqual(mockGroup);
       expect(store.group.id).toBe("group-1");
@@ -166,10 +170,10 @@ describe("useGroupStore", () => {
     it("clearGroup throws error when group is null", () => {
       const store = useGroupStore();
 
-      // Group is null by default
+      // Group is null by default.
       expect(store.group).toBeNull();
 
-      // Attempt to clear - should throw error when accessing group.id on null
+      // Attempt to clear - should throw error when accessing group.id on null.
       expect(() => {
         store.clearGroup("group-1");
       }).toThrow();
@@ -193,6 +197,7 @@ describe("useGroupStore", () => {
   });
 
   // MARK: Integration Tests
+
   describe("Integration Tests", () => {
     it("setting group with specific id, then clearing images with same id clears images", () => {
       const store = useGroupStore();
@@ -208,7 +213,7 @@ describe("useGroupStore", () => {
 
       store.clearGroupImages("group-1");
       expect(store.getGroupImages()).toEqual([]);
-      expect(store.getGroup()).toEqual(mockGroup); // Group should remain
+      expect(store.getGroup()).toEqual(mockGroup); // group should remain
     });
 
     it("setting group with specific id, then clearing images with different id doesn't clear images", () => {
@@ -222,7 +227,7 @@ describe("useGroupStore", () => {
       store.setGroup(mockGroup);
       store.setGroupImages(mockImages);
 
-      store.clearGroupImages("group-2"); // Different id
+      store.clearGroupImages("group-2"); // different id
       expect(store.getGroupImages()).toEqual(mockImages);
       expect(store.getGroupImages()).toHaveLength(2);
     });
@@ -270,12 +275,13 @@ describe("useGroupStore", () => {
 
       store.clearGroups();
 
-      expect(store.getGroup()).toEqual(mockGroup); // Single group should remain
-      expect(store.getGroups()).toEqual([]); // Groups array should be cleared
+      expect(store.getGroup()).toEqual(mockGroup); // single group should remain
+      expect(store.getGroups()).toEqual([]); // groups array should be cleared
     });
   });
 
   // MARK: Edge Cases
+
   describe("Edge Cases", () => {
     it("clearing images when group is null throws error", () => {
       const store = useGroupStore();
@@ -296,7 +302,7 @@ describe("useGroupStore", () => {
 
       expect(store.group).toBeNull();
 
-      // Should throw error when accessing group.id on null
+      // Should throw error when accessing group.id on null.
       expect(() => {
         store.clearGroup("group-1");
       }).toThrow();

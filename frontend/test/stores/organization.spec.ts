@@ -13,11 +13,12 @@ import {
 
 describe("useOrganizationStore", () => {
   beforeEach(() => {
-    // Create fresh Pinia instance for each test to ensure isolation
+    // Create fresh Pinia instance for each test to ensure isolation.
     setActivePinia(createPinia());
   });
 
   // MARK: Initial State
+
   describe("Initial State", () => {
     it("initializes with null organization", () => {
       const store = useOrganizationStore();
@@ -46,6 +47,7 @@ describe("useOrganizationStore", () => {
   });
 
   // MARK: Getter Actions
+
   describe("Getter Actions", () => {
     it("getOrganization returns current organization", () => {
       const store = useOrganizationStore();
@@ -87,6 +89,7 @@ describe("useOrganizationStore", () => {
   });
 
   // MARK: Setter Actions
+
   describe("Setter Actions", () => {
     it("setOrganization updates organization state", () => {
       const store = useOrganizationStore();
@@ -134,6 +137,7 @@ describe("useOrganizationStore", () => {
   });
 
   // MARK: Special Actions
+
   describe("Special Actions", () => {
     it("clearImages sets images to empty array", () => {
       const store = useOrganizationStore();
@@ -149,11 +153,11 @@ describe("useOrganizationStore", () => {
 
     it("clearImages clears images regardless of current state", () => {
       const store = useOrganizationStore();
-      // Clear when already empty
+      // Clear when already empty.
       store.clearImages();
       expect(store.images).toEqual([]);
 
-      // Clear when populated
+      // Clear when populated.
       store.setImages([createMockContentImage()]);
       store.clearImages();
       expect(store.images).toEqual([]);
@@ -161,6 +165,7 @@ describe("useOrganizationStore", () => {
   });
 
   // MARK: Integration Tests
+
   describe("Integration Tests", () => {
     it("setting organization then getting it returns the same organization", () => {
       const store = useOrganizationStore();
@@ -232,6 +237,7 @@ describe("useOrganizationStore", () => {
   });
 
   // MARK: Edge Cases
+
   describe("Edge Cases", () => {
     it("handles setting empty organizations array", () => {
       const store = useOrganizationStore();

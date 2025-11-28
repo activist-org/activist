@@ -9,11 +9,12 @@ import { createMockEvent, createMockEventFilters } from "../mocks/factories";
 
 describe("useEventStore", () => {
   beforeEach(() => {
-    // Create fresh Pinia instance for each test to ensure isolation
+    // Create fresh Pinia instance for each test to ensure isolation.
     setActivePinia(createPinia());
   });
 
   // MARK: Initial State
+
   describe("Initial State", () => {
     it("initializes with null event", () => {
       const store = useEventStore();
@@ -37,6 +38,7 @@ describe("useEventStore", () => {
   });
 
   // MARK: Getter Actions
+
   describe("Getter Actions", () => {
     it("getEvent returns current event", () => {
       const store = useEventStore();
@@ -71,6 +73,7 @@ describe("useEventStore", () => {
   });
 
   // MARK: Setter Actions
+
   describe("Setter Actions", () => {
     it("setEvent updates event state", () => {
       const store = useEventStore();
@@ -110,6 +113,7 @@ describe("useEventStore", () => {
   });
 
   // MARK: Integration Tests
+
   describe("Integration Tests", () => {
     it("setting event then getting it returns the same event", () => {
       const store = useEventStore();
@@ -183,7 +187,7 @@ describe("useEventStore", () => {
       store.setPage(5);
       store.setFilters(mockFilters);
 
-      // Verify all state remains intact
+      // Verify all state remains intact.
       expect(store.getEvent()).toEqual(mockEvent);
       expect(store.getEvents()).toEqual(mockEvents);
       expect(store.getPage()).toBe(5);
@@ -192,6 +196,7 @@ describe("useEventStore", () => {
   });
 
   // MARK: Edge Cases
+
   describe("Edge Cases", () => {
     it("handles setting empty events array", () => {
       const store = useEventStore();
