@@ -145,6 +145,31 @@ describe("FormTextEntity component", () => {
         expect(screen.queryByTestId("form-item-description-error")).toBeNull();
       });
 
+      it("shows validation error when description is only whitespace", async () => {
+        await render(FormTextEntity, {
+          props: defaultProps,
+        });
+
+        const descriptionInput = screen.getByLabelText(
+          getEnglishText("i18n._global.description")
+        );
+        await fireEvent.update(descriptionInput, "   ");
+
+        const submitBtn = screen.getByRole("button", {
+          name: "Submit the form",
+        });
+        await fireEvent.click(submitBtn);
+
+        const descriptionError = await screen.findByTestId(
+          "form-item-description-error"
+        );
+        expect(descriptionError.textContent).toBe(
+          getEnglishText(
+            "i18n.components.form_text_entity.description_required"
+          )
+        );
+      });
+
       it("shows validation error when description exceeds max length (2500 characters)", async () => {
         await render(FormTextEntity, {
           props: defaultProps,
@@ -367,6 +392,36 @@ describe("FormTextEntity component", () => {
         expect(
           screen.queryByTestId("form-item-getInvolvedUrl-error")
         ).toBeNull();
+      });
+
+      it("shows validation error for URL without protocol", async () => {
+        await render(FormTextEntity, {
+          props: defaultProps,
+        });
+
+        const descriptionInput = screen.getByLabelText(
+          getEnglishText("i18n._global.description")
+        );
+        await fireEvent.update(descriptionInput, "Valid description");
+
+        const getInvolvedUrlInput = screen.getByLabelText(
+          getEnglishText(
+            "i18n.components.modal_text_organization.join_organization_link"
+          )
+        );
+        await fireEvent.update(getInvolvedUrlInput, "example.com");
+
+        const submitBtn = screen.getByRole("button", {
+          name: "Submit the form",
+        });
+        await fireEvent.click(submitBtn);
+
+        const getInvolvedUrlError = await screen.findByTestId(
+          "form-item-getInvolvedUrl-error"
+        );
+        expect(getInvolvedUrlError.textContent).toBe(
+          getEnglishText("i18n.components.form._global.valid_url_required")
+        );
       });
     });
 
@@ -1326,10 +1381,49 @@ describe("FormTextEntity component", () => {
       });
 
       const callArgs = mockHandleSubmit.mock.calls[0]?.[0];
-      expect(callArgs).toMatchObject({
-        description: "Test description",
-        getInvolved: "Join us",
+      // Verify all fields are included in the payload
+      expect(callArgs).toHaveProperty("description", "Test description");
+      expect(callArgs).toHaveProperty("getInvolved", "Join us");
+      expect(callArgs).toHaveProperty("getInvolvedUrl");
+      // Verify the payload structure is complete
+      expect(Object.keys(callArgs)).toEqual([
+        "description",
+        "getInvolved",
+        "getInvolvedUrl",
+      ]);
+    });
+
+    it("calls handleSubmit with all fields including optional fields as undefined when not provided", async () => {
+      mockHandleSubmit.mockResolvedValue(undefined);
+
+      await render(FormTextEntity, {
+        props: defaultProps,
       });
+
+      const descriptionInput = screen.getByLabelText(
+        getEnglishText("i18n._global.description")
+      );
+      await fireEvent.update(descriptionInput, "Test description");
+
+      const getInvolvedInput = screen.getByLabelText(
+        getEnglishText("i18n.components._global.get_involved")
+      );
+      await fireEvent.update(getInvolvedInput, "Join us");
+
+      const submitBtn = screen.getByRole("button", {
+        name: "Submit the form",
+      });
+      await fireEvent.click(submitBtn);
+
+      await waitFor(() => {
+        expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+      });
+
+      const callArgs = mockHandleSubmit.mock.calls[0]?.[0];
+      // Verify optional field is undefined when not provided
+      expect(callArgs).toHaveProperty("description", "Test description");
+      expect(callArgs).toHaveProperty("getInvolved", "Join us");
+      expect(callArgs).toHaveProperty("getInvolvedUrl", undefined);
     });
 
     it("handles handleSubmit rejection gracefully", async () => {
