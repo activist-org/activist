@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
-asgiref==3.10.0
+asgiref==3.11.0
     # via
     #   django
     #   django-cors-headers
@@ -93,7 +93,7 @@ referencing==0.37.0
     #   jsonschema-specifications
 requests==2.32.5
     # via djangorestframework-stubs
-rpds-py==0.28.0
+rpds-py==0.29.0
     # via
     #   jsonschema
     #   referencing

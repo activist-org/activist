@@ -73,6 +73,19 @@ const useColorModeFn = () => ({
 globalThis.useColorModeMock = vi.fn(useColorModeFn);
 globalThis.useColorMode = () => globalThis.useColorModeMock();
 
+// Set up Sidebar mock for components that use useSidebar().
+const useSidebarFn = () => ({
+  collapsed: false,
+  collapsedSwitch: false,
+});
+
+globalThis.useSidebarMock = vi.fn(useSidebarFn);
+globalThis.useSidebar = () => globalThis.useSidebarMock();
+
+vi.mock("~/stores/sidebar", () => ({
+  useSidebar: globalThis.useSidebar,
+}));
+
 // Mock the dev mode store to fix FriendlyCaptcha component.
 globalThis.useDevMode = () => ({
   active: { value: false },

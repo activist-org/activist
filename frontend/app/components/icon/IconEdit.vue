@@ -3,7 +3,7 @@
   <button
     v-if="canEditEntity"
     aria-labelledby="icon-edit-label"
-    class="cursor-pointer text-primary-text hover:text-distinct-text"
+    class="cursor-pointer text-primary-text focus-brand hover:text-distinct-text"
     data-testid="icon-edit"
   >
     <Icon :name="IconMap.EDIT" size="1.2em" />

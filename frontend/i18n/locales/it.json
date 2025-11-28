@@ -156,7 +156,6 @@
   "i18n.components.card_topic_selection.subtext_organization": "Seleziona gli argomenti su cui questa organizzazione lavora prevalentemente, in modo che la comunità possa trovarla più facilmente.",
   "i18n.components.card_topic_selection.subtext_resource": "Seleziona gli argomenti correlati a questa risorsa in modo che la comunità possa trovarla più facilmente.",
   "i18n.components.card_topic_selection.view_all_topics": "Vedi tutti gli argomenti",
-  "i18n.components.combobox_topics.all_topics": "Tutti gli argomenti",
   "i18n.components.combobox_topics.filter_by_topic": "Filtra per argomento",
   "i18n.components.combobox_topics.no_matching_topics": "Nessun argomento corrispondente.",
   "i18n.components.combobox_topics.toggle_dropdown": "Attiva/disattiva menu a tendina",

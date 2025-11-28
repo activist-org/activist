@@ -53,6 +53,26 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     }
   }
 
+  // Delete existing resource.
+  async function deleteResource(resourceId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteEventResource(resourceId);
+
+      // Invalidate cache and refetch fresh data.
+      await refreshEventData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Reorder multiple resource entries.
   async function reorderResources(resources: Resource[]) {
     loading.value = true;
@@ -85,6 +105,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     error: readonly(error),
     createResource,
     updateResource,
+    deleteResource,
     reorderResources,
     refreshEventData,
   };

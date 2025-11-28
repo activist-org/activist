@@ -2,11 +2,13 @@
 <template>
   <button
     v-if="canDeleteEntity"
-    class="cursor-pointer text-action-red hover:text-distinct-text"
+    aria-labelledby="icon-delete-label"
+    class="cursor-pointer text-action-red focus-brand hover:text-distinct-text"
     data-testid="icon-delete"
-    type="button"
   >
     <Icon :name="IconMap.TRASH" size="1.2em" />
+    <!-- Note: Buttons need text for a11y. Adding the following for e2e tests. -->
+    <span id="icon-delete-label" hidden>Delete</span>
   </button>
 </template>
 
