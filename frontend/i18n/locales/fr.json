@@ -132,6 +132,7 @@
   "i18n.components.card_donate.donate": "Donation",
   "i18n.components.card_donate.go_to_donation_page_aria_label": "Aller à la page des dons de cet organisme",
   "i18n.components.card_donate.template_text": "Merci de votre intérêt à soutenir cette organisation ! Le bouton ci-dessous vous mènera à notre page de financement où vous pourrez faire un don ponctuel ou récurrent. Merci encore !",
+  "i18n.components.card_faq_entry.delete_aria_label": "Supprimer entrée de FAQ",
   "i18n.components.card_faq_entry.delete_confirmation": "Êtes-vous sûr(e) de vouloir supprimer cette entrée dans la FAQ ? Cette action ne peut pas être annulée.",
   "i18n.components.card_get_involved_event.legal_disclaimer_subtext": "Veuillez lire la clause de non-responsabilité ci-dessous pour obtenir plus d’information sur vos droits pendant cet événement.",
   "i18n.components.card_get_involved_event.participate_subtext": "Cliquer sur \"Offrir de l’aide\" ci-dessous pour accéder à un formulaire où nous vous demanderons des informations sur la façon dont vous aimeriez participer.",
