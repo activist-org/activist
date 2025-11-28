@@ -35,32 +35,34 @@
                 {{ faqEntry.question }}
               </p>
             </div>
+            <div class="flex gap-2 pr-2">
+              <IconEdit
+                @click="
+                  useModalHandlers(
+                    `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                      props.faqEntry.id
+                  ).openModal()
+                "
+                class="flex"
+                data-testid="faq-edit-button"
+                :entity="entity"
+              />
+              <IconDelete
+                @click.stop="
+                  useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
+                "
+                @keydown.enter="
+                  useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
+                "
+                :aria-label="
+                  $t('i18n.components.card_faq_entry.delete_aria_label')
+                "
+                class="flex"
+                data-testid="faq-delete-button"
+              />
+            </div>
           </div>
         </DisclosureButton>
-        <div class="flex gap-2 pr-2">
-          <IconEdit
-            @click="
-              useModalHandlers(
-                `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
-                  props.faqEntry.id
-              ).openModal()
-            "
-            class="flex"
-            data-testid="faq-edit-button"
-            :entity="entity"
-          />
-          <IconDelete
-            @click.stop="
-              useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
-            "
-            @keydown.enter="
-              useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
-            "
-            :aria-label="$t('i18n.components.card_faq_entry.delete_aria_label')"
-            class="flex"
-            data-testid="faq-delete-button"
-          />
-        </div>
         <ModalFaqEntryOrganization
           v-if="pageType === 'organization'"
           :faqEntry="faqEntry"
