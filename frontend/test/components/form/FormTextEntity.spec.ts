@@ -114,9 +114,11 @@ describe("FormTextEntity component", () => {
         const descriptionError = await screen.findByTestId(
           "form-item-description-error"
         );
-        // vee-validate may use a generic "Required" message or the custom message
-        expect(descriptionError.textContent).toMatch(
-          /(Required|A description is required)/
+        // Schema uses .refine() to ensure custom error message is always displayed
+        expect(descriptionError.textContent).toBe(
+          getEnglishText(
+            "i18n.components.form_text_entity.description_required"
+          )
         );
       });
 
@@ -168,7 +170,7 @@ describe("FormTextEntity component", () => {
           "form-item-description-error"
         );
         // Error message is interpolated with actual number
-        expect(descriptionError.textContent).toContain("25000");
+        expect(descriptionError.textContent).toContain("2500");
         expect(descriptionError.textContent).toContain("characters");
       });
 
@@ -551,8 +553,7 @@ describe("FormTextEntity component", () => {
         });
         await fireEvent.click(submitBtn);
 
-        // URL validation runs first, so whitespace triggers invalid URL error
-        // The "get involved text or URL required" error would only show if URL validation passes
+        // Whitespace-only URLs are treated as empty, so they trigger the "text or URL required" error
         const getInvolvedError = await screen.findByTestId(
           "form-item-getInvolved-error"
         );
@@ -565,9 +566,11 @@ describe("FormTextEntity component", () => {
             "i18n.components.form_text_entity.get_involved_text_or_url_required"
           )
         );
-        // Whitespace in URL field triggers URL validation error first
+        // Whitespace-only URLs are treated as empty (not invalid URLs)
         expect(getInvolvedUrlError.textContent).toBe(
-          getEnglishText("i18n.components.form._global.valid_url_required")
+          getEnglishText(
+            "i18n.components.form_text_entity.get_involved_text_or_url_required"
+          )
         );
       });
     });
