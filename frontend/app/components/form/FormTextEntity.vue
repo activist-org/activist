@@ -81,14 +81,18 @@ const schema = z
     description: z
       .string()
       .default("")
-      .refine((val) => val.trim().length > 0, {
-        message: t("i18n.components.form_text_entity.description_required"),
-      })
-      .refine((val) => val.length <= 2500, {
-        message: t("i18n.components.form_text_entity.max_text_length", {
-          max_text_length: 2500,
-        }),
-      }),
+      .transform((val) => val.trim())
+      .pipe(
+        z
+          .string()
+          .min(1, t("i18n.components.form_text_entity.description_required"))
+          .max(
+            2500,
+            t("i18n.components.form_text_entity.max_text_length", {
+              max_text_length: 2500,
+            })
+          )
+      ),
     getInvolved: z
       .string()
       .max(
