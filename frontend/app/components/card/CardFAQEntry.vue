@@ -54,9 +54,6 @@
                 @keydown.enter="
                   useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
                 "
-                :aria-label="
-                  $t('i18n.components.card_faq_entry.delete_aria_label')
-                "
                 class="flex"
                 data-testid="faq-delete-button"
               />

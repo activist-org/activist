@@ -132,7 +132,6 @@
   "i18n.components.card_donate.donate": "Donate",
   "i18n.components.card_donate.go_to_donation_page_aria_label": "Go to the organization's donation page",
   "i18n.components.card_donate.template_text": "Thanks for your interest in supporting this organization! The button below will take you to our funding page where you can make a one time or recurring donation. Thanks again!",
-  "i18n.components.card_faq_entry.delete_aria_label": "Delete FAQ entry",
   "i18n.components.card_faq_entry.delete_confirmation": "Are you sure you want to delete this FAQ entry? This action cannot be undone.",
   "i18n.components.card_get_involved_event.legal_disclaimer_subtext": "Please read the legal disclaimer below for more information on your rights during this event.",
   "i18n.components.card_get_involved_event.participate_subtext": "Click \"Offer to help\" below to go to a form where we'll ask you for information on how you'd like to get involved.",
