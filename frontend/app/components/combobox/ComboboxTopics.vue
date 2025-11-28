@@ -154,7 +154,7 @@ watch(
 watch(
   selectedTopics,
   (newVal) => {
-    if (!newVal || newVal.length === 0) return;
+    if (!newVal) return;
     emit(
       "update:selectedTopics",
       [...newVal]
