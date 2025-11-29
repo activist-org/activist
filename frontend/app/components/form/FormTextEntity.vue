@@ -80,12 +80,18 @@ const schema = z
   .object({
     description: z
       .string()
-      .min(1, t("i18n.components.form_text_entity.description_required"))
-      .max(
-        2500,
-        t("i18n.components.form_text_entity.max_text_length", {
-          max_text_length: 25000,
-        })
+      .default("")
+      .transform((val) => val.trim())
+      .pipe(
+        z
+          .string()
+          .min(1, t("i18n.components.form_text_entity.description_required"))
+          .max(
+            2500,
+            t("i18n.components.form_text_entity.max_text_length", {
+              max_text_length: 2500,
+            })
+          )
       ),
     getInvolved: z
       .string()
@@ -99,9 +105,19 @@ const schema = z
     getInvolvedUrl: z
       .string()
       .optional()
-      .refine((value) => !value || z.string().url().safeParse(value).success, {
-        message: t("i18n.components.form._global.valid_url_required"),
-      }),
+      .refine(
+        (value) => {
+          if (!value) return true;
+          const trimmed = value.trim();
+          // Treat whitespace-only as empty (no URL validation needed)
+          if (trimmed.length === 0) return true;
+          // Validate trimmed URL
+          return z.string().url().safeParse(trimmed).success;
+        },
+        {
+          message: t("i18n.components.form._global.valid_url_required"),
+        }
+      ),
   })
   .superRefine(({ getInvolved, getInvolvedUrl }, ctx) => {
     const hasGetInvolvedText = getInvolved && getInvolved.trim().length > 0;
