@@ -1,5 +1,5 @@
 /*
- * flowBaseModal.ts
+ * flow.ts
  *
  * This file contains a generic Pinia store factory for creating sophisticated, multi-step flow machines.
  * This is the final, professional version incorporating all architectural refinements.
@@ -9,58 +9,21 @@
  * 1. `currentNode` as the Single Source of Truth:
  *    The state directly holds the `currentNode: NodeConfig` object.
  *
- * 2. Co-located Node Configuration:
- *    Nodes define their own UI via the `component` property.
+ * 2. Machine Definition Structure:
+ *    The factory now accepts a `machine` object with `id`, `initialNode`, and `states`.
+ *    This eliminates redundant IDs and groups states logically.
  *
- * 3. `onExit` Actions for Side-Effects:
- *    Nodes can have an `onExit` function that runs as a side-effect during the transition,
- *    perfect for API calls or data manipulation without needing a separate "action" node.
+ * 3. Co-located Configuration (Logic + UI + Data):
+ *    Nodes define their own UI via `component` and their default data via `initialData`.
+ *    This creates a single source of truth for every aspect of a step.
  *
- * 4. Rich `context` for Functions:
- *    The `next` and `onExit` functions now receive a full `context` object, giving them access
- *    to all collected data (`allNodeData`) and the store's actions (`actions`).
+ * 4. `onExit` Actions for Side-Effects:
+ *    Nodes can have an `onExit` function for side-effects like API calls.
  *
- * 5. Clean `next` function signatures:
- *    The `next` function for logic nodes now has a clean signature, as it no longer receives
- *    a useless `nodeData` argument.
+ * 5. Rich `context` for Functions:
+ *    Functions receive a full `context` object with access to data and actions.
  */
 import { defineStore } from "pinia";
-
-/** The rich context object passed to `next` and `onExit` functions. */
-export interface FlowContext {
-  allNodeData: Record<string, any>;
-  actions: {
-    goto: (nodeId: string) => void;
-    submit: () => void;
-  };
-}
-
-/** The function signature for a dynamic `next` property on a node. */
-export type NextFn = (context: FlowContext, nodeData?: Record<string, any>) => string | null | undefined;
-/** The function signature for the `onExit` side-effect action. */
-export type OnExitFn = (context: FlowContext, nodeData?: Record<string, any>) => void | Promise<void>;
-
-/** The different types a node can be. */
-export type NodeType = "screen" | "logic";
-
-/** The complete configuration for a single node in the flow. */
-export interface NodeConfig {
-  id: string;
-  label?: string;
-  next?: string | NextFn | null;
-  onExit?: OnExitFn;
-  type?: NodeType;
-  component?: Component | (() => Promise<any>);
-}
-
-/** The options required to create a new flow store instance. */
-export interface FlowStoreOptions {
-  storeId: string;
-  defaultNodeId: string;
-  nodes: NodeConfig[];
-  initialNodeData?: Record<string, any>;
-  discardOnClose?: boolean;
-}
 
 /**
  * Creates a new flow store instance with all advanced features.
@@ -69,12 +32,24 @@ export interface FlowStoreOptions {
  */
 export function createFlowStore(opts: FlowStoreOptions) {
   const {
-    storeId,
-    defaultNodeId,
-    nodes,
-    initialNodeData = {},
+    machine,
     discardOnClose = true,
   } = opts;
+
+  const { id: storeId, initialNode: defaultNodeId, states } = machine;
+
+  // 1. Convert the states object into an internal array of NodeConfigs
+  const nodes: NodeConfig[] = Object.entries(states).map(([id, config]) => ({
+    id,
+    ...config,
+  }));
+
+  // 2. Extract initial data from each node to build the master initial state object.
+  const initialNodeData: Record<string, unknown> = {};
+  nodes.forEach((node) => {
+    // Ensure every node has an entry in the data map, even if empty.
+    initialNodeData[node.id] = node.initialData ? { ...node.initialData } : {};
+  });
 
   const nodesById = Object.fromEntries(nodes.map((n) => [n.id, n]));
   const defaultNode = nodesById[defaultNodeId] ?? null;
@@ -84,11 +59,11 @@ export function createFlowStore(opts: FlowStoreOptions) {
       active: false,
       currentNode: defaultNode,
       nodes,
-      nodeData: { ...initialNodeData },
+      nodeData: { ...initialNodeData }, // Initialize with the extracted data
       history: [] as string[],
       isFinished: false,
       saving: false,
-      saveResult: null as any | null,
+      saveResult: null as unknown | null,
     }),
 
     getters: {
@@ -115,7 +90,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
     },
 
     actions: {
-      async next(nextNodeData?: Record<string, any>) {
+      async next(nextNodeData?: Record<string, unknown>) {
         const node = this.currentNode;
         const currentId = this.nodeId;
         if (!node || !currentId) return;
@@ -129,8 +104,8 @@ export function createFlowStore(opts: FlowStoreOptions) {
           actions: { goto: this.goto, submit: this.submit },
         };
 
-        if (node.onExit) {
-          await node.onExit(context, this.nodeData[currentId] ?? {});
+        if (node.onExit && this.nodeData[currentId]) {
+          await node.onExit(context, (this.nodeData[currentId] ?? {}) as unknown as Record<string, unknown>);
         }
 
         const nextId = this.calculateNextNode(node, context, currentId);
@@ -146,7 +121,6 @@ export function createFlowStore(opts: FlowStoreOptions) {
           if (isCurrentNodeScreen) this.history.push(currentId);
           this.currentNode = nextNode;
         } else {
-          console.warn(`[FlowMachine] Node "${nextId}" not found. Ending flow.`);
           this.submit();
         }
       },
@@ -155,10 +129,10 @@ export function createFlowStore(opts: FlowStoreOptions) {
         if (!node.next) return null;
         if (typeof node.next !== 'function') return node.next;
         if (node.type === 'logic') return node.next(context);
-        return node.next(context, this.nodeData[currentId] ?? {});
+        return node.next(context, (this.nodeData[currentId] ?? {}) as unknown as Record<string, unknown>);
       },
 
-      start(draftNodeData?: Record<string, any>) {
+      start(draftNodeData?: Record<string, unknown>) {
         this.resetToInitial();
         this.active = true;
         if (draftNodeData) this.nodeData = { ...this.nodeData, ...draftNodeData };
@@ -185,7 +159,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
 
       submit() {
         if (this.isFinished) return;
-        const finalData = Object.values(this.nodeData).reduce((acc, data) => ({ ...acc, ...data }), {});
+        const finalData = Object.values(this.nodeData).reduce((acc, data) => ({ ...(acc as Record<string, unknown>), ...(data as Record<string, unknown>) }), {});
         this.saveResult = finalData;
         this.isFinished = true;
         this.active = false;
@@ -194,6 +168,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
       resetToInitial() {
         this.active = false;
         this.currentNode = defaultNode;
+        // Reset data using the pre-calculated initialNodeData
         this.nodeData = { ...initialNodeData };
         this.history = [];
         this.isFinished = false;

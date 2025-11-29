@@ -15,14 +15,18 @@
 defineProps<{
   location?: DropdownLocation;
 }>();
+const { openModal:openModalCreateEvent } = useModalHandlers("ModalCreateEvent");
 
 const createOptions: MenuSelector[] = [
   {
     id: 1,
     label: "i18n._global.new_event",
-    routeUrl: "/events/create",
     iconUrl: `${IconMap.EVENT}`,
     selected: false,
+    onClick: () => {
+      console.log("Opening create event modal");
+      openModalCreateEvent();
+    },
   },
   {
     id: 2,

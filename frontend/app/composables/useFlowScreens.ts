@@ -1,26 +1,15 @@
 /*
  * useFlowScreens.ts
  *
- * This composable is the bridge between the UI and a flow machine store.
- *
- * --- FINAL REFINEMENTS ---
- *
- * - `onLogicNode` has been removed (YOUR SUGGESTION): The `onExit` property on a node
- *   is now the single, correct way to handle side-effects during a transition, making
- *   the machine's configuration fully self-contained.
- *
- * - It watches `store.currentNode` as the single source of truth and handles
- *   auto-advancing past logic nodes and lazy-loading screen components.
+ * UPDATES APPLIED:
+ * 1. Added `markRaw` to resolveScreenFor to prevent Vue reactivity bugs with dynamic components.
+ * 2. Updated import to point to 'flowBaseModal'.
  */
-import { ref, computed, watch, onMounted, type Component, type Ref } from "vue";
-import { machineRegistry, type MachineType } from "~/stores/machines";
-import type { NodeConfig } from "~/stores/machines/flow";
 
-/** The options for configuring the flow screen behavior. */
 export interface UseFlowScreensOptions {
   autoStart?: boolean;
-  startData?: Record<string, any>;
-  onSubmit?: (finalData: any) => void;
+  startData?: Record<string, unknown>;
+  onSubmit?: (finalData: unknown) => void;
   onNodeEnter?: (nodeId: string) => void | Promise<void>;
 }
 
@@ -41,48 +30,49 @@ export function useFlowScreens(
     if (typeof componentOrFactory === "function") {
       loading.value = true;
       try {
-        const mod = await componentOrFactory();
-        return (mod && (mod.default ?? mod)) || null;
+        const factory = componentOrFactory as () => Promise<
+          Component | { default: Component }
+        >;
+        const mod = await factory();
+        const hasDefault = mod && typeof mod === "object" && "default" in mod;
+        const resolved = hasDefault ? mod.default : (mod as Component);
+        return resolved ? markRaw(resolved) : null;
       } finally {
         loading.value = false;
       }
     }
-    return componentOrFactory; // It's already a resolved component object
+    return markRaw(componentOrFactory);
   }
 
-  /**
-   * The primary driver of the UI, which reacts to changes in the store's `currentNode`.
-   * @param newNode The new node from the store's state.
-   */
   async function handleNodeChange(newNode: NodeConfig | null) {
     if (!newNode || !store.active) {
       currentScreen.value = null;
       return;
     }
 
-    // If the new node is a logic node (no UI), just call `next` to continue the flow.
-    // The `onExit` on the logic node itself will be triggered inside the `next` action.
-    if (newNode.type === 'logic') {
+    // Logic nodes: auto-advance
+    if (newNode.type === "logic") {
       await store.next();
       return;
     }
 
-    // It's a screen node, so resolve its component and render it.
+    // Screen nodes: Render
     if (options.onNodeEnter) {
       await options.onNodeEnter(newNode.id);
     }
     currentScreen.value = await resolveScreenFor(newNode);
   }
 
-  // Watch the store's source of truth. The `immediate: true` handles the initial load.
   watch(() => store.currentNode, handleNodeChange, { immediate: true });
 
-  // Watch for the flow to be marked as finished by the store.
-  watch(() => store.isFinished, (finished) => {
-    if (finished && options.onSubmit) {
-      options.onSubmit(store.saveResult);
+  watch(
+    () => store.isFinished,
+    (finished) => {
+      if (finished && options.onSubmit) {
+        options.onSubmit(store.saveResult);
+      }
     }
-  });
+  );
 
   onMounted(() => {
     if (options.autoStart) {
@@ -90,21 +80,30 @@ export function useFlowScreens(
     }
   });
 
-  // Expose the core store actions to the UI component.
-  const start = (draft?: Record<string, any>) => store.start(draft);
+  const start = (draft?: Record<string, unknown>) => store.start(draft);
   const close = (discard?: boolean) => store.close(discard);
-  const next = async (payload?: Record<string, any>) => await store.next(payload);
+  const next = async (payload?: Record<string, unknown>) =>
+    await store.next(payload);
   const prev = () => store.prev();
 
-  // Expose a reactive context for the UI to bind to.
   const context = computed(() => ({
-    active: store.active,
-    nodeId: store.nodeId,
-    currentNode: store.currentNode,
-    nodeData: store.nodeData,
-    currentStep: store.currentStep,
-    totalSteps: store.totalSteps,
+    active: store?.active,
+    nodeId: store?.nodeId,
+    currentNode: store?.currentNode,
+    nodeData: store?.nodeData,
+    currentStep: store?.currentStep,
+    totalSteps: store?.totalSteps,
   }));
 
-  return { store, start, close, next, prev, currentScreen, loading, context, isActive: computed(() => store.active) };
+  return {
+    store,
+    start,
+    close,
+    next,
+    prev,
+    currentScreen,
+    loading,
+    context,
+    isActive: computed(() => store?.active),
+  };
 }

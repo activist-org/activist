@@ -37,5 +37,6 @@ async function handleSubmission(finalData: any) {
 const flowOptions = {
   onLogicNode: (nodeId: string) => { /* ... */ },
   onSubmit: handleSubmission, // <-- NEW
+  autoStart: true, // Optional: start the flow immediately
 };
 </script>

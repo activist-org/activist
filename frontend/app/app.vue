@@ -4,6 +4,7 @@
   <NuxtLayout>
     <Toaster :richColors="true" :theme="isDark ? 'dark' : 'light'" />
     <ModalCommandPalette :paletteData="commandPaletteData" />
+    <ModalCreateEvent />
     <NuxtPage />
   </NuxtLayout>
 </template>

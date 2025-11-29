@@ -1,53 +1,54 @@
 /*
  * createEvent.ts
  *
- * This file is the single source of truth for the "Create Event" flow.
- *
- * REVIEW NOTES:
- * - Added `as const` to the `nodes` array to fix a TypeScript type incompatibility.
- *   This ensures that properties like `type: "screen"` are inferred as the literal
- *   type "screen", not the general type `string`.
+ * UPDATED: Now uses the new `machine` definition structure.
+ * - Replaced the `nodes` array with a `states` object keyed by step ID.
+ * - This eliminates the need to repeat the `id` inside each node configuration.
+ * - Logic for `next` uses bracket notation `[CreateEventSteps.EventDetails]` to safely access data.
  */
-import { createFlowStore, type NodeConfig } from './flowBaseModal'; // Import NodeConfig for typing
-import { CreateEventSteps } from '~/types/machines';
+import { createFlowStore } from "./flow";
 
-// Import the screen components directly. Lazy-loading is highly recommended.
-const EventDetailsStep = () => import('~/components/machine/steps/createEvent/MachineStepsCreateEventDetails.vue');
-
-// Define the nodes array with explicit typing and the `as const` assertion.
-const nodes = [
-  {
-    id: CreateEventSteps.EventDetails,
-    label: "Details",
-    type: "screen", // This will now be correctly inferred as type "screen"
-    next: CreateEventSteps.AskCreateMore,
-    component: EventDetailsStep,
-    onExit: async (context, nodeData) => {
-      console.log('Exiting Details step. Saving draft...');
-      console.log('Draft data:', { ...context.allNodeData.eventDetails, ...nodeData });
-      console.log('Draft saved!');
-    },
-  },
-  {
-    id: CreateEventSteps.AskCreateMore,
-    label: "Logic: Create more?",
-    type: "logic", // This will now be correctly inferred as type "logic"
-    next: (context) => {
-      const createAnother = context.allNodeData?.eventDetails?.createAnother === true;
-      return createAnother ? CreateEventSteps.EventDetails : 'end';
-    },
-  }
-] as const; // <-- THE FIX: Tell TypeScript to not widen the types.
-
-// Initialize the data structure for all steps in the flow.
-const initialNodeData = {
-  [CreateEventSteps.EventDetails]: { createAnother: false },
-};
+// Import the screen components directly.
+// Using relative paths to ensure stability with Vite/Nuxt aliases.
+const EventDetailsStep = () =>
+  import(
+    "../../components/machine/steps/createEvent/MachineStepsCreateEventDetails.vue"
+  );
 
 export const useCreateEventStore = createFlowStore({
-  storeId: "createEventFlow",
-  defaultNodeId: CreateEventSteps.EventDetails,
-  // The type of `nodes` is now fully compatible with what createFlowStore expects.
-  nodes: [...nodes], // Use spread to convert from readonly array if needed by the function
-  initialNodeData,
+  // The new Machine Definition structure
+  machine: {
+    id: "createEventFlow",
+    initialNode: CreateEventSteps.EventDetails,
+    states: {
+      // The keys here become the IDs for the nodes
+      [CreateEventSteps.EventDetails]: {
+        label: "Details",
+        type: "screen",
+        next: CreateEventSteps.AskCreateMore,
+        component: EventDetailsStep,
+        initialData: {
+          createAnother: false,
+        },
+        onExit: async (context, nodeData) => {
+          console.log("Exiting Details step. Saving draft...");
+          // Access the data using the specific step ID
+          const currentStepData =
+            context.allNodeData[CreateEventSteps.EventDetails] || {};
+          console.log("Draft data:", { ...currentStepData, ...nodeData });
+        },
+      },
+
+      [CreateEventSteps.AskCreateMore]: {
+        label: "Logic: Create more?",
+        type: "logic",
+        // Clean signature for logic node next function
+        next: (context) => {
+          const stepData = context.allNodeData[CreateEventSteps.EventDetails];
+          const createAnother = stepData?.createAnother;
+          return createAnother ? CreateEventSteps.EventDetails : "end";
+        },
+      },
+    },
+  },
 });

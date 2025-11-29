@@ -7,37 +7,26 @@
     </div>
 
     <div v-if="loading" class="loading-overlay">Loading...</div>
-    <component v-else-if="currentScreen" :is="currentScreen" />
+    <component :is="currentScreen" v-else-if="currentScreen" />
     <!-- ... -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { provide, computed } from 'vue'; // Import computed
-import { useFlowScreens } from '~/composables/useFlowScreens';
-// ... other imports
 
-const props = defineProps<{ /* ... */ }>();
+const props = defineProps<{
+  machineType: 'createEvent';
+  options?: Record<string, unknown>;
+}>();
 const emit = defineEmits(['close', 'submit']);
 
-const { store, isActive, currentScreen, loading, start, close, next } = useFlowScreens(
+const { isActive, currentScreen,context, loading, start, close, next } = useFlowScreens(
   props.machineType,
   props.options
 );
-
-// We create a more comprehensive context object to provide to child screens.
-// It now includes the original store context AND the new progress getters.
-const flowContext = computed(() => ({
-  // Core state from the store
-  active: store.active,
-  nodeId: store.nodeId,
-  currentNode: store.currentNode,
-  nodeData: store.nodeData,
-
-  // NEW: Progress information from the getters
-  currentStep: store.currentStep,
-  totalSteps: store.totalSteps,
-}));
+watch(currentScreen, (newVal) => {
+  console.log("Current screen changed to:", newVal);
+}, { immediate: true });
 
 // Provide both the actions and the reactive context.
 provide('flow', {
@@ -46,7 +35,7 @@ provide('flow', {
   close: (discard?: boolean) => { close(discard); emit('close'); },
   next,
   // Reactive state
-  context: flowContext,
+  context,
 });
 
 defineExpose({ start, close });
