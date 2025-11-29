@@ -29,17 +29,17 @@ const renderCombobox = (propsOverride: Partial<typeof defaultProps> = {}) => {
 };
 
 describe("FormSelectorCombobox", () => {
-  // LOGIC TESTING
+  // MARK: Logic Testing
 
   it("renders a textbox with the given label as placeholder and no chips when nothing is selected", async () => {
     await renderCombobox();
 
-    // FormTextInput renders an <input role="textbox">
+    // FormTextInput renders an <input role="textbox">.
     const input = screen.getByRole("textbox");
     expect(input).toBeTruthy();
     expect(input.getAttribute("placeholder")).toBe("Topics");
 
-    // No chips should be rendered when selectedOptions is empty
+    // No chips should be rendered when selectedOptions is empty.
     const chipsList = screen.queryByRole("list");
     expect(chipsList).toBeNull();
     const chip = screen.queryByText("Option one");
@@ -51,7 +51,7 @@ describe("FormSelectorCombobox", () => {
       selectedOptions: ["one", "two"],
     });
 
-    // Only the labels of selected options should appear as chips
+    // Only the labels of selected options should appear as chips.
     const chipOne = screen.getByText("Option one");
     const chipTwo = screen.getByText("Option two");
 
@@ -64,7 +64,7 @@ describe("FormSelectorCombobox", () => {
       selectedOptions: ["one", "two"],
     });
 
-    // Clicking a chip should call onClick and update the v-model, causing an emit
+    // Clicking a chip should call onClick and update the v-model, causing an emit.
     const chipOne = screen.getByText("Option one");
     await fireEvent.click(chipOne);
 
@@ -84,7 +84,7 @@ describe("FormSelectorCombobox", () => {
       selectedOptions: ["one", "missing"],
     });
 
-    // Only the existing option should show as chip
+    // Only the existing option should show as chip.
     const existingChip = screen.getByText("Option one");
     expect(existingChip).toBeTruthy();
 
@@ -92,7 +92,7 @@ describe("FormSelectorCombobox", () => {
     expect(missingChip).toBeNull();
   });
 
-  // STYLE (Tailwind classes / layout behaviour)
+  // MARK: Style Testing
 
   it("uses column layout classes when hasColOptions is true", async () => {
     await renderCombobox({
@@ -100,11 +100,11 @@ describe("FormSelectorCombobox", () => {
       hasColOptions: true,
     });
 
-    // The chips <ul> is rendered as a flex column with vertical spacing
+    // The chips <ul> is rendered as a flex column with vertical spacing.
     const chipsList = screen.getByRole("list") as HTMLElement;
     expect(chipsList).toBeTruthy();
 
-    const className = chipsList.className;
+    const { className } = chipsList;
     expect(className).toContain("flex");
     expect(className).toContain("flex-col");
     expect(className).toContain("space-y-2");
@@ -119,34 +119,34 @@ describe("FormSelectorCombobox", () => {
     const chipsList = screen.getByRole("list") as HTMLElement;
     expect(chipsList).toBeTruthy();
 
-    const className = chipsList.className;
+    const { className } = chipsList;
     expect(className).toContain("flex");
     expect(className).toContain("space-x-1");
     expect(className).not.toContain("flex-col");
   });
 
-  // ACCESSIBILITY (roles and ARIA attributes)
+  // MARK: Accessibility
 
   it("exposes combobox and textbox roles with basic ARIA attributes", async () => {
     await renderCombobox();
 
-    // Headless UI wraps the input in an element with role="combobox"
+    // Headless UI wraps the input in an element with role="combobox".
     const combobox = screen.getByRole("combobox");
     expect(combobox).toBeTruthy();
 
-    // It should advertise that it autocompletes from a list
+    // It should advertise that it autocompletes from a list.
     expect(combobox.getAttribute("aria-autocomplete")).toBe("list");
 
-    // By default the menu should not be expanded
-    // (Headless UI sets aria-expanded on the combobox root)
+    // By default the menu should not be expanded.
+    // Headless UI sets aria-expanded on the combobox root.
     expect(combobox.getAttribute("aria-expanded")).toBe("false");
 
-    // Inner input should be exposed as textbox
+    // Inner input should be exposed as textbox.
     const input = screen.getByRole("textbox");
     expect(input).toBeTruthy();
   });
 
-  // EDGE CASES
+  // MARK: Edge Cases
 
   it("renders safely when options is empty", async () => {
     await renderCombobox({
@@ -154,11 +154,11 @@ describe("FormSelectorCombobox", () => {
       selectedOptions: [],
     });
 
-    // Still renders an input
+    // Still renders an input.
     const input = screen.getByRole("textbox");
     expect(input).toBeTruthy();
 
-    // No chips list should be rendered
+    // No chips list should be rendered.
     const chipsList = screen.queryByRole("list");
     expect(chipsList).toBeNull();
   });
