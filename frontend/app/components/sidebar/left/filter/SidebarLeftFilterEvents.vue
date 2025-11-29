@@ -236,20 +236,55 @@ const updateViewType = (
 };
 
 const viewType = ref(ViewType.MAP);
+
+const convertActiveOnToDays = (activeOn: string): string | undefined => {
+  try {
+    const targetDate = new Date(activeOn);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    targetDate.setHours(0, 0, 0, 0);
+
+    const diffTime = targetDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 1) return "1";
+    if (diffDays <= 7) return "7";
+    if (diffDays <= 30) return "30";
+
+    return undefined;
+  } catch {
+    return undefined;
+  }
+};
+
 const formData = ref({});
 watch(
   route,
   (form) => {
-    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    formData.value = { ...rest };
-    viewType.value =
+    const queryData = { ...(form.query as Record<string, unknown>) };
+    const { view, ...rest } = queryData;
+
+    if (
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
-        ? (view as ViewType)
-        : ViewType.MAP;
+    ) {
+      viewType.value = view as ViewType;
+    } else {
+      viewType.value = ViewType.MAP;
+    }
+
+    // Convert active_on → days (from "bugfix" branch)
+    if (rest.active_on && typeof rest.active_on === "string") {
+      const days = convertActiveOnToDays(rest.active_on);
+      if (days) rest.days = days;
+      delete rest.active_on;
+    }
+
+    formData.value = rest;
   },
   { immediate: true }
 );
+
 const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
