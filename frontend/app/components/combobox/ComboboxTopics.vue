@@ -100,11 +100,14 @@ const { t } = useI18n();
 const { data: topics } = useGetTopics();
 
 const options = ref<{ label: string; value: TopicEnum; id: string }[]>([]);
-options.value = topics.value.map((topic: Topic) => ({
-  label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
-  value: topic.type as TopicEnum,
-  id: topic.id,
-}));
+options.value = topics.value
+  .map((topic: Topic) => ({
+    label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
+    value: topic.type as TopicEnum,
+    id: topic.id,
+  }))
+  .sort((a, b) => a.label.localeCompare(b.label));
+
 const emit = defineEmits<{
   (e: "update:selectedTopics", value: TopicEnum[]): void;
 }>();
@@ -142,9 +145,8 @@ watch(
       }
       if (!aSelected && bSelected) {
         return 1;
-      } else {
-        return 0;
       }
+      return a.label.localeCompare(b.label);
     });
     // Emit only the values of the selected topics.
     emit(
