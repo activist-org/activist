@@ -13,11 +13,11 @@ def test_topic_list():
     """
     client = APIClient()
 
-    # Create active topics
+    # Create active topics.
     active_topic_1 = TopicFactory(active=True, type="Environment")
     active_topic_2 = TopicFactory(active=True, type="Education")
 
-    # Create inactive topic (should not appear in results)
+    # Create inactive topic (should not appear in results).
     TopicFactory(active=False, type="Inactive")
 
     response = client.get(path="/v1/content/topics")
@@ -25,12 +25,12 @@ def test_topic_list():
     assert response.status_code == 200
     assert len(response.data) == 2
 
-    # Verify that only active topics are returned
+    # Verify that only active topics are returned.
     returned_ids = [topic["id"] for topic in response.data]
     assert str(active_topic_1.id) in returned_ids
     assert str(active_topic_2.id) in returned_ids
 
-    # Verify topic data structure
+    # Verify topic data structure.
     assert "type" in response.data[0]
     assert "active" in response.data[0]
 
@@ -41,7 +41,7 @@ def test_topic_list_empty():
     """
     client = APIClient()
 
-    # Create only inactive topics
+    # Create only inactive topics.
     TopicFactory(active=False, type="Inactive1")
     TopicFactory(active=False, type="Inactive2")
 

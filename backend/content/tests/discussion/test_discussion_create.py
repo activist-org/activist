@@ -26,7 +26,9 @@ def test_discussion_create(authenticated_client):
 
 
 def test_discussion_create_not_authorized():
-    """Test that unauthenticated users cannot create discussions"""
+    """
+    Test that unauthenticated users cannot create discussions.
+    """
     client = APIClient()
 
     discussion_thread = DiscussionFactory(
@@ -38,5 +40,5 @@ def test_discussion_create_not_authorized():
         data={"title": discussion_thread.title, "category": discussion_thread.category},
     )
 
-    # IsAuthenticatedOrReadOnly returns 401 for unauthenticated write requests
+    # IsAuthenticatedOrReadOnly returns 401 for unauthenticated write requests.
     assert response.status_code == 401

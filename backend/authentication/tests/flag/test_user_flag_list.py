@@ -24,7 +24,7 @@ def test_user_flag_list(authenticated_client):
 
 def test_user_flag_list_no_pagination(authenticated_client):
     """
-    Test to list all user flags in case of no pagination
+    Test list all user flags in case of no pagination.
     """
 
     client, user = authenticated_client
@@ -38,6 +38,7 @@ def test_user_flag_list_no_pagination(authenticated_client):
         response = client.get(path="/v1/auth/user_flags")
 
         assert response.status_code == 200
-        # Verify that paginate_queryset was called
+
+        # Verify that paginate_queryset was called.
         mock_paginate.assert_called_once()
         logger.info("User flag list test completed successfully")

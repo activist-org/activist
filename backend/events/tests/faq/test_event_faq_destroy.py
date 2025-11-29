@@ -44,7 +44,7 @@ def test_event_faq_destroy_success(authenticated_client) -> None:
     assert response.status_code == 204
     assert response.data["message"] == "FAQ deleted successfully."
 
-    # Verify the FAQ was actually deleted from the database
+    # Verify the FAQ was actually deleted from the database.
     assert not EventFaq.objects.filter(id=test_id).exists()
 
 
@@ -66,7 +66,7 @@ def test_event_faq_destroy_by_staff(authenticated_client) -> None:
     user.is_staff = True
     user.save()
 
-    # Create an event with a different creator
+    # Create an event with a different creator.
     other_event = EventFactory()
     faq = EventFaqFactory(event=other_event)
     test_id = faq.id
@@ -79,7 +79,7 @@ def test_event_faq_destroy_by_staff(authenticated_client) -> None:
     assert response.status_code == 204
     assert response.data["message"] == "FAQ deleted successfully."
 
-    # Verify the FAQ was actually deleted from the database
+    # Verify the FAQ was actually deleted from the database.
     assert not EventFaq.objects.filter(id=test_id).exists()
 
 
@@ -130,7 +130,7 @@ def test_event_faq_destroy_not_authorized(authenticated_client) -> None:
     user.is_staff = False
     user.save()
 
-    # Create an event with a different creator
+    # Create an event with a different creator.
     other_event = EventFactory()
     faq = EventFaqFactory(event=other_event)
     test_id = faq.id
@@ -143,5 +143,5 @@ def test_event_faq_destroy_not_authorized(authenticated_client) -> None:
     assert response.status_code == 403
     assert response.data["detail"] == "You are not authorized to delete this FAQ."
 
-    # Verify the FAQ still exists in the database
+    # Verify the FAQ still exists in the database.
     assert EventFaq.objects.filter(id=test_id).exists()

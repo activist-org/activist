@@ -15,9 +15,6 @@ from content.factories import EntityLocationFactory
 from events.factories import EventFactory
 from events.models import Event
 
-# Endpoint used for these tests:
-EVENTS_URL = "/v1/events/events"
-
 
 class UserDict(TypedDict):
     user: UserModel
@@ -86,13 +83,13 @@ def test_EventListAPIView(logged_in_user) -> None:
     EventFactory.create_batch(number_of_events)
     assert Event.objects.count() == number_of_events
 
-    response = client.get(EVENTS_URL)
+    response = client.get("/v1/events/events")
     assert response.status_code == 200
 
     pagination_key = ["count", "next", "previous", "results"]
     assert all(key in response.data for key in pagination_key)
 
-    response = client.get(f"{EVENTS_URL}?pageSize={test_page_size}")
+    response = client.get(f"{'/v1/events/events'}?pageSize={test_page_size}")
     assert response.status_code == 200
 
     assert len(response.data["results"]) == test_page_size
@@ -102,7 +99,7 @@ def test_EventListAPIView(logged_in_user) -> None:
     # MARK: List POST
 
     # Not Authenticated.
-    response = client.post(EVENTS_URL)
+    response = client.post("/v1/events/events")
     assert response.status_code == 401
 
     # Authenticated and successful.
@@ -129,7 +126,7 @@ def test_EventListAPIView(logged_in_user) -> None:
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(EVENTS_URL, data=payload, format="json")
+    response = client.post("/v1/events/events", data=payload, format="json")
 
     assert response.status_code == 201
     assert Event.objects.filter(name=new_event.name).exists()
@@ -139,7 +136,7 @@ def test_EventListAPIView(logged_in_user) -> None:
     new_event.end_time = "2025-10-20T06:00:00Z"
     payload["start_time"] = new_event.start_time
     payload["end_time"] = new_event.end_time
-    response = client.post(EVENTS_URL, data=payload, format="json")
+    response = client.post("/v1/events/events", data=payload, format="json")
     assert response.status_code == 400
     assert "start time must be before the end time" in str(response.data).lower()
 
@@ -151,10 +148,10 @@ def test_EventListAPIView_no_pagination(authenticated_client) -> None:
     with patch("events.views.EventAPIView.paginate_queryset") as mock_paginate:
         mock_paginate.return_value = None
 
-        response = client.get(path=EVENTS_URL)
-
+        response = client.get(path="/v1/events/events")
         assert response.status_code == 200
-        # Verify that paginate_queryset was called
+
+        # Verify that paginate_queryset was called.
         mock_paginate.assert_called_once()
 
 
@@ -169,7 +166,7 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
 
     # MARK: Detail GET
 
-    response = client.get(f"{EVENTS_URL}/{new_event.id}")
+    response = client.get(f"{'/v1/events/events'}/{new_event.id}")
 
     assert response.status_code == 200
     assert response.data["name"] == new_event.name
@@ -185,12 +182,16 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
         "end_time": end_dt,
         "terms_checked": True,
     }
-    response = client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
+    response = client.put(
+        f"{'/v1/events/events'}/{new_event.id}", data=payload, format="json"
+    )
 
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
-    response = client.put(f"{EVENTS_URL}/{new_event.id}", data=payload, format="json")
+    response = client.put(
+        f"{'/v1/events/events'}/{new_event.id}", data=payload, format="json"
+    )
 
     assert response.status_code == 200
     assert payload["name"] == Event.objects.get(id=new_event.id).name
@@ -198,11 +199,11 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{EVENTS_URL}/{new_event.id}")
+    response = client.delete(f"{'/v1/events/events'}/{new_event.id}")
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
-    response = client.delete(f"{EVENTS_URL}/{new_event.id}")
+    response = client.delete(f"{'/v1/events/events'}/{new_event.id}")
 
     assert response.status_code == 204
     assert not Event.objects.filter(id=new_event.id).exists()
@@ -215,21 +216,22 @@ def test_EventDetailAPIView_failure(authenticated_client) -> None:
     with patch("events.views.EventDetailAPIView.queryset.get") as mock_queryset:
         mock_queryset.side_effect = Event.DoesNotExist
 
-        response = client.get(path=f"{EVENTS_URL}/{uuid}")
+        response = client.get(path=f"{'/v1/events/events'}/{uuid}")
 
         assert response.status_code == 404
         assert response.data["detail"] == "Event Not Found."
-        # Verify that paginate_queryset was called
+
+        # Verify that paginate_queryset was called.
         mock_queryset.assert_called_once()
 
-        # verify for PUT method
-        response = client.put(path=f"{EVENTS_URL}/{uuid}")
+        # verify for PUT method.
+        response = client.put(path=f"{'/v1/events/events'}/{uuid}")
 
         assert response.status_code == 404
         assert response.data["detail"] == "Event Not Found."
 
-        # verify for DELETE method
-        response = client.delete(path=f"{EVENTS_URL}/{uuid}")
+        # verify for DELETE method.
+        response = client.delete(path=f"{'/v1/events/events'}/{uuid}")
 
         assert response.status_code == 404
         assert response.data["detail"] == "Event Not Found."

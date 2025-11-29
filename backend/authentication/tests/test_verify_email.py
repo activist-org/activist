@@ -17,14 +17,14 @@ def test_verify_email(authenticated_client) -> None:
     Test email verification view.
 
     This test covers several email verification in two scenarios:
-    1) using a valid code
-    2) using an invalid code
+    1) Using a valid code
+    2) Using an invalid code
     """
     client, user = authenticated_client
     user.verification_code = uuid.uuid4()
     user.save()
 
-    # 1. valid verification code
+    # 1. Valid verification code.
     logger.info("Testing valid email verification")
     response = client.post(path=f"/v1/auth/verify_email/{user.verification_code}")
     assert response.status_code == 200

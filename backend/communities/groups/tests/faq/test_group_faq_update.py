@@ -17,6 +17,7 @@ pytestmark = pytest.mark.django_db
 def test_group_faq_update(authenticated_client) -> None:
     """
     Test Group FAQ updates.
+
     Returns
     -------
     None
@@ -68,6 +69,7 @@ def test_group_faq_update(authenticated_client) -> None:
 def test_group_faq_update_unauthorized(authenticated_client) -> None:
     """
     Test Group FAQ updates.
+
     Returns
     -------
     None

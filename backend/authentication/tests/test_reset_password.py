@@ -70,7 +70,7 @@ def test_pwreset_email_sending_failure(authenticated_client) -> None:
     logger.info("Testing password reset email sending failure")
     client, user = authenticated_client
 
-    # Mock send_mail to raise an exception
+    # Mock send_mail to raise an exception.
     with patch("authentication.views.send_mail") as mock_send_mail:
         mock_send_mail.side_effect = Exception("SMTP server error")
 

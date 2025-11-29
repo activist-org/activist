@@ -52,7 +52,7 @@ def test_event_faq_destroy_not_authorized(authenticated_client) -> None:
     user.is_staff = False
     user.save()
 
-    # Create an event with a different creator
+    # Create an event with a different creator.
     event = EventFactory()
     social_links = EventSocialLinkFactory(event=event)
 

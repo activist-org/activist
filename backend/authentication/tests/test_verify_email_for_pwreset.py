@@ -53,14 +53,14 @@ def test_verify_email_for_reset_password_reused_code(authenticated_client) -> No
     client, user = authenticated_client
     new_password = "Activist@123!?"
 
-    # Use the verification code once
+    # Use the verification code once.
     response = client.post(
         path=f"/v1/auth/verify_email_password/{user.verification_code}",
         data={"new_password": new_password},
     )
     assert response.status_code == 200
 
-    # Attempt to reuse the same verification code
+    # Attempt to reuse the same verification code.
     response = client.post(
         path=f"/v1/auth/verify_email_password/{user.verification_code}"
     )

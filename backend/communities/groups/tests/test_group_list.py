@@ -39,5 +39,6 @@ def test_group_list_no_pagination(client: Client) -> None:
         response = client.get(path="/v1/communities/groups")
 
         assert response.status_code == 200
-        # Verify that paginate_queryset was called
+
+        # Verify that paginate_queryset was called.
         mock_paginate.assert_called_once()
