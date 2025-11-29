@@ -109,9 +109,9 @@ const schema = z
         (value) => {
           if (!value) return true;
           const trimmed = value.trim();
-          // Treat whitespace-only as empty (no URL validation needed)
+          // Treat whitespace-only as empty (no URL validation needed).
           if (trimmed.length === 0) return true;
-          // Validate trimmed URL
+          // Validate trimmed URL.
           return z.string().url().safeParse(trimmed).success;
         },
         {

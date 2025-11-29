@@ -114,7 +114,7 @@ describe("FormTextEntity component", () => {
         const descriptionError = await screen.findByTestId(
           "form-item-description-error"
         );
-        // Schema uses .refine() to ensure custom error message is always displayed
+        // Schema uses .refine() to ensure custom error message is always displayed.
         expect(descriptionError.textContent).toBe(
           getEnglishText(
             "i18n.components.form_text_entity.description_required"
@@ -194,7 +194,7 @@ describe("FormTextEntity component", () => {
         const descriptionError = await screen.findByTestId(
           "form-item-description-error"
         );
-        // Error message is interpolated with actual number
+        // Error message is interpolated with actual number.
         expect(descriptionError.textContent).toContain("2500");
         expect(descriptionError.textContent).toContain("characters");
       });
@@ -249,7 +249,7 @@ describe("FormTextEntity component", () => {
         const getInvolvedError = await screen.findByTestId(
           "form-item-getInvolved-error"
         );
-        // Error message is interpolated with actual number
+        // Error message is interpolated with actual number.
         expect(getInvolvedError.textContent).toContain("500");
         expect(getInvolvedError.textContent).toContain("characters");
       });
@@ -608,7 +608,7 @@ describe("FormTextEntity component", () => {
         });
         await fireEvent.click(submitBtn);
 
-        // Whitespace-only URLs are treated as empty, so they trigger the "text or URL required" error
+        // Whitespace-only URLs are treated as empty, so they trigger the "text or URL required" error.
         const getInvolvedError = await screen.findByTestId(
           "form-item-getInvolved-error"
         );
@@ -621,7 +621,7 @@ describe("FormTextEntity component", () => {
             "i18n.components.form_text_entity.get_involved_text_or_url_required"
           )
         );
-        // Whitespace-only URLs are treated as empty (not invalid URLs)
+        // Whitespace-only URLs are treated as empty (not invalid URLs).
         expect(getInvolvedUrlError.textContent).toBe(
           getEnglishText(
             "i18n.components.form_text_entity.get_involved_text_or_url_required"
@@ -726,7 +726,7 @@ describe("FormTextEntity component", () => {
       const container = getInvolvedUrlInput.closest(".primary-text");
       const label = container?.querySelector("label");
 
-      // The label should include the rememberHttpsLabel text
+      // The label should include the rememberHttpsLabel text.
       expect(label?.textContent).toContain(
         getEnglishText("i18n.components.modal.text._global.remember_https")
       );
@@ -737,7 +737,7 @@ describe("FormTextEntity component", () => {
         props: defaultProps,
       });
 
-      // FormItem's label (accessible label) should still be present
+      // FormItem's label (accessible label) should still be present.
       const formLabel = document.querySelector(
         'label[for="form-item-getInvolvedUrl"].text-base.font-semibold'
       );
@@ -747,7 +747,7 @@ describe("FormTextEntity component", () => {
         )
       );
 
-      // FormTextInput's floating label should be empty when rememberHttpsLabel is not provided
+      // FormTextInput's floating label should be empty when rememberHttpsLabel is not provided.
       const getInvolvedUrlInput = screen.getByLabelText(
         getEnglishText(
           "i18n.components.modal_text_organization.join_organization_link"
@@ -756,11 +756,11 @@ describe("FormTextEntity component", () => {
       const container = getInvolvedUrlInput.closest(".primary-text");
       const floatingLabel = container?.querySelector("label");
 
-      // When rememberHttpsLabel is not provided, label prop is empty string
-      // The floating label will be empty when there's no value
+      // When rememberHttpsLabel is not provided, label prop is empty string.
+      // The floating label will be empty when there's no value.
       expect(floatingLabel?.textContent).toBe("");
 
-      // The accessible label comes from FormItem's FormLabel, which is still present
+      // The accessible label comes from FormItem's FormLabel, which is still present.
       expect(getInvolvedUrlInput).toBeDefined();
     });
 
@@ -942,7 +942,7 @@ describe("FormTextEntity component", () => {
       const descriptionInput = screen.getByLabelText(
         getEnglishText("i18n._global.description")
       );
-      // FormTextArea applies border-action-red when hasError is true
+      // FormTextArea applies border-action-red when hasError is true.
       expect(descriptionInput.className).toContain("border-action-red");
     });
 
@@ -993,7 +993,7 @@ describe("FormTextEntity component", () => {
 
       await screen.findByTestId("form-item-getInvolvedUrl-error");
 
-      // FormTextInput applies border-action-red via fieldset when hasError is true
+      // FormTextInput applies border-action-red via fieldset when hasError is true.
       const container = getInvolvedUrlInput.closest(".primary-text");
       const fieldset = container?.querySelector("fieldset");
       expect(fieldset?.className).toContain("border-action-red");
@@ -1027,7 +1027,7 @@ describe("FormTextEntity component", () => {
         expect(screen.queryByTestId("form-item-description-error")).toBeNull();
       });
 
-      // Error styling should be removed
+      // Error styling should be removed.
       await waitFor(() => {
         expect(descriptionInput.className).not.toContain("border-action-red");
       });
@@ -1060,12 +1060,12 @@ describe("FormTextEntity component", () => {
         props: defaultProps,
       });
 
-      // Required indicator is in a separate span element (not in label text)
+      // Required indicator is in a separate span element (not in label text).
       const requiredIndicators = screen.getAllByText("*");
       expect(requiredIndicators.length).toBeGreaterThan(0);
 
-      // Check that the required indicator is associated with description field
-      // The FormLabel component renders the asterisk in a separate span
+      // Check that the required indicator is associated with description field.
+      // The FormLabel component renders the asterisk in a separate span.
       const descriptionContainer = document.querySelector(
         'div[name="description"]'
       );
@@ -1075,7 +1075,7 @@ describe("FormTextEntity component", () => {
       expect(requiredIndicator).toBeDefined();
       expect(requiredIndicator?.textContent).toBe("*");
 
-      // Verify the label itself doesn't contain the asterisk (it's in a sibling span)
+      // Verify the label itself doesn't contain the asterisk (it's in a sibling span).
       const descriptionLabel = descriptionContainer?.querySelector(
         "label.text-base.font-semibold"
       );
@@ -1091,7 +1091,7 @@ describe("FormTextEntity component", () => {
       });
 
       const requiredIndicators = screen.getAllByText("*");
-      // Only description should be required
+      // Only description should be required.
       expect(requiredIndicators.length).toBe(1);
     });
 
@@ -1124,15 +1124,15 @@ describe("FormTextEntity component", () => {
         )
       );
 
-      // FormTextInput uses a floating label that's empty when there's no value
-      // The accessible label comes from FormItem's FormLabel component
+      // FormTextInput uses a floating label that's empty when there's no value.
+      // The accessible label comes from FormItem's FormLabel component.
       const formLabel = document.querySelector(
         `label[for="${getInvolvedUrlInput.id}"].text-base.font-semibold`
       );
 
       expect(getInvolvedUrlInput).toBeDefined();
       expect(getInvolvedUrlInput.id).toBe("form-item-getInvolvedUrl");
-      // The FormLabel from FormItem provides the accessible label
+      // The FormLabel from FormItem provides the accessible label.
       expect(formLabel?.textContent).toBe(
         getEnglishText(
           "i18n.components.modal_text_organization.join_organization_link"
@@ -1209,18 +1209,18 @@ describe("FormTextEntity component", () => {
         )
       ) as HTMLElement;
 
-      // Verify fields are accessible and can be found by their labels
-      // Form fields (textarea/input) are naturally focusable via keyboard navigation
+      // Verify fields are accessible and can be found by their labels.
+      // Form fields (textarea/input) are naturally focusable via keyboard navigation.
       expect(descriptionInput).toBeDefined();
       expect(getInvolvedInput).toBeDefined();
       expect(getInvolvedUrlInput).toBeDefined();
 
-      // Verify all fields are form controls that support keyboard navigation
+      // Verify all fields are form controls that support keyboard navigation.
       expect(descriptionInput.tagName).toBe("TEXTAREA");
       expect(getInvolvedInput.tagName).toBe("TEXTAREA");
       expect(getInvolvedUrlInput.tagName).toBe("INPUT");
 
-      // Verify fields are not disabled (disabled elements have tabIndex of -1)
+      // Verify fields are not disabled (disabled elements have tabIndex of -1).
       expect(descriptionInput.hasAttribute("disabled")).toBe(false);
       expect(getInvolvedInput.hasAttribute("disabled")).toBe(false);
       expect(getInvolvedUrlInput.hasAttribute("disabled")).toBe(false);
@@ -1381,11 +1381,11 @@ describe("FormTextEntity component", () => {
       });
 
       const callArgs = mockHandleSubmit.mock.calls[0]?.[0];
-      // Verify all fields are included in the payload
+      // Verify all fields are included in the payload.
       expect(callArgs).toHaveProperty("description", "Test description");
       expect(callArgs).toHaveProperty("getInvolved", "Join us");
       expect(callArgs).toHaveProperty("getInvolvedUrl");
-      // Verify the payload structure is complete
+      // Verify the payload structure is complete.
       expect(Object.keys(callArgs)).toEqual([
         "description",
         "getInvolved",
@@ -1420,7 +1420,7 @@ describe("FormTextEntity component", () => {
       });
 
       const callArgs = mockHandleSubmit.mock.calls[0]?.[0];
-      // Verify optional field is undefined when not provided
+      // Verify optional field is undefined when not provided.
       expect(callArgs).toHaveProperty("description", "Test description");
       expect(callArgs).toHaveProperty("getInvolved", "Join us");
       expect(callArgs).toHaveProperty("getInvolvedUrl", undefined);
@@ -1452,7 +1452,7 @@ describe("FormTextEntity component", () => {
         expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
       });
 
-      // Form should still be visible after rejection
+      // Form should still be visible after rejection.
       expect(descriptionInput).toBeDefined();
     });
 
@@ -1465,7 +1465,7 @@ describe("FormTextEntity component", () => {
         name: "Submit the form",
       });
 
-      // Submit multiple times rapidly
+      // Submit multiple times rapidly.
       await fireEvent.click(submitBtn);
       await fireEvent.click(submitBtn);
       await fireEvent.click(submitBtn);
