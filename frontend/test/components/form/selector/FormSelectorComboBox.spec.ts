@@ -1,8 +1,9 @@
-// frontend/test/components/form/selector/FormSelectorCombobox.spec.ts
-import { describe, it, expect } from "vitest";
-import { screen, fireEvent } from "@testing-library/vue";
+// SPDX-License-Identifier: AGPL-3.0-or-later
+import { fireEvent, screen } from "@testing-library/vue";
+import { describe, expect, it } from "vitest";
+
+import FormSelectorCombobox from "../../../../app/components/form/selector/FormSelectorCombobox.vue";
 import render from "../../../render";
-import FormSelectorCombobox from "../../../app/components/form/selector/FormSelectorCombobox.vue";
 
 const OPTIONS = [
   { id: 1, label: "Option one", value: "one" },
