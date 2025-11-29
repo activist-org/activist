@@ -13,7 +13,7 @@ export const useOrganizationStore = defineStore("organization", {
     images: [] as ContentImage[],
     organizations: [],
     filters: {} as OrganizationFilters,
-    page: 0,
+    page: 1,
   }),
   actions: {
     // MARK: Set Organizations
@@ -21,7 +21,8 @@ export const useOrganizationStore = defineStore("organization", {
       return this.page;
     },
     setPage(page: number) {
-      this.page = page;
+      // Ensure page is always >= 1. Invalid values are clamped to 1.
+      this.page = Math.max(1, page);
     },
     setOrganizations(organizations: Organization[]) {
       this.organizations = organizations;

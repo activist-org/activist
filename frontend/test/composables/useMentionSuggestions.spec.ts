@@ -8,7 +8,7 @@ import { useMentionSuggestion } from "../../app/composables/useMentionSuggestion
 describe("useMentionSuggestions", () => {
   // MARK: Query Filtering
 
-  // Mock component for useMentionSuggestion
+  // Mock component for useMentionSuggestion.
 
   const MockMentionList = {} as Component;
   const { getItems } = useMentionSuggestion(MockMentionList);
