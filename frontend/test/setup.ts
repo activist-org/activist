@@ -5,6 +5,7 @@ import { afterEach, beforeEach, vi } from "vitest";
 import { createI18n } from "vue-i18n";
 
 import en from "../i18n/locales/en-US.json" assert { type: "json" };
+import { setupAutoImportMocks } from "./auto-imports";
 
 // Set up Pinia.
 setActivePinia(createPinia());
@@ -104,6 +105,9 @@ globalThis.useAuthState = () => globalThis.useAuthStateMock();
 vi.mock("@sidebase/nuxt-auth", () => ({
   useAuthState: globalThis.useAuthState,
 }));
+
+// Auto-import default mocks for composables not manually mocked above
+setupAutoImportMocks();
 
 // Set up I18n.
 // https://github.com/nuxt-modules/i18n/issues/2637#issuecomment-2233566361

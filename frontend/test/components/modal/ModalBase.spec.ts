@@ -1,27 +1,26 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * REFACTORED: This test demonstrates using auto-import mocks without overriding them.
+ * - useRoute() is automatically mocked by setupAutoImportMocks() in test/setup.ts
+ * - The auto-mock returns { params: {}, query: {} } which is sufficient for this component
+ * - No manual mocking needed - the auto-mock works perfectly for these tests
+ */
 import type { VueWrapper } from "@vue/test-utils";
-import type { RouteLocationNormalized } from "vue-router";
 
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { nextTick, ref } from "vue";
+import { nextTick } from "vue";
 
 import ModalBase from "../../../app/components/modal/ModalBase.vue";
 import { useModals } from "../../../app/stores/modals";
 // MARK: Mock composables & state
 
-const mockRoute = ref<Partial<RouteLocationNormalized>>({
-  path: "/test",
-  fullPath: "/test",
-  params: {},
-  query: {},
-  hash: "",
-  matched: [],
-  meta: {},
-});
-
-vi.mock("vue-router", () => ({ useRoute: () => mockRoute }));
+// BEFORE: We manually mocked useRoute with vi.mock("vue-router", ...)
+// AFTER: useRoute() is automatically mocked by setupAutoImportMocks() in test/setup.ts
+//        The auto-mock returns { params: {}, query: {} } which is sufficient
+//        for this component's needs (it just watches the route object).
+//        No manual mock needed - we can just use the auto-mock!
 
 // MARK: Stubs & Helper
 
@@ -79,10 +78,6 @@ describe("ModalBase component", () => {
     // Initialize the modal store.
     const modalsStore = useModals();
     modalsStore.modals.testModal = { isOpen: false };
-
-    // Reset route.
-    mockRoute.value.path = "/test";
-    mockRoute.value.fullPath = "/test";
   });
 
   // MARK: Accessibility
