@@ -42,8 +42,8 @@ describe("FormSocialLink", () => {
       socialLinks: [
         createSocialLink({
           id: "link-1",
-          label: "Twitter",
-          link: "https://twitter.com/example",
+          label: "activist",
+          link: "https://activist.org/example",
           order: 0,
         }),
       ],
@@ -72,8 +72,8 @@ describe("FormSocialLink", () => {
       "social-link-url-0"
     ) as HTMLInputElement;
 
-    expect(labelInput.value).toBe("Twitter");
-    expect(urlInput.value).toBe("https://twitter.com/example");
+    expect(labelInput.value).toBe("activist");
+    expect(urlInput.value).toBe("https://activist.org/example");
 
     // Add-link CTA button from BtnAction (accessible name comes from aria-label).
     const addButton = screen.getByRole("button", {
