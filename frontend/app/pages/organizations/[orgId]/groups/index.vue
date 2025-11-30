@@ -3,14 +3,14 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ organization.name }}&nbsp;{{
+        {{ organization?.name }}&nbsp;{{
           $t("i18n.pages.organizations.groups.index.groups_lower")
         }}
       </Title>
     </Head>
     <HeaderAppPageOrganization
       :header="
-        organization.name +
+        organization?.name +
         ' ' +
         $t('i18n.pages.organizations.groups.index.groups_lower')
       "
@@ -30,12 +30,12 @@
       </div>
     </HeaderAppPageOrganization>
     <div
-      v-if="organization.groups!.length > 0"
+      v-if="(organization?.groups || []).length > 0"
       class="space-y-3 py-4"
       data-testid="organization-groups-list"
     >
       <CardSearchResultEntityGroup
-        v-for="(g, i) in organization.groups"
+        v-for="(g, i) in organization?.groups || []"
         :key="i"
         :group="g"
         :isPrivate="false"
@@ -47,11 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-
-import { IconMap } from "~/types/icon-map";
-
-defineProps<{
-  organization: Organization;
-}>();
+const { data: organization } = useGetOrganization(
+  (useRoute().params.orgId as string) ?? ""
+);
 </script>

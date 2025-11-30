@@ -1,19 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
-import type { MaybeRef } from "vue";
-
-import type { Resource, ResourceInput } from "~/types/content/resource";
-import type { AppError } from "~/utils/errorHandler";
-
-import {
-  createGroupResource,
-  reorderGroupResources,
-  updateGroupResource,
-} from "~/services/communities/group/resource";
-
-import { getKeyForGetGroup } from "../queries/useGetGroup";
-
 export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -68,6 +55,26 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     }
   }
 
+  // Delete existing resource.
+  async function deleteResource(resourceId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteGroupResource(resourceId);
+
+      // Invalidate cache and refetch fresh data.
+      await refreshGroupData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Reorder multiple resource entries.
   async function reorderResources(resources: Resource[]) {
     loading.value = true;
@@ -102,6 +109,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     error: readonly(error),
     createResource,
     updateResource,
+    deleteResource,
     reorderResources,
     refreshGroupData,
   };

@@ -1,20 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { FetchOptions } from "ofetch";
-
-export type ServiceOptions = Omit<FetchOptions, "method"> & {
-  withoutAuth?: boolean;
-};
-export type ServiceOptionsWithBody = Omit<FetchOptions, "method" | "body"> & {
-  withoutAuth?: boolean;
-};
-export type AcceptedBody =
-  | Record<string, unknown>
-  | FormData
-  | BodyInit
-  | null
-  | undefined
-  | object;
-
 function baseURL() {
   return BASE_BACKEND_URL as string;
 }
@@ -36,8 +20,8 @@ export function get<T>(url: string, options?: ServiceOptions) {
   return $fetch<T>(url, {
     baseURL: baseURL(),
     method: "GET" as const,
-    headers,
     ...options,
+    headers,
   });
 }
 
@@ -103,7 +87,7 @@ export const fetchWithoutToken = async (
   method: "GET" | "POST" = "GET",
   body?: object | undefined
 ) => {
-  const res = await $fetch.raw(BASE_BACKEND_URL + url, {
+  const res = await $fetch.raw(baseURL() + url, {
     data,
     headers: {},
     method,

@@ -2,19 +2,11 @@
 // Groups service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import type {
-  GroupResponse,
-  GroupsResponseBody,
-  Group as GroupT,
-} from "~/types/communities/group";
-
 import { get } from "~/services/http";
-import { defaultGroupText } from "~/types/communities/group";
-import { errorHandler } from "~/utils/errorHandler";
 
 // MARK: Map API Response to Type
 
-export function mapGroup(res: GroupResponse): GroupT {
+export function mapGroup(res: GroupResponse): Group {
   return {
     id: res.id,
     images: res.images ?? [],
@@ -25,19 +17,18 @@ export function mapGroup(res: GroupResponse): GroupT {
     createdBy: res.createdBy,
     iconUrl: res.iconUrl,
     location: res.location,
-    getInvolvedUrl: res.getInvolvedUrl,
     socialLinks: res.socialLinks,
     creationDate: res.creationDate,
     events: res.events ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
-    texts: res.texts?.[0] ?? defaultGroupText,
+    texts: res.texts ?? [],
   };
 }
 
 // MARK: Get Group by ID
 
-export async function getGroup(id: string): Promise<GroupT> {
+export async function getGroup(id: string): Promise<Group> {
   try {
     const res = await get<GroupResponse>(`/communities/groups/${id}`, {
       withoutAuth: true,
@@ -51,7 +42,7 @@ export async function getGroup(id: string): Promise<GroupT> {
 
 // MARK: List All Groups
 
-export async function listGroups(): Promise<GroupT[]> {
+export async function listGroups(): Promise<Group[]> {
   try {
     const res = await get<GroupsResponseBody>(`/communities/group`, {
       withoutAuth: true,

@@ -14,9 +14,6 @@ from communities.groups.models import Group
 from communities.organizations.factories import OrganizationFactory
 from content.factories import EntityLocationFactory
 
-# Endpoint used for these tests:
-GROUPS_URL = "/v1/communities/groups"
-
 
 class UserDict(TypedDict):
     user: UserModel
@@ -113,13 +110,13 @@ def test_GroupAPIView(logged_in_user, status_types):
     GroupFactory.create_batch(number_of_groups)
     assert Group.objects.count() == number_of_groups
 
-    response = client.get(GROUPS_URL)
+    response = client.get("/v1/communities/groups")
     assert response.status_code == 200
 
     pagination_keys = ["count", "next", "previous", "results"]
     assert all(key in response.data for key in pagination_keys)
 
-    response = client.get(f"{GROUPS_URL}?pageSize={test_page_size}")
+    response = client.get(f"{'/v1/communities/groups'}?pageSize={test_page_size}")
     assert response.status_code == 200
 
     assert len(response.data["results"]) == test_page_size
@@ -129,7 +126,7 @@ def test_GroupAPIView(logged_in_user, status_types):
     # MARK: List POST
 
     # Not Authenticated.
-    response = client.post(GROUPS_URL)
+    response = client.post("/v1/communities/groups")
     assert response.status_code == 401
 
     # Authenticated and successful.
@@ -155,7 +152,7 @@ def test_GroupAPIView(logged_in_user, status_types):
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.post(GROUPS_URL, data=payload, format="json")
+    response = client.post("/v1/communities/groups", data=payload, format="json")
 
     assert response.status_code == 201
     assert Group.objects.filter(name=new_group.name).exists()
@@ -192,7 +189,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     # MARK: Detail GET
 
-    response = client.get(f"{GROUPS_URL}/{new_group.id}")
+    response = client.get(f"{'/v1/communities/groups'}/{new_group.id}")
     assert response.status_code == 200
     assert response.data["group_name"] == new_group.group_name
 
@@ -200,7 +197,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     updated_payload = {"group_name": "updated_group_name"}
     response = client.put(
-        f"{GROUPS_URL}/{new_group.id}",
+        f"{'/v1/communities/groups'}/{new_group.id}",
         data=updated_payload,
         format="json",
     )
@@ -208,7 +205,7 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.put(
-        f"{GROUPS_URL}/{new_group.id}",
+        f"{'/v1/communities/groups'}/{new_group.id}",
         data=updated_payload,
         format="json",
     )
@@ -220,10 +217,10 @@ def test_GroupDetailAPIView(logged_in_user, logged_in_created_by_user) -> None:
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{GROUPS_URL}/{new_group.id}")
+    response = client.delete(f"{'/v1/communities/groups'}/{new_group.id}")
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
-    response = client.delete(f"{GROUPS_URL}/{new_group.id}")
+    response = client.delete(f"{'/v1/communities/groups'}/{new_group.id}")
 
     assert response.status_code == 204

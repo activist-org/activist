@@ -1,19 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
-import type { MaybeRef } from "vue";
-
-import type { FaqEntry } from "~/types/content/faq-entry";
-import type { AppError } from "~/utils/errorHandler";
-
-import {
-  createEventFaq,
-  reorderEventFaqs,
-  updateEventFaq,
-} from "~/services/event/faq";
-
-import { getKeyForGetEvent } from "../queries/useGetEvent";
-
 export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   const { showToastError } = useToaster();
 
@@ -90,6 +77,26 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
+  // Delete FAQ entry.
+  async function deleteFAQ(faqId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteEventFaq(faqId);
+
+      // Refresh to get the updated list.
+      await refreshEventData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
@@ -104,6 +111,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     createFAQ,
     updateFAQ,
     reorderFAQs,
+    deleteFAQ,
     refreshEventData,
   };
 }

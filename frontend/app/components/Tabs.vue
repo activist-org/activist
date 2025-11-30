@@ -38,8 +38,6 @@
 <script setup lang="ts">
 import { Tab, TabGroup, TabList } from "@headlessui/vue";
 
-import type { TabPage } from "~/types/tab";
-
 const props = defineProps<{
   tabs: TabPage[];
   selectedTab: number;

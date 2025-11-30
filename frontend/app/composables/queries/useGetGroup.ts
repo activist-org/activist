@@ -2,14 +2,6 @@
 // Read a single group with useAsyncData. Store-first, then fetch if missing.
 // After fetch, cache it via store. You can always call refresh() to force refetch.
 
-import type { MaybeRef } from "vue";
-
-import type { Group } from "~/types/communities/group";
-import type { AppError } from "~/utils/errorHandler";
-
-import { getGroup } from "~/services/communities/group/group";
-import { useGroupStore } from "~/stores/group";
-
 export const getKeyForGetGroup = (id: string) => `group:${id}`;
 
 export function useGetGroup(id: MaybeRef<string>) {
@@ -25,7 +17,7 @@ export function useGetGroup(id: MaybeRef<string>) {
   const query = useAsyncData(
     getKeyForGetGroup(groupId.value),
     async () => {
-      if (!groupId.value) {
+      if (!groupId.value || groupId.value === "") {
         return null;
       }
 

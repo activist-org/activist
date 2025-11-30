@@ -14,11 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EventUpdateTextFormData } from "~/types/events/event";
-
-import { useEventTextsMutations } from "~/composables/mutations/useEventTextsMutations";
-import { useGetEvent } from "~/composables/queries/useGetEvent";
-
 const modalName = "ModalTextEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 
@@ -35,17 +30,17 @@ const formData = ref<EventUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = event.value?.texts.description || "";
-  formData.value.getInvolved = event.value?.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = event.value?.getInvolvedUrl || "";
+  formData.value.description = event.value?.texts[0]?.description || "";
+  formData.value.getInvolved = event.value?.texts[0]?.getInvolved || "";
+  formData.value.getInvolvedUrl = event.value?.texts[0]?.getInvolvedUrl || "";
 });
 
 watch(
   event,
   (newValues) => {
-    formData.value.description = newValues?.texts.description || "";
-    formData.value.getInvolved = newValues?.texts.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
+    formData.value.description = newValues?.texts[0]?.description || "";
+    formData.value.getInvolved = newValues?.texts[0]?.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues?.texts[0]?.getInvolvedUrl || "";
   },
   {
     deep: true,
@@ -55,7 +50,7 @@ watch(
 async function handleSubmit(values: unknown) {
   const response = await updateTexts(
     values as EventUpdateTextFormData,
-    String(event.value?.texts.id)
+    String(event.value?.texts[0]?.id)
   );
   if (response) {
     handleCloseModal();

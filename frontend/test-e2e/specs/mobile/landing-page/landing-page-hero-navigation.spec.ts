@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { getEnglishText } from "#shared/utils/i18n";
+import { LOCALE_CODE, LOCALE_NAME } from "#shared/utils/locales";
+
 import {
   ACTIVIST_SECTION_LEARN_MORE_LINK_NAME,
   GET_ACTIVE_LEARN_MORE_LINK_NAME,
@@ -13,8 +16,6 @@ import { newSignInMenu } from "~/test-e2e/component-objects/SignInMenu";
 import { newThemeMenu } from "~/test-e2e/component-objects/ThemeMenu";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newLandingPage } from "~/test-e2e/page-objects/LandingPage";
-import { getEnglishText } from "~/utils/i18n";
-import { LOCALE_CODE, LOCALE_NAME } from "~/utils/locales";
 
 test.describe(
   "Landing Page - Hero & Navigation",
@@ -140,7 +141,7 @@ test.describe(
 
         await expectTheme(page, theme);
 
-        await sidebar.closeButton.click();
+        await sidebar.closeButton.click({ force: true });
         await expect(
           themeMenu.systemThemeOption,
           "Theme menu should be closed"

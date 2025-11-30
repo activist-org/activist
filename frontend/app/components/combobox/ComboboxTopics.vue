@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
-<!-- * NOTE: THIS COMPONENT WILL BE REMOVED AND REPLACED WITH A REFACTORED VERSION USING LISTBOX HEADLESS/UI -->
 <template>
   <div id="topics-dropdown" class="z-10 flex">
-    <Combobox v-model="selectedTopic">
+    <Combobox v-model="selectedTopics" multiple>
       <div class="relative">
         <div
           class="relative flex w-full cursor-default overflow-hidden rounded-lg elem-shadow-sm focus-brand"
@@ -49,7 +48,7 @@
               v-slot="{ selected, active }"
               @click="inputFocussed = false"
               as="template"
-              :value="topic"
+              :value="topic.value"
             >
               <li
                 class="relative cursor-default select-none py-2 pl-10 pr-4"
@@ -62,7 +61,7 @@
                 role="option"
               >
                 <span class="block truncate">
-                  {{ $t(topic.name) }}
+                  {{ $t(topic.label) }}
                 </span>
                 <span
                   v-if="selected"
@@ -93,27 +92,92 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 
-import { GLOBAL_TOPICS } from "~/types/content/topics";
-import { IconMap } from "~/types/icon-map";
-
+const props = defineProps<{
+  receivedSelectedTopics?: TopicEnum[];
+}>();
 const { t } = useI18n();
 
-const topics = [{ id: 1, name: "i18n.components.combobox_topics.all_topics" }];
+const { data: topics } = useGetTopics();
 
-let nextId = topics.length + 1;
-for (const t of GLOBAL_TOPICS) {
-  topics.push({ id: nextId++, name: t.label });
-}
+const emit = defineEmits<{
+  (e: "update:selectedTopics", value: TopicEnum[]): void;
+}>();
 
-const selectedTopic = ref(topics[0]);
+const selectedTopics = ref<TopicEnum[]>([]);
+// Flag to prevent emitting when updating from props (prevents infinite loop)
+const isSyncingFromProps = ref(false);
+
+const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
+  () => {
+    const topicsOptions = topics.value
+      .map((topic: Topic) => ({
+        label: t(
+          GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""
+        ),
+        value: topic.type as TopicEnum,
+        id: topic.id,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+    return topicsOptions.sort((a, b) => {
+      const aSelected = selectedTopics.value.some(
+        (selected: TopicEnum) => selected === a.value
+      );
+      const bSelected = selectedTopics.value.some(
+        (selected: TopicEnum) => selected === b.value
+      );
+
+      if (aSelected && !bSelected) {
+        return -1;
+      }
+      if (!aSelected && bSelected) {
+        return 1;
+      }
+      return a.label.localeCompare(b.label);
+    });
+  }
+);
+watch(
+  () => props.receivedSelectedTopics,
+  (newValReceived: TopicEnum[] | undefined) => {
+    // Set flag to prevent emission during prop update
+    isSyncingFromProps.value = true;
+
+    // if incoming prop is empty, clear the local selection
+    if (!newValReceived || newValReceived.length === 0) {
+      selectedTopics.value = [];
+    } else {
+      // sync selected topics (store primitives)
+      selectedTopics.value = [...newValReceived];
+    }
+
+    // Clear flag after sync completes
+    nextTick(() => {
+      isSyncingFromProps.value = false;
+    });
+  },
+  { immediate: true }
+);
+// Re-sort options when selectedTopics changes to keep selected items on top.
+watch(
+  selectedTopics,
+  (newVal) => {
+    // Only emit if this change came from user interaction, not from prop update
+    if (!isSyncingFromProps.value) {
+      // Emit all changes, including empty arrays to allow URL query param clearing
+      // Empty arrays are emitted when user deselects all options
+      emit("update:selectedTopics", newVal ? [...newVal] : []);
+    }
+  },
+  { immediate: true }
+);
 const query = ref("");
 const inputFocussed = ref(false);
 
 const filteredTopics = computed(() =>
   query.value === ""
-    ? topics
-    : topics.filter((topic) =>
-        topic.name
+    ? options.value
+    : options.value.filter((topic) =>
+        topic.label
           .toLowerCase()
           .replace(/\s+/g, "")
           .includes(query.value.toLowerCase().replace(/\s+/g, ""))
@@ -124,13 +188,9 @@ function displayValue(): string {
   if (inputFocussed.value) {
     return "";
   } else {
-    if (selectedTopic.value) {
-      return selectedTopic.value.id == 1
-        ? t("i18n.components.combobox_topics.filter_by_topic")
-        : selectedTopic.value.name;
-    }
-    return "";
+    return t("i18n.components.combobox_topics.filter_by_topic");
   }
+  return "";
 }
 
 const displayValueHandler = () => {

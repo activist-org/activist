@@ -39,8 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   isSidebarLeftMenu?: boolean | undefined;
   isButton: boolean;
@@ -52,7 +50,7 @@ const props = defineProps<{
 }>();
 
 const sidebar = useSidebar();
-const { signOutUser } = useUser();
+const { signOut } = useAuth();
 
 const infoComponent = computed(() => {
   return props.isButton
@@ -90,7 +88,7 @@ const infoLabel = computed(() => {
 
 function conditionallyLogOut() {
   if (props.iconName === `${IconMap.SIGN_OUT}`) {
-    signOutUser();
+    signOut();
   }
 }
 </script>

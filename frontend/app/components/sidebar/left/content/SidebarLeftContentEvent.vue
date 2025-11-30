@@ -24,7 +24,7 @@
             : logoUrl
         "
       />
-      <button
+      <IconEdit
         v-if="
           showButton &&
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
@@ -34,9 +34,7 @@
           $t('i18n.components.sidebar_left_content_event.edit_aria_label')
         "
         class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
-      >
-        <Icon :name="IconMap.EDIT" size="1em" />
-      </button>
+      />
     </div>
     <ul
       id="submenu"
@@ -60,16 +58,12 @@
 </template>
 
 <script setup lang="ts">
-import { useGetEvent } from "~/composables/queries/useGetEvent";
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   name: string;
   logoUrl?: string;
 }>();
 
 const sidebar = useSidebar();
-
 const { openModal } = useModalHandlers("ModalUploadImageIcon");
 
 const logoUrl = ref(props.logoUrl);

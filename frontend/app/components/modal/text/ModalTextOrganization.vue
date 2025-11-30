@@ -14,11 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
-
-import { useOrganizationTextsMutations } from "~/composables/mutations/useOrganizationTextsMutations";
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-
 const modalName = "ModalTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
@@ -35,17 +30,18 @@ const formData = ref<OrganizationUpdateTextFormData>({
 });
 
 onMounted(() => {
-  formData.value.description = organization.value?.texts.description || "";
-  formData.value.getInvolved = organization.value?.texts.getInvolved || "";
-  formData.value.getInvolvedUrl = organization.value?.getInvolvedUrl || "";
+  formData.value.description = organization.value?.texts[0]?.description || "";
+  formData.value.getInvolved = organization.value?.texts[0]?.getInvolved || "";
+  formData.value.getInvolvedUrl =
+    organization.value?.texts[0]?.getInvolvedUrl || "";
 });
 
 watch(
   organization,
   (newValues) => {
-    formData.value.description = newValues?.texts.description || "";
-    formData.value.getInvolved = newValues?.texts.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
+    formData.value.description = newValues?.texts[0]?.description || "";
+    formData.value.getInvolved = newValues?.texts[0]?.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues?.texts[0]?.getInvolvedUrl || "";
   },
   {
     deep: true,
@@ -55,7 +51,7 @@ watch(
 async function handleSubmit(values: unknown) {
   const response = await updateTexts(
     values as OrganizationUpdateTextFormData,
-    String(organization.value?.texts.id)
+    String(organization.value?.texts[0]?.id)
   );
   if (response) {
     handleCloseModal();

@@ -29,8 +29,8 @@
     </HeaderAppPageEvent>
     <!-- <div v-if="event.discussion" class="space-y-6 pb-6 pt-3 md:pt-4">
       <Discussion
-        :discussionInput="event.discussion"
         :discussionEntries="[event.discussion?.entries]"
+        :discussionInput="event.discussion"
         :organizations="event.orgs"
       />
     </div> -->
@@ -39,12 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
-
-import { IconMap } from "~/types/icon-map";
-
 defineProps<{
-  event: Event;
+  event: CommunityEvent;
 }>();
 
 const aboveMediumBP = useBreakpoint("md");

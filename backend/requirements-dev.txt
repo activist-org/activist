@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements-dev.in
 #
-asgiref==3.10.0
+asgiref==3.11.0
     # via
     #   -r requirements.txt
     #   django
@@ -16,25 +16,25 @@ attrs==25.4.0
     #   referencing
 build==1.3.0
     # via pip-tools
-certifi==2025.10.5
+certifi==2025.11.12
     # via
     #   -r requirements.txt
     #   i18n-check
     #   requests
-cfgv==3.4.0
+cfgv==3.5.0
     # via pre-commit
-charset-normalizer==3.4.3
+charset-normalizer==3.4.4
     # via
     #   -r requirements.txt
     #   i18n-check
     #   requests
-click==8.3.0
+click==8.3.1
     # via pip-tools
-coverage[toml]==7.10.7
+coverage[toml]==7.12.0
     # via pytest-cov
 distlib==0.4.0
     # via virtualenv
-django==5.2.7
+django==5.2.8
     # via
     #   -r requirements.txt
     #   django-cors-headers
@@ -75,27 +75,27 @@ djangorestframework-simplejwt==5.5.1
     # via
     #   -r requirements-dev.in
     #   -r requirements.txt
-djangorestframework-stubs==3.16.4
+djangorestframework-stubs==3.16.5
     # via -r requirements.txt
-drf-spectacular==0.28.0
+drf-spectacular==0.29.0
     # via -r requirements.txt
 factory-boy==3.3.3
     # via -r requirements-dev.in
-faker==37.11.0
+faker==38.2.0
     # via factory-boy
 filelock==3.20.0
     # via virtualenv
 gunicorn==23.0.0
     # via -r requirements.txt
-i18n-check==1.12.0
+i18n-check==1.15.2
     # via -r requirements-dev.in
-icalendar==6.3.1
+icalendar==6.3.2
     # via
     #   -r requirements.txt
     #   django-ical
 identify==2.6.15
     # via pre-commit
-idna==3.10
+idna==3.11
     # via
     #   -r requirements.txt
     #   i18n-check
@@ -104,7 +104,7 @@ inflection==0.5.1
     # via
     #   -r requirements.txt
     #   drf-spectacular
-iniconfig==2.1.0
+iniconfig==2.3.0
     # via pytest
 jsonschema==4.25.1
     # via
@@ -137,9 +137,9 @@ packaging==25.0
     #   pytest
 pathspec==0.12.1
     # via mypy
-pillow==11.3.0
+pillow==12.0.0
     # via -r requirements.txt
-pip-tools==7.5.1
+pip-tools==7.5.2
     # via -r requirements-dev.in
 platformdirs==4.5.0
     # via virtualenv
@@ -147,7 +147,7 @@ pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-pre-commit==4.3.0
+pre-commit==4.5.0
     # via -r requirements-dev.in
 psycopg2-binary==2.9.11
     # via -r requirements.txt
@@ -164,7 +164,7 @@ pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pytest==8.4.2
+pytest==9.0.1
     # via
     #   -r requirements-dev.in
     #   pytest-cov
@@ -178,7 +178,7 @@ python-dateutil==2.9.0.post0
     #   -r requirements.txt
     #   django-recurrence
     #   icalendar
-python-dotenv==1.1.1
+python-dotenv==1.2.1
     # via -r requirements.txt
 pyyaml==6.0.3
     # via
@@ -186,7 +186,7 @@ pyyaml==6.0.3
     #   drf-spectacular
     #   i18n-check
     #   pre-commit
-referencing==0.36.2
+referencing==0.37.0
     # via
     #   -r requirements.txt
     #   jsonschema
@@ -198,12 +198,12 @@ requests==2.32.5
     #   i18n-check
 rich==14.2.0
     # via i18n-check
-rpds-py==0.27.1
+rpds-py==0.29.0
     # via
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-ruff==0.14.0
+ruff==0.14.6
     # via -r requirements-dev.in
 six==1.17.0
     # via
@@ -215,11 +215,11 @@ sqlparse==0.5.3
     #   django
 ts-backend-check==1.1.0
     # via -r requirements-dev.in
-types-icalendar==6.3.1.20250914
+types-icalendar==6.3.2.20251107
     # via -r requirements-dev.in
-types-python-dateutil==2.9.0.20251008
+types-python-dateutil==2.9.0.20251115
     # via types-icalendar
-types-pytz==2025.2.0.20250809
+types-pytz==2025.2.0.20251108
     # via types-icalendar
 types-pyyaml==6.0.12.20250915
     # via
@@ -252,7 +252,7 @@ urllib3==2.5.0
     #   i18n-check
     #   requests
     #   types-requests
-virtualenv==20.35.3
+virtualenv==20.35.4
     # via pre-commit
 wheel==0.45.1
     # via pip-tools

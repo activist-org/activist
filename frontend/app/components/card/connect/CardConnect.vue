@@ -10,7 +10,7 @@
         @click="openModalSocialLinks"
         @keydown.enter="openModalSocialLinks"
         class="flex"
-        data-testid="edit-icon"
+        data-testid="icon-edit"
       />
     </div>
     <ul
@@ -48,13 +48,6 @@
 </template>
 
 <script setup lang="ts">
-import type { GroupSocialLink } from "~/types/communities/group";
-import type { OrganizationSocialLink } from "~/types/communities/organization";
-import type { SocialLink } from "~/types/content/social-link";
-import type { EventSocialLink } from "~/types/events/event";
-
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   socialLinks:
     | SocialLink[]

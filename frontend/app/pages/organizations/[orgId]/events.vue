@@ -57,9 +57,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import { IconMap } from "~/types/icon-map";
-
 const { data: organization } = useGetOrganization(
   useRoute().params.orgId as string
 );

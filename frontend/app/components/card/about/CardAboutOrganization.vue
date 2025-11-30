@@ -50,7 +50,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ organization?.texts?.description }}
+            {{ organization?.texts[0]?.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -89,9 +89,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetOrganization } from "~/composables/queries/useGetOrganization";
-import { IconMap } from "~/types/icon-map";
-
 const { openModal: openModalTextOrganization } = useModalHandlers(
   "ModalTextOrganization"
 );

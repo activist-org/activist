@@ -19,11 +19,9 @@
         :group="group"
       />
     </template>
-
     <template #desktop-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
     </template>
-
     <template #mobile-meta-tags>
       <MetaTagLocation v-if="location" :location="location" />
     </template>
@@ -31,11 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
-
-import { useLinkURL } from "~/composables/useLinkURL";
-import { IconMap } from "~/types/icon-map";
-
 const props = defineProps<{
   group: Group;
   isPrivate?: boolean;
@@ -46,7 +39,7 @@ const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
 
 const description = computed(() => {
-  return props.group.texts.description || "";
+  return props.group.texts[0]?.description || "";
 });
 
 const ariaLabel = computed(() => {

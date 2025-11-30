@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
 
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 export const newOrganizationAboutPage = (page: Page) => ({
   // MARK: About Card
@@ -15,7 +15,7 @@ export const newOrganizationAboutPage = (page: Page) => ({
   aboutCard: page.getByTestId("card-about"),
   aboutCardEditIcon: page
     .getByTestId("card-about")
-    .locator("div.cursor-pointer")
+    .getByTestId("icon-edit")
     .first(),
   aboutExpandTextButton: page.getByTestId("expand-text-button"),
   aboutCollapseTextButton: page.getByTestId("collapse-text-button"),
@@ -25,7 +25,7 @@ export const newOrganizationAboutPage = (page: Page) => ({
   getInvolvedCard: page.getByTestId("card-get-involved"),
   getInvolvedCardEditIcon: page
     .getByTestId("card-get-involved")
-    .locator("div.cursor-pointer")
+    .getByTestId("icon-edit")
     .first(),
   getInvolvedCardText: page
     .getByTestId("card-get-involved")
@@ -55,7 +55,7 @@ export const newOrganizationAboutPage = (page: Page) => ({
   connectCard: page.getByTestId("card-connect"),
   connectCardEditIcon: page
     .getByTestId("card-connect")
-    .locator("div.cursor-pointer")
+    .getByTestId("icon-edit")
     .first(),
 
   // MARK: Media

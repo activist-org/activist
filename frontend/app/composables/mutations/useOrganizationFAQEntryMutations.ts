@@ -1,19 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
-import type { MaybeRef } from "vue";
-
-import type { FaqEntry } from "~/types/content/faq-entry";
-import type { AppError } from "~/utils/errorHandler";
-
-import {
-  createOrganizationFaq,
-  reorderOrganizationFaqs,
-  updateOrganizationFaq,
-} from "~/services/communities/organization/faq";
-
-import { getKeyForGetOrganization } from "../queries/useGetOrganization";
-
 export function useOrganizationFAQEntryMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -93,6 +80,26 @@ export function useOrganizationFAQEntryMutations(
     }
   }
 
+  // Delete FAQ entry.
+  async function deleteFAQ(faqId: string) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await deleteOrganizationFaq(faqId);
+
+      // Refresh to get the updated list.
+      await refreshOrganizationData();
+
+      return true;
+    } catch (err) {
+      showToastError((err as AppError).message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // Helper to refresh organization data after mutations.
   async function refreshOrganizationData() {
     if (!currentOrganizationId.value) {
@@ -111,6 +118,7 @@ export function useOrganizationFAQEntryMutations(
     createFAQ,
     updateFAQ,
     reorderFAQs,
+    deleteFAQ,
     refreshOrganizationData,
   };
 }

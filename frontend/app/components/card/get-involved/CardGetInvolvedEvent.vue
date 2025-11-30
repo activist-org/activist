@@ -12,8 +12,8 @@
       />
     </div>
     <div class="space-y-3 pt-3">
-      <p v-if="event?.texts?.getInvolved">
-        {{ event.texts.getInvolved }}
+      <p v-if="event?.texts[0]?.getInvolved">
+        {{ event.texts[0]?.getInvolved }}
       </p>
       <p v-else>
         {{ $t("i18n.components.card_get_involved_event.participate_subtext") }}
@@ -39,9 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetEvent } from "~/composables/queries/useGetEvent";
-import { IconMap } from "~/types/icon-map";
-
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const { userIsSignedIn } = useUser();

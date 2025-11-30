@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "@playwright/test";
 
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 export const newOrganizationsHomePage = (page: Page) => ({
-  // Page elements
+  // MARK: Page Elements
+
   heading: page.getByRole("heading", { level: 1 }),
   comboboxButton: page.getByRole("combobox"),
 
-  // Organization cards
+  // MARK: Cards
+
   organizationLink: page
     .getByRole("link", {
       name: new RegExp(
@@ -20,7 +22,8 @@ export const newOrganizationsHomePage = (page: Page) => ({
     })
     .first(),
 
-  // Organization menu functionality (using the new generic menu selectors)
+  // MARK: Menu Functionality
+
   getOrganizationMenuButton: (index: number) =>
     page.getByTestId("organization-card").nth(index).getByTestId("menu-button"),
   getOrganizationMenuTooltip: (index: number) =>
@@ -40,13 +43,14 @@ export const newOrganizationsHomePage = (page: Page) => ({
         ),
       }),
 
-  // Legacy shareButton for backward compatibility (first organization card)
+  // Legacy shareButton for backward compatibility (first organization card).
   shareButton: page
     .getByTestId("organization-card")
     .first()
     .getByTestId("menu-button"),
 
-  // Modal elements
+  // MARK: Modal
+
   shareModal: page.locator("#modal").first(),
   closeModalButton: (shareModal: Locator) =>
     shareModal.getByTestId("modal-close-button"),

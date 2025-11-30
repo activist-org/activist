@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "@playwright/test";
 
-import { getEnglishText } from "~/utils/i18n";
+import { getEnglishText } from "#shared/utils/i18n";
 
 /**
  * Page Object Model for Organization Group About Page.
@@ -16,7 +16,7 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
     await page.waitForFunction(
       ({ tabSelector, expected }) => {
         const tabs = document.querySelectorAll(tabSelector);
-        for (const tab of tabs) {
+        for (const tab of Array.from(tabs)) {
           if (tab.getAttribute("aria-selected") === expected) {
             return true;
           }

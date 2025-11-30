@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
-import type { OrganizationUpdateTextFormData } from "~/types/communities/organization";
-
-import { put, type AcceptedBody } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
+import { put } from "~/services/http";
 
 // MARK: Update
 
@@ -19,6 +15,7 @@ export async function updateOrganizationTexts(
         primary: true,
         description: data.description,
         getInvolved: data.getInvolved,
+        getInvolvedUrl: data.getInvolvedUrl,
         donate_prompt: "",
         orgId: orgId,
         iso: "en",

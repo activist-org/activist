@@ -2,14 +2,6 @@
 // Read a single event with useAsyncData. Store-first, then fetch if missing.
 // After fetch, cache it via store. You can always call refresh() to force refetch.
 
-import type { MaybeRef } from "vue";
-
-import type { Event } from "~/types/events/event";
-import type { AppError } from "~/utils/errorHandler";
-
-import { getEvent } from "~/services/event/event";
-import { useEventStore } from "~/stores/event";
-
 export const getKeyForGetEvent = (id: string) => `event:${id}`;
 
 export function useGetEvent(id: MaybeRef<string>) {
@@ -25,12 +17,12 @@ export function useGetEvent(id: MaybeRef<string>) {
   const query = useAsyncData(
     getKeyForGetEvent(eventId.value),
     async () => {
-      if (!eventId.value && eventId.value === "") return null;
+      if (!eventId.value || eventId.value === "") return null;
       try {
         const event = await getEvent(eventId.value);
         // Cache the result in store.
         store.setEvent(event);
-        return event as Event;
+        return event as CommunityEvent;
       } catch (error) {
         showToastError((error as AppError).message);
         throw error;
@@ -57,7 +49,9 @@ export function useGetEvent(id: MaybeRef<string>) {
   );
 
   // Return cached data if available, otherwise data from useAsyncData.
-  const data = computed<Event | null>(() => query.data.value as Event | null);
+  const data = computed<CommunityEvent | null>(
+    () => query.data.value as CommunityEvent | null
+  );
 
   // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() => query.pending.value);

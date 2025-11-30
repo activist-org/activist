@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
-import type { FaqEntry } from "~/types/content/faq-entry";
-
-import { post, put } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
+import { del, post, put } from "~/services/http";
 
 // MARK: Create
 
@@ -61,16 +57,29 @@ export async function reorderEventFaqs(
 ): Promise<void> {
   try {
     await Promise.all(
-      faqs.map(
-        (f) =>
-          put(`/events/event_faqs/${f.id}`, {
+      faqs.map((f) =>
+        put(
+          `/events/event_faqs/${f.id}`,
+          {
             id: f.id,
             order: f.order,
             event: eventId,
-          }),
-        { headers: { "Content-Type": "application/json" } }
+          },
+          { headers: { "Content-Type": "application/json" } }
+        )
       )
     );
+  } catch (e) {
+    const err = errorHandler(e);
+    throw err;
+  }
+}
+
+// MARK: Delete
+
+export async function deleteEventFaq(faqId: string): Promise<void> {
+  try {
+    await del(`/events/event_faqs/${faqId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;

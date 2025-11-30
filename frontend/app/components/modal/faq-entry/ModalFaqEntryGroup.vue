@@ -11,11 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import type { FaqEntry } from "~/types/content/faq-entry";
-
-import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-
 const props = defineProps<{
   faqEntry?: FaqEntry;
 }>();

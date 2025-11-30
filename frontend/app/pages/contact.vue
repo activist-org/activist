@@ -265,8 +265,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-
 const name = ref("");
 const email = ref("");
 const message = ref("");

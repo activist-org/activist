@@ -6,9 +6,7 @@ Test cases for the event social link methods.
 from uuid import uuid4
 
 import pytest
-from django.test import Client
 
-from authentication.factories import UserFactory
 from events.factories import EventFactory, EventFaqFactory
 
 pytestmark = pytest.mark.django_db
@@ -16,7 +14,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_event_faq_update(client: Client) -> None:
+def test_event_faq_update(authenticated_client) -> None:
     """
     Test Event FAQ updates.
 
@@ -30,12 +28,7 @@ def test_event_faq_update(client: Client) -> None:
     None
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
-    test_username = "test_user"
-    test_password = "test_password"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.save()
+    client, user = authenticated_client
 
     event = EventFactory(created_by=user)
 
@@ -44,19 +37,6 @@ def test_event_faq_update(client: Client) -> None:
     test_question = faqs.question
     test_answer = faqs.answer
     test_order = faqs.order
-
-    # Login to get token.
-    login = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login.status_code == 200
-
-    # MARK: Update Success
-
-    login_body = login.json()
-    token = login_body["access"]
 
     response = client.put(
         path=f"/v1/events/event_faqs/{test_id}",
@@ -68,7 +48,6 @@ def test_event_faq_update(client: Client) -> None:
             "answer": test_answer,
             "order": test_order,
         },
-        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -86,8 +65,38 @@ def test_event_faq_update(client: Client) -> None:
             "answer": test_answer,
             "order": test_order,
         },
-        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
     assert response.status_code == 404
+
+
+def test_event_faq_update_not_authorized(authenticated_client) -> None:
+    client, user = authenticated_client
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = False
+    user.save()
+
+    event = EventFactory()
+
+    faqs = EventFaqFactory(event=event)
+    test_id = faqs.id
+    test_question = faqs.question
+    test_answer = faqs.answer
+    test_order = faqs.order
+
+    response = client.put(
+        path=f"/v1/events/event_faqs/{test_id}",
+        data={
+            "id": test_id,
+            "iso": "en",
+            "primary": True,
+            "question": test_question,
+            "answer": test_answer,
+            "order": test_order,
+        },
+        content_type="application/json",
+    )
+
+    assert response.status_code == 403

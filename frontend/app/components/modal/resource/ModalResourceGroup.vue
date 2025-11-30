@@ -11,10 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Resource, ResourceInput } from "~/types/content/resource";
-
-import { useGroupResourcesMutations } from "~/composables/mutations/useGroupResourcesMutations";
-
 const props = defineProps<{
   resource?: Resource;
 }>();
