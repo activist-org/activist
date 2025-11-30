@@ -96,7 +96,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         Returns
         -------
         QuerySet[Any, Any]
-            Events starting between now and now + days.
+            Events starting between now and the end of the day `days` days from now.
         """
         now = timezone.now()
         try:
@@ -104,7 +104,9 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         except Exception:
             return queryset.none()
 
-        end = now + timedelta(days=days_int)
+        end_date = (now + timedelta(days=days_int)).date()
+        end = datetime.combine(end_date, datetime.max.time()).replace(tzinfo=now.tzinfo)
+
         return queryset.filter(start_time__gte=now, start_time__lte=end)
 
     class Meta:
