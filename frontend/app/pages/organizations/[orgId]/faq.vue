@@ -45,12 +45,15 @@
         :swap-threshold="0.5"
         :touch-start-threshold="3"
       >
-        <template #item="{ element }">
+        <template #item="{ element, index }">
           <CardFAQEntry
             @delete-faq="handleDeleteFAQ"
             :entity="organization"
             :faqEntry="element"
             :pageType="EntityType.ORGANIZATION"
+            :class="{ selected: selectedIndex === index }"
+            tabindex="0"
+            @focus="onFocus(index)"
           />
         </template>
       </draggable>
@@ -71,6 +74,7 @@ const { data: organization } = useGetOrganization(orgId);
 const { reorderFAQs, deleteFAQ } = useOrganizationFAQEntryMutations(orgId);
 
 const faqList = ref<FaqEntry[]>([...(organization?.value?.faqEntries || [])]);
+const selectedIndex = ref<number | null>(null);
 
 watch(
   () => organization?.value?.faqEntries,
@@ -91,6 +95,11 @@ const onDragEnd = async () => {
 const handleDeleteFAQ = async (faqId: string) => {
   await deleteFAQ(faqId);
 };
+
+function onFocus(index: number) {
+  console.log("FAQ Item index focused", index);
+  selectedIndex.value = index;
+}
 </script>
 
 <style scoped>
@@ -116,5 +125,10 @@ const handleDeleteFAQ = async (faqId: string) => {
 /* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
+}
+
+.selected {
+  background: #1D4ED8;
+  transform: scale(1.025);
 }
 </style>
