@@ -54,6 +54,8 @@
             :class="{ selected: selectedIndex === index }"
             tabindex="0"
             @focus="onFocus(index)"
+            @keydown.up.prevent="moveUp(index)"
+            @keydown.down.prevent="moveDown(index)"
           />
         </template>
       </draggable>
@@ -99,6 +101,14 @@ const handleDeleteFAQ = async (faqId: string) => {
 function onFocus(index: number) {
   console.log("FAQ Item index focused", index);
   selectedIndex.value = index;
+}
+
+function moveUp(index: number) {
+  console.log("Moving FAQ Item index down", index);
+}
+
+function moveDown(index: number) {
+  console.log("Moving FAQ Item index up", index);
 }
 </script>
 
