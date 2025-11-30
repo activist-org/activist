@@ -98,17 +98,43 @@ const handleDeleteFAQ = async (faqId: string) => {
   await deleteFAQ(faqId);
 };
 
-function onFocus(index: number) {
+async function onFocus(index: number) {
   console.log("FAQ Item index focused", index);
   selectedIndex.value = index;
 }
 
-function moveUp(index: number) {
-  console.log("Moving FAQ Item index down", index);
+async function moveUp(index: number) {
+  console.log("Moving FAQ Item index up", index);
+
+  if (selectedIndex.value === null || selectedIndex.value === 0) return;
+
+  const i = selectedIndex.value;
+  const temp = faqList.value[i];
+  temp!.order = i - 1;
+  faqList.value[i - 1]!.order = i + 1;
+  faqList.value[i] = faqList.value[i - 1]!;
+  faqList.value[i - 1] = temp!;
+
+  selectedIndex.value!--;
+
+  await reorderFAQs(faqList.value);
 }
 
-function moveDown(index: number) {
-  console.log("Moving FAQ Item index up", index);
+async function moveDown(index: number) {
+  console.log("Moving FAQ Item index down", index);
+
+  if (selectedIndex.value === null || selectedIndex.value === faqList.value.length - 1) return;
+
+  const i = selectedIndex.value;
+  const temp = faqList.value[i];
+  temp!.order = i + 1;
+  faqList.value[i + 1]!.order = i - 1;
+  faqList.value[i] = faqList.value[i + 1]!;
+  faqList.value[i + 1] = temp!;
+
+  selectedIndex.value!++;
+
+  await reorderFAQs(faqList.value);
 }
 </script>
 
