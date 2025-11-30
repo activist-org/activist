@@ -2,7 +2,7 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { del, get, post } from "~/services/http";
+import { del, get, post /*, errorHandler*/ } from "~/services/http";
 
 // MARK: Map API Response to Type
 
@@ -65,7 +65,21 @@ export async function listEvents(
       { withoutAuth: true }
     );
     return { data: res.results.map(mapEvent), isLastPage: !res.next };
-  } catch (e) {
+  } catch (e: unknown) {
+    const err = e as {
+      response?: { status?: number; data?: { detail?: string } };
+      statusCode?: number;
+      status?: number;
+      data?: { detail?: string };
+    };
+
+    const status = err.response?.status ?? err.statusCode ?? err.status ?? null;
+    const detail = err.response?.data?.detail ?? err.data?.detail ?? undefined;
+
+    if (status === 404 && detail === "Invalid page.") {
+      return { data: [], isLastPage: true };
+    }
+
     throw errorHandler(e);
   }
 }
