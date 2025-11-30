@@ -22,12 +22,12 @@ repos:
         files: ^backend/
 
   - repo: https://github.com/to-sta/spdx-checker-pre-commit
-    rev: 0.1.3
+    rev: 0.1.7
     hooks:
       - id: spdx-license-checker
         name: run spdx-checker license check
         exclude: ^(?:.*/)?__init__\.py$
-        args: [-l, AGPL-3.0-or-later]
+        args: [-l, AGPL-3.0-or-later, --fix, --continue-on-error]
         types_or: [python, ts, javascript, vue, css, html]
 
   - repo: https://github.com/numpy/numpydoc
