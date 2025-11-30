@@ -23,7 +23,7 @@
           :placeholder="label"
         />
       </ComboboxInput>
-      <!-- Minimal visible button to open combobox for programmatic control -->
+      <!-- Minimal visible button to open combobox for programmatic control. -->
       <ComboboxButton
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
@@ -117,7 +117,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const query = ref("");
 const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
-// Use any type to avoid strict Headless UI type conflicts with DOM types
+// Use any type to avoid strict Headless UI type conflicts with DOM types.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const actualInputRef = ref<any>(null);
 
@@ -127,7 +127,7 @@ const actualInputRef = ref<any>(null);
 function setupInputWrapper(el: unknown) {
   if (!el) return;
 
-  // Get the actual DOM element (could be component instance or DOM element)
+  // Get the actual DOM element (could be component instance or DOM element).
   const element = ((el as { $el?: HTMLElement })?.$el || el) as HTMLElement & {
     setSelectionRange?: (
       selectionStart: number,
@@ -136,14 +136,14 @@ function setupInputWrapper(el: unknown) {
     ) => void;
   };
 
-  // Forward setSelectionRange to the actual input element
+  // Forward setSelectionRange to the actual input element.
   if (element && !element.setSelectionRange) {
     element.setSelectionRange = (
       selectionStart: number,
       selectionEnd: number,
       selectionDirection?: "forward" | "backward" | "none"
     ) => {
-      // Use cached input reference if available, otherwise find it
+      // Use cached input reference if available, otherwise find it.
       let inputElement = actualInputRef.value;
       if (!inputElement && formInputRef.value?.$el) {
         inputElement = formInputRef.value.$el.querySelector(
@@ -165,13 +165,13 @@ function setupInputWrapper(el: unknown) {
             selectionDirection
           );
         } catch {
-          // Silently ignore if selection range can't be set
+          // Silently ignore if selection range can't be set.
         }
       }
     };
   }
 
-  // Try to find and cache the input element immediately
+  // Try to find and cache the input element immediately.
   nextTick(() => {
     if (formInputRef.value?.$el && !actualInputRef.value) {
       const inputElement = formInputRef.value.$el.querySelector(
@@ -184,7 +184,7 @@ function setupInputWrapper(el: unknown) {
   });
 }
 
-// Watch for formInputRef changes and cache the input element immediately
+// Watch for formInputRef changes and cache the input element immediately.
 watch(
   formInputRef,
   (newRef) => {

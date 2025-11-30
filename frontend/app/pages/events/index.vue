@@ -48,7 +48,7 @@ const filters = computed<EventFilters>(() => {
   const { view, topics, ...rest } = route.query; // omit view
   const normalizedFilters: EventFilters = rest as unknown as EventFilters;
 
-  // Normalize topics to always be an array (Vue Router returns string for single value)
+  // Normalize topics to always be an array (Vue Router returns string for single value).
   normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
 
   return normalizedFilters;

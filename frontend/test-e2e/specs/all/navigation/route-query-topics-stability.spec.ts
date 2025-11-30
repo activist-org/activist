@@ -31,7 +31,7 @@ test.describe(
         async () => {
           await sidebarLeft.open();
 
-          // Click the topics combobox button to open dropdown
+          // Click the topics combobox button to open dropdown.
           const topicsSection = eventsFilter.topicsSection;
           const topicsComboboxButton = topicsSection.getByRole("button", {
             name: /topics/i,
@@ -39,13 +39,13 @@ test.describe(
           await expect(topicsComboboxButton).toBeVisible();
           await topicsComboboxButton.click();
 
-          // Wait for options to appear and select a topic
+          // Wait for options to appear and select a topic.
           const topicOption = page.getByRole("option", {
             name: /environment/i,
           });
           await expect(topicOption).toBeVisible({ timeout: 5000 });
 
-          // Click the option and wait for URL to update
+          // Click the option and wait for URL to update.
           await Promise.all([
             topicOption.click(),
             page.waitForURL(/topics=/, { timeout: 5000 }),
@@ -57,18 +57,18 @@ test.describe(
         testInfo,
         "Verify URL contains topics and remains stable",
         async () => {
-          // Wait for any pending navigation to complete
+          // Wait for any pending navigation to complete.
           await page
             .waitForLoadState("networkidle", { timeout: 5000 })
             .catch(() => {
-              // Ignore timeout - networkidle is optional
+              // Ignore timeout - networkidle is optional.
             });
           await page.waitForLoadState("domcontentloaded");
 
-          // Wait additional time to ensure URL is stable
+          // Wait additional time to ensure URL is stable.
           await page.waitForTimeout(2000);
 
-          // Verify URL contains topics parameter and remains stable
+          // Verify URL contains topics parameter and remains stable.
           await expect(async () => {
             const url = page.url();
             if (!url.includes("topics=")) {
@@ -76,7 +76,7 @@ test.describe(
             }
           }).toPass({ timeout: 1000 });
 
-          // Final verification
+          // Final verification.
           await expect(page).toHaveURL(/topics=/);
           const url = page.url();
           expect(url).toMatch(/topics=ENVIRONMENT/);
@@ -99,7 +99,7 @@ test.describe(
         async () => {
           await sidebarLeft.open();
 
-          // Click the topics combobox button to open dropdown
+          // Click the topics combobox button to open dropdown.
           const topicsSection = eventsFilter.topicsSection;
           const topicsComboboxButton = topicsSection.getByRole("button", {
             name: /topics/i,
@@ -107,14 +107,14 @@ test.describe(
           await expect(topicsComboboxButton).toBeVisible();
           await topicsComboboxButton.click();
 
-          // Select first topic (e.g., Environment)
+          // Select first topic (e.g., Environment).
           const environmentOption = page.getByRole("option", {
             name: /environment/i,
           });
           await expect(environmentOption).toBeVisible({ timeout: 5000 });
           await environmentOption.click();
 
-          // Wait for URL to update with first topic
+          // Wait for URL to update with first topic.
           await page.waitForURL(/topics=/, { timeout: 5000 });
           await page.waitForLoadState("domcontentloaded");
         }
@@ -124,13 +124,13 @@ test.describe(
         testInfo,
         "Select second topic and verify both topics are in URL",
         async () => {
-          // Click the button again to open dropdown (it should still be open or we reopen it)
+          // Click the button again to open dropdown (it should still be open or we reopen it).
           const topicsSection = eventsFilter.topicsSection;
           const topicsComboboxButton = topicsSection.getByRole("button", {
             name: /topics/i,
           });
 
-          // Check if dropdown is still open, if not, click to reopen
+          // Check if dropdown is still open, if not, click to reopen.
           const healthOption = page.getByRole("option", {
             name: /health/i,
           });
@@ -141,11 +141,11 @@ test.describe(
             await page.waitForTimeout(300);
           }
 
-          // Select second topic (e.g., Health)
+          // Select second topic (e.g., Health).
           await expect(healthOption).toBeVisible({ timeout: 5000 });
           await healthOption.click();
 
-          // Wait for URL to update with both topics
+          // Wait for URL to update with both topics.
           await page
             .waitForLoadState("networkidle", { timeout: 5000 })
             .catch(() => {});
@@ -158,10 +158,10 @@ test.describe(
         testInfo,
         "Verify URL contains both topics and remains stable",
         async () => {
-          // Wait additional time to ensure URL is stable
+          // Wait additional time to ensure URL is stable.
           await page.waitForTimeout(2000);
 
-          // Verify URL contains topics parameter and remains stable
+          // Verify URL contains topics parameter and remains stable.
           await expect(async () => {
             const url = page.url();
             const urlHasEnvironment = url.includes("ENVIRONMENT");
@@ -178,21 +178,21 @@ test.describe(
             }
           }).toPass({ timeout: 5000 });
 
-          // Final verification - check for both topics
+          // Final verification - check for both topics.
           await expect(page).toHaveURL(/topics=/);
           const url = page.url();
 
-          // Verify both topics are present in the URL
+          // Verify both topics are present in the URL.
           expect(url).toMatch(/topics=/);
           expect(url).toContain("ENVIRONMENT");
           expect(url).toContain("HEALTH");
           expect(url).toContain("view=map");
 
-          // Parse URL to verify topics array structure
+          // Parse URL to verify topics array structure.
           const urlObj = new URL(url);
           const topicsParam = urlObj.searchParams.getAll("topics");
 
-          // Topics should be present as an array
+          // Topics should be present as an array.
           expect(topicsParam.length).toBeGreaterThanOrEqual(1);
           expect(topicsParam).toContain("ENVIRONMENT");
           expect(topicsParam).toContain("HEALTH");

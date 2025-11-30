@@ -88,7 +88,7 @@ export function normalizeArrayFromURLQuery(
 ): string[] {
   if (!arr || arr === null) return [];
   if (Array.isArray(arr)) {
-    // Filter out null values from array
+    // Filter out null values from array.
     return arr.filter((t): t is string => t !== null && typeof t === "string");
   }
   if (typeof arr === "string") return [arr];
