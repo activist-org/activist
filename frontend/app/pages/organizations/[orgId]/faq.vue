@@ -46,17 +46,23 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element, index }">
-          <CardFAQEntry
-            @delete-faq="handleDeleteFAQ"
-            :entity="organization"
-            :faqEntry="element"
-            :pageType="EntityType.ORGANIZATION"
+          <div
+            :key="element.id" 
+            :ref="(el: HTMLElement) => faqHTMLList[index] = el"
             :class="{ selected: selectedIndex === index }"
             tabindex="0"
             @focus="onFocus(index)"
             @keydown.up.prevent="moveUp(index)"
             @keydown.down.prevent="moveDown(index)"
-          />
+          >
+            <CardFAQEntry
+              @delete-faq="handleDeleteFAQ"
+              :entity="organization"
+              :faqEntry="element"
+              :pageType="EntityType.ORGANIZATION"
+              :class="{ selectedFAQ: selectedIndex === index }"
+            />
+          </div>
         </template>
       </draggable>
     </div>
@@ -66,6 +72,7 @@
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
+import { nextTick } from "vue";
 
 const { openModal } = useModalHandlers("ModalFaqEntryOrganization");
 
@@ -76,6 +83,7 @@ const { data: organization } = useGetOrganization(orgId);
 const { reorderFAQs, deleteFAQ } = useOrganizationFAQEntryMutations(orgId);
 
 const faqList = ref<FaqEntry[]>([...(organization?.value?.faqEntries || [])]);
+const faqHTMLList = ref<(HTMLElement | null)[]>([]);
 const selectedIndex = ref<number | null>(null);
 
 watch(
@@ -118,6 +126,9 @@ async function moveUp(index: number) {
   selectedIndex.value!--;
 
   await reorderFAQs(faqList.value);
+
+  await nextTick();
+  faqHTMLList.value[selectedIndex.value!]!.focus()
 }
 
 async function moveDown(index: number) {
@@ -135,6 +146,9 @@ async function moveDown(index: number) {
   selectedIndex.value!++;
 
   await reorderFAQs(faqList.value);
+
+  await nextTick();
+  faqHTMLList.value[selectedIndex.value!]!.focus()
 }
 </script>
 
@@ -164,7 +178,10 @@ async function moveDown(index: number) {
 }
 
 .selected {
-  background: #1D4ED8;
   transform: scale(1.025);
+}
+
+.selectedFAQ {
+  background: highlight;
 }
 </style>
