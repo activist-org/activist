@@ -46,23 +46,19 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element, index }">
-          <div
-            :key="element.id" 
+          <CardFAQEntry
+            :key="element.id"
             :ref="(el: HTMLElement) => faqHTMLList[index] = el"
-            :class="{ selected: selectedIndex === index }"
+            :class="{ selected: selectedIndex === index, selectedFAQ: selectedIndex === index }"
             tabindex="0"
+            @delete-faq="handleDeleteFAQ"
             @focus="onFocus(index)"
             @keydown.up.prevent="moveUp(index)"
             @keydown.down.prevent="moveDown(index)"
-          >
-            <CardFAQEntry
-              @delete-faq="handleDeleteFAQ"
-              :entity="organization"
-              :faqEntry="element"
-              :pageType="EntityType.ORGANIZATION"
-              :class="{ selectedFAQ: selectedIndex === index }"
-            />
-          </div>
+            :entity="organization"
+            :faqEntry="element"
+            :pageType="EntityType.ORGANIZATION"
+          />
         </template>
       </draggable>
     </div>
