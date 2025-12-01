@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Ref } from "vue";
-import { ref, nextTick } from "vue";
 
 /**
  * Composable for managing keyboard navigation in draggable lists.
