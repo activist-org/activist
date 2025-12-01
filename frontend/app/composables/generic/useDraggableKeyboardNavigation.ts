@@ -1,28 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Ref } from "vue";
 
-/**
- * Composable for managing keyboard navigation in draggable lists.
- * Provides functionality to move items up/down with arrow keys and maintain focus.
- *
- * @template T - The type of items in the list (must have an order field)
- * @param {Ref<T[]>} list - Reactive reference to the list of items
- * @param {(list: T[]) => Promise<void>} reorderCallback - Async function to call after reordering
- * @param {string} orderField - Name of the field used for ordering (default: "order")
- * @returns Object containing refs and functions for keyboard navigation
- *
- * @example
- * const faqList = ref<FaqEntry[]>([...]);
- * const { reorderFAQs } = useOrganizationFAQEntryMutations(orgId);
- * 
- * const {
- *   htmlElementsList,
- *   selectedIndex,
- *   onFocus,
- *   moveUp,
- *   moveDown
- * } = useDraggableKeyboardNavigation(faqList, reorderFAQs);
- */
 export function useDraggableKeyboardNavigation<
   T extends Record<string, unknown>
 >(
