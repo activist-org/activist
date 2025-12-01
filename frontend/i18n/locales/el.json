@@ -1,1 +1,4 @@
-{}
+{
+	"i18n.components.sidebar_left_filter_events.clear_filters": "Εκκαθάριση φίλτρων",
+	"i18n.components.sidebar_left_filter_events.clear_filters_aria_label": "Εκκαθάριση φίλτρων"
+}

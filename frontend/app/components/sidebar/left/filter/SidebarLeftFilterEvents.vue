@@ -12,7 +12,20 @@
         :options="optionViews"
       />
     </div>
+          <div class="mt-2 flex w-full justify-start">
+            <button
+              @click="clearFilters"
+              type="button"
+              :aria-label="clearAriaLabel"
+              class="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-section-div bg-layer-2 px-3 py-1.5 text-sm text-white hover:bg-layer-3 hover:text-cta-orange dark:text-white dark:hover:text-cta-orange"
+              data-testid="events-filter-clear"
+            >
+              <Icon :name="IconMap.TRASH" class="h-4 w-4" aria-hidden="true" />
+              <span>{{ clearAriaLabel }}</span>
+            </button>
+          </div>
     <Form
+      :key="formKey"
       @submit="handleSubmit"
       class="px-1"
       :initial-values="formData"
@@ -31,6 +44,7 @@
           :id="id"
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
+          :toggleable="true"
           :options="optionDays"
         />
       </FormItem>
@@ -45,6 +59,7 @@
           :id="id"
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
+          :toggleable="true"
           :options="optionEventTypes"
         />
       </FormItem>
@@ -59,6 +74,7 @@
           :id="id"
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
+          :toggleable="true"
           :options="optionLocations"
         />
       </FormItem>
@@ -111,7 +127,13 @@ import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
 
-const { t } = useI18n();
+const { t, te } = useI18n();
+
+const clearAriaLabel = computed(() =>
+  te("i18n.components.sidebar_left_filter_events.clear_filters_aria_label")
+    ? t("i18n.components.sidebar_left_filter_events.clear_filters_aria_label")
+    : "Clear filters"
+);
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
@@ -217,6 +239,7 @@ const optionLocations = [
 
 const route = useRoute();
 const router = useRouter();
+const formKey = ref(0);
 const updateViewType = (
   value: string | number | boolean | Record<string, unknown> | undefined
 ) => {
@@ -240,8 +263,17 @@ const formData = ref({});
 watch(
   route,
   (form) => {
-    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    formData.value = { ...rest };
+    const { view, days_ahead, ...rest } = (form.query as Record<string, unknown>) || {};
+    const mappedData: Record<string, unknown> = { ...rest };
+    if (days_ahead) mappedData.days = days_ahead;
+    ["days", "type", "setting"].forEach((key) => {
+      if (Array.isArray(mappedData[key])) mappedData[key] = mappedData[key][0];
+    });
+    if (mappedData.topics && !Array.isArray(mappedData.topics)) {
+      mappedData.topics = [mappedData.topics];
+    }
+    formData.value = mappedData;
+    formKey.value += 1;
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
@@ -253,6 +285,7 @@ watch(
 const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
+  
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
       if (key === "days") {
@@ -261,22 +294,28 @@ const handleSubmit = (_values: unknown) => {
         ).toISOString();
         return;
       }
-      if (
-        key === "topics" &&
-        Array.isArray(input[key]) &&
-        input[key].length === 0
-      ) {
+      if (key === "topics" && Array.isArray(input[key]) && input[key].length === 0) {
         return;
       }
       if (key === "view") return;
       values[key] = input[key];
     }
-    if (route.query.name && route.query.name !== "")
-      values["name"] = route.query.name;
   });
+  if (route.query.name && route.query.name !== "") values["name"] = route.query.name;
+
   router.push({
     query: {
       ...(values as LocationQueryRaw),
+      view: viewType.value,
+    },
+  });
+};
+
+const clearFilters = () => {
+  formData.value = {};
+  formKey.value = (formKey.value + 1) % 2;
+  router.push({
+    query: {
       view: viewType.value,
     },
   });

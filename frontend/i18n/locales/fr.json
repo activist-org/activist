@@ -399,6 +399,8 @@
   "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label": "Événement de type emplacement en personne",
   "i18n.components.sidebar_left_filter_events.location_type_online": "En ligne",
   "i18n.components.sidebar_left_filter_events.location_type_online_aria_label": "Type d’événement par emplacement en ligne",
+  "i18n.components.sidebar_left_filter_events.clear_filters": "Effacer les filtres",
+  "i18n.components.sidebar_left_filter_events.clear_filters_aria_label": "Effacer les filtres",
   "i18n.components.sidebar_left_filter_events.view_type_calendar": "Afficher comme calendrier",
   "i18n.components.sidebar_left_filter_events.view_type_list": "Afficher comme liste",
   "i18n.components.sidebar_left_filter_events.view_type_map": "Afficher comme carte",

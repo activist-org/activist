@@ -370,6 +370,8 @@
   "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label": "فعالية حضورية",
   "i18n.components.sidebar_left_filter_events.location_type_online": "عن بُعد",
   "i18n.components.sidebar_left_filter_events.location_type_online_aria_label": "فعالية عن بُعد",
+  "i18n.components.sidebar_left_filter_events.clear_filters": "مسح عوامل التصفية",
+  "i18n.components.sidebar_left_filter_events.clear_filters_aria_label": "مسح عوامل التصفية",
   "i18n.components.sidebar_left_filter_events.view_type_calendar": "عرض التقويم",
   "i18n.components.sidebar_left_filter_events.view_type_list": "عرض القائمة",
   "i18n.components.sidebar_left_filter_events.view_type_map": "قائمة الخريطة",

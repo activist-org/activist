@@ -24,6 +24,9 @@
       ]"
       :name="option.label || ''"
       :value="option.value"
+      @mousedown="onOptionMouseDown($event, option)"
+      @keydown.space="onOptionKeyDown($event, option)"
+      @keydown.enter="onOptionKeyDown($event, option)"
     >
       <Icon
         v-if="option.isIcon"
@@ -55,6 +58,7 @@ type Option = {
 const props = defineProps<{
   modelValue: string | number | boolean | Record<string, unknown> | undefined;
   options: Option[];
+  toggleable?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -63,10 +67,33 @@ const emit = defineEmits<{
 
 const value = computed({
   get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
+  set: (val) => {
+    if (props.toggleable && val === props.modelValue) {
+      emit("update:modelValue", undefined);
+    } else {
+      emit("update:modelValue", val);
+    }
+  },
 });
 
 const isOptionChecked = (option: Option) => {
   return value.value === option.value;
+};
+
+const onOptionMouseDown = (e: MouseEvent, option: Option) => {
+  if (props.toggleable && isOptionChecked(option)) {
+    // Prevent Headless UI from re-selecting the same option on this interaction
+    e.stopPropagation();
+    e.preventDefault();
+    emit("update:modelValue", undefined);
+  }
+};
+
+const onOptionKeyDown = (e: KeyboardEvent, option: Option) => {
+  if (props.toggleable && isOptionChecked(option)) {
+    e.stopPropagation();
+    e.preventDefault();
+    emit("update:modelValue", undefined);
+  }
 };
 </script>
