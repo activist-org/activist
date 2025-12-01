@@ -2,13 +2,13 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { ref } from "vue";
 
-import { useFileManager } from "../../app/composables/useFileManager";
 import type { FileUploadMix, ContentImage } from "../../shared/types/file-type";
-import { UploadableFile } from "../../shared/types/file";
+
+import { useFileManager } from "../../app/composables/useFileManager";
 import { BASE_BACKEND_URL } from "../../app/constants/baseUrls";
+import { UploadableFile } from "../../shared/types/file";
 
 const mockFetch = vi.fn();
-
 
 const createUploadEntry = (
   file: UploadableFile,
@@ -18,7 +18,7 @@ const createUploadEntry = (
     type: "upload",
     data: file,
     sequence,
-  } as FileUploadMix);
+  }) as FileUploadMix;
 
 // Helper: create a FileUploadMix entry representing an existing backend file
 const createExistingFileEntry = (
@@ -29,16 +29,22 @@ const createExistingFileEntry = (
     type: "file",
     data: image,
     sequence,
-  } as FileUploadMix);
+  }) as FileUploadMix;
 
 describe("useFileManager", () => {
   beforeEach(() => {
     // Stub global fetch
     vi.stubGlobal("fetch", mockFetch);
 
-    vi.stubGlobal("useAuth", vi.fn(() => ({ token: ref("TEST_TOKEN") })));
+    vi.stubGlobal(
+      "useAuth",
+      vi.fn(() => ({ token: ref("TEST_TOKEN") }))
+    );
 
-    vi.stubGlobal("useColorMode", vi.fn(() => ref<"light" | "dark">("light")));
+    vi.stubGlobal(
+      "useColorMode",
+      vi.fn(() => ref<"light" | "dark">("light"))
+    );
 
     mockFetch.mockReset();
   });
@@ -58,7 +64,9 @@ describe("useFileManager", () => {
   it("calls backend DELETE with auth header when deleteImage is called with an id", async () => {
     const { deleteImage } = useFileManager();
 
-    mockFetch.mockResolvedValueOnce(new Response(null, { status: 204 }) as unknown);
+    mockFetch.mockResolvedValueOnce(
+      new Response(null, { status: 204 }) as unknown
+    );
 
     await deleteImage("image-123");
 
@@ -76,7 +84,10 @@ describe("useFileManager", () => {
 
   it("computes defaultImageUrls for light color mode", () => {
     // Make sure useColorMode returns "light" for this call
-    vi.stubGlobal("useColorMode", vi.fn(() => ref<"light" | "dark">("light")));
+    vi.stubGlobal(
+      "useColorMode",
+      vi.fn(() => ref<"light" | "dark">("light"))
+    );
 
     const { defaultImageUrls } = useFileManager();
 
@@ -87,7 +98,10 @@ describe("useFileManager", () => {
   });
 
   it("computes defaultImageUrls for dark color mode", () => {
-    vi.stubGlobal("useColorMode", vi.fn(() => ref<"light" | "dark">("dark")));
+    vi.stubGlobal(
+      "useColorMode",
+      vi.fn(() => ref<"light" | "dark">("dark"))
+    );
 
     const { defaultImageUrls } = useFileManager();
 
@@ -121,7 +135,9 @@ describe("useFileManager", () => {
     const existingUploadFile = new UploadableFile(
       new File(["existing"], "existing.png", { type: "image/png" })
     );
-    const existingFiles: FileUploadMix[] = [createUploadEntry(existingUploadFile, 0)];
+    const existingFiles: FileUploadMix[] = [
+      createUploadEntry(existingUploadFile, 0),
+    ];
 
     const newFiles: File[] = [
       new File(["jpeg"], "photo.jpeg", { type: "image/jpeg" }),
@@ -172,7 +188,6 @@ describe("useFileManager", () => {
   it("removeFile removes a ContentImage and calls deleteImage (backend)", async () => {
     const { removeFile } = useFileManager();
 
-
     const contentImage = {
       id: "backend-image-1",
       fileObject: "https://example.com/image.png",
@@ -184,15 +199,16 @@ describe("useFileManager", () => {
       createExistingFileEntry(
         {
           id: "backend-image-2",
-         fileObject: "https://example.com/other.png",
-               creation_date: "2024-01-01T00:00:00Z",
-
+          fileObject: "https://example.com/other.png",
+          creation_date: "2024-01-01T00:00:00Z",
         } as ContentImage,
         1
       ),
     ];
 
-    mockFetch.mockResolvedValueOnce(new Response(null, { status: 204 }) as unknown);
+    mockFetch.mockResolvedValueOnce(
+      new Response(null, { status: 204 }) as unknown
+    );
 
     expect(files).toHaveLength(2);
 
