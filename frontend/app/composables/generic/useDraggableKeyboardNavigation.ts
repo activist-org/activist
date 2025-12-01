@@ -28,15 +28,14 @@ export function useDraggableKeyboardNavigation<
     if (selectedIndex.value === null || selectedIndex.value === 0) return;
 
     const i = selectedIndex.value;
-    const temp = list.value[i];
-    
-    // Swap order values
-    (temp as Record<string, unknown>)[orderField] = i - 1;
-    (list.value[i - 1] as Record<string, unknown>)[orderField] = i;
-    
+
     // Swap items in array
-    list.value[i] = list.value[i - 1]!;
-    list.value[i - 1] = temp!;
+    [list.value[i], list.value[i - 1]] = [list.value[i - 1]!, list.value[i]!];
+
+    // Recalculate all orders based on array positions
+    list.value.forEach((item, index) => {
+      (item as Record<string, unknown>)[orderField] = index;
+    });
 
     selectedIndex.value--;
 
@@ -61,15 +60,14 @@ export function useDraggableKeyboardNavigation<
       return;
 
     const i = selectedIndex.value;
-    const temp = list.value[i];
-    
-    // Swap order values
-    (temp as Record<string, unknown>)[orderField] = i + 1;
-    (list.value[i + 1] as Record<string, unknown>)[orderField] = i;
-    
+
     // Swap items in array
-    list.value[i] = list.value[i + 1]!;
-    list.value[i + 1] = temp!;
+    [list.value[i], list.value[i + 1]] = [list.value[i + 1]!, list.value[i]!];
+
+    // Recalculate all orders based on array positions
+    list.value.forEach((item, index) => {
+      (item as Record<string, unknown>)[orderField] = index;
+    });
 
     selectedIndex.value++;
 
