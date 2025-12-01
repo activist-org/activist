@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Ref } from "vue";
-
 export function useDraggableKeyboardNavigation<
   T extends Record<string, unknown>
 >(
