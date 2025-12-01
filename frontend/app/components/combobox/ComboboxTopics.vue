@@ -48,7 +48,7 @@
               v-slot="{ selected, active }"
               @click="inputFocussed = false"
               as="template"
-              :value="topic"
+              :value="topic.value"
             >
               <li
                 class="relative cursor-default select-none py-2 pl-10 pr-4"
@@ -99,45 +99,31 @@ const { t } = useI18n();
 
 const { data: topics } = useGetTopics();
 
-const options = ref<{ label: string; value: TopicEnum; id: string }[]>([]);
-options.value = topics.value
-  .map((topic: Topic) => ({
-    label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
-    value: topic.type as TopicEnum,
-    id: topic.id,
-  }))
-  .sort((a, b) => a.label.localeCompare(b.label));
-
 const emit = defineEmits<{
   (e: "update:selectedTopics", value: TopicEnum[]): void;
 }>();
 
-const selectedTopics = ref<{ label: string; value: TopicEnum; id: string }[]>(
-  []
-);
+const selectedTopics = ref<TopicEnum[]>([]);
+// Flag to prevent emitting when updating from props (prevents infinite loop).
+const isSyncingFromProps = ref(false);
 
-watch(
-  () => props.receivedSelectedTopics,
-  (newVal) => {
-    selectedTopics.value = options.value.filter((option) =>
-      newVal?.includes(option.value)
-    );
-  },
-  { immediate: true }
-);
-
-// Re-sort options when selectedTopics changes to keep selected items on top.
-watch(
-  selectedTopics,
-  (newVal) => {
-    options.value = options.value.sort((a, b) => {
-      const aSelected = newVal.some(
-        (selected: { label: string; value: TopicEnum; id: string }) =>
-          selected.value === a.value
+const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
+  () => {
+    const topicsOptions = topics.value
+      .map((topic: Topic) => ({
+        label: t(
+          GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""
+        ),
+        value: topic.type as TopicEnum,
+        id: topic.id,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+    return topicsOptions.sort((a, b) => {
+      const aSelected = selectedTopics.value.some(
+        (selected: TopicEnum) => selected === a.value
       );
-      const bSelected = newVal.some(
-        (selected: { label: string; value: TopicEnum; id: string }) =>
-          selected.value === b.value
+      const bSelected = selectedTopics.value.some(
+        (selected: TopicEnum) => selected === b.value
       );
 
       if (aSelected && !bSelected) {
@@ -148,20 +134,41 @@ watch(
       }
       return a.label.localeCompare(b.label);
     });
-    // Emit only the values of the selected topics.
-    emit(
-      "update:selectedTopics",
-      options.value
-        .filter((option) =>
-          newVal.some(
-            (selected: { label: string; value: TopicEnum; id: string }) =>
-              selected.value === option.value
-          )
-        )
-        .map((option) => option.value)
-    );
+  }
+);
+watch(
+  () => props.receivedSelectedTopics,
+  (newValReceived: TopicEnum[] | undefined) => {
+    // Set flag to prevent emission during prop update.
+    isSyncingFromProps.value = true;
+
+    // if incoming prop is empty, clear the local selection.
+    if (!newValReceived || newValReceived.length === 0) {
+      selectedTopics.value = [];
+    } else {
+      // sync selected topics (store primitives).
+      selectedTopics.value = [...newValReceived];
+    }
+
+    // Clear flag after sync completes.
+    nextTick(() => {
+      isSyncingFromProps.value = false;
+    });
   },
-  { immediate: true, deep: true }
+  { immediate: true }
+);
+// Re-sort options when selectedTopics changes to keep selected items on top.
+watch(
+  selectedTopics,
+  (newVal) => {
+    // Only emit if this change came from user interaction, not from prop update.
+    if (!isSyncingFromProps.value) {
+      // Emit all changes, including empty arrays to allow URL query param clearing.
+      // Empty arrays are emitted when user deselects all options.
+      emit("update:selectedTopics", newVal ? [...newVal] : []);
+    }
+  },
+  { immediate: true }
 );
 const query = ref("");
 const inputFocussed = ref(false);
