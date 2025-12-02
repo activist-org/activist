@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Disclosure v-slot="{ open }" as="div" class="card-style">
-    <div data-testid="faq-card" ref="root" tabindex="0">
+    <div ref="root" data-testid="faq-card" tabindex="0">
       <div class="flex items-center gap-2">
         <DisclosureButton
           class="flex-1 rounded-md px-4 py-2 focus-brand"
@@ -99,8 +99,8 @@ const props = defineProps<{
   pageType: EntityType;
   entity?: Entity | null;
 }>();
-const root = ref<HTMLElement | null>(null)
-defineExpose({ root })
+const root = ref<HTMLElement | null>(null);
+defineExpose({ root });
 
 const emit = defineEmits<{
   (e: "delete-faq", faqId: string): void;

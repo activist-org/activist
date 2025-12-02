@@ -48,16 +48,19 @@
         <template #item="{ element, index }">
           <CardFAQEntry
             :key="element.id"
-            :ref="(el: CardExpose) => faqCardList[index] = el?.root"
-            :class="{ selected: selectedIndex === index, selectedFAQ: selectedIndex === index }"
-            tabindex="0"
+            :ref="(el: CardExpose) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
             @focus="onFocus(index)"
-            @keydown.up.prevent="moveUp(index)"
-            @keydown.down.prevent="moveDown(index)"
+            @keydown.down.prevent="moveDown()"
+            @keydown.up.prevent="moveUp()"
+            :class="{
+              selected: selectedIndex === index,
+              selectedFAQ: selectedIndex === index,
+            }"
             :entity="organization"
             :faqEntry="element"
             :pageType="EntityType.ORGANIZATION"
+            tabindex="0"
           />
         </template>
       </draggable>
@@ -84,9 +87,8 @@ const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(faqList, reorderFAQs, faqCardList);
 
 export type CardExpose = {
-  root: HTMLElement | null
-}
-
+  root: HTMLElement | null;
+};
 
 watch(
   () => organization?.value?.faqEntries,
