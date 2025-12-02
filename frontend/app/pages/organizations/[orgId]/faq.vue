@@ -48,7 +48,7 @@
         <template #item="{ element, index }">
           <CardFAQEntry
             :key="element.id"
-            :ref="(el: HTMLElement) => htmlElementsList[index] = el"
+            :ref="(el: CardExpose) => faqCardList[index] = el?.root"
             :class="{ selected: selectedIndex === index, selectedFAQ: selectedIndex === index }"
             tabindex="0"
             @delete-faq="handleDeleteFAQ"
@@ -78,9 +78,15 @@ const { data: organization } = useGetOrganization(orgId);
 const { reorderFAQs, deleteFAQ } = useOrganizationFAQEntryMutations(orgId);
 
 const faqList = ref<FaqEntry[]>([...(organization?.value?.faqEntries || [])]);
+const faqCardList = ref<(HTMLElement | null)[]>([]);
 
-const { htmlElementsList, selectedIndex, onFocus, moveUp, moveDown } =
-  useDraggableKeyboardNavigation(faqList, reorderFAQs);
+const { selectedIndex, onFocus, moveUp, moveDown } =
+  useDraggableKeyboardNavigation(faqList, reorderFAQs, faqCardList);
+
+export type CardExpose = {
+  root: HTMLElement | null
+}
+
 
 watch(
   () => organization?.value?.faqEntries,
