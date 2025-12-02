@@ -42,7 +42,6 @@ export interface EventAttendee {
 export interface EventFilters {
   setting?: EventType;
   locationType?: "online" | "offline";
-  active_on?: string; // ISO date string
   topics?: TopicEnum[]; // array of topic IDs
   name?: string; // search term for event name
   days_ahead?: string; // number of days in the future

@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Tests for event list filtering: days_ahead, active_on, and combined filters.
+Tests for event list filtering: days_ahead
 """
 
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 from datetime import timezone as dt_timezone
 from unittest.mock import patch
 
@@ -52,80 +52,6 @@ def test_days_ahead_filters_events_within_window(mock_now) -> None:
     assert str(event_in_window.id) in ids
     assert str(event_in_past.id) not in ids
     assert str(event_after_window.id) not in ids
-
-
-def test_active_on_filters_events_overlapping_given_day() -> None:
-    """
-    active_on returns events whose [start_time, end_time] overlap the given day.
-    Uses a deterministic base day derived from FIXED_NOW and only timezone-aware
-    datetimes to avoid naive-datetime warnings.
-    """
-    client = APIClient()
-
-    base_day = (FIXED_NOW + timedelta(days=10)).date()
-
-    # Event fully inside the day.
-    start_inside = datetime.combine(base_day, time(10, 0)).replace(
-        tzinfo=dt_timezone.utc
-    )
-    end_inside = datetime.combine(base_day, time(12, 0)).replace(tzinfo=dt_timezone.utc)
-    event_inside = EventFactory.create(
-        start_time=start_inside,
-        end_time=end_inside,
-    )
-
-    # Event that spans across the day (starts before, ends after).
-    spanning_start = datetime.combine(
-        base_day - timedelta(days=1),
-        time(23, 0),
-    ).replace(tzinfo=dt_timezone.utc)
-    spanning_end = datetime.combine(
-        base_day + timedelta(days=1),
-        time(1, 0),
-    ).replace(tzinfo=dt_timezone.utc)
-    event_spanning = EventFactory.create(
-        start_time=spanning_start,
-        end_time=spanning_end,
-    )
-
-    # Event outside the day (entirely before).
-    before_start = datetime.combine(
-        base_day - timedelta(days=2),
-        time(10, 0),
-    ).replace(tzinfo=dt_timezone.utc)
-    before_end = datetime.combine(
-        base_day - timedelta(days=2),
-        time(12, 0),
-    ).replace(tzinfo=dt_timezone.utc)
-    event_before = EventFactory.create(
-        start_time=before_start,
-        end_time=before_end,
-    )
-
-    # Event outside the day (entirely after).
-    after_start = datetime.combine(
-        base_day + timedelta(days=2),
-        time(10, 0),
-    ).replace(tzinfo=dt_timezone.utc)
-    after_end = datetime.combine(
-        base_day + timedelta(days=2),
-        time(12, 0),
-    ).replace(tzinfo=dt_timezone.utc)
-    event_after = EventFactory.create(
-        start_time=after_start,
-        end_time=after_end,
-    )
-
-    active_on_str = base_day.isoformat()
-    response = client.get(f"{EVENTS_URL}?active_on={active_on_str}")
-    assert response.status_code == 200
-
-    ids = {item["id"] for item in response.data["results"]}
-
-    assert str(event_inside.id) in ids
-    assert str(event_spanning.id) in ids
-    assert str(event_before.id) not in ids
-    assert str(event_after.id) not in ids
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)

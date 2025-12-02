@@ -3,8 +3,8 @@
 A class for filtering events based on user defined properties.
 """
 
-from datetime import date, datetime, timedelta
-from typing import Any, Union
+from datetime import datetime, timedelta
+from typing import Any
 
 import django_filters
 from django.db.models.query import QuerySet
@@ -40,41 +40,10 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         lookup_expr="iexact",
     )
 
-    active_on = django_filters.DateTimeFilter(
-        method="filter_active_on",
-        label="Active on (exact datetime)",
-    )
-
     days_ahead = django_filters.NumberFilter(
         method="filter_days_ahead",
         label="Upcoming events within N days",
     )
-
-    def filter_active_on(
-        self, queryset: QuerySet[Any, Any], name: str, day: Union[date, datetime]
-    ) -> QuerySet[Any, Any]:
-        """
-        Filter based on the start and end time of an event.
-
-        Parameters
-        ----------
-        queryset : QuerySet[Any, Any]
-            The query set of events to check.
-
-        name : str
-            The name of events to filter by.
-
-        day : Union[date, datetime]
-            The date to filter the events by.
-
-        Returns
-        -------
-        QuerySet[Any, Any]
-            The query set of active events based on the provided arguments.
-        """
-        start = datetime.combine(day, datetime.min.time())
-        end = datetime.combine(day, datetime.max.time())
-        return queryset.filter(start_time__lte=end, end_time__gte=start)
 
     def filter_days_ahead(
         self, queryset: QuerySet[Any, Any], name: str, days: int
@@ -116,7 +85,6 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
             "topics",
             "type",
             "setting",
-            "active_on",
             "location",
             "days_ahead",
         ]
