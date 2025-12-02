@@ -4,7 +4,7 @@ export function useDraggableKeyboardNavigation<
 >(
   list: Ref<T[]>,
   reorderCallback: (list: T[]) => Promise<void>,
-  cardList: Ref<(HTMLElement | null)[]>,
+  elementList: Ref<(HTMLElement | null)[]>,
   orderField = "order"
 ) {
   const selectedIndex = ref<number | null>(null);
@@ -40,7 +40,7 @@ export function useDraggableKeyboardNavigation<
 
     // Focus the moved item after DOM update
     await nextTick();
-    cardList.value[selectedIndex.value]?.focus();
+    elementList.value[selectedIndex.value]?.focus();
   }
 
   /**
@@ -70,7 +70,7 @@ export function useDraggableKeyboardNavigation<
 
     // Focus the moved item after DOM update
     await nextTick();
-    cardList.value[selectedIndex.value]?.focus();
+    elementList.value[selectedIndex.value]?.focus();
   }
 
   return {
