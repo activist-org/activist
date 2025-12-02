@@ -15,12 +15,12 @@
           <div class="mt-2 flex w-full justify-start">
             <button
               @click="clearFilters"
-              type="button"
               :aria-label="clearAriaLabel"
               class="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-section-div bg-layer-2 px-3 py-1.5 text-sm text-white hover:bg-layer-3 hover:text-cta-orange dark:text-white dark:hover:text-cta-orange"
               data-testid="events-filter-clear"
+              type="button"
             >
-              <Icon :name="IconMap.TRASH" class="h-4 w-4" aria-hidden="true" />
+              <Icon aria-hidden="true"  class="h-4 w-4"  :name="IconMap.TRASH" />
               <span>{{ clearAriaLabel }}</span>
             </button>
           </div>
@@ -44,8 +44,8 @@
           :id="id"
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
-          :toggleable="true"
           :options="optionDays"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem
@@ -59,8 +59,8 @@
           :id="id"
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
-          :toggleable="true"
           :options="optionEventTypes"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem
@@ -74,8 +74,8 @@
           :id="id"
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
-          :toggleable="true"
           :options="optionLocations"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem

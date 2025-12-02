@@ -8,6 +8,9 @@
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
+      @keydown.enter="onOptionKeyDown($event, option)"
+      @keydown.space="onOptionKeyDown($event, option)"
+      @mousedown="onOptionMouseDown($event, option)"
       :aria-label="$t(option.aria_label)"
       class="flex flex-1 cursor-pointer items-center justify-center rounded-none"
       :class="[
@@ -24,9 +27,6 @@
       ]"
       :name="option.label || ''"
       :value="option.value"
-      @mousedown="onOptionMouseDown($event, option)"
-      @keydown.space="onOptionKeyDown($event, option)"
-      @keydown.enter="onOptionKeyDown($event, option)"
     >
       <Icon
         v-if="option.isIcon"
