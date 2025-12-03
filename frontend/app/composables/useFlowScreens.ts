@@ -61,6 +61,7 @@ export function useFlowScreens(
       await options.onNodeEnter(newNode.id);
     }
     currentScreen.value = await resolveScreenFor(newNode);
+    console.log("Current screen set to:", currentScreen.value);
   }
 
   watch(() => store.currentNode, handleNodeChange, { immediate: true });

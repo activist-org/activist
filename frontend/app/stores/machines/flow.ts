@@ -24,7 +24,6 @@
  *    Functions receive a full `context` object with access to data and actions.
  */
 import { defineStore } from "pinia";
-
 /**
  * Creates a new flow store instance with all advanced features.
  * @param opts The configuration options for the store.

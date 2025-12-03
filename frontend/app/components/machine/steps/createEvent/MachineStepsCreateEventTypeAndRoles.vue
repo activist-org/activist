@@ -23,20 +23,19 @@
         />
       </FormItem>
       <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Tagline"
-        name="tagline"
+        v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-event-type"
+        :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
+        name="type"
       >
         <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
+        <FormSelectorRadio
           :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          label="Tagline"
+          @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
-          />
-        </FormItem>
+          :options="optionEventTypes"
+        />
+      </FormItem>
         <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         :label="$t('i18n._global.description')"
@@ -53,19 +52,27 @@
       </FormItem>
       <FormItem
       v-slot="{ id, handleChange, value }"
-      label="Organizations"
-      name="organizations"
+      label="Topics"
+      name="topics"
     >
-      <!-- prettier-ignore-attribute :selected-organizations -->
-      <FormSelectorComboboxOrganizations
+      <!-- prettier-ignore-attribute :selected-topics -->
+      <FormSelectorComboboxTopics
         :id="id"
-        @update:selectedOptions="
-          (val: unknown) => handleChange(val as Organization[])
+        @update:selected-topics="
+          (val: unknown) => handleChange(val as TopicEnum[])
         "
-        label="Organizations"
-        :selected-organizations="((value.value ?? []) as Organization[])"
+        label="Topics"
+        :selected-topics="((value.value ?? []) as TopicEnum[])"
       />
     </FormItem>
+       <FormItem v-slot="{ id, handleChange, handleBlur }" name="createAnother">
+          <FormCheckbox
+            :id="id"
+            @blur="handleBlur"
+            @update:model-value="handleChange"
+            data-testid="create-another"
+          />
+        </FormItem>
     </Form>
   </div>
 </template>
@@ -77,10 +84,28 @@ const { t } = useI18n();
 const flow = inject<any>('flow');
 const signInSchema = z.object({
   name: z.string().min(1, t("i18n.pages.auth._global.required")),
-  tagline: z.string().optional(),
-  description: z.string().min(1, t("i18n.pages.auth._global.required")),
-  organizations: z.array(z.string()).optional(),
+  topics: z.array(z.string()).optional(),
+  type: z.string().min(1, t("i18n.pages.auth._global.required")),
+  createAnother: z.boolean().optional(),
 });
+const optionEventTypes = [
+  {
+    value: "learn",
+    key: "LEARN",
+    content: t("i18n.components._global.learn"),
+    aria_label:
+      "i18n.components.sidebar_left_filter_events.event_type_learn_aria_label",
+    checkedClass: "style-learn",
+  },
+  {
+    value: "action",
+    key: "ACTION",
+    content: t("i18n.components._global.action"),
+    aria_label:
+      "i18n.components.sidebar_left_filter_events.event_type_action_aria_label",
+    checkedClass: "style-action",
+  },
+];
 const signInUser = async (values: Record<string, unknown>) => {
     // Simulate an API call
     await new Promise((resolve) => setTimeout(resolve, 1000));

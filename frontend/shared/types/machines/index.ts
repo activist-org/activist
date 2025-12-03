@@ -1,2 +1,2 @@
 export * from "./create-events-steps";
-export * from "../machine-type";
+export * from "./machine-type";

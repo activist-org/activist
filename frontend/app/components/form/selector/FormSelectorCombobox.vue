@@ -1,35 +1,35 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Combobox :id="id" v-model="internalSelectedOptions" as="div" multiple>
     <div class="relative">
+      <!-- Pass the setupInputWrapper function as the ref for the container -->
       <ComboboxInput
         :ref="setupInputWrapper"
         v-slot="{ id: inputId, onBlur }"
         as="div"
         class="flex"
       >
+        <!--
+          Bind directly to formInputRef.
+          Vue automatically assigns the component instance to formInputRef.value
+        -->
         <FormTextInput
           :id="inputId"
-          :ref="
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (el: any) => {
-              formInputRef = el;
-            }
-          "
-          @update:modelValue="(val) => (query = val)"
+          ref="formInputRef"
+          @update:modelValue="handleInput"
           :label="label"
           :modelValue="query"
           :onBlur="onBlur"
           :placeholder="label"
         />
       </ComboboxInput>
-      <!-- Minimal visible button to open combobox for programmatic control. -->
+
       <ComboboxButton
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
       >
         <Icon :name="IconMap.CHEVRON_EXPAND" />
       </ComboboxButton>
+
       <ComboboxOptions
         :id="`${id}-options`"
         class="elem-shadow-lg absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-layer-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
@@ -50,7 +50,7 @@
             }"
           >
             <span class="block truncate">
-              {{ $t(option.label) }}
+              {{ option.label }}
             </span>
             <span
               v-if="selected"
@@ -64,8 +64,20 @@
             </span>
           </li>
         </ComboboxOption>
+
+        <!-- Infinite Scroll Sentinel -->
+        <li
+          v-if="infinite"
+          ref="sentinel"
+          class="py-2 pl-10 pr-4 flex justify-center text-sm text-gray-500"
+        >
+          <slot v-if="showLoadingSlot" name="loading">
+            Loading...
+          </slot>
+        </li>
       </ComboboxOptions>
     </div>
+
     <ul
       v-if="internalSelectedOptions.length > 0"
       class="mt-2 flex"
@@ -110,24 +122,47 @@ interface Props {
   id: string;
   label: string;
   hasColOptions?: boolean;
+
+  // Infinite scroll props
+  infinite?: boolean;
+  fetchMore?: () => void;
+  canFetchMore?: boolean;
+  threshold?: number | number[];
+  rootMargin?: string;
+  showLoadingSlot?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,
+  infinite: false,
+  canFetchMore: true,
+  threshold: 0.1,
+  rootMargin: "0px",
+  showLoadingSlot: true,
 });
+
+const emit = defineEmits<{
+  (e: "update:selectedOptions", value: unknown[]): void;
+  (e: "update:filterValue", value: string): void;
+  (e: "load-more"): void;
+}>();
+
 const query = ref("");
+const sentinel = ref<HTMLElement | null>(null);
+
+// --- Input Reference & Selection Logic ---
+// Reference to the FormTextInput component
 const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
-// Use any type to avoid strict Headless UI type conflicts with DOM types.
+// Reference to the actual native input element inside FormTextInput
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const actualInputRef = ref<any>(null);
 
-// Workaround: Headless UI tries to call setSelectionRange on the wrapper div
-// when using as="div", but divs don't have this method. We forward the call
-// to the actual input element inside FormTextInput.
+// This function is passed as the `ref` for the ComboboxInput wrapper.
+// It patches the wrapper's `setSelectionRange` method to forward calls to the inner input.
 function setupInputWrapper(el: unknown) {
   if (!el) return;
 
-  // Get the actual DOM element (could be component instance or DOM element).
+  // Get the DOM element of the wrapper
   const element = ((el as { $el?: HTMLElement })?.$el || el) as HTMLElement & {
     setSelectionRange?: (
       selectionStart: number,
@@ -136,28 +171,24 @@ function setupInputWrapper(el: unknown) {
     ) => void;
   };
 
-  // Forward setSelectionRange to the actual input element.
+  // If the wrapper doesn't have setSelectionRange, we add a shim.
   if (element && !element.setSelectionRange) {
     element.setSelectionRange = (
       selectionStart: number,
       selectionEnd: number,
       selectionDirection?: "forward" | "backward" | "none"
     ) => {
-      // Use cached input reference if available, otherwise find it.
+      // Try to get the input from our cached ref or look it up
       let inputElement = actualInputRef.value;
+
       if (!inputElement && formInputRef.value?.$el) {
-        inputElement = formInputRef.value.$el.querySelector(
-          "input"
-        ) as HTMLInputElement | null;
+        inputElement = formInputRef.value.$el.querySelector("input") as HTMLInputElement | null;
         if (inputElement) {
           actualInputRef.value = inputElement;
         }
       }
 
-      if (
-        inputElement &&
-        typeof inputElement.setSelectionRange === "function"
-      ) {
+      if (inputElement && typeof inputElement.setSelectionRange === "function") {
         try {
           inputElement.setSelectionRange(
             selectionStart,
@@ -165,34 +196,20 @@ function setupInputWrapper(el: unknown) {
             selectionDirection
           );
         } catch {
-          // Silently ignore if selection range can't be set.
+          // Ignore errors
         }
       }
     };
   }
-
-  // Try to find and cache the input element immediately.
-  nextTick(() => {
-    if (formInputRef.value?.$el && !actualInputRef.value) {
-      const inputElement = formInputRef.value.$el.querySelector(
-        "input"
-      ) as HTMLInputElement | null;
-      if (inputElement) {
-        actualInputRef.value = inputElement;
-      }
-    }
-  });
 }
 
-// Watch for formInputRef changes and cache the input element immediately.
+// Watch the component ref to cache the native input as soon as it's available
 watch(
   formInputRef,
   (newRef) => {
     if (newRef?.$el && !actualInputRef.value) {
       nextTick(() => {
-        const inputElement = newRef.$el?.querySelector(
-          "input"
-        ) as HTMLInputElement | null;
+        const inputElement = newRef.$el?.querySelector("input") as HTMLInputElement | null;
         if (inputElement) {
           actualInputRef.value = inputElement;
         }
@@ -201,6 +218,29 @@ watch(
   },
   { immediate: true }
 );
+// -----------------------------------------
+
+// --- Infinite Scroll Logic ---
+const enabled = computed(() => props.infinite);
+const canFetchMoreRef = computed(() => props.canFetchMore);
+
+const handleFetchMore = () => {
+  if (props.fetchMore) {
+    props.fetchMore();
+  } else {
+    emit("load-more");
+  }
+};
+
+useCustomInfiniteScroll({
+  sentinel,
+  fetchMore: handleFetchMore,
+  canFetchMore: canFetchMoreRef,
+  enabled,
+  threshold: props.threshold,
+  rootMargin: props.rootMargin,
+});
+// -----------------------------
 
 const onClick = (option: Option) => {
   internalSelectedOptions.value = internalSelectedOptions.value.filter(
@@ -208,9 +248,10 @@ const onClick = (option: Option) => {
   );
 };
 
-const emit = defineEmits<{
-  (e: "update:selectedOptions", value: unknown[]): void;
-}>();
+const handleInput = (val: string) => {
+  query.value = val;
+  emit("update:filterValue", val);
+};
 
 const filteredOptions = computed(() =>
   query.value !== ""
@@ -225,14 +266,12 @@ const internalSelectedOptions = computed({
     if (props.selectedOptions && props.selectedOptions.length === 0) {
       return [];
     }
-    // Always compute from prop.
     return props.options.filter((option: Option) =>
       (props.selectedOptions as unknown[]).includes(option.value)
     );
   },
   set(newOptions) {
     const values = (newOptions as Option[]).map((option) => option.value);
-    // Only emit if value actually changed.
     if (JSON.stringify(values) !== JSON.stringify(props.selectedOptions)) {
       emit("update:selectedOptions", values);
     }

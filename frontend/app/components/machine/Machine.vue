@@ -6,7 +6,7 @@
       <progress :value="context.currentStep" :max="context.totalSteps"></progress>
     </div>
 
-    <div v-if="loading" class="loading-overlay">Loading...</div>
+    <div v-if="loading && currentScreen" class="loading-overlay">Loading...</div>
     <component :is="currentScreen" v-else-if="currentScreen" />
     <!-- ... -->
   </div>
@@ -27,6 +27,9 @@ const { isActive, currentScreen,context, loading, start, close, next } = useFlow
 watch(currentScreen, (newVal) => {
   console.log("Current screen changed to:", newVal);
 }, { immediate: true });
+onMounted(() => {
+  console.log("Machine component mounted. Starting flow...");
+});
 
 // Provide both the actions and the reactive context.
 provide('flow', {
