@@ -68,7 +68,6 @@ class Faq(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     iso = models.CharField(max_length=3, choices=ISO_CHOICES)
-    primary = models.BooleanField(default=False)
     question = models.TextField(max_length=500)
     answer = models.TextField(max_length=500)
     order = models.IntegerField()

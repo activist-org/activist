@@ -11,6 +11,7 @@ from uuid import UUID
 from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
 
+from backend.utils.models import ISO_CHOICES
 from communities.groups.models import Group
 from communities.organizations.models import Organization
 from content.models import Topic
@@ -324,6 +325,16 @@ class EventSerializer(serializers.ModelSerializer[Event]):
         if terms_checked and terms_checked is False:
             raise serializers.ValidationError(
                 "You must accept the terms of service to create an event."
+            )
+        
+        default_iso = data.get("default_iso")
+        if default_iso and default_iso not in {choice[0] for choice in ISO_CHOICES}:
+            valid_isos = [choice[0] for choice in ISO_CHOICES]
+            raise serializers.ValidationError(
+            {
+                "default_iso": (f"'{default_iso}' is not a valid ISO code."
+            )
+        }
             )
 
         return data

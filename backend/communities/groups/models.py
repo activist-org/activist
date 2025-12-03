@@ -6,6 +6,7 @@ Models for the communities app.
 from typing import Any
 from uuid import uuid4
 
+from backend.utils.models import ISO_CHOICES
 from django.db import models
 
 from content.models import Faq, Resource, SocialLink, Text
@@ -44,6 +45,8 @@ class Group(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
+    default_iso = models.CharField(max_length=3,choices=ISO_CHOICES,default="en",help_text="ISO code for the default text language (e.g., 'en', 'fr')",)
+
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="GroupFlag")

@@ -15,6 +15,7 @@ interface GroupBase extends Entity {
   faqEntries?: FaqEntry[];
   resources?: Resource[];
   images?: ContentImage[];
+  defaultIso: String;
   // topics?: Topic[];
   // supportingOrgs?: Organization[];
   // supportingUsers?: User[];
@@ -48,7 +49,6 @@ export interface GroupText {
   id: number;
   groupId: string;
   iso: string;
-  primary: boolean;
   description: string;
   getInvolved: string;
   getInvolvedUrl?: string;
