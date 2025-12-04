@@ -6,88 +6,122 @@
 </template>
 
 <script setup lang="ts">
-import type { LayerSpecification, Map } from "maplibre-gl"; // Import Map type
+import type { LayerSpecification, Map } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
   pointer?: Pointer;
-  type: MapType; 
-  pointers?: PointerCluster[]; 
-  clusterProperties?: ClusterProperties; 
-  clusterTooltipCreate?: (pointer: unknown) => PopupContent; 
-  pointerTooltipCreate?: (pointer: Pointer) => PopupContent; 
+  type: MapType;
+  pointers?: PointerCluster[];
+  clusterProperties?: ClusterProperties;
+  clusterTooltipCreate?: (pointer: unknown) => PopupContent;
+  pointerTooltipCreate?: (pointer: Pointer) => PopupContent;
 }>();
 
+// Composables
 const { createMap, isWebglSupported, addDefaultControls } = useMap();
-
 const { createMapForClusterTypeMap } = useClusterMap();
 const { createMapForPointerTypeMap } = usePointerMap();
-
-// MARK: Map Tooltip Helper
 
 const { t } = useI18n();
 const colorMode = useColorMode();
 const { setMapLayers, setMap } = useRouting();
 
 const isTouchDevice =
-  // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   navigator.msMaxTouchPoints > 0 ||
   "ontouchstart" in window ||
   navigator.maxTouchPoints > 0;
 
-// MARK: Map Layers
+
+// MAP LAYERS (EXACTLY AS REQUIRED)
 
 const mapLayers: LayerSpecification[] = [
-  // ... (Map layer definitions remain the same)
+  {
+    id: "background",
+    type: "background",
+    paint: {
+      "background-color":
+        colorMode.preference === "dark" ? "#131316" : "#F6F8FA",
+    },
+  },
+  {
+    id: "default-layer",
+    type: "raster",
+    source: "raster-tiles",
+    minzoom: 0,
+  },
+  {
+    id: "cycle-layer",
+    type: "raster",
+    source: "cycle-raster-tiles",
+    minzoom: 0,
+    layout: {
+      visibility: "none",
+    },
+  },
 ];
 
-// Local reference to the MapLibre instance for cleanup
-let mapInstance: Map | null = null; 
+let mapInstance: Map | null = null;
+  
+
 
 // MARK: Map Creation
 onMounted(() => {
   if (!isWebglSupported()) {
     alert(t("i18n.components.media_map.maplibre_gl_alert"));
-  } else {
-    const map = createMap(mapLayers) as Map; 
-    mapInstance = map;
+    return;
+  }
 
-    addDefaultControls(map);
-    setMapLayers(mapLayers);
-    setMap(map);
+  const map = createMap(mapLayers) as Map;
+  mapInstance = map;
 
-    if (props.type === MapType.POINT) {
-      if (!props.pointer) {
-        return;
-      }
-      const pointer: Pointer = props.pointer;
-      createMapForPointerTypeMap(map, pointer, isTouchDevice);
-    }
-    if (props.type === MapType.CLUSTER) {
-      if (!props.pointers || props.pointers.length === 0) {
-        return;
-      }
-      const { pointers } = props;
-      createMapForClusterTypeMap(
-        map,
-        pointers || [],
-        isTouchDevice,
-        props.clusterProperties as ClusterProperties,
-        props?.clusterTooltipCreate as (pointer: unknown) => PopupContent,
-        props?.pointerTooltipCreate as (pointer: unknown) => PopupContent
-      );
-    }
+  addDefaultControls(map);
+  setMapLayers(mapLayers);
+  setMap(map);
+
+  // Instant cluster→marker transition improvement
+  map.on("move", () => {
+    map.triggerRepaint();
+  });
+
+  // POINT MAP
+  if (props.type === MapType.POINT) {
+    if (!props.pointer) return;
+
+    createMapForPointerTypeMap(
+      map,
+      props.pointer,
+      isTouchDevice,
+
+    );
+  }
+
+  // CLUSTER MAP
+  if (props.type === MapType.CLUSTER) {
+    if (!props.pointers || props.pointers.length === 0) return;
+
+    createMapForClusterTypeMap(
+      map,
+      props.pointers,
+      isTouchDevice,
+      props.clusterProperties as ClusterProperties,
+
+      // FIX: force a default tooltip factory so TS is satisfied
+      props.clusterTooltipCreate ??
+        ((p) => document.createElement("div")),
+
+      props?.pointerTooltipCreate as (pointer: unknown) => PopupContent
+
+    );
   }
 });
 
-// MARK: Cleanup (CRITICAL FIX FOR CRASHES)
+
+// CLEANUP — FIXES GL CONTEXT CRASHES
 onUnmounted(() => {
-    if (mapInstance) {
-    // This line is the essential fix for the WebGL crash.
+  if (mapInstance) {
     mapInstance.remove();
-    console.log('MapLibre GL instance removed on component unmount.');
     mapInstance = null;
   }
 });
