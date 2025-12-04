@@ -9,12 +9,12 @@ const colorByType: Record<ColorKey, ColorByEventTypeAndTheme> = {
 };
 
 export const useColor = () => {
+  const colorMode = useColorMode();
   const getColorModeImages = (path: string, ext: string = ".png") => {
-    return `${path}_${useColorMode().value}${ext}`;
+    return `${path}_${colorMode.value}${ext}`;
   };
 
   const getEventColorByType = (eventType: EventType) => {
-    const colorMode = useColorMode();
     const suffix = colorMode.preference === "light" ? "light" : "dark";
     const key = `${eventType}_${suffix}` as ColorKey;
     return colorByType[key];

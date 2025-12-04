@@ -25,6 +25,8 @@ interface OrganizationBase extends Entity {
   // supportingUsers?: User[];
 }
 
+export type OrganizationPaginatedResponse = PaginatedResponse<Organization>;
+
 export interface Organization extends OrganizationBase {
   texts: OrganizationText[];
 }

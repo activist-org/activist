@@ -152,7 +152,6 @@
   "i18n.components.card_topic_selection.subtext_organization": "Bitte wählen Sie Themen aus, an denen diese Organisation hauptsächlich arbeitet, damit die Community sie leichter finden kann.",
   "i18n.components.card_topic_selection.subtext_resource": "Bitte wählen Sie Themen aus, mit denen sich diese Ressource befasst, damit die Community sie leichter finden kann.",
   "i18n.components.card_topic_selection.view_all_topics": "Alle Themen anzeigen",
-  "i18n.components.combobox_topics.all_topics": "Alle Themen",
   "i18n.components.combobox_topics.filter_by_topic": "Nach Thema filtern",
   "i18n.components.combobox_topics.no_matching_topics": "Keine passenden Themen.",
   "i18n.components.combobox_topics.toggle_dropdown": "Dropdown umschalten",

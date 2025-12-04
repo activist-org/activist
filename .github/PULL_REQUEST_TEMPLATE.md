@@ -23,6 +23,6 @@ Also, please describe shortly how you tested that your change actually works.
 
 <!--- activist prefers that pull requests be related to already open issues. -->
 <!--- If applicable, please link to the issue by replacing ISSUE_NUMBER with the appropriate number below. -->
-<!--- Feel free to delete this section if this does not apply. -->
+<!--- You can also put "Closes" before the # to close the issue on merge, or say there is no related issue. -->
 
 - #ISSUE_NUMBER

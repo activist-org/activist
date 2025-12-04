@@ -13,7 +13,7 @@ export const useEventStore = defineStore("event", {
     event: null as unknown as CommunityEvent,
     events: [],
     filters: {} as EventFilters,
-    page: 0,
+    page: 1,
   }),
   actions: {
     setEvent(event: CommunityEvent) {
@@ -24,7 +24,8 @@ export const useEventStore = defineStore("event", {
       return this.page;
     },
     setPage(page: number) {
-      this.page = page;
+      // Ensure page is always >= 1. Invalid values are clamped to 1.
+      this.page = Math.max(1, page);
     },
 
     getEvent(): CommunityEvent {
