@@ -27,7 +27,8 @@ defineProps<{
 }>();
 
 const { signOut } = useAuth();
-const { openModal:openModalCreateEvent } = useModalHandlers("ModalCreateEvent");
+const { openModal: openModalCreateEvent } =
+  useModalHandlers("ModalCreateEvent");
 const userOptionsSignedIn: MenuSelector[] = [
   {
     id: "user-options-your-profile",

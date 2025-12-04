@@ -8,18 +8,18 @@
       :schema="signInSchema"
     >
       <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Name"
-        name="name"
+        v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-location-type"
+        :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
+        name="setting"
+        required
       >
         <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
+        <FormSelectorRadio
           :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          label="Name"
+          @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
+          :options="optionLocations"
         />
       </FormItem>
       <FormItem
@@ -27,6 +27,7 @@
         data-testid="events-filter-event-type"
         :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
         name="type"
+        required
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
@@ -36,11 +37,11 @@
           :options="optionEventTypes"
         />
       </FormItem>
-        <FormItem
+      <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         :label="$t('i18n._global.description')"
-        name="description"
-        :required="true"
+        name="roles"
+        required
       >
         <FormTextArea
           :id="id"
@@ -51,28 +52,20 @@
         />
       </FormItem>
       <FormItem
-      v-slot="{ id, handleChange, value }"
-      label="Topics"
-      name="topics"
-    >
-      <!-- prettier-ignore-attribute :selected-topics -->
-      <FormSelectorComboboxTopics
-        :id="id"
-        @update:selected-topics="
-          (val: unknown) => handleChange(val as TopicEnum[])
-        "
+        v-slot="{ id, handleChange, value }"
         label="Topics"
-        :selected-topics="((value.value ?? []) as TopicEnum[])"
-      />
-    </FormItem>
-       <FormItem v-slot="{ id, handleChange, handleBlur }" name="createAnother">
-          <FormCheckbox
-            :id="id"
-            @blur="handleBlur"
-            @update:model-value="handleChange"
-            data-testid="create-another"
-          />
-        </FormItem>
+        name="topics"
+      >
+        <!-- prettier-ignore-attribute :selected-topics -->
+        <FormSelectorComboboxTopics
+          :id="id"
+          @update:selected-topics="
+            (val: unknown) => handleChange(val as TopicEnum[])
+          "
+          label="Topics"
+          :selected-topics="((value.value ?? []) as TopicEnum[])"
+        />
+      </FormItem>
     </Form>
   </div>
 </template>
@@ -81,12 +74,12 @@
 import { z } from "zod";
 
 const { t } = useI18n();
-const flow = inject<any>('flow');
+const flow = inject<any>("flow");
 const signInSchema = z.object({
-  name: z.string().min(1, t("i18n.pages.auth._global.required")),
+  setting: z.string().min(1, t("i18n.pages.auth._global.required")),
   topics: z.array(z.string()).optional(),
   type: z.string().min(1, t("i18n.pages.auth._global.required")),
-  createAnother: z.boolean().optional(),
+  roles: z.string().min(1, t("i18n.pages.auth._global.required")),
 });
 const optionEventTypes = [
   {
@@ -106,9 +99,31 @@ const optionEventTypes = [
     checkedClass: "style-action",
   },
 ];
+const optionLocations = [
+  {
+    value: "offline",
+    key: "OFFLINE",
+    content: t(
+      "i18n.components.sidebar_left_filter_events.location_type_in_person"
+    ),
+    aria_label:
+      "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label",
+    class: "text-nowrap",
+  },
+  {
+    value: "online",
+    key: "ONLINE",
+    content: t(
+      "i18n.components.sidebar_left_filter_events.location_type_online"
+    ),
+    aria_label:
+      "i18n.components.sidebar_left_filter_events.location_type_online_aria_label",
+    class: "text-nowrap",
+  },
+];
 const signInUser = async (values: Record<string, unknown>) => {
-    // Simulate an API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    flow.next(values);
+  // Simulate an API call
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  flow.next(values);
 };
 </script>

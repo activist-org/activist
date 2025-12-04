@@ -12,7 +12,7 @@
   </ModalBase>
 </template>
 <script setup lang="ts">
-import Machine from '~/components/machine/Machine.vue';
+import Machine from "~/components/machine/Machine.vue";
 // ... other imports
 
 const modalName = "ModalCreateEvent";
@@ -35,7 +35,9 @@ async function handleSubmission(finalData: any) {
 
 // Pass the handler to the machine via its options.
 const flowOptions = {
-  onLogicNode: (nodeId: string) => { /* ... */ },
+  onLogicNode: (nodeId: string) => {
+    /* ... */
+  },
   onSubmit: handleSubmission, // <-- NEW
   autoStart: true, // Optional: start the flow immediately
 };

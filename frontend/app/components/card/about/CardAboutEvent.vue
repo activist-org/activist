@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import IconEdit from '~/components/icon/IconEdit.vue';
+import IconEdit from "~/components/icon/IconEdit.vue";
 
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 

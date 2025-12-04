@@ -15,7 +15,8 @@
 defineProps<{
   location?: DropdownLocation;
 }>();
-const { openModal:openModalCreateEvent } = useModalHandlers("ModalCreateEvent");
+const { openModal: openModalCreateEvent } =
+  useModalHandlers("ModalCreateEvent");
 
 const createOptions: MenuSelector[] = [
   {

@@ -3,39 +3,48 @@
     <!-- You can render the progress bar here directly -->
     <div class="progress-bar-container">
       <span>Step {{ context.currentStep }} of {{ context.totalSteps }}</span>
-      <progress :value="context.currentStep" :max="context.totalSteps"></progress>
+      <progress
+        :value="context.currentStep"
+        :max="context.totalSteps"
+      ></progress>
     </div>
 
-    <div v-if="loading && currentScreen" class="loading-overlay">Loading...</div>
+    <div v-if="loading && currentScreen" class="loading-overlay">
+      Loading...
+    </div>
     <component :is="currentScreen" v-else-if="currentScreen" />
     <!-- ... -->
   </div>
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
-  machineType: 'createEvent';
+  machineType: "createEvent";
   options?: Record<string, unknown>;
 }>();
-const emit = defineEmits(['close', 'submit']);
+const emit = defineEmits(["close", "submit"]);
 
-const { isActive, currentScreen,context, loading, start, close, next } = useFlowScreens(
-  props.machineType,
-  props.options
+const { isActive, currentScreen, context, loading, start, close, next } =
+  useFlowScreens(props.machineType, props.options);
+watch(
+  currentScreen,
+  (newVal) => {
+    console.log("Current screen changed to:", newVal);
+  },
+  { immediate: true }
 );
-watch(currentScreen, (newVal) => {
-  console.log("Current screen changed to:", newVal);
-}, { immediate: true });
 onMounted(() => {
   console.log("Machine component mounted. Starting flow...");
 });
 
 // Provide both the actions and the reactive context.
-provide('flow', {
+provide("flow", {
   // Actions
   start,
-  close: (discard?: boolean) => { close(discard); emit('close'); },
+  close: (discard?: boolean) => {
+    close(discard);
+    emit("close");
+  },
   next,
   // Reactive state
   context,
@@ -56,6 +65,10 @@ progress {
   height: 8px;
   margin-top: 0.5rem;
 }
-.machine-container { /* ... */ }
-.loading-overlay { /* ... */ }
+.machine-container {
+  /* ... */
+}
+.loading-overlay {
+  /* ... */
+}
 </style>

@@ -1,4 +1,3 @@
-
 /** The rich context object passed to `next` and `onExit` functions. */
 export interface FlowContext {
   allNodeData: Record<string, unknown>;
@@ -9,9 +8,15 @@ export interface FlowContext {
 }
 
 /** The function signature for a dynamic `next` property on a node. */
-export type NextFn = (context: FlowContext, nodeData?: Record<string, unknown>) => string | null | undefined;
+export type NextFn = (
+  context: FlowContext,
+  nodeData?: Record<string, unknown>
+) => string | null | undefined;
 /** The function signature for the `onExit` side-effect action. */
-export type OnExitFn = (context: FlowContext, nodeData?: Record<string, unknown>) => void | Promise<void>;
+export type OnExitFn = (
+  context: FlowContext,
+  nodeData?: Record<string, unknown>
+) => void | Promise<void>;
 
 /** The different types a node can be. */
 export type NodeType = "screen" | "logic";
@@ -35,7 +40,7 @@ export interface NodeConfig extends StateConfig {
  * The structure of the machine definition object.
  */
 export interface MachineDefinition {
-  id: string;          // The unique ID for the machine/store
+  id: string; // The unique ID for the machine/store
   initialNode: string; // The ID of the starting state
   states: Record<string, StateConfig>; // The states, keyed by their ID
 }

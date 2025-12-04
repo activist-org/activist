@@ -30,10 +30,7 @@ import { defineStore } from "pinia";
  * @returns A Pinia store definition.
  */
 export function createFlowStore(opts: FlowStoreOptions) {
-  const {
-    machine,
-    discardOnClose = true,
-  } = opts;
+  const { machine, discardOnClose = true } = opts;
 
   const { id: storeId, initialNode: defaultNodeId, states } = machine;
 
@@ -78,10 +75,14 @@ export function createFlowStore(opts: FlowStoreOptions) {
         return this.visibleNodes.length;
       },
       currentStep(state): number {
-        const currentVisibleIndex = this.visibleNodes.findIndex((node) => node.id === this.nodeId);
+        const currentVisibleIndex = this.visibleNodes.findIndex(
+          (node) => node.id === this.nodeId
+        );
         if (currentVisibleIndex !== -1) return currentVisibleIndex + 1;
         for (let i = state.history.length - 1; i >= 0; i--) {
-          const lastVisibleIndex = this.visibleNodes.findIndex((node) => node.id === state.history[i]);
+          const lastVisibleIndex = this.visibleNodes.findIndex(
+            (node) => node.id === state.history[i]
+          );
           if (lastVisibleIndex !== -1) return lastVisibleIndex + 1;
         }
         return 1;
@@ -95,7 +96,10 @@ export function createFlowStore(opts: FlowStoreOptions) {
         if (!node || !currentId) return;
 
         if (nextNodeData && Object.keys(nextNodeData).length) {
-          this.nodeData[currentId] = { ...(this.nodeData[currentId] || {}), ...nextNodeData };
+          this.nodeData[currentId] = {
+            ...(this.nodeData[currentId] || {}),
+            ...nextNodeData,
+          };
         }
 
         const context: FlowContext = {
@@ -104,19 +108,25 @@ export function createFlowStore(opts: FlowStoreOptions) {
         };
 
         if (node.onExit && this.nodeData[currentId]) {
-          await node.onExit(context, (this.nodeData[currentId] ?? {}) as unknown as Record<string, unknown>);
+          await node.onExit(
+            context,
+            (this.nodeData[currentId] ?? {}) as unknown as Record<
+              string,
+              unknown
+            >
+          );
         }
 
         const nextId = this.calculateNextNode(node, context, currentId);
 
-        if (!nextId || nextId === 'end') {
+        if (!nextId || nextId === "end") {
           this.submit();
           return;
         }
 
         const nextNode = nodesById[nextId];
         if (nextNode) {
-          const isCurrentNodeScreen = !!node.component && node.type !== 'logic';
+          const isCurrentNodeScreen = !!node.component && node.type !== "logic";
           if (isCurrentNodeScreen) this.history.push(currentId);
           this.currentNode = nextNode;
         } else {
@@ -124,17 +134,25 @@ export function createFlowStore(opts: FlowStoreOptions) {
         }
       },
 
-      calculateNextNode(node: NodeConfig, context: FlowContext, currentId: string): string | null | undefined {
+      calculateNextNode(
+        node: NodeConfig,
+        context: FlowContext,
+        currentId: string
+      ): string | null | undefined {
         if (!node.next) return null;
-        if (typeof node.next !== 'function') return node.next;
-        if (node.type === 'logic') return node.next(context);
-        return node.next(context, (this.nodeData[currentId] ?? {}) as unknown as Record<string, unknown>);
+        if (typeof node.next !== "function") return node.next;
+        if (node.type === "logic") return node.next(context);
+        return node.next(
+          context,
+          (this.nodeData[currentId] ?? {}) as unknown as Record<string, unknown>
+        );
       },
 
       start(draftNodeData?: Record<string, unknown>) {
         this.resetToInitial();
         this.active = true;
-        if (draftNodeData) this.nodeData = { ...this.nodeData, ...draftNodeData };
+        if (draftNodeData)
+          this.nodeData = { ...this.nodeData, ...draftNodeData };
       },
 
       close(discard?: boolean) {
@@ -144,21 +162,29 @@ export function createFlowStore(opts: FlowStoreOptions) {
 
       prev() {
         const previousNodeId = this.history.pop();
-        if (previousNodeId) this.currentNode = nodesById[previousNodeId] ?? null;
+        if (previousNodeId)
+          this.currentNode = nodesById[previousNodeId] ?? null;
       },
 
       goto(nodeId: string) {
         const targetNode = nodesById[nodeId];
         if (!targetNode || targetNode.id === this.nodeId) return;
 
-        const isCurrentNodeScreen = !!this.currentNode?.component && this.currentNode?.type !== 'logic';
+        const isCurrentNodeScreen =
+          !!this.currentNode?.component && this.currentNode?.type !== "logic";
         if (isCurrentNodeScreen && this.nodeId) this.history.push(this.nodeId);
         this.currentNode = targetNode;
       },
 
       submit() {
         if (this.isFinished) return;
-        const finalData = Object.values(this.nodeData).reduce((acc, data) => ({ ...(acc as Record<string, unknown>), ...(data as Record<string, unknown>) }), {});
+        const finalData = Object.values(this.nodeData).reduce(
+          (acc, data) => ({
+            ...(acc as Record<string, unknown>),
+            ...(data as Record<string, unknown>),
+          }),
+          {}
+        );
         this.saveResult = finalData;
         this.isFinished = true;
         this.active = false;

@@ -10,9 +10,12 @@ import { createFlowStore } from "./flow";
 
 // Import the screen components directly.
 // Using relative paths to ensure stability with Vite/Nuxt aliases.
-const EventDetailsStep = () => import( '../../components/machine/steps/createEvent/MachineStepsCreateEventDetails.vue');
-const EventTypeAndRolesStep = () => import( '../../components/machine/steps/createEvent/MachineStepsCreateEventTypeAndRoles.vue');
-const LocationAndTimeStep = () => import( '../../components/machine/steps/createEvent/MachineStepsCreateEventLocationAndTime.vue');
+const EventDetailsStep = () =>
+  import("../../components/machine/steps/createEvent/MachineStepsCreateEventDetails.vue");
+const EventTypeAndRolesStep = () =>
+  import("../../components/machine/steps/createEvent/MachineStepsCreateEventTypeAndRoles.vue");
+const LocationAndTimeStep = () =>
+  import("../../components/machine/steps/createEvent/MachineStepsCreateEventLocationAndTime.vue");
 export const useCreateEventStore = createFlowStore({
   // The new Machine Definition structure
   machine: {
@@ -54,7 +57,8 @@ export const useCreateEventStore = createFlowStore({
         type: "logic",
         // Clean signature for logic node next function
         next: (context) => {
-          const stepData = context.allNodeData[CreateEventSteps.LocationAndTime];
+          const stepData =
+            context.allNodeData[CreateEventSteps.LocationAndTime];
           console.log("Deciding next step based on:", stepData, context);
           const createAnother = stepData?.createAnother;
           return createAnother ? CreateEventSteps.EventDetails : "end";

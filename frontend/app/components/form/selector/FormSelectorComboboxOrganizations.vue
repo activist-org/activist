@@ -19,10 +19,7 @@
 <script setup lang="ts">
 const filters = ref<OrganizationFilters>({});
 // Destructure getMore and isLastPage from the composable
-const {
-  data: organizations,
-  getMore,
-} = useGetOrganizations(filters);
+const { data: organizations, getMore } = useGetOrganizations(filters);
 
 // Changed to computed so options update automatically when new data is fetched
 const options = computed(() =>

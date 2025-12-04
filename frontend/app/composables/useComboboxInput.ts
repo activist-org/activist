@@ -13,7 +13,8 @@ export function useComboboxInput() {
     if (!el) return;
 
     // Get the actual DOM element (could be component instance or DOM element).
-    const element = ((el as { $el?: HTMLElement })?.$el || el) as HTMLElement & {
+    const element = ((el as { $el?: HTMLElement })?.$el ||
+      el) as HTMLElement & {
       setSelectionRange?: (
         selectionStart: number,
         selectionEnd: number,

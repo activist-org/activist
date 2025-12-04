@@ -69,11 +69,9 @@
         <li
           v-if="infinite"
           ref="sentinel"
-          class="py-2 pl-10 pr-4 flex justify-center text-sm text-gray-500"
+          class="flex justify-center py-2 pl-10 pr-4 text-sm text-gray-500"
         >
-          <slot v-if="showLoadingSlot" name="loading">
-            Loading...
-          </slot>
+          <slot v-if="showLoadingSlot" name="loading"> Loading... </slot>
         </li>
       </ComboboxOptions>
     </div>
@@ -182,13 +180,18 @@ function setupInputWrapper(el: unknown) {
       let inputElement = actualInputRef.value;
 
       if (!inputElement && formInputRef.value?.$el) {
-        inputElement = formInputRef.value.$el.querySelector("input") as HTMLInputElement | null;
+        inputElement = formInputRef.value.$el.querySelector(
+          "input"
+        ) as HTMLInputElement | null;
         if (inputElement) {
           actualInputRef.value = inputElement;
         }
       }
 
-      if (inputElement && typeof inputElement.setSelectionRange === "function") {
+      if (
+        inputElement &&
+        typeof inputElement.setSelectionRange === "function"
+      ) {
         try {
           inputElement.setSelectionRange(
             selectionStart,
@@ -209,7 +212,9 @@ watch(
   (newRef) => {
     if (newRef?.$el && !actualInputRef.value) {
       nextTick(() => {
-        const inputElement = newRef.$el?.querySelector("input") as HTMLInputElement | null;
+        const inputElement = newRef.$el?.querySelector(
+          "input"
+        ) as HTMLInputElement | null;
         if (inputElement) {
           actualInputRef.value = inputElement;
         }

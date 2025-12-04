@@ -1,4 +1,4 @@
-import { useCreateEventStore } from './create-event';
+import { useCreateEventStore } from "./create-event";
 
 export const machineRegistry = {
   createEvent: useCreateEventStore,
@@ -6,4 +6,4 @@ export const machineRegistry = {
 
 export type MachineType = keyof typeof machineRegistry;
 
-export * from './create-event';
+export * from "./create-event";

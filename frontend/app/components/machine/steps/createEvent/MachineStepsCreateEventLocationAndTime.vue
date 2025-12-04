@@ -9,9 +9,8 @@
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Name"
-        name="name"
-        required
+        label="Location"
+        name="location"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
@@ -19,14 +18,14 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="Name"
+          label="Location"
           :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Tagline"
-        name="tagline"
+        label="Link to event"
+        name="link"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
@@ -34,38 +33,28 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="Tagline"
+          label="Link to event"
           :modelValue="(value.value as string)"
         />
       </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.description')"
-        name="description"
-        required
+       <FormItem
+        v-slot="{ handleChange, value, errorMessage }"
+        label="Event Schedule"
+        name="dates"
       >
-        <FormTextArea
+          <FormDateTimeCalendar
+          @update:modelValue="handleChange"
+          :hasError="!!errorMessage.value"
+          mode="date"
+          :model-value="value.value"
+          />
+      </FormItem>
+      <FormItem v-slot="{ id, handleChange, handleBlur }" name="createAnother">
+        <FormCheckbox
           :id="id"
           @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          :value="value.value"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, value }"
-        label="Organizations"
-        name="organizations"
-        required
-      >
-        <!-- prettier-ignore-attribute :selected-organizations -->
-        <FormSelectorComboboxOrganizations
-          :id="id"
-          @update:selectedOptions="
-            (val: unknown) => handleChange(val as Organization[])
-          "
-          label="Organizations"
-          :selected-organizations="((value.value ?? []) as Organization[])"
+          @update:model-value="handleChange"
+          data-testid="create-another"
         />
       </FormItem>
     </Form>
@@ -75,17 +64,20 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-const { t } = useI18n();
 const flow = inject<any>("flow");
 const signInSchema = z.object({
-  name: z.string().min(1, t("i18n.pages.auth._global.required")),
-  tagline: z.string().optional(),
-  description: z.string().min(1, t("i18n.pages.auth._global.required")),
-  organizations: z.array(z.string()).min(1, "Please select at least one organization"),
+  schedule: z.object({
+    start: z.date(),
+    end: z.date(),
+  }),
+  location: z.string().min(1, "Location is required"),
+  link: z.string().url("Please enter a valid URL").optional(),
 });
+
 const signInUser = async (values: Record<string, unknown>) => {
   // Simulate an API call
   await new Promise((resolve) => setTimeout(resolve, 1000));
   flow.next(values);
 };
+
 </script>
