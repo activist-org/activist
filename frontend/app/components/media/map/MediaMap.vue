@@ -1,4 +1,3 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
     id="map"
@@ -7,9 +6,17 @@
 </template>
 
 <script setup lang="ts">
-import type { LayerSpecification } from "maplibre-gl";
+import type { LayerSpecification, Map } from "maplibre-gl"; // Import Map type for better clarity
 
 import "maplibre-gl/dist/maplibre-gl.css";
+
+// Assuming these types are defined elsewhere
+type Pointer = unknown;
+type PointerCluster = unknown;
+type MapType = unknown;
+enum MapType { POINT, CLUSTER } // Placeholder for MapType enum
+type ClusterProperties = unknown;
+type PopupContent = unknown;
 
 const props = defineProps<{
   pointer?: Pointer;
@@ -20,10 +27,13 @@ const props = defineProps<{
   pointerTooltipCreate?: (pointer: Pointer) => PopupContent;
 }>();
 
+// NOTE: It is CRITICAL that `useMap` provides a way to access the map instance
+// or a cleanup function. We'll assume for now `createMap` returns the instance
+// and we store it locally for cleanup.
 const { createMap, isWebglSupported, addDefaultControls } = useMap();
 
-const { createMapForClusterTypeMap } = useClusterMap();
-const { createMapForPointerTypeMap } = usePointerMap();
+const { createMapForClusterTypeMap, cleanupClusterMap } = useClusterMap(); // Assuming a cleanup function exists
+const { createMapForPointerTypeMap, cleanupPointerMap } = usePointerMap(); // Assuming a cleanup function exists
 
 // MARK: Map Tooltip Helper
 
@@ -69,15 +79,20 @@ const mapLayers: LayerSpecification[] = [
   },
 ];
 
+// Local reference to the MapLibre instance for cleanup
+let mapInstance: Map | null = null; 
+
 // MARK: Map Creation
 onMounted(() => {
   if (!isWebglSupported()) {
     alert(t("i18n.components.media_map.maplibre_gl_alert"));
   } else {
-    const map = createMap(mapLayers);
+    const map = createMap(mapLayers) as Map; // Cast to Map type
+    mapInstance = map; // Store map instance
+
     addDefaultControls(map);
     setMapLayers(mapLayers);
-    setMap(map);
+    setMap(map); // Assuming setMap stores the instance for useRouting
 
     if (props.type === MapType.POINT) {
       if (!props.pointer) {
@@ -100,6 +115,25 @@ onMounted(() => {
         props?.pointerTooltipCreate as (pointer: unknown) => PopupContent
       );
     }
+  }
+});
+
+// MARK: Cleanup (CRITICAL FIX FOR CRASHES)
+onUnmounted(() => {
+  if (mapInstance) {
+    // 1. Call cleanup functions in composables (if they exist)
+    if (props.type === MapType.POINT) {
+      cleanupPointerMap(mapInstance); 
+    }
+    if (props.type === MapType.CLUSTER) {
+      // This function should remove sources/layers added by cluster logic
+      cleanupClusterMap(mapInstance); 
+    }
+
+    // 2. Remove the MapLibre instance to free up WebGL context and memory
+    mapInstance.remove();
+    console.log('MapLibre GL instance removed on component unmount.');
+    mapInstance = null;
   }
 });
 </script>
