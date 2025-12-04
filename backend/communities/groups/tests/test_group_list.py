@@ -3,6 +3,8 @@
 Test group_list module.
 """
 
+from unittest.mock import patch
+
 import pytest
 from django.test import Client
 
@@ -26,3 +28,17 @@ def test_group_list(client: Client) -> None:
     response = client.get(path="/v1/communities/groups")
 
     assert response.status_code == 200
+
+
+def test_group_list_no_pagination(client: Client) -> None:
+    with patch(
+        "communities.groups.views.GroupAPIView.paginate_queryset"
+    ) as mock_paginate:
+        mock_paginate.return_value = None
+
+        response = client.get(path="/v1/communities/groups")
+
+        assert response.status_code == 200
+
+        # Verify that paginate_queryset was called.
+        mock_paginate.assert_called_once()
