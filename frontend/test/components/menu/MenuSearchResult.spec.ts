@@ -8,7 +8,6 @@ import render from "../../../test/render";
 const onClickOutsideMock = vi.fn();
 
 declare global {
-   
   var onClickOutside:
     | ((target: unknown, handler: () => void) => void)
     | undefined;
