@@ -263,9 +263,19 @@ const formData = ref({});
 watch(
   route,
   (form) => {
-    const { view, days_ahead, ...rest } = (form.query as Record<string, unknown>) || {};
+    const { view, active_on, ...rest } = (form.query as Record<string, unknown>) || {};
     const mappedData: Record<string, unknown> = { ...rest };
-    if (days_ahead) mappedData.days = days_ahead;
+    if (typeof active_on === "string") {
+      const now = new Date();
+      const target = new Date(active_on);
+      const msPerDay = 24 * 60 * 60 * 1000;
+      const diffDays = Math.round((target.getTime() - now.getTime()) / msPerDay);
+      if (["1", "7", "30"].includes(String(diffDays))) {
+        mappedData.days = String(diffDays);
+      } else {
+        delete mappedData.days;
+      }
+    }
     ["days", "type", "setting"].forEach((key) => {
       if (Array.isArray(mappedData[key])) mappedData[key] = mappedData[key][0];
     });
@@ -273,7 +283,7 @@ watch(
       mappedData.topics = [mappedData.topics];
     }
     formData.value = mappedData;
-    formKey.value += 1;
+    // formKey.value += 1;
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
@@ -286,6 +296,7 @@ const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
   
+
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
       if (key === "days") {

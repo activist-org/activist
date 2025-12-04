@@ -1,9 +1,10 @@
 
+import type { ComponentPublicInstance } from "vue";
+
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick } from "vue";
-import type { ComponentPublicInstance } from "vue";
 
 import SidebarLeftFilterEvents from "../../../app/components/sidebar/left/filter/SidebarLeftFilterEvents.vue";
 import { ViewType } from "../../../shared/types/view-types";
