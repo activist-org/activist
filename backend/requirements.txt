@@ -36,11 +36,11 @@ django-ical==1.9.2
     # via -r requirements.in
 django-recurrence==1.11.1
     # via django-ical
-django-stubs==5.2.7
+django-stubs==5.2.8
     # via
     #   -r requirements.in
     #   djangorestframework-stubs
-django-stubs-ext==5.2.7
+django-stubs-ext==5.2.8
     # via
     #   -r requirements.in
     #   django-stubs
@@ -53,7 +53,7 @@ djangorestframework-camel-case==1.4.2
     # via -r requirements.in
 djangorestframework-simplejwt==5.5.1
     # via -r requirements.in
-djangorestframework-stubs==3.16.5
+djangorestframework-stubs==3.16.6
     # via -r requirements.in
 drf-spectacular==0.29.0
     # via -r requirements.in
@@ -93,13 +93,13 @@ referencing==0.37.0
     #   jsonschema-specifications
 requests==2.32.5
     # via djangorestframework-stubs
-rpds-py==0.29.0
+rpds-py==0.30.0
     # via
     #   jsonschema
     #   referencing
 six==1.17.0
     # via python-dateutil
-sqlparse==0.5.3
+sqlparse==0.5.4
     # via django
 types-pyyaml==6.0.12.20250915
     # via
