@@ -2,10 +2,19 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
-      id="event-details"
-      @submit="handleSubmit"
+    id="event-type-and-roles"
+    @submit="handleSubmit"
+    :action-buttons='[{
+        onclick:handlePrev,
+        cta:false,
+        fontSize:"base",
+        ariaLabel:"i18n.components.previous_step_aria_label",
+        label:"Previous",
+        type:"button"
+      }]'
       class="space-y-4"
       :schema="topicsAndRoleTypesSchema"
+      submit-label="Next"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
@@ -39,7 +48,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.description')"
+        label="Roles"
         name="roles"
         required
       >
@@ -81,6 +90,10 @@ const topicsAndRoleTypesSchema = z.object({
   type: z.string().min(1, t("i18n.pages.auth._global.required")),
   roles: z.string().min(1, t("i18n.pages.auth._global.required")),
 });
+const handlePrev = () => {
+  if (!flow) return;
+  flow.prev();
+};
 const optionEventTypes = [
   {
     value: "learn",

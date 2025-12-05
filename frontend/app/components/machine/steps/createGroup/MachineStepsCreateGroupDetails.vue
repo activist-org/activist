@@ -6,6 +6,7 @@
       @submit="handleSubmit"
       class="space-y-4"
       :schema="groupDetailsSchema"
+      submit-label="Next"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"

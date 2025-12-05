@@ -4,6 +4,14 @@
     <Form
       id="event-details"
       @submit="handleSubmit"
+      :action-buttons='[{
+        onclick:handlePrev,
+        cta:false,
+        fontSize:"base",
+        ariaLabel:"i18n.components.previous_step_aria_label",
+        label:"Previous",
+        type:"button"
+      }]'
       class="space-y-4"
       :schema="topicsAndSocialLinksSchema"
     >
@@ -121,6 +129,10 @@ const optionLocations = [
     class: "text-nowrap",
   },
 ];
+const handlePrev = () => {
+  if (!flow) return;
+  flow.prev();
+};
 const handleSubmit = async (values: Record<string, unknown>) => {
   // Simulate an API call
   await new Promise((resolve) => setTimeout(resolve, 1000));

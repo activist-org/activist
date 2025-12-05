@@ -2,8 +2,16 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
-      id="event-details"
-      @submit="signInUser"
+      id="event-location-and-time"
+      @submit="handleSubmit"
+      :action-buttons='[{
+        onclick:handlePrev,
+        cta:false,
+        fontSize:"base",
+        ariaLabel:"i18n.components.previous_step_aria_label",
+        label:"Previous",
+        type:"button"
+      }]'
       class="space-y-4"
       :schema="locationAndTimeSchema"
     >
@@ -55,6 +63,7 @@
           @blur="handleBlur"
           @update:model-value="handleChange"
           data-testid="create-another"
+          label="Create another event"
         />
       </FormItem>
     </Form>
@@ -66,15 +75,19 @@ import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
 const locationAndTimeSchema = z.object({
-  schedule: z.object({
+  dates: z.object({
     start: z.date(),
     end: z.date(),
   }),
   location: z.string().min(1, "Location is required"),
   link: z.string().url("Please enter a valid URL").optional(),
+  createAnother: z.boolean().optional(),
 });
-
-const signInUser = async (values: Record<string, unknown>) => {
+const handlePrev = () => {
+  if (!flow) return;
+  flow.prev();
+};
+const handleSubmit = async (values: Record<string, unknown>) => {
   // Simulate an API call
   await new Promise((resolve) => setTimeout(resolve, 1000));
   if (!flow) return;

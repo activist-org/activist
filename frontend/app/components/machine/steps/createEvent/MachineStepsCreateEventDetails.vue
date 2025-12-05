@@ -6,6 +6,7 @@
       @submit="handleSubmit"
       class="space-y-4"
       :schema="eventDetailsSchema"
+      submit-label="Next"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"

@@ -9,7 +9,7 @@
       />
     </div>
 
-    <Loading v-if="loading && !currentScreen" :loading="loading && currentScreen" />
+    <Loading v-if="loading && !currentScreen" :loading="(loading && currentScreen)!!" />
     <component :is="currentScreen" v-else-if="currentScreen" />
     <!-- ... -->
   </div>
@@ -24,18 +24,8 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(["close", "submit"]);
 
-const { isActive, currentScreen, context, loading, start, close, next } =
+const { isActive, currentScreen, context, loading, start, close, next, prev } =
   useFlowScreens(props.machineType, props.options);
-watch(
-  currentScreen,
-  (newVal) => {
-    console.log("Current screen changed to:", newVal, loading.value);
-  },
-  { immediate: true }
-);
-onMounted(() => {
-  console.log("Machine component mounted. Starting flow...");
-});
 
 // Provide both the actions and the reactive context.
 provide("flow", {
@@ -46,6 +36,7 @@ provide("flow", {
     emit("close");
   },
   next,
+  prev,
   // Reactive state
   context,
 });

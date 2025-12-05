@@ -52,6 +52,7 @@ export const useCreateEventStore = createFlowStore({
         next: (context) => {
           const stepData =
             context.allNodeData[CreateEventSteps.LocationAndTime];
+            console.log('stepData', stepData);
           const createAnother = stepData?.createAnother;
           return createAnother ? CreateEventSteps.EventDetails : "end";
         },

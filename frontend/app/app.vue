@@ -5,6 +5,8 @@
     <Toaster :richColors="true" :theme="isDark ? 'dark' : 'light'" />
     <ModalCommandPalette :paletteData="commandPaletteData" />
     <ModalCreateEvent />
+    <ModalCreateOrganization />
+    <ModalCreateGroup />
     <NuxtPage />
   </NuxtLayout>
 </template>

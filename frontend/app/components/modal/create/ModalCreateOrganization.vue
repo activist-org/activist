@@ -1,29 +1,24 @@
 <template>
   <ModalBase :modalName="modalName">
-    <div class="modal-content">
-      <h2 class="modal-title">Create a New Event</h2>
+      <h2>Create a New Organization</h2>
       <!-- The machine now takes the `onSubmit` handler in its options -->
       <Machine
         @close="handleCloseModal"
         :machine-type="MachineCreateType.CreateOrganization"
         :options="flowOptions"
       />
-    </div>
   </ModalBase>
 </template>
 <script setup lang="ts">
-import Machine from "~/components/machine/Machine.vue";
-// ... other imports
 
-const modalName = "ModalCreateGroup";
+const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 /**
  * This function will be called by the machine when the flow completes.
  * @param {any} finalData The consolidated data from all steps.
  */
-async function handleSubmission(finalData: any) {
-  console.log("Flow finished! Ready to save data:", finalData);
+async function handleSubmission() {
   // `finalData` is the clean, combined payload from the store's `submit()` action.
 
   // Call your API mutation here...
@@ -35,9 +30,6 @@ async function handleSubmission(finalData: any) {
 
 // Pass the handler to the machine via its options.
 const flowOptions = {
-  onLogicNode: (nodeId: string) => {
-    /* ... */
-  },
   onSubmit: handleSubmission, // <-- NEW
   autoStart: true, // Optional: start the flow immediately
 };
