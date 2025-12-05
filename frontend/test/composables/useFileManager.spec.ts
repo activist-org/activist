@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
-import type { FileUploadMix, ContentImage } from "../../shared/types/file-type";
+import type { ContentImage, FileUploadMix } from "../../shared/types/file-type";
 
 import { useFileManager } from "../../app/composables/useFileManager";
 import { BASE_BACKEND_URL } from "../../app/constants/baseUrls";
@@ -20,7 +20,7 @@ const createUploadEntry = (
     sequence,
   }) as FileUploadMix;
 
-// Helper: create a FileUploadMix entry representing an existing backend file
+// Create a FileUploadMix entry representing an existing backend file.
 const createExistingFileEntry = (
   image: ContentImage,
   sequence: number
@@ -33,7 +33,7 @@ const createExistingFileEntry = (
 
 describe("useFileManager", () => {
   beforeEach(() => {
-    // Stub global fetch
+    // Stub global fetch.
     vi.stubGlobal("fetch", mockFetch);
 
     vi.stubGlobal(
@@ -83,7 +83,7 @@ describe("useFileManager", () => {
   });
 
   it("computes defaultImageUrls for light color mode", () => {
-    // Make sure useColorMode returns "light" for this call
+    // Make sure useColorMode returns "light" for this call.
     vi.stubGlobal(
       "useColorMode",
       vi.fn(() => ref<"light" | "dark">("light"))
@@ -154,7 +154,7 @@ describe("useFileManager", () => {
     newEntries.forEach((entry, idx) => {
       expect(entry.type).toBe("upload");
       expect(entry.sequence).toBe(idx + existingFiles.length);
-      // data is an UploadableFile instance
+      // Data is an UploadableFile instance.
       expect(entry.data).toBeInstanceOf(UploadableFile);
     });
   });
@@ -167,7 +167,7 @@ describe("useFileManager", () => {
     );
     const files: FileUploadMix[] = [
       createUploadEntry(uploadFile, 0),
-      // a dummy extra entry to prove only the target will be  removed
+      // A dummy extra entry to prove only the target will be  removed.
       createUploadEntry(
         new UploadableFile(
           new File(["img2"], "other.png", { type: "image/png" })
