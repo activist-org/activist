@@ -3,7 +3,7 @@
 A class for filtering events based on user defined properties.
 """
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Any
 
 import django_filters
@@ -49,7 +49,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         self, queryset: QuerySet[Any, Any], name: str, days: int
     ) -> QuerySet[Any, Any]:
         """
-        Filter events occurring within the next `days` days.
+        Filter events occurring within the next ``days`` days as a rolling window.
 
         Parameters
         ----------
@@ -57,7 +57,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
             Base queryset.
 
         name : str
-            Filter field name (`days_ahead`).
+            Filter field name (``days_ahead``).
 
         days : int
             Number of days into the future.
@@ -65,7 +65,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         Returns
         -------
         QuerySet[Any, Any]
-            Events starting between now and the end of the day `days` days from now.
+            Events starting between ``now`` and ``now + days`` (inclusive).
         """
         now = timezone.now()
         try:
@@ -73,8 +73,12 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         except Exception:
             return queryset.none()
 
-        end_date = (now + timedelta(days=days_int)).date()
-        end = datetime.combine(end_date, datetime.max.time()).replace(tzinfo=now.tzinfo)
+        if days_int < 0:
+            return queryset.none()
+        if days_int == 0:
+            end = now
+        else:
+            end = now + timedelta(days=days_int)
 
         return queryset.filter(start_time__gte=now, start_time__lte=end)
 

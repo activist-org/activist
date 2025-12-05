@@ -55,6 +55,35 @@ def test_days_ahead_filters_events_within_window(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
+def test_days_ahead_rolling_24h_window(mock_now) -> None:
+    """
+    days_ahead=1 includes events within the next 24 hours, and excludes events
+    just beyond that window.
+    """
+    client = APIClient()
+
+    # Inside 1-day window (now + 23 hours).
+    event_inside = EventFactory.create(
+        start_time=FIXED_NOW + timedelta(hours=23),
+        end_time=FIXED_NOW + timedelta(hours=25),
+    )
+
+    # Just outside 1-day window (now + 25 hours).
+    event_outside = EventFactory.create(
+        start_time=FIXED_NOW + timedelta(hours=25),
+        end_time=FIXED_NOW + timedelta(hours=27),
+    )
+
+    response = client.get(f"{EVENTS_URL}?days_ahead=1")
+    assert response.status_code == 200
+
+    ids = {item["id"] for item in response.data["results"]}
+
+    assert str(event_inside.id) in ids
+    assert str(event_outside.id) not in ids
+
+
+@patch("django.utils.timezone.now", return_value=FIXED_NOW)
 def test_days_ahead_with_type_and_setting_combination(mock_now) -> None:
     """
     days_ahead works in combination with other filters (type, setting).
