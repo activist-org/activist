@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import type { RouteLocationNormalized } from "vue-router";
 
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
