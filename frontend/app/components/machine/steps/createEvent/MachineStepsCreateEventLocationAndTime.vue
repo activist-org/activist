@@ -5,7 +5,7 @@
       id="event-details"
       @submit="signInUser"
       class="space-y-4"
-      :schema="signInSchema"
+      :schema="locationAndTimeSchema"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -64,8 +64,8 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-const flow = inject<any>("flow");
-const signInSchema = z.object({
+const flow = inject<FlowControls>("flow");
+const locationAndTimeSchema = z.object({
   schedule: z.object({
     start: z.date(),
     end: z.date(),
@@ -77,6 +77,7 @@ const signInSchema = z.object({
 const signInUser = async (values: Record<string, unknown>) => {
   // Simulate an API call
   await new Promise((resolve) => setTimeout(resolve, 1000));
+  if (!flow) return;
   flow.next(values);
 };
 

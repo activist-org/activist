@@ -6,12 +6,6 @@
  * 2. Updated import to point to 'flowBaseModal'.
  */
 
-export interface UseFlowScreensOptions {
-  autoStart?: boolean;
-  startData?: Record<string, unknown>;
-  onSubmit?: (finalData: unknown) => void;
-  onNodeEnter?: (nodeId: string) => void | Promise<void>;
-}
 
 export function useFlowScreens(
   machineType: MachineType,
@@ -44,8 +38,8 @@ export function useFlowScreens(
     return markRaw(componentOrFactory);
   }
 
-  async function handleNodeChange(newNode: NodeConfig | null) {
-    if (!newNode || !store.active) {
+  async function handleNodeChange(newNode: NodeConfig | null, active: boolean) {
+    if (!newNode || !active) {
       currentScreen.value = null;
       return;
     }
@@ -61,10 +55,9 @@ export function useFlowScreens(
       await options.onNodeEnter(newNode.id);
     }
     currentScreen.value = await resolveScreenFor(newNode);
-    console.log("Current screen set to:", currentScreen.value);
   }
 
-  watch(() => store.currentNode, handleNodeChange, { immediate: true });
+  watch( ()=>([store.currentNode, store.active]),([newNode, active]) => handleNodeChange(newNode as NodeConfig | null, active as boolean), { immediate: true });
 
   watch(
     () => store.isFinished,
@@ -78,6 +71,7 @@ export function useFlowScreens(
   onMounted(() => {
     if (options.autoStart) {
       store.start(options.startData);
+      loading.value = true;
     }
   });
 

@@ -4,22 +4,22 @@
     <div class="progress-bar-container">
       <span>Step {{ context.currentStep }} of {{ context.totalSteps }}</span>
       <progress
-        :value="context.currentStep"
         :max="context.totalSteps"
-      ></progress>
+        :value="context.currentStep"
+      />
     </div>
 
-    <div v-if="loading && currentScreen" class="loading-overlay">
-      Loading...
-    </div>
+    <Loading v-if="loading && !currentScreen" :loading="loading && currentScreen" />
     <component :is="currentScreen" v-else-if="currentScreen" />
     <!-- ... -->
   </div>
 </template>
 
 <script setup lang="ts">
+import Loading from '../Loading.vue';
+
 const props = defineProps<{
-  machineType: "createEvent";
+  machineType: MachineType;
   options?: Record<string, unknown>;
 }>();
 const emit = defineEmits(["close", "submit"]);
@@ -29,7 +29,7 @@ const { isActive, currentScreen, context, loading, start, close, next } =
 watch(
   currentScreen,
   (newVal) => {
-    console.log("Current screen changed to:", newVal);
+    console.log("Current screen changed to:", newVal, loading.value);
   },
   { immediate: true }
 );
@@ -64,11 +64,5 @@ progress {
   width: 100%;
   height: 8px;
   margin-top: 0.5rem;
-}
-.machine-container {
-  /* ... */
-}
-.loading-overlay {
-  /* ... */
 }
 </style>

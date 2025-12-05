@@ -5,7 +5,7 @@
       id="event-details"
       @submit="handleSubmit"
       class="space-y-4"
-      :schema="topicsAndRoleTypesSchema"
+      :schema="organizationTopicsAndSocialLinksSchema"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
@@ -75,7 +75,7 @@ import { z } from "zod";
 
 const { t } = useI18n();
 const flow = inject<FlowControls>("flow");
-const topicsAndRoleTypesSchema = z.object({
+const organizationTopicsAndSocialLinksSchema = z.object({
   setting: z.string().min(1, t("i18n.pages.auth._global.required")),
   topics: z.array(z.string()).optional(),
   type: z.string().min(1, t("i18n.pages.auth._global.required")),

@@ -5,7 +5,7 @@
       id="event-details"
       @submit="handleSubmit"
       class="space-y-4"
-      :schema="eventDetailsSchema"
+      :schema="organizationDetailsSchema"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -77,7 +77,7 @@ import { z } from "zod";
 
 const { t } = useI18n();
 const flow = inject<FlowControls>("flow");
-const eventDetailsSchema = z.object({
+const organizationDetailsSchema = z.object({
   name: z.string().min(1, t("i18n.pages.auth._global.required")),
   tagline: z.string().optional(),
   description: z.string().min(1, t("i18n.pages.auth._global.required")),

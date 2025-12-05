@@ -4,9 +4,9 @@
       <h2 class="modal-title">Create a New Event</h2>
       <!-- The machine now takes the `onSubmit` handler in its options -->
       <Machine
-        :machine-type="MachineCreateType.CreateEvent"
-        :options="flowOptions"
         @close="handleCloseModal"
+        :machine-type="MachineCreateType.CreateGroup"
+        :options="flowOptions"
       />
     </div>
   </ModalBase>
@@ -15,7 +15,7 @@
 import Machine from "~/components/machine/Machine.vue";
 // ... other imports
 
-const modalName = "ModalCreateEvent";
+const modalName = "ModalCreateGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 /**

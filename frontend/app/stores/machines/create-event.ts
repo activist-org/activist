@@ -27,14 +27,7 @@ export const useCreateEventStore = createFlowStore({
         label: "Details",
         type: "screen",
         next: CreateEventSteps.EventTypeAndRoles,
-        component: EventDetailsStep,
-        onExit: async (context, nodeData) => {
-          console.log("Exiting Details step. Saving draft...");
-          // Access the data using the specific step ID
-          const currentStepData =
-            context.allNodeData[CreateEventSteps.EventDetails] || {};
-          console.log("Draft data:", { ...currentStepData, ...nodeData });
-        },
+        component: EventDetailsStep
       },
       [CreateEventSteps.EventTypeAndRoles]: {
         label: "Type & Roles",
@@ -59,7 +52,6 @@ export const useCreateEventStore = createFlowStore({
         next: (context) => {
           const stepData =
             context.allNodeData[CreateEventSteps.LocationAndTime];
-          console.log("Deciding next step based on:", stepData, context);
           const createAnother = stepData?.createAnother;
           return createAnother ? CreateEventSteps.EventDetails : "end";
         },
