@@ -249,6 +249,9 @@ cd frontend
 # Set the environment variables:
 set -a && source ../.env.dev && set +a
 
+# Install corepack on your machine globally:
+npm install -g corepack
+
 # Install and run the project:
 corepack enable
 yarn install
