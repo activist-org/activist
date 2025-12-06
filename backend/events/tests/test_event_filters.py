@@ -15,7 +15,6 @@ from events.factories import EventFactory
 pytestmark = pytest.mark.django_db
 
 EVENTS_URL = "/v1/events/events"
-
 FIXED_NOW = datetime(2025, 11, 20, 12, 0, tzinfo=dt_timezone.utc)
 
 

@@ -100,8 +100,6 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
     const eventsFilter = newEventsFilter(page);
 
     await withTestStep(testInfo, "Apply multiple filters at once", async () => {
-      // Days-ahead filter no longer uses a specific date in the URL.
-
       // Set days ahead filter.
       const sevenDaysButton = eventsFilter.daysSection.getByRole("radio", {
         name: /7/i,

@@ -2,9 +2,7 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { errorHandler } from "#shared/utils/errorHandler";
-
-import { del, get, post /*, errorHandler*/ } from "~/services/http";
+import { del, get, post } from "~/services/http";
 
 // MARK: Map API Response to Type
 
@@ -57,6 +55,7 @@ export async function listEvents(
         query.append("topics", String(t));
       });
     }
+
     // Add the remaining filters as single query params.
     Object.entries(rest).forEach(([key, value]) => {
       if (value === undefined || value === null) return;

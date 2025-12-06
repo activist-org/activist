@@ -44,7 +44,7 @@ export interface EventFilters {
   locationType?: "online" | "offline";
   topics?: TopicEnum[]; // array of topic IDs
   name?: string; // search term for event name
-  days_ahead?: string; // number of days in the future
+  days_ahead?: number; // number of days in the future
 }
 
 export interface EventSocialLink extends SocialLink {

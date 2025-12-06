@@ -46,10 +46,10 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
     )
 
     def filter_days_ahead(
-        self, queryset: QuerySet[Any, Any], name: str, days: int
+        self, queryset: QuerySet[Any, Any], name: str, days_ahead: int
     ) -> QuerySet[Any, Any]:
         """
-        Filter events occurring within the next ``days`` days as a rolling window.
+        Filter events occurring within the next ``days_ahead`` days as a rolling window.
 
         Parameters
         ----------
@@ -59,26 +59,25 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         name : str
             Filter field name (``days_ahead``).
 
-        days : int
+        days_ahead : int
             Number of days into the future.
 
         Returns
         -------
         QuerySet[Any, Any]
-            Events starting between ``now`` and ``now + days`` (inclusive).
+            Events starting between ``now`` and ``now + days_ahead`` (inclusive).
         """
         now = timezone.now()
-        try:
-            days_int = int(days)
-        except Exception:
+
+        if not days_ahead:
             return queryset.none()
 
-        if days_int < 0:
+        days_ahead_int = int(days_ahead)
+
+        if days_ahead_int < 0:
             return queryset.none()
-        if days_int == 0:
-            end = now
-        else:
-            end = now + timedelta(days=days_int)
+
+        end = now + timedelta(days=days_ahead_int)
 
         return queryset.filter(start_time__gte=now, start_time__lte=end)
 
