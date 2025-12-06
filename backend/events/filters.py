@@ -77,7 +77,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         if days_ahead_int < 0:
             return queryset.none()
 
-        end = now + timedelta(days=days_ahead_int)
+        end = now if days_ahead_int == 0 else now + timedelta(days=days_ahead_int)
 
         return queryset.filter(start_time__gte=now, start_time__lte=end)
 
