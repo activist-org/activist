@@ -100,11 +100,6 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
     const eventsFilter = newEventsFilter(page);
 
     await withTestStep(testInfo, "Apply multiple filters at once", async () => {
-      // Calculate expected date (7 days from now).
-      const expectedDate = new Date();
-      expectedDate.setDate(expectedDate.getDate() + 7);
-      const expectedDateStr = expectedDate.toISOString().split("T")[0]; // YYYY-MM-DD format
-
       // Set days ahead filter.
       const sevenDaysButton = eventsFilter.daysSection.getByRole("radio", {
         name: /7/i,
@@ -124,26 +119,14 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
       await onlineButton.click();
 
       // Verify all filters are applied in URL.
-      await page.waitForURL(/active_on=.*type=learn.*setting=online/, {
+      await page.waitForURL(/days_ahead=7.*type=learn.*setting=online/, {
         timeout: 5000,
       });
 
       // Verify filter parameters.
+      await expect(page).toHaveURL(/days_ahead=7/);
       await expect(page).toHaveURL(/type=learn/);
       await expect(page).toHaveURL(/setting=online/);
-
-      // Verify active_on date is approximately 7 days from now.
-      const url = new URL(page.url());
-      const activeOnParam = url.searchParams.get("active_on");
-      expect(activeOnParam).toBeTruthy();
-
-      if (activeOnParam) {
-        const activeOnDate = new Date(activeOnParam);
-        const activeOnDateStr = activeOnDate.toISOString().split("T")[0];
-
-        // Verify the date matches (allow for same day due to timing).
-        expect(activeOnDateStr).toBe(expectedDateStr);
-      }
     });
   });
 
@@ -179,7 +162,7 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
       await offlineButton.click();
 
       // Wait for all filters to be applied.
-      await page.waitForURL(/active_on=.*type=action.*setting=offline/, {
+      await page.waitForURL(/days_ahead=7.*type=action.*setting=offline/, {
         timeout: 5000,
       });
     });
@@ -191,7 +174,7 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
         await page.reload();
 
         // Verify URL still contains all filter parameters.
-        await expect(page).toHaveURL(/active_on=/);
+        await expect(page).toHaveURL(/days_ahead=7/);
         await expect(page).toHaveURL(/type=action/);
         await expect(page).toHaveURL(/setting=offline/);
 
