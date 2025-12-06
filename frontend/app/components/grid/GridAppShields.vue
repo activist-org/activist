@@ -40,7 +40,3 @@
     </ShieldApp>
   </div>
 </template>
-
-<script setup lang="ts">
-import { IconMap } from "~/types/icon-map";
-</script>

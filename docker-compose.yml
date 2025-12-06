@@ -1,7 +1,26 @@
 services:
+  db:
+    env_file:
+      - .env.dev
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    ports:
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DATABASE_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     env_file:
       - .env.dev
+    depends_on:
+      - db
     build:
       context: ./backend
     container_name: django_backend
@@ -19,10 +38,12 @@ services:
       python manage.py populate_db \
       --users 10 \
       --orgs-per-user 1 \
-      --groups-per-org 1 \
+      --groups-per-org 2 \
       --events-per-org 1 \
+      --events-per-group 1 \
+      --faq-entries-per-entity 3 \
       --resources-per-entity 2 \
-      --faq-entries-per-entity 3 &&
+      --json-data-to-assign core/management/commands/entity_data_to_assign.json &&
       python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
@@ -37,8 +58,6 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - VITE_FRONTEND_URL=${VITE_FRONTEND_URL}
       - VITE_BACKEND_URL=${VITE_BACKEND_URL}
-    depends_on:
-      - db
     healthcheck:
       test:
         [
@@ -80,23 +99,6 @@ services:
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  db:
-    env_file:
-      - .env.dev
-    image: postgres:15
-    container_name: postgres_db
-    environment:
-      - POSTGRES_DB=${DATABASE_NAME}
-      - POSTGRES_USER=${DATABASE_USER}
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-    ports:
-      - "${DATABASE_PORT}:${DATABASE_PORT}"
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${DATABASE_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -35,32 +35,24 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-import type {
-  ContentImage,
-  FileUploadMix,
-  UploadableFile,
-} from "~/types/content/file";
-
-import { IconMap } from "~/types/icon-map";
-
 interface Props {
-  entityId: string;
+  orgId: string;
   uploadLimit?: number;
   images: ContentImage[];
 }
+
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
-
-const organizationStore = useOrganizationStore();
-const { organization } = useOrganizationStore();
-
+const orgId = computed(() => props.orgId);
+const { data: organizationImages } = useGetOrganizationImages(orgId);
+const { updateImage, uploadImages } = useOrganizationImageMutations(orgId);
 const files = ref<FileUploadMix[]>([]);
 
 watch(
-  props,
+  organizationImages,
   (newValueFilesImages) => {
-    const images = (newValueFilesImages.images ?? []).map((image, index) => ({
+    const images = (newValueFilesImages ?? []).map((image, index) => ({
       type: "file",
       data: image,
       sequence: index,
@@ -88,7 +80,7 @@ const handleUpload = async () => {
     if (imageFiles && imageFiles.length > 0) {
       await Promise.all(
         imageFiles.map((image) =>
-          organizationStore.updateImage(props.entityId, {
+          updateImage({
             ...image.data,
             sequence_index: image.sequence,
           } as ContentImage)
@@ -96,13 +88,12 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await organizationStore.uploadFiles(
-        props.entityId,
+      await uploadImages(
         uploadFiles.map((file) => file.data as UploadableFile),
         uploadFiles.map((file) => file.sequence)
       );
     }
-    files.value = (organization.images || []).map(
+    files.value = (organizationImages.value || []).map(
       (image: ContentImage, index: number) => ({
         type: "file",
         data: image,
@@ -110,7 +101,7 @@ const handleUpload = async () => {
       })
     ) as FileUploadMix[];
     modals.closeModal(modalName);
-    emit("upload-complete", props.entityId);
+    emit("upload-complete", orgId.value);
     uploadError.value = false;
   } catch (error) {
     emit("upload-error");

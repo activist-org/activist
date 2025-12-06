@@ -15,29 +15,24 @@
 </template>
 
 <script setup lang="ts">
-import type { Group } from "~/types/communities/group";
-
-import { BreakpointMap } from "~/types/breakpoint-map";
-
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
+const { data: organization } = useGetOrganization(orgId || "");
 
 const feedItemNames = computed<string[]>(() => {
-  if (organization && organization.groups) {
-    return organization.groups.map((group: Group) => group.name);
+  if (organization && organization.value?.groups) {
+    return organization.value?.groups.map((group: Group) => group.name);
   } else {
     return [""];
   }
 });
 
 const feedItemUrls = computed<string[]>(() => {
-  if (organization && organization.groups) {
-    return organization.groups.map(
-      (group: Group) => `/organizations/${organization.id}/groups/${group.id}`
+  if (organization && organization.value?.groups) {
+    return organization.value.groups.map(
+      (group: Group) =>
+        `/organizations/${organization.value?.id}/groups/${group.id}`
     );
   } else {
     return [""];

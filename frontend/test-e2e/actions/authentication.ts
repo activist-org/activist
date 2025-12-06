@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "playwright";
 
+import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
+import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
+
+// MARK: Sign In Actions
 
 /**
  * Sign in as admin user and navigate to home page
@@ -27,14 +31,12 @@ export async function signInAsAdmin(
   await signInPage.usernameInput.waitFor({ state: "visible", timeout: 30000 });
   await signInPage.usernameInput.fill(username);
   await signInPage.passwordInput.fill(password);
-  await page.waitForTimeout(500);
 
   // Click CAPTCHA if present.
   const { captcha } = signInPage;
   try {
     if (await captcha.isVisible({ timeout: 2000 })) {
       await captcha.click();
-      await page.waitForTimeout(500);
     }
   } catch {
     // CAPTCHA not present, continue.
@@ -75,4 +77,32 @@ export async function signIn(
   // Submit form and wait for successful navigation.
   await signInPage.signInButton.click();
   await page.waitForURL(expectedRedirect);
+}
+
+// MARK: Sign Out Actions
+
+/**
+ * Sign out the current user
+ * @param page - Playwright page object
+ */
+export async function signOut(page: Page) {
+  await page.goto("/home", { waitUntil: "load", timeout: 60000 });
+
+  // Detect mobile layout.
+  const viewportSize = page.viewportSize();
+  const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
+
+  if (isMobileLayout) {
+    // Mobile: Open hamburger menu, then user dropdown, then sign out.
+    const sidebarRight = newSidebarRight(page);
+    await sidebarRight.openButton.click();
+    await page.getByTestId("dropdown-user-options").click();
+    await page.getByTestId("user-options-your-sign-out").click();
+  } else {
+    // Desktop: Hover to open sidebar left, then user dropdown, then sign out.
+    const sidebarLeft = newSidebarLeft(page);
+    await sidebarLeft.open();
+    await page.getByTestId("dropdown-user-options").click();
+    await page.getByTestId("user-options-your-sign-out").click();
+  }
 }

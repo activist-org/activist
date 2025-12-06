@@ -9,29 +9,100 @@
       :tagline="$t('i18n.pages.events.index.subheader')"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
-        <ComboboxTopics />
+        <ComboboxTopics
+          @update:selectedTopics="handleSelectedTopicsUpdate"
+          :receivedSelectedTopics="selectedTopics"
+        />
       </div>
     </HeaderAppPage>
-    <div v-if="events.length > 0">
+    <Loading
+      v-if="pending && !loadingFetchMore"
+      :loading="pending && !loadingFetchMore"
+    />
+    <div v-else-if="showEvents">
       <EventsList v-if="viewType === ViewType.LIST" :events="events" />
       <EventsMap v-else-if="viewType === ViewType.MAP" :events="events" />
       <EventsCalendar
         v-else-if="viewType === ViewType.CALENDAR"
         :events="events"
       />
+      <!-- The bottom sentinel for Intersection Observer. -->
+      <div ref="bottomSentinel">
+        <Loading
+          v-if="loadingFetchMore && pending"
+          :loading="loadingFetchMore && pending"
+        />
+      </div>
     </div>
     <EmptyState v-else pageType="events" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ViewType } from "~/types/view-types";
-
-const eventStore = useEventStore();
-const { events } = storeToRefs(eventStore);
-
 const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
+const router = useRouter();
+const loadingFetchMore = ref(false);
+
+const filters = computed<EventFilters>(() => {
+  const { view, topics, ...rest } = route.query; // omit view
+  const normalizedFilters: EventFilters = rest as unknown as EventFilters;
+
+  // Normalize topics to always be an array (Vue Router returns string for single value).
+  normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
+
+  return normalizedFilters;
+});
+const selectedTopics = ref<TopicEnum[]>([]);
+watch(
+  () => route.query.topics,
+  (newVal) => {
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicEnum[];
+  },
+  { immediate: true }
+);
+const handleSelectedTopicsUpdate = (selectedTopics: TopicEnum[]) => {
+  const query = { ...route.query };
+  if (selectedTopics.length > 0) {
+    query.topics = selectedTopics;
+  } else {
+    delete query.topics;
+  }
+  router.replace({ query });
+};
+
+watch(
+  filters,
+  () => {
+    // Reset loading more state when filters change.
+    loadingFetchMore.value = false;
+  },
+  { immediate: true, deep: true }
+);
+const { data: events, pending, getMore } = useGetEvents(filters);
+
+const bottomSentinel = ref<HTMLElement | null>(null);
+const canFetchMore = computed(() => viewType.value === ViewType.LIST);
+const changeFetchMore = () => {
+  loadingFetchMore.value = true;
+};
+
+useCustomInfiniteScroll({
+  sentinel: bottomSentinel as Ref<HTMLElement | null>,
+  fetchMore: getMore,
+  canFetchMore,
+  callback: changeFetchMore,
+});
+
+const showEvents = computed(() => {
+  if (events.value.length > 0) {
+    if (loadingFetchMore.value) {
+      return true;
+    }
+    return !pending.value;
+  }
+  return false;
+});
 
 watchEffect(() => {
   const q = route.query.view;

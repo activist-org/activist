@@ -20,7 +20,12 @@ export async function cleanupTestState(page: Page): Promise<void> {
       // Ignore if page is closing.
     });
 
-    await page.waitForTimeout(50);
+    // Wait for browser to process first Escape (1 animation frame).
+    await page
+      .evaluate(() => new Promise(requestAnimationFrame))
+      .catch(() => {
+        // Ignore if page is closing.
+      });
 
     await page.keyboard.press("Escape").catch(() => {
       // Ignore if page is closing.

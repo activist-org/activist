@@ -6,6 +6,7 @@ Models for the events app.
 from typing import Any
 from uuid import uuid4
 
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from content.models import Faq, Resource, SocialLink, Text
@@ -27,6 +28,13 @@ class Event(models.Model):
     orgs = models.ForeignKey(
         "communities.Organization", related_name="events", on_delete=models.CASCADE
     )
+    groups = models.ForeignKey(
+        "communities.Group",
+        related_name="events",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.ForeignKey(
@@ -42,11 +50,10 @@ class Event(models.Model):
         ("offline", "Offline"),
     ]
     setting = models.CharField(max_length=255, choices=SETTING_CHOICES)
-    online_location_link = models.CharField(max_length=255, blank=True)
+    online_location_link = models.CharField(max_length=255, blank=True, null=True)
     offline_location = models.OneToOneField(
-        "content.Location", on_delete=models.CASCADE, null=False, blank=False
+        "content.Location", on_delete=models.CASCADE, blank=True, null=True
     )
-    get_involved_url = models.URLField(blank=True)
     is_private = models.BooleanField(default=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
@@ -63,6 +70,37 @@ class Event(models.Model):
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
+
+    def clean(self) -> None:
+        """
+        Validate the event data.
+
+        Raises
+        ------
+        ValidationError
+            If the start time is after the end time.
+        """
+        if self.start_time and self.end_time and self.start_time > self.end_time:
+            raise ValidationError("The start time must be before the end time.")
+
+    def save(self, *args: Any, **kwargs: Any) -> None:
+        """
+        Save the event instance.
+
+        Parameters
+        ----------
+        *args : Any
+            Variable length argument list.
+
+        **kwargs : Any
+            Arbitrary keyword arguments.
+
+        Notes
+        -----
+        This method calls clean() before saving to ensure data validation.
+        """
+        self.clean()
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.name

@@ -1,14 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Read a single group with useAsyncData. Store-first, then fetch if missing.
 // After fetch, cache it via store. You can always call refresh() to force refetch.
-
-import type { MaybeRef } from "vue";
-
-import type { ContentImage } from "~/types/content/file";
-import type { AppError } from "~/utils/errorHandler";
-
-import { fetchGroupImages } from "~/services/communities/group/image";
-import { useGroupStore } from "~/stores/group";
+export const getKeyForGetGroupImages = (id: string) => `groupImages:${id}`;
 
 export function useGetGroupImages(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -16,7 +9,7 @@ export function useGetGroupImages(id: MaybeRef<string>) {
   const store = useGroupStore();
   // Cache key for useAsyncData.
   const key = computed(() =>
-    groupId.value ? `groupImages:${groupId.value}` : null
+    groupId.value ? getKeyForGetGroupImages(groupId.value) : null
   );
 
   // Check if we have cached data.
@@ -28,7 +21,7 @@ export function useGetGroupImages(id: MaybeRef<string>) {
   );
 
   const query = useAsyncData(
-    `groupImages:${groupId.value}`,
+    getKeyForGetGroupImages(groupId.value),
     async () => {
       if (!groupId.value) {
         return null;
@@ -48,6 +41,14 @@ export function useGetGroupImages(id: MaybeRef<string>) {
       watch: [groupId],
       immediate: shouldFetch.value,
       dedupe: "defer",
+      getCachedData: (key, nuxtApp) => {
+        if (nuxtApp.isHydrating && store.getGroupImages().length > 0) {
+          return store.getGroupImages();
+        }
+        return nuxtApp.isHydrating
+          ? nuxtApp.payload.data[key]
+          : nuxtApp.static.data[key];
+      },
       // Don't execute on server if we already have cached data.
       server: shouldFetch.value,
     }

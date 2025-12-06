@@ -4,16 +4,11 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-
-const { event } = storeToRefs(eventStore);
+const { data: event } = useGetEvent(eventId);
 
 // Use computed to ensure social links are reactive to store changes.
-const socialLinks = computed(() => event.value.socialLinks);
+const socialLinks = computed(() => event.value?.socialLinks ?? []);
 </script>

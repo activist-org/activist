@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { Resource, ResourceInput } from "~/types/content/resource";
-
-import { post, put } from "~/services/http";
-import { errorHandler } from "~/utils/errorHandler";
+import { del, post, put } from "~/services/http";
 
 // MARK: Create
 
@@ -32,6 +29,17 @@ export async function updateGroupResource(input: ResourceInput): Promise<void> {
       { ...input },
       { headers: { "Content-Type": "application/json" } }
     );
+  } catch (e) {
+    const err = errorHandler(e);
+    throw err;
+  }
+}
+
+// MARK: Delete
+
+export async function deleteGroupResource(resourceId: string): Promise<void> {
+  try {
+    await del(`/communities/group_resources/${resourceId}`);
   } catch (e) {
     const err = errorHandler(e);
     throw err;

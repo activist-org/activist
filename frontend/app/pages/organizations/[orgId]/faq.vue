@@ -2,41 +2,33 @@
 <template>
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ organization.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ organization?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
     <HeaderAppPageOrganization
-      :header="organization.name + ' ' + $t('i18n._global.faq')"
+      :header="organization?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          @click.stop="
-            useModalHandlers('ModalFaqEntryOrganization').openModal()
-          "
-          @keydown.enter="
-            useModalHandlers('ModalFaqEntryOrganization').openModal()
-          "
-          ariaLabel="i18n.pages._global.new_faq_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n.pages._global.new_faq"
-          :leftIcon="IconMap.PLUS"
-        />
         <ModalFaqEntryOrganization />
+        <BtnActionAdd
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
+          :element="$t('i18n._global.faq')"
+          :onClick="openModal"
+        />
       </div>
     </HeaderAppPageOrganization>
-    <div v-if="organization.faqEntries!.length > 0" class="py-4">
-      <!-- Draggable list -->
+    <div
+      v-if="faqList.length > 0"
+      class="py-4"
+      data-testid="organization-faq-list"
+    >
       <draggable
         v-model="faqList"
         @end="onDragEnd"
         :animation="150"
         chosen-class="sortable-chosen"
         class="space-y-4"
-        data-testid="organization-faq-list"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -54,7 +46,12 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :faqEntry="element" :pageType="'organization'" />
+          <CardFAQEntry
+            @delete-faq="handleDeleteFAQ"
+            :entity="organization"
+            :faqEntry="element"
+            :pageType="EntityType.ORGANIZATION"
+          />
         </template>
       </draggable>
     </div>
@@ -63,23 +60,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
-import type { Organization } from "~/types/communities/organization";
-import type { FaqEntry } from "~/types/content/faq-entry";
+const { openModal } = useModalHandlers("ModalFaqEntryOrganization");
 
-import { useOrganizationStore } from "~/stores/organization";
-import { IconMap } from "~/types/icon-map";
+const paramsOrgId = useRoute().params.orgId;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
 
-const props = defineProps<{ organization: Organization }>();
+const { data: organization } = useGetOrganization(orgId);
+const { reorderFAQs, deleteFAQ } = useOrganizationFAQEntryMutations(orgId);
 
-const orgStore = useOrganizationStore();
-
-const faqList = ref<FaqEntry[]>([...(props.organization.faqEntries || [])]);
+const faqList = ref<FaqEntry[]>([...(organization?.value?.faqEntries || [])]);
 
 watch(
-  () => props.organization.faqEntries,
+  () => organization?.value?.faqEntries,
   (newVal) => {
     faqList.value = newVal?.slice() ?? [];
   },
@@ -91,7 +85,11 @@ const onDragEnd = async () => {
     faq.order = index;
   });
 
-  await orgStore.reorderFaqEntries(props.organization, faqList.value);
+  await reorderFAQs(faqList.value);
+};
+
+const handleDeleteFAQ = async (faqId: string) => {
+  await deleteFAQ(faqId);
 };
 </script>
 

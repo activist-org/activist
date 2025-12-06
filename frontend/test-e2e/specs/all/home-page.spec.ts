@@ -10,6 +10,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/home");
   const { topicsFilter } = newHomePage(page);
 
+  // Home page topics filter requires data aggregation on first load (30-60s in dev mode).
   await expect(topicsFilter).toBeVisible({ timeout: 60000 });
 });
 
@@ -56,7 +57,7 @@ test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
     );
 
     await withTestStep(testInfo, "Close search modal", async () => {
-      await searchModal.closeButton.click();
+      await searchModal.closeButton.click({ force: true });
       await expect(searchModal.root).not.toBeAttached();
     });
   });

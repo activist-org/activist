@@ -11,29 +11,26 @@
 </template>
 
 <script setup lang="ts">
-import type { FaqEntry } from "~/types/content/faq-entry";
-
 const props = defineProps<{
   faqEntry?: FaqEntry;
 }>();
 
 const isAddMode = !props.faqEntry;
-const modalName = "ModalFaqEntryEvent" + props.faqEntry?.id;
+const modalName = "ModalFaqEntryEvent" + (props.faqEntry?.id ?? "");
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId);
+const { updateFAQ, createFAQ } = useEventFAQEntryMutations(eventId);
 
 const formData = ref<FaqEntry>(
   isAddMode
     ? {
         id: "",
         iso: "en",
-        order: (event.faqEntries ?? []).length,
+        order: (event.value?.faqEntries ?? []).length,
         question: "",
         answer: "",
       }
@@ -81,8 +78,8 @@ async function handleSubmit(values: unknown) {
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
   updateResponse = isAddMode
-    ? await eventStore.createFaqEntry(event, newValues as FaqEntry)
-    : await eventStore.updateFaqEntry(event, newValues as FaqEntry);
+    ? await createFAQ(newValues as FaqEntry)
+    : await updateFAQ(newValues as FaqEntry);
 
   if (updateResponse) {
     handleCloseModal();

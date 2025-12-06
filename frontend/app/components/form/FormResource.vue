@@ -79,10 +79,6 @@
 <script setup lang="ts">
 import { z } from "zod";
 
-import type { Resource } from "~/types/content/resource";
-
-import { TopicEnum } from "~/types/content/topics";
-
 defineProps<{
   formData?: Resource;
   handleSubmit: (values: unknown) => Promise<void>;

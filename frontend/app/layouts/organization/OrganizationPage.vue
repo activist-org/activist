@@ -3,12 +3,12 @@
   <NuxtLayout name="app">
     <ModalUploadImageOrganization
       @closeModal="handleCloseModalUploadImage"
-      :entityId="organization.id || ''"
-      :images="organization.images || []"
+      :images="images || []"
+      :orgId="organization?.id || ''"
     />
     <ModalUploadImageIcon
       @closeModal="handleCloseModalUploadImageIcon"
-      :entityId="organization.id || ''"
+      :entityId="organization?.id || ''"
       :entityType="EntityType.ORGANIZATION"
     />
     <SidebarLeft
@@ -17,9 +17,9 @@
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="block"
+      class="fixed top-0 z-20 h-screen"
     />
-    <div class="flex flex-col md:h-screen md:overflow-y-scroll">
+    <div class="flex flex-col">
       <div
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
@@ -35,12 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import { EntityType } from "~/types/entity";
-import {
-  getSidebarContentDynamicClass,
-  getSidebarFooterDynamicClass,
-} from "~/utils/sidebarUtils";
-
 const aboveMediumBP = useBreakpoint("md");
 
 const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
@@ -53,14 +47,13 @@ const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
-const organizationStore = useOrganizationStore();
-await organizationStore.fetchById(orgId);
-const { organization } = organizationStore;
-
-await organizationStore.fetchImages(orgId as string);
+const { data: organization } = useGetOrganization(orgId || "");
+const { data: images } = useGetOrganizationImages(orgId || "");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
+const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
+  useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
   sidebarContentScrollable.value,
   sidebarHover

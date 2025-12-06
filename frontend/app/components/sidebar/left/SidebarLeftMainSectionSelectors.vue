@@ -18,8 +18,9 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
 const isActive = (routeUrl: string) => {
-  return isTopLevelRouteActive(routeUrl);
+  return isTopLevelRouteActive(routeUrl, route.path);
 };
 
 const getSelectorId = (label: string) => {

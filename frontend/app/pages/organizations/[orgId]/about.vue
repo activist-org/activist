@@ -4,20 +4,25 @@
   <ModalTextOrganization />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ organization.name }}</Title>
+      <Title>{{ organization?.name }}</Title>
     </Head>
     <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
         <div class="flex space-x-2 lg:space-x-3">
+          <ModalSharePage
+            v-if="organization"
+            :cta="true"
+            :organization="organization as unknown as Organization"
+          />
           <BtnRouteExternal
-            v-if="organization.getInvolvedUrl"
+            v-if="organization?.texts[0]?.getInvolvedUrl"
             ariaLabel="i18n._global.join_organization_aria_label"
             class="w-max"
             :cta="true"
             fontSize="sm"
             iconSize="1.45em"
             label="i18n._global.join_organization"
-            :linkTo="organization.getInvolvedUrl"
+            :linkTo="organization.texts[0]?.getInvolvedUrl"
             :rightIcon="IconMap.ARROW_RIGHT"
           />
           <!-- <BtnAction
@@ -43,14 +48,13 @@
             :rightIcon="IconMap.SHARE"
           />
         </div>
-        <ModalSharePage :cta="true" :organization="organization" />
       </div>
     </HeaderAppPageOrganization>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
-          'lg:mr-6 lg:space-x-6': !textExpanded,
+          'lg:space-x-6': !textExpanded,
         }"
       >
         <CardAboutOrganization
@@ -64,9 +68,9 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :entityId="organization.id"
+            :entityId="organization?.id ?? ''"
             :entityType="'organization' as EntityType"
-            :images="organization.images || []"
+            :images="images || []"
           />
         </div>
       </div>
@@ -82,15 +86,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-import type { EntityType } from "~/types/entity";
+const { data: organization } = useGetOrganization(
+  (useRoute().params.orgId as string) ?? ""
+);
 
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
-
-defineProps<{
-  organization: Organization;
-}>();
+const { data: images } = useGetOrganizationImages(
+  (useRoute().params.orgId as string) ?? ""
+);
 
 const aboveLargeBP = useBreakpoint("lg");
 

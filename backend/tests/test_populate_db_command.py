@@ -32,8 +32,10 @@ def test_populate_db_command_with_arguments():
         orgs_per_user=1,
         groups_per_org=1,
         events_per_org=1,
+        events_per_group=1,
         resources_per_entity=1,
         faq_entries_per_entity=1,
+        json_data_to_assign="",
     )
 
     assert UserModel.objects.count() == 2
@@ -42,21 +44,21 @@ def test_populate_db_command_with_arguments():
 
     assert Organization.objects.count() == 2
     assert Group.objects.count() == 2
-    assert Event.objects.count() == 2
+    assert Event.objects.count() == 4
 
     # Content
 
     assert OrganizationResource.objects.count() == 2
-    assert EventResource.objects.count() == 2
     assert GroupResource.objects.count() == 2
+    assert EventResource.objects.count() == 4
 
     assert OrganizationFaq.objects.count() == 2
-    assert EventFaq.objects.count() == 2
     assert GroupFaq.objects.count() == 2
+    assert EventFaq.objects.count() == 4
 
     assert OrganizationSocialLink.objects.count() == 6
     assert GroupSocialLink.objects.count() == 6
-    assert EventSocialLink.objects.count() == 6
+    assert EventSocialLink.objects.count() == 12
 
 
 @pytest.mark.django_db

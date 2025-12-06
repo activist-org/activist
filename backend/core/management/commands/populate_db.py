@@ -4,61 +4,27 @@ Classes controlling the CLI command to populate the database when starting the b
 """
 
 # mypy: ignore-errors
+import json
 import random
 from argparse import ArgumentParser
-from typing import List, TypedDict
+from typing import Any, TypedDict
 
 from django.core.management.base import BaseCommand
 from typing_extensions import Unpack
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
-from communities.groups.factories import (
-    GroupFactory,
-    GroupFaqFactory,
-    GroupResourceFactory,
-    GroupSocialLinkFactory,
-    GroupTextFactory,
-)
 from communities.groups.models import Group
-from communities.organizations.factories import (
-    OrganizationFactory,
-    OrganizationFaqFactory,
-    OrganizationResourceFactory,
-    OrganizationSocialLinkFactory,
-    OrganizationTextFactory,
-)
 from communities.organizations.models import Organization
 from content.models import Topic
-from events.factories import (
-    EventFactory,
-    EventFaqFactory,
-    EventResourceFactory,
-    EventSocialLinkFactory,
-    EventTextFactory,
-)
 from events.models import Event
 
+from .populate_db_utils.populate_org_events import create_org_events
+from .populate_db_utils.populate_org_group_event import create_group_events
+from .populate_db_utils.populate_org_groups import create_org_groups
+from .populate_db_utils.populate_orgs import create_organization, get_topic_label
 
-def get_topic_label(topic: Topic) -> str:
-    """
-    Return the label of a topic from the object.
-
-    Parameters
-    ----------
-    topic : Topic
-        The topic object that the label should be derived for.
-
-    Returns
-    -------
-    str
-        The human readable name of the topic.
-    """
-    return (
-        " ".join([t[0] + t[1:].lower() for t in topic.type.split("_")])
-        .replace("Womens", "Women's")
-        .replace("Lgbtqia", "LGBTQIA+")
-    )
+# MARK: Utils and Types
 
 
 class Options(TypedDict):
@@ -70,8 +36,10 @@ class Options(TypedDict):
     orgs_per_user: int
     groups_per_org: int
     events_per_org: int
+    events_per_group: int
     resources_per_entity: int
     faq_entries_per_entity: int
+    json_data_to_assign: dict[str, Any]
 
 
 class Command(BaseCommand):
@@ -80,6 +48,8 @@ class Command(BaseCommand):
     """
 
     help = "Populate the database with dummy data"
+
+    # MARK: Arguments
 
     def add_arguments(self, parser: ArgumentParser) -> None:
         """
@@ -94,8 +64,10 @@ class Command(BaseCommand):
         parser.add_argument("--orgs-per-user", type=int, default=1)
         parser.add_argument("--groups-per-org", type=int, default=1)
         parser.add_argument("--events-per-org", type=int, default=1)
-        parser.add_argument("--resources-per-entity", type=int, default=1)
+        parser.add_argument("--events-per-group", type=int, default=1)
         parser.add_argument("--faq-entries-per-entity", type=int, default=1)
+        parser.add_argument("--resources-per-entity", type=int, default=1)
+        parser.add_argument("--json-data-to-assign", type=str)
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
         """
@@ -109,12 +81,27 @@ class Command(BaseCommand):
         **options : Unpack[Options]
             Options that can be used to control the database wait functionality.
         """
+        # MARK: Load Arguments
+
         num_users = options["users"]
         num_orgs_per_user = options["orgs_per_user"]
         num_groups_per_org = options["groups_per_org"]
         num_events_per_org = options["events_per_org"]
+        num_events_per_group = options["events_per_group"]
         num_resources_per_entity = options["resources_per_entity"]
         num_faq_entries_per_entity = options["faq_entries_per_entity"]
+
+        # MARK: Load Data
+
+        assigned_org_fields = []
+        if options["json_data_to_assign"]:
+            with open(options["json_data_to_assign"], encoding="utf-8") as f:
+                json_data_to_assign = json.loads(f.read())
+
+            if "organizations" in json_data_to_assign:
+                assigned_org_fields = json_data_to_assign["organizations"]
+
+        # MARK: Clear Data
 
         # Clear all tables before creating new data.
         UserModel.objects.exclude(username="admin").delete()
@@ -124,155 +111,149 @@ class Command(BaseCommand):
 
         topics = Topic.objects.all()
 
+        # MARK: Set Data Totals
+
+        n_social_links = 0
+        n_faq_entries = 0
+        n_resources = 0
+
+        # MARK: Populate Data
+
         try:
             users = [
                 UserFactory(username=f"activist_{i}", name=f"Activist {i}")
                 for i in range(num_users)
             ]
 
-            for u, user in enumerate(users):
+            # Confirm activist_0 for testing purposes.
+            if users:
+                users[0].is_confirmed = True
+                users[0].set_password("password")  # ensure password is set
+                users[0].save()
+
+            for user in users:
                 user_topic = random.choice(topics)
                 user.topics.set([user_topic])
                 user_topic_name = get_topic_label(topic=user_topic)
 
-                for o in range(num_orgs_per_user):
-                    user_org = OrganizationFactory(
-                        created_by=user,
-                        org_name=f"organization_u{u}_o{o}",
-                        name=f"{user_topic_name} Organization",
-                        tagline=f"Fighting for {user_topic_name.lower()}",
-                    )
-                    user_org.topics.set([user_topic])
-                    org_texts = OrganizationTextFactory(iso="en", primary=True)
-                    org_social_links: List[OrganizationSocialLinkFactory] = []
-                    org_social_links.extend(
-                        OrganizationSocialLinkFactory(label=f"social link {i}", order=i)
-                        for i in range(3)
+                for _ in range(num_orgs_per_user):
+                    # MARK: Orgs
+
+                    user_org, s_links, resources, faqs, assigned_org_spec = (
+                        create_organization(
+                            user=user,
+                            user_topic=user_topic,
+                            assigned_org_fields=assigned_org_fields,  # pass the list (may be empty)
+                            num_faq_entries_per_entity=num_faq_entries_per_entity,
+                            num_resources_per_entity=num_resources_per_entity,
+                        )
                     )
 
-                    user_org.texts.set([org_texts])
-                    user_org.social_links.set(org_social_links)
+                    n_social_links += s_links
+                    n_faq_entries += faqs
+                    n_resources += resources
 
-                    for f in range(num_faq_entries_per_entity):
-                        user_org_faq = OrganizationFaqFactory(org=user_org, order=f)
-                        user_org.faqs.add(user_org_faq)
+                    # MARK: Org Events
 
-                    for r in range(num_resources_per_entity):
-                        user_org_resource = OrganizationResourceFactory(
-                            created_by=user, org=user_org, order=r
+                    assigned_events = (
+                        assigned_org_spec.get("events", []) if assigned_org_spec else []
+                    )
+                    org_events_social_links, org_events_resources, org_events_faqs = (
+                        create_org_events(
+                            user=user,
+                            user_topic=user_topic,
+                            user_topic_name=user_topic_name,
+                            user_org=user_org,
+                            assigned_events=assigned_events,
+                            num_events_per_org=num_events_per_org,
+                            num_faq_entries_per_entity=num_faq_entries_per_entity,
+                            num_resources_per_entity=num_resources_per_entity,
                         )
-                        user_org.resources.add(user_org_resource)
-                        user_org_resource.topics.set([user_topic])
+                    )
 
-                    for e in range(num_events_per_org):
-                        event_type = random.choice(["learn", "action"])
-                        event_type_verb = (
-                            "Learning about"
-                            if event_type == "learn"
-                            else "Fighting for"
+                    n_social_links += org_events_social_links
+                    n_resources += org_events_resources
+                    n_faq_entries += org_events_faqs
+
+                    # MARK: Org Groups
+
+                    assigned_groups = (
+                        assigned_org_spec.get("groups", []) if assigned_org_spec else []
+                    )
+                    groups, groups_social_links, groups_resources, groups_faqs = (
+                        create_org_groups(
+                            user=user,
+                            user_topic=user_topic,
+                            user_topic_name=user_topic_name,
+                            user_org=user_org,
+                            assigned_groups=assigned_groups,
+                            num_groups_per_org=num_groups_per_org,
+                            num_faq_entries_per_entity=num_faq_entries_per_entity,
+                            num_resources_per_entity=num_resources_per_entity,
+                        )
+                    )
+
+                    n_social_links += groups_social_links
+                    n_resources += groups_resources
+                    n_faq_entries += groups_faqs
+
+                    # MARK: Org Group Events
+
+                    for g_index, user_org_group in enumerate(groups):
+                        group_spec = (
+                            assigned_groups[g_index]
+                            if g_index < len(assigned_groups)
+                            else {}
+                        )
+                        assigned_group_events = (
+                            group_spec.get("events", []) if group_spec else []
+                        )
+                        (
+                            group_events_social_links,
+                            group_events_resources,
+                            group_events_faqs,
+                        ) = create_group_events(
+                            user=user,
+                            user_topic=user_topic,
+                            user_topic_name=user_topic_name,
+                            user_org=user_org,
+                            user_org_group=user_org_group,
+                            assigned_group_events=assigned_group_events,
+                            num_events_per_group=num_events_per_group,
+                            num_faq_entries_per_entity=num_faq_entries_per_entity,
+                            num_resources_per_entity=num_resources_per_entity,
                         )
 
-                        user_org_event = EventFactory(
-                            name=f"{user_topic_name} Event [u{u}:o{o}:e{e}]",
-                            tagline=f"{event_type_verb} {user_topic_name}",
-                            type=event_type,
-                            created_by=user,
-                            orgs=user_org,
-                        )
-                        user_org_event.topics.set([user_topic])
-                        event_texts = EventTextFactory(iso="en", primary=True)
-                        event_social_links: List[EventSocialLinkFactory] = []
-                        event_social_links.extend(
-                            EventSocialLinkFactory(label=f"social link {i}", order=i)
-                            for i in range(3)
-                        )
+                        n_social_links += group_events_social_links
+                        n_resources += group_events_resources
+                        n_faq_entries += group_events_faqs
 
-                        user_org_event.texts.set([event_texts])
-                        user_org_event.social_links.set(event_social_links)
+            # MARK: Print Output
 
-                        for f in range(num_faq_entries_per_entity):
-                            user_org_event_faq = EventFaqFactory(
-                                event=user_org_event, order=f
-                            )
-                            user_org_event.faqs.add(user_org_event_faq)
-
-                        for r in range(num_resources_per_entity):
-                            user_org_event_resource = EventResourceFactory(
-                                created_by=user, event=user_org_event, order=r
-                            )
-                            user_org_event.resources.add(user_org_event_resource)
-                            user_org_event_resource.topics.set([user_topic])
-
-                    for g in range(num_groups_per_org):
-                        user_org_group = GroupFactory(
-                            created_by=user,
-                            group_name=f"group_u{u}_o{o}_g{g}",
-                            name=f"{user_topic_name} Group",
-                            org=user_org,
-                            tagline=f"Fighting for {user_topic_name.lower()}",
-                        )
-
-                        group_texts = GroupTextFactory(iso="en", primary=True)
-                        group_social_links: List[GroupSocialLinkFactory] = []
-                        group_social_links.extend(
-                            GroupSocialLinkFactory(label=f"social link {i}", order=i)
-                            for i in range(3)
-                        )
-
-                        user_org_group.texts.set([group_texts])
-                        user_org_group.social_links.set(group_social_links)
-
-                        for f in range(num_faq_entries_per_entity):
-                            user_org_group_faq = GroupFaqFactory(
-                                group=user_org_group, order=f
-                            )
-                            user_org_group.faqs.add(user_org_group_faq)
-
-                        for r in range(num_resources_per_entity):
-                            user_org_group_resource = GroupResourceFactory(
-                                created_by=user, group=user_org_group, order=r
-                            )
-                            user_org_group.resources.add(user_org_group_resource)
-                            user_org_group_resource.topics.set([user_topic])
-
-            num_orgs = num_users * num_orgs_per_user
-            num_groups = num_users * num_orgs_per_user * num_groups_per_org
-            num_events = num_users * num_orgs_per_user * num_events_per_org
-            num_resources = num_users * (
-                num_orgs_per_user
-                + num_orgs_per_user * num_events_per_org * num_resources_per_entity
-                + num_orgs_per_user * num_groups_per_org * num_resources_per_entity
-            )
-            num_faq_entries = num_users * (
-                num_orgs_per_user
-                + num_orgs_per_user * num_events_per_org * num_faq_entries_per_entity
-                + num_orgs_per_user * num_groups_per_org * num_faq_entries_per_entity
-            )
-            num_social_links = (
-                3
-                * num_users
-                * (
-                    num_orgs_per_user
-                    + num_orgs_per_user * num_groups_per_org
-                    + num_orgs_per_user * num_events_per_org
-                )
+            n_orgs_created = num_users * num_orgs_per_user
+            n_groups_created = num_users * num_orgs_per_user * num_groups_per_org
+            n_events_created = num_users * (
+                (num_orgs_per_user * num_events_per_org)
+                + (num_orgs_per_user * num_groups_per_org * num_events_per_group)
             )
 
             self.stdout.write(
                 self.style.ERROR(
                     f"Number of users created: {num_users}\n"
-                    f"Number of organizations created: {num_orgs}\n"
-                    f"Number of groups created: {num_groups}\n"
-                    f"Number of events created: {num_events}\n"
-                    f"Number of resources created: {num_resources}\n"
-                    f"Number of FAQ entries created: {num_faq_entries}\n"
-                    f"Number of social links created: {num_social_links}\n"
+                    f"Number of organizations created: {n_orgs_created}\n"
+                    f"Number of groups created: {n_groups_created}\n"
+                    f"Number of events created: {n_events_created}\n"
+                    f"Number of social links created: {n_social_links}\n"
+                    f"Number of resources created: {n_resources}\n"
+                    f"Number of FAQ entries created: {n_faq_entries}\n"
                 )
             )
 
         except TypeError as error:
             self.stdout.write(
                 self.style.ERROR(
-                    f"A type error occurred during the creation of dummy data: {error}. Make sure to use dashes for populate_db arguments and that they're of the appropriate types."
+                    "A type error occurred during the creation of dummy data:\n"
+                    f"{error}"
+                    "\nMake sure to use dashes for populate_db arguments and that they're of the appropriate types."
                 )
             )

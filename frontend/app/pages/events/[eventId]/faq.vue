@@ -2,39 +2,29 @@
 <template>
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ event.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ event?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
-
-    <HeaderAppPageOrganization
-      :header="event.name + ' ' + $t('i18n._global.faq')"
+    <HeaderAppPageEvent
+      :header="event?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          @click.stop="useModalHandlers('ModalFaqEntryEvent').openModal()"
-          @keydown.enter="useModalHandlers('ModalFaqEntryEvent').openModal()"
-          ariaLabel="i18n.pages._global.new_faq_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n.pages._global.new_faq"
-          :leftIcon="IconMap.PLUS"
-        />
         <ModalFaqEntryEvent />
+        <BtnActionAdd
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
+          :element="$t('i18n._global.faq')"
+          :onClick="openModal"
+        />
       </div>
-    </HeaderAppPageOrganization>
-
-    <!-- FAQ list with drag-and-drop -->
-    <div v-if="faqList.length > 0" class="py-4">
+    </HeaderAppPageEvent>
+    <div v-if="faqList.length > 0" class="py-4" data-testid="event-faq-list">
       <draggable
         v-model="faqList"
         @end="onDragEnd"
         :animation="150"
         :chosen-class="'sortable-chosen'"
         class="space-y-4"
-        data-testid="event-faq-list"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -52,33 +42,34 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :faqEntry="element" :pageType="'event'" />
+          <CardFAQEntry
+            @delete-faq="handleDeleteFAQ"
+            :entity="event"
+            :faqEntry="element"
+            :pageType="EntityType.EVENT"
+          />
         </template>
       </draggable>
     </div>
-
     <EmptyState v-else class="py-4" pageType="faq" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
-import type { FaqEntry } from "~/types/content/faq-entry";
-import type { Event } from "~/types/events/event";
+const { openModal } = useModalHandlers("ModalFAQEntryEvent");
 
-import { useEventStore } from "~/stores/event";
-import { IconMap } from "~/types/icon-map";
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const props = defineProps<{ event: Event }>();
+const { data: event } = useGetEvent(eventId);
+const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 
-const eventStore = useEventStore();
-
-const faqList = ref<FaqEntry[]>([]);
+const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
 
 watch(
-  () => props.event?.faqEntries,
+  () => event?.value?.faqEntries,
   (newVal) => {
     faqList.value = newVal?.slice() ?? [];
   },
@@ -90,7 +81,11 @@ async function onDragEnd() {
     faq.order = index;
   });
 
-  await eventStore.reorderFaqEntries(props.event, faqList.value);
+  await reorderFAQs(faqList.value);
+}
+
+async function handleDeleteFAQ(faqId: string) {
+  await deleteFAQ(faqId);
 }
 </script>
 

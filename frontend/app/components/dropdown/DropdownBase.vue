@@ -12,6 +12,7 @@
           'style-menu-option-cta flex items-center rounded-md pl-1':
             isSidebarLeftMenu,
         }"
+        :data-testid="dataTestId"
       >
         <div
           class="flex items-center justify-between space-x-2 text-sm"
@@ -88,9 +89,6 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
 
-import { IconMap } from "~/types/icon-map";
-import { DropdownLocation } from "~/types/location";
-
 const props = defineProps<{
   location?: DropdownLocation;
   menuButtonAriaLabel: string;
@@ -98,6 +96,7 @@ const props = defineProps<{
   isMenuButtonUppercase?: boolean;
   isMenuButtonBold?: boolean;
   menuButtonLabel: string;
+  dataTestId?: string;
 }>();
 
 const sidebar = useSidebar();

@@ -1,16 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { FetchOptions } from "ofetch";
-
-export type ServiceOptions = Omit<FetchOptions, "method">;
-export type ServiceOptionsWithBody = Omit<FetchOptions, "method" | "body">;
-export type AcceptedBody =
-  | Record<string, unknown>
-  | FormData
-  | BodyInit
-  | null
-  | undefined
-  | object;
-
 function baseURL() {
   return BASE_BACKEND_URL as string;
 }
@@ -25,12 +13,15 @@ function authHeader(): Record<string, string> {
 }
 
 export function get<T>(url: string, options?: ServiceOptions) {
-  const headers = { ...(options?.headers || {}), ...authHeader() };
+  const headers = {
+    ...(options?.headers || {}),
+    ...(options?.withoutAuth ? {} : authHeader()),
+  };
   return $fetch<T>(url, {
     baseURL: baseURL(),
     method: "GET" as const,
-    headers,
     ...options,
+    headers,
   });
 }
 
@@ -41,7 +32,7 @@ export function post<T, X extends AcceptedBody>(
 ) {
   const headers = {
     ...(options?.headers || {}),
-    ...authHeader(),
+    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
     baseURL: baseURL(),
@@ -59,7 +50,7 @@ export function put<T, X extends AcceptedBody>(
 ) {
   const headers: HeadersInit = {
     ...(options?.headers || {}),
-    ...authHeader(),
+    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
     baseURL: baseURL(),
@@ -71,7 +62,10 @@ export function put<T, X extends AcceptedBody>(
 }
 
 export function del<T>(url: string, options?: ServiceOptions) {
-  const headers = { ...(options?.headers || {}), ...authHeader() };
+  const headers = {
+    ...(options?.headers || {}),
+    ...(options?.withoutAuth ? {} : authHeader()),
+  };
   return $fetch<T>(url, {
     baseURL: baseURL(),
     method: "DELETE" as const,
@@ -93,7 +87,7 @@ export const fetchWithoutToken = async (
   method: "GET" | "POST" = "GET",
   body?: object | undefined
 ) => {
-  const res = await $fetch.raw(BASE_BACKEND_URL + url, {
+  const res = await $fetch.raw(baseURL() + url, {
     data,
     headers: {},
     method,

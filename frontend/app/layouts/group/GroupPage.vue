@@ -4,7 +4,7 @@
     <ModalUploadImageGroup
       @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
-      :entityId="group?.id || ''"
+      :groupId="group?.id || ''"
       :images="images || []"
     />
     <ModalUploadImageIcon
@@ -26,7 +26,7 @@
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <NuxtPage :group="group" :images="images" />
+        <NuxtPage />
       </div>
       <FooterWebsite
         class="pb-24 transition-[padding] duration-500 md:pb-12"
@@ -37,14 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-import { useGetGroupImages } from "~/composables/queries/useGetGroupImages";
-import { EntityType } from "~/types/entity";
-import {
-  getSidebarContentDynamicClass,
-  getSidebarFooterDynamicClass,
-} from "~/utils/sidebarUtils";
-
 const aboveMediumBP = useBreakpoint("md");
 
 const paramsGroupId = useRoute().params.groupId;
@@ -65,7 +57,8 @@ const handleUploadComplete = () => {
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
-
+const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
+  useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
   sidebarContentScrollable.value,
   sidebarHover

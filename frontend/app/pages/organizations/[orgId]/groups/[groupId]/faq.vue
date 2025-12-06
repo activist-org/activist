@@ -3,32 +3,24 @@
   <Tabs class="pt-2 md:pt-0" :selectedTab="3" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ props.group.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ group?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
     </Head>
-
     <HeaderAppPageGroup
-      :header="props.group.name + ' ' + $t('i18n._global.faq')"
+      :header="group?.name + ' ' + $t('i18n._global.faq')"
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnAction
-          @click.stop="openModal()"
-          @keydown.enter="openModal()"
-          ariaLabel="i18n.pages._global.new_faq_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n.pages._global.new_faq"
-          :leftIcon="IconMap.PLUS"
-        />
         <ModalFaqEntryGroup />
+        <BtnActionAdd
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
+          :element="$t('i18n._global.faq')"
+          :onClick="openModal"
+        />
       </div>
     </HeaderAppPageGroup>
-
     <div
-      v-if="props.group.faqEntries?.length"
+      v-if="faqList.length > 0"
       class="py-4"
       data-testid="organization-group-faq-list"
     >
@@ -55,35 +47,36 @@
         :touch-start-threshold="3"
       >
         <template #item="{ element }">
-          <CardFAQEntry :faqEntry="element" pageType="group" />
+          <CardFAQEntry
+            @delete-faq="handleDeleteFAQ"
+            :entity="group"
+            :faqEntry="element"
+            :pageType="EntityType.GROUP"
+          />
         </template>
       </draggable>
     </div>
-
     <EmptyState v-else pageType="faq" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import draggable from "vuedraggable";
 
-import type { Group } from "~/types/communities/group";
-import type { FaqEntry } from "~/types/content/faq-entry";
-
-import { useGroupFAQEntryMutations } from "~/composables/mutations/useGroupFAQEntryMutations";
-import { IconMap } from "~/types/icon-map";
-
-const props = defineProps<{ group: Group }>();
+const groupTabs = useGetGroupTabs();
 
 const { openModal } = useModalHandlers("ModalFaqEntryGroup");
 
-const groupTabs = getGroupTabs();
-const { reorderFAQs } = useGroupFAQEntryMutations(props.group.id);
-const faqList = ref<FaqEntry[]>([...(props.group.faqEntries || [])]);
+const paramsGroupId = useRoute().params.groupId;
+const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
+
+const { data: group } = useGetGroup(groupId);
+const { reorderFAQs, deleteFAQ } = useGroupFAQEntryMutations(groupId);
+
+const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 
 watch(
-  () => props.group.faqEntries,
+  () => group?.value?.faqEntries,
   (newVal) => {
     faqList.value = newVal?.slice() ?? [];
   },
@@ -96,6 +89,10 @@ const onDragEnd = async () => {
   });
 
   await reorderFAQs(faqList.value);
+};
+
+const handleDeleteFAQ = async (faqId: string) => {
+  await deleteFAQ(faqId);
 };
 </script>
 

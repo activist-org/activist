@@ -55,11 +55,6 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-import type { UploadableFile } from "~/types/content/file";
-
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
-
 const modals = useModals();
 const modalName = "ModalUploadImageIcon";
 const uploadError = ref(false);
@@ -70,9 +65,11 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-
-const eventStore = useEventStore();
-const organizationStore = useOrganizationStore();
+const entityId = computed(() => props.entityId);
+const { uploadIconImage: uploadOrganizationIconImage } =
+  useOrganizationImageMutations(entityId);
+const { uploadIconImage: uploadEventIconImage } =
+  useEventImageIconMutations(entityId);
 const emit = defineEmits(["upload-complete", "upload-error"]);
 const fileImageIcon = ref();
 const { getIconImage } = useFileManager();
@@ -80,15 +77,9 @@ const handleUpload = async () => {
   try {
     // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
     if (props.entityType === EntityType.ORGANIZATION) {
-      await organizationStore.uploadIconImage(
-        props.entityId,
-        fileImageIcon.value as UploadableFile
-      );
+      await uploadOrganizationIconImage(fileImageIcon.value as UploadableFile);
     } else if (props.entityType === EntityType.EVENT) {
-      await eventStore.uploadIconImage(
-        props.entityId,
-        fileImageIcon.value as UploadableFile
-      );
+      await uploadEventIconImage(fileImageIcon.value as UploadableFile);
     } else {
       throw new Error("Unsupported entity type");
     }

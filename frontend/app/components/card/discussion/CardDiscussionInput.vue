@@ -163,11 +163,6 @@ import StarterKit from "@tiptap/starter-kit";
 import { EditorContent, useEditor } from "@tiptap/vue-3";
 import { Markdown } from "tiptap-markdown";
 
-import type { DiscussionInput } from "~/types/content/discussion";
-
-import { IconMap } from "~/types/icon-map";
-import Suggestion from "~/utils/mentionSuggestion";
-
 const showTooltip = ref(false);
 const props = defineProps<{
   discussionInput: DiscussionInput;
@@ -197,7 +192,6 @@ const writeEditor = useEditor({
   content: markdown,
   editable: !isMarkdownPreview.value,
   extensions: [
-    // @ts-expect-error `StarterKit` is the correct type.
     StarterKit,
     Placeholder.configure({
       placeholder: props.discussionInput.highRisk
@@ -260,19 +254,15 @@ const at = () => {
   writeEditor.value?.chain().focus().insertContent(" @").run();
 };
 const heading = () => {
-  // @ts-expect-error `toggleHeading` does exit.
   writeEditor.value?.chain().focus().toggleHeading({ level: 1 }).run();
 };
 const bold = () => {
-  // @ts-expect-error `toggleBold` does exit.
   writeEditor.value?.chain().focus().toggleBold().run();
 };
 const italic = () => {
-  // @ts-expect-error `toggleItalic` does exit.
   writeEditor.value?.chain().focus().toggleItalic().run();
 };
 const blockquote = () => {
-  // @ts-expect-error `toggleBlockquote` does exit.
   writeEditor.value?.chain().focus().toggleBlockquote().run();
 };
 const link = () => {
@@ -307,11 +297,9 @@ const link = () => {
 // };
 
 const listul = () => {
-  // @ts-expect-error `toggleBulletList` does exit.
   writeEditor.value?.chain().focus().toggleBulletList().run();
 };
 const listol = () => {
-  // @ts-expect-error `toggleOrderedList` does exit.
   writeEditor.value?.chain().focus().toggleOrderedList().run();
 };
 </script>

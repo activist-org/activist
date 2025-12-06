@@ -4,19 +4,20 @@
   <ModalTextEvent />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ event.name }}</Title>
+      <Title>{{ event?.name }}</Title>
     </Head>
     <HeaderAppPageEvent>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+        <ModalSharePage v-if="event" :cta="true" :event="event" />
         <BtnRouteExternal
-          v-if="event.getInvolvedUrl"
+          v-if="event?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.offer_to_help_aria_label"
           class="w-max"
           :cta="true"
           fontSize="sm"
           iconSize="1.45em"
           label="i18n._global.offer_to_help"
-          :linkTo="event.getInvolvedUrl"
+          :linkTo="event?.texts[0]?.getInvolvedUrl"
           :rightIcon="IconMap.ARROW_RIGHT"
         />
         <!-- <BtnAction
@@ -53,14 +54,13 @@
           label="i18n.pages.events.about.subscribe_to_event"
           :rightIcon="IconMap.DATE"
         />
-        <ModalSharePage :cta="true" :event="event" />
       </div>
     </HeaderAppPageEvent>
     <div class="space-y-6 pb-6">
       <div
         class="lg:grid lg:grid-cols-3 lg:grid-rows-1"
         :class="{
-          'lg:mr-6 lg:space-x-6': !textExpanded,
+          'lg:space-x-6': !textExpanded,
         }"
       >
         <CardDetails
@@ -73,7 +73,7 @@
           :event="event"
         />
         <MediaMapEvent
-          v-if="event.offlineLocation && !textExpanded"
+          v-if="event?.offlineLocation && !textExpanded"
           class="h-[17.5rem] w-full"
           :event="event"
         />
@@ -89,16 +89,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Event } from "~/types/events/event";
-
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
-
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
-defineProps<{
-  event: Event;
-}>();
+const paramsEventId = useRoute().params.eventId;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
+
+const { data: event } = useGetEvent(eventId);
 
 const textExpanded = ref(false);
 const expandReduceText = () => {

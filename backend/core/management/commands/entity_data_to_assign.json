@@ -1,0 +1,125 @@
+{
+  "organizations": [
+    {
+      "org_name": "activist",
+      "name": "activist",
+      "tagline": "An open-source activism platform",
+      "texts": {
+        "description": "activist.org is a platform that enables more people to safely engage in activism by making it easy to discover organizations and events, as well as coordinate and collaborate on political action. We want to enable activists to learn proven and novel strategies from each other for social and ecological change. Free, open-source, privacy-focused and governed by our community.",
+        "get_involved": "Please see our working groups below to explore how you can get involved in activist!"
+      },
+      "social_links": [
+        {
+          "link": "https://www.activist.org",
+          "label": "Platform Website"
+        },
+        {
+          "link": "https://github.com/activist-org/activist",
+          "label": "Source Code on GitHub"
+        },
+        {
+          "link": "https://matrix.to/#/#activist_community:matrix.org",
+          "label": "Matrix Community"
+        },
+        {
+          "link": "https://matrix.to/#/!uIGQUxlCnEzrPiRsRw:matrix.org?via=matrix.org",
+          "label": "Matrix General Room"
+        }
+      ],
+      "faqs": [
+        {
+          "question": "What does the activist 'a' mean?",
+          "answer": "The 'a' contains a stylized arrow on the inside of it that points down and to the left. This is because the goal of activist is to break down power structures by supporting left social movements."
+        }
+      ],
+      "resources": [
+        {
+          "name": "README.md",
+          "description": "Learn more about the plans and development of activist by reading our 'README.md' file!",
+          "url": "https://github.com/activist-org/activist/blob/main/README.md"
+        }
+      ],
+      "events": [
+        {
+          "name": "activist community meetup",
+          "tagline": "Connecting to meet one another and share ideas",
+          "type": "learn",
+          "texts": {
+            "description": "Join us at the next activist community meetup in a city near you where members of the community get together to share experiences and ideas of how to improve the platform.",
+            "get_involved": "Click the link to join in! It'd be great to meet you!"
+          }
+        }
+      ],
+      "groups": [
+        {
+          "name": "Development Team",
+          "texts": {
+            "description": "The Development Team for activist is made up of software developers who write the backend, frontend and testing code that makes activist possible.",
+            "get_involved": "Please get in contact with us in the Development room on Matrix via the link!"
+          },
+          "social_links": [
+            {
+              "link": "https://github.com/activist-org/activist",
+              "label": "Source Code on GitHub"
+            },
+            {
+              "link": "https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org",
+              "label": "Matrix Development Room"
+            }
+          ],
+          "faqs": [
+            {
+              "question": "Where do I look for onboarding documentation?",
+              "answer": "Check the 'CONTRIBUTING.md' file in the project root. The maintainers have included and linked everything you need to contribute in this document. Contact the team on Matrix if you have further questions! You can find the link to the Development room on Matrix in the About page of this organization in the Connect card."
+            }
+          ],
+          "resources": [
+            {
+              "name": "CONTRIBUTING.md",
+              "description": "The contributing guide for the activist development team. Everything you need to develop activist is included or linked in this document.",
+              "url": "https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md"
+            },
+            {
+              "name": "BACKEND_TESTING.md",
+              "description": "A guide on how to write pytest tests for the activist backend.",
+              "url": "https://github.com/activist-org/activist/blob/main/BACKEND_TESTING.md"
+            },
+            {
+              "name": "FRONTEND_TESTING.md",
+              "description": "A guide on how to Playwright end to end and Vitest unit tests for the activist frontend.",
+              "url": "https://github.com/activist-org/activist/blob/main/FRONTEND_TESTING.md"
+            }
+          ],
+          "events": [
+            {
+              "name": "Dev Sync",
+              "tagline": "Community triage, Q&A and hacking session",
+              "type": "action",
+              "texts": {
+                "description": "We have bi-weekly developer meetings where the Development Team gets on a call to discuss the current PRs, support one another with issues we're facing, as well as plan out next steps for platform development.",
+                "get_involved": "Click the link to join in! It'd be great to meet you!"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Design Team",
+          "texts": {
+            "description": "The Design Team for activist is made up of UI, UX and graphic design professionals that create the vision for activist's Development Team.",
+            "get_involved": "Please get in contact with us in the Design room on Matrix via the link!"
+          },
+          "social_links": [
+            {
+              "link": "https://www.figma.com/design/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=5377-33014&t=4G900UuqJ0t7tFdY-1",
+              "label": "Designs on Figma"
+            },
+            {
+              "link": "https://matrix.to/#/#activist-design:matrix.org",
+              "label": "Matrix Design Room"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

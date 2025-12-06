@@ -5,7 +5,7 @@
     class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8"
   >
     <Head>
-      <Title>{{ organization.name }} </Title>
+      <Title>{{ organization?.name }} </Title>
     </Head>
     <div class="mx-auto h-[260px] w-3/4">
       <ImageOrganization
@@ -19,10 +19,10 @@
     </div>
     <div class="flex flex-col items-center gap-2">
       <h1 class="text-3xl font-bold">
-        {{ organization.name }}
+        {{ organization?.name }}
       </h1>
       <h2 class="text-center text-lg font-bold text-distinct-text">
-        {{ organization.tagline }}
+        {{ organization?.tagline }}
       </h2>
     </div>
     <div class="flex w-full flex-col items-center gap-4">
@@ -65,16 +65,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-import type { MenuSelector } from "~/types/menu/menu-selector";
-
-import useMenuEntriesState from "~/composables/useMenuEntriesState";
-import { BreakpointMap } from "~/types/breakpoint-map";
-import { IconMap } from "~/types/icon-map";
-
-const props = defineProps<{
-  organization: Organization;
-}>();
+const { data: organization } = useGetOrganization(
+  useRoute().params.orgId as string
+);
 
 const localePath = useLocalePath();
 
@@ -96,12 +89,12 @@ const handleResize = () => {
 
     if (
       currentRoute.path !==
-        `/${locale.value}/organizations/${props.organization.id}/about` ||
+        `/${locale.value}/organizations/${organization.value?.id}/about` ||
       currentRoute.path ===
-        `/${locale.value}/organizations/${props.organization.id}/`
+        `/${locale.value}/organizations/${organization.value?.id}/`
     ) {
       navigateTo(
-        `/${locale.value}/organizations/${props.organization.id}/about`
+        `/${locale.value}/organizations/${organization.value?.id}/about`
       );
     }
   }

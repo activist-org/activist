@@ -59,8 +59,6 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 
-import { IconMap } from "~/types/icon-map";
-
 const filterOptions = [
   "Last week",
   "Last 30 days",

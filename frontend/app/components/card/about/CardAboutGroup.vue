@@ -27,7 +27,7 @@
           v-if="userIsSignedIn"
           @click="openModalTextGroup"
           @keydown.enter="openModalTextGroup"
-          data-testid="edit-icon"
+          data-testid="icon-edit"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -51,7 +51,7 @@
               'line-clamp-5': !expandText,
             }"
           >
-            {{ group?.texts?.description }}
+            {{ group?.texts[0]?.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -90,9 +90,6 @@
 </template>
 
 <script setup lang="ts">
-import { useGetGroup } from "~/composables/queries/useGetGroup";
-import { IconMap } from "~/types/icon-map";
-
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const { userIsSignedIn } = useUser();

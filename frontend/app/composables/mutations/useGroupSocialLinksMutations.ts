@@ -1,17 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Update group social links with error handling and store updates
-
-import type { MaybeRef } from "vue";
-
-import type { SocialLinkFormData } from "~/types/content/social-link";
-import type { AppError } from "~/utils/errorHandler";
-
-import {
-  createGroupSocialLinks,
-  deleteGroupSocialLink,
-  replaceAllGroupSocialLinks,
-  updateGroupSocialLink,
-} from "~/services/communities/group/social-link";
+// Update group social links with error handling and store updates.
 
 export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
   const { showToastError } = useToaster();
@@ -52,7 +40,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
   }
 
   // Create multiple social links.
-  async function createLinks(links: SocialLinkFormData[]) {
+  async function createLinks(links: SocialLinkInput[]) {
     if (!currentGroupId.value || !links.length) {
       return false;
     }
@@ -128,7 +116,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
 
     // Refresh the useAsyncData cache.
-    await refreshNuxtData(`group:${currentGroupId.value}`);
+    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
   return {

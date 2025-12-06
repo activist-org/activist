@@ -1,6 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <!-- Here is a link to command palette resources: https://www.commandpalette.org/ -->
-
 <template>
   <ModalBase @closeModal="closeCommandPalette" :modalName="modalName">
     <!-- MARK: Main element -->
@@ -74,8 +73,6 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 import { useRouter } from "vue-router";
-
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   paletteData: Command[];

@@ -72,8 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-
 defineProps<{
   status: number;
   organization: Organization;

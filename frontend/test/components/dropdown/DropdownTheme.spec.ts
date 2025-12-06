@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { mockNuxtImport as _mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 

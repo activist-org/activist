@@ -3,32 +3,25 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ event.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ event?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageEvent
-      :header="event.name + ' ' + $t('i18n._global.resources_lower')"
+      :header="event?.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.events.resources.tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          @click.stop="openModal()"
-          @keydown.enter="openModal()"
+        <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n._global.new_resource"
-          :leftIcon="IconMap.PLUS"
-          linkTo="/"
+          :element="$t('i18n._global.resources_lower')"
+          :onClick="openModal"
         />
       </div>
       <ModalResourceEvent />
     </HeaderAppPageEvent>
     <!-- Draggable list -->
-    <div v-if="props.event.resources?.length" class="py-4">
+    <div v-if="(event?.resources ?? []).length" class="py-4">
       <draggable
         v-model="resourceList"
         @end="onDragEnd"
@@ -54,6 +47,7 @@
       >
         <template #item="{ element }">
           <CardResource
+            :entity="event"
             :entityType="EntityType.EVENT"
             :isReduced="true"
             :resource="element"
@@ -68,28 +62,23 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-import type { Resource } from "~/types/content/resource";
-import type { Event } from "~/types/events/event";
-
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
+const route = useRoute();
+const eventId = (route.params.eventId as string) ?? "";
 
 const { openModal } = useModalHandlers("ModalResourceEvent");
-const props = defineProps<{
-  event: Event;
-}>();
+const { data: event } = useGetEvent(eventId);
+const { reorderResources } = useEventResourcesMutations(eventId);
 
-const resourceList = ref<Resource[]>([...(props.event.resources || [])]);
-const eventStore = useEventStore();
+const resourceList = ref<Resource[]>([...(event?.value?.resources || [])]);
 const onDragEnd = () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
   });
 
-  eventStore.reorderResource(props.event, resourceList.value);
+  reorderResources(resourceList.value);
 };
 watch(
-  () => eventStore.event.resources,
+  () => event.value?.resources,
   (newResources) => {
     resourceList.value = [...(newResources || [])];
   }

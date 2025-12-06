@@ -10,7 +10,7 @@
         class="mr-5 fill-primary-text"
       >
         <Icon
-          v-if="organization.iconUrl === undefined"
+          v-if="organization?.iconUrl === undefined"
           name="IconOrganization"
           size="3em"
         />
@@ -18,11 +18,11 @@
           <img
             :alt="
               $t('i18n._global.entity_logo', {
-                entity_name: organization.name,
+                entity_name: organization?.name,
               })
             "
             class="h-full w-12"
-            :src="organization.iconUrl.fileObject"
+            :src="organization?.iconUrl?.fileObject"
           />
         </div>
       </div>
@@ -55,10 +55,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Organization } from "~/types/communities/organization";
-
-import { IconMap } from "~/types/icon-map";
-
 /**
  * The component public properties.
  */

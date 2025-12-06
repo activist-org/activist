@@ -23,7 +23,7 @@
               'line-clamp-2': !expandText,
             }"
           >
-            {{ event.texts.description }}
+            {{ event?.texts[0]?.description }}
           </p>
           <div class="flex justify-center">
             <button
@@ -65,11 +65,9 @@ const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const { userIsSignedIn } = useUser();
 
 const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
+const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const eventStore = useEventStore();
-await eventStore.fetchById(eventId);
-const { event } = eventStore;
+const { data: event } = useGetEvent(eventId);
 
 const description = ref();
 const descriptionExpandable = ref(false);

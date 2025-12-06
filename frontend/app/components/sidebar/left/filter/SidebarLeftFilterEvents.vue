@@ -1,7 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex w-full flex-col space-y-2">
-    <div class="flex w-full flex-col items-center">
+  <div class="flex w-full flex-col space-y-2" data-testid="events-filter">
+    <div
+      class="flex w-full flex-col items-center"
+      data-testid="events-filter-view-type"
+    >
       <FormSelectorRadio
         v-if="!sidebar.collapsed || !sidebar.collapsedSwitch"
         @update:modelValue="updateViewType"
@@ -19,6 +22,7 @@
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-days"
         :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
         name="days"
       >
@@ -32,6 +36,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-event-type"
         :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
         name="type"
       >
@@ -45,6 +50,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-location-type"
         :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
         name="setting"
       >
@@ -58,6 +64,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        data-testid="events-filter-location"
         :label="$t('i18n._global.location')"
         name="location"
       >
@@ -80,6 +87,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
+        data-testid="events-filter-topics"
         :label="$t('i18n.components._global.topics')"
         name="topics"
       >
@@ -103,11 +111,6 @@ import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
 
-import type { TopicEnum } from "~/types/content/topics";
-
-import { GLOBAL_TOPICS } from "~/types/content/topics";
-import { IconMap } from "~/types/icon-map";
-import { ViewType } from "~/types/view-types";
 const { t } = useI18n();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
@@ -233,15 +236,18 @@ const updateViewType = (
 };
 
 const viewType = ref(ViewType.MAP);
-const q = route.query.view;
-if (typeof q === "string" && Object.values(ViewType).includes(q as ViewType)) {
-  viewType.value = q as ViewType;
-}
 const formData = ref({});
 watch(
   route,
   (form) => {
-    formData.value = { ...form.query };
+    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
+    const topics = normalizeArrayFromURLQuery(form.query.topics);
+    formData.value = { ...rest, topics };
+    viewType.value =
+      typeof view === "string" &&
+      Object.values(ViewType).includes(view as ViewType)
+        ? (view as ViewType)
+        : ViewType.MAP;
   },
   { immediate: true }
 );
@@ -263,7 +269,7 @@ const handleSubmit = (_values: unknown) => {
       ) {
         return;
       }
-      if (key === "viewType") return;
+      if (key === "view") return;
       values[key] = input[key];
     }
     if (route.query.name && route.query.name !== "")
@@ -272,6 +278,7 @@ const handleSubmit = (_values: unknown) => {
   router.push({
     query: {
       ...(values as LocationQueryRaw),
+      view: viewType.value,
     },
   });
 };

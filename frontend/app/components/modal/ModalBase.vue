@@ -43,7 +43,7 @@
             :aria-label="
               $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
             "
-            class="absolute right-0 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
+            class="absolute right-0 cursor-pointer rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
             data-testid="modal-close-button"
             role="button"
           >
@@ -74,8 +74,6 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { useRoute } from "vue-router";
-
-import { IconMap } from "~/types/icon-map";
 
 const props = defineProps<{
   imageModal?: boolean;

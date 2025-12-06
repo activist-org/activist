@@ -3,32 +3,25 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ organization.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ organization?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageOrganization
-      :header="organization.name + ' ' + $t('i18n._global.resources_lower')"
+      :header="organization?.name + ' ' + $t('i18n._global.resources_lower')"
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnAction
-          @click.stop="openModal()"
-          @keydown.enter="openModal()"
+        <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n._global.new_resource"
-          :leftIcon="IconMap.PLUS"
-          linkTo="/"
+          :element="$t('i18n._global.resources_lower')"
+          :onClick="openModal"
         />
         <ModalResourceOrganization />
       </div>
     </HeaderAppPageOrganization>
     <!-- Draggable list -->
-    <div v-if="props.organization.resources?.length" class="py-4">
+    <div v-if="(organization?.resources ?? []).length" class="py-4">
       <draggable
         v-model="resourceList"
         @end="onDragEnd"
@@ -54,6 +47,7 @@
       >
         <template #item="{ element }">
           <CardResource
+            :entity="organization"
             :entityType="EntityType.ORGANIZATION"
             :isReduced="true"
             :resource="element"
@@ -68,27 +62,25 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-import type { Organization } from "~/types/communities/organization";
-import type { Resource } from "~/types/content/resource";
-
-import { EntityType } from "~/types/entity";
-import { IconMap } from "~/types/icon-map";
-
 const { openModal } = useModalHandlers("ModalResourceOrganization");
-const props = defineProps<{
-  organization: Organization;
-}>();
-const resourceList = ref<Resource[]>([...(props.organization.resources || [])]);
-const orgStore = useOrganizationStore();
+
+const route = useRoute();
+const paramsOrgId = (route.params.orgId as string | undefined) ?? "";
+
+const { data: organization } = useGetOrganization(paramsOrgId);
+const { reorderResources } = useOrganizationResourcesMutations(paramsOrgId);
+const resourceList = ref<Resource[]>([
+  ...(organization.value?.resources || []),
+]);
 const onDragEnd = () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
   });
 
-  orgStore.reorderResource(props.organization, resourceList.value);
+  reorderResources(resourceList.value);
 };
 watch(
-  () => orgStore.organization.resources,
+  () => organization.value?.resources,
   (newResources) => {
     resourceList.value = [...(newResources || [])];
   }

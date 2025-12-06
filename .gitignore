@@ -24,6 +24,9 @@ venv/
 # Testing
 .coverage
 cov_html/
+# Vitest coverage
+coverage/
+frontend/coverage/
 # For Docker testing add ./tmp:/tmp to the needed container.
 /tmp
 
@@ -69,6 +72,9 @@ backend/media/images/*
 
 # LLMs
 .cursorrules
+
+# Scratch/temp development files
+.scratch/
 
 # ZAP Security Reports
 zap-reports/
