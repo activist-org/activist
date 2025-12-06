@@ -50,9 +50,9 @@ export const useCreateEventStore = createFlowStore({
         type: "logic",
         // Clean signature for logic node next function
         next: (context) => {
+          const nodeData = context.allNodeData as unknown as ContextCreateEventData
           const stepData =
-            context.allNodeData[CreateEventSteps.LocationAndTime];
-            console.log('stepData', stepData);
+            nodeData[CreateEventSteps.LocationAndTime];
           const createAnother = stepData?.createAnother;
           return createAnother ? CreateEventSteps.EventDetails : "end";
         },
