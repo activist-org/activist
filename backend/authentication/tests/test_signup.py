@@ -17,38 +17,23 @@ pytestmark = pytest.mark.django_db
 # MARK: Sign Up
 
 
-def test_sign_up(client: APIClient) -> None:
+def test_sign_up_with_weak_password(client: APIClient) -> None:
     """
-    Test the sign-up function.
-
-    This test checks various user registration scenarios:
-    - Password too weak
-    - Password mismatch
-    - Successful registration
-    - Duplicate user
-    - Missing email
+    Test that sign-up fails when password is too weak.
 
     Parameters
     ----------
-    client : Client
-        An authenticated client.
+    client : APIClient
+        An API client.
     """
-    logger.info("Starting sign-up test with various scenarios")
+    logger.info("Testing password strength validation")
     fake = Faker()
     username = fake.user_name()
     email = fake.email()
-    strong_password = fake.password(
-        length=12, special_chars=True, digits=True, upper_case=True
-    )
-    wrong_password_confirmed = fake.password(
-        length=12, special_chars=True, digits=True, upper_case=True
-    )
     weak_password = fake.password(
         length=8, special_chars=False, digits=False, upper_case=False
     )
 
-    # 1. Password strength fails.
-    logger.info("Testing password strength validation")
     response = client.post(
         path="/v1/auth/sign_up",
         data={
@@ -62,7 +47,27 @@ def test_sign_up(client: APIClient) -> None:
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=username).exists()
 
-    # 2. Password confirmation fails.
+
+def test_sign_up_with_password_mismatch(client: APIClient) -> None:
+    """
+    Test that sign-up fails when passwords don't match.
+
+    Parameters
+    ----------
+    client : APIClient
+        An API client.
+    """
+    logger.info("Testing password confirmation validation")
+    fake = Faker()
+    username = fake.user_name()
+    email = fake.email()
+    strong_password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+    wrong_password_confirmed = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+
     response = client.post(
         path="/v1/auth/sign_up",
         data={
@@ -75,7 +80,24 @@ def test_sign_up(client: APIClient) -> None:
 
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=username).exists()
-    # 5. User is not created without an email.
+
+
+def test_sign_up_without_email(client: APIClient) -> None:
+    """
+    Test that sign-up fails when email is missing.
+
+    Parameters
+    ----------
+    client : APIClient
+        An API client.
+    """
+    logger.info("Testing sign-up without email")
+    fake = Faker()
+    username = fake.user_name()
+    strong_password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+
     response = client.post(
         path="/v1/auth/sign_up",
         data={
@@ -89,8 +111,25 @@ def test_sign_up(client: APIClient) -> None:
     assert user is None
     assert response.status_code == 400
     assert not UserModel.objects.filter(username=username).exists()
-    # 3. User is created successfully.
+
+
+def test_sign_up_successful(client: APIClient) -> None:
+    """
+    Test successful user registration.
+
+    Parameters
+    ----------
+    client : APIClient
+        An API client.
+    """
     logger.info("Testing successful user creation")
+    fake = Faker()
+    username = fake.user_name()
+    email = fake.email()
+    strong_password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+
     response = client.post(
         path="/v1/auth/sign_up",
         data={
@@ -104,18 +143,42 @@ def test_sign_up(client: APIClient) -> None:
 
     assert response.status_code == 201
     assert UserModel.objects.filter(username=username)
-    # Code for Email confirmation is generated and is a UUID.
     assert isinstance(user.verification_code, UUID)
     assert user.is_confirmed is False
-    # Confirmation Email was sent.
     assert len(mail.outbox) == 1
-    # Assert that the password within the dashboard is hashed and not the original string.
     assert user.password != strong_password
     logger.info(
         f"Successfully created user: {username} with verification code: {user.verification_code}"
     )
 
-    # 4. User already exists.
+
+def test_sign_up_with_duplicate_user(client: APIClient) -> None:
+    """
+    Test that sign-up fails when user already exists.
+
+    Parameters
+    ----------
+    client : APIClient
+        An API client.
+    """
+    logger.info("Testing duplicate user registration")
+    fake = Faker()
+    username = fake.user_name()
+    email = fake.email()
+    strong_password = fake.password(
+        length=12, special_chars=True, digits=True, upper_case=True
+    )
+
+    client.post(
+        path="/v1/auth/sign_up",
+        data={
+            "username": username,
+            "password": strong_password,
+            "password_confirmed": strong_password,
+            "email": email,
+        },
+    )
+
     response = client.post(
         path="/v1/auth/sign_up",
         data={

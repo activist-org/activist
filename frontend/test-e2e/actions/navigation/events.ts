@@ -64,9 +64,8 @@ export async function navigateToFirstEvent(page: Page) {
   // Verify we're on the event page.
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
-  const { newEventPage } = await import(
-    "~/test-e2e/page-objects/event/EventPage"
-  );
+  const { newEventPage } =
+    await import("~/test-e2e/page-objects/event/EventPage");
   const eventPage = newEventPage(page);
 
   return {

@@ -241,7 +241,8 @@ watch(
   route,
   (form) => {
     const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    formData.value = { ...rest };
+    const topics = normalizeArrayFromURLQuery(form.query.topics);
+    formData.value = { ...rest, topics };
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
