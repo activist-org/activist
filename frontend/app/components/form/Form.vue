@@ -11,6 +11,15 @@
         <div class="grid gap-y-4">
           <slot />
         </div>
+        <div class="flex items-center justify-between mt-4">
+          <template v-if="props.actionButtons && props.actionButtons.length > 0" v-for="btn in props.actionButtons" :key="btn.id || btn.label">
+                  <BtnAction
+                    @click="btn.onclick"
+                    class="flex items-center justify-center ml-2"
+                    :label="btn.label"
+                    v-bind="btn"
+                  />
+                </template>
         <BtnAction
           :id="submitId"
           v-if="props.isThereSubmitButton"
@@ -22,6 +31,7 @@
           :label="labelForSubmit"
           type="submit"
         />
+        </div>
       </div>
     </form>
   </div>
@@ -32,7 +42,7 @@ import type { z } from "zod";
 
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
-
+type Btn = BtnAction & { [key: string]: unknown };
 const props = withDefaults(
   defineProps<{
     schema: z.Schema;
@@ -43,12 +53,16 @@ const props = withDefaults(
     initialValues?: Record<string, unknown>;
     sendOnChange?: boolean;
     isThereSubmitButton?: boolean;
+    actionButtons?: Btn[];
   }>(),
   {
-    isThereSubmitButton: true,
-  }
+    isThereSubmitButton: true
+  },
 );
 
+watch(() => props.actionButtons, (newVal) => {
+  console.log("Action buttons changed to:", newVal);
+}, { immediate: true });
 const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
 
 const id = props.id || "form-id";
@@ -74,6 +88,7 @@ if (props.sendOnChange) {
     }
   );
 }
+
 const onSubmit = handleSubmit((values) => {
   emit("submit", values);
 });

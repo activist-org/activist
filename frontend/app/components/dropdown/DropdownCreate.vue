@@ -15,28 +15,42 @@
 defineProps<{
   location?: DropdownLocation;
 }>();
+const { openModal: openModalCreateEvent } =
+  useModalHandlers("ModalCreateEvent");
+
+const { openModal: openModalCreateOrganization } =
+  useModalHandlers("ModalCreateOrganization");
+
+const { openModal: openModalCreateGroup } =
+  useModalHandlers("ModalCreateGroup");
 
 const createOptions: MenuSelector[] = [
   {
     id: 1,
     label: "i18n._global.new_event",
-    routeUrl: "/events/create",
     iconUrl: `${IconMap.EVENT}`,
     selected: false,
+    onClick: () => {
+      openModalCreateEvent();
+    },
   },
   {
     id: 2,
     label: "i18n.components.dropdown_create.new_organization",
-    routeUrl: "/organizations/create",
     iconUrl: "IconOrganization",
     selected: false,
+    onClick: () => {
+      openModalCreateOrganization();
+    },
   },
   {
     id: 3,
     label: "i18n._global.new_group",
-    routeUrl: "/groups/create",
     iconUrl: "IconGroup",
     selected: false,
+    onClick: () => {
+      openModalCreateGroup();
+    },
   },
   {
     id: 4,
