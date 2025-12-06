@@ -12,7 +12,6 @@ export async function updateOrganizationTexts(
     await put(
       `/communities/organization_texts/${textId}`,
       {
-        primary: true,
         description: data.description,
         getInvolved: data.getInvolved,
         getInvolvedUrl: data.getInvolvedUrl,

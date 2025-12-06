@@ -112,8 +112,10 @@ def create_group_events(
         # MARK: Texts
 
         texts = spec.get("texts", {}) if spec else {}
-        event_texts = EventTextFactory(iso="en", primary=True, **texts)
+        event_texts = EventTextFactory(iso="en", **texts)
         user_org_group_event.texts.set([event_texts])
+        user_org_group_event.default_iso = event_texts.iso
+        user_org_group_event.save(update_fields=["default_iso"])
 
         # MARK: Social Links
 

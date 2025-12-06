@@ -172,7 +172,6 @@ class GroupTextFactory(factory.django.DjangoModelFactory):
         model = GroupText
 
     iso = "en"
-    primary = factory.Faker("boolean")
     description = factory.Faker(provider="text", locale="la", max_nb_chars=1000)
     get_involved = factory.Faker(provider="text", locale="la")
     get_involved_url = "https://activist.org/"

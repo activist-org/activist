@@ -9,6 +9,7 @@ from uuid import uuid4
 from django.db import models
 
 from authentication import enums
+from backend.utils.models import ISO_CHOICES
 from content.models import Faq, Resource, SocialLink, Text
 
 # MARK: Organization
@@ -48,6 +49,9 @@ class Organization(models.Model):
     deletion_date = models.DateTimeField(blank=True, null=True)
 
     topics = models.ManyToManyField("content.Topic", blank=True)
+
+    default_iso = models.CharField(max_length=3,choices=ISO_CHOICES,default="en",help_text="ISO code for the default text language (e.g., 'en', 'fr')",)
+
 
     discussions = models.ManyToManyField("content.Discussion", blank=True)
 

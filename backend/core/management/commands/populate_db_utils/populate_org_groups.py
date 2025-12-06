@@ -107,8 +107,10 @@ def create_org_groups(
         # MARK: Texts
 
         texts_spec = spec.get("texts", {}) if spec else {}
-        group_texts = GroupTextFactory(iso="en", primary=True, **texts_spec)
+        group_texts = GroupTextFactory(iso="en",**texts_spec)
         user_org_group.texts.set([group_texts])
+        user_org_group.default_iso = group_texts.iso
+        user_org_group.save(update_fields=["default_iso"])
 
         # MARK: Social Links
 

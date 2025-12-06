@@ -19,6 +19,7 @@ interface OrganizationBase extends Entity {
   events?: CommunityEvent[];
   resources?: Resource[];
   images?: ContentImage[];
+  defaultIso: string;
   // task?: Task[];
   // topics?: Topic[];
   // supportingOrgs?: Organization[];
@@ -61,7 +62,6 @@ export interface OrganizationText {
   id: number;
   orgId: string;
   iso: string;
-  primary: boolean;
   description: string;
   getInvolved: string;
   getInvolvedUrl?: string;

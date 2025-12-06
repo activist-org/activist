@@ -12,7 +12,6 @@ export async function updateGroupTexts(
     await put(
       `/communities/group_texts/${textId}`,
       {
-        primary: true,
         description: data.description,
         getInvolved: data.getInvolved,
         getInvolvedUrl: data.getInvolvedUrl,
