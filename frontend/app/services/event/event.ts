@@ -2,7 +2,9 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { del, get, post } from "~/services/http";
+import { errorHandler } from "#shared/utils/errorHandler";
+
+import { del, get, post /*, errorHandler*/ } from "~/services/http";
 
 // MARK: Map API Response to Type
 
@@ -65,7 +67,7 @@ export async function listEvents(
       { withoutAuth: true }
     );
     return { data: res.results.map(mapEvent), isLastPage: !res.next };
-  } catch (e) {
+  } catch (e: unknown) {
     throw errorHandler(e);
   }
 }

@@ -117,7 +117,14 @@ export function errorHandler(e: unknown): AppError {
     getCauseFromStatus(status) ||
     (e.name === "FetchError" ? AppErrorCause.NETWORK : AppErrorCause.UNKNOWN);
 
-  const serverMsg = extractMessage(data);
+  // Derive a user-facing message from the server payload.
+  let serverMsg = extractMessage(data);
+
+  // Invalid page for paginated endpoints.
+  if (status === 404 && errorData.detail === "Invalid page.") {
+    serverMsg = "Invalid page number.";
+  }
+
   const message = serverMsg || e.message || "Something went wrong";
 
   return new AppError(message, cause, { status, code, details: data });

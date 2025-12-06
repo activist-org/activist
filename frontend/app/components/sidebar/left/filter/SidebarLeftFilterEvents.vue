@@ -257,9 +257,7 @@ const handleSubmit = (_values: unknown) => {
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
       if (key === "days") {
-        values["active_on"] = new Date(
-          new Date().setDate(new Date().getDate() + +(input[key] as string))
-        ).toISOString();
+        values["days_ahead"] = input[key];
         return;
       }
       if (
