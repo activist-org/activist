@@ -59,28 +59,27 @@ jobs:
           uv venv
           . .venv/bin/activate
           echo PATH=$PATH >> $GITHUB_ENV
-          uv pip install -r backend/requirements-dev.txt
+          uv pip sync --directory ./backend --dev
 
       - name: Run Ruff Format - Formatting Check
-        run: ruff format ./backend
+        run: uv run ruff format ./backend
 
       - name: Run Ruff - Linting and Import Sorting Check
         if: always()
-        run: ruff check ./backend
+        run: uv run ruff check ./backend
 
       - name: Run mypy - Static Type Checking
         if: always()
-        run: mypy ./backend --config-file ./backend/pyproject.toml
-
+        run: uv run mypy ./backend --config-file ./backend/pyproject.toml
       - name: Run Django Migrations - Database Migrations Check
         if: always()
         run: |
           . .venv/bin/activate
-          python ./backend/manage.py makemigrations
-          python ./backend/manage.py migrate
+          uv run manage.py makemigrations
+          uv run manage.py migrate
 
       - name: Run pytest - Unit Tests
         if: always()
         working-directory: ./backend
         run: |
-          pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv
+          uv run pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv
