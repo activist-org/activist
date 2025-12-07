@@ -51,13 +51,6 @@ const createOptions: MenuSelector[] = [
     onClick: () => {
       openModalCreateGroup();
     },
-  },
-  {
-    id: 4,
-    label: "i18n._global.new_resource",
-    routeUrl: "/resources/create",
-    iconUrl: "IconResource",
-    selected: false,
-  },
+  }
 ];
 </script>

@@ -14,7 +14,6 @@
         <div class="flex items-center justify-between mt-4">
           <template v-if="props.actionButtons && props.actionButtons.length > 0" v-for="btn in props.actionButtons" :key="btn.id || btn.label">
                   <BtnAction
-                    @click="btn.onclick"
                     class="flex items-center justify-center ml-2"
                     :label="btn.label"
                     v-bind="btn"
@@ -60,9 +59,6 @@ const props = withDefaults(
   },
 );
 
-watch(() => props.actionButtons, (newVal) => {
-  console.log("Action buttons changed to:", newVal);
-}, { immediate: true });
 const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
 
 const id = props.id || "form-id";
