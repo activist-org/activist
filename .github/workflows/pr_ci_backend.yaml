@@ -44,6 +44,9 @@ jobs:
 
     name: Run PR Backend Check
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
@@ -57,27 +60,25 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Install Dependencies
-        run: uv sync --directory ./backend
+        run: uv sync
 
       - name: Run Ruff Format - Formatting Check
-        run: uv run ruff format ./backend
+        run: uv run ruff format .
 
       - name: Run Ruff - Linting and Import Sorting Check
         if: always()
-        run: uv run ruff check ./backend
+        run: uv run ruff check .
 
       - name: Run mypy - Static Type Checking
         if: always()
-        run: uv run mypy ./backend --config-file ./backend/pyproject.toml
+        run: uv run mypy . --config-file ./pyproject.toml
       - name: Run Django Migrations - Database Migrations Check
         if: always()
         run: |
-          . .venv/bin/activate
           uv run manage.py makemigrations
           uv run manage.py migrate
 
       - name: Run pytest - Unit Tests
         if: always()
-        working-directory: ./backend
         run: |
           uv run pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv
