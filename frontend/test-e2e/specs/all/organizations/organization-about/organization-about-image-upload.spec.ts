@@ -135,9 +135,6 @@ test.describe(
         timeout: 10000,
       });
 
-      // Reload the page for the change to take effect.
-      await page.reload();
-
       // Verify the number of image in the carousel matches the number of files in the modal.
       await expect(
         organizationPage.aboutPage.getImageCarouselImages
