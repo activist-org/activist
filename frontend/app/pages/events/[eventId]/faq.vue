@@ -41,12 +41,21 @@
         :swap-threshold="0.5"
         :touch-start-threshold="3"
       >
-        <template #item="{ element }">
+        <template #item="{ element, index }">
           <CardFAQEntry
+            :key="element.id"
+            :ref="(el: CardExpose) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
+            @focus="onFocus(index)"
+            @keydown.down.prevent="moveDown()"
+            @keydown.up.prevent="moveUp()"
+            :class="{
+              selected: selectedIndex === index,
+            }"
             :entity="event"
             :faqEntry="element"
             :pageType="EntityType.EVENT"
+            tabindex="0"
           />
         </template>
       </draggable>
@@ -67,6 +76,14 @@ const { data: event } = useGetEvent(eventId);
 const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 
 const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
+const faqCardList = ref<(HTMLElement | null)[]>([]);
+
+const { selectedIndex, onFocus, moveUp, moveDown } =
+  useDraggableKeyboardNavigation(faqList, reorderFAQs, faqCardList);
+
+export type CardExpose = {
+  root: HTMLElement | null;
+};
 
 watch(
   () => event?.value?.faqEntries,
@@ -112,5 +129,10 @@ async function handleDeleteFAQ(faqId: string) {
 /* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
+}
+
+.selected {
+  transform: scale(1.025);
+  background: highlight;
 }
 </style>
