@@ -51,6 +51,10 @@ const filters = computed<EventFilters>(() => {
   // Normalize topics to always be an array (Vue Router returns string for single value).
   normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
 
+  if (normalizedFilters.days_ahead) {
+    normalizedFilters.days_ahead = +normalizedFilters.days_ahead;
+  }
+
   return normalizedFilters;
 });
 const selectedTopics = ref<TopicEnum[]>([]);
