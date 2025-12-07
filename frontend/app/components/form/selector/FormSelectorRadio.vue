@@ -9,8 +9,7 @@
       v-for="(option, idx) in options"
       :key="option.key"
       @click.capture="onOptionClick($event, option)"
-      @keydown.enter="onOptionKeyDown($event, option)"
-      @keydown.space="onOptionKeyDown($event, option)"
+     
       :aria-label="$t(option.aria_label)"
       class="flex flex-1 cursor-pointer items-center justify-center rounded-none"
       :class="[
@@ -92,11 +91,5 @@ const onOptionClick = (e: MouseEvent, option: Option) => {
   }
 };
 
-const onOptionKeyDown = (e: KeyboardEvent, option: Option) => {
-  if (props.toggleable && isOptionChecked(option)) {
-    e.stopPropagation();
-    e.preventDefault();
-    emit("update:modelValue", undefined);
-  }
-};
+
 </script>
