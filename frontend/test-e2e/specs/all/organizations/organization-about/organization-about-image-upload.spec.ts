@@ -157,9 +157,6 @@ test.describe(
         timeout: 15000,
       });
 
-      // Get the initial number of images in the carousel
-      const initialCarouselCount = await organizationPage.aboutPage.getImageCarouselImages.count();
-
       // Wait for edit icon to be available (auth state should be loaded).
       await expect(
         organizationPage.aboutPage.imageCarouselEditIcon
