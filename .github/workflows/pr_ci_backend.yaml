@@ -59,7 +59,7 @@ jobs:
           uv venv
           . .venv/bin/activate
           echo PATH=$PATH >> $GITHUB_ENV
-          uv pip sync --directory ./backend --dev
+          uv sync --directory ./backend
 
       - name: Run Ruff Format - Formatting Check
         run: uv run ruff format ./backend
