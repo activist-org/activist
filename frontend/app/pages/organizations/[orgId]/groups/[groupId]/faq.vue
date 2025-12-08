@@ -49,7 +49,7 @@
         <template #item="{ element, index }">
           <CardFAQEntry
             :key="element.id"
-            :ref="(el: CardExpose) => (faqCardList[index] = el?.root)"
+            :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
             @focus="onFocus(index)"
             @keydown.down.prevent="moveDown()"
@@ -86,7 +86,13 @@ const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
-  useDraggableKeyboardNavigation(faqList, reorderFAQs, faqCardList);
+  useDraggableKeyboardNavigation(
+    faqList as unknown as Ref<Record<string, unknown>[]>,
+    async (list) => {
+      await reorderFAQs(list as unknown as FaqEntry[]);
+    },
+    faqCardList as unknown as Ref<(HTMLElement | null)[]>
+  );
 
 export type CardExpose = {
   root: HTMLElement | null;
