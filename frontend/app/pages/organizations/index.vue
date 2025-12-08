@@ -53,7 +53,7 @@ const filters = computed<OrganizationFilters>(() => {
   const normalizedFilters: OrganizationFilters =
     rest as unknown as OrganizationFilters;
 
-  // Normalize topics to always be an array (Vue Router returns string for single value)
+  // Normalize topics to always be an array (Vue Router returns string for single value).
   normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
 
   return normalizedFilters;
