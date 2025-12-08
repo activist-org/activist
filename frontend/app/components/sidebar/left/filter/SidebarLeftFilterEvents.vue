@@ -126,6 +126,7 @@
 import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
+import { normalizeArrayFromURLQuery } from "~~/shared/utils/routeUtils";
 
 const { t, te } = useI18n();
 
@@ -263,27 +264,9 @@ const formData = ref({});
 watch(
   route,
   (form) => {
-    const { view, active_on, ...rest } = (form.query as Record<string, unknown>) || {};
-    const mappedData: Record<string, unknown> = { ...rest };
-    if (typeof active_on === "string") {
-      const now = new Date();
-      const target = new Date(active_on);
-      const msPerDay = 24 * 60 * 60 * 1000;
-      const diffDays = Math.round((target.getTime() - now.getTime()) / msPerDay);
-      if (["1", "7", "30"].includes(String(diffDays))) {
-        mappedData.days = String(diffDays);
-      } else {
-        delete mappedData.days;
-      }
-    }
-    ["days", "type", "setting"].forEach((key) => {
-      if (Array.isArray(mappedData[key])) mappedData[key] = mappedData[key][0];
-    });
-    if (mappedData.topics && !Array.isArray(mappedData.topics)) {
-      mappedData.topics = [mappedData.topics];
-    }
-    formData.value = mappedData;
-    // formKey.value += 1;
+    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
+    const topics = normalizeArrayFromURLQuery(form.query.topics);
+    formData.value = { ...rest, topics };
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
@@ -300,9 +283,7 @@ const handleSubmit = (_values: unknown) => {
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
       if (key === "days") {
-        values["active_on"] = new Date(
-          new Date().setDate(new Date().getDate() + +(input[key] as string))
-        ).toISOString();
+        values["days_ahead"] = input[key];
         return;
       }
       if (key === "topics" && Array.isArray(input[key]) && input[key].length === 0) {
