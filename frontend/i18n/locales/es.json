@@ -336,6 +336,8 @@
   "i18n.components.page_filter.filter": "Filtro",
   "i18n.components.shield_private.private": "Privado",
   "i18n.components.sidebar.left.filter._global.search_button_aria_label": "Botón de búsqueda",
+  "i18n.components.sidebar_left_filter_events.clear_filters": "Limpiar filtros",
+  "i18n.components.sidebar_left_filter_events.clear_filters_aria_label": "Limpiar filtros",
   "i18n.components.sidebar_left_filter_events.view_type_calendar": "Ver como calendario",
   "i18n.components.sidebar_left_filter_events.view_type_list": "Ver como lista",
   "i18n.components.sidebar_left_filter_events.view_type_map": "Ver como mapa",

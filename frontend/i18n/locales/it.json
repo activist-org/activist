@@ -373,6 +373,8 @@
   "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label": "Evento di tipo luogo in persona",
   "i18n.components.sidebar_left_filter_events.location_type_online": "Online",
   "i18n.components.sidebar_left_filter_events.location_type_online_aria_label": "Tipo d'evento di luogo online",
+  "i18n.components.sidebar_left_filter_events.clear_filters": "Azzera filtri",
+  "i18n.components.sidebar_left_filter_events.clear_filters_aria_label": "Azzera filtri",
   "i18n.components.sidebar_left_filter_events.view_type_calendar": "Vedi come calendario",
   "i18n.components.sidebar_left_filter_events.view_type_list": "vedi come lista",
   "i18n.components.sidebar_left_filter_events.view_type_map": "vedi come mappa",

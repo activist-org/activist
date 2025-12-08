@@ -401,6 +401,8 @@
   "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label": "In person location type event",
   "i18n.components.sidebar_left_filter_events.location_type_online": "Online",
   "i18n.components.sidebar_left_filter_events.location_type_online_aria_label": "Online location type event",
+  "i18n.components.sidebar_left_filter_events.clear_filters": "Clear filters",
+  "i18n.components.sidebar_left_filter_events.clear_filters_aria_label": "Clear filters",
   "i18n.components.sidebar_left_filter_events.view_type_calendar": "Calendar view",
   "i18n.components.sidebar_left_filter_events.view_type_list": "List view",
   "i18n.components.sidebar_left_filter_events.view_type_map": "Map list",
