@@ -6,9 +6,7 @@ Test cases for the organization social link methods.
 from uuid import uuid4
 
 import pytest
-from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationFaqFactory,
@@ -19,7 +17,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_org_faq_update() -> None:
+def test_org_faq_update(authenticated_client) -> None:
     """
     Test Organization FAQ updates.
 
@@ -33,11 +31,7 @@ def test_org_faq_update() -> None:
     None
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_password"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
+    client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True
     user.is_staff = True
@@ -51,19 +45,6 @@ def test_org_faq_update() -> None:
     test_answer = faqs.answer
     test_order = faqs.order
 
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    # MARK: Update Success
-
-    login_body = login_response.json()
-    token = login_body["access"]
-
     response = client.put(
         path=f"/v1/communities/organization_faqs/{test_id}",
         data={
@@ -74,7 +55,6 @@ def test_org_faq_update() -> None:
             "answer": test_answer,
             "order": test_order,
         },
-        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -91,7 +71,6 @@ def test_org_faq_update() -> None:
             "answer": test_answer,
             "order": test_order,
         },
-        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -99,3 +78,32 @@ def test_org_faq_update() -> None:
 
     response_body = response.json()
     assert response_body["detail"] == "FAQ not found."
+
+
+def test_org_faq_update_unathorized(authenticated_client) -> None:
+    client, user = authenticated_client
+    user.is_staff = False
+    user.save()
+
+    org = OrganizationFactory()
+
+    faqs = OrganizationFaqFactory(org=org)
+    test_id = faqs.id
+    test_question = faqs.question
+    test_answer = faqs.answer
+    test_order = faqs.order
+
+    response = client.put(
+        path=f"/v1/communities/organization_faqs/{test_id}",
+        data={
+            "id": test_id,
+            "iso": "en",
+            "primary": True,
+            "question": test_question,
+            "answer": test_answer,
+            "order": test_order,
+        },
+        content_type="application/json",
+    )
+
+    assert response.status_code == 403

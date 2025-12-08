@@ -83,7 +83,7 @@ describe("services/communities/organization/resource", () => {
 
     await reorderOrganizationResources("org-3", resources);
 
-    // two calls, one per resource
+    // Two calls, one per resource.
     expect(fetchMock).toHaveBeenCalledTimes(2);
     const [firstUrl, firstOpts] = getFetchCall(fetchMock, 0);
     expect(firstUrl).toBe("/communities/organization_resources/a");

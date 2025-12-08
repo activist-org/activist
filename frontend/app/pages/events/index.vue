@@ -45,20 +45,23 @@ const router = useRouter();
 const loadingFetchMore = ref(false);
 
 const filters = computed<EventFilters>(() => {
-  const { view, ...rest } = route.query; // omit view
-  return rest as unknown as EventFilters;
+  const { view, topics, ...rest } = route.query; // omit view
+  const normalizedFilters: EventFilters = rest as unknown as EventFilters;
+
+  // Normalize topics to always be an array (Vue Router returns string for single value).
+  normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
+
+  if (normalizedFilters.days_ahead) {
+    normalizedFilters.days_ahead = +normalizedFilters.days_ahead;
+  }
+
+  return normalizedFilters;
 });
 const selectedTopics = ref<TopicEnum[]>([]);
 watch(
   () => route.query.topics,
   (newVal) => {
-    if (Array.isArray(newVal)) {
-      selectedTopics.value = newVal as TopicEnum[];
-    } else if (typeof newVal === "string") {
-      selectedTopics.value = [newVal as TopicEnum];
-    } else {
-      selectedTopics.value = [];
-    }
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicEnum[];
   },
   { immediate: true }
 );
@@ -89,7 +92,7 @@ const changeFetchMore = () => {
 };
 
 useCustomInfiniteScroll({
-  sentinel: bottomSentinel,
+  sentinel: bottomSentinel as Ref<HTMLElement | null>,
   fetchMore: getMore,
   canFetchMore,
   callback: changeFetchMore,

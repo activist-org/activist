@@ -28,6 +28,8 @@
 </template>
 
 <script setup lang="ts">
+import type { MaybeElementRef } from "@vueuse/core";
+
 import { onClickOutside } from "@vueuse/core";
 
 const route = useRoute();
@@ -46,5 +48,7 @@ const closeMenuState = () => {
 
 watch(() => route.path, closeMenuState);
 
-onClickOutside(target, closeMenuState, { ignore: [ignoreElRef] });
+onClickOutside(target as MaybeElementRef, closeMenuState, {
+  ignore: [ignoreElRef as MaybeElementRef],
+});
 </script>

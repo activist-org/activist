@@ -3,11 +3,12 @@
 A class for filtering events based on user defined properties.
 """
 
-from datetime import date, datetime
-from typing import Any, Union
+from datetime import timedelta
+from typing import Any
 
 import django_filters
 from django.db.models.query import QuerySet
+from django.utils import timezone
 
 from content.models import Topic
 from events.models import Event
@@ -38,37 +39,56 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         field_name="setting",
         lookup_expr="iexact",
     )
-    active_on = django_filters.DateTimeFilter(
-        method="filter_active_on",
-        label="Active on (exact datetime)",
+
+    days_ahead = django_filters.NumberFilter(
+        method="filter_days_ahead",
+        label="Upcoming events within N days",
     )
 
-    def filter_active_on(
-        self, queryset: QuerySet[Any, Any], name: str, day: Union[date, datetime]
+    def filter_days_ahead(
+        self, queryset: QuerySet[Any, Any], name: str, days: int
     ) -> QuerySet[Any, Any]:
         """
-        Filter based on the start and end time of an event.
+        Filter events occurring within the next ``days`` days as a rolling window.
 
         Parameters
         ----------
         queryset : QuerySet[Any, Any]
-            The query set of events to check.
+            Base queryset.
 
         name : str
-            The name of events to filter by.
+            Filter field name (``days``).
 
-        day : Union[date, datetime]
-            The date to filter the events by.
+        days : int
+            Number of days into the future.
 
         Returns
         -------
         QuerySet[Any, Any]
-            The query set of active events based on the provided arguments.
+            Events starting between ``now`` and ``now + days`` (inclusive).
         """
-        start = datetime.combine(day, datetime.min.time())
-        end = datetime.combine(day, datetime.max.time())
-        return queryset.filter(start_time__lte=end, end_time__gte=start)
+        now = timezone.now()
+
+        try:
+            days_ahead_int = int(days)
+
+        except Exception:
+            return queryset.none()
+
+        if days_ahead_int < 0:
+            return queryset.none()
+
+        end = now if days_ahead_int == 0 else now + timedelta(days=days_ahead_int)
+
+        return queryset.filter(start_time__gte=now, start_time__lte=end)
 
     class Meta:
         model = Event
-        fields = ["name", "topics", "type", "setting", "active_on", "location"]
+        fields = [
+            "name",
+            "topics",
+            "type",
+            "setting",
+            "location",
+            "days_ahead",
+        ]
