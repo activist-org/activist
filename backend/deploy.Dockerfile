@@ -1,4 +1,4 @@
-FROM python:3.11-alpine3.16
+FROM python:3.11-alpine3.23
 
 # Set work dir for relative paths.
 WORKDIR /app
