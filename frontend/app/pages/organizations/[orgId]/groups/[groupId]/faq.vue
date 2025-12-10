@@ -51,11 +51,11 @@
             :key="element.id"
             :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
-            @focus="onFocus(index)"
-            @keydown.down.prevent="moveDown()"
-            @keydown.up.prevent="moveUp()"
+            @focus="isEditable ? onFocus(index) : undefined"
+            @keydown.down.prevent="isEditable ? moveDown() : undefined"
+            @keydown.up.prevent="isEditable ? moveUp() : undefined"
             :class="{
-              selected: selectedIndex === index,
+              selected: isEditable && selectedIndex === index,
             }"
             :entity="group"
             :faqEntry="element"
@@ -84,6 +84,9 @@ const { reorderFAQs, deleteFAQ } = useGroupFAQEntryMutations(groupId);
 
 const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
+
+const { canEdit } = useUser();
+const isEditable = computed(() => canEdit(group.value));
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
