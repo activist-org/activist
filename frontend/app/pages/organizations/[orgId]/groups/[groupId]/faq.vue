@@ -60,7 +60,7 @@
             :entity="group"
             :faqEntry="element"
             :pageType="EntityType.GROUP"
-            tabindex="0"
+            :tabindex="isEditable ? 0 : -1"
           />
         </template>
       </draggable>
