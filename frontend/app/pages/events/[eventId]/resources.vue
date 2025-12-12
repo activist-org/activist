@@ -45,12 +45,22 @@
         :swap-threshold="0.5"
         :touch-start-threshold="3"
       >
-        <template #item="{ element }">
+        <template #item="{ element, index }">
           <CardResource
+            :key="element.id"
+            :ref="(el: any) => (resourceCardList[index] = el?.root)"
+            @focus="onFocus(index)"
+            @keydown.down.prevent="moveDown()"
+            @keydown.up.prevent="moveUp()"
+            :class="{
+              selected: selectedIndex === index,
+              selectedResource: selectedIndex === index,
+            }"
             :entity="event"
             :entityType="EntityType.EVENT"
             :isReduced="true"
             :resource="element"
+            tabindex="0"
           />
         </template>
       </draggable>
@@ -70,6 +80,20 @@ const { data: event } = useGetEvent(eventId);
 const { reorderResources } = useEventResourcesMutations(eventId);
 
 const resourceList = ref<Resource[]>([...(event?.value?.resources || [])]);
+const resourceCardList = ref<(HTMLElement | null)[]>([]);
+
+const { selectedIndex, onFocus, moveUp, moveDown } =
+  useDraggableKeyboardNavigation(
+    resourceList as unknown as Ref<Record<string, unknown>[]>,
+    async (list) => {
+      await reorderResources(list as unknown as Resource[]);
+    },
+    resourceCardList as unknown as Ref<(HTMLElement | null)[]>
+  );
+
+export type CardExpose = {
+  root: HTMLElement | null;
+};
 const onDragEnd = () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
@@ -108,5 +132,10 @@ watch(
 /* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
+}
+
+.selected {
+  transform: scale(1.025);
+  background: highlight;
 }
 </style>
