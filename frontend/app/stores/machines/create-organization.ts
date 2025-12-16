@@ -12,8 +12,8 @@ import { createFlowStore } from "./flow";
 // Using relative paths to ensure stability with Vite/Nuxt aliases.
 const OrganizationDetailsStep = () =>
   import("../../components/machine/steps/createOrganization/MachineStepsCreateOrganizationDetails.vue");
-const OrganizationTopicsAndSocialLinksStep = () =>
-  import("../../components/machine/steps/createOrganization/MachineStepsCreateOrganizationsTopicsAndSocialLinks.vue");
+const OrganizationLocationStep = () =>
+  import("../../components/machine/steps/createOrganization/MachineStepsCreateOrganizationsLocation.vue");
 export const useCreateOrganizationStore = createFlowStore({
   // The new Machine Definition structure
   machine: {
@@ -24,14 +24,14 @@ export const useCreateOrganizationStore = createFlowStore({
       [CreateOrganizationSteps.OrganizationDetails]: {
         label: "Details",
         type: "screen",
-        next: CreateOrganizationSteps.TopicsAndSocialLinks,
+        next: CreateOrganizationSteps.Location,
         component: OrganizationDetailsStep
       },
-      [CreateOrganizationSteps.TopicsAndSocialLinks]: {
+      [CreateOrganizationSteps.Location]: {
         label: "Type & Roles",
         type: "screen",
         next: 'end',
-        component: OrganizationTopicsAndSocialLinksStep,
+        component: OrganizationLocationStep,
       },
     },
   },

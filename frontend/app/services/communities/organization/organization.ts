@@ -3,8 +3,6 @@
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
 import { del, get, post } from "~/services/http";
-type OrganizationPaginatedResponse =
-  globalThis.PaginatedResponse<globalThis.Organization>;
 
 // MARK: Map API Response to Type
 
@@ -38,6 +36,22 @@ export async function getOrganization(id: string): Promise<Organization> {
       { withoutAuth: true }
     );
     return mapOrganization(res);
+  } catch (e) {
+    throw errorHandler(e);
+  }
+}
+
+// MARK: List by User ID
+
+export async function listOrganizationsByUserId(
+  userId: string,
+  page: number
+): Promise<OrganizationPaginatedResponse> {
+  try {
+    const res = await get<OrganizationsResponseBody>(
+      `/communities/organizations_by_user/${userId}?page=${page}`
+    );
+    return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
   }

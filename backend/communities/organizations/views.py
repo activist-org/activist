@@ -120,6 +120,59 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+# MARK: Get Organization by User ID
+
+class OrganizationByUserAPIView(GenericAPIView[Organization]):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+
+    @extend_schema(
+        summary="Retrieve organizations by linked user ID",
+        responses={
+            200: OrganizationSerializer(many=True),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="User ID is required",
+                examples=[
+                    OpenApiExample(
+                        name="User ID required",
+                        value={"detail": "User ID is required."},
+                        media_type="application/json",
+                    )
+                ],
+            ),
+        },
+    )
+    def get(self, request: Request, user_id: None | UUID = None) -> Response:
+        user = request.user
+        if user_id is None:
+            return Response(
+                {"detail": "User ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if user is None or not user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        if user.id != user_id:
+            return Response(
+                {"detail": "You are not authorized to view these organizations."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        if user.is_admin or user.is_staff:
+            orgs = Organization.objects.all()
+            serializer = OrganizationSerializer(orgs, many=True)
+            queryset = self.get_queryset()
+            page = self.paginate_queryset(queryset)
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        orgs = Organization.objects.filter(created_by__user__id=user_id)
+        serializer = OrganizationSerializer(orgs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 # MARK: Detail API
 

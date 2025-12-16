@@ -4693,6 +4693,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/countryjs@npm:^1":
+  version: 1.8.4
+  resolution: "@types/countryjs@npm:1.8.4"
+  checksum: 10c0/d0eb10fdfe78ed48d0bbfc4852535cb47a835b5b6386c7d828c34491da6317d1bd8cadaa79d1bacc0bce86898d9db82301d13e16d51d52336612a9b205ae5996
+  languageName: node
+  linkType: hard
+
 "@types/deep-eql@npm:*":
   version: 4.0.2
   resolution: "@types/deep-eql@npm:4.0.2"
@@ -6258,6 +6265,7 @@ __metadata:
     "@tiptap/starter-kit": "npm:3.8.0"
     "@tiptap/suggestion": "npm:3.8.0"
     "@tiptap/vue-3": "npm:3.8.0"
+    "@types/countryjs": "npm:^1"
     "@types/geojson": "npm:7946.0.16"
     "@types/node": "npm:24.10.1"
     "@types/zxcvbn": "npm:4.4.5"
@@ -6273,6 +6281,7 @@ __metadata:
     axe-html-reporter: "npm:2.2.11"
     axios: "npm:1.12.2"
     commander: "npm:14.0.2"
+    countryjs: "npm:^1.8.0"
     cross-env: "npm:10.1.0"
     dompurify: "npm:3.3.0"
     dotenv: "npm:17.2.3"
@@ -7361,6 +7370,17 @@ __metadata:
   version: 1.0.3
   resolution: "core-util-is@npm:1.0.3"
   checksum: 10c0/90a0e40abbddfd7618f8ccd63a74d88deea94e77d0e8dbbea059fa7ebebb8fbb4e2909667fe26f3a467073de1a542ebe6ae4c73a73745ac5833786759cd906c9
+  languageName: node
+  linkType: hard
+
+"countryjs@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "countryjs@npm:1.8.0"
+  dependencies:
+    lodash: "npm:^4.17.2"
+    minimatch: "npm:^3.0.3"
+    require-all: "npm:^2.2.0"
+  checksum: 10c0/7dc2a45540bdb0b85dca8448a121be3f211042655c4c393dba05526240db0bede379a1e9ea79817acf2bff0115b8e383c407bac4c0913f077378f53babceae01
   languageName: node
   linkType: hard
 
@@ -10850,7 +10870,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:^4.17.15, lodash@npm:^4.17.2, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -11181,7 +11201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.1.2":
+"minimatch@npm:^3.0.3, minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
   dependencies:
@@ -13731,6 +13751,13 @@ __metadata:
   bin:
     regjsparser: bin/parser
   checksum: 10c0/4702f85cda09f67747c1b2fb673a0f0e5d1ba39d55f177632265a0be471ba59e3f320623f411649141f752b126b8126eac3ff4c62d317921e430b0472bfc6071
+  languageName: node
+  linkType: hard
+
+"require-all@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "require-all@npm:2.2.0"
+  checksum: 10c0/e16de76d5a7f4e005232af7ab60fc68f275609b4eacaa3f58f7f6e5022150bba50de05eba352024f9be52500bd3b871c650cc9e971ca14429e333919d6db4cec
   languageName: node
   linkType: hard
 

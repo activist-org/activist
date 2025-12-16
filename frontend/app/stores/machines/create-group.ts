@@ -12,8 +12,8 @@ import { createFlowStore } from "./flow";
 // Using relative paths to ensure stability with Vite/Nuxt aliases.
 const GroupDetailsStep = () =>
   import("../../components/machine/steps/createGroup/MachineStepsCreateGroupDetails.vue");
-const GroupTopicsAndSocialLinksStep = () =>
-  import("../../components/machine/steps/createGroup/MachineStepsCreateGroupTopicsAndSocialLinks.vue");
+const GroupLocationStep = () =>
+  import("../../components/machine/steps/createGroup/MachineStepsCreateGroupLocation.vue");
 export const useCreateGroupStore = createFlowStore({
   // The new Machine Definition structure
   machine: {
@@ -24,14 +24,14 @@ export const useCreateGroupStore = createFlowStore({
       [CreateGroupSteps.GroupDetails]: {
         label: "Details",
         type: "screen",
-        next: CreateGroupSteps.TopicsAndSocialLinks,
+        next: CreateGroupSteps.Location,
         component: GroupDetailsStep
       },
-      [CreateGroupSteps.TopicsAndSocialLinks]: {
-        label: "Type & Roles",
+      [CreateGroupSteps.Location]: {
+        label: "Location",
         type: "screen",
         next: 'end',
-        component: GroupTopicsAndSocialLinksStep,
+        component: GroupLocationStep,
       },
     },
   },

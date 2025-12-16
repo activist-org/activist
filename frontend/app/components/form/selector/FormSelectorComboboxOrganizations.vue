@@ -17,13 +17,11 @@
 </template>
 
 <script setup lang="ts">
-const filters = ref<OrganizationFilters>({});
-// Destructure getMore and isLastPage from the composable
-const { data: organizations, getMore } = useGetOrganizations(filters);
 
-// Changed to computed so options update automatically when new data is fetched
+
+  // Changed to computed so options update automatically when new data is fetched
 const options = computed(() =>
-  (organizations.value || []).map((organization: Organization) => ({
+(organizations.value || []).map((organization: Organization) => ({
     label: organization.name,
     id: organization.id,
     value: organization.id,
@@ -35,14 +33,14 @@ interface Props {
   selectedOrganizations: Organization[];
   label: string;
   hasColOptions?: boolean;
+  linkedUserId?: string;
 }
-const handleFilterValueUpdate = (val: string) => {
-  filters.value.name = val;
-};
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,
 });
-
+const linked_user_id = computed(() => props.linkedUserId || '');
+// Destructure getMore and isLastPage from the composable
+const { data: organizations, getMore } = useGetOrganizationsByUser(linked_user_id.value);
 const emit = defineEmits<{
   (e: "update:selectedOrganizations", value: Organization[]): void;
 }>();

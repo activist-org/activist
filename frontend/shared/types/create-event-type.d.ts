@@ -4,12 +4,11 @@ export interface ContextCreateEventData {
     name: string;
     description: string;
   };
-  [CreateEventSteps.EventTypeAndRoles]:{
+  [CreateEventSteps.EventType]:{
     type: EventType;
-    roles:string;
+    setting:'online' | 'offline';
   };
-  [CreateEventSteps.LocationAndTime]:{
-    location: string;
+  [CreateEventSteps.Time]:{
     dates: {
     startDate: string;
     endDate: string;

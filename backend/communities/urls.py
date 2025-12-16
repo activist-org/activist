@@ -27,6 +27,7 @@ from communities.organizations.views import (
     OrganizationResourceViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
+    OrganizationByUserAPIView
 )
 from communities.views import StatusViewSet
 
@@ -102,4 +103,5 @@ urlpatterns = [
         OrganizationFlagDetailAPIView.as_view(),
     ),
     path("organization_texts/<uuid:id>", OrganizationTextViewSet.as_view()),
+    path("organizations_by_user/<uuid:user_id>", OrganizationByUserAPIView.as_view()),
 ]

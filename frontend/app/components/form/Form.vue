@@ -68,6 +68,7 @@ const { handleSubmit, values } = useForm({
   validationSchema: toTypedSchema(props.schema),
   initialValues: props.initialValues,
 });
+provide("formValues", values);
 const emit = defineEmits<{
   (e: "submit", values: Record<string, unknown>): void;
 }>();

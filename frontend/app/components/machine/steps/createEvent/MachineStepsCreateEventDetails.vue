@@ -61,12 +61,30 @@
       >
         <!-- prettier-ignore-attribute :selected-organizations -->
         <FormSelectorComboboxOrganizations
+        :id="id"
+        @update:selectedOptions="
+            (val: unknown) => handleChange(val as Organization[])
+            "
+          label="Organizations"
+          :linked-user-id="user?.id || ''"
+          :selected-organizations="((value.value ?? []) as Organization[])"
+        />
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, value, formValues }"
+        label="Groups"
+        name="groups"
+        required
+      >
+        <!-- prettier-ignore-attribute :selected-groups -->
+        <FormSelectorComboboxGroups
           :id="id"
           @update:selectedOptions="
-            (val: unknown) => handleChange(val as Organization[])
+            (val: unknown) => handleChange(val as Group[])
           "
-          label="Organizations"
-          :selected-organizations="((value.value ?? []) as Organization[])"
+          label="Groups"
+          :linked-organizations="formValues?.organizations as string[]"
+          :selected-groups="((value.value ?? []) as Group[])"
         />
       </FormItem>
     </Form>
@@ -77,7 +95,16 @@
 import { z } from "zod";
 
 const { t } = useI18n();
+const { user } = useUser();
+watch(
+  () => user.value,
+  (newUser) => {
+    console.log("User changed:", newUser);
+  },
+  { immediate: true }
+);
 const flow = inject<FlowControls>("flow");
+
 const eventDetailsSchema = z.object({
   name: z.string().min(1, t("i18n.pages.auth._global.required")),
   tagline: z.string().optional(),

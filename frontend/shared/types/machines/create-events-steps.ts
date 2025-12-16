@@ -1,6 +1,9 @@
 export enum CreateEventSteps {
   EventDetails = "eventDetails",
-  AskCreateMore = "askCreateMore",
-  EventTypeAndRoles = "eventTypeAndRoles",
-  LocationAndTime = "locationAndTime"
+  CreateMoreEventsOrNot = "createMoreEventsOrNot",
+  EventType = "eventType",
+  Location = "location",
+  Time = "time",
+  LinkOnline = "linkOnline",
+  OnlineLocationOrOffline = "onlineLocationOrOffline",
 }

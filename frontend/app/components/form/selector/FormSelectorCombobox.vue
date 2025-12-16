@@ -1,5 +1,5 @@
 <template>
-  <Combobox :id="id" v-model="internalSelectedOptions" as="div" multiple>
+  <Combobox :id="id" v-model="internalSelectedOptions" as="div" :multiple="isMultiSelect">
     <div class="relative">
       <!-- Pass the setupInputWrapper function as the ref for the container -->
       <ComboboxInput
@@ -77,7 +77,7 @@
     </div>
 
     <ul
-      v-if="internalSelectedOptions.length > 0"
+      v-if="internalSelectedOptions.length > 0 && isMultiSelect"
       class="mt-2 flex"
       :class="{
         'flex-col space-y-2': hasColOptions,
@@ -120,7 +120,7 @@ interface Props {
   id: string;
   label: string;
   hasColOptions?: boolean;
-
+  isMultiSelect?: boolean;
   // Infinite scroll props
   infinite?: boolean;
   fetchMore?: () => void;
@@ -137,6 +137,7 @@ const props = withDefaults(defineProps<Props>(), {
   threshold: 0.1,
   rootMargin: "0px",
   showLoadingSlot: true,
+  isMultiSelect: true,
 });
 
 const emit = defineEmits<{
