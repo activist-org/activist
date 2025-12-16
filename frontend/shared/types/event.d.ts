@@ -5,6 +5,7 @@ interface EventBase extends Entity {
   tagline?: string;
   iconUrl?: ContentImage;
   type: EventType;
+  defaultIso: string;
   onlineLocationLink?: string;
   offlineLocation?: PhysicalLocation;
   socialLinks: EventSocialLink[];
@@ -55,7 +56,6 @@ export interface EventText {
   id: number;
   eventId: string;
   iso: string;
-  primary: boolean;
   description: string;
   getInvolved: string;
   getInvolvedUrl?: string;

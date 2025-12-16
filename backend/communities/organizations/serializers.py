@@ -9,6 +9,7 @@ from uuid import UUID
 
 from rest_framework import serializers
 
+from backend.utils.models import ISO_CHOICES
 from communities.groups.serializers import GroupSerializer
 from communities.organizations.models import (
     Organization,
@@ -231,7 +232,15 @@ class OrganizationSerializer(serializers.ModelSerializer[Organization]):
             raise serializers.ValidationError(
                 "You must accept the terms of service to create an organization."
             )
-
+        
+        default_iso = data.get("default_iso")
+        if default_iso and default_iso not in {choice[0] for choice in ISO_CHOICES}:
+            valid_isos = [choice[0] for choice in ISO_CHOICES]
+            raise serializers.ValidationError(
+            {
+                "default_iso": (f"'{default_iso}' is not a valid ISO code."
+            )
+        })
         return data
 
     def create(self, validated_data: dict[str, Any]) -> Organization:

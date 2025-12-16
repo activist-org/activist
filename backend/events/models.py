@@ -6,6 +6,7 @@ Models for the events app.
 from typing import Any
 from uuid import uuid4
 
+from backend.utils.models import ISO_CHOICES
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -67,6 +68,8 @@ class Event(models.Model):
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
     topics = models.ManyToManyField("content.Topic", blank=True)
+
+    default_iso = models.CharField(max_length=3,choices=ISO_CHOICES,default="en",help_text="ISO code for the default text language (e.g., 'en', 'fr')",)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
