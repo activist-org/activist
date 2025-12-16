@@ -4693,13 +4693,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/countryjs@npm:^1":
-  version: 1.8.4
-  resolution: "@types/countryjs@npm:1.8.4"
-  checksum: 10c0/d0eb10fdfe78ed48d0bbfc4852535cb47a835b5b6386c7d828c34491da6317d1bd8cadaa79d1bacc0bce86898d9db82301d13e16d51d52336612a9b205ae5996
-  languageName: node
-  linkType: hard
-
 "@types/deep-eql@npm:*":
   version: 4.0.2
   resolution: "@types/deep-eql@npm:4.0.2"
@@ -6265,7 +6258,6 @@ __metadata:
     "@tiptap/starter-kit": "npm:3.8.0"
     "@tiptap/suggestion": "npm:3.8.0"
     "@tiptap/vue-3": "npm:3.8.0"
-    "@types/countryjs": "npm:^1"
     "@types/geojson": "npm:7946.0.16"
     "@types/node": "npm:24.10.1"
     "@types/zxcvbn": "npm:4.4.5"
@@ -6281,7 +6273,6 @@ __metadata:
     axe-html-reporter: "npm:2.2.11"
     axios: "npm:1.12.2"
     commander: "npm:14.0.2"
-    countryjs: "npm:^1.8.0"
     cross-env: "npm:10.1.0"
     dompurify: "npm:3.3.0"
     dotenv: "npm:17.2.3"
@@ -6294,6 +6285,7 @@ __metadata:
     eslint-plugin-vuejs-accessibility: "npm:2.4.1"
     floating-vue: "npm:5.2.2"
     happy-dom: "npm:16.8.1"
+    i18n-iso-countries: "npm:^7.14.0"
     kill-port: "npm:2.0.1"
     lint-staged: "npm:16.2.7"
     maplibre-gl: "npm:5.8.0"
@@ -7373,17 +7365,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"countryjs@npm:^1.8.0":
-  version: 1.8.0
-  resolution: "countryjs@npm:1.8.0"
-  dependencies:
-    lodash: "npm:^4.17.2"
-    minimatch: "npm:^3.0.3"
-    require-all: "npm:^2.2.0"
-  checksum: 10c0/7dc2a45540bdb0b85dca8448a121be3f211042655c4c393dba05526240db0bede379a1e9ea79817acf2bff0115b8e383c407bac4c0913f077378f53babceae01
-  languageName: node
-  linkType: hard
-
 "crc-32@npm:^1.2.0":
   version: 1.2.2
   resolution: "crc-32@npm:1.2.2"
@@ -7825,6 +7806,13 @@ __metadata:
   version: 5.5.0
   resolution: "devalue@npm:5.5.0"
   checksum: 10c0/7604b11f2afc83e006922a211b1e975109e260c58fba740a5706f148be7345bafdf3ece1012a78bc9dab68f7d88da53e6d6e403e06358932a86f2cd3541e4297
+  languageName: node
+  linkType: hard
+
+"diacritics@npm:1.3.0":
+  version: 1.3.0
+  resolution: "diacritics@npm:1.3.0"
+  checksum: 10c0/bc99c3d2e64315b1830f1573eafe1f7b06fd5dbc9687f35ea8e2e25ce8618d1444d0a2c8313b98467b0aff1d0ee35b8f9f67ef214e56e810b37da3cdb29785ac
   languageName: node
   linkType: hard
 
@@ -9748,6 +9736,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"i18n-iso-countries@npm:^7.14.0":
+  version: 7.14.0
+  resolution: "i18n-iso-countries@npm:7.14.0"
+  dependencies:
+    diacritics: "npm:1.3.0"
+  checksum: 10c0/048efe0c95feb6666a72cb0918d6edcb6a392787b2998eefe7e42d19bf35ac27a02ad61efd64857399d7938dcf3e4c7710f622f7e6c8de9628cb4e4dd5534830
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:^0.4.8":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"
@@ -10870,7 +10867,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.15, lodash@npm:^4.17.2, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -11201,7 +11198,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.0.3, minimatch@npm:^3.1.2":
+"minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
   dependencies:
@@ -13751,13 +13748,6 @@ __metadata:
   bin:
     regjsparser: bin/parser
   checksum: 10c0/4702f85cda09f67747c1b2fb673a0f0e5d1ba39d55f177632265a0be471ba59e3f320623f411649141f752b126b8126eac3ff4c62d317921e430b0472bfc6071
-  languageName: node
-  linkType: hard
-
-"require-all@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "require-all@npm:2.2.0"
-  checksum: 10c0/e16de76d5a7f4e005232af7ab60fc68f275609b4eacaa3f58f7f6e5022150bba50de05eba352024f9be52500bd3b871c650cc9e971ca14429e333919d6db4cec
   languageName: node
   linkType: hard
 
