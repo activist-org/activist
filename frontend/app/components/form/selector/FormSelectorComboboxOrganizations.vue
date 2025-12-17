@@ -33,12 +33,12 @@ interface Props {
   selectedOrganizations: Organization[];
   label: string;
   hasColOptions?: boolean;
-  linkedUserId?: string;
+  linkedUserId?: string | number | null;
 }
 const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,
 });
-const linked_user_id = computed(() => props.linkedUserId || '');
+const linked_user_id = computed(() => String(props.linkedUserId) || '');
 // Destructure getMore and isLastPage from the composable
 const { data: organizations, getMore } = useGetOrganizationsByUser(linked_user_id.value);
 const emit = defineEmits<{

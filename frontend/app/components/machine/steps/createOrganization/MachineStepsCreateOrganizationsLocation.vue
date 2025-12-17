@@ -29,6 +29,21 @@
           :selected-country="(value.value as string) || ''"
         />
       </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        label="City"
+        name="city"
+      >
+        <!-- prettier-ignore-attribute :modelValue -->
+        <FormTextInput
+          :id="id"
+          @blur="handleBlur"
+          @input="handleChange"
+          :hasError="!!errorMessage.value"
+          label="City"
+          :modelValue="(value.value as string)"
+        />
+      </FormItem>
     </Form>
   </div>
 </template>
@@ -38,7 +53,8 @@ import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
 const locationSchema = z.object({
-  country: z.string().min(1, "Country is required")
+  country: z.string().min(1, "Country is required"),
+  city: z.string().min(1, "City is required")
 });
 const handlePrev = () => {
   if (!flow) return;

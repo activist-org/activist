@@ -23,12 +23,13 @@ export type OnExitFn = (
 export type NodeType = "screen" | "logic";
 
 export interface StateConfig {
-  label?: string;
-  next?: string | NextFn | null;
-  onExit?: OnExitFn;
-  type?: NodeType;
-  component?: Component | (() => Promise<null | unknown>);
-  initialData?: Record<string, unknown>; // <-- NEW: Define default data co-located with the state
+  label?: string; // Human-readable label for the node (for debugging or progress tracking)
+  next?: string | NextFn | null; // ID of the next node or a function to determine it
+  onExit?: OnExitFn; // Side-effect function when exiting this node
+  type?: NodeType; // Defaults to 'screen'
+  component?: Component | (() => Promise<null | unknown>); // The Vue component for screen nodes
+  initialData?: Record<string, unknown>; // Define default data co-located with the state
+  step?: number | (() => number); // Step number for progress tracking
 }
 /**
  * The internal representation of a node, which includes the ID.
@@ -44,6 +45,7 @@ export interface MachineDefinition {
   id: string; // The unique ID for the machine/store
   initialNode: string; // The ID of the starting state
   states: Record<string, StateConfig>; // The states, keyed by their ID
+  totalSteps?: number; // Optional total steps for progress tracking
 }
 
 /** The options required to create a new flow store instance. */

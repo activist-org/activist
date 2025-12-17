@@ -71,7 +71,9 @@
           ref="sentinel"
           class="flex justify-center py-2 pl-10 pr-4 text-sm text-gray-500"
         >
-          <slot v-if="showLoadingSlot" name="loading"> Loading... </slot>
+          <slot v-if="showLoadingSlot" name="loading">
+             Loading...
+            </slot>
         </li>
       </ComboboxOptions>
     </div>
@@ -144,6 +146,7 @@ const emit = defineEmits<{
   (e: "update:selectedOptions", value: unknown[]): void;
   (e: "update:filterValue", value: string): void;
   (e: "load-more"): void;
+  (e: "update:selectedOption", value: unknown): void;
 }>();
 
 const query = ref("");
@@ -277,9 +280,17 @@ const internalSelectedOptions = computed({
     );
   },
   set(newOptions) {
+    if (props.isMultiSelect){
     const values = (newOptions as Option[]).map((option) => option.value);
     if (JSON.stringify(values) !== JSON.stringify(props.selectedOptions)) {
       emit("update:selectedOptions", values);
+    }
+    return;
+    }
+    const value = (newOptions as unknown as Option)?.value || null;
+    query.value = (newOptions as unknown as Option)?.label as string;
+    if (value !== (props.selectedOptions as unknown[])[0]) {
+      emit("update:selectedOption", value);
     }
   },
 });

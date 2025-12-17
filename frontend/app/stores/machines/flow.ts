@@ -72,9 +72,25 @@ export function createFlowStore(opts: FlowStoreOptions) {
         );
       },
       totalSteps(): number {
+
+        if (machine.totalSteps) return machine.totalSteps;
+
         return this.visibleNodes.length;
       },
       currentStep(state): number {
+        if (machine.totalSteps) {
+          const currentNode = state.currentNode;
+
+          if (currentNode && typeof currentNode.step === "number") {
+            return currentNode.step;
+          }
+
+          if (currentNode && typeof currentNode.step === "function") {
+            return currentNode.step();
+          }
+
+          return 1;
+        }
         const currentVisibleIndex = this.visibleNodes.findIndex(
           (node) => node.id === this.nodeId
         );

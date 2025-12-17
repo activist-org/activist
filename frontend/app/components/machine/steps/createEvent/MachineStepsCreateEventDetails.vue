@@ -3,6 +3,7 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
       id="event-details"
+      v-slot="{ values }"
       @submit="handleSubmit"
       class="space-y-4"
       :schema="eventDetailsSchema"
@@ -71,7 +72,7 @@
         />
       </FormItem>
       <FormItem
-        v-slot="{ id, handleChange, value, formValues }"
+        v-slot="{ id, handleChange, value }"
         label="Groups"
         name="groups"
         required
@@ -83,7 +84,7 @@
             (val: unknown) => handleChange(val as Group[])
           "
           label="Groups"
-          :linked-organizations="formValues?.organizations as string[]"
+          :linked-organizations="values?.organizations as string[]"
           :selected-groups="((value.value ?? []) as Group[])"
         />
       </FormItem>
@@ -96,13 +97,6 @@ import { z } from "zod";
 
 const { t } = useI18n();
 const { user } = useUser();
-watch(
-  () => user.value,
-  (newUser) => {
-    console.log("User changed:", newUser);
-  },
-  { immediate: true }
-);
 const flow = inject<FlowControls>("flow");
 
 const eventDetailsSchema = z.object({

@@ -2,7 +2,7 @@
 <template>
   <FormSelectorCombobox
     :id="id"
-    @update:selectedOptions="(val: unknown) => handleChange(val as Country)"
+    @update:selectedOption="(val: unknown) => handleChange(val as string)"
     :hasColOptions="hasColOptions"
     :isMultiSelect="false"
     :label="label"

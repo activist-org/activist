@@ -9,7 +9,7 @@
     >
       <div class="flex flex-col gap-y-4">
         <div class="grid gap-y-4">
-          <slot />
+          <slot v-bind="{ ...rest, values }" />
         </div>
         <div class="flex items-center justify-between mt-4">
           <template v-if="props.actionButtons && props.actionButtons.length > 0" v-for="btn in props.actionButtons" :key="btn.id || btn.label">
@@ -64,11 +64,14 @@ const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
 const id = props.id || "form-id";
 const submitId = props.id ? `${props.id}-submit` : "form-submit-id";
 
-const { handleSubmit, values } = useForm({
+const { handleSubmit,values, ...rest } = useForm({
   validationSchema: toTypedSchema(props.schema),
   initialValues: props.initialValues,
 });
-provide("formValues", values);
+
+watch(values, (newValues) => {
+  console.log("Form.vue - form values changed:", newValues);
+}, { deep: true, immediate: true });
 const emit = defineEmits<{
   (e: "submit", values: Record<string, unknown>): void;
 }>();

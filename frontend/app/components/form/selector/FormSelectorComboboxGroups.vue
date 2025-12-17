@@ -8,7 +8,6 @@
     :canFetchMore="true"
     :fetchMore="getMore"
     :hasColOptions="hasColOptions"
-    :infinite="true"
     :label="label"
     :options="options"
     :selectedOptions="selectedGroups || []"

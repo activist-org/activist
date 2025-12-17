@@ -26,17 +26,20 @@ export const useCreateEventStore = createFlowStore({
   machine: {
     id: "createEventFlow",
     initialNode: CreateEventSteps.EventDetails,
+    totalSteps: 4,
     states: {
       // The keys here become the IDs for the nodes
       [CreateEventSteps.EventDetails]: {
         label: "Details",
         type: "screen",
+        step:1,
         next: CreateEventSteps.EventType,
         component: EventDetailsStep
       },
       [CreateEventSteps.EventType]: {
         label: "Type",
         type: "screen",
+        step:2,
         next: CreateEventSteps.OnlineLocationOrOffline,
         component: EventTypeStep,
       },
@@ -57,18 +60,21 @@ export const useCreateEventStore = createFlowStore({
         type: "screen",
         next: CreateEventSteps.Time,
         component: LocationStep,
+        step:3,
       },
       [CreateEventSteps.LinkOnline]: {
         label: "Online Link",
         type: "screen",
         next: CreateEventSteps.Time,
         component: OnlineLink,
+        step:3,
       },
        [CreateEventSteps.Time]: {
         label: "Time",
         type: "screen",
         next: CreateEventSteps.CreateMoreEventsOrNot,
         component: TimeStep,
+        step:4,
       },
       [CreateEventSteps.CreateMoreEventsOrNot]: {
         label: "Logic: Create more?",
