@@ -22,7 +22,7 @@ const createWrapper = async (props: Partial<ShieldTopicProps> = {}) =>
 // Shield Topic Basic Rendering
 
 describe("Shield Topic Basic Rendering", () => {
-  it("renders with correct", async () => {
+  it("renders with correct label and icon", async () => {
     await createWrapper();
 
     // Uses correct label
