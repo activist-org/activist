@@ -6,18 +6,27 @@ import Shield from "../../../app/components/shield/Shield.vue";
 import { IconMap } from "../../../shared/types/icon-map";
 import render from "../../../test/render";
 
-const defaultProps = {
-  label: "test-label",
-  icon: IconMap.ABOUT,
+type ShieldProps = {
+  label: string;
+  active?: boolean;
+  isSelector?: boolean;
+  icon: IconMap;
 };
+
+const createWrapper = async (props: Partial<ShieldProps> = {}) =>
+  await render(Shield, {
+    props: {
+      label: "test-label",
+      icon: IconMap.ABOUT,
+      ...props,
+    },
+  });
 
 // Shield Basic Rendering
 
 describe("Shield Basic Rendering", () => {
   it("renders with correct label and icon", async () => {
-    await render(Shield, {
-      props: defaultProps,
-    });
+    await createWrapper();
 
     // Uses correct label
     const label = screen.getByText("test-label");
@@ -29,26 +38,22 @@ describe("Shield Basic Rendering", () => {
   });
 
   it("renders with correct default classes", async () => {
-    const { container } = await render(Shield, {
-      props: defaultProps,
-    });
+    const { container } = await createWrapper();
 
-    const wrapper = container.querySelector("#test-wrapper > div");
+    const wrapper = container.querySelector('[tabindex="0"]') as HTMLElement;
     const classTokens = wrapper.classList;
 
     // Classes if `active` is true (default)
     expect(classTokens.contains("style-cta")).toBeTruthy();
     expect(classTokens.contains("style-cta-secondary")).toBeFalsy();
 
-    // Classes if `isSelector` is true (default)
+    // Classes if `isSelector` is false (default)
     expect(classTokens.contains("rounded-full")).toBeTruthy();
     expect(classTokens.contains("rounded-lg")).toBeFalsy();
   });
 
   it("renders error icon only if `active` and `isSelector` are true", async () => {
-    await render(Shield, {
-      props: { active: true, isSelector: true, ...defaultProps },
-    });
+    await createWrapper({ active: true, isSelector: true });
 
     const icon = screen.getByRole("img", {
       name: /error: passwords do not match/i,
@@ -61,14 +66,13 @@ describe("Shield Basic Rendering", () => {
 
 describe("Shield Visual & Responsive Styling", () => {
   it("applies responsive classes", async () => {
-    const { container } = await render(Shield, {
-      props: { isSelector: true, ...defaultProps },
-    });
+    await createWrapper({ isSelector: true });
 
-    const wrapper = container.querySelector("#test-wrapper > div > div");
+    const label = screen.getByText("test-label");
+    const labelWrapper = label.closest("div");
 
     // If small screen, add class
-    const classTokens = wrapper.classList;
+    const classTokens = labelWrapper.classList;
     expect(classTokens.contains("max-sm:flex-grow")).toBeTruthy();
   });
 });
@@ -77,14 +81,9 @@ describe("Shield Visual & Responsive Styling", () => {
 
 describe("Shield Accessibility", () => {
   it("component is focusable", async () => {
-    const { container } = await render(Shield, {
-      props: defaultProps,
-    });
+    const { container } = await createWrapper();
 
-    const wrapper = container.querySelector("#test-wrapper > div");
-
-    // It has tabindex
-    expect(wrapper.getAttribute("tabindex")).toBe("0");
+    const wrapper = container.querySelector('[tabindex="0"]') as HTMLElement;
 
     // It receives focus
     await wrapper.focus();
