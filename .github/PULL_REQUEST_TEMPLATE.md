@@ -14,7 +14,7 @@ Thank you for your pull request! 🚀
 ### Description
 
 <!--
-Describe briefly what your pull request proposes to change. Especially if you have more than one commit, it is helpful to give a summary of what your contribution is trying to solve.
+Describe briefly what your pull request proposes to change. Especially if you have more than one commit, it is helpful to give a summary of what your contribution is trying to solve. Descriptions that direct maintainers towards the main files changed and what has been done in them are easier to review.
 
 Also, please describe shortly how you tested that your change actually works.
 -->
