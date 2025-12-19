@@ -13,6 +13,7 @@
     :label="label"
     :options="options"
     :selectedOptions="selectedOrganizations || []"
+    :showLoadingSlot="isFetching"
   />
 </template>
 
@@ -38,9 +39,16 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,
 });
+const filters = ref<{ name?: string }>({});
+const handleFilterValueUpdate = (val: string) => {
+  filters.value.name = val;
+};
 const linked_user_id = computed(() => String(props.linkedUserId) || '');
+
 // Destructure getMore and isLastPage from the composable
-const { data: organizations, getMore } = useGetOrganizationsByUser(linked_user_id.value);
+const { data: organizations, getMore, pending } = useGetOrganizationsByUser(linked_user_id.value, filters);
+const isFetching = computed(() => pending.value);
+
 const emit = defineEmits<{
   (e: "update:selectedOrganizations", value: Organization[]): void;
 }>();

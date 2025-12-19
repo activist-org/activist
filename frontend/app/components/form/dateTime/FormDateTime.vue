@@ -7,6 +7,7 @@
     :is-dark="isDark"
     :color="colorModePreference"
     :masks="masks"
+    hide-time-header
     class="w-full"
     v-bind="$attrs"
   />
@@ -47,7 +48,6 @@ const masks = computed(() => {
 });
 
 const onUpdate = (val: unknown) => {
-  console.log('FormDateTimeCalendar emitted:', val);
 
   // Safety check: v-calendar sometimes emits arrays in edge cases
   if (Array.isArray(val) && props.mode === 'time') {

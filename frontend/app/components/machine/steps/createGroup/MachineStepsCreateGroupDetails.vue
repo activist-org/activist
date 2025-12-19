@@ -5,43 +5,44 @@
       id="event-details"
       @submit="handleSubmit"
       class="space-y-4"
-      :schema="groupDetailsSchema"
+      :schema="organizationDetailsSchema"
       submit-label="Next"
     >
       <FormItem
-        v-slot="{ id, handleChange, value }"
-        data-testid="events-filter-location-type"
-        :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
-        name="setting"
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        label="Name"
+        name="name"
         required
       >
         <!-- prettier-ignore-attribute :modelValue -->
-        <FormSelectorRadio
+        <FormTextInput
           :id="id"
-          @update:modelValue="handleChange"
+          @blur="handleBlur"
+          @input="handleChange"
+          :hasError="!!errorMessage.value"
+          label="Name"
           :modelValue="(value.value as string)"
-          :options="optionLocations"
         />
       </FormItem>
       <FormItem
-        v-slot="{ id, handleChange, value }"
-        data-testid="events-filter-event-type"
-        :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
-        name="type"
-        required
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        label="Tagline"
+        name="tagline"
       >
         <!-- prettier-ignore-attribute :modelValue -->
-        <FormSelectorRadio
+        <FormTextInput
           :id="id"
-          @update:modelValue="handleChange"
+          @blur="handleBlur"
+          @input="handleChange"
+          :hasError="!!errorMessage.value"
+          label="Tagline"
           :modelValue="(value.value as string)"
-          :options="optionEventTypes"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         :label="$t('i18n._global.description')"
-        name="roles"
+        name="description"
         required
       >
         <FormTextArea
@@ -54,17 +55,19 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        label="Topics"
-        name="topics"
+        label="Organizations"
+        name="organizations"
+        required
       >
-        <!-- prettier-ignore-attribute :selected-topics -->
-        <FormSelectorComboboxTopics
-          :id="id"
-          @update:selected-topics="
-            (val: unknown) => handleChange(val as TopicEnum[])
-          "
-          label="Topics"
-          :selected-topics="((value.value ?? []) as TopicEnum[])"
+        <!-- prettier-ignore-attribute :selected-organizations -->
+        <FormSelectorComboboxOrganizations
+        :id="id"
+        @update:selectedOptions="
+            (val: unknown) => handleChange(val as Organization[])
+            "
+          label="Organizations"
+          :linked-user-id="user?.id || ''"
+          :selected-organizations="((value.value ?? []) as Organization[])"
         />
       </FormItem>
     </Form>
@@ -75,53 +78,16 @@
 import { z } from "zod";
 
 const { t } = useI18n();
+const { user } = useUser();
 const flow = inject<FlowControls>("flow");
-const groupDetailsSchema = z.object({
-  setting: z.string().min(1, t("i18n.pages.auth._global.required")),
-  topics: z.array(z.string()).optional(),
-  type: z.string().min(1, t("i18n.pages.auth._global.required")),
-  roles: z.string().min(1, t("i18n.pages.auth._global.required")),
+const organizationDetailsSchema = z.object({
+  name: z.string().min(1, t("i18n.pages.auth._global.required")),
+  tagline: z.string().optional(),
+  description: z.string().min(1, t("i18n.pages.auth._global.required")),
+  organizations: z
+    .array(z.string())
+    .min(1, t("i18n.pages.auth._global.required"))
 });
-const optionEventTypes = [
-  {
-    value: "learn",
-    key: "LEARN",
-    content: t("i18n.components._global.learn"),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_learn_aria_label",
-    checkedClass: "style-learn",
-  },
-  {
-    value: "action",
-    key: "ACTION",
-    content: t("i18n.components._global.action"),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_action_aria_label",
-    checkedClass: "style-action",
-  },
-];
-const optionLocations = [
-  {
-    value: "offline",
-    key: "OFFLINE",
-    content: t(
-      "i18n.components.sidebar_left_filter_events.location_type_in_person"
-    ),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label",
-    class: "text-nowrap",
-  },
-  {
-    value: "online",
-    key: "ONLINE",
-    content: t(
-      "i18n.components.sidebar_left_filter_events.location_type_online"
-    ),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.location_type_online_aria_label",
-    class: "text-nowrap",
-  },
-];
 const handleSubmit = async (values: Record<string, unknown>) => {
   // Simulate an API call
   await new Promise((resolve) => setTimeout(resolve, 1000));

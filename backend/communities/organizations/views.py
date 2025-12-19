@@ -127,6 +127,8 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
     serializer_class = OrganizationSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
+    filterset_class = OrganizationFilter
+    filter_backends = [DjangoFilterBackend]
 
     @extend_schema(
         summary="Retrieve organizations by linked user ID",

@@ -65,8 +65,8 @@
               -->
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
+                label="Start Time"
                 :name="`times.${idx}.startTime`"
-                :label="`Start Time`"
               >
                 <FormDateTime
                   :id="id"
@@ -178,7 +178,6 @@ const syncTimesArray = (
       });
     }
   }
-  console.log('Syncing times array:', newTimes);
   setFieldValue('times', newTimes);
 };
 

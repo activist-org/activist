@@ -72,10 +72,10 @@
         />
       </FormItem>
       <FormItem
+        v-if="values.organizations && values.organizations.length"
         v-slot="{ id, handleChange, value }"
         label="Groups"
         name="groups"
-        required
       >
         <!-- prettier-ignore-attribute :selected-groups -->
         <FormSelectorComboboxGroups
@@ -104,6 +104,7 @@ const eventDetailsSchema = z.object({
   tagline: z.string().optional(),
   description: z.string().min(1, t("i18n.pages.auth._global.required")),
   organizations: z.array(z.string()).min(1, "Please select at least one organization"),
+  groups: z.array(z.string()).optional()
 });
 const handleSubmit = async (values: Record<string, unknown>) => {
   // Simulate an API call

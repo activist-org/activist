@@ -53,21 +53,6 @@
           :value="value.value"
         />
       </FormItem>
-           <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Location"
-        name="location"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          label="Location"
-          :modelValue="(value.value as string)"
-        />
-      </FormItem>
     </Form>
   </div>
 </template>
@@ -80,8 +65,7 @@ const flow = inject<FlowControls>("flow");
 const organizationDetailsSchema = z.object({
   name: z.string().min(1, t("i18n.pages.auth._global.required")),
   tagline: z.string().optional(),
-  description: z.string().min(1, t("i18n.pages.auth._global.required")),
-  location: z.string().min(1, t("i18n.pages.auth._global.required")),
+  description: z.string().min(1, t("i18n.pages.auth._global.required"))
 });
 const handleSubmit = async (values: Record<string, unknown>) => {
   // Simulate an API call

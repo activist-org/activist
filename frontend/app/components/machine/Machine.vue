@@ -1,12 +1,14 @@
 <template>
-  <div v-if="isActive" class="machine-container">
+  <div v-if="isActive">
     <!-- You can render the progress bar here directly -->
-    <div class="progress-bar-container">
+    <div class="mb-6 text-center text-gray-600">
       <span>Step {{ context.currentStep }} of {{ context.totalSteps }}</span>
-      <progress
-        :max="context.totalSteps"
-        :value="context.currentStep"
-      />
+      <div class="w-full h-2 mt-2 bg-layer-1 rounded-full overflow-hidden">
+        <div
+          class="h-full bg-cta-orange rounded-full transition-all duration-300"
+          :style="{ width: `${(context.currentStep / context.totalSteps) * 100}%` }"
+        />
+      </div>
     </div>
 
     <Loading v-if="loading && !currentScreen" :loading="(loading && currentScreen)!!" />
@@ -16,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import Loading from '../Loading.vue';
 
 const props = defineProps<{
   machineType: MachineType;

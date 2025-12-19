@@ -2,7 +2,7 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
-      id="event-location-and-time"
+      id="event-location"
       @submit="handleSubmit"
       :action-buttons='[{
         onclick:handlePrev,
@@ -16,9 +16,23 @@
       :schema="locationSchema"
     >
       <FormItem
+        v-slot="{ id, handleChange, errorMessage, value }"
+        label="Country"
+        name="country"
+      >
+        <!-- prettier-ignore-attribute :modelValue -->
+        <FormSelectorComboboxCountry
+          :id="id"
+          @update:selected-country="handleChange"
+          :hasError="!!errorMessage.value"
+          label="Country"
+          :selected-country="(value.value as string) || ''"
+        />
+      </FormItem>
+      <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Location"
-        name="location"
+        label="City"
+        name="city"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
@@ -26,7 +40,7 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="Location"
+          label="City"
           :modelValue="(value.value as string)"
         />
       </FormItem>
@@ -39,7 +53,8 @@ import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
 const locationSchema = z.object({
-  location: z.string().min(1, "Location is required")
+  country: z.string().min(1, "Country is required"),
+  city: z.string().min(1, "City is required")
 });
 const handlePrev = () => {
   if (!flow) return;

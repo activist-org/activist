@@ -45,11 +45,28 @@ export async function getOrganization(id: string): Promise<Organization> {
 
 export async function listOrganizationsByUserId(
   userId: string,
-  page: number
+  page: number,
+  filters?: OrganizationFilters
 ): Promise<OrganizationPaginatedResponse> {
   try {
+    const query = new URLSearchParams();
+    if (filters){
+    // Handle topics specially: arrays become repeated params (?topics=A&topics=B).
+    const { topics, ...rest } = filters ?? {};
+    if (topics) {
+      topics.forEach((t) => {
+        if (!t) return;
+        query.append("topics", String(t));
+      });
+    }
+    // Add the remaining filters as single query params.
+    Object.entries(rest).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+      query.append(key, String(value));
+    });
+  }
     const res = await get<OrganizationsResponseBody>(
-      `/communities/organizations_by_user/${userId}?page=${page}`
+      `/communities/organizations_by_user/${userId}?page=${page}${filters ? `&${query.toString()}` : ""}`
     );
     return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {
