@@ -28,15 +28,6 @@ repos:
         files: ^backend/
         exclude: ^backend/(.*/?(tests(/.*)?|views\.py|__init__\.py))$
 
-  - repo: https://github.com/to-sta/spdx-checker-pre-commit
-    rev: 0.1.3
-    hooks:
-      - id: spdx-license-checker
-        name: run spdx-checker license check
-        exclude: ^(?:.*/)?__init__\.py$
-        args: [-l, AGPL-3.0-or-later]
-        types_or: [python, ts, javascript, vue, css, html]
-
   - repo: local
     hooks:
       - id: mypy-check
@@ -62,3 +53,12 @@ repos:
         pass_filenames: false
         additional_dependencies:
           - i18n-check
+
+  - repo: https://github.com/to-sta/spdx-checker-pre-commit
+    rev: 0.1.7
+    hooks:
+      - id: spdx-license-checker
+        name: run spdx-checker license check
+        exclude: ^(?:.*/)?__init__\.py$
+        args: [-l, AGPL-3.0-or-later, --fix, --continue-on-error]
+        types_or: [python, ts, javascript, vue, css, html]

@@ -5,7 +5,7 @@
       v-if="label"
       :for="id"
       :label="label"
-      :name="name"
+      :name="props.name"
       :required="required"
     />
     <slot v-bind="field" :id="id" />

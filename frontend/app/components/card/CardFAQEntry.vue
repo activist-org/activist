@@ -1,7 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Disclosure v-slot="{ open }" as="div" class="card-style">
-    <div data-testid="faq-card">
+    <div
+      ref="root"
+      data-testid="faq-card"
+      :tabindex="tabindex ?? 0"
+      v-bind="$attrs"
+    >
       <div class="flex items-center gap-2">
         <DisclosureButton
           class="flex-1 rounded-md px-4 py-2 focus-brand"
@@ -15,6 +20,7 @@
                 data-testid="faq-drag-handle"
                 :entity="entity"
                 size="1em"
+                tabindex="-1"
               />
               <div class="flex text-primary-text">
                 <Icon
@@ -34,34 +40,32 @@
                 {{ faqEntry.question }}
               </p>
             </div>
-            <div class="flex gap-2 pr-2">
-              <IconEdit
-                @click="
-                  useModalHandlers(
-                    `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
-                      props.faqEntry.id
-                  ).openModal()
-                "
-                class="flex"
-                data-testid="faq-edit-button"
-                :entity="entity"
-              />
-              <IconDelete
-                @click.stop="
-                  useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
-                "
-                @keydown.enter="
-                  useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
-                "
-                :aria-label="
-                  $t('i18n.components.card_faq_entry.delete_aria_label')
-                "
-                class="flex"
-                data-testid="faq-delete-button"
-              />
-            </div>
           </div>
         </DisclosureButton>
+        <div class="flex gap-2 pr-2">
+          <IconEdit
+            @click="
+              useModalHandlers(
+                `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
+                  props.faqEntry.id
+              ).openModal()
+            "
+            class="flex"
+            data-testid="faq-edit-button"
+            :entity="entity"
+          />
+          <IconDelete
+            @click.stop="
+              useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
+            "
+            @keydown.enter="
+              useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
+            "
+            :aria-label="$t('i18n.components.card_faq_entry.delete_aria_label')"
+            class="flex"
+            data-testid="faq-delete-button"
+          />
+        </div>
         <ModalFaqEntryOrganization
           v-if="pageType === 'organization'"
           :faqEntry="faqEntry"
@@ -95,11 +99,18 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = defineProps<{
   faqEntry: FaqEntry;
   pageType: EntityType;
   entity?: Entity | null;
+  tabindex?: number;
 }>();
+const root = ref<HTMLElement | null>(null);
+defineExpose({ root });
 
 const emit = defineEmits<{
   (e: "delete-faq", faqId: string): void;

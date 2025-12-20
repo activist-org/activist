@@ -21,7 +21,7 @@
           :cta="true"
           fontSize="sm"
           iconSize="1.35em"
-          label="i18n._global.new_resource"
+          label="i18n.pages.organizations.groups.resources.new_resource"
           :leftIcon="IconMap.PLUS"
           linkTo="/"
         />

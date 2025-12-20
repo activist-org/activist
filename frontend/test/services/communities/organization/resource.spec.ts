@@ -83,7 +83,7 @@ describe("services/communities/organization/resource", () => {
 
     await reorderOrganizationResources("org-3", resources);
 
-    // two calls, one per resource
+    // Two calls, one per resource.
     expect(fetchMock).toHaveBeenCalledTimes(2);
     const [firstUrl, firstOpts] = getFetchCall(fetchMock, 0);
     expect(firstUrl).toBe("/communities/organization_resources/a");
@@ -123,6 +123,27 @@ describe("services/communities/organization/resource", () => {
         org: "org-one",
       }
     );
+  });
+
+  // MARK: Delete
+
+  it("deleteOrganizationResource() calls DELETE endpoint", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await deleteOrganizationResource("resource-123");
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(fetchMock, 0);
+    expect(url).toContain("/communities/organization_resources/resource-123");
+    expect(opts.method).toBe("DELETE");
+  });
+
+  it("deleteOrganizationResource() handles successful deletion", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockResolvedValueOnce({ ok: true });
+    await expect(
+      deleteOrganizationResource("resource-456")
+    ).resolves.toBeUndefined();
   });
 
   // MARK: Error Handling

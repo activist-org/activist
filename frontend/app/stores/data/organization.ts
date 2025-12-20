@@ -4,6 +4,7 @@ interface OrganizationStore {
   organizations: Organization[];
   images: ContentImage[];
   filters: OrganizationFilters;
+  page: number;
 }
 
 export const useOrganizationStore = defineStore("organization", {
@@ -12,10 +13,17 @@ export const useOrganizationStore = defineStore("organization", {
     images: [] as ContentImage[],
     organizations: [],
     filters: {} as OrganizationFilters,
+    page: 1,
   }),
   actions: {
     // MARK: Set Organizations
-
+    getPage(): number {
+      return this.page;
+    },
+    setPage(page: number) {
+      // Ensure page is always >= 1. Invalid values are clamped to 1.
+      this.page = Math.max(1, page);
+    },
     setOrganizations(organizations: Organization[]) {
       this.organizations = organizations;
     },
