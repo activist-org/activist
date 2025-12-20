@@ -170,8 +170,6 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
             )
 
         if user.is_admin or user.is_staff:
-            orgs = Organization.objects.all()
-            serializer = OrganizationSerializer(orgs, many=True)
             queryset = self.get_queryset()
             page = self.paginate_queryset(queryset)
             serializer = self.get_serializer(page, many=True)
