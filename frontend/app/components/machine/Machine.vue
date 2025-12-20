@@ -1,9 +1,15 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div v-if="isActive">
-    <!-- You can render the progress bar here directly -->
     <div class="mb-6 text-center text-gray-600">
-      <span>Step {{ context.currentStep }} of {{ context.totalSteps }}</span>
+      <span>
+        {{
+          $t("i18n.components.machine._global.machine", {
+            current_step: context.currentStep,
+            total_steps: context.totalSteps,
+          })
+        }}
+      </span>
       <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-layer-1">
         <div
           class="h-full rounded-full bg-cta-orange transition-all duration-300"
@@ -19,7 +25,6 @@
       :loading="(loading && currentScreen)!!"
     />
     <component :is="currentScreen" v-else-if="currentScreen" />
-    <!-- ... -->
   </div>
 </template>
 

@@ -9,18 +9,23 @@
           onclick: handlePrev,
           cta: false,
           fontSize: 'base',
-          ariaLabel: 'i18n.components.previous_step_aria_label',
-          label: 'Previous',
+          ariaLabel:
+            'i18n.components.machine.steps._global.previous_step_aria_label',
+          label: 'i18n.components.machine.steps._global.previous_step',
           type: 'button',
         },
       ]"
       class="space-y-4"
       :schema="linkSchema"
-      submit-label="Next"
+      :submit-label="$t('i18n._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Link to event"
+        :label="
+          $t(
+            'i18n.components.machine_steps_create_event_link_online.link_to_event'
+          )
+        "
         name="link"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -29,7 +34,11 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="Link to event"
+          :label="
+            $t(
+              'i18n.components.machine_steps_create_event_link_online.link_to_event'
+            )
+          "
           :modelValue="(value.value as string)"
         />
       </FormItem>

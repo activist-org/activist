@@ -7,11 +7,11 @@
       @submit="handleSubmit"
       class="space-y-4"
       :schema="eventDetailsSchema"
-      submit-label="Next"
+      :submit-label="$t('i18n._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Name"
+        :label="$t('i18n._global.name')"
         name="name"
         required
       >
@@ -21,13 +21,13 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="Name"
+          :label="$t('i18n._global.name')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Tagline"
+        :label="$t('i18n._global.tagline')"
         name="tagline"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -36,7 +36,7 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="Tagline"
+          :label="$t('i18n._global.tagline')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
@@ -56,7 +56,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        label="Organizations"
+        :label="$t('i18n._global.organizations')"
         name="organizations"
         required
       >
@@ -66,7 +66,7 @@
           @update:selectedOptions="
             (val: unknown) => handleChange(val as Organization[])
           "
-          label="Organizations"
+          :label="$t('i18n._global.organizations')"
           :linked-user-id="user?.id || ''"
           :selected-organizations="((value.value ?? []) as Organization[])"
         />
@@ -74,7 +74,7 @@
       <FormItem
         v-if="values.organizations && values.organizations.length"
         v-slot="{ id, handleChange, value }"
-        label="Groups"
+        :label="$t('i18n._global.groups')"
         name="groups"
       >
         <!-- prettier-ignore-attribute :selected-groups -->
@@ -83,7 +83,7 @@
           @update:selectedOptions="
             (val: unknown) => handleChange(val as Group[])
           "
-          label="Groups"
+          :label="$t('i18n._global.groups')"
           :linked-organizations="values?.organizations as string[]"
           :selected-groups="((value.value ?? []) as Group[])"
         />
@@ -100,9 +100,9 @@ const { user } = useUser();
 const flow = inject<FlowControls>("flow");
 
 const eventDetailsSchema = z.object({
-  name: z.string().min(1, t("i18n.pages.auth._global.required")),
+  name: z.string().min(1, t("i18n._global.required")),
   tagline: z.string().optional(),
-  description: z.string().min(1, t("i18n.pages.auth._global.required")),
+  description: z.string().min(1, t("i18n._global.required")),
   organizations: z
     .array(z.string())
     .min(1, "Please select at least one organization"),

@@ -10,8 +10,9 @@
           onclick: handlePrev,
           cta: false,
           fontSize: 'base',
-          ariaLabel: 'i18n.components.previous_step_aria_label',
-          label: 'Previous',
+          ariaLabel:
+            'i18n.components.machine.steps._global.previous_step_aria_label',
+          label: 'i18n.components.machine.steps._global.previous_step',
           type: 'button',
         },
       ]"
@@ -20,7 +21,9 @@
     >
       <FormItem
         v-slot="{ handleChange, value, errorMessage }"
-        label="Event Schedule"
+        :label="
+          $t('i18n.components.machine_steps_create_event_time.event_schedule')
+        "
         name="dates"
       >
         <FormDateTimeCalendar
@@ -51,7 +54,11 @@
             <div class="w-full flex-1">
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
-                label="Start Time"
+                :label="
+                  $t(
+                    'i18n.components.machine_steps_create_event_time.start_time'
+                  )
+                "
                 :name="`times.${idx}.startTime`"
               >
                 <FormDateTime
@@ -59,7 +66,11 @@
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
                   is24Hr
-                  label="Start Time"
+                  :label="
+                    $t(
+                      'i18n.components.machine_steps_create_event_time.start_time'
+                    )
+                  "
                   mode="time"
                   :model-value="value.value"
                 />
@@ -68,22 +79,32 @@
             <div class="w-full flex-1">
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
-                :label="`End Time`"
+                :label="
+                  $t('i18n.components.machine_steps_create_event_time.end_time')
+                "
                 :name="`times.${idx}.endTime`"
               >
                 <FormDateTime
                   :id="id"
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
-                  label="End Time"
+                  :label="
+                    $t(
+                      'i18n.components.machine_steps_create_event_time.end_time'
+                    )
+                  "
                   mode="time"
                   :model-value="value.value"
                 />
               </FormItem>
             </div>
           </div>
-          <p v-else class="text-sm italic text-gray-500">
-            Select a date range above to configure times.
+          <p v-else class="text-sm italic">
+            {{
+              $t(
+                "i18n.components.machine_steps_create_event_time.select_a_date_range"
+              )
+            }}
           </p>
         </div>
       </FormListItem>
@@ -93,7 +114,11 @@
           @blur="handleBlur"
           @update:model-value="handleChange"
           data-testid="create-another"
-          label="Create another event"
+          :label="
+            $t(
+              'i18n.components.machine_steps_create_event_time.create_another_event'
+            )
+          "
         />
       </FormItem>
     </Form>

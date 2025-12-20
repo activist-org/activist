@@ -6,11 +6,11 @@
       @submit="handleSubmit"
       class="space-y-4"
       :schema="organizationDetailsSchema"
-      submit-label="Next"
+      :submit-label="$t('i18n._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Name"
+        :label="$t('i18n._global.name')"
         name="name"
         required
       >
@@ -20,13 +20,13 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="Name"
+          :label="$t('i18n._global.name')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="Tagline"
+        :label="$t('i18n._global.tagline')"
         name="tagline"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -35,7 +35,7 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="Tagline"
+          :label="$t('i18n._global.tagline')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
@@ -55,7 +55,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
-        label="Organization"
+        :label="$t('i18n._global.organization')"
         name="organization"
         required
       >
@@ -66,9 +66,9 @@
             (val: unknown) => handleChange(val as Organization)
           "
           :isMultiSelect="false"
-          label="Organization"
+          :label="$t('i18n._global.organization')"
           :linked-user-id="user?.id || ''"
-          :selected-organizations="(([value.value] ?? []) as Organization[])"
+          :selected-organizations="((value.value?[value.value]:[]) as Organization[])"
         />
       </FormItem>
     </Form>
@@ -82,10 +82,10 @@ const { t } = useI18n();
 const { user } = useUser();
 const flow = inject<FlowControls>("flow");
 const organizationDetailsSchema = z.object({
-  name: z.string().min(1, t("i18n.pages.auth._global.required")),
+  name: z.string().min(1, t("i18n._global.required")),
   tagline: z.string().optional(),
-  description: z.string().min(1, t("i18n.pages.auth._global.required")),
-  organization: z.string().min(1, t("i18n.pages.auth._global.required")),
+  description: z.string().min(1, t("i18n._global.required")),
+  organization: z.string().min(1, t("i18n._global.required")),
 });
 const handleSubmit = async (values: Record<string, unknown>) => {
   // Simulate an API call

@@ -9,8 +9,9 @@
           onclick: handlePrev,
           cta: false,
           fontSize: 'base',
-          ariaLabel: 'i18n.components.previous_step_aria_label',
-          label: 'Previous',
+          ariaLabel:
+            'i18n.components.machine.steps._global.previous_step_aria_label',
+          label: 'i18n.components.machine.steps._global.previous_step',
           type: 'button',
         },
       ]"
@@ -19,7 +20,7 @@
     >
       <FormItem
         v-slot="{ id, handleChange, errorMessage, value }"
-        label="Country"
+        :label="$t('i18n.components.machine.steps._global.country')"
         name="country"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -27,13 +28,13 @@
           :id="id"
           @update:selected-country="handleChange"
           :hasError="!!errorMessage.value"
-          label="Country"
+          :label="$t('i18n.components.machine.steps._global.country')"
           :selected-country="(value.value as string) || ''"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        label="City"
+        :label="$t('i18n.components.machine.steps._global.city')"
         name="city"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -42,7 +43,7 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          label="City"
+          :label="$t('i18n.components.machine.steps._global.city')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
