@@ -41,5 +41,6 @@ export const useUser = () => {
     canDelete,
     canCreate,
     canView,
+    user: data.value?.user || null,
   };
 };

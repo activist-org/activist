@@ -9,6 +9,7 @@ from typing import List, Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.generics import GenericAPIView
@@ -21,6 +22,7 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from communities.groups.filters import GroupFilter
 from communities.groups.models import (
     Group,
     GroupFaq,
@@ -54,6 +56,8 @@ class GroupAPIView(GenericAPIView[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
     permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = GroupFilter
 
     def get_permissions(self) -> List[BasePermission]:
         """
