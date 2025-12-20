@@ -41,12 +41,21 @@
         :swap-threshold="0.5"
         :touch-start-threshold="3"
       >
-        <template #item="{ element }">
+        <template #item="{ element, index }">
           <CardFAQEntry
+            :key="element.id"
+            :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
+            @focus="isEditable ? onFocus(index) : undefined"
+            @keydown.down.prevent="isEditable ? moveDown() : undefined"
+            @keydown.up.prevent="isEditable ? moveUp() : undefined"
+            :class="{
+              selected: isEditable && selectedIndex === index,
+            }"
             :entity="event"
             :faqEntry="element"
             :pageType="EntityType.EVENT"
+            :tabindex="isEditable ? 0 : -1"
           />
         </template>
       </draggable>
@@ -67,6 +76,23 @@ const { data: event } = useGetEvent(eventId);
 const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 
 const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
+const faqCardList = ref<(HTMLElement | null)[]>([]);
+
+const { canEdit } = useUser();
+const isEditable = computed(() => canEdit(event.value));
+
+const { selectedIndex, onFocus, moveUp, moveDown } =
+  useDraggableKeyboardNavigation(
+    faqList as unknown as Ref<Record<string, unknown>[]>,
+    async (list) => {
+      await reorderFAQs(list as unknown as FaqEntry[]);
+    },
+    faqCardList as unknown as Ref<(HTMLElement | null)[]>
+  );
+
+export type CardExpose = {
+  root: HTMLElement | null;
+};
 
 watch(
   () => event?.value?.faqEntries,
@@ -112,5 +138,10 @@ async function handleDeleteFAQ(faqId: string) {
 /* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
+}
+
+.selected {
+  transform: scale(1.025);
+  background: highlight;
 }
 </style>

@@ -29,7 +29,6 @@
         :animation="150"
         chosen-class="sortable-chosen"
         class="space-y-4"
-        data-testid="organization-faq-list"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -46,12 +45,22 @@
         :swap-threshold="0.5"
         :touch-start-threshold="3"
       >
-        <template #item="{ element }">
+        <template #item="{ element, index }">
           <CardFAQEntry
+            :key="element.id"
+            :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
+            @focus="isEditable ? onFocus(index) : undefined"
+            @keydown.down.prevent="isEditable ? moveDown() : undefined"
+            @keydown.up.prevent="isEditable ? moveUp() : undefined"
+            :class="{
+              selected: isEditable && selectedIndex === index,
+              selectedFAQ: isEditable && selectedIndex === index,
+            }"
             :entity="organization"
             :faqEntry="element"
             :pageType="EntityType.ORGANIZATION"
+            :tabindex="isEditable ? 0 : -1"
           />
         </template>
       </draggable>
@@ -72,6 +81,23 @@ const { data: organization } = useGetOrganization(orgId);
 const { reorderFAQs, deleteFAQ } = useOrganizationFAQEntryMutations(orgId);
 
 const faqList = ref<FaqEntry[]>([...(organization?.value?.faqEntries || [])]);
+const faqCardList = ref<(HTMLElement | null)[]>([]);
+
+const { canEdit } = useUser();
+const isEditable = computed(() => canEdit(organization.value));
+
+const { selectedIndex, onFocus, moveUp, moveDown } =
+  useDraggableKeyboardNavigation(
+    faqList as unknown as Ref<Record<string, unknown>[]>,
+    async (list) => {
+      await reorderFAQs(list as unknown as FaqEntry[]);
+    },
+    faqCardList as unknown as Ref<(HTMLElement | null)[]>
+  );
+
+export type CardExpose = {
+  root: HTMLElement | null;
+};
 
 watch(
   () => organization?.value?.faqEntries,
@@ -117,5 +143,10 @@ const handleDeleteFAQ = async (faqId: string) => {
 /* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
+}
+
+.selected {
+  transform: scale(1.025);
+  background: highlight;
 }
 </style>

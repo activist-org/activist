@@ -61,7 +61,7 @@
             </div>
             <div class="w-1/2">
               <h3 class="block font-medium" for="tagline">
-                {{ $t("i18n.pages._global.create.tagline") }}
+                {{ $t("i18n._global.tagline") }}
               </h3>
               <input
                 id="tagline"
@@ -303,7 +303,7 @@
             :cta="false"
             fontSize="lg"
             iconSize="1.25em"
-            label="i18n.pages.events.create.button_right"
+            label="i18n._global.next_step"
             :rightIcon="IconMap.ARROW_RIGHT"
             type="button"
           />

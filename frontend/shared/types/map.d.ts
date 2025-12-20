@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { PhysicalLocation } from "~/shared/types/content/location";
-
 export interface RouteProfile {
   profile: string;
   api: string;

@@ -101,7 +101,7 @@
                 }"
                 for="name"
               >
-                {{ $t("i18n.pages.contact.name") }}
+                {{ $t("i18n._global.name") }}
                 <span v-if="!nameValidated">
                   {{ $t("i18n.pages.contact.error_empty") }}
                 </span>

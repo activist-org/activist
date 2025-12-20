@@ -37,7 +37,7 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-event-type"
-        :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
+        :label="$t('i18n.components._global.event_type')"
         name="type"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -51,7 +51,7 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-location-type"
-        :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
+        :label="$t('i18n.components._global.location_type')"
         name="setting"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -178,16 +178,14 @@ const optionEventTypes = [
     value: "learn",
     key: "LEARN",
     content: t("i18n.components._global.learn"),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_learn_aria_label",
+    aria_label: "i18n.components._global.event_type_learn_aria_label",
     checkedClass: "style-learn",
   },
   {
     value: "action",
     key: "ACTION",
     content: t("i18n.components._global.action"),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_action_aria_label",
+    aria_label: "i18n.components._global.event_type_action_aria_label",
     checkedClass: "style-action",
   },
 ];
@@ -196,21 +194,15 @@ const optionLocations = [
   {
     value: "offline",
     key: "OFFLINE",
-    content: t(
-      "i18n.components.sidebar_left_filter_events.location_type_in_person"
-    ),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label",
+    content: t("i18n.components._global.location_type_in_person"),
+    aria_label: "i18n.components._global.location_type_in_person_aria_label",
     class: "text-nowrap",
   },
   {
     value: "online",
     key: "ONLINE",
-    content: t(
-      "i18n.components.sidebar_left_filter_events.location_type_online"
-    ),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.location_type_online_aria_label",
+    content: t("i18n.components._global.location_type_online"),
+    aria_label: "i18n.components._global.location_type_online_aria_label",
     class: "text-nowrap",
   },
 ];
@@ -241,7 +233,8 @@ watch(
   route,
   (form) => {
     const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    formData.value = { ...rest };
+    const topics = normalizeArrayFromURLQuery(form.query.topics);
+    formData.value = { ...rest, topics };
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
@@ -256,9 +249,7 @@ const handleSubmit = (_values: unknown) => {
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
       if (key === "days") {
-        values["active_on"] = new Date(
-          new Date().setDate(new Date().getDate() + +(input[key] as string))
-        ).toISOString();
+        values["days_ahead"] = input[key];
         return;
       }
       if (
