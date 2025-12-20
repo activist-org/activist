@@ -35,7 +35,7 @@
         @input="
           (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
         "
-        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text placeholder-distinct-text outline-none"
+        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
         :placeholder="shrinkLabel ? '' : label"
         role="textbox"
         :type="type"
