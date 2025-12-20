@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <Combobox :id="id" v-model="internalSelectedOptions" as="div" :disabled="disabled" :multiple="isMultiSelect">

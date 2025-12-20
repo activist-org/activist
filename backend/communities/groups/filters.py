@@ -8,10 +8,12 @@ import django_filters
 from communities.groups.models import Group
 from communities.organizations.models import Organization
 
+
 class GroupFilter(django_filters.FilterSet):  # type: ignore[misc]
     """
     General class to allow filtering groups based on URL parameters.
     """
+
     linked_organizations = django_filters.ModelMultipleChoiceFilter(
         field_name="org",
         to_field_name="id",
@@ -20,4 +22,4 @@ class GroupFilter(django_filters.FilterSet):  # type: ignore[misc]
 
     class Meta:
         model = Group
-        fields = ['linked_organizations']
+        fields = ["linked_organizations"]

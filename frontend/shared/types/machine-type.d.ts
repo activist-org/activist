@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 /** The rich context object passed to `next` and `onExit` functions. */
 export interface FlowContext {

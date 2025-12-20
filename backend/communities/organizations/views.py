@@ -120,7 +120,9 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 # MARK: Get Organization by User ID
+
 
 class OrganizationByUserAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all()
@@ -175,6 +177,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
         orgs = Organization.objects.filter(created_by__user__id=user_id)
         serializer = OrganizationSerializer(orgs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 # MARK: Detail API
 

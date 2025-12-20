@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import countries from 'i18n-iso-countries'
 // Import the languages you support
 import ar from 'i18n-iso-countries/langs/ar.json'

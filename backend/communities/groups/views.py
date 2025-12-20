@@ -22,6 +22,7 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from communities.groups.filters import GroupFilter
 from communities.groups.models import (
     Group,
     GroupFaq,
@@ -44,7 +45,6 @@ from content.models import Image, Location
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
-from communities.groups.filters import GroupFilter
 
 logger = logging.getLogger("django")
 

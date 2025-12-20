@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { useCreateEventStore } from "./create-event";
 import { useCreateGroupStore } from "./create-group";
 import { useCreateOrganizationStore } from "./create-organization";
