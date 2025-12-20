@@ -125,9 +125,9 @@ const scheduleSchema = z.object({
 const syncTimesArray = (
   dateRange: { start: Date; end: Date } | null,
   currentTimes: {
-  date:Date,
-  startTime:Date
-  endTime:Date
+    date: Date;
+    startTime: Date;
+    endTime: Date;
   }[],
   setFieldValue: (field: string, value: unknown) => void
 ) => {

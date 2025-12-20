@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DatePicker
     :id="generatedId"
@@ -49,7 +49,7 @@ const masks = computed(() => {
 });
 
 const onUpdate = (val: unknown) => {
-  // Safety check: v-calendar sometimes emits arrays in edge cases
+  // Safety check: v-calendar sometimes emits arrays in edge cases.
   if (Array.isArray(val) && props.mode === "time") {
     emit("update:modelValue", val[0] ?? null);
     return;

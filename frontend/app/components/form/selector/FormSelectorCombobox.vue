@@ -1,5 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Combobox
     :id="id"
@@ -9,17 +8,13 @@
     :multiple="isMultiSelect"
   >
     <div class="relative">
-      <!-- Pass the setupInputWrapper function as the ref for the container -->
+      <!-- Pass the setupInputWrapper function as the ref for the container. -->
       <ComboboxInput
         :ref="setupInputWrapper"
         v-slot="{ id: inputId, onBlur }"
         as="div"
         class="flex"
       >
-        <!--
-          Bind directly to formInputRef.
-          Vue automatically assigns the component instance to formInputRef.value
-        -->
         <FormTextInput
           :id="inputId"
           ref="formInputRef"
@@ -31,14 +26,12 @@
           :placeholder="label"
         />
       </ComboboxInput>
-
       <ComboboxButton
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
       >
         <Icon :name="IconMap.CHEVRON_EXPAND" />
       </ComboboxButton>
-
       <ComboboxOptions
         :id="`${id}-options`"
         class="elem-shadow-lg absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-layer-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
@@ -73,20 +66,18 @@
             </span>
           </li>
         </ComboboxOption>
-
-        <!-- Infinite Scroll Sentinel -->
+        <!-- Infinite scroll sentinel. -->
         <li
           v-if="infinite"
           ref="sentinel"
           class="flex justify-center py-2 pl-10 pr-4 text-sm text-gray-500"
         >
           <slot v-if="showLoadingSlot" name="loading">
-Loading...
-</slot>
+            Loading...
+          </slot>
         </li>
       </ComboboxOptions>
     </div>
-
     <ul
       v-if="internalSelectedOptions.length > 0 && isMultiSelect"
       class="mt-2 flex"
@@ -132,7 +123,7 @@ interface Props {
   label: string;
   hasColOptions?: boolean;
   isMultiSelect?: boolean;
-  // Infinite scroll props
+  // Infinite scroll props.
   infinite?: boolean;
   fetchMore?: () => void;
   canFetchMore?: boolean;
@@ -160,7 +151,7 @@ const emit = defineEmits<{
 }>();
 
 const query = ref("");
-const sentinel = ref<HTMLElement | null>(null);
+const sentinel = ref(null);
 
 // --- Input Reference & Selection Logic ---
 // Reference to the FormTextInput component
@@ -237,9 +228,8 @@ watch(
   },
   { immediate: true }
 );
-// -----------------------------------------
 
-// --- Infinite Scroll Logic ---
+// Infinite scroll logic.
 const enabled = computed(() => props.infinite);
 const canFetchMoreRef = computed(() => props.canFetchMore);
 
@@ -259,7 +249,6 @@ useCustomInfiniteScroll({
   threshold: props.threshold,
   rootMargin: props.rootMargin,
 });
-// -----------------------------
 
 const onClick = (option: Option) => {
   internalSelectedOptions.value = internalSelectedOptions.value.filter(
