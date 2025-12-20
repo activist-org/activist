@@ -8,7 +8,9 @@
       v-if="required"
       class="text-action-red"
       data-testid="required field indicator"
-      >*</span>
+    >
+      *
+    </span>
   </div>
 </template>
 
