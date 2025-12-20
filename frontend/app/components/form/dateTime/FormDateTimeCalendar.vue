@@ -1,9 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
     <DatePicker
-      :attributes="calendar"
+    :attributes="calendar"
+    v-model.range="modelValue"
       :color="colorModePreference"
-      v-model.range="modelValue"
       expanded
       :first-day-of-week="2"
       trim-weeks

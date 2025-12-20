@@ -7,6 +7,7 @@
       (val: unknown) => handleChange(val as Organization[])
     "
     :canFetchMore="true"
+    :disabled="disabled"
     :fetchMore="getMore"
     :hasColOptions="hasColOptions"
     :infinite="true"
@@ -18,8 +19,6 @@
 </template>
 
 <script setup lang="ts">
-
-
   // Changed to computed so options update automatically when new data is fetched
 const options = computed(() =>
 (organizations.value || []).map((organization: Organization) => ({
@@ -35,6 +34,7 @@ interface Props {
   label: string;
   hasColOptions?: boolean;
   linkedUserId?: string | number | null;
+  disabled?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,

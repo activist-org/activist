@@ -1,5 +1,6 @@
+
 <template>
-  <Combobox :id="id" v-model="internalSelectedOptions" as="div" :multiple="isMultiSelect">
+  <Combobox :id="id" v-model="internalSelectedOptions" as="div" :disabled="disabled" :multiple="isMultiSelect">
     <div class="relative">
       <!-- Pass the setupInputWrapper function as the ref for the container -->
       <ComboboxInput
@@ -16,6 +17,7 @@
           :id="inputId"
           ref="formInputRef"
           @update:modelValue="handleInput"
+          :disabled="disabled"
           :label="label"
           :modelValue="query"
           :onBlur="onBlur"
@@ -130,6 +132,7 @@ interface Props {
   threshold?: number | number[];
   rootMargin?: string;
   showLoadingSlot?: boolean;
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {

@@ -24,6 +24,7 @@
         <FormSelectorComboboxCountry
           :id="id"
           @update:selected-country="handleChange"
+          disabled
           :hasError="!!errorMessage.value"
           label="Country"
           :selected-country="(value.value as string) || ''"
@@ -52,6 +53,13 @@
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
+const { data: organization } = useGetOrganization(flow?.context.value.nodeData[CreateGroupSteps.GroupDetails].organization as string);
+watch(()=>flow?.context.value.nodeData[CreateGroupSteps.GroupDetails].organization,
+  (newContext) => {
+    console.log('Organization data updated:', newContext);
+  },
+  { immediate: true }
+);
 const locationSchema = z.object({
   country: z.string().min(1, "Country is required"),
   city: z.string().min(1, "City is required")
