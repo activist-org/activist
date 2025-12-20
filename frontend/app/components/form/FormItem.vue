@@ -5,10 +5,10 @@
       v-if="label"
       :for="id"
       :label="label"
-      :name="field.name"
+      :name="props.name"
       :required="required"
     />
-    <slot v-bind="{ ...field, formValues }" :id="id" />
+    <slot v-bind="field" :id="id" />
     <FormErrorMessage
       :id="`${id}-error`"
       v-if="field.errorMessage"
@@ -31,5 +31,4 @@ const props = defineProps<{
 
 const id = props.id ?? `form-item-${props.name}`;
 const field = useField(props.name);
-const formValues = inject<Record<string, unknown>>("formValues");
 </script>

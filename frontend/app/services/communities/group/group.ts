@@ -61,7 +61,8 @@ export async function listGroups(
       query.append(key, String(value));
     });
     const res = await get<GroupsResponseBody>(
-      `/communities/groups?${query.toString()}`
+      `/communities/groups?${query.toString()}`,
+      { withoutAuth: true }
     );
     return {
       data: res.results.map(mapGroup),

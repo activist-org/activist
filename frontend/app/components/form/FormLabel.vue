@@ -4,7 +4,11 @@
     <label class="text-base font-semibold text-primary-text" :for="props.for">
       {{ label }}
     </label>
-    <span v-if="required" class="text-action-red">*</span>
+    <span
+      v-if="required"
+      class="text-action-red"
+      data-testid="required field indicator"
+      >*</span>
   </div>
 </template>
 

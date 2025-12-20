@@ -1070,7 +1070,7 @@ describe("FormTextEntity component", () => {
         'div[name="description"]'
       );
       const requiredIndicator = descriptionContainer?.querySelector(
-        "span.text-action-red"
+        '[data-testid="required field indicator"]'
       );
       expect(requiredIndicator).toBeDefined();
       expect(requiredIndicator?.textContent).toBe("*");
