@@ -1073,7 +1073,7 @@ describe("FormTextEntity component", () => {
         '[data-testid="required field indicator"]'
       );
       expect(requiredIndicator).toBeDefined();
-      expect(requiredIndicator?.textContent).toBe("*");
+      expect(requiredIndicator?.textContent).toBe(" * ");
 
       // Verify the label itself doesn't contain the asterisk (it's in a sibling span).
       const descriptionLabel = descriptionContainer?.querySelector(
