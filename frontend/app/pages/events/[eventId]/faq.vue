@@ -46,16 +46,16 @@
             :key="element.id"
             :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
-            @focus="onFocus(index)"
-            @keydown.down.prevent="moveDown()"
-            @keydown.up.prevent="moveUp()"
+            @focus="isEditable ? onFocus(index) : undefined"
+            @keydown.down.prevent="isEditable ? moveDown() : undefined"
+            @keydown.up.prevent="isEditable ? moveUp() : undefined"
             :class="{
-              selected: selectedIndex === index,
+              selected: isEditable && selectedIndex === index,
             }"
             :entity="event"
             :faqEntry="element"
             :pageType="EntityType.EVENT"
-            tabindex="0"
+            :tabindex="isEditable ? 0 : -1"
           />
         </template>
       </draggable>
@@ -77,6 +77,9 @@ const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 
 const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
+
+const { canEdit } = useUser();
+const isEditable = computed(() => canEdit(event.value));
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
