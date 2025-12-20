@@ -12,7 +12,6 @@ export function useGetGroups(filters: MaybeRef<GroupFilters>) {
     () => getKeyForGetGroups(filtersRef.value,page.value),
     async () => {
       try {
-        console.log('Fetching groups for filters:', filtersRef.value, 'page:', page.value);
         if (!filtersRef.value || Object.keys(filtersRef.value).length === 0) {
           return [];
         }

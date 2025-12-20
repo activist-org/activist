@@ -196,7 +196,6 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   if (!flow) return;
-  console.log('Submitting Form:', values);
   flow.next(values);
 };
 </script>

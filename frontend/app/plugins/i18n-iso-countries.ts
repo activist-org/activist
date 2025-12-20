@@ -34,7 +34,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const getCountries = (forcedLocale?: string) => {
     const locale = forcedLocale || $i18n?.locale?.value || 'en'
-    console.log("Getting countries for locale:", locale);
     return countries.getNames(locale, { select: "official" })
   }
 
