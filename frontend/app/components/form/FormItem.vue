@@ -8,7 +8,7 @@
       :name="field.name"
       :required="required"
     />
-    <slot v-bind="{...field, formValues}" :id="id" />
+    <slot v-bind="{ ...field, formValues }" :id="id" />
     <FormErrorMessage
       :id="`${id}-error`"
       v-if="field.errorMessage"

@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
-  <Combobox :id="id" v-model="internalSelectedOptions" as="div" :disabled="disabled" :multiple="isMultiSelect">
+  <Combobox
+    :id="id"
+    v-model="internalSelectedOptions"
+    as="div"
+    :disabled="disabled"
+    :multiple="isMultiSelect"
+  >
     <div class="relative">
       <!-- Pass the setupInputWrapper function as the ref for the container -->
       <ComboboxInput
@@ -75,8 +81,8 @@
           class="flex justify-center py-2 pl-10 pr-4 text-sm text-gray-500"
         >
           <slot v-if="showLoadingSlot" name="loading">
-             Loading...
-            </slot>
+Loading...
+</slot>
         </li>
       </ComboboxOptions>
     </div>
@@ -284,12 +290,12 @@ const internalSelectedOptions = computed({
     );
   },
   set(newOptions) {
-    if (props.isMultiSelect){
-    const values = (newOptions as Option[]).map((option) => option.value);
-    if (JSON.stringify(values) !== JSON.stringify(props.selectedOptions)) {
-      emit("update:selectedOptions", values);
-    }
-    return;
+    if (props.isMultiSelect) {
+      const values = (newOptions as Option[]).map((option) => option.value);
+      if (JSON.stringify(values) !== JSON.stringify(props.selectedOptions)) {
+        emit("update:selectedOptions", values);
+      }
+      return;
     }
     const value = (newOptions as unknown as Option)?.value || null;
     query.value = (newOptions as unknown as Option)?.label as string;

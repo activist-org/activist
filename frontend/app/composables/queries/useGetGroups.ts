@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export const getKeyForGetGroups = (filters: GroupFilters, page:number) => `groups-list:filters:${JSON.stringify(filters)}:page:${page}`;
+export const getKeyForGetGroups = (filters: GroupFilters, page: number) =>
+  `groups-list:filters:${JSON.stringify(filters)}:page:${page}`;
 
 export function useGetGroups(filters: MaybeRef<GroupFilters>) {
   const { showToastError } = useToaster();
@@ -9,7 +10,7 @@ export function useGetGroups(filters: MaybeRef<GroupFilters>) {
   const filtersRef = computed(() => unref(filters));
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Group[]>(
-    () => getKeyForGetGroups(filtersRef.value,page.value),
+    () => getKeyForGetGroups(filtersRef.value, page.value),
     async () => {
       try {
         if (!filtersRef.value || Object.keys(filtersRef.value).length === 0) {
@@ -18,7 +19,11 @@ export function useGetGroups(filters: MaybeRef<GroupFilters>) {
         if (isLastPageRef.value) {
           return groups.value as Group[];
         }
-        const paginatedGroups = await listGroups({...filtersRef.value, page: page.value, page_size:10});
+        const paginatedGroups = await listGroups({
+          ...filtersRef.value,
+          page: page.value,
+          page_size: 10,
+        });
         isLastPageRef.value = paginatedGroups.isLastPage;
         return [...groups.value, ...paginatedGroups.data] as Group[];
       } catch (error) {

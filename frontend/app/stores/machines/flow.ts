@@ -73,7 +73,6 @@ export function createFlowStore(opts: FlowStoreOptions) {
         );
       },
       totalSteps(): number {
-
         if (machine.totalSteps) return machine.totalSteps;
 
         return this.visibleNodes.length;

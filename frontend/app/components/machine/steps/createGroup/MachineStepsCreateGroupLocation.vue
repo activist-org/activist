@@ -4,14 +4,16 @@
     <Form
       id="event-location"
       @submit="handleSubmit"
-      :action-buttons='[{
-        onclick:handlePrev,
-        cta:false,
-        fontSize:"base",
-        ariaLabel:"i18n.components.previous_step_aria_label",
-        label:"Previous",
-        type:"button"
-      }]'
+      :action-buttons="[
+        {
+          onclick: handlePrev,
+          cta: false,
+          fontSize: 'base',
+          ariaLabel: 'i18n.components.previous_step_aria_label',
+          label: 'Previous',
+          type: 'button',
+        },
+      ]"
       class="space-y-4"
       :schema="locationSchema"
     >
@@ -57,7 +59,7 @@ const flow = inject<FlowControls>("flow");
 
 const locationSchema = z.object({
   country: z.string().min(1, "Country is required"),
-  city: z.string().min(1, "City is required")
+  city: z.string().min(1, "City is required"),
 });
 const handlePrev = () => {
   if (!flow) return;
@@ -69,5 +71,4 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   if (!flow) return;
   flow.next(values);
 };
-
 </script>

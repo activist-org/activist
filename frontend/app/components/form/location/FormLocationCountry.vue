@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import country, { type Country } from "countryjs"
+import country, { type Country } from "countryjs";
 const countriesData = country.all();
 const options = countriesData.map((c) => ({
   label: c.name,

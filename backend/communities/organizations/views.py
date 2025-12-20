@@ -156,16 +156,19 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
                 {"detail": "User ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         if user is None or not user.is_authenticated:
             return Response(
                 {"detail": "Authentication credentials were not provided."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
         if user.id != user_id:
             return Response(
                 {"detail": "You are not authorized to view these organizations."},
                 status=status.HTTP_403_FORBIDDEN,
             )
+
         if user.is_admin or user.is_staff:
             orgs = Organization.objects.all()
             serializer = OrganizationSerializer(orgs, many=True)

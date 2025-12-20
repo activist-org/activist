@@ -2,14 +2,14 @@
 <template>
   <DatePicker
     :id="generatedId"
-    :model-value="modelValue"
     @update:modelValue="onUpdate"
-    :mode="mode"
-    :is-dark="isDark"
-    :color="colorModePreference"
-    :masks="masks"
-    hide-time-header
     class="w-full"
+    :color="colorModePreference"
+    hide-time-header
+    :is-dark="isDark"
+    :masks="masks"
+    :mode="mode"
+    :model-value="modelValue"
     v-bind="$attrs"
   />
 </template>
@@ -43,15 +43,14 @@ const emit = defineEmits<{
 const generatedId = props.id ?? uuidv4();
 
 const masks = computed(() => {
-  if (props.mode === 'time') return { input: 'h:mm A' };
-  if (props.mode === 'dateTime') return { input: 'MM/DD/YYYY h:mm A' };
-  return { input: 'MM/DD/YYYY' };
+  if (props.mode === "time") return { input: "h:mm A" };
+  if (props.mode === "dateTime") return { input: "MM/DD/YYYY h:mm A" };
+  return { input: "MM/DD/YYYY" };
 });
 
 const onUpdate = (val: unknown) => {
-
   // Safety check: v-calendar sometimes emits arrays in edge cases
-  if (Array.isArray(val) && props.mode === 'time') {
+  if (Array.isArray(val) && props.mode === "time") {
     emit("update:modelValue", val[0] ?? null);
     return;
   }

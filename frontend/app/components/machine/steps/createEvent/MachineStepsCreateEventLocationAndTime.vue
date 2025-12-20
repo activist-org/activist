@@ -4,14 +4,16 @@
     <Form
       id="event-location-and-time"
       @submit="handleSubmit"
-      :action-buttons='[{
-        onclick:handlePrev,
-        cta:false,
-        fontSize:"base",
-        ariaLabel:"i18n.components.previous_step_aria_label",
-        label:"Previous",
-        type:"button"
-      }]'
+      :action-buttons="[
+        {
+          onclick: handlePrev,
+          cta: false,
+          fontSize: 'base',
+          ariaLabel: 'i18n.components.previous_step_aria_label',
+          label: 'Previous',
+          type: 'button',
+        },
+      ]"
       class="space-y-4"
       :schema="locationAndTimeSchema"
     >
@@ -45,17 +47,17 @@
           :modelValue="(value.value as string)"
         />
       </FormItem>
-       <FormItem
+      <FormItem
         v-slot="{ handleChange, value, errorMessage }"
         label="Event Schedule"
         name="dates"
       >
-          <FormDateTimeCalendar
+        <FormDateTimeCalendar
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
           mode="date"
           :model-value="value.value"
-          />
+        />
       </FormItem>
       <FormItem v-slot="{ id, handleChange, handleBlur }" name="createAnother">
         <FormCheckbox
@@ -93,5 +95,4 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   if (!flow) return;
   flow.next(values);
 };
-
 </script>

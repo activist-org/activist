@@ -5,64 +5,50 @@
       id="event-location-and-time"
       v-slot="{ values, setFieldValue }"
       @submit="handleSubmit"
-      :action-buttons='[{
-        onclick: handlePrev,
-        cta: false,
-        fontSize: "base",
-        ariaLabel: "i18n.components.previous_step_aria_label",
-        label: "Previous",
-        type: "button"
-      }]'
+      :action-buttons="[
+        {
+          onclick: handlePrev,
+          cta: false,
+          fontSize: 'base',
+          ariaLabel: 'i18n.components.previous_step_aria_label',
+          label: 'Previous',
+          type: 'button',
+        },
+      ]"
       class="space-y-4"
       :schema="scheduleSchema"
     >
-      <!-- 1. DATE RANGE PICKER -->
       <FormItem
         v-slot="{ handleChange, value, errorMessage }"
         label="Event Schedule"
         name="dates"
       >
         <FormDateTimeCalendar
-          @update:modelValue="(val) => {
-            handleChange(val);
-            // Trigger sync immediately when dates change
-            syncTimesArray(val, values.times, setFieldValue);
-          }"
+          @update:modelValue="
+            (val) => {
+              handleChange(val);
+              // Trigger sync immediately when dates change.
+              syncTimesArray(val, values.times, setFieldValue);
+            }
+          "
           :hasError="!!errorMessage.value"
-          mode="date"
           is-range
+          mode="date"
           :model-value="value.value"
         />
       </FormItem>
-
-      <!-- 2. DYNAMIC TIME LIST -->
-      <FormListItem
-        v-slot="{ fields }"
-        label="Daily Times"
-        name="times"
-      >
-        <div class="space-y-3 mt-4">
-          <!--
-            We iterate over 'fields.value' because useFieldArray returns a Ref.
-            We check length to avoid rendering if empty.
-          -->
+      <FormListItem v-slot="{ fields }" label="Daily Times" name="times">
+        <div class="mt-4 space-y-3">
           <div
             v-if="fields.value && fields.value.length"
             v-for="(field, idx) in fields.value"
             :key="field.key"
-            class="flex flex-col sm:flex-row gap-4 items-start sm:items-center p-3 border rounded-md border-neutral-200 dark:border-neutral-700"
+            class="flex flex-col items-start gap-4 rounded-md border border-neutral-200 p-3 dark:border-neutral-700 sm:flex-row sm:items-center"
           >
-            <!-- Date Label (Read-only) -->
             <div class="w-32 font-medium text-primary-text">
-              {{ field.value?.date ? formatDate(field.value.date) : '' }}
+              {{ field.value?.date ? formatDate(field.value.date) : "" }}
             </div>
-
-            <!-- Start Time Input -->
-            <div class="flex-1 w-full">
-              <!--
-                CRITICAL: We bind 'name' to the specific index in the array
-                so VeeValidate knows exactly which field to update: times[0].startTime
-              -->
+            <div class="w-full flex-1">
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
                 label="Start Time"
@@ -70,42 +56,37 @@
               >
                 <FormDateTime
                   :id="id"
-                  :model-value="value.value"
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
-                  mode="time"
-                  label="Start Time"
                   is24Hr
+                  label="Start Time"
+                  mode="time"
+                  :model-value="value.value"
                 />
               </FormItem>
             </div>
-
-            <!-- End Time Input -->
-            <div class="flex-1 w-full">
+            <div class="w-full flex-1">
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
-                :name="`times.${idx}.endTime`"
                 :label="`End Time`"
+                :name="`times.${idx}.endTime`"
               >
                 <FormDateTime
                   :id="id"
-                  :model-value="value.value"
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
-                  mode="time"
                   label="End Time"
+                  mode="time"
+                  :model-value="value.value"
                 />
               </FormItem>
             </div>
           </div>
-
-          <!-- Empty State -->
-          <p v-else class="text-sm text-gray-500 italic">
+          <p v-else class="text-sm italic text-gray-500">
             Select a date range above to configure times.
           </p>
         </div>
       </FormListItem>
-
       <FormItem v-slot="{ id, handleChange, handleBlur }" name="createAnother">
         <FormCheckbox
           :id="id"
@@ -120,35 +101,39 @@
 </template>
 
 <script setup lang="ts">
-import { format, differenceInCalendarDays, addDays, isSameDay } from "date-fns";
+import { addDays, differenceInCalendarDays, format, isSameDay } from "date-fns";
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
 
-// --- Zod Schema ---
 const scheduleSchema = z.object({
   dates: z.object({
     start: z.date(),
     end: z.date(),
   }),
-  times: z.array(z.object({
-    date: z.date(),
-    // Allow null/undefined initially, or enforce validation if needed
-    startTime: z.date().nullable().optional(),
-    endTime: z.date().nullable().optional()
-  })),
+  times: z.array(
+    z.object({
+      date: z.date(),
+      // Allow null/undefined initially, or enforce validation if needed.
+      startTime: z.date().nullable().optional(),
+      endTime: z.date().nullable().optional(),
+    })
+  ),
   createAnother: z.boolean().optional(),
 });
 
-// --- Logic: Sync Dates to Times Array ---
 const syncTimesArray = (
   dateRange: { start: Date; end: Date } | null,
-  currentTimes: any[],
-  setFieldValue: (field: string, value: any) => void
+  currentTimes: {
+  date:Date,
+  startTime:Date
+  endTime:Date
+  }[],
+  setFieldValue: (field: string, value: unknown) => void
 ) => {
-  // 1. Handle empty range
+  // Handle empty range.
   if (!dateRange?.start || !dateRange?.end) {
-    setFieldValue('times', []);
+    setFieldValue("times", []);
     return;
   }
 
@@ -161,16 +146,16 @@ const syncTimesArray = (
   for (let i = 0; i < daysCount; i++) {
     const currentDate = addDays(start, i);
 
-    // 2. Check for existing data for this specific date
-    // This preserves the time if the user changes the range (e.g. extends it)
-    const existing = currentTimes?.find((t: any) =>
-      t.date && isSameDay(new Date(t.date), currentDate)
+    // Check for existing data for this specific date.
+    // This preserves the time if the user changes the range (e.g. extends it).
+    const existing = currentTimes?.find(
+      (t) => t.date && isSameDay(new Date(t.date), currentDate)
     );
 
     if (existing) {
       newTimes.push(existing);
     } else {
-      // 3. Create new entry with null times
+      // Create new entry with null times.
       newTimes.push({
         date: currentDate,
         startTime: currentDate,
@@ -178,12 +163,11 @@ const syncTimesArray = (
       });
     }
   }
-  setFieldValue('times', newTimes);
+  setFieldValue("times", newTimes);
 };
 
-// --- Helpers ---
 const formatDate = (date: Date | string) => {
-  return format(new Date(date), 'EEE, MMM d'); // e.g., "Mon, Jan 1"
+  return format(new Date(date), "EEE, MMM d"); // e.g., "Mon, Jan 1"
 };
 
 const handlePrev = () => {
@@ -192,7 +176,7 @@ const handlePrev = () => {
 };
 
 const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate API delay
+  // Simulate API delay.
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   if (!flow) return;

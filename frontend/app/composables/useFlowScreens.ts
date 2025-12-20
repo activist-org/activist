@@ -7,7 +7,6 @@
  * 2. Updated import to point to 'flowBaseModal'.
  */
 
-
 export function useFlowScreens(
   machineType: MachineType,
   options: UseFlowScreensOptions = {}
@@ -58,7 +57,12 @@ export function useFlowScreens(
     currentScreen.value = await resolveScreenFor(newNode);
   }
 
-  watch( ()=>([store.currentNode, store.active]),([newNode, active]) => handleNodeChange(newNode as NodeConfig | null, active as boolean), { immediate: true });
+  watch(
+    () => [store.currentNode, store.active],
+    ([newNode, active]) =>
+      handleNodeChange(newNode as NodeConfig | null, active as boolean),
+    { immediate: true }
+  );
 
   watch(
     () => store.isFinished,

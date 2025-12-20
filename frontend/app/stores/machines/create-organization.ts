@@ -26,12 +26,12 @@ export const useCreateOrganizationStore = createFlowStore({
         label: "Details",
         type: "screen",
         next: CreateOrganizationSteps.Location,
-        component: OrganizationDetailsStep
+        component: OrganizationDetailsStep,
       },
       [CreateOrganizationSteps.Location]: {
         label: "Type & Roles",
         type: "screen",
-        next: 'end',
+        next: "end",
         component: OrganizationLocationStep,
       },
     },

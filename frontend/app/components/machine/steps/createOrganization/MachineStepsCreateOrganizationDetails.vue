@@ -65,7 +65,7 @@ const flow = inject<FlowControls>("flow");
 const organizationDetailsSchema = z.object({
   name: z.string().min(1, t("i18n.pages.auth._global.required")),
   tagline: z.string().optional(),
-  description: z.string().min(1, t("i18n.pages.auth._global.required"))
+  description: z.string().min(1, t("i18n.pages.auth._global.required")),
 });
 const handleSubmit = async (values: Record<string, unknown>) => {
   // Simulate an API call

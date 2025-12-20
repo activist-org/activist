@@ -11,25 +11,29 @@
         <div class="grid gap-y-4">
           <slot v-bind="{ ...rest, values }" />
         </div>
-        <div class="flex items-center justify-between mt-4">
-          <template v-if="props.actionButtons && props.actionButtons.length > 0" v-for="btn in props.actionButtons" :key="btn.id || btn.label">
-                  <BtnAction
-                    class="flex items-center justify-center ml-2"
-                    :label="btn.label"
-                    v-bind="btn"
-                  />
-                </template>
-        <BtnAction
-          :id="submitId"
-          v-if="props.isThereSubmitButton"
-          ariaLabel="i18n.components.submit_aria_label"
-          class="flex items-center justify-center"
-          :class="props.classButton"
-          :cta="true"
-          fontSize="lg"
-          :label="labelForSubmit"
-          type="submit"
-        />
+        <div class="mt-4 flex items-center justify-between">
+          <template
+            v-if="props.actionButtons && props.actionButtons.length > 0"
+            v-for="btn in props.actionButtons"
+            :key="btn.id || btn.label"
+          >
+            <BtnAction
+              class="ml-2 flex items-center justify-center"
+              :label="btn.label"
+              v-bind="btn"
+            />
+          </template>
+          <BtnAction
+            :id="submitId"
+            v-if="props.isThereSubmitButton"
+            ariaLabel="i18n.components.submit_aria_label"
+            class="flex items-center justify-center"
+            :class="props.classButton"
+            :cta="true"
+            fontSize="lg"
+            :label="labelForSubmit"
+            type="submit"
+          />
         </div>
       </div>
     </form>
@@ -55,8 +59,8 @@ const props = withDefaults(
     actionButtons?: Btn[];
   }>(),
   {
-    isThereSubmitButton: true
-  },
+    isThereSubmitButton: true,
+  }
 );
 
 const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
@@ -64,7 +68,7 @@ const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
 const id = props.id || "form-id";
 const submitId = props.id ? `${props.id}-submit` : "form-submit-id";
 
-const { handleSubmit,values, ...rest } = useForm({
+const { handleSubmit, values, ...rest } = useForm({
   validationSchema: toTypedSchema(props.schema),
   initialValues: props.initialValues,
 });

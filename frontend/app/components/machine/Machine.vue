@@ -4,22 +4,26 @@
     <!-- You can render the progress bar here directly -->
     <div class="mb-6 text-center text-gray-600">
       <span>Step {{ context.currentStep }} of {{ context.totalSteps }}</span>
-      <div class="w-full h-2 mt-2 bg-layer-1 rounded-full overflow-hidden">
+      <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-layer-1">
         <div
-          class="h-full bg-cta-orange rounded-full transition-all duration-300"
-          :style="{ width: `${(context.currentStep / context.totalSteps) * 100}%` }"
+          class="h-full rounded-full bg-cta-orange transition-all duration-300"
+          :style="{
+            width: `${(context.currentStep / context.totalSteps) * 100}%`,
+          }"
         />
       </div>
     </div>
 
-    <Loading v-if="loading && !currentScreen" :loading="(loading && currentScreen)!!" />
+    <Loading
+      v-if="loading && !currentScreen"
+      :loading="(loading && currentScreen)!!"
+    />
     <component :is="currentScreen" v-else-if="currentScreen" />
     <!-- ... -->
   </div>
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   machineType: MachineType;
   options?: Record<string, unknown>;

@@ -42,7 +42,9 @@ export async function getGroup(id: string): Promise<Group> {
 
 // MARK: List All Groups
 
-export async function listGroups(filters: GroupFilters & Pagination = { page: 1, page_size: 10 }): Promise<GroupPaginatedResponse> {
+export async function listGroups(
+  filters: GroupFilters & Pagination = { page: 1, page_size: 10 }
+): Promise<GroupPaginatedResponse> {
   try {
     const query = new URLSearchParams();
     // Handle linked_organizations specially: arrays become repeated params (?linked_organizations=A&linked_organizations=B).
@@ -58,7 +60,9 @@ export async function listGroups(filters: GroupFilters & Pagination = { page: 1,
       if (value === undefined || value === null) return;
       query.append(key, String(value));
     });
-    const res = await get<GroupsResponseBody>(`/communities/groups?${query.toString()}`);
+    const res = await get<GroupsResponseBody>(
+      `/communities/groups?${query.toString()}`
+    );
     return {
       data: res.results.map(mapGroup),
       isLastPage: !res.next,

@@ -12,13 +12,15 @@
 </template>
 
 <script setup lang="ts">
-const  countriesData  = useNuxtApp().$countries();
+const countriesData = useNuxtApp().$countries();
 
-const options = computed(() => Object.entries(countriesData).map(([code, name]) => ({
-  label: name,
-  value: code,
-  id: code,
-})));
+const options = computed(() =>
+  Object.entries(countriesData).map(([code, name]) => ({
+    label: name,
+    value: code,
+    id: code,
+  }))
+);
 
 interface Props {
   id: string;

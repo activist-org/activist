@@ -19,9 +19,9 @@
 </template>
 
 <script setup lang="ts">
-  // Changed to computed so options update automatically when new data is fetched
+// Changed to computed so options update automatically when new data is fetched
 const options = computed(() =>
-(organizations.value || []).map((organization: Organization) => ({
+  (organizations.value || []).map((organization: Organization) => ({
     label: organization.name,
     id: organization.id,
     value: organization.id,
@@ -43,10 +43,14 @@ const filters = ref<{ name?: string }>({});
 const handleFilterValueUpdate = (val: string) => {
   filters.value.name = val;
 };
-const linked_user_id = computed(() => String(props.linkedUserId) || '');
+const linked_user_id = computed(() => String(props.linkedUserId) || "");
 
 // Destructure getMore and isLastPage from the composable
-const { data: organizations, getMore, pending } = useGetOrganizationsByUser(linked_user_id.value, filters);
+const {
+  data: organizations,
+  getMore,
+  pending,
+} = useGetOrganizationsByUser(linked_user_id.value, filters);
 const isFetching = computed(() => pending.value);
 
 const emit = defineEmits<{

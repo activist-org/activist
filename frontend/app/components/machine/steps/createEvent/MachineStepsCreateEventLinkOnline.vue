@@ -2,16 +2,18 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
-    id="event-link-online"
-    @submit="handleSubmit"
-    :action-buttons='[{
-      onclick:handlePrev,
-      cta:false,
-      fontSize:"base",
-      ariaLabel:"i18n.components.previous_step_aria_label",
-      label:"Previous",
-      type:"button"
-      }]'
+      id="event-link-online"
+      @submit="handleSubmit"
+      :action-buttons="[
+        {
+          onclick: handlePrev,
+          cta: false,
+          fontSize: 'base',
+          ariaLabel: 'i18n.components.previous_step_aria_label',
+          label: 'Previous',
+          type: 'button',
+        },
+      ]"
       class="space-y-4"
       :schema="linkSchema"
       submit-label="Next"
@@ -52,5 +54,4 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   if (!flow) return;
   flow.next(values);
 };
-
 </script>

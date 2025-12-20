@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <ModalBase :modalName="modalName">
-      <h2>Create a New Organization</h2>
-      <!-- The machine now takes the `onSubmit` handler in its options -->
-      <Machine
-        @close="handleCloseModal"
-        :machine-type="MachineCreateType.CreateOrganization"
-        :options="flowOptions"
-      />
+    <h2>Create a New Organization</h2>
+    <!-- The machine now takes the `onSubmit` handler in its options -->
+    <Machine
+      @close="handleCloseModal"
+      :machine-type="MachineCreateType.CreateOrganization"
+      :options="flowOptions"
+    />
   </ModalBase>
 </template>
 <script setup lang="ts">
-
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 

@@ -1,13 +1,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-    <DatePicker
-    :attributes="calendar"
+  <DatePicker
     v-model.range="modelValue"
-      :color="colorModePreference"
-      expanded
-      :first-day-of-week="2"
-      trim-weeks
-    />
+    :attributes="calendar"
+    :color="colorModePreference"
+    expanded
+    :first-day-of-week="2"
+    trim-weeks
+  />
 </template>
 
 <script setup lang="ts">
@@ -20,7 +20,7 @@ type InferredAttributes = CalendarProps extends { attributes?: infer A }
   : never;
 type CalendarAttribute = InferredAttributes extends Array<infer U> ? U : never;
 
-  interface Props {
+interface Props {
   calendarArgs: CalendarAttribute[];
   modelValue: Date[];
 }
@@ -32,14 +32,13 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: Date[]): void;
 }>();
 
-
 watch(
   () => modelValue.value,
   (newValue) => {
     emit("update:modelValue", newValue);
     modelValue.value = newValue;
-  }
-, { immediate: true }
+  },
+  { immediate: true }
 );
 watch(
   () => props.calendarArgs,

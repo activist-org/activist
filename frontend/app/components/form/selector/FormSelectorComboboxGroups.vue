@@ -2,9 +2,7 @@
 <template>
   <FormSelectorCombobox
     :id="id"
-    @update:selectedOptions="
-      (val: unknown) => handleChange(val as Group[])
-    "
+    @update:selectedOptions="(val: unknown) => handleChange(val as Group[])"
     :canFetchMore="true"
     :fetchMore="getMore"
     :hasColOptions="hasColOptions"
@@ -15,9 +13,8 @@
 </template>
 
 <script setup lang="ts">
-
-  // Changed to computed so options update automatically when new data is fetched
-  const options = computed(() =>
+// Changed to computed so options update automatically when new data is fetched
+const options = computed(() =>
   (groups.value || []).map((group: Group) => ({
     label: group.name,
     id: group.id,

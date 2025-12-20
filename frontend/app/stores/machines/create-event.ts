@@ -33,14 +33,14 @@ export const useCreateEventStore = createFlowStore({
       [CreateEventSteps.EventDetails]: {
         label: "Details",
         type: "screen",
-        step:1,
+        step: 1,
         next: CreateEventSteps.EventType,
-        component: EventDetailsStep
+        component: EventDetailsStep,
       },
       [CreateEventSteps.EventType]: {
         label: "Type",
         type: "screen",
-        step:2,
+        step: 2,
         next: CreateEventSteps.OnlineLocationOrOffline,
         component: EventTypeStep,
       },
@@ -49,11 +49,13 @@ export const useCreateEventStore = createFlowStore({
         type: "logic",
         // Clean signature for logic node next function
         next: (context) => {
-          const nodeData = context.allNodeData as unknown as ContextCreateEventData
-          const stepData =
-            nodeData[CreateEventSteps.EventType];
+          const nodeData =
+            context.allNodeData as unknown as ContextCreateEventData;
+          const stepData = nodeData[CreateEventSteps.EventType];
           const isOnline = stepData?.setting === "online";
-          return isOnline ? CreateEventSteps.LinkOnline : CreateEventSteps.Location;
+          return isOnline
+            ? CreateEventSteps.LinkOnline
+            : CreateEventSteps.Location;
         },
       },
       [CreateEventSteps.Location]: {
@@ -61,30 +63,30 @@ export const useCreateEventStore = createFlowStore({
         type: "screen",
         next: CreateEventSteps.Time,
         component: LocationStep,
-        step:3,
+        step: 3,
       },
       [CreateEventSteps.LinkOnline]: {
         label: "Online Link",
         type: "screen",
         next: CreateEventSteps.Time,
         component: OnlineLink,
-        step:3,
+        step: 3,
       },
-       [CreateEventSteps.Time]: {
+      [CreateEventSteps.Time]: {
         label: "Time",
         type: "screen",
         next: CreateEventSteps.CreateMoreEventsOrNot,
         component: TimeStep,
-        step:4,
+        step: 4,
       },
       [CreateEventSteps.CreateMoreEventsOrNot]: {
         label: "Logic: Create more?",
         type: "logic",
         // Clean signature for logic node next function
         next: (context) => {
-          const nodeData = context.allNodeData as unknown as ContextCreateEventData
-          const stepData =
-            nodeData[CreateEventSteps.Time];
+          const nodeData =
+            context.allNodeData as unknown as ContextCreateEventData;
+          const stepData = nodeData[CreateEventSteps.Time];
           const createAnother = stepData?.createAnother;
           return createAnother ? CreateEventSteps.EventDetails : "end";
         },

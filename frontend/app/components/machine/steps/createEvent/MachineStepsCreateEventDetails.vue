@@ -62,10 +62,10 @@
       >
         <!-- prettier-ignore-attribute :selected-organizations -->
         <FormSelectorComboboxOrganizations
-        :id="id"
-        @update:selectedOptions="
+          :id="id"
+          @update:selectedOptions="
             (val: unknown) => handleChange(val as Organization[])
-            "
+          "
           label="Organizations"
           :linked-user-id="user?.id || ''"
           :selected-organizations="((value.value ?? []) as Organization[])"
@@ -103,8 +103,10 @@ const eventDetailsSchema = z.object({
   name: z.string().min(1, t("i18n.pages.auth._global.required")),
   tagline: z.string().optional(),
   description: z.string().min(1, t("i18n.pages.auth._global.required")),
-  organizations: z.array(z.string()).min(1, "Please select at least one organization"),
-  groups: z.array(z.string()).optional()
+  organizations: z
+    .array(z.string())
+    .min(1, "Please select at least one organization"),
+  groups: z.array(z.string()).optional(),
 });
 const handleSubmit = async (values: Record<string, unknown>) => {
   // Simulate an API call

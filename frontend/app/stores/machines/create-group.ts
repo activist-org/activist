@@ -26,12 +26,12 @@ export const useCreateGroupStore = createFlowStore({
         label: "Details",
         type: "screen",
         next: CreateGroupSteps.Location,
-        component: GroupDetailsStep
+        component: GroupDetailsStep,
       },
       [CreateGroupSteps.Location]: {
         label: "Location",
         type: "screen",
-        next: 'end',
+        next: "end",
         component: GroupLocationStep,
       },
     },

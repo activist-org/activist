@@ -18,8 +18,9 @@ defineProps<{
 const { openModal: openModalCreateEvent } =
   useModalHandlers("ModalCreateEvent");
 
-const { openModal: openModalCreateOrganization } =
-  useModalHandlers("ModalCreateOrganization");
+const { openModal: openModalCreateOrganization } = useModalHandlers(
+  "ModalCreateOrganization"
+);
 
 const { openModal: openModalCreateGroup } =
   useModalHandlers("ModalCreateGroup");
@@ -51,6 +52,6 @@ const createOptions: MenuSelector[] = [
     onClick: () => {
       openModalCreateGroup();
     },
-  }
+  },
 ];
 </script>
