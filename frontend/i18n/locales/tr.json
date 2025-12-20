@@ -22,7 +22,6 @@
   "i18n._global.navigate_to": "…’ya git",
   "i18n._global.new_event": "Yeni etkinlik",
   "i18n._global.new_group": "Yeni grup",
-  "i18n._global.new_resource": "Yeni kaynak",
   "i18n._global.notifications": "Bildirimler",
   "i18n._global.offer_to_help": "Yardım teklif etmek",
   "i18n._global.offer_to_help_aria_label": "Bu etkinlik için yardım sunma sürecini başlat",
@@ -248,5 +247,6 @@
   "i18n.components.form_social_link.social_links": "Sosyal medya bağlantıları",
   "i18n.components.form_text_entity.description_required": "Bir açıklama gereklidir",
   "i18n.components.form_text_entity.get_involved_text_or_url_required": "Katılmak için metin veya URL gereklidir",
-  "i18n.components.form_text_entity.max_text_length": "Metin {max_text_length} karakterden az olmalıdır."
+  "i18n.components.form_text_entity.max_text_length": "Metin {max_text_length} karakterden az olmalıdır.",
+  "i18n.pages.organizations.groups.resources.new_resource": "Yeni kaynak"
 }
