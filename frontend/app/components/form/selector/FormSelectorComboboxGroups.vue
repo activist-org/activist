@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-// Changed to computed so options update automatically when new data is fetched
 const options = computed(() =>
   (groups.value || []).map((group: Group) => ({
     label: group.name,
@@ -35,7 +34,6 @@ const props = withDefaults(defineProps<Props>(), {
 const filters = computed(() => ({
   linked_organizations: props.linkedOrganizations,
 }));
-// Destructure getMore and isLastPage from the composable
 const { data: groups, getMore } = useGetGroups(filters);
 
 const emit = defineEmits<{

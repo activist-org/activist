@@ -26,7 +26,7 @@ defineOptions({
 export interface Props {
   id?: string;
   label?: string;
-  modelValue?: Date | { start: Date; end: Date } | null | undefined;
+  modelValue?: Date | null | undefined;
   mode?: "date" | "dateTime" | "time";
 }
 

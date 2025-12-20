@@ -2,6 +2,7 @@
 import { useCreateEventStore } from "./create-event";
 import { useCreateGroupStore } from "./create-group";
 import { useCreateOrganizationStore } from "./create-organization";
+
 export const machineRegistry = {
   [MachineCreateType.CreateEvent]: useCreateEventStore,
   [MachineCreateType.CreateGroup]: useCreateGroupStore,

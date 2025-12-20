@@ -56,7 +56,6 @@
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
-// const { data: organization } = useGetOrganization(flow?.context.value.nodeData[CreateGroupSteps.GroupDetails].organization as string);
 
 const locationSchema = z.object({
   country: z.string().min(1, "Country is required"),
@@ -67,7 +66,7 @@ const handlePrev = () => {
   flow.prev();
 };
 const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate an API call
+  // Simulate an API call.
   await new Promise((resolve) => setTimeout(resolve, 1000));
   if (!flow) return;
   flow.next(values);

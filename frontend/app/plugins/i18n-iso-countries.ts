@@ -22,6 +22,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const $i18n = nuxtApp.$i18n as { locale: { value: string } };
 
   const getCountryName = (code: string, forcedLocale?: string) => {
+    // Note: Handle country names in the following way:
     // 1. Use forced locale if provided
     // 2. Or use current i18n locale (unwrapped from Ref)
     // 3. Fallback to 'en'

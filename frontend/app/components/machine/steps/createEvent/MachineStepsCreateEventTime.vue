@@ -34,10 +34,11 @@
               syncTimesArray(val, values.times, setFieldValue);
             }
           "
+          :calendar-args="[]"
           :hasError="!!errorMessage.value"
           is-range
           mode="date"
-          :model-value="value.value"
+          :model-value="value.value as { start: Date; end: Date }"
         />
       </FormItem>
       <FormListItem v-slot="{ fields }" label="Daily Times" name="times">
@@ -49,7 +50,11 @@
             class="flex flex-col items-start gap-4 rounded-md border border-neutral-200 p-3 dark:border-neutral-700 sm:flex-row sm:items-center"
           >
             <div class="w-32 font-medium text-primary-text">
-              {{ field.value?.date ? formatDate(field.value.date) : "" }}
+              {{
+                (field.value as { date?: Date })?.date
+                  ? formatDate((field.value as { date: Date }).date)
+                  : ""
+              }}
             </div>
             <div class="w-full flex-1">
               <FormItem
@@ -72,7 +77,7 @@
                     )
                   "
                   mode="time"
-                  :model-value="value.value"
+                  :model-value="value.value as Date"
                 />
               </FormItem>
             </div>
@@ -94,7 +99,7 @@
                     )
                   "
                   mode="time"
-                  :model-value="value.value"
+                  :model-value="value.value as Date"
                 />
               </FormItem>
             </div>
@@ -164,7 +169,7 @@ const syncTimesArray = (
 
   const start = new Date(dateRange.start);
   const end = new Date(dateRange.end);
-  const daysCount = differenceInCalendarDays(end, start) + 1; // Inclusive
+  const daysCount = differenceInCalendarDays(end, start) + 1; // inclusive
 
   const newTimes = [];
 

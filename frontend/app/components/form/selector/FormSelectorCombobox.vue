@@ -153,10 +153,9 @@ const emit = defineEmits<{
 const query = ref("");
 const sentinel = ref(null);
 
-// --- Input Reference & Selection Logic ---
-// Reference to the FormTextInput component
+// Reference to the FormTextInput component.
 const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
-// Reference to the actual native input element inside FormTextInput
+// Reference to the actual native input element inside FormTextInput.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const actualInputRef = ref<any>(null);
 
@@ -165,7 +164,7 @@ const actualInputRef = ref<any>(null);
 function setupInputWrapper(el: unknown) {
   if (!el) return;
 
-  // Get the DOM element of the wrapper
+  // Get the DOM element of the wrapper.
   const element = ((el as { $el?: HTMLElement })?.$el || el) as HTMLElement & {
     setSelectionRange?: (
       selectionStart: number,
@@ -181,7 +180,7 @@ function setupInputWrapper(el: unknown) {
       selectionEnd: number,
       selectionDirection?: "forward" | "backward" | "none"
     ) => {
-      // Try to get the input from our cached ref or look it up
+      // Try to get the input from our cached ref or look it up.
       let inputElement = actualInputRef.value;
 
       if (!inputElement && formInputRef.value?.$el) {
@@ -211,7 +210,7 @@ function setupInputWrapper(el: unknown) {
   }
 }
 
-// Watch the component ref to cache the native input as soon as it's available
+// Watch the component ref to cache the native input as soon as it's available.
 watch(
   formInputRef,
   (newRef) => {

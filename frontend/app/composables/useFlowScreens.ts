@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /*
- * useFlowScreens.ts
- *
- * UPDATES APPLIED:
- * 1. Added `markRaw` to resolveScreenFor to prevent Vue reactivity bugs with dynamic components.
- * 2. Updated import to point to 'flowBaseModal'.
+ * useFlowScreens is the layer between the component and the store layer. It manages the screen showing,
  */
 
 export function useFlowScreens(
@@ -17,7 +13,9 @@ export function useFlowScreens(
   const loading = ref(false);
 
   // Helper to resolve lazy-loaded components.
-  async function resolveScreenFor(node: NodeConfig): Promise<Component | null> {
+  const resolveScreenFor = async (
+    node: NodeConfig
+  ): Promise<Component | null> => {
     if (!node.component) return null;
 
     const componentOrFactory = node.component;
@@ -36,26 +34,29 @@ export function useFlowScreens(
       }
     }
     return markRaw(componentOrFactory);
-  }
+  };
 
-  async function handleNodeChange(newNode: NodeConfig | null, active: boolean) {
+  const handleNodeChange = async (
+    newNode: NodeConfig | null,
+    active: boolean
+  ) => {
     if (!newNode || !active) {
       currentScreen.value = null;
       return;
     }
 
-    // Logic nodes: auto-advance
+    // Note: Auto-advance logic nodes.
     if (newNode.type === "logic") {
       await store.next();
       return;
     }
 
-    // Screen nodes: Render
+    // Note: Render screen nodes.
     if (options.onNodeEnter) {
       await options.onNodeEnter(newNode.id);
     }
     currentScreen.value = await resolveScreenFor(newNode);
-  }
+  };
 
   watch(
     () => [store.currentNode, store.active],

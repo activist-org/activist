@@ -1,22 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /*
- * flow.ts
- *
- * This file contains a generic Pinia store factory for creating sophisticated, multi-step flow machines.
- * This is the final, professional version incorporating all architectural refinements.
- *
- * --- ARCHITECTURAL HIGHLIGHTS ---
+ * A generic Pinia store factory for creating sophisticated, multi-step flow machines.
  *
  * 1. `currentNode` as the Single Source of Truth:
  *    The state directly holds the `currentNode: NodeConfig` object.
  *
  * 2. Machine Definition Structure:
  *    The factory now accepts a `machine` object with `id`, `initialNode`, and `states`.
- *    This eliminates redundant IDs and groups states logically.
  *
  * 3. Co-located Configuration (Logic + UI + Data):
  *    Nodes define their own UI via `component` and their default data via `initialData`.
- *    This creates a single source of truth for every aspect of a step.
  *
  * 4. `onExit` Actions for Side-Effects:
  *    Nodes can have an `onExit` function for side-effects like API calls.
@@ -25,6 +18,7 @@
  *    Functions receive a full `context` object with access to data and actions.
  */
 import { defineStore } from "pinia";
+
 /**
  * Creates a new flow store instance with all advanced features.
  * @param opts The configuration options for the store.
@@ -56,7 +50,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
       active: false,
       currentNode: defaultNode,
       nodes,
-      nodeData: { ...initialNodeData }, // Initialize with the extracted data
+      nodeData: { ...initialNodeData }, // initialize with the extracted data
       history: [] as string[],
       isFinished: false,
       saving: false,
@@ -79,7 +73,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
       },
       currentStep(state): number {
         if (machine.totalSteps) {
-          const currentNode = state.currentNode;
+          const { currentNode } = state;
 
           if (currentNode && typeof currentNode.step === "number") {
             return currentNode.step;
@@ -209,7 +203,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
       resetToInitial() {
         this.active = false;
         this.currentNode = defaultNode;
-        // Reset data using the pre-calculated initialNodeData
+        // Reset data using the pre-calculated initialNodeData.
         this.nodeData = { ...initialNodeData };
         this.history = [];
         this.isFinished = false;

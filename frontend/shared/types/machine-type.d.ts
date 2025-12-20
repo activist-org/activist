@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 /** The rich context object passed to `next` and `onExit` functions. */
 export interface FlowContext {
   allNodeData: Record<string, unknown>;
@@ -14,6 +13,7 @@ export type NextFn = (
   context: FlowContext,
   nodeData?: Record<string, unknown>
 ) => string | null | undefined;
+
 /** The function signature for the `onExit` side-effect action. */
 export type OnExitFn = (
   context: FlowContext,
@@ -32,6 +32,7 @@ export interface StateConfig {
   initialData?: Record<string, unknown>; // Define default data co-located with the state
   step?: number | (() => number); // Step number for progress tracking
 }
+
 /**
  * The internal representation of a node, which includes the ID.
  */
@@ -72,13 +73,13 @@ export interface FlowContextState {
  * The object provided via `provide("flow", ..)` to step components.
  */
 export interface FlowControls {
-  // Actions (mirror the return values from useFlowScreens)
+  // Actions (mirror the return values from useFlowScreens).
   start: (draft?: Record<string, unknown>) => void;
   next: (payload?: Record<string, unknown>) => Promise<void>;
   prev: () => void;
   close: (discard?: boolean) => void;
 
-  // Reactive state
+  // Reactive state.
   context: Ref<FlowContextState>;
 }
 

@@ -1,8 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <h2>Create a New Event</h2>
-    <!-- The machine now takes the `onSubmit` handler in its options -->
+    <h2>{{ $t("i18n.components.modal_create_event.create_new_event") }}</h2>
     <Machine
       @close="handleCloseModal"
       :machine-type="MachineCreateType.CreateEvent"
@@ -19,18 +18,12 @@ const { handleCloseModal } = useModalHandlers(modalName);
  * @param {unknown} finalData The consolidated data from all steps.
  */
 async function handleSubmission() {
-  // `finalData` is the clean, combined payload from the store's `submit()` action.
-
-  // Call your API mutation here...
-  // await createEvent(finalData);
-
-  // Close the modal after submission.
   handleCloseModal();
 }
 
 // Pass the handler to the machine via its options.
 const flowOptions = {
-  onSubmit: handleSubmission, // <-- NEW
-  autoStart: true, // Optional: start the flow immediately
+  onSubmit: handleSubmission,
+  autoStart: true,
 };
 </script>

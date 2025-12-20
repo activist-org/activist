@@ -56,7 +56,7 @@ defineExpose({ start, close });
 </script>
 
 <style scoped>
-/* Add some styling for the progress bar */
+/* Add some styling for the progress bar. */
 .progress-bar-container {
   margin-bottom: 1.5rem;
   text-align: center;

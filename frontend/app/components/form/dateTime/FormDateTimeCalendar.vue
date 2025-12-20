@@ -22,14 +22,14 @@ type CalendarAttribute = InferredAttributes extends Array<infer U> ? U : never;
 
 interface Props {
   calendarArgs: CalendarAttribute[];
-  modelValue: Date[];
+  modelValue: { start: Date; end: Date };
 }
 
 const props = defineProps<Props>();
 const calendar = ref<CalendarAttribute[]>(props.calendarArgs || []);
-const modelValue = ref<Date[]>(props.modelValue || []);
+const modelValue = ref<{ start: Date; end: Date }>(props.modelValue || []);
 const emit = defineEmits<{
-  (e: "update:modelValue", value: Date[]): void;
+  (e: "update:modelValue", value: { start: Date; end: Date }): void;
 }>();
 
 watch(

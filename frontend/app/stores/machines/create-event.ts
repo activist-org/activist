@@ -1,16 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-/*
- * createEvent.ts
- *
- * UPDATED: Now uses the new `machine` definition structure.
- * - Replaced the `nodes` array with a `states` object keyed by step ID.
- * - This eliminates the need to repeat the `id` inside each node configuration.
- * - Logic for `next` uses bracket notation `[CreateEventSteps.EventDetails]` to safely access data.
- */
 import { createFlowStore } from "./flow";
 
-// Import the screen components directly.
-// Using relative paths to ensure stability with Vite/Nuxt aliases.
 const EventDetailsStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventDetails.vue");
 const EventTypeStep = () =>
@@ -23,13 +13,11 @@ const OnlineLink = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventLinkOnline.vue");
 
 export const useCreateEventStore = createFlowStore({
-  // The new Machine Definition structure
   machine: {
     id: "createEventFlow",
     initialNode: CreateEventSteps.EventDetails,
     totalSteps: 4,
     states: {
-      // The keys here become the IDs for the nodes
       [CreateEventSteps.EventDetails]: {
         label: "Details",
         type: "screen",
@@ -47,7 +35,6 @@ export const useCreateEventStore = createFlowStore({
       [CreateEventSteps.OnlineLocationOrOffline]: {
         label: "Logic: Online or Offline?",
         type: "logic",
-        // Clean signature for logic node next function
         next: (context) => {
           const nodeData =
             context.allNodeData as unknown as ContextCreateEventData;
@@ -82,7 +69,6 @@ export const useCreateEventStore = createFlowStore({
       [CreateEventSteps.CreateMoreEventsOrNot]: {
         label: "Logic: Create more?",
         type: "logic",
-        // Clean signature for logic node next function
         next: (context) => {
           const nodeData =
             context.allNodeData as unknown as ContextCreateEventData;

@@ -115,7 +115,7 @@ const optionLocations = [
   },
 ];
 const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate an API call
+  // Simulate an API call.
   await new Promise((resolve) => setTimeout(resolve, 1000));
   if (!flow) return;
   flow.next(values);

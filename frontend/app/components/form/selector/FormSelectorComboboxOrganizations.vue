@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-// Changed to computed so options update automatically when new data is fetched
 const options = computed(() =>
   (organizations.value || []).map((organization: Organization) => ({
     label: organization.name,
@@ -45,7 +44,6 @@ const handleFilterValueUpdate = (val: string) => {
 };
 const linked_user_id = computed(() => String(props.linkedUserId) || "");
 
-// Destructure getMore and isLastPage from the composable
 const {
   data: organizations,
   getMore,
