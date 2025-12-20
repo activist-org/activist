@@ -7,3 +7,5 @@ export * from "./useGetOrganization";
 export * from "./useGetOrganizationImages";
 export * from "./useGetOrganizations";
 export * from "./useGetTopics";
+export * from "./useGetGroups";
+export * from "./useGetOrganizationByUser";
