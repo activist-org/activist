@@ -22,13 +22,13 @@ const createWrapper = async (props: Partial<ShieldProps> = {}) =>
     },
   });
 
-// Shield Basic Rendering
+// MARK: Basic Rendering
 
 describe("Shield Basic Rendering", () => {
   it("renders with correct label and icon", async () => {
     await createWrapper();
 
-    // Uses correct label
+    // Uses correct label.
     const label = screen.getByText("test-label");
     expect(label).toBeTruthy();
 
@@ -43,11 +43,11 @@ describe("Shield Basic Rendering", () => {
     const wrapper = container.querySelector('[tabindex="0"]') as HTMLElement;
     const classTokens = wrapper.classList;
 
-    // Classes if `active` is true (default)
+    // Classes if `active` is true (default).
     expect(classTokens.contains("style-cta")).toBeTruthy();
     expect(classTokens.contains("style-cta-secondary")).toBeFalsy();
 
-    // Classes if `isSelector` is false (default)
+    // Classes if `isSelector` is false (default).
     expect(classTokens.contains("rounded-full")).toBeTruthy();
     expect(classTokens.contains("rounded-lg")).toBeFalsy();
   });
@@ -62,7 +62,7 @@ describe("Shield Basic Rendering", () => {
   });
 });
 
-// Shield Visual & Responsive Styling
+// MARK: Visual & Responsive Styling
 
 describe("Shield Visual & Responsive Styling", () => {
   it("applies responsive classes", async () => {
@@ -71,13 +71,13 @@ describe("Shield Visual & Responsive Styling", () => {
     const label = screen.getByText("test-label");
     const labelWrapper = label.closest("div");
 
-    // If small screen, add class
+    // If small screen, add class.
     const classTokens = labelWrapper.classList;
     expect(classTokens.contains("max-sm:flex-grow")).toBeTruthy();
   });
 });
 
-// Shield Accessibility
+// MARK: Accessibility
 
 describe("Shield Accessibility", () => {
   it("component is focusable", async () => {
@@ -85,7 +85,7 @@ describe("Shield Accessibility", () => {
 
     const wrapper = container.querySelector('[tabindex="0"]') as HTMLElement;
 
-    // It receives focus
+    // It receives focus.
     await wrapper.focus();
     expect(document.activeElement).toBe(wrapper);
   });
