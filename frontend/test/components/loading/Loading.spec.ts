@@ -1,12 +1,24 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { mount } from '@vue/test-utils';
-import Loading from '@/components/Loading.vue';
+/*
+ * SPDX-FileCopyrightText: 2024 Activist Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
+import { describe, expect, it } from 'vitest';
+import { mount } from '@vue/test-utils';
+
+import Loading from '@/components/Loading.vue';
 describe('Loading Component', () => {
-  let wrapper: any;
+  let wrapper;
 
   beforeEach(() => {
     wrapper = mount(Loading, {
+            mocks: {
+        $colorMode: {
+          value: 'light'
+        },
+        $t: () => 'mock translation'
+      }
+      },
       props: {},
       global: {
         stubs: {
