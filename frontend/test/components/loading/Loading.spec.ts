@@ -20,9 +20,8 @@ describe('Loading Component', () => {
         stubs: {
           Transition: false
         }
-      }
-    });
-  });
+        }
+      });
 
   describe('Component Rendering', () => {
     it('should render the component', () => {
