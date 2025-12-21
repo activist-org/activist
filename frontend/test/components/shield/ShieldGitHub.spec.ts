@@ -77,7 +77,8 @@ describe("Shield GitHub Visual & Responsive Styling", () => {
     // Responsive classes if `isLoading` is true.
     const loading = document.querySelector(".animate-pulse");
     const isLoadingClasses = loading.classList;
-    // Responsive text size
+
+    // Responsive text size.
     expect(isLoadingClasses.contains("text-xl")).toBeTruthy();
     expect(isLoadingClasses.contains("md:text-2xl")).toBeTruthy();
 

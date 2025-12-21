@@ -290,11 +290,11 @@ describe("useGroupStore", () => {
       expect(store.group).toBeNull();
       store.setGroupImages(mockImages);
 
-      // Should throw error when accessing group.id on null
+      // Should throw error when accessing group.id on null.
       expect(() => {
         store.clearGroupImages("group-1");
       }).toThrow();
-      expect(store.getGroupImages()).toEqual(mockImages); // Images should remain
+      expect(store.getGroupImages()).toEqual(mockImages); // images should remain
     });
 
     it("clearing group when group is null throws error", () => {

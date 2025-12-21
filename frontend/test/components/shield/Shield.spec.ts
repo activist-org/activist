@@ -32,7 +32,7 @@ describe("Shield Basic Rendering", () => {
     const label = screen.getByText("test-label");
     expect(label).toBeTruthy();
 
-    // Uses correct icon (`IconMap.ABOUT` has aria-label `bi:card-text`)
+    // Uses correct icon (`IconMap.ABOUT` has aria-label `bi:card-text`).
     const icon = screen.getByRole("img", { name: "bi:card-text" });
     expect(icon).toBeTruthy();
   });

@@ -185,6 +185,7 @@ describe("CardSearchResultEntity", () => {
   });
 
   // MARK: Slots Content
+
   describe("Slots", () => {
     it("renders menu slot content", () => {
       wrapper = createWrapper(
