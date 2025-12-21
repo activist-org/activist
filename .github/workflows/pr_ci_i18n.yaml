@@ -36,5 +36,4 @@ jobs:
         working-directory: ./backend
 
       - name: Execute All i18n-check Key-Value Checks
-        run: |
-          uv run i18n-check -a
+        run: uv run --project ./backend i18n-check -a
