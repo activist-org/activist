@@ -156,4 +156,22 @@ describe('Loading Component', () => {
       expect(wrapper.exists()).toBe(true);
     });
   });
+
+    describe('Loading Animation Logic', () => {
+    it('should display loading animation when loading prop is true', async () => {
+      await wrapper.setProps({ loading: true });
+      await wrapper.vm.$nextTick();
+      const loadingElement = wrapper.find('[class*="loading"]');
+      expect(loadingElement.exists()).toBe(true);
+      expect(loadingElement.isVisible()).toBe(true);
+    });
+
+    it('should hide loading animation when loading prop is false', async () => {
+      await wrapper.setProps({ loading: false });
+      await wrapper.vm.$nextTick();
+      const loadingElement = wrapper.find('[class*="loading"]');
+      expect(loadingElement.isVisible()).toBe(false);
+    });
+  });
+
 });
