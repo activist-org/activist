@@ -39,4 +39,4 @@ jobs:
 
       - name: Execute All i18n-check Key-Value Checks
         run: |
-          cd.. && i18n-check -a
+          cd .. && i18n-check -a
