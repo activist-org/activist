@@ -190,10 +190,6 @@ git remote add upstream https://github.com/activist-org/activist.git
 
     # Windows:
     .venv\Scripts\activate.bat
-
-    # After activating venv:
-    pip install --upgrade pip
-    pip install -r backend/requirements-dev.txt
     ```
 
 5. Start your docker images with the following:
