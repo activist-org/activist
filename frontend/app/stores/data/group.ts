@@ -3,6 +3,8 @@ interface GroupStore {
   group: Group;
   groups: Group[];
   images: ContentImage[];
+  page: number;
+  filters: GroupFilters;
 }
 
 export const useGroupStore = defineStore("group", {
@@ -12,6 +14,8 @@ export const useGroupStore = defineStore("group", {
     group: null as unknown as Group,
     groups: [],
     images: [],
+    page: 1,
+    filters: {} as GroupFilters,
   }),
   actions: {
     getGroup() {
@@ -37,7 +41,21 @@ export const useGroupStore = defineStore("group", {
     setGroupImages(images: ContentImage[]) {
       this.images = images;
     },
+    setPage(page: number) {
+      this.page = page;
+    },
 
+    getPage() {
+      return this.page;
+    },
+
+    setFilters(filters: GroupFilters) {
+      this.filters = filters;
+    },
+
+    getFilters() {
+      return this.filters;
+    },
     clearGroupImages(id: string) {
       if (this.group.id === id) {
         this.images = [];
