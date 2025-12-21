@@ -195,7 +195,8 @@ git remote add upstream https://github.com/activist-org/activist.git
 - Now, if you run `git remote -v` you should see two remote repositories named:
   - `origin` (forked repository)
   - `upstream` (activist repository)
-4. Create a virtual environment for the backend, activate it, and install dependencies:
+
+4. Create a virtual environment for the backend (Python `>=3.13`), and install dependencies:
 
 > [!NOTE]
 > First, install `uv` if you don't already have it by following the [official installation guide](https://docs.astral.sh/uv/getting-started/installation/).

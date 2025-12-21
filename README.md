@@ -177,16 +177,19 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a virtual environment for the backend (Python `>=3.11`), activate it and install dependencies:
+4. Create a virtual environment for the backend (Python `>=3.13`), activate it and install dependencies:
+
+> [!NOTE]
+> First, install `uv` if you don't already have it by following the [official installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
     ```bash
-    python3 -m venv venv
+    cd backend && uv sync
 
     # Unix or MacOS:
-    source venv/bin/activate
+    source .venv/bin/activate
 
     # Windows:
-    venv\Scripts\activate.bat
+    .venv\Scripts\activate.bat
 
     # After activating venv:
     pip install --upgrade pip
