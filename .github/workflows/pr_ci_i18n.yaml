@@ -19,9 +19,6 @@ on:
 jobs:
   i18n_check:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
@@ -36,8 +33,8 @@ jobs:
 
       - name: Install Dependencies
         run: uv sync
+        working-directory: ./backend
 
       - name: Execute All i18n-check Key-Value Checks
-        working-directory: .
         run: |
-          i18n-check -a
+          uv run i18n-check -a
