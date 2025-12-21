@@ -38,5 +38,6 @@ jobs:
         run: uv sync
 
       - name: Execute All i18n-check Key-Value Checks
+        working-directory: .
         run: |
-          cd .. && i18n-check -a
+          i18n-check -a
