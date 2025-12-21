@@ -19,17 +19,17 @@ const createWrapper = async (props: Partial<ShieldTopicProps> = {}) =>
     },
   });
 
-// Shield Topic Basic Rendering
+// MARK: Basic Rendering
 
 describe("Shield Topic Basic Rendering", () => {
   it("renders with correct label and icon", async () => {
     await createWrapper();
 
-    // Uses correct label
+    // Uses correct label.
     const label = screen.getByText("test-label");
     expect(label).toBeTruthy();
 
-    // Uses correct icon (`IconMap.GLOBE` has aria-label `bi:globe`)
+    // Uses correct icon (`IconMap.GLOBE` has aria-label `bi:globe`).
     const icon = screen.getByRole("img", { name: "bi:globe" });
     expect(icon).toBeTruthy();
   });
@@ -40,11 +40,11 @@ describe("Shield Topic Basic Rendering", () => {
     const wrapper = container.querySelector('[tabindex="0"]') as HTMLElement;
     const classTokens = wrapper.classList;
 
-    // Classes if `active` is true (default)
+    // Classes if `active` is true (default).
     expect(classTokens.contains("style-cta")).toBeTruthy();
     expect(classTokens.contains("style-cta-secondary")).toBeFalsy();
 
-    // Classes if `isSelector` is false (default)
+    // Classes if `isSelector` is false (default).
     expect(classTokens.contains("rounded-full")).toBeTruthy();
     expect(classTokens.contains("rounded-lg")).toBeFalsy();
   });
@@ -59,7 +59,7 @@ describe("Shield Topic Basic Rendering", () => {
   });
 });
 
-// Shield Topic Visual & Responsive Styling
+// MARK: Visual & Responsive Styling
 
 describe("Shield Topic Visual & Responsive Styling", () => {
   it("applies responsive classes", async () => {
@@ -68,13 +68,13 @@ describe("Shield Topic Visual & Responsive Styling", () => {
     const label = screen.getByText("test-label");
     const labelWrapper = label.closest("div");
 
-    // If small screen, add class
+    // If small screen, add class.
     const classTokens = labelWrapper.classList;
     expect(classTokens.contains("max-sm:flex-grow")).toBeTruthy();
   });
 });
 
-// Shield Topic Accessibility
+// MARK: Accessibility
 
 describe("Shield Topic Accessibility", () => {
   it("component is focusable", async () => {
@@ -82,7 +82,7 @@ describe("Shield Topic Accessibility", () => {
 
     const wrapper = container.querySelector('[tabindex="0"]') as HTMLElement;
 
-    // It receives focus
+    // It receives focus.
     await wrapper.focus();
     expect(document.activeElement).toBe(wrapper);
   });
