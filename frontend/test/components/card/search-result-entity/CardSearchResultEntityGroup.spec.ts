@@ -95,7 +95,9 @@ describe("CardSearchResultEntityGroup", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
   });
+
   // MARK: Rendering Logic
+
   describe("Rendering Logic", () => {
     it("renders group card", () => {
       const group = createMockGroup();
@@ -159,7 +161,9 @@ describe("CardSearchResultEntityGroup", () => {
       expect(wrapper.vm.imageUrl).toBe("");
     });
   });
+
   // MARK: Props & State
+
   describe("Props & State", () => {
     it("passes isReduced prop when true", () => {
       const mockGroup = createMockGroup();
@@ -201,6 +205,7 @@ describe("CardSearchResultEntityGroup", () => {
   });
 
   // MARK: Accessibility
+
   describe("Accessibility: ARIA Attributes", () => {
     it("sets correct aria-label", () => {
       const mockGroup = createMockGroup({ name: "My Group" });
@@ -226,6 +231,7 @@ describe("CardSearchResultEntityGroup", () => {
   });
 
   // MARK: Styling
+
   describe("Styling", () => {
     it("applies reduced size classes when isReduced is true", () => {
       const mockGroup = createMockGroup({
@@ -267,6 +273,7 @@ describe("CardSearchResultEntityGroup", () => {
   });
 
   // MARK: Handling Update logic
+
   describe("Handling Update Logic", () => {
     it("updates description when group texts change", async () => {
       const mockGroup = createMockGroup({
@@ -316,7 +323,9 @@ describe("CardSearchResultEntityGroup", () => {
       expect(wrapper.vm.location).toBe("Berlin");
     });
   });
+
   // MARK: Edge Cases
+
   describe("Edge Cases", () => {
     it("handles location with multiple commas", () => {
       const mockGroup = createMockGroup({

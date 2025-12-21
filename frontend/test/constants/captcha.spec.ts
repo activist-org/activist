@@ -21,7 +21,7 @@ describe("constants/captcha", () => {
       expect(FRIENDLY_CAPTCHA_KEY.length).toBeGreaterThan(0);
       expect(FRIENDLY_CAPTCHA_KEY.trim()).toBe(FRIENDLY_CAPTCHA_KEY);
     } else {
-      // Test passes if undefined (env var not set in test environment)
+      // Test passes if undefined (env var not set in test environment).
       expect(FRIENDLY_CAPTCHA_KEY).toBeUndefined();
     }
   });

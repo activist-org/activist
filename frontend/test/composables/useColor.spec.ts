@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { useColor } from "../../app/composables/useColor";
 
-// Note: useColorMode mock is handled globally in test/setup.ts
+// Note: useColorMode mock is handled globally in test/setup.ts.
 
 describe("useColorModeImage", () => {
   it("adds _light to image path", () => {
