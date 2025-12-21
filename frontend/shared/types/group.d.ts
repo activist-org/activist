@@ -15,10 +15,12 @@ interface GroupBase extends Entity {
   faqEntries?: FaqEntry[];
   resources?: Resource[];
   images?: ContentImage[];
-  // topics?: Topic[];
-  // supportingOrgs?: Organization[];
-  // supportingUsers?: User[];
 }
+export interface GroupFilters {
+  linked_organizations?: string[];
+}
+
+export type GroupPaginatedResponse = PaginatedResponse<Group>;
 
 export interface Group extends GroupBase {
   texts: GroupText[];
