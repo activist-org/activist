@@ -50,7 +50,9 @@
             :key="element.id"
             :ref="(el: any) => (resourceCardList[index] = el?.root)"
             @focus="canEdit(organization) ? onFocus(index) : undefined"
-            @keydown.down.prevent="canEdit(organization) ? moveDown() : undefined"
+            @keydown.down.prevent="
+              canEdit(organization) ? moveDown() : undefined
+            "
             @keydown.up.prevent="canEdit(organization) ? moveUp() : undefined"
             :class="{
               selected: selectedIndex === index,
