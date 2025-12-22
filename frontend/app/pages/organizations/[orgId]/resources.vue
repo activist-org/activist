@@ -49,9 +49,9 @@
           <CardResource
             :key="element.id"
             :ref="(el: any) => (resourceCardList[index] = el?.root)"
-            @focus="onFocus(index)"
-            @keydown.down.prevent="moveDown()"
-            @keydown.up.prevent="moveUp()"
+            @focus="canEdit(organization) ? onFocus(index) : undefined"
+            @keydown.down.prevent="canEdit(organization) ? moveDown() : undefined"
+            @keydown.up.prevent="canEdit(organization) ? moveUp() : undefined"
             :class="{
               selected: selectedIndex === index,
               selectedResource: selectedIndex === index,
@@ -60,7 +60,7 @@
             :entityType="EntityType.ORGANIZATION"
             :isReduced="true"
             :resource="element"
-            tabindex="0"
+            :tabindex="canEdit(organization) ? 0 : -1"
           />
         </template>
       </draggable>
@@ -73,6 +73,7 @@
 import draggable from "vuedraggable";
 
 const { openModal } = useModalHandlers("ModalResourceOrganization");
+const { canEdit } = useUser();
 
 const route = useRoute();
 const paramsOrgId = (route.params.orgId as string | undefined) ?? "";

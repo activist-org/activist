@@ -49,9 +49,9 @@
           <CardResource
             :key="element.id"
             :ref="(el: any) => (resourceCardList[index] = el?.root)"
-            @focus="onFocus(index)"
-            @keydown.down.prevent="moveDown()"
-            @keydown.up.prevent="moveUp()"
+            @focus="canEdit(event) ? onFocus(index) : undefined"
+            @keydown.down.prevent="canEdit(event) ? moveDown() : undefined"
+            @keydown.up.prevent="canEdit(event) ? moveUp() : undefined"
             :class="{
               selected: selectedIndex === index,
               selectedResource: selectedIndex === index,
@@ -60,7 +60,7 @@
             :entityType="EntityType.EVENT"
             :isReduced="true"
             :resource="element"
-            tabindex="0"
+            :tabindex="canEdit(event) ? 0 : -1"
           />
         </template>
       </draggable>
@@ -76,6 +76,7 @@ const route = useRoute();
 const eventId = (route.params.eventId as string) ?? "";
 
 const { openModal } = useModalHandlers("ModalResourceEvent");
+const { canEdit } = useUser();
 const { data: event } = useGetEvent(eventId);
 const { reorderResources } = useEventResourcesMutations(eventId);
 
