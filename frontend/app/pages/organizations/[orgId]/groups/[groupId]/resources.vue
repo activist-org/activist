@@ -21,7 +21,7 @@
           :cta="true"
           fontSize="sm"
           iconSize="1.35em"
-          label="i18n._global.new_resource"
+          label="i18n.pages.organizations.groups.resources.new_resource"
           :leftIcon="IconMap.PLUS"
           linkTo="/"
         />
@@ -56,12 +56,22 @@
         :swap-threshold="0.5"
         :touch-start-threshold="3"
       >
-        <template #item="{ element }">
+        <template #item="{ element, index }">
           <CardResource
+            :key="element.id"
+            :ref="(el: any) => (resourceCardList[index] = el?.root)"
+            @focus="canEdit(group) ? onFocus(index) : undefined"
+            @keydown.down.prevent="canEdit(group) ? moveDown() : undefined"
+            @keydown.up.prevent="canEdit(group) ? moveUp() : undefined"
+            :class="{
+              selected: selectedIndex === index,
+              selectedResource: selectedIndex === index,
+            }"
             :entity="group"
             :entityType="EntityType.GROUP"
             :isReduced="true"
             :resource="element"
+            :tabindex="canEdit(group) ? 0 : -1"
           />
         </template>
       </draggable>
@@ -74,12 +84,27 @@
 import draggable from "vuedraggable";
 
 const { openModal } = useModalHandlers("ModalResourceGroup");
+const { canEdit } = useUser();
 const groupId = (useRoute().params.groupId as string) ?? "";
 
 const { data: group } = useGetGroup(groupId);
 const resourceList = ref<Resource[]>([...(group.value?.resources || [])]);
+const resourceCardList = ref<(HTMLElement | null)[]>([]);
 const groupTabs = useGetGroupTabs();
 const { reorderResources } = useGroupResourcesMutations(groupId);
+
+const { selectedIndex, onFocus, moveUp, moveDown } =
+  useDraggableKeyboardNavigation(
+    resourceList as unknown as Ref<Record<string, unknown>[]>,
+    async (list) => {
+      await reorderResources(list as unknown as Resource[]);
+    },
+    resourceCardList as unknown as Ref<(HTMLElement | null)[]>
+  );
+
+export type CardExpose = {
+  root: HTMLElement | null;
+};
 const onDragEnd = () => {
   resourceList.value = resourceList.value.map((resource, index) => ({
     ...resource,
@@ -119,5 +144,10 @@ watch(
 /* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
+}
+
+.selected {
+  transform: scale(1.025);
+  background: highlight;
 }
 </style>

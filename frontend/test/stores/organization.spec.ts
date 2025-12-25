@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import type { Organization } from "../../shared/types/organization";
 
-import { useOrganizationStore } from "../../app/stores/organization";
+import { useOrganizationStore } from "../../app/stores/data/organization";
 import {
   createMockContentImage,
   createMockOrganization,

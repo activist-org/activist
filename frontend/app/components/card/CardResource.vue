@@ -1,9 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
+    ref="root"
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
     :data-resource-id="resource.id"
     data-testid="resource-card"
+    tabindex="0"
   >
     <div class="flex items-center space-x-2">
       <IconDraggableEdit
@@ -183,4 +185,7 @@ const handleDeleteResource = async () => {
     await deleteResource(props.resource.id);
   }
 };
+
+const root = ref<HTMLElement | null>(null);
+defineExpose({ root });
 </script>

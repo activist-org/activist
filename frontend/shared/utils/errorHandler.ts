@@ -74,7 +74,7 @@ function extractMessage(data: unknown): string | undefined {
       return errorData.errors.join(", ");
     }
 
-    // Fall back to joining all string values (your current approach)
+    // Fall back to joining all string values (your current approach).
     const values = Object.values(errorData)
       .filter((v): v is string => typeof v === "string")
       .filter(Boolean);

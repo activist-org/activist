@@ -45,12 +45,24 @@
         :swap-threshold="0.5"
         :touch-start-threshold="3"
       >
-        <template #item="{ element }">
+        <template #item="{ element, index }">
           <CardResource
+            :key="element.id"
+            :ref="(el: any) => (resourceCardList[index] = el?.root)"
+            @focus="canEdit(organization) ? onFocus(index) : undefined"
+            @keydown.down.prevent="
+              canEdit(organization) ? moveDown() : undefined
+            "
+            @keydown.up.prevent="canEdit(organization) ? moveUp() : undefined"
+            :class="{
+              selected: selectedIndex === index,
+              selectedResource: selectedIndex === index,
+            }"
             :entity="organization"
             :entityType="EntityType.ORGANIZATION"
             :isReduced="true"
             :resource="element"
+            :tabindex="canEdit(organization) ? 0 : -1"
           />
         </template>
       </draggable>
@@ -63,6 +75,7 @@
 import draggable from "vuedraggable";
 
 const { openModal } = useModalHandlers("ModalResourceOrganization");
+const { canEdit } = useUser();
 
 const route = useRoute();
 const paramsOrgId = (route.params.orgId as string | undefined) ?? "";
@@ -72,6 +85,20 @@ const { reorderResources } = useOrganizationResourcesMutations(paramsOrgId);
 const resourceList = ref<Resource[]>([
   ...(organization.value?.resources || []),
 ]);
+const resourceCardList = ref<(HTMLElement | null)[]>([]);
+
+const { selectedIndex, onFocus, moveUp, moveDown } =
+  useDraggableKeyboardNavigation(
+    resourceList as unknown as Ref<Record<string, unknown>[]>,
+    async (list) => {
+      await reorderResources(list as unknown as Resource[]);
+    },
+    resourceCardList as unknown as Ref<(HTMLElement | null)[]>
+  );
+
+export type CardExpose = {
+  root: HTMLElement | null;
+};
 const onDragEnd = () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
@@ -110,5 +137,10 @@ watch(
 /* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
+}
+
+.selected {
+  transform: scale(1.025);
+  background: highlight;
 }
 </style>

@@ -30,7 +30,7 @@
         v-for="button in organizationButtons"
         :key="button.id"
         :selected="button.selected"
-        :to="localePath(button.routeUrl)"
+        :to="localePath(button.routeUrl as string)"
       >
         <div
           class="flex w-full items-center space-x-2 text-left text-sm font-medium"
@@ -38,7 +38,7 @@
           <span class="width-1/6">
             <Icon
               v-if="button.iconUrl"
-              class="h-5 w-5 flex-shrink-0"
+              class="h-5 w-5 shrink-0"
               :name="button.iconUrl"
             />
           </span>
