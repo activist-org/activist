@@ -277,7 +277,6 @@
   "i18n.pages.contact.error_empty": "Не може бути порожнім.",
   "i18n.pages.contact.message_label": "Повідомлення",
   "i18n.pages.contact.message_placeholder": "Вітаю, команда activist...",
-  "i18n.pages.contact.name": "Ім'я",
   "i18n.pages.contact.name_placeholder": "Ваше ім'я",
   "i18n.pages.events.create.event_type": "Тип",
   "i18n.pages.events.create.events_name": "Назва події",
