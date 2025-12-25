@@ -53,7 +53,7 @@ describe("Loading Component", () => {
       await wrapper.vm.$nextTick();
       const container = wrapper.find(".flex.items-center.justify-center");
       expect(container.exists()).toBe(true);
-      // v-show="false" sets display: none via inline style
+      // Note: v-show="false" sets display: none via inline style.
       const style = container.attributes("style");
       expect(style).toContain("display: none");
     });
