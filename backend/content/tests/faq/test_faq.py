@@ -7,7 +7,6 @@ from uuid import uuid4
 
 import pytest
 from django.utils import timezone
-from django.utils.timezone import now
 from faker import Faker
 from rest_framework import serializers, status
 from rest_framework.test import APIClient
@@ -28,454 +27,54 @@ from events.factories import EventFactory, EventFaqFactory
 from events.models import EventFaq
 from events.serializers import EventFaqSerializer
 
-# MARK: FAQ Model
+
+# ---------- Fixtures ----------
+
+
+@pytest.fixture
+def staff_user():
+    user = UserFactory(
+        username="test_user",
+        plaintext_password="test_password",
+        is_staff=True,
+        verified=True,
+        is_confirmed=True,
+    )
+    return user
+
+
+@pytest.fixture
+def auth_client(staff_user):
+    client = APIClient()
+    response = client.post(
+        "/v1/auth/sign_in",
+        {"username": "test_user", "password": "test_password"},
+    )
+    token = response.json()["access"]
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    return client
+
+
+# ---------- Model Tests ----------
 
 
 @pytest.mark.django_db
-def test_create_faq() -> None:
-    """
-    Test the creation of a FAQ from its model.
-    """
+def test_faq_model_creation():
     faq = Faq.objects.create(
         iso="en", primary=True, question="Question", answer="Answer", order=1
     )
 
-    assert faq.id is not None
+    assert faq.id
     assert faq.primary
-    assert faq.question is not None
-    assert faq.answer is not None
-    assert faq.order is not None
+    assert faq.question == "Question"
+    assert faq.answer == "Answer"
+    assert faq.order == 1
     assert str(faq) == "Question"
 
 
-# MARK: Serializers
-
-
 @pytest.mark.django_db
-def test_organization_faq_serializer() -> None:
-    """
-    Test the serializer of an organization FAQ.
-    """
-    faq = OrganizationFaq(
-        id=uuid4(),
-        iso="en",
-        primary=True,
-        question="Question",
-        answer="Answer",
-        order=1,
-        last_updated=now(),
-    )
-    serializer = OrganizationFaqSerializer(faq)
-    data = serializer.data
-
-    assert data["iso"] == "en"
-    assert data["primary"]
-    assert data["question"] == "Question"
-    assert data["answer"] == "Answer"
-    assert data["order"] == 1
-
-
-@pytest.mark.django_db
-def test_group_faq_serializer() -> None:
-    """
-    Test the serializer of a group FAQ.
-    """
-    faq = GroupFaq(
-        id=uuid4(),
-        iso="en",
-        primary=True,
-        question="Question",
-        answer="Answer",
-        order=1,
-        last_updated=now(),
-    )
-    serializer = GroupFaqSerializer(faq)
-    data = serializer.data
-
-    assert data["iso"] == "en"
-    assert data["primary"]
-    assert data["question"] == "Question"
-    assert data["answer"] == "Answer"
-    assert data["order"] == 1
-
-
-@pytest.mark.django_db
-def test_validate_group_with_group_instance():
-    """
-    Should return the same group when a Group instance is passed.
-    """
-    user = UserFactory()
-    org = OrganizationFactory(created_by=user)
-    location = EntityLocationFactory()
-    fake = Faker()
-
-    group = Group.objects.create(
-        org=org,
-        created_by=user,
-        group_name=fake.company(),
-        name=fake.company(),
-        tagline=fake.catch_phrase(),
-        location=location,
-        category=fake.word(),
-        terms_checked=True,
-    )
-
-    serializer = GroupFaqSerializer()
-    result = serializer.validate_group(group)
-    assert result == group
-
-
-@pytest.mark.django_db
-def test_validate_group_with_valid_uuid():
-    """
-    Should fetch and return the group when a valid UUID is given.
-    """
-    user = UserFactory()
-    org = OrganizationFactory(created_by=user)
-    location = EntityLocationFactory()
-    fake = Faker()
-
-    group = Group.objects.create(
-        org=org,
-        created_by=user,
-        group_name=fake.company(),
-        name=fake.company(),
-        tagline=fake.catch_phrase(),
-        location=location,
-        category=fake.word(),
-        terms_checked=True,
-    )
-
-    serializer = GroupFaqSerializer()
-    result = serializer.validate_group(group.id)
-    assert result == group
-
-
-@pytest.mark.django_db
-def test_validate_group_with_invalid_uuid():
-    """
-    Should raise ValidationError when group does not exist.
-    """
-    group_faq_serializer = GroupFaqSerializer()
-    fake_uuid = uuid4()
-
-    with pytest.raises(serializers.ValidationError, match="Group not found."):
-        group_faq_serializer.validate_group(fake_uuid)
-
-
-@pytest.mark.django_db
-def test_event_faq_serializer() -> None:
-    """
-    Test the serializer of an event FAQ.
-    """
-    faq = EventFaq(
-        id=uuid4(),
-        iso="en",
-        primary=True,
-        question="Question",
-        answer="Answer",
-        order=1,
-        last_updated=now(),
-    )
-    serializer = EventFaqSerializer(faq)
-    data = serializer.data
-
-    assert data["iso"] == "en"
-    assert data["primary"]
-    assert data["question"] == "Question"
-    assert data["answer"] == "Answer"
-    assert data["order"] == 1
-
-
-@pytest.mark.django_db
-def test_validate_event_with_event_instance():
-    """
-    Should return the same event when an Event instance is passed.
-    """
-    event = EventFactory()
-    serializer = EventFaqSerializer()
-    result = serializer.validate_event(event)
-    assert result == event
-
-
-@pytest.mark.django_db
-def test_validate_event_with_valid_uuid():
-    """
-    Should fetch and return the event when a valid UUID is given.
-    """
-    event = EventFactory()
-    serializer = EventFaqSerializer()
-    result = serializer.validate_event(event.id)
-    assert result == event
-
-
-@pytest.mark.django_db
-def test_validate_event_with_valid_uuid_string():
-    """
-    Should fetch and return the event when a valid UUID string is given.
-    """
-    event = EventFactory()
-    serializer = EventFaqSerializer()
-    result = serializer.validate_event(str(event.id))
-    assert result == event
-
-
-@pytest.mark.django_db
-def test_validate_event_with_nonexistent_uuid():
-    """
-    Should raise ValidationError when a valid UUID format but non-existent event is provided.
-    """
-    serializer = EventFaqSerializer()
-    non_existent_uuid = uuid4()
-
-    with pytest.raises(serializers.ValidationError, match="Event not found."):
-        serializer.validate_event(non_existent_uuid)
-
-
-@pytest.mark.django_db
-def test_validate_event_with_nonexistent_uuid_string():
-    """
-    Should raise ValidationError when a valid UUID string format but non-existent event is provided.
-    """
-    serializer = EventFaqSerializer()
-    non_existent_uuid = uuid4()
-
-    with pytest.raises(serializers.ValidationError, match="Event not found."):
-        serializer.validate_event(str(non_existent_uuid))
-
-
-# MARK: Views - List
-
-
-@pytest.mark.django_db
-def test_organization_faq_list_view(client: APIClient) -> None:
-    """
-    Test the listing of FAQs for an organization.
-    This is like a GET request.
-    """
-    org = OrganizationFactory()
-    num_faqs = 3
-    OrganizationFaqFactory.create_batch(num_faqs, org=org)
-
-    response = client.get(f"/v1/communities/organizations/{org.id}")
-
-    assert response.status_code == status.HTTP_200_OK
-    assert len(response.json()["faqEntries"]) == num_faqs
-
-
-@pytest.mark.django_db
-def test_group_faq_list_view(client: APIClient) -> None:
-    """
-    Test the listing of FAQs for a group.
-    This is like a GET request.
-    """
-    group = GroupFactory()
-    num_faqs = 3
-    GroupFaqFactory.create_batch(num_faqs, group=group)
-
-    response = client.get(f"/v1/communities/groups/{group.id}")
-
-    assert response.status_code == status.HTTP_200_OK
-    assert len(response.json()["faqEntries"]) == num_faqs
-
-
-@pytest.mark.django_db
-def test_event_faq_list_view(client: APIClient) -> None:
-    """
-    Test the listing of FAQs for an event.
-    This is like a GET request.
-    """
-    event = EventFactory()
-    num_faqs = 3
-    EventFaqFactory.create_batch(num_faqs, event=event)
-
-    response = client.get(f"/v1/events/events/{event.id}")
-
-    assert response.status_code == status.HTTP_200_OK
-    assert len(response.json()["faqEntries"]) == num_faqs
-
-
-# MARK: Views - Create
-
-
-@pytest.mark.django_db
-def test_organization_faq_create_view() -> None:
-    """
-    Test the creation of FAQs for an organization.
-    The API uses PUT method instead of POST.
-    """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_password"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
-    org = OrganizationFactory(created_by=user)
-
-    num_faqs = 3
-    OrganizationFaqFactory.create_batch(num_faqs, org=org)
-    assert OrganizationFaq.objects.count() == num_faqs
-
-    test_id = OrganizationFaq.objects.first().id
-
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    # MARK: Update Success
-
-    login_body = login_response.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
-    response = client.put(
-        path=f"/v1/communities/organization_faqs/{test_id}",
-        data={
-            "id": test_id,
-            "iso": "en",
-            "primary": True,
-            "question": "Test Question",
-            "answer": "Answer",
-            "order": 1,
-        },
-        content_type="application/json",
-    )
-
-    # PUT in this case returns 200 OK instead of 201 Created.
-    assert response.status_code == status.HTTP_200_OK
-
-    assert OrganizationFaq.objects.get(id=test_id).question == "Test Question"
-
-
-@pytest.mark.django_db
-def test_group_faq_create_view() -> None:
-    """
-    Test the creation of FAQs for a group.
-    The API uses PUT method instead of POST.
-    """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_password"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
-    group = GroupFactory(created_by=user)
-
-    num_faqs = 3
-    GroupFaqFactory.create_batch(num_faqs, group=group)
-    assert GroupFaq.objects.count() == num_faqs
-
-    test_id = GroupFaq.objects.first().id
-
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    # MARK: Update Success
-
-    login_body = login_response.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
-    response = client.put(
-        path=f"/v1/communities/group_faqs/{test_id}",
-        data={
-            "id": test_id,
-            "iso": "en",
-            "primary": True,
-            "question": "Test Question",
-            "answer": "Answer",
-            "order": 1,
-        },
-        content_type="application/json",
-    )
-
-    # PUT in this case returns 200 OK instead of 201 Created.
-    assert response.status_code == status.HTTP_200_OK
-    assert GroupFaq.objects.get(id=test_id).question == "Test Question"
-
-
-@pytest.mark.django_db
-def test_event_faq_create_view() -> None:
-    """
-    Test the creation of FAQs for an event.
-    The API uses PUT method instead of POST.
-    """
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_password"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
-    event = EventFactory(created_by=user)
-
-    num_faqs = 3
-    EventFaqFactory.create_batch(num_faqs, event=event)
-    assert EventFaq.objects.count() == num_faqs
-
-    test_id = EventFaq.objects.first().id
-
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    # MARK: Update Success
-
-    login_body = login_response.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-
-    response = client.put(
-        path=f"/v1/events/event_faqs/{test_id}",
-        data={
-            "id": test_id,
-            "iso": "en",
-            "primary": True,
-            "question": "Test Question",
-            "answer": "Answer",
-            "order": 1,
-        },
-        content_type="application/json",
-    )
-
-    # PUT in this case returns 200 OK instead of 201 Created.
-    assert response.status_code == status.HTTP_200_OK
-    assert EventFaq.objects.get(id=test_id).question == "Test Question"
-
-
 def test_faq_str_method():
-    """
-    Test the __str__ method of the Faq model.
-    """
     faq = Faq(
-        id=uuid4(),
         iso="en",
         primary=True,
         question="Test Question?",
@@ -484,3 +83,152 @@ def test_faq_str_method():
         last_updated=timezone.now(),
     )
     assert str(faq) == faq.question
+
+
+# ---------- Serializer Tests ----------
+
+
+@pytest.mark.parametrize(
+    "serializer_class, model_class",
+    [
+        (OrganizationFaqSerializer, OrganizationFaq),
+        (GroupFaqSerializer, GroupFaq),
+        (EventFaqSerializer, EventFaq),
+    ],
+)
+@pytest.mark.django_db
+def test_faq_serializers(serializer_class, model_class):
+    faq = model_class(
+        id=uuid4(),
+        iso="en",
+        primary=True,
+        question="Question",
+        answer="Answer",
+        order=1,
+        last_updated=timezone.now(),
+    )
+
+    data = serializer_class(faq).data
+
+    assert data["iso"] == "en"
+    assert data["primary"] is True
+    assert data["question"] == "Question"
+    assert data["answer"] == "Answer"
+    assert data["order"] == 1
+
+
+@pytest.mark.django_db
+def test_validate_group_accepts_instance():
+    fake = Faker()
+    user = UserFactory()
+    org = OrganizationFactory(created_by=user)
+    location = EntityLocationFactory()
+
+    group = Group.objects.create(
+        org=org,
+        created_by=user,
+        group_name=fake.company(),
+        name=fake.company(),
+        tagline=fake.catch_phrase(),
+        location=location,
+        category=fake.word(),
+        terms_checked=True,
+    )
+
+    serializer = GroupFaqSerializer()
+    assert serializer.validate_group(group) == group
+
+
+@pytest.mark.django_db
+def test_validate_group_invalid_uuid():
+    serializer = GroupFaqSerializer()
+    with pytest.raises(serializers.ValidationError, match="Group not found."):
+        serializer.validate_group(uuid4())
+
+
+@pytest.mark.django_db
+def test_validate_event_uuid_and_instance():
+    event = EventFactory()
+    serializer = EventFaqSerializer()
+
+    assert serializer.validate_event(event) == event
+    assert serializer.validate_event(event.id) == event
+    assert serializer.validate_event(str(event.id)) == event
+
+
+@pytest.mark.django_db
+def test_validate_event_not_found():
+    serializer = EventFaqSerializer()
+    with pytest.raises(serializers.ValidationError, match="Event not found."):
+        serializer.validate_event(uuid4())
+
+
+# ---------- View Tests (List) ----------
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "factory, url",
+    [
+        (OrganizationFaqFactory, "/v1/communities/organizations/{id}"),
+        (GroupFaqFactory, "/v1/communities/groups/{id}"),
+        (EventFaqFactory, "/v1/events/events/{id}"),
+    ],
+)
+def test_faq_list_views(client, factory, url):
+    parent = factory._meta.model._meta.get_field("org").model() \
+        if "org" in factory._meta.model._meta.fields_map else None
+
+    if factory == OrganizationFaqFactory:
+        parent = OrganizationFactory()
+        factory.create_batch(3, org=parent)
+    elif factory == GroupFaqFactory:
+        parent = GroupFactory()
+        factory.create_batch(3, group=parent)
+    else:
+        parent = EventFactory()
+        factory.create_batch(3, event=parent)
+
+    response = client.get(url.format(id=parent.id))
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.json()["faqEntries"]) == 3
+
+
+# ---------- View Tests (Update via PUT) ----------
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "factory, url, model",
+    [
+        (OrganizationFaqFactory, "/v1/communities/organization_faqs/{id}", OrganizationFaq),
+        (GroupFaqFactory, "/v1/communities/group_faqs/{id}", GroupFaq),
+        (EventFaqFactory, "/v1/events/event_faqs/{id}", EventFaq),
+    ],
+)
+def test_faq_update_views(auth_client, staff_user, factory, url, model):
+    if factory == OrganizationFaqFactory:
+        parent = OrganizationFactory(created_by=staff_user)
+        faq = factory(org=parent)
+    elif factory == GroupFaqFactory:
+        parent = GroupFactory(created_by=staff_user)
+        faq = factory(group=parent)
+    else:
+        parent = EventFactory(created_by=staff_user)
+        faq = factory(event=parent)
+
+    response = auth_client.put(
+        url.format(id=faq.id),
+        {
+            "id": faq.id,
+            "iso": "en",
+            "primary": True,
+            "question": "Updated Question",
+            "answer": "Answer",
+            "order": 1,
+        },
+        content_type="application/json",
+    )
+
+    assert response.status_code == status.HTTP_200_OK
+    assert model.objects.get(id=faq.id).question == "Updated Question"
