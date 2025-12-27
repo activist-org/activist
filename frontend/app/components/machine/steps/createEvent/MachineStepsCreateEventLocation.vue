@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36 flex flex-col gap-y-6">
+  <div class="flex flex-col gap-y-6 px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <FormSearchLocation :handle-submit="handleSubmitLocation" />
     <Form
       id="event-location"
@@ -23,17 +23,19 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         :label="
-          $t('i18n.components.machine_steps_create_event_location.select_location')
+          $t(
+            'i18n.components.machine_steps_create_event_location.select_location'
+          )
         "
         name="location"
       >
-      <FormRadioBtns
-        :id="id"
-        @update:model-value="handleChange"
-        :model-value="(value.value as string) || ''"
-        :options="options"
-      :vertical="true"
-      />
+        <FormRadioBtns
+          :id="id"
+          @update:model-value="handleChange"
+          :model-value="(value.value as string) || ''"
+          :options="options"
+          :vertical="true"
+        />
       </FormItem>
     </Form>
   </div>
@@ -48,10 +50,10 @@ const handleSubmitLocation = (values: unknown) => {
   const valuesTyped = values as FormDataLocation;
   // Logic to handle location submission
   query.value = {
-    street:valuesTyped.street,
-    countrycodes:valuesTyped.country,
-    city:valuesTyped.city,
-  }
+    street: valuesTyped.street,
+    countrycodes: valuesTyped.country,
+    city: valuesTyped.city,
+  };
 };
 const flow = inject<FlowControls>("flow");
 const locationSchema = z.object({
@@ -69,23 +71,26 @@ const handlePrev = () => {
   flow.prev();
 };
 
-const { data:potentialLocations } = useLocation(query);
-watch(potentialLocations, () => {
-  if (!potentialLocations.value) {
-    options.value = [];
-    return;
-  }
-  options.value = (potentialLocations.value ?? []).map((loc) => ({
-    label: loc.display_name,
-    value: {
-      id: loc.place_id,
-      lat: parseFloat(loc.lat),
-      lon: parseFloat(loc.lon),
-      bbox: loc.boundingbox,
-    },
-  }));
-},
-{ immediate: true });
+const { data: potentialLocations } = useLocation(query);
+watch(
+  potentialLocations,
+  () => {
+    if (!potentialLocations.value) {
+      options.value = [];
+      return;
+    }
+    options.value = (potentialLocations.value ?? []).map((loc) => ({
+      label: loc.display_name,
+      value: {
+        id: loc.place_id,
+        lat: parseFloat(loc.lat),
+        lon: parseFloat(loc.lon),
+        bbox: loc.boundingbox,
+      },
+    }));
+  },
+  { immediate: true }
+);
 const handleSubmit = async (values: unknown) => {
   const { location } = values as { location: FormDataLocation };
   const locationMapped = {
@@ -93,7 +98,7 @@ const handleSubmit = async (values: unknown) => {
     country_code: query.value?.countrycodes || "",
     city: query.value?.city || "",
     address_or_name: query.value?.street || "",
-  }
+  };
   if (!flow) return;
   flow.next({ location: locationMapped });
 };

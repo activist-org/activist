@@ -1,16 +1,16 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-    <div class="flex" :class="{ 'flex-col gap-2': vertical }">
-      <FormRadioBtn
-        v-for="option in options"
-        :key="option.value"
-        @update:model-value="updateValue"
-        :custom-color="option.customColor || customColor"
-        :label="option.label"
-        :model-value="modelValue"
-        :value="option.value"
-      />
-    </div>
+  <div class="flex" :class="{ 'flex-col gap-2': vertical }">
+    <FormRadioBtn
+      v-for="option in options"
+      :key="option.value"
+      @update:model-value="updateValue"
+      :custom-color="option.customColor || customColor"
+      :label="option.label"
+      :model-value="modelValue"
+      :value="option.value"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,9 +24,9 @@ export interface Props {
   label?: string;
   options: RadioOption[];
   modelValue?: string;
-  error?:  string;
+  error?: string;
   customColor?: string;
-  vertical?:  boolean;
+  vertical?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {

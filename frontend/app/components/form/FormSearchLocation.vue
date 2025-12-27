@@ -6,11 +6,11 @@
       @submit="handleSubmit"
       class="space-y-4"
       :schema="locationSchema"
-      :submit-label="$t('i18n.components.form.search_location.search_location')"
+      :submit-label="$t('i18n.components.form_search_location.search_location')"
     >
       <FormItem
         v-slot="{ id, handleChange, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.country')"
+        :label="$t('i18n.components._global.country')"
         name="country"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -18,13 +18,13 @@
           :id="id"
           @update:selected-country="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.machine.steps._global.country')"
+          :label="$t('i18n.components._global.country')"
           :selected-country="(value.value as string) || ''"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.city')"
+        :label="$t('i18n.components._global.city')"
         name="city"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -33,15 +33,13 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.machine.steps._global.city')"
+          :label="$t('i18n.components._global.city')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="
-          $t('i18n.components.machine_steps_create_event_location.street_house_number')
-        "
+        :label="$t('i18n.components.form_search_location.street_house_number')"
         name="street"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -51,7 +49,7 @@
           @input="handleChange"
           :hasError="!!errorMessage.value"
           :label="
-            $t('i18n.components.machine_steps_create_event_location.street_house_number')
+            $t('i18n.components.form_search_location.street_house_number')
           "
           :modelValue="(value.value as string)"
         />

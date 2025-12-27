@@ -20,7 +20,7 @@
     >
       <FormItem
         v-slot="{ id, handleChange, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.country')"
+        :label="$t('i18n.components._global.country')"
         name="country"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -28,13 +28,13 @@
           :id="id"
           @update:selected-country="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.machine.steps._global.country')"
+          :label="$t('i18n.components._global.country')"
           :selected-country="(value.value as string) || ''"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.city')"
+        :label="$t('i18n.components._global.city')"
         name="city"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -43,7 +43,7 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.machine.steps._global.city')"
+          :label="$t('i18n.components._global.city')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
