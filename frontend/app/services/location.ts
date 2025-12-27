@@ -1,4 +1,6 @@
-export const searchLocationNomatim = async (filters: Record<string, string>) => {
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+export const searchLocationNomatim = async (filters: Record<string, unknown>) => {
   const nominatimBaseUrl = "https://nominatim.openstreetmap.org/search";
   try {
     const query = new URLSearchParams();
