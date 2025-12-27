@@ -2,7 +2,7 @@
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { useTopics } from "../../app/stores/topics";
+import { useTopics } from "../../app/stores/data/topics";
 import { createMockTopic } from "../mocks/factories";
 
 describe("useTopics", () => {

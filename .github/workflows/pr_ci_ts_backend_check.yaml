@@ -10,13 +10,13 @@ on:
       - synchronize
     paths:
       - "backend/**/model.py"
-      - "frontend/types/**/*.{ts, d.ts}"
+      - "frontend/shared/types/**/*.{ts, d.ts}"
   push:
     branches:
       - main
     paths:
       - "backend/**/model.py"
-      - "frontend/types/**/*.{ts, d.ts}"
+      - "frontend/shared/types/**/*.{ts, d.ts}"
 
 jobs:
   ts_backend_check:
@@ -28,19 +28,17 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
-      - name: Create Environment and Install Dependencies
-        run: |
-          python -m pip install --upgrade uv
-          uv venv
-          . .venv/bin/activate
-          echo PATH=$PATH >> $GITHUB_ENV
-          uv pip install -r backend/requirements-dev.txt
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install Dependencies
+        run: uv sync
+        working-directory: ./backend
 
       - name: Check Django Models Against TypeScript Interfaces
         run: |
-          # ts-backend-check -bmf backend/authentication/models.py -tsf frontend/types/auth/user.d.ts
-          # ts-backend-check -bmf backend/communities/groups/models.py -tsf frontend/types/communities/groups.d.ts
-          # ts-backend-check -bmf backend/communities/organizations/models.py -tsf frontend/types/communities/organizations.d.ts
-          # ts-backend-check -bmf backend/events/models.py -tsf frontend/types/events/events.d.ts
+          # uv run --project ./backend ts-backend-check -bmf backend/communities/organizations/models.py -tsf frontend/shared/types/organizations.d.ts --check-blank
+          # uv run --project ./backend ts-backend-check -bmf backend/communities/groups/models.py -tsf frontend/shared/types/groups.d.ts --check-blank
+          # uv run --project ./backend ts-backend-check -bmf backend/events/models.py -tsf frontend/shared/types/events.d.ts --check-blank
