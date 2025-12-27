@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
+  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36 overflow-y-scroll max-h-[calc(100vh-10rem)]">
     <Form
       id="event-location-and-time"
       v-slot="{ values, setFieldValue }"
@@ -49,12 +49,25 @@
             :key="field.key"
             class="flex flex-col items-start gap-4 rounded-md border border-neutral-200 p-3 dark:border-neutral-700 sm:flex-row sm:items-center"
           >
-            <div class="w-32 font-medium text-primary-text">
+            <div class="w-32 font-medium text-primary-text flex flex-col gap-1">
               {{
                 (field.value as { date?: Date })?.date
                   ? formatDate((field.value as { date: Date }).date)
                   : ""
               }}
+              <FormItem v-slot="{ id, handleChange, handleBlur }" :name="`times.${idx}.allDayLong`">
+        <FormCheckbox
+          :id="id"
+          @blur="handleBlur"
+          @update:model-value="handleChange"
+          :data-testid="`all-day-long-event-${idx}`"
+          :label="
+            $t(
+              'i18n.components.machine_steps_create_event_time.all_day_long_event'
+            )
+          "
+        />
+      </FormItem>
             </div>
             <div class="w-full flex-1">
               <FormItem
@@ -140,15 +153,27 @@ const scheduleSchema = z.object({
   dates: z.object({
     start: z.date(),
     end: z.date(),
+    allDayLong: z.boolean().optional(),
   }),
   times: z.array(
     z.object({
       date: z.date(),
       // Allow null/undefined initially, or enforce validation if needed.
-      startTime: z.date().nullable().optional(),
-      endTime: z.date().nullable().optional(),
+      startTime: z.date().nullable(),
+      endTime: z.date().nullable(),
+      allDayLong: z.boolean().optional(),
     })
-  ),
+  ).refine((times) => {
+    // Ensure startTime is before endTime for each entry.
+    return times.every((t) => {
+      if (t.startTime && t.endTime) {
+        return t.startTime <= t.endTime;
+      }
+      return true; // Skip validation if times are null/undefined
+    });
+  }, {
+    message: "Start time must be before end time",
+  }),
   createAnother: z.boolean().optional(),
 });
 
@@ -206,10 +231,19 @@ const handlePrev = () => {
 };
 
 const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate API delay.
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
+  const { times, createAnother } = values;
   if (!flow) return;
-  flow.next(values);
+  const mappedTimes = (times as {
+    date: Date;
+    startTime: Date;
+    endTime: Date;
+    allDayLong?: boolean;
+  }[]).map((t) => ({
+    date: t.date,
+    start_time: t.startTime,
+    end_time: t.endTime,
+    all_day: t.allDayLong || false,
+  }));
+  flow.next({ times: mappedTimes, createAnother });
 };
 </script>

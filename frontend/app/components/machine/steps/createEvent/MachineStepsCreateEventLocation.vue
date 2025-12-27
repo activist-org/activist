@@ -1,6 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
+  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36 flex flex-col gap-y-6">
+    <FormSearchLocation :handle-submit="handleSubmitLocation" />
     <Form
       id="event-location"
       @submit="handleSubmit"
@@ -20,52 +21,19 @@
       :submit-label="$t('i18n._global.next_step')"
     >
       <FormItem
-        v-slot="{ id, handleChange, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.country')"
-        name="country"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormSelectorComboboxCountry
-          :id="id"
-          @update:selected-country="handleChange"
-          :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.machine.steps._global.country')"
-          :selected-country="(value.value as string) || ''"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.city')"
-        name="city"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.machine.steps._global.city')"
-          :modelValue="(value.value as string)"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        v-slot="{ id, handleChange, value }"
         :label="
-          $t('i18n.components.machine_steps_create_event_location.address')
+          $t('i18n.components.machine_steps_create_event_location.select_location')
         "
-        name="address"
+        name="location"
       >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          :label="
-            $t('i18n.components.machine_steps_create_event_location.address')
-          "
-          :modelValue="(value.value as string)"
-        />
+      <FormRadioBtns
+        :id="id"
+        @update:model-value="handleChange"
+        :model-value="(value.value as string) || ''"
+        :options="options"
+      :vertical="true"
+      />
       </FormItem>
     </Form>
   </div>
@@ -74,20 +42,59 @@
 <script setup lang="ts">
 import { z } from "zod";
 
+const query = ref<Record<string, string> | null>(null);
+const options = ref<RadioOption[]>([]);
+const handleSubmitLocation = (values: unknown) => {
+  const valuesTyped = values as FormDataLocation;
+  // Logic to handle location submission
+  query.value = {
+    street:valuesTyped.street,
+    countrycodes:valuesTyped.country,
+    city:valuesTyped.city,
+  }
+};
 const flow = inject<FlowControls>("flow");
 const locationSchema = z.object({
-  country: z.string().min(1, "Country is required"),
-  address: z.string().min(1, "Address is required"),
-  city: z.string().min(1, "City is required"),
+  location: z
+    .object({
+      lat: z.number(),
+      lon: z.number(),
+      id: z.number(),
+      bbox: z.array(z.string()),
+    })
+    .nullable(),
 });
 const handlePrev = () => {
   if (!flow) return;
   flow.prev();
 };
-const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+const { data:potentialLocations } = useLocation(query);
+watch(potentialLocations, () => {
+  if (!potentialLocations.value) {
+    options.value = [];
+    return;
+  }
+  options.value = (potentialLocations.value ?? []).map((loc) => ({
+    label: loc.display_name,
+    value: {
+      id: loc.place_id,
+      lat: parseFloat(loc.lat),
+      lon: parseFloat(loc.lon),
+      bbox: loc.boundingbox,
+    },
+  }));
+},
+{ immediate: true });
+const handleSubmit = async (values: unknown) => {
+  const { location } = values as { location: FormDataLocation };
+  const locationMapped = {
+    ...location,
+    country_code: query.value?.countrycodes || "",
+    city: query.value?.city || "",
+    address_or_name: query.value?.street || "",
+  }
   if (!flow) return;
-  flow.next(values);
+  flow.next({ location: locationMapped });
 };
 </script>

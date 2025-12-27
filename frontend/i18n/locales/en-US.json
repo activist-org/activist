@@ -1,4 +1,7 @@
 {
+  "i18n.components.form.search_location.search_location":"Search location",
+  "i18n.components.machine_steps_create_event_time.all_day_long_event":"All day long",
+  "i18n.components.machine_steps_create_event_location.select_location":"Select a location",
   "i18n._global.about": "About",
   "i18n._global.activist_icon_img_alt_text": "The activist icon: a lower case letter a with a half circle pointing down and to the left in the center.",
   "i18n._global.auth.reset_password": "Reset password",
@@ -316,7 +319,7 @@
   "i18n.components.machine.steps._global.previous_step": "Previous",
   "i18n.components.machine.steps._global.previous_step_aria_label": "Go to the previous screen in the form",
   "i18n.components.machine_steps_create_event_link_online.link_to_event": "Link to event",
-  "i18n.components.machine_steps_create_event_location.address": "Address",
+  "i18n.components.machine_steps_create_event_location.street_house_number": "Street and House Number",
   "i18n.components.machine_steps_create_event_time.create_another_event": "Create another event",
   "i18n.components.machine_steps_create_event_time.end_time": "End Time",
   "i18n.components.machine_steps_create_event_time.event_schedule": "Event Schedule",

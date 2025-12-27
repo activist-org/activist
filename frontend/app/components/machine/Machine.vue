@@ -29,9 +29,10 @@
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps<{
   machineType: MachineType;
-  options?: Record<string, unknown>;
+  options?: UseFlowScreensOptions;
 }>();
 const emit = defineEmits(["close", "submit"]);
 

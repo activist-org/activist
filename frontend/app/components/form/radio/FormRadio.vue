@@ -7,12 +7,6 @@
     class="field"
     type="radio"
   />
-  <label v-if="label" :for="uuid">
-    {{ label }}
-  </label>
-  <BaseErrorMessage :id="`${uuid}-error`" v-if="error">
-    {{ error }}
-  </BaseErrorMessage>
 </template>
 
 <script setup lang="ts">
