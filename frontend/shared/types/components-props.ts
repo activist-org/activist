@@ -28,7 +28,7 @@ export interface BtnRoute extends BtnBase {
   rightIcon?: string;
 }
 export interface RadioOption {
-  value: string;
+  value: unknown;
   customColor?: string;
   label: string;
 }
