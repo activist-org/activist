@@ -12,18 +12,7 @@
         :options="optionViews"
       />
     </div>
-          <div class="mt-2 flex w-full justify-start">
-            <button
-              @click="clearFilters"
-              :aria-label="clearAriaLabel"
-              class="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-section-div bg-layer-2 px-3 py-1.5 text-sm text-white hover:bg-layer-3 hover:text-cta-orange dark:text-white dark:hover:text-cta-orange"
-              data-testid="events-filter-clear"
-              type="button"
-            >
-              <Icon aria-hidden="true"  class="h-4 w-4"  :name="IconMap.TRASH" />
-              <span>{{ clearAriaLabel }}</span>
-            </button>
-          </div>
+       
     <Form
       :key="formKey"
       @submit="handleSubmit"
@@ -129,11 +118,6 @@ import { z } from "zod";
 
 const { t, te } = useI18n();
 
-const clearAriaLabel = computed(() =>
-  te("i18n.components.sidebar_left_filter_events.clear_filters_aria_label")
-    ? t("i18n.components.sidebar_left_filter_events.clear_filters_aria_label")
-    : "Clear filters"
-);
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
@@ -294,13 +278,5 @@ const handleSubmit = (_values: unknown) => {
   });
 };
 
-const clearFilters = () => {
-  formData.value = {};
-  formKey.value = (formKey.value + 1) % 2;
-  router.push({
-    query: {
-      view: viewType.value,
-    },
-  });
-};
+
 </script>
