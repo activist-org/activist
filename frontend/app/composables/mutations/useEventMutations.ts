@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+export const useEventMutations = () => {
+  const { showToastError } = useToaster();
+
+  const loading = ref(false);
+  const error = ref<Error | null>(null);
+
+  const create = async (eventData: CreateEventInput) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const event = await createEvent(eventData);
+      await refreshEventList();
+      return event;
+    } catch (e) {
+      error.value = e as AppError;
+      showToastError(error.value.message);
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  };
+  const refreshEventList = async () => {
+    // Invalidate and refetch event list data.
+    // Invalidate the useAsyncData cache so next read will refetch.
+    await refreshNuxtData(getKeyForGetEvents());
+  };
+
+  return {
+    loading,
+    error,
+    create,
+    refreshEventList,
+  };
+};
