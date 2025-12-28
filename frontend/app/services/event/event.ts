@@ -77,11 +77,9 @@ export async function createEvent(
   data: CreateEventInput
 ): Promise<EventResponse> {
   try {
-    const res = await post<EventResponse, typeof data>(
-      `/events/create`,
-      data,
-      { headers: { "Content-Type": "application/json" } }
-    );
+    const res = await post<EventResponse, typeof data>(`/events/create`, data, {
+      headers: { "Content-Type": "application/json" },
+    });
     return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);

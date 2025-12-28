@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-export const searchLocationNomatim = async (filters: Record<string, unknown>) => {
+export const searchLocationNomatim = async (
+  filters: Record<string, unknown>
+) => {
   const nominatimBaseUrl = "https://nominatim.openstreetmap.org/search";
   try {
     const query = new URLSearchParams();
@@ -16,9 +18,8 @@ export const searchLocationNomatim = async (filters: Record<string, unknown>) =>
     }
     const data = await response.json();
     return data;
-  }
-  catch (error) {
+  } catch (error) {
     const err = errorHandler(error);
     throw err;
   }
-}
+};

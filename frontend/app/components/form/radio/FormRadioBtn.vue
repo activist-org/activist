@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="relative flex h-9 w-full items-center border border-interactive font-bold first:rounded-l-md last:rounded-r-md py-7 px-2"
+    class="relative flex h-9 w-full items-center border border-interactive px-2 py-7 font-bold first:rounded-l-md last:rounded-r-md"
     :class="{
       'style-menu-option-cta': optionIsChecked(value) && !customColor,
       [customColorClass]: optionIsChecked(value) && customColor,
