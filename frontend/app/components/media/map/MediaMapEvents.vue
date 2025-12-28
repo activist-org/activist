@@ -139,7 +139,9 @@ const pointers: PointerCluster[] = events.map((event) => {
       id: event.id,
       name: event.name,
       type: event.type,
-      location: event.physicalLocation ? event.physicalLocation.displayName : "",
+      location: event.physicalLocation
+        ? event.physicalLocation.displayName
+        : "",
     },
   };
 });
