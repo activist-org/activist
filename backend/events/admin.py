@@ -40,7 +40,7 @@ class EventAdminForm(ModelForm):  # type: ignore[type-arg]
         cleaned_data: dict[str, Any] = super().clean() or {}
         setting = cleaned_data.get("setting")
         online_location_link = cleaned_data.get("online_location_link")
-        offline_location = cleaned_data.get("offline_location")
+        physical_location = cleaned_data.get("physical_location")
 
         if setting == "online":
             if not online_location_link:
@@ -50,13 +50,13 @@ class EventAdminForm(ModelForm):  # type: ignore[type-arg]
                     }
                 )
 
-            cleaned_data["offline_location"] = None
+            cleaned_data["physical_location"] = None
 
-        elif setting == "offline":
-            if not offline_location:
+        elif setting == "physical":
+            if not physical_location:
                 raise ValidationError(
                     {
-                        "offline_location": "Offline location is required for offline events."
+                        "physical_location": "Physical location is required for physical events."
                     }
                 )
 

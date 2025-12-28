@@ -98,11 +98,11 @@ class EventAPIView(GenericAPIView[Event]):
         )
         serializer.is_valid(raise_exception=True)
 
-        location_data = serializer.validated_data["offline_location"]
+        location_data = serializer.validated_data["physical_location"]
         location = Location.objects.create(**location_data)
 
         try:
-            serializer.save(created_by=request.user, offline_location=location)
+            serializer.save(created_by=request.user, physical_location=location)
             logger.info(
                 f"Event created by user {request.user.id} with location {location.id}"
             )
@@ -725,7 +725,7 @@ class EventCalenderAPIView(APIView):
             (
                 event.online_location_link
                 if event.setting == "online"
-                else event.offline_location
+                else event.physical_location
             ),
         )
         ical_event.add("uid", event.id)
