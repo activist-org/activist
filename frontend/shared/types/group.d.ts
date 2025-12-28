@@ -33,6 +33,14 @@ export interface GroupImage {
   imageId: string;
   sequenceIndex: number;
 }
+export interface CreateGroupInput {
+  name: string;
+  tagline?: string;
+  city: string;
+  description: string;
+  topics: TopicEnum[];
+  organization: string;
+}
 
 export interface GroupMember {
   groupId: string;

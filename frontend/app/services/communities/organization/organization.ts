@@ -74,6 +74,23 @@ export async function listOrganizationsByUserId(
   }
 }
 
+// MARK: Create
+
+export async function createOrganization(
+  data: CreateOrganizationInput
+): Promise<OrganizationResponse> {
+  try {
+    const res = await post<OrganizationResponse, typeof data>(
+      `/communities/organizations`,
+      data,
+      { headers: { "Content-Type": "application/json" } }
+    );
+    return mapOrganization(res);
+  } catch (e) {
+    throw errorHandler(e);
+  }
+}
+
 // MARK: List All
 
 export async function listOrganizations(
@@ -99,34 +116,6 @@ export async function listOrganizations(
       { withoutAuth: true }
     );
     return { data: res.results.map(mapOrganization), isLastPage: !res.next };
-  } catch (e) {
-    throw errorHandler(e);
-  }
-}
-
-// MARK: Create
-
-export async function createOrganization(
-  data: OrganizationCreateFormData
-): Promise<string | false> {
-  try {
-    const payload = {
-      name: data.name,
-      location: data.location,
-      tagline: data.tagline,
-      social_accounts: data.social_accounts,
-      description: data.description,
-      topics: data.topics,
-      high_risk: false,
-      total_flags: 0,
-      acceptance_date: new Date(),
-    };
-    const res = await post<OrganizationResponse, typeof payload>(
-      `/communities/organizations`,
-      payload,
-      { headers: { "Content-Type": "application/json" } }
-    );
-    return res.id;
   } catch (e) {
     throw errorHandler(e);
   }

@@ -65,10 +65,10 @@ const handlePrev = () => {
   if (!flow) return;
   flow.prev();
 };
-const handleSubmit = async (values: Record<string, unknown>) => {
+const handleSubmit = (values: Record<string, unknown>) => {
   // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const { city } = values;
   if (!flow) return;
-  flow.next(values);
+  flow.next({ city });
 };
 </script>

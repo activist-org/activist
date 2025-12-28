@@ -15,3 +15,5 @@ export * from "./useOrganizationResourcesMutations";
 export * from "./useOrganizationSocialLinksMutations";
 export * from "./useOrganizationTextsMutations";
 export * from "./useEventMutations";
+export * from "./useGroupMutations";
+export * from "./useOrganizationMutations";
