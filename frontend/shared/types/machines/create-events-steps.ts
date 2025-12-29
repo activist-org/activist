@@ -6,5 +6,5 @@ export enum CreateEventSteps {
   Location = "location",
   Time = "time",
   LinkOnline = "linkOnline",
-  OnlineLocationOrPhysical = "onlineLocationOrPhysical",
+  OnlineOrPhysicalLocation = "onlineOrPhysicalLocation",
 }

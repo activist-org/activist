@@ -47,7 +47,7 @@ export const newEventsFilter = (parent: Page | Locator) => {
     eventTypeSection: root.getByTestId("events-filter-event-type"),
 
     /**
-     * Location type filter section (physical/in-person, online).
+     * Location type filter section (physical, online).
      */
     locationTypeSection: root.getByTestId("events-filter-location-type"),
 

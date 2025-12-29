@@ -194,8 +194,8 @@ const optionLocations = [
   {
     value: "physical",
     key: "PHYSICAL",
-    content: t("i18n.components._global.location_type_in_person"),
-    aria_label: "i18n.components._global.location_type_in_person_aria_label",
+    content: t("i18n.components._global.location_type_physical"),
+    aria_label: "i18n.components._global.location_type_physical_aria_label",
     class: "text-nowrap",
   },
   {
