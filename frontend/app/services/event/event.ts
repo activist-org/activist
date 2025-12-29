@@ -75,14 +75,12 @@ export async function listEvents(
 
 export async function createEvent(
   data: CreateEventInput
-): Promise<EventResponse> {
+): Promise<string> {
   try {
-    const res = await post<EventResponse, typeof data>(
-      `/events/events`,
-      data,
-      { headers: { "Content-Type": "application/json" } }
-    );
-    return mapEvent(res);
+    const res = await post<string, typeof data>(`/events/events`, data, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res;
   } catch (e) {
     throw errorHandler(e);
   }

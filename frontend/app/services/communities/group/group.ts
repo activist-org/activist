@@ -78,14 +78,14 @@ export async function listGroups(
 
 export async function createGroup(
   data: CreateGroupInput
-): Promise<GroupResponse> {
+): Promise<string> {
   try {
-    const res = await post<GroupResponse, typeof data>(
+    const res = await post<string, typeof data>(
       `/communities/groups`,
       data,
       { headers: { "Content-Type": "application/json" } }
     );
-    return mapGroup(res);
+    return res;
   } catch (e) {
     throw errorHandler(e);
   }

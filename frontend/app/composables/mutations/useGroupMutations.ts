@@ -20,17 +20,17 @@ export const useGroupMutations = () => {
     } finally {
       loading.value = false;
     }
-  }
+  };
   const refreshGroupList = async () => {
     // Invalidate and refetch group list data.
     // Invalidate the useAsyncData cache so next read will refetch.
-    clearNuxtData((key) => key.startsWith('groups-list:'));
-  }
+    clearNuxtData((key) => key.startsWith("groups-list:"));
+  };
 
   return {
     loading,
     error,
     create,
     refreshGroupList,
-  }
-}
+  };
+};

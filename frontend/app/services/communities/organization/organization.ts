@@ -78,14 +78,14 @@ export async function listOrganizationsByUserId(
 
 export async function createOrganization(
   data: CreateOrganizationInput
-): Promise<OrganizationResponse> {
+): Promise<string> {
   try {
-    const res = await post<OrganizationResponse, typeof data>(
+    const res = await post<string, typeof data>(
       `/communities/organizations`,
       data,
       { headers: { "Content-Type": "application/json" } }
     );
-    return mapOrganization(res);
+    return res;
   } catch (e) {
     throw errorHandler(e);
   }
