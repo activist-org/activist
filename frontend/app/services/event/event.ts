@@ -73,9 +73,7 @@ export async function listEvents(
 
 // MARK: Create
 
-export async function createEvent(
-  data: CreateEventInput
-): Promise<string> {
+export async function createEvent(data: CreateEventInput): Promise<string> {
   try {
     const res = await post<string, typeof data>(`/events/events`, data, {
       headers: { "Content-Type": "application/json" },
