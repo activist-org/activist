@@ -73,7 +73,7 @@
           :event="event"
         />
         <MediaMapEvent
-          v-if="event?.offlineLocation && !textExpanded"
+          v-if="event?.physicalLocation && !textExpanded"
           class="h-[17.5rem] w-full"
           :event="event"
         />

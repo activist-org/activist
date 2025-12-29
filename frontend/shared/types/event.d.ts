@@ -6,7 +6,7 @@ interface EventBase extends Entity {
   iconUrl?: ContentImage;
   type: EventType;
   onlineLocationLink?: string;
-  offlineLocation?: PhysicalLocation;
+  physicalLocation?: PhysicalLocation;
   socialLinks: EventSocialLink[];
   faqEntries?: FaqEntry[];
   startTime: string;
@@ -41,7 +41,7 @@ export interface EventAttendee {
 
 export interface EventFilters {
   setting?: EventType;
-  locationType?: "online" | "offline";
+  locationType?: "online" | "physical";
   topics?: TopicEnum[]; // array of topic IDs
   name?: string; // search term for event name
   days_ahead?: number; // number of days in the future

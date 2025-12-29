@@ -112,7 +112,7 @@ def test_EventListAPIView(logged_in_user) -> None:
         "name": new_event.name,
         "org_id": org.id,
         "tagline": new_event.tagline,
-        "offline_location": {
+        "physical_location": {
             "lat": location.lat,
             "lon": location.lon,
             "bbox": location.bbox,
@@ -122,7 +122,7 @@ def test_EventListAPIView(logged_in_user) -> None:
         "start_time": new_event.start_time,
         "end_time": new_event.end_time,
         "terms_checked": new_event.terms_checked,
-        "setting": "offline",
+        "setting": "physical",
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")

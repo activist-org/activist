@@ -29,11 +29,11 @@ export const useCreateEventStore = createFlowStore({
         label: "Type",
         type: "screen",
         step: 2,
-        next: CreateEventSteps.OnlineLocationOrOffline,
+        next: CreateEventSteps.OnlineOrPhysicalLocation,
         component: EventTypeStep,
       },
-      [CreateEventSteps.OnlineLocationOrOffline]: {
-        label: "Logic: Online or Offline?",
+      [CreateEventSteps.OnlineOrPhysicalLocation]: {
+        label: "Logic: Online or Physical?",
         type: "logic",
         next: (context) => {
           const nodeData =

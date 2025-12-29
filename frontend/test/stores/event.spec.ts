@@ -99,7 +99,7 @@ describe("useEventStore", () => {
       const store = useEventStore();
       const mockFilters = createMockEventFilters({
         setting: "learn",
-        locationType: "offline",
+        locationType: "physical",
       });
       store.setFilters(mockFilters);
       expect(store.filters).toEqual(mockFilters);

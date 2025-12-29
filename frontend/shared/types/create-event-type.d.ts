@@ -7,7 +7,7 @@ export interface ContextCreateEventData {
   };
   [CreateEventSteps.EventType]: {
     type: EventType;
-    setting: "online" | "offline";
+    setting: "online" | "physical";
   };
   [CreateEventSteps.Time]: {
     dates: {

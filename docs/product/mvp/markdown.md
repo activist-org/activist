@@ -22,7 +22,7 @@ Profiles for organizations on [activist.org](http://activist.org) provide organi
 * **Groups:** Show the the structure of your organization, explain clearly how different parts of your organization interact and welcome new members efficiently to each group with tailored onboarding flows. Each group has their own About, FAQ and Resources. Learn more about **Groups** here.
 * **Resources:** Keep all your public links in one easily accessible location. With future releases we will enable organizations to control the visibility of these resources, sharing them either with the public or exclusively with (certain) members. Learn more about **Resources** here.
 * **FAQ:** Display and answer the questions you frequently get. You can answer them at the level of your organization or at the level of a group. Learn more about **FAQ** here.
-* **Make sharing easy:** You and your organization can easily share your page both online and offline. Organizations have the ability to transform their pages into different file formats suitable for printing. This feature empowers organizations to create informative and visually appealing posters, complete with a QR code linking to their dynamic page on [activist.org](http://activist.org).
+* **Make sharing easy:** You and your organization can easily share your page both online and physically. Organizations have the ability to transform their pages into different file formats suitable for printing. This feature empowers organizations to create informative and visually appealing posters, complete with a QR code linking to their dynamic page on [activist.org](http://activist.org).
 
 ### **How to use**
 
