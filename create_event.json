@@ -2,7 +2,7 @@
   "name": "string (required)",
   "tagline": "string",
   "description": "string (required)",
-  "organizations": [
+  "orgs": [
     "uuid (required)"
   ],
   "groups": [
