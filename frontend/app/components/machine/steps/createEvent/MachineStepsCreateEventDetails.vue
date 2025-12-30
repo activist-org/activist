@@ -103,9 +103,7 @@ const eventDetailsSchema = z.object({
   name: z.string().min(1, t("i18n._global.required")),
   tagline: z.string().optional(),
   description: z.string().min(1, t("i18n._global.required")),
-  orgs: z
-    .array(z.string())
-    .min(1, "Please select at least one organization"),
+  orgs: z.array(z.string()).min(1, "Please select at least one organization"),
   groups: z.array(z.string()).optional(),
 });
 const handleSubmit = (values: Record<string, unknown>) => {
