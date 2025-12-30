@@ -213,36 +213,90 @@ class EventGroupSerializer(serializers.ModelSerializer[Group]):
 # MARK: POST
 
 
-class EventPOSTSerializer(serializers.ModelSerializer[Event]):
+class EventPOSTLocationSerializer(serializers.Serializer):
+    """
+    Serializer for event location during creation.
+    """
+
+    address_or_name = serializers.CharField(required=True)
+    city = serializers.CharField(required=True)
+    country_code = serializers.CharField(required=True)
+    lat = serializers.CharField(required=True)
+    lon = serializers.CharField(required=True)
+    bbox = serializers.ListField(
+        child=serializers.CharField(), required=False, allow_empty=True
+    )
+
+
+class EventPOSTTimesSerializer(serializers.Serializer):
+    """
+    Serializer for event times during creation.
+    """
+
+    date = serializers.DateField(required=False)
+    all_day = serializers.BooleanField(required=True)
+    start_time = serializers.DateTimeField(required=False)
+    end_time = serializers.DateTimeField(required=False)
+
+
+class EventPOSTSerializer(serializers.Serializer):
     """
     Serializer for creating events with related fields.
     """
 
-    texts = EventTextSerializer(write_only=True, required=False)
-    social_links = EventSocialLinkSerializer(write_only=True, required=False)
-    physical_location = LocationSerializer(write_only=True)
-    org_id = serializers.PrimaryKeyRelatedField(
-        queryset=Organization.objects.all(), source="orgs"
+    orgs = serializers.ListSerializer(child=serializers.UUIDField(), required=True)
+    groups = serializers.ListSerializer(child=serializers.UUIDField(), required=False)
+    name = serializers.CharField(required=True)
+    tagline = serializers.CharField(required=True, min_length=3, max_length=255)
+    description = serializers.CharField(required=True, min_length=10, max_length=1000)
+    location_type = serializers.ChoiceField(
+        choices=[("physical", "Physical"), ("online", "Online")], required=True
     )
-    # group_id = serializers.PrimaryKeyRelatedField(
-    #     queryset=Group.objects.all(), source="groups"
-    # )
+    type = serializers.ChoiceField(
+        choices=[("learn", "Learn"), ("action", "Action")], required=True
+    )
+    topics = serializers.ListSerializer(
+        child=serializers.CharField(), required=True, max_length=255
+    )
+    online_location_link = serializers.URLField(required=False, allow_blank=True)
+    location = EventPOSTLocationSerializer(required=False)
+    times = EventPOSTTimesSerializer(required=True, many=True)
 
-    class Meta:
-        model = Event
+    def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Validate event creation data.
 
-        exclude = (
-            "discussions",
-            "formats",
-            "roles",
-            "tags",
-            "tasks",
-            "topics",
-            "orgs",
-            "created_by",
-            "icon_url",
-            "deletion_date",
-        )
+        Parameters
+        ----------
+        data : Dict[str, Any]
+            Event creation data dictionary to validate.
+
+        Returns
+        -------
+        Dict[str, Any]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If validation fails for any field.
+        """
+        # Additional validation logic can be added here as needed.
+
+        # Query topic and ensure they exist.
+        topic_types = data.get("topics")
+
+        if topic_types:
+            topics = Topic.objects.filter(type__iexact__in=topic_types, active=True)
+
+            if len(topics) != len(topic_types):
+                raise serializers.ValidationError(
+                    "One or more topics are invalid or inactive."
+                )
+
+            data["topics"] = topics
+
+        return data
 
 
 # MARK: Event
@@ -258,8 +312,8 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     physical_location = LocationSerializer()
     resources = EventResourceSerializer(many=True, read_only=True)
     faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
-    orgs = EventOrganizationSerializer(read_only=True)
-    groups = EventGroupSerializer(read_only=True)
+    orgs = EventOrganizationSerializer(many=True, read_only=True)
+    groups = EventGroupSerializer(many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
 
