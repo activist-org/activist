@@ -114,10 +114,10 @@ const optionLocations = [
     class: "text-nowrap",
   },
 ];
-const handleSubmit = async (values: Record<string, unknown>) => {
+const handleSubmit = (values: Record<string, unknown>) => {
   // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const { setting, ...rest } = values;
   if (!flow) return;
-  flow.next(values);
+  flow.next({ location_type: setting, ...rest });
 };
 </script>
