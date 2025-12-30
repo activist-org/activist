@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { mount } from "@vue/test-utils"; // Required to trigger onMounted
 import { defineStore, setActivePinia, createPinia } from "pinia";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -35,8 +36,12 @@ const useMockStore = defineStore("mock-flow", {
     close() {
       this.active = false;
     },
-    async next() { /* spyable */ },
-    prev() { /* spyable */ },
+    async next() {
+      /* spyable */
+    },
+    prev() {
+      /* spyable */
+    },
   },
 });
 
@@ -108,7 +113,9 @@ describe("useFlowScreens", () => {
     const store = useMockStore();
     const { currentScreen, loading } = useFlowScreens("testMachine");
 
-    const AsyncComponentFactory = vi.fn().mockResolvedValue({ default: MockComponent });
+    const AsyncComponentFactory = vi
+      .fn()
+      .mockResolvedValue({ default: MockComponent });
 
     store.active = true;
     store.currentNode = {
@@ -152,7 +159,7 @@ describe("useFlowScreens", () => {
       onSubmit: onSubmitSpy,
     });
 
-    store.saveResult = { final: "data" } ;
+    store.saveResult = { final: "data" };
     store.isFinished = true;
 
     await nextTick();

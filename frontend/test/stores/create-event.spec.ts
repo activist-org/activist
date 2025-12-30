@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { setActivePinia, createPinia } from "pinia";
 import { describe, it, expect, beforeEach } from "vitest";
 
@@ -26,9 +27,9 @@ describe("useCreateEventStore", () => {
     await store.next({ name: "My Offline Event" });
     expect(store.nodeId).toBe(CreateEventSteps.EventType);
 
-    // 2. Type -> Logic Node (with setting: 'offline')
-    await store.next({ setting: "offline" });
-    expect(store.nodeId).toBe(CreateEventSteps.OnlineLocationOrOffline);
+    // 2. Type -> Logic Node (with setting: 'physical')
+    await store.next({ setting: "physical" });
+    expect(store.nodeId).toBe(CreateEventSteps.OnlineOrPhysicalLocation);
 
     // 3. Logic Node -> Location
     // (Logic nodes require an execution tick)
@@ -49,7 +50,7 @@ describe("useCreateEventStore", () => {
 
     // 2. Type -> Logic Node (with setting: 'online')
     await store.next({ setting: "online" });
-    expect(store.nodeId).toBe(CreateEventSteps.OnlineLocationOrOffline);
+    expect(store.nodeId).toBe(CreateEventSteps.OnlineOrPhysicalLocation);
 
     // 3. Logic Node -> LinkOnline (Conditional Jump)
     await store.next();
@@ -65,12 +66,12 @@ describe("useCreateEventStore", () => {
     store.start();
 
     // Step through the whole flow
-    await store.next({ name: "Final Event" });      // Details
-    await store.next({ setting: "online" });        // Type
-    await store.next();                             // Logic (jump to Link)
-    await store.next({ link: "http://test.com" });  // Link
-    await store.next({ date: "2024-01-01" });       // Time
-    await store.next();                             // Logic (End)
+    await store.next({ name: "Final Event" }); // Details
+    await store.next({ setting: "online" }); // Type
+    await store.next(); // Logic (jump to Link)
+    await store.next({ link: "http://test.com" }); // Link
+    await store.next({ date: "2024-01-01" }); // Time
+    await store.next(); // Logic (End)
 
     expect(store.isFinished).toBe(true);
     expect(store.saveResult).toEqual({

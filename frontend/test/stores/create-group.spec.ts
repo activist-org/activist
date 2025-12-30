@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { setActivePinia, createPinia } from "pinia";
 import { describe, it, expect, beforeEach } from "vitest";
 
@@ -28,7 +29,9 @@ describe("useCreateGroupStore", () => {
     await store.next({ name: "Vue Developers Meetup" });
 
     expect(store.nodeId).toBe(CreateGroupSteps.Location);
-    expect(store.nodeData[CreateGroupSteps.GroupDetails]).toEqual({ name: "Vue Developers Meetup" });
+    expect(store.nodeData[CreateGroupSteps.GroupDetails]).toEqual({
+      name: "Vue Developers Meetup",
+    });
     expect(store.history).toContain(CreateGroupSteps.GroupDetails);
   });
 

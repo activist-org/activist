@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { setActivePinia, createPinia } from "pinia";
 import { describe, it, expect, beforeEach } from "vitest";
 
@@ -28,8 +29,12 @@ describe("useCreateOrganizationStore", () => {
     await store.next({ name: "Vue Developers Meetup" });
 
     expect(store.nodeId).toBe(CreateOrganizationSteps.Location);
-    expect(store.nodeData[CreateOrganizationSteps.OrganizationDetails]).toEqual({ name: "Vue Developers Meetup" });
-    expect(store.history).toContain(CreateOrganizationSteps.OrganizationDetails);
+    expect(store.nodeData[CreateOrganizationSteps.OrganizationDetails]).toEqual(
+      { name: "Vue Developers Meetup" }
+    );
+    expect(store.history).toContain(
+      CreateOrganizationSteps.OrganizationDetails
+    );
   });
 
   it("completes the flow and saves all data", async () => {
