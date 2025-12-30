@@ -107,7 +107,7 @@ def test_days_ahead_with_type_and_setting_combination(mock_now) -> None:
     # Wrong setting.
     EventFactory.create(
         type="learn",
-        setting="offline",
+        setting="physical",
         start_time=FIXED_NOW + timedelta(days=3),
         end_time=FIXED_NOW + timedelta(days=3, hours=2),
     )
