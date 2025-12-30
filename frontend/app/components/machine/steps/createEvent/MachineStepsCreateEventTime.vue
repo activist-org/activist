@@ -251,7 +251,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
       allDayLong?: boolean;
     }[]
   ).map((t) => ({
-    date: t.date.toDateString(),
+    date: t.date.toISOString().split("T")[0],
     start_time: t.startTime,
     end_time: t.endTime,
     all_day: t.allDayLong || false,
