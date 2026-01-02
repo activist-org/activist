@@ -6,7 +6,6 @@ Models for the events app.
 from typing import Any
 from uuid import uuid4
 
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from content.models import Faq, Resource, SocialLink, Text
@@ -25,18 +24,15 @@ class Event(models.Model):
         related_name="created_events",
         on_delete=models.CASCADE,
     )
-    orgs = models.ForeignKey(
-        "communities.Organization", related_name="events", on_delete=models.CASCADE
+    description = models.TextField(max_length=1000, blank=False)
+    orgs = models.ManyToManyField(
+        "communities.Organization", related_name="events", blank=False
     )
-    groups = models.ForeignKey(
-        "communities.Group",
-        related_name="events",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
+    groups = models.ManyToManyField(
+        "communities.Group", related_name="events", blank=True
     )
     name = models.CharField(max_length=255)
-    tagline = models.CharField(max_length=255, blank=True)
+    tagline = models.CharField(max_length=255, blank=False)
     icon_url = models.ForeignKey(
         "content.Image", on_delete=models.CASCADE, blank=True, null=True
     )
@@ -55,8 +51,7 @@ class Event(models.Model):
         "content.Location", on_delete=models.CASCADE, blank=True, null=True
     )
     is_private = models.BooleanField(default=False)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    times = models.ManyToManyField("events.EventTime", blank=True)
     terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
@@ -70,18 +65,6 @@ class Event(models.Model):
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
-
-    def clean(self) -> None:
-        """
-        Validate the event data.
-
-        Raises
-        ------
-        ValidationError
-            If the start time is after the end time.
-        """
-        if self.start_time and self.end_time and self.start_time > self.end_time:
-            raise ValidationError("The start time must be before the end time.")
 
     def save(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -104,6 +87,19 @@ class Event(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class EventTime(models.Model):
+    """
+    Model for event times.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    def __str__(self) -> str:
+        return f"{self.start_time} - {self.end_time}"
 
 
 # MARK: Attendee

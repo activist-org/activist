@@ -26,7 +26,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 from events.filters import EventFilters
@@ -98,34 +97,24 @@ class EventAPIView(GenericAPIView[Event]):
         )
         serializer.is_valid(raise_exception=True)
 
-        location_data = serializer.validated_data["physical_location"]
-        location = Location.objects.create(**location_data)
-
         try:
-            serializer.save(created_by=request.user, physical_location=location)
-            logger.info(
-                f"Event created by user {request.user.id} with location {location.id}"
+            event = serializer.save(
+                validated_data=serializer.validated_data, created_by=request.user
             )
+            logger.info(f"Event created by user {request.user.id} with location ")
 
         except ValidationError as e:
             logger.exception(
                 f"Validation failed for event creation by user {request.user.id}: {e}"
             )
-            Location.objects.filter(id=location.id).delete()
             return Response(
                 {"detail": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        except (IntegrityError, OperationalError) as e:
-            logger.exception(f"Failed to create event for user {request.user.id}: {e}")
-            Location.objects.filter(id=location.id).delete()
-            return Response(
-                {"detail": "Failed to create event."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # Use EventSerializer to return the created event
+        response_serializer = EventSerializer(event)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
 
 # MARK: Detail API

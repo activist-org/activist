@@ -6,6 +6,7 @@ Factories for creating mock instances of models in the events app.
 # mypy: ignore-errors
 import datetime
 import random
+from collections.abc import Iterable
 
 import factory
 
@@ -18,6 +19,7 @@ from events.models import (
     EventResource,
     EventSocialLink,
     EventText,
+    EventTime,
     Format,
     Role,
 )
@@ -33,9 +35,6 @@ class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Event
 
-    orgs = factory.SubFactory("communities.organizations.factories.OrganizationFactory")
-    # Note: Events need organizations but do not need groups.
-    # groups = factory.SubFactory("communities.groups.factories.GroupFactory")
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
@@ -43,6 +42,80 @@ class EventFactory(factory.django.DjangoModelFactory):
     online_location_link = factory.Faker("url")
     physical_location = factory.SubFactory("content.factories.EventLocationFactory")
     is_private = factory.Faker("boolean")
+    creation_date = factory.LazyFunction(
+        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
+    deletion_date = random.choice(
+        [
+            None,
+            datetime.datetime.now(tz=datetime.timezone.utc)
+            + datetime.timedelta(days=30),
+        ]
+    )
+    setting = random.choice(["online", "physical"])
+
+    @factory.post_generation
+    def orgs(self, create, extracted, **kwargs):  # type: ignore[override]
+        """Attach organizations via ManyToMany operations."""
+        if not create:
+            return
+
+        if extracted is None:
+            from communities.organizations.factories import OrganizationFactory
+
+            organizations = [OrganizationFactory()]
+        elif isinstance(extracted, Iterable) and not isinstance(
+            extracted, (str, bytes)
+        ):
+            organizations = list(extracted)
+        else:
+            organizations = [extracted]
+
+        self.orgs.set(organizations)
+
+    @factory.post_generation
+    def groups(self, create, extracted, **kwargs):  # type: ignore[override]
+        """Attach optional groups via ManyToMany operations."""
+        if not create or extracted is None:
+            return
+
+        if isinstance(extracted, Iterable) and not isinstance(extracted, (str, bytes)):
+            groups = list(extracted)
+        else:
+            groups = [extracted]
+
+        self.groups.set(groups)
+
+    @factory.post_generation
+    def times(self, create, extracted, **kwargs):  # type: ignore[override]
+        """Attach event times via ManyToMany operations."""
+        if not create:
+            return
+
+        if extracted is None:
+            # Create 1-3 event times by default
+            event_times = [EventTimeFactory() for _ in range(random.randint(1, 3))]
+        elif isinstance(extracted, Iterable) and not isinstance(
+            extracted, (str, bytes)
+        ):
+            event_times = list(extracted)
+        else:
+            event_times = [extracted]
+
+        self.times.set(event_times)
+
+
+# MARK: EventTime
+
+
+class EventTimeFactory(factory.django.DjangoModelFactory):
+    """
+    Factory for creating EventTime model instances.
+    """
+
+    class Meta:
+        model = EventTime
+
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
         + datetime.timedelta(
@@ -71,21 +144,8 @@ class EventFactory(factory.django.DjangoModelFactory):
     )
     end_time = factory.LazyAttribute(
         lambda obj: obj.start_time
-        + datetime.timedelta(
-            hours=random.randint(1, 8)  # events last 1-8 hours
-        )
+        + datetime.timedelta(hours=random.randint(1, 8))  # events last 1-8 hours
     )
-    creation_date = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    deletion_date = random.choice(
-        [
-            None,
-            datetime.datetime.now(tz=datetime.timezone.utc)
-            + datetime.timedelta(days=30),
-        ]
-    )
-    setting = random.choice(["online", "physical"])
 
 
 # MARK: Role

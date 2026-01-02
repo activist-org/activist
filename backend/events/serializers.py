@@ -11,9 +11,10 @@ from uuid import UUID
 from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
 
+from authentication.models import UserModel
 from communities.groups.models import Group
 from communities.organizations.models import Organization
-from content.models import Topic
+from content.models import Location, Topic
 from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer
 from events.models import (
     Event,
@@ -22,6 +23,7 @@ from events.models import (
     EventResource,
     EventSocialLink,
     EventText,
+    EventTime,
     Format,
 )
 from utils.utils import (
@@ -281,22 +283,82 @@ class EventPOSTSerializer(serializers.Serializer):
         ValidationError
             If validation fails for any field.
         """
-        # Additional validation logic can be added here as needed.
+        orgs = data.pop("orgs")
+        groups = data.pop("groups", None)
+        topics = data.pop("topics", None)
 
-        # Query topic and ensure they exist.
-        topic_types = data.get("topics")
+        orgs = Organization.objects.filter(id__in=orgs)
+        data["orgs"] = orgs
 
-        if topic_types:
-            topics = Topic.objects.filter(type__iexact__in=topic_types, active=True)
+        if topics:
+            query_topics = Topic.objects.filter(type__in=topics, active=True)
 
-            if len(topics) != len(topic_types):
+            if len(query_topics) != len(topics):
                 raise serializers.ValidationError(
                     "One or more topics are invalid or inactive."
                 )
 
-            data["topics"] = topics
+            data["topics"] = query_topics
+
+        if groups:
+            query_groups = Group.objects.filter(id__in=groups)
+
+            if len(query_groups) != len(groups):
+                raise serializers.ValidationError("One or more groups do not exist.")
+            data["groups"] = query_groups
 
         return data
+
+    def save(self, validated_data: Dict[str, Any], created_by: UserModel) -> Event:
+        """
+        Create an event from validated data.
+
+        Parameters
+        ----------
+        validated_data : Dict[str, Any]
+            Validated event creation data.
+
+        Returns
+        -------
+        Event
+            Created Event instance.
+        """
+        # Extract many-to-many and nested data before creating event
+        location_type = validated_data.pop("location_type", None)
+        location_data = validated_data.pop("location", None)
+        orgs_data = validated_data.pop("orgs", [])
+        groups_data = validated_data.pop("groups", [])
+        topics_data = validated_data.pop("topics", [])
+        times_data = validated_data.pop("times", [])
+
+        if location_data and location_type == "physical":
+            location = Location.objects.create(**location_data)
+            validated_data["physical_location"] = location
+
+        # Create the event
+        event = Event.objects.create(created_by=created_by, **validated_data)
+
+        # Set many-to-many relationships
+        if orgs_data:
+            event.orgs.set(orgs_data)
+        if groups_data:
+            event.groups.set(groups_data)
+        if topics_data:
+            event.topics.set(topics_data)
+
+        if times_data:
+            # Create EventTime instances from the dictionaries
+            event_times = [
+                EventTime(
+                    start_time=time_data.get("start_time"),
+                    end_time=time_data.get("end_time"),
+                )
+                for time_data in times_data
+            ]
+            EventTime.objects.bulk_create(event_times)
+            event.times.set(event_times)
+
+        return event
 
 
 # MARK: Event
