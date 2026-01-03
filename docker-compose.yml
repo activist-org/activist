@@ -3,7 +3,7 @@ services:
     env_file:
       - .env.dev
     image: postgres:15
-    container_name: postgres_db
+    # container_name: postgres_db
     environment:
       - POSTGRES_DB=${DATABASE_NAME}
       - POSTGRES_USER=${DATABASE_USER}
