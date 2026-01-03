@@ -92,16 +92,14 @@ class EventAPIView(GenericAPIView[Event]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer: EventPOSTSerializer | EventSerializer = serializer_class(
-            data=request.data
-        )
+        serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         try:
             event = serializer.save(
-                validated_data=serializer.validated_data, created_by=request.user
+                created_by=request.user, validated_data=serializer.validated_data
             )
-            logger.info(f"Event created by user {request.user.id} with location ")
+            logger.info(f"Event created by user {request.user.id}")
 
         except ValidationError as e:
             logger.exception(
@@ -112,7 +110,6 @@ class EventAPIView(GenericAPIView[Event]):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Use EventSerializer to return the created event
         response_serializer = EventSerializer(event)
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 

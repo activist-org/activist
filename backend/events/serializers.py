@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Union
 from uuid import UUID
 
+from django.db import transaction
 from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
 
@@ -317,46 +318,47 @@ class EventPOSTSerializer(serializers.Serializer):
         ----------
         validated_data : Dict[str, Any]
             Validated event creation data.
+        created_by : UserModel
+            User creating the event.
 
         Returns
         -------
         Event
             Created Event instance.
         """
-        # Extract many-to-many and nested data before creating event
-        location_type = validated_data.pop("location_type", None)
-        location_data = validated_data.pop("location", None)
-        orgs_data = validated_data.pop("orgs", [])
-        groups_data = validated_data.pop("groups", [])
-        topics_data = validated_data.pop("topics", [])
-        times_data = validated_data.pop("times", [])
 
-        if location_data and location_type == "physical":
-            location = Location.objects.create(**location_data)
-            validated_data["physical_location"] = location
+        with transaction.atomic():
+            location_type = validated_data.pop("location_type", None)
+            location_data = validated_data.pop("location", None)
+            orgs_data = validated_data.pop("orgs", [])
+            groups_data = validated_data.pop("groups", [])
+            topics_data = validated_data.pop("topics", [])
+            times_data = validated_data.pop("times", [])
 
-        # Create the event
-        event = Event.objects.create(created_by=created_by, **validated_data)
+            if location_data and location_type == "physical":
+                location = Location.objects.create(**location_data)
+                validated_data["physical_location"] = location
 
-        # Set many-to-many relationships
-        if orgs_data:
-            event.orgs.set(orgs_data)
-        if groups_data:
-            event.groups.set(groups_data)
-        if topics_data:
-            event.topics.set(topics_data)
+            event = Event.objects.create(created_by=created_by, **validated_data)
 
-        if times_data:
-            # Create EventTime instances from the dictionaries
-            event_times = [
-                EventTime(
-                    start_time=time_data.get("start_time"),
-                    end_time=time_data.get("end_time"),
-                )
-                for time_data in times_data
-            ]
-            EventTime.objects.bulk_create(event_times)
-            event.times.set(event_times)
+            # Set many-to-many relationships
+            if orgs_data:
+                event.orgs.set(orgs_data)
+            if groups_data:
+                event.groups.set(groups_data)
+            if topics_data:
+                event.topics.set(topics_data)
+
+            if times_data:
+                event_times = [
+                    EventTime(
+                        start_time=time_data.get("start_time"),
+                        end_time=time_data.get("end_time"),
+                    )
+                    for time_data in times_data
+                ]
+                EventTime.objects.bulk_create(event_times)
+                event.times.set(event_times)
 
         return event
 
