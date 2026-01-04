@@ -8,10 +8,8 @@
     <label
       class="z-1 absolute"
       :class="{
-        'translate-x-4 translate-y-[-0.5rem] text-sm text-distinct-text':
-          shrinkLabel,
-        'translate-y-[0.6rem] pl-[12px]':
-          !shrinkLabel && iconLocation === 'right',
+        '-translate-y-2 translate-x-4 text-sm text-distinct-text': shrinkLabel,
+        'translate-y-[0.6rem] pl-3': !shrinkLabel && iconLocation === 'right',
         'translate-y-[0.6rem] pl-[3.4rem]':
           !shrinkLabel && iconLocation === 'left',
       }"
@@ -24,7 +22,7 @@
     >
       <span
         v-if="$slots.icons && iconLocation === 'left'"
-        class="flex items-center gap-2 px-[10px]"
+        class="flex items-center gap-2 px-2.5"
       >
         <slot name="icons"></slot>
       </span>
@@ -35,7 +33,7 @@
         @input="
           (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
         "
-        class="box-content h-5 w-full bg-transparent py-3 pl-[12px] pr-[10px] text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
+        class="box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
         :placeholder="shrinkLabel ? '' : label"
         role="textbox"
         :type="type"
@@ -44,7 +42,7 @@
       />
       <span
         v-if="$slots.icons && iconLocation === 'right'"
-        class="flex items-center gap-2 px-[10px]"
+        class="flex items-center gap-2 px-2.5"
       >
         <slot name="icons"></slot>
       </span>
@@ -52,7 +50,7 @@
       <!-- Using a fieldset allows the label to overlay the border. -->
       <fieldset
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 -top-[5px] bottom-0 rounded border pl-[12px] pr-[10px]"
+        class="pointer-events-none absolute inset-0 -top-[5px] bottom-0 rounded border pl-3 pr-2.5"
         :class="{
           'border-action-red dark:border-action-red': hasError,
           'border-interactive': !hasError,

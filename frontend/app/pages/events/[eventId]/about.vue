@@ -74,7 +74,7 @@
         />
         <MediaMapEvent
           v-if="event?.physicalLocation && !textExpanded"
-          class="h-[17.5rem] w-full"
+          class="h-70 w-full"
           :event="event"
         />
       </div>

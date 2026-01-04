@@ -28,7 +28,7 @@ const TestWrapper = defineComponent({
 
 function expectNormalLabel(label: HTMLElement) {
   expect(label.className, "Label should be normal size").toMatch(
-    "translate-y-[0.6rem] pl-[12px]"
+    "translate-y-[0.6rem] pl-3"
   );
 }
 
@@ -232,7 +232,7 @@ describe("FormTextInput component", () => {
     expect(icon).toBeTruthy();
 
     const label = screen.getByText("Right Icon", { selector: "label" });
-    expect(label.className).toContain("pl-[12px]");
+    expect(label.className).toContain("pl-3");
   });
 
   // MARK: Edge Cases
