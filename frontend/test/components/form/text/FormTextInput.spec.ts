@@ -34,7 +34,7 @@ function expectNormalLabel(label: HTMLElement) {
 
 function expectShrunkLabel(label: HTMLElement) {
   expect(label.className, "Label should be shrunk").toMatch(
-    "translate-x-4 translate-y-[-0.5rem] text-sm text-distinct-text"
+    "z-1 absolute -translate-y-2 translate-x-4 text-sm text-distinct-text"
   );
 }
 

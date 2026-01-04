@@ -56,8 +56,9 @@
             :text="$t('i18n.components._global.command_tooltip_label')"
           />
           <p class="text-sm text-distinct-text">
-⌘k
-</p>
+            <!-- Preserve line break. -->
+            ⌘k
+          </p>
         </div>
         <div
           v-else
@@ -68,8 +69,9 @@
             :text="$t('i18n.components._global.control_tooltip_label')"
           />
           <p class="text-sm text-distinct-text">
-⌃k
-</p>
+            <!-- Preserve line break. -->
+            ⌃k
+          </p>
         </div>
       </div>
     </Transition>
