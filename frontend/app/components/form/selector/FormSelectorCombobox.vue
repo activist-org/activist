@@ -23,7 +23,6 @@
           :label="label"
           :modelValue="query"
           :onBlur="onBlur"
-          :placeholder="label"
         />
       </ComboboxInput>
       <ComboboxButton
