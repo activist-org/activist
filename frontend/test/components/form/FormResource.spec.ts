@@ -7,8 +7,6 @@ import { TopicEnum } from "../../../shared/types/topics";
 import { createResource } from "../../mocks/factories";
 import render from "../../render";
 
-
-
 /**
  * Comprehensive unit tests for FormResource.vue
  *
@@ -36,7 +34,6 @@ import render from "../../render";
  *
  * Reference: frontend/app/assets/css/tailwind.css for style verification
  */
-
 
 describe("FormResource", () => {
   // MARK: Logic Testing

@@ -39,9 +39,11 @@ import {
 
 // MARK: Resource
 
-export const createResource = (overrides: Partial<Resource> = {}): Resource => ({
+export const createResource = (
+  overrides: Partial<Resource> = {}
+): Resource => ({
   ...defaultResourceData,
-  ...overrides
+  ...overrides,
 });
 
 // MARK: ContentImage
