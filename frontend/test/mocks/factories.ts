@@ -34,7 +34,17 @@ import {
   defaultSocialLinkData,
   defaultTopicData,
   defaultUserData,
+  defaultResourceData,
 } from "./data";
+
+// MARK: Resource
+
+export const createResource = (
+  overrides: Partial<Resource> = {}
+): Resource => ({
+  ...defaultResourceData,
+  ...overrides,
+});
 
 // MARK: ContentImage
 
