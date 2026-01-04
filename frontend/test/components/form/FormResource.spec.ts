@@ -10,29 +10,7 @@ import render from "../../render";
 /**
  * Comprehensive unit tests for FormResource.vue
  *
- * This suite covers:
- * - Logic:
- *   - Resource type validation (name, description, url required)
- *   - URL format validation (must be valid URL)
- *   - Topic validation (optional, but must be valid TopicEnum values)
- *   - Form submission events
- *   - Dynamic props (formData, submitLabel, title)
- * - Style:
- *   - Tailwind layout classes (flex, flex-col, space-y-7)
- *   - Error border styling (border-action-red from tailwind.css)
- *   - Responsive and dynamic styling
- * - Accessibility:
- *   - ARIA attributes and form associations
- *   - Label/input relationships
- *   - Loading states
- * - Edge cases:
- *   - Empty formData
- *   - Invalid URLs
- *   - Invalid topics
- *   - Missing optional props
- *   - Incorrect prop usage
- *
- * Reference: frontend/app/assets/css/tailwind.css for style verification
+ * See: frontend/app/assets/css/tailwind.css for style verification.
  */
 
 describe("FormResource", () => {
@@ -56,13 +34,13 @@ describe("FormResource", () => {
       },
     });
 
-    // Title from `title` prop (in test environment, i18n keys are not translated)
+    // Title from `title` prop (in test environment, i18n keys are not translated).
     const heading = screen.getByRole("heading", { level: 2 });
     expect(heading.textContent).toContain(
       "i18n.components.form_resource._global.edit_resource"
     );
 
-    // Initial form values populated from formData
+    // Initial form values populated from formData.
     const nameInput = screen.getByRole("textbox", {
       name: /name/i,
     }) as HTMLInputElement;
@@ -77,14 +55,14 @@ describe("FormResource", () => {
     expect(descriptionInput.value).toBe(formData.description);
     expect(urlInput.value).toBe(formData.url);
 
-    // Submit button with custom label
+    // Submit button with custom label.
     const submitButton = screen.getByRole("button", {
       name: /submit the form/i,
     });
     expect(submitButton.textContent).toMatch(/save/i);
 
-    // Form associations: labels should be associated with inputs
-    // There are multiple labels (visible and floating), get the first one (visible label)
+    // Form associations: labels should be associated with inputs.
+    // There are multiple labels (visible and floating), get the first one (visible label).
     const nameLabels = screen.getAllByText(/name/i) as HTMLLabelElement[];
     const nameLabel = nameLabels.find(
       (label) => label.getAttribute("for") === nameInput.id
@@ -108,7 +86,7 @@ describe("FormResource", () => {
     });
     await fireEvent.click(submitButton);
 
-    // All required fields should show validation errors
+    // All required fields should show validation errors.
     const nameError = await screen.findByTestId("form-item-name-error");
     const descriptionError = await screen.findByTestId(
       "form-item-description-error"
@@ -119,9 +97,9 @@ describe("FormResource", () => {
     expect(descriptionError.textContent).toMatch(/required/i);
     expect(urlError.textContent).toMatch(/required/i);
 
-    // Style coverage: error fields should have error border color
-    // For text inputs, the border is on a fieldset element
-    // For textarea, the border is directly on the element
+    // Style coverage: error fields should have error border color.
+    // For text inputs, the border is on a fieldset element.
+    // For textarea, the border is directly on the element.
     const nameBorder = await screen.findByTestId("form-item-name-border");
     const descriptionInput = screen.getByRole("textbox", {
       name: /description/i,
@@ -134,7 +112,7 @@ describe("FormResource", () => {
       expect(urlBorder.className).toContain("border-action-red");
     });
 
-    // handleSubmit should NOT be called with invalid data
+    // handleSubmit shouldn't be called with invalid data.
     expect(handleSubmit).not.toHaveBeenCalled();
   });
 
@@ -154,11 +132,11 @@ describe("FormResource", () => {
     });
     const urlInput = screen.getByRole("textbox", { name: /link/i });
 
-    // Fill required fields with valid data
+    // Fill required fields with valid data.
     await fireEvent.update(nameInput, "Test Resource");
     await fireEvent.update(descriptionInput, "A test description");
 
-    // Enter invalid URL
+    // Enter invalid URL.
     await fireEvent.update(urlInput, "not-a-valid-url");
 
     const submitButton = screen.getByRole("button", {
@@ -166,11 +144,11 @@ describe("FormResource", () => {
     });
     await fireEvent.click(submitButton);
 
-    // URL validation error should appear
+    // URL validation error should appear.
     const urlError = await screen.findByTestId("form-item-url-error");
     expect(urlError.textContent).toMatch(/must be valid/i);
 
-    // URL field should have error styling on the border fieldset
+    // URL field should have error styling on the border fieldset.
     const urlBorder = await screen.findByTestId("form-item-url-border");
     await waitFor(() => {
       expect(urlBorder.className).toContain("border-action-red");
@@ -186,7 +164,6 @@ describe("FormResource", () => {
       name: "Test Resource",
       description: "A test description",
       url: "https://example.com",
-      // Invalid topic value
       topics: ["INVALID_TOPIC" as TopicEnum],
     });
 
@@ -203,7 +180,7 @@ describe("FormResource", () => {
     });
     await fireEvent.click(submitButton);
 
-    // Topic validation error should appear
+    // Topic validation error should appear.
     const topicError = await screen.findByTestId("form-item-topics-error");
     expect(topicError.textContent).toMatch(/invalid topic/i);
 
@@ -226,7 +203,7 @@ describe("FormResource", () => {
     }) as HTMLTextAreaElement;
     const urlInput = screen.getByRole("textbox", { name: /link/i });
 
-    // Fill all required fields
+    // Fill all required fields.
     await fireEvent.update(nameInput, "New Resource");
     await fireEvent.update(
       descriptionInput,
@@ -255,7 +232,7 @@ describe("FormResource", () => {
       "A comprehensive resource description"
     );
     expect(submittedData.url).toBe("https://example.com/resource");
-    // Topics should be optional and may be undefined
+    // Topics should be optional and may be undefined.
     expect(submittedData.topics).toBeUndefined();
   });
 
@@ -276,13 +253,13 @@ describe("FormResource", () => {
       },
     });
 
-    // Verify initial values are populated
+    // Verify initial values are populated.
     const nameInput = screen.getByRole("textbox", {
       name: /name/i,
     }) as HTMLInputElement;
     expect(nameInput.value).toBe("Existing Resource");
 
-    // Modify a field
+    // Modify a field.
     await fireEvent.update(nameInput, "Updated Resource");
 
     const submitButton = screen.getByRole("button", {
@@ -322,9 +299,6 @@ describe("FormResource", () => {
     });
     await fireEvent.click(submitButton);
 
-    // Reference: tailwind.css line 34 - --action-red: 186, 61, 59;
-    // Error styling: for text inputs it's on fieldset border elements,
-    // for textarea it's directly on the element
     const nameBorder = await screen.findByTestId("form-item-name-border");
     const descriptionInput = screen.getByRole("textbox", {
       name: /description/i,
@@ -353,18 +327,18 @@ describe("FormResource", () => {
       name: /submit the form/i,
     });
 
-    // Trigger validation error
+    // Trigger validation error.
     await fireEvent.click(submitButton);
     const nameBorder = await screen.findByTestId("form-item-name-border");
     await waitFor(() => {
       expect(nameBorder.className).toContain("border-action-red");
     });
 
-    // Fix the error
+    // Fix the error.
     await fireEvent.update(nameInput, "Valid Name");
     await fireEvent.blur(nameInput);
 
-    // Error styling should be removed from the border fieldset
+    // Error styling should be removed from the border fieldset.
     await waitFor(
       () => {
         expect(nameBorder.className).not.toContain("border-action-red");
@@ -385,15 +359,15 @@ describe("FormResource", () => {
       },
     });
 
-    // Required fields should have required attribute or indication
+    // Required fields should have required attribute or indication.
     const nameInput = screen.getByRole("textbox", { name: /name/i });
     const descriptionInput = screen.getByRole("textbox", {
       name: /description/i,
     });
     const urlInput = screen.getByRole("textbox", { name: /link/i });
 
-    // FormItem component should handle required indication
-    // Verify fields are present and accessible
+    // FormItem component should handle required indication.
+    // Verify fields are present and accessible.
     expect(nameInput).toBeTruthy();
     expect(descriptionInput).toBeTruthy();
     expect(urlInput).toBeTruthy();
@@ -406,13 +380,12 @@ describe("FormResource", () => {
 
     await render(FormResource, {
       props: {
-        // formData is optional
         handleSubmit,
         submitLabel: "i18n.components.form_resource._global.save",
       },
     });
 
-    // Form should render with empty fields
+    // Form should render with empty fields.
     const nameInput = screen.getByRole("textbox", {
       name: /name/i,
     }) as HTMLInputElement;
@@ -449,7 +422,7 @@ describe("FormResource", () => {
     }) as HTMLInputElement;
     expect(nameInput.value).toBe("");
 
-    // Should show validation errors on submit
+    // Should show validation errors on submit.
     const submitButton = screen.getByRole("button", {
       name: /submit the form/i,
     });
@@ -498,7 +471,7 @@ describe("FormResource", () => {
       await fireEvent.update(urlInput, url);
       await fireEvent.blur(urlInput);
 
-      // Should not show URL validation error
+      // Should not show URL validation error.
       const urlError = screen.queryByTestId("form-item-url-error");
       if (urlError) {
         expect(urlError.textContent).not.toMatch(/must be valid/i);
@@ -534,7 +507,7 @@ describe("FormResource", () => {
     const headings = screen.queryAllByRole("heading", { level: 2 });
     expect(headings.length).toBe(0);
 
-    // Form should still be functional
+    // Form should still be functional.
     const nameInput = screen.getByRole("textbox", { name: /name/i });
     expect(nameInput).toBeTruthy();
   });
@@ -568,7 +541,7 @@ describe("FormResource", () => {
     });
     await fireEvent.click(submitButton);
 
-    // Should wait for async operation
+    // Should wait for async operation.
     await waitFor(
       () => {
         expect(handleSubmit).toHaveBeenCalledTimes(1);
@@ -598,13 +571,13 @@ describe("FormResource", () => {
       },
     });
 
-    // Form should render without errors
+    // Form should render without errors.
     const nameInput = screen.getByRole("textbox", {
       name: /name/i,
     }) as HTMLInputElement;
     expect(nameInput.value).toBe("Multi-topic Resource");
 
-    // Should be able to submit
+    // Should be able to submit.
     const submitButton = screen.getByRole("button", {
       name: /submit the form/i,
     });
@@ -621,7 +594,7 @@ describe("FormResource", () => {
       name: "No Topics Resource",
       description: "Resource without topics",
       url: "https://example.com",
-      topics: [], // Empty array
+      topics: [], // empty array
     });
 
     await render(FormResource, {
@@ -632,7 +605,7 @@ describe("FormResource", () => {
       },
     });
 
-    // Should render and submit successfully (topics are optional)
+    // Should render and submit successfully (topics are optional).
     const submitButton = screen.getByRole("button", {
       name: /submit the form/i,
     });
@@ -649,7 +622,7 @@ describe("FormResource", () => {
       name: "No Topics Resource",
       description: "Resource without topics",
       url: "https://example.com",
-      topics: undefined, // Undefined topics
+      topics: undefined, // undefined topics
     });
 
     await render(FormResource, {
@@ -660,7 +633,7 @@ describe("FormResource", () => {
       },
     });
 
-    // Should render and submit successfully (topics are optional)
+    // Should render and submit successfully (topics are optional).
     const submitButton = screen.getByRole("button", {
       name: /submit the form/i,
     });
