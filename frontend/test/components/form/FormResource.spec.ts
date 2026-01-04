@@ -2,11 +2,12 @@
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
-import type { Resource } from "../../../shared/types/resource";
-
 import FormResource from "../../../app/components/form/FormResource.vue";
 import { TopicEnum } from "../../../shared/types/topics";
+import { createResource } from "../../mocks/factories";
 import render from "../../render";
+
+
 
 /**
  * Comprehensive unit tests for FormResource.vue
@@ -36,27 +37,6 @@ import render from "../../render";
  * Reference: frontend/app/assets/css/tailwind.css for style verification
  */
 
-// Helper to create a minimal valid resource
-const createResource = (overrides: Partial<Resource> = {}): Resource => ({
-  id: overrides.id ?? "resource-1",
-  name: overrides.name ?? "Test Resource",
-  description: overrides.description ?? "A test resource description",
-  url: overrides.url ?? "https://example.com/resource",
-  topics: overrides.topics ?? [TopicEnum.ENVIRONMENT],
-  order: overrides.order ?? 0,
-  createdBy: overrides.createdBy ?? {
-    id: "user-1",
-    username: "testuser",
-    email: "test@example.com",
-    name: "Test User",
-    isAdmin: false,
-    isActive: true,
-    isStaff: false,
-    isSuperuser: false,
-    isConfirmed: true,
-    socialLinks: [],
-  },
-});
 
 describe("FormResource", () => {
   // MARK: Logic Testing
