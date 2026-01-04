@@ -153,16 +153,16 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
       await actionButton.click();
 
       // Set location type filter.
-      const offlineButton = eventsFilter.locationTypeSection.getByRole(
+      const physicalButton = eventsFilter.locationTypeSection.getByRole(
         "radio",
         {
-          name: /person|offline/i,
+          name: /person|physical/i,
         }
       );
-      await offlineButton.click();
+      await physicalButton.click();
 
       // Wait for all filters to be applied.
-      await page.waitForURL(/days_ahead=7.*type=action.*setting=offline/, {
+      await page.waitForURL(/days_ahead=7.*type=action.*setting=physical/, {
         timeout: 5000,
       });
     });
@@ -176,7 +176,7 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
         // Verify URL still contains all filter parameters.
         await expect(page).toHaveURL(/days_ahead=7/);
         await expect(page).toHaveURL(/type=action/);
-        await expect(page).toHaveURL(/setting=offline/);
+        await expect(page).toHaveURL(/setting=physical/);
 
         // Verify all filter buttons are still selected.
         const sevenDaysButton = eventsFilter.daysSection.getByRole("radio", {
@@ -189,13 +189,13 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
         });
         await expect(actionButton).toBeChecked();
 
-        const offlineButton = eventsFilter.locationTypeSection.getByRole(
+        const physicalButton = eventsFilter.locationTypeSection.getByRole(
           "radio",
           {
-            name: /person|offline/i,
+            name: /person|physical/i,
           }
         );
-        await expect(offlineButton).toBeChecked();
+        await expect(physicalButton).toBeChecked();
       }
     );
   });

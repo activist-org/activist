@@ -53,7 +53,7 @@ const buildExpandedTooltip = () => {
 
             <div class="flex items-start text-xs text-black mb-1.5 font-semibold space-x-2">
               <img src="${locationIcon}"/>
-              <span>${event.offlineLocation?.displayName.split(",").slice(0, 3).join(", ")}</span>
+              <span>${event.physicalLocation?.displayName.split(",").slice(0, 3).join(", ")}</span>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ const buildExpandedTooltip = () => {
 const pointer: Pointer = {
   id: event.id,
   color: getEventColorByType(event.type as EventType),
-  location: event.offlineLocation || {
+  location: event.physicalLocation || {
     displayName: event.name,
     lat: "0",
     lon: "0",

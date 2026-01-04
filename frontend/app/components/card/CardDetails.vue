@@ -46,8 +46,8 @@
             :label="$t('i18n.components.card_details.attending')"
           /> -->
           <MetaTagLocation
-            v-if="event.offlineLocation"
-            :location="event.offlineLocation.displayName.split(',')[0] ?? ''"
+            v-if="event.physicalLocation"
+            :location="event.physicalLocation.displayName.split(',')[0] ?? ''"
           />
           <MetaTagDate
             v-if="event.startTime"

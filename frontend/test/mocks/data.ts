@@ -5,6 +5,29 @@
  */
 import { TopicEnum } from "../../shared/types/topics";
 
+// MARK: Resource
+
+export const defaultResourceData = {
+  id: "resource-1",
+  name: "Test Resource",
+  description: "A test resource description",
+  url: "https://example.com/resource",
+  topics: [TopicEnum.ENVIRONMENT],
+  order: 0,
+  createdBy: {
+    id: "user-1",
+    username: "testuser",
+    email: "test@example.com",
+    name: "Test User",
+    isAdmin: false,
+    isActive: true,
+    isStaff: false,
+    isSuperuser: false,
+    isConfirmed: true,
+    socialLinks: [],
+  },
+} as const;
+
 // MARK: ContentImage
 
 export const defaultContentImageData = {
