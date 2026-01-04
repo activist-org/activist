@@ -3,14 +3,10 @@
   <div
     id="search"
     v-if="location == SearchBarLocation.SIDEBAR"
-    class="mx-2 flex grow select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 elem-shadow-sm focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
+    class="mx-2 flex grow select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-3 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
   >
     <div class="flex items-center space-x-2 pl-1">
-      <Icon
-        class="my-1 h-4 w-4 flex-shrink-0"
-        :name="IconMap.SEARCH"
-        size="1em"
-      />
+      <Icon class="my-1 h-4 w-4 shrink-0" :name="IconMap.SEARCH" size="1em" />
       <Transition name="search">
         <div
           v-show="
@@ -41,37 +37,41 @@
         ref="hotkeyIndicators"
         class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
-        <div
-          class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
-        >
+        <div class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5">
           <TooltipBase
             class="invisible -mt-8"
             :text="$t('i18n.components._global.slash_tooltip_label')"
           />
-          <p class="-mt-[0.075rem]">
+          <p class="-mt-[0.075rem] text-sm text-distinct-text">
             <!-- Preserve line break. -->
             /
           </p>
         </div>
         <div
           v-if="isMacOS"
-          class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
+          class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5"
         >
           <TooltipBase
             class="invisible -mt-8"
             :text="$t('i18n.components._global.command_tooltip_label')"
           />
-          <p>⌘k</p>
+          <p class="text-sm text-distinct-text">
+            <!-- Preserve line break. -->
+            ⌘k
+          </p>
         </div>
         <div
           v-else
-          class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
+          class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5"
         >
           <TooltipBase
             class="invisible -mt-8"
             :text="$t('i18n.components._global.control_tooltip_label')"
           />
-          <p>⌃k</p>
+          <p class="text-sm text-distinct-text">
+            <!-- Preserve line break. -->
+            ⌃k
+          </p>
         </div>
       </div>
     </Transition>
@@ -79,12 +79,12 @@
   <div
     id="search"
     v-else
-    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-[12px] pr-[10px] text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:focus-within:border-cta-orange"
+    class="relative inline-flex select-none items-center space-x-2 rounded-md border border-distinct-text bg-layer-2 py-1 pl-3 pr-2.5 text-left text-distinct-text focus-within:border-2 focus-within:border-cta-orange dark:border-distinct-text dark:focus-within:border-cta-orange"
   >
     <Icon
       id="search-toggle"
       @click="emit('on-search-toggle')"
-      class="my-1 h-4 w-4 flex-shrink-0"
+      class="my-1 h-4 w-4 shrink-0"
       :name="expanded ? `${IconMap.X_LG}` : `${IconMap.SEARCH}`"
       size="1em"
     />

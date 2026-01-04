@@ -5,9 +5,9 @@
       <TabList class="flex flex-row">
         <Tab v-for="tab in tabs" :key="tab.id" class="w-full">
           <NuxtLink
-            class="flex w-full items-center justify-center rounded-none border-[1px] border-primary-text px-3 py-1 focus-brand"
+            class="flex w-full items-center justify-center rounded-none border border-primary-text px-3 py-1 focus-brand"
             :class="{
-              'bg-menu-selection !text-white hover:bg-menu-selection/90 dark:!text-black':
+              'text-white! dark:text-black! bg-menu-selection hover:bg-menu-selection/90':
                 tab.id == props.selectedTab,
               'bg-layer-2 text-primary-text-over-layer-2 hover:bg-highlight':
                 tab.id != props.selectedTab,
