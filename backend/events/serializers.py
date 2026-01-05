@@ -302,7 +302,7 @@ class EventPOSTSerializer(serializers.Serializer):
             data["topics"] = query_topics
 
         if groups:
-            query_groups = Group.objects.filter(id__in=groups)
+            query_groups = Group.objects.filter(id__in=groups, orgs__in=orgs).distinct()
 
             if len(query_groups) != len(groups):
                 raise serializers.ValidationError("One or more groups do not exist.")
