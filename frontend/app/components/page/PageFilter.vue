@@ -57,36 +57,33 @@
           class="transition-duration-200 flex shrink-0 space-x-1 pr-1 transition-opacity"
         >
           <div
-            class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
+            v-tooltip="$t('i18n.components._global.slash_tooltip_label')"
+            class="flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
           >
-            <TooltipBase
-              class="invisible -mt-8"
-              :text="$t('i18n.components._global.slash_tooltip_label')"
-            />
+            <!-- prettier-ignore -->
             <p class="-mt-[0.075rem]">
-              <!-- Preserve line break. -->
               /
             </p>
           </div>
           <div
             v-if="isMacOS"
-            class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
+            v-tooltip="$t('i18n.components._global.command_tooltip_label')"
+            class="flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
           >
-            <TooltipBase
-              class="invisible -mt-8"
-              :text="$t('i18n.components._global.command_tooltip_label')"
-            />
-            <p>⌘k</p>
+            <!-- prettier-ignore -->
+            <p>
+              ⌘k
+            </p>
           </div>
           <div
             v-else
-            class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
+            v-tooltip="$t('i18n.components._global.control_tooltip_label')"
+            class="flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
           >
-            <TooltipBase
-              class="invisible -mt-8"
-              :text="$t('i18n.components._global.control_tooltip_label')"
-            />
-            <p>⌃k</p>
+            <!-- prettier-ignore -->
+            <p>
+              ⌃k
+            </p>
           </div>
         </div>
       </div>

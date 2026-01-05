@@ -37,39 +37,32 @@
         ref="hotkeyIndicators"
         class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
-        <div class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5">
-          <TooltipBase
-            class="invisible -mt-8"
-            :text="$t('i18n.components._global.slash_tooltip_label')"
-          />
+        <div
+          v-tooltip="$t('i18n.components._global.slash_tooltip_label')"
+          class="flex rounded-md bg-highlight px-2 py-0.5"
+        >
+          <!-- prettier-ignore -->
           <p class="-mt-[0.075rem] text-sm text-distinct-text">
-            <!-- Preserve line break. -->
             /
           </p>
         </div>
         <div
           v-if="isMacOS"
-          class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5"
+          v-tooltip="$t('i18n.components._global.command_tooltip_label')"
+          class="flex rounded-md bg-highlight px-2 py-0.5"
         >
-          <TooltipBase
-            class="invisible -mt-8"
-            :text="$t('i18n.components._global.command_tooltip_label')"
-          />
+          <!-- prettier-ignore -->
           <p class="text-sm text-distinct-text">
-            <!-- Preserve line break. -->
             ⌘k
           </p>
         </div>
         <div
           v-else
-          class="has-tooltip flex rounded-md bg-highlight px-2 py-0.5"
+          v-tooltip="$t('i18n.components._global.control_tooltip_label')"
+          class="flex rounded-md bg-highlight px-2 py-0.5"
         >
-          <TooltipBase
-            class="invisible -mt-8"
-            :text="$t('i18n.components._global.control_tooltip_label')"
-          />
+          <!-- prettier-ignore -->
           <p class="text-sm text-distinct-text">
-            <!-- Preserve line break. -->
             ⌃k
           </p>
         </div>
