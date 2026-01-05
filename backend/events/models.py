@@ -41,11 +41,11 @@ class Event(models.Model):
         ("action", "Action"),
     ]
     type = models.CharField(max_length=255, choices=TYPE_CHOICES)
-    SETTING_CHOICES = [
+    LOCATION_TYPE_CHOICES = [
         ("online", "Online"),
         ("physical", "Physical"),
     ]
-    setting = models.CharField(max_length=255, choices=SETTING_CHOICES)
+    location_type = models.CharField(max_length=255, choices=LOCATION_TYPE_CHOICES)
     online_location_link = models.CharField(max_length=255, blank=True, null=True)
     physical_location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, blank=True, null=True

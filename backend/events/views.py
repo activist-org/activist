@@ -95,10 +95,11 @@ class EventAPIView(GenericAPIView[Event]):
         serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        validated_data = serializer.validated_data
+        validated_data["created_by"] = request.user
+
         try:
-            event = serializer.save(
-                created_by=request.user, validated_data=serializer.validated_data
-            )
+            event = serializer.save()
             logger.info(f"Event created by user {request.user.id}")
 
         except ValidationError as e:
@@ -704,13 +705,18 @@ class EventCalenderAPIView(APIView):
         ical_event = ICalEvent()
         ical_event.add("summary", event.name)
         ical_event.add("description", event.tagline or "")
-        ical_event.add("dtstart", event.start_time)
-        ical_event.add("dtend", event.end_time)
+
+        # Get the first event time if available
+        first_time = event.times.first()
+        if first_time:
+            ical_event.add("dtstart", first_time.start_time)
+            ical_event.add("dtend", first_time.end_time)
+
         ical_event.add(
             "location",
             (
                 event.online_location_link
-                if event.setting == "online"
+                if event.location_type == "online"
                 else event.physical_location
             ),
         )

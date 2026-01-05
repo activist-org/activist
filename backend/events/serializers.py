@@ -12,7 +12,6 @@ from django.db import transaction
 from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
 
-from authentication.models import UserModel
 from communities.groups.models import Group
 from communities.organizations.models import Organization
 from content.models import Location, Topic
@@ -216,7 +215,7 @@ class EventGroupSerializer(serializers.ModelSerializer[Group]):
 # MARK: POST
 
 
-class EventPOSTLocationSerializer(serializers.Serializer):
+class EventPOSTLocationSerializer(serializers.Serializer[Any]):
     """
     Serializer for event location during creation.
     """
@@ -231,7 +230,7 @@ class EventPOSTLocationSerializer(serializers.Serializer):
     )
 
 
-class EventPOSTTimesSerializer(serializers.Serializer):
+class EventPOSTTimesSerializer(serializers.Serializer[Any]):
     """
     Serializer for event times during creation.
     """
@@ -242,13 +241,17 @@ class EventPOSTTimesSerializer(serializers.Serializer):
     end_time = serializers.DateTimeField(required=False)
 
 
-class EventPOSTSerializer(serializers.Serializer):
+class EventPOSTSerializer(serializers.Serializer[Any]):
     """
     Serializer for creating events with related fields.
     """
 
-    orgs = serializers.ListSerializer(child=serializers.UUIDField(), required=True)
-    groups = serializers.ListSerializer(child=serializers.UUIDField(), required=False)
+    orgs: serializers.ListSerializer[Any] = serializers.ListSerializer(
+        child=serializers.UUIDField(), required=True
+    )
+    groups: serializers.ListSerializer[Any] = serializers.ListSerializer(
+        child=serializers.UUIDField(), required=False
+    )
     name = serializers.CharField(required=True)
     tagline = serializers.CharField(required=True, min_length=3, max_length=255)
     description = serializers.CharField(required=True, min_length=10, max_length=1000)
@@ -258,7 +261,7 @@ class EventPOSTSerializer(serializers.Serializer):
     type = serializers.ChoiceField(
         choices=[("learn", "Learn"), ("action", "Action")], required=True
     )
-    topics = serializers.ListSerializer(
+    topics: serializers.ListSerializer[Any] = serializers.ListSerializer(
         child=serializers.CharField(), required=True, max_length=255
     )
     online_location_link = serializers.URLField(required=False, allow_blank=True)
@@ -285,11 +288,26 @@ class EventPOSTSerializer(serializers.Serializer):
             If validation fails for any field.
         """
         orgs = data.pop("orgs")
+        times = data.pop("times")
         groups = data.pop("groups", None)
         topics = data.pop("topics", None)
 
         orgs = Organization.objects.filter(id__in=orgs)
         data["orgs"] = orgs
+
+        for time in times:
+            start_time = time.get("start_time")
+            end_time = time.get("end_time")
+
+            if not start_time or not end_time:
+                raise serializers.ValidationError(
+                    "Both start_time and end_time are required for each event time."
+                )
+
+            if start_time >= end_time:
+                raise serializers.ValidationError(
+                    "start_time must be before end_time for each event time."
+                )
 
         if topics:
             query_topics = Topic.objects.filter(type__in=topics, active=True)
@@ -302,7 +320,7 @@ class EventPOSTSerializer(serializers.Serializer):
             data["topics"] = query_topics
 
         if groups:
-            query_groups = Group.objects.filter(id__in=groups, orgs__in=orgs).distinct()
+            query_groups = Group.objects.filter(id__in=groups, org__in=orgs).distinct()
 
             if len(query_groups) != len(groups):
                 raise serializers.ValidationError("One or more groups do not exist.")
@@ -310,7 +328,7 @@ class EventPOSTSerializer(serializers.Serializer):
 
         return data
 
-    def save(self, validated_data: Dict[str, Any], created_by: UserModel) -> Event:
+    def create(self, validated_data: Dict[str, Any]) -> Event:
         """
         Create an event from validated data.
 
@@ -318,14 +336,13 @@ class EventPOSTSerializer(serializers.Serializer):
         ----------
         validated_data : Dict[str, Any]
             Validated event creation data.
-        created_by : UserModel
-            User creating the event.
 
         Returns
         -------
         Event
             Created Event instance.
         """
+        created_by = validated_data.pop("created_by")
 
         with transaction.atomic():
             location_type = validated_data.pop("location_type", None)
