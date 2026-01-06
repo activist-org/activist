@@ -229,11 +229,18 @@ const updateViewType = (
 
 const viewType = ref(ViewType.MAP);
 const formData = ref({});
+
+// Only sync query params when actually on the /events route
+// This prevents stale query params from persisting when navigating between routes
+// Fix for: https://github.com/activist-org/activist/issues/1738
 watch(
   route,
-  (form) => {
-    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    const topics = normalizeArrayFromURLQuery(form.query.topics);
+  (newRoute) => {
+    if (newRoute.path !== "/events") {
+      return;
+    }
+    const { view, ...rest } = (newRoute.query as Record<string, unknown>) || {};
+    const topics = normalizeArrayFromURLQuery(newRoute.query.topics);
     formData.value = { ...rest, topics };
     viewType.value =
       typeof view === "string" &&

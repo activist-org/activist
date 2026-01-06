@@ -60,10 +60,16 @@ const schema = z.object({
 const route = useRoute();
 const router = useRouter();
 const formData = ref({});
+
+// Only sync query params when actually on the /organizations route
+// This prevents stale query params from persisting when navigating between routes
+// Fix for: https://github.com/activist-org/activist/issues/1738
 watch(
   route,
-  (form) => {
-    formData.value = { ...form.query };
+  (newRoute) => {
+    if (newRoute.path === "/organizations") {
+      formData.value = { ...newRoute.query };
+    }
   },
   { immediate: true }
 );
