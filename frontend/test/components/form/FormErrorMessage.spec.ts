@@ -62,13 +62,24 @@ describe("FormErrorMessage Component", () => {
   });
 
   // Accessibility (A11y)
-  describe.skip("Accessibility", () => {
-    it("has the correct aria role for error messages", async () => {
-      // To be implemented, missing aria role in component
+  describe("Accessibility", () => {
+    it("renders with the correct aria-label when provided", async () => {
+      const ariaLabel = "Custom error label";
+      // The aria-label is passed as an attribute, not a prop, but works via fallthrough
+      await render(FormErrorMessage, {
+        props: { message: "Error" },
+        attrs: { "aria-label": ariaLabel },
+      });
+
+      const element = screen.getByTestId("form-error");
+      expect(element.getAttribute("aria-label")).toBe(ariaLabel);
     });
 
-    it("uses aria-live to announce errors dynamically", async () => {
-      // To be implemented, missing aria-live in component
+    it("has the correct aria role for error messages", async () => {
+      await render(FormErrorMessage, { props: { message: "Error" } });
+
+      const element = screen.getByTestId("form-error");
+      expect(element.getAttribute("role")).toBe("alert");
     });
   });
 
