@@ -45,9 +45,8 @@ const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 
-const groupStore = useGroupStore();
+const { data: groupImages } = useGetGroupImages(props.groupId);
 const groupId = computed(() => props.groupId);
-const { images: groupImages } = groupStore;
 const { updateImage, uploadImages } = useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 
@@ -95,7 +94,7 @@ const handleUpload = async () => {
         uploadFiles.map((file) => file.sequence)
       );
     }
-    files.value = (groupImages || []).map(
+    files.value = (groupImages.value || []).map(
       (image: ContentImage, index: number) => ({
         type: "file",
         data: image,
