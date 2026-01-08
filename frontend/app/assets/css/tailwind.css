@@ -273,10 +273,6 @@ MARK: Base
     @apply absolute;
   }
 
-  .has-tooltip:hover .tooltip {
-    @apply visible z-40;
-  }
-
   /*
   MARK: Special
   */

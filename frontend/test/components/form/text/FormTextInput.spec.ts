@@ -28,13 +28,13 @@ const TestWrapper = defineComponent({
 
 function expectNormalLabel(label: HTMLElement) {
   expect(label.className, "Label should be normal size").toMatch(
-    "translate-y-[0.6rem] pl-[12px]"
+    "translate-y-[0.6rem] pl-3"
   );
 }
 
 function expectShrunkLabel(label: HTMLElement) {
   expect(label.className, "Label should be shrunk").toMatch(
-    "translate-x-4 translate-y-[-0.5rem] text-sm text-distinct-text"
+    "z-1 absolute -translate-y-2 translate-x-4 text-sm text-distinct-text"
   );
 }
 
@@ -232,7 +232,7 @@ describe("FormTextInput component", () => {
     expect(icon).toBeTruthy();
 
     const label = screen.getByText("Right Icon", { selector: "label" });
-    expect(label.className).toContain("pl-[12px]");
+    expect(label.className).toContain("pl-3");
   });
 
   // MARK: Edge Cases

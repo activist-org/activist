@@ -110,7 +110,7 @@ vi.mock("@sidebase/nuxt-auth", () => ({
 setupAutoImportMocks();
 
 // Set up I18n.
-// https://github.com/nuxt-modules/i18n/issues/2637#issuecomment-2233566361
+// See: https://github.com/nuxt-modules/i18n/issues/2637#issuecomment-2233566361
 const i18n = createI18n({
   legacy: false,
   locale: "en",

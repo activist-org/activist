@@ -220,7 +220,7 @@ class EventPOSTSerializer(serializers.ModelSerializer[Event]):
 
     texts = EventTextSerializer(write_only=True, required=False)
     social_links = EventSocialLinkSerializer(write_only=True, required=False)
-    offline_location = LocationSerializer(write_only=True)
+    physical_location = LocationSerializer(write_only=True)
     org_id = serializers.PrimaryKeyRelatedField(
         queryset=Organization.objects.all(), source="orgs"
     )
@@ -255,7 +255,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
     texts = EventTextSerializer(many=True, read_only=True)
     social_links = EventSocialLinkSerializer(many=True, read_only=True)
-    offline_location = LocationSerializer()
+    physical_location = LocationSerializer()
     resources = EventResourceSerializer(many=True, read_only=True)
     faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
     orgs = EventOrganizationSerializer(read_only=True)

@@ -13,9 +13,6 @@ from communities.organizations.factories import OrganizationFactory
 from communities.organizations.models import Organization, OrganizationApplication
 from content.factories import EntityLocationFactory
 
-# Endpoint used for these tests:
-ORGS_URL = "/v1/communities/organizations"
-
 
 class UserDict(TypedDict):
     user: UserModel
@@ -112,13 +109,15 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     OrganizationFactory.create_batch(number_of_orgs)
     assert Organization.objects.count() == number_of_orgs
 
-    response = client.get(ORGS_URL)
+    response = client.get("/v1/communities/organizations")
     assert response.status_code == 200
 
     pagination_keys = ["count", "next", "previous", "results"]
     assert all(key in response.data for key in pagination_keys)
 
-    response = client.get(f"{ORGS_URL}?pageSize={test_page_size}")
+    response = client.get(
+        f"{'/v1/communities/organizations'}?pageSize={test_page_size}"
+    )
     assert response.status_code == 200
 
     assert len(response.data["results"]) == test_page_size
@@ -128,7 +127,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     # MARK: List POST
 
     # Not Authenticated.
-    response = client.post(ORGS_URL)
+    response = client.post("/v1/communities/organizations")
     assert response.status_code == 401
 
     # Authenticated and successful.
@@ -151,7 +150,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
-    response = client.post(ORGS_URL, data=payload, format="json")
+    response = client.post("/v1/communities/organizations", data=payload, format="json")
 
     assert response.status_code == 201
     assert Organization.objects.filter(org_name=new_org.org_name).exists()
@@ -190,7 +189,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     # MARK: Detail GET
 
-    response = client.get(f"{ORGS_URL}/{new_org.id}")
+    response = client.get(f"{'/v1/communities/organizations'}/{new_org.id}")
     assert response.status_code == 200
     assert response.data["org_name"] == new_org.org_name
 
@@ -198,7 +197,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     updated_payload = {"org_name": "updated_org_name"}
     response = client.put(
-        f"{ORGS_URL}/{new_org.id}",
+        f"{'/v1/communities/organizations'}/{new_org.id}",
         data=updated_payload,
         format="json",
     )
@@ -206,7 +205,7 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.put(
-        f"{ORGS_URL}/{new_org.id}",
+        f"{'/v1/communities/organizations'}/{new_org.id}",
         data=updated_payload,
         format="json",
     )
@@ -218,10 +217,10 @@ def test_organizationDetailAPIView(logged_in_user, logged_in_created_by_user) ->
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{ORGS_URL}/{new_org.id}")
+    response = client.delete(f"{'/v1/communities/organizations'}/{new_org.id}")
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
-    response = client.delete(f"{ORGS_URL}/{new_org.id}")
+    response = client.delete(f"{'/v1/communities/organizations'}/{new_org.id}")
 
     assert response.status_code == 204

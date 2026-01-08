@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <MediaMap
-    class="h-[17.5rem] w-full"
+    class="h-70 w-full"
     :clusterProperties="clusterProperties"
     :clusterTooltipCreate="buildExpandedTooltipCluster"
     :pointerTooltipCreate="buildExpandedTooltipPointer"
@@ -127,7 +127,7 @@ const pointers: PointerCluster[] = events.map((event) => {
   return {
     id: event.id,
     color: getEventColorByType(event.type as EventType),
-    location: event.offlineLocation || {
+    location: event.physicalLocation || {
       displayName: event.name,
       lat: "0",
       lon: "0",
@@ -139,7 +139,9 @@ const pointers: PointerCluster[] = events.map((event) => {
       id: event.id,
       name: event.name,
       type: event.type,
-      location: event.offlineLocation ? event.offlineLocation.displayName : "",
+      location: event.physicalLocation
+        ? event.physicalLocation.displayName
+        : "",
     },
   };
 });
