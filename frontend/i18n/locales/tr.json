@@ -1,6 +1,4 @@
 {
-  "i18n.components.sidebar_left_filter_events.clear_filters": "Filtreleri temizle",
-  "i18n.components.sidebar_left_filter_events.clear_filters_aria_label": "Filtreleri temizle",
   "i18n._global.auth.reset_password": "Parolayı sıfırla",
   "i18n._global.auth.reset_password_forgot_password": "Şifrenizi mi unuttunuz?",
   "i18n._global.contact": "İletişim",

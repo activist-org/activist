@@ -325,8 +325,6 @@
   "i18n.components.page_community_footer.visit_our": "Besuchen Sie unsere",
   "i18n.components.shield_private.private": "Privat",
   "i18n.components.sidebar.left.filter._global.search_button_aria_label": "Suchschaltfläche",
-  "i18n.components.sidebar_left_filter_events.clear_filters": "Filter zurücksetzen",
-  "i18n.components.sidebar_left_filter_events.clear_filters_aria_label": "Filter zurücksetzen",
   "i18n.components.sidebar_left_filter_events.view_type_calendar": "Als Kalender anzeigen",
   "i18n.components.sidebar_left_filter_events.view_type_list": "Als Liste anzeigen",
   "i18n.components.sidebar_left_filter_events.view_type_map": "Als Karte anzeigen",
