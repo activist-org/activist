@@ -139,6 +139,10 @@ export const defaultGroupData = {
   texts: [],
 } as const;
 
+export const defaultGroupFiltersData = {
+  linked_organizations: [],
+} as const;
+
 // MARK: Topic
 
 export const defaultTopicData = {

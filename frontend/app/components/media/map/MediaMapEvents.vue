@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <MediaMap
-    class="h-[17.5rem] w-full"
+    class="h-70 w-full"
     :clusterProperties="clusterProperties"
     :clusterTooltipCreate="buildExpandedTooltipCluster"
     :pointerTooltipCreate="buildExpandedTooltipPointer"
