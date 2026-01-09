@@ -12,7 +12,7 @@
         :options="optionViews"
       />
     </div>
-       
+
     <Form
       :key="formKey"
       @submit="handleSubmit"
@@ -116,8 +116,7 @@ import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
 
-const { t, te } = useI18n();
-
+const { t } = useI18n();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
@@ -253,7 +252,6 @@ watch(
 const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
-  
 
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
@@ -261,14 +259,19 @@ const handleSubmit = (_values: unknown) => {
         values["days_ahead"] = input[key];
         return;
       }
-      if (key === "topics" && Array.isArray(input[key]) && input[key].length === 0) {
+      if (
+        key === "topics" &&
+        Array.isArray(input[key]) &&
+        input[key].length === 0
+      ) {
         return;
       }
       if (key === "view") return;
       values[key] = input[key];
     }
   });
-  if (route.query.name && route.query.name !== "") values["name"] = route.query.name;
+  if (route.query.name && route.query.name !== "")
+    values["name"] = route.query.name;
 
   router.push({
     query: {
@@ -277,6 +280,4 @@ const handleSubmit = (_values: unknown) => {
     },
   });
 };
-
-
 </script>

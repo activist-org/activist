@@ -9,7 +9,6 @@
       v-for="(option, idx) in options"
       :key="option.key"
       @click.capture="onOptionClick($event, option)"
-     
       :aria-label="$t(option.aria_label)"
       class="flex flex-1 cursor-pointer items-center justify-center rounded-none"
       :class="[
@@ -67,7 +66,7 @@ const emit = defineEmits<{
 const value = computed({
   get: () => props.modelValue,
   set: (val) => {
-     emit("update:modelValue", val);
+    emit("update:modelValue", val);
   },
 });
 
@@ -77,11 +76,11 @@ const isOptionChecked = (option: Option) => {
 
 const onOptionClick = (e: MouseEvent, option: Option) => {
   if (!props.toggleable) return;
-  
+
   // Always prevent HeadlessUI from handling toggleable radio buttons
   e.stopPropagation();
   e.preventDefault();
-  
+
   if (isOptionChecked(option)) {
     // Toggle off: emit undefined
     emit("update:modelValue", undefined);
@@ -90,6 +89,4 @@ const onOptionClick = (e: MouseEvent, option: Option) => {
     emit("update:modelValue", option.value);
   }
 };
-
-
 </script>

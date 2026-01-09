@@ -1,13 +1,9 @@
-
-import type { ComponentPublicInstance } from "vue";
-
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { nextTick } from "vue";
 
 import SidebarLeftFilterEvents from "../../../app/components/sidebar/left/filter/SidebarLeftFilterEvents.vue";
-import { ViewType } from "../../../shared/types/view-types";
 
 /**
  * Unit tests for SidebarLeftFilterEvents component
@@ -38,7 +34,6 @@ describe("SidebarLeftFilterEvents", () => {
 
     vi.stubGlobal("useRoute", () => mockRoute);
   });
-
 
   describe("Toggle On/Off Functionality of Filter Options", () => {
     it("passes toggleable=true prop to days filter FormSelectorRadio", () => {
@@ -80,16 +75,24 @@ describe("SidebarLeftFilterEvents", () => {
       });
 
       // Check event type filter
-      const eventTypeFilter = wrapper.find('[data-testid="events-filter-event-type"]');
+      const eventTypeFilter = wrapper.find(
+        '[data-testid="events-filter-event-type"]'
+      );
       expect(eventTypeFilter.exists()).toBe(true);
-      const eventTypeRadio = eventTypeFilter.findComponent({ name: "FormSelectorRadio" });
+      const eventTypeRadio = eventTypeFilter.findComponent({
+        name: "FormSelectorRadio",
+      });
       expect(eventTypeRadio.exists()).toBe(true);
       expect(eventTypeRadio.props("toggleable")).toBe(true);
 
       // Check location type filter
-      const locationTypeFilter = wrapper.find('[data-testid="events-filter-location-type"]');
+      const locationTypeFilter = wrapper.find(
+        '[data-testid="events-filter-location-type"]'
+      );
       expect(locationTypeFilter.exists()).toBe(true);
-      const locationTypeRadio = locationTypeFilter.findComponent({ name: "FormSelectorRadio" });
+      const locationTypeRadio = locationTypeFilter.findComponent({
+        name: "FormSelectorRadio",
+      });
       expect(locationTypeRadio.exists()).toBe(true);
       expect(locationTypeRadio.props("toggleable")).toBe(true);
     });
