@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { mount } from "@vue/test-utils";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { defineComponent, ref, inject } from "vue";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { defineComponent, inject, ref } from "vue";
 
 import Machine from "../../../app/components/machine/Machine.vue";
 
@@ -18,8 +18,8 @@ vi.mock("../../../app/components/Loading.vue", () => ({
 
 // Mock translation function $t
 const globalMocks = {
-  $t: (key: string, params: { current_step: number; total_steps: number }) =>`Step ${params.current_step} of ${params.total_steps}`
-  ,
+  $t: (key: string, params: { current_step: number; total_steps: number }) =>
+    `Step ${params.current_step} of ${params.total_steps}`,
 };
 
 // We will mock the composable return values dynamically
@@ -136,7 +136,7 @@ describe("Machine.vue", () => {
     // Trigger actions from child
     await wrapper.find("button").trigger("click"); // Next
 
-    expect(mockFlowScreens.next).toHaveBeenCalledWith({ foo: 'bar' });
+    expect(mockFlowScreens.next).toHaveBeenCalledWith({ foo: "bar" });
   });
 
   it("emits 'close' event when close action is called via provide", async () => {
@@ -149,7 +149,7 @@ describe("Machine.vue", () => {
     });
 
     const wrapper = mount(Machine, {
-      props: { machineType: "createEventFlow"},
+      props: { machineType: "createEventFlow" },
       global: { mocks: globalMocks },
     });
 
