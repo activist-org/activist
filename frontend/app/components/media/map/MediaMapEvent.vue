@@ -1,10 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <MediaMap
-    class="h-[17.5rem] w-full"
-    :pointer="pointer"
-    :type="MapType.POINT"
-  />
+  <MediaMap class="h-70 w-full" :pointer="pointer" :type="MapType.POINT" />
 </template>
 
 <script setup lang="ts">

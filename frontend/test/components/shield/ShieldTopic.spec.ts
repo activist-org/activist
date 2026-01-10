@@ -70,7 +70,7 @@ describe("Shield Topic Visual & Responsive Styling", () => {
 
     // If small screen, add class.
     const classTokens = labelWrapper.classList;
-    expect(classTokens.contains("max-sm:flex-grow")).toBeTruthy();
+    expect(classTokens.contains("max-sm:grow")).toBeTruthy();
   });
 });
 
