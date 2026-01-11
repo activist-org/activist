@@ -88,7 +88,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
             "name",
             "topics",
             "type",
-            "setting",
+            "location_type",
             "location",
             "days_ahead",
         ]

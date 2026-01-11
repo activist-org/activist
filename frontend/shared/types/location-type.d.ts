@@ -6,7 +6,9 @@ export interface PhysicalLocation {
   lat: string;
   lon: string;
   bbox: string[];
-  displayName: string;
+  addressOrName: string;
+  city: string;
+  countryCode: string;
 }
 
 // MARK: Pinia Responses

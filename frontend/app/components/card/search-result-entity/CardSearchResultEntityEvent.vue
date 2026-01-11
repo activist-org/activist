@@ -98,7 +98,7 @@ const imageUrl = computed(() => {
 
 const location = computed(() => {
   if (props.event.physicalLocation) {
-    return props.event.physicalLocation.displayName.split(",")[0];
+    return props.event.physicalLocation.addressOrName.split(",")[0];
   }
   return "";
 });
