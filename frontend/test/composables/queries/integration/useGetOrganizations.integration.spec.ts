@@ -11,7 +11,6 @@ import type { OrganizationFilters } from "../../../../shared/types/organization"
 import { createMockOrganization } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
 
-// Type helper
 type MockOrganization = ReturnType<typeof createMockOrganization> & {
   id: string;
 };
@@ -157,7 +156,7 @@ describe("useGetOrganizations Integration", () => {
       const currentFilters = { name: "test" };
       const currentPage = 2;
 
-      // Simulate append logic
+      // Simulate append logic.
       const shouldAppend =
         mockGetOrganizations().length > 0 &&
         JSON.stringify(mockGetFilters()) === JSON.stringify(currentFilters) &&
@@ -195,7 +194,7 @@ describe("useGetOrganizations Integration", () => {
       const currentFilters = { name: "new" };
       let page = 3;
 
-      // Simulate filter change logic
+      // Simulate filter change logic.
       if (JSON.stringify(mockGetFilters()) !== JSON.stringify(currentFilters)) {
         page = 1;
         mockSetPage(1);
@@ -230,7 +229,7 @@ describe("useGetOrganizations Integration", () => {
       const currentFilters = { name: "test" };
       const currentPage = 1;
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = () => {
         if (
           mockGetOrganizations().length > 0 &&
@@ -354,6 +353,7 @@ describe("useGetOrganizations Integration", () => {
   });
 
   // MARK: Cache Key
+
   describe("Cache Key", () => {
     it("getKeyForGetOrganizations returns consistent key", async () => {
       const { getKeyForGetOrganizations } =

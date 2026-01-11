@@ -10,7 +10,6 @@ import type { OrganizationFilters } from "../../../../shared/types/organization"
 
 import { createMockOrganization } from "../../../mocks/factories";
 
-// Type helper
 type MockOrganization = ReturnType<typeof createMockOrganization> & {
   id: string;
 };
@@ -85,7 +84,7 @@ describe("useGetOrganizationsByUser Integration", () => {
 
   describe("Empty UserId Handling", () => {
     it("handler returns empty array when userId is empty", async () => {
-      // Simulate handler logic
+      // Simulate handler logic.
       const handlerLogic = async (userId: string) => {
         if (!userId || userId === "") {
           return [];
@@ -249,7 +248,7 @@ describe("useGetOrganizationsByUser Integration", () => {
       const existing = [createMockOrganization() as MockOrganization];
       const newOrgs = [createMockOrganization() as MockOrganization];
 
-      // Simulate append (composable uses local ref, not store)
+      // Simulate append (composable uses local ref, not store).
       const result = [...existing, ...newOrgs];
 
       expect(result).toHaveLength(2);

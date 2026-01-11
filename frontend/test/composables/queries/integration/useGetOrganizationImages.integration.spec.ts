@@ -38,7 +38,7 @@ vi.mock("../../../../app/services/entities/organization", () => ({
   fetchOrganizationImages: (id: string) => mockFetchOrganizationImages(id),
 }));
 
-// Mock image factory
+// Mock image factory.
 function createMockImage(id = "img-1"): ContentImage {
   return {
     id,
@@ -118,7 +118,7 @@ describe("useGetOrganizationImages Integration", () => {
       const cachedImages = [createMockImage()];
       mockGetImages.mockReturnValue(cachedImages);
 
-      // Simulate getCachedData logic for images
+      // Simulate getCachedData logic for images.
       const getCachedDataLogic = () => {
         if (mockGetImages().length > 0) {
           return mockGetImages();
@@ -150,7 +150,7 @@ describe("useGetOrganizationImages Integration", () => {
       const cachedImages = [createMockImage()];
       mockGetImages.mockReturnValue(cachedImages);
 
-      // Simulate shouldFetch logic
+      // Simulate shouldFetch logic.
       const orgId = "org-123";
       const cached = mockGetImages();
       const shouldFetch = !!orgId && cached.length === 0;
@@ -193,7 +193,7 @@ describe("useGetOrganizationImages Integration", () => {
         },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string) => {
         if (nuxtApp.isHydrating && mockGetImages().length > 0) {
           return mockGetImages();
@@ -267,7 +267,7 @@ describe("useGetOrganizationImages Integration", () => {
     it("refresh logic: clears images before refetch", () => {
       const orgId = "org-123";
 
-      // Simulate refresh logic
+      // Simulate refresh logic.
       const refreshLogic = () => {
         if (orgId) {
           mockClearImages();
