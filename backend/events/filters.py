@@ -35,8 +35,8 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         lookup_expr="iexact",
     )
 
-    setting = django_filters.CharFilter(
-        field_name="setting",
+    location_type = django_filters.CharFilter(
+        field_name="location_type",
         lookup_expr="iexact",
     )
 
