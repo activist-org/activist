@@ -181,7 +181,6 @@ class Location(models.Model):
     bbox = ArrayField(
         base_field=models.CharField(max_length=24), size=4, blank=True, null=True
     )
-    display_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return str(self.id)

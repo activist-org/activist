@@ -26,7 +26,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         queryset=Topic.objects.all(),
     )
     location = django_filters.CharFilter(
-        field_name="physical_location__display_name",
+        field_name="physical_location__address_or_name",
         lookup_expr="icontains",
     )
 

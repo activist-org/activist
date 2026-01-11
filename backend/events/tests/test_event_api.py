@@ -116,7 +116,7 @@ def test_EventListAPIView(logged_in_user) -> None:
             "lat": location.lat,
             "lon": location.lon,
             "bbox": location.bbox,
-            "display_name": location.display_name,
+            "address_or_name": location.address_or_name,
         },
         "type": new_event.type,
         "start_time": new_event.start_time,

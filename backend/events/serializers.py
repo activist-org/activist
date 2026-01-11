@@ -4,10 +4,12 @@ Serializers for the events app.
 """
 
 import logging
-from datetime import datetime, timezone
+import zoneinfo
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Union
 from uuid import UUID
 
+from django.conf import settings
 from django.db import transaction
 from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
@@ -254,7 +256,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
     )
     name = serializers.CharField(required=True)
     tagline = serializers.CharField(required=True, min_length=3, max_length=255)
-    description = serializers.CharField(required=True, min_length=10, max_length=1000)
+    description = serializers.CharField(required=True, min_length=1, max_length=2500)
     location_type = serializers.ChoiceField(
         choices=[("physical", "Physical"), ("online", "Online")], required=True
     )
@@ -288,16 +290,34 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
             If validation fails for any field.
         """
         orgs = data.pop("orgs")
-        times = data.pop("times")
+        times: list[dict[str, Any]] = data.get("times")
         groups = data.pop("groups", None)
         topics = data.pop("topics", None)
 
         orgs = Organization.objects.filter(id__in=orgs)
         data["orgs"] = orgs
 
+        # Get the local timezone from Django settings
+        local_tz = zoneinfo.ZoneInfo(settings.TIME_ZONE)
+
         for time in times:
+            if time.get("all_day"):
+                date = time.get("date")
+                # For all-day events, create times in the local timezone
+                # so that 00:00:00 to 23:59:59 stays in that timezone
+                time["start_time"] = datetime.combine(
+                    date, datetime.min.time(), tzinfo=local_tz
+                )
+                time["end_time"] = datetime.combine(
+                    date, datetime.min.time(), tzinfo=local_tz
+                ) + timedelta(days=1, seconds=-1)
+
+                continue
+
             start_time = time.get("start_time")
             end_time = time.get("end_time")
+
+            print(start_time, end_time)
 
             if not start_time or not end_time:
                 raise serializers.ValidationError(
@@ -371,6 +391,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
                     EventTime(
                         start_time=time_data.get("start_time"),
                         end_time=time_data.get("end_time"),
+                        all_day=time_data.get("all_day", False),
                     )
                     for time_data in times_data
                 ]

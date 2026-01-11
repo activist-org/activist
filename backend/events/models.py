@@ -24,7 +24,7 @@ class Event(models.Model):
         related_name="created_events",
         on_delete=models.CASCADE,
     )
-    description = models.TextField(max_length=1000, blank=False)
+    description = models.TextField(max_length=2500, blank=False)
     orgs = models.ManyToManyField(
         "communities.Organization", related_name="events", blank=False
     )
@@ -97,6 +97,7 @@ class EventTime(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    all_day = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"{self.start_time} - {self.end_time}"

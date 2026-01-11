@@ -52,7 +52,8 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
-    setting = random.choice(["online", "physical"])
+    # setting
+    location_type = random.choice(["online", "physical"])
 
     @factory.post_generation
     def orgs(self, create, extracted, **kwargs):  # type: ignore[override]
