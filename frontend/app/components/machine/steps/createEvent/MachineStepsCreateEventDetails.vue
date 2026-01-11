@@ -72,7 +72,7 @@
         />
       </FormItem>
       <FormItem
-        v-if="values.organizations && values.organizations.length"
+        v-if="values.orgs && values.orgs.length"
         v-slot="{ id, handleChange, value }"
         :label="$t('i18n._global.groups')"
         name="groups"
@@ -84,7 +84,7 @@
             (val: unknown) => handleChange(val as Group[])
           "
           :label="$t('i18n._global.groups')"
-          :linked-organizations="values?.organizations as string[]"
+          :linked-organizations="values?.orgs as string[]"
           :selected-groups="((value.value ?? []) as Group[])"
         />
       </FormItem>
