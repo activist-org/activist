@@ -255,7 +255,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
         child=serializers.UUIDField(), required=False
     )
     name = serializers.CharField(required=True)
-    tagline = serializers.CharField(required=True, min_length=3, max_length=255)
+    tagline = serializers.CharField(required=False, min_length=3, max_length=255)
     description = serializers.CharField(required=True, min_length=1, max_length=2500)
     location_type = serializers.ChoiceField(
         choices=[("physical", "Physical"), ("online", "Online")], required=True

@@ -128,7 +128,9 @@ const pointers: PointerCluster[] = events.map((event) => {
     id: event.id,
     color: getEventColorByType(event.type as EventType),
     location: event.physicalLocation || {
-      displayName: event.name,
+      city: "",
+      countryCode: "",
+      addressOrName: event.name,
       lat: "0",
       lon: "0",
       id: "",
@@ -140,7 +142,7 @@ const pointers: PointerCluster[] = events.map((event) => {
       name: event.name,
       type: event.type,
       location: event.physicalLocation
-        ? event.physicalLocation.displayName
+        ? event.physicalLocation.addressOrName
         : "",
     },
   };
