@@ -77,15 +77,14 @@ const isOptionChecked = (option: Option) => {
 const onOptionClick = (e: MouseEvent, option: Option) => {
   if (!props.toggleable) return;
 
-  // Always prevent HeadlessUI from handling toggleable radio buttons
+  // Always prevent HeadlessUI from handling radio buttons that can be toggled.
   e.stopPropagation();
   e.preventDefault();
 
   if (isOptionChecked(option)) {
-    // Toggle off: emit undefined
+    // Toggle off: emit undefined.
     emit("update:modelValue", undefined);
   } else {
-    // Select: emit the option value
     emit("update:modelValue", option.value);
   }
 };

@@ -9,7 +9,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createMockGroup } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
 
-// Type helper for entities with id (workaround for .d.ts inheritance)
+// Type helper for entities with id (workaround for .d.ts inheritance).
 type MockGroup = ReturnType<typeof createMockGroup> & { id: string };
 
 // MARK: Mocks
@@ -99,7 +99,7 @@ describe("useGetGroup Integration", () => {
       mockGetGroup.mockReturnValue(storeGroup);
       const requestedId = storeGroup.id;
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (requestId: string) => {
         const group = mockGetGroup();
         if (group && group.id !== "" && group.id === requestId) {
@@ -116,7 +116,7 @@ describe("useGetGroup Integration", () => {
       mockGetGroup.mockReturnValue(storeGroup);
       const differentId = "different-group-id";
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (requestId: string) => {
         const group = mockGetGroup();
         if (group && group.id !== "" && group.id === requestId) {
@@ -141,7 +141,7 @@ describe("useGetGroup Integration", () => {
         payloadData: { [`group:${storeGroup.id}`]: storeGroup },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const group = mockGetGroup();
         if (
@@ -171,7 +171,7 @@ describe("useGetGroup Integration", () => {
         payloadData: { [`group:${payloadGroup.id}`]: payloadGroup },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const group = mockGetGroup();
         if (
@@ -201,7 +201,7 @@ describe("useGetGroup Integration", () => {
         staticData: { [`group:${staticGroup.id}`]: staticGroup },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const group = mockGetGroup();
         if (
@@ -227,7 +227,7 @@ describe("useGetGroup Integration", () => {
 
   describe("Conditional Fetch", () => {
     it("handler returns null when ID is empty", async () => {
-      // Simulate handler logic
+      // Simulate handler logic.
       const handlerLogic = async (groupId: string) => {
         if (!groupId || groupId === "") return null;
         return await mockGetGroupService(groupId);
@@ -243,7 +243,7 @@ describe("useGetGroup Integration", () => {
       const mockGroup = createMockGroup();
       mockGetGroupService.mockResolvedValue(mockGroup);
 
-      // Simulate handler logic
+      // Simulate handler logic.
       const handlerLogic = async (groupId: string) => {
         if (!groupId || groupId === "") return null;
         const group = await mockGetGroupService(groupId);
@@ -281,7 +281,7 @@ describe("useGetGroup Integration", () => {
       const apiError = new Error("Network error");
       mockGetGroupService.mockRejectedValue(apiError);
 
-      // Simulate handler error logic
+      // Simulate handler error logic.
       const handlerLogic = async (groupId: string) => {
         try {
           return await mockGetGroupService(groupId);
@@ -302,7 +302,7 @@ describe("useGetGroup Integration", () => {
         const group = await mockGetGroupService("group-123");
         mockSetGroup(group);
       } catch {
-        // Don't call setGroup on error
+        // Don't call setGroup on error.
       }
 
       expect(mockSetGroup).not.toHaveBeenCalled();
