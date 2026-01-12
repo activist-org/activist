@@ -30,38 +30,20 @@ describe("FormDateTime component", () => {
     // Cannot test props.label, it is missing from the component
 
     it("renders with props.modelValue set to null", async () => {
-        await render(FormDateTime, {
-            props: {
-                id: 'test-id',
-                modelValue: null
-            },
-        });
+        await render(FormDateTime, { props: { id: 'test-id', modelValue: null }});
         const element = document.getElementById('test-id');
-        // Check if the component is rendered
         expect(element).toBeTruthy();
     });
     it("renders with props.modelValue set to undefined", async () => {
-        await render(FormDateTime, {
-            props: {
-                id: 'test-id',
-                modelValue: undefined
-            },
-        });
+        await render(FormDateTime, { props: { id: 'test-id', modelValue: undefined }});
         const element = document.getElementById('test-id');
         expect(element).toBeTruthy();
     })
     it("renders with props.modelValue set to a date object (yyyy-mm-dd)", async () => {
-        await render(FormDateTime, {
-            props: {
-                id: 'test-id',
-                modelValue: new Date(2025, 0, 9)
-            },
-        });
+        await render(FormDateTime, { props: { id: 'test-id', modelValue: new Date(2025, 0, 9) }});
         const element = document.getElementById('test-id');
-        // Check if the component is rendered
         expect(element).toBeTruthy();
     })
-
     it("renders with props.mode set to 'dateTime'", async () => {
         await render(FormDateTime, {
             props: { id: 'test-id' }
@@ -118,6 +100,7 @@ describe("FormDateTime component", () => {
         const calendar = container.querySelector('.vc-container');
         expect(calendar?.classList.contains('vc-dark')).toBe(true);
     });
+    it("changes classes when color mode is changed")
 
     // MARK: Accessibility
     
@@ -126,6 +109,26 @@ describe("FormDateTime component", () => {
     //it("has proper keyboard navigation");
 
     // MARK: Edge Cases
-    
-    //it("deals with edge cases on events as expected")
+    it("handles an edge case properly when v-calendar emits an array in time mode", async () => {
+        const { container, emitted } = await render(FormDateTime, {
+            props: { id: 'test-id', mode: 'time', modelValue: new Date(2025, 0, 9, 14, 30)}
+        });
+
+        const datePicker = container.querySelector('.vc-container');
+        expect(datePicker).toBeTruthy();
+
+        await fireEvent.click(datePicker!);
+        expect(emitted()["update:modelValue"]).toBeTruthy();
+        
+        const emittedValue = (emitted()["update:modelValue"] as any[][])[0][0];
+        expect(emittedValue).toBe(15);
+    });
 })
+
+/**
+ * Findings:
+ * 
+ * - Prop "props.label" is defined in <script setup> tag, but it is not used in the template
+ * - The accessibility tests and styling tests seem to be redundant for FormDateTime.vue itself,
+ *   since it is a wrapper template for v-calendar library
+ */
