@@ -18,8 +18,6 @@ describe("FormDateTime component", () => {
     expect(element).toBeTruthy();
   });
 
-  // Cannot test props.label, it is missing from the component
-
   it("renders with props.modelValue set to null", async () => {
     await render(FormDateTime, { props: { id: "test-id", modelValue: null } });
     const element = document.getElementById("test-id");
@@ -183,10 +181,3 @@ describe("FormDateTime component", () => {
     expect(mockEmit).toHaveBeenCalledWith("update:modelValue", [15, 45]);
   });
 });
-
-/**
- * Findings:
- *
- * - Prop "props.label" is defined in <script setup> tag, but it is not used in the template
- *
- */
