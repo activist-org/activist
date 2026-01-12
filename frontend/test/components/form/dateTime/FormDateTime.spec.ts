@@ -99,9 +99,52 @@ describe("FormDateTime component", () => {
   it("changes classes when color mode is changed");
 
   // MARK: Accessibility
+  it("supports tab navigation properly by focusing one element at a time", async () => {
+    const { container } = await render(FormDateTime, {
+      props: { id: "test-id" },
+    });
+
+    const focusableDays = container.querySelectorAll(
+      '.vc-day-content[tabindex="0"]'
+    );
+    expect(focusableDays.length).toBe(1);
+
+    const nonFocusedDays = container.querySelectorAll(
+      '.vc-day-content[tabindex="-1"]'
+    );
+    expect(nonFocusedDays.length).toBeGreaterThan(0);
+  });
+
+  it("does not show disabled aria tag for day elements that are enabled", async () => {
+    const { container } = await render(FormDateTime, {
+      props: { id: "test-id" },
+    });
+
+    const enabledDay = container.querySelector(".vc-day-content");
+    expect(enabledDay?.getAttribute("aria-disabled")).toBe("false");
+  });
+
+  it("contains aria labels", async () => {
+    const { container } = await render(FormDateTime, {
+      props: { id: "test-id" },
+    });
+
+    const elements = container.querySelectorAll(".vc-day-content[aria-label]");
+    expect(elements.length).toBeGreaterThan(0);
+  });
+
+  it("indicates interactive elements with their roles properly", async () => {
+    const { container } = await render(FormDateTime, {
+      props: { id: "test-id" },
+    });
+
+    const elements = container.querySelectorAll(
+      '.vc-day-content[role="button"]'
+    );
+    expect(elements.length).toBeGreaterThan(0);
+  });
 
   // MARK: Edge Cases
-
   it("handles an edge case properly when v-calendar emits an array in time mode", () => {
     const mockEmit = vi.fn();
     const mode = "time";
@@ -145,6 +188,5 @@ describe("FormDateTime component", () => {
  * Findings:
  *
  * - Prop "props.label" is defined in <script setup> tag, but it is not used in the template
- * - The accessibility tests and styling tests seem to be redundant for FormDateTime.vue itself,
- *   since it is a wrapper template for v-calendar library
+ *
  */
