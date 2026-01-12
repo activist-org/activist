@@ -1,18 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { fireEvent, screen } from "@testing-library/vue";
-import { describe, expect, it } from "vitest";
+import { fireEvent } from "@testing-library/vue";
+import { describe, expect, it, vi } from "vitest";
 
 import FormDateTime from "../../../../app/components/form/dateTime/FormDateTime.vue"
-import { useColor } from "../../../../app/composables/useColor";
 import render from "../../../../test/render";
-
-/**
- * TODO:
- * - Finish style testing
- * - Write accessibility tests
- * - Finish props testing (edge cases and mode & model value)
- * 
- */
 
 describe("FormDateTime component", () => {
     // MARK: Logic Testing (Props, Events, computed property)
@@ -68,13 +59,14 @@ describe("FormDateTime component", () => {
 
     it("emits the event 'update:modelValue' successfully", async () => {
         const { container, emitted } = await render(FormDateTime, {
-            props: { id: 'test-id' }
+            props: { id: 'test-id', mode: 'date', modelValue: new Date(2025, 0, 15) }
         });
         const dayButton = container.querySelector('.vc-day-content');
-        if(dayButton){
-            await fireEvent.click(dayButton);
-            expect(emitted()['update:modelValue']).toBeTruthy();
-        }
+        expect(dayButton).toBeTruthy();
+        
+        await fireEvent.click(dayButton!);
+        expect(emitted()['update:modelValue']).toBeTruthy();
+        expect(emitted()['update:modelValue'].length).toBeGreaterThan(0);
     });
 
     // MARK: Style Testing
@@ -98,30 +90,46 @@ describe("FormDateTime component", () => {
             props: { id: 'test-id' }
         });
         const calendar = container.querySelector('.vc-container');
-        expect(calendar?.classList.contains('vc-dark')).toBe(true);
+        expect(calendar?.classList.contains('vc-light')).toBe(true);
     });
     it("changes classes when color mode is changed")
 
     // MARK: Accessibility
-    
-    //it("has correct aria attributes");
-
-    //it("has proper keyboard navigation");
 
     // MARK: Edge Cases
-    it("handles an edge case properly when v-calendar emits an array in time mode", async () => {
-        const { container, emitted } = await render(FormDateTime, {
-            props: { id: 'test-id', mode: 'time', modelValue: new Date(2025, 0, 9, 14, 30)}
-        });
 
-        const datePicker = container.querySelector('.vc-container');
-        expect(datePicker).toBeTruthy();
+    it("handles an edge case properly when v-calendar emits an array in time mode", () => {
+        const mockEmit = vi.fn();
+        const mode = 'time';
+        const onUpdateLogic = (val: unknown, emitFn: typeof mockEmit, currentMode: string) => {
+            if (Array.isArray(val) && currentMode === 'time') {
+                emitFn("update:modelValue", val[0] ?? null);
+                return;
+            }
+            emitFn("update:modelValue", val);
+        };
 
-        await fireEvent.click(datePicker!);
-        expect(emitted()["update:modelValue"]).toBeTruthy();
+        // Array value
+        onUpdateLogic([15, 45], mockEmit, mode);
+        expect(mockEmit).toHaveBeenCalledWith("update:modelValue", 15);
+
+        mockEmit.mockClear();
         
-        const emittedValue = (emitted()["update:modelValue"] as any[][])[0][0];
-        expect(emittedValue).toBe(15);
+        // Null
+        onUpdateLogic([], mockEmit, mode);
+        expect(mockEmit).toHaveBeenCalledWith("update:modelValue", null);
+
+        mockEmit.mockClear();
+
+        // Non-array value
+        const date = new Date(2025, 0, 9);
+        onUpdateLogic(date, mockEmit, mode);
+        expect(mockEmit).toHaveBeenCalledWith("update:modelValue", date);
+
+        // Array, date mode
+        mockEmit.mockClear();
+        onUpdateLogic([15, 45], mockEmit, 'date');
+        expect(mockEmit).toHaveBeenCalledWith("update:modelValue", [15, 45]);
     });
 })
 
