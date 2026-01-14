@@ -11,7 +11,8 @@ import render from "../../../test/render";
  * @see FormErrorMessage.vue
  */
 describe("FormErrorMessage Component", () => {
-  // Logic & Props
+  // MARK: Logic and Props
+
   describe("Logic and Props", () => {
     it("renders the message text when the 'message' prop is provided", async () => {
       await render(FormErrorMessage, { props: { message: "Test Error" } });
@@ -51,7 +52,8 @@ describe("FormErrorMessage Component", () => {
     });
   });
 
-  // Styling (Tailwind)
+  // MARK: Styling
+
   describe("Styling", () => {
     it("applies the correct CSS class for error styling", async () => {
       await render(FormErrorMessage, { props: { message: "Error" } });
@@ -61,11 +63,12 @@ describe("FormErrorMessage Component", () => {
     });
   });
 
-  // Accessibility (A11y)
+  // MARK: Accessibility
+
   describe("Accessibility", () => {
     it("renders with the correct aria-label when provided", async () => {
       const ariaLabel = "Custom error label";
-      // The aria-label is passed as an attribute, not a prop, but works via fallthrough
+      // The aria-label is passed as an attribute, not a prop, but works via fallthrough.
       await render(FormErrorMessage, {
         props: { message: "Error" },
         attrs: { "aria-label": ariaLabel },
@@ -83,7 +86,8 @@ describe("FormErrorMessage Component", () => {
     });
   });
 
-  // Edge Cases
+  // MARK: Edge Cases
+
   describe("Edge Cases", () => {
     it("handles extremely long error messages gracefully", async () => {
       await render(FormErrorMessage, { props: { message: "A".repeat(250) } });

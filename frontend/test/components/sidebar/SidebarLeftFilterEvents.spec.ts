@@ -14,7 +14,7 @@ import SidebarLeftFilterEvents from "../../../app/components/sidebar/left/filter
  */
 
 describe("SidebarLeftFilterEvents", () => {
-  // Mock router utilities
+  // Mock router utilities.
   const mockPush = vi.fn();
   const mockRoute = {
     query: {},
@@ -26,7 +26,7 @@ describe("SidebarLeftFilterEvents", () => {
     mockPush.mockClear();
     mockRoute.query = {};
 
-    // Mock vue-router composables
+    // Mock vue-router composables.
     vi.stubGlobal("useRouter", () => ({
       push: mockPush,
       currentRoute: { value: mockRoute },
@@ -49,15 +49,15 @@ describe("SidebarLeftFilterEvents", () => {
         },
       });
 
-      // Find the days filter by test id
+      // Find the days filter by test id.
       const daysFilter = wrapper.find('[data-testid="events-filter-days"]');
       expect(daysFilter.exists()).toBe(true);
 
-      // Find FormSelectorRadio within the days filter
+      // Find FormSelectorRadio within the days filter.
       const daysRadio = daysFilter.findComponent({ name: "FormSelectorRadio" });
       expect(daysRadio.exists()).toBe(true);
 
-      // Verify toggleable prop is true
+      // Verify prop that can be toggled is true.
       expect(daysRadio.props("toggleable")).toBe(true);
     });
 
@@ -74,7 +74,7 @@ describe("SidebarLeftFilterEvents", () => {
         },
       });
 
-      // Check event type filter
+      // Check event type filter.
       const eventTypeFilter = wrapper.find(
         '[data-testid="events-filter-event-type"]'
       );
@@ -85,7 +85,7 @@ describe("SidebarLeftFilterEvents", () => {
       expect(eventTypeRadio.exists()).toBe(true);
       expect(eventTypeRadio.props("toggleable")).toBe(true);
 
-      // Check location type filter
+      // Check location type filter.
       const locationTypeFilter = wrapper.find(
         '[data-testid="events-filter-location-type"]'
       );
