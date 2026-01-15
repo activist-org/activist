@@ -258,7 +258,7 @@ describe("FormSelectorRadio components", () => {
  *  the name property is empty. Is this intentional or a missing feature?
  *
  * - No specific classes for light and dark mode available
- * 
+ *
  * - Specific CSS classes are being tested because of the component inserting
  *  specific CSS classes based on the conditions right now. tests *could* fail in future
  *  if CSS classes were to be overhauled in future even if the component works fine
