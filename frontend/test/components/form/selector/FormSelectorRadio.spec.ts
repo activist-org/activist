@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { fireEvent, screen } from "@testing-library/vue";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import FormSelectorRadio from "../../../../app/components/form/selector/FormSelectorRadio.vue";
 import render from "../../../../test/render";
@@ -79,14 +79,6 @@ const renderRadio = (
 };
 
 describe("FormSelectorRadio components", () => {
-  /**
-   * TODO:
-   * - Styles
-   * - Accessibility
-   * - Edge Cases
-   * - Reference / Documentation
-   */
-
   // MARK: Logic Testing
   it("renders with props.options AND props.options[i].label set correctly", async () => {
     await renderRadio();
@@ -96,7 +88,7 @@ describe("FormSelectorRadio components", () => {
   });
 
   it("renders icon options when props.options[i].isIcon? is true", async () => {
-    const { container } = await renderRadio({ options: ICON_OPTIONS });
+    await renderRadio({ options: ICON_OPTIONS });
     expect(
       screen.getByLabelText("components.form_selector_radio.home")
     ).toBeTruthy();
@@ -167,6 +159,94 @@ describe("FormSelectorRadio components", () => {
     expect(emitted()["update:modelValue"]).toBeTruthy();
     expect(emitted()["update:modelValue"].length).toBeGreaterThan(0);
   });
+
+  it("allows deselecting an option when props.toggleable is true", async () => {
+    const { emitted } = await renderRadio({
+      modelValue: "daily",
+      toggleable: true,
+    });
+    const dailyButton = screen.getByText("Daily");
+    await fireEvent.click(dailyButton);
+    const updateEvents = emitted()["update:modelValue"];
+    expect(updateEvents).toBeTruthy();
+    expect(updateEvents[updateEvents.length - 1]).toEqual([undefined]);
+  });
+
+  it("allows selecting a different option when props.toggleable is true", async () => {
+    const { emitted } = await renderRadio({
+      modelValue: "daily",
+      toggleable: true,
+    });
+    const weeklyButton = screen.getByText("Weekly");
+    await fireEvent.click(weeklyButton);
+    const updateEvents = emitted()["update:modelValue"];
+    expect(updateEvents).toBeTruthy();
+    expect(updateEvents[updateEvents.length - 1]).toEqual(["weekly"]);
+  });
+
+  // MARK: Styles Testing
+  it("applies rounded corners to first and last options only", async () => {
+    await renderRadio();
+    const daily = screen.getByText("Daily").closest("div");
+    const weekly = screen.getByText("Weekly").closest("div");
+    const monthly = screen.getByText("Monthly").closest("div");
+    expect(daily?.className).toContain("rounded-l-lg");
+    expect(monthly?.className).toContain("rounded-r-lg");
+    expect(weekly?.className).not.toContain("rounded-l-lg");
+    expect(weekly?.className).not.toContain("rounded-r-lg");
+  });
+
+  it("applies style-menu-option-cta to selected option", async () => {
+    await renderRadio({ modelValue: "weekly" });
+    const weeklyOption = screen.getByText("Weekly").closest("div");
+    expect(weeklyOption?.className).toContain("style-menu-option-cta");
+  });
+
+  it("applies bg-layer-2 to unselected options", async () => {
+    await renderRadio({ modelValue: "weekly" });
+    const dailyOption = screen.getByText("Daily").closest("div");
+    expect(dailyOption?.className).toContain("bg-layer-2");
+  });
+
+  // MARK: Accessibility
+  it("supports tab navigation properly by focusing one radio element at a time", async () => {
+    const { container } = await renderRadio();
+    const focusableButtons = container.querySelectorAll('[tabindex="0"]');
+    expect(focusableButtons.length).toBe(1);
+  });
+
+  it("has aria-label on RadioGroup", async () => {
+    await renderRadio();
+    const radioGroup = screen.getByRole("radiogroup");
+    expect(radioGroup.getAttribute("aria-label")).toBeTruthy();
+  });
+
+  it("contains aria labels for all options", async () => {
+    await renderRadio();
+    expect(
+      screen.getByLabelText("components.form_selector_radio.option_daily")
+    ).toBeTruthy();
+    expect(
+      screen.getByLabelText("components.form_selector_radio.option_weekly")
+    ).toBeTruthy();
+    expect(
+      screen.getByLabelText("components.form_selector_radio.option_monthly")
+    ).toBeTruthy();
+  });
+
+  // MARK: Edge Cases
+  it("renders safely with empty options array", async () => {
+    await renderRadio({ options: [] });
+    const radioGroup = screen.getByRole("radiogroup");
+    expect(radioGroup).toBeTruthy();
+  });
+
+  it("handles modelValue that doesn't match any option", async () => {
+    await renderRadio({ modelValue: "nonexistent" });
+    const daily = screen.getByText("Daily").closest("div");
+    expect(daily?.className).not.toContain("style-menu-option-cta");
+    expect(daily?.className).toContain("bg-layer-2");
+  });
 });
 
 /**
@@ -175,4 +255,9 @@ describe("FormSelectorRadio components", () => {
  *  automatically assigned from props.label. If a radio icon has no label, but an icon,
  *  the name property is empty. Is this intentional or a missing feature?
  *
+ * - No specific classes for light and dark mode available
+ * 
+ * - Specific CSS classes are being tested because of the component inserting
+ *  specific CSS classes based on the conditions right now. tests *could* fail in future
+ *  if CSS classes were to be overhauled in future even if the component works fine
  */
