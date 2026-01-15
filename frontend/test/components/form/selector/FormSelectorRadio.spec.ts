@@ -81,7 +81,6 @@ const renderRadio = (
 describe("FormSelectorRadio components", () => {
   /**
    * TODO:
-   * - Logic (props, events, emits)
    * - Styles
    * - Accessibility
    * - Edge Cases
@@ -89,15 +88,6 @@ describe("FormSelectorRadio components", () => {
    */
 
   // MARK: Logic Testing
-
-  /**
-   * TODO Logic Testing:
-   * emits:
-   *   - update:modelValue<modelValue>
-   * function:
-   *   - onOptionClick: emit update:modelValue event
-   */
-
   it("renders with props.options AND props.options[i].label set correctly", async () => {
     await renderRadio();
     expect(screen.getByText("Daily")).toBeTruthy();
@@ -107,7 +97,6 @@ describe("FormSelectorRadio components", () => {
 
   it("renders icon options when props.options[i].isIcon? is true", async () => {
     const { container } = await renderRadio({ options: ICON_OPTIONS });
-    console.log(container.innerHTML);
     expect(
       screen.getByLabelText("components.form_selector_radio.home")
     ).toBeTruthy();
@@ -143,7 +132,7 @@ describe("FormSelectorRadio components", () => {
         checkedClass: "bg-blue-500",
       },
     ];
-    await renderRadio({ options: custom, modelValue: 'test' });
+    await renderRadio({ options: custom, modelValue: "test" });
     const element = screen.getByRole("radio");
     expect(element?.className).toContain("bg-blue-500");
   });
@@ -168,6 +157,15 @@ describe("FormSelectorRadio components", () => {
 
     const twoOption = screen.getByText("Two").closest("div");
     expect(twoOption?.className).toContain("style-menu-option-cta");
+  });
+
+  it("emits update:modelValue event AND changes modelValue successfully", async () => {
+    const { container, emitted } = await renderRadio();
+    const button = container.querySelector("[name='Daily']");
+    expect(button).toBeTruthy();
+    await fireEvent.click(button!);
+    expect(emitted()["update:modelValue"]).toBeTruthy();
+    expect(emitted()["update:modelValue"].length).toBeGreaterThan(0);
   });
 });
 
