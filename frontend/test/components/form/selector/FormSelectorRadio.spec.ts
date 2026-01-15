@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import FormSelectorRadio from "../../../../app/components/form/selector/FormSelectorRadio.vue";
 import render from "../../../../test/render";
 
+// Here is the custom type Option use in FormSelectorRadio
 type Option = {
   value: string | number | boolean | Record<string, unknown> | undefined;
   key: string;
@@ -15,7 +16,7 @@ type Option = {
   class?: string;
   checkedClass?: string;
 };
-
+// Here is a pre-filled array of objects type of Option
 const OPTIONS: Option[] = [
   {
     key: "daily",
@@ -39,7 +40,7 @@ const OPTIONS: Option[] = [
     label: "Monthly",
   },
 ];
-
+// Here is a pre-filled array of objects type of Option for icon testing only
 const ICON_OPTIONS: Option[] = [
   {
     key: "home",
@@ -56,6 +57,7 @@ const ICON_OPTIONS: Option[] = [
     isIcon: true,
   },
 ];
+// Helper to render radio buttons with array of Options
 const renderRadio = (
   propsOverride: {
     modelValue?:
