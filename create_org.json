@@ -1,0 +1,10 @@
+{
+  "name": "string (required)",
+  "tagline": "string",
+  "description": "string (required)",
+  "topics": [
+    "uuid (required)"
+  ],
+  "country_code": "string (required)",
+  "city": "string (required)"
+}

@@ -26,7 +26,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from content.models import Location
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 from events.filters import EventFilters
@@ -93,39 +92,27 @@ class EventAPIView(GenericAPIView[Event]):
     )
     def post(self, request: Request) -> Response:
         serializer_class = self.get_serializer_class()
-        serializer: EventPOSTSerializer | EventSerializer = serializer_class(
-            data=request.data
-        )
+        serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        location_data = serializer.validated_data["physical_location"]
-        location = Location.objects.create(**location_data)
+        validated_data = serializer.validated_data
+        validated_data["created_by"] = request.user
 
         try:
-            serializer.save(created_by=request.user, physical_location=location)
-            logger.info(
-                f"Event created by user {request.user.id} with location {location.id}"
-            )
+            event = serializer.save()
+            logger.info(f"Event created by user {request.user.id}")
 
         except ValidationError as e:
             logger.exception(
                 f"Validation failed for event creation by user {request.user.id}: {e}"
             )
-            Location.objects.filter(id=location.id).delete()
             return Response(
                 {"detail": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        except (IntegrityError, OperationalError) as e:
-            logger.exception(f"Failed to create event for user {request.user.id}: {e}")
-            Location.objects.filter(id=location.id).delete()
-            return Response(
-                {"detail": "Failed to create event."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        response_serializer = EventSerializer(event)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
 
 # MARK: Detail API
@@ -718,13 +705,18 @@ class EventCalenderAPIView(APIView):
         ical_event = ICalEvent()
         ical_event.add("summary", event.name)
         ical_event.add("description", event.tagline or "")
-        ical_event.add("dtstart", event.start_time)
-        ical_event.add("dtend", event.end_time)
+
+        # Get the first event time if available
+        first_time = event.times.first()
+        if first_time:
+            ical_event.add("dtstart", first_time.start_time)
+            ical_event.add("dtend", first_time.end_time)
+
         ical_event.add(
             "location",
             (
                 event.online_location_link
-                if event.setting == "online"
+                if event.location_type == "online"
                 else event.physical_location
             ),
         )

@@ -9,3 +9,4 @@ export * from "./useGetOrganizations";
 export * from "./useGetTopics";
 export * from "./useGetGroups";
 export * from "./useGetOrganizationByUser";
+export * from "./useLocation";

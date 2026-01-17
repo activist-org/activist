@@ -13,11 +13,14 @@
 const modalName = "ModalCreateGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
+const { create } = useGroupMutations();
+
 /**
  * This function will be called by the machine when the flow completes.
  * @param {any} finalData The consolidated data from all steps.
  */
-async function handleSubmission() {
+async function handleSubmission(value: unknown) {
+  await create(value as CreateGroupInput);
   handleCloseModal();
 }
 

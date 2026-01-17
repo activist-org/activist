@@ -47,7 +47,7 @@
           /> -->
           <MetaTagLocation
             v-if="event.physicalLocation"
-            :location="event.physicalLocation.displayName.split(',')[0] ?? ''"
+            :location="event.physicalLocation.addressOrName.split(',')[0] ?? ''"
           />
           <MetaTagDate
             v-if="event.startTime"

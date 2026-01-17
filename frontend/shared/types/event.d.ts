@@ -104,3 +104,31 @@ export interface EventUpdateTextFormData {
   getInvolved: string;
   getInvolvedUrl?: string;
 }
+
+export interface EventTimeInput {
+  date: string;
+  all_day: boolean;
+  start_time?: string;
+  end_time?: string;
+}
+
+export interface CreateEventInput {
+  name: string;
+  tagline?: string;
+  description: string;
+  organizations: string[];
+  groups?: string[];
+  location_type: "offline" | "online";
+  event_type: EventType;
+  topics: TopicEnum[];
+  online_location_link?: string;
+  location?: {
+    address_or_name: string;
+    city: string;
+    country_code: string;
+    lat: string;
+    lon: string;
+    bbox: string[];
+  };
+  times: EventTimeInput[];
+}

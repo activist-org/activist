@@ -140,7 +140,7 @@ def test_OrganizationAPIView(logged_in_user, status_types) -> None:
             "lat": location.lat,
             "lon": location.lon,
             "bbox": location.bbox,
-            "display_name": location.display_name,
+            "address_or_name": location.address_or_name,
         },
         "org_name": new_org.org_name,
         "name": new_org.name,
