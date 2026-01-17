@@ -23,7 +23,7 @@
           [option.checkedClass || '']: isOptionChecked(option),
         },
       ]"
-      :name="option.label || ''"
+      :name="option.label || option.key"
       :value="option.value"
     >
       <Icon
