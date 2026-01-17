@@ -1,22 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { fireEvent, screen } from "@testing-library/vue";
 import { useFieldArray } from "vee-validate";
-import { vi, describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import FormListItem from "../../../app/components/form/FormListItem.vue";
 import render from "../../../test/render";
 
-// Setup Spies
+// Setup Spies and mock vee-validate.
 const pushMock = vi.fn();
 const removeMock = vi.fn();
 const swapMock = vi.fn();
 
-// Mock vee-validate
 vi.mock("vee-validate", () => ({
   useFieldArray: vi.fn(),
 }));
 
-// Helper to change mock data dynamically
+// Helper to change mock data dynamically.
 const setupMockData = (data) => {
   (useFieldArray as vi.Mock).mockReturnValue({
     fields: data,
@@ -28,6 +27,7 @@ const setupMockData = (data) => {
 
 describe("FormListItem Component", () => {
   // MARK: Basic Rendering
+
   describe("Basic Rendering", () => {
     it("renders with required props", async () => {
       await render(FormListItem, { props: { name: "socialLinks" } });
@@ -54,6 +54,7 @@ describe("FormListItem Component", () => {
   });
 
   // MARK: Data Presentation
+
   describe("Data Presentation", () => {
     beforeEach(() => {
       vi.clearAllMocks();
@@ -87,6 +88,7 @@ describe("FormListItem Component", () => {
   });
 
   // MARK: Logic
+
   describe("Logic", () => {
     beforeEach(() => {
       vi.clearAllMocks();
@@ -136,6 +138,7 @@ describe("FormListItem Component", () => {
   });
 
   // MARK: Styling
+
   describe("Styling", () => {
     it("renders with base layout classes even when custom classes are added", async () => {
       const customClass = "custom-list-class";
@@ -153,6 +156,7 @@ describe("FormListItem Component", () => {
   });
 
   // MARK: Accessibility
+
   describe("Accessibility", () => {
     it("renders a semantic unordered list for screen readers", async () => {
       await render(FormListItem, { props: { name: "a11y-test" } });
@@ -226,6 +230,7 @@ describe("FormListItem Component", () => {
   });
 
   // MARK: Edge Cases
+
   describe("Edge Cases", () => {
     beforeEach(() => {
       vi.clearAllMocks();
