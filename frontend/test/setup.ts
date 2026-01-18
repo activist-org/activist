@@ -119,6 +119,15 @@ const i18n = createI18n({
 
 config.global.plugins.push(i18n);
 
+const originalCreateObjectURL = URL.createObjectURL;
+URL.createObjectURL = (obj: Blob | MediaSource) => {
+  // In test environment, accept any Blob-like object and return a mock URL.
+  if (obj instanceof Blob || (obj as unknown) instanceof File) {
+    return `blob:mock-${Math.random().toString(36).slice(2)}`;
+  }
+  return originalCreateObjectURL.call(URL, obj);
+};
+
 // MARK: Component Mocks
 
 // Mock Icon component to resolve accessibility issues in password validation tests.
