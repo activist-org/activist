@@ -47,7 +47,6 @@ def test_image_icon_create_201(client: Client):
         },
         format="multipart",
     )
-    # response = client.post("/v1/content/images", data, format="multipart")
 
     print(response.json())
 
