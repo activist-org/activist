@@ -233,8 +233,8 @@ describe("FormTextArea component", () => {
   });
 
   it("updates border class when hasError prop changes", async () => {
-    // Test that component responds correctly to different hasError values
-    // This verifies the component renders correctly with different initial props
+    // Test that component responds correctly to different hasError values.
+    // This verifies the component renders correctly with different initial props.
     await render(FormTextArea, {
       props: { id: "test", hasError: false },
     });
@@ -243,7 +243,7 @@ describe("FormTextArea component", () => {
     expect(textarea.className).toContain("border-interactive");
     expect(textarea.className).not.toContain("border-action-red");
 
-    // Re-render with true - create new render
+    // Re-render with true - create new render.
     await render(FormTextArea, {
       props: { id: "test", hasError: true },
     });
@@ -254,8 +254,8 @@ describe("FormTextArea component", () => {
   });
 
   it("responds reactively to hasError prop changes within same render", async () => {
-    // Test actual reactivity: component should update classes when prop changes
-    // This simulates real usage where errorMessage.value changes reactively
+    // Test actual reactivity: component should update classes when prop changes.
+    // This simulates real usage where errorMessage.value changes reactively.
     const TestWrapper = defineComponent({
       components: { FormTextArea },
       setup() {
@@ -279,7 +279,7 @@ describe("FormTextArea component", () => {
     expect(textarea.className).toContain("border-interactive");
     expect(textarea.className).not.toContain("border-action-red");
 
-    // Toggle hasError - component should update reactively
+    // Toggle hasError - component should update reactively.
     const toggleButton = screen.getByTestId("toggle");
     await fireEvent.click(toggleButton);
 
@@ -289,7 +289,7 @@ describe("FormTextArea component", () => {
       expect(textarea.className).not.toContain("border-interactive");
     });
 
-    // Toggle back
+    // Toggle back.
     await fireEvent.click(toggleButton);
 
     await waitFor(() => {
@@ -311,7 +311,7 @@ describe("FormTextArea component", () => {
   });
 
   it("updates placeholder when prop changes", async () => {
-    // Test that component displays different placeholders based on prop
+    // Test that component displays different placeholders based on prop.
     await render(FormTextArea, {
       props: { id: "test", placeholder: "Initial placeholder" },
     });
@@ -319,7 +319,7 @@ describe("FormTextArea component", () => {
     let textarea = screen.getByRole("textbox");
     expect(textarea.getAttribute("placeholder")).toBe("Initial placeholder");
 
-    // Render with different placeholder
+    // Render with different placeholder.
     await render(FormTextArea, {
       props: { id: "test", placeholder: "Updated placeholder" },
     });
@@ -421,8 +421,8 @@ describe("FormTextArea component", () => {
   });
 
   it("switches between error and normal classes reactively", async () => {
-    // Test that component correctly applies classes based on hasError prop
-    // Test normal state
+    // Test that component correctly applies classes based on hasError prop.
+    // Test normal state.
     await render(FormTextArea, {
       props: { id: "test", hasError: false },
     });
@@ -431,7 +431,7 @@ describe("FormTextArea component", () => {
     expect(textarea.className).toContain("border-interactive");
     expect(textarea.className).not.toContain("border-action-red");
 
-    // Test error state
+    // Test error state.
     await render(FormTextArea, {
       props: { id: "test", hasError: true },
     });
@@ -650,8 +650,8 @@ describe("FormTextArea component", () => {
     const textarea = screen.getByRole("textbox");
     const id = textarea.getAttribute("id");
 
-    // Empty string is truthy, so the component uses it as-is
-    // This is the actual behavior: props.id ?? uuidv4() means empty string is used
+    // Empty string is truthy, so the component uses it as-is.
+    // This is the actual behavior: props.id ?? uuidv4() means empty string is used.
     expect(id).toBe("");
   });
 
@@ -689,8 +689,8 @@ describe("FormTextArea component", () => {
   });
 
   it("handles rapid prop changes", async () => {
-    // Test that component handles different prop values correctly
-    // This verifies the component is robust to prop variations
+    // Test that component handles different prop values correctly.
+    // This verifies the component is robust to prop variations.
     for (let i = 0; i < 5; i++) {
       await render(FormTextArea, {
         props: { id: "test", hasError: i % 2 === 0 },

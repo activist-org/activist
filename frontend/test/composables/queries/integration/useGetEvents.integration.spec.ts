@@ -11,7 +11,6 @@ import type { EventFilters } from "../../../../shared/types/event";
 import { createMockEvent } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
 
-// Type helper
 type MockEvent = ReturnType<typeof createMockEvent> & { id: string };
 
 // MARK: Mocks
@@ -149,7 +148,7 @@ describe("useGetEvents Integration", () => {
       const currentFilters = { setting: "action" };
       const currentPage = 2;
 
-      // Simulate append logic
+      // Simulate append logic.
       const shouldAppend =
         mockGetEvents().length > 0 &&
         JSON.stringify(mockGetFilters()) === JSON.stringify(currentFilters) &&
@@ -185,7 +184,7 @@ describe("useGetEvents Integration", () => {
       const currentFilters = { setting: "learn" };
       let page = 3;
 
-      // Simulate filter change logic
+      // Simulate filter change logic.
       if (JSON.stringify(mockGetFilters()) !== JSON.stringify(currentFilters)) {
         page = 1;
         mockSetPage(1);
@@ -220,7 +219,7 @@ describe("useGetEvents Integration", () => {
       const currentFilters = { setting: "action" };
       const currentPage = 1;
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = () => {
         if (
           mockGetEvents().length > 0 &&

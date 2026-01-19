@@ -5,7 +5,7 @@
 
 @config "~~/tailwind.config.ts";
 
-@plugin 'tailwind-scrollbar' {
+@plugin "tailwind-scrollbar" {
   nocompatible: true;
 }
 

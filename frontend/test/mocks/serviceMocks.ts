@@ -4,25 +4,25 @@
  */
 import { vi } from "vitest";
 
-// MARK: Event service mocks
+// MARK: Events
 
 export const mockListEvents = vi.fn();
 export const mockGetEvent = vi.fn();
 
-// MARK: Organization service mocks
+// MARK: Organizations
 
 export const mockListOrganizations = vi.fn();
 export const mockGetOrganization = vi.fn();
 export const mockListOrganizationsByUserId = vi.fn();
 export const mockFetchOrganizationImages = vi.fn();
 
-// MARK: Group service mocks
+// MARK: Groups
 
 export const mockListGroups = vi.fn();
 export const mockGetGroup = vi.fn();
 export const mockFetchGroupImages = vi.fn();
 
-// MARK: Topics service mocks
+// MARK: Topics
 
 export const mockListTopics = vi.fn();
 /**
