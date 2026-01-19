@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export function useFileManager() {
   const uploadError = ref(false);
-  const { token } = useAuth();
+  const { token } = { token: {value: 'TEST_TOKEN'}};
 
   async function deleteImage(imageId: string) {
     if (!imageId) {

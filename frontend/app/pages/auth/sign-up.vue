@@ -217,13 +217,12 @@ const signUpSchema = z
     }
   });
 
-const { signUp } = useAuth();
 const { showToastError } = useToaster();
 const isPasswordFieldFocused = ref(false);
 
 const handleSignUp = async (values: unknown) => {
   try {
-    await signUp(
+    await $fetch('/api/sign-up',
       {
         username: (values as Record<string, unknown>).userName as string,
         password: (values as Record<string, unknown>).password as string,

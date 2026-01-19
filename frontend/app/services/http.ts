@@ -5,8 +5,8 @@ function baseURL() {
 
 function authHeader(): Record<string, string> {
   try {
-    const { token } = useAuth();
-    return token?.value ? { Authorization: `${token.value}` } : {};
+    const { token } = { token: {value: 'dasdasas'}};
+    return token?.value ? { Authorization: `Token ${token.value}` } : {};
   } catch {
     return {};
   }

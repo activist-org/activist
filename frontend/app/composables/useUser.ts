@@ -1,32 +1,32 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export const useUser = () => {
-  const { data } = useAuthState();
-  const userIsSignedIn = !!data.value;
-  const userIsAdmin = !!data.value?.user?.isAdmin;
+  const { loggedIn, user } = useUserSession();
+
+  // 1. Use the built-in 'loggedIn' from nuxt-auth-utils
+  // It automatically checks if session.value.user exists
+  const userIsSignedIn = loggedIn;
+
+  // 2. MUST be computed to update when session loads
+  const userIsAdmin = computed(() => user.value?.isAdmin || false);
+
   const roles: unknown[] = [];
 
-  // TODO: This functions can be expanded to include more complex permission logic.
   const canEdit = (entity?: Entity | null) => {
-    if (!userIsSignedIn) return false;
-    if (userIsAdmin) return true;
-
-    // Check if user is the creator of the entity.
-    return entity?.createdBy === data.value?.user?.id;
+    if (!userIsSignedIn.value) return false;
+    if (userIsAdmin.value) return true;
+    return entity?.createdBy === user.value?.id;
   };
 
   const canDelete = (entity?: Entity) => {
-    if (!userIsSignedIn) return false;
-    if (userIsAdmin) return true;
-
-    // Check if user is the creator of the entity.
-    return entity?.createdBy === data.value?.user?.id;
+    if (!userIsSignedIn.value) return false;
+    if (userIsAdmin.value) return true;
+    return entity?.createdBy === user.value?.id;
   };
 
   const canCreate = () => {
-    if (!userIsSignedIn) return false;
-    if (userIsAdmin) return true;
-
-    return true; // default to allowing creation for signed-in users
+    if (!userIsSignedIn.value) return false;
+    if (userIsAdmin.value) return true;
+    return true;
   };
 
   const canView = () => {
@@ -41,6 +41,6 @@ export const useUser = () => {
     canDelete,
     canCreate,
     canView,
-    user: data.value?.user || null,
+    user, // This is now a Ref, use .value or unwrap in template
   };
 };

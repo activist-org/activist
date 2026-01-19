@@ -3,28 +3,6 @@ import type { ContentImage } from "~~/shared/types/content/file";
 
 import { defaultContentImage } from "~~/shared/types/content/file";
 
-// MARK: Main Table
-
-export interface User {
-  id: string;
-  userName: string;
-  name: string;
-  location?: string;
-  description?: string;
-  iconUrl?: ContentImage;
-  // verified?: boolean;
-  // verificationMethod?: string;
-  // verificationPartner?: User;
-  email?: string;
-  socialLinks: string[];
-  // isPrivate: boolean;
-  // isHighRisk: boolean;
-  // creationDate: string;
-  // support
-  // supportingOrgs?: Organization[];
-  // supportingUsers?: User[];
-}
-
 export const defaultUser: User = {
   id: "",
   userName: "",

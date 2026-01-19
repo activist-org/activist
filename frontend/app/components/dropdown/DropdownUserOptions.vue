@@ -23,10 +23,17 @@
 <script setup lang="ts">
 defineProps<{
   location?: DropdownLocation;
-  userIsSignedIn: boolean;
 }>();
 
-const { signOut } = useAuth();
+const { clear } = useUserSession();
+const { userIsSignedIn } = useUser();
+watch(
+  () => userIsSignedIn.value,
+  (newVal) => {
+    console.log("User signed-in status changed:", newVal);
+  }
+, { immediate: true }
+);
 const { openModal: openModalCreateEvent } =
   useModalHandlers("ModalCreateEvent");
 const userOptionsSignedIn: MenuSelector[] = [
@@ -81,7 +88,7 @@ const userOptionsSignedIn: MenuSelector[] = [
     iconUrl: `${IconMap.SIGN_OUT}`,
     selected: false,
     onClick: () => {
-      signOut({ callbackUrl: "/", external: false });
+      clear();
     },
   },
 ];
