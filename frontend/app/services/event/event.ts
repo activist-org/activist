@@ -31,9 +31,10 @@ export function mapEvent(res: EventResponse): EventResponse {
 
 export async function getEvent(id: string): Promise<EventResponse> {
   try {
-    const res = await get<EventResponse>(`/events/events/${id}`, {
+    const res = await get<EventResponse>(`api/public/events/events/${id}`, {
       withoutAuth: true,
     });
+    console.log("Event fetched:", res);
     return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);
@@ -62,9 +63,10 @@ export async function listEvents(
       query.append(key, String(value));
     });
     const res = await get<EventsResponseBody>(
-      `/events/events?${query.toString()}`,
+      `api/public/events/events?${query.toString()}`,
       { withoutAuth: true }
     );
+    console.log("Events fetched:", res);
     return { data: res.results.map(mapEvent), isLastPage: !res.next };
   } catch (e: unknown) {
     throw errorHandler(e);
@@ -89,7 +91,7 @@ export async function createEvent(
       acceptance_date: new Date(),
     };
     const res = await post<EventResponse, typeof payload>(
-      `/events/events`,
+      `auth/events/events`,
       payload,
       { headers: { "Content-Type": "application/json" } }
     );
@@ -103,7 +105,7 @@ export async function createEvent(
 
 export async function deleteEvent(eventId: string): Promise<void> {
   try {
-    await del(`/events/events/${eventId}`);
+    await del(`auth/events/events/${eventId}`);
   } catch (e) {
     throw errorHandler(e);
   }

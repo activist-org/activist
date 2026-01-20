@@ -108,7 +108,7 @@ const { fetch: refreshSession } = useUserSession();
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
-    await $fetch('/api/login', {
+    await $fetch('/api/public/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

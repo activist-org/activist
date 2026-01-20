@@ -45,7 +45,7 @@ const emailResetPasswordSchema = z.object({
 const submit = async (values: unknown) => {
   const { email } = values as { email: string };
   const { status } = await useAsyncData(
-    async () => await fetchWithoutToken(`/auth/pwreset`, {}, "POST", { email })
+    async () => await fetchWithoutToken(`/public/pwreset`, {}, "POST", { email })
   );
   if (status.value === "success") {
     await useRouter().push("/");

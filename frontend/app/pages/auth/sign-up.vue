@@ -222,16 +222,19 @@ const isPasswordFieldFocused = ref(false);
 
 const handleSignUp = async (values: unknown) => {
   try {
-    await $fetch('/api/sign-up',
-      {
+    await $fetch("/api/public/sign_up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
         username: (values as Record<string, unknown>).userName as string,
         password: (values as Record<string, unknown>).password as string,
         email: (values as Record<string, unknown>).email as string,
         passwordConfirmed: (values as Record<string, unknown>)
           .confirmPassword as string,
       },
-      { preventLoginFlow: true }
-    );
+    });
     navigateTo(localePath("/auth/confirm/email"));
   } catch (error) {
     if (error && error instanceof FetchError) {

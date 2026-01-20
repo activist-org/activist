@@ -27,13 +27,7 @@ defineProps<{
 
 const { clear } = useUserSession();
 const { userIsSignedIn } = useUser();
-watch(
-  () => userIsSignedIn.value,
-  (newVal) => {
-    console.log("User signed-in status changed:", newVal);
-  }
-, { immediate: true }
-);
+
 const { openModal: openModalCreateEvent } =
   useModalHandlers("ModalCreateEvent");
 const userOptionsSignedIn: MenuSelector[] = [
@@ -88,7 +82,16 @@ const userOptionsSignedIn: MenuSelector[] = [
     iconUrl: `${IconMap.SIGN_OUT}`,
     selected: false,
     onClick: () => {
-      clear();
+      fetch('api/public/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then(() => {
+          clear();
+        })
+        .catch((error) => {
+          console.error('Error during logout:', error);
+        });
     },
   },
 ];

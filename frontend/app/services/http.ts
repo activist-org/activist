@@ -15,10 +15,8 @@ function authHeader(): Record<string, string> {
 export function get<T>(url: string, options?: ServiceOptions) {
   const headers = {
     ...(options?.headers || {}),
-    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
-    baseURL: baseURL(),
     method: "GET" as const,
     ...options,
     headers,
@@ -35,7 +33,6 @@ export function post<T, X extends AcceptedBody>(
     ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
-    baseURL: baseURL(),
     method: "POST" as const,
     body,
     ...options,
