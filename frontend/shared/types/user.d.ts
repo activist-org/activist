@@ -3,7 +3,18 @@ import type { ContentImage } from "~~/shared/types/content/file";
 
 import { defaultContentImage } from "~~/shared/types/content/file";
 
-export const defaultUser: User = {
+export interface UserActivist {
+  id: string;
+  userName: string;
+  name: string;
+  location: string;
+  description: string;
+  iconUrl: ContentImage;
+  email: string;
+  socialLinks: string[];
+}
+
+export const defaultUser: UserActivist = {
   id: "",
   userName: "",
   name: "",

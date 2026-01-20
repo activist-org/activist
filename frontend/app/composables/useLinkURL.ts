@@ -6,10 +6,11 @@ export function useLinkURL(props: {
   group?: Group;
   event?: CommunityEvent;
   resource?: Resource;
-  user?: User;
+  user?: UserActivist;
 }) {
   const linkUrl = computed<string>(() => {
     let url: string = "";
+    console.log("useLinkURL props:", props);
     if (props.organization) {
       url = `/organizations/${props.organization.id}`;
     } else if (props.group) {

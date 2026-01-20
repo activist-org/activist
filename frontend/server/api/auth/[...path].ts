@@ -6,12 +6,12 @@ export default defineEventHandler(async (event) => {
 
   const incoming = getRequestURL(event);
   // Strip the /api prefix so /api/v1/... -> /v1/...
-  const upstreamPath = incoming.pathname.replace(/^\/api/, "") || "/";
+  const upstreamPath = incoming.pathname.replace(/^\/api\/auth/, "") || "/";
   const search = incoming.search || "";
   const apiBase = config.apiSecret || config.public.apiBase;
 
   const base = apiBase.endsWith("/") ? apiBase.slice(0, -1) : apiBase;
-  const target = `${base}${upstreamPath}${search}`;
+  const target = `${base}/v1${upstreamPath}${search}`;
 
   console.log(`[Proxy] ${event.method} ${incoming.pathname} -> ${target}`);
 

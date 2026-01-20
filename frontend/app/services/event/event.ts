@@ -31,10 +31,10 @@ export function mapEvent(res: EventResponse): EventResponse {
 
 export async function getEvent(id: string): Promise<EventResponse> {
   try {
-    const res = await get<EventResponse>(`api/public/events/events/${id}`, {
+    const res = await get<EventResponse>(`events/events/${id}`, {
       withoutAuth: true,
     });
-    console.log("Event fetched:", res);
+    console.log("Fetched event:", res);
     return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);
@@ -63,10 +63,9 @@ export async function listEvents(
       query.append(key, String(value));
     });
     const res = await get<EventsResponseBody>(
-      `api/public/events/events?${query.toString()}`,
+      `events/events?${query.toString()}`,
       { withoutAuth: true }
     );
-    console.log("Events fetched:", res);
     return { data: res.results.map(mapEvent), isLastPage: !res.next };
   } catch (e: unknown) {
     throw errorHandler(e);

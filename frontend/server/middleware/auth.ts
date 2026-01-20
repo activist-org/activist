@@ -1,10 +1,12 @@
 // Helper to check JWT expiration without external libraries
 function isTokenExpired(token: string): boolean {
   try {
+    console.log("Checking token expiration for token:", token);
     const payloadBase64 = token.split('.')[1]
     const decodedJson = JSON.parse(Buffer.from(payloadBase64, 'base64').toString())
     const exp = decodedJson.exp
     const now = Date.now() / 1000
+    console.log(`Token exp: ${exp}, now: ${now}`, 'isExpired:', exp < now);
     // Buffer of 10 seconds to be safe
     return exp < (now + 10)
   } catch (e) {
@@ -49,7 +51,7 @@ export default defineEventHandler(async (event) => {
       const base = apiBase.endsWith("/") ? apiBase.slice(0, -1) : apiBase;
 
       // Call Django to get a new Access Token
-      const newTokens = await $fetch<{ access: string }>(`${base}/v1/auth/token/refresh/`, {
+      const newTokens = await $fetch<{ access: string }>(`${base}/v1/auth/token/refresh`, {
         method: 'POST',
         body: { refresh: session.secure.refresh }
       })

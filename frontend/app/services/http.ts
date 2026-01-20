@@ -1,22 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-function baseURL() {
-  return BASE_BACKEND_URL as string;
-}
-
-function authHeader(): Record<string, string> {
-  try {
-    const { token } = { token: {value: 'dasdasas'}};
-    return token?.value ? { Authorization: `Token ${token.value}` } : {};
-  } catch {
-    return {};
+function baseURL(isAuthenticated = true): string {
+  const apiBase = '/api/'
+  if (isAuthenticated) {
+    return apiBase + 'auth';
   }
+  return apiBase + 'public';
 }
 
 export function get<T>(url: string, options?: ServiceOptions) {
   const headers = {
     ...(options?.headers || {}),
   };
+  console.log(`GET Request to ${url} with options:`, options, baseURL(!options?.withoutAuth));
   return $fetch<T>(url, {
+    baseURL: baseURL(!options?.withoutAuth),
     method: "GET" as const,
     ...options,
     headers,
@@ -30,9 +27,9 @@ export function post<T, X extends AcceptedBody>(
 ) {
   const headers = {
     ...(options?.headers || {}),
-    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
+    baseURL: baseURL(!options?.withoutAuth),
     method: "POST" as const,
     body,
     ...options,
@@ -46,11 +43,10 @@ export function put<T, X extends AcceptedBody>(
   options?: ServiceOptionsWithBody
 ) {
   const headers: HeadersInit = {
-    ...(options?.headers || {}),
-    ...(options?.withoutAuth ? {} : authHeader()),
+    ...(options?.headers || {})
   };
   return $fetch<T>(url, {
-    baseURL: baseURL(),
+    baseURL: baseURL(!options?.withoutAuth),
     method: "PUT" as const,
     body,
     ...options,
@@ -61,10 +57,9 @@ export function put<T, X extends AcceptedBody>(
 export function del<T>(url: string, options?: ServiceOptions) {
   const headers = {
     ...(options?.headers || {}),
-    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
-    baseURL: baseURL(),
+    baseURL: baseURL(!options?.withoutAuth),
     method: "DELETE" as const,
     ...options,
     headers,
@@ -84,7 +79,7 @@ export const fetchWithoutToken = async (
   method: "GET" | "POST" = "GET",
   body?: object | undefined
 ) => {
-  const res = await $fetch.raw(baseURL() + url, {
+  const res = await $fetch.raw(baseURL(false) + url, {
     data,
     headers: {},
     method,
