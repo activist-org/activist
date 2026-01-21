@@ -186,7 +186,7 @@ describe("FormSelectorRadio components", () => {
     expect(updateEvents[updateEvents.length - 1]).toEqual(["weekly"]);
   });
 
-  it("renders assigns and renders name properties correctly from values, if name attribute is left out", async () => {
+  it("assigns and renders name properties correctly from values, if name attribute is left out", async () => {
     const { container } = await renderRadio({ options: ICON_OPTIONS });
     const button = container.querySelector("[name='home']");
     expect(button).toBeTruthy();
