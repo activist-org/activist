@@ -186,6 +186,14 @@ describe("FormSelectorRadio components", () => {
     expect(updateEvents[updateEvents.length - 1]).toEqual(["weekly"]);
   });
 
+  it("renders assigns and renders name properties correctly from values, if name attribute is left out", async () => {
+    const { container } = await renderRadio({ options: ICON_OPTIONS });
+    const button = container.querySelector("[name='home']");
+    expect(button).toBeTruthy();
+    const button2 = container.querySelector("[name='settings']");
+    expect(button2).toBeTruthy();
+  });
+
   // MARK: Styles Testing
   it("applies rounded corners to first and last options only", async () => {
     await renderRadio();
@@ -208,6 +216,12 @@ describe("FormSelectorRadio components", () => {
     await renderRadio({ modelValue: "weekly" });
     const dailyOption = screen.getByText("Daily").closest("div");
     expect(dailyOption?.className).toContain("bg-layer-2");
+  });
+
+  it("applies style-menu-option class that contains dark mode variants", async () => {
+    const { container } = await renderRadio();
+    const button = container.querySelector("[name='Daily']");
+    expect(button?.className).toContain("style-menu-option");
   });
 
   // MARK: Accessibility
@@ -250,16 +264,3 @@ describe("FormSelectorRadio components", () => {
     expect(daily?.className).toContain("bg-layer-2");
   });
 });
-
-/**
- * Findings:
- * - FormSelectorRadio Options don't have to contain a name, their names are
- *  automatically assigned from props.label. If a radio icon has no label, but an icon,
- *  the name property is empty. Is this intentional or a missing feature?
- *
- * - No specific classes for light and dark mode available
- *
- * - Specific CSS classes are being tested because of the component inserting
- *  specific CSS classes based on the conditions right now. tests *could* fail in future
- *  if CSS classes were to be overhauled in future even if the component works fine
- */
