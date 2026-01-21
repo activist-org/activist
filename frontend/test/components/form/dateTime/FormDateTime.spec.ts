@@ -6,7 +6,8 @@ import FormDateTime from "../../../../app/components/form/dateTime/FormDateTime.
 import render from "../../../../test/render";
 
 describe("FormDateTime component", () => {
-  // MARK: Logic Testing (Props, Events, computed property)
+  // MARK: Logic Testing
+
   it("renders with an assigned props.id", async () => {
     await render(FormDateTime, { props: { id: "test-id" } });
     const element = document.getElementById("test-id");
@@ -72,6 +73,7 @@ describe("FormDateTime component", () => {
   });
 
   // MARK: Style Testing
+
   it("applies dark mode class when color mode is dark", async () => {
     globalThis.useColorModeMock.mockImplementation(() => ({
       preference: "dark",
@@ -97,6 +99,7 @@ describe("FormDateTime component", () => {
   it("changes classes when color mode is changed");
 
   // MARK: Accessibility
+
   it("supports tab navigation properly by focusing one element at a time", async () => {
     const { container } = await render(FormDateTime, {
       props: { id: "test-id" },
@@ -143,6 +146,7 @@ describe("FormDateTime component", () => {
   });
 
   // MARK: Edge Cases
+
   it("handles an edge case properly when v-calendar emits an array in time mode", () => {
     const mockEmit = vi.fn();
     const mode = "time";

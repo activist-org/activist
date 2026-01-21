@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+from uuid import uuid4
+
 import pytest
 from django.test import Client
 
@@ -50,3 +52,17 @@ def test_org_update_sequence_index(client: Client) -> None:
     assert [item["id"] for item in new_images] == [
         str(img.id) for img in expected_order
     ]
+
+
+@pytest.mark.django_db
+def test_org_update_org_image_404(client: Client):
+    fake_image_id = uuid4()
+    org = OrganizationFactory()
+
+    response = client.put(
+        path=f"/v1/communities/organization/{org.id}/images/{fake_image_id}",
+        data={"sequence_index": 1},
+        content_type="application/json",
+    )
+
+    assert response.status_code == 404
