@@ -108,15 +108,9 @@ const { fetch: refreshSession } = useUserSession();
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
-    await $fetch('/api/public/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: {
-        username: userName,
-        password: password,
-      },
+    await fetchWithoutToken(`/login`, {}, "POST", {
+      username: userName,
+      password: password,
     });
     await refreshSession();
     // Redirect to home page after successful sign-in

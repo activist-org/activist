@@ -79,7 +79,9 @@ export const fetchWithoutToken = async (
   method: "GET" | "POST" = "GET",
   body?: object | undefined
 ) => {
-  const res = await $fetch.raw(baseURL(false) + url, {
+  const res = await $fetch(url,
+    {
+    baseURL: baseURL(false),
     data,
     headers: {},
     method,

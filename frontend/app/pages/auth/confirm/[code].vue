@@ -4,7 +4,7 @@ const route = useRoute();
 const { status } = await useAsyncData(
   async () =>
     await fetchWithoutToken(
-      `/auth/verify_email/${route.params.code}`,
+      `${route.params.code}/verifyEmailSignUp`,
       {},
       "POST"
     )

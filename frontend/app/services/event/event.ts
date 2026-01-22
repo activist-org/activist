@@ -104,7 +104,7 @@ export async function createEvent(
 
 export async function deleteEvent(eventId: string): Promise<void> {
   try {
-    await del(`auth/events/events/${eventId}`);
+    await del(`events/events/${eventId}`);
   } catch (e) {
     throw errorHandler(e);
   }

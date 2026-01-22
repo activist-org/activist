@@ -144,7 +144,7 @@ const handleSubmit = async (values: unknown) => {
   const { status } = await useAsyncData(
     async () =>
       await fetchWithoutToken(
-        `/public/verify_email_password/${useRoute().params.code}`,
+        `${useRoute().params.code}/verifyEmailPasswordReset`,
         {},
         "POST",
         { new_password: password }
