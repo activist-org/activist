@@ -1,21 +1,19 @@
 import { z } from "zod";
 
 const bodySchema = z.object({
-  username: z.string().min(1),
-  password: z.string().min(1),
-  email: z.string().email(),
-  passwordConfirmed: z.string().min(1).optional(),
+  new_password: z.string().min(1)
 });
 
 export default defineEventHandler(async (event) => {
+  console.log("Entered verifyEmailPasswordReset handler");
   const body = await readValidatedBody(event, bodySchema.parse);
   const config = useRuntimeConfig();
-  const code = getQuery(event).code as string;
+  const code = getRouterParam(event,'code') as string;
 
   // Docker networking logic: Use internal alias 'backend' if available
   const apiBase = config.apiSecret || config.public.apiBase;
   const base = apiBase.endsWith("/") ? apiBase.slice(0, -1) : apiBase;
-
+  console.log("API Base URL:", base);
   // Define endpoints
   const VERIFY_EMAIL_PASSWORD_RESET_ENDPOINT = `${base}/v1/auth/verify_email_password/${code}`;
 
