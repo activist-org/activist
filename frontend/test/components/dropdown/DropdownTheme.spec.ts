@@ -3,11 +3,13 @@ import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import DropdownTheme from "../../../app/components/dropdown/DropdownTheme.vue";
+import { createUseColorModeSpy } from "../../mocks/composableMocks";
 import render from "../../../test/render";
 
-// Note: useColorMode mock is handled globally in test/setup.ts.
+// Explicitly set up useColorMode mock using factory (Pattern 1: default behavior).
 // Theme switching should be tested in the e2e tests.
 // Mocking theme switching to make it work in component tests is too complicated.
+globalThis.useColorMode = createUseColorModeSpy("dark", "dark");
 describe("DropdownTheme", () => {
   it("shows translated options", async () => {
     await render(DropdownTheme);
