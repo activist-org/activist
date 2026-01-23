@@ -6,8 +6,11 @@ import FormDateTime from "../../../../app/components/form/dateTime/FormDateTime.
 import { createUseColorModeSpy } from "../../../mocks/composableMocks";
 import render from "../../../../test/render";
 
-// Explicitly set up useColorMode mock using factory (Pattern 1: default behavior).
-globalThis.useColorMode = createUseColorModeSpy("dark", "dark");
+// Set up useColorMode mock using factory (Pattern 1: default behavior).
+// Note: We assign to globalThis.useColorModeMock to match setup.ts pattern,
+// which allows tests to use mockImplementation() for per-test overrides (Pattern 4).
+globalThis.useColorModeMock = createUseColorModeSpy("dark", "dark");
+globalThis.useColorMode = () => globalThis.useColorModeMock();
 
 describe("FormDateTime component", () => {
   // MARK: Logic Testing
