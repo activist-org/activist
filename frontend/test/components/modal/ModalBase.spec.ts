@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
- * Demonstrates using auto-import mocks without overriding them.
- * - useRoute() is automatically mocked by setupAutoImportMocks() in test/setup.ts.
- * - The auto-mock returns { params: {}, query: {} } which is sufficient for this component.
+ * Demonstrates Pattern 1: Using factory for default behavior.
+ * - useRoute() is set up using createUseRouteMock factory with default empty params/query.
+ * - This makes the test's dependencies explicit while using sensible defaults.
  */
 import type { VueWrapper } from "@vue/test-utils";
 
@@ -12,7 +12,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick } from "vue";
 
 import ModalBase from "../../../app/components/modal/ModalBase.vue";
+import { createUseRouteMock } from "../../mocks/composableMocks";
 import { useModals } from "../../../app/stores/modals";
+
+// Explicitly set up useRoute mock using factory (Pattern 1: default behavior).
+globalThis.useRoute = createUseRouteMock();
 
 // MARK: Stubs & Helper
 
