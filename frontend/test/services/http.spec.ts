@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
- * REFACTORED: This test demonstrates overriding composables in beforeEach and per-test.
- * - useAuth() is mocked in test/setup.ts with default behavior
- * - We override it in beforeEach() to reset to a default state for each test
+ * Demonstrates overriding composables in beforeEach and per-test.
+ * - useAuth() is mocked in test/setup.ts with default behavior,
+ * - We override it in beforeEach() to reset to a default state for each test,
  * - Individual tests override it again within the test for specific scenarios
- *   (e.g., no token, throwing errors)
+ *   (e.g., no token, throwing errors),
  * - This pattern is useful when you need:
  *   - A default mock setup for most tests (in beforeEach)
  *   - Specific behavior for individual tests (override within test)
@@ -12,7 +12,7 @@
  */
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals";
+import type { FetchFn, FetchGlobal, FetchRawFn } from "../vitest-globals";
 
 import {
   del,

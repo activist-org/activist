@@ -106,7 +106,7 @@ vi.mock("@sidebase/nuxt-auth", () => ({
   useAuthState: globalThis.useAuthState,
 }));
 
-// Auto-import default mocks for composables not manually mocked above
+// Auto-import default mocks for composables not manually mocked above.
 setupAutoImportMocks();
 
 // Set up I18n.

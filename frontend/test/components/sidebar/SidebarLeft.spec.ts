@@ -2,11 +2,10 @@
 /**
  * Unit tests for SidebarLeft.vue
  *
- * REFACTORED: This test demonstrates how auto-import mocking works in practice.
- * - useRouter() is automatically mocked by setupAutoImportMocks() in test/setup.ts
- * - We override it here with test-specific behavior (custom mocks take precedence)
- * - useRoute() is manually mocked in setup.ts, but we override it for test-specific behavior
- * - This shows that auto-mocks provide sensible defaults, but can be overridden when needed
+ * Demonstrates how auto-import mocking works in practice.
+ * - useRouter() is automatically mocked by setupAutoImportMocks() in test/setup.ts.
+ * - We override it here with test-specific behavior (custom mocks take precedence).
+ * - useRoute() is manually mocked in setup.ts, but we override it for test-specific behavior.
  */
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -35,12 +34,8 @@ vi.mock("~/utils/routeUtils", () => ({
   isCurrentRoutePathSubpageOf: () => false,
 }));
 
-// MARK: Router mocks
-// BEFORE: We used vi.mock("vue-router", ...) to mock useRouter and useRoute
-// AFTER: useRouter() is automatically mocked by setupAutoImportMocks() in test/setup.ts,
-//        but we override it here with test-specific behavior (custom mocks take precedence).
-//        This demonstrates that auto-mocks provide sensible defaults ({ value: {} }),
-//        but can be overridden when you need specific behavior for your tests.
+// MARK: Router Mocks
+
 const mockRouterPush = vi.fn();
 globalThis.useRouter = () => ({
   currentRoute: { value: { name: "home" } },

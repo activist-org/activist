@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
- * REFACTORED: This test demonstrates using auto-import mocks without overriding them.
- * - useRoute() is automatically mocked by setupAutoImportMocks() in test/setup.ts
- * - The auto-mock returns { params: {}, query: {} } which is sufficient for this component
- * - No manual mocking needed - the auto-mock works perfectly for these tests
+ * Demonstrates using auto-import mocks without overriding them.
+ * - useRoute() is automatically mocked by setupAutoImportMocks() in test/setup.ts.
+ * - The auto-mock returns { params: {}, query: {} } which is sufficient for this component.
  */
 import type { VueWrapper } from "@vue/test-utils";
 
@@ -14,13 +13,6 @@ import { nextTick } from "vue";
 
 import ModalBase from "../../../app/components/modal/ModalBase.vue";
 import { useModals } from "../../../app/stores/modals";
-// MARK: Mock composables & state
-
-// BEFORE: We manually mocked useRoute with vi.mock("vue-router", ...)
-// AFTER: useRoute() is automatically mocked by setupAutoImportMocks() in test/setup.ts
-//        The auto-mock returns { params: {}, query: {} } which is sufficient
-//        for this component's needs (it just watches the route object).
-//        No manual mock needed - we can just use the auto-mock!
 
 // MARK: Stubs & Helper
 

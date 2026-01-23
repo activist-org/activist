@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
- * REFACTORED: This test demonstrates overriding auto-import mocks for call tracking.
+ * Demonstrate overriding auto-import mocks for call tracking.
  * - useLocalePath() is automatically mocked by setupAutoImportMocks() in test/setup.ts
  * - We override it here to track calls (vi.fn()) because one test verifies that
- *   useLocalePath is called with the correct arguments
+ *   useLocalePath is called with the correct arguments.
  * - The auto-mock from setup.ts provides passthrough behavior `(path: string) => path`,
- *   but we need a spy function to verify calls in tests
- * - This shows that auto-mocks provide sensible defaults, but can be overridden
- *   when you need to track calls or verify composable usage
+ *   but we need a spy function to verify calls in tests.
  */
 import { screen } from "@testing-library/vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
