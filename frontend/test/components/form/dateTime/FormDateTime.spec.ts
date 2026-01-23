@@ -3,7 +3,11 @@ import { fireEvent } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
 import FormDateTime from "../../../../app/components/form/dateTime/FormDateTime.vue";
+import { createUseColorModeSpy } from "../../../mocks/composableMocks";
 import render from "../../../../test/render";
+
+// Explicitly set up useColorMode mock using factory (Pattern 1: default behavior).
+globalThis.useColorMode = createUseColorModeSpy("dark", "dark");
 
 describe("FormDateTime component", () => {
   // MARK: Logic Testing
