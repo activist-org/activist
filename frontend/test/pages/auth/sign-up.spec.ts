@@ -8,8 +8,8 @@ import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_RATING as RATING,
 } from "../../../test/constants";
-import { createUseLocalePathMock } from "../../mocks/composableMocks";
 import render from "../../../test/render";
+import { createUseLocalePathMock } from "../../mocks/composableMocks";
 
 // Note: Auto-import mocks (useI18n, useAuthState, etc.) and Icon component mock
 // are handled globally in test/setup.ts.

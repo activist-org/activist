@@ -3,8 +3,8 @@ import { fireEvent } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
 import FormDateTime from "../../../../app/components/form/dateTime/FormDateTime.vue";
-import { createUseColorModeSpy } from "../../../mocks/composableMocks";
 import render from "../../../../test/render";
+import { createUseColorModeSpy } from "../../../mocks/composableMocks";
 
 // Set up useColorMode mock using factory (Pattern 1: default behavior).
 // Note: We assign to globalThis.useColorModeMock to match setup.ts pattern,

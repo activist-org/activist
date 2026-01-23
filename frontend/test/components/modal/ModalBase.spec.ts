@@ -12,8 +12,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick } from "vue";
 
 import ModalBase from "../../../app/components/modal/ModalBase.vue";
-import { createUseRouteMock } from "../../mocks/composableMocks";
 import { useModals } from "../../../app/stores/modals";
+import { createUseRouteMock } from "../../mocks/composableMocks";
 
 // Explicitly set up useRoute mock using factory (Pattern 1: default behavior).
 globalThis.useRoute = createUseRouteMock();

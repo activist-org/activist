@@ -3,8 +3,8 @@ import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import MenuLinkWrapper from "../../../app/components/menu/MenuLinkWrapper.vue";
-import { createUseLocalePathMock } from "../../mocks/composableMocks";
 import render from "../../../test/render";
+import { createUseLocalePathMock } from "../../mocks/composableMocks";
 
 // Explicitly set up useLocalePath mock using factory.
 globalThis.useLocalePath = createUseLocalePathMock();

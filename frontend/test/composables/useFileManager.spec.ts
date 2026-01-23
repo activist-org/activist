@@ -6,8 +6,8 @@ import type { ContentImage, FileUploadMix } from "../../shared/types/file-type";
 
 import { useFileManager } from "../../app/composables/useFileManager";
 import { BASE_BACKEND_URL } from "../../app/constants/baseUrls";
-import { createUseAuthMock, createUseColorModeSpy } from "../mocks/composableMocks";
 import { UploadableFile } from "../../shared/types/file";
+import { createUseAuthMock, createUseColorModeSpy } from "../mocks/composableMocks";
 
 const mockFetch = vi.fn();
 
