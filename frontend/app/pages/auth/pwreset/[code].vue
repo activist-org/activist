@@ -149,7 +149,7 @@ const handleSubmit = async (values: unknown) => {
       { new_password: password }
     );
     navigateTo(localePath("/auth/sign-in"));
-  } catch (e) {
+  } catch {
     showToastError(t("i18n.pages.auth._global.error_occurred"));
   }
 };

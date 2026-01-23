@@ -113,7 +113,7 @@ const signInUser = async (values: Record<string, unknown>) => {
       password: password,
     });
     await refreshSession();
-    // Redirect to home page after successful sign-in
+    // Redirect to home page after successful sign-in.
     navigateTo("/home");
   } catch (error) {
     if (error instanceof FetchError && error?.response?.status === 400) {

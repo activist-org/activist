@@ -2,11 +2,7 @@
 export const useUser = () => {
   const { loggedIn, user } = useUserSession();
 
-  // 1. Use the built-in 'loggedIn' from nuxt-auth-utils
-  // It automatically checks if session.value.user exists
   const userIsSignedIn = loggedIn;
-
-  // 2. MUST be computed to update when session loads
   const userIsAdmin = computed(() => user.value?.isAdmin || false);
 
   const roles: unknown[] = [];
@@ -41,6 +37,6 @@ export const useUser = () => {
     canDelete,
     canCreate,
     canView,
-    user, // This is now a Ref, use .value or unwrap in template
+    user,
   };
 };
