@@ -6,6 +6,7 @@ import type { ContentImage, FileUploadMix } from "../../shared/types/file-type";
 
 import { useFileManager } from "../../app/composables/useFileManager";
 import { BASE_BACKEND_URL } from "../../app/constants/baseUrls";
+import { createUseAuthMock, createUseColorModeSpy } from "../mocks/composableMocks";
 import { UploadableFile } from "../../shared/types/file";
 
 const mockFetch = vi.fn();
@@ -36,15 +37,9 @@ describe("useFileManager", () => {
     // Stub global fetch.
     vi.stubGlobal("fetch", mockFetch);
 
-    vi.stubGlobal(
-      "useAuth",
-      vi.fn(() => ({ token: ref("TEST_TOKEN") }))
-    );
-
-    vi.stubGlobal(
-      "useColorMode",
-      vi.fn(() => ref<"light" | "dark">("light"))
-    );
+    // Use factories to create mocks (Pattern 2: Import factory and use it).
+    globalThis.useAuth = createUseAuthMock(null, "TEST_TOKEN");
+    globalThis.useColorMode = createUseColorModeSpy("light", "light");
 
     mockFetch.mockReset();
   });
