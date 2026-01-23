@@ -141,13 +141,13 @@ const isPasswordFieldFocused = ref(false);
 
 const handleSubmit = async (values: unknown) => {
   const { password } = values as { password: string };
-  try{
-      await fetchWithoutToken(
-        `${useRoute().params.code}/verifyEmailPasswordReset`,
-        {},
-        "POST",
-        { new_password: password }
-      );
+  try {
+    await fetchSession(
+      `${useRoute().params.code}/verifyEmailPasswordReset`,
+      {},
+      "POST",
+      { new_password: password }
+    );
     navigateTo(localePath("/auth/sign-in"));
   } catch (e) {
     showToastError(t("i18n.pages.auth._global.error_occurred"));

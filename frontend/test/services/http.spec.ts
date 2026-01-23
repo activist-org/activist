@@ -14,13 +14,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { FetchFn, FetchGlobal, FetchRawFn } from "../vitest-globals";
 
-import {
-  del,
-  fetchWithoutToken,
-  get,
-  post,
-  put,
-} from "../../app/services/http";
+import { del, fetchSession, get, post, put } from "../../app/services/http";
 import { expectRequest, getFetchCall } from "./helpers";
 
 describe("services/http", () => {
@@ -194,11 +188,11 @@ describe("services/http", () => {
 
   // MARK: Fetch Without Token
 
-  it("fetchWithoutToken() calls $fetch.raw with absolute URL and returns _data", async () => {
+  it("fetchSession() calls $fetch.raw with absolute URL and returns _data", async () => {
     const rawResponse = { _data: { ok: true, value: 42 } } as const;
     fetchRawMock.mockResolvedValueOnce(rawResponse);
 
-    const result = await fetchWithoutToken("/open", { q: 1 }, "POST", {
+    const result = await fetchSession("/open", { q: 1 }, "POST", {
       body: 1,
     });
 

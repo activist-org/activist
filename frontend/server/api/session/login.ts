@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { User } from "#auth-utils";
+import type { User } from "#auth-utils";
+
+import { FetchError } from "ofetch";
 import { z } from "zod";
 
 const bodySchema = z.object({
@@ -12,17 +14,15 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
 
   await clearUserSession(event);
-  // Docker networking logic: Use internal alias 'backend' if available
+  // Docker networking logic: Use internal alias 'backend' if available.
   const apiBase = config.apiSecret || config.public.apiBase;
   const base = apiBase.endsWith("/") ? apiBase.slice(0, -1) : apiBase;
 
-  // Define endpoints
   const LOGIN_ENDPOINT = `${base}/v1/auth/sign_in`;
-  const USER_ENDPOINT = `${base}/v1/auth/sessions`; // <--- CHECK THIS PATH with your Django API
+  const USER_ENDPOINT = `${base}/v1/auth/sessions`;
 
   try {
-    // --- Step 1: Login to get Tokens ---
-    // We explicitly type the response to know it contains access/refresh
+    // We explicitly type the response to know it contains access/refresh.
     const tokens = await $fetch<{ access: string; refresh: string }>(
       LOGIN_ENDPOINT,
       {
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       }
     );
 
-    // --- Step 2: Use Access Token to get User Profile ---
+    // Use Access Token to get the user profile.
     const userProfile = await $fetch<{ user: User }>(USER_ENDPOINT, {
       method: "GET",
       headers: {
@@ -40,11 +40,10 @@ export default defineEventHandler(async (event) => {
       },
     });
 
-    // --- Step 3: Save EVERYTHING to the Session ---
     await setUserSession(event, {
-      // 1. The Public User Data (accessible in Vue templates)
+      // The public user data (accessible in Vue templates).
       user: userProfile.user,
-      // 2. The Private Tokens (stored in encrypted cookie, not visible to JS)
+      // The private tokens (stored in encrypted cookie, not visible to web frontend).
       secure: {
         token: tokens.access,
         refresh: tokens.refresh,
@@ -52,17 +51,17 @@ export default defineEventHandler(async (event) => {
     });
     return { success: true };
   } catch (error) {
-    console.error("Login Process Failed:", error);
+    // Check if it was the login or the profile fetch that failed.
+    if (error instanceof FetchError) {
+      const message =
+        error.statusCode === 404
+          ? "User profile endpoint not found"
+          : "Invalid credentials or server error";
 
-    // Check if it was the login or the profile fetch that failed
-    const message =
-      error.statusCode === 404
-        ? "User profile endpoint not found"
-        : "Invalid credentials or server error";
-
-    throw createError({
-      statusCode: 401,
-      statusMessage: message,
-    });
+      throw createError({
+        statusCode: 401,
+        statusMessage: message,
+      });
+    }
   }
 });

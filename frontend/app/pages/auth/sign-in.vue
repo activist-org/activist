@@ -108,13 +108,13 @@ const { fetch: refreshSession } = useUserSession();
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
-    await fetchWithoutToken(`/login`, {}, "POST", {
+    await fetchSession(`/login`, {}, "POST", {
       username: userName,
       password: password,
     });
     await refreshSession();
     // Redirect to home page after successful sign-in
-    navigateTo('/home');
+    navigateTo("/home");
   } catch (error) {
     if (error instanceof FetchError && error?.response?.status === 400) {
       showToastError(t("i18n.pages.auth.sign_in.invalid_credentials"));

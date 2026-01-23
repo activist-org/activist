@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export default defineEventHandler(async (event) => {
-  console.log("[Proxy Handler] Incoming request");
   try {
     const config = useRuntimeConfig();
     const session = await getUserSession(event); // get session from cookie
@@ -13,8 +12,6 @@ export default defineEventHandler(async (event) => {
 
     const base = apiBase.endsWith("/") ? apiBase.slice(0, -1) : apiBase;
     const target = `${base}/v1${upstreamPath}${search}`;
-
-    console.log(`[Proxy] ${event.method} ${incoming.pathname} -> ${target}`);
 
     // Prepare headers object.
     const headers: Record<string, string> = {};

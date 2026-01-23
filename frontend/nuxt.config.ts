@@ -13,12 +13,12 @@ export default defineNuxtConfig({
   app: {
     head,
   },
-    runtimeConfig: {
-      apiSecret: 'http://backend:8000',
-      public: {
-        apiBase: process.env.VITE_BACKEND_URL || "http://localhost:8000",
-      },
+  runtimeConfig: {
+    apiSecret: process.env.VITE_BACKEND_URL_PROXY,
+    public: {
+      apiBase: process.env.VITE_BACKEND_URL || "http://localhost:8000",
     },
+  },
   modules: process.env.VITEST ? [] : modules,
   ssr: false,
 

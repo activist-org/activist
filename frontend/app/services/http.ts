@@ -1,17 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 function baseURL(isAuthenticated = true): string {
-  const apiBase = '/api/'
+  const apiBase = "/api/";
   if (isAuthenticated) {
-    return apiBase + 'auth';
+    return apiBase + "auth";
   }
-  return apiBase + 'public';
+  return apiBase + "public";
 }
 
 export function get<T>(url: string, options?: ServiceOptions) {
   const headers = {
     ...(options?.headers || {}),
   };
-  console.log(`GET Request to ${url} with options:`, options, baseURL(!options?.withoutAuth));
+  console.log(
+    `GET Request to ${url} with options:`,
+    options,
+    baseURL(!options?.withoutAuth)
+  );
   return $fetch<T>(url, {
     baseURL: baseURL(!options?.withoutAuth),
     method: "GET" as const,
@@ -43,7 +47,7 @@ export function put<T, X extends AcceptedBody>(
   options?: ServiceOptionsWithBody
 ) {
   const headers: HeadersInit = {
-    ...(options?.headers || {})
+    ...(options?.headers || {}),
   };
   return $fetch<T>(url, {
     baseURL: baseURL(!options?.withoutAuth),
@@ -73,15 +77,14 @@ export function del<T>(url: string, options?: ServiceOptions) {
  * @returns The resulting data from the table.
  */
 
-export const fetchWithoutToken = async (
+export const fetchSession = async (
   url: string,
   data: object | undefined,
   method: "GET" | "POST" = "GET",
   body?: object | undefined
 ) => {
-  const res = await $fetch(url,
-    {
-    baseURL: baseURL(false),
+  const res = await $fetch(url, {
+    baseURL: "/api/session",
     data,
     headers: {},
     method,
