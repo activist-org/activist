@@ -11,11 +11,6 @@ export function get<T>(url: string, options?: ServiceOptions) {
   const headers = {
     ...(options?.headers || {}),
   };
-  console.log(
-    `GET Request to ${url} with options:`,
-    options,
-    baseURL(!options?.withoutAuth)
-  );
   return $fetch<T>(url, {
     baseURL: baseURL(!options?.withoutAuth),
     method: "GET" as const,
@@ -83,13 +78,11 @@ export const fetchSession = async (
   method: "GET" | "POST" = "GET",
   body?: object | undefined
 ) => {
-  const res = await $fetch(url, {
+  return $fetch(url, {
     baseURL: "/api/session",
     data,
     headers: {},
     method,
     body,
   });
-
-  return res._data;
 };

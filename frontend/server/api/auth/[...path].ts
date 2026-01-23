@@ -27,8 +27,7 @@ export default defineEventHandler(async (event) => {
     return proxyRequest(event, target, {
       headers: { ...headers, ...event.headers },
     });
-  } catch (error) {
-    console.error("Proxy Handler Failed:", error);
+  } catch {
     throw createError({
       statusCode: 502,
       statusMessage: "Bad Gateway: Proxy request failed",

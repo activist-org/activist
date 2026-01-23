@@ -123,7 +123,7 @@ const props = defineProps<{
   group?: Group;
   event?: CommunityEvent;
   resource?: Resource;
-  user?: User;
+  user?: UserActivist;
 }>();
 
 const aboveMediumBP = useBreakpoint("md");
@@ -204,7 +204,7 @@ if (props.organization) {
 }
 
 const qrCodeFileName: string =
-  "qr_code_" + (entityName || '').toLowerCase().replaceAll(" ", "_");
+  "qr_code_" + (entityName || "").toLowerCase().replaceAll(" ", "_");
 
 function addFontStyling(svgElement: Element) {
   const def = document.createElement("def");

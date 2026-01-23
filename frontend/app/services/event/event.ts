@@ -34,7 +34,6 @@ export async function getEvent(id: string): Promise<EventResponse> {
     const res = await get<EventResponse>(`events/events/${id}`, {
       withoutAuth: true,
     });
-    console.log("Fetched event:", res);
     return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);

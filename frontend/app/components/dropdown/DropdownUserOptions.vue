@@ -82,16 +82,12 @@ const userOptionsSignedIn: MenuSelector[] = [
     iconUrl: `${IconMap.SIGN_OUT}`,
     selected: false,
     onClick: () => {
-      fetch('api/public/logout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      })
-        .then(() => {
-          clear();
-        })
-        .catch((error) => {
-          console.error('Error during logout:', error);
-        });
+      fetch("api/public/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }).then(() => {
+        clear();
+      });
     },
   },
 ];

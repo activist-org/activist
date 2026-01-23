@@ -30,7 +30,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   user: UserActivist;
   isPrivate?: boolean;

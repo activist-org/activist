@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export function useFileManager() {
   const uploadError = ref(false);
-  const { token } = { token: {value: 'TEST_TOKEN'}};
 
   async function deleteImage(imageId: string) {
     if (!imageId) {
@@ -9,15 +8,7 @@ export function useFileManager() {
     }
 
     try {
-      return await fetch(
-        `${BASE_BACKEND_URL as string}/content/images/${imageId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
-      );
+      return await del(`/content/images/${imageId}`, { withoutAuth: false });
     } catch (error) {
       void error;
     }
