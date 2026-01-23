@@ -1,4 +1,4 @@
-
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
 
@@ -12,13 +12,13 @@ export default defineEventHandler(async (event) => {
 
   try {
     // --- Step 1: Logout ---
-    await $fetch(
-      LOG_OUT,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Token ${session?.secure?.token}` },
-      }
-    );
+    await $fetch(LOG_OUT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${session?.secure?.token}`,
+      },
+    });
 
     console.log("Logout successful.");
 

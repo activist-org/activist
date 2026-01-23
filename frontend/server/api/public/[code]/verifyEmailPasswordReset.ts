@@ -1,14 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { z } from "zod";
 
 const bodySchema = z.object({
-  new_password: z.string().min(1)
+  new_password: z.string().min(1),
 });
 
 export default defineEventHandler(async (event) => {
   console.log("Entered verifyEmailPasswordReset handler");
   const body = await readValidatedBody(event, bodySchema.parse);
   const config = useRuntimeConfig();
-  const code = getRouterParam(event,'code') as string;
+  const code = getRouterParam(event, "code") as string;
 
   // Docker networking logic: Use internal alias 'backend' if available
   const apiBase = config.apiSecret || config.public.apiBase;
@@ -19,14 +20,11 @@ export default defineEventHandler(async (event) => {
 
   try {
     // --- Step 1: Sign Up ---
-    await $fetch(
-      VERIFY_EMAIL_PASSWORD_RESET_ENDPOINT,
-      {
-        method: "POST",
-        body: body,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    await $fetch(VERIFY_EMAIL_PASSWORD_RESET_ENDPOINT, {
+      method: "POST",
+      body: body,
+      headers: { "Content-Type": "application/json" },
+    });
 
     return { success: true };
   } catch (error) {

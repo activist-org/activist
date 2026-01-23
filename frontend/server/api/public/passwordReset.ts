@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { z } from "zod";
 
 const bodySchema = z.object({
@@ -17,14 +18,11 @@ export default defineEventHandler(async (event) => {
 
   try {
     // --- Step 1: Password Reset ---
-    await $fetch(
-      PW_RESET_ENDPOINT,
-      {
-        method: "POST",
-        body: body,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    await $fetch(PW_RESET_ENDPOINT, {
+      method: "POST",
+      body: body,
+      headers: { "Content-Type": "application/json" },
+    });
 
     return { success: true };
   } catch (error) {

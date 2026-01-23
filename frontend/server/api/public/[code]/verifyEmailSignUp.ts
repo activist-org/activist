@@ -1,5 +1,4 @@
-
-
+// SPDX-License-Identifier: AGPL-3.0-or-later
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const code = getRouterParam(event, "code") as string;
@@ -12,13 +11,10 @@ export default defineEventHandler(async (event) => {
 
   try {
     // --- Step 1: Sign Up ---
-    await $fetch(
-      VERIFY_EMAIL_SIGN_UP_ENDPOINT,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    await $fetch(VERIFY_EMAIL_SIGN_UP_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
 
     return { success: true };
   } catch (error) {

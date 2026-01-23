@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
 import { z } from "zod";
 
 const bodySchema = z.object({
@@ -20,14 +21,11 @@ export default defineEventHandler(async (event) => {
 
   try {
     // --- Step 1: Sign Up ---
-    await $fetch(
-      SIGN_UP_ENDPOINT,
-      {
-        method: "POST",
-        body: body,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    await $fetch(SIGN_UP_ENDPOINT, {
+      method: "POST",
+      body: body,
+      headers: { "Content-Type": "application/json" },
+    });
 
     return { success: true };
   } catch (error) {
