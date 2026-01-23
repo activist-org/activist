@@ -44,22 +44,26 @@ describe("useSidebarClass", () => {
   });
 
   it("getSidebarFooterDynamicClass returns expected classes for footer", () => {
-    const { getSidebarFooterDynamicClass } = useSidebarClass();
-
     const sidebarHover = ref(false);
-    const classes = getSidebarFooterDynamicClass(sidebarHover).value;
 
-    // Sidebar is expanded.
+    // Sidebar is expanded (default state).
+    const { getSidebarFooterDynamicClass: getSidebarFooterDynamicClass1 } =
+      useSidebarClass();
+    const classes = getSidebarFooterDynamicClass1(sidebarHover).value;
     expect(classes["md:pl-24 xl:pl-64"]).toBe(true);
     expect(classes["blur-sm xl:blur-none"]).toBe(false);
 
     // Simulate hovered state with collapsedSwitch true and not collapsed.
+    // Blur is applied when: collapsedSwitch && !collapsed && hovered
     globalThis.useSidebarMock.mockImplementation(() => ({
-      collapsed: true,
-      collapsedSwitch: false,
+      collapsed: false, // Sidebar expanded due to hover
+      collapsedSwitch: true, // Toggle is in closed mode
     }));
     sidebarHover.value = true;
-    const classesAfter = getSidebarFooterDynamicClass(sidebarHover).value;
+    // Need to call useSidebarClass again to get fresh computed that reads updated mock
+    const { getSidebarFooterDynamicClass: getSidebarFooterDynamicClass2 } =
+      useSidebarClass();
+    const classesAfter = getSidebarFooterDynamicClass2(sidebarHover).value;
     expect(classesAfter["blur-sm xl:blur-none"]).toBe(true);
   });
 });

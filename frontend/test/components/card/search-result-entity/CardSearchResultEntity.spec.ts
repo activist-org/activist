@@ -5,6 +5,7 @@ import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import CardSearchResultEntity from "../../../app/components/card/search-result-entity/CardSearchResultEntity.vue";
+import { createUseLocalePathMock } from "../../../mocks/composableMocks";
 
 // MARK: Helper
 
@@ -29,10 +30,8 @@ const defaultProps: EntityProps = {
   imageAlt: "Test image",
 };
 
-// Mock composables
-vi.mock("#app", () => ({
-  useLocalePath: () => (path: string) => path,
-}));
+// Mock composables - use factory for useLocalePath
+globalThis.useLocalePath = createUseLocalePathMock();
 
 // Mock useBreakpoint
 vi.mock("~/composables/useBreakpoint", () => ({

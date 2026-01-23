@@ -19,6 +19,9 @@ import { vi } from "vitest";
 
 import type { User } from "../../shared/types/user";
 
+// AuthUser type from vitest-globals.d.ts
+type AuthUser = { [key: string]: unknown } | null;
+
 // MARK: I18n
 
 /**
@@ -123,14 +126,14 @@ export function createUseAuthStateMock(user: User | null = null) {
 
 /**
  * Creates a mock for useAuth composable.
- * @param user - User object or null (default: null)
+ * @param user - User object or null (default: null). Accepts User type but returns AuthUser-compatible value.
  * @param token - Auth token (default: null)
  * @param signUp - Sign up function (default: resolved promise)
  * @param signIn - Sign in function (default: resolved promise)
  * @param signOut - Sign out function (default: resolved promise)
  */
 export function createUseAuthMock(
-  user: User | null = null,
+  user: AuthUser = null,
   token: string | null = null,
   signUp = () => Promise.resolve(),
   signIn = () => Promise.resolve(),

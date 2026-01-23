@@ -34,8 +34,12 @@ vi.mock("~/stores/sidebar", () => ({
   useSidebar: globalThis.useSidebar,
 }));
 
+// Initialize global data reference for useAuthState
+const data = { value: null };
+globalThis.data = data;
+
 globalThis.useAuthStateMock = vi.fn(() => ({
-  data: { value: null },
+  data: globalThis.data, // Read from globalThis.data to allow tests to override
 }));
 globalThis.useAuthState = () => globalThis.useAuthStateMock();
 vi.mock("@sidebase/nuxt-auth", () => ({

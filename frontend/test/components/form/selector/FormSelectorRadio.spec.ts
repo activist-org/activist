@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
+import { nextTick } from "vue";
 
 import FormSelectorRadio from "../../../../app/components/form/selector/FormSelectorRadio.vue";
 import render from "../../../../test/render";
@@ -158,6 +159,7 @@ describe("FormSelectorRadio components", () => {
     const button = container.querySelector("[name='Daily']");
     expect(button).toBeTruthy();
     await fireEvent.click(button!);
+    await nextTick(); // Wait for Vue to process the v-model update
     expect(emitted()["update:modelValue"]).toBeTruthy();
     expect(emitted()["update:modelValue"].length).toBeGreaterThan(0);
   });
