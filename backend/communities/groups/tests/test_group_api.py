@@ -146,6 +146,8 @@ def test_GroupAPIView(logged_in_user, status_types):
             "lon": location.lon,
             "bbox": location.bbox,
             "address_or_name": location.address_or_name,
+            "city": "Test City",
+            "country_code": "en",
         },
         "category": new_group.category,
         "terms_checked": new_group.terms_checked,
