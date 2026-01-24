@@ -254,6 +254,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
     groups: serializers.ListSerializer[Any] = serializers.ListSerializer(
         child=serializers.UUIDField(), required=False
     )
+    iso = serializers.CharField(required=False, max_length=3, default="en")
     name = serializers.CharField(required=True)
     tagline = serializers.CharField(required=False, min_length=3, max_length=255)
     description = serializers.CharField(required=True, min_length=1, max_length=2500)
@@ -371,12 +372,22 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
             groups_data = validated_data.pop("groups", [])
             topics_data = validated_data.pop("topics", [])
             times_data = validated_data.pop("times", [])
+            description = validated_data.pop("description", "")
+            iso = validated_data.pop("iso")
 
             if location_data and location_type == "physical":
                 location = Location.objects.create(**location_data)
                 validated_data["physical_location"] = location
 
             event = Event.objects.create(created_by=created_by, **validated_data)
+
+            # Create EventText object with description
+            event_text = EventText.objects.create(
+                iso=iso,
+                primary=True,
+                description=description,
+            )
+            event.texts.add(event_text)
 
             # Set many-to-many relationships
             if orgs_data:

@@ -24,7 +24,6 @@ class Event(models.Model):
         related_name="created_events",
         on_delete=models.CASCADE,
     )
-    description = models.TextField(max_length=2500, blank=False)
     orgs = models.ManyToManyField(
         "communities.Organization", related_name="events", blank=False
     )
@@ -61,6 +60,9 @@ class Event(models.Model):
     roles = models.ManyToManyField("events.Role", blank=True)
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
+    texts = models.ManyToManyField(
+        "events.EventText", blank=False, related_name="events"
+    )
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
@@ -252,9 +254,5 @@ class EventText(Text):
     Translatable text content for events in different languages.
     """
 
-    event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, null=True, related_name="texts"
-    )
-
     def __str__(self) -> str:
-        return f"{self.event} - {self.iso}"
+        return f"EventText - {self.iso}"
