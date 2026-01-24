@@ -171,16 +171,16 @@ const originalWarn = console.warn;
 const originalError = console.error;
 
 beforeEach(() => {
-  // Suppress Vue warnings for known test-related issues.
+  // Suppress Vue warnings for specific, known test-environment issues only.
   // eslint-disable-next-line no-console
   console.warn = (...args: unknown[]) => {
     const message = String(args[0] || "");
-    // Skip warnings for known test component issues.
+    // Skip warnings for specific component issues that are test-environment only:
+    // - FriendlyCaptcha missing modelValue prop
+    // - Draggable missing itemKey prop
     if (
-      message.includes("FriendlyCaptcha") ||
-      message.includes("Draggable") ||
-      message.includes("Invalid prop") ||
-      message.includes("Missing required prop")
+      (message.includes("FriendlyCaptcha") && message.includes("modelValue")) ||
+      (message.includes("Draggable") && message.includes("itemKey"))
     ) {
       return;
     }
@@ -190,12 +190,10 @@ beforeEach(() => {
   // eslint-disable-next-line no-console
   console.error = (...args: unknown[]) => {
     const message = String(args[0] || "");
-    // Skip errors for known test component issues.
+    // Skip errors for the same specific component issues only.
     if (
-      message.includes("FriendlyCaptcha") ||
-      message.includes("Draggable") ||
-      message.includes("Invalid prop") ||
-      message.includes("Missing required prop")
+      (message.includes("FriendlyCaptcha") && message.includes("modelValue")) ||
+      (message.includes("Draggable") && message.includes("itemKey"))
     ) {
       return;
     }
