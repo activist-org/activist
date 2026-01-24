@@ -232,10 +232,7 @@ export function createUseSidebarSpy(
  * @param active - Whether dev mode is active (default: false)
  * @param check - Check function (default: no-op)
  */
-export function createUseDevModeMock(
-  active = false,
-  check = () => {}
-) {
+export function createUseDevModeMock(active = false, check = () => {}) {
   return () => ({
     active: { value: active },
     check,
