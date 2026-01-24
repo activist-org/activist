@@ -17,7 +17,7 @@ from rest_framework import serializers
 from communities.groups.models import Group
 from communities.organizations.models import Organization
 from content.models import Location, Topic
-from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer
+from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer, TopicSerializer
 from events.models import (
     Event,
     EventFaq,
@@ -130,6 +130,16 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 
         return event
 
+# Mark: Times
+
+class EventTimesSerializer(serializers.ModelSerializer[EventTime]):
+    """
+    Serializer for EventTime model data.
+    """
+
+    class Meta:
+        model = EventTime
+        fields = "__all__"
 
 # MARK: Social Link
 
@@ -427,6 +437,8 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
     orgs = EventOrganizationSerializer(many=True, read_only=True)
     groups = EventGroupSerializer(many=True, read_only=True)
+    topics = TopicSerializer(many=True, read_only=True)
+    times = EventTimesSerializer(many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
 
