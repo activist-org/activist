@@ -73,8 +73,12 @@
           :event="event"
         />
         <MediaMapEvent
-          v-if="event?.physicalLocation && !textExpanded"
+          v-if="showMap"
           class="h-70 w-full"
+          :event="event"
+        />
+        <CardOnlineEventLink
+          v-else-if="showOnlineLocationCard"
           :event="event"
         />
       </div>
@@ -100,6 +104,24 @@ const textExpanded = ref(false);
 const expandReduceText = () => {
   textExpanded.value = !textExpanded.value;
 };
+
+const showMap = computed(() => {
+  if (!event.value) return false;
+  return (
+    !textExpanded.value &&
+    event.value.setting === "physical" &&
+    !!event.value.physicalLocation
+  );
+});
+
+const showOnlineLocationCard = computed(() => {
+  if (!event.value) return false;
+  return (
+    !textExpanded.value &&
+    event.value.setting === "online" &&
+    !!event.value.onlineLocationLink
+  );
+});
 
 const windowWidth = ref(window.innerWidth);
 

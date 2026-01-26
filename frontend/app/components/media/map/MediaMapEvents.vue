@@ -23,8 +23,13 @@ const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
 
-const { events } = props;
 const { getEventColorByType } = useColor();
+
+const physicalEvents = computed(() =>
+  props.events.filter(
+    (event) => event.setting === "physical" && event.physicalLocation
+  )
+);
 
 const buildExpandedTooltipPointer = (pointer: unknown) => {
   const root = document.createElement("div");
@@ -123,28 +128,20 @@ const buildExpandedTooltipCluster = (pointer: unknown) => {
 
   return root as PopupContent;
 };
-const pointers: PointerCluster[] = events.map((event) => {
-  return {
+const pointers = computed<PointerCluster[]>(() =>
+  physicalEvents.value.map((event) => ({
     id: event.id,
     color: getEventColorByType(event.type as EventType),
-    location: event.physicalLocation || {
-      displayName: event.name,
-      lat: "0",
-      lon: "0",
-      id: "",
-      bbox: ["0", "0", "0", "0"],
-    },
+    location: event.physicalLocation,
     createPopupCluster: buildExpandedTooltipCluster,
     properties: {
       id: event.id,
       name: event.name,
       type: event.type,
-      location: event.physicalLocation
-        ? event.physicalLocation.displayName
-        : "",
+      location: event.physicalLocation.displayName,
     },
-  };
-});
+  }))
+);
 const clusterProperties: ClusterProperties = {
   cluster: {
     learn: {

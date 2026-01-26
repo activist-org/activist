@@ -46,8 +46,13 @@
             :label="$t('i18n.components.card_details.attending')"
           /> -->
           <MetaTagLocation
-            v-if="event.physicalLocation"
+            v-if="isPhysicalEvent"
             :location="event.physicalLocation.displayName.split(',')[0] ?? ''"
+          />
+          <MetaTag
+            v-else-if="isOnlineEvent"
+            :iconName="IconMap.GLOBE"
+            :value="$t('i18n.components._global.location_type_online')"
           />
           <MetaTagDate
             v-if="event.startTime"
@@ -60,6 +65,8 @@
 </template>
 
 <script setup lang="ts">
+import { IconMap } from "#shared/types/icon-map";
+
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const { openModal: openModalOrganizationOverview } = useModalHandlers(
   "ModalOrganizationOverview"
@@ -69,4 +76,14 @@ const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
+
+const isPhysicalEvent = computed(() => {
+  if (!event.value) return false;
+  return event.value.setting === "physical" && !!event.value.physicalLocation;
+});
+
+const isOnlineEvent = computed(() => {
+  if (!event.value) return false;
+  return event.value.setting === "online" && !!event.value.onlineLocationLink;
+});
 </script>

@@ -5,6 +5,7 @@ interface EventBase extends Entity {
   tagline?: string;
   iconUrl?: ContentImage;
   type: EventType;
+  setting: "online" | "physical";
   onlineLocationLink?: string;
   physicalLocation?: PhysicalLocation;
   socialLinks: EventSocialLink[];
@@ -40,7 +41,7 @@ export interface EventAttendee {
 // MARK: Event filters.
 
 export interface EventFilters {
-  setting?: EventType;
+  setting?: "online" | "physical";
   locationType?: "online" | "physical";
   topics?: TopicEnum[]; // array of topic IDs
   name?: string; // search term for event name
