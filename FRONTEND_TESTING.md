@@ -144,11 +144,11 @@ When a composable doesn't affect your test behavior, you can rely on the automat
 
 **Example:**
 ```typescript
-// No explicit mock needed - auto-mock {} is sufficient
+// No explicit mock needed - auto-mock {} is sufficient.
 describe("MyComponent", () => {
   it("renders correctly", async () => {
     await render(MyComponent);
-    // Component uses useRoute() internally, but test doesn't check route behavior
+    // Component uses useRoute() internally, but test doesn't check route behavior.
   });
 });
 ```
@@ -163,7 +163,7 @@ When you need specific return values but don't need to track calls, use the fact
 ```typescript
 import { createUseRouteMock } from "../../mocks/composableMocks";
 
-// Set up useRoute with specific params
+// Set up useRoute with specific params.
 globalThis.useRoute = createUseRouteMock(
   { id: "123" },        // params
   { filter: "active" }, // query
@@ -253,20 +253,20 @@ import { createUseRouteMock } from "../../mocks/composableMocks";
 
 describe("MyComponent", () => {
   beforeEach(() => {
-    // Default setup for most tests
+    // Default setup for most tests.
     globalThis.useRoute = createUseRouteMock({}, {}, "/default");
   });
 
   it("handles default route", async () => {
     await render(MyComponent);
-    // Uses default mock
+    // Uses default mock.
   });
 
   it("handles specific route params", async () => {
-    // Override for this specific test
+    // Override for this specific test.
     globalThis.useRoute = createUseRouteMock({ id: "456" }, {}, "/specific");
     await render(MyComponent);
-    // Uses specific mock
+    // Uses specific mock.
   });
 });
 ```

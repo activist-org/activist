@@ -161,7 +161,7 @@ describe("FormSelectorRadio components", () => {
     const button = container.querySelector("[name='Daily']");
     expect(button).toBeTruthy();
     await fireEvent.click(button!);
-    await nextTick(); // Wait for Vue to process the v-model update
+    await nextTick(); // wait for Vue to process the v-model update
     expect(emitted()["update:modelValue"]).toBeTruthy();
     expect(emitted()["update:modelValue"].length).toBeGreaterThan(0);
   });

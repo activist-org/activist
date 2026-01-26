@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
- * Demonstrate overriding composable mocks with spy for call tracking.
+ * Demonstrate overriding composable mocks with spy for call tracking via the following:
  * - Pattern 3: Override with spy for call tracking.
  * - Uses vi.stubGlobal directly since we need a spy function to verify calls.
  */

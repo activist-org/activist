@@ -30,7 +30,7 @@ const defaultProps: EntityProps = {
   imageAlt: "Test image",
 };
 
-// Mock composables - use factory for useLocalePath
+// Mock composables by using a factory for useLocalePath.
 globalThis.useLocalePath = createUseLocalePathMock();
 
 // Mock useBreakpoint

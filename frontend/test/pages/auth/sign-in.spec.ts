@@ -13,7 +13,7 @@ describe("sign-in", () => {
 });
 
 // ---------------------------------------------------------------------------
-// Legacy Vitest implementation (kept for reference only).
+// Attn: Legacy Vitest implementation (kept for reference only).
 // These tests were written before @sidebase/nuxt-auth and the current
 // Playwright-based auth flows. When re-implementing unit tests, use this
 // block as a reference, but prefer the newer mocking patterns and helpers.

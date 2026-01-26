@@ -19,7 +19,7 @@ import { vi } from "vitest";
 
 import type { User } from "../../shared/types/user";
 
-// AuthUser type from vitest-globals.d.ts
+// AuthUser type from vitest-globals.d.ts.
 type AuthUser = { [key: string]: unknown } | null;
 
 // MARK: I18n

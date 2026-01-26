@@ -54,13 +54,13 @@ describe("useSidebarClass", () => {
     expect(classes["blur-sm xl:blur-none"]).toBe(false);
 
     // Simulate hovered state with collapsedSwitch true and not collapsed.
-    // Blur is applied when: collapsedSwitch && !collapsed && hovered
+    // Blur is applied when: collapsedSwitch && !collapsed && hovered.
     globalThis.useSidebarMock.mockImplementation(() => ({
-      collapsed: false, // Sidebar expanded due to hover
-      collapsedSwitch: true, // Toggle is in closed mode
+      collapsed: false, // sidebar expanded due to hover
+      collapsedSwitch: true, // toggle is in closed mode
     }));
     sidebarHover.value = true;
-    // Need to call useSidebarClass again to get fresh computed that reads updated mock
+    // Need to call useSidebarClass again to get fresh computed that reads updated mock.
     const { getSidebarFooterDynamicClass: getSidebarFooterDynamicClass2 } =
       useSidebarClass();
     const classesAfter = getSidebarFooterDynamicClass2(sidebarHover).value;
