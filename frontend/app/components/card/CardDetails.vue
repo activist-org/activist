@@ -45,14 +45,22 @@
             :numAttending="event.attendees ? event.attendees.length : 0"
             :label="$t('i18n.components.card_details.attending')"
           /> -->
+          <a
+            v-if="event.onlineLocationLink"
+            class="link-text ml-2 flex items-center gap-2 font-extrabold"
+            :href="event.onlineLocationLink"
+            target="_blank"
+          >
+            <Icon :name="IconMap.EXTERNAL_LINK" />
+            <p class="link-text inline-link-underline ml-2 font-extrabold">
+              {{ event.onlineLocationLink }}
+            </p>
+          </a>
           <MetaTagLocation
             v-if="event.physicalLocation"
             :location="event.physicalLocation.addressOrName.split(',')[0] ?? ''"
           />
-          <MetaTagDate
-            v-if="event.startTime"
-            :date="event.startTime.split('T')[0] ?? ''"
-          />
+          <MetaTagDates v-if="event.times" :dates="event.times" />
         </div>
       </div>
     </div>
@@ -64,7 +72,6 @@ const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 const { openModal: openModalOrganizationOverview } = useModalHandlers(
   "ModalOrganizationOverview"
 );
-
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 

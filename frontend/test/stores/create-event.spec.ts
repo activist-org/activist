@@ -27,8 +27,8 @@ describe("useCreateEventStore", () => {
     await store.next({ name: "My Offline Event" });
     expect(store.nodeId).toBe(CreateEventSteps.EventType);
 
-    // 2. Type -> Logic Node (with setting: 'physical')
-    await store.next({ setting: "physical" });
+    // 2. Type -> Logic Node (with location_type: 'physical')
+    await store.next({ location_type: "physical" });
     expect(store.nodeId).toBe(CreateEventSteps.OnlineOrPhysicalLocation);
 
     // 3. Logic Node -> Location
@@ -48,8 +48,8 @@ describe("useCreateEventStore", () => {
     // 1. Details -> Type
     await store.next({ name: "My Online Event" });
 
-    // 2. Type -> Logic Node (with setting: 'online')
-    await store.next({ setting: "online" });
+    // 2. Type -> Logic Node (with location_type: 'online')
+    await store.next({ location_type: "online" });
     expect(store.nodeId).toBe(CreateEventSteps.OnlineOrPhysicalLocation);
 
     // 3. Logic Node -> LinkOnline (Conditional Jump)
@@ -67,7 +67,7 @@ describe("useCreateEventStore", () => {
 
     // Step through the whole flow
     await store.next({ name: "Final Event" }); // Details
-    await store.next({ setting: "online" }); // Type
+    await store.next({ location_type: "online" }); // Type
     await store.next(); // Logic (jump to Link)
     await store.next({ link: "http://test.com" }); // Link
     await store.next({ date: "2024-01-01" }); // Time
@@ -76,7 +76,7 @@ describe("useCreateEventStore", () => {
     expect(store.isFinished).toBe(true);
     expect(store.saveResult).toEqual({
       name: "Final Event",
-      setting: "online",
+      location_type: "online",
       link: "http://test.com",
       date: "2024-01-01",
     });
