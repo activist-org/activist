@@ -64,7 +64,7 @@ defineProps<{
   group?: Group;
   event?: CommunityEvent;
   resource?: Resource;
-  user?: User;
+  user?: UserActivist;
   type: "icon" | "meta-tag";
   reasonForSuggesting: string;
 }>();
