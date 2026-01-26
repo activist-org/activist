@@ -12,6 +12,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick, reactive, ref } from "vue";
 
 import SidebarLeft from "../../../app/components/sidebar/left/SidebarLeft.vue";
+import {
+  createUseRouteMock,
+  createUseRouterMock,
+} from "../../mocks/composableMocks";
 
 // Shared mock store object so test and component share same instance.
 const mockSidebarStore = reactive({
@@ -37,14 +41,11 @@ vi.mock("~/utils/routeUtils", () => ({
 // MARK: Router Mocks
 
 const mockRouterPush = vi.fn();
-globalThis.useRouter = () => ({
-  currentRoute: { value: { name: "home" } },
-  push: mockRouterPush,
+// Use factories to create mocks for vue-router composables.
+globalThis.useRouter = createUseRouterMock(mockRouterPush, {
+  value: { name: "home" },
 });
-
-// useRoute() is already mocked in test/setup.ts with default behavior,
-// but we override it here for test-specific behavior (route name "home").
-globalThis.useRoute = () => ({ query: {}, path: "/home", name: "home" });
+globalThis.useRoute = createUseRouteMock({}, {}, "/home", "home");
 
 // Provide a minimal global auto-import for useState used inside component.
 // In the Nuxt environment useState is auto-imported; tests run without that, so we add it.

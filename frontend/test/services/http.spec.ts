@@ -21,6 +21,7 @@ import {
   post,
   put,
 } from "../../app/services/http";
+import { createUseAuthMock } from "../mocks/composableMocks";
 import { expectRequest, getFetchCall } from "./helpers";
 
 describe("services/http", () => {
@@ -32,21 +33,15 @@ describe("services/http", () => {
     globalThis.BASE_BACKEND_URL = "https://api.example.test";
 
     // Default auth: present token.
-    // Override useAuth in beforeEach to reset to default state for each test.
+    // Use factory to create default mock, reset in beforeEach for each test.
     // Individual tests can override again for specific scenarios.
-    globalThis.useAuth = () => ({
-      signIn: async () => {
-        return Promise.resolve();
-      },
-      signOut: async () => {
-        return Promise.resolve();
-      },
-      data: { value: null },
-      signUp: async () => {
-        return Promise.resolve();
-      },
-      token: { value: "Bearer test-token" },
-    });
+    globalThis.useAuth = createUseAuthMock(
+      null, // user
+      "Bearer test-token", // token
+      () => Promise.resolve(), // signUp
+      () => Promise.resolve(), // signIn
+      () => Promise.resolve() // signOut
+    );
 
     fetchMock = vi.fn<FetchFn>();
     fetchRawMock = vi.fn<FetchRawFn>();
@@ -229,7 +224,7 @@ describe("services/http", () => {
     // This demonstrates overriding for edge cases/error scenarios.
     globalThis.useAuth = (() => {
       throw new Error("no auth context");
-    }) as typeof global.useAuth;
+    }) as typeof globalThis.useAuth;
     fetchMock.mockResolvedValueOnce({ ok: true });
 
     await get("/no-auth-provider");
