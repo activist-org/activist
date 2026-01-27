@@ -18,7 +18,7 @@ export function mapTopics(res: Topic[]): Topic[] {
 
 export async function listTopics(): Promise<Topic[]> {
   try {
-    const res = await get<Topic[]>(`content/topics`, {
+    const res = await get<Topic[]>(`/content/topics`, {
       withoutAuth: true,
     });
     return mapTopics(res);

@@ -62,7 +62,7 @@ describe("services/communities/organization/image", () => {
     );
   });
 
-  it("fetchOrganizationImages() gets images and includes Authorization by default", async () => {
+  it("fetchOrganizationImages() gets images using authenticated client", async () => {
     const { fetchMock } = getMocks();
     const returned: ContentImage[] = [];
     fetchMock.mockResolvedValueOnce(returned);
@@ -72,7 +72,8 @@ describe("services/communities/organization/image", () => {
 
     expectRequest(fetchMock, "/communities/organization/org-2/images", "GET");
     const [, opts] = getFetchCall(fetchMock);
-    expect(opts.headers?.Authorization).toBe("Bearer test-token");
+    // Authorization is now added by server-side middleware, not the client helper.
+    expect(opts.baseURL).toBe("/api/auth");
   });
 
   it("uploadOrganizationImages() posts FormData with sequences and files", async () => {

@@ -64,7 +64,7 @@ describe("services/communities/group/image", () => {
     );
   });
 
-  it("fetchGroupImages() gets images and includes Authorization by default", async () => {
+  it("fetchGroupImages() gets images using authenticated client", async () => {
     const { fetchMock } = getMocks();
     const returned: ContentImage[] = [];
     fetchMock.mockResolvedValueOnce(returned);
@@ -74,7 +74,8 @@ describe("services/communities/group/image", () => {
 
     expectRequest(fetchMock, "/communities/group/grp-3/images", "GET");
     const [, opts] = getFetchCall(fetchMock);
-    expect(opts.headers?.Authorization).toBe("Bearer test-token");
+    // Authorization is now added by server-side middleware, not the client helper.
+    expect(opts.baseURL).toBe("/api/auth");
   });
 
   // MARK: Error Handling
