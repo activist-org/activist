@@ -43,10 +43,13 @@ frontend/.github/
 *.log*
 .nitro
 .cache
+# Environment files - DO NOT commit, use .env.example templates instead
 .env
 .env.*
-!.env.dev
-!.env.dev.local
+# Exception: .env.example files are OK to commit as templates
+!.env.example
+!.env.dev.example
+!.env.prod.example
 dist
 
 # Node dependencies
