@@ -47,7 +47,7 @@
           /> -->
           <MetaTagLocation
             v-if="isPhysicalEvent"
-            :location="event.physicalLocation.displayName.split(',')[0] ?? ''"
+            :location="event?.physicalLocation?.displayName?.split(',')[0] ?? ''"
           />
           <MetaTag
             v-else-if="isOnlineEvent"

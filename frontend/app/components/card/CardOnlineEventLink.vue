@@ -22,12 +22,12 @@
         {{ event.onlineLocationLink }}
       </span>
       <BtnRouteExternal
-        ariaLabel="i18n.components.machine_steps_create_event_link_online.link_to_event"
+        ariaLabel="i18n.components._global.link_to_event"
         class="w-max"
         :cta="true"
         fontSize="sm"
         iconSize="1.35em"
-        label="i18n.components.machine_steps_create_event_link_online.link_to_event"
+        label="i18n.components._global.link_to_event"
         :linkTo="event.onlineLocationLink"
         :rightIcon="IconMap.ARROW_RIGHT"
       />

@@ -70,16 +70,16 @@
             'lg:col-span-2': !textExpanded,
             'lg:col-span-3': textExpanded,
           }"
-          :event="event"
+          :event="event ?? undefined"
         />
         <MediaMapEvent
           v-if="showMap"
           class="h-70 w-full"
-          :event="event"
+          :event="event!"
         />
         <CardOnlineEventLink
           v-else-if="showOnlineLocationCard"
-          :event="event"
+          :event="event!"
         />
       </div>
       <CardAboutEvent :event="event" />

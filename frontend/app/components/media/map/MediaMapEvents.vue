@@ -27,7 +27,7 @@ const { getEventColorByType } = useColor();
 
 const physicalEvents = computed(() =>
   props.events.filter(
-    (event) => event.setting === "physical" && event.physicalLocation
+    (event) => event.setting === "physical" && !!event.physicalLocation
   )
 );
 
@@ -132,13 +132,13 @@ const pointers = computed<PointerCluster[]>(() =>
   physicalEvents.value.map((event) => ({
     id: event.id,
     color: getEventColorByType(event.type as EventType),
-    location: event.physicalLocation,
+    location: event.physicalLocation!,
     createPopupCluster: buildExpandedTooltipCluster,
     properties: {
       id: event.id,
       name: event.name,
       type: event.type,
-      location: event.physicalLocation.displayName,
+      location: event.physicalLocation!.displayName,
     },
   }))
 );
