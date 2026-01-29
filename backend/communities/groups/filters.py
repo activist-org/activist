@@ -18,6 +18,7 @@ class GroupFilter(django_filters.FilterSet):  # type: ignore[misc]
         field_name="org",
         to_field_name="id",
         queryset=Organization.objects.all(),
+        conjoined=False
     )
 
     class Meta:

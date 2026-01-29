@@ -88,7 +88,7 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
         self.lat = random_locations[self.location_idx][0]
         self.lon = random_locations[self.location_idx][1]
         self.bbox = random_locations[self.location_idx][2]
-        self.display_name = random_locations[self.location_idx][3]
+        self.address_or_name = random_locations[self.location_idx][3]
 
 
 # MARK: Event Loc
@@ -157,7 +157,7 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
         self.lat = random_locations[self.location_idx][0]
         self.lon = random_locations[self.location_idx][1]
         self.bbox = random_locations[self.location_idx][2]
-        self.display_name = random_locations[self.location_idx][3]
+        self.ad = random_locations[self.location_idx][3]
 
 
 # MARK: Discussion

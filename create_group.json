@@ -1,0 +1,10 @@
+{
+  "name": "string (required)",
+  "tagline": "string",
+  "description": "string (required)",
+  "organization": "uuid (required)",
+  "topics": [
+    "uuid (required)"
+  ],
+  "city": "string (required)"
+}

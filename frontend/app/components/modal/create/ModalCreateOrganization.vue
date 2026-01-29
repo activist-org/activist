@@ -17,11 +17,13 @@
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
+const { create } = useOrganizationMutations();
 /**
  * This function will be called by the machine when the flow completes.
- * @param {any} finalData The consolidated data from all steps.
+ * @param {unknown} finalData The consolidated data from all steps.
  */
-async function handleSubmission() {
+async function handleSubmission(values: unknown) {
+  await create(values as CreateOrganizationInput);
   handleCloseModal();
 }
 

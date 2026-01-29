@@ -7,7 +7,10 @@ export function useGetGroups(filters: MaybeRef<GroupFilters>) {
   const isLastPageRef = ref(false);
   const groups = ref<Group[]>([]);
   const page = ref(1);
-  const filtersRef = computed(() => unref(filters));
+  const filtersRef = computed(() => {
+    isLastPageRef.value = false;
+    return unref(filters);
+  });
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Group[]>(
     () => getKeyForGetGroups(filtersRef.value, page.value),
