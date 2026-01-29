@@ -16,6 +16,7 @@ from pathlib import Path
 import django
 import django_stubs_ext
 import dotenv
+from django.core.management.utils import get_random_secret_key
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
@@ -41,7 +42,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/.
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "secret")
+DJANGO_ENV = os.getenv("DJANGO_ENV", "production")
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
+if not SECRET_KEY:
+    if DJANGO_ENV == "LOCAL_DEV":
+        # Generate a consistent key for local development from .env.dev
+        # This allows development to work without explicit SECRET_KEY
+        SECRET_KEY = get_random_secret_key()
+        print(
+            f"WARNING: SECRET_KEY not found in environment. Generated temporary key: {SECRET_KEY}\n"
+            "Please add this to your .env.dev file: SECRET_KEY='{SECRET_KEY}'\n"
+        )
+    else:
+        # In production, SECRET_KEY is required and must be explicitly set
+        raise ValueError(
+            "SECRET_KEY environment variable is not set. "
+            "This is required for production deployments. "
+            "Generate a secure key using: python manage.py shell -c "
+            "'from django.core.management.utils import get_random_secret_key; "
+            "print(get_random_secret_key())'"
+        )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
