@@ -31,7 +31,7 @@ export function mapEvent(res: EventResponse): EventResponse {
 
 export async function getEvent(id: string): Promise<EventResponse> {
   try {
-    const res = await get<EventResponse>(`events/events/${id}`, {
+    const res = await get<EventResponse>(`/events/events/${id}`, {
       withoutAuth: true,
     });
     return mapEvent(res);
@@ -62,7 +62,7 @@ export async function listEvents(
       query.append(key, String(value));
     });
     const res = await get<EventsResponseBody>(
-      `events/events?${query.toString()}`,
+      `/events/events?${query.toString()}`,
       { withoutAuth: true }
     );
     return { data: res.results.map(mapEvent), isLastPage: !res.next };
@@ -89,7 +89,7 @@ export async function createEvent(
       acceptance_date: new Date(),
     };
     const res = await post<EventResponse, typeof payload>(
-      `auth/events/events`,
+      `/events/events`,
       payload,
       { headers: { "Content-Type": "application/json" } }
     );
@@ -103,7 +103,7 @@ export async function createEvent(
 
 export async function deleteEvent(eventId: string): Promise<void> {
   try {
-    await del(`events/events/${eventId}`);
+    await del(`/events/events/${eventId}`);
   } catch (e) {
     throw errorHandler(e);
   }

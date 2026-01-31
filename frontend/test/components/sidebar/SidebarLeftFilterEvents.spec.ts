@@ -4,6 +4,10 @@ import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import SidebarLeftFilterEvents from "../../../app/components/sidebar/left/filter/SidebarLeftFilterEvents.vue";
+import {
+  createUseRouteMock,
+  createUseRouterMock,
+} from "../../mocks/composableMocks";
 
 /**
  * Unit tests for SidebarLeftFilterEvents component
@@ -26,13 +30,14 @@ describe("SidebarLeftFilterEvents", () => {
     mockPush.mockClear();
     mockRoute.query = {};
 
-    // Mock vue-router composables.
-    vi.stubGlobal("useRouter", () => ({
-      push: mockPush,
-      currentRoute: { value: mockRoute },
-    }));
-
-    vi.stubGlobal("useRoute", () => mockRoute);
+    // Use factories to create mocks for vue-router composables.
+    globalThis.useRouter = createUseRouterMock(mockPush, { value: mockRoute });
+    globalThis.useRoute = createUseRouteMock(
+      {},
+      mockRoute.query,
+      mockRoute.path,
+      mockRoute.name
+    );
   });
 
   describe("Toggle On/Off Functionality of Filter Options", () => {

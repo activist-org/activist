@@ -7,7 +7,9 @@ import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick, ref } from "vue";
 
+// @ts-expect-error - TypeScript has issues resolving .vue files in test environment, but import works at runtime
 import CardSearchResultEntityOrganization from "../../../app/components/card/search-result-entity/CardSearchResultEntityOrganization.vue";
+import { createUseRouteMock } from "../../../mocks/composableMocks";
 
 // MARK: Mock composables & state
 
@@ -21,7 +23,14 @@ const mockRoute = ref<Partial<RouteLocationNormalized>>({
   meta: {},
 });
 
-vi.mock("vue-router", () => ({ useRoute: () => mockRoute.value }));
+// Use factory to create useRoute mock instead of vi.mock.
+// Access ref value when creating the mock.
+globalThis.useRoute = createUseRouteMock(
+  (mockRoute.value.params || {}) as Record<string, unknown>,
+  (mockRoute.value.query || {}) as Record<string, unknown>,
+  mockRoute.value.path || "/test",
+  undefined
+);
 
 vi.mock("../../../app/composables/useLinkURL", () => ({
   useLinkURL: () => ({ linkUrl: ref("/test-link-url") }),
@@ -29,7 +38,7 @@ vi.mock("../../../app/composables/useLinkURL", () => ({
 
 vi.mock("vue-i18n", () => ({
   useI18n: () => ({
-    t: (key: string, params?: Record<string>) => {
+    t: (key: string, params?: Record<string, unknown>) => {
       if (
         key === "i18n.components._global.navigate_to_organization_aria_label"
       ) {
