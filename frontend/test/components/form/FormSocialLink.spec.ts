@@ -5,8 +5,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { SocialLinkFormData } from "../../../app/constants/social-link";
 
 import FormSocialLink from "../../../app/components/form/FormSocialLink.vue";
-import render from "../../render";
 import { createUseUserSessionMock } from "../../mocks/composableMocks";
+import render from "../../render";
 
 /**
  * This suite focuses on:

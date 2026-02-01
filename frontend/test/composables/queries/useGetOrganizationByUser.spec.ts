@@ -30,7 +30,10 @@ const { mockListOrganizationsByUserId } = vi.hoisted(() => ({
   mockListOrganizationsByUserId: vi.fn(),
 }));
 
-mockNuxtImport("listOrganizationsByUserId", () => mockListOrganizationsByUserId);
+mockNuxtImport(
+  "listOrganizationsByUserId",
+  () => mockListOrganizationsByUserId
+);
 
 // MARK: Tests
 
