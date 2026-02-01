@@ -1,8 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import MenuItemLabel from "../../../app/components/menu/MenuItemLabel.vue";
 import render from "../../../test/render";
+import { createUseUserSessionMock } from "../../mocks/composableMocks";
+
+// Set up useUserSession mock (component uses it directly).
+beforeEach(() => {
+  globalThis.useUserSession = createUseUserSessionMock();
+});
 
 const baseProps = {
   isSidebarLeftMenu: false,

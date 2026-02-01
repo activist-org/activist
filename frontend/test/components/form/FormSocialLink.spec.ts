@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { SocialLinkFormData } from "../../../app/constants/social-link";
 
 import FormSocialLink from "../../../app/components/form/FormSocialLink.vue";
 import render from "../../render";
+import { createUseUserSessionMock } from "../../mocks/composableMocks";
 
 /**
  * This suite focuses on:
@@ -33,6 +34,10 @@ const createSocialLink = (overrides: Partial<SocialLinkFormData> = {}) => ({
 });
 
 describe("FormSocialLink", () => {
+  // Set up useUserSession mock (required by IconDraggableEdit child component).
+  beforeEach(() => {
+    globalThis.useUserSession = createUseUserSessionMock();
+  });
   // MARK: Logic Testing
 
   it("renders title, initial social links and add-link button", async () => {

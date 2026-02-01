@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { fireEvent, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
+import { nextTick } from "vue";
 
 import FormSelectorRadio from "../../../../app/components/form/selector/FormSelectorRadio.vue";
 import render from "../../../../test/render";
 
-// Here is the custom type Option use in FormSelectorRadio
+// Here is the custom type Option use in FormSelectorRadio.
 type Option = {
   value: string | number | boolean | Record<string, unknown> | undefined;
   key: string;
@@ -16,7 +17,7 @@ type Option = {
   class?: string;
   checkedClass?: string;
 };
-// Here is a pre-filled array of objects type of Option
+
 const OPTIONS: Option[] = [
   {
     key: "daily",
@@ -40,7 +41,7 @@ const OPTIONS: Option[] = [
     label: "Monthly",
   },
 ];
-// Here is a pre-filled array of objects type of Option for icon testing only
+
 const ICON_OPTIONS: Option[] = [
   {
     key: "home",
@@ -57,7 +58,8 @@ const ICON_OPTIONS: Option[] = [
     isIcon: true,
   },
 ];
-// Helper to render radio buttons with array of Options
+
+// Helper to render radio buttons with array of Options.
 const renderRadio = (
   propsOverride: {
     modelValue?:
@@ -82,6 +84,7 @@ const renderRadio = (
 
 describe("FormSelectorRadio components", () => {
   // MARK: Logic Testing
+
   it("renders with props.options AND props.options[i].label set correctly", async () => {
     await renderRadio();
     expect(screen.getByText("Daily")).toBeTruthy();
@@ -158,6 +161,7 @@ describe("FormSelectorRadio components", () => {
     const button = container.querySelector("[name='Daily']");
     expect(button).toBeTruthy();
     await fireEvent.click(button!);
+    await nextTick(); // wait for Vue to process the v-model update
     expect(emitted()["update:modelValue"]).toBeTruthy();
     expect(emitted()["update:modelValue"].length).toBeGreaterThan(0);
   });
@@ -195,6 +199,7 @@ describe("FormSelectorRadio components", () => {
   });
 
   // MARK: Styles Testing
+
   it("applies rounded corners to first and last options only", async () => {
     await renderRadio();
     const daily = screen.getByText("Daily").closest("div");
@@ -225,6 +230,7 @@ describe("FormSelectorRadio components", () => {
   });
 
   // MARK: Accessibility
+
   it("supports tab navigation properly by focusing one radio element at a time", async () => {
     const { container } = await renderRadio();
     const focusableButtons = container.querySelectorAll('[tabindex="0"]');
@@ -251,6 +257,7 @@ describe("FormSelectorRadio components", () => {
   });
 
   // MARK: Edge Cases
+
   it("renders safely with empty options array", async () => {
     await renderRadio({ options: [] });
     const radioGroup = screen.getByRole("radiogroup");
