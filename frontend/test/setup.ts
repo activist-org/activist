@@ -6,6 +6,10 @@ import { createI18n } from "vue-i18n";
 
 import en from "../i18n/locales/en-US.json" assert { type: "json" };
 import { setupAutoImportMocks } from "./auto-imports";
+import {
+  createUseAuthMock,
+  createUseLocalePathMock,
+} from "./mocks/composableMocks";
 
 // Set up Pinia.
 setActivePinia(createPinia());
@@ -42,8 +46,18 @@ globalThis.useAuthStateMock = vi.fn(() => ({
   data: globalThis.data, // read from globalThis.data to allow tests to override
 }));
 globalThis.useAuthState = () => globalThis.useAuthStateMock();
+
+// useLocalePath returns a function (path) => string. Must be set before setupAutoImportMocks
+// so the default {} mock doesn't overwrite it. Components like sign-up.vue call localePath() in template.
+globalThis.useLocalePath = createUseLocalePathMock();
+
+// useAuth: MenuItemLabel and other components need signOut. Must be set before setupAutoImportMocks.
+// vi.mock for @sidebase/nuxt-auth only mocks useAuthState; useAuth must be provided globally.
+globalThis.useAuth = createUseAuthMock();
+
 vi.mock("@sidebase/nuxt-auth", () => ({
   useAuthState: globalThis.useAuthState,
+  useAuth: globalThis.useAuth,
 }));
 
 // Auto-import default mocks for composables not manually mocked above.
