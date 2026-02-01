@@ -196,19 +196,19 @@ git remote add upstream https://github.com/activist-org/activist.git
   - `origin` (forked repository)
   - `upstream` (activist repository)
 
-4. Create a virtual environment for the backend (Python `>=3.12`), and install dependencies:
-
 > [!NOTE]
 > First, install `uv` if you don't already have it by following the [official installation guide](https://docs.astral.sh/uv/getting-started/installation/).
 
+4. Create a virtual environment for the backend (Python `>=3.12`), activate it and install dependencies:
+
     ```bash
-    cd backend && uv sync
+    cd backend && uv sync --all-extras  # create .venv and install all dependencies from uv.lock
 
     # Unix or macOS:
     source .venv/bin/activate
 
     # Windows:
-    .venv\Scripts\activate.bat
+    .venv\Scripts\activate.bat  # .venv\Scripts\activate.ps1 (PowerShell)
     ```
 
 5. Start your docker images with the following:

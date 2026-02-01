@@ -4,7 +4,7 @@
     <Icon
       v-if="leftIcon"
       class="mr-2"
-      :class="{ 'max-md:mr-0': hideLabelOnMobile }"
+      :class="{ 'mr-0 lg:mr-2': hideLabelOnMobile }"
       :name="leftIcon"
       :size="iconSize"
     />

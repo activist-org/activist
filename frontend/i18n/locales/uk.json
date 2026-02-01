@@ -1,4 +1,6 @@
 {
+  "i18n._global.about": "Про нас",
+  "i18n._global.activist_icon_img_alt_text": "Значок активіста: мала літера \"а\" з півколом, спрямованим вниз та ліворуч у центрі.",
   "i18n._global.auth.reset_password": "Скинути пароль",
   "i18n._global.auth.reset_password_forgot_password": "Забули свій пароль?",
   "i18n._global.contact": "Зв'язок",

@@ -1,7 +1,18 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * Demonstrates overriding composables in beforeEach and per-test.
+ * - useAuth() is mocked in test/setup.ts with default behavior,
+ * - We override it in beforeEach() to reset to a default state for each test,
+ * - Individual tests override it again within the test for specific scenarios
+ *   (e.g., no token, throwing errors),
+ * - This pattern is useful when you need:
+ *   - A default mock setup for most tests (in beforeEach)
+ *   - Specific behavior for individual tests (override within test)
+ *   - Error handling and edge case testing
+ */
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals";
+import type { FetchFn, FetchGlobal, FetchRawFn } from "../vitest-globals";
 
 import {
   del,
@@ -10,6 +21,7 @@ import {
   post,
   put,
 } from "../../app/services/http";
+import { createUseAuthMock } from "../mocks/composableMocks";
 import { expectRequest, getFetchCall } from "./helpers";
 
 describe("services/http", () => {
@@ -21,19 +33,15 @@ describe("services/http", () => {
     globalThis.BASE_BACKEND_URL = "https://api.example.test";
 
     // Default auth: present token.
-    globalThis.useAuth = () => ({
-      signIn: async () => {
-        return Promise.resolve();
-      },
-      signOut: async () => {
-        return Promise.resolve();
-      },
-      data: { value: null },
-      signUp: async () => {
-        return Promise.resolve();
-      },
-      token: { value: "Bearer test-token" },
-    });
+    // Use factory to create default mock, reset in beforeEach for each test.
+    // Individual tests can override again for specific scenarios.
+    globalThis.useAuth = createUseAuthMock(
+      null, // user
+      "Bearer test-token", // token
+      () => Promise.resolve(), // signUp
+      () => Promise.resolve(), // signIn
+      () => Promise.resolve() // signOut
+    );
 
     fetchMock = vi.fn<FetchFn>();
     fetchRawMock = vi.fn<FetchRawFn>();
@@ -85,7 +93,8 @@ describe("services/http", () => {
   });
 
   it("get() keeps caller Authorization when no token available", async () => {
-    // Simulate missing token so service does not add Authorization.
+    // Override useAuth for this specific test scenario (no token).
+    // This shows overriding the beforeEach default for a specific test.
     globalThis.useAuth = () => ({
       token: { value: null },
       signIn: async () => {
@@ -211,7 +220,8 @@ describe("services/http", () => {
   // MARK: Error Handling
 
   it("authHeader() gracefully handles absence of useAuth() (no throw)", async () => {
-    // Simulate useAuth throwing (caught in authHeader()).
+    // Override useAuth to throw an error for this error-handling test.
+    // This demonstrates overriding for edge cases/error scenarios.
     globalThis.useAuth = (() => {
       throw new Error("no auth context");
     }) as typeof globalThis.useAuth;

@@ -1,0 +1,11 @@
+{
+  "i18n._global.auth.reset_password": "Αλλαγή κωδικού",
+  "i18n._global.auth.reset_password_forgot_password": "Ξεχάσατε τον κωδικό σας?",
+  "i18n._global.contact": "Επικοινωνία",
+  "i18n._global.description": "Περιγραφή",
+  "i18n._global.discussion": "Συζήτηση",
+  "i18n._global.home": "Αρχική",
+  "i18n._global.name": "Όνομα",
+  "i18n.error.message": "Ωχ, κάτι πήγε στραβά:",
+  "i18n.error.title": "Σφάλμα • activist"
+}

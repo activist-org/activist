@@ -1,4 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * Demonstrate overriding composable mocks with spy for call tracking via the following:
+ * - Pattern 3: Override with spy for call tracking.
+ * - Uses vi.stubGlobal directly since we need a spy function to verify calls.
+ */
 import { screen } from "@testing-library/vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -6,9 +11,13 @@ import BtnRouteInternal from "../../../../app/components/btn/route/BtnRouteInter
 import { renderButton } from "../helpers";
 
 describe("BtnRouteInternal", () => {
+  // Create a spy function for useLocalePath to track calls for verification.
   const mockLocalePath = vi.fn((path: string) => `/en${path}`);
 
   beforeEach(() => {
+    // Pattern 3: Override with spy for call tracking.
+    // We use vi.stubGlobal directly since we need a spy function to verify calls.
+    // The factory could be used for default behavior, but here we need call tracking.
     vi.stubGlobal("useLocalePath", () => mockLocalePath);
     mockLocalePath.mockClear();
   });

@@ -1,27 +1,22 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * Demonstrates Pattern 1: Using factory for default behavior.
+ * - useRoute() is set up using createUseRouteMock factory with default empty params/query.
+ * - This makes the test's dependencies explicit while using sensible defaults.
+ */
 import type { VueWrapper } from "@vue/test-utils";
-import type { RouteLocationNormalized } from "vue-router";
 
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { nextTick, ref } from "vue";
+import { nextTick } from "vue";
 
 import ModalBase from "../../../app/components/modal/ModalBase.vue";
 import { useModals } from "../../../app/stores/modals";
-// MARK: Mock composables & state
+import { createUseRouteMock } from "../../mocks/composableMocks";
 
-const mockRoute = ref<Partial<RouteLocationNormalized>>({
-  path: "/test",
-  fullPath: "/test",
-  params: {},
-  query: {},
-  hash: "",
-  matched: [],
-  meta: {},
-});
-
-vi.mock("vue-router", () => ({ useRoute: () => mockRoute }));
+// Explicitly set up useRoute mock using factory (Pattern 1: default behavior).
+globalThis.useRoute = createUseRouteMock();
 
 // MARK: Stubs & Helper
 
@@ -79,10 +74,6 @@ describe("ModalBase component", () => {
     // Initialize the modal store.
     const modalsStore = useModals();
     modalsStore.modals.testModal = { isOpen: false };
-
-    // Reset route.
-    mockRoute.value.path = "/test";
-    mockRoute.value.fullPath = "/test";
   });
 
   // MARK: Accessibility

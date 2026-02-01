@@ -10,7 +10,6 @@ import type { GroupFilters } from "../../../../shared/types/group";
 
 import { createMockGroup } from "../../../mocks/factories";
 
-// Type helper
 type MockGroup = ReturnType<typeof createMockGroup> & { id: string };
 
 // MARK: Mocks
@@ -128,7 +127,7 @@ describe("useGetGroups Integration", () => {
 
   describe("Empty Filters Handling", () => {
     it("handler returns empty array when no filters provided", async () => {
-      // Simulate handler logic
+      // Simulate handler logic.
       const handlerLogic = async (filters: GroupFilters) => {
         if (!filters || Object.keys(filters).length === 0) {
           return [];
@@ -212,7 +211,7 @@ describe("useGetGroups Integration", () => {
       const existing = [createMockGroup() as MockGroup];
       const newGroups = [createMockGroup() as MockGroup];
 
-      // Simulate append (groups composable uses local ref, not store)
+      // Simulate append (groups composable uses local ref, not store).
       const result = [...existing, ...newGroups];
 
       expect(result).toHaveLength(2);

@@ -9,7 +9,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createMockEvent } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
 
-// Type helper for entities with id (workaround for .d.ts inheritance)
+// Type helper for entities with id (workaround for .d.ts inheritance).
 type MockEvent = ReturnType<typeof createMockEvent> & { id: string };
 
 // MARK: Mocks
@@ -99,7 +99,7 @@ describe("useGetEvent Integration", () => {
       mockGetEvent.mockReturnValue(storeEvent);
       const requestedId = storeEvent.id;
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (requestId: string) => {
         const event = mockGetEvent();
         if (event && event.id !== "" && event.id === requestId) {
@@ -116,7 +116,7 @@ describe("useGetEvent Integration", () => {
       mockGetEvent.mockReturnValue(storeEvent);
       const differentId = "different-event-id";
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (requestId: string) => {
         const event = mockGetEvent();
         if (event && event.id !== "" && event.id === requestId) {
@@ -141,7 +141,7 @@ describe("useGetEvent Integration", () => {
         payloadData: { [`event:${storeEvent.id}`]: storeEvent },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const event = mockGetEvent();
         if (
@@ -171,7 +171,7 @@ describe("useGetEvent Integration", () => {
         payloadData: { [`event:${payloadEvent.id}`]: payloadEvent },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const event = mockGetEvent();
         if (
@@ -201,7 +201,7 @@ describe("useGetEvent Integration", () => {
         staticData: { [`event:${staticEvent.id}`]: staticEvent },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const event = mockGetEvent();
         if (
@@ -227,7 +227,7 @@ describe("useGetEvent Integration", () => {
 
   describe("Conditional Fetch", () => {
     it("handler returns null when ID is empty", async () => {
-      // Simulate handler logic
+      // Simulate handler logic.
       const handlerLogic = async (eventId: string) => {
         if (!eventId || eventId === "") return null;
         return await mockGetEventService(eventId);
@@ -243,7 +243,7 @@ describe("useGetEvent Integration", () => {
       const mockEvent = createMockEvent();
       mockGetEventService.mockResolvedValue(mockEvent);
 
-      // Simulate handler logic
+      // Simulate handler logic.
       const handlerLogic = async (eventId: string) => {
         if (!eventId || eventId === "") return null;
         const event = await mockGetEventService(eventId);
@@ -281,7 +281,7 @@ describe("useGetEvent Integration", () => {
       const apiError = new Error("Network error");
       mockGetEventService.mockRejectedValue(apiError);
 
-      // Simulate handler error logic
+      // Simulate handler error logic.
       const handlerLogic = async (eventId: string) => {
         try {
           return await mockGetEventService(eventId);
@@ -302,7 +302,7 @@ describe("useGetEvent Integration", () => {
         const event = await mockGetEventService("event-123");
         mockSetEvent(event);
       } catch {
-        // Don't call setEvent on error
+        // Don't call setEvent on error.
       }
 
       expect(mockSetEvent).not.toHaveBeenCalled();

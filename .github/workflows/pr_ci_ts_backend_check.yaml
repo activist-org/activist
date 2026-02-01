@@ -34,7 +34,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Install Dependencies
-        run: uv sync
+        run: uv sync --frozen --all-extras
         working-directory: ./backend
 
       - name: Check Django Models Against TypeScript Interfaces
