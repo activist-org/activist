@@ -7,6 +7,7 @@ import render from "../../../test/render";
 
 describe("FormLabel Component", () => {
   // MARK: Logic and Props
+
   describe("Logic and Props", () => {
     it("renders with required props (for and label)", async () => {
       await render(FormLabel, {
@@ -92,6 +93,7 @@ describe("FormLabel Component", () => {
   });
 
   // MARK: Styling
+
   describe("Styling", () => {
     it("applies correct Tailwind classes to the container div", async () => {
       await render(FormLabel, {
@@ -145,7 +147,7 @@ describe("FormLabel Component", () => {
         },
       });
 
-      // The container should have space-x-1 class for spacing
+      // The container should have space-x-1 class for spacing.
       const container = screen.getByText("Test Label").parentElement;
       expect(container?.classList.contains("space-x-1")).toBe(true);
 
@@ -156,6 +158,7 @@ describe("FormLabel Component", () => {
   });
 
   // MARK: Accessibility
+
   describe("Accessibility", () => {
     it("uses semantic HTML with <label> element", async () => {
       await render(FormLabel, {
@@ -221,6 +224,7 @@ describe("FormLabel Component", () => {
   });
 
   // MARK: Conditional Rendering
+
   describe("Conditional Rendering", () => {
     it("only renders required indicator when required is true", async () => {
       await render(FormLabel, {
@@ -302,6 +306,7 @@ describe("FormLabel Component", () => {
   });
 
   // MARK: Edge Cases
+
   describe("Edge Cases", () => {
     it("handles empty string for label prop", async () => {
       await render(FormLabel, {
@@ -410,6 +415,7 @@ describe("FormLabel Component", () => {
   });
 
   // MARK: Props Validation
+
   describe("Props Validation", () => {
     it("accepts valid string for 'for' prop", async () => {
       await render(FormLabel, {
@@ -460,6 +466,7 @@ describe("FormLabel Component", () => {
   });
 
   // MARK: Component Structure
+
   describe("Component Structure", () => {
     it("renders container div as the root element", async () => {
       await render(FormLabel, {

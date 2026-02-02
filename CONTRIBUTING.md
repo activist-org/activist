@@ -4,7 +4,7 @@ Thank you for contributing to activist!
 
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
-Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open-source project. In return, and in accordance with this project's [code of conduct](.github/CODE_OF_CONDUCT.md), other contributors will reciprocate that respect in addressing your issue or assessing patches and features.
+Following this guide helps to communicate that you respect the time of the developers managing and developing this open-source project. In return, and in accordance with this project's [code of conduct](.github/CODE_OF_CONDUCT.md), other contributors will reciprocate that respect in addressing your issue or assessing patches and features.
 
 If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 
@@ -13,6 +13,7 @@ If you have questions or would like to communicate with the team, please [join u
 ## **Contents**
 
 - [First steps as a contributor](#first-steps-)
+- [Mentorship and growth](#mentorship-and-growth-)
 - [Tech stack](#tech-stack-)
 - [Learning the tech stack](#learning-the-tech-stack-)
 - [Development environment](#dev-env-)
@@ -44,11 +45,19 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 - Read through this contributing guide and the [style guide](STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
-- Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync)!
+- Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync) — new joiners are always welcome!
+
+<a id="mentorship-and-growth-"></a>
+
+## Mentorship and growth [`⇧`](#contents)
+
+Onboarding and mentoring new members are integral parts of any healthy open-source community. We need those who are onboarded and take on greater roles of triaging issues, reviewing contributions and maintaining the project to help those who follow do the same. Please let us know if you have such goals and we'll work with you to achieve them.
+
+The above includes expectations on the behavior of those who want to grow with us. Mentorship is earned, not given. Very bluntly, if all you want to do is send AI generated contributions, then you are not demonstrating an interest in growing your skills and it doesn't make sense for us to invest into your development. Continued constructive contributions, new open issues and communication that provides context for maintainers help us do our work immensely. We would be happy to help such community members expand their skills and take on further responsibilities!
 
 <a id="tech-stack-"></a>
 
-## Tech Stack [`⇧`](#contents)
+## Tech stack [`⇧`](#contents)
 
 The following are the current and planned technologies for [activist.org](https://activist.org):
 
@@ -62,7 +71,11 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Deployment
 
-- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com) • [Vitest](https://vitest.dev/)
+- [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com)
+
+### Deployment
+
+[pytest](https://docs.pytest.org/en/stable/) (backend) • [Vitest](https://vitest.dev/) (frontend) • [Playwright](https://playwright.dev/) (end to end)
 
 ### Localization
 
@@ -354,7 +367,7 @@ From there you'll be able to visit http://localhost:6006/ to view the documentat
 
 ## Style guide [`⇧`](#contents)
 
-Please see the [activist style guide](STYLEGUIDE.md) for details about how to follow the code style for the project. We made these guidelines to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
+Please see the [activist style guide](STYLEGUIDE.md) for details about how to follow the code style for the project. We made this guide to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
 
 <a id="linting-"></a>
 

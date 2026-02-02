@@ -19,7 +19,14 @@ jobs:
           message: |
             ## Thank you for the pull request! ❤️
 
-            The activist team will do our best to address your contribution as soon as we can. If you're not already a member of our [public Matrix community](https://matrix.to/#/#activist_community:matrix.org), please consider joining! We'd suggest that you use the [Element](https://element.io/) client as well as [Element X](https://element.io/app) for a mobile app, and definitely join the `General` and `Development` rooms once you're in. Also consider attending our [bi-weekly Saturday developer syncs](https://etherpad.wikimedia.org/p/activist-dev-sync)! It'd be great to meet you 😊
+            The activist team will do our best to address your contribution as soon as we can. The following are some important points:
+            - Those interested in developing their skills and expanding their role in the community should read the [mentorship and growth section of the contribution guide](CONTRIBUTING.md#mentorship-and-growth-)
+            - If you're not already a member of our [public Matrix community](https://matrix.to/#/#activist_community:matrix.org), please consider joining!
+              - We'd suggest that you use the [Element](https://element.io/) client as well as [Element X](https://element.io/app) for a mobile app
+              - Join the `General` and `Development` rooms once you're in
+            - Also consider attending our [bi-weekly Saturday developer syncs](https://etherpad.wikimedia.org/p/activist-dev-sync)!
+              - Details are shared in the `Development` room on Matrix each Wednesday before the sync
+              - It would be great to meet you 😊
 
             > [!NOTE]
             > activist uses [Conventional Comments](https://conventionalcomments.org/) in reviews to make sure that communication is as clear as possible.
