@@ -51,7 +51,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 
 ## Mentorship and growth [`⇧`](#contents)
 
-Onboarding and mentoring new members are integral parts of any healthy open-source community. We need those who are onboarded and take on greater roles of triaging issues, reviewing contributions and maintaining the project to help those who follow do the same. Please let us know if you have such goals and we'll work with you to achieve them.
+Onboarding and mentoring new members are integral parts of any healthy open-source community. We need those who are onboarded to gain new skills and take on greater roles of triaging issues, reviewing contributions and maintaining the project. We also need them to help those who follow do the same. Please let us know if you have such goals and we'll work with you to achieve them.
 
 The above includes expectations on the behavior of those who want to grow with us. Mentorship is earned, not given. Very bluntly, if all you want to do is send AI generated contributions, then you are not demonstrating an interest in growing your skills and it doesn't make sense for us to invest into your development. Continued constructive contributions, new open issues and communication that provides context for maintainers help us do our work immensely. We would be happy to help such community members expand their skills and take on further responsibilities!
 
