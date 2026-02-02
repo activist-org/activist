@@ -2,7 +2,7 @@
   "i18n._global.about": "Über",
   "i18n._global.activist_icon_img_alt_text": "Das activist-Symbol: ein Kleinbuchstabe a mit einem Halbkreis, der nach unten und links in der Mitte zeigt.",
   "i18n._global.auth.reset_password": "Passwort zurücksetzen",
-  "i18n._global.auth.reset_password_forgot_password": "Hast du dein Passwort vergessen?",
+  "i18n._global.auth.reset_password_forgot_password": "Passwort vergessen?",
   "i18n._global.contact": "Kontakt",
   "i18n._global.create_group": "Gruppe erstellen",
   "i18n._global.create_resource": "Ressource erstellen",
