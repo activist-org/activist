@@ -9,6 +9,4 @@
   "css.customData": [
     ".vscode/tailwind.json"
   ],
-  "snyk.advanced.organization": "6f8053b0-0147-4e8b-adc5-2592ddac5011",
-  "snyk.advanced.autoSelectOrganization": true,
 }

@@ -80,5 +80,5 @@ backend/media/images/*
 zap-reports/
 frontend/test-e2e/.auth/
 
-# Snyk Security Extension - AI Rules (auto-generated)
+# Snyk Security Extension
 .cursor/rules/snyk_rules.mdc
