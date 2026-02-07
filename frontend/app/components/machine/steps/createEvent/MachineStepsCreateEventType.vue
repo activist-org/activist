@@ -53,6 +53,7 @@
         v-slot="{ id, handleChange, value }"
         :label="$t('i18n.components._global.topics')"
         name="topics"
+        required
       >
         <!-- prettier-ignore-attribute :selected-topics -->
         <FormSelectorComboboxTopics
@@ -75,7 +76,7 @@ const { t } = useI18n();
 const flow = inject<FlowControls>("flow");
 const topicsSettingsSchema = z.object({
   setting: z.string().min(1, t("i18n._global.required")),
-  topics: z.array(z.string()).optional(),
+  topics: z.array(z.string()).min(1, t("i18n._global.required")),
   type: z.string().min(1, t("i18n._global.required")),
 });
 const handlePrev = () => {

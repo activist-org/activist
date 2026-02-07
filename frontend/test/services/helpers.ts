@@ -3,12 +3,6 @@ import { beforeEach, expect, vi } from "vitest";
 
 import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals.d.ts";
 
-type TestGlobals = {
-  $fetch: FetchGlobal;
-  BASE_BACKEND_URL: string;
-  useAuth: () => { token?: { value?: string } };
-};
-
 export function setupServiceTestMocks() {
   const mocks = {
     fetchMock: vi.fn<FetchFn>(),
@@ -16,16 +10,15 @@ export function setupServiceTestMocks() {
   };
 
   beforeEach(() => {
-    const g = globalThis as unknown as TestGlobals;
-    g.BASE_BACKEND_URL = "https://api.example.test";
-    g.useAuth = () => ({ token: { value: "Bearer test-token" } });
+    globalThis.BASE_BACKEND_URL = "https://api.example.test";
+    globalThis.useAuth = () => ({ token: { value: "Bearer test-token" } });
 
     mocks.fetchMock = vi.fn<FetchFn>();
     mocks.fetchRawMock = vi.fn<FetchRawFn>();
     const combined = Object.assign(mocks.fetchMock, {
       raw: mocks.fetchRawMock,
-    }) as unknown as FetchGlobal;
-    g.$fetch = combined;
+    }) as FetchGlobal;
+    globalThis.$fetch = combined;
 
     vi.restoreAllMocks();
   });

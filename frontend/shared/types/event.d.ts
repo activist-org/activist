@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
 // MARK: Main Table
 
 interface EventBase extends Entity {
@@ -9,8 +10,7 @@ interface EventBase extends Entity {
   physicalLocation?: PhysicalLocation;
   socialLinks: EventSocialLink[];
   faqEntries?: FaqEntry[];
-  startTime: string;
-  endTime?: string;
+  times: EventTime[];
   // TODO: Convert to an array.
   orgs: Organization;
   discussion?: DiscussionEntry[];
@@ -27,6 +27,12 @@ export interface CommunityEvent extends EventBase {
 }
 
 export type EventsPaginatedResponse = PaginatedResponse<CommunityEvent>;
+
+export interface EventTime {
+  startTime: string;
+  endTime: string;
+  allDay: boolean;
+}
 
 // MARK: Bridge Tables
 

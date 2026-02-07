@@ -27,7 +27,7 @@ def test_event_create(authenticated_client) -> None:
         "location": {
             "address_or_name": "123 Park St",
             "city": "Greenville",
-            "country_code": "US",
+            "country_code": "en",
             "lat": "34.0522",
             "lon": "-118.2437",
         },

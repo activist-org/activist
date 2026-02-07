@@ -110,7 +110,7 @@ describe("useGetTopics Integration", () => {
       const storeTopics = [createMockTopic()];
       mockGetTopics.mockReturnValue(storeTopics);
 
-      // Simulate the getCachedData logic from the composable
+      // Simulate the getCachedData logic from the composable.
       const getCachedDataLogic = () => {
         if (mockGetTopics().length > 0) {
           return mockGetTopics();
@@ -134,7 +134,7 @@ describe("useGetTopics Integration", () => {
         payloadData: { "topics-list": payloadTopics },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string) => {
         if (mockGetTopics().length > 0) {
           return mockGetTopics();
@@ -156,7 +156,7 @@ describe("useGetTopics Integration", () => {
         staticData: { "topics-list": staticTopics },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string) => {
         if (mockGetTopics().length > 0) {
           return mockGetTopics();
@@ -179,7 +179,7 @@ describe("useGetTopics Integration", () => {
         payloadData: { "topics-list": payloadTopics },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string) => {
         if (mockGetTopics().length > 0) {
           return mockGetTopics();
@@ -189,7 +189,7 @@ describe("useGetTopics Integration", () => {
           : nuxtApp.static.data[key];
       };
 
-      // Store should take precedence
+      // Store should take precedence.
       expect(getCachedDataLogic("topics-list")).toEqual(storeTopics);
     });
   });
@@ -214,7 +214,7 @@ describe("useGetTopics Integration", () => {
       const apiError = new Error("Network error");
       mockListTopics.mockRejectedValue(apiError);
 
-      // Simulate the handler's error logic
+      // Simulate the handler's error logic.
       const handlerLogic = async () => {
         try {
           return await mockListTopics();
@@ -231,12 +231,12 @@ describe("useGetTopics Integration", () => {
     it("store is not updated when API fails", async () => {
       mockListTopics.mockRejectedValue(new Error("Failed"));
 
-      // Simulate handler with error
+      // Simulate handler with error.
       try {
         const topics = await mockListTopics();
         mockSetTopics(topics);
       } catch {
-        // Don't call setTopics on error
+        // Don't call setTopics on error.
       }
 
       expect(mockSetTopics).not.toHaveBeenCalled();

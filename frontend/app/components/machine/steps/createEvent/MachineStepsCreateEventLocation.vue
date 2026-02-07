@@ -36,6 +36,10 @@
           :options="options"
           :vertical="true"
         />
+        <span v-if="options.length === 0 && query" class="error-text text-sm">
+          Please verify that all inputs are correct or try different search
+          terms.
+        </span>
       </FormItem>
     </Form>
   </div>

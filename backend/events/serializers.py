@@ -17,7 +17,7 @@ from rest_framework import serializers
 from communities.groups.models import Group
 from communities.organizations.models import Organization
 from content.models import Location, Topic
-from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer
+from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer, TopicSerializer
 from events.models import (
     Event,
     EventFaq,
@@ -130,6 +130,16 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 
         return event
 
+# Mark: Times
+
+class EventTimesSerializer(serializers.ModelSerializer[EventTime]):
+    """
+    Serializer for EventTime model data.
+    """
+
+    class Meta:
+        model = EventTime
+        fields = "__all__"
 
 # MARK: Social Link
 
@@ -254,6 +264,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
     groups: serializers.ListSerializer[Any] = serializers.ListSerializer(
         child=serializers.UUIDField(), required=False
     )
+    iso = serializers.CharField(required=False, max_length=3, default="en")
     name = serializers.CharField(required=True)
     tagline = serializers.CharField(required=False, min_length=3, max_length=255)
     description = serializers.CharField(required=True, min_length=1, max_length=2500)
@@ -373,6 +384,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
             groups_data = validated_data.pop("groups", [])
             topics_data = validated_data.pop("topics", [])
             times_data = validated_data.pop("times", [])
+            description = validated_data.pop("description", "")
             iso = validated_data.pop("iso")
 
             if location_data and location_type == "physical":
@@ -380,6 +392,14 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
                 validated_data["physical_location"] = location
 
             event = Event.objects.create(created_by=created_by, **validated_data)
+
+            # Create EventText object with description
+            event_text = EventText.objects.create(
+                iso=iso,
+                primary=True,
+                description=description,
+            )
+            event.texts.add(event_text)
 
             # Set many-to-many relationships
             if orgs_data:
@@ -421,6 +441,8 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
     orgs = EventOrganizationSerializer(many=True, read_only=True)
     groups = EventGroupSerializer(many=True, read_only=True)
+    topics = TopicSerializer(many=True, read_only=True)
+    times = EventTimesSerializer(many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
 

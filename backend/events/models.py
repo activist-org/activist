@@ -252,9 +252,5 @@ class EventText(Text):
     Translatable text content for events in different languages.
     """
 
-    event = models.ForeignKey(
-        Event, on_delete=models.CASCADE, null=True, related_name="texts"
-    )
-
     def __str__(self) -> str:
-        return f"{self.event} - {self.iso}"
+        return f"EventText - {self.iso}"

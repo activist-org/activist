@@ -43,7 +43,7 @@
           :model-value="value.value as { start: Date; end: Date }"
         />
       </FormItem>
-      <FormListItem v-slot="{ fields }" label="Daily Times" name="times">
+      <FormListItem v-slot="{ fields, error }" label="Daily Times" name="times">
         <div class="mt-4 space-y-3">
           <div
             v-if="fields.value && fields.value.length"
@@ -129,6 +129,7 @@
               )
             }}
           </p>
+          <FormErrorMessage :message="error" />
         </div>
       </FormListItem>
       <FormItem v-slot="{ id, handleChange, handleBlur }" name="createAnother">
@@ -174,6 +175,7 @@ const scheduleSchema = z.object({
       (times) => {
         // Ensure startTime is before endTime for each entry.
         return times.every((t) => {
+          if (t.allDayLong) return true;
           if (t.startTime && t.endTime) {
             return t.startTime <= t.endTime;
           }
@@ -186,7 +188,6 @@ const scheduleSchema = z.object({
     ),
   createAnother: z.boolean().optional(),
 });
-
 const syncTimesArray = (
   dateRange: { start: Date; end: Date } | null,
   currentTimes: {

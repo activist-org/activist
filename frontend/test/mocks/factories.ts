@@ -38,7 +38,7 @@ import {
   defaultResourceData,
 } from "./data";
 
-// Type helper to include inherited Entity properties (workaround for .d.ts inheritance)
+// Type helper to include inherited Entity properties (workaround for .d.ts inheritance).
 type WithEntityProps<T> = Partial<T> & {
   id?: string;
   name?: string;
