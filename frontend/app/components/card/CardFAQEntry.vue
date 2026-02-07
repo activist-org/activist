@@ -1,11 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Disclosure v-slot="{ open }" as="div" class="card-style">
+  <Disclosure v-slot="{ open }" as="div" class="card-style" v-bind="$attrs">
     <div
       ref="root"
       data-testid="faq-card"
       :tabindex="tabindex ?? 0"
-      v-bind="$attrs"
     >
       <div class="flex items-center gap-2">
         <DisclosureButton
