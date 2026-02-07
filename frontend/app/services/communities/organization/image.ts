@@ -44,10 +44,10 @@ export async function fetchOrganizationImages(
   entityId: string
 ): Promise<ContentImage[]> {
   try {
-    const images = await fetchImages(
+    const images = (await fetchImages(
       `/communities/organization/${entityId}`,
       {}
-    ) as ContentImage[];
+    )) as ContentImage[];
     return images;
   } catch (e) {
     const err = errorHandler(e);

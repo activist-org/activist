@@ -10,7 +10,11 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
   const organizationId = computed(() => String(unref(id)));
   const store = useOrganizationStore();
   // Cache key for useAsyncData.
-  const cached = computed(() => store.getImages().length > 0 && organizationId.value === store.getOrganization().id);
+  const cached = computed(
+    () =>
+      store.getImages().length > 0 &&
+      organizationId.value === store.getOrganization().id
+  );
   const key = computed(() =>
     organizationId.value
       ? getKeyForGetOrganizationImages(organizationId.value)
@@ -18,9 +22,7 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
   );
 
   // Only fetch if we have an ID and no cached data.
-  const shouldFetch = computed(
-    () => !!organizationId.value && !cached.value
-  );
+  const shouldFetch = computed(() => !!organizationId.value && !cached.value);
 
   const query = useAsyncData(
     getKeyForGetOrganizationImages(organizationId.value),
@@ -43,7 +45,11 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
       watch: [organizationId],
       dedupe: "defer",
       getCachedData: (key, nuxtApp) => {
-        if (nuxtApp.isHydrating && store.getImages().length > 0 && organizationId.value === store.getOrganization()?.id) {
+        if (
+          nuxtApp.isHydrating &&
+          store.getImages().length > 0 &&
+          organizationId.value === store.getOrganization()?.id
+        ) {
           return store.getImages();
         }
         return nuxtApp.isHydrating
@@ -54,8 +60,8 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
   );
 
   // Return cached data if available, otherwise data from useAsyncData.
-  const data = computed<ContentImage[]>(() =>
-    (query.data.value as ContentImage[]) || []
+  const data = computed<ContentImage[]>(
+    () => (query.data.value as ContentImage[]) || []
   );
   // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() =>

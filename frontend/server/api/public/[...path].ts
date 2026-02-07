@@ -16,7 +16,6 @@ export default defineEventHandler(async (event) => {
     // proxyRequest preserves method, headers, body and supports streaming/SSE.
     return proxyRequest(event, target);
   } catch (error) {
-    console.error("Proxy Handler Failed:", error);
     throw createError({
       statusCode: 502,
       statusMessage: "Bad Gateway: Proxy request failed",
