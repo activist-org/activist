@@ -24,7 +24,6 @@ class Event(models.Model):
         related_name="created_events",
         on_delete=models.CASCADE,
     )
-    description = models.TextField(max_length=2500, blank=False)
     orgs = models.ManyToManyField(
         "communities.Organization", related_name="events", blank=False
     )
@@ -61,6 +60,7 @@ class Event(models.Model):
     roles = models.ManyToManyField("events.Role", blank=True)
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
+    texts = models.ManyToManyField("content.EventText", blank=False)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.

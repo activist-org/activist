@@ -269,6 +269,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
     online_location_link = serializers.URLField(required=False, allow_blank=True)
     location = EventPOSTLocationSerializer(required=False)
     times = EventPOSTTimesSerializer(required=True, many=True)
+    iso = serializers.CharField(required=False, default="en", max_length=3)
 
     def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -367,10 +368,12 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
         with transaction.atomic():
             location_type = validated_data.pop("location_type", None)
             location_data = validated_data.pop("location", None)
+            description = validated_data.pop("description")
             orgs_data = validated_data.pop("orgs", [])
             groups_data = validated_data.pop("groups", [])
             topics_data = validated_data.pop("topics", [])
             times_data = validated_data.pop("times", [])
+            iso = validated_data.pop("iso")
 
             if location_data and location_type == "physical":
                 location = Location.objects.create(**location_data)
@@ -385,6 +388,8 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
                 event.groups.set(groups_data)
             if topics_data:
                 event.topics.set(topics_data)
+
+            event.texts.set(description=description, iso=iso, primary=True)
 
             if times_data:
                 event_times = [
