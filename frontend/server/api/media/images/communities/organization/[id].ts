@@ -1,3 +1,4 @@
+import { FetchError } from "ofetch";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export default defineEventHandler(async (event) => {
   try {
@@ -18,7 +19,6 @@ export default defineEventHandler(async (event) => {
 
     // Construct the backend URL
     const target = `${base}/v1${upstreamPath}${search}/images`;
-    console.log("Proxying request to:", target);
     // 2. Fetch the data (instead of proxyRequest) so we can modify it
     const backendData = await $fetch(target, {
       headers: getRequestHeaders(event) as HeadersInit,
@@ -33,19 +33,20 @@ export default defineEventHandler(async (event) => {
 
     // 4. Map and Transform
     if (Array.isArray(backendData)) {
-      return backendData.map((item: any) => ({
+      return backendData.map((item: ContentImage) => ({
         ...item,
         fileObject: transformUrl(item.fileObject),
       }));
     }
 
     return backendData;
-  } catch (error: any) {
-    console.log("Error in image proxy handler:", error);
-    throw createError({
-      statusCode: error?.response?.status || 502,
-      statusMessage: error?.response?.statusText || "Bad Gateway",
-      data: error?.data,
-    });
+  } catch (error) {
+    if (error instanceof FetchError) {
+      throw createError({
+        statusCode: error?.response?.status || 502,
+        statusMessage: error?.response?.statusText || "Bad Gateway",
+        data: error?.data,
+      });
+    }
   }
 });

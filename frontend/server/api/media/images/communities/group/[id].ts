@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { FetchError } from "ofetch";
+
 export default defineEventHandler(async (event) => {
   try {
     const config = useRuntimeConfig();
@@ -33,18 +35,20 @@ export default defineEventHandler(async (event) => {
 
     // 4. Map and Transform
     if (Array.isArray(backendData)) {
-      return backendData.map((item: any) => ({
+      return backendData.map((item: ContentImage) => ({
         ...item,
         fileObject: transformUrl(item.fileObject),
       }));
     }
 
     return backendData;
-  } catch (error: any) {
-    throw createError({
-      statusCode: error?.response?.status || 502,
-      statusMessage: error?.response?.statusText || "Bad Gateway",
-      data: error?.data,
-    });
+  } catch (error) {
+    if (error instanceof FetchError) {
+      throw createError({
+        statusCode: error?.response?.status || 502,
+        statusMessage: error?.response?.statusText || "Bad Gateway",
+        data: error?.data,
+      });
+    }
   }
 });
