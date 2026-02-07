@@ -65,9 +65,15 @@
 </template>
 
 <script setup lang="ts">
+import type { FaqEntry } from "#shared/types/faq-entry";
+
+import { EntityType } from "#shared/types/entity";
 import draggable from "vuedraggable";
 
-const { openModal } = useModalHandlers("ModalFAQEntryEvent");
+import { useEventFAQEntryMutations } from "~/composables/mutations";
+import { useGetEvent } from "~/composables/queries";
+
+const { openModal } = useModalHandlers("ModalFaqEntryEvent");
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
