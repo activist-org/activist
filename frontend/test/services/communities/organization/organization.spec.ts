@@ -105,14 +105,14 @@ describe("services/communities/organization", () => {
     const { fetchMock } = getMocks();
     const form = {
       name: "New Org",
-      location: "Earth",
+      country_code: "US",
+      city: "City",
       tagline: "Join",
-      social_accounts: ["x"],
       description: "desc",
       topics: [],
     } as const;
 
-    const created = { id: "org-3" };
+    const created = "org-3";
     fetchMock.mockResolvedValueOnce(created);
 
     const id = await createOrganization({ ...form } as unknown as Parameters<
@@ -122,13 +122,9 @@ describe("services/communities/organization", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expectJsonRequest(fetchMock, "/communities/organizations", "POST", {
       name: form.name,
-      location: form.location,
       tagline: form.tagline,
-      social_accounts: form.social_accounts,
       description: form.description,
       topics: form.topics,
-      high_risk: false,
-      total_flags: 0,
     });
     expect(id).toBe("org-3");
   });

@@ -20,7 +20,7 @@
     >
       <FormItem
         v-slot="{ id, handleChange, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.country')"
+        :label="$t('i18n.components._global.country')"
         name="country"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -29,13 +29,13 @@
           @update:selected-country="handleChange"
           disabled
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.machine.steps._global.country')"
+          :label="$t('i18n.components._global.country')"
           :selected-country="(value.value as string) || ''"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.city')"
+        :label="$t('i18n.components._global.city')"
         name="city"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -44,7 +44,7 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.machine.steps._global.city')"
+          :label="$t('i18n.components._global.city')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
@@ -65,10 +65,10 @@ const handlePrev = () => {
   if (!flow) return;
   flow.prev();
 };
-const handleSubmit = async (values: Record<string, unknown>) => {
+const handleSubmit = (values: Record<string, unknown>) => {
   // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const { city } = values;
   if (!flow) return;
-  flow.next(values);
+  flow.next({ city });
 };
 </script>

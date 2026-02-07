@@ -9,13 +9,13 @@
       :required="required"
     />
     <ul>
-      <slot v-bind="fieldArray" :id="id" />
+      <slot v-bind="{ ...fieldArray, error }" :id="id" />
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useFieldArray } from "vee-validate";
+import { useFieldArray, useFieldError } from "vee-validate";
 
 const props = defineProps<{
   name: string;
@@ -27,4 +27,5 @@ const props = defineProps<{
 
 const id = props.id ?? `form-list-item-${props.name}`;
 const fieldArray = useFieldArray(props.name);
+const error = useFieldError(props.name);
 </script>

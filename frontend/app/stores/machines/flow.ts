@@ -19,38 +19,36 @@
  */
 import { defineStore } from "pinia";
 
-/**
- * Creates a new flow store instance with all advanced features.
- * @param opts The configuration options for the store.
- * @returns A Pinia store definition.
- */
 export function createFlowStore(opts: FlowStoreOptions) {
   const { machine, discardOnClose = true } = opts;
-
   const { id: storeId, initialNode: defaultNodeId, states } = machine;
 
-  // 1. Convert the states object into an internal array of NodeConfigs
+  // 1. Single Source of Truth: The Nodes Array
+  // We derive this once from the config. All lookups and ordering use this array.
   const nodes: NodeConfig[] = Object.entries(states).map(([id, config]) => ({
     id,
     ...config,
   }));
 
-  // 2. Extract initial data from each node to build the master initial state object.
-  const initialNodeData: Record<string, unknown> = {};
-  nodes.forEach((node) => {
-    // Ensure every node has an entry in the data map, even if empty.
-    initialNodeData[node.id] = node.initialData ? { ...node.initialData } : {};
-  });
-
-  const nodesById = Object.fromEntries(nodes.map((n) => [n.id, n]));
-  const defaultNode = nodesById[defaultNodeId] ?? null;
+  // Helper: Generates a fresh data object from the nodes array.
+  // We use reduce here to transform [Nodes] -> { ID: Data }
+  const getInitialData = () => {
+    return nodes.reduce(
+      (acc, node) => {
+        acc[node.id] = node.initialData ? { ...node.initialData } : {};
+        return acc;
+      },
+      {} as Record<string, unknown>
+    );
+  };
 
   return defineStore(storeId, {
     state: () => ({
       active: false,
-      currentNode: defaultNode,
+      // Just find the initial node in our array
+      currentNode: nodes.find((n) => n.id === defaultNodeId) ?? null,
       nodes,
-      nodeData: { ...initialNodeData }, // initialize with the extracted data
+      nodeData: getInitialData(),
       history: [] as string[],
       isFinished: false,
       saving: false,
@@ -58,40 +56,36 @@ export function createFlowStore(opts: FlowStoreOptions) {
     }),
 
     getters: {
-      nodeId(state): string | null {
-        return state.currentNode?.id ?? null;
-      },
-      visibleNodes(state): NodeConfig[] {
-        return state.nodes.filter(
-          (node) => !!node.component && node.type !== "logic"
-        );
-      },
-      totalSteps(): number {
-        if (machine.totalSteps) return machine.totalSteps;
+      nodeId: (state) => state.currentNode?.id ?? null,
 
-        return this.visibleNodes.length;
+      visibleNodes: (state) =>
+        state.nodes.filter(
+          (node: NodeConfig) => !!node.component && node.type !== "logic"
+        ),
+
+      totalSteps(): number {
+        return machine.totalSteps ?? this.visibleNodes.length;
       },
+
       currentStep(state): number {
         if (machine.totalSteps) {
           const { currentNode } = state;
-
-          if (currentNode && typeof currentNode.step === "number") {
+          if (currentNode?.step && typeof currentNode.step === "number") {
             return currentNode.step;
           }
-
-          if (currentNode && typeof currentNode.step === "function") {
-            return currentNode.step();
-          }
-
           return 1;
         }
+
         const currentVisibleIndex = this.visibleNodes.findIndex(
-          (node) => node.id === this.nodeId
+          (node: NodeConfig) => node.id === this.nodeId
         );
+
         if (currentVisibleIndex !== -1) return currentVisibleIndex + 1;
+
+        // Fallback: Check history for the last visible node
         for (let i = state.history.length - 1; i >= 0; i--) {
           const lastVisibleIndex = this.visibleNodes.findIndex(
-            (node) => node.id === state.history[i]
+            (node: NodeConfig) => node.id === state.history[i]
           );
           if (lastVisibleIndex !== -1) return lastVisibleIndex + 1;
         }
@@ -100,15 +94,29 @@ export function createFlowStore(opts: FlowStoreOptions) {
     },
 
     actions: {
-      async next(nextNodeData?: Record<string, unknown>) {
+      start(draftNodeData?: Record<string, unknown>) {
+        this.resetToInitial();
+        this.active = true;
+        if (draftNodeData) {
+          this.nodeData = { ...this.nodeData, ...draftNodeData };
+        }
+      },
+
+      close(discard?: boolean) {
+        this.active = false;
+        if (discard ?? discardOnClose) this.resetToInitial();
+      },
+
+      async next(payload?: Record<string, unknown>) {
         const node = this.currentNode;
         const currentId = this.nodeId;
         if (!node || !currentId) return;
 
-        if (nextNodeData && Object.keys(nextNodeData).length) {
+        // 1. Update data
+        if (payload && Object.keys(payload).length) {
           this.nodeData[currentId] = {
             ...(this.nodeData[currentId] || {}),
-            ...nextNodeData,
+            ...payload,
           };
         }
 
@@ -117,16 +125,15 @@ export function createFlowStore(opts: FlowStoreOptions) {
           actions: { goto: this.goto, submit: this.submit },
         };
 
-        if (node.onExit && this.nodeData[currentId]) {
+        // 2. Side effects
+        if (node.onExit) {
           await node.onExit(
             context,
-            (this.nodeData[currentId] ?? {}) as unknown as Record<
-              string,
-              unknown
-            >
+            (this.nodeData[currentId] ?? {}) as Record<string, unknown>
           );
         }
 
+        // 3. Calculate Next
         const nextId = this.calculateNextNode(node, context, currentId);
 
         if (!nextId || nextId === "end") {
@@ -134,7 +141,8 @@ export function createFlowStore(opts: FlowStoreOptions) {
           return;
         }
 
-        const nextNode = nodesById[nextId];
+        // 4. Transition (Simple array lookup)
+        const nextNode = this.nodes.find((n: NodeConfig) => n.id === nextId);
         if (nextNode) {
           const isCurrentNodeScreen = !!node.component && node.type !== "logic";
           if (isCurrentNodeScreen) this.history.push(currentId);
@@ -144,50 +152,32 @@ export function createFlowStore(opts: FlowStoreOptions) {
         }
       },
 
-      calculateNextNode(
-        node: NodeConfig,
-        context: FlowContext,
-        currentId: string
-      ): string | null | undefined {
-        if (!node.next) return null;
-        if (typeof node.next !== "function") return node.next;
-        if (node.type === "logic") return node.next(context);
-        return node.next(
-          context,
-          (this.nodeData[currentId] ?? {}) as unknown as Record<string, unknown>
-        );
-      },
-
-      start(draftNodeData?: Record<string, unknown>) {
-        this.resetToInitial();
-        this.active = true;
-        if (draftNodeData)
-          this.nodeData = { ...this.nodeData, ...draftNodeData };
-      },
-
-      close(discard?: boolean) {
-        this.active = false;
-        if (discard ?? discardOnClose) this.resetToInitial();
-      },
-
       prev() {
         const previousNodeId = this.history.pop();
-        if (previousNodeId)
-          this.currentNode = nodesById[previousNodeId] ?? null;
+        if (previousNodeId) {
+          const prevNode = this.nodes.find(
+            (n: NodeConfig) => n.id === previousNodeId
+          );
+          if (prevNode) this.currentNode = prevNode;
+        }
       },
 
       goto(nodeId: string) {
-        const targetNode = nodesById[nodeId];
+        const targetNode = this.nodes.find((n: NodeConfig) => n.id === nodeId);
         if (!targetNode || targetNode.id === this.nodeId) return;
 
-        const isCurrentNodeScreen =
+        const isCurrentScreen =
           !!this.currentNode?.component && this.currentNode?.type !== "logic";
-        if (isCurrentNodeScreen && this.nodeId) this.history.push(this.nodeId);
+
+        if (isCurrentScreen && this.nodeId) {
+          this.history.push(this.nodeId);
+        }
         this.currentNode = targetNode;
       },
 
       submit() {
         if (this.isFinished) return;
+
         const finalData = Object.values(this.nodeData).reduce(
           (acc, data) => ({
             ...(acc as Record<string, unknown>),
@@ -195,6 +185,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
           }),
           {}
         );
+
         this.saveResult = finalData;
         this.isFinished = true;
         this.active = false;
@@ -202,13 +193,30 @@ export function createFlowStore(opts: FlowStoreOptions) {
 
       resetToInitial() {
         this.active = false;
-        this.currentNode = defaultNode;
-        // Reset data using the pre-calculated initialNodeData.
-        this.nodeData = { ...initialNodeData };
+        this.currentNode =
+          this.nodes.find((n: NodeConfig) => n.id === defaultNodeId) ?? null;
+        this.nodeData = getInitialData(); // Fresh data copy
         this.history = [];
         this.isFinished = false;
         this.saveResult = null;
         this.saving = false;
+      },
+
+      calculateNextNode(
+        node: NodeConfig,
+        context: FlowContext,
+        currentId: string
+      ): string | null | undefined {
+        if (!node.next) return null;
+        if (typeof node.next !== "function") return node.next as string;
+
+        if (node.type === "logic") {
+          return node.next(context);
+        }
+        return node.next(
+          context,
+          (this.nodeData[currentId] ?? {}) as Record<string, unknown>
+        );
       },
     },
   });
