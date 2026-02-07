@@ -51,7 +51,9 @@
             :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
             @focus="canEdit(organization) ? onFocus(index) : undefined"
-            @keydown.down.prevent="canEdit(organization) ? moveDown() : undefined"
+            @keydown.down.prevent="
+              canEdit(organization) ? moveDown() : undefined
+            "
             @keydown.up.prevent="canEdit(organization) ? moveUp() : undefined"
             :class="{
               selected: canEdit(organization) && selectedIndex === index,

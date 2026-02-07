@@ -97,7 +97,7 @@ watch(
   () => event?.value?.faqEntries,
   (newVal) => {
     faqList.value = newVal?.slice() ?? [];
-  },
+  }
 );
 
 async function onDragEnd() {
