@@ -17,7 +17,12 @@ from rest_framework import serializers
 from communities.groups.models import Group
 from communities.organizations.models import Organization
 from content.models import Location, Topic
-from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer, TopicSerializer
+from content.serializers import (
+    FaqSerializer,
+    ImageSerializer,
+    LocationSerializer,
+    TopicSerializer,
+)
 from events.models import (
     Event,
     EventFaq,
@@ -130,7 +135,9 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 
         return event
 
+
 # Mark: Times
+
 
 class EventTimesSerializer(serializers.ModelSerializer[EventTime]):
     """
@@ -140,6 +147,7 @@ class EventTimesSerializer(serializers.ModelSerializer[EventTime]):
     class Meta:
         model = EventTime
         fields = "__all__"
+
 
 # MARK: Social Link
 
