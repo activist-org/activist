@@ -86,3 +86,25 @@ export const fetchSession = async (
     body,
   });
 };
+
+/**
+ * Returns data given the authentication status of the user.
+ * @param url Backend URL to make the request to.
+ * @param data Data to be returned.
+ * @returns The resulting data from the table.
+ */
+
+export const fetchImages = async (
+  url: string,
+  data: object | undefined,
+  method: "GET" | "POST" = "GET",
+  body?: object | undefined
+) => {
+  return $fetch(url, {
+    baseURL: "/api/media/images",
+    data,
+    headers: {},
+    method,
+    body,
+  });
+};

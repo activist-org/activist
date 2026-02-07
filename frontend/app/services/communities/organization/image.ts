@@ -44,9 +44,11 @@ export async function fetchOrganizationImages(
   entityId: string
 ): Promise<ContentImage[]> {
   try {
-    return await get<ContentImage[]>(
-      `/communities/organization/${entityId}/images`
-    );
+    const images = await fetchImages(
+      `/communities/organization/${entityId}`,
+      {}
+    ) as ContentImage[];
+    return images;
   } catch (e) {
     const err = errorHandler(e);
     throw err;
