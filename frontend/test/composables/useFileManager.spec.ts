@@ -5,12 +5,8 @@ import { ref } from "vue";
 import type { ContentImage, FileUploadMix } from "../../shared/types/file-type";
 
 import { useFileManager } from "../../app/composables/useFileManager";
-import { BASE_BACKEND_URL } from "../../app/constants/baseUrls";
 import { UploadableFile } from "../../shared/types/file";
-import {
-  createUseAuthMock,
-  createUseColorModeSpy,
-} from "../mocks/composableMocks";
+import { createUseColorModeSpy } from "../mocks/composableMocks";
 
 const mockFetch = vi.fn();
 
@@ -37,11 +33,10 @@ const createExistingFileEntry = (
 
 describe("useFileManager", () => {
   beforeEach(() => {
-    // Stub global fetch.
-    vi.stubGlobal("fetch", mockFetch);
+    // Stub global $fetch (used by http.ts del() helper).
+    vi.stubGlobal("$fetch", mockFetch);
 
-    // Use factories to create mocks (Pattern 2: Import factory and use it).
-    globalThis.useAuth = createUseAuthMock(null, "TEST_TOKEN");
+    // Use factories to create mocks.
     globalThis.useColorMode = createUseColorModeSpy("light", "light");
 
     mockFetch.mockReset();
@@ -59,25 +54,22 @@ describe("useFileManager", () => {
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
-  it("calls backend DELETE with auth header when deleteImage is called with an id", async () => {
+  it("calls backend DELETE when deleteImage is called with an id", async () => {
     const { deleteImage } = useFileManager();
 
-    mockFetch.mockResolvedValueOnce(
-      new Response(null, { status: 204 }) as unknown
-    );
+    mockFetch.mockResolvedValueOnce({ ok: true });
 
     await deleteImage("image-123");
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
-    expect(mockFetch).toHaveBeenCalledWith(
-      `${BASE_BACKEND_URL as string}/content/images/image-123`,
-      expect.objectContaining({
-        method: "DELETE",
-        headers: {
-          Authorization: "TEST_TOKEN",
-        },
-      })
-    );
+    const [url, opts] = mockFetch.mock.calls[0] as [
+      string,
+      { method: string; baseURL: string },
+    ];
+    expect(url).toBe("/content/images/image-123");
+    expect(opts.method).toBe("DELETE");
+    // Authorization is now added by server-side middleware, not the client.
+    expect(opts.baseURL).toBe("/api/auth");
   });
 
   it("computes defaultImageUrls for light color mode", () => {
@@ -204,24 +196,21 @@ describe("useFileManager", () => {
       ),
     ];
 
-    mockFetch.mockResolvedValueOnce(
-      new Response(null, { status: 204 }) as unknown
-    );
+    mockFetch.mockResolvedValueOnce({ ok: true });
 
     expect(files).toHaveLength(2);
 
     await removeFile(files, contentImage);
 
     expect(mockFetch).toHaveBeenCalledTimes(1);
-    expect(mockFetch).toHaveBeenCalledWith(
-      `${BASE_BACKEND_URL as string}/content/images/backend-image-1`,
-      expect.objectContaining({
-        method: "DELETE",
-        headers: {
-          Authorization: "TEST_TOKEN",
-        },
-      })
-    );
+    const [url, opts] = mockFetch.mock.calls[0] as [
+      string,
+      { method: string; baseURL: string },
+    ];
+    expect(url).toBe("/content/images/backend-image-1");
+    expect(opts.method).toBe("DELETE");
+    // Authorization is now added by server-side middleware, not the client.
+    expect(opts.baseURL).toBe("/api/auth");
 
     expect(files).toHaveLength(1);
     expect((files[0].data as ContentImage).id).toBe("backend-image-2");

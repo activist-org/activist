@@ -3,13 +3,17 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 
 import IconEdit from "../../../app/components/icon/IconEdit.vue";
+import { createUseUserSessionMock } from "../../mocks/composableMocks";
 
 describe("Tests for IconEdit", () => {
   const entityMock = { id: 1, name: "test-entity", createdBy: 1 };
 
   it("renders icon when user is admin", async () => {
-    // Override useUser for this test.
-    globalThis.data = { value: { user: { id: 1, isAdmin: true } } };
+    // Override useUserSession for this test.
+    globalThis.useUserSession = createUseUserSessionMock(true, {
+      id: 1,
+      isAdmin: true,
+    });
 
     const wrapper = mount(IconEdit, {
       props: { entity: entityMock },
@@ -18,7 +22,10 @@ describe("Tests for IconEdit", () => {
   });
 
   it("does not render icon when user is not admin", async () => {
-    globalThis.data = { value: { user: { id: 2, isAdmin: false } } };
+    globalThis.useUserSession = createUseUserSessionMock(true, {
+      id: 2,
+      isAdmin: false,
+    });
     const wrapper = mount(IconEdit, {
       props: { entity: entityMock },
     });
@@ -26,7 +33,10 @@ describe("Tests for IconEdit", () => {
   });
 
   it("user can edit if they are the creator", () => {
-    globalThis.data = { value: { user: { id: 1, isAdmin: false } } };
+    globalThis.useUserSession = createUseUserSessionMock(true, {
+      id: 1,
+      isAdmin: false,
+    });
     const wrapper = mount(IconEdit, {
       props: { entity: entityMock },
     });

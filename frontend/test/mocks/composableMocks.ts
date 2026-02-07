@@ -125,6 +125,24 @@ export function createUseAuthStateMock(user: User | null = null) {
 }
 
 /**
+ * Creates a mock for useUserSession composable (nuxt-auth-utils).
+ * @param loggedIn - Whether user is logged in (default: false)
+ * @param user - User object or null (default: null)
+ * @param clear - Clear session function (default: vi.fn())
+ */
+export function createUseUserSessionMock(
+  loggedIn = false,
+  user: AuthUser = null,
+  clear = vi.fn()
+) {
+  return () => ({
+    loggedIn: { value: loggedIn },
+    user: { value: user },
+    clear,
+  });
+}
+
+/**
  * Creates a mock for useAuth composable.
  * @param user - User object or null (default: null). Accepts User type but returns AuthUser-compatible value.
  * @param token - Auth token (default: null)

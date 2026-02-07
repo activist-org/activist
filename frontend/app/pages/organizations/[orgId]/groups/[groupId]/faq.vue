@@ -51,16 +51,16 @@
             :key="element.id"
             :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
-            @focus="isEditable ? onFocus(index) : undefined"
-            @keydown.down.prevent="isEditable ? moveDown() : undefined"
-            @keydown.up.prevent="isEditable ? moveUp() : undefined"
+            @focus="canEdit(group) ? onFocus(index) : undefined"
+            @keydown.down.prevent="canEdit(group) ? moveDown() : undefined"
+            @keydown.up.prevent="canEdit(group) ? moveUp() : undefined"
             :class="{
-              selected: isEditable && selectedIndex === index,
+              selected: canEdit(group) && selectedIndex === index,
             }"
             :entity="group"
             :faqEntry="element"
             :pageType="EntityType.GROUP"
-            :tabindex="isEditable ? 0 : -1"
+            :tabindex="canEdit(group) ? 0 : -1"
           />
         </template>
       </draggable>
@@ -86,7 +86,6 @@ const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
 
 const { canEdit } = useUser();
-const isEditable = computed(() => canEdit(group.value));
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
