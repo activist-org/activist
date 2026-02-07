@@ -21,7 +21,11 @@
     />
     <div v-else-if="showEvents">
       <EventsList v-if="viewType === ViewType.LIST" :events="events" />
-      <EventsMap v-else-if="viewType === ViewType.MAP" :events="events" />
+      <EventsMap
+        v-else-if="viewType === ViewType.MAP"
+        :events="events"
+        :isOnline="isOnlineFilter"
+      />
       <EventsCalendar
         v-else-if="viewType === ViewType.CALENDAR"
         :events="events"
@@ -58,6 +62,7 @@ const filters = computed<EventFilters>(() => {
   return normalizedFilters;
 });
 const selectedTopics = ref<TopicEnum[]>([]);
+const isOnlineFilter = computed(() => filters.value.setting === "online");
 watch(
   () => route.query.topics,
   (newVal) => {

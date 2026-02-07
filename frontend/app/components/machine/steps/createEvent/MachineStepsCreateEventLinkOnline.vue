@@ -22,9 +22,7 @@
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         :label="
-          $t(
-            'i18n.components.machine_steps_create_event_link_online.link_to_event'
-          )
+          $t('i18n.components._global.link_to_event')
         "
         name="link"
       >
@@ -34,11 +32,7 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          :label="
-            $t(
-              'i18n.components.machine_steps_create_event_link_online.link_to_event'
-            )
-          "
+          :label="$t('i18n.components._global.link_to_event')"
           :modelValue="(value.value as string)"
         />
       </FormItem>

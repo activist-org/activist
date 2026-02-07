@@ -60,6 +60,15 @@ def test_populate_db_command_with_arguments():
     assert GroupSocialLink.objects.count() == 6
     assert EventSocialLink.objects.count() == 12
 
+    for event in Event.objects.all():
+        assert bool(event.online_location_link) != bool(event.physical_location)
+        if event.setting == "online":
+            assert event.online_location_link
+            assert event.physical_location is None
+        elif event.setting == "physical":
+            assert event.online_location_link in {None, ""}
+            assert event.physical_location is not None
+
 
 @pytest.mark.django_db
 def test_populate_db_command_zero_users():

@@ -19,6 +19,19 @@ from events.factories import (
 )
 
 
+def _resolve_event_setting(event_spec: Dict[str, Any] | None) -> str:
+    """Return an appropriate event setting based on provided spec."""
+    if event_spec:
+        setting = event_spec.get("setting")
+        if setting in {"online", "physical"}:
+            return setting
+        if event_spec.get("online_location_link"):
+            return "online"
+        if event_spec.get("physical_location"):
+            return "physical"
+    return random.choice(["online", "physical"])
+
+
 def create_org_events(
     *,
     user: UserModel,
@@ -75,27 +88,49 @@ def create_org_events(
             else None
         )
 
+        event_setting = _resolve_event_setting(spec)
+
         if spec:
-            user_org_event = EventFactory(
-                name=spec["name"],
-                tagline=spec["tagline"],
-                type=spec["type"],
-                created_by=user,
-                orgs=user_org,
-                groups=None,
-            )
+            factory_kwargs = {
+                "name": spec["name"],
+                "tagline": spec["tagline"],
+                "type": spec["type"],
+                "created_by": user,
+                "orgs": user_org,
+                "groups": None,
+                "setting": event_setting,
+            }
+
+            if event_setting == "online":
+                factory_kwargs["physical_location"] = None
+                if spec.get("online_location_link"):
+                    factory_kwargs["online_location_link"] = spec["online_location_link"]
+            else:
+                factory_kwargs["online_location_link"] = None
+                if spec.get("physical_location"):
+                    factory_kwargs["physical_location"] = spec["physical_location"]
+
+            user_org_event = EventFactory(**factory_kwargs)
 
         else:
             event_type = random.choice(["learn", "action"])
             verb = "Learning about" if event_type == "learn" else "Fighting for"
-            user_org_event = EventFactory(
-                name=f"{user_topic_name} Event",
-                tagline=f"{verb} {user_topic_name}",
-                type=event_type,
-                created_by=user,
-                orgs=user_org,
-                groups=None,
-            )
+            factory_kwargs = {
+                "name": f"{user_topic_name} Event",
+                "tagline": f"{verb} {user_topic_name}",
+                "type": event_type,
+                "created_by": user,
+                "orgs": user_org,
+                "groups": None,
+                "setting": event_setting,
+            }
+
+            if event_setting == "online":
+                factory_kwargs["physical_location"] = None
+            else:
+                factory_kwargs["online_location_link"] = None
+
+            user_org_event = EventFactory(**factory_kwargs)
 
         # MARK: Topics
 
