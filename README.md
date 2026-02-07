@@ -218,21 +218,21 @@ git remote add upstream https://github.com/activist-org/activist.git
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup! If you're having issues with Docker and just want to get the frontend or backend up and running, please see [the section on this in the contributing guide](CONTRIBUTING.md#using-yarn-or-python).
 
-9. Install [pre-commit](https://pre-commit.com/) to ensure that each of your commits is properly checked against our linter and formatters:
+9. Install [prek](https://prek.j178.dev/) to ensure that each of your commits is properly checked against our linter and formatters:
 
     ```bash
     # In the project root:
-    pre-commit install
+    prek install
 
     # Then test the pre-commit hooks to see how it works:
-    pre-commit run --all-files
+    prek run --all-files
     ```
 
 > [!NOTE]
-> pre-commit is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements-dev.txt](backend/requirements-dev.txt) file.
+> prek is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements-dev.txt](backend/requirements-dev.txt) file.
 >
 > ```bash
-> pip install pre-commit
+> pip install prek
 > ```
 
 <a id="tech-stack"></a>
