@@ -14,9 +14,9 @@ declare module "#auth-utils" {
     refresh: string;
   }
   interface UserSession {
-    // Public user profile (matches your Django response)
+    // Public user profile (matches your Django response).
     user: User;
-    // Private server-side tokens
+    // Private server-side tokens.
     secure: SecureSessionData;
   }
 }
