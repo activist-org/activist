@@ -6,12 +6,13 @@
       :key="date.label"
       :date="date.label"
     />
-
     <span
       v-if="props.dates.length > 2"
       v-tooltip="getDatesText()"
       class="link-text"
-      >... show more dates</span>
+    >
+      ... show more dates
+    </span>
   </div>
 </template>
 <script setup lang="ts">

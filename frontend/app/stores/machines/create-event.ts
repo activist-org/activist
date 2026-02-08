@@ -39,7 +39,7 @@ export const useCreateEventStore = createFlowStore({
           const nodeData =
             context.allNodeData as unknown as ContextCreateEventData;
           const stepData = nodeData[CreateEventSteps.EventType];
-          const isOnline = stepData?.location_type  === "online";
+          const isOnline = stepData?.location_type === "online";
           return isOnline
             ? CreateEventSteps.LinkOnline
             : CreateEventSteps.Location;
