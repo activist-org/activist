@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
     const transformUrl = (internalUrl: string) => {
       if (!internalUrl) return internalUrl;
       // Replaces 'http://backend:8000' with empty string (making it relative).
-      return internalUrl.replace(base, "");
+      return internalUrl.replace(base, "/api");
     };
 
     // Map and Transform.

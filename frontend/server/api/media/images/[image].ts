@@ -2,6 +2,8 @@
 export default defineEventHandler(async (event) => {
   const path = event.context.params?.path || "";
   const config = useRuntimeConfig();
+  const incoming = getRequestURL(event);
+  const search = incoming.search || "";
 
   // Reconstruct the internal URL:
   // - Input: /media/images/file.png
@@ -10,8 +12,7 @@ export default defineEventHandler(async (event) => {
 
   // Ensure no trailing slash for consistent replacement later.
   const base = apiBase.endsWith("/") ? apiBase.slice(0, -1) : apiBase;
-  const targetUrl = `${base}/media/images/${path}`;
-
+  const targetUrl = `${base}/media/images/${path}${event.context.params?.image ? `${event.context.params.image}` : ""}${search}`;
   // Stream the binary image data.
   return proxyRequest(event, targetUrl);
 });

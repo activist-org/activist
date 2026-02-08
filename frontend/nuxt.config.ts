@@ -116,11 +116,14 @@ export default defineNuxtConfig({
     corsHandler: false,
     headers: {
       contentSecurityPolicy: {
-        "img-src": [
+        "img-src": ["'self'", "data:", "blob:"],
+        "script-src": [
           "'self'",
-          "data:",
-          "blob:",
-          import.meta.env.VITE_BACKEND_URL || "",
+          "https:",
+          "'unsafe-inline'",
+          "'strict-dynamic'",
+          "'nonce-{{nonce}}'", // Nuxt Security injects the nonce here
+          "'unsafe-eval'", // <--- REQUIRED for Dev mode / some libs
         ],
         /**
          * Header: "upgrade-insecure-requests" forces http requests to use https.
