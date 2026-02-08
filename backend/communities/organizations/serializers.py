@@ -7,6 +7,7 @@ import logging
 from typing import Any
 from uuid import UUID
 
+from django.db import IntegrityError, OperationalError
 from rest_framework import serializers
 
 from communities.groups.serializers import GroupSerializer
@@ -22,8 +23,8 @@ from communities.organizations.models import (
     OrganizationTask,
     OrganizationText,
 )
-from content.models import Topic
-from content.serializers import ImageSerializer, LocationSerializer
+from content.models import Location, Topic
+from content.serializers import ImageSerializer, LocationSerializer, TopicSerializer
 from events.serializers import EventSerializer
 
 logger = logging.getLogger(__name__)
@@ -185,6 +186,38 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 
 # MARK: Organization
+
+class OrganizationPOSTSerializer(serializers.Serializer):
+    """
+    Serializer for Organization model data on POST requests.
+    """
+    name = serializers.CharField(max_length=255)
+    tagline = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    description = serializers.CharField(max_length=2500)
+    topics = TopicSerializer(many=True, required=False)
+    country_code = serializers.CharField(max_length=3, default="en")
+    city = serializers.CharField(max_length=255)
+
+    def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        return data
+    
+    def create(self, validated_data: dict[str, Any]) -> Organization:
+        location_data = {
+            "city": validated_data.pop("city"),
+            "country_code": validated_data.pop("country_code"),
+            "lat": "",
+            "lon": "",
+        }
+        location = Location.objects.create(**location_data)
+        try:
+            org = Organization.objects.create(location=location, **validated_data)
+            logger.info("Created Organization with id: %s", org.id)
+            return org
+        
+        except (IntegrityError, OperationalError) as e:
+            location.delete()
+            raise e
+
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):

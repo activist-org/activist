@@ -60,7 +60,7 @@ class Event(models.Model):
     roles = models.ManyToManyField("events.Role", blank=True)
     tags = models.ManyToManyField("content.Tag", blank=True)
     tasks = models.ManyToManyField("content.Task", blank=True)
-    texts = models.ManyToManyField("content.EventText", blank=False)
+    texts = models.ManyToManyField("events.EventText", blank=False)
     topics = models.ManyToManyField("content.Topic", blank=True)
 
     # Explicit type annotation required for mypy compatibility with django-stubs.

@@ -38,6 +38,7 @@ from communities.organizations.models import (
 from communities.organizations.serializers import (
     OrganizationFaqSerializer,
     OrganizationFlagSerializer,
+    OrganizationPOSTSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
@@ -55,7 +56,6 @@ logger = logging.getLogger(__name__)
 
 class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
-    serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
     filterset_class = OrganizationFilter
@@ -74,6 +74,11 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data)
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return OrganizationPOSTSerializer
+        return OrganizationSerializer
 
     @extend_schema(
         summary="Create a new organization",
@@ -97,29 +102,17 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        location_dict = serializer.validated_data["location"]
-        location = Location.objects.create(**location_dict)
-        serializer.validated_data["location"] = location
-
         # Location post-cleanup if the organization creation fails.
         # This is necessary because of a not null constraint on the location field.
-        try:
-            org = serializer.save(created_by=request.user)
-            logger.info(f"Organization created successfully: {org.id}")
 
-        except (IntegrityError, OperationalError):
-            logger.exception(
-                f"Failed to create organization for user {request.user.id}"
-            )
-            Location.objects.filter(id=location.id).delete()
-            return Response(
-                {"detail": "Failed to create organization."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        org = serializer.save(created_by=request.user)
+        logger.info(f"Organization created successfully: {org.id}")
 
         org.application.create()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(
+            "Successfully created organization", status=status.HTTP_201_CREATED
+        )
 
 
 # MARK: Get Organization by User ID

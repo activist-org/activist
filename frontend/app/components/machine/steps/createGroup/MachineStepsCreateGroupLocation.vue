@@ -67,6 +67,7 @@ const handlePrev = () => {
 };
 const handleSubmit = (values: Record<string, unknown>) => {
   // Simulate an API call.
+  
   const { city } = values;
   if (!flow) return;
   flow.next({ city });
