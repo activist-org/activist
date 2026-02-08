@@ -90,10 +90,10 @@ import { z } from "zod";
 const { t } = useI18n();
 
 const signInSchema = z.object({
-  userName: z.string().min(1, t("i18n.pages.auth._global.required")),
-  password: z.string().min(1, t("i18n.pages.auth._global.required")),
+  userName: z.string().min(1, t("i18n._global.required")),
+  password: z.string().min(1, t("i18n._global.required")),
   verifyCaptcha: z.boolean().refine((val) => val, {
-    message: t("i18n.pages.auth._global.required"),
+    message: t("i18n._global.required"),
   }),
 });
 const localePath = useLocalePath();
@@ -102,19 +102,19 @@ const localePath = useLocalePath();
 const isForgotPasswordDisabled = false;
 const hovered = ref(false);
 
-const { signIn } = useAuth();
 const { showToastError } = useToaster();
+const { fetch: refreshSession } = useUserSession();
 
 const signInUser = async (values: Record<string, unknown>) => {
   try {
     const { userName, password } = values;
-    await signIn(
-      {
-        username: userName as string,
-        password: password as string,
-      },
-      { callbackUrl: "/home", external: false }
-    );
+    await fetchSession(`/login`, {}, "POST", {
+      username: userName,
+      password: password,
+    });
+    await refreshSession();
+    // Redirect to home page after successful sign-in.
+    navigateTo("/home");
   } catch (error) {
     if (error instanceof FetchError && error?.response?.status === 400) {
       showToastError(t("i18n.pages.auth.sign_in.invalid_credentials"));

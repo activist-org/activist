@@ -1,12 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
  * Unit tests for SidebarLeft.vue
+ *
+ * Demonstrates how auto-import mocking works in practice.
+ * - useRouter() is automatically mocked by setupAutoImportMocks() in test/setup.ts.
+ * - We override it here with test-specific behavior (custom mocks take precedence).
+ * - useRoute() is manually mocked in setup.ts, but we override it for test-specific behavior.
  */
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { nextTick, ref } from "vue";
+import { nextTick, reactive, ref } from "vue";
 
 import SidebarLeft from "../../../app/components/sidebar/left/SidebarLeft.vue";
+import {
+  createUseRouteMock,
+  createUseRouterMock,
+} from "../../mocks/composableMocks";
 
 // Shared mock store object so test and component share same instance.
 const mockSidebarStore = reactive({
@@ -29,13 +38,14 @@ vi.mock("~/utils/routeUtils", () => ({
   isCurrentRoutePathSubpageOf: () => false,
 }));
 
-vi.mock("vue-router", () => ({
-  useRoute: () => ({ query: {}, path: "/home", name: "home" }),
-  useRouter: () => ({
-    currentRoute: { value: { name: "home" } },
-    push: vi.fn(),
-  }),
-}));
+// MARK: Router Mocks
+
+const mockRouterPush = vi.fn();
+// Use factories to create mocks for vue-router composables.
+globalThis.useRouter = createUseRouterMock(mockRouterPush, {
+  value: { name: "home" },
+});
+globalThis.useRoute = createUseRouteMock({}, {}, "/home", "home");
 
 // Provide a minimal global auto-import for useState used inside component.
 // In the Nuxt environment useState is auto-imported; tests run without that, so we add it.

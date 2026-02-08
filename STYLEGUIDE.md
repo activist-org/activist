@@ -2,7 +2,7 @@
 
 Thank you for following our style guide! The team asks that you familiarize yourself with this guide and follow it for any contributions. Doing so makes PRs and general code collaboration much more effective :)
 
-We'll also link to this document in cases where these guidelines have not been followed. If that's what brought you here, no stress! Thanks for your interest and your drive to contribute to open-source and activist in particular! ❤️
+We'll also link to this document in cases where this guide has not been followed. If that's what brought you here, no stress! Thanks for your interest and your drive to contribute to open-source and activist in particular! ❤️
 
 If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 

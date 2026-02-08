@@ -2,10 +2,6 @@
 // Organizations service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { del, get, post } from "~/services/http";
-type OrganizationPaginatedResponse =
-  globalThis.PaginatedResponse<globalThis.Organization>;
-
 // MARK: Map API Response to Type
 
 export function mapOrganization(res: OrganizationResponse): Organization {
@@ -38,6 +34,39 @@ export async function getOrganization(id: string): Promise<Organization> {
       { withoutAuth: true }
     );
     return mapOrganization(res);
+  } catch (e) {
+    throw errorHandler(e);
+  }
+}
+
+// MARK: List by User ID
+
+export async function listOrganizationsByUserId(
+  userId: string,
+  page: number,
+  filters?: OrganizationFilters
+): Promise<OrganizationPaginatedResponse> {
+  try {
+    const query = new URLSearchParams();
+    if (filters) {
+      // Handle topics specially: arrays become repeated params (?topics=A&topics=B).
+      const { topics, ...rest } = filters ?? {};
+      if (topics) {
+        topics.forEach((t) => {
+          if (!t) return;
+          query.append("topics", String(t));
+        });
+      }
+      // Add the remaining filters as single query params.
+      Object.entries(rest).forEach(([key, value]) => {
+        if (value === undefined || value === null) return;
+        query.append(key, String(value));
+      });
+    }
+    const res = await get<OrganizationsResponseBody>(
+      `/communities/organizations_by_user/${userId}?page=${page}${filters ? `&${query.toString()}` : ""}`
+    );
+    return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
   }

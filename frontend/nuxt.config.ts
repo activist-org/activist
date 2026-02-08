@@ -13,62 +13,10 @@ export default defineNuxtConfig({
   app: {
     head,
   },
-
-  auth: {
-    baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
-    provider: {
-      type: "local",
-      isEnabled: true,
-      disableServerSideAuth: false,
-      originEnvKey: "VITE_BACKEND_URL",
-      pages: {
-        login: "/auth/sign-in",
-      },
-      endpoints: {
-        signIn: { path: "v1/auth/sign_in", method: "post" },
-        signOut: { path: "v1/auth/sign_out", method: "post" },
-        signUp: { path: "/v1/auth/sign_up", method: "post" },
-        getSession: { path: "v1/auth/sessions", method: "get" },
-      },
-      refresh: {
-        isEnabled: true,
-        endpoint: { path: "v1/auth/token/refresh", method: "post" },
-        refreshOnlyToken: true,
-        token: {
-          signInResponseRefreshTokenPointer: "/refresh",
-          refreshRequestTokenPointer: "/refresh",
-          cookieName: "auth.refresh",
-          maxAgeInSeconds: 86400, // 1d
-          secureCookieAttribute: false,
-          httpOnlyCookieAttribute: false,
-        },
-      },
-      session: {
-        dataType: {
-          id: "string | number",
-          access: "string",
-          refresh: "string",
-          user: {
-            id: "string | number",
-            username: "string",
-            isAdmin: "boolean",
-            isActive: "boolean",
-            isStaff: "boolean",
-            isSuperuser: "boolean",
-            email: "string",
-          },
-        },
-      },
-      token: {
-        signInResponseTokenPointer: "/access",
-        signInResponseRefreshTokenPointer: "/refresh",
-        refreshRequestTokenPointer: "/access",
-        type: "Token",
-        headerName: "Authorization",
-        maxAgeInSeconds: 3600, // 1hr
-        secureCookieAttribute: false,
-        httpOnlyCookieAttribute: false,
-      },
+  runtimeConfig: {
+    apiSecret: process.env.VITE_BACKEND_URL_PROXY,
+    public: {
+      apiBase: process.env.VITE_BACKEND_URL || "http://localhost:8000",
     },
   },
   modules: process.env.VITEST ? [] : modules,
@@ -78,7 +26,7 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  plugins: ["~/plugins/i18n-head.ts"],
+  plugins: ["~/plugins/i18n-head.ts", "~/plugins/i18n-iso-countries.ts"],
   // Auto import services and stores.
   imports: {
     dirs: ["./constants", "./services", "./stores"],
@@ -168,11 +116,14 @@ export default defineNuxtConfig({
     corsHandler: false,
     headers: {
       contentSecurityPolicy: {
-        "img-src": [
+        "img-src": ["'self'", "data:", "blob:"],
+        "script-src": [
           "'self'",
-          "data:",
-          "blob:",
-          import.meta.env.VITE_BACKEND_URL || "",
+          "https:",
+          "'unsafe-inline'",
+          "'strict-dynamic'",
+          "'nonce-{{nonce}}'", // Nuxt Security injects the nonce here
+          "'unsafe-eval'",
         ],
         /**
          * Header: "upgrade-insecure-requests" forces http requests to use https.

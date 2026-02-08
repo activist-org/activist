@@ -8,6 +8,7 @@
     <RadioGroupOption
       v-for="(option, idx) in options"
       :key="option.key"
+      @click.capture="onOptionClick($event, option)"
       :aria-label="$t(option.aria_label)"
       class="flex flex-1 cursor-pointer items-center justify-center rounded-none"
       :class="[
@@ -22,7 +23,7 @@
           [option.checkedClass || '']: isOptionChecked(option),
         },
       ]"
-      :name="option.label || ''"
+      :name="option.label || option.key"
       :value="option.value"
     >
       <Icon
@@ -55,6 +56,7 @@ type Option = {
 const props = defineProps<{
   modelValue: string | number | boolean | Record<string, unknown> | undefined;
   options: Option[];
+  toggleable?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -63,10 +65,27 @@ const emit = defineEmits<{
 
 const value = computed({
   get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
+  set: (val) => {
+    emit("update:modelValue", val);
+  },
 });
 
 const isOptionChecked = (option: Option) => {
   return value.value === option.value;
+};
+
+const onOptionClick = (e: MouseEvent, option: Option) => {
+  if (!props.toggleable) return;
+
+  // Always prevent HeadlessUI from handling radio buttons that can be toggled.
+  e.stopPropagation();
+  e.preventDefault();
+
+  if (isOptionChecked(option)) {
+    // Toggle off: emit undefined.
+    emit("update:modelValue", undefined);
+  } else {
+    emit("update:modelValue", option.value);
+  }
 };
 </script>

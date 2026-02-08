@@ -15,7 +15,7 @@ export function mapEvent(res: EventResponse): EventResponse {
     iconUrl: res.iconUrl,
     type: res.type,
     onlineLocationLink: res.onlineLocationLink,
-    offlineLocation: res.offlineLocation,
+    physicalLocation: res.physicalLocation,
     socialLinks: res.socialLinks ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
@@ -55,6 +55,7 @@ export async function listEvents(
         query.append("topics", String(t));
       });
     }
+
     // Add the remaining filters as single query params.
     Object.entries(rest).forEach(([key, value]) => {
       if (value === undefined || value === null) return;
@@ -65,7 +66,7 @@ export async function listEvents(
       { withoutAuth: true }
     );
     return { data: res.results.map(mapEvent), isLastPage: !res.next };
-  } catch (e) {
+  } catch (e: unknown) {
     throw errorHandler(e);
   }
 }

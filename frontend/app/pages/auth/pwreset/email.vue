@@ -39,13 +39,13 @@ const emailResetPasswordSchema = z.object({
   email: z
     .string()
     .email("i18n.pages.auth._global.invalid_email")
-    .min(1, "i18n.pages.auth._global.required"),
+    .min(1, "i18n._global.required"),
 });
 
 const submit = async (values: unknown) => {
   const { email } = values as { email: string };
   const { status } = await useAsyncData(
-    async () => await fetchWithoutToken(`/auth/pwreset`, {}, "POST", { email })
+    async () => await fetchSession(`/passwordReset`, {}, "POST", { email })
   );
   if (status.value === "success") {
     await useRouter().push("/");

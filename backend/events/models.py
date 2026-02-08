@@ -47,11 +47,11 @@ class Event(models.Model):
     type = models.CharField(max_length=255, choices=TYPE_CHOICES)
     SETTING_CHOICES = [
         ("online", "Online"),
-        ("offline", "Offline"),
+        ("physical", "Physical"),
     ]
     setting = models.CharField(max_length=255, choices=SETTING_CHOICES)
     online_location_link = models.CharField(max_length=255, blank=True, null=True)
-    offline_location = models.OneToOneField(
+    physical_location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, blank=True, null=True
     )
     is_private = models.BooleanField(default=False)

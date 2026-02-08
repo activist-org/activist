@@ -20,36 +20,32 @@ export interface FetchGlobal extends FetchFn {
 type AuthUser = { [key: string]: unknown } | null;
 
 // These types are based on the mocks in `tests/setup.ts`.
+// Using 'var' declarations makes properties available both as top-level globals
+// (e.g., useI18n()) AND as properties of globalThis (e.g., globalThis.useI18n),
+// allowing direct access without type casts.
 declare global {
-  const defineStore: typeof import("pinia").defineStore;
-
-  const useI18n: () => Composer;
-
-  const useLocalePath: () => (path: string) => string;
-
-  const useRoute: () => {
+  var defineStore: typeof import("pinia").defineStore;
+  var useI18n: () => Composer;
+  var useLocalePath: () => (path: string) => string;
+  var useRoute: () => {
     params: Record<string, unknown>;
     query: Record<string, unknown>;
   };
-
-  const useDevice: () => {
+  var useDevice: () => {
     isMobile: boolean;
     isTablet: boolean;
     isDesktop: boolean;
   };
-
-  const useLocalStorage: <T>(key: string, defaultValue: T) => { value: T };
-
-  const useAuthState: () => { data: { value: AuthUser } };
-
-  const useAuth: () => {
+  var useLocalStorage: <T>(key: string, defaultValue: T) => { value: T };
+  var useAuthState: () => { data: { value: AuthUser } };
+  var useAuth: () => {
     signUp: () => Promise<void>;
     signIn: () => Promise<void>;
     signOut: () => Promise<void>;
     data: { value: AuthUser };
+    token?: { value: string | null };
   };
-
-  const useUser: () => {
+  var useUser: () => {
     userIsSignedIn: boolean;
     userIsAdmin: boolean;
     roles: string[];
@@ -58,33 +54,31 @@ declare global {
     canCreate: () => boolean;
     canView: () => boolean;
   };
-
-  const useDebounceFn: <T extends (...args: unknown[]) => unknown>(
+  var useDebounceFn: <T extends (...args: unknown[]) => unknown>(
     fn: T,
     delay: number
   ) => T;
-
-  const useColorModeMock: Mock<
+  var useColorModeMock: Mock<
     () => { preference: "dark" | "light"; value: "dark" | "light" }
   >;
-
-  const useColorMode: () => ReturnType<typeof useColorModeMock>;
-
-  const useSidebarMock: Mock<
+  var useColorMode: () => {
+    preference: "dark" | "light";
+    value: "dark" | "light";
+  };
+  var useSidebarMock: Mock<
     () => { collapsed: boolean; collapsedSwitch: boolean }
   >;
-
-  const useSidebar: () => ReturnType<typeof useSidebarMock>;
-
-  const useDevMode: () => { active: { value: boolean }; check: () => void };
-
-  const data: { value: AuthUser };
-
-  const useAuthStateMock: Mock<() => { data: { value: AuthUser } }>;
-
-  const $fetch: FetchGlobal;
-
-  const BASE_BACKEND_URL: string;
+  var useSidebar: () => { collapsed: boolean; collapsedSwitch: boolean };
+  var useDevMode: () => { active: { value: boolean }; check: () => void };
+  var useUserSession: () => {
+    loggedIn: { value: boolean };
+    user: { value: AuthUser };
+    clear: () => void;
+  };
+  var data: { value: AuthUser };
+  var useAuthStateMock: Mock<() => { data: { value: AuthUser } }>;
+  var $fetch: FetchGlobal;
+  var BASE_BACKEND_URL: string;
 }
 
 export {};

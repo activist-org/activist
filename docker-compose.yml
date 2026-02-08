@@ -24,18 +24,22 @@ services:
     build:
       context: ./backend
     container_name: django_backend
+    networks:
+      default:
+        aliases:
+          - backend
     restart: unless-stopped
     command: sh -c "
       if [ \"$ENVIRONMENT\" = \"development\" ]; then
-      python /app/core/management/commands/clear_dev_images.py;
+      uv run /app/core/management/commands/clear_dev_images.py;
       fi;
-      python manage.py wait_for_db &&
-      python manage.py makemigrations &&
-      python manage.py migrate &&
-      python manage.py loaddata fixtures/superuser.json &&
-      python manage.py loaddata fixtures/status_types.json &&
-      python manage.py loaddata fixtures/topics.json &&
-      python manage.py populate_db \
+      uv run manage.py wait_for_db &&
+      uv run manage.py makemigrations &&
+      uv run manage.py migrate &&
+      uv run manage.py loaddata fixtures/superuser.json &&
+      uv run manage.py loaddata fixtures/status_types.json &&
+      uv run manage.py loaddata fixtures/topics.json &&
+      uv run manage.py populate_db \
       --users 10 \
       --orgs-per-user 1 \
       --groups-per-org 2 \
@@ -44,7 +48,7 @@ services:
       --faq-entries-per-entity 3 \
       --resources-per-entity 2 \
       --json-data-to-assign core/management/commands/entity_data_to_assign.json &&
-      python manage.py runserver 0.0.0.0:${BACKEND_PORT}"
+      uv run manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
@@ -96,6 +100,7 @@ services:
       - "24678:24678"
     environment:
       - USE_PREVIEW=${USE_PREVIEW:-false}
+      - NUXT_SESSION_PASSWORD=${NUXT_SESSION_PASSWORD}
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]

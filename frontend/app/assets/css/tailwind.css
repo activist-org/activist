@@ -5,7 +5,7 @@
 
 @config "~~/tailwind.config.ts";
 
-@plugin 'tailwind-scrollbar' {
+@plugin "tailwind-scrollbar" {
   nocompatible: true;
 }
 
@@ -21,7 +21,7 @@ MARK: Colors
   --section-div: 216, 222, 228;
   --primary-text: 0, 0, 0;
   --primary-text-over-layer-2: 36, 36, 35;
-  --distinct-text: 90, 90, 90;
+  --distinct-text: 70, 70, 70;
   --distinct-text-over-layer-2: 105, 105, 105;
   --link-text: 0, 92, 184;
   --link-text-hover: 0, 59, 119;
@@ -271,10 +271,6 @@ MARK: Base
 
   .tooltip {
     @apply absolute;
-  }
-
-  .has-tooltip:hover .tooltip {
-    @apply visible z-40;
   }
 
   /*

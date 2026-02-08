@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Disclosure v-slot="{ open }" as="div" class="card-style">
-    <div data-testid="faq-card">
+  <Disclosure v-slot="{ open }" as="div" class="card-style" v-bind="$attrs">
+    <div ref="root" data-testid="faq-card" :tabindex="tabindex ?? 0">
       <div class="flex items-center gap-2">
         <DisclosureButton
           class="flex-1 rounded-md px-4 py-2 focus-brand"
@@ -96,11 +96,18 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = defineProps<{
   faqEntry: FaqEntry;
   pageType: EntityType;
   entity?: Entity | null;
+  tabindex?: number;
 }>();
+const root = ref<HTMLElement | null>(null);
+defineExpose({ root });
 
 const emit = defineEmits<{
   (e: "delete-faq", faqId: string): void;

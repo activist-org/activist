@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import type { CommunityEvent } from "../../shared/types/event";
 
-import { useEventStore } from "../../app/stores/event";
+import { useEventStore } from "../../app/stores/data/event";
 import { createMockEvent, createMockEventFilters } from "../mocks/factories";
 
 describe("useEventStore", () => {
@@ -31,9 +31,9 @@ describe("useEventStore", () => {
       expect(store.filters).toEqual({});
     });
 
-    it("initializes with page 0", () => {
+    it("initializes with page 1", () => {
       const store = useEventStore();
-      expect(store.page).toBe(0);
+      expect(store.page).toBe(1);
     });
   });
 
@@ -99,7 +99,7 @@ describe("useEventStore", () => {
       const store = useEventStore();
       const mockFilters = createMockEventFilters({
         setting: "learn",
-        locationType: "offline",
+        locationType: "physical",
       });
       store.setFilters(mockFilters);
       expect(store.filters).toEqual(mockFilters);
@@ -213,19 +213,19 @@ describe("useEventStore", () => {
       expect(store.filters).toEqual({});
     });
 
-    it("can set page to 0", () => {
+    it("clamps page to 1 when setting to 0", () => {
       const store = useEventStore();
       store.setPage(5);
       store.setPage(0);
-      expect(store.page).toBe(0);
-      expect(store.getPage()).toBe(0);
+      expect(store.page).toBe(1);
+      expect(store.getPage()).toBe(1);
     });
 
-    it("can set page to negative number", () => {
+    it("clamps page to 1 when setting to negative number", () => {
       const store = useEventStore();
       store.setPage(-1);
-      expect(store.page).toBe(-1);
-      expect(store.getPage()).toBe(-1);
+      expect(store.page).toBe(1);
+      expect(store.getPage()).toBe(1);
     });
     it("can set page to large number", () => {
       const store = useEventStore();

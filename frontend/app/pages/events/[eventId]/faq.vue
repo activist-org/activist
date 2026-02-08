@@ -24,7 +24,7 @@
         @end="onDragEnd"
         :animation="150"
         :chosen-class="'sortable-chosen'"
-        class="space-y-4"
+        class="flex flex-col gap-4"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -41,12 +41,21 @@
         :swap-threshold="0.5"
         :touch-start-threshold="3"
       >
-        <template #item="{ element }">
+        <template #item="{ element, index }">
           <CardFAQEntry
+            :key="element.id"
+            :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
+            @focus="canEdit(event) ? onFocus(index) : undefined"
+            @keydown.down.prevent="canEdit(event) ? moveDown() : undefined"
+            @keydown.up.prevent="canEdit(event) ? moveUp() : undefined"
+            :class="{
+              selected: canEdit(event) && selectedIndex === index,
+            }"
             :entity="event"
             :faqEntry="element"
             :pageType="EntityType.EVENT"
+            :tabindex="canEdit(event) ? 0 : -1"
           />
         </template>
       </draggable>
@@ -61,9 +70,6 @@ import type { FaqEntry } from "#shared/types/faq-entry";
 import { EntityType } from "#shared/types/entity";
 import draggable from "vuedraggable";
 
-import { useEventFAQEntryMutations } from "~/composables/mutations";
-import { useGetEvent } from "~/composables/queries";
-
 const { openModal } = useModalHandlers("ModalFaqEntryEvent");
 
 const paramsEventId = useRoute().params.eventId;
@@ -73,13 +79,28 @@ const { data: event } = useGetEvent(eventId);
 const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 
 const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
+const faqCardList = ref<(HTMLElement | null)[]>([]);
+
+const { canEdit } = useUser();
+
+const { selectedIndex, onFocus, moveUp, moveDown } =
+  useDraggableKeyboardNavigation(
+    faqList as unknown as Ref<Record<string, unknown>[]>,
+    async (list) => {
+      await reorderFAQs(list as unknown as FaqEntry[]);
+    },
+    faqCardList as unknown as Ref<(HTMLElement | null)[]>
+  );
+
+export type CardExpose = {
+  root: HTMLElement | null;
+};
 
 watch(
   () => event?.value?.faqEntries,
   (newVal) => {
     faqList.value = newVal?.slice() ?? [];
-  },
-  { immediate: true }
+  }
 );
 
 async function onDragEnd() {
@@ -118,5 +139,10 @@ async function handleDeleteFAQ(faqId: string) {
 /* Ensure drag handles work properly. */
 .drag-handle {
   user-select: none;
+}
+
+.selected {
+  transform: scale(1.025);
+  background: highlight;
 }
 </style>

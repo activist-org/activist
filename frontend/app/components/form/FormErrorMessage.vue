@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div :id="id" v-if="message" class="error-text" :data-testid="id">
+  <p :id="id" v-if="message" class="error-text" :data-testid="id" role="alert">
     {{ props.message }}
-  </div>
+  </p>
 </template>
 
 <script setup lang="ts">

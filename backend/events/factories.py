@@ -41,7 +41,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     tagline = factory.Faker("word")
     type = random.choice(["learn", "action"])
     online_location_link = factory.Faker("url")
-    offline_location = factory.SubFactory("content.factories.EventLocationFactory")
+    physical_location = factory.SubFactory("content.factories.EventLocationFactory")
     is_private = factory.Faker("boolean")
     start_time = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
@@ -85,7 +85,7 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
-    setting = random.choice(["online", "offline"])
+    setting = random.choice(["online", "physical"])
 
 
 # MARK: Role

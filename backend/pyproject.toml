@@ -1,3 +1,41 @@
+[project]
+name = "backend"
+version = "0.0.1"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=6.0",
+    "django-cors-headers>=4.9.0",
+    "django-filter>=25.2",
+    "django-ical>=1.9.2",
+    "django-stubs>=5.2.8",
+    "django-stubs-ext>=5.2.8",
+    "djangorestframework>=3.16.1",
+    "djangorestframework-camel-case>=1.4.2",
+    "djangorestframework-simplejwt>=5.5.1",
+    "djangorestframework-stubs>=3.16.6",
+    "drf-spectacular>=0.29.0",
+    "gunicorn>=23.0.0",
+    "icalendar>=6.3.2",
+    "pillow>=12.0.0",
+    "psycopg2-binary>=2.9.11",
+    "python-dotenv>=1.2.1",
+]
+
+[dependency-groups]
+dev = [
+    "factory-boy>=3.3.3",
+    "i18n-check>=1.16.0",
+    "mypy>=1.19.1",
+    "pip-tools>=7.5.2",
+    "prek>=0.3.2",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "pytest-django>=4.11.1",
+    "ruff>=0.14.10",
+    "ts-backend-check>=1.1.0",
+    "types-icalendar>=6.3.2.20251221",
+]
+
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = [

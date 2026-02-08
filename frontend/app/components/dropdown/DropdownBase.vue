@@ -17,14 +17,14 @@
         <div
           class="flex items-center justify-between space-x-2 text-sm"
           :class="{
-            'relative z-0 w-full pl-[0.625rem] text-left font-medium':
+            'relative z-0 w-full pl-2.5 text-left font-medium':
               isSidebarLeftMenu,
           }"
         >
           <div class="flex items-center space-x-2">
             <Icon
               :class="{
-                'h-5 w-5 flex-shrink-0 text-center': isSidebarLeftMenu,
+                'h-5 w-5 shrink-0 text-center': isSidebarLeftMenu,
               }"
               :name="menuButtonIcon"
               :size="isSidebarLeftMenu ? '1em' : ''"
@@ -38,7 +38,7 @@
                 "
                 :class="{
                   'sr-only lg:not-sr-only': !isSidebarLeftMenu,
-                  '!not-sr-only !ml-3': isSideMenu,
+                  'not-sr-only! ml-3!': isSideMenu,
                   uppercase: isMenuButtonUppercase,
                   'font-bold': isMenuButtonBold,
                   'select-none': isSidebarLeftMenu,
@@ -77,7 +77,7 @@
       :class="{
         'absolute right-0 mt-2 origin-top-right divide-y bg-layer-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-primary-text':
           !isSidebarLeftMenu,
-        '!static': isSideMenu || isSidebarLeftMenu,
+        'static!': isSideMenu || isSidebarLeftMenu,
         'mt-1 bg-layer-2 p-1': isSidebarLeftMenu,
       }"
     >

@@ -44,6 +44,9 @@ jobs:
 
     name: Run PR Backend Check
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4
@@ -51,36 +54,31 @@ jobs:
       - name: Set up Python Environment
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
-      - name: Create Environment and Install Dependencies
-        run: |
-          python -m pip install --upgrade uv
-          uv venv
-          . .venv/bin/activate
-          echo PATH=$PATH >> $GITHUB_ENV
-          uv pip install -r backend/requirements-dev.txt
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install Dependencies
+        run: uv sync --frozen --all-extras
 
       - name: Run Ruff Format - Formatting Check
-        run: ruff format ./backend
+        run: uv run ruff format .
 
       - name: Run Ruff - Linting and Import Sorting Check
         if: always()
-        run: ruff check ./backend
+        run: uv run ruff check .
 
       - name: Run mypy - Static Type Checking
         if: always()
-        run: mypy ./backend --config-file ./backend/pyproject.toml
-
+        run: uv run mypy . --config-file ./pyproject.toml
       - name: Run Django Migrations - Database Migrations Check
         if: always()
         run: |
-          . .venv/bin/activate
-          python ./backend/manage.py makemigrations
-          python ./backend/manage.py migrate
+          uv run manage.py makemigrations
+          uv run manage.py migrate
 
       - name: Run pytest - Unit Tests
         if: always()
-        working-directory: ./backend
         run: |
-          pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv
+          uv run pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv

@@ -189,15 +189,15 @@ const { t } = useI18n();
 
 const signUpSchema = z
   .object({
-    userName: z.string().min(1, t("i18n.pages.auth._global.required")),
+    userName: z.string().min(1, t("i18n._global.required")),
     password: z.string(),
     confirmPassword: z.string(),
     email: z.string().email(t("i18n.pages.auth._global.invalid_email")),
     hasRead: z.boolean().refine((val) => val, {
-      message: t("i18n.pages.auth._global.required"),
+      message: t("i18n._global.required"),
     }),
     verifyCaptcha: z.boolean().refine((val) => val, {
-      message: t("i18n.pages.auth._global.required"),
+      message: t("i18n._global.required"),
     }),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
@@ -217,22 +217,18 @@ const signUpSchema = z
     }
   });
 
-const { signUp } = useAuth();
 const { showToastError } = useToaster();
 const isPasswordFieldFocused = ref(false);
 
 const handleSignUp = async (values: unknown) => {
   try {
-    await signUp(
-      {
-        username: (values as Record<string, unknown>).userName as string,
-        password: (values as Record<string, unknown>).password as string,
-        email: (values as Record<string, unknown>).email as string,
-        passwordConfirmed: (values as Record<string, unknown>)
-          .confirmPassword as string,
-      },
-      { preventLoginFlow: true }
-    );
+    await fetchSession("/signUp", {}, "POST", {
+      username: (values as Record<string, unknown>).userName as string,
+      password: (values as Record<string, unknown>).password as string,
+      email: (values as Record<string, unknown>).email as string,
+      passwordConfirmed: (values as Record<string, unknown>)
+        .confirmPassword as string,
+    });
     navigateTo(localePath("/auth/confirm/email"));
   } catch (error) {
     if (error && error instanceof FetchError) {
