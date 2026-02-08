@@ -9,7 +9,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createMockOrganization } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
 
-// Type helper for entities with id (workaround for .d.ts inheritance)
+// Type helper for entities with id (workaround for .d.ts inheritance).
 type MockOrganization = ReturnType<typeof createMockOrganization> & {
   id: string;
 };
@@ -118,7 +118,7 @@ describe("useGetOrganization Integration", () => {
       mockGetOrganization.mockReturnValue(storeOrg);
       const differentId = "different-org-id";
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (requestId: string) => {
         const org = mockGetOrganization();
         if (org && org.id !== "" && org.id === requestId) {
@@ -143,7 +143,7 @@ describe("useGetOrganization Integration", () => {
         payloadData: { [`organization:${storeOrg.id}`]: storeOrg },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const org = mockGetOrganization();
         if (
@@ -173,7 +173,7 @@ describe("useGetOrganization Integration", () => {
         payloadData: { [`organization:${payloadOrg.id}`]: payloadOrg },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const org = mockGetOrganization();
         if (
@@ -203,7 +203,7 @@ describe("useGetOrganization Integration", () => {
         staticData: { [`organization:${staticOrg.id}`]: staticOrg },
       });
 
-      // Simulate getCachedData logic
+      // Simulate getCachedData logic.
       const getCachedDataLogic = (key: string, requestId: string) => {
         const org = mockGetOrganization();
         if (
@@ -229,7 +229,7 @@ describe("useGetOrganization Integration", () => {
 
   describe("Conditional Fetch", () => {
     it("handler returns null when ID is empty", async () => {
-      // Simulate handler logic
+      // Simulate handler logic.
       const handlerLogic = async (orgId: string) => {
         if (!orgId || orgId === "") return null;
         return await mockGetOrganizationService(orgId);
@@ -245,7 +245,7 @@ describe("useGetOrganization Integration", () => {
       const mockOrg = createMockOrganization();
       mockGetOrganizationService.mockResolvedValue(mockOrg);
 
-      // Simulate handler logic
+      // Simulate handler logic.
       const handlerLogic = async (orgId: string) => {
         if (!orgId || orgId === "") return null;
         const org = await mockGetOrganizationService(orgId);
@@ -283,7 +283,7 @@ describe("useGetOrganization Integration", () => {
       const apiError = new Error("Network error");
       mockGetOrganizationService.mockRejectedValue(apiError);
 
-      // Simulate handler error logic
+      // Simulate handler error logic.
       const handlerLogic = async (orgId: string) => {
         try {
           return await mockGetOrganizationService(orgId);
@@ -304,7 +304,7 @@ describe("useGetOrganization Integration", () => {
         const org = await mockGetOrganizationService("org-123");
         mockSetOrganization(org);
       } catch {
-        // Don't call setOrganization on error
+        // Don't call setOrganization on error.
       }
 
       expect(mockSetOrganization).not.toHaveBeenCalled();

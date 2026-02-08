@@ -32,7 +32,7 @@ const feedItemUrls = computed<string[]>(() => {
   if (organization && organization.value?.groups) {
     return organization.value.groups.map(
       (group: Group) =>
-        `/organizations/${organization.value?.id}/groups/${group.id}`
+        `/organizations/${organization.value?.id}/groups/${group.id}/about`
     );
   } else {
     return [""];

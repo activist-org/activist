@@ -1,24 +1,18 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-function baseURL() {
-  return BASE_BACKEND_URL as string;
-}
-
-function authHeader(): Record<string, string> {
-  try {
-    const { token } = useAuth();
-    return token?.value ? { Authorization: `${token.value}` } : {};
-  } catch {
-    return {};
+function baseURL(isAuthenticated = true): string {
+  const apiBase = "/api/";
+  if (isAuthenticated) {
+    return apiBase + "auth";
   }
+  return apiBase + "public";
 }
 
 export function get<T>(url: string, options?: ServiceOptions) {
   const headers = {
     ...(options?.headers || {}),
-    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
-    baseURL: baseURL(),
+    baseURL: baseURL(!options?.withoutAuth),
     method: "GET" as const,
     ...options,
     headers,
@@ -32,10 +26,9 @@ export function post<T, X extends AcceptedBody>(
 ) {
   const headers = {
     ...(options?.headers || {}),
-    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
-    baseURL: baseURL(),
+    baseURL: baseURL(!options?.withoutAuth),
     method: "POST" as const,
     body,
     ...options,
@@ -50,10 +43,9 @@ export function put<T, X extends AcceptedBody>(
 ) {
   const headers: HeadersInit = {
     ...(options?.headers || {}),
-    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
-    baseURL: baseURL(),
+    baseURL: baseURL(!options?.withoutAuth),
     method: "PUT" as const,
     body,
     ...options,
@@ -64,10 +56,9 @@ export function put<T, X extends AcceptedBody>(
 export function del<T>(url: string, options?: ServiceOptions) {
   const headers = {
     ...(options?.headers || {}),
-    ...(options?.withoutAuth ? {} : authHeader()),
   };
   return $fetch<T>(url, {
-    baseURL: baseURL(),
+    baseURL: baseURL(!options?.withoutAuth),
     method: "DELETE" as const,
     ...options,
     headers,
@@ -81,18 +72,39 @@ export function del<T>(url: string, options?: ServiceOptions) {
  * @returns The resulting data from the table.
  */
 
-export const fetchWithoutToken = async (
+export const fetchSession = async (
   url: string,
   data: object | undefined,
   method: "GET" | "POST" = "GET",
   body?: object | undefined
 ) => {
-  const res = await $fetch.raw(baseURL() + url, {
+  return $fetch(url, {
+    baseURL: "/api/session",
     data,
     headers: {},
     method,
     body,
   });
+};
 
-  return res._data;
+/**
+ * Returns data given the authentication status of the user.
+ * @param url Backend URL to make the request to.
+ * @param data Data to be returned.
+ * @returns The resulting data from the table.
+ */
+
+export const fetchImages = async (
+  url: string,
+  data: object | undefined,
+  method: "GET" | "POST" = "GET",
+  body?: object | undefined
+) => {
+  return $fetch(url, {
+    baseURL: "/api/media/images",
+    data,
+    headers: {},
+    method,
+    body,
+  });
 };

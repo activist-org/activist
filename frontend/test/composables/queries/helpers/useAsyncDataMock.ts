@@ -10,15 +10,15 @@ import { ref, type Ref } from "vue";
  * Result type for captured useAsyncData call.
  */
 export interface CapturedUseAsyncData<T> {
-  /** The async handler function passed to useAsyncData */
+  // The async handler function passed to useAsyncData.
   handler: () => Promise<T>;
-  /** The getCachedData function from options */
+  // The getCachedData function from options.
   getCachedData: ((key: string, nuxtApp: MockNuxtApp) => T | undefined) | null;
-  /** The watch array from options */
+  // The watch array from options.
   watch: unknown[] | null;
-  /** Whether immediate option was set */
+  // Whether immediate option was set.
   immediate: boolean;
-  /** The default function from options */
+  // The default function from options.
   defaultFn: (() => T) | null;
 }
 

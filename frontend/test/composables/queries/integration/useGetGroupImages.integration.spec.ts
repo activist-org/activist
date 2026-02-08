@@ -38,7 +38,7 @@ vi.mock("../../../../app/services/entities/group", () => ({
   fetchGroupImages: (id: string) => mockFetchGroupImages(id),
 }));
 
-// Mock image factory
+// Mock image factory.
 function createMockImage(id = "img-1"): ContentImage {
   return {
     id,
@@ -258,7 +258,7 @@ describe("useGetGroupImages Integration", () => {
     it("refresh logic: clears group images with groupId before refetch", () => {
       const groupId = "group-123";
 
-      // Simulate refresh logic (key difference: passes groupId)
+      // Simulate refresh logic (key difference: passes groupId).
       const refreshLogic = () => {
         if (groupId) {
           mockClearGroupImages(groupId);

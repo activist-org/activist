@@ -24,6 +24,10 @@ services:
     build:
       context: ./backend
     container_name: django_backend
+    networks:
+      default:
+        aliases:
+          - backend
     restart: unless-stopped
     command: sh -c "
       if [ \"$ENVIRONMENT\" = \"development\" ]; then
@@ -96,6 +100,7 @@ services:
       - "24678:24678"
     environment:
       - USE_PREVIEW=${USE_PREVIEW:-false}
+      - NUXT_SESSION_PASSWORD=${NUXT_SESSION_PASSWORD}
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]

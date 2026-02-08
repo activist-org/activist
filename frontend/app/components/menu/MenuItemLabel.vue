@@ -50,7 +50,7 @@ const props = defineProps<{
 }>();
 
 const sidebar = useSidebar();
-const { signOut } = useAuth();
+const { clear } = useUserSession();
 
 const infoComponent = computed(() => {
   return props.isButton
@@ -88,7 +88,7 @@ const infoLabel = computed(() => {
 
 function conditionallyLogOut() {
   if (props.iconName === `${IconMap.SIGN_OUT}`) {
-    signOut();
+    clear();
   }
 }
 </script>

@@ -4,7 +4,7 @@
     :aria-label="
       $t('i18n.components._global.navigate_to_organization_aria_label')
     "
-    :to="`/organizations/${organization.id}`"
+    :to="$localePath(`/organizations/${organization.id}/about`)"
   >
     <MetaTag
       class="pr-2"

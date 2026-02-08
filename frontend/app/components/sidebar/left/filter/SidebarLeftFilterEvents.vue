@@ -12,7 +12,9 @@
         :options="optionViews"
       />
     </div>
+
     <Form
+      :key="formKey"
       @submit="handleSubmit"
       class="px-1"
       :initial-values="formData"
@@ -32,6 +34,7 @@
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionDays"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem
@@ -46,6 +49,7 @@
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionEventTypes"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem
@@ -60,6 +64,7 @@
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionLocations"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem
@@ -209,6 +214,7 @@ const optionLocations = [
 
 const route = useRoute();
 const router = useRouter();
+const formKey = ref(0);
 const updateViewType = (
   value: string | number | boolean | Record<string, unknown> | undefined
 ) => {
@@ -253,6 +259,7 @@ watch(
 const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
+
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
       if (key === "days") {
@@ -269,9 +276,10 @@ const handleSubmit = (_values: unknown) => {
       if (key === "view") return;
       values[key] = input[key];
     }
-    if (route.query.name && route.query.name !== "")
-      values["name"] = route.query.name;
   });
+  if (route.query.name && route.query.name !== "")
+    values["name"] = route.query.name;
+
   router.push({
     query: {
       ...(values as LocationQueryRaw),

@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  user: User;
+  user: UserActivist;
 }>();
 
 const emit = defineEmits(["tab"]);
