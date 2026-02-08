@@ -72,10 +72,10 @@ describe("services/communities/group/image", () => {
     const res = await fetchGroupImages("grp-3");
     expect(res).toBe(returned);
 
-    expectRequest(fetchMock, "/communities/group/grp-3/images", "GET");
+    expectRequest(fetchMock, "/communities/group/grp-3", "GET");
     const [, opts] = getFetchCall(fetchMock);
     // Authorization is now added by server-side middleware, not the client helper.
-    expect(opts.baseURL).toBe("/api/auth");
+    expect(opts.baseURL).toBe("/api/media/images");
   });
 
   // MARK: Error Handling
