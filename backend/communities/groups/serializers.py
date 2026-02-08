@@ -197,7 +197,7 @@ class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
 # MARK: POST
 
 
-class GroupPOSTSerializer(serializers.Serializer):
+class GroupPOSTSerializer(serializers.Serializer[Group]):
     """
     Serializer for creating groups with related fields.
     """

@@ -5,6 +5,7 @@ API views for organization management.
 """
 
 import logging
+from typing import Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
@@ -75,7 +76,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data)
 
-    def get_serializer_class(self):
+    def get_serializer_class(self) -> Type[OrganizationPOSTSerializer | OrganizationSerializer]:
         if self.request.method == "POST":
             return OrganizationPOSTSerializer
         return OrganizationSerializer

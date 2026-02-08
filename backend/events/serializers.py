@@ -310,7 +310,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
             If validation fails for any field.
         """
         orgs = data.pop("orgs")
-        times: list[dict[str, Any]] = data.get("times")
+        times: list[dict[str, Any]] = data.get("times") or []
         groups = data.pop("groups", None)
         topics = data.pop("topics", None)
 
@@ -325,6 +325,10 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
                 date = time.get("date")
                 # For all-day events, create times in the local timezone
                 # so that 00:00:00 to 23:59:59 stays in that timezone
+                if date is None:
+                    raise serializers.ValidationError(
+                        "Date must be provided for all-day events."
+                    )
                 time["start_time"] = datetime.combine(
                     date, datetime.min.time(), tzinfo=local_tz
                 )
@@ -403,11 +407,11 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
 
             # Create EventText object with description
             event_text = EventText.objects.create(
+                event=event,
                 iso=iso,
                 primary=True,
                 description=description,
             )
-            event.texts.add(event_text)
 
             # Set many-to-many relationships
             if orgs_data:
@@ -416,8 +420,6 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
                 event.groups.set(groups_data)
             if topics_data:
                 event.topics.set(topics_data)
-
-            event.texts.set(description=description, iso=iso, primary=True)
 
             if times_data:
                 event_times = [

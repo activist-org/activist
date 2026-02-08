@@ -187,7 +187,7 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 # MARK: Organization
 
-class OrganizationPOSTSerializer(serializers.Serializer):
+class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
     """
     Serializer for Organization model data on POST requests.
     """
