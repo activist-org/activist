@@ -97,14 +97,23 @@ const imageUrl = computed(() => {
 });
 
 const location = computed(() => {
-  if (props.event.physicalLocation) {
+  if (
+    props.event.setting === "physical" &&
+    props.event.physicalLocation
+  ) {
     return props.event.physicalLocation.displayName.split(",")[0];
   }
   return "";
 });
 
 const onlineLocation = computed(() => {
-  return props.event.onlineLocationLink || "";
+  if (
+    props.event.setting === "online" &&
+    props.event.onlineLocationLink
+  ) {
+    return props.event.onlineLocationLink;
+  }
+  return "";
 });
 
 const date: ComputedRef<string> = computed((): string => {

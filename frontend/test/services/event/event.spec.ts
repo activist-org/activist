@@ -31,6 +31,7 @@ describe("services/event", () => {
       createdBy: "u1",
       iconUrl: undefined,
       type: "action",
+      setting: "physical",
       onlineLocationLink: undefined,
       physicalLocation: undefined,
       socialLinks: [],
@@ -54,6 +55,7 @@ describe("services/event", () => {
 
     expect(result.id).toBe("evt-1");
     expect(result.texts).toEqual([defaultEventText]);
+    expect(result.setting).toBe("physical");
   });
 
   // MARK: List
@@ -68,6 +70,7 @@ describe("services/event", () => {
       createdBy: "u2",
       iconUrl: undefined,
       type: "learn",
+      setting: "physical",
       onlineLocationLink: undefined,
       physicalLocation: undefined,
       socialLinks: [],
@@ -98,6 +101,7 @@ describe("services/event", () => {
     expect(result.data).toHaveLength(1);
     expect(result.data[0].id).toBe("evt-2");
     expect(result.data[0].texts).toEqual([]);
+    expect(result.data[0].setting).toBe("physical");
     expect(result.isLastPage).toBe(true);
   });
 
@@ -165,6 +169,7 @@ describe("services/event", () => {
       createdBy: "u",
       iconUrl: undefined,
       type: "action",
+      setting: "physical",
       onlineLocationLink: undefined,
       physicalLocation: undefined,
       socialLinks: [],
@@ -181,5 +186,6 @@ describe("services/event", () => {
     expect(mapped.socialLinks).toEqual([]);
     expect(mapped.resources).toEqual([]);
     expect(mapped.faqEntries).toEqual([]);
+    expect(mapped.setting).toBe("physical");
   });
 });
