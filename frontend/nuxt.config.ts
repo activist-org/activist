@@ -123,7 +123,7 @@ export default defineNuxtConfig({
           "'unsafe-inline'",
           "'strict-dynamic'",
           "'nonce-{{nonce}}'", // Nuxt Security injects the nonce here
-          "'unsafe-eval'", // <--- REQUIRED for Dev mode / some libs
+          "'unsafe-eval'",
         ],
         /**
          * Header: "upgrade-insecure-requests" forces http requests to use https.
