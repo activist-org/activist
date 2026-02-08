@@ -636,11 +636,7 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
     ```
 
 > [!NOTE]
-> prek is Python package that can be installed via pip or any other Python package manager. You can also find it in our [requirements-dev.txt](backend/requirements-dev.txt) file.
->
-> ```bash
-> pip install prek
-> ```
+> prek is Python package that can be installed via pip or any other Python package manager. You can also find it in our [uv.lock](backend/uv.lock) file.
 
 > [!NOTE]
 > If you are having issues with prek and want to send along your changes regardless, you can ignore the pre-commit hooks via the following:
