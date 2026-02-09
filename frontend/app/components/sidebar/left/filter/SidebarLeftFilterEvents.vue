@@ -240,7 +240,7 @@ watch(
   route,
   (r) => {
     const q = (r.query as Record<string, unknown>) || {};
-    const { view, ...rest } = q;
+    const { view, ..._rest } = q;
     formData.value = routeQueryToEventsFilterFormData(q);
     viewType.value =
       typeof view === "string" &&

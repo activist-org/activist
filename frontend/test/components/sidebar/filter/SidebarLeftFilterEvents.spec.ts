@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-/// <reference path="../../../../vue-shim.d.ts" />
 /**
  * Unit tests for SidebarLeftFilterEvents.vue.
  * Route query sync behavior is tested in test/utils/routeUtils.spec.ts
@@ -8,10 +7,13 @@
  * @see https://github.com/activist-org/activist/issues/1738
  * @see https://github.com/activist-org/activist/issues/1753
  */
+import "../../../../vue-shim.d.ts";
+
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import SidebarLeftFilterEvents from "~/components/sidebar/left/filter/SidebarLeftFilterEvents.vue";
+
 import {
   createUseRouteMockWithMutableQuery,
   createUseRouterMock,
