@@ -19,7 +19,7 @@
           />
           <ComboboxButton
             :aria-label="$t('i18n.components.combobox_topics.toggle_dropdown')"
-            class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-blue"
           >
             <Icon :name="IconMap.CHEVRON_EXPAND" />
           </ComboboxButton>

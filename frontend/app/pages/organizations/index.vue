@@ -1,89 +1,166 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div class="bg-layer-0 px-8">
     <Head>
       <Title>{{ $t("i18n.pages.organizations.index.header_title") }}</Title>
     </Head>
+
     <HeaderAppPage
       :header="$t('i18n.pages.organizations.index.header_title')"
       :tagline="$t('i18n.pages.organizations.index.subheader')"
     >
-      <div class="flex flex-col space-x-3 sm:flex-row">
-        <ComboboxTopics
-          @update:selectedTopics="handleSelectedTopicsUpdate"
-          :receivedSelectedTopics="selectedTopics"
-        />
-      </div>
+      <filterOrgs 
+        class="w-full max-w-8xl"
+        :selected-topics="selectedTopics"
+        :status="selectedStatus"
+        :search-query="searchQuery"
+        @update:selected-topics="handleSelectedTopicsUpdate"
+        @update:status="handleStatusUpdate"
+        @update:search="handleSearchUpdate"
+      />
     </HeaderAppPage>
+
     <Loading
       v-if="pending && !loadingFetchMore"
       :loading="pending && !loadingFetchMore"
     />
-    <div v-else-if="showOrganizations">
-      <div
-        v-for="org in organizations"
-        :key="org.id"
-        class="space-y-6 pb-6 pt-3 md:pt-4"
-      >
-        <CardSearchResultEntityOrganization
-          :isPrivate="false"
-          :organization="org"
-        />
+    <div>
+      <div v-if="showOrganizations">
+        <div
+          v-for="org in filteredOrganizations"
+          :key="org.id"
+          class="space-y-6 pb-6 pt-3 md:pt-4"
+        >
+          <CardSearchResultEntityOrganization
+            :isPrivate="false"
+            :organization="org"
+          />
+        </div>
       </div>
-      <div ref="bottomSentinel">
-        <!-- The bottom sentinel for Intersection Observer. -->
+      
+      <EmptyState v-else-if="!pending" pageType="organizations" :permission="false" />
+
+      <div ref="bottomSentinel" class="h-1">
         <Loading
           v-if="loadingFetchMore && pending"
           :loading="loadingFetchMore && pending"
         />
       </div>
     </div>
-    <EmptyState v-else pageType="organizations" :permission="false" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { TopicEnum } from '~/types';
+import type { OrganizationFilters } from '~/types';
+
 const route = useRoute();
 const router = useRouter();
 const loadingFetchMore = ref(false);
 
-const filters = computed<OrganizationFilters>(() => {
-  // Note: We do not have a view filter for organizations.
-  const { topics, ...rest } = route.query;
-  const normalizedFilters: OrganizationFilters =
-    rest as unknown as OrganizationFilters;
+import filterOrgs from "~/components/filter/filterOrgs.vue";
 
-  // Normalize topics to always be an array (Vue Router returns string for single value).
-  normalizedFilters.topics = normalizeArrayFromURLQuery(topics) as TopicEnum[];
-
-  return normalizedFilters;
-});
+// Reactive state for all filters
 const selectedTopics = ref<TopicEnum[]>([]);
+const selectedStatus = ref<string>('active');
+const searchQuery = ref<string>('');
+
+// Initialize from URL query params
 watch(
-  () => route.query.topics,
-  (newVal) => {
-    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicEnum[];
+  () => route.query,
+  (newQuery) => {
+    selectedTopics.value = normalizeArrayFromURLQuery(newQuery.topics) as TopicEnum[];
+    selectedStatus.value = (newQuery.status as string) || 'active';
+    searchQuery.value = (newQuery.search as string) || '';
   },
   { immediate: true }
 );
-const handleSelectedTopicsUpdate = (selectedTopics: TopicEnum[]) => {
-  const query = { ...route.query };
-  if (selectedTopics.length > 0) {
-    query.topics = selectedTopics;
+
+// Computed filters for API (without search since we'll filter frontend)
+const filters = computed<OrganizationFilters>(() => {
+  const normalizedFilters: OrganizationFilters = {
+    topics: selectedTopics.value,
+    status: selectedStatus.value,
+    // Remove search from API call - we'll filter on frontend
+  };
+
+  return normalizedFilters;
+});
+
+// Frontend filtering for search
+const filteredOrganizations = computed(() => {
+  if (!searchQuery.value || !searchQuery.value.trim()) {
+    // No search query - return all organizations
+    return organizations.value;
+  }
+
+  const query = searchQuery.value.toLowerCase().trim();
+  
+  return organizations.value.filter(org => {
+    // Search in name, org_name, tagline, and description
+    const searchableText = [
+      org.name,
+      org.orgName,
+      org.tagline,
+      org.description
+    ]
+      .filter(Boolean) // Remove null/undefined values
+      .join(' ')
+      .toLowerCase();
+    
+    return searchableText.includes(query);
+  });
+});
+
+// Update URL when filters change
+const updateURLQuery = () => {
+  const query: any = { ...route.query };
+  
+  if (selectedTopics.value.length > 0) {
+    query.topics = selectedTopics.value;
   } else {
     delete query.topics;
   }
+  
+  if (selectedStatus.value && selectedStatus.value !== 'active') {
+    query.status = selectedStatus.value;
+  } else {
+    delete query.status;
+  }
+  
+  if (searchQuery.value && searchQuery.value.trim()) {
+    query.search = searchQuery.value;
+  } else {
+    delete query.search;
+  }
+  
   router.replace({ query });
+};
+
+// Handlers for filter updates
+const handleSelectedTopicsUpdate = (topics: TopicEnum[]) => {
+  selectedTopics.value = topics;
+  updateURLQuery();
+};
+
+const handleStatusUpdate = (status: string) => {
+  selectedStatus.value = status;
+  updateURLQuery();
+};
+
+const handleSearchUpdate = (search: string) => {
+  searchQuery.value = search;
+  updateURLQuery();
 };
 
 watch(
   filters,
   () => {
-    // Reset loading more state when filters change.
+    // Reset loading more state when filters change
     loadingFetchMore.value = false;
   },
   { immediate: true, deep: true }
 );
+
 const { data: organizations, pending, getMore } = useGetOrganizations(filters);
 
 const bottomSentinel = ref<HTMLElement | null>(null);
@@ -100,7 +177,7 @@ useCustomInfiniteScroll({
 });
 
 const showOrganizations = computed(() => {
-  if (organizations.value.length > 0) {
+  if (filteredOrganizations.value.length > 0) {
     if (loadingFetchMore.value) {
       return true;
     }

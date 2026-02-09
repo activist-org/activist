@@ -43,7 +43,9 @@ export interface OrganizationFilters {
   name?: string;
   location?: string;
   topics?: TopicEnum[];
-  name?: string;
+  status?: string;
+  search?: string;
+
 }
 
 export interface OrganizationMember {

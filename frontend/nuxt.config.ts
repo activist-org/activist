@@ -14,6 +14,8 @@ export default defineNuxtConfig({
     head,
   },
 
+  
+
   auth: {
     baseURL: process.env.VITE_BACKEND_URL || "http://localhost:8000/api/auth",
     provider: {
