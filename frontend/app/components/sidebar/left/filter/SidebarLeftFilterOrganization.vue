@@ -61,15 +61,12 @@ const route = useRoute();
 const router = useRouter();
 const formData = ref({});
 
-// Only sync query params when actually on the /organizations route
-// This prevents stale query params from persisting when navigating between routes
-// Fix for: https://github.com/activist-org/activist/issues/1738
 watch(
   route,
-  (newRoute) => {
-    if (newRoute.path === "/organizations") {
-      formData.value = { ...newRoute.query };
-    }
+  (r) => {
+    formData.value = routeQueryToOrganizationFilterFormData(
+      r.query as Record<string, unknown>
+    );
   },
   { immediate: true }
 );

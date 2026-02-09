@@ -58,6 +58,25 @@ export function createUseRouteMock(
 }
 
 /**
+ * Creates a useRoute mock that reads from a mutable route object at call time.
+ * Use when tests mutate route.query before mount and need the component to see the updated values.
+ *
+ * @param mockRoute - Route object { path, query, name? }; tests mutate mockRoute.query before mount
+ */
+export function createUseRouteMockWithMutableQuery(mockRoute: {
+  path: string;
+  query: Record<string, unknown>;
+  name?: string;
+}) {
+  return () => ({
+    params: {},
+    query: mockRoute.query,
+    path: mockRoute.path,
+    name: mockRoute.name,
+  });
+}
+
+/**
  * Creates a mock for useRouter composable.
  * @param push - Router push function (default: vi.fn())
  * @param currentRoute - Current route value (default: { name: "home" })
