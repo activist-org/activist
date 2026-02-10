@@ -136,7 +136,7 @@ describe("CardSearchResultEntityGroup", () => {
 
     it("renders location when location exists", () => {
       const group = createMockGroup({
-        location: { displayName: "New York, USA" },
+        location: { addressOrName: "New York, USA" },
       });
       const wrapper = createWrapper({ group });
       expect(wrapper.findAll(".meta-tag-location-stub").length).toBeGreaterThan(
@@ -200,7 +200,7 @@ describe("CardSearchResultEntityGroup", () => {
         groupName: "complex-group",
         texts: [{ description: "Full description" }],
         iconUrl: { fileObject: "https://example.com/icon.png" },
-        location: { displayName: "London, UK" },
+        location: { addressOrName: "London, UK" },
       });
       const wrapper = createWrapper({
         group: mockGroup,
@@ -318,13 +318,13 @@ describe("CardSearchResultEntityGroup", () => {
 
     it("updates location when group location changes", async () => {
       const mockGroup = createMockGroup({
-        location: { displayName: "Paris, France" },
+        location: { addressOrName: "Paris, France" },
       });
       const wrapper = createWrapper({ group: mockGroup });
 
       await wrapper.setProps({
         group: createMockGroup({
-          location: { displayName: "Berlin, Germany" },
+          location: { addressOrName: "Berlin, Germany" },
         }),
       });
       await nextTick();
@@ -338,7 +338,7 @@ describe("CardSearchResultEntityGroup", () => {
   describe("Edge Cases", () => {
     it("handles location with multiple commas", () => {
       const mockGroup = createMockGroup({
-        location: { displayName: "123 Main St, Suite 100, New York, NY, USA" },
+        location: { addressOrName: "123 Main St, Suite 100, New York, NY, USA" },
       });
       const wrapper = createWrapper({ group: mockGroup });
 

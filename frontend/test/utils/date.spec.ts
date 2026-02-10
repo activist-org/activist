@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { getAllDaysInRange } from "../../shared/utils/utils";
+import { getAllDaysInRange } from "../../shared/utils/date";
 
-describe("utils/utils", () => {
+describe("utils/date", () => {
+  describe("getAllDaysInRange", () => {
   it("getAllDaysInRange returns inclusive dates", () => {
     const start = new Date("2024-01-01");
     const end = new Date("2024-01-03");
@@ -108,4 +109,42 @@ describe("utils/utils", () => {
     expect(out[1]!.getFullYear()).toBe(2024);
     expect(out[0]!.getFullYear()).toBe(2099);
   });
+})
+describe("formatDate", () => {
+  it("formats date as DD / MM / YYYY", () => {
+    const date = new Date("2024-06-15");
+    const formatted = formatDate(date);
+    expect(formatted).toBe("15 / 06 / 2024");
+  });
+
+  it("pads single-digit days and months with leading zeros", () => {
+    const date = new Date("2024-01-05");
+    const formatted = formatDate(date);
+    expect(formatted).toBe("05 / 01 / 2024");
+  });
+
+  it("handles end-of-year dates correctly", () => {
+    const date = new Date("2024-12-31");
+    const formatted = formatDate(date);
+    expect(formatted).toBe("31 / 12 / 2024");
+  });
+
+  it("handles leap year dates correctly", () => {
+    const date = new Date("2024-02-29");
+    const formatted = formatDate(date);
+    expect(formatted).toBe("29 / 02 / 2024");
+  });
+
+  it("handles non-leap year February correctly", () => {
+    const date = new Date("2023-02-28");
+    const formatted = formatDate(date);
+    expect(formatted).toBe("28 / 02 / 2023");
+  });
+
+  it("handles dates with time components", () => {
+    const date = new Date("2024-06-15T12:34:56Z");
+    const formatted = formatDate(date);
+    expect(formatted).toBe("15 / 06 / 2024");
+  });
+})
 });
