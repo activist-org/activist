@@ -338,7 +338,9 @@ describe("CardSearchResultEntityGroup", () => {
   describe("Edge Cases", () => {
     it("handles location with multiple commas", () => {
       const mockGroup = createMockGroup({
-        location: { addressOrName: "123 Main St, Suite 100, New York, NY, USA" },
+        location: {
+          addressOrName: "123 Main St, Suite 100, New York, NY, USA",
+        },
       });
       const wrapper = createWrapper({ group: mockGroup });
 

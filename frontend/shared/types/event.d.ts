@@ -32,7 +32,7 @@ export interface EventTime {
   startTime: string;
   endTime: string;
   allDay: boolean;
-  date: string; 
+  date: string;
 }
 
 // MARK: Bridge Tables

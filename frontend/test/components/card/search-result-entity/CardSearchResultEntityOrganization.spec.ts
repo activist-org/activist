@@ -220,7 +220,9 @@ describe("CardSearchResultEntityOrganization", () => {
     it("handles location with multiple commas", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { addressOrName: "121 Wall St, Suite 67, New York, NY, USA" },
+          location: {
+            addressOrName: "121 Wall St, Suite 67, New York, NY, USA",
+          },
         }),
       });
       expect(wrapper.text()).toContain("121 Wall St");

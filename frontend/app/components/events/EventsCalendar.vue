@@ -52,7 +52,7 @@ const learnEventsDates = learnEvents.map((event) => ({
       backgroundColor: getEventColorByType("learn"),
     },
   },
-  dates: event.times.map(time => new Date(time.date)),
+  dates: event.times.map((time) => new Date(time.date)),
   popover: {
     visibility: "hover-focus" as PopoverVisibility,
     hideIndicator: true,
@@ -68,7 +68,7 @@ const actionEventsDates = actionEvents.map((event) => ({
       backgroundColor: getEventColorByType("action"),
     },
   },
-  dates: event.times.map(time => new Date(time.date)),
+  dates: event.times.map((time) => new Date(time.date)),
   popover: {
     visibility: "hover-focus" as PopoverVisibility,
     hideIndicator: true,

@@ -110,10 +110,10 @@ const onlineLocation = computed(() => {
 const date: ComputedRef<string> = computed((): string => {
   if (props.event.times && props.event.times.length > 0) {
     if (props.event.times[0]?.startTime) {
-    return props.event.times[0].startTime.split("T")[0] ?? "";
+      return props.event.times[0].startTime.split("T")[0] ?? "";
     }
     if (props.event.times[0]?.allDay) {
-      return t("i18n.components.card_search_result_entity_event.all_day_event")
+      return t("i18n.components.card_search_result_entity_event.all_day_event");
     }
   }
   return "";
