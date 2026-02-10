@@ -43,7 +43,6 @@ export function useOrganizationImageMutations(
   async function uploadImages(images: UploadableFile[], sequences?: number[]) {
     loading.value = true;
     error.value = null;
-
     try {
       // Direct service call - no useAsyncData needed for mutations.
       await uploadOrganizationImages(

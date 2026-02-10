@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+import { FetchError } from "ofetch";
+
+export default defineEventHandler(async (event) => {
+  try {
+    const config = useRuntimeConfig();
+
+    // Construct the Target URL dynamically (like your proxy).
+    const incoming = getRequestURL(event);
+
+    const upstreamPath =
+      incoming.pathname.replace(/^\/api\/media\/images/, "") || "/";
+    const search = incoming.search || "";
+
+    const apiBase = config.apiSecret || config.public.apiBase;
+
+    // Ensure no trailing slash for consistent replacement later.
+    const base = apiBase.endsWith("/") ? apiBase.slice(0, -1) : apiBase;
+
+    // Construct the backend URL.
+    const target = `${base}/v1${upstreamPath}${search}/images`;
+
+    // Fetch the data (instead of proxyRequest) so we can modify it.
+    const backendData = await $fetch(target, {
+      headers: getRequestHeaders(event) as HeadersInit,
+    });
+
+    // Define the transformation.
+    const transformUrl = (internalUrl: string) => {
+      if (!internalUrl) return internalUrl;
+      // Replaces 'http://backend:8000' with empty string (making it relative).
+      return internalUrl.replace(base, "/api");
+    };
+
+    // Map and Transform.
+    if (Array.isArray(backendData)) {
+      return backendData.map((item: ContentImage) => ({
+        ...item,
+        fileObject: transformUrl(item.fileObject),
+      }));
+    }
+
+    return backendData;
+  } catch (error) {
+    if (error instanceof FetchError) {
+      throw createError({
+        statusCode: error?.response?.status || 502,
+        statusMessage: error?.response?.statusText || "Bad Gateway",
+        data: error?.data,
+      });
+    }
+  }
+});

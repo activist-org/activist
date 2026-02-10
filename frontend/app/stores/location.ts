@@ -22,7 +22,7 @@ export const useLocationStore = defineStore("location", {
       this.loading = true;
 
       const locationRes = (await useAsyncData(
-        async () => await fetchWithoutToken(`/content/locations/${id}`, {})
+        async () => await fetchSession(`/content/locations/${id}`, {})
       ).data) as unknown as PiniaResLocation;
 
       const location = locationRes._value;
