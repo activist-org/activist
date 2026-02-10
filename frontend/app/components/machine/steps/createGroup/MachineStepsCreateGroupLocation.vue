@@ -16,6 +16,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="formData"
       :schema="locationSchema"
     >
       <FormItem
@@ -56,7 +57,14 @@
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
-
+const { data: organization } = useGetOrganization(
+  flow?.context.value.nodeData?.groupDetails?.org
+);
+const formData = computed(() => {
+  return {
+    country: organization.value?.location.countryCode || "",
+  };
+});
 const locationSchema = z.object({
   country: z.string().min(1, "Country is required"),
   city: z.string().min(1, "City is required"),
@@ -67,9 +75,9 @@ const handlePrev = () => {
 };
 const handleSubmit = (values: Record<string, unknown>) => {
   // Simulate an API call.
-  
-  const { city } = values;
+
+  const { city, country } = values;
   if (!flow) return;
-  flow.next({ city });
+  flow.next({ city, countryCode: country });
 };
 </script>

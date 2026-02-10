@@ -87,10 +87,9 @@ const organizationDetailsSchema = z.object({
   description: z.string().min(1, t("i18n._global.required")),
   organization: z.string().min(1, t("i18n._global.required")),
 });
-const handleSubmit = async (values: Record<string, unknown>) => {
+const handleSubmit = (values: Record<string, unknown>) => {
   // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   if (!flow) return;
-  flow.next(values);
+  flow.next({ ...values, org: values.organization });
 };
 </script>

@@ -37,7 +37,7 @@
         <div class="flex items-center gap-3">
           <MetaTagLocation
             v-if="group?.location"
-            :location="group.location.displayName.split(',')[0] ?? ''"
+            :location="group.location.addressOrName.split(',')[0] ?? ''"
           />
           <!-- <MetaTagMembers
               :members="group.members.length"
