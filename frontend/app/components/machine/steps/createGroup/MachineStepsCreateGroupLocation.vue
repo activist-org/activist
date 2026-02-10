@@ -58,7 +58,10 @@ import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
 const { data: organization } = useGetOrganization(
-  flow?.context.value.nodeData?.groupDetails?.org
+  (
+    flow?.context.value.nodeData
+      ?.groupDetails as ContextCreateGroupData[CreateGroupSteps.GroupDetails]
+  ).org
 );
 const formData = computed(() => {
   return {
