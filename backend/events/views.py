@@ -131,9 +131,10 @@ class EventAPIView(GenericAPIView[Event]):
 # MARK: Detail API
 
 
-class EventDetailAPIView(APIView):
+class EventDetailAPIView(GenericAPIView[Event]):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @extend_schema(
         responses={
@@ -186,13 +187,23 @@ class EventDetailAPIView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        if request.user != event.created_by:
+        if request.user != event.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "User not authorized."},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        serializer = self.serializer_class(event, data=request.data, partial=True)
+        data = request.data.copy()
+        physical_location_data = data.pop("physical_location", None)
+
+        if physical_location_data and event.physical_location:
+            location = event.physical_location
+            for attr, value in physical_location_data.items():
+                if attr != "id":
+                    setattr(location, attr, value)
+            location.save()
+
+        serializer = self.serializer_class(event, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -222,7 +233,7 @@ class EventDetailAPIView(APIView):
                 {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != event.created_by:
+        if request.user != event.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "User not authorized."},
                 status=status.HTTP_401_UNAUTHORIZED,
