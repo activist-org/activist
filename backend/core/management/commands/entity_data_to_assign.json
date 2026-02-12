@@ -1,7 +1,6 @@
 {
   "organizations": [
     {
-      "org_name": "activist",
       "name": "activist",
       "tagline": "An open-source activism platform",
       "texts": {

@@ -103,7 +103,7 @@ def test_EventListAPIView(logged_in_user) -> None:
     assert response.status_code == 401
 
     # Authenticated and successful.
-    org = OrganizationFactory.create(org_name="test_org", terms_checked=True)
+    org = OrganizationFactory.create(name="test_org", terms_checked=True)
     new_event = EventFactory.build(name="new_event", terms_checked=True)
     location = EntityLocationFactory.build()
     token = logged_in_user["access"]

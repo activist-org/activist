@@ -9,6 +9,7 @@ from typing import Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
+from django.contrib.auth.models import AnonymousUser
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
@@ -76,7 +77,9 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data)
 
-    def get_serializer_class(self) -> Type[OrganizationPOSTSerializer | OrganizationSerializer]:
+    def get_serializer_class(
+        self,
+    ) -> Type[OrganizationPOSTSerializer | OrganizationSerializer]:
         if self.request.method == "POST":
             return OrganizationPOSTSerializer
         return OrganizationSerializer
@@ -145,7 +148,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
         },
     )
     def get(self, request: Request, user_id: None | UUID = None) -> Response:
-        user: UserModel = request.user
+        user: UserModel | AnonymousUser = request.user  # TODO mypy check again
         if user_id is None:
             return Response(
                 {"detail": "User ID is required."},

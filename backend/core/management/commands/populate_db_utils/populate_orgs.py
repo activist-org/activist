@@ -85,16 +85,14 @@ def create_organization(
 
     # Basic fields with fallbacks.
     org_id = (
-        assigned.get("org_name")
+        assigned.get("name")
         or f"organization_{user.username}_o{per_user_org_index}"
     )
-    org_name = assigned.get("name") or f"{user_topic_name} Organization"
     tagline = assigned.get("tagline") or f"Fighting for {user_topic_name.lower()}"
 
     user_org = OrganizationFactory(
         created_by=user,
-        org_name=org_id,
-        name=org_name,
+        name=org_id,
         tagline=tagline,
     )
     user_org.topics.set([user_topic])

@@ -25,7 +25,6 @@ class Organization(models.Model):
         related_name="created_org",
         on_delete=models.CASCADE,
     )
-    org_name = models.CharField(max_length=255)
     description = models.CharField(max_length=2500, blank=True, default="")
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)

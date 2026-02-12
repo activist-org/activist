@@ -31,7 +31,6 @@ class Group(models.Model):
         on_delete=models.CASCADE,
         related_name="created_group",
     )
-    group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.OneToOneField(

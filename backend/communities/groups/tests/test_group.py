@@ -30,7 +30,6 @@ def test_group_create() -> None:
     group = Group.objects.create(
         org=org,
         created_by=user,
-        group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
         location=location,
@@ -41,7 +40,6 @@ def test_group_create() -> None:
     assert isinstance(group.id, UUID)
     assert group.org == org
     assert group.created_by == user
-    assert isinstance(group.group_name, str)
     assert isinstance(group.creation_date, datetime)
     assert group.terms_checked is True
 
@@ -58,7 +56,6 @@ def test_group_multiple_groups_per_org() -> None:
     group1 = Group.objects.create(
         org=org,
         created_by=user,
-        group_name=fake.company(),
         name=fake.company(),
         location=location,
         category=fake.word(),
@@ -68,7 +65,6 @@ def test_group_multiple_groups_per_org() -> None:
     group2 = Group.objects.create(
         org=org,
         created_by=user,
-        group_name=fake.company(),
         name=fake.company(),
         location=location,
         category=fake.word(),

@@ -183,9 +183,9 @@ def test_image_icon_serializer_create_event(caplog):
         start_time=timezone.now(),
         end_time=timezone.now() + timedelta(hours=1),
         created_by=user,
-        orgs=org,
         physical_location=location,  # associate with location
     )
+    event.orgs.set([org])
 
     # Create a valid image.
     img = TestImage.new("RGB", (100, 100), color="red")
