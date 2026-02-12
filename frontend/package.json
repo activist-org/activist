@@ -92,7 +92,7 @@
     "@vee-validate/zod": "4.15.1",
     "@vueuse/math": "14.2.0",
     "autoprefixer": "10.4.23",
-    "axios": "1.13.2",
+    "axios": "1.13.5",
     "commander": "14.0.2",
     "dompurify": "3.3.1",
     "dotenv": "17.2.3",

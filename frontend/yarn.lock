@@ -5726,7 +5726,7 @@ __metadata:
     autoprefixer: "npm:10.4.23"
     axe-core: "npm:4.11.1"
     axe-html-reporter: "npm:2.2.11"
-    axios: "npm:1.13.2"
+    axios: "npm:1.13.5"
     commander: "npm:14.0.2"
     cross-env: "npm:10.1.0"
     dompurify: "npm:3.3.1"
@@ -6083,18 +6083,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.13.2":
-  version: 1.13.2
-  resolution: "axios@npm:1.13.2"
-  dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.4"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/e8a42e37e5568ae9c7a28c348db0e8cf3e43d06fcbef73f0048669edfe4f71219664da7b6cc991b0c0f01c28a48f037c515263cb79be1f1ae8ff034cd813867b
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.13.2":
+"axios@npm:1.13.5, axios@npm:^1.13.2":
   version: 1.13.5
   resolution: "axios@npm:1.13.5"
   dependencies:
@@ -8392,7 +8381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.15.11, follow-redirects@npm:^1.15.6":
+"follow-redirects@npm:^1.15.11":
   version: 1.15.11
   resolution: "follow-redirects@npm:1.15.11"
   peerDependenciesMeta:
@@ -8421,7 +8410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:^4.0.4, form-data@npm:^4.0.5":
+"form-data@npm:^4.0.5":
   version: 4.0.5
   resolution: "form-data@npm:4.0.5"
   dependencies:
