@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import {
+  getFAQCardOrder,
+  performDragAndDrop,
+  verifyReorder,
+} from "~/test-e2e/actions/dragAndDrop";
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
+import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
@@ -18,54 +24,37 @@ test.describe("Organization FAQ Page - Desktop", { tag: "@desktop" }, () => {
     // Wait for FAQ entries to load completely.
     await page.waitForLoadState("domcontentloaded");
 
-    const faqCount = await faqPage.getFAQCount();
+    // Ensure we have at least 2 FAQs for testing (create them if needed).
+    const faqCount = await ensureMinimumFAQs(page, faqPage, 2);
 
-    if (faqCount >= 2) {
-      // Get initial order of first 2 FAQ questions for drag and drop test.
-      const firstQuestion = await faqPage.getFAQQuestionText(0);
-      const secondQuestion = await faqPage.getFAQQuestionText(1);
+    // Verify we have at least 2 FAQs.
+    expect(faqCount).toBeGreaterThanOrEqual(2);
 
-      // Verify drag handles are visible.
-      const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
-      const secondFAQDragHandle = faqPage.getFAQDragHandle(1);
+    // Get initial order of first 2 FAQ questions for drag and drop test.
+    const initialOrder = await getFAQCardOrder(page);
+    const firstQuestion = initialOrder[0];
+    const secondQuestion = initialOrder[1];
 
-      await expect(firstFAQDragHandle).toBeVisible();
-      await expect(secondFAQDragHandle).toBeVisible();
+    // Verify drag handles are visible.
+    const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
+    const secondFAQDragHandle = faqPage.getFAQDragHandle(1);
 
-      // Perform drag and drop from first to second position.
-      const firstHandleBox = await faqPage.getFAQDragHandlePosition(0);
-      const secondHandleBox = await faqPage.getFAQDragHandlePosition(1);
+    await expect(firstFAQDragHandle).toBeVisible();
+    await expect(secondFAQDragHandle).toBeVisible();
 
-      if (firstHandleBox && secondHandleBox) {
-        // Drag first FAQ to second position.
-        await page.mouse.move(
-          firstHandleBox.x + firstHandleBox.width / 2,
-          firstHandleBox.y + firstHandleBox.height / 2
-        );
-        await page.mouse.down();
-        await page.mouse.move(
-          secondHandleBox.x + secondHandleBox.width / 2,
-          secondHandleBox.y + secondHandleBox.height / 2
-        );
-        await page.mouse.up();
+    // Validate drag handles have the correct CSS class.
+    await expect(firstFAQDragHandle).toContainClass("drag-handle");
+    await expect(secondFAQDragHandle).toContainClass("drag-handle");
 
-        // Wait for the reorder operation to complete (including network requests).
-        await page.waitForLoadState("domcontentloaded");
+    // Perform drag and drop using shared utility.
+    await performDragAndDrop(page, firstFAQDragHandle, secondFAQDragHandle);
 
-        // Get final order of first 2 FAQ questions.
-        const finalFirstQuestion = await faqPage.getFAQQuestionText(0);
-        const finalSecondQuestion = await faqPage.getFAQQuestionText(1);
-
-        // Verify the order has changed (first and second should be swapped).
-        expect(finalFirstQuestion).toBe(secondQuestion);
-        expect(finalSecondQuestion).toBe(firstQuestion);
-      }
-    } else {
-      // Skip test if insufficient FAQ entries for drag and drop testing.
-      test.skip(
-        faqCount >= 2,
-        "Need at least 2 FAQ entries to test drag and drop functionality"
-      );
-    }
+    // Verify the reorder using shared utility.
+    await verifyReorder(
+      page,
+      firstQuestion ?? "",
+      secondQuestion ?? "",
+      getFAQCardOrder
+    );
   });
 });

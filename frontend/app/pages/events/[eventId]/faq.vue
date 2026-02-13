@@ -65,6 +65,9 @@
 </template>
 
 <script setup lang="ts">
+import type { FaqEntry } from "#shared/types/faq-entry";
+
+import { EntityType } from "#shared/types/entity";
 import draggable from "vuedraggable";
 
 const { openModal } = useModalHandlers("ModalFaqEntryEvent");

@@ -279,5 +279,118 @@ test.describe(
         );
       }
     });
+
+    // MARK: Delete
+
+    test("Delete button is visible and accessible on FAQ entries", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const { groupFaqPage } = organizationPage;
+
+      await page.waitForLoadState("domcontentloaded");
+      const faqCount = await groupFaqPage.getFaqCount();
+
+      if (faqCount > 0) {
+        const deleteButton = page
+          .getByTestId("faq-card")
+          .first()
+          .getByTestId("faq-delete-button");
+        await expect(deleteButton).toBeVisible();
+        await expect(deleteButton).toBeEnabled();
+        await expect(deleteButton).toHaveAttribute("aria-label");
+      } else {
+        test.skip(faqCount > 0, "No FAQ entries available to test deletion");
+      }
+    });
+
+    test("User can cancel FAQ deletion", async ({ page }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const { groupFaqPage } = organizationPage;
+
+      await page.waitForLoadState("domcontentloaded");
+      const initialFaqCount = await groupFaqPage.getFaqCount();
+
+      if (initialFaqCount > 0) {
+        const originalQuestion = await groupFaqPage.getFaqQuestionText(0);
+
+        const deleteButton = page
+          .getByTestId("faq-card")
+          .first()
+          .getByTestId("faq-delete-button");
+        await deleteButton.click();
+
+        const confirmationModal = page.locator("#modal").first();
+        await expect(confirmationModal).toBeVisible();
+        await expect(confirmationModal).toContainText(/delete|remove/i);
+
+        const cancelButton = confirmationModal.getByRole("button", {
+          name: /cancel|no/i,
+        });
+        await cancelButton.click();
+
+        await expect(confirmationModal).not.toBeVisible();
+        await page.waitForLoadState("domcontentloaded");
+
+        const finalFaqCount = await groupFaqPage.getFaqCount();
+        expect(finalFaqCount).toBe(initialFaqCount);
+
+        const stillExistingQuestion = await groupFaqPage.getFaqQuestionText(0);
+        expect(stillExistingQuestion).toBe(originalQuestion);
+      } else {
+        test.skip(
+          initialFaqCount > 0,
+          "No FAQ entries available to test deletion"
+        );
+      }
+    });
+
+    test("User can successfully delete an FAQ entry", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const { groupFaqPage } = organizationPage;
+
+      await page.waitForLoadState("domcontentloaded");
+      const initialFaqCount = await groupFaqPage.getFaqCount();
+
+      if (initialFaqCount > 0) {
+        const questionToDelete = await groupFaqPage.getFaqQuestionText(0);
+
+        const deleteButton = page
+          .getByTestId("faq-card")
+          .first()
+          .getByTestId("faq-delete-button");
+        await deleteButton.click();
+
+        const confirmationModal = page.locator("#modal").first();
+        await expect(confirmationModal).toBeVisible();
+
+        const confirmButton = confirmationModal.getByRole("button", {
+          name: /confirm|yes|delete/i,
+        });
+        await confirmButton.click();
+
+        await expect(confirmationModal).not.toBeVisible();
+        await page.waitForLoadState("domcontentloaded");
+        await page.waitForTimeout(1000);
+
+        const finalFaqCount = await groupFaqPage.getFaqCount();
+        expect(finalFaqCount).toBe(initialFaqCount - 1);
+
+        const deletedFaqCard = page
+          .getByTestId("faq-card")
+          .filter({ hasText: questionToDelete || "" });
+        await expect(deletedFaqCard).not.toBeVisible();
+      } else {
+        test.skip(
+          initialFaqCount > 0,
+          "No FAQ entries available to test deletion"
+        );
+      }
+    });
   }
 );

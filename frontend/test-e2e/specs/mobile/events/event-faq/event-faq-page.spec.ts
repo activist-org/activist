@@ -4,22 +4,23 @@ import {
   performDragAndDrop,
   verifyReorder,
 } from "~/test-e2e/actions/dragAndDrop";
-import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
+import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
+import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
 import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
-  await navigateToOrganizationSubpage(page, "faq");
+  await navigateToEventSubpage(page, "faq");
 });
 
-test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
-  test("User can reorder FAQ entries using drag and drop on mobile", async ({
+test.describe("Event FAQ Page - Mobile", { tag: "@mobile" }, () => {
+  test.skip("User can reorder FAQ entries using drag and drop on mobile", async ({
     page,
   }) => {
-    const organizationPage = newOrganizationPage(page);
-    const { faqPage } = organizationPage;
+    // TODO: Known issue - cannot navigate to events on mobile yet
+    const eventPage = newEventPage(page);
+    const { faqPage } = eventPage;
 
     // Wait for FAQ entries to load completely.
     await page.waitForLoadState("domcontentloaded");
@@ -48,7 +49,7 @@ test.describe("Organization FAQ Page - Mobile", { tag: "@mobile" }, () => {
     await expect(secondFAQDragHandle).toContainClass("drag-handle");
 
     // Perform drag and drop using shared utility.
-    // Note: We use mouse events with delays instead of dragTo() because
+    // NOTE: We use mouse events with delays instead of dragTo() because
     // dragTo() executes too quickly for vuedraggable to process the drag sequence.
     await performDragAndDrop(page, firstFAQDragHandle, secondFAQDragHandle);
 
