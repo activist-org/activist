@@ -23,7 +23,7 @@
     "typecheck": "nuxi typecheck",
     "format": "yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore",
     "lint": "eslint .",
-    "restart:types": "rm -rf .nuxt && rm -rf node_modules && yarn install"
+    "restart:imports": "rm -rf .nuxt && rm -rf node_modules && yarn install"
   },
   "devDependencies": {
     "@headlessui/vue": "1.7.23",

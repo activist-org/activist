@@ -29,7 +29,7 @@
         "
         name="location"
       >
-        <FormRadioBtns
+        <FormRadioGroup
           :id="id"
           @update:model-value="handleChange"
           :model-value="(value.value as string) || ''"
