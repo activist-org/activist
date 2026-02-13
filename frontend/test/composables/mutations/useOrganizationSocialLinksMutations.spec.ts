@@ -104,17 +104,19 @@ describe("useOrganizationSocialLinksMutations", () => {
       expect(updateOrganizationSocialLink).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateOrganizationSocialLink.mockRejectedValue(
         new Error("Update failed")
       );
-      const { updateLink } =
+      const { updateLink, error } =
         useOrganizationSocialLinksMutations(organizationId);
 
       const result = await updateLink("link-1", sampleSocialLinkInput);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -165,17 +167,19 @@ describe("useOrganizationSocialLinksMutations", () => {
       expect(createOrganizationSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       createOrganizationSocialLinks.mockRejectedValue(
         new Error("Create failed")
       );
-      const { createLinks } =
+      const { createLinks, error } =
         useOrganizationSocialLinksMutations(organizationId);
 
       const result = await createLinks([sampleSocialLinkInput]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -202,17 +206,19 @@ describe("useOrganizationSocialLinksMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       deleteOrganizationSocialLink.mockRejectedValue(
         new Error("Delete failed")
       );
-      const { deleteLink } =
+      const { deleteLink, error } =
         useOrganizationSocialLinksMutations(organizationId);
 
       const result = await deleteLink("link-1");
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -253,17 +259,19 @@ describe("useOrganizationSocialLinksMutations", () => {
       expect(replaceAllOrganizationSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       replaceAllOrganizationSocialLinks.mockRejectedValue(
         new Error("Replace failed")
       );
-      const { replaceAllLinks } =
+      const { replaceAllLinks, error } =
         useOrganizationSocialLinksMutations(organizationId);
 
       const result = await replaceAllLinks([sampleSocialLinkInput]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

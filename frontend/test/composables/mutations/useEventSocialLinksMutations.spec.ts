@@ -98,14 +98,16 @@ describe("useEventSocialLinksMutations", () => {
       expect(updateEventSocialLink).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateEventSocialLink.mockRejectedValue(new Error("Update failed"));
-      const { updateLink } = useEventSocialLinksMutations(eventId);
+      const { updateLink, error } = useEventSocialLinksMutations(eventId);
 
       const result = await updateLink("link-1", sampleSocialLinkInput);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -149,14 +151,16 @@ describe("useEventSocialLinksMutations", () => {
       expect(createEventSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       createEventSocialLinks.mockRejectedValue(new Error("Create failed"));
-      const { createLinks } = useEventSocialLinksMutations(eventId);
+      const { createLinks, error } = useEventSocialLinksMutations(eventId);
 
       const result = await createLinks([sampleSocialLinkInput]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -181,14 +185,16 @@ describe("useEventSocialLinksMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       deleteEventSocialLink.mockRejectedValue(new Error("Delete failed"));
-      const { deleteLink } = useEventSocialLinksMutations(eventId);
+      const { deleteLink, error } = useEventSocialLinksMutations(eventId);
 
       const result = await deleteLink("link-1");
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -226,16 +232,18 @@ describe("useEventSocialLinksMutations", () => {
       expect(replaceAllEventSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       replaceAllEventSocialLinks.mockRejectedValue(
         new Error("Replace failed")
       );
-      const { replaceAllLinks } = useEventSocialLinksMutations(eventId);
+      const { replaceAllLinks, error } = useEventSocialLinksMutations(eventId);
 
       const result = await replaceAllLinks([sampleSocialLinkInput]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

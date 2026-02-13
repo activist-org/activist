@@ -101,9 +101,9 @@ describe("useOrganizationTextsMutations", () => {
       expect(updateOrganizationTexts).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateOrganizationTexts.mockRejectedValue(new Error("Update failed"));
-      const { updateTexts } =
+      const { updateTexts, error } =
         useOrganizationTextsMutations(organizationId);
 
       const result = await updateTexts(
@@ -112,7 +112,9 @@ describe("useOrganizationTextsMutations", () => {
       );
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

@@ -94,14 +94,16 @@ describe("useEventResourcesMutations", () => {
       expect(createEventResource).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       createEventResource.mockRejectedValue(new Error("Create failed"));
-      const { createResource } = useEventResourcesMutations(eventId);
+      const { createResource, error } = useEventResourcesMutations(eventId);
 
       const result = await createResource(sampleResourceInput);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -128,14 +130,16 @@ describe("useEventResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateEventResource.mockRejectedValue(new Error("Update failed"));
-      const { updateResource } = useEventResourcesMutations(eventId);
+      const { updateResource, error } = useEventResourcesMutations(eventId);
 
       const result = await updateResource(sampleResourceInput);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -159,14 +163,16 @@ describe("useEventResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       deleteEventResource.mockRejectedValue(new Error("Delete failed"));
-      const { deleteResource } = useEventResourcesMutations(eventId);
+      const { deleteResource, error } = useEventResourcesMutations(eventId);
 
       const result = await deleteResource(sampleResourceInput.id);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -191,14 +197,16 @@ describe("useEventResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       reorderEventResources.mockRejectedValue(new Error("Reorder failed"));
-      const { reorderResources } = useEventResourcesMutations(eventId);
+      const { reorderResources, error } = useEventResourcesMutations(eventId);
 
       const result = await reorderResources([sampleResourceInput]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

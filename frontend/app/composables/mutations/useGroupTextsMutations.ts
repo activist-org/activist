@@ -27,7 +27,9 @@ export function useGroupTextsMutations(groupId: MaybeRef<string>) {
       await refreshGroupData();
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      const appError = errorHandler(err);
+      error.value = appError;
+      showToastError(appError.message);
       return false;
     } finally {
       loading.value = false;

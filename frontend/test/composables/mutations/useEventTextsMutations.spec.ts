@@ -90,14 +90,16 @@ describe("useEventTextsMutations", () => {
       expect(updateEventTexts).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateEventTexts.mockRejectedValue(new Error("Update failed"));
-      const { updateTexts } = useEventTextsMutations(eventId);
+      const { updateTexts, error } = useEventTextsMutations(eventId);
 
       const result = await updateTexts(sampleEventTextFormData, textId);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

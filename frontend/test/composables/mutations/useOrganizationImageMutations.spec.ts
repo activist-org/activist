@@ -101,14 +101,17 @@ describe("useOrganizationImageMutations", () => {
       expect(updateOrganizationImage).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateOrganizationImage.mockRejectedValue(new Error("Update failed"));
-      const { updateImage } = useOrganizationImageMutations(organizationId);
+      const { updateImage, error } =
+        useOrganizationImageMutations(organizationId);
 
       const result = await updateImage(defaultContentImage as never);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -137,14 +140,17 @@ describe("useOrganizationImageMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       uploadOrganizationImages.mockRejectedValue(new Error("Upload failed"));
-      const { uploadImages } = useOrganizationImageMutations(organizationId);
+      const { uploadImages, error } =
+        useOrganizationImageMutations(organizationId);
 
       const result = await uploadImages([createSampleUploadableFile()]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -172,16 +178,19 @@ describe("useOrganizationImageMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       uploadOrganizationIconImage.mockRejectedValue(
         new Error("Upload failed")
       );
-      const { uploadIconImage } = useOrganizationImageMutations(organizationId);
+      const { uploadIconImage, error } =
+        useOrganizationImageMutations(organizationId);
 
       const result = await uploadIconImage(createSampleUploadableFile());
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

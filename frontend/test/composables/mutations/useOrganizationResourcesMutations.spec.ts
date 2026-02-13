@@ -101,17 +101,19 @@ describe("useOrganizationResourcesMutations", () => {
       expect(createOrganizationResource).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       createOrganizationResource.mockRejectedValue(
         new Error("Create failed")
       );
-      const { createResource } =
+      const { createResource, error } =
         useOrganizationResourcesMutations(organizationId);
 
       const result = await createResource(sampleResourceInput);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -140,17 +142,19 @@ describe("useOrganizationResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateOrganizationResource.mockRejectedValue(
         new Error("Update failed")
       );
-      const { updateResource } =
+      const { updateResource, error } =
         useOrganizationResourcesMutations(organizationId);
 
       const result = await updateResource(sampleResourceInput);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -178,17 +182,19 @@ describe("useOrganizationResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       deleteOrganizationResource.mockRejectedValue(
         new Error("Delete failed")
       );
-      const { deleteResource } =
+      const { deleteResource, error } =
         useOrganizationResourcesMutations(organizationId);
 
       const result = await deleteResource(sampleResourceInput.id);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -218,17 +224,19 @@ describe("useOrganizationResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       reorderOrganizationResources.mockRejectedValue(
         new Error("Reorder failed")
       );
-      const { reorderResources } =
+      const { reorderResources, error } =
         useOrganizationResourcesMutations(organizationId);
 
       const result = await reorderResources([sampleResourceInput]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

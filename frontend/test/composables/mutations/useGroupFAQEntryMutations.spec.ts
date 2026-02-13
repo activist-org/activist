@@ -95,14 +95,16 @@ describe("useGroupFAQEntryMutations", () => {
       expect(createGroupFaq).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       createGroupFaq.mockRejectedValue(new Error("Create failed"));
-      const { createFAQ } = useGroupFAQEntryMutations(groupId);
+      const { createFAQ, error } = useGroupFAQEntryMutations(groupId);
 
       const result = await createFAQ(sampleFaqData);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -126,14 +128,16 @@ describe("useGroupFAQEntryMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateGroupFaq.mockRejectedValue(new Error("Update failed"));
-      const { updateFAQ } = useGroupFAQEntryMutations(groupId);
+      const { updateFAQ, error } = useGroupFAQEntryMutations(groupId);
 
       const result = await updateFAQ(sampleFaqEntry);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -157,6 +161,18 @@ describe("useGroupFAQEntryMutations", () => {
         getKeyForGetGroup("group-123")
       );
     });
+
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+      reorderGroupFaqs.mockRejectedValue(new Error("Reorder failed"));
+      const { reorderFAQs, error } = useGroupFAQEntryMutations(groupId);
+
+      const result = await reorderFAQs([sampleFaqEntry]);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+    });
   });
 
   describe("deleteFAQ", () => {
@@ -177,6 +193,18 @@ describe("useGroupFAQEntryMutations", () => {
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
       );
+    });
+
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+      deleteGroupFaq.mockRejectedValue(new Error("Delete failed"));
+      const { deleteFAQ, error } = useGroupFAQEntryMutations(groupId);
+
+      const result = await deleteFAQ(sampleFaqEntry.id);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

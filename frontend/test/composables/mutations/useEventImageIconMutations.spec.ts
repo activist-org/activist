@@ -78,15 +78,17 @@ describe("useEventImageIconMutations", () => {
       expect(loading.value).toBe(false);
     });
 
-    it("returns false and calls showToastError when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       uploadEventIconImage.mockRejectedValue(new Error("Upload failed"));
       const image = createSampleUploadableFile();
-      const { uploadIconImage } = useEventImageIconMutations(eventId);
+      const { uploadIconImage, error } = useEventImageIconMutations(eventId);
 
       const result = await uploadIconImage(image);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

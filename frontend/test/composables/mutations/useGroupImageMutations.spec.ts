@@ -93,14 +93,16 @@ describe("useGroupImageMutations", () => {
       expect(updateGroupImage).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateGroupImage.mockRejectedValue(new Error("Update failed"));
-      const { updateImage } = useGroupImageMutations(groupId);
+      const { updateImage, error } = useGroupImageMutations(groupId);
 
       const result = await updateImage(defaultContentImage as never);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -143,14 +145,16 @@ describe("useGroupImageMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       uploadGroupImages.mockRejectedValue(new Error("Upload failed"));
-      const { uploadImages } = useGroupImageMutations(groupId);
+      const { uploadImages, error } = useGroupImageMutations(groupId);
 
       const result = await uploadImages([createSampleUploadableFile()]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

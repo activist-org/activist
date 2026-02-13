@@ -90,14 +90,16 @@ describe("useGroupTextsMutations", () => {
       expect(updateGroupTexts).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateGroupTexts.mockRejectedValue(new Error("Update failed"));
-      const { updateTexts } = useGroupTextsMutations(groupId);
+      const { updateTexts, error } = useGroupTextsMutations(groupId);
 
       const result = await updateTexts(sampleGroupTextFormData, textId);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

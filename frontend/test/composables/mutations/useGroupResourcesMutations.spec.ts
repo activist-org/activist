@@ -94,14 +94,16 @@ describe("useGroupResourcesMutations", () => {
       expect(createGroupResource).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       createGroupResource.mockRejectedValue(new Error("Create failed"));
-      const { createResource } = useGroupResourcesMutations(groupId);
+      const { createResource, error } = useGroupResourcesMutations(groupId);
 
       const result = await createResource(sampleResourceInput);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -125,14 +127,16 @@ describe("useGroupResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       updateGroupResource.mockRejectedValue(new Error("Update failed"));
-      const { updateResource } = useGroupResourcesMutations(groupId);
+      const { updateResource, error } = useGroupResourcesMutations(groupId);
 
       const result = await updateResource(sampleResourceInput);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -156,14 +160,16 @@ describe("useGroupResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       deleteGroupResource.mockRejectedValue(new Error("Delete failed"));
-      const { deleteResource } = useGroupResourcesMutations(groupId);
+      const { deleteResource, error } = useGroupResourcesMutations(groupId);
 
       const result = await deleteResource(sampleResourceInput.id);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -188,14 +194,16 @@ describe("useGroupResourcesMutations", () => {
       );
     });
 
-    it("returns false when service throws", async () => {
+    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
       reorderGroupResources.mockRejectedValue(new Error("Reorder failed"));
-      const { reorderResources } = useGroupResourcesMutations(groupId);
+      const { reorderResources, error } = useGroupResourcesMutations(groupId);
 
       const result = await reorderResources([sampleResourceInput]);
 
       expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
+      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
