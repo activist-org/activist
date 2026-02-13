@@ -107,6 +107,12 @@ export const defaultEventUpdateTextFormData = {
   getInvolvedUrl: "",
 } as const;
 
+export const defaultGroupUpdateTextFormData = {
+  description: "Test group description",
+  getInvolved: "Get involved text",
+  getInvolvedUrl: "",
+} as const;
+
 // MARK: Event
 
 export const defaultEventTextData = {

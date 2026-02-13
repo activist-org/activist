@@ -12,6 +12,7 @@ import {
   defaultEventUpdateTextFormData as sampleEventTextFormData,
   defaultFaqEntryData as sampleFaqEntry,
   defaultFaqDataForCreate as sampleFaqData,
+  defaultGroupUpdateTextFormData as sampleGroupTextFormData,
   defaultResourceInputData as sampleResourceInput,
   defaultSocialLinkInputData as sampleSocialLinkInput,
 } from "../../mocks/data";
@@ -19,6 +20,7 @@ import {
 export { sampleFaqEntry, sampleFaqData };
 export {
   sampleEventTextFormData,
+  sampleGroupTextFormData,
   sampleResourceInput,
   sampleSocialLinkInput,
 };
