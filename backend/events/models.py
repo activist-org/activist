@@ -6,7 +6,6 @@ Models for the events app.
 from typing import Any
 from uuid import uuid4
 
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from content.models import Faq, Resource, SocialLink, Text
@@ -25,15 +24,11 @@ class Event(models.Model):
         related_name="created_events",
         on_delete=models.CASCADE,
     )
-    orgs = models.ForeignKey(
-        "communities.Organization", related_name="events", on_delete=models.CASCADE
+    orgs = models.ManyToManyField(
+        "communities.Organization", related_name="events", blank=False
     )
-    groups = models.ForeignKey(
-        "communities.Group",
-        related_name="events",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
+    groups = models.ManyToManyField(
+        "communities.Group", related_name="events", blank=True
     )
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
@@ -45,18 +40,17 @@ class Event(models.Model):
         ("action", "Action"),
     ]
     type = models.CharField(max_length=255, choices=TYPE_CHOICES)
-    SETTING_CHOICES = [
+    LOCATION_TYPE_CHOICES = [
         ("online", "Online"),
         ("physical", "Physical"),
     ]
-    setting = models.CharField(max_length=255, choices=SETTING_CHOICES)
+    location_type = models.CharField(max_length=255, choices=LOCATION_TYPE_CHOICES)
     online_location_link = models.CharField(max_length=255, blank=True, null=True)
     physical_location = models.OneToOneField(
         "content.Location", on_delete=models.CASCADE, blank=True, null=True
     )
     is_private = models.BooleanField(default=False)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    times = models.ManyToManyField("events.EventTime", blank=True)
     terms_checked = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     deletion_date = models.DateTimeField(blank=True, null=True)
@@ -70,18 +64,6 @@ class Event(models.Model):
 
     # Explicit type annotation required for mypy compatibility with django-stubs.
     flags: Any = models.ManyToManyField("authentication.UserModel", through="EventFlag")
-
-    def clean(self) -> None:
-        """
-        Validate the event data.
-
-        Raises
-        ------
-        ValidationError
-            If the start time is after the end time.
-        """
-        if self.start_time and self.end_time and self.start_time > self.end_time:
-            raise ValidationError("The start time must be before the end time.")
 
     def save(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -104,6 +86,20 @@ class Event(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class EventTime(models.Model):
+    """
+    Model for event times.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    all_day = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f"{self.start_time} - {self.end_time}"
 
 
 # MARK: Attendee

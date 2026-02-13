@@ -5,9 +5,11 @@ API views for organization management.
 """
 
 import logging
+from typing import Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
+from django.contrib.auth.models import AnonymousUser
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
@@ -23,6 +25,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.models import UserModel
 from communities.models import StatusType
 from communities.organizations.filters import OrganizationFilter
 from communities.organizations.models import (
@@ -37,6 +40,7 @@ from communities.organizations.models import (
 from communities.organizations.serializers import (
     OrganizationFaqSerializer,
     OrganizationFlagSerializer,
+    OrganizationPOSTSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
@@ -54,7 +58,6 @@ logger = logging.getLogger(__name__)
 
 class OrganizationAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all().order_by("id")
-    serializer_class = OrganizationSerializer
     pagination_class = CustomPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
     filterset_class = OrganizationFilter
@@ -73,6 +76,13 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
         serializer = self.get_serializer(self.queryset, many=True)
         return Response(serializer.data)
+
+    def get_serializer_class(
+        self,
+    ) -> Type[OrganizationPOSTSerializer | OrganizationSerializer]:
+        if self.request.method == "POST":
+            return OrganizationPOSTSerializer
+        return OrganizationSerializer
 
     @extend_schema(
         summary="Create a new organization",
@@ -96,29 +106,17 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        location_dict = serializer.validated_data["location"]
-        location = Location.objects.create(**location_dict)
-        serializer.validated_data["location"] = location
-
         # Location post-cleanup if the organization creation fails.
         # This is necessary because of a not null constraint on the location field.
-        try:
-            org = serializer.save(created_by=request.user)
-            logger.info(f"Organization created successfully: {org.id}")
 
-        except (IntegrityError, OperationalError):
-            logger.exception(
-                f"Failed to create organization for user {request.user.id}"
-            )
-            Location.objects.filter(id=location.id).delete()
-            return Response(
-                {"detail": "Failed to create organization."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        org = serializer.save(created_by=request.user)
+        logger.info(f"Organization created successfully: {org.id}")
 
         org.application.create()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(
+            "Successfully created organization", status=status.HTTP_201_CREATED
+        )
 
 
 # MARK: Get Organization by User ID
@@ -150,7 +148,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
         },
     )
     def get(self, request: Request, user_id: None | UUID = None) -> Response:
-        user = request.user
+        user: UserModel | AnonymousUser = request.user  # TODO mypy check again
         if user_id is None:
             return Response(
                 {"detail": "User ID is required."},
@@ -175,7 +173,9 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        orgs = Organization.objects.filter(created_by__user__id=user_id)
+        orgs = Organization.objects.filter(created_by__user__id=user_id).order_by(
+            "creation_date"
+        )
         serializer = OrganizationSerializer(orgs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

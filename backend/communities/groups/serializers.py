@@ -7,6 +7,7 @@ import logging
 from typing import Any
 from uuid import UUID
 
+from django.db import IntegrityError, OperationalError
 from rest_framework import serializers
 
 from communities.groups.models import (
@@ -20,8 +21,8 @@ from communities.groups.models import (
     GroupText,
 )
 from communities.organizations.models import Organization
-from content.models import Topic
-from content.serializers import LocationSerializer
+from content.models import Location, Topic
+from content.serializers import LocationSerializer, TopicSerializer
 from events.serializers import EventSerializer
 
 logger = logging.getLogger(__name__)
@@ -196,28 +197,38 @@ class GroupOrganizationSerializer(serializers.ModelSerializer[Organization]):
 # MARK: POST
 
 
-class GroupPOSTSerializer(serializers.ModelSerializer[Group]):
+class GroupPOSTSerializer(serializers.Serializer[Group]):
     """
     Serializer for creating groups with related fields.
     """
 
-    texts = GroupTextSerializer(write_only=True, required=False)
-    social_links = GroupSocialLinkSerializer(write_only=True, required=False)
-    location = LocationSerializer(write_only=True)
-    org_id = serializers.PrimaryKeyRelatedField(
-        queryset=Organization.objects.all(), source="org"
-    )
+    name = serializers.CharField(max_length=255)
+    tagline = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    description = serializers.CharField(max_length=2500)
+    org = serializers.UUIDField()
+    topics = TopicSerializer(many=True, required=False)
+    country_code = serializers.CharField(max_length=3)
+    city = serializers.CharField(max_length=255)
 
-    class Meta:
-        model = Group
+    def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        return data
 
-        exclude = (
-            "topics",
-            "org",
-            "created_by",
-            "category",
-            "icon_url",
-        )
+    def create(self, validated_data: dict[str, Any]) -> Group:
+        location_data = {
+            "city": validated_data.pop("city"),
+            "country_code": validated_data.pop("country_code"),
+            "lat": "",
+            "lon": "",
+        }
+        location = Location.objects.create(**location_data)
+        try:
+            org = Organization.objects.get(id=validated_data.pop("org"))
+            group = Group.objects.create(location=location, org=org, **validated_data)
+            logger.info("Created Group with id: %s", group.id)
+            return group
+        except (Organization.DoesNotExist, IntegrityError, OperationalError) as e:
+            location.delete()
+            raise e
 
 
 # MARK: Group

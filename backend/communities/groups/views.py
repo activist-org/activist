@@ -102,25 +102,9 @@ class GroupAPIView(GenericAPIView[Group]):
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
+        group = serializer.save(created_by=request.user)
 
-        location_dict = serializer.validated_data["location"]
-        location = Location.objects.create(**location_dict)
-
-        try:
-            serializer.save(created_by=request.user, location=location)
-            logger.info(
-                f"Group created by user {request.user.id} with location {location.id}"
-            )
-
-        except (IntegrityError, OperationalError) as e:
-            logger.exception(f"Failed to create group for user {request.user.id}: {e}")
-            Location.objects.filter(id=location.id).delete()
-            return Response(
-                {"detail": "Failed to create group."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response("Group was created successfully.", status=status.HTTP_201_CREATED)
 
 
 # MARK: Detail API

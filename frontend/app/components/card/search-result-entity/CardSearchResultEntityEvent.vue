@@ -98,7 +98,7 @@ const imageUrl = computed(() => {
 
 const location = computed(() => {
   if (props.event.physicalLocation) {
-    return props.event.physicalLocation.displayName.split(",")[0];
+    return props.event.physicalLocation.addressOrName.split(",")[0];
   }
   return "";
 });
@@ -108,8 +108,13 @@ const onlineLocation = computed(() => {
 });
 
 const date: ComputedRef<string> = computed((): string => {
-  if (props.event.startTime) {
-    return props.event.startTime.split("T")[0] ?? ""!;
+  if (props.event.times && props.event.times.length > 0) {
+    if (props.event.times[0]?.startTime) {
+      return props.event.times[0].startTime.split("T")[0] ?? "";
+    }
+    if (props.event.times[0]?.allDay) {
+      return t("i18n.components.card_search_result_entity_event.all_day_event");
+    }
   }
   return "";
 });

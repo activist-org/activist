@@ -52,10 +52,7 @@ const learnEventsDates = learnEvents.map((event) => ({
       backgroundColor: getEventColorByType("learn"),
     },
   },
-  dates: getAllDaysInRange({
-    start: new Date(event.startTime),
-    end: event.endTime ? new Date(event.endTime) : new Date(event.startTime),
-  }),
+  dates: event.times.map((time) => new Date(time.date)),
   popover: {
     visibility: "hover-focus" as PopoverVisibility,
     hideIndicator: true,
@@ -71,10 +68,7 @@ const actionEventsDates = actionEvents.map((event) => ({
       backgroundColor: getEventColorByType("action"),
     },
   },
-  dates: getAllDaysInRange({
-    start: new Date(event.startTime),
-    end: event.endTime ? new Date(event.endTime) : new Date(event.startTime),
-  }),
+  dates: event.times.map((time) => new Date(time.date)),
   popover: {
     visibility: "hover-focus" as PopoverVisibility,
     hideIndicator: true,

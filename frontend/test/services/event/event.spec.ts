@@ -105,31 +105,46 @@ describe("services/event", () => {
 
   it("createEvent() builds payload and returns created id", async () => {
     const { fetchMock } = getMocks();
-    const form = {
-      name: "New Event",
-      location: "Earth",
-      tagline: "Join us",
-      social_accounts: ["x"],
-      description: "desc",
-      topics: [],
+    const newEventInput = {
+      name: "Community Garden Workshop",
+      tagline: "Learn to grow your own food",
+      description:
+        "Join us for a hands-on workshop about urban gardening and sustainability.",
+      organizations: ["org-id-123"],
+      groups: ["group-id-456"],
+      location_type: "offline",
+      event_type: "learn", // or "action"
+      topics: ["sustainability", "community"], // Replace with actual TopicEnum values
+      location: {
+        address_or_name: "Central Park Community Garden",
+        city: "New York",
+        country_code: "US",
+        lat: "40.785091",
+        lon: "-73.968285",
+        bbox: ["40.7", "-74.0", "40.8", "-73.9"],
+      },
+      times: [
+        {
+          start: "2025-05-15T10:00:00Z",
+          end: "2025-05-15T14:00:00Z",
+          timezone: "America/New_York",
+        },
+      ],
     } as const;
 
-    const created = { id: "evt-3" };
+    const created = "evt-3";
     fetchMock.mockResolvedValueOnce(created);
 
-    const id = await createEvent({ ...form });
+    const id = await createEvent({ ...newEventInput });
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     // The service constructs a specific payload subset.
     expectJsonRequest(fetchMock, "/events/events", "POST", {
-      name: form.name,
-      location: form.location,
-      tagline: form.tagline,
-      social_accounts: form.social_accounts,
-      description: form.description,
-      topics: form.topics,
-      high_risk: false,
-      total_flags: 0,
+      name: newEventInput.name,
+      location: newEventInput.location,
+      tagline: newEventInput.tagline,
+      description: newEventInput.description,
+      topics: newEventInput.topics,
     });
     expect(id).toBe("evt-3");
   });

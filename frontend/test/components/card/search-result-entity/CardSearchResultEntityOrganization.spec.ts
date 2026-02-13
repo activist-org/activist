@@ -201,10 +201,10 @@ describe("CardSearchResultEntityOrganization", () => {
   // MARK: Rendering Location
 
   describe("Rendering Location", () => {
-    it("renders location from first part of displayName", () => {
+    it("renders location from first part of addressOrName", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { displayName: "New York, USA" },
+          location: { addressOrName: "New York, USA" },
         }),
       });
 
@@ -220,7 +220,9 @@ describe("CardSearchResultEntityOrganization", () => {
     it("handles location with multiple commas", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { displayName: "121 Wall St, Suite 67, New York, NY, USA" },
+          location: {
+            addressOrName: "121 Wall St, Suite 67, New York, NY, USA",
+          },
         }),
       });
       expect(wrapper.text()).toContain("121 Wall St");
@@ -253,7 +255,7 @@ describe("CardSearchResultEntityOrganization", () => {
           orgName: "complex-org",
           texts: [{ description: "Full description" }],
           iconUrl: { fileObject: "https://example.com/icon.png" },
-          location: { displayName: "London, UK" },
+          location: { addressOrName: "London, UK" },
         }),
         isReduced: true,
       });
@@ -405,7 +407,7 @@ describe("CardSearchResultEntityOrganization", () => {
     it("handles location changes and removal", async () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { displayName: "Paris, France" },
+          location: { addressOrName: "Paris, France" },
         }),
       });
 

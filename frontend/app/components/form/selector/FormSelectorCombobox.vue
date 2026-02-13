@@ -23,7 +23,6 @@
           :label="label"
           :modelValue="query"
           :onBlur="onBlur"
-          :placeholder="label"
         />
       </ComboboxInput>
       <ComboboxButton
@@ -79,7 +78,12 @@
       </ComboboxOptions>
     </div>
     <ul
-      v-if="internalSelectedOptions.length > 0 && isMultiSelect"
+      v-if="
+        internalSelectedOptions &&
+        Array.isArray(internalSelectedOptions) &&
+        internalSelectedOptions.length > 0 &&
+        isMultiSelect
+      "
       class="mt-2 flex"
       :class="{
         'flex-col space-y-2': hasColOptions,
@@ -227,7 +231,6 @@ watch(
   },
   { immediate: true }
 );
-
 // Infinite scroll logic.
 const enabled = computed(() => props.infinite);
 const canFetchMoreRef = computed(() => props.canFetchMore);
@@ -250,9 +253,15 @@ useCustomInfiniteScroll({
 });
 
 const onClick = (option: Option) => {
-  internalSelectedOptions.value = internalSelectedOptions.value.filter(
-    (o: Option) => o.id !== option.id
-  );
+  if (
+    internalSelectedOptions.value &&
+    internalSelectedOptions.value &&
+    Array.isArray(internalSelectedOptions.value)
+  ) {
+    internalSelectedOptions.value = internalSelectedOptions.value.filter(
+      (o: Option) => o.id !== option.id
+    );
+  }
 };
 
 const handleInput = (val: string) => {
@@ -270,12 +279,16 @@ const filteredOptions = computed(() =>
 
 const internalSelectedOptions = computed({
   get() {
-    if (props.selectedOptions && props.selectedOptions.length === 0) {
-      return [];
-    }
-    return props.options.filter((option: Option) =>
+    const selected = props.options.filter((option: Option) =>
       (props.selectedOptions as unknown[]).includes(option.value)
     );
+
+    // FIXED: For single-select, Headless UI expects the object itself, not an array.
+    if (!props.isMultiSelect) {
+      return selected.length > 0 ? selected[0] : null;
+    }
+
+    return selected;
   },
   set(newOptions) {
     if (props.isMultiSelect) {
@@ -285,11 +298,33 @@ const internalSelectedOptions = computed({
       }
       return;
     }
-    const value = (newOptions as unknown as Option)?.value || null;
-    query.value = (newOptions as unknown as Option)?.label as string;
+
+    // Single select handling
+    const option = newOptions as unknown as Option | null;
+    const value = option?.value || null;
+
+    // Update display text immediately
+    query.value = option?.label || "";
+
     if (value !== (props.selectedOptions as unknown[])[0]) {
       emit("update:selectedOption", value);
     }
   },
 });
+
+// FIXED: Watcher to update the input text ('query') when props change externally.
+// This handles the async loading case where data arrives after mount.
+watch(
+  internalSelectedOptions,
+  (newVal) => {
+    if (!props.isMultiSelect && newVal) {
+      const option = newVal as Option;
+      // If the currently selected option label is different from what's in the input box, update it.
+      if (option.label && query.value !== option.label) {
+        query.value = option.label;
+      }
+    }
+  },
+  { immediate: true }
+);
 </script>

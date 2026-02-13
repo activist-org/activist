@@ -120,7 +120,7 @@ class Command(BaseCommand):
         # MARK: Populate Data
 
         try:
-            users = [
+            users: list[UserModel] = [
                 UserFactory(username=f"activist_{i}", name=f"Activist {i}")
                 for i in range(num_users)
             ]

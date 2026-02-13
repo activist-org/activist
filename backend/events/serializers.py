@@ -4,17 +4,25 @@ Serializers for the events app.
 """
 
 import logging
-from datetime import datetime, timezone
+import zoneinfo
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Union
 from uuid import UUID
 
+from django.conf import settings
+from django.db import transaction
 from django.utils.dateparse import parse_datetime
 from rest_framework import serializers
 
 from communities.groups.models import Group
 from communities.organizations.models import Organization
-from content.models import Topic
-from content.serializers import FaqSerializer, ImageSerializer, LocationSerializer
+from content.models import Location, Topic
+from content.serializers import (
+    FaqSerializer,
+    ImageSerializer,
+    LocationSerializer,
+    TopicSerializer,
+)
 from events.models import (
     Event,
     EventFaq,
@@ -22,6 +30,7 @@ from events.models import (
     EventResource,
     EventSocialLink,
     EventText,
+    EventTime,
     Format,
 )
 from utils.utils import (
@@ -127,6 +136,19 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
         return event
 
 
+# Mark: Times
+
+
+class EventTimesSerializer(serializers.ModelSerializer[EventTime]):
+    """
+    Serializer for EventTime model data.
+    """
+
+    class Meta:
+        model = EventTime
+        fields = "__all__"
+
+
 # MARK: Social Link
 
 
@@ -213,36 +235,205 @@ class EventGroupSerializer(serializers.ModelSerializer[Group]):
 # MARK: POST
 
 
-class EventPOSTSerializer(serializers.ModelSerializer[Event]):
+class EventPOSTLocationSerializer(serializers.Serializer[Any]):
+    """
+    Serializer for event location during creation.
+    """
+
+    address_or_name = serializers.CharField(required=True)
+    city = serializers.CharField(required=True)
+    country_code = serializers.CharField(required=True)
+    lat = serializers.CharField(required=True)
+    lon = serializers.CharField(required=True)
+    bbox = serializers.ListField(
+        child=serializers.CharField(), required=False, allow_empty=True
+    )
+
+
+class EventPOSTTimesSerializer(serializers.Serializer[Any]):
+    """
+    Serializer for event times during creation.
+    """
+
+    date = serializers.DateField(required=False)
+    all_day = serializers.BooleanField(required=True)
+    start_time = serializers.DateTimeField(required=False)
+    end_time = serializers.DateTimeField(required=False)
+
+
+class EventPOSTSerializer(serializers.Serializer[Any]):
     """
     Serializer for creating events with related fields.
     """
 
-    texts = EventTextSerializer(write_only=True, required=False)
-    social_links = EventSocialLinkSerializer(write_only=True, required=False)
-    physical_location = LocationSerializer(write_only=True)
-    org_id = serializers.PrimaryKeyRelatedField(
-        queryset=Organization.objects.all(), source="orgs"
+    orgs: serializers.ListSerializer[Any] = serializers.ListSerializer(
+        child=serializers.UUIDField(), required=True
     )
-    # group_id = serializers.PrimaryKeyRelatedField(
-    #     queryset=Group.objects.all(), source="groups"
-    # )
+    groups: serializers.ListSerializer[Any] = serializers.ListSerializer(
+        child=serializers.UUIDField(), required=False
+    )
+    iso = serializers.CharField(required=False, max_length=3, default="en")
+    name = serializers.CharField(required=True)
+    tagline = serializers.CharField(required=False, min_length=3, max_length=255)
+    description = serializers.CharField(required=True, min_length=1, max_length=2500)
+    location_type = serializers.ChoiceField(
+        choices=[("physical", "Physical"), ("online", "Online")], required=True
+    )
+    type = serializers.ChoiceField(
+        choices=[("learn", "Learn"), ("action", "Action")], required=True
+    )
+    topics: serializers.ListSerializer[Any] = serializers.ListSerializer(
+        child=serializers.CharField(), required=True, max_length=255
+    )
+    online_location_link = serializers.URLField(required=False, allow_blank=True)
+    location = EventPOSTLocationSerializer(required=False)
+    times = EventPOSTTimesSerializer(required=True, many=True)
+    iso = serializers.CharField(required=False, default="en", max_length=3)
 
-    class Meta:
-        model = Event
+    def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Validate event creation data.
 
-        exclude = (
-            "discussions",
-            "formats",
-            "roles",
-            "tags",
-            "tasks",
-            "topics",
-            "orgs",
-            "created_by",
-            "icon_url",
-            "deletion_date",
-        )
+        Parameters
+        ----------
+        data : Dict[str, Any]
+            Event creation data dictionary to validate.
+
+        Returns
+        -------
+        Dict[str, Any]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If validation fails for any field.
+        """
+        orgs = data.pop("orgs")
+        times: list[dict[str, Any]] = data.get("times") or []
+        groups = data.pop("groups", None)
+        topics = data.pop("topics", None)
+
+        orgs = Organization.objects.filter(id__in=orgs)
+        data["orgs"] = orgs
+
+        # Get the local timezone from Django settings
+        local_tz = zoneinfo.ZoneInfo(settings.TIME_ZONE)
+
+        for time in times:
+            if time.get("all_day"):
+                date = time.get("date")
+                # For all-day events, create times in the local timezone
+                # so that 00:00:00 to 23:59:59 stays in that timezone
+                if date is None:
+                    raise serializers.ValidationError(
+                        "Date must be provided for all-day events."
+                    )
+                time["start_time"] = datetime.combine(
+                    date, datetime.min.time(), tzinfo=local_tz
+                )
+                time["end_time"] = datetime.combine(
+                    date, datetime.min.time(), tzinfo=local_tz
+                ) + timedelta(days=1, seconds=-1)
+
+                continue
+
+            start_time = time.get("start_time")
+            end_time = time.get("end_time")
+
+            print(start_time, end_time)
+
+            if not start_time or not end_time:
+                raise serializers.ValidationError(
+                    "Both start_time and end_time are required for each event time."
+                )
+
+            if start_time >= end_time:
+                raise serializers.ValidationError(
+                    "start_time must be before end_time for each event time."
+                )
+
+        if topics:
+            query_topics = Topic.objects.filter(type__in=topics, active=True)
+
+            if len(query_topics) != len(topics):
+                raise serializers.ValidationError(
+                    "One or more topics are invalid or inactive."
+                )
+
+            data["topics"] = query_topics
+
+        if groups:
+            query_groups = Group.objects.filter(id__in=groups, org__in=orgs).distinct()
+
+            if len(query_groups) != len(groups):
+                raise serializers.ValidationError("One or more groups do not exist.")
+            data["groups"] = query_groups
+
+        return data
+
+    def create(self, validated_data: Dict[str, Any]) -> Event:
+        """
+        Create an event from validated data.
+
+        Parameters
+        ----------
+        validated_data : Dict[str, Any]
+            Validated event creation data.
+
+        Returns
+        -------
+        Event
+            Created Event instance.
+        """
+        created_by = validated_data.pop("created_by")
+
+        with transaction.atomic():
+            location_type = validated_data.pop("location_type", None)
+            location_data = validated_data.pop("location", None)
+            description = validated_data.pop("description")
+            orgs_data = validated_data.pop("orgs", [])
+            groups_data = validated_data.pop("groups", [])
+            topics_data = validated_data.pop("topics", [])
+            times_data = validated_data.pop("times", [])
+            description = validated_data.pop("description", "")
+            iso = validated_data.pop("iso")
+
+            if location_data and location_type == "physical":
+                location = Location.objects.create(**location_data)
+                validated_data["physical_location"] = location
+
+            event = Event.objects.create(created_by=created_by, **validated_data)
+
+            # Create EventText object with description
+            event_text = EventText.objects.create(
+                event=event,
+                iso=iso,
+                primary=True,
+                description=description,
+            )
+
+            # Set many-to-many relationships
+            if orgs_data:
+                event.orgs.set(orgs_data)
+            if groups_data:
+                event.groups.set(groups_data)
+            if topics_data:
+                event.topics.set(topics_data)
+
+            if times_data:
+                event_times = [
+                    EventTime(
+                        start_time=time_data.get("start_time"),
+                        end_time=time_data.get("end_time"),
+                        all_day=time_data.get("all_day", False),
+                    )
+                    for time_data in times_data
+                ]
+                EventTime.objects.bulk_create(event_times)
+                event.times.set(event_times)
+
+        return event
 
 
 # MARK: Event
@@ -258,8 +449,10 @@ class EventSerializer(serializers.ModelSerializer[Event]):
     physical_location = LocationSerializer()
     resources = EventResourceSerializer(many=True, read_only=True)
     faq_entries = FaqSerializer(source="faqs", many=True, read_only=True)
-    orgs = EventOrganizationSerializer(read_only=True)
-    groups = EventGroupSerializer(read_only=True)
+    orgs = EventOrganizationSerializer(many=True, read_only=True)
+    groups = EventGroupSerializer(many=True, read_only=True)
+    topics = TopicSerializer(many=True, read_only=True)
+    times = EventTimesSerializer(many=True, read_only=True)
 
     icon_url = ImageSerializer(required=False)
 

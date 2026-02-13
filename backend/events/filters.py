@@ -26,7 +26,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         queryset=Topic.objects.all(),
     )
     location = django_filters.CharFilter(
-        field_name="physical_location__display_name",
+        field_name="physical_location__address_or_name",
         lookup_expr="icontains",
     )
 
@@ -35,8 +35,8 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         lookup_expr="iexact",
     )
 
-    setting = django_filters.CharFilter(
-        field_name="setting",
+    location_type = django_filters.CharFilter(
+        field_name="location_type",
         lookup_expr="iexact",
     )
 
@@ -88,7 +88,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
             "name",
             "topics",
             "type",
-            "setting",
+            "location_type",
             "location",
             "days_ahead",
         ]

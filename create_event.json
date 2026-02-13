@@ -1,0 +1,35 @@
+{
+  "name": "string (required)",
+  "tagline": "string",
+  "description": "string (required)",
+  "orgs": [
+    "uuid (required)"
+  ],
+  "groups": [
+    "uuid"
+  ],
+  "location_type": "in person | online (required)",
+  "event_type": "learn | action (required)",
+  "topics": [
+    "uuid (required)"
+  ],
+  "online_location_link": "string",
+  "location": {
+    "address_or_name": "string",
+    "city": "string",
+    "country_code": "string",
+    "lat": "string",
+    "lon": "string",
+    "bbox": [
+      "string"
+    ]
+  },
+  "times": [
+    {
+      "date": "date",
+      "all_day": "bool (required)",
+      "start_time": "datetime",
+      "end_time": "datetime"
+    }
+  ]
+}

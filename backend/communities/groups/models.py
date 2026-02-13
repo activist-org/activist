@@ -25,12 +25,12 @@ class Group(models.Model):
         related_name="groups",
         null=False,
     )
+    description = models.CharField(max_length=2500, blank=True, default="")
     created_by = models.ForeignKey(
         "authentication.UserModel",
         on_delete=models.CASCADE,
         related_name="created_group",
     )
-    group_name = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255, blank=True)
     icon_url = models.OneToOneField(

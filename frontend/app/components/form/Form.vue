@@ -73,6 +73,14 @@ const { handleSubmit, values, ...rest } = useForm({
   initialValues: props.initialValues,
 });
 
+watch(
+  () => props.initialValues,
+  (newValues) => {
+    rest.setValues(newValues || {});
+  },
+  { deep: true, immediate: true }
+);
+
 const emit = defineEmits<{
   (e: "submit", values: Record<string, unknown>): void;
 }>();

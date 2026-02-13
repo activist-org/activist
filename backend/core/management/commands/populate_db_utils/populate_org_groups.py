@@ -79,16 +79,10 @@ def create_org_groups(
             if (assigned_groups and g < len(assigned_groups))
             else None
         )
-
         group_id = (
             spec.get("group_name")
             if spec and "group_name" in spec
-            else f"{user_org.org_name}:g{g}"
-        )
-        group_name = (
-            spec.get("name")
-            if spec and "name" in spec
-            else f"{user_topic_name} Group {g}"
+            else f"{user_org.name}:g{g}"
         )
         tagline = (
             spec.get("tagline")
@@ -98,8 +92,7 @@ def create_org_groups(
 
         user_org_group = GroupFactory(
             created_by=user,
-            group_name=group_id,
-            name=group_name,
+            name=group_id,
             org=user_org,
             tagline=tagline,
         )
