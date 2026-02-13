@@ -88,6 +88,15 @@ describe("useEventSocialLinksMutations", () => {
       );
     });
 
+    it("sets loading true then false", async () => {
+      const { updateLink, loading } = useEventSocialLinksMutations(eventId);
+
+      const promise = updateLink("link-1", sampleSocialLinkInput);
+      expect(loading.value).toBe(true);
+      await promise;
+      expect(loading.value).toBe(false);
+    });
+
     it("returns false when eventId is empty", async () => {
       eventId.value = "";
       const { updateLink } = useEventSocialLinksMutations(eventId);
@@ -149,6 +158,18 @@ describe("useEventSocialLinksMutations", () => {
 
       expect(result).toBe(false);
       expect(createEventSocialLinks).not.toHaveBeenCalled();
+    });
+
+    it("returns false when service rejects invalid link data", async () => {
+      const badLinks = [{ link: "", label: "Bad", order: 0 }];
+      createEventSocialLinks.mockRejectedValue(new Error("Invalid link data"));
+      const { createLinks, error } = useEventSocialLinksMutations(eventId);
+
+      const result = await createLinks(badLinks);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
     });
 
     it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {

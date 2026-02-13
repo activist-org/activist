@@ -84,6 +84,15 @@ describe("useGroupResourcesMutations", () => {
       );
     });
 
+    it("sets loading true then false", async () => {
+      const { createResource, loading } = useGroupResourcesMutations(groupId);
+
+      const promise = createResource(sampleResourceInput);
+      expect(loading.value).toBe(true);
+      await promise;
+      expect(loading.value).toBe(false);
+    });
+
     it("returns false when groupId is empty", async () => {
       groupId.value = "";
       const { createResource } = useGroupResourcesMutations(groupId);
@@ -104,6 +113,18 @@ describe("useGroupResourcesMutations", () => {
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+    });
+
+    it("returns false when service rejects invalid resource data", async () => {
+      const badResource = { ...sampleResourceInput, name: "" };
+      createGroupResource.mockRejectedValue(new Error("Invalid resource data"));
+      const { createResource, error } = useGroupResourcesMutations(groupId);
+
+      const result = await createResource(badResource);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
     });
   });
 

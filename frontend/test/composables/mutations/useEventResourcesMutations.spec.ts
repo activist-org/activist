@@ -84,6 +84,15 @@ describe("useEventResourcesMutations", () => {
       );
     });
 
+    it("sets loading true then false", async () => {
+      const { createResource, loading } = useEventResourcesMutations(eventId);
+
+      const promise = createResource(sampleResourceInput);
+      expect(loading.value).toBe(true);
+      await promise;
+      expect(loading.value).toBe(false);
+    });
+
     it("returns false when eventId is empty", async () => {
       eventId.value = "";
       const { createResource } = useEventResourcesMutations(eventId);
@@ -104,6 +113,18 @@ describe("useEventResourcesMutations", () => {
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+    });
+
+    it("returns false when service rejects invalid resource data", async () => {
+      const badResource = { ...sampleResourceInput, name: "" };
+      createEventResource.mockRejectedValue(new Error("Invalid resource data"));
+      const { createResource, error } = useEventResourcesMutations(eventId);
+
+      const result = await createResource(badResource);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
     });
   });
 

@@ -85,6 +85,15 @@ describe("useGroupFAQEntryMutations", () => {
       );
     });
 
+    it("sets loading true then false", async () => {
+      const { createFAQ, loading } = useGroupFAQEntryMutations(groupId);
+
+      const promise = createFAQ(sampleFaqData);
+      expect(loading.value).toBe(true);
+      await promise;
+      expect(loading.value).toBe(false);
+    });
+
     it("returns false when groupId is empty", async () => {
       groupId.value = "";
       const { createFAQ } = useGroupFAQEntryMutations(groupId);
@@ -105,6 +114,18 @@ describe("useGroupFAQEntryMutations", () => {
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+    });
+
+    it("returns false when service rejects invalid FAQ data", async () => {
+      const badFaqData = { question: "", answer: "" };
+      createGroupFaq.mockRejectedValue(new Error("Invalid FAQ data"));
+      const { createFAQ, error } = useGroupFAQEntryMutations(groupId);
+
+      const result = await createFAQ(badFaqData);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
     });
   });
 

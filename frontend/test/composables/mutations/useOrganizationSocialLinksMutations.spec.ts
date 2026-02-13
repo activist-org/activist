@@ -93,6 +93,16 @@ describe("useOrganizationSocialLinksMutations", () => {
       );
     });
 
+    it("sets loading true then false", async () => {
+      const { updateLink, loading } =
+        useOrganizationSocialLinksMutations(organizationId);
+
+      const promise = updateLink("link-1", sampleSocialLinkInput);
+      expect(loading.value).toBe(true);
+      await promise;
+      expect(loading.value).toBe(false);
+    });
+
     it("returns false when organizationId is empty", async () => {
       organizationId.value = "";
       const { updateLink } =
@@ -165,6 +175,21 @@ describe("useOrganizationSocialLinksMutations", () => {
 
       expect(result).toBe(false);
       expect(createOrganizationSocialLinks).not.toHaveBeenCalled();
+    });
+
+    it("returns false when service rejects invalid link data", async () => {
+      const badLinks = [{ link: "", label: "Bad", order: 0 }];
+      createOrganizationSocialLinks.mockRejectedValue(
+        new Error("Invalid link data")
+      );
+      const { createLinks, error } =
+        useOrganizationSocialLinksMutations(organizationId);
+
+      const result = await createLinks(badLinks);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
     });
 
     it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {

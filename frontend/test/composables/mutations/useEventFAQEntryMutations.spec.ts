@@ -119,6 +119,18 @@ describe("useEventFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(createEventFaq).not.toHaveBeenCalled();
     });
+
+    it("returns false when service rejects invalid FAQ data", async () => {
+      const badFaqData = { question: "", answer: "" };
+      createEventFaq.mockRejectedValue(new Error("Invalid FAQ data"));
+      const { createFAQ, error } = useEventFAQEntryMutations(eventId);
+
+      const result = await createFAQ(badFaqData);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
+    });
   });
 
   describe("updateFAQ", () => {

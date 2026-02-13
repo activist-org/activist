@@ -91,6 +91,16 @@ describe("useOrganizationImageMutations", () => {
       );
     });
 
+    it("sets loading true then false", async () => {
+      const { updateImage, loading } =
+        useOrganizationImageMutations(organizationId);
+
+      const promise = updateImage(defaultContentImage as never);
+      expect(loading.value).toBe(true);
+      await promise;
+      expect(loading.value).toBe(false);
+    });
+
     it("returns false when organizationId is empty", async () => {
       organizationId.value = "";
       const { updateImage } = useOrganizationImageMutations(organizationId);

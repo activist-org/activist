@@ -83,6 +83,15 @@ describe("useGroupImageMutations", () => {
       );
     });
 
+    it("sets loading true then false", async () => {
+      const { updateImage, loading } = useGroupImageMutations(groupId);
+
+      const promise = updateImage(defaultContentImage as never);
+      expect(loading.value).toBe(true);
+      await promise;
+      expect(loading.value).toBe(false);
+    });
+
     it("returns false when groupId is empty", async () => {
       groupId.value = "";
       const { updateImage } = useGroupImageMutations(groupId);

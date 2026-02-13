@@ -88,6 +88,16 @@ describe("useOrganizationFAQEntryMutations", () => {
       );
     });
 
+    it("sets loading true then false", async () => {
+      const { createFAQ, loading } =
+        useOrganizationFAQEntryMutations(organizationId);
+
+      const promise = createFAQ(sampleFaqData);
+      expect(loading.value).toBe(true);
+      await promise;
+      expect(loading.value).toBe(false);
+    });
+
     it("returns false when organizationId is empty", async () => {
       organizationId.value = "";
       const { createFAQ } = useOrganizationFAQEntryMutations(organizationId);
@@ -109,6 +119,19 @@ describe("useOrganizationFAQEntryMutations", () => {
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+    });
+
+    it("returns false when service rejects invalid FAQ data", async () => {
+      const badFaqData = { question: "", answer: "" };
+      createOrganizationFaq.mockRejectedValue(new Error("Invalid FAQ data"));
+      const { createFAQ, error } =
+        useOrganizationFAQEntryMutations(organizationId);
+
+      const result = await createFAQ(badFaqData);
+
+      expect(result).toBe(false);
+      expect(error.value).not.toBeNull();
+      expect(showToastError).toHaveBeenCalled();
     });
   });
 
