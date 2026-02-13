@@ -6,12 +6,29 @@
  */
 import { vi } from "vitest";
 
+import { UploadableFile } from "../../../shared/types/file";
+
 import {
+  defaultEventUpdateTextFormData as sampleEventTextFormData,
   defaultFaqEntryData as sampleFaqEntry,
   defaultFaqDataForCreate as sampleFaqData,
+  defaultResourceInputData as sampleResourceInput,
+  defaultSocialLinkInputData as sampleSocialLinkInput,
 } from "../../mocks/data";
 
 export { sampleFaqEntry, sampleFaqData };
+export {
+  sampleEventTextFormData,
+  sampleResourceInput,
+  sampleSocialLinkInput,
+};
+
+/** Minimal UploadableFile for mutation tests. */
+export function createSampleUploadableFile(): UploadableFile {
+  return new UploadableFile(
+    new File(["x"], "icon.png", { type: "image/png" })
+  );
+}
 
 type MockWithResolve = { mockResolvedValue?: (v: unknown) => unknown };
 

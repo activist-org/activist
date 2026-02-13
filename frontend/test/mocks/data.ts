@@ -84,6 +84,29 @@ export const defaultFaqDataForCreate = {
   answer: "New answer.",
 } as const;
 
+// MARK: Mutation Fixtures (Resource, SocialLink, EventText)
+
+export const defaultResourceInputData = {
+  id: "resource-1",
+  name: "Test Resource",
+  description: "A test resource description",
+  url: "https://example.com/resource",
+  topics: [TopicEnum.ENVIRONMENT],
+  order: 0,
+} as const;
+
+export const defaultSocialLinkInputData = {
+  link: "https://example.com",
+  label: "Website",
+  order: 0,
+} as const;
+
+export const defaultEventUpdateTextFormData = {
+  description: "Test event description",
+  getInvolved: "Get involved text",
+  getInvolvedUrl: "",
+} as const;
+
 // MARK: Event
 
 export const defaultEventTextData = {
