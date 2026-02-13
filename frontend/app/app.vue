@@ -15,6 +15,7 @@
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
 import "vue-sonner/style.css";
+import "v-calendar/style.css";
 
 const { openModal: openModalCommandPalette } = useModalHandlers(
   "ModalCommandPalette"
