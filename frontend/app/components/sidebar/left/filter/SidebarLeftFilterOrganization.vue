@@ -60,10 +60,13 @@ const schema = z.object({
 const route = useRoute();
 const router = useRouter();
 const formData = ref({});
+
 watch(
   route,
-  (form) => {
-    formData.value = { ...form.query };
+  (r) => {
+    formData.value = routeQueryToOrganizationFilterFormData(
+      r.query as Record<string, unknown>
+    );
   },
   { immediate: true }
 );

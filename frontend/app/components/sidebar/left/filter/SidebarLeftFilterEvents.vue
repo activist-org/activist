@@ -235,12 +235,13 @@ const updateViewType = (
 
 const viewType = ref(ViewType.MAP);
 const formData = ref({});
+
 watch(
   route,
-  (form) => {
-    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    const topics = normalizeArrayFromURLQuery(form.query.topics);
-    formData.value = { ...rest, topics };
+  (r) => {
+    const q = (r.query as Record<string, unknown>) || {};
+    const { view, ..._rest } = q;
+    formData.value = routeQueryToEventsFilterFormData(q);
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
