@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import prettier from "eslint-config-prettier";
 import perfectionist from "eslint-plugin-perfectionist";
+import tailwind from "eslint-plugin-tailwindcss";
 import vue from "eslint-plugin-vue";
 import vueA11y from "eslint-plugin-vuejs-accessibility";
 
@@ -9,6 +10,7 @@ import withNuxt from "./.nuxt/eslint.config.mjs";
 // Note: flat/strongly-recommended and flat/recommended are also options.
 export default withNuxt(
   ...vue.configs["flat/essential"],
+  ...tailwind.configs["flat/recommended"],
   { ignores: ["playwright-report/**", ".nuxt/**"] },
   {
     files: ["**/*.js", "**/*.mjs", "**/*.ts", "**/*.vue"],
@@ -18,6 +20,18 @@ export default withNuxt(
       "vuejs-accessibility": vueA11y,
       perfectionist,
       prettier,
+    },
+
+    settings: {
+      tailwindcss: {
+        // config: "tailwind.config.ts",
+        // cssFiles: [
+        //   "app/assets/css/tailwind.css",
+        //   "!**/node_modules",
+        // ],
+
+        callees: ["classnames", "clsx", "ctl", "cva", "tv", "cn"],
+      },
     },
 
     rules: {
@@ -89,6 +103,30 @@ export default withNuxt(
         {
           type: "natural",
           order: "asc",
+        },
+      ],
+
+      "tailwindcss/classnames-order": "off",
+      "tailwindcss/no-contradicting-classname": "error",
+      "tailwindcss/no-custom-classname": [
+        "error",
+        {
+          whitelist: [
+            "style-.*",
+            "elem-.*",
+            "responsive-.*",
+            "card-.*",
+            "focus-.*",
+            "link-.*",
+            "distinct-.*",
+            "primary-.*",
+            "warn-.*",
+            "error-.*",
+            "loading-pulse",
+            "scrollbar.*",
+            "light",
+            "dark",
+          ],
         },
       ],
     },
