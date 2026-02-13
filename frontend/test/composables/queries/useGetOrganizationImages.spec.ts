@@ -16,12 +16,13 @@ import { createMockContentImage } from "../../mocks/factories";
 
 // MARK: Mocks
 
-const mockShowToastError = vi.fn();
-
 vi.mock("../../../app/composables/generic/useToaster", () => ({
-  useToaster: () => ({
-    showToastError: mockShowToastError,
-  }),
+  useToaster: () => {
+    const mockShowToastError = vi.fn();
+    return {
+      showToastError: mockShowToastError,
+    };
+  },
 }));
 
 const mockSetImages = vi.fn();
