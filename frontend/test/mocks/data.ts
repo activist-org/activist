@@ -67,6 +67,23 @@ export const defaultSocialLinkData = {
   lastUpdated: "2024-01-01T00:00:00Z",
 } as const;
 
+// MARK: FaqEntry (Mutation Tests)
+
+export const defaultFaqEntryData = {
+  id: "faq-1",
+  iso: "en",
+  order: 0,
+  question: "Test question?",
+  answer: "Test answer.",
+} as const;
+
+export const defaultFaqDataForCreate = {
+  iso: "en",
+  order: 0,
+  question: "New question?",
+  answer: "New answer.",
+} as const;
+
 // MARK: Event
 
 export const defaultEventTextData = {
