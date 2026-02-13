@@ -113,6 +113,12 @@ export const defaultGroupUpdateTextFormData = {
   getInvolvedUrl: "",
 } as const;
 
+export const defaultOrganizationUpdateTextFormData = {
+  description: "Test organization description",
+  getInvolved: "Get involved text",
+  getInvolvedUrl: "",
+} as const;
+
 // MARK: Event
 
 export const defaultEventTextData = {
