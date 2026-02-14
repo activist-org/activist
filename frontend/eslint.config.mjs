@@ -20,6 +20,18 @@ export default withNuxt(
       prettier,
     },
 
+    settings: {
+      tailwindcss: {
+        // config: "tailwind.config.ts",
+        // cssFiles: [
+        //   "app/assets/css/tailwind.css",
+        //   "!**/node_modules",
+        // ],
+
+        callees: ["classnames", "clsx", "ctl", "cva", "tv", "cn"],
+      },
+    },
+
     rules: {
       ...vue.configs.recommended.rules,
 
