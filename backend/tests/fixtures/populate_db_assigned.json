@@ -1,0 +1,30 @@
+{
+  "organizations": [
+    {
+      "org_name": "assigned_org_1",
+      "name": "Assigned Organization",
+      "tagline": "Assigned org tagline",
+      "events": [
+        {
+          "name": "Assigned Org Event",
+          "tagline": "Assigned org event tagline",
+          "type": "learn"
+        }
+      ],
+      "groups": [
+        {
+          "group_name": "assigned_group_1",
+          "name": "Assigned Group",
+          "tagline": "Assigned group tagline",
+          "events": [
+            {
+              "name": "Assigned Group Event",
+              "tagline": "Assigned group event tagline",
+              "type": "action"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
