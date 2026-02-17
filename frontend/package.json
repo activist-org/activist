@@ -91,6 +91,8 @@
     "@unocss/reset": "66.6.0",
     "@vee-validate/zod": "4.15.1",
     "@vueuse/math": "14.2.0",
+    "@zxcvbn-ts/core": "^3.0.4",
+    "@zxcvbn-ts/language-en": "^3.0.2",
     "autoprefixer": "10.4.23",
     "axios": "1.13.5",
     "commander": "14.0.2",
