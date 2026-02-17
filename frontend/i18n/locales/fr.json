@@ -319,6 +319,7 @@
   "i18n.components.machine_steps_create_event_location.address": "Adresse",
   "i18n.components.machine_steps_create_event_time.create_another_event": "Créer un autre évènement",
   "i18n.components.machine_steps_create_event_time.end_time": "Heure de fin",
+  "i18n.components.machine_steps_create_event_time.event_schedule": "Planification d'évènement",
   "i18n.components.machine_steps_create_event_time.select_a_date_range": "Sélectionnez une plage de dates ci-dessus pour configurer les heures.",
   "i18n.components.machine_steps_create_event_time.start_time": "Heure de début",
   "i18n.components.media_image_carousel.edit_images_aria_label": "Éditer images",
