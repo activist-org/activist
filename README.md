@@ -23,21 +23,21 @@
 
 # Contents
 
-- [About activist - An Open-Source Activism Platform](#about-activist---an-open-source-activism-platform)
+- [About activist](#about-activist)
 - [Our Mission](#our-mission)
+- [Topics](#topics)
 - [Features](#features)
   - [Organization Profiles](#organization-profiles)
   - [Events](#events)
   - [Resources](#resources)
-  - [Onboarding](#onboarding)
   - [Search](#search)
+  - [Onboarding](#onboarding)
   - [Discussions](#discussions)
   - [Tasks](#tasks)
   - [Affiliates](#affiliates)
   - [Votes](#votes)
-- [Topics](#topics)
-- [Design and Accessibility](#design-and-accessibility)
 - [Preview Video](#preview-video)
+- [Design and Accessibility](#design-and-accessibility)
 - [Securely Hosted](#securely-hosted)
 - [Community Governance](#community-governance)
 - [Localization](#localization)
@@ -50,22 +50,22 @@
   - [Wikimedia UNLOCK Accelerator](#wikimedia-unlock-accelerator)
 - [Disclosure](#disclosure)
 
-# About activist - An Open-Source Activism Platform
+# About activist
 
 > [!IMPORTANT]
 > Before you contribute, read the [contributing guide](CONTRIBUTING.md).
 
 [activist.org](https://activist.org) is a platform that makes it easy and safe to:
 
-- Engage in activism. 
+- Engage in activism.
 - Discover organizations and events.
-- Coordinate and collaborate on political action. 
+- Coordinate and collaborate on political action.
 
-Our mission is to help activists connect and share strategies for social and ecological change. 
+Our mission is to help activists connect and share strategies for social and ecological change.
 
 activist is:
 
-- Free. 
+- Free.
 - Open-source.
 - Privacy-focused.
 - Governed by our community.
@@ -76,11 +76,27 @@ We're creating a global platform where movements grow and people are inspired to
 
 We want to change how power is distributed in society by removing barriers and enabling more people to safely engage in activism.
 
+# Topics
+
+These are some of the topics that activist includes:
+
+|                             |                        |                          |
+| :-------------------------- | :--------------------- | :----------------------- |
+| Accessibility and Inclusion | Animal Rights          | Democracy and Governance |
+| Education                   | Emergency Relief       | Environment              |
+| Health                      | Housing                | Labor Rights             |
+| LGBTQIA+                    | Peace and Resolution   | Racial Justice           |
+| Refugees and Migration      | Technology and Privacy | Women's Rights           |
+
+In addition to clustering by topics, tags indicate more specific issues.
+
+<sub><a href="#top">Back to top.</a></sub>
+
 # Features
 
-The [project board](https://github.com/orgs/activist-org/projects/1) is where we organize our work and plan out what's next. 
+The [project board](https://github.com/orgs/activist-org/projects/1) is where we organize our work and plan out what's next.
 
-This section gives a general overview of the planned features for activist. 
+This section gives a general overview of the planned features for activist.
 
 ## Organization Profiles
 
@@ -89,7 +105,7 @@ _Easy-to-use microsites with multiple subpages, for organizations of all sizes._
 - Describe your organizational structure and goals.
 - Explain how your groups collaborate.
 - Safely onboard new team members.
-- Respond to frequently asked questions. 
+- Respond to frequently asked questions.
 
 ## Events
 
@@ -97,13 +113,13 @@ _Collaborative event pages made for activists and their needs._
 
 Create flexible event pages for two event types:
 
-**Learn** 
+**Learn**
 
 - Seminars
 - Meetings
 - Panel discussions
 
-**Action** 
+**Action**
 
 - Protests
 - Volunteering
@@ -120,18 +136,10 @@ Also:
 
 _A simple link hub for organizations._
 
-- Split organizations into working groups.
+- Saved under organizations, their working groups and events.
 - Keep important links in one place.
 - Private by default.
-- Make resources public to share information and best practices.
-
-## Onboarding
-
-_Safe methods to onboard new members._
-
-- A conversational onboarding interface based on the [Matrix protocol](https://matrix.org/).
-- Operate across messengers without compromising data sovereignty for organizations or individuals.
-- Organizations can include their existing processes if preferred.
+- Make public to share information and best practices.
 
 ## Search
 
@@ -141,11 +149,19 @@ _Easily find, filter, and share._
 - Save searches for later.
 - Set up notifications for newly published events, resources, and discussions.
 
-## Discussionss
+## Onboarding
+
+_Safe methods to onboard new members._
+
+- A conversational onboarding interface based on the [Matrix protocol](https://matrix.org/).
+- Operate across messengers without compromising data sovereignty for organizations or individuals.
+- Organizations can include their existing processes if preferred.
+
+## Discussions
 
 _Forums for organizations and events._
 
-- Send notifications to supporters about organizations, groups, and events. 
+- Send notifications to supporters about organizations, groups, and events.
 - Democratic decision making to enable asynchronous planning.
 
 ## Tasks
@@ -167,7 +183,7 @@ Organizations and users can support each other and events:
 Also:
 
 - Find similar organizations through relationships.
-- Easily connect with actions when in a new location. 
+- Easily connect with actions when in a new location.
 - Affiliations determine notifications and access to restricted content.
 
 ## Votes
@@ -180,20 +196,13 @@ _Link events and organizations to decision making._
 
 <sub><a href="#top">Back to top.</a></sub>
 
-# Topics
+# Preview Video
 
-These are some of the topics that activist includes:
+This is a demo of the [Creating and Joining Events prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
 
-|                             |                        |                          |
-| :-------------------------- | :--------------------- | :----------------------- |
-| Accessibility and Inclusion | Animal Rights          | Democracy and Governance |
-| Education                   | Emergency Relief       | Environment              |
-| Health                      | Housing                | Labor Rights             |
-| LGBTQIA+                    | Peace and Resolution   | Racial Justice           |
-| Refugees and Migration      | Technology and Privacy | Women's Rights           |
+https://user-images.githubusercontent.com/24387426/215117858-96b0d3ac-4d11-449e-bcc0-2b7ec330a6e1.mp4
 
-
-In addition to clustering by topics, tags indicate more specific issues.
+Further prototypes and designs are available in the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231).
 
 <sub><a href="#top">Back to top.</a></sub>
 
@@ -208,19 +217,9 @@ In addition to clustering by topics, tags indicate more specific issues.
 
 We want our tools to look great, be easy to use, and function on any device, while including good security practices. We also consistently put accessibility at the center of what we build.
 
-We make the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) using [Figma](https://www.figma.com). 
+We make the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231) using [Figma](https://www.figma.com).
 
 You can use the [issues](https://github.com/activist-org/activist/issues) to suggest improvements. We mark design-related issues with the [`design`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Adesign) label.
-
-<sub><a href="#top">Back to top.</a></sub>
-
-# Preview Video
-
-This is a demo of the [Creating and Joining Events prototype](https://www.figma.com/proto/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?node-id=1998%3A2577&scaling=contain&page-id=1986%3A1046&starting-point-node-id=1998%3A2577) found on [Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231):
-
-https://user-images.githubusercontent.com/24387426/215117858-96b0d3ac-4d11-449e-bcc0-2b7ec330a6e1.mp4
-
-Further prototypes and designs are available in the [designs for activist](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231).
 
 <sub><a href="#top">Back to top.</a></sub>
 
@@ -238,7 +237,7 @@ You can learn more about FlokiNET on [their blog](https://blog.flokinet.is).
 
 We not only value, but _need_ open discourse. Our initial feature set was developed together with our growing community of activists.
 
-Our aim is to secure a progressive community by design, while putting platform health before platform growth. 
+Our aim is to secure a progressive community by design, while putting platform health before platform growth.
 
 Only organizations that are already on activist will be able to vouch for new organizations that apply to join. Together with experienced activists, we're selecting an initial group of organizations that have a proven track record of inclusivity and elevating underrepresented groups.
 
@@ -246,7 +245,7 @@ We are still developing our operating principles and will always update them bas
 
 <sub><a href="#top">Back to top.</a></sub>
 
-# Localization 
+# Localization
 
 <a href="https://hosted.weblate.org/projects/activist/activist">
   <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" width="125" alt="Visit the Weblate project" align="right">
@@ -257,7 +256,7 @@ We are still developing our operating principles and will always update them bas
 >
 > See the [localization guide](LOCALIZATION.md) for information on how to get started.
 
-In order to mobilize larger and more diverse coalitions, we need to break down language barriers. 
+In order to mobilize larger and more diverse coalitions, we need to break down language barriers.
 
 We're growing our network of volunteer contributors to facilitate translation requests for these parts of the platform:
 
@@ -301,7 +300,7 @@ We would be happy to discuss granting you further rights as a contributor after 
 
 <sub><a href="#top">Back to top.</a></sub>
 
-# Supporters and Partners 
+# Supporters and Partners
 
 ## Contributors
 
@@ -329,7 +328,7 @@ These organizations have supported activist with free licenses to use their tech
 
 ## Wikimedia UNLOCK Accelerator
 
-These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator. 
+These organizations have supported activist via the 2022 edition of the Wikimedia UNLOCK accelerator.
 
 UNLOCK supported open-source software projects and non-technical projects under free licenses. UNLOCK Accelerator was committed to promoting solutions that make the world's knowledge more diverse, more accessible, and inclusive for everyone.
 
