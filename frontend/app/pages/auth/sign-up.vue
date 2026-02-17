@@ -154,15 +154,17 @@
             data-testid="sign-up-terms-checkbox"
           />
         </FormItem>
-        <p class="flex flex-wrap pl-2">
-          {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
-          <NuxtLink
-            class="link-text inline-link-underline ml-1 sm:block"
-            target="_blank"
-            :to="localePath('/legal/privacy-policy')"
-          >
-            {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
-          </NuxtLink>
+        <p class="pl-2">
+          <span>
+            {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
+            <NuxtLink
+              class="link-text inline-link-underline ml-1"
+              target="_blank"
+              :to="localePath('/legal/privacy-policy')"
+            >
+              {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
+            </NuxtLink>
+          </span>
         </p>
       </div>
     </Form>
