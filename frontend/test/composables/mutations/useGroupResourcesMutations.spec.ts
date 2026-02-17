@@ -9,10 +9,7 @@ import { ref } from "vue";
 
 import { useGroupResourcesMutations } from "../../../app/composables/mutations/useGroupResourcesMutations";
 import { getKeyForGetGroup } from "../../../app/composables/queries/useGetGroup";
-import {
-  sampleResourceInput,
-  setupMutationMocks,
-} from "./setup";
+import { sampleResourceInput, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,

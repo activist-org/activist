@@ -9,20 +9,14 @@ import { ref } from "vue";
 
 import { useOrganizationTextsMutations } from "../../../app/composables/mutations/useOrganizationTextsMutations";
 import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
-import {
-  sampleOrganizationTextFormData,
-  setupMutationMocks,
-} from "./setup";
+import { sampleOrganizationTextFormData, setupMutationMocks } from "./setup";
 
-const {
-  mockRefreshNuxtData,
-  showToastError,
-  updateOrganizationTexts,
-} = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
-  showToastError: vi.fn(),
-  updateOrganizationTexts: vi.fn(),
-}));
+const { mockRefreshNuxtData, showToastError, updateOrganizationTexts } =
+  vi.hoisted(() => ({
+    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+    showToastError: vi.fn(),
+    updateOrganizationTexts: vi.fn(),
+  }));
 
 vi.mock("../../../app/services/communities/organization/text", () => ({
   updateOrganizationTexts: (...args: unknown[]) =>
@@ -50,13 +44,9 @@ describe("useOrganizationTextsMutations", () => {
 
   describe("updateTexts", () => {
     it("calls updateOrganizationTexts with organizationId, textId and textsData on success", async () => {
-      const { updateTexts } =
-        useOrganizationTextsMutations(organizationId);
+      const { updateTexts } = useOrganizationTextsMutations(organizationId);
 
-      const result = await updateTexts(
-        sampleOrganizationTextFormData,
-        textId
-      );
+      const result = await updateTexts(sampleOrganizationTextFormData, textId);
 
       expect(updateOrganizationTexts).toHaveBeenCalledWith(
         "org-123",
@@ -67,8 +57,7 @@ describe("useOrganizationTextsMutations", () => {
     });
 
     it("calls refreshNuxtData on success", async () => {
-      const { updateTexts } =
-        useOrganizationTextsMutations(organizationId);
+      const { updateTexts } = useOrganizationTextsMutations(organizationId);
 
       await updateTexts(sampleOrganizationTextFormData, textId);
 
@@ -89,13 +78,9 @@ describe("useOrganizationTextsMutations", () => {
 
     it("returns false when organizationId is empty", async () => {
       organizationId.value = "";
-      const { updateTexts } =
-        useOrganizationTextsMutations(organizationId);
+      const { updateTexts } = useOrganizationTextsMutations(organizationId);
 
-      const result = await updateTexts(
-        sampleOrganizationTextFormData,
-        textId
-      );
+      const result = await updateTexts(sampleOrganizationTextFormData, textId);
 
       expect(result).toBe(false);
       expect(updateOrganizationTexts).not.toHaveBeenCalled();
@@ -106,10 +91,7 @@ describe("useOrganizationTextsMutations", () => {
       const { updateTexts, error } =
         useOrganizationTextsMutations(organizationId);
 
-      const result = await updateTexts(
-        sampleOrganizationTextFormData,
-        textId
-      );
+      const result = await updateTexts(sampleOrganizationTextFormData, textId);
 
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
@@ -143,8 +125,7 @@ describe("useOrganizationTextsMutations", () => {
 
   describe("readonly state", () => {
     it("returns readonly loading and error", () => {
-      const { loading, error } =
-        useOrganizationTextsMutations(organizationId);
+      const { loading, error } = useOrganizationTextsMutations(organizationId);
 
       expect(loading).toBeDefined();
       expect(error).toBeDefined();

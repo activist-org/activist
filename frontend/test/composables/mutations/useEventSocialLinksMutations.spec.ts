@@ -9,10 +9,7 @@ import { ref } from "vue";
 
 import { useEventSocialLinksMutations } from "../../../app/composables/mutations/useEventSocialLinksMutations";
 import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
-import {
-  sampleSocialLinkInput,
-  setupMutationMocks,
-} from "./setup";
+import { sampleSocialLinkInput, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,
@@ -32,7 +29,8 @@ const {
 
 vi.mock("../../../app/services/event/social-link", () => ({
   updateEventSocialLink: (...args: unknown[]) => updateEventSocialLink(...args),
-  createEventSocialLinks: (...args: unknown[]) => createEventSocialLinks(...args),
+  createEventSocialLinks: (...args: unknown[]) =>
+    createEventSocialLinks(...args),
   deleteEventSocialLink: (...args: unknown[]) => deleteEventSocialLink(...args),
   replaceAllEventSocialLinks: (...args: unknown[]) =>
     replaceAllEventSocialLinks(...args),
@@ -254,9 +252,7 @@ describe("useEventSocialLinksMutations", () => {
     });
 
     it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
-      replaceAllEventSocialLinks.mockRejectedValue(
-        new Error("Replace failed")
-      );
+      replaceAllEventSocialLinks.mockRejectedValue(new Error("Replace failed"));
       const { replaceAllLinks, error } = useEventSocialLinksMutations(eventId);
 
       const result = await replaceAllLinks([sampleSocialLinkInput]);

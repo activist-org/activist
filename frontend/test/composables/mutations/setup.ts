@@ -7,7 +7,6 @@
 import { vi } from "vitest";
 
 import { UploadableFile } from "../../../shared/types/file";
-
 import {
   defaultEventUpdateTextFormData as sampleEventTextFormData,
   defaultFaqEntryData as sampleFaqEntry,
@@ -29,9 +28,7 @@ export {
 
 /** Minimal UploadableFile for mutation tests. */
 export function createSampleUploadableFile(): UploadableFile {
-  return new UploadableFile(
-    new File(["x"], "icon.png", { type: "image/png" })
-  );
+  return new UploadableFile(new File(["x"], "icon.png", { type: "image/png" }));
 }
 
 type MockWithResolve = { mockResolvedValue?: (v: unknown) => unknown };
@@ -40,9 +37,7 @@ type MockWithResolve = { mockResolvedValue?: (v: unknown) => unknown };
  * Resets mutation mocks to default resolved state.
  * Call in beforeEach; pass all mocks that need mockResolvedValue(undefined).
  */
-export function setupMutationMocks(
-  mocks: MockWithResolve[]
-): void {
+export function setupMutationMocks(mocks: MockWithResolve[]): void {
   vi.clearAllMocks();
   mocks.forEach((m) => m.mockResolvedValue?.(undefined));
 }

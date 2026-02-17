@@ -9,20 +9,14 @@ import { ref } from "vue";
 
 import { useEventImageIconMutations } from "../../../app/composables/mutations/useEventImageIconMutations";
 import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
-import {
-  createSampleUploadableFile,
-  setupMutationMocks,
-} from "./setup";
+import { createSampleUploadableFile, setupMutationMocks } from "./setup";
 
-const {
-  mockRefreshNuxtData,
-  showToastError,
-  uploadEventIconImage,
-} = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
-  showToastError: vi.fn(),
-  uploadEventIconImage: vi.fn(),
-}));
+const { mockRefreshNuxtData, showToastError, uploadEventIconImage } =
+  vi.hoisted(() => ({
+    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+    showToastError: vi.fn(),
+    uploadEventIconImage: vi.fn(),
+  }));
 
 vi.mock("../../../app/services/event/image", () => ({
   uploadEventIconImage: (...args: unknown[]) => uploadEventIconImage(...args),

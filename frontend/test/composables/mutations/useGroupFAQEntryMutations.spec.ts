@@ -9,11 +9,7 @@ import { ref } from "vue";
 
 import { useGroupFAQEntryMutations } from "../../../app/composables/mutations/useGroupFAQEntryMutations";
 import { getKeyForGetGroup } from "../../../app/composables/queries/useGetGroup";
-import {
-  sampleFaqData,
-  sampleFaqEntry,
-  setupMutationMocks,
-} from "./setup";
+import { sampleFaqData, sampleFaqEntry, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,

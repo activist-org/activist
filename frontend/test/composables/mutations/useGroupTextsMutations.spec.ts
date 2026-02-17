@@ -9,20 +9,15 @@ import { ref } from "vue";
 
 import { useGroupTextsMutations } from "../../../app/composables/mutations/useGroupTextsMutations";
 import { getKeyForGetGroup } from "../../../app/composables/queries/useGetGroup";
-import {
-  sampleGroupTextFormData,
-  setupMutationMocks,
-} from "./setup";
+import { sampleGroupTextFormData, setupMutationMocks } from "./setup";
 
-const {
-  mockRefreshNuxtData,
-  showToastError,
-  updateGroupTexts,
-} = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
-  showToastError: vi.fn(),
-  updateGroupTexts: vi.fn(),
-}));
+const { mockRefreshNuxtData, showToastError, updateGroupTexts } = vi.hoisted(
+  () => ({
+    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+    showToastError: vi.fn(),
+    updateGroupTexts: vi.fn(),
+  })
+);
 
 vi.mock("../../../app/services/communities/group/text", () => ({
   updateGroupTexts: (...args: unknown[]) => updateGroupTexts(...args),

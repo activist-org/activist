@@ -9,20 +9,15 @@ import { ref } from "vue";
 
 import { useEventTextsMutations } from "../../../app/composables/mutations/useEventTextsMutations";
 import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
-import {
-  sampleEventTextFormData,
-  setupMutationMocks,
-} from "./setup";
+import { sampleEventTextFormData, setupMutationMocks } from "./setup";
 
-const {
-  mockRefreshNuxtData,
-  showToastError,
-  updateEventTexts,
-} = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
-  showToastError: vi.fn(),
-  updateEventTexts: vi.fn(),
-}));
+const { mockRefreshNuxtData, showToastError, updateEventTexts } = vi.hoisted(
+  () => ({
+    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+    showToastError: vi.fn(),
+    updateEventTexts: vi.fn(),
+  })
+);
 
 vi.mock("../../../app/services/event/text", () => ({
   updateEventTexts: (...args: unknown[]) => updateEventTexts(...args),

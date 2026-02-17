@@ -10,11 +10,7 @@ import { ref } from "vue";
 
 import { useEventFAQEntryMutations } from "../../../app/composables/mutations/useEventFAQEntryMutations";
 import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
-import {
-  sampleFaqData,
-  sampleFaqEntry,
-  setupMutationMocks,
-} from "./setup";
+import { sampleFaqData, sampleFaqEntry, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,
@@ -139,10 +135,7 @@ describe("useEventFAQEntryMutations", () => {
 
       const result = await updateFAQ(sampleFaqEntry);
 
-      expect(updateEventFaq).toHaveBeenCalledWith(
-        "event-123",
-        sampleFaqEntry
-      );
+      expect(updateEventFaq).toHaveBeenCalledWith("event-123", sampleFaqEntry);
       expect(result).toBe(true);
     });
 

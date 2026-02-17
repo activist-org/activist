@@ -9,11 +9,7 @@ import { ref } from "vue";
 
 import { useOrganizationFAQEntryMutations } from "../../../app/composables/mutations/useOrganizationFAQEntryMutations";
 import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
-import {
-  sampleFaqData,
-  sampleFaqEntry,
-  setupMutationMocks,
-} from "./setup";
+import { sampleFaqData, sampleFaqEntry, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,
@@ -33,12 +29,10 @@ const {
 
 vi.mock("../../../app/services/communities/organization/faq", () => ({
   createOrganizationFaq: (...args: unknown[]) => createOrganizationFaq(...args),
-  updateOrganizationFaq: (...args: unknown[]) =>
-    updateOrganizationFaq(...args),
+  updateOrganizationFaq: (...args: unknown[]) => updateOrganizationFaq(...args),
   reorderOrganizationFaqs: (...args: unknown[]) =>
     reorderOrganizationFaqs(...args),
-  deleteOrganizationFaq: (...args: unknown[]) =>
-    deleteOrganizationFaq(...args),
+  deleteOrganizationFaq: (...args: unknown[]) => deleteOrganizationFaq(...args),
 }));
 
 vi.mock("../../../app/composables/generic/useToaster", () => ({

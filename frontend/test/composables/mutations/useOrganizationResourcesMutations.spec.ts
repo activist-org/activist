@@ -9,10 +9,7 @@ import { ref } from "vue";
 
 import { useOrganizationResourcesMutations } from "../../../app/composables/mutations/useOrganizationResourcesMutations";
 import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
-import {
-  sampleResourceInput,
-  setupMutationMocks,
-} from "./setup";
+import { sampleResourceInput, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,
@@ -112,9 +109,7 @@ describe("useOrganizationResourcesMutations", () => {
     });
 
     it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
-      createOrganizationResource.mockRejectedValue(
-        new Error("Create failed")
-      );
+      createOrganizationResource.mockRejectedValue(new Error("Create failed"));
       const { createResource, error } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -168,9 +163,7 @@ describe("useOrganizationResourcesMutations", () => {
     });
 
     it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
-      updateOrganizationResource.mockRejectedValue(
-        new Error("Update failed")
-      );
+      updateOrganizationResource.mockRejectedValue(new Error("Update failed"));
       const { updateResource, error } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -208,9 +201,7 @@ describe("useOrganizationResourcesMutations", () => {
     });
 
     it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
-      deleteOrganizationResource.mockRejectedValue(
-        new Error("Delete failed")
-      );
+      deleteOrganizationResource.mockRejectedValue(new Error("Delete failed"));
       const { deleteResource, error } =
         useOrganizationResourcesMutations(organizationId);
 

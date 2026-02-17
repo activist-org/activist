@@ -9,10 +9,7 @@ import { ref } from "vue";
 
 import { useGroupImageMutations } from "../../../app/composables/mutations/useGroupImageMutations";
 import { getKeyForGetGroupImages } from "../../../app/composables/queries/useGetGroupImages";
-import {
-  createSampleUploadableFile,
-  setupMutationMocks,
-} from "./setup";
+import { createSampleUploadableFile, setupMutationMocks } from "./setup";
 
 const defaultContentImage = {
   id: "img-1",

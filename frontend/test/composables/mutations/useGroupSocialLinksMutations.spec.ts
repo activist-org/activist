@@ -9,10 +9,7 @@ import { ref } from "vue";
 
 import { useGroupSocialLinksMutations } from "../../../app/composables/mutations/useGroupSocialLinksMutations";
 import { getKeyForGetGroup } from "../../../app/composables/queries/useGetGroup";
-import {
-  sampleSocialLinkInput,
-  setupMutationMocks,
-} from "./setup";
+import { sampleSocialLinkInput, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,
@@ -32,7 +29,8 @@ const {
 
 vi.mock("../../../app/services/communities/group/social-link", () => ({
   updateGroupSocialLink: (...args: unknown[]) => updateGroupSocialLink(...args),
-  createGroupSocialLinks: (...args: unknown[]) => createGroupSocialLinks(...args),
+  createGroupSocialLinks: (...args: unknown[]) =>
+    createGroupSocialLinks(...args),
   deleteGroupSocialLink: (...args: unknown[]) => deleteGroupSocialLink(...args),
   replaceAllGroupSocialLinks: (...args: unknown[]) =>
     replaceAllGroupSocialLinks(...args),
@@ -253,9 +251,7 @@ describe("useGroupSocialLinksMutations", () => {
     });
 
     it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
-      replaceAllGroupSocialLinks.mockRejectedValue(
-        new Error("Replace failed")
-      );
+      replaceAllGroupSocialLinks.mockRejectedValue(new Error("Replace failed"));
       const { replaceAllLinks, error } = useGroupSocialLinksMutations(groupId);
 
       const result = await replaceAllLinks([sampleSocialLinkInput]);

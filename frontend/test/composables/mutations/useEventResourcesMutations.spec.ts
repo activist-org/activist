@@ -9,10 +9,7 @@ import { ref } from "vue";
 
 import { useEventResourcesMutations } from "../../../app/composables/mutations/useEventResourcesMutations";
 import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
-import {
-  sampleResourceInput,
-  setupMutationMocks,
-} from "./setup";
+import { sampleResourceInput, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,
@@ -204,7 +201,10 @@ describe("useEventResourcesMutations", () => {
 
       const result = await reorderResources(resources);
 
-      expect(reorderEventResources).toHaveBeenCalledWith("event-123", resources);
+      expect(reorderEventResources).toHaveBeenCalledWith(
+        "event-123",
+        resources
+      );
       expect(result).toBe(true);
     });
 

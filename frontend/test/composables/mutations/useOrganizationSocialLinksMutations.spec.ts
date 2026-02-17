@@ -9,10 +9,7 @@ import { ref } from "vue";
 
 import { useOrganizationSocialLinksMutations } from "../../../app/composables/mutations/useOrganizationSocialLinksMutations";
 import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
-import {
-  sampleSocialLinkInput,
-  setupMutationMocks,
-} from "./setup";
+import { sampleSocialLinkInput, setupMutationMocks } from "./setup";
 
 const {
   mockRefreshNuxtData,

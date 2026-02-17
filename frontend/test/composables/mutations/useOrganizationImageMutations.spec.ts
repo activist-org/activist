@@ -10,10 +10,7 @@ import { ref } from "vue";
 import { useOrganizationImageMutations } from "../../../app/composables/mutations/useOrganizationImageMutations";
 import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
 import { getKeyForGetOrganizationImages } from "../../../app/composables/queries/useGetOrganizationImages";
-import {
-  createSampleUploadableFile,
-  setupMutationMocks,
-} from "./setup";
+import { createSampleUploadableFile, setupMutationMocks } from "./setup";
 
 const defaultContentImage = {
   id: "img-1",
@@ -189,9 +186,7 @@ describe("useOrganizationImageMutations", () => {
     });
 
     it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
-      uploadOrganizationIconImage.mockRejectedValue(
-        new Error("Upload failed")
-      );
+      uploadOrganizationIconImage.mockRejectedValue(new Error("Upload failed"));
       const { uploadIconImage, error } =
         useOrganizationImageMutations(organizationId);
 
@@ -252,8 +247,7 @@ describe("useOrganizationImageMutations", () => {
 
   describe("readonly state", () => {
     it("returns readonly loading and error", () => {
-      const { loading, error } =
-        useOrganizationImageMutations(organizationId);
+      const { loading, error } = useOrganizationImageMutations(organizationId);
 
       expect(loading).toBeDefined();
       expect(error).toBeDefined();
