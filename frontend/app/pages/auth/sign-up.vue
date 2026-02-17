@@ -158,7 +158,7 @@
           <span>
             {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
             <NuxtLink
-              class="link-text inline-link-underline ml-1"
+              class="link-text inline-link-underline ml-0.5"
               target="_blank"
               :to="localePath('/legal/privacy-policy')"
             >
