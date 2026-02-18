@@ -45,8 +45,8 @@ const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 
-const { data: groupImages } = useGetGroupImages(props.groupId);
 const groupId = computed(() => props.groupId);
+const { data: groupImages } = useGetGroupImages(groupId);
 const { updateImage, uploadImages } = useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 

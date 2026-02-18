@@ -186,8 +186,29 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             raise serializers.ValidationError(
                 f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
             )
-
         return data
+
+    def to_representation(self, instance: Image) -> Dict[str, Any]:
+        """
+        Customize the output to return the file path (name) instead of the full URL.
+
+        Parameters
+        ----------
+        instance : Image
+            The Image instance to be serialized.
+
+        Returns
+        -------
+        Dict[str, Any]
+            The serialized representation of the image, with 'file_object'
+            as a relative path.
+        """
+        representation = super().to_representation(instance)
+        if instance.file_object:
+            # This returns the relative path (e.g., 'images/file.jpg')
+            # instead of 'http://localhost:8000/media/images/file.jpg'
+            representation["file_object"] = instance.file_object.name
+        return representation
 
     def create(self, validated_data: Dict[str, Any]) -> Any:
         """
@@ -301,6 +322,26 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
             )
 
         return data
+
+    def to_representation(self, instance: Image) -> Dict[str, Any]:
+        """
+        Customize the output to return the file path (name) instead of the full URL.
+
+        Parameters
+        ----------
+        instance : Image
+            The Image instance to be serialized.
+
+        Returns
+        -------
+        Dict[str, Any]
+            The serialized representation of the image, with 'file_object'
+            as a relative path.
+        """
+        representation = super().to_representation(instance)
+        if instance.file_object:
+            representation["file_object"] = instance.file_object.name
+        return representation
 
     def create(self, validated_data: Dict[str, Any]) -> Any:
         """
