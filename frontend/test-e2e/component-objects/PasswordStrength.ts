@@ -8,27 +8,8 @@ export const PASSWORD_RATING = {
   INVALID: new RegExp(
     getEnglishText("i18n.components.indicator_password_strength.invalid"),
     "i"
-  ),
-  VERY_WEAK: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.very_weak"),
-    "i"
-  ),
-  WEAK: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.weak"),
-    "i"
-  ),
-  MEDIUM: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.medium"),
-    "i"
-  ),
-  STRONG: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.strong"),
-    "i"
-  ),
-  VERY_STRONG: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.very_strong"),
-    "i"
-  ),
+  ),l
+  CRACK_TIME: /time to crack|centuries|years|months|days|hours|minutes|seconds|instant/i,
 };
 
 export const PASSWORD_PROGRESS = {
