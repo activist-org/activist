@@ -2,7 +2,7 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { del, get, post } from "~/services/http";
+import { del, get, post, put } from "~/services/http";
 
 // MARK: Map API Response to Type
 
@@ -94,6 +94,33 @@ export async function createEvent(
       { headers: { "Content-Type": "application/json" } }
     );
     return res.id;
+  } catch (e) {
+    throw errorHandler(e);
+  }
+}
+
+export async function updateEvent(
+  eventId: string,
+  data: Partial<EventResponse>
+): Promise<EventResponse> {
+  try {
+    const payload: Record<string, unknown> = {};
+
+    if (data.name !== undefined) payload.name = data.name;
+    if (data.tagline !== undefined) payload.tagline = data.tagline;
+    if (data.startTime !== undefined) payload.start_time = data.startTime;
+    if (data.endTime !== undefined) payload.end_time = data.endTime;
+    if (data.onlineLocationLink !== undefined)
+      payload.online_location_link = data.onlineLocationLink;
+    if (data.physicalLocation !== undefined)
+      payload.physical_location = data.physicalLocation;
+
+    const res = await put<EventResponse, AcceptedBody>(
+      `/events/events/${eventId}`,
+      payload as AcceptedBody,
+      { headers: { "Content-Type": "application/json" } }
+    );
+    return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);
   }

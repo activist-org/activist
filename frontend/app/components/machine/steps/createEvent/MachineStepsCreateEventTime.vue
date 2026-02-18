@@ -59,11 +59,7 @@
             <div class="w-full flex-1">
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
-                :label="
-                  $t(
-                    'i18n.components.machine_steps_create_event_time.start_time'
-                  )
-                "
+                :label="$t('i18n.components._global.start_time')"
                 :name="`times.${idx}.startTime`"
               >
                 <FormDateTime
@@ -71,11 +67,7 @@
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
                   is24Hr
-                  :label="
-                    $t(
-                      'i18n.components.machine_steps_create_event_time.start_time'
-                    )
-                  "
+                  :label="$t('i18n.components._global.start_time')"
                   mode="time"
                   :model-value="value.value as Date"
                 />
@@ -84,20 +76,14 @@
             <div class="w-full flex-1">
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
-                :label="
-                  $t('i18n.components.machine_steps_create_event_time.end_time')
-                "
+                :label="$t('i18n.components._global.end_time')"
                 :name="`times.${idx}.endTime`"
               >
                 <FormDateTime
                   :id="id"
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
-                  :label="
-                    $t(
-                      'i18n.components.machine_steps_create_event_time.end_time'
-                    )
-                  "
+                  :label="$t('i18n.components._global.end_time')"
                   mode="time"
                   :model-value="value.value as Date"
                 />
