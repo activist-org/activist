@@ -44,12 +44,15 @@
       </FormItem>
       <div class="flex flex-col space-y-3">
         <FormItem v-slot="{ id, handleChange, value }" name="verifyCaptcha">
-          <!-- prettier-ignore-attribute v-model -->
-          <FriendlyCaptcha
-            :id="id"
-            v-model="(value.value as boolean)"
-            @update:model-value="handleChange"
-          />
+          <!-- left alignment -->
+           <div class="flex justify_start">
+            <!-- prettier-ignore-attribute v-model -->
+            <FriendlyCaptcha
+              :id="id"
+              v-model="(value.value as boolean)"
+              @update:model-value="handleChange"
+            />
+          </div>
         </FormItem>
         <button
           id="sign-in-forgot-password"

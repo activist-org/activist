@@ -138,12 +138,15 @@
         class-item="space-y-4"
         name="verifyCaptcha"
       >
-        <!-- prettier-ignore-attribute v-model -->
-        <FriendlyCaptcha
-          v-model="(value.value as boolean)"
-          @update:model-value="handleChange"
-          data-testid="sign-up-captcha"
-        />
+        <!-- left alignment-->
+         <div class="flex justify_start">
+          <!-- prettier-ignore-attribute v-model -->
+          <FriendlyCaptcha
+            v-model="(value.value as boolean)"
+            @update:model-value="handleChange"
+            data-testid="sign-up-captcha"
+          />
+        </div>
       </FormItem>
       <div class="flex flex-row items-center">
         <FormItem v-slot="{ id, handleChange, handleBlur }" name="hasRead">
