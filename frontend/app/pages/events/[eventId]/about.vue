@@ -2,7 +2,7 @@
 <template>
   <ModalSocialLinksEvent />
   <ModalTextEvent />
-  <div class="flex flex-col bg-layer-0 px-4 pt-5 md:pt-0 xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ event?.name }}</Title>
     </Head>
