@@ -311,8 +311,3 @@ MARK: Pulse
     opacity: 0.5;
   }
 }
-/* FriendlyCaptcha's override for left alignment. */
-.frc-captcha {
-  margin-left: 0 !important;
-  margin-right: auto !important;
-}
