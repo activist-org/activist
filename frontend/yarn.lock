@@ -5758,7 +5758,7 @@ __metadata:
     qrcode.vue: "npm:3.6.0"
     reduced-motion: "npm:1.0.4"
     rollup: "npm:4.55.1"
-    swiper: "npm:12.0.3"
+    swiper: "npm:12.1.2"
     tailwind-scrollbar: "npm:4.0.2"
     tailwindcss: "npm:4.1.18"
     tippy.js: "npm:6.3.7"
@@ -13824,10 +13824,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swiper@npm:12.0.3":
-  version: 12.0.3
-  resolution: "swiper@npm:12.0.3"
-  checksum: 10c0/a854531791ba45cb0f6086904a99878fd207b42024820df68fbf64e01c20d542438c023ec4765b223f4dbffabf6858d311ec749bdca4ea4b4a7b74150a010162
+"swiper@npm:12.1.2":
+  version: 12.1.2
+  resolution: "swiper@npm:12.1.2"
+  checksum: 10c0/f2597a67c4d647e367a236735bb7779e2833346b332e6d7b8caf48c6b82da52787959e86f06762983ab82b142958690a0d1b9f6fc5a59170a648949b35cfedd0
   languageName: node
   linkType: hard
 
