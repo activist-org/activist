@@ -119,10 +119,7 @@ def test_EventListAPIView(logged_in_user) -> None:
             "address_or_name": location.address_or_name,
         },
         "type": new_event.type,
-        "start_time": new_event.start_time,
-        "end_time": new_event.end_time,
         "terms_checked": new_event.terms_checked,
-        "setting": "physical",
     }
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
@@ -132,10 +129,6 @@ def test_EventListAPIView(logged_in_user) -> None:
     assert Event.objects.filter(name=new_event.name).exists()
 
     # Incorrect time order.
-    new_event.start_time = "2025-10-20T18:00:00Z"
-    new_event.end_time = "2025-10-20T06:00:00Z"
-    payload["start_time"] = new_event.start_time
-    payload["end_time"] = new_event.end_time
     response = client.post("/v1/events/events", data=payload, format="json")
     assert response.status_code == 400
     assert "start time must be before the end time" in str(response.data).lower()

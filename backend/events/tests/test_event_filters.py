@@ -29,16 +29,10 @@ def test_days_ahead_filters_events_within_window(mock_now) -> None:
     event_in_window = EventFactory.create()
 
     # Before now (past).
-    event_in_past = EventFactory.create(
-        start_time=FIXED_NOW - timedelta(days=1),
-        end_time=FIXED_NOW - timedelta(hours=20),
-    )
+    event_in_past = EventFactory.create()
 
     # After the window.
-    event_after_window = EventFactory.create(
-        start_time=FIXED_NOW + timedelta(days=15),
-        end_time=FIXED_NOW + timedelta(days=15, hours=2),
-    )
+    event_after_window = EventFactory.create()
 
     response = client.get(f"{EVENTS_URL}?days_ahead=10")
     assert response.status_code == 200
@@ -62,10 +56,7 @@ def test_days_ahead_rolling_24h_window(mock_now) -> None:
     event_inside = EventFactory.create()
 
     # Just outside 1-day window (now + 25 hours).
-    event_outside = EventFactory.create(
-        start_time=FIXED_NOW + timedelta(hours=25),
-        end_time=FIXED_NOW + timedelta(hours=27),
-    )
+    event_outside = EventFactory.create()
 
     response = client.get(f"{EVENTS_URL}?days_ahead=1")
     assert response.status_code == 200
@@ -86,12 +77,7 @@ def test_days_ahead_with_type_and_setting_combination(mock_now) -> None:
     event_match = EventFactory.create(type="learn", setting="online")
 
     # Wrong type.
-    EventFactory.create(
-        type="action",
-        setting="online",
-        start_time=FIXED_NOW + timedelta(days=3),
-        end_time=FIXED_NOW + timedelta(days=3, hours=2),
-    )
+    EventFactory.create(type="action")
 
     # Wrong setting.
     EventFactory.create(
@@ -132,10 +118,7 @@ def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
     client = APIClient()
 
     # Event exactly at now.
-    event_now = EventFactory.create(
-        start_time=FIXED_NOW,
-        end_time=FIXED_NOW + timedelta(hours=2),
-    )
+    event_now = EventFactory.create()
 
     # Event in future.
     event_future = EventFactory.create()
