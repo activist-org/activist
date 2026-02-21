@@ -7,12 +7,14 @@
       <Title>{{ event?.name }}</Title>
     </Head>
     <HeaderAppPageEvent>
-      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+      <div
+        class="flex w-full flex-col space-y-2 pb-3 sm:w-auto sm:flex-row sm:space-x-2 sm:space-y-0 lg:space-x-3 lg:pb-4"
+      >
         <ModalSharePage v-if="event" :cta="true" :event="event" />
         <BtnRouteExternal
           v-if="event?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.offer_to_help_aria_label"
-          class="w-max"
+          class="w-full sm:w-max"
           :cta="true"
           fontSize="sm"
           iconSize="1.45em"
@@ -35,7 +37,7 @@
           @click="openModalSharePage()"
           @keydown.enter="openModalSharePage()"
           ariaLabel="i18n._global.share_event_aria_label"
-          class="w-max"
+          class="w-full sm:w-max"
           :cta="true"
           fontSize="sm"
           :hideLabelOnMobile="false"
@@ -47,7 +49,7 @@
           @click="downloadCalendarEntry"
           @keydown.enter="downloadCalendarEntry"
           ariaLabel="i18n._global.subscribe_to_event_aria_label"
-          class="w-max"
+          class="w-full sm:w-max"
           :cta="true"
           fontSize="sm"
           iconSize="1.25em"
