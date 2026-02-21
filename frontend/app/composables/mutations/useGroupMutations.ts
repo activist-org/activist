@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+const store = useOrganizationStore();
 
 export const useGroupMutations = () => {
   const { showToastError } = useToaster();
@@ -25,6 +26,7 @@ export const useGroupMutations = () => {
     // Invalidate and refetch group list data.
     // Invalidate the useAsyncData cache so next read will refetch.
     clearNuxtData((key) => key.startsWith("groups-list:"));
+    await refreshNuxtData(getKeyForGetOrganization(store.getOrganization().id));
   };
 
   return {
