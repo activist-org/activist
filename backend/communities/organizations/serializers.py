@@ -7,7 +7,7 @@ import logging
 from typing import Any
 from uuid import UUID
 
-from django.db import IntegrityError, OperationalError
+from django.db import IntegrityError, OperationalError, transaction
 from rest_framework import serializers
 
 from communities.groups.serializers import GroupSerializer
@@ -230,21 +230,38 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
         Organization
             The organization object that was created in the database.
         """
-        location_data = {
-            "city": validated_data.pop("city"),
-            "country_code": validated_data.pop("country_code"),
-            "lat": "",
-            "lon": "",
-        }
-        location = Location.objects.create(**location_data)
-        try:
-            org = Organization.objects.create(location=location, **validated_data)
-            logger.info("Created Organization with id: %s", org.id)
-            return org
+        with transaction.atomic():
+            city = validated_data.pop("city")
+            country_code = validated_data.pop("country_code")
+            description = validated_data.pop("description", "")
+            # iso = validated_data.pop("iso")
 
-        except (IntegrityError, OperationalError) as e:
-            location.delete()
-            raise e
+            location_data = {
+                "city": city,
+                "country_code": country_code,
+                "lat": "",
+                "lon": "",
+            }
+            location = Location.objects.create(**location_data)
+
+            try:
+                org = Organization.objects.create(location=location, **validated_data)
+
+                org_text = OrganizationText.objects.create(
+                    org=org,
+                    # iso=iso,
+                    primary=True,
+                    description=description,
+                )
+                org.texts.set([org_text])
+
+                logger.info("Created Organization with id: %s", org.id)
+
+                return org
+
+            except (IntegrityError, OperationalError) as e:
+                location.delete()
+                raise e
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):

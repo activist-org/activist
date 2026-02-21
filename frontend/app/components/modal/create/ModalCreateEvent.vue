@@ -9,6 +9,7 @@
     />
   </ModalBase>
 </template>
+
 <script setup lang="ts">
 const modalName = "ModalCreateEvent";
 const { handleCloseModal } = useModalHandlers(modalName);

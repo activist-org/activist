@@ -90,7 +90,7 @@ export const defaultEventData = {
 } as const;
 
 export const defaultEventFiltersData = {
-  setting: "action",
+  type: "action",
   locationType: "online",
 } as const;
 

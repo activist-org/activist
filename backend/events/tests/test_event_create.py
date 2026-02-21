@@ -17,6 +17,7 @@ def test_event_create(authenticated_client) -> None:
 
     org: Organization = OrganizationFactory.create()
     topic: Topic = TopicFactory.create()
+    topic.active = True
 
     event_data = {
         "name": "Community Cleanup",

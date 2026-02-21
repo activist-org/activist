@@ -13,6 +13,7 @@
     />
   </ModalBase>
 </template>
+
 <script setup lang="ts">
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);

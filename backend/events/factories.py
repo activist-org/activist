@@ -63,7 +63,7 @@ class EventFactory(factory.django.DjangoModelFactory):
         Parameters
         ----------
         create : bool
-            Whether organization times should be created.
+            Whether organizations should be created.
 
         extracted : [OrganizationFactory]
             Extracted organization factories.
@@ -97,7 +97,7 @@ class EventFactory(factory.django.DjangoModelFactory):
         Parameters
         ----------
         create : bool
-            Whether group times should be created.
+            Whether groups should be created.
 
         extracted : [GroupFactory]
             Extracted group factories.
@@ -190,10 +190,9 @@ class EventTimeFactory(factory.django.DjangoModelFactory):
         )
     )
 
+    # Events last 1-8 hours.
     end_time = factory.LazyAttribute(
-        lambda obj: (
-            obj.start_time + datetime.timedelta(hours=random.randint(1, 8))
-        )  # events last 1-8 hours
+        lambda obj: obj.start_time + datetime.timedelta(hours=random.randint(1, 8))
     )
 
 

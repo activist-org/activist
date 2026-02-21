@@ -368,6 +368,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
 
             if len(query_groups) != len(groups):
                 raise serializers.ValidationError("One or more groups do not exist.")
+
             data["groups"] = query_groups
 
         return data
@@ -391,7 +392,6 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
         with transaction.atomic():
             location_type = validated_data.pop("location_type", None)
             location_data = validated_data.pop("location", None)
-            description = validated_data.pop("description")
             orgs_data = validated_data.pop("orgs", [])
             groups_data = validated_data.pop("groups", [])
             topics_data = validated_data.pop("topics", [])
@@ -405,13 +405,14 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
 
             event = Event.objects.create(created_by=created_by, **validated_data)
 
-            # Create EventText object with description
+            # Create EventText object with description.
             event_text = EventText.objects.create(
                 event=event,
                 iso=iso,
                 primary=True,
                 description=description,
             )
+            event.texts.set([event_text])
 
             # Set many-to-many relationships
             if orgs_data:

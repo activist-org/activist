@@ -10,7 +10,7 @@ from unittest.mock import patch
 import pytest
 from rest_framework.test import APIClient
 
-from events.factories import EventFactory
+from events.factories import EventFactory, EventTimeFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -30,9 +30,25 @@ def test_days_ahead_filters_events_within_window(mock_now) -> None:
 
     # Before now (past).
     event_in_past = EventFactory.create()
+    event_in_past.times.set(
+        [
+            EventTimeFactory.create(
+                start_time=FIXED_NOW - timedelta(days=1),
+                end_time=FIXED_NOW - timedelta(hours=20),
+            )
+        ]
+    )
 
     # After the window.
     event_after_window = EventFactory.create()
+    event_after_window.times.set(
+        [
+            EventTimeFactory.create(
+                start_time=FIXED_NOW + timedelta(days=15),
+                end_time=FIXED_NOW + timedelta(days=15, hours=2),
+            )
+        ]
+    )
 
     response = client.get(f"{EVENTS_URL}?days_ahead=10")
     assert response.status_code == 200
@@ -56,7 +72,14 @@ def test_days_ahead_rolling_24h_window(mock_now) -> None:
     event_inside = EventFactory.create()
 
     # Just outside 1-day window (now + 25 hours).
-    event_outside = EventFactory.create()
+    event_outside = EventFactory.create(
+        times=[
+            EventTimeFactory.create(
+                start_time=FIXED_NOW + timedelta(hours=25),
+                end_time=FIXED_NOW + timedelta(hours=27),
+            )
+        ]
+    )
 
     response = client.get(f"{EVENTS_URL}?days_ahead=1")
     assert response.status_code == 200
@@ -68,35 +91,52 @@ def test_days_ahead_rolling_24h_window(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_with_type_and_setting_combination(mock_now) -> None:
+def test_days_ahead_with_type_and_location_type_combination(mock_now) -> None:
     """
-    days_ahead works in combination with other filters (type, setting).
+    days_ahead works in combination with other filters (type, location_type).
     """
     client = APIClient()
 
-    event_match = EventFactory.create(type="learn", setting="online")
+    event_match = EventFactory.create(type="learn", location_type="online")
 
     # Wrong type.
-    EventFactory.create(type="action")
+    EventFactory.create(
+        type="action",
+        location_type="physical",
+        times=[
+            EventTimeFactory.create(
+                start_time=FIXED_NOW + timedelta(days=3),
+                end_time=FIXED_NOW + timedelta(days=3, hours=2),
+            )
+        ],
+    )
 
-    # Wrong setting.
+    # Wrong location_type.
     EventFactory.create(
         type="learn",
-        setting="physical",
-        start_time=FIXED_NOW + timedelta(days=3),
-        end_time=FIXED_NOW + timedelta(days=3, hours=2),
+        location_type="physical",
+        times=[
+            EventTimeFactory.create(
+                start_time=FIXED_NOW + timedelta(days=3),
+                end_time=FIXED_NOW + timedelta(days=3, hours=2),
+            )
+        ],
     )
 
     # Outside days_ahead window.
     EventFactory.create(
         type="learn",
-        setting="online",
-        start_time=FIXED_NOW + timedelta(days=20),
-        end_time=FIXED_NOW + timedelta(days=20, hours=2),
+        location_type="online",
+        times=[
+            EventTimeFactory.create(
+                start_time=FIXED_NOW + timedelta(days=20),
+                end_time=FIXED_NOW + timedelta(days=20, hours=2),
+            )
+        ],
     )
 
     response = client.get(
-        f"{EVENTS_URL}?days_ahead=10&type=learn&setting=online",
+        f"{EVENTS_URL}?days_ahead=10&type=learn&location_type=online",
     )
     assert response.status_code == 200
 
@@ -118,7 +158,14 @@ def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
     client = APIClient()
 
     # Event exactly at now.
-    event_now = EventFactory.create()
+    event_now = EventFactory.create(
+        times=[
+            EventTimeFactory.create(
+                start_time=FIXED_NOW,
+                end_time=FIXED_NOW + timedelta(hours=2),
+            )
+        ]
+    )
 
     # Event in future.
     event_future = EventFactory.create()

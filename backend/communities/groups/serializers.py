@@ -7,7 +7,7 @@ import logging
 from typing import Any
 from uuid import UUID
 
-from django.db import IntegrityError, OperationalError
+from django.db import IntegrityError, OperationalError, transaction
 from rest_framework import serializers
 
 from communities.groups.models import (
@@ -211,24 +211,70 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
     city = serializers.CharField(max_length=255)
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Validate the data being posted.
+
+        Parameters
+        ----------
+        data : dict[str, Any]
+            The data to be posted.
+
+        Returns
+        -------
+        dict[str, Any]
+            The data post validation.
+        """
         return data
 
     def create(self, validated_data: dict[str, Any]) -> Group:
-        location_data = {
-            "city": validated_data.pop("city"),
-            "country_code": validated_data.pop("country_code"),
-            "lat": "",
-            "lon": "",
-        }
-        location = Location.objects.create(**location_data)
-        try:
-            org = Organization.objects.get(id=validated_data.pop("org"))
-            group = Group.objects.create(location=location, org=org, **validated_data)
-            logger.info("Created Group with id: %s", group.id)
-            return group
-        except (Organization.DoesNotExist, IntegrityError, OperationalError) as e:
-            location.delete()
-            raise e
+        """
+        Create a group via a post operation.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Any]
+            Data to be used in the creation of a group.
+
+        Returns
+        -------
+        Organization
+            The group object that was created in the database.
+        """
+        with transaction.atomic():
+            city = validated_data.pop("city")
+            country_code = validated_data.pop("country_code")
+            description = validated_data.pop("description", "")
+            # iso = validated_data.pop("iso")
+
+            location_data = {
+                "city": city,
+                "country_code": country_code,
+                "lat": "",
+                "lon": "",
+            }
+            location = Location.objects.create(**location_data)
+
+            try:
+                org = Organization.objects.get(id=validated_data.pop("org"))
+                group = Group.objects.create(
+                    location=location, org=org, **validated_data
+                )
+
+                group_text = GroupText.objects.create(
+                    group=group,
+                    # iso=iso,
+                    primary=True,
+                    description=description,
+                )
+                group.texts.set([group_text])
+
+                logger.info("Created Group with id: %s", group.id)
+
+                return group
+
+            except (Organization.DoesNotExist, IntegrityError, OperationalError) as e:
+                location.delete()
+                raise e
 
 
 # MARK: Group

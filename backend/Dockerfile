@@ -6,6 +6,9 @@ WORKDIR /app
 # Install uv.
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
+ENV UV_LINK_MODE=copy
+ENV UV_SYSTEM_PYTHON=true
+
 # Install dependencies.
 COPY ./pyproject.toml ./uv.lock* ./
 RUN uv sync --frozen --no-dev

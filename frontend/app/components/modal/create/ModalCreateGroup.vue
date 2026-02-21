@@ -9,6 +9,7 @@
     />
   </ModalBase>
 </template>
+
 <script setup lang="ts">
 const modalName = "ModalCreateGroup";
 const { handleCloseModal } = useModalHandlers(modalName);

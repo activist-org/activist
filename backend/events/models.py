@@ -88,6 +88,9 @@ class Event(models.Model):
         return self.name
 
 
+# MARK: Time
+
+
 class EventTime(models.Model):
     """
     Model for event times.
