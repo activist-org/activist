@@ -41,7 +41,7 @@ from communities.groups.serializers import (
     GroupSocialLinkSerializer,
     GroupTextSerializer,
 )
-from content.models import Image, Location
+from content.models import Image
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
@@ -104,7 +104,9 @@ class GroupAPIView(GenericAPIView[Group]):
         serializer.is_valid(raise_exception=True)
         group = serializer.save(created_by=request.user)
 
-        return Response("Group was created successfully.", status=status.HTTP_201_CREATED)
+        return Response(
+            "Group was created successfully.", status=status.HTTP_201_CREATED
+        )
 
 
 # MARK: Detail API

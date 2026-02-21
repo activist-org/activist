@@ -187,10 +187,12 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 # MARK: Organization
 
+
 class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
     """
     Serializer for Organization model data on POST requests.
     """
+
     name = serializers.CharField(max_length=255)
     tagline = serializers.CharField(max_length=255, required=False, allow_blank=True)
     description = serializers.CharField(max_length=2500)
@@ -199,9 +201,35 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
     city = serializers.CharField(max_length=255)
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Validate the data being posted.
+
+        Parameters
+        ----------
+        data : dict[str, Any]
+            The data to be posted.
+
+        Returns
+        -------
+        dict[str, Any]
+            The data post validation.
+        """
         return data
-    
+
     def create(self, validated_data: dict[str, Any]) -> Organization:
+        """
+        Create an organization via a post operation.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Any]
+            Data to be used in the creation of an organization.
+
+        Returns
+        -------
+        Organization
+            The organization object that was created in the database.
+        """
         location_data = {
             "city": validated_data.pop("city"),
             "country_code": validated_data.pop("country_code"),
@@ -213,11 +241,10 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
             org = Organization.objects.create(location=location, **validated_data)
             logger.info("Created Organization with id: %s", org.id)
             return org
-        
+
         except (IntegrityError, OperationalError) as e:
             location.delete()
             raise e
-
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):

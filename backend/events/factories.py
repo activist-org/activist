@@ -57,7 +57,20 @@ class EventFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def orgs(self, create, extracted, **kwargs):  # type: ignore[override]
-        """Attach organizations via ManyToMany operations."""
+        """
+        Attach organizations via ManyToMany operations.
+
+        Parameters
+        ----------
+        create : bool
+            Whether organization times should be created.
+
+        extracted : [OrganizationFactory]
+            Extracted organization factories.
+
+        **kwargs : dict
+            Extra keyword arguments.
+        """
         if not create:
             return
 
@@ -65,10 +78,12 @@ class EventFactory(factory.django.DjangoModelFactory):
             from communities.organizations.factories import OrganizationFactory
 
             organizations = [OrganizationFactory()]
+
         elif isinstance(extracted, Iterable) and not isinstance(
             extracted, (str, bytes)
         ):
             organizations = list(extracted)
+
         else:
             organizations = [extracted]
 
@@ -76,12 +91,26 @@ class EventFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def groups(self, create, extracted, **kwargs):  # type: ignore[override]
-        """Attach optional groups via ManyToMany operations."""
+        """
+        Attach optional groups via ManyToMany operations.
+
+        Parameters
+        ----------
+        create : bool
+            Whether group times should be created.
+
+        extracted : [GroupFactory]
+            Extracted group factories.
+
+        **kwargs : dict
+            Extra keyword arguments.
+        """
         if not create or extracted is None:
             return
 
         if isinstance(extracted, Iterable) and not isinstance(extracted, (str, bytes)):
             groups = list(extracted)
+
         else:
             groups = [extracted]
 
@@ -89,17 +118,32 @@ class EventFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def times(self, create, extracted, **kwargs):  # type: ignore[override]
-        """Attach event times via ManyToMany operations."""
+        """
+        Attach event times via ManyToMany operations.
+
+        Parameters
+        ----------
+        create : bool
+            Whether event times should be created.
+
+        extracted : [EventTimeFactory]
+            Extracted event time factories.
+
+        **kwargs : dict
+            Extra keyword arguments.
+        """
         if not create:
             return
 
         if extracted is None:
-            # Create 1-3 event times by default
+            # Create 1-3 event times by default.
             event_times = [EventTimeFactory() for _ in range(random.randint(1, 3))]
+
         elif isinstance(extracted, Iterable) and not isinstance(
             extracted, (str, bytes)
         ):
             event_times = list(extracted)
+
         else:
             event_times = [extracted]
 
@@ -118,34 +162,38 @@ class EventTimeFactory(factory.django.DjangoModelFactory):
         model = EventTime
 
     start_time = factory.LazyFunction(
-        lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-        + datetime.timedelta(
-            # Weighted distribution:
-            # - 30% within 1 day
-            # - 30% within 7 days
-            # - 20% within 30 days
-            # - 10% far future (30-90 days)
-            # - 10% past events
-            days=random.choices(
-                [
-                    random.randint(0, 1),  # today or tomorrow
-                    random.randint(2, 7),  # this week
-                    random.randint(8, 30),  # this month
-                    random.randint(31, 90),  # far future
-                    random.randint(-30, -1),  # past events
-                ],
-                weights=[30, 30, 20, 10, 10],
-                k=1,
-            )[0],
-            # Events between 8 AM and 8 PM.
-            hours=random.randint(8, 20),
-            # Round to 15-minute intervals.
-            minutes=random.choice([0, 15, 30, 45]),
+        lambda: (
+            datetime.datetime.now(tz=datetime.timezone.utc)
+            + datetime.timedelta(
+                # Weighted distribution:
+                # - 30% within 1 day
+                # - 30% within 7 days
+                # - 20% within 30 days
+                # - 10% far future (30-90 days)
+                # - 10% past events
+                days=random.choices(
+                    [
+                        random.randint(0, 1),  # today or tomorrow
+                        random.randint(2, 7),  # this week
+                        random.randint(8, 30),  # this month
+                        random.randint(31, 90),  # far future
+                        random.randint(-30, -1),  # past events
+                    ],
+                    weights=[30, 30, 20, 10, 10],
+                    k=1,
+                )[0],
+                # Events between 8 AM and 8 PM.
+                hours=random.randint(8, 20),
+                # Round to 15-minute intervals.
+                minutes=random.choice([0, 15, 30, 45]),
+            )
         )
     )
+
     end_time = factory.LazyAttribute(
-        lambda obj: obj.start_time
-        + datetime.timedelta(hours=random.randint(1, 8))  # events last 1-8 hours
+        lambda obj: (
+            obj.start_time + datetime.timedelta(hours=random.randint(1, 8))
+        )  # events last 1-8 hours
     )
 
 

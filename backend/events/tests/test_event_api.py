@@ -89,7 +89,7 @@ def test_EventListAPIView(logged_in_user) -> None:
     pagination_key = ["count", "next", "previous", "results"]
     assert all(key in response.data for key in pagination_key)
 
-    response = client.get(f"{'/v1/events/events'}?pageSize={test_page_size}")
+    response = client.get(f"/v1/events/events?pageSize={test_page_size}")
     assert response.status_code == 200
 
     assert len(response.data["results"]) == test_page_size
@@ -166,7 +166,7 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
 
     # MARK: Detail GET
 
-    response = client.get(f"{'/v1/events/events'}/{new_event.id}")
+    response = client.get(f"/v1/events/events/{new_event.id}")
 
     assert response.status_code == 200
     assert response.data["name"] == new_event.name
@@ -183,14 +183,14 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
         "terms_checked": True,
     }
     response = client.put(
-        f"{'/v1/events/events'}/{new_event.id}", data=payload, format="json"
+        f"/v1/events/events/{new_event.id}", data=payload, format="json"
     )
 
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
     response = client.put(
-        f"{'/v1/events/events'}/{new_event.id}", data=payload, format="json"
+        f"/v1/events/events/{new_event.id}", data=payload, format="json"
     )
 
     assert response.status_code == 200
@@ -199,11 +199,11 @@ def test_EventDetailAPIView(logged_in_user) -> None:  # type: ignore[no-untyped-
     # MARK: Detail DELETE
 
     client.credentials()
-    response = client.delete(f"{'/v1/events/events'}/{new_event.id}")
+    response = client.delete(f"/v1/events/events/{new_event.id}")
     assert response.status_code == 401
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {access}")
-    response = client.delete(f"{'/v1/events/events'}/{new_event.id}")
+    response = client.delete(f"/v1/events/events/{new_event.id}")
 
     assert response.status_code == 204
     assert not Event.objects.filter(id=new_event.id).exists()
@@ -216,7 +216,7 @@ def test_EventDetailAPIView_failure(authenticated_client) -> None:
     with patch("events.views.EventDetailAPIView.queryset.get") as mock_queryset:
         mock_queryset.side_effect = Event.DoesNotExist
 
-        response = client.get(path=f"{'/v1/events/events'}/{uuid}")
+        response = client.get(path=f"/v1/events/events/{uuid}")
 
         assert response.status_code == 404
         assert response.data["detail"] == "Event Not Found."
@@ -225,13 +225,13 @@ def test_EventDetailAPIView_failure(authenticated_client) -> None:
         mock_queryset.assert_called_once()
 
         # verify for PUT method.
-        response = client.put(path=f"{'/v1/events/events'}/{uuid}")
+        response = client.put(path=f"/v1/events/events/{uuid}")
 
         assert response.status_code == 404
         assert response.data["detail"] == "Event Not Found."
 
         # verify for DELETE method.
-        response = client.delete(path=f"{'/v1/events/events'}/{uuid}")
+        response = client.delete(path=f"/v1/events/events/{uuid}")
 
         assert response.status_code == 404
         assert response.data["detail"] == "Event Not Found."

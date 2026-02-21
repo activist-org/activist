@@ -8,8 +8,8 @@ import logging
 from typing import Type
 from uuid import UUID
 
-from django.db.utils import IntegrityError, OperationalError
 from django.contrib.auth.models import AnonymousUser
+from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
@@ -46,7 +46,7 @@ from communities.organizations.serializers import (
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
 )
-from content.models import Image, Location
+from content.models import Image
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly

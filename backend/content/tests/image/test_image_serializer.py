@@ -5,14 +5,12 @@ Testing for Image Serializers.
 
 import io
 import logging
-from datetime import timedelta
 from unittest.mock import patch
 from uuid import uuid4
 
 import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.utils import timezone
 from PIL import Image as TestImage
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -180,8 +178,6 @@ def test_image_icon_serializer_create_event(caplog):
     # Create event with ALL required fields.
     event = Event.objects.create(
         name="Test Event",
-        start_time=timezone.now(),
-        end_time=timezone.now() + timedelta(hours=1),
         created_by=user,
         physical_location=location,  # associate with location
     )

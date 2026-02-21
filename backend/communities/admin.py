@@ -50,7 +50,7 @@ class GroupAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
     class Meta:
         model = Group
 
-    list_display = [ "name"]
+    list_display = ["name"]
 
 
 # MARK: Group Text

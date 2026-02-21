@@ -85,8 +85,7 @@ def create_organization(
 
     # Basic fields with fallbacks.
     org_id = (
-        assigned.get("name")
-        or f"organization_{user.username}_o{per_user_org_index}"
+        assigned.get("name") or f"organization_{user.username}_o{per_user_org_index}"
     )
     tagline = assigned.get("tagline") or f"Fighting for {user_topic_name.lower()}"
 
