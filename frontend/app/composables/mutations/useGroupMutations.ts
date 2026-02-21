@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-const store = useOrganizationStore();
 
 export const useGroupMutations = () => {
   const { showToastError } = useToaster();
 
+  const store = useOrganizationStore();
   const loading = ref(false);
   const error = ref<Error | null>(null);
 
