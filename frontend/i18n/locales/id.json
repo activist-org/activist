@@ -267,7 +267,7 @@
   "i18n.components.friendly_captcha.dev_captcha_disabled": "Captcha dinonaktifkan - silakan klik untuk verifikasi",
   "i18n.components.friendly_captcha.dev_captcha_disabled_aria_label": "Saat ini masih dalam tahap pengembangan, jadi captcha dinonaktifkan",
   "i18n.components.friendly_captcha.dev_captcha_verified": "Captcha terverifikasi",
-  "i18n.components.grid_app_shields.app_store": "Toko Aplikasi",
+  "i18n.components.grid_app_shields.app_store": "App Store (IOS)",
   "i18n.components.grid_app_shields.download_on_the": "Unduh di",
   "i18n.components.grid_app_shields.f_droid": "F-Droid",
   "i18n.components.grid_app_shields.get_it_on": "Ayo mulai",
