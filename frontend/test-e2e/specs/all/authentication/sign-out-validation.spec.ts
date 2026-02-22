@@ -19,14 +19,27 @@ test.describe("Sign out", () => {
     async ({ page }) => {
       // Verify we're signed in.
       const cookiesSignIn = await page.context().cookies();
-      const sessionCookie = cookiesSignIn.find((c) => c.name === "auth.token");
+      const sessionCookie = cookiesSignIn.find((c) => c.name === "nuxt-session");
       expect(sessionCookie).toBeDefined();
       await signOut(page);
+      // Wait for sign-out to complete (logout API + session clear); poll for cookie
+      const maxAttempts = 25;
+      for (let i = 0; i < maxAttempts; i++) {
+        const cookiesSignOut = await page.context().cookies();
+        const sessionCookie = cookiesSignOut.find(
+          (c) => c.name === "nuxt-session"
+        );
+        if (!sessionCookie || sessionCookie.value === "") break;
+        await page.waitForTimeout(200);
+      }
       const cookiesSignOut = await page.context().cookies();
-      const sessionCookieUndefined = cookiesSignOut.find(
-        (c) => c.name === "auth.token"
+      const sessionCookieAfterSignOut = cookiesSignOut.find(
+        (c) => c.name === "nuxt-session"
       );
-      expect(sessionCookieUndefined).toBeUndefined();
+      // nuxt-auth-utils clears session by setting cookie to empty, not removing it
+      expect(
+        !sessionCookieAfterSignOut || sessionCookieAfterSignOut.value === ""
+      ).toBe(true);
     }
   );
 });

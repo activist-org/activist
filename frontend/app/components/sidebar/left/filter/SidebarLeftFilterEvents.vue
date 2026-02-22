@@ -238,9 +238,14 @@ const formData = ref({});
 watch(
   route,
   (form) => {
-    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
+    const { view, days_ahead, ...rest } =
+      (form.query as Record<string, unknown>) || {};
     const topics = normalizeArrayFromURLQuery(form.query.topics);
-    formData.value = { ...rest, topics };
+    formData.value = {
+      ...rest,
+      ...(days_ahead !== undefined && { days: days_ahead }),
+      topics,
+    };
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)

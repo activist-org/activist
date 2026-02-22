@@ -254,6 +254,10 @@ export default defineConfig({
           timeout: 180000, // 3 minutes for build + server startup
           stdout: "pipe",
           stderr: "pipe",
+          // Listhen (used by Nitro) prints: ➜  Local:    http://localhost:3000/
+          wait: {
+            stdout: /\u2794\s+Local:\s+http:\/\/localhost:3000\/?/,
+          },
         }
       : {
           // Use dev server (default, with hot reload).
@@ -263,5 +267,9 @@ export default defineConfig({
           timeout: 120000, // 2 minutes for server startup
           stdout: "pipe",
           stderr: "pipe",
+          // Listhen prints: ➜  Local:    http://localhost:3000/
+          wait: {
+            stdout: /\u2794\s+Local:\s+http:\/\/localhost:3000\/?/,
+          },
         },
 });

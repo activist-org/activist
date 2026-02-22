@@ -101,33 +101,40 @@ export async function performDragAndDrop(
   // Press mouse button.
   await page.mouse.down();
 
-  // Wait for drag start to be detected by observing CSS class change.
-  await page
-    .waitForFunction(
-      () => {
-        const dragElements = document.querySelectorAll(
-          ".sortable-chosen, .sortable-drag"
-        );
-        return dragElements.length > 0;
-      },
-      { timeout: 5000 }
-    )
-    .catch(() => {
-      // If no sortable classes appear, continue anyway (might work without them).
-    });
+  // Brief delay for mousedown to register. Sortable requires moving `distance` px
+  // (default 5) before adding sortable-chosen/drag; waiting for those classes
+  // before moving would deadlock. Use a short delay instead.
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      })
+  );
 
-  // Move to target with intermediate steps for smooth drag.
+  // Trigger Sortable's distance threshold: move ~8px toward target so the drag
+  // actually starts before the main move.
+  const dx = endX - startX;
+  const dy = endY - startY;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  const triggerX = startX + (dx / dist) * 8;
+  const triggerY = startY + (dy / dist) * 8;
+  await page.mouse.move(triggerX, triggerY);
+  await page.evaluate(() => new Promise(requestAnimationFrame));
+
+  // Move to target with intermediate steps. Use rAF between steps so vuedraggable
+  // has time to process (avoids "executes too quickly" issues).
   for (let i = 1; i <= steps; i++) {
     const progress = i / steps;
     const currentX = startX + (endX - startX) * progress;
     const currentY = startY + (endY - startY) * progress;
     await page.mouse.move(currentX, currentY);
+    await page.evaluate(() => new Promise(requestAnimationFrame));
   }
 
   // Release mouse button.
   await page.mouse.up();
 
-  // Wait for animation to complete by checking if ghost/chosen classes are removed.
+  // Wait for Sortable animation to finish (ghost/chosen classes removed).
   await page
     .waitForFunction(
       () => {
@@ -136,7 +143,7 @@ export async function performDragAndDrop(
         );
         return dragElements.length === 0;
       },
-      { timeout: 2000 }
+      { timeout: 3000 }
     )
     .catch(() => {
       // If classes don't clear, continue anyway (might have completed).
