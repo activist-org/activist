@@ -148,7 +148,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
         },
     )
     def get(self, request: Request, user_id: None | UUID = None) -> Response:
-        user: UserModel | AnonymousUser = request.user  # TODO mypy check again
+        user: UserModel | AnonymousUser = request.user
         if user_id is None:
             return Response(
                 {"detail": "User ID is required."},

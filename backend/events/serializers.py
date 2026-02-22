@@ -317,14 +317,14 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
         orgs = Organization.objects.filter(id__in=orgs)
         data["orgs"] = orgs
 
-        # Get the local timezone from Django settings
+        # Get the local timezone from Django settings.
         local_tz = zoneinfo.ZoneInfo(settings.TIME_ZONE)
 
         for time in times:
             if time.get("all_day"):
                 date = time.get("date")
                 # For all-day events, create times in the local timezone
-                # so that 00:00:00 to 23:59:59 stays in that timezone
+                # so that 00:00:00 to 23:59:59 stays in that timezone.
                 if date is None:
                     raise serializers.ValidationError(
                         "Date must be provided for all-day events."

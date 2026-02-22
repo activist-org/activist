@@ -706,9 +706,8 @@ class EventCalenderAPIView(APIView):
         ical_event.add("summary", event.name)
         ical_event.add("description", event.tagline or "")
 
-        # Get the first event time if available
-        first_time = event.times.first()
-        if first_time:
+        # Get the first event time if available.
+        if first_time := event.times.first():
             ical_event.add("dtstart", first_time.start_time)
             ical_event.add("dtend", first_time.end_time)
 

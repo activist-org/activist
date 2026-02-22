@@ -6,6 +6,7 @@ Models for the events app.
 from typing import Any
 from uuid import uuid4
 
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from content.models import Faq, Resource, SocialLink, Text
@@ -95,6 +96,18 @@ class EventTime(models.Model):
     """
     Model for event times.
     """
+
+    def clean(self) -> None:
+        """
+        Validate the event time data.
+
+        Raises
+        ------
+        ValidationError
+            If the start time is after the end time.
+        """
+        if self.start_time and self.end_time and self.start_time > self.end_time:
+            raise ValidationError("The start time must be before the end time.")
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     start_time = models.DateTimeField()
