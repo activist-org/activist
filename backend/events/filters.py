@@ -80,7 +80,9 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
 
         end = now if days_ahead_int == 0 else now + timedelta(days=days_ahead_int)
 
-        return queryset.filter(start_time__gte=now, start_time__lte=end)
+        return queryset.filter(
+            times__start_time__gte=now, times__start_time__lte=end
+        ).distinct()
 
     class Meta:
         model = Event
