@@ -16,7 +16,11 @@ def test_org_topic_multiple_topics() -> None:
     Test multiple topics for a single organization.
     """
     org = OrganizationFactory()
-    topics = TopicFactory.create_batch(3)
+
+    # Note: Creating a random topic runs the chance of creating the same topic twice.
+    topic_1 = TopicFactory.create()
+    topic_2 = TopicFactory.create(type="A_DIFFERENT_TOPIC")
+    topics = [topic_1, topic_2]
 
     org.topics.set(topics)
 
