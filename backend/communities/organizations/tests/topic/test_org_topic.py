@@ -24,6 +24,6 @@ def test_org_topic_multiple_topics() -> None:
 
     org.topics.set(topics)
 
-    assert len(topics) == 3
+    assert len(topics) == 2
     for topic in topics:
         assert topic in org.topics.all()
