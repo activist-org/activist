@@ -52,7 +52,6 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
-    # setting
     location_type = random.choice(["online", "physical"])
 
     @factory.post_generation
