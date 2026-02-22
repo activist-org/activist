@@ -97,7 +97,7 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n._global.repeat_password')"
+          :label="$t('i18n.pages.auth._global.repeat_password')"
           :modelValue="(confirmPassword.value as string)"
         >
           <template #icons>
@@ -155,13 +155,13 @@
           />
         </FormItem>
         <p class="pl-2">
-          {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
+          {{ $t("i18n.pages.auth.sign_up.terms_of_service_pt_1") }}
           <NuxtLink
             class="link-text inline-link-underline ml-0.5"
             target="_blank"
             :to="localePath('/legal/privacy-policy')"
           >
-            {{ $t("i18n.pages._global.terms_of_service_pt_2") }}
+            {{ $t("i18n.pages.auth.sign_up.terms_of_service_pt_2") }}
           </NuxtLink>
         </p>
       </div>

@@ -71,7 +71,10 @@ export const newEventResourcesPage = (page: Page) => ({
     }),
   resourceDescriptionInput: (modal: Locator) =>
     modal.getByRole("textbox", {
-      name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+      name: new RegExp(
+        getEnglishText("i18n.components._global.description"),
+        "i"
+      ),
     }),
   resourceUrlInput: (modal: Locator) =>
     modal.getByRole("textbox", {

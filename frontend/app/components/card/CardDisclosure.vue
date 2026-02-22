@@ -7,8 +7,8 @@
   >
     <DisclosureButton class="rounded-md px-4 py-2 focus-brand">
       <div class="flex select-none items-center gap-3 text-primary-text">
-        <Icon class="fill-primary-text" :name="IconMap.LEGAL" />
-        <p>{{ $t("i18n.components.card_legal_disclaimer.header") }}</p>
+        <Icon v-if="icon" class="fill-primary-text" :name="icon" />
+        <p>{{ title }}</p>
         <Icon v-if="open" :name="IconMap.CHEVRON_UP" />
         <Icon v-else :name="IconMap.CHEVRON_DOWN" />
       </div>
@@ -16,7 +16,7 @@
         class="mt-2 border-t border-section-div py-2 focus-within:border-0"
       >
         <p class="select-text text-left text-distinct-text">
-          {{ disclaimer }}
+          {{ text }}
         </p>
       </DisclosurePanel>
     </DisclosureButton>
@@ -27,6 +27,8 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
 defineProps<{
-  disclaimer: string;
+  title: string;
+  text: string;
+  icon?: string;
 }>();
 </script>

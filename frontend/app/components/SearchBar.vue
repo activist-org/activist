@@ -38,7 +38,7 @@
         class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
         <div
-          v-tooltip="$t('i18n.components._global.slash_tooltip_label')"
+          v-tooltip="$t('i18n.components.search_bar.slash_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->
@@ -48,7 +48,7 @@
         </div>
         <div
           v-if="isMacOS"
-          v-tooltip="$t('i18n.components._global.command_tooltip_label')"
+          v-tooltip="$t('i18n.components.search_bar.command_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->
@@ -58,7 +58,7 @@
         </div>
         <div
           v-else
-          v-tooltip="$t('i18n.components._global.control_tooltip_label')"
+          v-tooltip="$t('i18n.components.search_bar.control_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->

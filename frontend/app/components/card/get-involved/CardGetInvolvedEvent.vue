@@ -20,8 +20,13 @@
       </p>
       <!-- <p>
         {{ $t("i18n.components.card_get_involved_event.legal_disclaimer_subtext") }}
-      </p>
-      <CardLegalDisclaimer v-if="disclaimer" :disclaimer="disclaimer" /> -->
+      </p> -->
+      <!-- <CardDisclosure
+        v-if="false"
+        icon="IconLegal"
+        text=""
+        :title="'i18n.components.card_get_involved_event.legal_disclaimer'"
+      /> -->
       <div class="flex w-max pt-2">
         <BtnRouteInternal
           ariaLabel="i18n._global.offer_to_help_aria_label"

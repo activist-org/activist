@@ -41,7 +41,10 @@ test.describe(
 
       // Verify specific editable text fields.
       const descriptionField = groupAboutPage.textModal.getByRole("textbox", {
-        name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components._global.description"),
+          "i"
+        ),
       });
       const getInvolvedField = groupAboutPage.textModal.getByRole("textbox", {
         name: new RegExp(

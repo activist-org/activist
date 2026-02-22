@@ -70,7 +70,7 @@
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
         data-testid="events-filter-location"
-        :label="$t('i18n._global.location')"
+        :label="$t('i18n.components.sidebar.left.filter._global.location')"
         name="location"
       >
         <!-- prettier-ignore-attribute :modelValue -->
