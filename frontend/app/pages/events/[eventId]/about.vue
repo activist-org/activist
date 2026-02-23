@@ -79,6 +79,10 @@
           class="h-70 w-full"
           :event="event"
         />
+        <MediaUrl
+          v-if="event?.onlineLocationLink"
+          :link="event.onlineLocationLink"
+        />
       </div>
       <CardAboutEvent :event="event" />
       <CardGetInvolvedEvent

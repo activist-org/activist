@@ -53,7 +53,9 @@ export const defaultPhysicalLocationData = {
   lat: "0.0",
   lon: "0.0",
   bbox: [] as string[],
-  displayName: "Test Location",
+  addressOrName: "Test Location",
+  city: "Test City",
+  country: "Test Country",
 } as const;
 
 // MARK: SocialLink
@@ -88,7 +90,7 @@ export const defaultEventData = {
 } as const;
 
 export const defaultEventFiltersData = {
-  setting: "action",
+  type: "action",
   locationType: "online",
 } as const;
 

@@ -112,3 +112,11 @@ export interface OrganizationUpdateTextFormData {
   getInvolved: string;
   getInvolvedUrl?: string;
 }
+export interface CreateOrganizationInput {
+  name: string;
+  tagline?: string;
+  city: string;
+  country_code: string;
+  description: string;
+  topics?: TopicEnum[];
+}

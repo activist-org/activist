@@ -10,7 +10,7 @@ from unittest.mock import patch
 import pytest
 from rest_framework.test import APIClient
 
-from events.factories import EventFactory
+from events.factories import EventFactory, EventTimeFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -27,20 +27,32 @@ def test_days_ahead_filters_events_within_window(mock_now) -> None:
 
     # Within the 10 day window.
     event_in_window = EventFactory.create(
-        start_time=FIXED_NOW + timedelta(days=5),
-        end_time=FIXED_NOW + timedelta(days=5, hours=2),
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW + timedelta(days=5),
+                end_time=FIXED_NOW + timedelta(days=5, hours=2),
+            )
+        ]
     )
 
     # Before now (past).
     event_in_past = EventFactory.create(
-        start_time=FIXED_NOW - timedelta(days=1),
-        end_time=FIXED_NOW - timedelta(hours=20),
+        times=[
+            EventTimeFactory.create(
+                start_time=FIXED_NOW - timedelta(days=1),
+                end_time=FIXED_NOW - timedelta(hours=20),
+            )
+        ]
     )
 
     # After the window.
     event_after_window = EventFactory.create(
-        start_time=FIXED_NOW + timedelta(days=15),
-        end_time=FIXED_NOW + timedelta(days=15, hours=2),
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW + timedelta(days=15),
+                end_time=FIXED_NOW + timedelta(days=15, hours=2),
+            )
+        ]
     )
 
     response = client.get(f"{EVENTS_URL}?days_ahead=10")
@@ -63,14 +75,22 @@ def test_days_ahead_rolling_24h_window(mock_now) -> None:
 
     # Inside 1-day window (now + 23 hours).
     event_inside = EventFactory.create(
-        start_time=FIXED_NOW + timedelta(hours=23),
-        end_time=FIXED_NOW + timedelta(hours=25),
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW + timedelta(hours=21),
+                end_time=FIXED_NOW + timedelta(hours=23),
+            )
+        ]
     )
 
     # Just outside 1-day window (now + 25 hours).
-    event_outside = EventFactory.create(
-        start_time=FIXED_NOW + timedelta(hours=25),
-        end_time=FIXED_NOW + timedelta(hours=27),
+    event_outside = EventFactory(
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW + timedelta(hours=25),
+                end_time=FIXED_NOW + timedelta(hours=27),
+            )
+        ]
     )
 
     response = client.get(f"{EVENTS_URL}?days_ahead=1")
@@ -83,45 +103,61 @@ def test_days_ahead_rolling_24h_window(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_with_type_and_setting_combination(mock_now) -> None:
+def test_days_ahead_with_type_and_location_type_combination(mock_now) -> None:
     """
-    days_ahead works in combination with other filters (type, setting).
+    days_ahead works in combination with other filters (type, location_type).
     """
     client = APIClient()
 
     event_match = EventFactory.create(
         type="learn",
-        setting="online",
-        start_time=FIXED_NOW + timedelta(days=3),
-        end_time=FIXED_NOW + timedelta(days=3, hours=2),
+        location_type="online",
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW + timedelta(days=3),
+                end_time=FIXED_NOW + timedelta(days=3, hours=2),
+            )
+        ],
     )
 
     # Wrong type.
-    EventFactory.create(
+    EventFactory(
         type="action",
-        setting="online",
-        start_time=FIXED_NOW + timedelta(days=3),
-        end_time=FIXED_NOW + timedelta(days=3, hours=2),
+        location_type="physical",
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW + timedelta(days=3),
+                end_time=FIXED_NOW + timedelta(days=3, hours=2),
+            )
+        ],
     )
 
-    # Wrong setting.
-    EventFactory.create(
+    # Wrong location_type.
+    EventFactory(
         type="learn",
-        setting="physical",
-        start_time=FIXED_NOW + timedelta(days=3),
-        end_time=FIXED_NOW + timedelta(days=3, hours=2),
+        location_type="physical",
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW + timedelta(days=3),
+                end_time=FIXED_NOW + timedelta(days=3, hours=2),
+            )
+        ],
     )
 
     # Outside days_ahead window.
-    EventFactory.create(
+    EventFactory(
         type="learn",
-        setting="online",
-        start_time=FIXED_NOW + timedelta(days=20),
-        end_time=FIXED_NOW + timedelta(days=20, hours=2),
+        location_type="online",
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW + timedelta(days=20),
+                end_time=FIXED_NOW + timedelta(days=20, hours=2),
+            )
+        ],
     )
 
     response = client.get(
-        f"{EVENTS_URL}?days_ahead=10&type=learn&setting=online",
+        f"{EVENTS_URL}?days_ahead=10&type=learn&location_type=online",
     )
     assert response.status_code == 200
 
@@ -143,16 +179,17 @@ def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
     client = APIClient()
 
     # Event exactly at now.
-    event_now = EventFactory.create(
-        start_time=FIXED_NOW,
-        end_time=FIXED_NOW + timedelta(hours=2),
+    event_now = EventFactory(
+        times=[
+            EventTimeFactory(
+                start_time=FIXED_NOW,
+                end_time=FIXED_NOW + timedelta(hours=2),
+            )
+        ]
     )
 
     # Event in future.
-    event_future = EventFactory.create(
-        start_time=FIXED_NOW + timedelta(days=1),
-        end_time=FIXED_NOW + timedelta(days=1, hours=2),
-    )
+    event_future = EventFactory.create()
 
     response = client.get(f"{EVENTS_URL}?days_ahead=0")
     assert response.status_code == 200

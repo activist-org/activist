@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BtnAction } from "#shared/types/btn-props";
+import type { BtnAction } from "#shared/types/components-props";
 
 const { canCreate } = useUser();
 const canAdd = computed(() => canCreate());

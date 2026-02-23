@@ -173,12 +173,14 @@ class Location(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    lat = models.CharField(max_length=24)
-    lon = models.CharField(max_length=24)
+    address_or_name = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=255)
+    country_code = models.CharField(max_length=3, choices=ISO_CHOICES)
+    lat = models.CharField(max_length=24, blank=True)
+    lon = models.CharField(max_length=24, blank=True)
     bbox = ArrayField(
         base_field=models.CharField(max_length=24), size=4, blank=True, null=True
     )
-    display_name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return str(self.id)
