@@ -23,7 +23,7 @@
     "typecheck": "nuxi typecheck",
     "format": "yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore",
     "lint": "eslint .",
-    "restart:types": "rm -rf .nuxt && rm -rf node_modules && yarn install"
+    "restart:imports": "rm -rf .nuxt && rm -rf node_modules && yarn install"
   },
   "devDependencies": {
     "@headlessui/vue": "1.7.23",
@@ -108,7 +108,7 @@
     "qrcode": "1.5.4",
     "qrcode.vue": "3.6.0",
     "reduced-motion": "1.0.4",
-    "swiper": "12.0.3",
+    "swiper": "12.1.2",
     "tailwind-scrollbar": "4.0.2",
     "tailwindcss": "4.1.18",
     "tippy.js": "6.3.7",

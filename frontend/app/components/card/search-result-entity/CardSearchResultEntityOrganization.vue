@@ -66,7 +66,7 @@ const defaultIconName = computed(() => {
 
 const location = computed(() => {
   if (props.organization.location) {
-    return props.organization.location.displayName.split(",")[0];
+    return props.organization.location.addressOrName.split(",")[0];
   }
   return "";
 });

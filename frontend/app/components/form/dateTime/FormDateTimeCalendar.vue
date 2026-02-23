@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import { DatePicker } from "v-calendar";
-import "v-calendar/style.css";
 
 type CalendarProps = InstanceType<typeof DatePicker>["$props"];
 type InferredAttributes = CalendarProps extends { attributes?: infer A }

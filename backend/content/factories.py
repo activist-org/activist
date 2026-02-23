@@ -5,6 +5,7 @@ Factories for creating mock instances of models in the content app.
 
 # mypy: ignore-errors
 import datetime
+import json
 import random
 from uuid import uuid4
 
@@ -21,6 +22,11 @@ from content.models import (
     Task,
     Topic,
 )
+
+with open("fixtures/topics.json") as f:
+    topics_dict = json.load(f)
+
+topic_types = [t["fields"]["type"] for t in topics_dict]
 
 # MARK: Community Loc
 
@@ -88,7 +94,7 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
         self.lat = random_locations[self.location_idx][0]
         self.lon = random_locations[self.location_idx][1]
         self.bbox = random_locations[self.location_idx][2]
-        self.display_name = random_locations[self.location_idx][3]
+        self.address_or_name = random_locations[self.location_idx][3]
 
 
 # MARK: Event Loc
@@ -157,7 +163,7 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
         self.lat = random_locations[self.location_idx][0]
         self.lon = random_locations[self.location_idx][1]
         self.bbox = random_locations[self.location_idx][2]
-        self.display_name = random_locations[self.location_idx][3]
+        self.address_or_name = random_locations[self.location_idx][3]
 
 
 # MARK: Discussion
@@ -314,8 +320,8 @@ class TopicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Topic
 
-    type = factory.Faker("word")
-    active = factory.Faker("boolean")
+    type = random.choice(topic_types)
+    active = True
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
     )

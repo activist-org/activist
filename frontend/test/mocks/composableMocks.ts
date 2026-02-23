@@ -17,9 +17,7 @@ import type { Composer } from "vue-i18n";
 
 import { vi } from "vitest";
 
-import type { User } from "../../shared/types/user";
-
-// AuthUser type from vitest-globals.d.ts.
+// AuthUser: compatible with nuxt-auth-utils User; use for auth mock params.
 type AuthUser = { [key: string]: unknown } | null;
 
 // MARK: I18n
@@ -118,7 +116,7 @@ export function createUseLocalStorageMock<T>(defaultValue: T) {
  * Creates a mock for useAuthState composable.
  * @param user - User object or null (default: null)
  */
-export function createUseAuthStateMock(user: User | null = null) {
+export function createUseAuthStateMock(user: AuthUser = null) {
   return () => ({
     data: { value: user },
   });
@@ -241,6 +239,34 @@ export function createUseSidebarSpy(
     collapsed,
     collapsedSwitch,
   }));
+}
+
+// MARK: Toaster (Mutation Tests)
+
+/**
+ * Documents the useToaster mock shape for mutation tests.
+ * vi.mock factories are hoisted and cannot reference imports, so specs must
+ * inline: useToaster: () => ({ showToastError, showToastInfo: vi.fn(), showToastSuccess: vi.fn() }).
+ * Use vi.hoisted for showToastError so the mock factory can reference it.
+ * @param showToastError - Spy for error toasts (default: vi.fn())
+ */
+export function createUseToasterMock(showToastError = vi.fn()) {
+  return () => ({
+    showToastError,
+    showToastInfo: vi.fn(),
+    showToastSuccess: vi.fn(),
+  });
+}
+
+/**
+ * Documents the refreshNuxtData mock shape for mutation tests.
+ * vi.mock factories are hoisted and cannot reference imports, so specs must
+ * inline in vi.hoisted: mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined).
+ * Use with mockNuxtImport: mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData).
+ * @returns vi.fn() resolved to undefined
+ */
+export function createRefreshNuxtDataMock() {
+  return vi.fn().mockResolvedValue(undefined);
 }
 
 // MARK: Dev Mode
