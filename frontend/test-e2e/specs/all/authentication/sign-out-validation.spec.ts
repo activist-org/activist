@@ -19,7 +19,9 @@ test.describe("Sign out", () => {
     async ({ page }) => {
       // Verify we're signed in.
       const cookiesSignIn = await page.context().cookies();
-      const sessionCookie = cookiesSignIn.find((c) => c.name === "nuxt-session");
+      const sessionCookie = cookiesSignIn.find(
+        (c) => c.name === "nuxt-session"
+      );
       expect(sessionCookie).toBeDefined();
       await signOut(page);
       // Wait for sign-out to complete (logout API + session clear); poll for cookie
