@@ -34,6 +34,8 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {},
+
     server: {
       watch: {
         usePolling: true,
@@ -54,7 +56,12 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
-  css: ["~/assets/css/tailwind.css", "reduced-motion/css"],
+  css: [
+    "~/assets/css/tailwind.css",
+    "reduced-motion/css",
+    "v-calendar/style.css",
+    "vue-sonner/style.css",
+  ],
 
   postcss: {
     plugins: {

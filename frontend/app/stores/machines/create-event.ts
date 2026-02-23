@@ -12,6 +12,10 @@ const LocationStep = () =>
 const OnlineLink = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventLinkOnline.vue");
 
+if (import.meta.env.DEV) {
+  TimeStep();
+}
+
 const { create } = useEventMutations();
 
 export const useCreateEventStore = createFlowStore({
