@@ -149,7 +149,9 @@ export const useClusterMap = () => {
                         lat: leafCoords[1].toString(),
                         bbox: ["0", "0", "0", "0"], // Placeholder, adjust as needed
                         id: markerId,
-                        displayName: leafProps.name || "",
+                        addressOrName: leafProps.name || "",
+                        countryCode: "",
+                        city: "",
                       },
                       popup: popup as HTMLElement,
                     },
@@ -229,7 +231,9 @@ export const useClusterMap = () => {
                   lon: coords[0].toString(),
                   lat: coords[1].toString(),
                   bbox: ["0", "0", "0", "0"], // Placeholder, adjust as needed
-                  displayName: props.name || "",
+                  addressOrName: props.name || "",
+                  countryCode: "",
+                  city: "",
                 },
                 popup: popup as HTMLElement,
               },

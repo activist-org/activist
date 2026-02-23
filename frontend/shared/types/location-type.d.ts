@@ -6,7 +6,9 @@ export interface PhysicalLocation {
   lat: string;
   lon: string;
   bbox: string[];
-  displayName: string;
+  addressOrName: string;
+  city: string;
+  countryCode: string;
 }
 
 // MARK: Pinia Responses
@@ -23,4 +25,24 @@ export interface PiniaResLocations {
   __v_isRef: boolean;
   _rawValue: PhysicalLocation[];
   _value: PhysicalLocation[];
+}
+
+export interface FormDataLocation {
+  country: string;
+  street: string;
+  city: string;
+}
+export interface NomatimLocation {
+  place_id: string;
+  licence: string;
+  osm_type: string;
+  osm_id: string;
+  boundingbox: string[];
+  lat: string;
+  lon: string;
+  display_name: string;
+  class: string;
+  type: string;
+  importance: number;
+  icon?: string;
 }

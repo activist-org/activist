@@ -402,13 +402,13 @@ docker compose --env-file .env.dev up backend --build -d  # -d to hide logs
 docker exec -it django_backend sh
 
 # Run backend tests:
-pytest
+uv run pytest
 
 # To run a specific test:
-pytest path/to/test_file.py::test_function
+uv run pytest path/to/test_file.py::test_function
 
 # To run with a coverage report as is done in PRs:
-pytest --cov --cov-report=term-missing --cov-config=pyproject.toml -vv
+uv run pytest --cov --cov-report=term-missing --cov-config=pyproject.toml -vv
 
 # Once tests are finished:
 exit

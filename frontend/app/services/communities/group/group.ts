@@ -74,26 +74,15 @@ export async function listGroups(
   }
 }
 
-// MARK: Creates Group
+// MARK: Create
 
-// export async function createGroup(data: GroupCreateFormData): Promise<GroupT> {
-//   try {
-//     const payload = {
-//       name: data.name,
-//       location: data.location,
-//       tagline: data.tagline,
-//       social_accounts: data.social_accounts,
-//       description: data.description,
-//       topics: data.topics,
-//       high_risk: false,
-//       total_flags: 0,
-//       acceptance_date: new Date()
-//     }
-//     const res = await post<GroupResponse, GroupCreateFormData>(`/communities/groups`, payload)
-//     return mapGroup(res)
-//   } catch (e) {
-//     const err = errorHandler(e)
-//     showToastError(err.message)
-//     throw err
-//   }
-// }
+export async function createGroup(data: CreateGroupInput): Promise<string> {
+  try {
+    const res = await post<string, typeof data>(`/communities/groups`, data, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res;
+  } catch (e) {
+    throw errorHandler(e);
+  }
+}
