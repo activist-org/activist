@@ -23,7 +23,7 @@ describe("services/event/text", () => {
       getInvolved: "g",
       getInvolvedUrl: "u",
       donate_prompt: "",
-      orgId: "evt-1",
+      event: "evt-1",
       iso: "en",
     });
   });

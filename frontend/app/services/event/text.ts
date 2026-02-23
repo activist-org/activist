@@ -17,7 +17,7 @@ export async function updateEventTexts(
         getInvolved: data.getInvolved,
         getInvolvedUrl: data.getInvolvedUrl,
         donate_prompt: "",
-        orgId: eventId,
+        event: eventId,
         iso: "en",
       } as AcceptedBody,
       { headers: { "Content-Type": "application/json" } }
