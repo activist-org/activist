@@ -26,7 +26,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
       await refreshEventData();
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
+      const appError = err as AppError;
       error.value = appError;
       showToastError(appError.message);
       return false;

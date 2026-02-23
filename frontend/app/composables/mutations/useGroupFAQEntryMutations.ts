@@ -27,9 +27,8 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      error.value = err as AppError;
+      showToastError((err as AppError).message);
       return false;
     } finally {
       loading.value = false;

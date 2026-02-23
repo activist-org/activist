@@ -33,7 +33,7 @@ export function useOrganizationSocialLinksMutations(
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
+      const appError = err as AppError;
       error.value = appError;
       showToastError(appError.message);
       return false;
