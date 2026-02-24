@@ -30,7 +30,7 @@ describe("FormRadioBtn", () => {
     const input = wrapper.find("input");
     expect(input.element.checked).toBe(false);
 
-    // Check default unchecked classes
+    // Check default unchecked classes.
     const container = wrapper.find("div");
     expect(container.classes()).toContain("style-menu-option");
     expect(container.classes()).toContain("bg-layer-2");
@@ -41,7 +41,7 @@ describe("FormRadioBtn", () => {
       props: {
         value: "option1",
         modelValue: "option1",
-        compareBy: "", // Necessary for primitives
+        compareBy: "", // necessary for primitives
       },
     });
 
@@ -69,7 +69,7 @@ describe("FormRadioBtn", () => {
   });
 
   it("handles object comparison using compareBy prop", () => {
-    // Here we DO want the default compareBy="id" behavior
+    // We want the default compareBy="id" behavior.
     const optionValue = { id: 123, name: "Test" };
     const modelValue = { id: 123, name: "Test Copy" };
 

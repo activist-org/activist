@@ -179,7 +179,7 @@ const scheduleSchema = z.object({
           if (t.startTime && t.endTime) {
             return t.startTime <= t.endTime;
           }
-          return true; // Skip validation if times are null/undefined
+          return true; // skip validation if times are null/undefined
         });
       },
       {

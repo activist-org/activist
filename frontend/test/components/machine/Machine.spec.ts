@@ -5,9 +5,9 @@ import { defineComponent, inject, ref } from "vue";
 
 import Machine from "../../../app/components/machine/Machine.vue";
 
-// --- Mocks ---
+// MARK: Mocks
 
-// Mock Loading component
+// Mock Loading component.
 vi.mock("../../../app/components/Loading.vue", () => ({
   default: defineComponent({
     name: "Loading",
@@ -16,13 +16,13 @@ vi.mock("../../../app/components/Loading.vue", () => ({
   }),
 }));
 
-// Mock translation function $t
+// Mock translation function $t.
 const globalMocks = {
   $t: (key: string, params: { current_step: number; total_steps: number }) =>
     `Step ${params.current_step} of ${params.total_steps}`,
 };
 
-// We will mock the composable return values dynamically
+// We will mock the composable return values dynamically.
 const mockFlowScreens = {
   isActive: ref(false),
   currentScreen: ref(null),
@@ -34,14 +34,14 @@ const mockFlowScreens = {
   prev: vi.fn(),
 };
 
-// Mock the composable itself
+// Mock the composable itself.
 vi.mock("../../../app/composables/useFlowScreens", () => ({
   useFlowScreens: () => mockFlowScreens,
 }));
 
 describe("Machine.vue", () => {
   beforeEach(() => {
-    // Reset mocks
+    // Reset all mocks.
     mockFlowScreens.isActive.value = false;
     mockFlowScreens.currentScreen.value = null;
     mockFlowScreens.loading.value = false;
@@ -69,10 +69,9 @@ describe("Machine.vue", () => {
 
     expect(wrapper.text()).toContain("Step 1 of 4");
 
-    // Check progress bar width
+    // Check progress bar width.
     const progressBar = wrapper.find(".bg-cta-orange");
     expect(progressBar.exists()).toBe(true);
-    // 1 / 4 = 25%
     expect(progressBar.attributes("style")).toContain("width: 25%");
   });
 
@@ -110,7 +109,7 @@ describe("Machine.vue", () => {
   });
 
   it("provides flow actions to child components", async () => {
-    // Create a child component that tries to inject the flow
+    // Create a child component that tries to inject the flow.
     const ChildComponent = defineComponent({
       setup() {
         const flow = inject("flow");
@@ -133,8 +132,8 @@ describe("Machine.vue", () => {
     mockFlowScreens.currentScreen.value = ChildComponent;
     await wrapper.vm.$nextTick();
 
-    // Trigger actions from child
-    await wrapper.find("button").trigger("click"); // Next
+    // Trigger actions from child.
+    await wrapper.find("button").trigger("click"); // next
 
     expect(mockFlowScreens.next).toHaveBeenCalledWith({ foo: "bar" });
   });

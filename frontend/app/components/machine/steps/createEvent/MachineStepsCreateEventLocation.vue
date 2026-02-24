@@ -52,7 +52,7 @@ const query = ref<Record<string, string> | null>(null);
 const options = ref<RadioOption[]>([]);
 const handleSubmitLocation = (values: unknown) => {
   const valuesTyped = values as FormDataLocation;
-  // Logic to handle location submission
+  // Logic to handle location submission.
   query.value = {
     street: valuesTyped.street,
     countrycodes: valuesTyped.country,

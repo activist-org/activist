@@ -65,13 +65,13 @@ describe("useCreateEventStore", () => {
     const store = useCreateEventStore();
     store.start();
 
-    // Step through the whole flow
-    await store.next({ name: "Final Event" }); // Details
-    await store.next({ location_type: "online" }); // Type
-    await store.next(); // Logic (jump to Link)
-    await store.next({ link: "http://test.com" }); // Link
-    await store.next({ date: "2024-01-01" }); // Time
-    await store.next(); // Logic (End)
+    // Step through the whole flow.
+    await store.next({ name: "Final Event" }); // details
+    await store.next({ location_type: "online" }); // type
+    await store.next(); // logic (jump to Link)
+    await store.next({ link: "http://test.com" }); // link
+    await store.next({ date: "2024-01-01" }); // time
+    await store.next(); // logic (End)
 
     expect(store.isFinished).toBe(true);
     expect(store.saveResult).toEqual({
@@ -86,7 +86,7 @@ describe("useCreateEventStore", () => {
     const store = useCreateEventStore();
     store.start();
 
-    // Fast forward to Time step
+    // Fast forward to Time step.
     store.goto(CreateEventSteps.Time);
     expect(store.nodeId).toBe(CreateEventSteps.Time);
 
@@ -106,7 +106,7 @@ describe("useCreateEventStore", () => {
     const store = useCreateEventStore();
     store.start();
 
-    // Fast forward to Time step
+    // Fast forward to Time step.
     store.goto(CreateEventSteps.Time);
 
     // 1. Time -> Logic Node

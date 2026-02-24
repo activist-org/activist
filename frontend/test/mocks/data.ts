@@ -69,6 +69,58 @@ export const defaultSocialLinkData = {
   lastUpdated: "2024-01-01T00:00:00Z",
 } as const;
 
+// MARK: FaqEntry (Mutation Tests)
+
+export const defaultFaqEntryData = {
+  id: "faq-1",
+  iso: "en",
+  order: 0,
+  question: "Test question?",
+  answer: "Test answer.",
+} as const;
+
+export const defaultFaqDataForCreate = {
+  iso: "en",
+  order: 0,
+  question: "New question?",
+  answer: "New answer.",
+} as const;
+
+// MARK: Mutation Fixtures (Resource, SocialLink, EventText)
+
+export const defaultResourceInputData = {
+  id: "resource-1",
+  name: "Test Resource",
+  description: "A test resource description",
+  url: "https://example.com/resource",
+  topics: [TopicEnum.ENVIRONMENT],
+  order: 0,
+} as const;
+
+export const defaultSocialLinkInputData = {
+  link: "https://example.com",
+  label: "Website",
+  order: 0,
+} as const;
+
+export const defaultEventUpdateTextFormData = {
+  description: "Test event description",
+  getInvolved: "Get involved text",
+  getInvolvedUrl: "",
+} as const;
+
+export const defaultGroupUpdateTextFormData = {
+  description: "Test group description",
+  getInvolved: "Get involved text",
+  getInvolvedUrl: "",
+} as const;
+
+export const defaultOrganizationUpdateTextFormData = {
+  description: "Test organization description",
+  getInvolved: "Get involved text",
+  getInvolvedUrl: "",
+} as const;
+
 // MARK: Event
 
 export const defaultEventTextData = {

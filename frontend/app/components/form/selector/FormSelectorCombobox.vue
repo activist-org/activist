@@ -283,7 +283,7 @@ const internalSelectedOptions = computed({
       (props.selectedOptions as unknown[]).includes(option.value)
     );
 
-    // FIXED: For single-select, Headless UI expects the object itself, not an array.
+    // For single-select, Headless UI expects the object itself, not an array.
     if (!props.isMultiSelect) {
       return selected.length > 0 ? selected[0] : null;
     }
@@ -299,11 +299,11 @@ const internalSelectedOptions = computed({
       return;
     }
 
-    // Single select handling
+    // Single select handling.
     const option = newOptions as unknown as Option | null;
     const value = option?.value || null;
 
-    // Update display text immediately
+    // Update display text immediately.
     query.value = option?.label || "";
 
     if (value !== (props.selectedOptions as unknown[])[0]) {
@@ -312,7 +312,7 @@ const internalSelectedOptions = computed({
   },
 });
 
-// FIXED: Watcher to update the input text ('query') when props change externally.
+// Watcher to update the input text ('query') when props change externally.
 // This handles the async loading case where data arrives after mount.
 watch(
   internalSelectedOptions,

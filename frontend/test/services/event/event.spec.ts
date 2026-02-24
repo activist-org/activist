@@ -114,7 +114,7 @@ describe("services/event", () => {
       groups: ["group-id-456"],
       location_type: "offline",
       event_type: "learn", // or "action"
-      topics: ["sustainability", "community"], // Replace with actual TopicEnum values
+      topics: ["sustainability", "community"], // replace with actual TopicEnum values
       location: {
         address_or_name: "Central Park Community Garden",
         city: "New York",

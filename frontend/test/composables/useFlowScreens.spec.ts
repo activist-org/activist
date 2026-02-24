@@ -8,12 +8,11 @@ import type { NodeConfig } from "../../shared/types/machine-type";
 
 import { useFlowScreens } from "../../app/composables/useFlowScreens";
 
-// --- Mocks & Setup ---
+// MARK: Mocks & Setup
 
-// Mock Component
 const MockComponent = markRaw({ template: "<div>Screen</div>" });
 
-// Mock Store Factory
+// Mock Store Factory.
 const useMockStore = defineStore("mock-flow", {
   state: () => ({
     active: false,
@@ -45,7 +44,7 @@ const useMockStore = defineStore("mock-flow", {
   },
 });
 
-// Mock the registry
+// Mock the registry.
 vi.mock("../../app/stores/machines/index", () => ({
   machineRegistry: {
     testMachine: () => useMockStore(),
@@ -74,8 +73,8 @@ describe("useFlowScreens", () => {
     const store = useMockStore();
     const startSpy = vi.spyOn(store, "start");
 
-    // Create a dummy component to host the composable
-    // This allows onMounted to fire naturally
+    // Create a dummy component to host the composable.
+    // This allows onMounted to fire naturally.
     const TestComponent = defineComponent({
       setup() {
         useFlowScreens("testMachine", {
@@ -125,7 +124,7 @@ describe("useFlowScreens", () => {
     };
 
     await nextTick();
-    // Wait for the promise inside handleNodeChange to resolve
+    // Wait for the promise inside handleNodeChange to resolve.
     await new Promise((r) => setTimeout(r, 0));
 
     expect(AsyncComponentFactory).toHaveBeenCalled();

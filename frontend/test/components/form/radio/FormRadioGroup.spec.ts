@@ -4,7 +4,7 @@ import { describe, it, expect } from "vitest";
 
 import FormRadioGroup from "../../../../app/components/form/radio/FormRadioGroup.vue";
 
-// Define a stub to isolate the Group logic from the Button logic
+// Define a stub to isolate the Group logic from the Button logic.
 const FormRadioBtnStub = {
   name: "FormRadioBtn",
   template:
@@ -72,7 +72,7 @@ describe("FormRadioGroup", () => {
 
     const buttons = wrapper.findAllComponents(FormRadioBtnStub);
 
-    // Simulate the child emitting the update event (the stub has a click listener for this)
+    // Simulate the child emitting the update event (the stub has a click listener for this).
     await buttons[1].trigger("click");
 
     expect(wrapper.emitted("update:modelValue")).toBeTruthy();
@@ -135,7 +135,7 @@ describe("FormRadioGroup", () => {
   });
 
   describe("Key Generation", () => {
-    // This test ensures the template logic for :key works with objects
+    // This test ensures the template logic for :key works with objects.
     it("handles object values correctly", () => {
       const objectOptions = [
         { label: "Obj 1", value: { id: 100, name: "test" } },
@@ -145,7 +145,7 @@ describe("FormRadioGroup", () => {
       const wrapper = mount(FormRadioGroup, {
         props: {
           options: objectOptions,
-          modelValue: "", // Type alignment
+          modelValue: "", // type alignment
         },
         global: { stubs: { FormRadioBtn: FormRadioBtnStub } },
       });
@@ -153,7 +153,7 @@ describe("FormRadioGroup", () => {
       const buttons = wrapper.findAllComponents(FormRadioBtnStub);
       expect(buttons.length).toBe(2);
 
-      // Verify the value passed is the actual object
+      // Verify the value passed is the actual object.
       expect(buttons[0].props("value")).toEqual({ id: 100, name: "test" });
     });
   });

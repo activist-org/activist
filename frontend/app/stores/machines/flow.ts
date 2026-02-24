@@ -23,15 +23,14 @@ export function createFlowStore(opts: FlowStoreOptions) {
   const { machine, discardOnClose = true } = opts;
   const { id: storeId, initialNode: defaultNodeId, states } = machine;
 
-  // 1. Single Source of Truth: The Nodes Array
-  // We derive this once from the config. All lookups and ordering use this array.
+  // We derive the node array once from the config. All lookups and ordering use this array.
   const nodes: NodeConfig[] = Object.entries(states).map(([id, config]) => ({
     id,
     ...config,
   }));
 
   // Helper: Generates a fresh data object from the nodes array.
-  // We use reduce here to transform [Nodes] -> { ID: Data }
+  // Use reduce here to transform [Nodes] -> { ID: Data }.
   const getInitialData = () => {
     return nodes.reduce(
       (acc, node) => {
@@ -45,7 +44,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
   return defineStore(storeId, {
     state: () => ({
       active: false,
-      // Just find the initial node in our array
+      // Find the initial node in our array.
       currentNode: nodes.find((n) => n.id === defaultNodeId) ?? null,
       nodes,
       nodeData: getInitialData(),
@@ -82,7 +81,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
 
         if (currentVisibleIndex !== -1) return currentVisibleIndex + 1;
 
-        // Fallback: Check history for the last visible node
+        // Fallback: Check history for the last visible node.
         for (let i = state.history.length - 1; i >= 0; i--) {
           const lastVisibleIndex = this.visibleNodes.findIndex(
             (node: NodeConfig) => node.id === state.history[i]
@@ -195,7 +194,7 @@ export function createFlowStore(opts: FlowStoreOptions) {
         this.active = false;
         this.currentNode =
           this.nodes.find((n: NodeConfig) => n.id === defaultNodeId) ?? null;
-        this.nodeData = getInitialData(); // Fresh data copy
+        this.nodeData = getInitialData(); // fresh data copy
         this.history = [];
         this.isFinished = false;
         this.saveResult = null;

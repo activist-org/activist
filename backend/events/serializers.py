@@ -414,7 +414,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
             )
             event.texts.set([event_text])
 
-            # Set many-to-many relationships
+            # Set many-to-many relationships.
             if orgs_data:
                 event.orgs.set(orgs_data)
             if groups_data:

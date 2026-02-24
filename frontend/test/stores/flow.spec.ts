@@ -37,7 +37,7 @@ describe("createFlowStore", () => {
       logicNode: {
         label: "Logic",
         type: "logic",
-        // Logic node decides path based on data from step2
+        // Logic node decides path based on data from step2.
         next: (ctx: FlowContext) => {
           const step2Data = ctx.allNodeData.step2;
           return (step2Data as Record<string, unknown>)?.skipStep3
@@ -63,7 +63,7 @@ describe("createFlowStore", () => {
     expect(store.active).toBe(false);
     expect(store.nodeId).toBe("step1");
     expect(store.currentNode?.label).toBe("Step 1");
-    // Check initial data extraction
+    // Check initial data extraction.
     expect(store.nodeData.step1).toEqual({ name: "initial" });
     expect(store.nodeData.step2).toEqual({});
   });
@@ -96,7 +96,7 @@ describe("createFlowStore", () => {
     const store = useStore();
     store.start();
 
-    // Move from step1 to step2 with payload
+    // Move from step1 to step2 with payload.
     await store.next({ name: "updated" });
 
     expect(store.nodeId).toBe("step2");
@@ -121,7 +121,7 @@ describe("createFlowStore", () => {
     await store.next({ skipStep3: true });
     await store.next(); // to process submit
     expect(store.isFinished).toBe(true);
-    // Logic nodes should NOT be in history, only screens
+    // Logic nodes should NOT be in history, only screens.
     expect(store.history).toEqual(["step1", "step2"]);
   });
 
@@ -136,7 +136,7 @@ describe("createFlowStore", () => {
     await store.next();
 
     // Step 2 -> Logic Node -> Step 3
-    // We pass { skipStep3: false }, so logic node returns "step3"
+    // We pass { skipStep3: false }, so logic node returns "step3".
     await store.next({ skipStep3: false });
     await store.next(); // to step3
     expect(store.nodeId).toBe("step3");
@@ -183,7 +183,6 @@ describe("createFlowStore", () => {
 
     store.prev();
     expect(store.nodeId).toBe("step1");
-    // History should pop
     expect(store.history).toHaveLength(0);
   });
 
@@ -197,7 +196,6 @@ describe("createFlowStore", () => {
     await store.next({ field1: "A" }); // step 1 -> step 2
     await store.next({ field2: "B" }); // step 2 -> logic
     // Logic node directs to 'end' based on default logic or mocked behavior?
-    // Let's force a skip to end
     await store.next({ skipStep3: true });
     await store.next(); // to process submit
     expect(store.isFinished).toBe(true);
@@ -216,7 +214,7 @@ describe("createFlowStore", () => {
     });
     const store = useStore();
 
-    // Total visible steps = 3 (step1, step2, step3)
+    // Total visible steps = 3 (step1, step2, step3).
     expect(store.totalSteps).toBe(3);
 
     store.start();
@@ -239,7 +237,7 @@ describe("createFlowStore", () => {
 
     expect(store.active).toBe(false);
     expect(store.nodeId).toBe("step1");
-    expect(store.nodeData.step1).toEqual({ name: "initial" }); // Data reset
+    expect(store.nodeData.step1).toEqual({ name: "initial" }); // data reset
     expect(store.history).toEqual([]);
   });
 });
