@@ -8,6 +8,7 @@ export function useOrganizationImageMutations(
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
+  const store = useOrganizationStore();
 
   const currentOrganizationId = computed(() => unref(organizationId));
 
@@ -112,6 +113,7 @@ export function useOrganizationImageMutations(
     await refreshNuxtData(
       getKeyForGetOrganizationImages(currentOrganizationId.value)
     );
+    store.setOrganizations([]);
   }
 
   return {
