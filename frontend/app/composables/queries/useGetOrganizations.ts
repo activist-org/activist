@@ -2,7 +2,7 @@
 export const getKeyForGetOrganizations = () => `organizations-list`;
 
 export function useGetOrganizations(
-  filters: Ref<OrganizationFilters> | ComputedRef<OrganizationFilters>
+  filters: MaybeRef<OrganizationFilters> | ComputedRef<OrganizationFilters>
 ) {
   const store = useOrganizationStore();
   const page = ref(1);
@@ -15,6 +15,7 @@ export function useGetOrganizations(
     async () => {
       try {
         if (
+          store.getOrganizations().length > 0 &&
           JSON.stringify(store.getFilters()) ===
             JSON.stringify(orgFilters.value) &&
           isLastPageRef.value
