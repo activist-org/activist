@@ -17,3 +17,9 @@ export const GET_ORGANIZED_IMAGE_URL =
   "/images/content_pages/art/get_organized";
 export const GROW_ORGANIZATION_IMAGE_URL =
   "/images/content_pages/art/grow_organization";
+
+// MARK: Icon Libraries
+
+export const BOOTSTRAP_CLOUD_MOON_URL =
+  "/icons/from_library/bootstrap_cloud_moon";
+export const BOOTSTRAP_ENVELOPE_URL = "/icons/from_library/bootstrap_envelope";
