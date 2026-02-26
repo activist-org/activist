@@ -175,12 +175,10 @@ describe("CardSearchResultEntityOrganization", () => {
     it("renders imageUrl when iconUrl.fileObject exists", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          iconUrl: { fileObject: "https://example.com/image.png" },
+          iconUrl: { fileObject: "images/image.png" },
         }),
       });
-      expect(getCardProps(wrapper).imageUrl).toBe(
-        "https://example.com/image.png"
-      );
+      expect(getCardProps(wrapper).imageUrl).toBe("api/images/image.png");
     });
 
     it("renders empty imageUrl when iconUrl is undefined", () => {
@@ -254,7 +252,7 @@ describe("CardSearchResultEntityOrganization", () => {
           name: "Complex Org",
           orgName: "complex-org",
           texts: [{ description: "Full description" }],
-          iconUrl: { fileObject: "https://example.com/icon.png" },
+          iconUrl: { fileObject: "images/icon.png" },
           location: { addressOrName: "London, UK" },
         }),
         isReduced: true,
@@ -263,7 +261,7 @@ describe("CardSearchResultEntityOrganization", () => {
 
       expect(props.title).toBe("Complex Org");
       expect(props.description).toBe("Full description");
-      expect(props.imageUrl).toBe("https://example.com/icon.png");
+      expect(props.imageUrl).toBe("api/images/icon.png");
       expect(props.isReduced).toBe(true);
     });
   });
@@ -388,20 +386,18 @@ describe("CardSearchResultEntityOrganization", () => {
     it("updates imageUrl when iconUrl changes", async () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          iconUrl: { fileObject: "https://example.com/old.png" },
+          iconUrl: { fileObject: "images/old.png" },
         }),
       });
 
       await wrapper.setProps({
         organization: createMockOrganization({
-          iconUrl: { fileObject: "https://example.com/new.png" },
+          iconUrl: { fileObject: "images/new.png" },
         }),
       });
       await nextTick();
 
-      expect(getCardProps(wrapper).imageUrl).toBe(
-        "https://example.com/new.png"
-      );
+      expect(getCardProps(wrapper).imageUrl).toBe("api/images/new.png");
     });
 
     it("handles location changes and removal", async () => {
