@@ -32,7 +32,7 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: { start: Date; end: Date }): void;
 }>();
 
-// Use a computed proxy to handle the v-model sync safely
+// Use a computed proxy to handle the v-model sync safely.
 const rangeProxy = computed({
   get: () => props.modelValue,
   set: (val) => emit("update:modelValue", val),

@@ -34,8 +34,6 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    optimizeDeps: {},
-
     server: {
       watch: {
         usePolling: true,
