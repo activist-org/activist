@@ -27,8 +27,8 @@
       <FormTextInputPassword
         id="set-password-confirm-password"
         @input="confirmPassword = $event.target.value"
-        :data-testid="$t('i18n._global.repeat_password')"
-        :label="$t('i18n._global.repeat_password')"
+        :data-testid="$t('i18n.pages.auth._global.repeat_password')"
+        :label="$t('i18n.pages.auth._global.repeat_password')"
         :value="confirmPassword"
       >
         <template #icons>

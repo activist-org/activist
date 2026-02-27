@@ -6,7 +6,7 @@
       @submit="handleSubmit"
       class="space-y-4"
       :schema="organizationDetailsSchema"
-      :submit-label="$t('i18n._global.next_step')"
+      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
@@ -26,7 +26,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.tagline')"
+        :label="$t('i18n.components.machine.steps._global.tagline')"
         name="tagline"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -35,13 +35,13 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n._global.tagline')"
+          :label="$t('i18n.components.machine.steps._global.tagline')"
           :modelValue="(value.value as string)"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.description')"
+        :label="$t('i18n.components._global.description')"
         name="description"
         required
       >

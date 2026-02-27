@@ -37,7 +37,10 @@ export const ResourceModal = (page: Page) => {
 
     getResourceDescriptionInput(modal: Locator) {
       return modal.getByRole("textbox", {
-        name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components._global.description"),
+          "i"
+        ),
       });
     },
 

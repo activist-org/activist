@@ -4,6 +4,5 @@ export * from "./useCustomInfiniteScroll";
 export * from "./useDebounce";
 export * from "./useDraggableKeyboardNavigation";
 export * from "./useModalHandlers";
-export * from "./useSortableList";
 export * from "./useTabNavigationEmit";
 export * from "./useToaster";
