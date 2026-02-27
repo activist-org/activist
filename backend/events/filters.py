@@ -3,6 +3,7 @@
 A class for filtering events based on user defined properties.
 """
 
+import uuid
 from datetime import timedelta
 from typing import Any
 
@@ -10,6 +11,7 @@ import django_filters
 from django.db.models.query import QuerySet
 from django.utils import timezone
 
+from common.custom_filters import UUIDInFilter
 from content.models import Topic
 from events.models import Event
 
@@ -44,6 +46,29 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         method="filter_days_ahead",
         label="Upcoming events within N days",
     )
+
+    id = django_filters.CharFilter(method="filter_ids")
+
+    def filter_ids(
+        self, queryset: QuerySet[Any, Any], name: str, value: str
+    ) -> QuerySet[Any, Any]:
+        raw_values = self.data.getlist("id[]")
+
+        # in case a single value is passed
+        if not raw_values and value:
+            raw_values = [value]
+
+        if any("," in str(v) for v in raw_values):
+            return queryset.none()
+
+        uuids = []
+        for v in raw_values:
+            try:
+                uuids.append(uuid.UUID(str(v).strip()))
+            except ValueError:
+                return queryset.none()
+
+        return queryset.filter(id__in=uuids) if uuids else queryset.none()
 
     def filter_days_ahead(
         self, queryset: QuerySet[Any, Any], name: str, days: int
@@ -87,6 +112,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
     class Meta:
         model = Event
         fields = [
+            "id",
             "name",
             "topics",
             "type",

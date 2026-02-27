@@ -22,6 +22,7 @@ const { create } = useEventMutations();
 async function handleSubmission(data: unknown) {
   await create(data as CreateEventInput);
   handleCloseModal();
+  console.log("TESTING"); //eslint-disable-line no-console
 }
 
 // Pass the handler to the machine via its options.
