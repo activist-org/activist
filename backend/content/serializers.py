@@ -205,8 +205,8 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         """
         representation = super().to_representation(instance)
         if instance.file_object:
-            # This returns the relative path (e.g., 'images/file.jpg')
-            # instead of 'http://localhost:8000/media/images/file.jpg'
+            # This returns the relative path (e.g., 'images/file.jpg').
+
             representation["file_object"] = instance.file_object.name
         return representation
 
@@ -239,8 +239,8 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         sequences = request.data.getlist("sequences", [])
         entity_type = request.data.get("entity_type")
         entity_id = request.data.get("entity_id")
-        index = 0
-        for file_obj in files:
+
+        for i, file_obj in enumerate(files):
             file_data = validated_data.copy()
             file_data["file_object"] = scrub_exif(file_obj)
             image = super().create(file_data)
@@ -248,23 +248,23 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             logger.info(f"Created Image instance with ID {image.id}")
 
             if entity_type == "organization":
-                sequence_index = sequences[index] if sequences else index
+                sequence_index = sequences[i] if sequences else i
                 OrganizationImage.objects.create(
                     org_id=entity_id, image=image, sequence_index=sequence_index
                 )
                 logger.info(
-                    f"Added image {image.id} to organization {entity_id} carousel at index {index}"
+                    f"Added image {image.id} to organization {entity_id} carousel at index {i}"
                 )
 
             if entity_type == "group":
-                sequence_index = sequences[index] if sequences else index
+                sequence_index = sequences[i] if sequences else i
                 GroupImage.objects.create(
                     group_id=entity_id, image=image, sequence_index=sequence_index
                 )
                 logger.info(
-                    f"Added image {image.id} to group {entity_id} carousel at index {index}"
+                    f"Added image {image.id} to group {entity_id} carousel at index {i}"
                 )
-            index += 1
+
         return images
 
 
@@ -340,7 +340,9 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         """
         representation = super().to_representation(instance)
         if instance.file_object:
+            # This returns the relative path (e.g., 'images/file.jpg').
             representation["file_object"] = instance.file_object.name
+
         return representation
 
     def create(self, validated_data: Dict[str, Any]) -> Any:

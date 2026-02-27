@@ -5,7 +5,6 @@ import {
   ACTIVIST_URL,
   BASE_FRONTEND_URL,
   BASE_BACKEND_URL,
-  BASE_BACKEND_URL_NO_V1,
   REQUEST_ACCESS_URL,
 } from "../../app/constants/baseUrls";
 
@@ -23,11 +22,7 @@ describe("constants/baseUrls", () => {
 
   it("exposes environment-derived URLs as strings or undefined", () => {
     // In test, these may be undefined depending on Vite env; only assert type surface.
-    const candidates = [
-      BASE_FRONTEND_URL,
-      BASE_BACKEND_URL,
-      BASE_BACKEND_URL_NO_V1,
-    ];
+    const candidates = [BASE_FRONTEND_URL, BASE_BACKEND_URL];
     for (const c of candidates) {
       if (c !== undefined) {
         expect(typeof c).toBe("string");

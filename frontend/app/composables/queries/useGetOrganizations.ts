@@ -34,6 +34,7 @@ export function useGetOrganizations(
         const organizationsCached = store.getOrganizations();
         const pageCached = store.getPage();
         isLastPageRef.value = isLastPage;
+
         // Append new events to cached events if page > 1.
         if (
           organizationsCached.length > 0 &&

@@ -27,7 +27,8 @@ export const useOrganizationMutations = () => {
     // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetOrganizations());
     await refreshNuxtData(getKeyForGetOrganizations());
-    store.setOrganizations([]); // Clear cached organizations to force refetch with new data.
+    // Clear cached organizations to force refetch with new data.
+    store.setOrganizations([]);
   };
 
   return {
