@@ -11,7 +11,6 @@ import django_filters
 from django.db.models.query import QuerySet
 from django.utils import timezone
 
-from common.custom_filters import UUIDInFilter
 from content.models import Topic
 from events.models import Event
 
@@ -52,21 +51,43 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
     def filter_ids(
         self, queryset: QuerySet[Any, Any], name: str, value: str
     ) -> QuerySet[Any, Any]:
-        raw_values = self.data.getlist("id[]")
+        """
+        Filter events with a single ID or multiple IDs
 
-        # in case a single value is passed
-        if not raw_values and value:
-            raw_values = [value]
+        Parameters
+        ----------
+        queryset : QuerySet[Any, Any]
+            Base queryset.
 
-        if any("," in str(v) for v in raw_values):
+        name : str
+            Filter field name (``id``).
+
+        value : str
+            ID parameter value (not currently used)
+
+        Returns
+        -------
+        QuerySet[Any, Any]
+            Event(s) with ID matching the passed ``id`` parameter(s).
+        """
+
+        raw = self.data.get(name)
+
+        # data validation
+        if not raw:
             return queryset.none()
+
+        # converts raw string input into a list with whitespace stripped from values
+        raw_values = [val.strip() for val in str(raw).split(",") if val.strip()]
 
         uuids = []
         for v in raw_values:
             try:
+                # UUID value validation
                 uuids.append(uuid.UUID(str(v).strip()))
             except ValueError:
-                return queryset.none()
+                # If a single UUID is invalid it should still filter for the valid ones
+                continue
 
         return queryset.filter(id__in=uuids) if uuids else queryset.none()
 

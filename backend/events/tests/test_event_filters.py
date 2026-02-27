@@ -3,6 +3,7 @@
 Tests for event list filtering: days_ahead
 """
 
+import uuid
 from datetime import datetime, timedelta
 from datetime import timezone as dt_timezone
 from unittest.mock import patch
@@ -198,3 +199,22 @@ def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
 
     assert str(event_now.id) in ids
     assert str(event_future.id) not in ids
+
+
+def test_filter_id_handles_single_id() -> None:
+    client = APIClient()
+    uuid_target = uuid.uuid4()
+    uuid_filler = uuid.uuid4()
+
+    # Event with target test uuid.
+    event_target = EventFactory(id=uuid_target)
+    # Event with non target test uuid.
+    event_filler = EventFactory(id=uuid_filler)
+
+    response = client.get(f"{EVENTS_URL}?id={uuid_target}")
+    assert response.status_code == 200
+
+    ids = {item["id"] for item in response.data["results"]}
+
+    assert ids == {str(event_target.id)}
+    assert str(event_filler.id) not in ids
