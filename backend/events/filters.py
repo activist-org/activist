@@ -52,7 +52,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         self, queryset: QuerySet[Any, Any], name: str, _value: str
     ) -> QuerySet[Any, Any]:
         """
-        Filter events with a single event ID or multiple IDs, passed as multiple individual 'id' parameters or as a single id parameter with IDs separated by comas.
+        Filter events with a single event ID or multiple IDs, passed as multiple individual 'id' parameters or a single id parameter with coma separated IDs.
 
         Parameters
         ----------
