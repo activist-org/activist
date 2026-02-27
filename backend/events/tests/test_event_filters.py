@@ -202,6 +202,10 @@ def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
 
 
 def test_filter_id_handles_single_id() -> None:
+    """
+    A single valid uuid passed as an id parameter
+    should filter down to the single event with the same id field.
+    """
     client = APIClient()
     uuid_target = uuid.uuid4()
     uuid_filler = uuid.uuid4()
@@ -217,4 +221,142 @@ def test_filter_id_handles_single_id() -> None:
     ids = {item["id"] for item in response.data["results"]}
 
     assert ids == {str(event_target.id)}
+    assert str(event_filler.id) not in ids
+
+
+def test_filter_id_handles_multiple_separate_ids() -> None:
+    """
+    Multiple valid uuids each passed as individual id parameters
+    should filter down to the events with the same id fields.
+    """
+    client = APIClient()
+    uuid_target_1 = uuid.uuid4()
+    uuid_target_2 = uuid.uuid4()
+    uuid_target_3 = uuid.uuid4()
+
+    uuid_filler_1 = uuid.uuid4()
+    uuid_filler_2 = uuid.uuid4()
+
+    # Events with target test uuids.
+    event_target_1 = EventFactory(id=uuid_target_1)
+    event_target_2 = EventFactory(id=uuid_target_2)
+    event_target_3 = EventFactory(id=uuid_target_3)
+    # Events with non target test uuids.
+    event_filler_1 = EventFactory(id=uuid_filler_1)
+    event_filler_2 = EventFactory(id=uuid_filler_2)
+
+    response = client.get(
+        f"{EVENTS_URL}?id={uuid_target_1}&id={uuid_target_2}&id={uuid_target_3}"
+    )
+    assert response.status_code == 200
+
+    ids = {item["id"] for item in response.data["results"]}
+
+    assert ids == {
+        str(event_target_1.id),
+        str(event_target_2.id),
+        str(event_target_3.id),
+    }
+
+    assert str(event_filler_1.id) not in ids
+    assert str(event_filler_2.id) not in ids
+
+
+def test_filter_id_handles_multiple_listed_ids() -> None:
+    """
+    Multiple valid uuids passed as a coma separated string
+    in a single id parameter should filter down to the events
+    with the same id fields.
+    """
+    client = APIClient()
+    uuid_target_1 = uuid.uuid4()
+    uuid_target_2 = uuid.uuid4()
+    uuid_target_3 = uuid.uuid4()
+
+    uuid_filler_1 = uuid.uuid4()
+    uuid_filler_2 = uuid.uuid4()
+
+    # Events with target test uuids.
+    event_target_1 = EventFactory(id=uuid_target_1)
+    event_target_2 = EventFactory(id=uuid_target_2)
+    event_target_3 = EventFactory(id=uuid_target_3)
+    # Events with non target test uuids.
+    event_filler_1 = EventFactory(id=uuid_filler_1)
+    event_filler_2 = EventFactory(id=uuid_filler_2)
+
+    response = client.get(
+        f"{EVENTS_URL}?id={uuid_target_1},{uuid_target_2},{uuid_target_3}"
+    )
+    assert response.status_code == 200
+
+    ids = {item["id"] for item in response.data["results"]}
+
+    assert ids == {
+        str(event_target_1.id),
+        str(event_target_2.id),
+        str(event_target_3.id),
+    }
+
+    assert str(event_filler_1.id) not in ids
+    assert str(event_filler_2.id) not in ids
+
+
+def test_filter_id_handles_nonexistent_uuid() -> None:
+    """
+    Uuids that are not present in the backend data
+    should be ignored and any existing uuids given
+    should still be matched to events with the same id field.
+    """
+    client = APIClient()
+
+    uuid_nonexistent = uuid.uuid4()
+
+    uuid_target = uuid.uuid4()
+
+    uuid_filler = uuid.uuid4()
+
+    # Events with target test uuids.
+    event_target = EventFactory(id=uuid_target)
+    # Events with non target test uuids.
+    event_filler = EventFactory(id=uuid_filler)
+
+    # remove last 3 characters of 'uuid_target_2' to invalidate
+    response = client.get(f"{EVENTS_URL}?id={uuid_target}&id={uuid_nonexistent}")
+    assert response.status_code == 200
+
+    ids = {item["id"] for item in response.data["results"]}
+
+    assert ids == {str(event_target.id)}
+
+    assert str(event_filler.id) not in ids
+
+
+def test_filter_id_handles_invalid_uuid() -> None:
+    """
+    Invalid uuids should be ignored and any valid uuids given
+    should still be matched to events with the same id field.
+    """
+    client = APIClient()
+    uuid_target_1 = uuid.uuid4()
+    uuid_target_2 = uuid.uuid4()
+
+    uuid_filler = uuid.uuid4()
+
+    # Events with target test uuids.
+    event_target_1 = EventFactory(id=uuid_target_1)
+    event_target_2 = EventFactory(id=uuid_target_2)
+    # Events with non target test uuids.
+    event_filler = EventFactory(id=uuid_filler)
+
+    # remove last 3 characters of 'uuid_target_2' to invalidate
+    response = client.get(
+        f"{EVENTS_URL}?id={uuid_target_1}&id={str(uuid_target_2)[:-3]}"
+    )
+    assert response.status_code == 200
+
+    ids = {item["id"] for item in response.data["results"]}
+
+    assert ids == {str(event_target_1.id)}
+
+    assert str(event_target_2.id) not in ids
     assert str(event_filler.id) not in ids

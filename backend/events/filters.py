@@ -49,10 +49,10 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
     id = django_filters.CharFilter(method="filter_ids")
 
     def filter_ids(
-        self, queryset: QuerySet[Any, Any], name: str, value: str
+        self, queryset: QuerySet[Any, Any], name: str, _value: str
     ) -> QuerySet[Any, Any]:
         """
-        Filter events with a single ID or multiple IDs
+        Filter events with a single event ID or multiple IDs, passed as multiple individual 'id' parameters or as a single id parameter with IDs separated by comas.
 
         Parameters
         ----------
@@ -62,8 +62,8 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         name : str
             Filter field name (``id``).
 
-        value : str
-            ID parameter value (not currently used)
+        _value : str
+            ID parameter value (unused).
 
         Returns
         -------
@@ -71,14 +71,19 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
             Event(s) with ID matching the passed ``id`` parameter(s).
         """
 
-        raw = self.data.get(name)
+        raw = self.data.getlist(name)
 
         # data validation
         if not raw:
             return queryset.none()
 
-        # converts raw string input into a list with whitespace stripped from values
-        raw_values = [val.strip() for val in str(raw).split(",") if val.strip()]
+        # getlist can sometimes return a list with a single string of all IDs separated by comas
+        raw_values = [
+            part.strip()
+            for item in raw
+            for part in str(item).split(",")
+            if part.strip()
+        ]
 
         uuids = []
         for v in raw_values:
