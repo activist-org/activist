@@ -52,7 +52,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         self, queryset: QuerySet[Any, Any], name: str, _value: str
     ) -> QuerySet[Any, Any]:
         """
-        Filter events with a single event ID or multiple IDs, passed as multiple individual 'id' parameters or a single id parameter with coma separated IDs.
+        Filter events with a single event ID or multiple IDs, passed as multiple individual 'id' parameters or a single id parameter with comma separated IDs.
 
         Parameters
         ----------
@@ -77,7 +77,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         if not raw:
             return queryset.none()
 
-        # getlist can sometimes return a list with a single string of all IDs separated by comas
+        # getlist can sometimes return a list with a single string of all IDs separated by commas
         raw_values = [
             part.strip()
             for item in raw
