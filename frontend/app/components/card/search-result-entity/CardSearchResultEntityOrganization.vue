@@ -55,7 +55,7 @@ const imageAlt = computed(() => {
 
 const imageUrl = computed(() => {
   if (props.organization.iconUrl?.fileObject) {
-    return props.organization.iconUrl.fileObject;
+    return `api/${props.organization.iconUrl.fileObject}`;
   }
   return "";
 });
