@@ -1,16 +1,17 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLink
-    v-if="organization && organization.length > 0"
+    v-for="org in organization"
+    :key="org.id"
     :aria-label="
       $t('i18n.components._global.navigate_to_organization_aria_label')
     "
-    :to="$localePath(`/organizations/${organization[0]?.id}/about`)"
+    :to="$localePath(`/organizations/${org.id}/about`)"
   >
     <MetaTag
       class="pr-2"
       iconName="IconOrganization"
-      :value="organization[0]?.name ?? ''"
+      :value="org.name ?? ''"
     />
   </NuxtLink>
 </template>
