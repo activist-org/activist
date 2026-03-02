@@ -138,4 +138,5 @@ export interface CreateEventInput {
     bbox: string[];
   };
   times: EventTimeInput[];
+  createdEventIds: string[];
 }

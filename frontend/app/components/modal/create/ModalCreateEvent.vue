@@ -20,9 +20,16 @@ const { create } = useEventMutations();
  * @param {unknown} finalData The consolidated data from all steps.
  */
 async function handleSubmission(data: unknown) {
-  await create(data as CreateEventInput);
+  // collect 'createdEventIds' from the flow context on submission and add final event ID
+  const typedData = data as CreateEventInput;
+  let createdEventIds: string[] = typedData.createdEventIds;
+  const res = (await create(typedData)) as unknown as EventResponse;
+  if (res) createdEventIds = [...createdEventIds, res.id];
+
   handleCloseModal();
-  console.log("TESTING"); //eslint-disable-line no-console
+
+  // return list of created event IDs to be handled by watcher in 'useFlowScreens.ts'
+  return createdEventIds;
 }
 
 // Pass the handler to the machine via its options.
