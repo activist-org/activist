@@ -5,14 +5,15 @@ export const useOrganizationMutations = () => {
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
+  const store = useOrganizationStore();
 
-  const create = async (eventData: CreateOrganizationInput) => {
+  const create = async (organizationData: CreateOrganizationInput) => {
     loading.value = true;
     error.value = null;
     try {
-      const event = await createOrganization(eventData);
+      const organization = await createOrganization(organizationData);
       await refreshOrganizationList();
-      return event;
+      return organization;
     } catch (e) {
       error.value = e as AppError;
       showToastError(error.value.message);
@@ -22,9 +23,12 @@ export const useOrganizationMutations = () => {
     }
   };
   const refreshOrganizationList = async () => {
-    // Invalidate and refetch event list data.
+    // Invalidate and refetch organization list data.
     // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetOrganizations());
+    await refreshNuxtData(getKeyForGetOrganizations());
+    // Clear cached organizations to force refetch with new data.
+    store.setOrganizations([]);
   };
 
   return {

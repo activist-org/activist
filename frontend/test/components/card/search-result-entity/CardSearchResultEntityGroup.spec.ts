@@ -158,10 +158,10 @@ describe("CardSearchResultEntityGroup", () => {
 
     it("renders imageUrl when iconUrl.fileObject exists", () => {
       const group = createMockGroup({
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "images/icon.png" },
       });
       const wrapper = createWrapper({ group });
-      expect(wrapper.vm.imageUrl).toBe("https://example.com/icon.png");
+      expect(wrapper.vm.imageUrl).toBe("api/images/icon.png");
     });
 
     it("renders empty imageUrl when iconUrl is undefined", () => {
@@ -199,7 +199,7 @@ describe("CardSearchResultEntityGroup", () => {
         name: "Complex Group",
         groupName: "complex-group",
         texts: [{ description: "Full description" }],
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "images/icon.png" },
         location: { addressOrName: "London, UK" },
       });
       const wrapper = createWrapper({
@@ -208,7 +208,7 @@ describe("CardSearchResultEntityGroup", () => {
       });
 
       expect(wrapper.vm.description).toBe("Full description");
-      expect(wrapper.vm.imageUrl).toBe("https://example.com/icon.png");
+      expect(wrapper.vm.imageUrl).toBe("api/images/icon.png");
       expect(wrapper.vm.location).toBe("London");
     });
   });
@@ -244,7 +244,7 @@ describe("CardSearchResultEntityGroup", () => {
   describe("Styling", () => {
     it("applies reduced size classes when isReduced is true", () => {
       const mockGroup = createMockGroup({
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "api/images/icon.png" },
       });
       const wrapper = createWrapper({ group: mockGroup, isReduced: true });
       const cardStub = wrapper.findComponent({
@@ -256,7 +256,7 @@ describe("CardSearchResultEntityGroup", () => {
 
     it("applies normal size classes when isReduced is false", () => {
       const mockGroup = createMockGroup({
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "api/images/icon.png" },
       });
       const wrapper = createWrapper({ group: mockGroup, isReduced: false });
       const cardStub = wrapper.findComponent({
@@ -269,7 +269,7 @@ describe("CardSearchResultEntityGroup", () => {
     it("applies consistent styling for various group states", () => {
       const mockGroup = createMockGroup({
         name: "Styled Group",
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "images/icon.png" },
       });
       const wrapper = createWrapper({ group: mockGroup, isReduced: false });
       const cardStub = wrapper.findComponent({
@@ -277,7 +277,7 @@ describe("CardSearchResultEntityGroup", () => {
       });
 
       expect(cardStub.props("title")).toBe("Styled Group");
-      expect(cardStub.props("imageUrl")).toBe("https://example.com/icon.png");
+      expect(cardStub.props("imageUrl")).toBe("api/images/icon.png");
     });
   });
 
@@ -308,12 +308,12 @@ describe("CardSearchResultEntityGroup", () => {
 
       await wrapper.setProps({
         group: createMockGroup({
-          iconUrl: { fileObject: "https://example.com/new.png" },
+          iconUrl: { fileObject: "images/new.png" },
         }),
       });
       await nextTick();
 
-      expect(wrapper.vm.imageUrl).toBe("https://example.com/new.png");
+      expect(wrapper.vm.imageUrl).toBe("api/images/new.png");
     });
 
     it("updates location when group location changes", async () => {

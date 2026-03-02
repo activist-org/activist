@@ -20,7 +20,7 @@
         eventType="action"
         :imgUrl="
           event?.iconUrl?.fileObject
-            ? `${BASE_BACKEND_URL_NO_V1}${event.iconUrl?.fileObject}`
+            ? `/api/${event.iconUrl.fileObject}`
             : logoUrl
         "
       />

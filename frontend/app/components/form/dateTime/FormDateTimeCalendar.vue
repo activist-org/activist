@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DatePicker
-    v-model.range="modelValue"
+    v-model.range="rangeProxy"
     :attributes="calendar"
     :color="colorModePreference"
     expanded
@@ -25,27 +25,19 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const calendar = ref<CalendarAttribute[]>(props.calendarArgs || []);
-const modelValue = ref<{ start: Date; end: Date }>(props.modelValue || []);
+
+const calendar = computed(() => props.calendarArgs || []);
+
 const emit = defineEmits<{
   (e: "update:modelValue", value: { start: Date; end: Date }): void;
 }>();
 
-watch(
-  () => modelValue.value,
-  (newValue) => {
-    emit("update:modelValue", newValue);
-    modelValue.value = newValue;
-  },
-  { immediate: true }
-);
-watch(
-  () => props.calendarArgs,
-  (newArgs) => {
-    calendar.value = newArgs;
-  },
-  { immediate: true }
-);
+// Use a computed proxy to handle the v-model sync safely.
+const rangeProxy = computed({
+  get: () => props.modelValue,
+  set: (val) => emit("update:modelValue", val),
+});
+
 const colorMode = useColorMode();
 const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
 </script>

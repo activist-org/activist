@@ -8,6 +8,7 @@ export function useOrganizationImageMutations(
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
+  const store = useOrganizationStore();
 
   const currentOrganizationId = computed(() => unref(organizationId));
 
@@ -100,6 +101,10 @@ export function useOrganizationImageMutations(
     await refreshNuxtData(
       getKeyForGetOrganization(currentOrganizationId.value)
     );
+    // Clear the organizations list cache to ensure it refetches with updated data.
+    store.setOrganizations([]);
+    // Also refresh the list of organizations in case the image is used there.
+    await refreshNuxtData(getKeyForGetOrganizations());
   }
 
   // Helper to refresh organization data after mutations.

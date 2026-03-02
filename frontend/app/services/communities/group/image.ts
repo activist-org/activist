@@ -44,10 +44,9 @@ export async function fetchGroupImages(
   entityId: string
 ): Promise<ContentImage[]> {
   try {
-    const images = (await fetchImages(
-      `/communities/group/${entityId}`,
-      {}
-    )) as ContentImage[];
+    const images = (await get(`/communities/group/${entityId}/images`, {
+      withoutAuth: true,
+    })) as ContentImage[];
     return images;
   } catch (e) {
     const err = errorHandler(e);
