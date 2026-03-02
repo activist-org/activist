@@ -8,11 +8,7 @@
     "
     :to="$localePath(`/organizations/${org.id}/about`)"
   >
-    <MetaTag
-      class="pr-2"
-      iconName="IconOrganization"
-      :value="org.name ?? ''"
-    />
+    <MetaTag class="pr-2" iconName="IconOrganization" :value="org.name ?? ''" />
   </NuxtLink>
 </template>
 
