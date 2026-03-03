@@ -7,29 +7,34 @@ export const useGroupMutations = () => {
   const loading = ref(false);
   const error = ref<Error | null>(null);
 
-  const create = async (
-    groupData: CreateGroupInput
-  ): Promise<{ id: string }> => {
+  const create = async (groupData: CreateGroupInput) => {
     loading.value = true;
     error.value = null;
-
     try {
-      const group = await createGroup(groupData);
-      await refreshGroupList();
-      return group;
+      const groupId = await createGroup(groupData);
+      try {
+        await refreshGroupList();
+      } catch (refreshError) {
+        console.warn("Failed to refresh group list after create", refreshError);
+      }
+
+      return groupId;
     } catch (e) {
       error.value = e as AppError;
       showToastError(error.value.message);
-      throw e; // ❗ DO NOT return false
+      return false;
     } finally {
       loading.value = false;
     }
   };
+
   const refreshGroupList = async () => {
-    // Invalidate and refetch group list data.
-    // Invalidate the useAsyncData cache so next read will refetch.
     clearNuxtData((key) => key.startsWith("groups-list:"));
-    await refreshNuxtData(getKeyForGetOrganization(store.getOrganization().id));
+
+    const organizationId = store.getOrganization()?.id;
+    if (!organizationId) return;
+
+    await refreshNuxtData(getKeyForGetOrganization(organizationId));
   };
 
   return {

@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
 defineProps<{
   location?: DropdownLocation;
 }>();
