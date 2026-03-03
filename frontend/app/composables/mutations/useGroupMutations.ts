@@ -7,9 +7,12 @@ export const useGroupMutations = () => {
   const loading = ref(false);
   const error = ref<Error | null>(null);
 
-  const create = async (groupData: CreateGroupInput) => {
+  const create = async (
+    groupData: CreateGroupInput
+  ): Promise<{ id: string }> => {
     loading.value = true;
     error.value = null;
+
     try {
       const group = await createGroup(groupData);
       await refreshGroupList();
@@ -17,7 +20,7 @@ export const useGroupMutations = () => {
     } catch (e) {
       error.value = e as AppError;
       showToastError(error.value.message);
-      return false;
+      throw e; // ❗ DO NOT return false
     } finally {
       loading.value = false;
     }

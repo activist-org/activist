@@ -13,6 +13,8 @@
 <script setup lang="ts">
 const modalName = "ModalCreateGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
+const router = useRouter();
+const route = useRoute();
 
 const { create } = useGroupMutations();
 
@@ -21,7 +23,14 @@ const { create } = useGroupMutations();
  * @param {any} finalData The consolidated data from all steps.
  */
 async function handleSubmission(value: unknown) {
-  await create(value as CreateGroupInput);
+  const result = await create(value as CreateGroupInput);
+
+  const organizationId = route.params.id as string;
+
+  await router.push(
+    `/organizations/${organizationId}/groups/${result.id}/about`
+  );
+
   handleCloseModal();
 }
 
