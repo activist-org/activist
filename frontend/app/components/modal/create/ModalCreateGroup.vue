@@ -35,9 +35,7 @@ async function handleSubmission(value: unknown) {
     return;
   }
 
-  await router.push(
-    `/organizations/${organizationId}/groups/${groupId}/about`
-  );
+  await router.push(`/organizations/${organizationId}/groups/${groupId}/about`);
   handleCloseModal();
 }
 
