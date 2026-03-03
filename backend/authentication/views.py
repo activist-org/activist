@@ -271,44 +271,38 @@ class PasswordResetView(APIView):
 
         user = UserModel.objects.filter(email=email).first()
 
-        if user is None:
-            logger.warning(f"Password reset failed: user not found for email {email}")
-            return Response(
-                {"detail": "User does not exist."},
-                status=status.HTTP_404_NOT_FOUND,
+        if user is not None:
+            user.verification_code = uuid.uuid4()
+
+            pwreset_link = f"{FRONTEND_BASE_URL}/auth/pwreset/{user.verification_code}"
+            message = "Reset your password at activist.org"
+            html_message = render_to_string(
+                template_name="pwreset_email.html",
+                context={"username": user.username, "pwreset_link": pwreset_link},
             )
 
-        user.verification_code = uuid.uuid4()
+            try:
+                send_mail(
+                    subject="Reset your password at activist.org",
+                    message=message,
+                    from_email=ACTIVIST_EMAIL,
+                    recipient_list=[user.email],
+                    html_message=html_message,
+                    fail_silently=False,
+                )
+                logger.info(f"Password reset email sent to {user.email}")
+                user.save()
 
-        pwreset_link = f"{FRONTEND_BASE_URL}/auth/pwreset/{user.verification_code}"
-        message = "Reset your password at activist.org"
-        html_message = render_to_string(
-            template_name="pwreset_email.html",
-            context={"username": user.username, "pwreset_link": pwreset_link},
-        )
+            except Exception as e:
+                logger.error(f"Failed to send password reset email to {user.email}: {e}")
+        else:
+            # Don't reveal if email exists - log silently
+            logger.warning(f"Password reset attempt for non-existent email: {email}")
 
-        try:
-            send_mail(
-                subject="Reset your password at activist.org",
-                message=message,
-                from_email=ACTIVIST_EMAIL,
-                recipient_list=[user.email],
-                html_message=html_message,
-                fail_silently=False,
-            )
-            logger.info(f"Password reset email sent to {user.email}")
-
-        except Exception as e:
-            logger.error(f"Failed to send password reset email to {user.email}: {e}")
-            return Response(
-                {"detail": "Failed to send password reset email."},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
-
-        user.save()
-
+        # Always return the same success message to prevent timing attacks
+        # This prevents attackers from enumerating valid email addresses
         return Response(
-            {"message": "Password reset email was sent successfully."},
+            {"message": "If the email exists, you will receive password reset instructions."},
             status=status.HTTP_200_OK,
         )
 
