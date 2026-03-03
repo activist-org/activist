@@ -90,7 +90,7 @@ export function useFlowScreens(
   });
 
   async function handleCreatedEventRouting(createdEventIds: string[]) {
-    if (createdEventIds.length === 0) return;
+    if (!createdEventIds || createdEventIds.length === 0) return;
 
     if (createdEventIds.length === 1) {
       await router.push({
@@ -99,21 +99,12 @@ export function useFlowScreens(
       return;
     }
 
-    if (route.path !== "/events") {
-      router.push({
-        path: "/events",
-        query: {
-          id: createdEventIds.toString(),
-        },
-      });
-      return;
-    }
-
-    const { view: viewQueryValue, ..._ } = route.query;
-    router.push({
+    const viewQueryValue = route.query.view;
+    await router.push({
+      path: "/events",
       query: {
         view: viewQueryValue,
-        id: createdEventIds.toString(),
+        id: createdEventIds.join(","),
       },
     });
   }
