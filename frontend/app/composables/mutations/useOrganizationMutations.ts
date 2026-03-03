@@ -7,17 +7,20 @@ export const useOrganizationMutations = () => {
   const error = ref<Error | null>(null);
   const store = useOrganizationStore();
 
-  const create = async (organizationData: CreateOrganizationInput) => {
+  const create = async (
+    organizationData: CreateOrganizationInput
+  ): Promise<{ id: string }> => {
     loading.value = true;
     error.value = null;
+
     try {
       const organization = await createOrganization(organizationData);
       await refreshOrganizationList();
-      return organization;
+      return organization; // ← DO NOT WRAP AGAIN
     } catch (e) {
       error.value = e as AppError;
       showToastError(error.value.message);
-      return false;
+      throw e;
     } finally {
       loading.value = false;
     }

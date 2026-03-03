@@ -15,6 +15,8 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router"; 
+const router = useRouter();
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
@@ -23,8 +25,14 @@ const { create } = useOrganizationMutations();
  * This function will be called by the machine when the flow completes.
  * @param {unknown} finalData The consolidated data from all steps.
  */
-async function handleSubmission(values: unknown) {
-  await create(values as CreateOrganizationInput);
+async function handleSubmission(finalData: unknown) {
+  const values = finalData as CreateOrganizationInput;
+
+  const result = await create(values);
+
+  console.log("RESULT.ID:", result.id);
+  await router.push(`/organizations/${result.id}/about`);
+
   handleCloseModal();
 }
 
