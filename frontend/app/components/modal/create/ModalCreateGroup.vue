@@ -13,24 +13,31 @@
 <script setup lang="ts">
 const modalName = "ModalCreateGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
-const router = useRouter();
-const route = useRoute();
 
 const { create } = useGroupMutations();
 
-/**
- * This function will be called by the machine when the flow completes.
- * @param {any} finalData The consolidated data from all steps.
- */
-async function handleSubmission(value: unknown) {
-  const result = await create(value as CreateGroupInput);
+const router = useRouter();
+const route = useRoute();
 
-  const organizationId = route.params.id as string;
+async function handleSubmission(value: unknown) {
+  const payload = value as CreateGroupInput;
+
+  const result = await create(payload);
+  console.log("Payload:", payload);
+  if (!result) return;
+
+  const groupId = result.id;
+
+  const organizationId = payload.organization;
+
+  if (!organizationId) {
+    console.error("Organization ID missing in form submission");
+    return;
+  }
 
   await router.push(
-    `/organizations/${organizationId}/groups/${result.id}/about`
+    `/organizations/${organizationId}/groups/${groupId}/about`
   );
-
   handleCloseModal();
 }
 
