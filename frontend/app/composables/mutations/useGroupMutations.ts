@@ -14,8 +14,8 @@ export const useGroupMutations = () => {
       const groupId = await createGroup(groupData);
       try {
         await refreshGroupList();
-      } catch (refreshError) {
-        console.warn("Failed to refresh group list after create", refreshError);
+      } catch {
+        // console.warn("Failed to refresh group list after create", refreshError);
       }
 
       return groupId;
