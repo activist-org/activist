@@ -5,22 +5,24 @@
       <h3 class="text-left font-display">
         {{ $t("i18n.components.card_donate.donate") }}
       </h3>
-      <div
-        class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text"
+      <button
+        v-if="userIsAdmin"
+        type="button"
+        :aria-label="editModeEnabled ? $t('i18n.components.card_donate.cancel_edit_donation_info_alt_text') : $t('i18n.components.card_donate.edit_donation_info_alt_text')"
+        @click="toggleEditMode"
+        class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text focus-brand"
       >
         <Icon
-          v-if="userIsAdmin && !editModeEnabled"
-          @click="toggleEditMode"
+          v-if="!editModeEnabled"
           :name="IconMap.EDIT"
           size="1.2em"
         />
         <Icon
-          v-else-if="userIsAdmin && editModeEnabled"
-          @click="toggleEditMode"
+          v-else
           :name="IconMap.X_LG"
           size="1.2em"
         />
-      </div>
+      </button>
     </div>
     <p v-if="donationPrompt">
       {{ donationPrompt }}
