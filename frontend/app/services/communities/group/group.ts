@@ -76,13 +76,16 @@ export async function listGroups(
 
 // MARK: Create
 
-export async function createGroup(data: CreateGroupInput): Promise<string> {
-  try {
-    const res = await post<string, typeof data>(`/communities/groups`, data, {
+export async function createGroup(
+  data: CreateGroupInput
+): Promise<{ id: string }> {
+  const res = await post<{ id: string }, typeof data>(
+    `/communities/groups`,
+    data,
+    {
       headers: { "Content-Type": "application/json" },
-    });
-    return res;
-  } catch (e) {
-    throw errorHandler(e);
-  }
+    }
+  );
+
+  return res;
 }
