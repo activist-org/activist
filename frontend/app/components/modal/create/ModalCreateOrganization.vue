@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+
 import { useOrganizationMutations } from "@/composables/mutations";
 
 const router = useRouter();
@@ -32,7 +33,6 @@ async function handleSubmission(finalData: unknown) {
 
   const result = await create(values);
 
-  console.log("RESULT.ID:", result.id);
   await router.push(`/organizations/${result.id}/about`);
 
   handleCloseModal();
