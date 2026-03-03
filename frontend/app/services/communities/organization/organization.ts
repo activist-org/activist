@@ -83,7 +83,6 @@ export async function createOrganization(
       data,
       { headers: { "Content-Type": "application/json" } }
     );
-    console.log("SERVICE RESPONSE:", res);
     return res;
   } catch (e) {
     throw errorHandler(e);

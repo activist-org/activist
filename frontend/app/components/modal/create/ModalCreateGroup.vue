@@ -17,13 +17,11 @@ const { handleCloseModal } = useModalHandlers(modalName);
 const { create } = useGroupMutations();
 
 const router = useRouter();
-const route = useRoute();
 
 async function handleSubmission(value: unknown) {
   const payload = value as CreateGroupInput;
 
   const result = await create(payload);
-  console.log("Payload:", payload);
   if (!result) return;
 
   const groupId = result.id;
@@ -31,7 +29,6 @@ async function handleSubmission(value: unknown) {
   const organizationId = payload.organization;
 
   if (!organizationId) {
-    console.error("Organization ID missing in form submission");
     return;
   }
 
