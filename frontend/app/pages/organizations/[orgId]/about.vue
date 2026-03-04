@@ -2,7 +2,7 @@
 <template>
   <ModalSocialLinksOrganization />
   <ModalTextOrganization />
-  <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 pt-10 xl:px-8">
     <Head>
       <Title>{{ organization?.name }}</Title>
     </Head>
@@ -17,7 +17,7 @@
           <BtnRouteExternal
             v-if="organization?.texts[0]?.getInvolvedUrl"
             ariaLabel="i18n._global.join_organization_aria_label"
-            class="w-max"
+            class="w-full sm:w-max"
             :cta="true"
             fontSize="sm"
             iconSize="1.45em"
@@ -26,7 +26,7 @@
             :rightIcon="IconMap.ARROW_RIGHT"
           />
           <!-- <BtnAction
-          class="w-max"
+          class="w-full sm:w-max"
           :cta="true"
           label="i18n._global.support"
           fontSize="sm"
@@ -39,7 +39,7 @@
             @click="openModalSharePage()"
             @keydown.enter="openModalSharePage()"
             ariaLabel="i18n._global.share_organization_aria_label"
-            class="w-max"
+            class="w-full sm:w-max"
             :cta="true"
             fontSize="sm"
             :hideLabelOnMobile="false"
