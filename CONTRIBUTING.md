@@ -1,3 +1,5 @@
+<a id="top"></a>
+
 # Contributing to activist.org
 
 Thank you for contributing to activist!
@@ -8,32 +10,27 @@ Following this guide helps to communicate that you respect the time of the devel
 
 If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 
-<a id="contents"></a>
-
 ## **Contents**
 
-- [First steps as a contributor](#first-steps-)
-- [Mentorship and growth](#mentorship-and-growth-)
-- [Tech stack](#tech-stack-)
-- [Learning the tech stack](#learning-the-tech-stack-)
-- [Development environment](#dev-env-)
-- [Style guide](#style-guide-)
-- [Linting](#linting-)
-- [Testing](#testing-)
-- [Issues and projects](#issues-projects-)
-- [Bug reports](#bug-reports-)
-- [Feature requests](#feature-requests-)
-- [Pull requests](#pull-requests-)
-- [Localization](#localization-)
-- [Documentation](#documentation-)
-- [Accessibility](#accessibility-)
-- [Internationalization](#internationalization-)
-- [Design](#design-)
-- [Troubleshooting](#troubleshooting-)
+- [First steps as a contributor](#first-steps-as-a-contributor)
+- [Mentorship and growth](#mentorship-and-growth)
+- [Tech stack](#tech-stack)
+- [Learning the tech stack](#learning-the-tech-stack)
+- [Development environment](#development-environment)
+- [Style guide](#style-guide)
+- [Linting](#linting)
+- [Testing](#testing)
+- [Issues and projects](#issues-and-projects)
+- [Bug reports](#bug-reports)
+- [Feature requests](#feature-requests)
+- [Pull requests](#pull-requests)
+- [Internationalization](#internationalization)
+- [Documentation](#documentation)
+- [Accessibility](#accessibility)
+- [Design](#design)
+- [Troubleshooting](#troubleshooting)
 
-<a id="first-steps-"></a>
-
-## First steps as a contributor [`⇧`](#contents)
+## First steps as a contributor
 
 Thank you for your interest in contributing to activist.org! We look forward to welcoming you to the community and working with you to build a global platform for political action :) The following are some suggested steps for people interested in joining our community:
 
@@ -47,9 +44,9 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
 - Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync) — new joiners are always welcome!
 
-<a id="mentorship-and-growth-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Mentorship and growth [`⇧`](#contents)
+## Mentorship and growth
 
 Onboarding and mentoring new members are integral parts of any healthy open-source community. We need those who are onboarded to gain new skills and take on greater roles of triaging issues, reviewing contributions and maintaining the project. We also need them to help those who follow do the same. Please let us know if you have such goals and we'll work with you to achieve them.
 
@@ -59,9 +56,9 @@ Continued constructive contributions, new open issues and communication that pro
 
 If the above resonates with you, then we look forward to working with you!
 
-<a id="tech-stack-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Tech stack [`⇧`](#contents)
+## Tech stack
 
 The following are the current and planned technologies for [activist.org](https://activist.org):
 
@@ -92,9 +89,9 @@ The following are the current and planned technologies for [activist.org](https:
 > [!NOTE]
 > Those new to any frameworks or technologies who want to work on their skills are more than welcome to contribute!
 
-<a id="learning-the-tech-stack-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Learning the tech stack [`⇧`](#contents)
+## Learning the tech stack
 
 activist is very open to contributions from people in the early stages of their coding journey! The following is a select list of documentation pages to help you understand the technologies we use.
 
@@ -140,9 +137,9 @@ activist is very open to contributions from people in the early stages of their 
 </p>
 </details>
 
-<a id="dev-env-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Development environment [`⇧`](#contents)
+## Development environment
 
 > [!NOTE]
 > Windows users should be aware that Docker development requires [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/windows/wsl/) version 2 or higher. The community would suggest that you clone the repository directly into your WSL environment.
@@ -247,8 +244,6 @@ git remote add upstream https://github.com/activist-org/activist.git
 > [!NOTE]
 > Feel free to contact the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=acter.global&via=chat.0x7cd.xyz) if you're having problems getting your environment setup!
 
-<a id="using-yarn-or-python-"></a>
-
 ### Using Yarn or Python
 
 Dockerized environments are resource intensive - specifically for some Windows users - and may take a very long time to load. If you would like to get just the frontend or backend up and running, please follow the steps below:
@@ -311,22 +306,13 @@ From here we need the project's dependencies, with the practice being to create 
 On Unix or MacOS, run:
 
 ```bash
-python3 -m venv venv  # make an environment named venv
-source venv/bin/activate # activate the environment
-```
+cd backend && uv sync --all-extras  # create .venv and install all dependencies from uv.lock
 
-On Windows (using Command Prompt), run:
+# Unix or macOS:
+source .venv/bin/activate
 
-```bash
-python -m venv venv
-venv\Scripts\activate.bat
-```
-
-After activating the virtual environment, install the required dependencies by running:
-
-```bash
-pip install --upgrade pip  # make sure that pip is at the latest version
-pip install -r backend/requirements-dev.txt  # install dependencies
+# Windows:
+.venv\Scripts\activate.bat  # .venv\Scripts\activate.ps1 (PowerShell)
 ```
 
 Now you can apply the database migrations and fixtures, populate it with sample data, and start the local development server.
@@ -354,9 +340,7 @@ You can then visit <http://localhost:8000/admin> to see the development backend 
 </p>
 </details>
 
-<!-- <a id="component-stories"></a>
-
-### Component stories [`⇧`](#contents)
+<!-- ### Component stories
 
 activist uses [histoire](https://histoire.dev/) for stories so that frontend components and their documentation are all written in Vue. To view the stories, enter the following in the command line:
 
@@ -367,23 +351,23 @@ yarn run story:dev
 
 From there you'll be able to visit http://localhost:6006/ to view the documentation. Contributions are very welcome! -->
 
-<a id="style-guide-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Style guide [`⇧`](#contents)
+## Style guide
 
 Please see the [activist style guide](STYLEGUIDE.md) for details about how to follow the code style for the project. We made this guide to assure that we as a community write clean, cohesive code that's easy to write and review. Suggestions for the style guide are welcome.
 
-<a id="linting-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Linting [`⇧`](#contents)
+## Linting
 
 For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
 
 For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
 
-<a id="testing-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Testing [`⇧`](#contents)
+## Testing
 
 ### Backend
 
@@ -498,7 +482,7 @@ docker compose --env-file .env.dev up backend db # run backend and db in docker
 USE_PREVIEW=true docker compose --env-file .env.dev up backend db
 ```
 
-In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python-).
+In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python).
 
 In a second shell:
 
@@ -529,7 +513,7 @@ yarn test:local
 yarn playwright show-report
 ```
 
-Or, instead of the third shell, you can also run the whole suite or run individual tests using Playwright's VS Code extension. You can find a link in the [Development environment](#dev-env-) section, under Suggested IDE setup.
+Or, instead of the third shell, you can also run the whole suite or run individual tests using Playwright's VS Code extension. You can find a link in the [Development environment](#development-environment) section, under Suggested IDE setup.
 
 Thank you for testing locally! ✨
 
@@ -559,9 +543,9 @@ You can then visit the [actions of the repository](https://github.com/activist-o
 
 Thank you for testing your PRs! 🎉
 
-<a id="issues-projects"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Issues and projects [`⇧`](#contents)
+## Issues and projects
 
 The [issue tracker for activist](https://github.com/activist-org/activist/issues) is the preferred channel for [bug reports](#bug-reports), [features requests](#feature-requests) and [submitting pull requests](#pull-requests). activist also organizes related issues into [projects](https://github.com/activist-org/activist/projects).
 
@@ -572,7 +556,7 @@ Be sure to check the [`-next release-`](https://github.com/activist-org/activist
 
 <a name="bug-reports"></a>
 
-## Bug reports [`⇧`](#contents)
+## Bug reports
 
 A bug is a _demonstrable problem_ that is caused by the code in the repository. Good bug reports are extremely helpful — thank you!
 
@@ -596,15 +580,15 @@ To make the above steps easier, the activist team asks that contributors report 
 
 Again, thank you for your time in reporting issues!
 
-<a name="feature-requests-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Feature requests [`⇧`](#contents)
+## Feature requests
 
 Feature requests are more than welcome! Please take a moment to find out whether your idea fits with the scope and aims of the project. When making a suggestion, provide as much detail and context as possible, and further make clear the degree to which you would like to contribute in its development. Feature requests are marked with the [`Feature`](https://github.com/activist-org/activist/issues?q=is%3Aissue%20state%3Aopen%20type%3AFeature) type in the [issues](https://github.com/activist-org/activist/issues).
 
-<a name="pull-requests-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Pull requests [`⇧`](#contents)
+## Pull requests
 
 Good pull requests — patches, improvements and new features — are the foundation of our community making activist. They should remain focused in scope and avoid containing unrelated commits. Note that all contributions to this project will be made under [the specified license](LICENSE.txt) and should follow the coding indentation and style standards (contact us if unsure).
 
@@ -669,41 +653,15 @@ When making a contribution, adhering to the [GitHub flow](https://docs.github.co
 
 Thank you in advance for your contributions!
 
-<a id="localization-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Localization [`⇧`](#contents)
-
-<a href="https://hosted.weblate.org/projects/activist/activist">
-    <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right">
-</a>
-
-Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
-
-To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
-
-> [!IMPORTANT]
-> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid/not existing across the codebase, then please add the following file at `frontend/types/vue-i18n.d.ts`:
->
-> ```ts
-> // frontend/types/vue-i18n.d.ts
-> // Attn: Fixes Property '$t' does not exist on type ... errors.
-> // Note: This file is git ignored, but can be used as a local fix for excessive TypeScript errors.
-> declare module "vue" {
->   interface ComponentCustomProperties {
->     $t: (key: string) => string;
->   }
-> }
-> ```
-
-<a id="documentation-"></a>
-
-## Documentation [`⇧`](#contents)
+## Documentation
 
 Documentation is an invaluable way to contribute to coding projects as it allows others to more easily understand the project structure and contribute. Issues related to documentation are marked with the [`documentation`](https://github.com/activist-org/activist/labels/documentation) label in the [issues](https://github.com/activist-org/activist/issues).
 
-<a id="accessibility-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Accessibility [`⇧`](#contents)
+## Accessibility
 
 Thank you for your interest in improving activist's accessibility. We want our platform to not only be usable for all people, but also to provide a welcoming environment within the development community for all. This section lists a few points to account for when checking accessibility constraints during development:
 
@@ -732,31 +690,51 @@ Tab focusing sadly doesn't work out of the box for many browsers. Chrome works g
 
 Once the above steps are finished you should be able to use tab to navigate web pages :)
 
-<a id="internationalization-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Internationalization [`⇧`](#contents)
+## Internationalization
+
+### Weblate
+
+<a href="https://hosted.weblate.org/projects/activist/activist">
+    <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/WeblateLogo.png" height="100" alt="Visit Weblate project" align="right">
+</a>
+
+Localization for activist happens on our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist). Join us there if you'd like to help bring activist to other languages!
+
+To find issues related to localization, please see the [`localization`](https://github.com/activist-org/activist/issues?q=is%3Aopen+is%3Aissue+label%3Alocalization) label in the [issues](https://github.com/activist-org/activist/issues), and to report a localization issue use the [localization issue form](https://github.com/activist-org/activist/issues/new?assignees=&labels=localization&projects=activist-org%2F1&template=localization.yml). Please also see the [style guide](STYLEGUIDE.md) for more information on how to create new localization keys.
+
+> [!IMPORTANT]
+> If you're having issues with the vue/nuxt i18n `$t` local property not being picked up by TypeScript and being reported as invalid/not existing across the codebase, then please add the following file at `frontend/types/vue-i18n.d.ts`:
+>
+> ```ts
+> // frontend/types/vue-i18n.d.ts
+> // Attn: Fixes Property '$t' does not exist on type ... errors.
+> // Note: This file is git ignored, but can be used as a local fix for excessive TypeScript errors.
+> declare module "vue" {
+>   interface ComponentCustomProperties {
+>     $t: (key: string) => string;
+>   }
+> }
+> ```
+
+### i18n-check
 
 activist uses [i18n-check](https://github.com/activist-org/i18n-check) to validate our internationalization key-value pairs. The basic commands to check the i18n keys and values are:
 
 ```bash
-# Note: You need to have installed the backend/requirements-dev.txt file in your virtual environment.
+# Note: You need to have installed the uv.lock file in your virtual environment.
+i18n-check -h  # see the help
 i18n-check -a  # run all checks
-i18n-check -ki  # run key identifiers check
-i18n-check -ik  # run invalid keys check
-i18n-check -uk  # run unused keys check
-i18n-check -nsk  # run non-source keys check
-i18n-check -rk  # run repeat keys check
-i18n-check -rv  # run repeat values check
-i18n-check -nk  # run nested keys check
 ```
 
 You can also run individual checks. Please see the [documentation for i18n-check](https://i18n-check.readthedocs.io/en/latest/) to learn more.
 
 If you do need to edit the directories and files skipped by certain checks, then these edits can be made in the [.i18n-check.yaml](./.i18n-check.yaml) file. If you're having issues using `i18n-check`, please feel free to contact the team for support!
 
-<a id="design-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Design [`⇧`](#contents)
+## Design
 
 <a href="https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_designs?node-id=805%3A231">
     <img src="https://raw.githubusercontent.com/activist-org/Organization/main/resources/images/logos/FigmaLogo.png" width="100" alt="Public Figma Designs" align="right">
@@ -768,9 +746,9 @@ Note that the linked Figma file above is the [public facing designs](https://www
 
 All branding elements such as logos, icons, colors and fonts should follow those that are set out in [activist-org/Organization](https://github.com/activist-org/Organization). As the project is fully open source, these elements are also open for discussion. Your efforts in making activist products professional with a distinct and cohesive identity are much appreciated.
 
-<a id="troubleshooting-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Troubleshooting [`⇧`](#contents)
+## Troubleshooting
 
 ### Nuxt Auto Import Errors
 
@@ -826,8 +804,10 @@ brew services stop postgresql
 2. Locate **PostgreSQL** in the list
 3. Right-click and choose **Stop**
 
-Once stopped, you can safely run Docker services like the Docker Compose commands in the [Development Environment](#dev-env-) section.
+Once stopped, you can safely run Docker services like the Docker Compose commands in the [Development Environment](#development-environment) section.
 
 ### Still experiencing problems?
 
 Please feel free to reach out to the team in the [Development room on Matrix](https://matrix.to/#/!CRgLpGeOBNwxYCtqmK:matrix.org?via=matrix.org&via=systemli.org&via=librezo.fr) if you have a question!
+
+<sub><a href="#top">Back to top.</a></sub>
