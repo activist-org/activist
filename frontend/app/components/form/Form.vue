@@ -32,6 +32,7 @@
             :cta="true"
             fontSize="lg"
             :label="labelForSubmit"
+            :isLoading="isLoading"
             type="submit"
           />
         </div>
@@ -57,6 +58,7 @@ const props = withDefaults(
     sendOnChange?: boolean;
     isThereSubmitButton?: boolean;
     actionButtons?: Btn[];
+    isLoading?: boolean;
   }>(),
   {
     isThereSubmitButton: true,

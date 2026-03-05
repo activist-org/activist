@@ -3,6 +3,7 @@
  * useFlowScreens is the layer between the component and the store layer. It manages the screen showing,
  */
 
+
 export function useFlowScreens(
   machineType: MachineType,
   options: UseFlowScreensOptions = {}
@@ -68,8 +69,11 @@ export function useFlowScreens(
   watch(
     () => store.isFinished,
     (finished) => {
+      loading.value = true;
       if (finished && options.onSubmit) {
-        options.onSubmit(store.saveResult);
+        new Promise((resolve) => resolve(options.onSubmit?.({...store.nodeData, ...store.sharedData}))).then(() => {
+          loading.value = false;
+        });
       }
     }
   );
@@ -91,10 +95,20 @@ export function useFlowScreens(
     active: store?.active,
     nodeId: store?.nodeId,
     currentNode: store?.currentNode,
+    sharedData: store?.sharedData,
     nodeData: store?.nodeData,
     currentStep: store?.currentStep,
     totalSteps: store?.totalSteps,
   }));
+
+  const isSaving = computed(() => store?.saving ?? false);
+
+  watch(
+    isSaving,
+    (saving) => {
+      console.log("Saving state changed 1:", saving);
+    }
+  ,{ immediate: true });
 
   return {
     store,
@@ -105,6 +119,7 @@ export function useFlowScreens(
     currentScreen,
     loading,
     context,
-    isActive: computed(() => store?.active),
+    isActive: readonly(computed(() => store?.active)),
+    isSaving: readonly(isSaving),
   };
 }

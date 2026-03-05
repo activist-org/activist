@@ -11,17 +11,33 @@
 </template>
 
 <script setup lang="ts">
+const router = useRouter();
+const toast = useToaster();
 const modalName = "ModalCreateEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
-
-const { create } = useEventMutations();
 /**
  * This function will be called by the machine when the flow completes.
  * @param {unknown} finalData The consolidated data from all steps.
  */
-async function handleSubmission(data: unknown) {
-  await create(data as CreateEventInput);
-  handleCloseModal();
+async function handleSubmission(finalData: any) {
+    console.log("Final data received from machine:", finalData);
+    // 2. Extract the loop IDs we saved into `sharedData`
+    const loopedEventIds = finalData.createdEventIds || [];
+
+    // 3. Combine all IDs
+    const allIds = [...loopedEventIds];
+
+    // 5. Route the user based on how many events were created
+    if (allIds.length === 1) {
+      // Just one event created, go to its page
+      console.log("Navigating to event with ID:", allIds[0]);
+    } else if (allIds.length > 1) {
+      // Multiple events created, maybe go to a list or dashboard
+      // Example: router.push({ name: "EventsList", query: { highlight: allIds.join(',') } });
+      console.log("Navigating to events list with IDs:", allIds);
+    }
+    // 4. Close the modal
+    handleCloseModal();
 }
 
 // Pass the handler to the machine via its options.

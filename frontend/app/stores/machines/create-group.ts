@@ -7,7 +7,7 @@ const GroupLocationStep = () =>
   import("../../components/machine/steps/createGroup/MachineStepsCreateGroupLocation.vue");
 
 export const useCreateGroupStore = createFlowStore({
-  machine: {
+  machine: defineFlowMachine({
     id: "createGroupFlow",
     initialNode: CreateGroupSteps.GroupDetails,
     states: {
@@ -24,5 +24,5 @@ export const useCreateGroupStore = createFlowStore({
         component: GroupLocationStep,
       },
     },
-  },
+  }),
 });
