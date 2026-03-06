@@ -17,7 +17,7 @@
           :id="id"
           @blur="handleBlur"
           @input="handleChange"
-          autocomplete="username"
+          autocomplete="off"
           autocapitalize="none"
           autocorrect="off"
           :hasError="!!errorMessage.value"
