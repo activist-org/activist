@@ -154,6 +154,21 @@ MARK: Base
     @apply text-warn-yellow;
   }
 
+  .form-text-input:-webkit-autofill,
+  .form-text-input:-webkit-autofill:hover,
+  .form-text-input:-webkit-autofill:focus,
+  .form-text-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
+    box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
+    -webkit-text-fill-color: rgb(var(--primary-text));
+    caret-color: rgb(var(--primary-text));
+    transition: background-color 9999s ease-out;
+  }
+
+  .form-text-input:autofill {
+    -webkit-text-fill-color: rgb(var(--primary-text));
+  }
+
   /*
   MARK: Buttons
   */
