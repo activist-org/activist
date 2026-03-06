@@ -17,10 +17,14 @@
           :id="id"
           @blur="handleBlur"
           @input="handleChange"
+          autocomplete="username"
+          autocapitalize="none"
+          autocorrect="off"
           :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth._global.enter_a_user_name')"
           :modelValue="(value.value as string)"
+          :spellcheck="false"
         />
       </FormItem>
       <FormItem
@@ -32,10 +36,14 @@
           :id="id"
           @blur="handleBlur"
           @input="handleChange"
+          autocomplete="email"
+          autocapitalize="none"
+          autocorrect="off"
           :data-testid="$t('i18n.pages.auth._global.enter_email')"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth._global.enter_email')"
           :modelValue="(value.value as string)"
+          :spellcheck="false"
         />
       </FormItem>
       <FormItem
