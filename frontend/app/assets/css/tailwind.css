@@ -162,13 +162,15 @@ MARK: Base
     animation-duration: 0s;
     -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
     box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
-    -webkit-text-fill-color: rgb(var(--primary-text));
-    caret-color: rgb(var(--primary-text));
+    color: rgb(var(--primary-text)) !important;
+    -webkit-text-fill-color: rgb(var(--primary-text)) !important;
+    caret-color: rgb(var(--primary-text)) !important;
     transition: background-color 9999s ease-out;
   }
 
   .form-text-input:autofill {
-    -webkit-text-fill-color: rgb(var(--primary-text));
+    color: rgb(var(--primary-text)) !important;
+    -webkit-text-fill-color: rgb(var(--primary-text)) !important;
   }
 
   .auth-layout-pane .form-text-input:-webkit-autofill,
@@ -178,6 +180,11 @@ MARK: Base
   .auth-layout-pane .form-text-input:autofill {
     -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-1)) inset;
     box-shadow: 0 0 0 1000px rgb(var(--layer-1)) inset;
+  }
+
+  .auth-layout-pane .form-text-input {
+    color: rgb(var(--primary-text));
+    -webkit-text-fill-color: rgb(var(--primary-text));
   }
 
   .form-text-input:-webkit-autofill::placeholder,

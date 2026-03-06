@@ -17,9 +17,13 @@
           :id="id"
           @blur="handleBlur"
           @input="handleChange"
+          autocomplete="username"
+          autocapitalize="none"
+          autocorrect="off"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth.sign_in.enter_user_name')"
           :modelValue="(value.value as string)"
+          :spellcheck="false"
         />
       </FormItem>
       <FormItem
