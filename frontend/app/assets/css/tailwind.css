@@ -158,6 +158,8 @@ MARK: Base
   .form-text-input:-webkit-autofill:hover,
   .form-text-input:-webkit-autofill:focus,
   .form-text-input:-webkit-autofill:active {
+    animation-name: onAutoFillStart;
+    animation-duration: 0s;
     -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
     box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
     -webkit-text-fill-color: rgb(var(--primary-text));
@@ -167,6 +169,29 @@ MARK: Base
 
   .form-text-input:autofill {
     -webkit-text-fill-color: rgb(var(--primary-text));
+  }
+
+  .form-text-input:-webkit-autofill::placeholder,
+  .form-text-input:autofill::placeholder {
+    color: transparent;
+  }
+
+  .form-text-input-container:has(.form-text-input:-webkit-autofill)
+    .form-text-input-label,
+  .form-text-input-container:has(.form-text-input:autofill)
+    .form-text-input-label {
+    transform: translate(1rem, -0.5rem);
+    padding-left: 0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: rgb(var(--distinct-text));
+  }
+
+  @keyframes onAutoFillStart {
+    from {
+    }
+    to {
+    }
   }
 
   /*

@@ -3,10 +3,10 @@
 <!-- See: https://mui.com/material-ui/react-text-field/ -->
 <template>
   <div
-    class="primary-text relative inline-flex w-full flex-col space-y-2 align-top"
+    class="form-text-input-container primary-text relative inline-flex w-full flex-col space-y-2 align-top"
   >
     <label
-      class="z-1 absolute"
+      class="form-text-input-label z-1 absolute"
       :class="{
         '-translate-y-2 translate-x-4 text-sm text-distinct-text': shrinkLabel,
         'translate-y-[0.6rem] pl-3': !shrinkLabel && iconLocation === 'right',
@@ -27,7 +27,9 @@
         <slot name="icons"></slot>
       </span>
       <input
+        ref="inputRef"
         :id="id"
+        @animationstart="handleAnimationStart"
         @blur="handleBlur"
         @focus="shrinkLabel = true"
         @input="
@@ -96,12 +98,36 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
+const inputRef = ref<HTMLInputElement | null>(null);
 const shrinkLabel = ref<boolean>(!!props.modelValue);
+let autofillSyncIntervalId: ReturnType<typeof setInterval> | undefined;
+
+const isAutofilled = (input: HTMLInputElement): boolean => {
+  try {
+    return input.matches(":-webkit-autofill") || input.matches(":autofill");
+  } catch {
+    return false;
+  }
+};
+
+const syncShrinkLabelState = () => {
+  const input = inputRef.value;
+  if (!input) {
+    return;
+  }
+  shrinkLabel.value = !!input.value || isAutofilled(input);
+};
 
 const handleBlur = (event: FocusEvent) => {
   const target = event.target as HTMLInputElement | null;
-  if (!target?.value) {
+  if (target && !target.value && !isAutofilled(target)) {
     shrinkLabel.value = false;
+  }
+};
+
+const handleAnimationStart = (event: AnimationEvent) => {
+  if (event.animationName === "onAutoFillStart") {
+    shrinkLabel.value = true;
   }
 };
 
@@ -111,4 +137,25 @@ watch(
     shrinkLabel.value = !!value;
   }
 );
+
+onMounted(() => {
+  // Browser autofill may populate after hydration without emitting input events.
+  syncShrinkLabelState();
+  let checks = 0;
+  autofillSyncIntervalId = setInterval(() => {
+    syncShrinkLabelState();
+    checks += 1;
+    if (checks >= 30 || shrinkLabel.value) {
+      if (autofillSyncIntervalId) {
+        clearInterval(autofillSyncIntervalId);
+      }
+    }
+  }, 100);
+});
+
+onBeforeUnmount(() => {
+  if (autofillSyncIntervalId) {
+    clearInterval(autofillSyncIntervalId);
+  }
+});
 </script>
