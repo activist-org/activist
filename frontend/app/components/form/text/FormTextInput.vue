@@ -6,7 +6,7 @@
     class="form-text-input-container primary-text relative inline-flex w-full flex-col space-y-2 align-top"
   >
     <label
-      class="form-text-input-label z-1 absolute"
+      class="form-text-input-label pointer-events-none absolute z-10 text-primary-text"
       :class="{
         '-translate-y-2 translate-x-4 text-sm text-distinct-text': shrinkLabel,
         'translate-y-[0.6rem] pl-3': !shrinkLabel && iconLocation === 'right',
@@ -32,6 +32,7 @@
         @animationstart="handleAnimationStart"
         @blur="handleBlur"
         @focus="shrinkLabel = true"
+        @pointerdown="handlePointerDown"
         @input="
           (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
         "
@@ -115,7 +116,8 @@ const syncShrinkLabelState = () => {
   if (!input) {
     return;
   }
-  shrinkLabel.value = !!input.value || isAutofilled(input);
+  shrinkLabel.value =
+    !!input.value || isAutofilled(input) || document.activeElement === input;
 };
 
 const handleBlur = (event: FocusEvent) => {
@@ -131,10 +133,27 @@ const handleAnimationStart = (event: AnimationEvent) => {
   }
 };
 
+const handlePointerDown = (event: PointerEvent) => {
+  const target = event.target as HTMLInputElement | null;
+  if (target?.disabled) {
+    return;
+  }
+  shrinkLabel.value = true;
+};
+
 watch(
   () => props.modelValue,
   (value) => {
-    shrinkLabel.value = !!value;
+    const input = inputRef.value;
+    if (!input) {
+      shrinkLabel.value = !!value;
+      return;
+    }
+
+    // Preserve the floating label while focused to avoid first-click flicker
+    // when parent form state emits an empty modelValue.
+    shrinkLabel.value =
+      !!value || isAutofilled(input) || document.activeElement === input;
   }
 );
 
