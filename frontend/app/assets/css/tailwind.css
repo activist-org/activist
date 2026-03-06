@@ -171,6 +171,15 @@ MARK: Base
     -webkit-text-fill-color: rgb(var(--primary-text));
   }
 
+  .auth-layout-pane .form-text-input:-webkit-autofill,
+  .auth-layout-pane .form-text-input:-webkit-autofill:hover,
+  .auth-layout-pane .form-text-input:-webkit-autofill:focus,
+  .auth-layout-pane .form-text-input:-webkit-autofill:active,
+  .auth-layout-pane .form-text-input:autofill {
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-1)) inset;
+    box-shadow: 0 0 0 1000px rgb(var(--layer-1)) inset;
+  }
+
   .form-text-input:-webkit-autofill::placeholder,
   .form-text-input:autofill::placeholder {
     color: transparent;
