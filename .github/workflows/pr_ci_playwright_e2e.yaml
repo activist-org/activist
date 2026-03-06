@@ -1,6 +1,22 @@
 name: pr_ci_playwright_e2e
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      - "backend/**"
+      - "frontend/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - "frontend/**"
 
 jobs:
   frontend:
