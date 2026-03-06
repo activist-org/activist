@@ -214,6 +214,7 @@ const optionLocations = [
 const route = useRoute();
 const router = useRouter();
 const formKey = ref(0);
+
 const updateViewType = (
   value: string | number | boolean | Record<string, unknown> | undefined
 ) => {
@@ -250,6 +251,7 @@ watch(
   { immediate: true }
 );
 const handleSubmit = (_values: unknown) => {
+  if (!currentRoutePathIncludes("events", route.name?.toString() ?? "")) return;
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
 

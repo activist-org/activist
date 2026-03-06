@@ -71,6 +71,7 @@ watch(
   { immediate: true }
 );
 const handleSubmit = (_values: unknown) => {
+  if (!currentRoutePathIncludes("organizations", route.name?.toString() ?? "")) return;
   const values: LocationQueryRaw = {};
   const input = (_values || {}) as Record<string, LocationQueryRaw[string]>;
   Object.keys(input).forEach((key) => {
