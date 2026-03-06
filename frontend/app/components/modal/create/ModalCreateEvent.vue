@@ -11,18 +11,28 @@
 </template>
 
 <script setup lang="ts">
-const router = useRouter();
-const toast = useToaster();
+
+
 const modalName = "ModalCreateEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
+const { create } = useEventMutations();
+
+// Runs mid-machine during the "loop" node
+async function handleLoopSubmit(iterationData: unknown) {
+  const dataToSubmit = Object.values(iterationData as ContextCreateEventData).reduce(
+    (acc, d) => ({ ...acc, ...(d as Record<string, unknown>) }), {}
+  );
+  return create(dataToSubmit as unknown as CreateEventInput); // Returns to useFlowScreens
+}
+
 /**
  * This function will be called by the machine when the flow completes.
  * @param {unknown} finalData The consolidated data from all steps.
  */
-async function handleSubmission(finalData: any) {
+async function handleSubmission(finalData: unknown) {
     console.log("Final data received from machine:", finalData);
     // 2. Extract the loop IDs we saved into `sharedData`
-    const loopedEventIds = finalData.createdEventIds || [];
+    const loopedEventIds = (finalData as { createdEventIds?: string[] }).createdEventIds || [];
 
     // 3. Combine all IDs
     const allIds = [...loopedEventIds];
@@ -44,5 +54,6 @@ async function handleSubmission(finalData: any) {
 const flowOptions = {
   onSubmit: handleSubmission,
   autoStart: true,
+  onSubmitLoop: handleLoopSubmit, // Pass the loop submission handler
 };
 </script>

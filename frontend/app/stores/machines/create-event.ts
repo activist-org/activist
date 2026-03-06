@@ -10,12 +10,10 @@ const EventLocationStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventLocation.vue");
 const EventLinkOnlineStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventLinkOnline.vue");
-const EventTimeStep = () =>
+const EventScheduleStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventTime.vue");
 
-if (import.meta.env.DEV) import('v-calendar')
-
-  const { create } = useEventMutations();
+if (import.meta.env.DEV) EventScheduleStep();
 
 export const useCreateEventStore = createFlowStore({
   machine: defineFlowMachine({
@@ -43,7 +41,8 @@ export const useCreateEventStore = createFlowStore({
         label: "Logic: Online or Physical?",
         type: "logic",
         next: (context) => {
-          const nodeData = context.allNodeData as unknown as ContextCreateEventData;
+          const nodeData =
+            context.allNodeData as unknown as ContextCreateEventData;
           const stepData = nodeData[CreateEventSteps.EventType];
           const isOnline = stepData?.location_type === "online";
 
@@ -73,33 +72,31 @@ export const useCreateEventStore = createFlowStore({
         label: "Time",
         type: "screen",
         step: 4,
-        next: CreateEventSteps.CreateMoreEventsOrNot,
-        component: EventTimeStep,
-        onExit: async (context:FlowContext) => {
-            const nodeData = context.allNodeData as unknown as ContextCreateEventData;
-            // Flatten the form data
-            const dataToSubmit = Object.values(nodeData).reduce(
-              (acc, d) => ({ ...acc, ...(d as Record<string, unknown>) }), {}
-            );
-            const response = await create(dataToSubmit);
-
-            if (response && response.id) {
-              const existingIds = context.sharedData.createdEventIds as string[] || [];
-              context.sharedData.createdEventIds = [...existingIds, response.id];
-              context.actions.setSharedData({ createdEventIds: context.sharedData.createdEventIds });
-            }
-        },
+        next: CreateEventSteps.CreateEventLoop,
+        component: EventScheduleStep,
       },
+      [CreateEventSteps.CreateEventLoop]: {
+        label: "Create Event Loop",
+        type: "loop",
+        onExit: (context: FlowContext) => {
+          // Read the result that useFlowScreens injected
+          const result = context.sharedData.__lastLoopResult as any;
+          console.log('result from loop submission:', result);
+          if (result && result.id) {
+            const existingIds =
+              (context.sharedData.createdEventIds as string[]) || [];
+            context.actions.setSharedData({
+              createdEventIds: [...existingIds, result.id],
+              __lastLoopResult: null, // Clean up for the next loop iteration
+            });
+          }
+        },
 
-      [CreateEventSteps.CreateMoreEventsOrNot]: {
-        label: "Logic: Create more?",
-        type: "logic",
-        // This is async now so we can await the API call!
         next: (context) => {
-          const nodeData = context.allNodeData as unknown as ContextCreateEventData;
-          const stepData = nodeData[CreateEventSteps.Time];
-          const createAnother = stepData?.createAnother;
-          return createAnother? CreateEventSteps.EventDetails : 'end'; // Loop back
+          const stepData = context.allNodeData[CreateEventSteps.Time] as any;
+          return stepData?.createAnother
+            ? CreateEventSteps.EventDetails
+            : "end";
         },
       },
     },

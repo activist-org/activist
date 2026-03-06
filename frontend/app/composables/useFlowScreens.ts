@@ -3,7 +3,6 @@
  * useFlowScreens is the layer between the component and the store layer. It manages the screen showing,
  */
 
-
 export function useFlowScreens(
   machineType: MachineType,
   options: UseFlowScreensOptions = {}
@@ -46,6 +45,27 @@ export function useFlowScreens(
       return;
     }
 
+    if (newNode.type === "loop") {
+      loading.value = true;
+      try {
+        if (options.onSubmitLoop) {
+          // 1. Call the API function provided by the Modal
+          const loopResult = await options.onSubmitLoop(store.nodeData);
+
+          // 2. Save the result so the machine's onExit/next hooks can read it
+          store.setSharedData({ __lastLoopResult: loopResult });
+        }
+        // 3. Move to the next node automatically
+        await store.next();
+      } catch (error) {
+        console.error("Loop submission failed:", error);
+        // Optionally handle errors (e.g., toast message) and don't advance
+      } finally {
+        loading.value = false;
+      }
+      return;
+    }
+
     // Note: Auto-advance logic nodes.
     if (newNode.type === "logic") {
       await store.next();
@@ -71,7 +91,11 @@ export function useFlowScreens(
     (finished) => {
       loading.value = true;
       if (finished && options.onSubmit) {
-        new Promise((resolve) => resolve(options.onSubmit?.({...store.nodeData, ...store.sharedData}))).then(() => {
+        new Promise((resolve) =>
+          resolve(
+            options.onSubmit?.({ ...store.nodeData, ...store.sharedData })
+          )
+        ).then(() => {
           loading.value = false;
         });
       }
@@ -102,13 +126,6 @@ export function useFlowScreens(
   }));
 
   const isSaving = computed(() => store?.saving ?? false);
-
-  watch(
-    isSaving,
-    (saving) => {
-      console.log("Saving state changed 1:", saving);
-    }
-  ,{ immediate: true });
 
   return {
     store,

@@ -28,7 +28,7 @@ export type OnExitFn <T extends string> = (
 ) => void | Promise<void>;
 
 /** The different types a node can be. */
-export type NodeType = "screen" | "logic";
+export type NodeType = "screen" | "logic"| "loop";
 
 
 export interface StateConfig<T extends string = string> {
@@ -98,4 +98,5 @@ export interface UseFlowScreensOptions {
   startSharedData?: Record<string, unknown>;
   onSubmit?: (finalData: unknown) => void | Promise<void>;
   onNodeEnter?: (nodeId: string) => void | Promise<void>;
+  onSubmitLoop?: (loopData: unknown) => unknown | Promise<unknown>;
 }

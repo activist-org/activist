@@ -77,7 +77,7 @@ export function createFlowStore<T extends string = string>(
       nodeId: (state) => (state.currentNode?.id as T) ?? null,
 
       visibleNodes: () =>
-        nodesArray.filter((node) => !!node.component && node.type !== "logic"),
+        nodesArray.filter((node) => !!node.component && node.type === "screen"),
 
       totalSteps(): number {
         return machine.totalSteps ?? this.visibleNodes.length;
