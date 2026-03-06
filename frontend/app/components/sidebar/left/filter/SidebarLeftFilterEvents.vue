@@ -237,8 +237,7 @@ const formData = ref({});
 watch(
   route,
   (form) => {
-    const { view, days_ahead, ...rest } =
-      (form.query as Record<string, unknown>) || {};
+    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
     const topics = normalizeArrayFromURLQuery(form.query.topics);
     formData.value = {
       ...rest,
@@ -258,10 +257,6 @@ const handleSubmit = (_values: unknown) => {
 
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
-      if (key === "days_ahead") {
-        values["days_ahead"] = input[key];
-        return;
-      }
       if (
         key === "topics" &&
         Array.isArray(input[key]) &&
