@@ -14,6 +14,13 @@ export function useGetEvents(
     () => getKeyForGetEvents(),
     async () => {
       try {
+        if (
+          JSON.stringify(store.getFilters()) ===
+            JSON.stringify(eventFilters.value) &&
+          isLastPageRef.value
+        ) {
+          return store.getEvents();
+        }
         const { data: events, isLastPage } = await listEvents({
           ...eventFilters.value,
           page:

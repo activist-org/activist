@@ -70,10 +70,10 @@ describe("services/communities/organization/image", () => {
     const res = await fetchOrganizationImages("org-2");
     expect(res).toBe(returned);
 
-    expectRequest(fetchMock, "/communities/organization/org-2", "GET");
+    expectRequest(fetchMock, "/communities/organization/org-2/images", "GET");
     const [, opts] = getFetchCall(fetchMock);
     // Authorization is now added by server-side middleware, not the client helper.
-    expect(opts.baseURL).toBe("/api/media/images");
+    expect(opts.baseURL).toBe("/api/public");
   });
 
   it("uploadOrganizationImages() posts FormData with sequences and files", async () => {

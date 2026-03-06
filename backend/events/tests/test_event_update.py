@@ -23,8 +23,6 @@ def test_event_update(authenticated_client) -> None:
         data={
             "name": "test_name",
             "type": "test_type",
-            "startTime": event.start_time,
-            "endTime": event.end_time,
         },
         content_type="application/json",
     )

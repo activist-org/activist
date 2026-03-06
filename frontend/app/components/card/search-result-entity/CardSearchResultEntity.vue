@@ -49,7 +49,7 @@
         <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
           <div
             v-if="!aboveMediumBP"
-            class="flex items-center justify-center space-x-4"
+            class="flex flex-col items-center justify-center space-y-1.5 pt-4"
           >
             <slot name="mobile-meta-tags" />
           </div>

@@ -54,7 +54,12 @@ export default defineNuxtConfig({
     classSuffix: "",
   },
 
-  css: ["~/assets/css/tailwind.css", "reduced-motion/css"],
+  css: [
+    "~/assets/css/tailwind.css",
+    "reduced-motion/css",
+    "v-calendar/style.css",
+    "vue-sonner/style.css",
+  ],
 
   postcss: {
     plugins: {
@@ -137,12 +142,15 @@ export default defineNuxtConfig({
           import.meta.env.VITE_FRONTEND_URL !== "http://localhost:3000",
       },
     },
-    rateLimiter: {
-      // 150 requests per minute. Local machine is not rate limited.
-      tokensPerInterval: 150,
-      interval: "minute",
-      whiteList: ["127.0.0.1"],
-    },
+    // Disable rate limiting for local dev and E2E tests to avoid "Too Many Requests".
+    rateLimiter:
+      process.env.CI === "true" || process.env.NODE_ENV !== "production"
+        ? false
+        : {
+            tokensPerInterval: 150,
+            interval: "minute",
+            whiteList: ["127.0.0.1", "::1"],
+          },
     // When true, turns off console.log output? Also look at unplugin-remove Vite Plugin by Talljack.
     removeLoggers: false,
     requestSizeLimiter: {

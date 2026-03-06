@@ -19,7 +19,7 @@
         class="elem-shadow-sm"
         :imgUrl="
           organization?.iconUrl?.fileObject
-            ? `${BASE_BACKEND_URL_NO_V1}${organization?.iconUrl?.fileObject}`
+            ? `/api/${organization.iconUrl.fileObject}`
             : logoUrl
         "
       />

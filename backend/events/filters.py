@@ -26,7 +26,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         queryset=Topic.objects.all(),
     )
     location = django_filters.CharFilter(
-        field_name="physical_location__display_name",
+        field_name="physical_location__address_or_name",
         lookup_expr="icontains",
     )
 
@@ -35,8 +35,8 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         lookup_expr="iexact",
     )
 
-    setting = django_filters.CharFilter(
-        field_name="setting",
+    location_type = django_filters.CharFilter(
+        field_name="location_type",
         lookup_expr="iexact",
     )
 
@@ -80,7 +80,9 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
 
         end = now if days_ahead_int == 0 else now + timedelta(days=days_ahead_int)
 
-        return queryset.filter(start_time__gte=now, start_time__lte=end)
+        return queryset.filter(
+            times__start_time__gte=now, times__start_time__lte=end
+        ).distinct()
 
     class Meta:
         model = Event
@@ -88,7 +90,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
             "name",
             "topics",
             "type",
-            "setting",
+            "location_type",
             "location",
             "days_ahead",
         ]
