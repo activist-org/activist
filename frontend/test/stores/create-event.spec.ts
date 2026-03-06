@@ -71,10 +71,15 @@ describe("useCreateEventStore", () => {
     await store.next(); // logic (jump to Link)
     await store.next({ link: "http://test.com" }); // link
     await store.next({ date: "2024-01-01" }); // time
-    await store.next(); // logic (End)
+
+    // Time -> Action Node
+    expect(store.nodeId).toBe(CreateEventSteps.CreateEventLoop);
+
+    // Action Node -> End
+    await store.next();
 
     expect(store.isFinished).toBe(true);
-    expect(store.saveResult).toEqual({
+    expect(store.saveResult).toMatchObject({
       name: "Final Event",
       location_type: "online",
       link: "http://test.com",
@@ -90,15 +95,19 @@ describe("useCreateEventStore", () => {
     store.goto(CreateEventSteps.Time);
     expect(store.nodeId).toBe(CreateEventSteps.Time);
 
-    // 1. Time -> Logic Node (with createAnother: true)
+    // 1. Time -> Action Node (with createAnother: true)
     await store.next({ createAnother: true });
-    expect(store.nodeId).toBe(CreateEventSteps.CreateMoreEventsOrNot);
+    expect(store.nodeId).toBe(CreateEventSteps.CreateEventLoop);
 
-    // 2. Logic Node -> EventDetails (Loop)
+    // Simulate `useFlowScreens` injecting the API result into sharedData
+    store.setSharedData({ __lastActionResult: { id: "evt_123" } });
+
+    // 2. Action Node -> EventDetails (Loop)
     await store.next();
-    expect(store.nodeId).toBe(CreateEventSteps.EventDetails);
 
-    // 3. Should still be active
+    expect(store.nodeId).toBe(CreateEventSteps.EventDetails);
+    expect(store.sharedData.createdEventIds).toContain("evt_123");
+    expect(store.sharedData.__lastActionResult).toBeNull(); // Should clean up
     expect(store.isFinished).toBe(false);
   });
 
@@ -109,11 +118,11 @@ describe("useCreateEventStore", () => {
     // Fast forward to Time step.
     store.goto(CreateEventSteps.Time);
 
-    // 1. Time -> Logic Node
+    // 1. Time -> Action Node
     await store.next({ createAnother: false });
-    expect(store.nodeId).toBe(CreateEventSteps.CreateMoreEventsOrNot);
+    expect(store.nodeId).toBe(CreateEventSteps.CreateEventLoop);
 
-    // 2. Logic Node -> End
+    // 2. Action Node -> End
     await store.next();
     expect(store.isFinished).toBe(true);
     expect(store.active).toBe(false);

@@ -31,8 +31,8 @@
             :class="props.classButton"
             :cta="true"
             fontSize="lg"
-            :label="labelForSubmit"
             :isLoading="isLoading"
+            :label="labelForSubmit"
             type="submit"
           />
         </div>

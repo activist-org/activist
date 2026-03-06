@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { ContextCreateEventData } from "~~/shared/types/create-event-type";
+
 import { createFlowStore } from "./flow";
 
 // Import your step components dynamically
@@ -77,23 +79,23 @@ export const useCreateEventStore = createFlowStore({
       },
       [CreateEventSteps.CreateEventLoop]: {
         label: "Create Event Loop",
-        type: "loop",
+        type: "action",
         onExit: (context: FlowContext) => {
           // Read the result that useFlowScreens injected
-          const result = context.sharedData.__lastLoopResult as any;
-          console.log('result from loop submission:', result);
+          const result = context.sharedData.__lastActionResult as unknown as CommunityEvent;
           if (result && result.id) {
             const existingIds =
               (context.sharedData.createdEventIds as string[]) || [];
             context.actions.setSharedData({
               createdEventIds: [...existingIds, result.id],
-              __lastLoopResult: null, // Clean up for the next loop iteration
+              __lastActionResult: null, // Clean up for the next loop iteration
             });
           }
         },
 
         next: (context) => {
-          const stepData = context.allNodeData[CreateEventSteps.Time] as any;
+          const data = context.allNodeData as unknown as ContextCreateEventData;
+          const stepData = data[CreateEventSteps.Time];
           return stepData?.createAnother
             ? CreateEventSteps.EventDetails
             : "end";

@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { defineStore } from "pinia";
+
 import type { UnwrapRef } from "vue";
+import { defineStore } from "pinia";
+
 /*
  * A generic Pinia store factory for creating sophisticated, multi-step flow machines.
  *
@@ -63,8 +65,7 @@ export function createFlowStore<T extends string = string>(
   return defineStore(storeId, {
     state: () => ({
       active: false,
-      currentNode:
-        defaultNode ?? (null as NodeConfig<T> | null), // Start with initial node or null
+      currentNode: defaultNode ?? (null as NodeConfig<T> | null), // Start with initial node or null
       nodeData: getInitialData(),
       sharedData: {} as Record<string, unknown>, // For loop data, meta, etc.
       history: [] as T[],
@@ -109,8 +110,10 @@ export function createFlowStore<T extends string = string>(
         return 1;
       },
     },
-
     actions: {
+      setSaving(value: boolean) {
+        this.saving = value;
+      },
       start(
         draftNodeData?: Record<string, unknown>,
         initialSharedData?: Record<string, unknown>
@@ -149,7 +152,11 @@ export function createFlowStore<T extends string = string>(
           const context: FlowContext<T> = {
             allNodeData: this.nodeData,
             sharedData: this.sharedData,
-            actions: { goto: this.goto, submit: this.submit, setSharedData: this.setSharedData },
+            actions: {
+              goto: this.goto,
+              submit: this.submit,
+              setSharedData: this.setSharedData,
+            },
           };
 
           if (node.onExit) {
@@ -183,7 +190,6 @@ export function createFlowStore<T extends string = string>(
             if (isCurrentNodeScreen) (this.history as T[]).push(currentId);
             (this.currentNode as NodeConfig<T>) = nextNode;
           } else {
-            console.error(`[Flow] Route failed: Node '${nextId}' not found.`);
             this.submit();
           }
         } finally {
@@ -239,7 +245,9 @@ export function createFlowStore<T extends string = string>(
 
       resetToInitial() {
         this.active = false;
-        this.currentNode = (defaultNode ?? null) as UnwrapRef<NodeConfig<T>>  | null;
+        this.currentNode = (defaultNode ?? null) as UnwrapRef<
+          NodeConfig<T>
+        > | null;
         this.nodeData = getInitialData();
         this.sharedData = {};
         this.history = [];
@@ -257,7 +265,7 @@ export function createFlowStore<T extends string = string>(
         if (typeof node.next !== "function")
           return node.next as ValidNextNode<T>;
 
-        if (node.type === "logic") {
+        if (node.type === "logic" || node.type === "action") {
           return node.next(context);
         }
         return node.next(

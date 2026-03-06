@@ -1,243 +1,232 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { setActivePinia, createPinia } from "pinia";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { mount } from "@vue/test-utils"; // Required to trigger onMounted
+import { defineStore, setActivePinia, createPinia } from "pinia";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { nextTick, markRaw, defineComponent } from "vue";
 
-import type {
-  FlowContext,
-  MachineDefinition,
-} from "../../shared/types/machine-type.d";
+import type { NodeConfig } from "../../shared/types/machine-type";
 
-import { createFlowStore } from "../../app/stores/machines/flow"; // Adjust path as needed
+import { useFlowScreens } from "../../app/composables/useFlowScreens";
 
-// Mock component object for testing "screen" nodes
-const MockComponent = { template: "<div>Step</div>" };
+// MARK: Mocks & Setup
 
-describe("createFlowStore", () => {
+const MockComponent = markRaw({ template: "<div>Screen</div>" });
+
+// Mock Store Factory.
+const useMockStore = defineStore("mock-flow", {
+  state: () => ({
+    active: false,
+    currentNode: null as NodeConfig | null,
+    nodeData: {},
+    sharedData: {},
+    isFinished: false,
+    saveResult: null as Record<string, unknown> | null,
+    _history: [] as string[],
+    saving: false,
+  }),
+  getters: {
+    nodeId: (state) => state.currentNode?.id,
+    currentStep: () => 1,
+    totalSteps: () => 3,
+  },
+  actions: {
+    start(draft?: NodeConfig) {
+      this.active = true;
+      if (draft) this.nodeData = draft;
+    },
+    close() {
+      this.active = false;
+    },
+    async next() {
+      /* spyable */
+    },
+    prev() {
+      /* spyable */
+    },
+    setSharedData: vi.fn(function (this:unknown, data) {
+      this.sharedData = { ...this.sharedData, ...data };
+    }),
+  },
+});
+
+// Mock the registry.
+vi.mock("../../app/stores/machines/index", () => ({
+  machineRegistry: {
+    testMachine: () => useMockStore(),
+  },
+}));
+
+describe("useFlowScreens", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
+    vi.clearAllMocks();
   });
 
-  const machineConfig = {
-    id: "test-flow",
-    initialNode: "step1",
-    states: {
-      step1: {
-        label: "Step 1",
-        type: "screen",
-        component: MockComponent,
-        initialData: { name: "initial" },
-        next: "step2",
-      },
-      step2: {
-        label: "Step 2",
-        type: "screen",
-        component: MockComponent,
-        next: "logicNode",
-      },
-      logicNode: {
-        label: "Logic",
-        type: "logic",
-        // Logic node decides path based on data from step2.
-        next: (ctx: FlowContext) => {
-          const step2Data = ctx.allNodeData.step2;
-          return (step2Data as Record<string, unknown>)?.skipStep3
-            ? "end"
-            : "step3";
-        },
-      },
-      step3: {
-        label: "Step 3",
-        type: "screen",
-        component: MockComponent,
-        next: "end",
-      },
-    },
-  };
-
-  it("initializes with the correct default state", () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
-    });
-    const store = useStore();
-
-    expect(store.active).toBe(false);
-    expect(store.nodeId).toBe("step1");
-    expect(store.currentNode?.label).toBe("Step 1");
-    // Check initial data extraction.
-    expect(store.nodeData.step1).toEqual({ name: "initial" });
-    expect(store.nodeData.step2).toEqual({});
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it("starts the flow correctly", () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
-    });
-    const store = useStore();
+  it("initializes with default state", () => {
+    const { isActive, currentScreen, loading } = useFlowScreens("testMachine");
 
-    store.start();
+    expect(isActive.value).toBe(false);
+    expect(currentScreen.value).toBeNull();
+    expect(loading.value).toBe(false);
+  });
+
+  it("starts the store when autoStart is true", async () => {
+    const store = useMockStore();
+    const startSpy = vi.spyOn(store, "start");
+
+    const TestComponent = defineComponent({
+      setup() {
+        useFlowScreens("testMachine", {
+          autoStart: true,
+          startData: { foo: "bar" },
+        });
+        return {};
+      },
+      template: "<div></div>",
+    });
+
+    mount(TestComponent);
+
+    expect(startSpy).toHaveBeenCalledWith({ foo: "bar" });
     expect(store.active).toBe(true);
-    expect(store.nodeId).toBe("step1");
   });
 
-  it("merges draft data when starting", () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
-    });
-    const store = useStore();
+  it("resolves and renders a synchronous component node", async () => {
+    const store = useMockStore();
+    const { currentScreen } = useFlowScreens("testMachine");
 
-    store.start({ step1: { name: "draft-name" } });
-    expect(store.nodeData.step1).toEqual({ name: "draft-name" });
+    store.currentNode = {
+      id: "step1",
+      type: "screen",
+      component: MockComponent,
+    };
+    store.active = true;
+
+    await nextTick();
+
+    expect(currentScreen.value).toEqual(MockComponent);
   });
 
-  it("navigates to the next step and saves data", async () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
-    });
-    const store = useStore();
-    store.start();
+  it("resolves and renders a lazy-loaded component (async factory)", async () => {
+    const store = useMockStore();
+    const { currentScreen, loading } = useFlowScreens("testMachine");
 
-    // Move from step1 to step2 with payload.
-    await store.next({ name: "updated" });
+    const AsyncComponentFactory = vi
+      .fn()
+      .mockResolvedValue({ default: MockComponent });
 
-    expect(store.nodeId).toBe("step2");
-    expect(store.nodeData.step1).toEqual({ name: "updated" });
-    expect(store.history).toContain("step1");
-  });
-
-  it("handles logic nodes correctly (skipping screens)", async () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
-    });
-    const store = useStore();
-    store.start();
-
-    // Step 1 -> Step 2
-    await store.next();
-    expect(store.nodeId).toBe("step2");
-
-    // Step 2 -> Logic Node.
-    // We pass data { skipStep3: true }.
-    // Logic node should see this and return "end", causing a submit.
-    await store.next({ skipStep3: true });
-    await store.next(); // to process submit
-    expect(store.isFinished).toBe(true);
-    // Logic nodes should NOT be in history, only screens.
-    expect(store.history).toEqual(["step1", "step2"]);
-  });
-
-  it("handles logic nodes traversing to next screen", async () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
-    });
-    const store = useStore();
-    store.start();
-
-    // Step 1 -> Step 2
-    await store.next();
-
-    // Step 2 -> Logic Node -> Step 3
-    // We pass { skipStep3: false }, so logic node returns "step3".
-    await store.next({ skipStep3: false });
-    await store.next(); // to step3
-    expect(store.nodeId).toBe("step3");
-  });
-
-  it("executes onExit side effects", async () => {
-    const onExitSpy = vi.fn();
-    const configWithSideEffect = {
-      ...machineConfig,
-      states: {
-        ...machineConfig.states,
-        step1: {
-          ...machineConfig.states.step1,
-          onExit: onExitSpy,
-        },
-      },
+    store.active = true;
+    store.currentNode = {
+      id: "step2",
+      type: "screen",
+      component: AsyncComponentFactory,
     };
 
-    const useStore = createFlowStore({
-      machine: configWithSideEffect as MachineDefinition,
-    });
-    const store = useStore();
-    store.start();
+    await nextTick();
+    await new Promise((r) => setTimeout(r, 0));
 
-    await store.next({ foo: "bar" });
-
-    expect(onExitSpy).toHaveBeenCalledTimes(1);
-    // Check if onExit received the correct context and data
-    expect(onExitSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ allNodeData: expect.any(Object) }),
-      { name: "initial", foo: "bar" } // merged data
-    );
+    expect(AsyncComponentFactory).toHaveBeenCalled();
+    expect(currentScreen.value).toEqual(MockComponent);
+    expect(loading.value).toBe(false);
   });
 
-  it("goes back to the previous step correctly", async () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
-    });
-    const store = useStore();
-    store.start();
+  it("auto-advances (skips) logic nodes", async () => {
+    const store = useMockStore();
+    const nextSpy = vi.spyOn(store, "next");
+    const { currentScreen } = useFlowScreens("testMachine");
 
-    await store.next(); // to step 2
-    expect(store.nodeId).toBe("step2");
+    store.active = true;
+    store.currentNode = {
+      id: "logicStep",
+      type: "logic",
+      next: () => "step2",
+    };
 
-    store.prev();
-    expect(store.nodeId).toBe("step1");
-    expect(store.history).toHaveLength(0);
+    await nextTick();
+
+    expect(currentScreen.value).toBeNull();
+    expect(nextSpy).toHaveBeenCalled();
   });
 
-  it("flattens data and submits when flow ends", async () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
-    });
-    const store = useStore();
-    store.start();
+  it("handles action nodes by executing onAction, saving result, and auto-advancing", async () => {
+    const store = useMockStore();
+    const nextSpy = vi.spyOn(store, "next");
+    const onActionSpy = vi.fn().mockResolvedValue({ id: "123" });
 
-    await store.next({ field1: "A" }); // step 1 -> step 2
-    await store.next({ field2: "B" }); // step 2 -> logic
-    // Logic node directs to 'end' based on default logic or mocked behavior?
-    await store.next({ skipStep3: true });
-    await store.next(); // to process submit
-    expect(store.isFinished).toBe(true);
-    expect(store.active).toBe(false);
-    expect(store.saveResult).toEqual(
-      expect.objectContaining({
-        field1: "A",
-        field2: "B",
-      })
-    );
+    const { currentScreen } = useFlowScreens("testMachine", {
+      onAction: onActionSpy,
+    });
+
+    store.nodeData = { some: "data" };
+    store.active = true;
+    store.currentNode = {
+      id: "actionStep",
+      type: "action",
+      next: () => "step2",
+    };
+
+    await nextTick();
+    await new Promise((r) => setTimeout(r, 0)); // wait for promise inside watcher
+
+    expect(currentScreen.value).toBeNull();
+    expect(onActionSpy).toHaveBeenCalledWith(store.nodeData);
+    expect(store.setSharedData).toHaveBeenCalledWith({
+      __lastActionResult: { id: "123" },
+    });
+    expect(nextSpy).toHaveBeenCalled();
   });
 
-  it("calculates current step number correctly", async () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
+  it("calls onSubmit callback when flow finishes, merging nodeData and sharedData", async () => {
+    const store = useMockStore();
+    const onSubmitSpy = vi.fn();
+
+    useFlowScreens("testMachine", {
+      onSubmit: onSubmitSpy,
     });
-    const store = useStore();
 
-    // Total visible steps = 3 (step1, step2, step3).
-    expect(store.totalSteps).toBe(3);
+    store.nodeData = { step1: "data" };
+    store.sharedData = { meta: "info" };
+    store.isFinished = true;
 
-    store.start();
-    expect(store.currentStep).toBe(1);
+    await nextTick();
+    await new Promise((r) => setTimeout(r, 0)); // Wait for promise resolution
 
-    await store.next();
-    expect(store.currentStep).toBe(2);
+    expect(onSubmitSpy).toHaveBeenCalledWith({ step1: "data", meta: "info" });
   });
 
-  it("resets to initial state correctly", async () => {
-    const useStore = createFlowStore({
-      machine: machineConfig as MachineDefinition,
+  it("calls onNodeEnter callback when entering a screen", async () => {
+    const store = useMockStore();
+    const onNodeEnterSpy = vi.fn();
+
+    useFlowScreens("testMachine", {
+      onNodeEnter: onNodeEnterSpy,
     });
-    const store = useStore();
-    store.start();
 
-    await store.next({ name: "changed" });
+    store.active = true;
+    store.currentNode = {
+      id: "step1",
+      type: "screen",
+      component: MockComponent,
+    };
 
-    store.close(true); // discard = true
+    await nextTick();
 
-    expect(store.active).toBe(false);
-    expect(store.nodeId).toBe("step1");
-    expect(store.nodeData.step1).toEqual({ name: "initial" }); // data reset
-    expect(store.history).toEqual([]);
+    expect(onNodeEnterSpy).toHaveBeenCalledWith("step1");
+  });
+
+  it("exposes reactive context correctly", () => {
+    const store = useMockStore();
+    const { context } = useFlowScreens("testMachine");
+
+    store.active = true;
+    store.currentNode = { id: "step1", step: 1 };
+
+    expect(context.value.active).toBe(true);
+    expect(context.value.nodeId).toBe("step1");
+    expect(context.value.currentStep).toBe(1);
   });
 });

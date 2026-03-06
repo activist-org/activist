@@ -2,7 +2,7 @@
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { defineComponent, inject, ref } from "vue";
-
+import type { Component } from "vue";
 import Machine from "../../../app/components/machine/Machine.vue";
 
 // MARK: Mocks
@@ -90,7 +90,7 @@ describe("Machine.vue", () => {
     expect(wrapper.find('[data-testid="loading-spinner"]').exists()).toBe(true);
   });
 
-  it("renders the current screen component when resolved", async () => {
+   it("renders the current screen component when resolved", async () => {
     const TestStepComponent = defineComponent({
       template: '<div data-testid="step-content">Step Content</div>',
     });
@@ -101,11 +101,17 @@ describe("Machine.vue", () => {
     });
 
     mockFlowScreens.isActive.value = true;
-    mockFlowScreens.currentScreen.value = TestStepComponent;
+    mockFlowScreens.currentScreen.value = TestStepComponent as Component;
+    mockFlowScreens.loading.value = false;
     await wrapper.vm.$nextTick();
 
+    // 1. The screen should be rendered
     expect(wrapper.find('[data-testid="step-content"]').exists()).toBe(true);
-    expect(wrapper.findComponent({ name: "Loading" }).exists()).toBe(false);
+
+    // 2. The Loading component exists, but its 'loading' prop should be false
+    const loadingComponent = wrapper.findComponent({ name: "Loading" });
+    expect(loadingComponent.exists()).toBe(true);
+    expect(loadingComponent.props("loading")).toBe(false);
   });
 
   it("provides flow actions to child components", async () => {

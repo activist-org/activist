@@ -22,14 +22,19 @@ export type NextFn<T extends string> = (
 ) => ValidNextNode<T> | Promise<ValidNextNode<T>>;
 
 /** The function signature for the `onExit` side-effect action. */
-export type OnExitFn <T extends string> = (
-  context: FlowContext <T>,
+export type OnExitFn<T extends string> = (
+  context: FlowContext<T>,
   nodeData?: Record<string, unknown>
 ) => void | Promise<void>;
 
-/** The different types a node can be. */
-export type NodeType = "screen" | "logic"| "loop";
+/**
+ * The different types a node can be.
+ * - "screen": A node that renders a UI component.
+ * - "logic": A node that performs logic without rendering a UI component.
+ * - "action": A node that performs side-effect actions like API calls without rendering a UI component.
+ */
 
+export type NodeType = "screen" | "logic" | "action";
 
 export interface StateConfig<T extends string = string> {
   label?: string;
@@ -82,7 +87,10 @@ export interface FlowContextState {
  * The object provided via `provide("flow", ..)` to step components.
  */
 export interface FlowControls {
-  start: (draft?: Record<string, unknown>, shared?: Record<string, unknown>) => void;
+  start: (
+    draft?: Record<string, unknown>,
+    shared?: Record<string, unknown>
+  ) => void;
   isSaving: Ref<boolean>;
   next: (payload?: Record<string, unknown>) => Promise<void>;
   prev: () => void;
@@ -98,5 +106,5 @@ export interface UseFlowScreensOptions {
   startSharedData?: Record<string, unknown>;
   onSubmit?: (finalData: unknown) => void | Promise<void>;
   onNodeEnter?: (nodeId: string) => void | Promise<void>;
-  onSubmitLoop?: (loopData: unknown) => unknown | Promise<unknown>;
+  onAction?: (actionData: unknown) => unknown | Promise<unknown>;
 }

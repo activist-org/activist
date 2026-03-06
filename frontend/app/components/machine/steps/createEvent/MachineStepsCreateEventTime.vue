@@ -7,7 +7,6 @@
       id="event-location-and-time"
       v-slot="{ values, setFieldValue }"
       @submit="handleSubmit"
-      :isLoading="loading?.value"
       :action-buttons="[
         {
           onclick: handlePrev,
@@ -20,6 +19,7 @@
         },
       ]"
       class="space-y-4"
+      :isLoading="loading?.value"
       :schema="scheduleSchema"
     >
       <FormItem
@@ -171,7 +171,8 @@ const scheduleSchema = z.object({
         endTime: z.date().nullable(),
         allDayLong: z.boolean().optional(),
       })
-    ).min(1, "At least one date with time is required")
+    )
+    .min(1, "At least one date with time is required")
     .refine(
       (times) => {
         // Ensure startTime is before endTime for each entry.
@@ -190,12 +191,7 @@ const scheduleSchema = z.object({
   createAnother: z.boolean().optional(),
 });
 const loading = computed(() => flow?.isSaving);
-watch(loading, (newVal) => {
-  if (newVal) {
-    // You can add any side effects here when loading state changes, if needed.
-    console.log("Loading state changed:", newVal.value);
-  }
-},{ immediate: true });
+
 const syncTimesArray = (
   dateRange: { start: Date; end: Date } | null,
   currentTimes: {
