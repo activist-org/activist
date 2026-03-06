@@ -39,9 +39,15 @@ const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,
 });
 const filters = ref<{ name?: string }>({});
-const handleFilterValueUpdate = (val: string) => {
-  filters.value.name = val;
+
+const { debounce } = useDebounce();
+
+const updateFilters = (val: unknown) => {
+  filters.value.name = val as string;
 };
+
+const handleFilterValueUpdate = debounce(updateFilters, 300);
+
 const linked_user_id = computed(() => String(props.linkedUserId) || "");
 
 const {

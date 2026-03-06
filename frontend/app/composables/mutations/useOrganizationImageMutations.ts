@@ -8,6 +8,7 @@ export function useOrganizationImageMutations(
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
+  const store = useOrganizationStore();
 
   const currentOrganizationId = computed(() => unref(organizationId));
 
@@ -32,7 +33,9 @@ export function useOrganizationImageMutations(
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      const appError = err as AppError;
+      error.value = appError;
+      showToastError(appError.message);
       return false;
     } finally {
       loading.value = false;
@@ -56,7 +59,9 @@ export function useOrganizationImageMutations(
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      const appError = errorHandler(err);
+      error.value = appError;
+      showToastError(appError.message);
       return false;
     } finally {
       loading.value = false;
@@ -96,6 +101,10 @@ export function useOrganizationImageMutations(
     await refreshNuxtData(
       getKeyForGetOrganization(currentOrganizationId.value)
     );
+    // Clear the organizations list cache to ensure it refetches with updated data.
+    store.setOrganizations([]);
+    // Also refresh the list of organizations in case the image is used there.
+    await refreshNuxtData(getKeyForGetOrganizations());
   }
 
   // Helper to refresh organization data after mutations.

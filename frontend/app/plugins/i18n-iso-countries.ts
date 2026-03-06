@@ -5,6 +5,7 @@ import de from "i18n-iso-countries/langs/de.json";
 import en from "i18n-iso-countries/langs/en.json";
 import es from "i18n-iso-countries/langs/es.json";
 import fr from "i18n-iso-countries/langs/fr.json";
+import id from "i18n-iso-countries/langs/id.json";
 import it from "i18n-iso-countries/langs/it.json";
 import pt from "i18n-iso-countries/langs/pt.json";
 
@@ -13,6 +14,7 @@ countries.registerLocale(en);
 countries.registerLocale(de);
 countries.registerLocale(fr);
 countries.registerLocale(es);
+countries.registerLocale(id);
 countries.registerLocale(it);
 countries.registerLocale(ar);
 countries.registerLocale(pt);

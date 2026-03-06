@@ -5,12 +5,18 @@ const EventDetailsStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventDetails.vue");
 const EventTypeStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventType.vue");
-const TimeStep = () =>
+const EventScheduleStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventTime.vue");
-const LocationStep = () =>
+const EventLocationStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventLocation.vue");
-const OnlineLink = () =>
+const EventOnlineLink = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventLinkOnline.vue");
+
+if (import.meta.env.DEV) {
+  EventScheduleStep();
+}
+
+const { create } = useEventMutations();
 
 export const useCreateEventStore = createFlowStore({
   machine: {
@@ -39,7 +45,7 @@ export const useCreateEventStore = createFlowStore({
           const nodeData =
             context.allNodeData as unknown as ContextCreateEventData;
           const stepData = nodeData[CreateEventSteps.EventType];
-          const isOnline = stepData?.setting === "online";
+          const isOnline = stepData?.location_type === "online";
           return isOnline
             ? CreateEventSteps.LinkOnline
             : CreateEventSteps.Location;
@@ -49,21 +55,21 @@ export const useCreateEventStore = createFlowStore({
         label: "Location",
         type: "screen",
         next: CreateEventSteps.Time,
-        component: LocationStep,
+        component: EventLocationStep,
         step: 3,
       },
       [CreateEventSteps.LinkOnline]: {
         label: "Online Link",
         type: "screen",
         next: CreateEventSteps.Time,
-        component: OnlineLink,
+        component: EventOnlineLink,
         step: 3,
       },
       [CreateEventSteps.Time]: {
         label: "Time",
         type: "screen",
         next: CreateEventSteps.CreateMoreEventsOrNot,
-        component: TimeStep,
+        component: EventScheduleStep,
         step: 4,
       },
       [CreateEventSteps.CreateMoreEventsOrNot]: {
@@ -74,7 +80,18 @@ export const useCreateEventStore = createFlowStore({
             context.allNodeData as unknown as ContextCreateEventData;
           const stepData = nodeData[CreateEventSteps.Time];
           const createAnother = stepData?.createAnother;
-          return createAnother ? CreateEventSteps.EventDetails : "end";
+          if (createAnother) {
+            const data = Object.values(nodeData).reduce(
+              (acc, data) => ({
+                ...(acc as Record<string, unknown>),
+                ...(data as Record<string, unknown>),
+              }),
+              {}
+            );
+            create(data);
+            return CreateEventSteps.EventDetails;
+          }
+          return "end";
         },
       },
     },

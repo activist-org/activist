@@ -49,7 +49,6 @@ def test_group_resource_serializer() -> None:
         org=org,
         created_by=user,
         name="Test Group",
-        group_name="Test Group",
         tagline="Test tagline",
         location=location,
         category="test",
@@ -95,7 +94,6 @@ def test_validate_group_with_group_instance_resource_serializer():
     group = Group.objects.create(
         org=org,
         created_by=user,
-        group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
         location=location,
@@ -121,7 +119,6 @@ def test_validate_group_with_valid_uuid_resource_serializer():
     group = Group.objects.create(
         org=org,
         created_by=user,
-        group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
         location=location,
