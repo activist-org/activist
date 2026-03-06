@@ -24,7 +24,7 @@ test.describe("Sign out", () => {
       );
       expect(sessionCookie).toBeDefined();
       await signOut(page);
-      // Wait for sign-out to complete (logout API + session clear); poll for cookie
+      // Wait for sign-out to complete (logout API + session clear); poll for cookie.
       const maxAttempts = 25;
       for (let i = 0; i < maxAttempts; i++) {
         const cookiesSignOut = await page.context().cookies();
@@ -38,7 +38,7 @@ test.describe("Sign out", () => {
       const sessionCookieAfterSignOut = cookiesSignOut.find(
         (c) => c.name === "nuxt-session"
       );
-      // nuxt-auth-utils clears session by setting cookie to empty, not removing it
+      // nuxt-auth-utils clears session by setting cookie to empty, not removing it.
       expect(
         !sessionCookieAfterSignOut || sessionCookieAfterSignOut.value === ""
       ).toBe(true);

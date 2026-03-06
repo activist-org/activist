@@ -12,7 +12,6 @@
         :options="optionViews"
       />
     </div>
-
     <Form
       :key="formKey"
       @submit="handleSubmit"
@@ -24,9 +23,9 @@
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
-        data-testid="events-filter-days"
+        data-testid="events-filter-days-ahead"
         :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
-        name="days"
+        name="days_ahead"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
@@ -124,7 +123,7 @@ const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   id: index,
 }));
 const schema = z.object({
-  days: z.string().optional(),
+  days_ahead: z.string().optional(),
   location: z.string().optional(),
   topics: z.array(z.string()).optional(),
   type: z.string().optional(),
@@ -243,7 +242,6 @@ watch(
     const topics = normalizeArrayFromURLQuery(form.query.topics);
     formData.value = {
       ...rest,
-      ...(days_ahead !== undefined && { days: days_ahead }),
       topics,
     };
     viewType.value =
@@ -260,7 +258,7 @@ const handleSubmit = (_values: unknown) => {
 
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
-      if (key === "days") {
+      if (key === "days_ahead") {
         values["days_ahead"] = input[key];
         return;
       }

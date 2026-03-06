@@ -146,17 +146,17 @@ export default defineConfig({
         ...devices["Pixel 7"],
         isMobile: true,
         hasTouch: true,
-        // Memory optimization: Add launch options to prevent browser crashes in long test runs
+        // Memory optimization: Add launch options to prevent browser crashes in long test runs.
         launchOptions: {
           args: [
-            "--disable-dev-shm-usage", // Use /tmp instead of /dev/shm for shared memory (prevents crashes on low-memory systems)
-            "--disable-background-timer-throttling", // Prevent background tab throttling
-            "--disable-backgrounding-occluded-windows", // Keep windows active
-            "--disable-renderer-backgrounding", // Keep renderer processes active
+            "--disable-dev-shm-usage", // use /tmp instead of /dev/shm for shared memory (prevents crashes on low-memory systems)
+            "--disable-background-timer-throttling", // prevent background tab throttling
+            "--disable-backgrounding-occluded-windows", // keep windows active
+            "--disable-renderer-backgrounding", // keep renderer processes active
             "--disable-features=TranslateUI,BlinkGenPropertyTrees", // Disable unnecessary features
-            "--no-sandbox", // Required for Docker/CI environments
-            "--disable-setuid-sandbox", // Required for Docker/CI environments
-            "--disable-gpu", // Reduce GPU memory usage
+            "--no-sandbox", // required for Docker/CI environments
+            "--disable-setuid-sandbox", // required for Docker/CI environments
+            "--disable-gpu", // reduce GPU memory usage
           ],
         },
         // Reuse browser state for faster authentication.
@@ -254,7 +254,7 @@ export default defineConfig({
           timeout: 180000, // 3 minutes for build + server startup
           stdout: "pipe",
           stderr: "pipe",
-          // Listhen (used by Nitro) prints: ➜  Local:    http://localhost:3000/
+          // Listhen (used by Nitro) prints: ➜  Local: http://localhost:3000/
           wait: {
             stdout: /\u2794\s+Local:\s+http:\/\/localhost:3000\/?/,
           },
@@ -267,7 +267,7 @@ export default defineConfig({
           timeout: 120000, // 2 minutes for server startup
           stdout: "pipe",
           stderr: "pipe",
-          // Listhen prints: ➜  Local:    http://localhost:3000/
+          // Listhen prints: ➜  Local: http://localhost:3000/
           wait: {
             stdout: /\u2794\s+Local:\s+http:\/\/localhost:3000\/?/,
           },
