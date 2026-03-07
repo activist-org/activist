@@ -36,7 +36,7 @@
     "@nuxtjs/device": "4.0.0",
     "@nuxtjs/i18n": "10.2.3",
     "@pinia/nuxt": "0.11.3",
-    "@playwright/test": "1.55.1",
+    "@playwright/test": "1.58.0",
     "@testing-library/vue": "8.1.0",
     "@types/node": "25.0.9",
     "@types/zxcvbn": "4.4.5",
@@ -58,7 +58,7 @@
     "nuxt": "4.2.2",
     "nuxt-auth-utils": "0.5.27",
     "nuxt-security": "2.5.1",
-    "playwright-core": "1.55.1",
+    "playwright-core": "1.58.0",
     "prettier": "3.8.1",
     "prettier-plugin-tailwindcss": "0.7.2",
     "rollup": "4.59.0",
@@ -127,7 +127,7 @@
   },
   "resolutions": {
     "chokidar": "3.6.0",
-    "playwright-core": "1.55.1",
+    "playwright-core": "1.58.0",
     "commander": "14.0.2"
   },
   "packageManager": "yarn@4.12.0"
