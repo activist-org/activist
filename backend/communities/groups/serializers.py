@@ -227,24 +227,12 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
         return data
 
     def create(self, validated_data: dict[str, Any]) -> Group:
-        """
-        Create a group via a post operation.
-
-        Parameters
-        ----------
-        validated_data : dict[str, Any]
-            Data to be used in the creation of a group.
-
-        Returns
-        -------
-        Organization
-            The group object that was created in the database.
-        """
         with transaction.atomic():
+            created_by = validated_data.pop("created_by")
+
             city = validated_data.pop("city")
             country_code = validated_data.pop("country_code")
             description = validated_data.pop("description", "")
-            # iso = validated_data.pop("iso")
 
             location_data = {
                 "city": city,
@@ -252,30 +240,33 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
                 "lat": "",
                 "lon": "",
             }
+
             location = Location.objects.create(**location_data)
 
             try:
                 org = Organization.objects.get(id=validated_data.pop("org"))
+
                 group = Group.objects.create(
-                    location=location, org=org, **validated_data
+                    location=location,
+                    org=org,
+                    created_by=created_by,
+                    **validated_data
                 )
 
                 group_text = GroupText.objects.create(
                     group=group,
-                    # iso=iso,
                     primary=True,
                     description=description,
                 )
+
                 group.texts.set([group_text])
 
                 logger.info("Created Group with id: %s", group.id)
 
                 return group
 
-            except (Organization.DoesNotExist, IntegrityError, OperationalError) as e:
-                location.delete()
-                raise e
-
+            except (Organization.DoesNotExist, IntegrityError, OperationalError):
+                raise
 
 # MARK: Group
 
