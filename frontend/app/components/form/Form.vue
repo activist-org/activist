@@ -78,7 +78,7 @@ watch(
   (newValues) => {
     rest.resetForm({ values: newValues || {} });
   },
-  { deep: true, immediate: true }
+  { deep: true }
 );
 
 const emit = defineEmits<{

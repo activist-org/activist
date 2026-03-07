@@ -135,6 +135,7 @@ test.describe(
       for (const { theme, option } of themes) {
         await sidebar.openButton.click();
         await expect(themeMenu.toggleOpenButton).toBeVisible();
+        await themeMenu.toggleOpenButton.waitFor({ state: "visible" });
         await themeMenu.toggleOpenButton.click();
         await expect(themeMenu.menu).toBeVisible();
         await option.click();
