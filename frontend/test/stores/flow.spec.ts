@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { mount } from "@vue/test-utils"; // Required to trigger onMounted
-import { defineStore, setActivePinia, createPinia } from "pinia";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { nextTick, markRaw, defineComponent } from "vue";
+import { createPinia, defineStore, setActivePinia } from "pinia";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { defineComponent, markRaw, nextTick } from "vue";
 
 import type { NodeConfig } from "../../shared/types/machine-type";
 
@@ -43,7 +43,7 @@ const useMockStore = defineStore("mock-flow", {
     prev() {
       /* spyable */
     },
-    setSharedData: vi.fn(function (this:unknown, data) {
+    setSharedData: vi.fn(function (this: unknown, data) {
       this.sharedData = { ...this.sharedData, ...data };
     }),
   },

@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
+import type { Component } from "vue";
+
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { defineComponent, inject, ref } from "vue";
-import type { Component } from "vue";
+
 import Machine from "../../../app/components/machine/Machine.vue";
 
 // MARK: Mocks
@@ -90,7 +93,7 @@ describe("Machine.vue", () => {
     expect(wrapper.find('[data-testid="loading-spinner"]').exists()).toBe(true);
   });
 
-   it("renders the current screen component when resolved", async () => {
+  it("renders the current screen component when resolved", async () => {
     const TestStepComponent = defineComponent({
       template: '<div data-testid="step-content">Step Content</div>',
     });

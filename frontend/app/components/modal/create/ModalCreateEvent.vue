@@ -38,11 +38,11 @@ async function handleSubmission(finalData: unknown) {
   // 5. Route the user based on how many events were created
   if (allIds.length === 1) {
     // Just one event created, go to its page
-    console.log("Navigating to event with ID:", allIds[0]);
+    // console.log("Navigating to event with ID:", allIds[0]);
   } else if (allIds.length > 1) {
     // Multiple events created, maybe go to a list or dashboard
     // Example: router.push({ name: "EventsList", query: { highlight: allIds.join(',') } });
-    console.log("Navigating to events list with IDs:", allIds);
+    // console.log("Navigating to events list with IDs:", allIds);
   }
   // 4. Close the modal
   handleCloseModal();

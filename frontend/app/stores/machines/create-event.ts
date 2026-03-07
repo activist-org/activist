@@ -82,7 +82,8 @@ export const useCreateEventStore = createFlowStore({
         type: "action",
         onExit: (context: FlowContext) => {
           // Read the result that useFlowScreens injected
-          const result = context.sharedData.__lastActionResult as unknown as CommunityEvent;
+          const result = context.sharedData
+            .__lastActionResult as unknown as CommunityEvent;
           if (result && result.id) {
             const existingIds =
               (context.sharedData.createdEventIds as string[]) || [];

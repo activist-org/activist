@@ -22,7 +22,9 @@ export function defineFlowMachine<T extends string>(
       // 1. Check FIRST
       if (stepNumbers.has(stepVal)) {
         // eslint-disable-next-line no-console
-        console.warn(`[Flow] Duplicate step number ${stepVal} on node '${nodeId}'.`);
+        console.warn(
+          `[Flow] Duplicate step number ${stepVal} on node '${nodeId}'.`
+        );
       }
 
       // 2. THEN add it to the set for the next loop iteration

@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+import type { MachineDefinition } from "../../shared/types/machine-type";
+
 import { defineFlowMachine } from "../../shared/utils/defineMachine";
-import type { MachineDefinition } from "#shared/types/machine-type";
 
 describe("defineFlowMachine", () => {
   let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
