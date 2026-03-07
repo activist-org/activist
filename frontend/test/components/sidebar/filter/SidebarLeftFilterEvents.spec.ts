@@ -42,7 +42,7 @@ describe("SidebarLeftFilterEvents Route Query Sync", () => {
 
       await wrapper.vm.$nextTick();
 
-      // Watcher sets topics via normalizeArrayFromURLQuery; empty -> []
+      // Watcher sets topics via normalizeArrayFromURLQuery; empty -> [].
       const form = wrapper.findComponent({ name: "Form" });
       expect(form.props("initialValues")).toEqual({ topics: [] });
     });
