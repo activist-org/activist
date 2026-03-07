@@ -70,8 +70,10 @@ export async function navigateToOrganizationGroupSubpage(
       name: new RegExp(getEnglishText("i18n._global.groups"), "i"),
     });
 
-    // Click the option - the NuxtLink's @click handler will navigate using the updated routeUrl.
-    await groupsOption.click();
+    // Use force:true to bypass actionability checks (the option may become
+    // unstable during HeadlessUI's leave transition) while still dispatching
+    // a real synthetic click that bubbles through the NuxtLink @click handler.
+    await groupsOption.click({ force: true });
   } else {
     // Desktop layout: direct click.
     await expect(organizationPage.menu.groupsOption).toBeVisible();

@@ -153,7 +153,10 @@ export async function navigateToOrganizationSubpage(
       name: new RegExp(getEnglishText(i18nKey), "i"),
     });
 
-    await subpageOption.click();
+    // Use force:true to bypass actionability checks (the option may become
+    // unstable during HeadlessUI's leave transition) while still dispatching
+    // a real synthetic click that bubbles through the NuxtLink @click handler.
+    await subpageOption.click({ force: true });
   } else {
     // Desktop layout: uses direct tab navigation.
     // Wait for the page to be fully loaded and menu entries to be initialized.
