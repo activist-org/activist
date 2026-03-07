@@ -7,7 +7,7 @@ const OrganizationLocationStep = () =>
   import("../../components/machine/steps/createOrganization/MachineStepsCreateOrganizationsLocation.vue");
 
 export const useCreateOrganizationStore = createFlowStore({
-  machine: {
+  machine: defineFlowMachine({
     id: "createOrganizationFlow",
     initialNode: CreateOrganizationSteps.OrganizationDetails,
     states: {
@@ -24,5 +24,5 @@ export const useCreateOrganizationStore = createFlowStore({
         component: OrganizationLocationStep,
       },
     },
-  },
+  }),
 });
