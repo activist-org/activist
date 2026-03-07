@@ -22,7 +22,6 @@ jobs:
   frontend:
     name: Run PR Frontend E2E Check
     runs-on: ubuntu-latest
-    environment: dev
 
     steps:
       - name: Cleanup Old Checkout
