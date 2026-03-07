@@ -7,21 +7,19 @@
       </h3>
       <button
         v-if="userIsAdmin"
-        type="button"
-        :aria-label="editModeEnabled ? $t('i18n.components.card_donate.cancel_edit_donation_info_alt_text') : $t('i18n.components.card_donate.edit_donation_info_alt_text')"
         @click="toggleEditMode"
-        class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all hover:text-distinct-text focus-brand"
+        :aria-label="
+          editModeEnabled
+            ? $t(
+                'i18n.components.card_donate.cancel_edit_donation_info_alt_text'
+              )
+            : $t('i18n.components.card_donate.edit_donation_info_alt_text')
+        "
+        class="cursor-pointer break-all rounded-lg p-1 text-primary-text transition-all focus-brand hover:text-distinct-text"
+        type="button"
       >
-        <Icon
-          v-if="!editModeEnabled"
-          :name="IconMap.EDIT"
-          size="1.2em"
-        />
-        <Icon
-          v-else
-          :name="IconMap.X_LG"
-          size="1.2em"
-        />
+        <Icon v-if="!editModeEnabled" :name="IconMap.EDIT" size="1.2em" />
+        <Icon v-else :name="IconMap.X_LG" size="1.2em" />
       </button>
     </div>
     <p v-if="donationPrompt">
