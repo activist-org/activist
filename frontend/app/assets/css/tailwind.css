@@ -154,6 +154,51 @@ MARK: Base
     @apply text-warn-yellow;
   }
 
+  .form-text-input:-webkit-autofill,
+  .form-text-input:-webkit-autofill:hover,
+  .form-text-input:-webkit-autofill:focus,
+  .form-text-input:-webkit-autofill:active {
+    animation-name: onAutoFillStart;
+    animation-duration: 0s;
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
+    box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
+    color: rgb(var(--primary-text)) !important;
+    -webkit-text-fill-color: rgb(var(--primary-text)) !important;
+    caret-color: rgb(var(--primary-text)) !important;
+    transition: background-color 9999s ease-out;
+  }
+
+  .form-text-input:autofill {
+    color: rgb(var(--primary-text)) !important;
+    -webkit-text-fill-color: rgb(var(--primary-text)) !important;
+  }
+
+  .auth-layout-pane .form-text-input:-webkit-autofill,
+  .auth-layout-pane .form-text-input:-webkit-autofill:hover,
+  .auth-layout-pane .form-text-input:-webkit-autofill:focus,
+  .auth-layout-pane .form-text-input:-webkit-autofill:active,
+  .auth-layout-pane .form-text-input:autofill {
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-1)) inset;
+    box-shadow: 0 0 0 1000px rgb(var(--layer-1)) inset;
+  }
+
+  .auth-layout-pane .form-text-input {
+    color: rgb(var(--primary-text));
+    -webkit-text-fill-color: rgb(var(--primary-text));
+  }
+
+  .form-text-input:-webkit-autofill::placeholder,
+  .form-text-input:autofill::placeholder {
+    color: transparent;
+  }
+
+  @keyframes onAutoFillStart {
+    from {
+    }
+    to {
+    }
+  }
+
   /*
   MARK: Buttons
   */

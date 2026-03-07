@@ -34,7 +34,7 @@ function expectNormalLabel(label: HTMLElement) {
 
 function expectShrunkLabel(label: HTMLElement) {
   expect(label.className, "Label should be shrunk").toMatch(
-    "z-1 absolute -translate-y-2 translate-x-4 text-sm text-distinct-text"
+    "absolute z-10 -translate-y-2 translate-x-3 text-sm text-distinct-text"
   );
 }
 
@@ -176,6 +176,53 @@ describe("FormTextInput component", () => {
     expect(input.getAttribute("placeholder")).toBe("Email");
 
     await fireEvent.focus(input);
+    await waitFor(() => {
+      expect(input.getAttribute("placeholder")).toBe("");
+    });
+  });
+
+  it("clears placeholder on first pointer down", async () => {
+    await render(FormTextInput, {
+      props: { id: "pointerdown-test", label: "Username" },
+    });
+
+    const input = screen.getByRole("textbox");
+    expect(input.getAttribute("placeholder")).toBe("Username");
+
+    await fireEvent.pointerDown(input);
+    await waitFor(() => {
+      expect(input.getAttribute("placeholder")).toBe("");
+    });
+  });
+
+  it("keeps label shrunk on first focus even if modelValue is set to empty", async () => {
+    const FocusRaceWrapper = defineComponent({
+      components: { FormTextInput },
+      setup() {
+        const modelValue = ref<string | undefined>(undefined);
+        const resetToEmpty = () => {
+          modelValue.value = "";
+        };
+        return { modelValue, resetToEmpty };
+      },
+      template: `
+        <div>
+          <FormTextInput
+            id="focus-race"
+            label="Username"
+            :modelValue="modelValue"
+          />
+          <button type="button" @click="resetToEmpty">reset</button>
+        </div>
+      `,
+    });
+
+    await render(FocusRaceWrapper);
+
+    const input = screen.getByRole("textbox");
+    await fireEvent.focus(input);
+    await fireEvent.click(screen.getByRole("button", { name: "reset" }));
+
     await waitFor(() => {
       expect(input.getAttribute("placeholder")).toBe("");
     });
