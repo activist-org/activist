@@ -39,7 +39,7 @@ export const newEventsFilter = (parent: Page | Locator) => {
     /**
      * Days ahead filter section (1, 7, 30 days).
      */
-    daysSection: root.getByTestId("events-filter-days"),
+    daysSection: root.getByTestId("events-filter-days-ahead"),
 
     /**
      * Event type filter section (learn, action).
