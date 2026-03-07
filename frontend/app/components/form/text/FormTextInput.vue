@@ -8,7 +8,7 @@
     <label
       class="form-text-input-label pointer-events-none absolute z-10"
       :class="{
-        '-translate-y-2 translate-x-3 text-sm text-distinct-text':
+        '-translate-y-2 translate-x-3 text-sm text-distinct-text translate-x-4':
           shrinkLabel && iconLocation === 'right',
         '-translate-y-2 translate-x-[3.4rem] text-sm text-distinct-text':
           shrinkLabel && iconLocation === 'left',
@@ -36,11 +36,11 @@
         @animationstart="handleAnimationStart"
         @blur="handleBlur"
         @change="handleChange"
-        @focus="shrinkLabel = true"
+        @focus="handleFocus"
         @input="handleInput"
         @pointerdown="handlePointerDown"
         class="form-text-input box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
-        placeholder=""
+        :placeholder="shrinkLabel ? '' : label"
         role="textbox"
         :type="type"
         :value="modelValue"
@@ -117,10 +117,19 @@ const isAutofilled = (input: HTMLInputElement): boolean => {
 const syncShrinkLabelState = () => {
   const input = inputRef.value;
   if (!input) {
-    return;
+    return false;
   }
-  shrinkLabel.value =
-    !!input.value || isAutofilled(input) || document.activeElement === input;
+  // Focus/blur/input events own label state during interaction.
+  if (document.activeElement === input) {
+    return false;
+  }
+  const hasAutofill = isAutofilled(input);
+  shrinkLabel.value = !!input.value || hasAutofill;
+  return hasAutofill;
+};
+
+const handleFocus = () => {
+  shrinkLabel.value = true;
 };
 
 const handleBlur = (event: FocusEvent) => {
@@ -140,13 +149,15 @@ const updateShrinkLabelState = (input: HTMLInputElement | null) => {
   if (!input) {
     return;
   }
-  shrinkLabel.value =
-    !!input.value || isAutofilled(input) || document.activeElement === input;
+  if (document.activeElement === input) {
+    shrinkLabel.value = true;
+    return;
+  }
+  shrinkLabel.value = !!input.value || isAutofilled(input);
 };
 
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement | null;
-  updateShrinkLabelState(target);
   emit("update:modelValue", target?.value ?? "");
 };
 
@@ -171,22 +182,22 @@ watch(
       shrinkLabel.value = !!value;
       return;
     }
-
-    // Preserve the floating label while focused to avoid first-click flicker
-    // when parent form state emits an empty modelValue.
-    shrinkLabel.value =
-      !!value || isAutofilled(input) || document.activeElement === input;
+    if (document.activeElement === input) {
+      shrinkLabel.value = true;
+      return;
+    }
+    shrinkLabel.value = !!value || isAutofilled(input);
   }
 );
 
 onMounted(() => {
   // Browser autofill may populate after hydration without emitting input events.
-  syncShrinkLabelState();
+  let autofillDetected = syncShrinkLabelState();
   let checks = 0;
   autofillSyncIntervalId = setInterval(() => {
-    syncShrinkLabelState();
     checks += 1;
-    if (checks >= 30 || shrinkLabel.value) {
+    autofillDetected = syncShrinkLabelState() || autofillDetected;
+    if (checks >= 30 || autofillDetected) {
       if (autofillSyncIntervalId) {
         clearInterval(autofillSyncIntervalId);
       }
