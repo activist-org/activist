@@ -67,10 +67,7 @@ export async function navigateToOrganizationGroupSubpage(
 
     // Click on the ListboxOption (role="option") which contains the NuxtLink.
     const groupsOption = page.getByRole("option", {
-      name: new RegExp(
-        getEnglishText("i18n._global.groups"),
-        "i"
-      ),
+      name: new RegExp(getEnglishText("i18n._global.groups"), "i"),
     });
 
     // Click the option - the NuxtLink's @click handler will navigate using the updated routeUrl.

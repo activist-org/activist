@@ -82,10 +82,12 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
     await withTestStep(testInfo, "Clear location search", async () => {
       const locationInput = eventsFilter.getLocationInput();
       await locationInput.clear();
-      await locationInput.blur();
+      await locationInput.press("Enter");
 
-      // Verify location parameter is removed from URL.
-      await page.waitForTimeout(500); // brief wait for URL update
+      // Wait for URL to no longer contain location parameter.
+      await page.waitForURL((url) => !url.toString().includes("location="), {
+        timeout: 5000,
+      });
       expect(page.url()).not.toMatch(/location=/);
     });
   });
