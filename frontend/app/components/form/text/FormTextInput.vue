@@ -31,14 +31,14 @@
         <slot name="icons"></slot>
       </span>
       <input
-        ref="inputRef"
         :id="id"
+        ref="inputRef"
         @animationstart="handleAnimationStart"
         @blur="handleBlur"
         @change="handleChange"
         @focus="shrinkLabel = true"
-        @pointerdown="handlePointerDown"
         @input="handleInput"
+        @pointerdown="handlePointerDown"
         class="form-text-input box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
         placeholder=""
         role="textbox"
