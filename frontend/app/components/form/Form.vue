@@ -78,11 +78,8 @@ let pendingReset: ReturnType<typeof setTimeout> | null = null;
 watch(
   () => props.initialValues,
   (newValues, oldValues) => {
-    // Guard: skip if values haven't changed.
     if (JSON.stringify(newValues) === JSON.stringify(oldValues)) return;
 
-    // Debounce: cancel any pending reset so rapid successive updates
-    // (e.g. stale API cache → fresh API response) only apply the final value.
     if (pendingReset !== null) clearTimeout(pendingReset);
     pendingReset = setTimeout(() => {
       pendingReset = null;

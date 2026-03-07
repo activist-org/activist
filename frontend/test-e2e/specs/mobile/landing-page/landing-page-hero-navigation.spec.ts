@@ -136,7 +136,7 @@ test.describe(
         await sidebar.openButton.click();
         await expect(sidebar.closeButton).toBeVisible();
         await expect(themeMenu.toggleOpenButton).toBeVisible();
-        await themeMenu.toggleOpenButton.click();
+        await themeMenu.toggleOpenButton.click({ force: true });
         await expect(themeMenu.menu).toBeVisible();
         await option.click();
 

@@ -13,13 +13,8 @@ import type { Locator, Page } from "@playwright/test";
  * @returns Array of resource names in their current order
  */
 export async function getResourceCardOrder(page: Page): Promise<string[]> {
-  // Wait for at least one resource card to be present.
   await page.waitForSelector('[data-testid="resource-card"]');
 
-  // Read all card names atomically in a single evaluate call. Iterating with
-  // nth() across multiple awaits is unsafe: the post-drag API response can
-  // trigger a Vue re-render that unmounts cards between iterations, causing
-  // textContent() to time out on a card that no longer exists.
   return page.evaluate(() =>
     Array.from(document.querySelectorAll('[data-testid="resource-card"]'))
       .map((card) => card.querySelector("h3")?.textContent?.trim() ?? "")
@@ -33,10 +28,8 @@ export async function getResourceCardOrder(page: Page): Promise<string[]> {
  * @returns Array of FAQ questions in their current order
  */
 export async function getFAQCardOrder(page: Page): Promise<string[]> {
-  // Wait for FAQ cards to be loaded.
   await page.waitForSelector('[data-testid="faq-card"]');
 
-  // Read atomically for the same reason as getResourceCardOrder.
   return page.evaluate(() =>
     Array.from(document.querySelectorAll('[data-testid="faq-card"]'))
       .map(
@@ -94,12 +87,9 @@ export async function performDragAndDrop(
   const endX = targetBox.x + targetBox.width / 2;
   const endY = targetBox.y + targetBox.height / 2;
 
-  // Detect touch emulation: when true, page.mouse events are ignored by Sortable.js.
   const hasTouch = await page.evaluate(() => navigator.maxTouchPoints > 0);
 
   if (hasTouch) {
-    // Mobile path: dispatch PointerEvents directly in the browser context.
-    // The entire sequence is one evaluate call so rAF yields are browser-side.
     await page.evaluate(
       async ({
         startX,
@@ -140,7 +130,6 @@ export async function performDragAndDrop(
         await rAF();
         await rAF();
 
-        // Move past Sortable's distance threshold (~8px) before the main sweep.
         const dx = endX - startX;
         const dy = endY - startY;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
@@ -163,11 +152,9 @@ export async function performDragAndDrop(
       { startX, startY, endX, endY, steps }
     );
   } else {
-    // Desktop path: use page.mouse which Sortable.js handles via mouse events.
     await page.mouse.move(startX, startY);
     await page.mouse.down();
 
-    // Two rAFs for mousedown to register before moving.
     await page.evaluate(
       () =>
         new Promise<void>((r) =>
@@ -175,7 +162,6 @@ export async function performDragAndDrop(
         )
     );
 
-    // Move past Sortable's distance threshold (~8px) before the main sweep.
     const dx = endX - startX;
     const dy = endY - startY;
     const dist = Math.sqrt(dx * dx + dy * dy) || 1;
@@ -191,7 +177,6 @@ export async function performDragAndDrop(
     await page.mouse.up();
   }
 
-  // Wait for Sortable animation classes to clear before the caller asserts order.
   await page
     .waitForFunction(
       () =>
@@ -200,9 +185,7 @@ export async function performDragAndDrop(
         ).length === 0,
       { timeout: 5000 }
     )
-    .catch(() => {
-      // Classes may never appear on fast environments — safe to continue.
-    });
+    .catch(() => {});
 }
 
 // MARK: Verification
@@ -220,8 +203,6 @@ export async function verifyReorder(
   expectedSecondItem: string,
   getOrderFunction: (page: Page) => Promise<string[]>
 ): Promise<void> {
-  // Use Playwright's built-in polling mechanism to wait for the order to change.
-  // This retries automatically until the condition is met or timeout is reached.
   await page.waitForFunction(
     async ({ expected }) => {
       // MARK: FAQ Card
@@ -278,7 +259,6 @@ export async function verifyReorder(
     }
   );
 
-  // Final verification to provide clear error message if somehow still wrong.
   const finalOrder = await getOrderFunction(page);
   if (
     finalOrder[0] !== expectedSecondItem ||
