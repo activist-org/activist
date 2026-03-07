@@ -26,7 +26,7 @@
             'i18n.components.machine_steps_create_event_link_online.link_to_event'
           )
         "
-        name="link"
+        name="onlineLocationLink"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
@@ -51,15 +51,13 @@ import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
 const linkSchema = z.object({
-  link: z.string().url("Please enter a valid URL").optional(),
+  onlineLocationLink: z.string().url("Please enter a valid URL").optional(),
 });
 const handlePrev = () => {
   if (!flow) return;
   flow.prev();
 };
-const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+const handleSubmit = (values: Record<string, unknown>) => {
   if (!flow) return;
   flow.next(values);
 };

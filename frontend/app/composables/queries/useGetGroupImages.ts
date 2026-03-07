@@ -13,13 +13,14 @@ export function useGetGroupImages(id: MaybeRef<string>) {
   );
 
   // Check if we have cached data.
-  const cached = computed<ContentImage[]>(() => store.getGroupImages());
-
-  // Only fetch if we have an ID and no cached data.
-  const shouldFetch = computed(
-    () => !!groupId.value && cached.value.length === 0
+  const cached = computed(
+    () =>
+      store.getGroupImages().length > 0 &&
+      groupId.value === store.getGroup()?.id
   );
 
+  // Only fetch if we have an ID and no cached data.
+  const shouldFetch = computed(() => !!groupId.value && !cached.value);
   const query = useAsyncData(
     getKeyForGetGroupImages(groupId.value),
     async () => {
@@ -39,10 +40,13 @@ export function useGetGroupImages(id: MaybeRef<string>) {
     },
     {
       watch: [groupId],
-      immediate: shouldFetch.value,
       dedupe: "defer",
       getCachedData: (key, nuxtApp) => {
-        if (nuxtApp.isHydrating && store.getGroupImages().length > 0) {
+        if (
+          nuxtApp.isHydrating &&
+          store.getGroupImages().length > 0 &&
+          groupId.value === store.getGroup()?.id
+        ) {
           return store.getGroupImages();
         }
         return nuxtApp.isHydrating
@@ -55,10 +59,8 @@ export function useGetGroupImages(id: MaybeRef<string>) {
   );
 
   // Return cached data if available, otherwise data from useAsyncData.
-  const data = computed<ContentImage[]>(() =>
-    cached.value && cached.value.length > 0
-      ? cached.value
-      : (query.data.value as ContentImage[]) || []
+  const data = computed<ContentImage[]>(
+    () => (query.data.value as ContentImage[]) || []
   );
   // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() =>
