@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { Component } from "vue";
-
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { defineComponent, inject, ref } from "vue";
@@ -30,6 +28,7 @@ const mockFlowScreens = {
   isActive: ref(false),
   currentScreen: ref(null),
   context: ref({ currentStep: 1, totalSteps: 4 }),
+  setSaving: vi.fn(),
   loading: ref(false),
   start: vi.fn(),
   close: vi.fn(),
@@ -104,7 +103,7 @@ describe("Machine.vue", () => {
     });
 
     mockFlowScreens.isActive.value = true;
-    mockFlowScreens.currentScreen.value = TestStepComponent as Component;
+    mockFlowScreens.currentScreen.value = TestStepComponent as unknown as null;
     mockFlowScreens.loading.value = false;
     await wrapper.vm.$nextTick();
 
@@ -138,7 +137,7 @@ describe("Machine.vue", () => {
     });
 
     mockFlowScreens.isActive.value = true;
-    mockFlowScreens.currentScreen.value = ChildComponent;
+    mockFlowScreens.currentScreen.value = ChildComponent as unknown as null;
     await wrapper.vm.$nextTick();
 
     // Trigger actions from child.
@@ -162,7 +161,7 @@ describe("Machine.vue", () => {
     });
 
     mockFlowScreens.isActive.value = true;
-    mockFlowScreens.currentScreen.value = ChildComponent;
+    mockFlowScreens.currentScreen.value = ChildComponent as unknown as null;
     await wrapper.vm.$nextTick();
 
     await wrapper.find("button").trigger("click");

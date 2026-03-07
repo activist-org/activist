@@ -17,12 +17,12 @@ const useMockStore = defineStore("mock-flow", {
   state: () => ({
     active: false,
     currentNode: null as NodeConfig | null,
-    nodeData: {},
-    sharedData: {},
+    nodeData: {} as Record<string, unknown>,
+    sharedData: {} as Record<string, unknown>,
+    saving: false,
     isFinished: false,
     saveResult: null as Record<string, unknown> | null,
     _history: [] as string[],
-    saving: false,
   }),
   getters: {
     nodeId: (state) => state.currentNode?.id,
@@ -37,15 +37,18 @@ const useMockStore = defineStore("mock-flow", {
     close() {
       this.active = false;
     },
+    setSaving(value: boolean) {
+      this.saving = value;
+    },
     async next() {
       /* spyable */
     },
     prev() {
       /* spyable */
     },
-    setSharedData: vi.fn(function (this: unknown, data) {
+    setSharedData(data: Record<string, unknown>) {
       this.sharedData = { ...this.sharedData, ...data };
-    }),
+    },
   },
 });
 
@@ -174,9 +177,10 @@ describe("useFlowScreens", () => {
 
     expect(currentScreen.value).toBeNull();
     expect(onActionSpy).toHaveBeenCalledWith(store.nodeData);
-    expect(store.setSharedData).toHaveBeenCalledWith({
-      __lastActionResult: { id: "123" },
-    });
+
+    expect(store.sharedData).toEqual(
+      expect.objectContaining({ __lastActionResult: { id: "123" } })
+    );
     expect(nextSpy).toHaveBeenCalled();
   });
 
@@ -188,9 +192,12 @@ describe("useFlowScreens", () => {
       onSubmit: onSubmitSpy,
     });
 
-    store.nodeData = { step1: "data" };
-    store.sharedData = { meta: "info" };
-    store.isFinished = true;
+    store.$patch({
+      nodeData: { step1: "data" },
+      sharedData: { meta: "info" },
+      saveResult: { step1: "data", meta: "info" },
+      isFinished: true,
+    });
 
     await nextTick();
     await new Promise((r) => setTimeout(r, 0)); // Wait for promise resolution
