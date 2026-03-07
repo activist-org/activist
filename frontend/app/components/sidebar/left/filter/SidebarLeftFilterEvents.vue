@@ -214,6 +214,7 @@ const optionLocations = [
 const route = useRoute();
 const router = useRouter();
 const formKey = ref(0);
+
 const updateViewType = (
   value: string | number | boolean | Record<string, unknown> | undefined
 ) => {
@@ -234,15 +235,13 @@ const updateViewType = (
 
 const viewType = ref(ViewType.MAP);
 const formData = ref({});
+
 watch(
   route,
-  (form) => {
-    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    const topics = normalizeArrayFromURLQuery(form.query.topics);
-    formData.value = {
-      ...rest,
-      topics,
-    };
+  (r) => {
+    const q = (r.query as Record<string, unknown>) || {};
+    const { view, ..._rest } = q;
+    formData.value = routeQueryToEventsFilterFormData(q);
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
@@ -252,6 +251,7 @@ watch(
   { immediate: true }
 );
 const handleSubmit = (_values: unknown) => {
+  if (!currentRoutePathIncludes("events", route.name?.toString() ?? "")) return;
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
 
