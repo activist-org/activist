@@ -49,7 +49,7 @@
           <CardResource
             :key="element.id"
             :ref="(el: any) => (resourceCardList[index] = el?.root)"
-            @focus="canEdit(event) ? onFocus(index) : undefined"
+            @focusin="canEdit(event) ? onFocus(index) : undefined"
             @keydown.down.prevent="canEdit(event) ? moveDown() : undefined"
             @keydown.up.prevent="canEdit(event) ? moveUp() : undefined"
             :class="{
