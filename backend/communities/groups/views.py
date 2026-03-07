@@ -98,16 +98,13 @@ class GroupAPIView(GenericAPIView[Group]):
             400: OpenApiResponse(response={"detail": "Failed to create group."}),
         },
     )
-    def post(self, request):
+    def create(self, request: Request) -> Response:
         serializer = GroupPOSTSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         group = serializer.save(created_by=request.user)
 
-        return Response(
-            GroupSerializer(group).data,
-            status=201
-        )
+        return Response(GroupSerializer(group).data, status=201)
 
 
 # MARK: Detail API
