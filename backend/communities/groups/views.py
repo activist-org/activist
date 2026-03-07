@@ -21,6 +21,7 @@ from rest_framework.permissions import (
 )
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 from communities.groups.filters import GroupFilter
 from communities.groups.models import (
@@ -56,6 +57,7 @@ class GroupAPIView(GenericAPIView[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
     permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
     filter_backends = [DjangoFilterBackend]
     filterset_class = GroupFilter
 
@@ -98,7 +100,7 @@ class GroupAPIView(GenericAPIView[Group]):
             400: OpenApiResponse(response={"detail": "Failed to create group."}),
         },
     )
-    def create(self, request: Request) -> Response:
+    def post(self, request: Request) -> Response:
         serializer = GroupPOSTSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

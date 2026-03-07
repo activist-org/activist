@@ -247,10 +247,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
                 org = Organization.objects.get(id=validated_data.pop("org"))
 
                 group = Group.objects.create(
-                    location=location,
-                    org=org,
-                    created_by=created_by,
-                    **validated_data
+                    location=location, org=org, created_by=created_by, **validated_data
                 )
 
                 group_text = GroupText.objects.create(
@@ -267,6 +264,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
 
             except (Organization.DoesNotExist, IntegrityError, OperationalError):
                 raise
+
 
 # MARK: Group
 

@@ -21,7 +21,7 @@ const router = useRouter();
 async function handleSubmission(value: unknown) {
   const payload = value as CreateGroupInput;
 
-  const result = await create(payload);
+  const result = await create(payload); 
   if (!result) return;
   // eslint-disable-next-line no-console
   console.log("Group created with ID:", result);
