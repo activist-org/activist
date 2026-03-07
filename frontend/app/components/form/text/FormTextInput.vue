@@ -6,9 +6,13 @@
     class="form-text-input-container primary-text relative inline-flex w-full flex-col space-y-2 align-top"
   >
     <label
-      class="form-text-input-label pointer-events-none absolute z-10 text-primary-text"
+      class="form-text-input-label pointer-events-none absolute z-10"
       :class="{
-        '-translate-y-2 translate-x-4 text-sm text-distinct-text': shrinkLabel,
+        '-translate-y-2 translate-x-3 text-sm text-distinct-text':
+          shrinkLabel && iconLocation === 'right',
+        '-translate-y-2 translate-x-[3.4rem] text-sm text-distinct-text':
+          shrinkLabel && iconLocation === 'left',
+        'text-primary-text': !shrinkLabel,
         'translate-y-[0.6rem] pl-3': !shrinkLabel && iconLocation === 'right',
         'translate-y-[0.6rem] pl-[3.4rem]':
           !shrinkLabel && iconLocation === 'left',
