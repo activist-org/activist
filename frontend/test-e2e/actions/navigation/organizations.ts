@@ -138,7 +138,7 @@ export async function navigateToOrganizationSubpage(
       resources: "i18n._global.resources",
       events: "i18n._global.events",
       faq: "i18n._global.faq",
-      groups: "i18n.composables.use_menu_entries_state.groups",
+      groups: "i18n._global.groups",
       affiliates: "i18n.composables.use_menu_entries_state.affiliates",
       tasks: "i18n.composables.use_menu_entries_state.tasks",
       discussions: "i18n._global.discussions",
@@ -153,7 +153,10 @@ export async function navigateToOrganizationSubpage(
       name: new RegExp(getEnglishText(i18nKey), "i"),
     });
 
-    await subpageOption.click();
+    // Use force:true to bypass actionability checks (the option may become
+    // unstable during HeadlessUI's leave transition) while still dispatching
+    // a real synthetic click that bubbles through the NuxtLink @click handler.
+    await subpageOption.click({ force: true });
   } else {
     // Desktop layout: uses direct tab navigation.
     // Wait for the page to be fully loaded and menu entries to be initialized.
