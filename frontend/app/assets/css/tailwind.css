@@ -192,17 +192,6 @@ MARK: Base
     color: transparent;
   }
 
-  .form-text-input-container:has(.form-text-input:-webkit-autofill)
-    .form-text-input-label,
-  .form-text-input-container:has(.form-text-input:autofill)
-    .form-text-input-label {
-    transform: translate(1rem, -0.5rem);
-    padding-left: 0;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: rgb(var(--distinct-text));
-  }
-
   @keyframes onAutoFillStart {
     from {
     }

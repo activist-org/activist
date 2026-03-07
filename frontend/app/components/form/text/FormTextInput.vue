@@ -35,13 +35,12 @@
         :id="id"
         @animationstart="handleAnimationStart"
         @blur="handleBlur"
+        @change="handleChange"
         @focus="shrinkLabel = true"
         @pointerdown="handlePointerDown"
-        @input="
-          (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
-        "
+        @input="handleInput"
         class="form-text-input box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
-        :placeholder="shrinkLabel ? '' : label"
+        placeholder=""
         role="textbox"
         :type="type"
         :value="modelValue"
@@ -135,6 +134,25 @@ const handleAnimationStart = (event: AnimationEvent) => {
   if (event.animationName === "onAutoFillStart") {
     shrinkLabel.value = true;
   }
+};
+
+const updateShrinkLabelState = (input: HTMLInputElement | null) => {
+  if (!input) {
+    return;
+  }
+  shrinkLabel.value =
+    !!input.value || isAutofilled(input) || document.activeElement === input;
+};
+
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLInputElement | null;
+  updateShrinkLabelState(target);
+  emit("update:modelValue", target?.value ?? "");
+};
+
+const handleChange = (event: Event) => {
+  const target = event.target as HTMLInputElement | null;
+  updateShrinkLabelState(target);
 };
 
 const handlePointerDown = (event: PointerEvent) => {
