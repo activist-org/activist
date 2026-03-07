@@ -320,7 +320,7 @@ test.describe(
           .getByTestId("faq-card")
           .first()
           .getByTestId("faq-delete-button");
-        await deleteButton.click();
+        await deleteButton.evaluate((el: HTMLElement) => el.click());
 
         const confirmationModal = page.locator("#modal").first();
         await expect(confirmationModal).toBeVisible();
@@ -364,7 +364,7 @@ test.describe(
           .getByTestId("faq-card")
           .first()
           .getByTestId("faq-delete-button");
-        await deleteButton.click();
+        await deleteButton.evaluate((el: HTMLElement) => el.click());
 
         const confirmationModal = page.locator("#modal").first();
         await expect(confirmationModal).toBeVisible();

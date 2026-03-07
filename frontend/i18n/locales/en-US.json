@@ -460,6 +460,7 @@
   "i18n.composables.use_map.zoom_in": "Zoom In",
   "i18n.composables.use_map.zoom_out": "Zoom Out",
   "i18n.composables.use_menu_entries_state.affiliates": "Affiliates",
+  "i18n.composables.use_menu_entries_state.groups": "Groups",
   "i18n.composables.use_menu_entries_state.tasks": "Tasks",
   "i18n.composables.use_menu_entries_state.team": "Team",
   "i18n.composables.use_routing_map.change_profile": "Change profile [p]",
