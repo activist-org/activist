@@ -51,7 +51,7 @@ jobs:
 
       - name: Wait for Backend
         run: |
-          timeout 90 bash -c 'until curl -s http://localhost:8000 >/dev/null; do sleep 2; done'
+          timeout 180 bash -c 'until curl -s http://localhost:8000/v1/auth/sign_in -o /dev/null -w "%{http_code}" | grep -qE "^(200|405)"; do sleep 3; done'
 
       - name: Setup Node Environment
         uses: actions/setup-node@v4
