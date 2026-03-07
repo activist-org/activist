@@ -32,6 +32,8 @@ async function handleSubmission(finalData: unknown) {
   const values = finalData as CreateOrganizationInput;
 
   const result = await create(values);
+  // eslint-disable-next-line no-console
+  console.log("CREATE RESULT:", result);
 
   await router.push(`/organizations/${result.id}/about`);
 

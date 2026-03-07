@@ -116,7 +116,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         org.application.create()
 
         return Response(
-            "Successfully created organization", status=status.HTTP_201_CREATED
+            {"id": org.id}, status=status.HTTP_201_CREATED
         )
 
 
