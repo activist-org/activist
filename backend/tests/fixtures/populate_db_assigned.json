@@ -1,7 +1,6 @@
 {
   "organizations": [
     {
-      "org_name": "assigned_org_1",
       "name": "Assigned Organization",
       "tagline": "Assigned org tagline",
       "events": [
@@ -13,7 +12,6 @@
       ],
       "groups": [
         {
-          "group_name": "assigned_group_1",
           "name": "Assigned Group",
           "tagline": "Assigned group tagline",
           "events": [

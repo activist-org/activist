@@ -192,12 +192,10 @@ def test_populate_db_command_with_json_data_to_assign():
         json_data_to_assign=str(fixture_path),
     )
 
-    org = Organization.objects.get(org_name="assigned_org_1")
-    assert org.name == "Assigned Organization"
+    org = Organization.objects.get(name="Assigned Organization")
     assert org.tagline == "Assigned org tagline"
 
-    group = Group.objects.get(group_name="assigned_group_1")
-    assert group.name == "Assigned Group"
+    group = Group.objects.get(name="Assigned Group")
     assert group.tagline == "Assigned group tagline"
 
     org_event = Event.objects.get(name="Assigned Org Event")
