@@ -147,6 +147,7 @@ test.describe(
           themeMenu.systemThemeOption,
           "Theme menu should be closed"
         ).not.toBeVisible();
+        await expect(themeMenu.toggleOpenButton).not.toBeVisible();
       }
     });
 
