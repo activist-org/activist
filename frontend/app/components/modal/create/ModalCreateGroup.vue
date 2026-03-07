@@ -16,12 +16,23 @@ const { handleCloseModal } = useModalHandlers(modalName);
 
 const { create } = useGroupMutations();
 
-/**
- * This function will be called by the machine when the flow completes.
- * @param {any} finalData The consolidated data from all steps.
- */
+const router = useRouter();
+
 async function handleSubmission(value: unknown) {
-  await create(value as CreateGroupInput);
+  const payload = value as CreateGroupInput;
+
+  const result = await create(payload);
+  if (!result) return;
+
+  const groupId = result.id;
+
+  const organizationId = payload.organization;
+
+  if (!organizationId) {
+    return;
+  }
+
+  await router.push(`/organizations/${organizationId}/groups/${groupId}/about`);
   handleCloseModal();
 }
 

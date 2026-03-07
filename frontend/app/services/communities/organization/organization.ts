@@ -76,9 +76,9 @@ export async function listOrganizationsByUserId(
 
 export async function createOrganization(
   data: CreateOrganizationInput
-): Promise<string> {
+): Promise<{ id: string }> {
   try {
-    const res = await post<string, typeof data>(
+    const res = await post<{ id: string }, typeof data>(
       `/communities/organizations`,
       data,
       { headers: { "Content-Type": "application/json" } }

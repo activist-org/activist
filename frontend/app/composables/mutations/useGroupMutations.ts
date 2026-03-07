@@ -11,9 +11,14 @@ export const useGroupMutations = () => {
     loading.value = true;
     error.value = null;
     try {
-      const group = await createGroup(groupData);
-      await refreshGroupList();
-      return group;
+      const groupId = await createGroup(groupData);
+      try {
+        await refreshGroupList();
+      } catch {
+        // console.warn("Failed to refresh group list after create", refreshError);
+      }
+
+      return groupId;
     } catch (e) {
       error.value = e as AppError;
       showToastError(error.value.message);
@@ -22,11 +27,14 @@ export const useGroupMutations = () => {
       loading.value = false;
     }
   };
+
   const refreshGroupList = async () => {
-    // Invalidate and refetch group list data.
-    // Invalidate the useAsyncData cache so next read will refetch.
     clearNuxtData((key) => key.startsWith("groups-list:"));
-    await refreshNuxtData(getKeyForGetOrganization(store.getOrganization().id));
+
+    const organizationId = store.getOrganization()?.id;
+    if (!organizationId) return;
+
+    await refreshNuxtData(getKeyForGetOrganization(organizationId));
   };
 
   return {
