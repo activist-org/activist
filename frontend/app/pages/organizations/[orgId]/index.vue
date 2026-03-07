@@ -52,7 +52,7 @@
       </MenuLinkWrapper>
       <BtnRouteInternal
         ariaLabel="i18n._global.offer_to_help_aria_label"
-        class="w-full sm:w-max"
+        class="w-full sm:w-max flex justify-center"
         :cta="true"
         fontSize="base"
         iconSize="1.25em"

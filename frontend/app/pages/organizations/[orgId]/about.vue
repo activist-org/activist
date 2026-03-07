@@ -17,7 +17,7 @@
           <BtnRouteExternal
             v-if="organization?.texts[0]?.getInvolvedUrl"
             ariaLabel="i18n._global.join_organization_aria_label"
-            class="w-full sm:w-max"
+            class="w-full sm:w-max flex justify-center"
             :cta="true"
             fontSize="sm"
             iconSize="1.45em"
@@ -39,7 +39,7 @@
             @click="openModalSharePage()"
             @keydown.enter="openModalSharePage()"
             ariaLabel="i18n._global.share_organization_aria_label"
-            class="w-full sm:w-max"
+            class="w-full sm:w-max flex justify-center"
             :cta="true"
             fontSize="sm"
             :hideLabelOnMobile="false"
