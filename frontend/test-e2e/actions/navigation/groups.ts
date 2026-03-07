@@ -68,7 +68,7 @@ export async function navigateToOrganizationGroupSubpage(
     // Click on the ListboxOption (role="option") which contains the NuxtLink.
     const groupsOption = page.getByRole("option", {
       name: new RegExp(
-        getEnglishText("i18n.composables.use_menu_entries_state.groups"),
+        getEnglishText("i18n._global.groups"),
         "i"
       ),
     });
