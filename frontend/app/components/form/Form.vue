@@ -76,7 +76,7 @@ const { handleSubmit, values, ...rest } = useForm({
 watch(
   () => props.initialValues,
   (newValues) => {
-    rest.setValues(newValues || {});
+    rest.resetForm({ values: newValues || {} });
   },
   { deep: true, immediate: true }
 );

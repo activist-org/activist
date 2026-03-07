@@ -3,6 +3,7 @@
   <a
     class="card-style h-70 flex w-full items-center justify-center bg-layer-2"
     :href="link"
+    :aria-label="$t('i18n.components.media_url.visit_url_aria_label')"
     rel="noopener noreferrer"
     target="_blank"
   >

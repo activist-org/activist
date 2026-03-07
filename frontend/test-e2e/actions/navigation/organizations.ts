@@ -138,7 +138,7 @@ export async function navigateToOrganizationSubpage(
       resources: "i18n._global.resources",
       events: "i18n._global.events",
       faq: "i18n._global.faq",
-      groups: "i18n.composables.use_menu_entries_state.groups",
+      groups: "i18n._global.groups",
       affiliates: "i18n.composables.use_menu_entries_state.affiliates",
       tasks: "i18n.composables.use_menu_entries_state.tasks",
       discussions: "i18n._global.discussions",
