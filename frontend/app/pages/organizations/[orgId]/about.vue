@@ -8,7 +8,7 @@
     </Head>
     <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
-        <div class="flex space-x-2 lg:space-x-3">
+        <div class="flex flex-col gap-2 sm:flex-row sm:space-x-2 lg:space-x-3">
           <ModalSharePage
             v-if="organization"
             :cta="true"
@@ -17,7 +17,7 @@
           <BtnRouteExternal
             v-if="organization?.texts[0]?.getInvolvedUrl"
             ariaLabel="i18n._global.join_organization_aria_label"
-            class="w-full sm:w-max flex justify-center"
+            class="flex w-full justify-center sm:w-max"
             :cta="true"
             fontSize="sm"
             iconSize="1.45em"
@@ -39,7 +39,7 @@
             @click="openModalSharePage()"
             @keydown.enter="openModalSharePage()"
             ariaLabel="i18n._global.share_organization_aria_label"
-            class="w-full sm:w-max flex justify-center"
+            class="flex w-full justify-center sm:w-max"
             :cta="true"
             fontSize="sm"
             :hideLabelOnMobile="false"
