@@ -16,8 +16,6 @@ if (import.meta.env.DEV) {
   EventScheduleStep();
 }
 
-const { create } = useEventMutations();
-
 export const useCreateEventStore = createFlowStore({
   machine: {
     id: "createEventFlow",
@@ -80,18 +78,8 @@ export const useCreateEventStore = createFlowStore({
             context.allNodeData as unknown as ContextCreateEventData;
           const stepData = nodeData[CreateEventSteps.Time];
           const createAnother = stepData?.createAnother;
-          if (createAnother) {
-            const data = Object.values(nodeData).reduce(
-              (acc, data) => ({
-                ...(acc as Record<string, unknown>),
-                ...(data as Record<string, unknown>),
-              }),
-              {}
-            );
-            create(data);
-            return CreateEventSteps.EventDetails;
-          }
-          return "end";
+
+          return createAnother ? CreateEventSteps.EventDetails : "end";
         },
       },
     },

@@ -12,6 +12,9 @@ export function useFlowScreens(
   const currentScreen: Ref<Component | null> = ref(null);
   const loading = ref(false);
 
+  const route = useRoute();
+  const router = useRouter();
+
   // Helper to resolve lazy-loaded components.
   const resolveScreenFor = async (
     node: NodeConfig
@@ -67,10 +70,15 @@ export function useFlowScreens(
 
   watch(
     () => store.isFinished,
-    (finished) => {
+    async (finished) => {
+      let createdEventIds: string[] = [];
       if (finished && options.onSubmit) {
-        options.onSubmit(store.saveResult);
+        createdEventIds = (await options.onSubmit(
+          store.saveResult
+        )) as unknown as string[];
       }
+
+      await handleCreatedEventRouting(createdEventIds);
     }
   );
 
@@ -80,6 +88,26 @@ export function useFlowScreens(
       loading.value = true;
     }
   });
+
+  async function handleCreatedEventRouting(createdEventIds: string[]) {
+    if (!createdEventIds || createdEventIds.length === 0) return;
+
+    if (createdEventIds.length === 1) {
+      await router.push({
+        path: `/events/${createdEventIds[0]}/about`,
+      });
+      return;
+    }
+
+    const viewQueryValue = route.query.view;
+    await router.push({
+      path: "/events",
+      query: {
+        view: viewQueryValue,
+        id: createdEventIds.join(","),
+      },
+    });
+  }
 
   const start = (draft?: Record<string, unknown>) => store.start(draft);
   const close = (discard?: boolean) => store.close(discard);
