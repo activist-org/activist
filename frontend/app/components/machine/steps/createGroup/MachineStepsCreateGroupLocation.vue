@@ -69,7 +69,7 @@ const formData = computed(() => {
   };
 });
 const locationSchema = z.object({
-  country: z.string().min(1, "Country is required"),
+  country: z.string().optional(),
   city: z.string().min(1, "City is required"),
 });
 const handlePrev = () => {

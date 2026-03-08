@@ -207,7 +207,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
     description = serializers.CharField(max_length=2500)
     org = serializers.UUIDField()
     topics = TopicSerializer(many=True, required=False)
-    country_code = serializers.CharField(max_length=3)
+    country_code = serializers.CharField(max_length=3, required=False, allow_blank=True)
     city = serializers.CharField(max_length=255)
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -242,27 +242,30 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
         """
         with transaction.atomic():
             city = validated_data.pop("city")
-            country_code = validated_data.pop("country_code")
+            country_code = validated_data.pop("country_code", "")
             description = validated_data.pop("description", "")
-            # iso = validated_data.pop("iso")
-
-            location_data = {
-                "city": city,
-                "country_code": country_code,
-                "lat": "",
-                "lon": "",
-            }
-            location = Location.objects.create(**location_data)
 
             try:
                 org = Organization.objects.get(id=validated_data.pop("org"))
+
+                # fallback to organization country
+                if not country_code and org.location:
+                    country_code = org.location.country_code
+
+                location_data = {
+                    "city": city,
+                    "country_code": country_code,
+                    "lat": "",
+                    "lon": "",
+                }
+                location = Location.objects.create(**location_data)
+
                 group = Group.objects.create(
                     location=location, org=org, **validated_data
                 )
 
                 group_text = GroupText.objects.create(
                     group=group,
-                    # iso=iso,
                     primary=True,
                     description=description,
                 )
@@ -275,7 +278,6 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
             except (Organization.DoesNotExist, IntegrityError, OperationalError) as e:
                 location.delete()
                 raise e
-
 
 # MARK: Group
 
