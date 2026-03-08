@@ -94,3 +94,28 @@ export function normalizeArrayFromURLQuery(
   if (typeof arr === "string") return [arr];
   return [];
 }
+
+/**
+ * Converts route query to events filter form data.
+ * Extracts view separately; normalizes topics to array.
+ */
+export function routeQueryToEventsFilterFormData(
+  query: Record<string, unknown> | undefined
+): Record<string, unknown> {
+  const q = query || {};
+  const { view, ...rest } = q;
+  const topics = normalizeArrayFromURLQuery(
+    q.topics as LocationQueryValue | LocationQueryValue[] | undefined
+  );
+  return { ...rest, topics };
+}
+
+/**
+ * Converts route query to organization filter form data.
+ * Spreads query as-is.
+ */
+export function routeQueryToOrganizationFilterFormData(
+  query: Record<string, unknown> | undefined
+): Record<string, unknown> {
+  return { ...(query || {}) };
+}

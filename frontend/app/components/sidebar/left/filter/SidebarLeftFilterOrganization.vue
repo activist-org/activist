@@ -60,14 +60,19 @@ const schema = z.object({
 const route = useRoute();
 const router = useRouter();
 const formData = ref({});
+
 watch(
   route,
-  (form) => {
-    formData.value = { ...form.query };
+  (r) => {
+    formData.value = routeQueryToOrganizationFilterFormData(
+      r.query as Record<string, unknown>
+    );
   },
   { immediate: true }
 );
 const handleSubmit = (_values: unknown) => {
+  if (!currentRoutePathIncludes("organizations", route.name?.toString() ?? ""))
+    return;
   const values: LocationQueryRaw = {};
   const input = (_values || {}) as Record<string, LocationQueryRaw[string]>;
   Object.keys(input).forEach((key) => {
