@@ -23,20 +23,32 @@ rm -rf dist
 echo "Building frontend (this takes ~2 minutes)..."
 yarn build:local
 echo "Starting frontend server..."
-# Kill any leftover server from a previous run, then start fresh.
-yarn kill-port 3000 2>/dev/null || true
+# Kill any leftover server from a previous run using lsof directly (yarn kill-port can block).
+lsof -ti tcp:3000 | xargs kill -9 2>/dev/null || true
 # Start the node server directly with explicit env vars.
 # nohup yarn preview strips env vars in some shells; node directly is reliable.
 nohup env NUXT_SESSION_PASSWORD="$NUXT_SESSION_PASSWORD" NUXT_API_SECRET="" node .output/server/index.mjs > /dev/null 2>&1 &
 
 # Wait for the preview server to be ready before running tests.
-printf "Waiting for frontend"
+# Spin a background progress indicator so it's clear the script is not hung.
+(
+  chars="/-\|"
+  i=0
+  while true; do
+    i=$(( (i + 1) % 4 ))
+    printf "\rWaiting for frontend... %s" "${chars:$i:1}"
+    sleep 0.5
+  done
+) &
+SPINNER_PID=$!
+
 for i in $(seq 1 30); do
   if curl -sf http://localhost:3000/ > /dev/null 2>&1; then
-    printf " ready.\n"
+    kill $SPINNER_PID 2>/dev/null
+    wait $SPINNER_PID 2>/dev/null
+    printf "\rFrontend ready.          \n"
     break
   fi
-  printf "."
   sleep 2
 done
 
@@ -44,7 +56,7 @@ done
 SKIP_WEBSERVER=true yarn test:local
 
 # Stop the frontend and Docker processes:
-yarn kill-port 3000
+lsof -ti tcp:3000 | xargs kill -9 2>/dev/null || true
 
 cd ..
 docker compose --env-file .env.dev down
