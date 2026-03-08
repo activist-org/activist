@@ -529,7 +529,7 @@ For testing on your remote forked repository, first create a branch from the rem
 git push upstream <local-branch-name>:<remote-branch-name-of-your-choice>
 ```
 
-You can then navigate to the remote versions of the [actions of the repository](https://github.com/activist-org/activist/actions) in your fork and trigger [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml).
+You can then navigate to the remote versions of the [actions of the repository](https://github.com/activist-org/activist/actions) in your fork and trigger [ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/ci_playwright_e2e.yaml).
 
 For maintainers of the activist main repo, testing PRs is done via the following to make sure that origin has a copy of the branch that can be tested against:
 
@@ -539,7 +539,7 @@ git branch  # to find the name of the branch
 git push -u origin LOCAL_NAME_OF_BRANCH
 ```
 
-You can then visit the [actions of the repository](https://github.com/activist-org/activist/actions) to run the the [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) test against the new branch on origin.
+You can then visit the [actions of the repository](https://github.com/activist-org/activist/actions) to run the the [ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/ci_playwright_e2e.yaml) test against the new branch on origin.
 
 Thank you for testing your PRs! 🎉
 
