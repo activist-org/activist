@@ -155,7 +155,7 @@ const emit = defineEmits<{
 const query = ref("");
 const sentinel = ref(null);
 const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
-const actualInputRef = ref<any>(null);
+const actualInputRef = ref<HTMLInputElement | null>(null);
 
 const handleInputFocus = (isOpen: boolean) => {
   if (!isOpen && query.value === "") {
@@ -184,7 +184,7 @@ function setupInputWrapper(el: unknown) {
     ) => {
       let inputElement = actualInputRef.value;
       if (!inputElement && formInputRef.value?.$el) {
-        inputElement = formInputRef.value.$el.querySelector("input");
+        inputElement = formInputRef.value.$el.querySelector("input") as HTMLInputElement | null;
         if (inputElement) actualInputRef.value = inputElement;
       }
       if (inputElement && typeof inputElement.setSelectionRange === "function") {
@@ -199,7 +199,7 @@ function setupInputWrapper(el: unknown) {
 watch(formInputRef, (newRef) => {
   if (newRef?.$el && !actualInputRef.value) {
     nextTick(() => {
-      const inputElement = newRef.$el?.querySelector("input");
+      const inputElement = newRef.$el?.querySelector("input") as HTMLInputElement | null;
       if (inputElement) actualInputRef.value = inputElement;
     });
   }
