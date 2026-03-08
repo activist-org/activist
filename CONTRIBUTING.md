@@ -449,14 +449,14 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 
 #### Run Local E2E Tests
 
-activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Please run the following command in the frontend:
+activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Run the following command in the frontend:
 
 ```bash
 # This and all following steps need to be ran each time Playwright is updated.
 yarn playwright install --with-deps
 ```
 
-Please run the following to run the end to end testing suite:
+Run the following to run the end to end testing suite:
 
 ```bash
 # Note: There may be an installation prompts in the build logs. Hit 'n' to say no.
@@ -472,6 +472,9 @@ yarn playwright show-report
 docker compose --env-file .env.dev down
 lsof -ti tcp:3000 | xargs kill -9 2>/dev/null || true
 ```
+
+> [!NOTE]
+> VS Code users can use the [Playwright extension](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) to run the tests. Go to the testing view and then run the test suite. You can also select options including which devices to run and whether to view the browser.
 
 Alternatively, to run the end to end tests using separate shells, please run the following:
 
