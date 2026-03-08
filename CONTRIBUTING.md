@@ -449,14 +449,14 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 
 #### Run Local E2E Tests
 
-activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Please run the following command in the frontend:
+activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Run the following command in the frontend:
 
 ```bash
 # This and all following steps need to be ran each time Playwright is updated.
 yarn playwright install --with-deps
 ```
 
-Please run the following to run the end to end testing suite:
+Run the following to run the end to end testing suite:
 
 ```bash
 # Note: There may be an installation prompts in the build logs. Hit 'n' to say no.
@@ -470,21 +470,22 @@ yarn playwright show-report
 
 # Note: If you stop the script before it finishes, please run the following to stop all background processes:
 docker compose --env-file .env.dev down
-yarn kill-port 3000
+lsof -ti tcp:3000 | xargs kill -9 2>/dev/null || true
 ```
 
-Alternatively, to run the end to end tests using the separate commands, please run the following:
+> [!NOTE]
+> VS Code users can use the [Playwright extension](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) to run the tests. Go to the testing view and then run the test suite. You can also select options including which devices to run and whether to view the browser.
+
+Alternatively, to run the end to end tests using separate shells, please run the following:
+
+In a first shell, start the backend and database:
 
 ```bash
-docker compose --env-file .env.dev up backend db # run backend and db in docker
-
-# To run tests in the preview mode (much faster and uses less resources):
+# Start backend and db (USE_PREVIEW skips the full build inside Docker):
 USE_PREVIEW=true docker compose --env-file .env.dev up backend db
 ```
 
-In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python).
-
-In a second shell:
+In a second shell, build and serve the frontend in preview mode:
 
 ```bash
 cd frontend
@@ -492,22 +493,29 @@ cd frontend
 # Set the environment variables:
 set -a && source ../.env.dev && set +a
 
-# Install and run the project in production mode:
+# USE_PREVIEW=true switches Nitro to node-server preset (outputs to .output/)
+# so that `yarn preview` works. Without it the build uses netlify-static (dist/).
+export USE_PREVIEW=true
+
+# Install dependencies and build + serve the frontend in preview mode:
 corepack enable
 yarn install
-yarn build  # answer no to all package installation prompts
+# Remove any previous static build so nuxi preview uses .output/ not dist/.
+rm -rf dist
+yarn build:local  # answer no to all package installation prompts
 # Note: There may be an installation prompt high in the build logs. Hit 'n' to say no.
-
-# Note: You may be asked to install extra dependencies in the next command.
-npx serve dist/  # start the frontend
+# Start the node server directly - this ensures NUXT_SESSION_PASSWORD and NUXT_API_SECRET
+# are passed correctly (yarn preview can strip env vars in some shells).
+nohup env NUXT_SESSION_PASSWORD="$NUXT_SESSION_PASSWORD" NUXT_API_SECRET="" node .output/server/index.mjs > /dev/null 2>&1 &
 ```
 
-In a third shell:
+In a third shell, run the test suite:
 
 ```bash
 cd frontend
 
-yarn test:local
+# SKIP_WEBSERVER tells Playwright to reuse the running preview server:
+SKIP_WEBSERVER=true yarn test:local
 
 # After the tests finish, run the following to see the Playwright HTML report:
 yarn playwright show-report
