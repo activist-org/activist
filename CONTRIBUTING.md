@@ -470,7 +470,7 @@ yarn playwright show-report
 
 # Note: If you stop the script before it finishes, please run the following to stop all background processes:
 docker compose --env-file .env.dev down
-yarn kill-port 3000
+lsof -ti tcp:3000 | xargs kill -9 2>/dev/null || true
 ```
 
 Alternatively, to run the end to end tests using separate shells, please run the following:
