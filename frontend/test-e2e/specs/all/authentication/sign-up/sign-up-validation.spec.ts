@@ -34,14 +34,20 @@ test.describe(
       await page.waitForLoadState("domcontentloaded");
 
       await signUpPage.passwordInput.fill("testpassword");
-      await expect(signUpPage.passwordInput).toHaveAttribute("type", "password");
+      await expect(signUpPage.passwordInput).toHaveAttribute(
+        "type",
+        "password"
+      );
 
       await expect(signUpPage.showPasswordToggle).toBeVisible();
       await signUpPage.showPasswordToggle.click();
       await expect(signUpPage.passwordInput).toHaveAttribute("type", "text");
 
       await signUpPage.showPasswordToggle.click();
-      await expect(signUpPage.passwordInput).toHaveAttribute("type", "password");
+      await expect(signUpPage.passwordInput).toHaveAttribute(
+        "type",
+        "password"
+      );
     });
 
     test("User can show and hide repeat password", async ({ page }) => {
@@ -57,7 +63,10 @@ test.describe(
 
       await expect(signUpPage.showRepeatPasswordToggle).toBeVisible();
       await signUpPage.showRepeatPasswordToggle.click();
-      await expect(signUpPage.repeatPasswordInput).toHaveAttribute("type", "text");
+      await expect(signUpPage.repeatPasswordInput).toHaveAttribute(
+        "type",
+        "text"
+      );
 
       await signUpPage.showRepeatPasswordToggle.click();
       await expect(signUpPage.repeatPasswordInput).toHaveAttribute(

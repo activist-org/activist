@@ -10,9 +10,9 @@ export const newSignUpPage = (page: Page) => ({
   emailInput: page.getByLabel(
     getEnglishText("i18n.pages.auth._global.enter_email")
   ),
-  passwordInput: page.getByLabel(
-    getEnglishText("i18n._global.enter_password")
-  ).first(),
+  passwordInput: page
+    .getByLabel(getEnglishText("i18n._global.enter_password"))
+    .first(),
   repeatPasswordInput: page.getByLabel(
     getEnglishText("i18n._global.repeat_password")
   ),
