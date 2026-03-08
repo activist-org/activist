@@ -21,7 +21,7 @@
 [![ci_e2e](https://img.shields.io/github/actions/workflow/status/activist-org/activist/ci_playwright_e2e.yaml?branch=main&label=e2e)](https://github.com/activist-org/activist/actions/workflows/ci_playwright_e2e.yaml)
 [![ci_backend](https://img.shields.io/github/actions/workflow/status/activist-org/activist/ci_backend.yaml?branch=main&label=backend)](https://github.com/activist-org/activist/actions/workflows/ci_backend.yaml)
 [![ci_frontend](https://img.shields.io/github/actions/workflow/status/activist-org/activist/ci_frontend.yaml?branch=main&label=frontend)](https://github.com/activist-org/activist/actions/workflows/ci_frontend.yaml)
-[![ci_i18n](https://img.shields.io/github/actions/workflow/status/activist-org/activist/ci_i18n.yaml?branch=main&label=i18n)](https://github.com/activist-org/activist/actions/workflows/ci_i18n.yaml)
+[![ci_i18n_check](https://img.shields.io/github/actions/workflow/status/activist-org/activist/ci_i18n_check.yaml?branch=main&label=i18n)](https://github.com/activist-org/activist/actions/workflows/ci_i18n_check.yaml)
 
 # Contents
 
