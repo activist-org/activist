@@ -1,4 +1,4 @@
-name: pr_ci_i18n
+name: ci_i18n_check
 on:
   workflow_dispatch:
   pull_request:

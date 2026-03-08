@@ -1,4 +1,4 @@
-name: pr_ci_playwright_e2e
+name: ci_playwright_e2e
 on:
   workflow_dispatch:
   pull_request:
