@@ -11,7 +11,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
-  // Note: Check to make sure that this is eventually done for light and dark modes.
+  // MARK: - Accessibility
+
   test("Event FAQ Page has no detectable accessibility issues", async ({
     page,
   }, testInfo) => {
@@ -43,6 +44,169 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
       }
     });
   });
+
+  // MARK: - CRUD Operations
+
+  test("User can manage FAQ entries (CREATE, UPDATE, DELETE)", async ({
+    page,
+  }) => {
+    const eventPage = newEventPage(page);
+    const { faqPage } = eventPage;
+
+    await page.waitForLoadState("domcontentloaded");
+
+    // Generate unique content for this test run.
+    const timestamp = Date.now();
+    const newQuestion = `Test FAQ Question ${timestamp}`;
+    const newAnswer = `This is a test FAQ answer created at ${timestamp}.`;
+    const updatedQuestion = `Updated FAQ Question ${timestamp}`;
+    const updatedAnswer = `This is an updated FAQ answer at ${timestamp}.`;
+
+    // MARK: Create
+
+    const initialFaqCount = await faqPage.getFAQCount();
+
+    // Verify new FAQ button is visible and functional.
+    await expect(faqPage.newFAQButton).toBeVisible();
+    await expect(faqPage.newFAQButton).toBeEnabled();
+
+    // Click the new FAQ button.
+    await faqPage.newFAQButton.click();
+
+    // Verify modal opens.
+    await expect(faqPage.faqModal).toBeVisible();
+
+    // Verify form elements are present.
+    const questionInput = faqPage.faqQuestionInput(faqPage.faqModal);
+    const answerInput = faqPage.faqAnswerInput(faqPage.faqModal);
+    const submitButton = faqPage.faqSubmitButton(faqPage.faqModal);
+
+    await expect(questionInput).toBeVisible();
+    await expect(answerInput).toBeVisible();
+    await expect(submitButton).toBeVisible();
+
+    // Fill in the form.
+    await questionInput.fill(newQuestion);
+    await answerInput.fill(newAnswer);
+
+    // Verify form fields contain the entered text.
+    await expect(questionInput).toHaveValue(newQuestion);
+    await expect(answerInput).toHaveValue(newAnswer);
+
+    // Submit the form.
+    await submitButton.click();
+
+    // Wait for modal to close.
+    await expect(faqPage.faqModal).not.toBeVisible();
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(1000);
+
+    // Verify the new FAQ appears on the page (don't check exact count as there may be existing FAQs).
+    const newFaqCard = faqPage.faqCards.filter({ hasText: newQuestion });
+    await expect(newFaqCard).toBeVisible();
+
+    // Verify FAQ count increased by checking that our FAQ exists.
+    const afterCreateCount = await faqPage.getFAQCount();
+    expect(afterCreateCount).toBeGreaterThanOrEqual(initialFaqCount + 1);
+
+    // Expand and verify the answer.
+    const disclosureButton = newFaqCard.getByTestId("faq-disclosure-button");
+    await disclosureButton.click();
+
+    const answerElement = newFaqCard.getByTestId("faq-answer");
+    await expect(answerElement).toBeVisible();
+    await expect(answerElement).toContainText(newAnswer);
+
+    // MARK: Update
+
+    // Edit the FAQ we just created.
+    const editButton = newFaqCard.getByTestId("faq-edit-button");
+    await editButton.click();
+
+    // Verify edit modal opens.
+    await expect(faqPage.editFAQModal).toBeVisible();
+
+    // Get form elements for editing.
+    const editQuestionInput = faqPage.faqQuestionInput(faqPage.editFAQModal);
+    const editAnswerInput = faqPage.faqAnswerInput(faqPage.editFAQModal);
+    const editSubmitButton = faqPage.faqSubmitButton(faqPage.editFAQModal);
+
+    // Clear and fill with updated content.
+    await editQuestionInput.clear();
+    await editQuestionInput.fill(updatedQuestion);
+    await editAnswerInput.clear();
+    await editAnswerInput.fill(updatedAnswer);
+
+    // Verify updated content.
+    await expect(editQuestionInput).toHaveValue(updatedQuestion);
+    await expect(editAnswerInput).toHaveValue(updatedAnswer);
+
+    // Submit the edit.
+    await editSubmitButton.click();
+
+    // Wait for modal to close.
+    await expect(faqPage.editFAQModal).not.toBeVisible();
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(1000);
+
+    // Verify the updated FAQ appears on the page.
+    const updatedFaqCard = faqPage.faqCards.filter({
+      hasText: updatedQuestion,
+    });
+    await expect(updatedFaqCard).toBeVisible();
+
+    // Verify old question is gone.
+    await expect(
+      faqPage.faqCards.filter({ hasText: newQuestion })
+    ).not.toBeVisible();
+
+    // Expand and verify the updated answer.
+    const updatedDisclosureButton = updatedFaqCard.getByTestId(
+      "faq-disclosure-button"
+    );
+    const isExpanded = await updatedFaqCard
+      .getByTestId("faq-answer")
+      .isVisible();
+    if (!isExpanded) {
+      await updatedDisclosureButton.click();
+    }
+
+    const updatedAnswerElement = updatedFaqCard.getByTestId("faq-answer");
+    await expect(updatedAnswerElement).toBeVisible();
+    await expect(updatedAnswerElement).toContainText(updatedAnswer);
+
+    // MARK: Delete
+
+    // Delete the FAQ we created and edited.
+    const deleteButton = updatedFaqCard.getByTestId("faq-delete-button");
+    await deleteButton.click();
+
+    // Verify confirmation modal opens.
+    const confirmationModal = page.locator("#modal").first();
+    await expect(confirmationModal).toBeVisible();
+
+    // Confirm deletion.
+    const confirmButton = confirmationModal.getByRole("button", {
+      name: /confirm|yes|delete/i,
+    });
+    await confirmButton.click();
+
+    // Wait for modal to close.
+    await expect(confirmationModal).not.toBeVisible();
+    await page.waitForLoadState("domcontentloaded");
+    await page.waitForTimeout(1000);
+
+    // Verify the FAQ is no longer visible.
+    await expect(
+      faqPage.faqCards.filter({ hasText: updatedQuestion })
+    ).not.toBeVisible();
+
+    // Verify FAQ count decreased (should be back to initial or less if we successfully deleted).
+    const finalFaqCount = await faqPage.getFAQCount();
+    expect(finalFaqCount).toBeLessThanOrEqual(afterCreateCount - 1);
+  });
+
+  // MARK: - View and Interact
 
   test("User can view and interact with FAQ entries", async ({ page }) => {
     const eventPage = newEventPage(page);
@@ -99,88 +263,6 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
       throw new Error(
         "Expected FAQ entries to be present, but none were found"
       );
-    }
-  });
-
-  test("User can edit existing FAQ entries", async ({ page }) => {
-    const eventPage = newEventPage(page);
-    const { faqPage } = eventPage;
-
-    // Wait for FAQ entries to load completely.
-    await page.waitForLoadState("domcontentloaded");
-
-    const faqCount = await faqPage.getFAQCount();
-
-    if (faqCount > 0) {
-      // Get the original question text.
-      const originalQuestion = await faqPage.getFAQQuestionText(0);
-      expect(originalQuestion).toBeTruthy();
-
-      // Expand the FAQ to get the answer text.
-      await faqPage.expandFAQ(0);
-
-      // Wait for FAQ to be expanded.
-      await expect(faqPage.getFAQAnswer(0)).toBeVisible();
-
-      const originalAnswer = await faqPage.getFAQAnswerText(0);
-      expect(originalAnswer).toBeTruthy();
-
-      // Click the edit button for the first FAQ.
-      await faqPage.editFAQ(0);
-
-      // Verify edit modal opens.
-      await expect(faqPage.editFAQModal).toBeVisible();
-
-      // Get the modal and form elements.
-      const editModal = faqPage.editFAQModal;
-      const questionInput = faqPage.faqQuestionInput(editModal);
-      const answerInput = faqPage.faqAnswerInput(editModal);
-      const submitButton = faqPage.faqSubmitButton(editModal);
-
-      // Generate unique test text with timestamp.
-      const timestamp = Date.now();
-      const updatedQuestionText = `Updated FAQ Question - Test Edit ${timestamp}`;
-      const updatedAnswerText = `Updated FAQ Answer - This is a test edit to verify the functionality works correctly. Timestamp: ${timestamp}`;
-
-      // Clear and update the question.
-      await questionInput.clear();
-      await questionInput.fill(updatedQuestionText);
-
-      // Clear and update the answer.
-      await answerInput.clear();
-      await answerInput.fill(updatedAnswerText);
-
-      // Submit the form.
-      await submitButton.click();
-
-      // Wait for the modal to close and changes to be saved.
-      await expect(editModal).not.toBeVisible();
-      await page.waitForLoadState("domcontentloaded");
-
-      // Verify the changes were persisted.
-      const updatedQuestion = await faqPage.getFAQQuestionText(0);
-      expect(updatedQuestion).toBe(updatedQuestionText);
-
-      // Wait for the FAQ to be ready for interaction after edit.
-      await page.waitForLoadState("domcontentloaded");
-
-      // Check if FAQ is already expanded, if not, expand it.
-      const isAlreadyExpanded = await faqPage.isFAQExpanded(0);
-      if (!isAlreadyExpanded) {
-        await faqPage.expandFAQ(0);
-      }
-
-      // Wait for FAQ to be expanded and answer to be visible.
-      await expect(faqPage.getFAQAnswer(0)).toBeVisible();
-
-      const updatedAnswer = await faqPage.getFAQAnswerText(0);
-      expect(updatedAnswer).toBe(updatedAnswerText);
-      // Verify the changes are different from the original.
-      expect(updatedQuestion).not.toBe(originalQuestion);
-      expect(updatedAnswer).not.toBe(originalAnswer);
-    } else {
-      // Skip test if no FAQ entries are available.
-      test.skip(faqCount > 0, "No FAQ entries available to test editing");
     }
   });
 });

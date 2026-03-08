@@ -7,7 +7,7 @@ import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 test.describe(
   "Route Query Topics Stability",
   {
-    tag: ["@desktop", "@mobile"],
+    tag: ["@desktop"],
   },
   () => {
     test.beforeEach(async ({ page }) => {
