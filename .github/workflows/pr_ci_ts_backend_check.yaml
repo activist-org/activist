@@ -39,6 +39,4 @@ jobs:
 
       - name: Check Django Models Against TypeScript Interfaces
         run: |
-          # uv run --project ./backend ts-backend-check -bmf backend/communities/organizations/models.py -tsf frontend/shared/types/organizations.d.ts --check-blank
-          # uv run --project ./backend ts-backend-check -bmf backend/communities/groups/models.py -tsf frontend/shared/types/groups.d.ts --check-blank
-          # uv run --project ./backend ts-backend-check -bmf backend/events/models.py -tsf frontend/shared/types/events.d.ts --check-blank
+          # ts-backend-check -a
