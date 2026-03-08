@@ -32,9 +32,7 @@ const JSON_MODE = args.includes("--json");
 const MARKDOWN_MODE = args.includes("--markdown") || args.includes("--md");
 const UNCOVERED_ONLY = args.includes("--uncovered");
 
-// ---------------------------------------------------------------------------
-// 1. Enumerate application routes from app/pages/
-// ---------------------------------------------------------------------------
+// MARK: Enumerate Application Routes
 
 function vueFileToRoute(filePath) {
   let rel = relative(PAGES_DIR, filePath)
@@ -98,9 +96,7 @@ const allRoutes = [
 const testableRoutes = allRoutes.filter((r) => !STUB_ROUTES.has(r));
 const stubRoutes = allRoutes.filter((r) => STUB_ROUTES.has(r));
 
-// ---------------------------------------------------------------------------
-// 2. Extract URL patterns from specs + navigation helpers + page objects
-// ---------------------------------------------------------------------------
+// MARK: Extract URL Patterns
 
 function extractRoutes(content) {
   const found = new Set();
@@ -152,9 +148,7 @@ for (const scanDir of SCAN_DIRS) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// 3. Match extracted routes against application routes
-// ---------------------------------------------------------------------------
+// MARK: Match Extracted Routes
 
 function routeIsExercised(appRoute) {
   // Landing page: specs use `/en` or `/`.
@@ -207,9 +201,7 @@ const pctTestable = Math.round(
   (coveredTestable.length / testableRoutes.length) * 100
 );
 
-// ---------------------------------------------------------------------------
-// 4. Output
-// ---------------------------------------------------------------------------
+// MARK: Output
 
 if (JSON_MODE) {
   console.log(
