@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/* eslint-disable no-console */
 /**
  * E2E coverage script: compares application routes (from app/pages/) against
  * routes exercised in E2E spec files and navigation helpers.
@@ -119,9 +120,9 @@ function extractRoutes(content) {
     const route =
       "/" +
       m[1]
-        .replace(/\\\//g, "/")   // unescape \/ → /
+        .replace(/\\\//g, "/") // unescape \/ → /
         .replace(/\.\*/g, ":id") // .* → :id
-        .replace(/^:id\//, "");  // strip leading :id/ (from .*/)
+        .replace(/^:id\//, ""); // strip leading :id/ (from .*/)
     if (route.length > 1 && !route.startsWith("http") && !route.includes("=")) {
       found.add(route);
     }
@@ -202,7 +203,9 @@ const pct = Math.round((covered.length / allRoutes.length) * 100);
 
 const coveredTestable = testableRoutes.filter(routeIsExercised);
 const uncoveredTestable = testableRoutes.filter((r) => !routeIsExercised(r));
-const pctTestable = Math.round((coveredTestable.length / testableRoutes.length) * 100);
+const pctTestable = Math.round(
+  (coveredTestable.length / testableRoutes.length) * 100
+);
 
 // ---------------------------------------------------------------------------
 // 4. Output
@@ -251,12 +254,16 @@ if (MARKDOWN_MODE) {
     for (const r of covered) console.log(`- \`${r}\``);
     console.log();
 
-    console.log(`### ⚠️ Stub Routes — not yet implemented (${stubRoutes.length})\n`);
+    console.log(
+      `### ⚠️ Stub Routes — not yet implemented (${stubRoutes.length})\n`
+    );
     for (const r of stubRoutes) console.log(`- \`${r}\``);
     console.log();
   }
 
-  console.log(`### ❌ Uncovered Testable Routes (${uncoveredTestable.length})\n`);
+  console.log(
+    `### ❌ Uncovered Testable Routes (${uncoveredTestable.length})\n`
+  );
   for (const r of uncoveredTestable) console.log(`- \`${r}\``);
   console.log();
   process.exit(0);
@@ -278,9 +285,12 @@ if (!UNCOVERED_ONLY) {
   console.log(`  Testable routes:        ${testableRoutes.length}`);
   console.log(`  ${GREEN}Covered:${RESET}                ${covered.length}`);
   const colorAll = pct >= 80 ? GREEN : pct >= 60 ? YELLOW : RED;
-  const colorTestable = pctTestable >= 90 ? GREEN : pctTestable >= 74 ? YELLOW : RED;
+  const colorTestable =
+    pctTestable >= 90 ? GREEN : pctTestable >= 74 ? YELLOW : RED;
   console.log(`  Coverage (all):         ${colorAll}${pct}%${RESET}`);
-  console.log(`  ${BOLD}Coverage (testable):${RESET}    ${colorTestable}${BOLD}${pctTestable}%${RESET}\n`);
+  console.log(
+    `  ${BOLD}Coverage (testable):${RESET}    ${colorTestable}${BOLD}${pctTestable}%${RESET}\n`
+  );
 
   console.log(`${BOLD}${GREEN}Covered Routes${RESET}`);
   console.log("-".repeat(50));
