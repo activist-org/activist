@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import {
+  getFAQCardOrder,
+  performDragAndDrop,
+  verifyReorder,
+} from "~/test-e2e/actions/dragAndDrop";
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
+import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
@@ -21,55 +27,38 @@ test.describe(
       // Wait for FAQ entries to load completely.
       await page.waitForLoadState("domcontentloaded");
 
-      const faqCount = await groupFaqPage.getFaqCount();
+      // Ensure we have at least 2 FAQs for testing (create them if needed).
+      const faqCount = await ensureMinimumFAQs(page, groupFaqPage, 2);
 
-      if (faqCount >= 2) {
-        // Get initial order of first 2 FAQ questions for drag and drop test.
-        const firstQuestion = await groupFaqPage.getFaqQuestionText(0);
-        const secondQuestion = await groupFaqPage.getFaqQuestionText(1);
+      // Verify we have at least 2 FAQs.
+      expect(faqCount).toBeGreaterThanOrEqual(2);
 
-        // Verify drag handles are visible.
-        const firstFaqDragHandle = groupFaqPage.getFaqDragHandle(0);
-        const secondFaqDragHandle = groupFaqPage.getFaqDragHandle(1);
+      // Get initial order of first 2 FAQ questions for drag and drop test.
+      const initialOrder = await getFAQCardOrder(page);
+      const firstQuestion = initialOrder[0];
+      const secondQuestion = initialOrder[1];
 
-        await expect(firstFaqDragHandle).toBeVisible();
-        await expect(secondFaqDragHandle).toBeVisible();
+      // Verify drag handles are visible.
+      const firstFaqDragHandle = groupFaqPage.getFaqDragHandle(0);
+      const secondFaqDragHandle = groupFaqPage.getFaqDragHandle(1);
 
-        // Perform drag and drop from first to second position.
-        const firstHandleBox = await groupFaqPage.getFaqDragHandlePosition(0);
-        const secondHandleBox = await groupFaqPage.getFaqDragHandlePosition(1);
+      await expect(firstFaqDragHandle).toBeVisible();
+      await expect(secondFaqDragHandle).toBeVisible();
 
-        if (firstHandleBox && secondHandleBox) {
-          // Drag first FAQ to second position.
-          await page.mouse.move(
-            firstHandleBox.x + firstHandleBox.width / 2,
-            firstHandleBox.y + firstHandleBox.height / 2
-          );
-          await page.mouse.down();
-          await page.mouse.move(
-            secondHandleBox.x + secondHandleBox.width / 2,
-            secondHandleBox.y + secondHandleBox.height / 2
-          );
-          await page.mouse.up();
+      // Validate drag handles have the correct CSS class.
+      await expect(firstFaqDragHandle).toContainClass("drag-handle");
+      await expect(secondFaqDragHandle).toContainClass("drag-handle");
 
-          // Wait for the reorder operation to complete (including network requests).
-          await page.waitForLoadState("domcontentloaded");
+      // Perform drag and drop using shared utility.
+      await performDragAndDrop(page, firstFaqDragHandle, secondFaqDragHandle);
 
-          // Get final order of first 2 FAQ questions.
-          const finalFirstQuestion = await groupFaqPage.getFaqQuestionText(0);
-          const finalSecondQuestion = await groupFaqPage.getFaqQuestionText(1);
-
-          // Verify the order has changed (first and second should be swapped).
-          expect(finalFirstQuestion).toBe(secondQuestion);
-          expect(finalSecondQuestion).toBe(firstQuestion);
-        }
-      } else {
-        // Skip test if insufficient FAQ entries for drag and drop testing.
-        test.skip(
-          faqCount >= 2,
-          "Need at least 2 FAQ entries to test drag and drop functionality"
-        );
-      }
+      // Verify the reorder using shared utility.
+      await verifyReorder(
+        page,
+        firstQuestion ?? "",
+        secondQuestion ?? "",
+        getFAQCardOrder
+      );
     });
   }
 );
