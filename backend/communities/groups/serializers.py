@@ -207,6 +207,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
     description = serializers.CharField(max_length=2500)
     org = serializers.UUIDField()
     topics = TopicSerializer(many=True, required=False)
+    country_code = serializers.CharField(max_length=3)
     city = serializers.CharField(max_length=255)
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -226,42 +227,54 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
         return data
 
     def create(self, validated_data: dict[str, Any]) -> Group:
+        """
+        Create a group via a post operation.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Any]
+            Data to be used in the creation of a group.
+
+        Returns
+        -------
+        Organization
+            The group object that was created in the database.
+        """
         with transaction.atomic():
-            created_by = validated_data.pop("created_by")
             city = validated_data.pop("city")
+            country_code = validated_data.pop("country_code")
             description = validated_data.pop("description", "")
+            # iso = validated_data.pop("iso")
+
+            location_data = {
+                "city": city,
+                "country_code": country_code,
+                "lat": "",
+                "lon": "",
+            }
+            location = Location.objects.create(**location_data)
 
             try:
                 org = Organization.objects.get(id=validated_data.pop("org"))
-
-                # Derive country_code from the org's location
-                country_code = ""
-                if org.location:
-                    country_code = org.location.country_code or ""
-
-                location_data = {
-                    "city": city,
-                    "country_code": country_code,
-                    "lat": "",
-                    "lon": "",
-                }
-                location = Location.objects.create(**location_data)
-
                 group = Group.objects.create(
-                    location=location, org=org, created_by=created_by, **validated_data
+                    location=location, org=org, **validated_data
                 )
+
                 group_text = GroupText.objects.create(
                     group=group,
+                    # iso=iso,
                     primary=True,
                     description=description,
                 )
                 group.texts.set([group_text])
 
                 logger.info("Created Group with id: %s", group.id)
+
                 return group
 
-            except (Organization.DoesNotExist, IntegrityError, OperationalError):
-                raise
+            except (Organization.DoesNotExist, IntegrityError, OperationalError) as e:
+                location.delete()
+                raise e
 
 
 # MARK: Group
