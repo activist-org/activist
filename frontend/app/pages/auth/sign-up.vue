@@ -105,7 +105,6 @@
               <Icon
                 aria-hidden="false"
                 aria-labelledby="sign-up-confirm-password-match"
-                role="img"
                 :color="
                   confirmPassword.value &&
                   errorMessage.value !==
@@ -120,6 +119,7 @@
                     ? IconMap.CHECK
                     : IconMap.X_LG
                 "
+                role="img"
                 size="1.2em"
               />
               <title id="sign-up-confirm-password-match" class="sr-only">
