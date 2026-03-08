@@ -659,6 +659,44 @@ Thank you in advance for your contributions!
 
 Documentation is an invaluable way to contribute to coding projects as it allows others to more easily understand the project structure and contribute. Issues related to documentation are marked with the [`documentation`](https://github.com/activist-org/activist/labels/documentation) label in the [issues](https://github.com/activist-org/activist/issues).
 
+### Backend Function Docstrings
+
+activist follows [numpydoc conventions](https://numpydoc.readthedocs.io/en/latest/format.html) for documenting functions and Python code.
+
+You can use [prek](https://prek.j178.dev/) to run the numpydoc docstring linting:
+
+```bash
+prek run numpydoc-validation --all-files
+```
+
+Function docstrings should have this format:
+
+```py
+def example_function(argument: argument_type) -> return_type:
+    """
+    An example docstring for a function so others understand your work.
+
+    Parameters
+    ----------
+    argument : argument_type
+        Description of your argument.
+
+    Returns
+    -------
+    return_value : return_type
+        Description of your return value.
+
+    Raises
+    ------
+    ErrorType
+        Description of the error and the condition that raises it.
+    """
+
+    ...
+
+    return return_value
+```
+
 <sub><a href="#top">Back to top.</a></sub>
 
 ## Accessibility
