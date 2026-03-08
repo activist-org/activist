@@ -17,7 +17,6 @@ export function useGetOrganizationsByUser(
   const userIdRef = computed(() => userId);
   const filtersRef = computed(() => unref(filters));
 
-  // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
     () => getKeyForGetOrganizationsByUser(userId, page.value, filtersRef.value),
     async () => {
@@ -31,11 +30,27 @@ export function useGetOrganizationsByUser(
           filtersRef.value
         );
         isLastPageRef.value = paginatedOrganizations.isLastPage;
-        return [
-          ...organizations.value,
-          ...paginatedOrganizations.data,
-        ] as Organization[];
-      } catch (error) {
+
+        if (page.value === 1) {
+          organizations.value = paginatedOrganizations.data;
+        } else {
+          organizations.value = [
+            ...organizations.value,
+            ...paginatedOrganizations.data,
+          ];
+        }
+        return organizations.value;
+      } catch (error: any) {
+        const isInvalidPage = error?.response?.status === 404 || error?.message?.includes("Invalid page");
+        
+        if (isInvalidPage) {
+          isLastPageRef.value = true;
+          if (page.value === 1) {
+            organizations.value = [];
+          }
+          return organizations.value;
+        }
+
         showToastError((error as AppError).message);
         throw error;
       }
@@ -45,17 +60,21 @@ export function useGetOrganizationsByUser(
       default: () => [],
     }
   );
+
   const getMore = async () => {
     if (isLastPageRef.value) {
       return;
     }
     page.value += 1;
   };
+
   return {
     data,
     pending,
     error,
     refresh,
     getMore,
+    page,
+    organizations
   };
 }

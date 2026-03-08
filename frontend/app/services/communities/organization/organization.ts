@@ -64,8 +64,8 @@ export async function listOrganizationsByUserId(
       });
     }
     const res = await get<OrganizationsResponseBody>(
-      `/communities/organizations_by_user/${userId}?page=${page}${filters ? `&${query.toString()}` : ""}`
-    );
+    `/communities/organizations_by_user/${userId}?page=${page}${filters ? `&${query.toString()}` : ""}`
+);
     return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {
     throw errorHandler(e);
