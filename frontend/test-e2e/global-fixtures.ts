@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { type Page, test as base, expect as baseExpect } from "@playwright/test";
+import {
+  type Page,
+  test as base,
+  expect as baseExpect,
+} from "@playwright/test";
 import path from "path";
 
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
