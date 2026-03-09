@@ -11,14 +11,14 @@
       :tagline="$t('i18n.pages.events.resources.tagline')"
       :underDevelopment="false"
     >
-      <div class="flex space-x-2 lg:space-x-3">
+      <div v-if="canEdit(event)" class="flex space-x-2 lg:space-x-3">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           :element="$t('i18n._global.resources_lower')"
           :onClick="openModal"
         />
       </div>
-      <ModalResourceEvent />
+      <ModalResourceEvent v-if="canEdit(event)" />
     </HeaderAppPageEvent>
     <!-- Draggable list -->
     <div v-if="(event?.resources ?? []).length" class="py-4">
@@ -32,7 +32,7 @@
         :delay="0"
         :delay-on-touch-start="false"
         :direction="'vertical'"
-        :disabled="false"
+        :disabled="!canEdit(event)"
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
@@ -53,8 +53,8 @@
             @keydown.down.prevent="canEdit(event) ? moveDown() : undefined"
             @keydown.up.prevent="canEdit(event) ? moveUp() : undefined"
             :class="{
-              selected: selectedIndex === index,
-              selectedResource: selectedIndex === index,
+              selected: canEdit(event) && selectedIndex === index,
+              selectedResource: canEdit(event) && selectedIndex === index,
             }"
             :entity="event"
             :entityType="EntityType.EVENT"

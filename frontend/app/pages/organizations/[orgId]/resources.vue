@@ -11,7 +11,7 @@
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
-      <div class="flex space-x-2 lg:space-x-3">
+      <div v-if="canEdit(organization)" class="flex space-x-2 lg:space-x-3">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           :element="$t('i18n._global.resources_lower')"
@@ -32,7 +32,7 @@
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
-        :disabled="false"
+        :disabled="!canEdit(organization)"
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
@@ -55,8 +55,8 @@
             "
             @keydown.up.prevent="canEdit(organization) ? moveUp() : undefined"
             :class="{
-              selected: selectedIndex === index,
-              selectedResource: selectedIndex === index,
+              selected: canEdit(organization) && selectedIndex === index,
+              selectedResource: canEdit(organization) && selectedIndex === index,
             }"
             :entity="organization"
             :entityType="EntityType.ORGANIZATION"
