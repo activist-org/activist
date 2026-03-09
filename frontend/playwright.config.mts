@@ -6,9 +6,13 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const RESULTS_PATH = path.join(__dirname, "./test-results");
-export const AUTH_STATE_PATH = path.join(
+export const ADMIN_AUTH_STATE_PATH = path.join(
   __dirname,
   "./test-e2e/.auth/admin.json"
+);
+export const MEMBER_AUTH_STATE_PATH = path.join(
+  __dirname,
+  "./test-e2e/.auth/member.json"
 );
 
 /**
@@ -93,7 +97,7 @@ export default defineConfig({
     /* Action timeout - applies to click, fill, etc. */
     actionTimeout: 10000,
     /* Reuse authenticated session across tests (can be overridden per test with test.use()) */
-    storageState: AUTH_STATE_PATH,
+    storageState: ADMIN_AUTH_STATE_PATH,
 
     /* Enhanced trace configuration for better debugging. */
     trace: {
