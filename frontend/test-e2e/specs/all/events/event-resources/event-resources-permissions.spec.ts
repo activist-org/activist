@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
-import {
-  expect,
-  MEMBER_AUTH_STATE_PATH,
-  test,
-} from "~/test-e2e/global-fixtures";
+import { MEMBER_AUTH_STATE_PATH } from "~/test-e2e/constants/authPaths";
+import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 

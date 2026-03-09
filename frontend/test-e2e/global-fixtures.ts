@@ -4,15 +4,11 @@ import {
   test as base,
   expect as baseExpect,
 } from "@playwright/test";
-import path from "path";
 
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
+import { MEMBER_AUTH_STATE_PATH } from "~/test-e2e/constants/authPaths";
 
-export const MEMBER_AUTH_STATE_PATH = path.join(
-  __dirname,
-  ".auth",
-  "member.json"
-);
+export { MEMBER_AUTH_STATE_PATH };
 
 // Track last renewal time per worker to avoid redundant re-auths.
 let lastRenewalTime = 0;
