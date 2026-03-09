@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { chromium, type FullConfig } from "@playwright/test";
+import fs from "fs";
+import path from "path";
 
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
 import {
@@ -7,9 +9,106 @@ import {
   waitForServerReady,
 } from "~/test-e2e/utils/server-readiness";
 
+interface AuthAccount {
+  username: string;
+  password: string;
+  authFile: string;
+  label: string;
+}
+
 /**
- * Global setup runs once before all tests
- * This creates an authenticated session that can be reused across tests for speed
+ * Returns true if the auth state file exists and contains a nuxt-session
+ * cookie, meaning the session was successfully saved and can be reused.
+ * The session age is logged for visibility.
+ */
+function isAuthStateValid(authFile: string): boolean {
+  if (!fs.existsSync(authFile)) return false;
+
+  try {
+    const authData = JSON.parse(fs.readFileSync(authFile, "utf-8"));
+    const cookies = authData.cookies || [];
+    const sessionCookie = cookies.find(
+      (c: { name: string }) => c.name === "nuxt-session"
+    );
+
+    if (!sessionCookie?.value) return false;
+
+    const ageInHours =
+      (Date.now() - fs.statSync(authFile).mtimeMs) / 1000 / 60 / 60;
+    const displayAge =
+      ageInHours < 1
+        ? `${Math.round(ageInHours * 60)}m`
+        : `${Math.round(ageInHours)}h`;
+    // eslint-disable-next-line no-console
+    console.log(
+      `✓ Reusing existing session for ${authFile.split("/").pop()} (${displayAge} old)`
+    );
+    return true;
+  } catch {
+    // Fall through to re-authenticate.
+  }
+  return false;
+}
+
+/**
+ * Signs in as the given account and saves the browser storage state to disk,
+ * retrying up to maxRetries times on failure.
+ */
+async function createAuthState(
+  baseURL: string,
+  account: AuthAccount
+): Promise<void> {
+  const maxRetries = 3;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    const browser = await chromium.launch();
+    const context = await browser.newContext({ baseURL });
+    const page = await context.newPage();
+
+    try {
+      if (attempt > 1) {
+        // eslint-disable-next-line no-console
+        console.log(
+          `🔄 Retry attempt ${attempt}/${maxRetries} for ${account.label}...`
+        );
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+
+      await page.goto("/auth/sign-in", { waitUntil: "load", timeout: 60000 });
+
+      // eslint-disable-next-line no-console
+      console.log(`📝 Signing in as ${account.label} (${account.username})...`);
+
+      await signInAsAdmin(page, account.username, account.password, true);
+
+      // eslint-disable-next-line no-console
+      console.log(`✓ Authenticated as ${account.label}`);
+
+      await page.waitForLoadState("domcontentloaded", { timeout: 30000 });
+      await context.storageState({ path: account.authFile });
+
+      // eslint-disable-next-line no-console
+      console.log(`✅ Session saved to ${account.authFile}`);
+
+      await browser.close();
+      return;
+    } catch (error) {
+      await browser.close();
+      if (attempt === maxRetries) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `❌ Auth setup failed for ${account.label} after ${maxRetries} attempts:`,
+          error
+        );
+        throw error;
+      }
+    }
+  }
+}
+
+/**
+ * Global setup runs once before all tests.
+ * Creates authenticated sessions for each account used in the test suite.
  */
 async function globalSetup(config: FullConfig) {
   const baseURL = config.projects[0]?.use.baseURL;
@@ -18,65 +117,27 @@ async function globalSetup(config: FullConfig) {
     throw new Error("baseURL is not configured in playwright.config.ts");
   }
 
-  const fs = await import("fs");
-  const path = await import("path");
-  const authFile = path.join(__dirname, ".auth", "admin.json");
+  const accounts: AuthAccount[] = [
+    {
+      username: "admin",
+      password: "admin",
+      authFile: path.join(__dirname, ".auth", "admin.json"),
+      label: "admin",
+    },
+    {
+      username: "activist_0",
+      password: "password",
+      authFile: path.join(__dirname, ".auth", "member.json"),
+      label: "non-admin member",
+    },
+  ];
 
-  // Check if auth state already exists and tokens are still valid.
-  if (fs.existsSync(authFile)) {
-    try {
-      const authData = JSON.parse(fs.readFileSync(authFile, "utf-8"));
-      const cookies = authData.cookies || [];
-      const authToken = cookies.find(
-        (c: { name: string }) => c.name === "auth.token"
-      );
-
-      if (authToken && authToken.value) {
-        // Decode JWT to check actual token expiration (not just cookie expiration).
-        try {
-          const payload = JSON.parse(
-            Buffer.from(authToken.value.split(".")[1], "base64").toString()
-          );
-          const jwtExp = payload.exp * 1000; // convert to milliseconds
-          const now = Date.now();
-          const timeUntilExpiry = jwtExp - now;
-          const minutesUntilExpiry = timeUntilExpiry / 1000 / 60;
-
-          // Only reuse if JWT token has at least 5 minutes left.
-          if (minutesUntilExpiry > 5) {
-            const stats = fs.statSync(authFile);
-            const ageInHours = (now - stats.mtimeMs) / 1000 / 60 / 60;
-            const displayAge =
-              ageInHours < 1
-                ? `${Math.round(ageInHours * 60)}m`
-                : `${Math.round(ageInHours)}h`;
-            const displayExpiry =
-              minutesUntilExpiry < 60
-                ? `${Math.round(minutesUntilExpiry)}m`
-                : `${Math.round(minutesUntilExpiry / 60)}h`;
-            // eslint-disable-next-line no-console
-            console.log(
-              `✓ Using existing authenticated session (${displayAge} old, expires in ${displayExpiry})`
-            );
-            return;
-          } else {
-            // eslint-disable-next-line no-console
-            console.log(
-              "⚠️  JWT token expired or expiring soon, creating new session..."
-            );
-          }
-        } catch {
-          // eslint-disable-next-line no-console
-          console.log("⚠️  Failed to decode JWT, creating new session...");
-        }
-      }
-    } catch {
-      // eslint-disable-next-line no-console
-      console.log("⚠️  Invalid auth file, creating new session...");
-    }
+  // Check if all sessions are still valid — skip server warmup and auth entirely.
+  if (accounts.every((a) => isAuthStateValid(a.authFile))) {
+    return;
   }
 
-  // Wait for server to be fully ready (skip if local and already responding).
+  // Wait for server to be fully ready (skip warmup if local server is already responding).
   const isCI = process.env.CI === "true";
   const skipWarmup = !isCI && (await quickServerHealthCheck(baseURL));
 
@@ -85,9 +146,9 @@ async function globalSetup(config: FullConfig) {
     console.log("⏳ Waiting for server to be ready...");
     await waitForServerReady({
       baseURL,
-      maxRetries: 15, // more retries for slow startup
-      retryDelay: 3000, // longer delay between retries
-      timeout: 15000, // longer timeout per request
+      maxRetries: 15,
+      retryDelay: 3000,
+      timeout: 15000,
     });
   } else {
     // eslint-disable-next-line no-console
@@ -95,64 +156,11 @@ async function globalSetup(config: FullConfig) {
   }
 
   // eslint-disable-next-line no-console
-  console.log("🔐 Setting up authenticated session...");
+  console.log("🔐 Setting up authenticated sessions...");
 
-  const maxAuthRetries = 3;
-  let authSuccess = false;
-  let lastError: Error | undefined;
-
-  for (let attempt = 1; attempt <= maxAuthRetries; attempt++) {
-    const browser = await chromium.launch();
-    const context = await browser.newContext({ baseURL });
-    const page = await context.newPage();
-
-    try {
-      if (attempt > 1) {
-        // eslint-disable-next-line no-console
-        console.log(`🔄 Retry attempt ${attempt}/${maxAuthRetries}...`);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      }
-
-      // Navigate to sign-in page directly.
-      await page.goto("/auth/sign-in", { waitUntil: "load", timeout: 60000 });
-
-      // eslint-disable-next-line no-console
-      console.log("📝 Filling in credentials...");
-
-      // Sign in without navigating again (skipNavigation = true).
-      await signInAsAdmin(page, "admin", "admin", true);
-
-      // eslint-disable-next-line no-console
-      console.log("✓ Successfully authenticated");
-
-      // Wait for page to be fully ready before saving state.
-      await page.waitForLoadState("domcontentloaded", { timeout: 30000 });
-
-      // Save authentication state to file.
-      await context.storageState({ path: authFile });
-
-      // eslint-disable-next-line no-console
-      console.log("✅ Authentication state saved to test-e2e/.auth/admin.json");
-
-      authSuccess = true;
-      await browser.close();
-      break;
-    } catch (error) {
-      lastError = error as Error;
-      await browser.close();
-
-      if (attempt === maxAuthRetries) {
-        // eslint-disable-next-line no-console
-        console.error(
-          `❌ Global setup failed after ${maxAuthRetries} attempts:`,
-          error
-        );
-      }
-    }
-  }
-
-  if (!authSuccess) {
-    throw lastError || new Error("Authentication failed after retries");
+  for (const account of accounts) {
+    if (isAuthStateValid(account.authFile)) continue;
+    await createAuthState(baseURL, account);
   }
 }
 
