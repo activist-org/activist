@@ -48,6 +48,8 @@ export const newOrganizationResourcesPage = (page: Page) => ({
       }),
   getResourceEditButton: (index: number) =>
     page.getByTestId("resource-card").nth(index).getByTestId("icon-edit"),
+  getResourceDeleteButton: (index: number) =>
+    page.getByTestId("resource-card").nth(index).getByTestId("icon-delete"),
 
   // MARK: Empty State
 
