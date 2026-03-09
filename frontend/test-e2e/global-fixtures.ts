@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page } from "@playwright/test";
-
-import { test as base, expect as baseExpect } from "@playwright/test";
+import { type Page, test as base, expect as baseExpect } from "@playwright/test";
+import path from "path";
 
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
+
+export const MEMBER_AUTH_STATE_PATH = path.join(
+  __dirname,
+  ".auth",
+  "member.json"
+);
 
 // Track last renewal time per worker to avoid redundant re-auths.
 let lastRenewalTime = 0;
