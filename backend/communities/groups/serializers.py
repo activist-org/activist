@@ -279,6 +279,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
                 location.delete()
                 raise e
 
+
 # MARK: Group
 
 

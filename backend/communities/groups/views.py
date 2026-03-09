@@ -104,10 +104,7 @@ class GroupAPIView(GenericAPIView[Group]):
         serializer.is_valid(raise_exception=True)
         group = serializer.save(created_by=request.user)
 
-        return Response(
-            GroupSerializer(group).data,
-            status=status.HTTP_201_CREATED
-        )
+        return Response(GroupSerializer(group).data, status=status.HTTP_201_CREATED)
 
 
 # MARK: Detail API
