@@ -23,8 +23,6 @@ async function handleSubmission(value: unknown) {
 
   const result = await create(payload); 
   if (!result) return;
-  // eslint-disable-next-line no-console
-  console.log("Group created with ID:", result);
 
   const groupId = result.id;
 
