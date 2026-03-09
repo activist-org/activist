@@ -12,7 +12,10 @@
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
-      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+      <div
+        v-if="canEdit(group)"
+        class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4"
+      >
         <BtnAction
           @click.stop="openModal()"
           @keydown.enter="openModal()"
@@ -43,7 +46,7 @@
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
-        :disabled="false"
+        :disabled="!canEdit(group)"
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
@@ -64,8 +67,8 @@
             @keydown.down.prevent="canEdit(group) ? moveDown() : undefined"
             @keydown.up.prevent="canEdit(group) ? moveUp() : undefined"
             :class="{
-              selected: selectedIndex === index,
-              selectedResource: selectedIndex === index,
+              selected: canEdit(group) && selectedIndex === index,
+              selectedResource: canEdit(group) && selectedIndex === index,
             }"
             :entity="group"
             :entityType="EntityType.GROUP"

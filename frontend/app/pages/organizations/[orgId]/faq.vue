@@ -9,7 +9,7 @@
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
-      <div class="flex space-x-2 lg:space-x-3">
+      <div v-if="canEdit(organization)" class="flex space-x-2 lg:space-x-3">
         <ModalFaqEntryOrganization />
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
@@ -32,7 +32,7 @@
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
-        :disabled="false"
+        :disabled="!canEdit(organization)"
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"

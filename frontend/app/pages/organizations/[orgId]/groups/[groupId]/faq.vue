@@ -10,7 +10,10 @@
       :tagline="$t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
-      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+      <div
+        v-if="canEdit(group)"
+        class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4"
+      >
         <ModalFaqEntryGroup />
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
@@ -33,7 +36,7 @@
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
-        :disabled="false"
+        :disabled="!canEdit(group)"
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
