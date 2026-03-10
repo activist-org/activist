@@ -22,8 +22,20 @@ vi.mock("~/composables/generic/useBreakpoint", async () => {
 // MARK: Test Data
 
 const testTabs: TabPage[] = [
-  { id: 0, label: "About", iconName: "bi:info-circle", routeUrl: "/org/1/about", selected: false },
-  { id: 1, label: "Events", iconName: "bi:calendar", routeUrl: "/org/1/events", selected: false },
+  {
+    id: 0,
+    label: "About",
+    iconName: "bi:info-circle",
+    routeUrl: "/org/1/about",
+    selected: false,
+  },
+  {
+    id: 1,
+    label: "Events",
+    iconName: "bi:calendar",
+    routeUrl: "/org/1/events",
+    selected: false,
+  },
   { id: 2, label: "Resources", routeUrl: "/org/1/resources", selected: false },
 ];
 
@@ -56,7 +68,10 @@ const createWrapper = (
         NuxtLink: {
           template: '<a v-bind="$attrs"><slot /></a>',
         },
-        Icon: { props: ["name", "size"], template: '<span class="icon-stub" />' },
+        Icon: {
+          props: ["name", "size"],
+          template: '<span class="icon-stub" />',
+        },
       },
     },
   });
@@ -78,7 +93,9 @@ describe("Tabs component", () => {
 
     // Provide $localePath on the nuxt app for i18n locale-prefixed navigation.
     const nuxtApp = useNuxtApp();
-    nuxtApp.$localePath = vi.fn((path: string) => `/en${path}`) as typeof nuxtApp.$localePath;
+    nuxtApp.$localePath = vi.fn(
+      (path: string) => `/en${path}`
+    ) as typeof nuxtApp.$localePath;
   });
 
   // MARK: Rendering
@@ -134,7 +151,7 @@ describe("Tabs component", () => {
               props: ["selectedIndex", "manual"],
               template: `<div><slot /></div>`,
             },
-            TabList: { template: '<div><slot /></div>' },
+            TabList: { template: "<div><slot /></div>" },
             Tab: { template: '<div class="tab-stub"><slot /></div>' },
             NuxtLink: { template: '<a v-bind="$attrs"><slot /></a>' },
             Icon: { props: ["name", "size"], template: "<span />" },
@@ -192,7 +209,9 @@ describe("Tabs component", () => {
 
     it("navigates with locale prefix", () => {
       wrapper = createWrapper();
-      const vm = wrapper.vm as unknown as { changeTab: (index: number) => void };
+      const vm = wrapper.vm as unknown as {
+        changeTab: (index: number) => void;
+      };
       vm.changeTab(0);
       expect(routerPushSpy).toHaveBeenCalledWith("/en/org/1/about");
     });
@@ -202,14 +221,18 @@ describe("Tabs component", () => {
         { id: 0, label: "Empty", routeUrl: "", selected: false },
       ];
       wrapper = createWrapper({ tabs: tabsWithoutRoute });
-      const vm = wrapper.vm as unknown as { changeTab: (index: number) => void };
+      const vm = wrapper.vm as unknown as {
+        changeTab: (index: number) => void;
+      };
       vm.changeTab(0);
       expect(routerPushSpy).not.toHaveBeenCalled();
     });
 
     it("does not navigate for out-of-bounds index", () => {
       wrapper = createWrapper();
-      const vm = wrapper.vm as unknown as { changeTab: (index: number) => void };
+      const vm = wrapper.vm as unknown as {
+        changeTab: (index: number) => void;
+      };
       vm.changeTab(99);
       expect(routerPushSpy).not.toHaveBeenCalled();
     });
