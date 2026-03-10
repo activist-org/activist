@@ -12,13 +12,18 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnActionAdd
-          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          :element="$t('i18n._global.resources_lower')"
-          :onClick="openModal"
-        />
+        <template v-if="canEdit(event)">
+          <BtnActionAdd
+            ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
+            :element="$t('i18n._global.resources_lower')"
+            :entity="event"
+            :onClick="openModal"
+          />
+        </template>
       </div>
-      <ModalResourceEvent />
+      <template v-if="canEdit(event)">
+        <ModalResourceEvent />
+      </template>
     </HeaderAppPageEvent>
     <!-- Draggable list -->
     <div v-if="(event?.resources ?? []).length" class="py-4">
