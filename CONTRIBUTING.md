@@ -42,7 +42,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 - Read through this contributing guide and the [style guide](STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
-- Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync) — new joiners are always welcome!
+- Consider joining our bi-weekly developer sync — new joiners are always welcome!
 
 <sub><a href="#top">Back to top.</a></sub>
 
@@ -449,14 +449,14 @@ Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on 
 
 #### Run Local E2E Tests
 
-activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Please run the following command in the frontend:
+activist uses [Playwright](https://playwright.dev/) for end to end testing. You'll first need to install/update the browsers installed for Playwright as described in their [updating Playwright documentation](https://playwright.dev/docs/intro#updating-playwright). Run the following command in the frontend:
 
 ```bash
 # This and all following steps need to be ran each time Playwright is updated.
 yarn playwright install --with-deps
 ```
 
-Please run the following to run the end to end testing suite:
+Run the following to run the end to end testing suite:
 
 ```bash
 # Note: There may be an installation prompts in the build logs. Hit 'n' to say no.
@@ -470,21 +470,22 @@ yarn playwright show-report
 
 # Note: If you stop the script before it finishes, please run the following to stop all background processes:
 docker compose --env-file .env.dev down
-yarn kill-port 3000
+lsof -ti tcp:3000 | xargs kill -9 2>/dev/null || true
 ```
 
-Alternatively, to run the end to end tests using the separate commands, please run the following:
+> [!NOTE]
+> VS Code users can use the [Playwright extension](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright) to run the tests. Go to the testing view and then run the test suite. You can also select options including which devices to run and whether to view the browser.
+
+Alternatively, to run the end to end tests using separate shells, please run the following:
+
+In a first shell, start the backend and database:
 
 ```bash
-docker compose --env-file .env.dev up backend db # run backend and db in docker
-
-# To run tests in the preview mode (much faster and uses less resources):
+# Start backend and db (USE_PREVIEW skips the full build inside Docker):
 USE_PREVIEW=true docker compose --env-file .env.dev up backend db
 ```
 
-In order to test locally, you need to build the production version of the frontend as directed in the [local build directions](#using-yarn-or-python).
-
-In a second shell:
+In a second shell, build and serve the frontend in preview mode:
 
 ```bash
 cd frontend
@@ -492,22 +493,29 @@ cd frontend
 # Set the environment variables:
 set -a && source ../.env.dev && set +a
 
-# Install and run the project in production mode:
+# USE_PREVIEW=true switches Nitro to node-server preset (outputs to .output/)
+# so that `yarn preview` works. Without it the build uses netlify-static (dist/).
+export USE_PREVIEW=true
+
+# Install dependencies and build + serve the frontend in preview mode:
 corepack enable
 yarn install
-yarn build  # answer no to all package installation prompts
+# Remove any previous static build so nuxi preview uses .output/ not dist/.
+rm -rf dist
+yarn build:local  # answer no to all package installation prompts
 # Note: There may be an installation prompt high in the build logs. Hit 'n' to say no.
-
-# Note: You may be asked to install extra dependencies in the next command.
-npx serve dist/  # start the frontend
+# Start the node server directly - this ensures NUXT_SESSION_PASSWORD and NUXT_API_SECRET
+# are passed correctly (yarn preview can strip env vars in some shells).
+nohup env NUXT_SESSION_PASSWORD="$NUXT_SESSION_PASSWORD" NUXT_API_SECRET="" node .output/server/index.mjs > /dev/null 2>&1 &
 ```
 
-In a third shell:
+In a third shell, run the test suite:
 
 ```bash
 cd frontend
 
-yarn test:local
+# SKIP_WEBSERVER tells Playwright to reuse the running preview server:
+SKIP_WEBSERVER=true yarn test:local
 
 # After the tests finish, run the following to see the Playwright HTML report:
 yarn playwright show-report
@@ -529,7 +537,7 @@ For testing on your remote forked repository, first create a branch from the rem
 git push upstream <local-branch-name>:<remote-branch-name-of-your-choice>
 ```
 
-You can then navigate to the remote versions of the [actions of the repository](https://github.com/activist-org/activist/actions) in your fork and trigger [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml).
+You can then navigate to the remote versions of the [actions of the repository](https://github.com/activist-org/activist/actions) in your fork and trigger [ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/ci_playwright_e2e.yaml).
 
 For maintainers of the activist main repo, testing PRs is done via the following to make sure that origin has a copy of the branch that can be tested against:
 
@@ -539,7 +547,7 @@ git branch  # to find the name of the branch
 git push -u origin LOCAL_NAME_OF_BRANCH
 ```
 
-You can then visit the [actions of the repository](https://github.com/activist-org/activist/actions) to run the the [pr_ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/pr_ci_playwright_e2e.yaml) test against the new branch on origin.
+You can then visit the [actions of the repository](https://github.com/activist-org/activist/actions) to run the the [ci_playwright_e2e](https://github.com/activist-org/activist/actions/workflows/ci_playwright_e2e.yaml) test against the new branch on origin.
 
 Thank you for testing your PRs! 🎉
 
@@ -658,6 +666,44 @@ Thank you in advance for your contributions!
 ## Documentation
 
 Documentation is an invaluable way to contribute to coding projects as it allows others to more easily understand the project structure and contribute. Issues related to documentation are marked with the [`documentation`](https://github.com/activist-org/activist/labels/documentation) label in the [issues](https://github.com/activist-org/activist/issues).
+
+### Backend Function Docstrings
+
+activist follows [numpydoc conventions](https://numpydoc.readthedocs.io/en/latest/format.html) for documenting functions and Python code.
+
+You can use [prek](https://prek.j178.dev/) to run the numpydoc docstring linting:
+
+```bash
+prek run numpydoc-validation --all-files
+```
+
+Function docstrings should have this format:
+
+```py
+def example_function(argument: argument_type) -> return_type:
+    """
+    An example docstring for a function so others understand your work.
+
+    Parameters
+    ----------
+    argument : argument_type
+        Description of your argument.
+
+    Returns
+    -------
+    return_value : return_type
+        Description of your return value.
+
+    Raises
+    ------
+    ErrorType
+        Description of the error and the condition that raises it.
+    """
+
+    ...
+
+    return return_value
+```
 
 <sub><a href="#top">Back to top.</a></sub>
 

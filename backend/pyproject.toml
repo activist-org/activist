@@ -3,7 +3,7 @@ name = "backend"
 version = "0.0.1"
 requires-python = ">=3.12"
 dependencies = [
-    "django>=6.0.2",
+    "django>=6.0.3",
     "django-cors-headers>=4.9.0",
     "django-filter>=25.2",
     "django-ical>=1.9.2",
@@ -14,11 +14,11 @@ dependencies = [
     "djangorestframework-simplejwt>=5.5.1",
     "djangorestframework-stubs>=3.16.8",
     "drf-spectacular>=0.29.0",
-    "gunicorn>=23.0.0",
-    "icalendar>=6.3.2",
+    "gunicorn>=25.1.0",
+    "icalendar>=7.0.3",
     "pillow>=12.1.1",
     "psycopg2-binary>=2.9.11",
-    "python-dotenv>=1.2.1",
+    "python-dotenv>=1.2.2",
 ]
 
 [dependency-groups]
@@ -26,13 +26,13 @@ dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.18.1",
     "mypy>=1.19.1",
-    "prek>=0.3.2",
+    "prek>=0.3.4",
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
-    "pytest-django>=4.11.1",
-    "ruff>=0.15.0",
-    "ts-backend-check>=1.1.0",
-    "types-icalendar>=6.3.2.20251222",
+    "pytest-django>=4.12.0",
+    "ruff>=0.15.5",
+    "ts-backend-check>=1.4.3",
+    "types-icalendar>=6.3.2.20260223",
 ]
 
 [tool.ruff]

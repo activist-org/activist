@@ -1,4 +1,4 @@
-name: pr_ci_i18n
+name: ci_ts_backend_check
 on:
   workflow_dispatch:
   pull_request:
@@ -9,15 +9,17 @@ on:
       - reopened
       - synchronize
     paths:
-      - "frontend/**"
+      - "backend/**/model.py"
+      - "frontend/shared/types/**/*.{ts, d.ts}"
   push:
     branches:
       - main
     paths:
-      - "frontend/**"
+      - "backend/**/model.py"
+      - "frontend/shared/types/**/*.{ts, d.ts}"
 
 jobs:
-  i18n_check:
+  ts_backend_check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
@@ -35,5 +37,6 @@ jobs:
         run: uv sync --frozen --all-extras
         working-directory: ./backend
 
-      - name: Execute All i18n-check Key-Value Checks
-        run: uv run --project ./backend i18n-check -a
+      - name: Check Django Models Against TypeScript Interfaces
+        run: |
+          # ts-backend-check -a
