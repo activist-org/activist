@@ -8,80 +8,73 @@ import type { Locator, Page } from "@playwright/test";
 // MARK: Order Getters
 
 /**
- * Gets the current order of resource cards by extracting their names/titles
- * This can be used to verify that drag and drop reordering worked correctly
+ * Gets the current order of resource cards by extracting their names/titles.
  * @param page - Playwright page object
  * @returns Array of resource names in their current order
  */
 export async function getResourceCardOrder(page: Page): Promise<string[]> {
-  // Wait for resources to be loaded.
   await page.waitForSelector('[data-testid="resource-card"]');
 
-  // Get all resource cards.
-  const resourceCards = page.getByTestId("resource-card");
-  const count = await resourceCards.count();
-
-  const resourceNames: string[] = [];
-
-  // Extract the name/title from each resource card.
-  for (let i = 0; i < count; i++) {
-    const card = resourceCards.nth(i);
-    // The resource name is in an h3 element within the card.
-    const nameElement = card.getByRole("heading", { level: 3 }).first();
-    const name = await nameElement.textContent();
-    if (name) {
-      resourceNames.push(name.trim());
-    }
-  }
-
-  return resourceNames;
+  return page.evaluate(() =>
+    Array.from(document.querySelectorAll('[data-testid="resource-card"]'))
+      .map((card) => card.querySelector("h3")?.textContent?.trim() ?? "")
+      .filter(Boolean)
+  );
 }
 
 /**
- * Gets the current order of FAQ cards by extracting their questions
- * This can be used to verify that drag and drop reordering worked correctly
+ * Gets the current order of FAQ cards by extracting their questions.
  * @param page - Playwright page object
  * @returns Array of FAQ questions in their current order
  */
 export async function getFAQCardOrder(page: Page): Promise<string[]> {
-  // Wait for FAQ cards to be loaded.
   await page.waitForSelector('[data-testid="faq-card"]');
 
-  const faqCards = page.getByTestId("faq-card");
-  const count = await faqCards.count();
-
-  const faqQuestions: string[] = [];
-
-  // Extract the question from each FAQ card.
-  for (let i = 0; i < count; i++) {
-    const card = faqCards.nth(i);
-
-    const questionElement = card.getByTestId("faq-question");
-    const question = await questionElement.textContent();
-    if (question) {
-      faqQuestions.push(question.trim());
-    }
-  }
-  return faqQuestions;
+  return page.evaluate(() =>
+    Array.from(document.querySelectorAll('[data-testid="faq-card"]'))
+      .map(
+        (card) =>
+          card
+            .querySelector('[data-testid="faq-question"]')
+            ?.textContent?.trim() ?? ""
+      )
+      .filter(Boolean)
+  );
 }
 
 // MARK: Drag and Drop Actions
 
 /**
- * Performs a drag and drop operation from source to target using mouse events
- * This uses intermediate steps for smooth dragging to ensure vuedraggable detects the operation
+ * Performs a drag and drop operation from source to target.
+ *
+ * @remarks
+ * Two strategies are used depending on whether the browser context has touch
+ * emulation enabled (`hasTouch`):
+ *
+ * **Desktop** (`hasTouch: false`): Uses `page.mouse` move/down/up. Sortable.js
+ * listens to mouse events in non-touch mode and this is the most reliable path.
+ *
+ * **Mobile** (`hasTouch: true`): Uses `PointerEvent`s dispatched directly via
+ * `page.evaluate`. When `hasTouch` is enabled, Chromium enters touch emulation
+ * mode and Sortable.js switches to its pointer/touch event path, ignoring
+ * `page.mouse` MouseEvents entirely. Dispatching PointerEvents via
+ * `dispatchEvent` bypasses this — Sortable.js listens to `pointerdown`,
+ * `pointermove`, and `pointerup` on all platforms.
+ *
+ * `dragTo()` is not used because it dispatches a single jump with no
+ * intermediate moves, which is too fast for Sortable.js to register a swap.
+ *
  * @param page - Playwright page object
  * @param sourceLocator - The locator for the element to drag (typically a drag handle)
  * @param targetLocator - The locator for the target position (typically another drag handle)
- * @param steps - Number of intermediate steps for the drag motion (default: 5)
+ * @param steps - Number of intermediate move steps (default: 20)
  */
 export async function performDragAndDrop(
   page: Page,
   sourceLocator: Locator,
   targetLocator: Locator,
-  steps = 10
+  steps = 20
 ): Promise<void> {
-  // Get bounding boxes for source and target.
   const sourceBox = await sourceLocator.boundingBox();
   const targetBox = await targetLocator.boundingBox();
 
@@ -89,65 +82,110 @@ export async function performDragAndDrop(
     throw new Error("Could not get bounding boxes for drag and drop elements");
   }
 
-  // Calculate center points.
   const startX = sourceBox.x + sourceBox.width / 2;
   const startY = sourceBox.y + sourceBox.height / 2;
   const endX = targetBox.x + targetBox.width / 2;
   const endY = targetBox.y + targetBox.height / 2;
 
-  // Move to start position.
-  await page.mouse.move(startX, startY);
+  const hasTouch = await page.evaluate(() => navigator.maxTouchPoints > 0);
 
-  // Press mouse button.
-  await page.mouse.down();
+  if (hasTouch) {
+    await page.evaluate(
+      async ({
+        startX,
+        startY,
+        endX,
+        endY,
+        steps,
+      }: {
+        startX: number;
+        startY: number;
+        endX: number;
+        endY: number;
+        steps: number;
+      }) => {
+        const rAF = () =>
+          new Promise<void>((r) => requestAnimationFrame(() => r()));
 
-  // Brief delay for mousedown to register. Sortable requires moving `distance` px
-  // (default 5) before adding sortable-chosen/drag; waiting for those classes
-  // before moving would deadlock. Use a short delay instead.
-  await page.evaluate(
-    () =>
-      new Promise<void>((resolve) => {
-        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
-      })
-  );
+        const dispatch = (type: string, x: number, y: number) => {
+          const el = document.elementFromPoint(x, y);
+          if (!el) return;
+          el.dispatchEvent(
+            new PointerEvent(type, {
+              bubbles: true,
+              cancelable: true,
+              pointerId: 1,
+              pointerType: "mouse",
+              clientX: x,
+              clientY: y,
+              screenX: x,
+              screenY: y,
+              buttons: type === "pointerup" ? 0 : 1,
+              pressure: type === "pointerup" ? 0 : 0.5,
+            })
+          );
+        };
 
-  // Trigger Sortable's distance threshold: move ~8px toward target so the drag
-  // actually starts before the main move.
-  const dx = endX - startX;
-  const dy = endY - startY;
-  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-  const triggerX = startX + (dx / dist) * 8;
-  const triggerY = startY + (dy / dist) * 8;
-  await page.mouse.move(triggerX, triggerY);
-  await page.evaluate(() => new Promise(requestAnimationFrame));
+        dispatch("pointerdown", startX, startY);
+        await rAF();
+        await rAF();
 
-  // Move to target with intermediate steps. Use rAF between steps so vuedraggable
-  // has time to process (avoids "executes too quickly" issues).
-  for (let i = 1; i <= steps; i++) {
-    const progress = i / steps;
-    const currentX = startX + (endX - startX) * progress;
-    const currentY = startY + (endY - startY) * progress;
-    await page.mouse.move(currentX, currentY);
+        const dx = endX - startX;
+        const dy = endY - startY;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        dispatch(
+          "pointermove",
+          startX + (dx / dist) * 8,
+          startY + (dy / dist) * 8
+        );
+        await rAF();
+
+        for (let i = 1; i <= steps; i++) {
+          const t = i / steps;
+          dispatch("pointermove", startX + dx * t, startY + dy * t);
+          await rAF();
+        }
+
+        dispatch("pointerup", endX, endY);
+        await rAF();
+      },
+      { startX, startY, endX, endY, steps }
+    );
+  } else {
+    await page.mouse.move(startX, startY);
+    await page.mouse.down();
+
+    await page.evaluate(
+      () =>
+        new Promise<void>((r) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => r()))
+        )
+    );
+
+    const dx = endX - startX;
+    const dy = endY - startY;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    await page.mouse.move(startX + (dx / dist) * 8, startY + (dy / dist) * 8);
     await page.evaluate(() => new Promise(requestAnimationFrame));
+
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      await page.mouse.move(startX + dx * t, startY + dy * t);
+      await page.evaluate(() => new Promise(requestAnimationFrame));
+    }
+
+    await page.mouse.up();
   }
 
-  // Release mouse button.
-  await page.mouse.up();
-
-  // Wait for Sortable animation to finish (ghost/chosen classes removed).
   await page
     .waitForFunction(
-      () => {
-        const dragElements = document.querySelectorAll(
+      () =>
+        document.querySelectorAll(
           ".sortable-chosen, .sortable-drag, .sortable-ghost"
-        );
-        return dragElements.length === 0;
-      },
-      { timeout: 3000 }
+        ).length === 0,
+      { timeout: 5000 }
     )
-    .catch(() => {
-      // If classes don't clear, continue anyway (might have completed).
-    });
+    .catch(() => {});
 }
 
 // MARK: Verification
@@ -165,13 +203,8 @@ export async function verifyReorder(
   expectedSecondItem: string,
   getOrderFunction: (page: Page) => Promise<string[]>
 ): Promise<void> {
-  // Use Playwright's built-in polling mechanism to wait for the order to change.
-  // This retries automatically until the condition is met or timeout is reached.
   await page.waitForFunction(
     async ({ expected }) => {
-      // This function runs in the browser context repeatedly until it returns true.
-      // We need to re-query the DOM each time to get the latest order.
-
       // MARK: FAQ Card
 
       const faqCards = document.querySelectorAll('[data-testid="faq-card"]');
@@ -222,11 +255,10 @@ export async function verifyReorder(
     },
     {
       timeout: 10000,
-      polling: 100, // poll every 100ms
+      polling: 100,
     }
   );
 
-  // Final verification to provide clear error message if somehow still wrong.
   const finalOrder = await getOrderFunction(page);
   if (
     finalOrder[0] !== expectedSecondItem ||

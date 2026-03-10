@@ -1,4 +1,4 @@
-name: pr_ci_license_header_check
+name: ci_license_header_check
 on:
   workflow_dispatch:
   pull_request:

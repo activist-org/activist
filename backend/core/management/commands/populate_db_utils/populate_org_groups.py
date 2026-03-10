@@ -80,9 +80,7 @@ def create_org_groups(
             else None
         )
         group_id = (
-            spec.get("group_name")
-            if spec and "group_name" in spec
-            else f"{user_org.name}:g{g}"
+            spec.get("name") if spec and "name" in spec else f"{user_org.name}:g{g}"
         )
         tagline = (
             spec.get("tagline")
