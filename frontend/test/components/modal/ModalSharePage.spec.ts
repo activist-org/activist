@@ -11,7 +11,8 @@ import ModalSharePage from "../../../app/components/modal/ModalSharePage.vue";
 const ModalBaseStub = {
   name: "ModalBase",
   props: ["modalName"],
-  template: '<div data-testid="modal-base" :data-modal-name="modalName"><slot /></div>',
+  template:
+    '<div data-testid="modal-base" :data-modal-name="modalName"><slot /></div>',
 };
 
 const DialogTitleStub = {
@@ -21,17 +22,34 @@ const DialogTitleStub = {
 const BtnShareIconStub = {
   name: "BtnShareIcon",
   props: [
-    "iconName", "iconSize", "name", "nativeBehaviorOptions",
-    "reasonForSuggesting", "redirectLink", "shareOptions",
-    "socialComponent", "text", "type", "urlLink",
-    "useNativeBehavior", "windowFeatures",
+    "iconName",
+    "iconSize",
+    "name",
+    "nativeBehaviorOptions",
+    "reasonForSuggesting",
+    "redirectLink",
+    "shareOptions",
+    "socialComponent",
+    "text",
+    "type",
+    "urlLink",
+    "useNativeBehavior",
+    "windowFeatures",
   ],
   template: '<div data-testid="share-btn" :data-text="text"></div>',
 };
 
 const ModalQRCodeBtnStub = {
   name: "ModalQRCodeBtn",
-  props: ["organization", "group", "event", "resource", "user", "reasonForSuggesting", "type"],
+  props: [
+    "organization",
+    "group",
+    "event",
+    "resource",
+    "user",
+    "reasonForSuggesting",
+    "type",
+  ],
   template: '<div data-testid="qr-code-btn"></div>',
 };
 
@@ -151,17 +169,23 @@ describe("ModalSharePage component", () => {
 
     it("renders the share heading", () => {
       const wrapper = createWrapper({ organization: testOrganization });
-      expect(wrapper.text()).toContain("i18n.components.modal_share_page.header");
+      expect(wrapper.text()).toContain(
+        "i18n.components.modal_share_page.header"
+      );
     });
 
     it("renders suggested section heading", () => {
       const wrapper = createWrapper({ organization: testOrganization });
-      expect(wrapper.text()).toContain("i18n.components.modal_share_page.suggested");
+      expect(wrapper.text()).toContain(
+        "i18n.components.modal_share_page.suggested"
+      );
     });
 
     it("renders other section heading", () => {
       const wrapper = createWrapper({ organization: testOrganization });
-      expect(wrapper.text()).toContain("i18n.components.modal_share_page.other");
+      expect(wrapper.text()).toContain(
+        "i18n.components.modal_share_page.other"
+      );
     });
 
     it("renders Toaster component", () => {

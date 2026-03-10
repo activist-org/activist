@@ -27,7 +27,8 @@ const ModalBaseStub = {
   name: "ModalBase",
   props: ["modalName"],
   emits: ["closeModal"],
-  template: '<div data-testid="modal-base" :data-modal-name="modalName"><slot /></div>',
+  template:
+    '<div data-testid="modal-base" :data-modal-name="modalName"><slot /></div>',
 };
 
 const ComboboxStub = {
@@ -70,16 +71,32 @@ interface Command {
 }
 
 const testCommands: Command[] = [
-  { id: 1, path: "organizations", iconName: "SEARCH", displayName: "Organizations", action: vi.fn() },
-  { id: 2, path: "events", iconName: "SEARCH", displayName: "Events", action: vi.fn() },
-  { id: 3, path: "resources", iconName: "SEARCH", displayName: "Resources", action: vi.fn() },
+  {
+    id: 1,
+    path: "organizations",
+    iconName: "SEARCH",
+    displayName: "Organizations",
+    action: vi.fn(),
+  },
+  {
+    id: 2,
+    path: "events",
+    iconName: "SEARCH",
+    displayName: "Events",
+    action: vi.fn(),
+  },
+  {
+    id: 3,
+    path: "resources",
+    iconName: "SEARCH",
+    displayName: "Resources",
+    action: vi.fn(),
+  },
 ];
 
 // MARK: Helper
 
-const createWrapper = (
-  props: { paletteData?: Command[] } = {}
-): VueWrapper =>
+const createWrapper = (props: { paletteData?: Command[] } = {}): VueWrapper =>
   mount(ModalCommandPalette, {
     props: {
       paletteData: testCommands,
@@ -117,7 +134,9 @@ describe("ModalCommandPalette component", () => {
       const wrapper = createWrapper();
       const modalBase = wrapper.find('[data-testid="modal-base"]');
       expect(modalBase.exists()).toBe(true);
-      expect(modalBase.attributes("data-modal-name")).toBe("ModalCommandPalette");
+      expect(modalBase.attributes("data-modal-name")).toBe(
+        "ModalCommandPalette"
+      );
     });
 
     it("renders the search input", () => {

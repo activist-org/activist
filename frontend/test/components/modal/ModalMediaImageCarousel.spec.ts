@@ -12,7 +12,8 @@ import { EntityType } from "../../../shared/types/entity";
 const ModalBaseStub = {
   name: "ModalBase",
   props: ["modalName"],
-  template: '<div data-testid="modal-base" :data-modal-name="modalName"><slot /></div>',
+  template:
+    '<div data-testid="modal-base" :data-modal-name="modalName"><slot /></div>',
 };
 
 const MediaImageCarouselStub = {
@@ -29,7 +30,10 @@ const createWrapper = (
 ): VueWrapper =>
   mount(ModalMediaImageCarousel, {
     props: {
-      imageUrls: ["https://example.com/img1.jpg", "https://example.com/img2.jpg"],
+      imageUrls: [
+        "https://example.com/img1.jpg",
+        "https://example.com/img2.jpg",
+      ],
       entityType: EntityType.ORGANIZATION,
       ...props,
     },

@@ -50,7 +50,13 @@ const testOrganization = {
 
 const testModalData = {
   discussionEntries: [
-    { id: 1, author: "Alice", content: "Looks good", votes: 3, date: new Date() },
+    {
+      id: 1,
+      author: "Alice",
+      content: "Looks good",
+      votes: 3,
+      date: new Date(),
+    },
   ],
   organizationsInFavor: [testOrganization],
   upVotes: 5,
@@ -71,15 +77,17 @@ const createWrapper = (
     },
     global: {
       plugins: [createPinia()],
-      mocks: { $t: (key: string, params?: Record<string, string>) => {
-        if (params) {
-          return Object.entries(params).reduce(
-            (str, [k, v]) => str.replace(`{${k}}`, v),
-            key
-          );
-        }
-        return key;
-      }},
+      mocks: {
+        $t: (key: string, params?: Record<string, string>) => {
+          if (params) {
+            return Object.entries(params).reduce(
+              (str, [k, v]) => str.replace(`{${k}}`, v),
+              key
+            );
+          }
+          return key;
+        },
+      },
       stubs: {
         ModalBase: ModalBaseStub,
         DialogTitle: DialogTitleStub,
@@ -107,7 +115,9 @@ describe("ModalOrganizationStatus component", () => {
       const wrapper = createWrapper();
       const modalBase = wrapper.find('[data-testid="modal-base"]');
       expect(modalBase.exists()).toBe(true);
-      expect(modalBase.attributes("data-modal-name")).toBe("ModalOrganizationStatus");
+      expect(modalBase.attributes("data-modal-name")).toBe(
+        "ModalOrganizationStatus"
+      );
     });
 
     it("displays organization application heading", () => {
@@ -142,7 +152,9 @@ describe("ModalOrganizationStatus component", () => {
   describe("Injected Data", () => {
     it("renders CardOrgApplicationVote with injected data", () => {
       const wrapper = createWrapper();
-      const voteCard = wrapper.findComponent({ name: "CardOrgApplicationVote" });
+      const voteCard = wrapper.findComponent({
+        name: "CardOrgApplicationVote",
+      });
       expect(voteCard.exists()).toBe(true);
       expect(voteCard.props("upVotes")).toBe(5);
       expect(voteCard.props("downVotes")).toBe(2);

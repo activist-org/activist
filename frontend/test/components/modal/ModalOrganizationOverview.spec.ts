@@ -11,7 +11,8 @@ import ModalOrganizationOverview from "../../../app/components/modal/ModalOrgani
 const ModalBaseStub = {
   name: "ModalBase",
   props: ["modalName"],
-  template: '<div data-testid="modal-base" :data-modal-name="modalName"><slot /></div>',
+  template:
+    '<div data-testid="modal-base" :data-modal-name="modalName"><slot /></div>',
 };
 
 const DialogTitleStub = {
@@ -50,9 +51,7 @@ const testEvent = {
 
 // MARK: Helper
 
-const createWrapper = (
-  props: { event?: CommunityEvent } = {}
-): VueWrapper =>
+const createWrapper = (props: { event?: CommunityEvent } = {}): VueWrapper =>
   mount(ModalOrganizationOverview, {
     props: { ...props },
     global: {
@@ -75,7 +74,9 @@ describe("ModalOrganizationOverview component", () => {
       const wrapper = createWrapper({ event: testEvent });
       const modalBase = wrapper.find('[data-testid="modal-base"]');
       expect(modalBase.exists()).toBe(true);
-      expect(modalBase.attributes("data-modal-name")).toBe("ModalOrganizationOverview");
+      expect(modalBase.attributes("data-modal-name")).toBe(
+        "ModalOrganizationOverview"
+      );
     });
 
     it("renders the organizations heading", () => {
