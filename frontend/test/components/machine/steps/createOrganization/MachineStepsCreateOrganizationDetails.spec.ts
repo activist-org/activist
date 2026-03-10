@@ -13,13 +13,15 @@ const FormStub = {
   name: "Form",
   props: ["id", "schema", "submitLabel", "actionButtons"],
   emits: ["submit"],
-  template: '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
+  template:
+    '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
 };
 
 const FormItemStub = {
   name: "FormItem",
   props: ["label", "name", "required"],
-  template: '<div data-testid="form-item" :data-name="name" :data-required="required"><slot v-bind="{ id: name, handleChange: () => {}, handleBlur: () => {}, errorMessage: { value: \'\' }, value: { value: \'\' } }" /></div>',
+  template:
+    '<div data-testid="form-item" :data-name="name" :data-required="required"><slot v-bind="{ id: name, handleChange: () => {}, handleBlur: () => {}, errorMessage: { value: \'\' }, value: { value: \'\' } }" /></div>',
 };
 
 const FormTextInputStub = {
@@ -96,7 +98,8 @@ describe("MachineStepsCreateOrganizationDetails component", () => {
 
     it("marks name field as required", () => {
       const { wrapper } = createWrapper();
-      const nameComp = wrapper.findAllComponents({ name: "FormItem" })
+      const nameComp = wrapper
+        .findAllComponents({ name: "FormItem" })
         .find((c) => c.props("name") === "name");
       expect(nameComp).toBeDefined();
       // Bare `required` attribute passes "" (defined), absence passes undefined.
@@ -105,7 +108,8 @@ describe("MachineStepsCreateOrganizationDetails component", () => {
 
     it("does not mark tagline field as required", () => {
       const { wrapper } = createWrapper();
-      const taglineComp = wrapper.findAllComponents({ name: "FormItem" })
+      const taglineComp = wrapper
+        .findAllComponents({ name: "FormItem" })
         .find((c) => c.props("name") === "tagline");
       expect(taglineComp).toBeDefined();
       expect(taglineComp!.props("required")).toBeFalsy();
@@ -113,7 +117,8 @@ describe("MachineStepsCreateOrganizationDetails component", () => {
 
     it("marks description field as required", () => {
       const { wrapper } = createWrapper();
-      const descComp = wrapper.findAllComponents({ name: "FormItem" })
+      const descComp = wrapper
+        .findAllComponents({ name: "FormItem" })
         .find((c) => c.props("name") === "description");
       expect(descComp).toBeDefined();
       expect(descComp!.props("required")).toBeDefined();

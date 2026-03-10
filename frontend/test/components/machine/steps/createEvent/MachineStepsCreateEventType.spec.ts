@@ -13,13 +13,15 @@ const FormStub = {
   name: "Form",
   props: ["id", "schema", "submitLabel", "actionButtons"],
   emits: ["submit"],
-  template: '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
+  template:
+    '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
 };
 
 const FormItemStub = {
   name: "FormItem",
   props: ["label", "name", "required"],
-  template: '<div class="form-item-stub" v-bind="$attrs" :data-name="name" :data-required="required"><slot v-bind="{ id: name, handleChange: () => {}, value: { value: \'\' } }" /></div>',
+  template:
+    '<div class="form-item-stub" v-bind="$attrs" :data-name="name" :data-required="required"><slot v-bind="{ id: name, handleChange: () => {}, value: { value: \'\' } }" /></div>',
 };
 
 const FormSelectorRadioStub = {
@@ -84,7 +86,7 @@ describe("MachineStepsCreateEventType component", () => {
 
     it("renders three form items (setting, type, topics)", () => {
       const { wrapper } = createWrapper();
-      const items = wrapper.findAll('.form-item-stub');
+      const items = wrapper.findAll(".form-item-stub");
       expect(items).toHaveLength(3);
     });
 
@@ -100,7 +102,7 @@ describe("MachineStepsCreateEventType component", () => {
 
     it("renders form items with correct field names", () => {
       const { wrapper } = createWrapper();
-      const items = wrapper.findAll('.form-item-stub');
+      const items = wrapper.findAll(".form-item-stub");
       const names = items.map((i) => i.attributes("data-name"));
       expect(names).toEqual(["setting", "type", "topics"]);
     });
@@ -113,7 +115,9 @@ describe("MachineStepsCreateEventType component", () => {
 
     it("renders topics combobox selector", () => {
       const { wrapper } = createWrapper();
-      expect(wrapper.find('[data-testid="topics-selector"]').exists()).toBe(true);
+      expect(wrapper.find('[data-testid="topics-selector"]').exists()).toBe(
+        true
+      );
     });
 
     it("includes data-testid attributes on location type and event type items", () => {

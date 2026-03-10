@@ -13,13 +13,15 @@ const FormStub = {
   name: "Form",
   props: ["id", "schema", "submitLabel", "actionButtons"],
   emits: ["submit"],
-  template: '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
+  template:
+    '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
 };
 
 const FormItemStub = {
   name: "FormItem",
   props: ["label", "name", "required"],
-  template: '<div data-testid="form-item" :data-name="name"><slot v-bind="{ id: name, handleChange: () => {}, handleBlur: () => {}, errorMessage: { value: \'\' }, value: { value: \'\' } }" /></div>',
+  template:
+    '<div data-testid="form-item" :data-name="name"><slot v-bind="{ id: name, handleChange: () => {}, handleBlur: () => {}, errorMessage: { value: \'\' }, value: { value: \'\' } }" /></div>',
 };
 
 const FormTextInputStub = {
@@ -91,7 +93,9 @@ describe("MachineStepsCreateOrganizationsLocation component", () => {
 
     it("renders country selector", () => {
       const { wrapper } = createWrapper();
-      expect(wrapper.find('[data-testid="country-selector"]').exists()).toBe(true);
+      expect(wrapper.find('[data-testid="country-selector"]').exists()).toBe(
+        true
+      );
     });
 
     it("renders city text input", () => {
