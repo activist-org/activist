@@ -75,6 +75,25 @@ services:
     volumes:
       - ./backend/media:/app/media
 
+  filescan:
+    env_file:
+      - .env.dev
+    build:
+      context: ./services/filescan
+    container_name: filescan_service
+    ports:
+      - "${FILESCAN_PORT}:${FILESCAN_PORT}"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:${FILESCAN_PORT}/health || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # TODO: Needs a volume to store the quarantined files.
+
   frontend:
     env_file:
       - .env.dev

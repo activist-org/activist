@@ -1,0 +1,1 @@
+This is a clean test file used to verify that non-malicious uploads pass the ClamAV scan.
