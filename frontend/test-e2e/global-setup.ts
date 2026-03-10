@@ -16,10 +16,17 @@ interface AuthAccount {
   label: string;
 }
 
+// Django SIMPLE_JWT REFRESH_TOKEN_LIFETIME is 1 day. Use 20 h to leave a
+// comfortable buffer for a full local test run to complete before expiry.
+const MAX_SESSION_AGE_HOURS = 20;
+
 /**
- * Returns true if the auth state file exists and contains a nuxt-session
- * cookie, meaning the session was successfully saved and can be reused.
- * The session age is logged for visibility.
+ * Returns true if the auth state file exists, contains a nuxt-session cookie,
+ * AND was created within MAX_SESSION_AGE_HOURS (keeping the Django refresh
+ * token valid for the duration of the run).
+ *
+ * On CI the file never exists before the run, so this always returns false
+ * there and a fresh session is created every time.
  */
 function isAuthStateValid(authFile: string): boolean {
   if (!fs.existsSync(authFile)) return false;
@@ -35,13 +42,22 @@ function isAuthStateValid(authFile: string): boolean {
 
     const ageInHours =
       (Date.now() - fs.statSync(authFile).mtimeMs) / 1000 / 60 / 60;
+
+    if (ageInHours >= MAX_SESSION_AGE_HOURS) {
+      // eslint-disable-next-line no-console
+      console.log(
+        `⚠️  Session for ${authFile.split("/").pop()} is ${Math.round(ageInHours)}h old (limit: ${MAX_SESSION_AGE_HOURS}h) — re-authenticating`
+      );
+      return false;
+    }
+
     const displayAge =
       ageInHours < 1
         ? `${Math.round(ageInHours * 60)}m`
         : `${Math.round(ageInHours)}h`;
     // eslint-disable-next-line no-console
     console.log(
-      `✓ Reusing existing session for ${authFile.split("/").pop()} (${displayAge} old)`
+      `✓ Reusing existing session for ${authFile.split("/").pop()} (${displayAge} old, limit: ${MAX_SESSION_AGE_HOURS}h)`
     );
     return true;
   } catch {
