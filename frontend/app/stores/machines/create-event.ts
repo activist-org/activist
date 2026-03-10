@@ -1,25 +1,24 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { ContextCreateEventData } from "~~/shared/types/create-event-type";
+
 import { createFlowStore } from "./flow";
 
+// Import your step components dynamically
 const EventDetailsStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventDetails.vue");
 const EventTypeStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventType.vue");
-const EventScheduleStep = () =>
-  import("../../components/machine/steps/createEvent/MachineStepsCreateEventTime.vue");
 const EventLocationStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventLocation.vue");
-const EventOnlineLink = () =>
+const EventLinkOnlineStep = () =>
   import("../../components/machine/steps/createEvent/MachineStepsCreateEventLinkOnline.vue");
+const EventScheduleStep = () =>
+  import("../../components/machine/steps/createEvent/MachineStepsCreateEventTime.vue");
 
-if (import.meta.env.DEV) {
-  EventScheduleStep();
-}
-
-const { create } = useEventMutations();
+if (import.meta.env.DEV) EventScheduleStep();
 
 export const useCreateEventStore = createFlowStore({
-  machine: {
+  machine: defineFlowMachine({
     id: "createEventFlow",
     initialNode: CreateEventSteps.EventDetails,
     totalSteps: 4,
@@ -31,6 +30,7 @@ export const useCreateEventStore = createFlowStore({
         next: CreateEventSteps.EventType,
         component: EventDetailsStep,
       },
+
       [CreateEventSteps.EventType]: {
         label: "Type",
         type: "screen",
@@ -38,6 +38,7 @@ export const useCreateEventStore = createFlowStore({
         next: CreateEventSteps.OnlineOrPhysicalLocation,
         component: EventTypeStep,
       },
+
       [CreateEventSteps.OnlineOrPhysicalLocation]: {
         label: "Logic: Online or Physical?",
         type: "logic",
@@ -46,54 +47,61 @@ export const useCreateEventStore = createFlowStore({
             context.allNodeData as unknown as ContextCreateEventData;
           const stepData = nodeData[CreateEventSteps.EventType];
           const isOnline = stepData?.location_type === "online";
+
           return isOnline
             ? CreateEventSteps.LinkOnline
             : CreateEventSteps.Location;
         },
       },
+
       [CreateEventSteps.Location]: {
-        label: "Location",
+        label: "Physical Location",
         type: "screen",
+        step: 3,
         next: CreateEventSteps.Time,
         component: EventLocationStep,
-        step: 3,
       },
+
       [CreateEventSteps.LinkOnline]: {
         label: "Online Link",
         type: "screen",
-        next: CreateEventSteps.Time,
-        component: EventOnlineLink,
         step: 3,
+        next: CreateEventSteps.Time,
+        component: EventLinkOnlineStep,
       },
+
       [CreateEventSteps.Time]: {
         label: "Time",
         type: "screen",
-        next: CreateEventSteps.CreateMoreEventsOrNot,
-        component: EventScheduleStep,
         step: 4,
+        next: CreateEventSteps.CreateEventLoop,
+        component: EventScheduleStep,
       },
-      [CreateEventSteps.CreateMoreEventsOrNot]: {
-        label: "Logic: Create more?",
-        type: "logic",
-        next: (context) => {
-          const nodeData =
-            context.allNodeData as unknown as ContextCreateEventData;
-          const stepData = nodeData[CreateEventSteps.Time];
-          const createAnother = stepData?.createAnother;
-          if (createAnother) {
-            const data = Object.values(nodeData).reduce(
-              (acc, data) => ({
-                ...(acc as Record<string, unknown>),
-                ...(data as Record<string, unknown>),
-              }),
-              {}
-            );
-            create(data);
-            return CreateEventSteps.EventDetails;
+      [CreateEventSteps.CreateEventLoop]: {
+        label: "Create Event Loop",
+        type: "action",
+        onExit: (context: FlowContext) => {
+          // Read the result that useFlowScreens injected
+          const result = context.sharedData
+            .__lastActionResult as unknown as CommunityEvent;
+          if (result && result.id) {
+            const existingIds =
+              (context.sharedData.createdEventIds as string[]) || [];
+            context.actions.setSharedData({
+              createdEventIds: [...existingIds, result.id],
+              __lastActionResult: null, // Clean up for the next loop iteration
+            });
           }
-          return "end";
+        },
+
+        next: (context) => {
+          const data = context.allNodeData as unknown as ContextCreateEventData;
+          const stepData = data[CreateEventSteps.Time];
+          return stepData?.createAnother
+            ? CreateEventSteps.EventDetails
+            : "end";
         },
       },
     },
-  },
+  }),
 });

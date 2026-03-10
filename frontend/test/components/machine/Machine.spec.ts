@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { defineComponent, inject, ref } from "vue";
@@ -27,6 +28,7 @@ const mockFlowScreens = {
   isActive: ref(false),
   currentScreen: ref(null),
   context: ref({ currentStep: 1, totalSteps: 4 }),
+  setSaving: vi.fn(),
   loading: ref(false),
   start: vi.fn(),
   close: vi.fn(),
@@ -101,11 +103,17 @@ describe("Machine.vue", () => {
     });
 
     mockFlowScreens.isActive.value = true;
-    mockFlowScreens.currentScreen.value = TestStepComponent;
+    mockFlowScreens.currentScreen.value = TestStepComponent as unknown as null;
+    mockFlowScreens.loading.value = false;
     await wrapper.vm.$nextTick();
 
+    // 1. The screen should be rendered
     expect(wrapper.find('[data-testid="step-content"]').exists()).toBe(true);
-    expect(wrapper.findComponent({ name: "Loading" }).exists()).toBe(false);
+
+    // 2. The Loading component exists, but its 'loading' prop should be false
+    const loadingComponent = wrapper.findComponent({ name: "Loading" });
+    expect(loadingComponent.exists()).toBe(true);
+    expect(loadingComponent.props("loading")).toBe(false);
   });
 
   it("provides flow actions to child components", async () => {
@@ -129,7 +137,7 @@ describe("Machine.vue", () => {
     });
 
     mockFlowScreens.isActive.value = true;
-    mockFlowScreens.currentScreen.value = ChildComponent;
+    mockFlowScreens.currentScreen.value = ChildComponent as unknown as null;
     await wrapper.vm.$nextTick();
 
     // Trigger actions from child.
@@ -153,7 +161,7 @@ describe("Machine.vue", () => {
     });
 
     mockFlowScreens.isActive.value = true;
-    mockFlowScreens.currentScreen.value = ChildComponent;
+    mockFlowScreens.currentScreen.value = ChildComponent as unknown as null;
     await wrapper.vm.$nextTick();
 
     await wrapper.find("button").trigger("click");

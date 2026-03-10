@@ -20,11 +20,8 @@
       </div>
     </div>
 
-    <Loading
-      v-if="loading && !currentScreen"
-      :loading="(loading && currentScreen)!!"
-    />
-    <component :is="currentScreen" v-else-if="currentScreen" />
+    <Loading :loading="loading && !currentScreen" />
+    <component :is="currentScreen" v-if="currentScreen" />
   </div>
 </template>
 
@@ -35,8 +32,17 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(["close", "submit"]);
 
-const { isActive, currentScreen, context, loading, start, close, next, prev } =
-  useFlowScreens(props.machineType, props.options);
+const {
+  isActive,
+  currentScreen,
+  context,
+  loading,
+  start,
+  close,
+  next,
+  prev,
+  isSaving,
+} = useFlowScreens(props.machineType, props.options);
 
 // Provide both the actions and the reactive context.
 provide("flow", {
@@ -50,6 +56,7 @@ provide("flow", {
   prev,
   // Reactive state
   context,
+  isSaving,
 });
 
 defineExpose({ start, close });
