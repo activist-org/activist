@@ -200,7 +200,7 @@ describe("useFlowScreens", () => {
     });
 
     await nextTick();
-    await new Promise((r) => setTimeout(r, 0)); // Wait for promise resolution
+    await new Promise((r) => setTimeout(r, 0)); // wait for promise resolution
 
     expect(onSubmitSpy).toHaveBeenCalledWith({ step1: "data", meta: "info" });
   });
