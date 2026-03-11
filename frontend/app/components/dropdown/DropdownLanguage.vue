@@ -1,4 +1,3 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <DropdownBase
     class="dropdown-language"
@@ -12,20 +11,23 @@
       <MenuItem
         v-for="l in availableLocales"
         :key="getLocaleCode(l)"
-        as="template"
         v-slot="{ active }"
+        as="template"
       >
         <NuxtLink
+          v-slot="{ navigate, href }"
           custom
           :to="switchLocalePath(getLocaleCode(l))"
-          v-slot="{ navigate, href }"
         >
           <a
-            :href="href"
-            role="link"
-            @click="navigate(); updateLangAttribute(getLocaleCode(l))"
+            @click="
+              navigate();
+              updateLangAttribute(getLocaleCode(l));
+            "
             class="dropdown-language-list-items block rounded-md px-3 py-2 text-sm focus-brand"
             :class="active ? 'style-menu-option-cta' : 'style-menu-option'"
+            :href="href"
+            role="link"
           >
             {{ getLocaleName(l) }}
           </a>
@@ -36,8 +38,9 @@
 </template>
 
 <script setup lang="ts">
-import { MenuItem } from "@headlessui/vue";
 import type { LocaleObject } from "@nuxtjs/i18n";
+
+import { MenuItem } from "@headlessui/vue";
 
 defineProps<{
   location?: DropdownLocation;
