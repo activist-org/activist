@@ -194,11 +194,13 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # MARK: REST Framework
 
 REST_FRAMEWORK = {
-    "DEFAULT_THROTTLE_CLASSES": [
+    # Disable throttling in development to avoid "Too Many Requests" during E2E tests.
+    "DEFAULT_THROTTLE_CLASSES": []
+    if DEBUG
+    else [
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ],
-    # Note: We need to figure out why conftest.py isn't disabling throttling for tests and set this back to 100/150.
     "DEFAULT_THROTTLE_RATES": {"anon": "150/min", "user": "200/min"},
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",

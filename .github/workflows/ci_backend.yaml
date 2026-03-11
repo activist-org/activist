@@ -1,4 +1,4 @@
-name: pr_ci_backend
+name: ci_backend
 on:
   workflow_dispatch:
   pull_request:

@@ -6,7 +6,13 @@
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
   >
+    <Icon
+      v-if="isLoading"
+      :name="IconMap.SPINNER"
+      :size="iconSize || '1.5em'"
+    />
     <BtnIconsLabel
+      v-else
       :counter="counter"
       :hideLabelOnMobile="hideLabelOnMobile"
       :iconSize="iconSize"
