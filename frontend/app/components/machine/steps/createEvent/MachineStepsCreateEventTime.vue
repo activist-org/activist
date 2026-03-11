@@ -19,6 +19,7 @@
         },
       ]"
       class="space-y-4"
+      :isLoading="loading?.value"
       :schema="scheduleSchema"
     >
       <FormItem
@@ -171,6 +172,7 @@ const scheduleSchema = z.object({
         allDayLong: z.boolean().optional(),
       })
     )
+    .min(1, "At least one date with time is required")
     .refine(
       (times) => {
         // Ensure startTime is before endTime for each entry.
@@ -179,7 +181,7 @@ const scheduleSchema = z.object({
           if (t.startTime && t.endTime) {
             return t.startTime <= t.endTime;
           }
-          return true; // skip validation if times are null/undefined
+          return true; // skip validation if times are null/undefined.
         });
       },
       {
@@ -188,6 +190,8 @@ const scheduleSchema = z.object({
     ),
   createAnother: z.boolean().optional(),
 });
+const loading = computed(() => flow?.isSaving);
+
 const syncTimesArray = (
   dateRange: { start: Date; end: Date } | null,
   currentTimes: {
