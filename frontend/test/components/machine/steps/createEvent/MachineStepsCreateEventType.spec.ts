@@ -5,13 +5,13 @@ import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import MachineStepsCreateEventType from "../../../../../app/components/machine/steps/createEvent/MachineStepsCreateEventType.vue";
-import { createMockFlow } from "../../../../mocks/composableMocks";
 import {
   FormItemStub,
   FormSelectorComboboxTopicsStub,
   FormSelectorRadioStub,
   FormStub,
 } from "../../../../mocks/componentStubs";
+import { createMockFlow } from "../../../../mocks/composableMocks";
 
 // MARK: Helper
 
