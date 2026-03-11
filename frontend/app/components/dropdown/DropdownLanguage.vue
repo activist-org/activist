@@ -13,25 +13,14 @@
         v-for="l in availableLocales"
         :key="getLocaleCode(l)"
         v-slot="{ active }"
-        as="template"
       >
         <NuxtLink
-          v-slot="{ navigate, href }"
-          custom
           :to="switchLocalePath(getLocaleCode(l))"
+          @click="updateLangAttribute(getLocaleCode(l))"
+          class="dropdown-language-list-items block rounded-md px-3 py-2 text-sm focus-brand"
+          :class="active ? 'style-menu-option-cta' : 'style-menu-option'"
         >
-          <a
-            @click="
-              navigate();
-              updateLangAttribute(getLocaleCode(l));
-            "
-            class="dropdown-language-list-items block rounded-md px-3 py-2 text-sm focus-brand"
-            :class="active ? 'style-menu-option-cta' : 'style-menu-option'"
-            :href="href"
-            role="link"
-          >
-            {{ getLocaleName(l) }}
-          </a>
+          {{ getLocaleName(l) }}
         </NuxtLink>
       </MenuItem>
     </ul>
@@ -39,9 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import type { LocaleObject } from "@nuxtjs/i18n";
-
 import { MenuItem } from "@headlessui/vue";
+import type { LocaleObject } from "@nuxtjs/i18n";
 
 defineProps<{
   location?: DropdownLocation;
