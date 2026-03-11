@@ -16,7 +16,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const preserveNextQuery = useState("preserveNextQuery", () => false);
   if (preserveNextQuery.value) {
     preserveNextQuery.value = false;
-    console.log("Query Preserved..."); // eslint-disable-line no-console
     return;
   }
 
