@@ -8,30 +8,36 @@
     :menuButtonLabel="$i18n.locale"
     menuButtonAriaLabel="i18n.components.dropdown_language.open_dropdown_aria_label"
   >
-    <ul class="px-2 py-2">
-      <NuxtLink
+    <ul class="space-y-1 px-2 py-2">
+      <MenuItem
         v-for="l in availableLocales"
         :key="getLocaleCode(l)"
-        @click="updateLangAttribute(getLocaleCode(l))"
-        class="dropdown-language-list-items"
-        :to="switchLocalePath(getLocaleCode(l))"
+        as="template"
+        v-slot="{ active }"
       >
-        <MenuItem v-slot="{ active }" class="flex">
-          <MenuItemLabel
-            :active="active"
-            :isButton="false"
-            :label="getLocaleName(l)"
-          />
-        </MenuItem>
-      </NuxtLink>
+        <NuxtLink
+          custom
+          :to="switchLocalePath(getLocaleCode(l))"
+          v-slot="{ navigate, href }"
+        >
+          <a
+            :href="href"
+            role="link"
+            @click="navigate(); updateLangAttribute(getLocaleCode(l))"
+            class="dropdown-language-list-items block rounded-md px-3 py-2 text-sm focus-brand"
+            :class="active ? 'style-menu-option-cta' : 'style-menu-option'"
+          >
+            {{ getLocaleName(l) }}
+          </a>
+        </NuxtLink>
+      </MenuItem>
     </ul>
   </DropdownBase>
 </template>
 
 <script setup lang="ts">
-import type { LocaleObject } from "@nuxtjs/i18n";
-
 import { MenuItem } from "@headlessui/vue";
+import type { LocaleObject } from "@nuxtjs/i18n";
 
 defineProps<{
   location?: DropdownLocation;
@@ -54,7 +60,6 @@ const availableLocales = computed(() => {
   return localesValues.filter((i) => getLocaleCode(i) !== locale.value);
 });
 
-// Function to update HTML lang attribute immediately.
 const updateLangAttribute = (newLocale: string) => {
   if (import.meta.client) {
     document.documentElement.setAttribute("lang", newLocale);
