@@ -30,6 +30,7 @@
 
 <script setup lang="ts">
 import type { LocaleObject } from "@nuxtjs/i18n";
+
 import { MenuItem } from "@headlessui/vue";
 
 defineProps<{
@@ -50,9 +51,7 @@ function getLocaleName(locale: LocaleObject) {
 }
 
 const availableLocales = computed(() => {
-  return localesValues.value.filter(
-    (i) => getLocaleCode(i) !== locale.value
-  );
+  return localesValues.value.filter((i) => getLocaleCode(i) !== locale.value);
 });
 
 const updateLangAttribute = (newLocale: string) => {
