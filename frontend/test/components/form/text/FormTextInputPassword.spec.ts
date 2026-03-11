@@ -334,7 +334,7 @@ describe("FormTextInputPassword", () => {
 
     await waitFor(() => {
       const updatedLabel = container?.parentElement?.querySelector("label");
-      expect(updatedLabel?.className).toMatch(/translate-x-3/);
+      expect(updatedLabel?.className).toMatch(/translate-x-4/);
       expect(updatedLabel?.className).toMatch(/text-sm/);
     });
   });
@@ -356,7 +356,7 @@ describe("FormTextInputPassword", () => {
 
     await waitFor(() => {
       const updatedLabel = container?.parentElement?.querySelector("label");
-      expect(updatedLabel?.className).toMatch(/translate-x-3/);
+      expect(updatedLabel?.className).toMatch(/translate-x-4/);
     });
 
     await fireEvent.focus(input);
