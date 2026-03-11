@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { MachineDefinition } from "../../shared/types/machine-type";
@@ -10,7 +9,7 @@ describe("defineFlowMachine", () => {
   let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
-    // Intercept console.warn so it doesn't clutter the test output
+    // Intercept console.warn so it doesn't clutter the test output.
     consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
   });
 
@@ -29,7 +28,7 @@ describe("defineFlowMachine", () => {
 
     const result = defineFlowMachine(config);
 
-    // Check strict identity, not just value equality
+    // Check strict identity, not just value equality.
     expect(result).toBe(config);
   });
 
@@ -66,7 +65,7 @@ describe("defineFlowMachine", () => {
       id: "testMachine",
       initialNode: "logicNode",
       states: {
-        logicNode: { type: "logic" }, // No step property
+        logicNode: { type: "logic" }, // no step property
         node1: { type: "screen", step: 1 },
       },
     } as unknown as MachineDefinition;
@@ -81,7 +80,7 @@ describe("defineFlowMachine", () => {
       initialNode: "node1",
       states: {
         node1: { type: "screen", step: 1 },
-        node2: { type: "screen", step: 1 }, // Duplicate!
+        node2: { type: "screen", step: 1 }, // duplicate
       },
     } as unknown as MachineDefinition;
 
@@ -99,7 +98,7 @@ describe("defineFlowMachine", () => {
       initialNode: "node1",
       states: {
         node1: { type: "screen", step: () => 3 },
-        node2: { type: "screen", step: () => 3 }, // Duplicate!
+        node2: { type: "screen", step: () => 3 }, // duplicate
       },
     } as unknown as MachineDefinition;
 

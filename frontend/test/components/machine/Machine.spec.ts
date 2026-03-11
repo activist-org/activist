@@ -107,10 +107,10 @@ describe("Machine.vue", () => {
     mockFlowScreens.loading.value = false;
     await wrapper.vm.$nextTick();
 
-    // 1. The screen should be rendered
+    // The screen should be rendered.
     expect(wrapper.find('[data-testid="step-content"]').exists()).toBe(true);
 
-    // 2. The Loading component exists, but its 'loading' prop should be false
+    // The Loading component exists, but its 'loading' prop should be false.
     const loadingComponent = wrapper.findComponent({ name: "Loading" });
     expect(loadingComponent.exists()).toBe(true);
     expect(loadingComponent.props("loading")).toBe(false);
@@ -177,7 +177,6 @@ describe("Machine.vue", () => {
     });
 
     mockFlowScreens.isActive.value = true;
-    // Step 3 of 4 = 75%
     mockFlowScreens.context.value = { currentStep: 3, totalSteps: 4 };
     await wrapper.vm.$nextTick();
 

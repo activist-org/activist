@@ -47,7 +47,7 @@ const useMockStore = defineStore("mock-flow", {
       /* spyable */
     },
     setSharedData(data: Record<string, unknown>) {
-      // Actually mutate the state so we can assert against it
+      // Actually mutate the state so we can assert against it.
       this.sharedData = { ...this.sharedData, ...data };
     },
   },
@@ -179,7 +179,7 @@ describe("useFlowScreens", () => {
     expect(currentScreen.value).toBeNull();
     expect(onActionSpy).toHaveBeenCalledWith(store.nodeData);
 
-    // ✅ Check the actual state instead of trying to spy on a Pinia-wrapped action
+    // Check the actual state instead of trying to spy on a Pinia-wrapped action.
     expect(store.sharedData.__lastActionResult).toEqual({ id: "123" });
     expect(nextSpy).toHaveBeenCalled();
   });
@@ -192,8 +192,7 @@ describe("useFlowScreens", () => {
       onSubmit: onSubmitSpy,
     });
 
-    // Populate BOTH nodeData and saveResult just in case the local codebase
-    // references one or the other.
+    // Populate BOTH nodeData and saveResult just in case the local codebase references one or the other.
     const expectedData = { step1: "data", meta: "info" };
     store.nodeData = { step1: "data" };
     store.sharedData = { meta: "info" };
@@ -201,9 +200,9 @@ describe("useFlowScreens", () => {
     store.isFinished = true;
 
     await nextTick();
-    await new Promise((r) => setTimeout(r, 0)); // Wait for promise resolution
+    await new Promise((r) => setTimeout(r, 0)); // wait for promise resolution
 
-    // ✅ Test passes regardless of whether useFlowScreens uses saveResult or {...nodeData, ...sharedData}
+    // Test passes regardless of whether useFlowScreens uses saveResult or {...nodeData, ...sharedData}.
     expect(onSubmitSpy).toHaveBeenCalledWith(expectedData);
   });
 

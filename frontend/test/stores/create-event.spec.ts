@@ -23,20 +23,20 @@ describe("useCreateEventStore", () => {
     const store = useCreateEventStore();
     store.start();
 
-    // 1. Details -> Type
+    // Details -> Type
     await store.next({ name: "My Offline Event" });
     expect(store.nodeId).toBe(CreateEventSteps.EventType);
 
-    // 2. Type -> Logic Node (with location_type: 'physical')
+    // Type -> Logic Node (location_type: 'physical')
     await store.next({ location_type: "physical" });
     expect(store.nodeId).toBe(CreateEventSteps.OnlineOrPhysicalLocation);
 
-    // 3. Logic Node -> Location
-    // (Logic nodes require an execution tick)
+    // Logic Node -> Location
+    // Logic nodes require an execution tick.
     await store.next();
     expect(store.nodeId).toBe(CreateEventSteps.Location);
 
-    // 4. Location -> Time
+    // Location -> Time
     await store.next({ address: "123 Main St" });
     expect(store.nodeId).toBe(CreateEventSteps.Time);
   });
@@ -45,18 +45,18 @@ describe("useCreateEventStore", () => {
     const store = useCreateEventStore();
     store.start();
 
-    // 1. Details -> Type
+    // Details -> Type
     await store.next({ name: "My Online Event" });
 
-    // 2. Type -> Logic Node (with location_type: 'online')
+    // Type -> Logic Node (location_type: 'online')
     await store.next({ location_type: "online" });
     expect(store.nodeId).toBe(CreateEventSteps.OnlineOrPhysicalLocation);
 
-    // 3. Logic Node -> LinkOnline (Conditional Jump)
+    // Logic Node -> LinkOnline (Conditional Jump)
     await store.next();
     expect(store.nodeId).toBe(CreateEventSteps.LinkOnline);
 
-    // 4. LinkOnline -> Time
+    // LinkOnline -> Time
     await store.next({ link: "https://zoom.us/test" });
     expect(store.nodeId).toBe(CreateEventSteps.Time);
   });
@@ -95,14 +95,14 @@ describe("useCreateEventStore", () => {
     store.goto(CreateEventSteps.Time);
     expect(store.nodeId).toBe(CreateEventSteps.Time);
 
-    // 1. Time -> Action Node (with createAnother: true)
+    // Time -> Action Node (with createAnother: true)
     await store.next({ createAnother: true });
     expect(store.nodeId).toBe(CreateEventSteps.CreateEventLoop);
 
-    // Simulate `useFlowScreens` injecting the API result into sharedData
+    // Simulate `useFlowScreens` injecting the API result into sharedData.
     store.setSharedData({ __lastActionResult: { id: "evt_123" } });
 
-    // 2. Action Node -> EventDetails (Loop)
+    // Action Node -> EventDetails (Loop)
     await store.next();
 
     expect(store.nodeId).toBe(CreateEventSteps.EventDetails);
@@ -118,11 +118,11 @@ describe("useCreateEventStore", () => {
     // Fast forward to Time step.
     store.goto(CreateEventSteps.Time);
 
-    // 1. Time -> Action Node
+    // Time -> Action Node
     await store.next({ createAnother: false });
     expect(store.nodeId).toBe(CreateEventSteps.CreateEventLoop);
 
-    // 2. Action Node -> End
+    // Action Node -> End
     await store.next();
     expect(store.isFinished).toBe(true);
     expect(store.active).toBe(false);
