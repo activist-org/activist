@@ -3,54 +3,20 @@ import type { VueWrapper } from "@vue/test-utils";
 
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { ref } from "vue";
 
 import MachineStepsCreateEventType from "../../../../../app/components/machine/steps/createEvent/MachineStepsCreateEventType.vue";
-
-// MARK: Stubs
-
-const FormStub = {
-  name: "Form",
-  props: ["id", "schema", "submitLabel", "actionButtons"],
-  emits: ["submit"],
-  template:
-    '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
-};
-
-const FormItemStub = {
-  name: "FormItem",
-  props: ["label", "name", "required"],
-  template:
-    '<div class="form-item-stub" v-bind="$attrs" :data-name="name" :data-required="required"><slot v-bind="{ id: name, handleChange: () => {}, value: { value: \'\' } }" /></div>',
-};
-
-const FormSelectorRadioStub = {
-  name: "FormSelectorRadio",
-  props: ["id", "modelValue", "options"],
-  template: '<div data-testid="radio-selector" :data-id="id"></div>',
-};
-
-const FormSelectorComboboxTopicsStub = {
-  name: "FormSelectorComboboxTopics",
-  props: ["id", "label", "selectedTopics"],
-  template: '<div data-testid="topics-selector"></div>',
-};
-
-// MARK: Test Data
-
-const createMockFlow = () => ({
-  next: vi.fn().mockResolvedValue(undefined),
-  prev: vi.fn(),
-  close: vi.fn(),
-  start: vi.fn(),
-  isSaving: ref(false),
-  context: ref({ currentStep: 2, totalSteps: 5, nodeData: {} }),
-});
+import { createMockFlow } from "../../../../mocks/composableMocks";
+import {
+  FormItemStub,
+  FormSelectorComboboxTopicsStub,
+  FormSelectorRadioStub,
+  FormStub,
+} from "../../../../mocks/componentStubs";
 
 // MARK: Helper
 
 const createWrapper = (
-  flow = createMockFlow()
+  flow = createMockFlow(2, 5)
 ): { wrapper: VueWrapper; flow: ReturnType<typeof createMockFlow> } => {
   const wrapper = mount(MachineStepsCreateEventType, {
     global: {

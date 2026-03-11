@@ -3,49 +3,15 @@ import type { VueWrapper } from "@vue/test-utils";
 
 import { mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ref } from "vue";
 
 import MachineStepsCreateOrganizationDetails from "../../../../../app/components/machine/steps/createOrganization/MachineStepsCreateOrganizationDetails.vue";
-
-// MARK: Stubs
-
-const FormStub = {
-  name: "Form",
-  props: ["id", "schema", "submitLabel", "actionButtons"],
-  emits: ["submit"],
-  template:
-    '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
-};
-
-const FormItemStub = {
-  name: "FormItem",
-  props: ["label", "name", "required"],
-  template:
-    '<div data-testid="form-item" :data-name="name" :data-required="required"><slot v-bind="{ id: name, handleChange: () => {}, handleBlur: () => {}, errorMessage: { value: \'\' }, value: { value: \'\' } }" /></div>',
-};
-
-const FormTextInputStub = {
-  name: "FormTextInput",
-  props: ["id", "hasError", "label", "modelValue"],
-  template: '<input data-testid="text-input" :id="id" :value="modelValue" />',
-};
-
-const FormTextAreaStub = {
-  name: "FormTextArea",
-  props: ["id", "hasError", "value"],
-  template: '<textarea data-testid="text-area" :id="id"></textarea>',
-};
-
-// MARK: Test Data
-
-const createMockFlow = () => ({
-  next: vi.fn().mockResolvedValue(undefined),
-  prev: vi.fn(),
-  close: vi.fn(),
-  start: vi.fn(),
-  isSaving: ref(false),
-  context: ref({ currentStep: 1, totalSteps: 2, nodeData: {} }),
-});
+import { createMockFlow } from "../../../../mocks/composableMocks";
+import {
+  FormItemStub,
+  FormStub,
+  FormTextAreaStub,
+  FormTextInputStub,
+} from "../../../../mocks/componentStubs";
 
 // MARK: Helper
 

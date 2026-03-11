@@ -3,48 +3,19 @@ import type { VueWrapper } from "@vue/test-utils";
 
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { ref } from "vue";
 
 import MachineStepsCreateEventLinkOnline from "../../../../../app/components/machine/steps/createEvent/MachineStepsCreateEventLinkOnline.vue";
-
-// MARK: Stubs
-
-const FormStub = {
-  name: "Form",
-  props: ["id", "schema", "submitLabel", "actionButtons"],
-  emits: ["submit"],
-  template:
-    '<form data-testid="form" :id="id" @submit.prevent="$emit(\'submit\', {})"><slot v-bind="{ values: {} }" /></form>',
-};
-
-const FormItemStub = {
-  name: "FormItem",
-  props: ["label", "name", "required"],
-  template:
-    '<div data-testid="form-item" :data-name="name"><slot v-bind="{ id: name, handleChange: () => {}, handleBlur: () => {}, errorMessage: { value: \'\' }, value: { value: \'\' } }" /></div>',
-};
-
-const FormTextInputStub = {
-  name: "FormTextInput",
-  props: ["id", "hasError", "label", "modelValue"],
-  template: '<input data-testid="text-input" :id="id" />',
-};
-
-// MARK: Test Data
-
-const createMockFlow = () => ({
-  next: vi.fn().mockResolvedValue(undefined),
-  prev: vi.fn(),
-  close: vi.fn(),
-  start: vi.fn(),
-  isSaving: ref(false),
-  context: ref({ currentStep: 4, totalSteps: 5, nodeData: {} }),
-});
+import { createMockFlow } from "../../../../mocks/composableMocks";
+import {
+  FormItemStub,
+  FormStub,
+  FormTextInputStub,
+} from "../../../../mocks/componentStubs";
 
 // MARK: Helper
 
 const createWrapper = (
-  flow = createMockFlow()
+  flow = createMockFlow(4, 5)
 ): { wrapper: VueWrapper; flow: ReturnType<typeof createMockFlow> } => {
   const wrapper = mount(MachineStepsCreateEventLinkOnline, {
     global: {
