@@ -7,19 +7,28 @@ export const getKeyForGetOrganizationsByUser = (
   `organizations-by-user-${userId}:page:${page}:filters:${JSON.stringify(filters)}`;
 
 export function useGetOrganizationsByUser(
-  userId: string,
+  userId: MaybeRef<string>,
   filters?: MaybeRef<OrganizationFilters>
 ) {
   const { showToastError } = useToaster();
   const isLastPageRef = ref(false);
   const organizations = ref<Organization[]>([]);
   const page = ref(1);
-  const userIdRef = computed(() => userId);
+  const userIdRef = computed(() => unref(userId));
   const filtersRef = computed(() => unref(filters));
+
+  watch([userIdRef, filtersRef], () => {
+    page.value = 1;
+  });
 
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
-    () => getKeyForGetOrganizationsByUser(userId, page.value, filtersRef.value),
+    () =>
+      getKeyForGetOrganizationsByUser(
+        userIdRef.value,
+        page.value,
+        filtersRef.value
+      ),
     async () => {
       try {
         if (!userIdRef.value || userIdRef.value === "") {
@@ -51,11 +60,19 @@ export function useGetOrganizationsByUser(
     }
     page.value += 1;
   };
+
+  const canFetchMore = computed(
+    () =>
+      (data.value?.length ?? 0) > 0 &&
+      !isLastPageRef.value
+  );
+
   return {
     data,
     pending,
     error,
     refresh,
     getMore,
+    canFetchMore,
   };
 }

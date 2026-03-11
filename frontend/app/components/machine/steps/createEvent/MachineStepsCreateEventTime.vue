@@ -151,7 +151,13 @@
 </template>
 
 <script setup lang="ts">
-import { addDays, differenceInCalendarDays, format, isSameDay } from "date-fns";
+import {
+  addDays,
+  addHours,
+  differenceInCalendarDays,
+  format,
+  isSameDay,
+} from "date-fns";
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
@@ -225,11 +231,14 @@ const syncTimesArray = (
     if (existing) {
       newTimes.push(existing);
     } else {
-      // Create new entry with null times.
+      // Default: start at midnight, end 1h later so backend receives start_time < end_time.
+      const startTime = new Date(currentDate);
+      startTime.setHours(0, 0, 0, 0);
+      const endTime = addHours(startTime, 1);
       newTimes.push({
         date: currentDate,
-        startTime: currentDate,
-        endTime: currentDate,
+        startTime,
+        endTime,
       });
     }
   }

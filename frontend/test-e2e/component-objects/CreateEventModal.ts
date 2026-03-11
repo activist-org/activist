@@ -39,7 +39,10 @@ export const newCreateEventModal = (page: Page) => {
     // MARK: Step Buttons
     getNextStepButton(): Locator {
       return root.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n._global.next_step"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components.submit_aria_label"),
+          "i"
+        ),
       });
     },
 

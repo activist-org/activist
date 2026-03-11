@@ -6,7 +6,7 @@
     @update:selectedOptions="
       (val: unknown) => handleChange(val as Organization[])
     "
-    :canFetchMore="true"
+    :canFetchMore="canFetchMore"
     :disabled="disabled"
     :fetchMore="getMore"
     :hasColOptions="hasColOptions"
@@ -54,7 +54,8 @@ const {
   data: organizations,
   getMore,
   pending,
-} = useGetOrganizationsByUser(linked_user_id.value, filters);
+  canFetchMore,
+} = useGetOrganizationsByUser(linked_user_id, filters);
 const isFetching = computed(() => pending.value);
 
 const emit = defineEmits<{

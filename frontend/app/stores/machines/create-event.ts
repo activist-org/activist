@@ -92,6 +92,14 @@ export const useCreateEventStore = createFlowStore({
               __lastActionResult: null, // clean up for the next loop iteration
             });
           }
+          // When looping back to Event Details for "Create another", clear that step so the form is fresh.
+          const data = context.allNodeData as unknown as ContextCreateEventData;
+          const stepData = data[CreateEventSteps.Time];
+          if (stepData?.createAnother) {
+            (context.allNodeData as Record<string, unknown>)[
+              CreateEventSteps.EventDetails
+            ] = {};
+          }
         },
 
         next: (context) => {
