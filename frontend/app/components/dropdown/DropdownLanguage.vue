@@ -8,28 +8,29 @@
     :menuButtonLabel="$i18n.locale"
     menuButtonAriaLabel="i18n.components.dropdown_language.open_dropdown_aria_label"
   >
-    <ul class="space-y-1 px-2 py-2">
-      <MenuItem
+    <ul class="px-2 py-2">
+      <NuxtLink
         v-for="l in availableLocales"
         :key="getLocaleCode(l)"
-        v-slot="{ active }"
+        @click="updateLangAttribute(getLocaleCode(l))"
+        class="dropdown-language-list-items"
+        :to="switchLocalePath(getLocaleCode(l))"
       >
-        <NuxtLink
-          :to="switchLocalePath(getLocaleCode(l))"
-          @click="updateLangAttribute(getLocaleCode(l))"
-          class="dropdown-language-list-items block rounded-md px-3 py-2 text-sm focus-brand"
-          :class="active ? 'style-menu-option-cta' : 'style-menu-option'"
-        >
-          {{ getLocaleName(l) }}
-        </NuxtLink>
-      </MenuItem>
+        <MenuItem v-slot="{ active }" class="flex">
+          <MenuItemLabel
+            :active="active"
+            :isButton="false"
+            :label="getLocaleName(l)"
+          />
+        </MenuItem>
+      </NuxtLink>
     </ul>
   </DropdownBase>
 </template>
 
 <script setup lang="ts">
-import { MenuItem } from "@headlessui/vue";
 import type { LocaleObject } from "@nuxtjs/i18n";
+import { MenuItem } from "@headlessui/vue";
 
 defineProps<{
   location?: DropdownLocation;
@@ -38,7 +39,7 @@ defineProps<{
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const localesValues: LocaleObject[] = locales.value;
+const localesValues = computed(() => locales.value);
 
 function getLocaleCode(locale: LocaleObject) {
   return typeof locale === "string" ? locale : locale.code;
@@ -49,7 +50,9 @@ function getLocaleName(locale: LocaleObject) {
 }
 
 const availableLocales = computed(() => {
-  return localesValues.filter((i) => getLocaleCode(i) !== locale.value);
+  return localesValues.value.filter(
+    (i) => getLocaleCode(i) !== locale.value
+  );
 });
 
 const updateLangAttribute = (newLocale: string) => {
