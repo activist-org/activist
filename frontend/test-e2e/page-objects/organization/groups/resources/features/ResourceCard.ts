@@ -69,6 +69,13 @@ export const ResourceCard = (page: Page) => {
         .getByTestId("icon-edit");
     },
 
+    getResourceDeleteButton(index: number) {
+      return page
+        .getByTestId("resource-card")
+        .nth(index)
+        .getByTestId("icon-delete");
+    },
+
     // MARK: Actions
 
     async clickResourceLink(index: number) {

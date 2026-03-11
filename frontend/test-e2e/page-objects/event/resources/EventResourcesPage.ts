@@ -69,7 +69,10 @@ export const newEventResourcesPage = (page: Page) => ({
   // Form elements within edit modal (using specific IDs from the form).
   resourceNameInput: (modal: Locator) =>
     modal.getByRole("textbox", {
-      name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
+      name: new RegExp(
+        getEnglishText("i18n.components.form_resource.name"),
+        "i"
+      ),
     }),
   resourceDescriptionInput: (modal: Locator) =>
     modal.getByRole("textbox", {
