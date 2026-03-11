@@ -8,7 +8,7 @@
     <label
       class="form-text-input-label pointer-events-none absolute z-10"
       :class="{
-        '-translate-y-2 translate-x-3 translate-x-4 text-sm text-distinct-text':
+        '-translate-y-2 translate-x-3 text-sm text-distinct-text':
           shrinkLabel && iconLocation === 'right',
         '-translate-y-2 translate-x-[3.4rem] text-sm text-distinct-text':
           shrinkLabel && iconLocation === 'left',

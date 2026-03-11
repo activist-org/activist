@@ -368,7 +368,7 @@ describe("FormTextInput component", () => {
     const label = document.querySelector(`label[for='test-input']`);
 
     expect(label?.className).toMatch("translate-y-[0.6rem]");
-    expect(label?.className).not.toMatch("translate-x-4");
+    expect(label?.className).not.toMatch("translate-x-3");
     expect(label?.className).not.toMatch("text-sm");
 
     await fireEvent.focus(input!);
@@ -376,7 +376,7 @@ describe("FormTextInput component", () => {
     await waitFor(() => {
       const label = document.querySelector(`label[for='test-input']`);
       expect(label?.className).not.toMatch("translate-y-[0.6rem]");
-      expect(label?.className).toMatch("translate-x-4");
+      expect(label?.className).toMatch("translate-x-3");
       expect(label?.className).toMatch("text-sm");
     });
   });
