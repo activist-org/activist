@@ -62,6 +62,7 @@ export function useGetOrganizationsByUser(
       default: () => [],
     }
   );
+
   const getMore = async () => {
     if (
       isLastPageRef.value ||
@@ -72,11 +73,14 @@ export function useGetOrganizationsByUser(
     }
     page.value += 1;
   };
+
   return {
     data,
     pending,
     error,
     refresh,
     getMore,
+    page,
+    organizations,
   };
 }
