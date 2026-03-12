@@ -1,0 +1,17 @@
+organizations:
+  backend_model_path: backend/communities/organizations/models.py
+  ts_interface_path: frontend/shared/types/organization.d.ts
+  check_blank_model_fields: true
+
+groups:
+  backend_model_path: backend/communities/groups/models.py
+  ts_interface_path: frontend/shared/types/group.d.ts
+  check_blank_model_fields: true
+
+events:
+  backend_model_path: backend/events/models.py
+  ts_interface_path: frontend/shared/types/event.d.ts
+  check_blank_model_fields: true
+  backend_to_ts_model_name_conversions:
+    Event:
+      - CommunityEvent
