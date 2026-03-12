@@ -40,9 +40,9 @@ export function useGetOrganizationsByUser(
           ];
         }
         return organizations.value;
-      } catch (error: any) {
-        const isInvalidPage = error?.response?.status === 404 || error?.message?.includes("Invalid page");
-        
+      } catch (error: unknown) {
+        const typedError = error as { response?: { status?: number }; message?: string };
+        const isInvalidPage = typedError?.response?.status === 404 || typedError?.message?.includes("Invalid page");
         if (isInvalidPage) {
           isLastPageRef.value = true;
           if (page.value === 1) {
@@ -51,7 +51,7 @@ export function useGetOrganizationsByUser(
           return organizations.value;
         }
 
-        showToastError((error as AppError).message);
+        showToastError((error as any).message || "An error occurred");
         throw error;
       }
     },

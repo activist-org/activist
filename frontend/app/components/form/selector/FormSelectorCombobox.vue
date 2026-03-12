@@ -1,20 +1,20 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Combobox
     :id="id"
-    v-slot="{ open }"
     v-model="internalSelectedOptions"
     as="div"
     :disabled="disabled"
-    :multiple="isMultiSelect"
     @click.stop
+    :multiple="isMultiSelect"
   >
     <div class="relative">
       <ComboboxInput
         :ref="setupInputWrapper"
         v-slot="{ id: inputId, onBlur }"
         as="div"
-        class="flex"
         @click.stop
+        class="flex"
       >
         <FormTextInput
           :id="inputId"
@@ -22,15 +22,15 @@
           :disabled="disabled"
           :label="label"
           :modelValue="query"
-          :onBlur="onBlur"
           @update:modelValue="handleInput"
+          :onBlur="onBlur"
         />
       </ComboboxInput>
       <ComboboxButton
-        type="button"
         @click.stop.prevent
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
+        type="button"
       >
         <Icon :name="IconMap.CHEVRON_EXPAND" />
       </ComboboxButton>
@@ -94,12 +94,12 @@
       <li v-for="option in internalSelectedOptions" :key="option.id">
         <Shield
           :key="option.id + '-selected-only'"
-          class="mobileTopic max-sm:w-full"
           :active="true"
+          class="mobileTopic max-sm:w-full"
           :icon="IconMap.GLOBE"
           :isSelector="true"
+          @click.stop="() => onClick(option)"
           :label="option.label"
-          @click="() => onClick(option)"
         />
       </li>
     </ul>
