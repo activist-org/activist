@@ -3,7 +3,6 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
       id="event-type-and-roles"
-      :initial-values="initialEventTypeData"
       @submit="handleSubmit"
       :action-buttons="[
         {
@@ -17,6 +16,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="initialEventTypeData"
       :schema="topicsSettingsSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -72,7 +72,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-
 import { CreateEventSteps } from "~~/shared/types";
 
 const { t } = useI18n();

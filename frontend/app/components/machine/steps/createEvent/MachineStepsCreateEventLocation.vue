@@ -4,7 +4,6 @@
     <FormSearchLocation :handle-submit="handleSubmitLocation" />
     <Form
       id="event-location"
-      :initial-values="initialLocationData"
       @submit="handleSubmit"
       :action-buttons="[
         {
@@ -18,6 +17,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="initialLocationData"
       :schema="locationSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -48,7 +48,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-
 import { CreateEventSteps } from "~~/shared/types";
 
 const query = ref<Record<string, string> | null>(null);

@@ -7,7 +7,6 @@
       id="event-location-and-time"
       ref="timeFormRef"
       v-slot="{ values, setFieldValue }"
-      :initial-values="initialTimeData"
       @submit="handleSubmit"
       :action-buttons="[
         {
@@ -21,6 +20,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="initialTimeData"
       :isLoading="loading?.value"
       :schema="scheduleSchema"
     >
@@ -153,14 +153,8 @@
 </template>
 
 <script setup lang="ts">
-import {
-  addDays,
-  differenceInCalendarDays,
-  format,
-  isSameDay,
-} from "date-fns";
+import { addDays, differenceInCalendarDays, format, isSameDay } from "date-fns";
 import { z } from "zod";
-
 import { CreateEventSteps } from "~~/shared/types";
 
 const flow = inject<FlowControls>("flow");
@@ -172,26 +166,28 @@ const timeFormRef = ref<{ getValues: () => Record<string, unknown> } | null>(
 const initialTimeData = computed(() => {
   const ctx = flow?.context?.value;
   if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.Time) return {};
-  const d = (ctx.nodeData as Record<string, unknown>)[ctx.nodeId] as Record<
-    string,
-    unknown
-  > | undefined;
+  const d = (ctx.nodeData as Record<string, unknown>)[ctx.nodeId] as
+    | Record<string, unknown>
+    | undefined;
   if (!d) return {};
-  const timesRaw = (d.times as Array<{
-    date?: string;
-    start_time?: string;
-    end_time?: string;
-    all_day?: boolean;
-  }>) ?? [];
+  const timesRaw =
+    (d.times as Array<{
+      date?: string;
+      start_time?: string;
+      end_time?: string;
+      all_day?: boolean;
+    }>) ?? [];
   const times = timesRaw.map((t) => ({
     date: t.date ? new Date(t.date) : new Date(),
     startTime: t.start_time ? new Date(t.start_time) : new Date(),
     endTime: t.end_time ? new Date(t.end_time) : new Date(),
     allDayLong: t.all_day ?? false,
   }));
+  const first = times[0];
+  const last = times[times.length - 1];
   const dates =
-    times.length > 0
-      ? { start: times[0].date, end: times[times.length - 1].date }
+    first && last
+      ? { start: first.date, end: last.date }
       : undefined;
   return {
     times,
@@ -288,8 +284,7 @@ function serializeTimeValues(values: Record<string, unknown>) {
   const times = values.times as
     | { date: Date; startTime: Date; endTime: Date; allDayLong?: boolean }[]
     | undefined;
-  if (!times?.length)
-    return { times: [], createAnother: values.createAnother };
+  if (!times?.length) return { times: [], createAnother: values.createAnother };
   const mappedTimes = times.map((t) => ({
     date: t.date instanceof Date ? t.date.toISOString().split("T")[0] : t.date,
     start_time:

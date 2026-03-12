@@ -67,11 +67,18 @@ async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
 /** Set each day's start time to 10:00 and end time to 11:00 so backend receives start_time < end_time for every entry. */
 async function setFirstDayEndTimeToFuture(
   modal: ReturnType<typeof newCreateEventModal>,
-  page: { keyboard: { press: (key: string) => Promise<void>; type: (text: string) => Promise<void> } }
+  page: {
+    keyboard: {
+      press: (key: string) => Promise<void>;
+      type: (text: string) => Promise<void>;
+    };
+  }
 ) {
   // v-calendar renders a div, not a native input; use click + keyboard to type (24h).
   // When multiple days are selected we have times.0, times.1, ...; all must have start < end.
-  const timeEntries = await modal.timeForm.locator('[id^="form-item-times."]').all();
+  const timeEntries = await modal.timeForm
+    .locator('[id^="form-item-times."]')
+    .all();
   const indices = new Set<string>();
   for (const el of timeEntries) {
     const id = await el.getAttribute("id");
@@ -79,11 +86,15 @@ async function setFirstDayEndTimeToFuture(
     if (m?.[1]) indices.add(m[1]);
   }
   for (const idx of Array.from(indices).sort()) {
-    const startContainer = modal.timeForm.locator(`[id="form-item-times.${idx}.startTime"]`);
+    const startContainer = modal.timeForm.locator(
+      `[id="form-item-times.${idx}.startTime"]`
+    );
     await startContainer.click();
     await page.keyboard.press("Control+a");
     await page.keyboard.type("10:00");
-    const endContainer = modal.timeForm.locator(`[id="form-item-times.${idx}.endTime"]`);
+    const endContainer = modal.timeForm.locator(
+      `[id="form-item-times.${idx}.endTime"]`
+    );
     await endContainer.click();
     await page.keyboard.press("Control+a");
     await page.keyboard.type("11:00");
@@ -178,14 +189,14 @@ test.describe(
       await modal.locationTypeSection
         .getByRole("radio", { name: /online/i })
         .click();
-      await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
+      await modal.eventTypeSection
+        .getByRole("radio", { name: /learn/i })
+        .click();
       await selectFirstTopic(modal);
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.linkOnlineForm).toBeVisible();
-      await modal.onlineLinkField.fill(
-        "https://example.com/rehydration-test"
-      );
+      await modal.onlineLinkField.fill("https://example.com/rehydration-test");
       await modal.getPreviousStepButton().click();
 
       await expect(modal.eventTypeForm).toBeVisible();
@@ -218,7 +229,9 @@ test.describe(
       await modal.locationTypeSection
         .getByRole("radio", { name: /online/i })
         .click();
-      await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
+      await modal.eventTypeSection
+        .getByRole("radio", { name: /learn/i })
+        .click();
       await selectFirstTopic(modal);
       await modal.getNextStepButton().click({ force: true });
 
@@ -294,7 +307,9 @@ test.describe(
       await modal.getNextStepButton().click();
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
-      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, { timeout: 10000 });
+      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, {
+        timeout: 10000,
+      });
     });
 
     // MARK: Full flow (online, all day)
@@ -339,7 +354,9 @@ test.describe(
       await modal.getNextStepButton().click();
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
-      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, { timeout: 10000 });
+      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, {
+        timeout: 10000,
+      });
     });
 
     // MARK: Create Another checkbox flow
@@ -481,7 +498,9 @@ test.describe(
       await submitBtn.click();
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
-      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, { timeout: 10000 });
+      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, {
+        timeout: 10000,
+      });
     });
   }
 );

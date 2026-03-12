@@ -29,7 +29,9 @@ export type OnExitFn<T extends string> = (
 ) => void | Promise<void>;
 
 /** The function signature for the `onEnter` side-effect when transitioning into a node. */
-export type OnEnterFn<T extends string> = (context: FlowContext<T>) => void | Promise<void>;
+export type OnEnterFn<T extends string> = (
+  context: FlowContext<T>
+) => void | Promise<void>;
 
 /**
  * The different types a node can be.

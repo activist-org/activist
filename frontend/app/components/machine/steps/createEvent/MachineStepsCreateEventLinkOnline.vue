@@ -3,7 +3,6 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
       id="event-link-online"
-      :initial-values="initialLinkOnlineData"
       @submit="handleSubmit"
       :action-buttons="[
         {
@@ -17,6 +16,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="initialLinkOnlineData"
       :schema="linkSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -49,7 +49,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-
 import { CreateEventSteps } from "~~/shared/types";
 
 const flow = inject<FlowControls>("flow");

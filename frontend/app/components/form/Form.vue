@@ -46,6 +46,7 @@ import type { z } from "zod";
 
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
+import { unref } from "vue";
 type Btn = BtnAction & { [key: string]: unknown };
 const props = withDefaults(
   defineProps<{
@@ -113,6 +114,6 @@ const onSubmit = handleSubmit((values) => {
 });
 
 defineExpose({
-  getValues: () => ({ ...values }),
+  getValues: () => ({ ...(unref(values) ?? {}) }),
 });
 </script>
