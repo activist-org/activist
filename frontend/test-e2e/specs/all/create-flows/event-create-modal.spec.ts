@@ -64,6 +64,18 @@ async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
   });
 }
 
+/** Set the first day's end time to a future time (e.g. 01:00) so start < end; frontend shows error if they are equal. */
+async function setFirstDayEndTimeToFuture(
+  modal: ReturnType<typeof newCreateEventModal>,
+  page: { keyboard: { press: (key: string) => Promise<void>; type: (text: string) => Promise<void> } }
+) {
+  // v-calendar DatePicker renders a div, not a native input; use click + keyboard to type the time (24h).
+  const container = modal.timeForm.locator('[id="form-item-times.0.endTime"]');
+  await container.click();
+  await page.keyboard.press("Control+a");
+  await page.keyboard.type("01:00");
+}
+
 test.describe(
   "Event Create Modal",
   { tag: ["@desktop", "@mobile", "@all"] },
@@ -182,6 +194,49 @@ test.describe(
       );
       await dayButtons.first().click();
       await dayButtons.nth(1).click();
+      await setFirstDayEndTimeToFuture(modal, page);
+      await modal.getNextStepButton().click();
+
+      await expect(modal.root).not.toBeVisible({ timeout: 15000 });
+    });
+
+    // MARK: Full flow (online, all day)
+
+    test("full flow (online event, all day) closes modal on submit", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+
+      await modal.nameField.fill("E2E All Day Event");
+      await modal.descriptionField.fill("All day event description.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.eventTypeForm).toBeVisible();
+      await modal.locationTypeSection
+        .getByRole("radio", { name: /online/i })
+        .click();
+      await modal.eventTypeSection
+        .getByRole("radio", { name: /learn/i })
+        .click();
+      await selectFirstTopic(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.linkOnlineForm).toBeVisible();
+      await modal.onlineLinkField.fill("https://example.com/all-day-event");
+      await modal.getNextStepButton().click();
+
+      await expect(modal.timeForm).toBeVisible();
+      const dayButtons = modal.root.locator(
+        ".vc-day.in-month .vc-day-content[role='button']"
+      );
+      await dayButtons.first().click();
+      await dayButtons.nth(1).click();
+      const allDayCheckbox = modal.timeForm.locator(
+        "input[data-testid='all-day-long-event-0']"
+      );
+      await allDayCheckbox.scrollIntoViewIfNeeded();
+      await allDayCheckbox.check();
       await modal.getNextStepButton().click();
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
@@ -221,6 +276,7 @@ test.describe(
       );
       await dayButtons.first().click();
       await dayButtons.nth(1).click();
+      await setFirstDayEndTimeToFuture(modal, page);
       // Time step and modal both scroll: bring bottom into view so "Create another" checkbox is visible.
       await modal.root.evaluate((el) => {
         el.scrollTop = el.scrollHeight;
@@ -317,6 +373,7 @@ test.describe(
       );
       await dayButtons.first().click();
       await dayButtons.nth(1).click();
+      await setFirstDayEndTimeToFuture(modal, page);
       await modal.root.evaluate((el) => {
         el.scrollTop = el.scrollHeight;
       });
