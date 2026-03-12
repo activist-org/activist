@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Component, Ref } from "vue";
 
-/** The rich context object passed to `next` and `onExit` functions. */
+/** The rich context object passed to `next`, `onExit`, and `onEnter` functions. */
 export interface FlowContext<T extends string = string> {
   allNodeData: Record<string, unknown>;
   sharedData: Record<string, unknown>;
@@ -9,6 +9,7 @@ export interface FlowContext<T extends string = string> {
     goto: (nodeId: T) => void;
     submit: () => void;
     setSharedData: (updates: Record<string, unknown>) => void;
+    clearNodeData: (nodeId: T) => void;
   };
 }
 
@@ -27,6 +28,9 @@ export type OnExitFn<T extends string> = (
   nodeData?: Record<string, unknown>
 ) => void | Promise<void>;
 
+/** The function signature for the `onEnter` side-effect when transitioning into a node. */
+export type OnEnterFn<T extends string> = (context: FlowContext<T>) => void | Promise<void>;
+
 /**
  * The different types a node can be.
  * - "screen": A node that renders a UI component.
@@ -39,7 +43,8 @@ export type NodeType = "screen" | "logic" | "action";
 export interface StateConfig<T extends string = string> {
   label?: string;
   next?: ValidNextNode<T> | NextFn<T>;
-  onExit?: OnExitFn;
+  onExit?: OnExitFn<T>;
+  onEnter?: OnEnterFn<T>;
   type?: NodeType;
   component?: Component | (() => Promise<null | unknown>);
   initialData?: Record<string, unknown>;

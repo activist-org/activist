@@ -29,6 +29,12 @@ export const useCreateEventStore = createFlowStore({
         step: 1,
         next: CreateEventSteps.EventType,
         component: EventDetailsStep,
+        onEnter: (context) => {
+          if (context.sharedData.clearEventDetails) {
+            context.actions.clearNodeData(CreateEventSteps.EventDetails);
+            context.actions.setSharedData({ clearEventDetails: false });
+          }
+        },
       },
 
       [CreateEventSteps.EventType]: {
@@ -92,13 +98,11 @@ export const useCreateEventStore = createFlowStore({
               __lastActionResult: null, // clean up for the next loop iteration
             });
           }
-          // When looping back to Event Details for "Create another", clear that step so the form is fresh.
+          // Signal that Event Details should be cleared when we enter it (Create another flow).
           const data = context.allNodeData as unknown as ContextCreateEventData;
           const stepData = data[CreateEventSteps.Time];
           if (stepData?.createAnother) {
-            (context.allNodeData as Record<string, unknown>)[
-              CreateEventSteps.EventDetails
-            ] = {};
+            context.actions.setSharedData({ clearEventDetails: true });
           }
         },
 
