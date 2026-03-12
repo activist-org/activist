@@ -153,7 +153,6 @@
 <script setup lang="ts">
 import {
   addDays,
-  addHours,
   differenceInCalendarDays,
   format,
   isSameDay,
@@ -231,14 +230,11 @@ const syncTimesArray = (
     if (existing) {
       newTimes.push(existing);
     } else {
-      // Default: start at midnight, end 1h later so backend receives start_time < end_time.
-      const startTime = new Date(currentDate);
-      startTime.setHours(0, 0, 0, 0);
-      const endTime = addHours(startTime, 1);
+      // Create new entry with null times.
       newTimes.push({
         date: currentDate,
-        startTime,
-        endTime,
+        startTime: currentDate,
+        endTime: currentDate,
       });
     }
   }
