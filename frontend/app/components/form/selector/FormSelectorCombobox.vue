@@ -48,7 +48,8 @@
           <li
             class="relative cursor-default select-none py-2 pl-10 pr-4"
             :class="{
-              'bg-cta-orange/80 text-primary-text dark:bg-cta-orange/40 dark:text-cta-orange': active,
+              'bg-cta-orange/80 text-primary-text dark:bg-cta-orange/40 dark:text-cta-orange':
+                active,
               'text-primary-text': !active,
             }"
           >
@@ -177,26 +178,43 @@ function setupInputWrapper(el: unknown) {
     ) => {
       let inputElement = actualInputRef.value;
       if (!inputElement && formInputRef.value?.$el) {
-        inputElement = formInputRef.value.$el.querySelector("input") as HTMLInputElement | null;
+        inputElement = formInputRef.value.$el.querySelector(
+          "input"
+        ) as HTMLInputElement | null;
         if (inputElement) actualInputRef.value = inputElement;
       }
-      if (inputElement && typeof inputElement.setSelectionRange === "function") {
+      if (
+        inputElement &&
+        typeof inputElement.setSelectionRange === "function"
+      ) {
         try {
-          inputElement.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
-        } catch { /* ignore */ }
+          inputElement.setSelectionRange(
+            selectionStart,
+            selectionEnd,
+            selectionDirection
+          );
+        } catch {
+          /* ignore */
+        }
       }
     };
   }
 }
 
-watch(formInputRef, (newRef) => {
-  if (newRef?.$el && !actualInputRef.value) {
-    nextTick(() => {
-      const inputElement = newRef.$el?.querySelector("input") as HTMLInputElement | null;
-      if (inputElement) actualInputRef.value = inputElement;
-    });
-  }
-}, { immediate: true });
+watch(
+  formInputRef,
+  (newRef) => {
+    if (newRef?.$el && !actualInputRef.value) {
+      nextTick(() => {
+        const inputElement = newRef.$el?.querySelector(
+          "input"
+        ) as HTMLInputElement | null;
+        if (inputElement) actualInputRef.value = inputElement;
+      });
+    }
+  },
+  { immediate: true }
+);
 
 const enabled = computed(() => props.infinite);
 const canFetchMoreRef = computed(() => props.canFetchMore);
@@ -216,7 +234,10 @@ useCustomInfiniteScroll({
 });
 
 const onClick = (option: Option) => {
-  if (internalSelectedOptions.value && Array.isArray(internalSelectedOptions.value)) {
+  if (
+    internalSelectedOptions.value &&
+    Array.isArray(internalSelectedOptions.value)
+  ) {
     internalSelectedOptions.value = internalSelectedOptions.value.filter(
       (o: Option) => o.id !== option.id
     );
@@ -261,12 +282,16 @@ const internalSelectedOptions = computed({
   },
 });
 
-watch(internalSelectedOptions, (newVal) => {
-  if (!props.isMultiSelect && newVal) {
-    const option = newVal as Option;
-    if (option.label && query.value !== option.label) {
-      query.value = option.label;
+watch(
+  internalSelectedOptions,
+  (newVal) => {
+    if (!props.isMultiSelect && newVal) {
+      const option = newVal as Option;
+      if (option.label && query.value !== option.label) {
+        query.value = option.label;
+      }
     }
-  }
-}, { immediate: true });
+  },
+  { immediate: true }
+);
 </script>

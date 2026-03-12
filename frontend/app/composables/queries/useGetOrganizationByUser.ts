@@ -81,6 +81,6 @@ export function useGetOrganizationsByUser(
     refresh,
     getMore,
     page,
-    organizations
+    organizations,
   };
 }
