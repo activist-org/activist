@@ -81,6 +81,30 @@ The steps to do this are:
 2. Move that function into a file in `frontend/test-e2e/actions` and name it based on the action being performed
 3. Import the function into the test files where you use it
 
+### Checking E2E coverage
+
+To see which application routes are covered by the E2E test suite, run the coverage script from the `frontend/` directory:
+
+```bash
+# Terminal output (colored, with coverage summary):
+node test-e2e/scripts/e2e-coverage.mjs
+
+# GitHub-flavored markdown (for pasting into issues or PRs):
+node test-e2e/scripts/e2e-coverage.mjs --markdown
+
+# Only show uncovered testable routes:
+node test-e2e/scripts/e2e-coverage.mjs --uncovered
+
+# Machine-readable JSON output:
+node test-e2e/scripts/e2e-coverage.mjs --json
+```
+
+The script distinguishes between:
+
+- **Covered routes** — routes with at least one `goto`, `waitForURL`, or `toHaveURL` assertion in specs, actions, or page objects
+- **Stub routes** — pages marked `:underDevelopment="true"` with no implemented UI (excluded from the testable coverage calculation)
+- **Uncovered testable routes** — implemented routes that have no E2E coverage yet
+
 <a id="component-and-unit-tests-"></a>
 
 ## Component and Unit Tests [`⇧`](#contents)

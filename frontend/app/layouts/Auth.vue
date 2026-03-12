@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="h-full bg-layer-1">
+    <div class="auth-layout-pane h-full bg-layer-1">
       <div v-if="aboveMediumBP" class="flex justify-end space-x-6 px-8 py-4">
         <DropdownLanguage />
         <BtnRouteInternal
