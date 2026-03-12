@@ -27,8 +27,8 @@ export const useGroupMutations = () => {
       loading.value = false;
     }
   };
-
   const refreshGroupList = async () => {
+     // Invalidate and refetch group list data.
     clearNuxtData((key) => key.startsWith("groups-list:"));
 
     const organizationId = store.getOrganization()?.id;
