@@ -60,7 +60,7 @@ async function handleCreatedEventRouting(createdEventIds: string[]) {
     return;
   }
 
-  const viewQueryValue = route.query.view;
+  const viewQueryValue = route.query.view || ViewType.LIST; // default to 'list' if no view query param is present
 
   // Preserve the next query in case we are navigating to a new path.
   const preserveNextQuery = useState("preserveNextQuery", () => false);
