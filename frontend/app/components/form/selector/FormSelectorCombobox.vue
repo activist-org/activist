@@ -5,8 +5,8 @@
     v-model="internalSelectedOptions"
     @click.stop
     :disabled="disabled"
-    :multiple="isMultiSelect"
     as="div"
+    :multiple="isMultiSelect"
   >
     <div class="relative">
       <ComboboxInput
@@ -19,18 +19,18 @@
         <FormTextInput
           :id="inputId"
           ref="formInputRef"
-          :label="label"
           @update:modelValue="handleInput"
-          :modelValue="query"
+          :label="label"
           :disabled="disabled"
+          :modelValue="query"
           :onBlur="onBlur"
         />
       </ComboboxInput>
       <ComboboxButton
-        type="button"
         @click.stop.prevent
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
+        type="button"
       >
         <Icon :name="IconMap.CHEVRON_EXPAND" />
       </ComboboxButton>
@@ -93,11 +93,11 @@
     >
       <li v-for="option in internalSelectedOptions" :key="option.id">
         <Shield
+          @click.stop="() => onClick(option)"
           :key="option.id + '-selected-only'"
           :active="true"
           class="mobileTopic max-sm:w-full"
           :icon="IconMap.GLOBE"
-          @click.stop="() => onClick(option)"
           :isSelector="true"
           :label="option.label"
         />
