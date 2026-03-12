@@ -207,7 +207,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
     description = serializers.CharField(max_length=2500)
     org = serializers.UUIDField()
     topics = TopicSerializer(many=True, required=False)
-    country_code = serializers.CharField(max_length=3, required=False, allow_blank=True)
+    country_code = serializers.CharField(max_length=3)
     city = serializers.CharField(max_length=255)
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
