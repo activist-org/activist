@@ -3,34 +3,34 @@
   <Combobox
     :id="id"
     v-model="internalSelectedOptions"
-    as="div"
-    :disabled="disabled"
     @click.stop
+    :disabled="disabled"
     :multiple="isMultiSelect"
+    as="div"
   >
     <div class="relative">
       <ComboboxInput
         :ref="setupInputWrapper"
         v-slot="{ id: inputId, onBlur }"
-        as="div"
         @click.stop
+        as="div"
         class="flex"
       >
         <FormTextInput
           :id="inputId"
           ref="formInputRef"
-          :disabled="disabled"
           :label="label"
-          :modelValue="query"
           @update:modelValue="handleInput"
+          :modelValue="query"
+          :disabled="disabled"
           :onBlur="onBlur"
         />
       </ComboboxInput>
       <ComboboxButton
+        type="button"
         @click.stop.prevent
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
-        type="button"
       >
         <Icon :name="IconMap.CHEVRON_EXPAND" />
       </ComboboxButton>
@@ -97,8 +97,8 @@
           :active="true"
           class="mobileTopic max-sm:w-full"
           :icon="IconMap.GLOBE"
-          :isSelector="true"
           @click.stop="() => onClick(option)"
+          :isSelector="true"
           :label="option.label"
         />
       </li>
@@ -158,15 +158,6 @@ const query = ref("");
 const sentinel = ref(null);
 const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
 const actualInputRef = ref<HTMLInputElement | null>(null);
-
-const handleInputFocus = (isOpen: boolean) => {
-  if (!isOpen && query.value === "") {
-    query.value = " ";
-    nextTick(() => {
-      query.value = "";
-    });
-  }
-};
 
 function setupInputWrapper(el: unknown) {
   if (!el) return;

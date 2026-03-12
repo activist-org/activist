@@ -51,7 +51,7 @@ export function useGetOrganizationsByUser(
           return organizations.value;
         }
 
-        showToastError((error as any).message || "An error occurred");
+        showToastError((error as Error).message || "An unexpected error occurred");
         throw error;
       }
     },
