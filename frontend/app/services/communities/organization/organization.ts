@@ -76,14 +76,15 @@ export async function listOrganizationsByUserId(
 
 export async function createOrganization(
   data: CreateOrganizationInput
-): Promise<{ id: string }> {
+): Promise<Organization> {
   try {
-    const res = await post<{ id: string }, typeof data>(
+    const res = await post<OrganizationResponse, typeof data>(
       `/communities/organizations`,
       data,
       { headers: { "Content-Type": "application/json" } }
     );
-    return res;
+
+    return mapOrganization(res);
   } catch (e) {
     throw errorHandler(e);
   }
