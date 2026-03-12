@@ -115,7 +115,10 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
         org.application.create()
 
-        return Response({"id": org.id}, status=status.HTTP_201_CREATED)
+        return Response(
+            self.get_serializer(org).data,
+            status=status.HTTP_201_CREATED,
+        )
 
 
 # MARK: Get Organization by User ID
