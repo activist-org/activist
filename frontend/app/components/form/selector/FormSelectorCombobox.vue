@@ -6,6 +6,7 @@
     as="div"
     :disabled="disabled"
     :multiple="isMultiSelect"
+    @click.stop
   >
     <div class="relative">
       <ComboboxInput
@@ -13,6 +14,7 @@
         v-slot="{ id: inputId, onBlur }"
         as="div"
         class="flex"
+        @click.stop
       >
         <FormTextInput
           :id="inputId"
@@ -22,11 +24,11 @@
           :modelValue="query"
           :onBlur="onBlur"
           @update:modelValue="handleInput"
-          @focus="handleInputFocus(open)"
         />
       </ComboboxInput>
       <ComboboxButton
         type="button"
+        @click.stop.prevent
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
       >
