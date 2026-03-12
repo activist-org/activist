@@ -7,25 +7,20 @@ export const getKeyForGetOrganizationsByUser = (
   `organizations-by-user-${userId}:page:${page}:filters:${JSON.stringify(filters)}`;
 
 export function useGetOrganizationsByUser(
-  userId: MaybeRef<string>,
+  userId: string,
   filters?: MaybeRef<OrganizationFilters>
 ) {
   const { showToastError } = useToaster();
   const isLastPageRef = ref(false);
   const organizations = ref<Organization[]>([]);
   const page = ref(1);
-  const userIdRef = computed(() => unref(userId));
+  const userIdRef = computed(() => userId);
   const filtersRef = computed(() => unref(filters));
   const oldFilters = ref<OrganizationFilters | undefined>(filtersRef.value);
   const isFinished = ref(true);
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
-    () =>
-      getKeyForGetOrganizationsByUser(
-        userIdRef.value,
-        page.value,
-        filtersRef.value
-      ),
+    () => getKeyForGetOrganizationsByUser(userId, page.value, filtersRef.value),
     async () => {
       try {
         if (
@@ -67,6 +62,7 @@ export function useGetOrganizationsByUser(
       default: () => [],
     }
   );
+
   const getMore = async () => {
     if (
       isLastPageRef.value ||
@@ -78,16 +74,13 @@ export function useGetOrganizationsByUser(
     page.value += 1;
   };
 
-  const canFetchMore = computed(
-    () => (data.value?.length ?? 0) > 0 && !isLastPageRef.value
-  );
-
   return {
     data,
     pending,
     error,
     refresh,
     getMore,
-    canFetchMore,
+    page,
+    organizations,
   };
 }
