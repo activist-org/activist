@@ -7,12 +7,9 @@ export const useOrganizationMutations = () => {
   const error = ref<Error | null>(null);
   const store = useOrganizationStore();
 
-  const create = async (
-    organizationData: CreateOrganizationInput
-  ): Promise<{ id: string }> => {
+  const create = async (organizationData: CreateOrganizationInput) => {
     loading.value = true;
     error.value = null;
-
     try {
       const organization = await createOrganization(organizationData);
       await refreshOrganizationList();
