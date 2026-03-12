@@ -78,8 +78,8 @@ export async function listGroups(
 
 export async function createGroup(
   data: CreateGroupInput
-): Promise<{ id: string }> {
-  const res = await post<{ id: string }, typeof data>(
+): Promise<Group> {
+  const res = await post<GroupResponse, typeof data>(
     `/communities/groups`,
     data,
     {
@@ -87,5 +87,5 @@ export async function createGroup(
     }
   );
 
-  return res;
+  return mapGroup(res);
 }
