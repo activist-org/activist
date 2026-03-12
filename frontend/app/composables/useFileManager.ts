@@ -8,7 +8,7 @@ export function useFileManager() {
     }
 
     try {
-      return await del(`/content/images/${imageId}`, { withoutAuth: false });
+      return del(`/content/images/${imageId}`, { withoutAuth: false });
     } catch (error) {
       void error;
     }

@@ -12,7 +12,7 @@ interface EventBase extends Entity {
   faqEntries?: FaqEntry[];
   times: EventTime[];
   // TODO: Convert to an array.
-  orgs: Organization;
+  orgs: Organization[];
   discussion?: DiscussionEntry[];
   resources?: Resource[];
   // task?: Task[];
@@ -138,4 +138,5 @@ export interface CreateEventInput {
     bbox: string[];
   };
   times: EventTimeInput[];
+  createdEventIds: string[];
 }

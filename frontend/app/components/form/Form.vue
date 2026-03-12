@@ -31,6 +31,7 @@
             :class="props.classButton"
             :cta="true"
             fontSize="lg"
+            :isLoading="isLoading"
             :label="labelForSubmit"
             type="submit"
           />
@@ -57,6 +58,7 @@ const props = withDefaults(
     sendOnChange?: boolean;
     isThereSubmitButton?: boolean;
     actionButtons?: Btn[];
+    isLoading?: boolean;
   }>(),
   {
     isThereSubmitButton: true,
@@ -73,12 +75,20 @@ const { handleSubmit, values, ...rest } = useForm({
   initialValues: props.initialValues,
 });
 
+let pendingReset: ReturnType<typeof setTimeout> | null = null;
+
 watch(
   () => props.initialValues,
-  (newValues) => {
-    rest.setValues(newValues || {});
+  (newValues, oldValues) => {
+    if (JSON.stringify(newValues) === JSON.stringify(oldValues)) return;
+
+    if (pendingReset !== null) clearTimeout(pendingReset);
+    pendingReset = setTimeout(() => {
+      pendingReset = null;
+      rest.resetForm({ values: newValues || {} });
+    }, 0);
   },
-  { deep: true, immediate: true }
+  { deep: true }
 );
 
 const emit = defineEmits<{

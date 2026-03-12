@@ -6,9 +6,13 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const RESULTS_PATH = path.join(__dirname, "./test-results");
-export const AUTH_STATE_PATH = path.join(
+export const ADMIN_AUTH_STATE_PATH = path.join(
   __dirname,
   "./test-e2e/.auth/admin.json"
+);
+export const MEMBER_AUTH_STATE_PATH = path.join(
+  __dirname,
+  "./test-e2e/.auth/member.json"
 );
 
 /**
@@ -93,7 +97,7 @@ export default defineConfig({
     /* Action timeout - applies to click, fill, etc. */
     actionTimeout: 10000,
     /* Reuse authenticated session across tests (can be overridden per test with test.use()) */
-    storageState: AUTH_STATE_PATH,
+    storageState: ADMIN_AUTH_STATE_PATH,
 
     /* Enhanced trace configuration for better debugging. */
     trace: {
@@ -146,17 +150,17 @@ export default defineConfig({
         ...devices["Pixel 7"],
         isMobile: true,
         hasTouch: true,
-        // Memory optimization: Add launch options to prevent browser crashes in long test runs
+        // Memory optimization: Add launch options to prevent browser crashes in long test runs.
         launchOptions: {
           args: [
-            "--disable-dev-shm-usage", // Use /tmp instead of /dev/shm for shared memory (prevents crashes on low-memory systems)
-            "--disable-background-timer-throttling", // Prevent background tab throttling
-            "--disable-backgrounding-occluded-windows", // Keep windows active
-            "--disable-renderer-backgrounding", // Keep renderer processes active
+            "--disable-dev-shm-usage", // use /tmp instead of /dev/shm for shared memory (prevents crashes on low-memory systems)
+            "--disable-background-timer-throttling", // prevent background tab throttling
+            "--disable-backgrounding-occluded-windows", // keep windows active
+            "--disable-renderer-backgrounding", // keep renderer processes active
             "--disable-features=TranslateUI,BlinkGenPropertyTrees", // Disable unnecessary features
-            "--no-sandbox", // Required for Docker/CI environments
-            "--disable-setuid-sandbox", // Required for Docker/CI environments
-            "--disable-gpu", // Reduce GPU memory usage
+            "--no-sandbox", // required for Docker/CI environments
+            "--disable-setuid-sandbox", // required for Docker/CI environments
+            "--disable-gpu", // reduce GPU memory usage
           ],
         },
         // Reuse browser state for faster authentication.
@@ -254,6 +258,10 @@ export default defineConfig({
           timeout: 180000, // 3 minutes for build + server startup
           stdout: "pipe",
           stderr: "pipe",
+          // Listhen (used by Nitro) prints: ➜  Local: http://localhost:3000/
+          wait: {
+            stdout: /\u2794\s+Local:\s+http:\/\/localhost:3000\/?/,
+          },
         }
       : {
           // Use dev server (default, with hot reload).
@@ -263,5 +271,9 @@ export default defineConfig({
           timeout: 120000, // 2 minutes for server startup
           stdout: "pipe",
           stderr: "pipe",
+          // Listhen prints: ➜  Local: http://localhost:3000/
+          wait: {
+            stdout: /\u2794\s+Local:\s+http:\/\/localhost:3000\/?/,
+          },
         },
 });

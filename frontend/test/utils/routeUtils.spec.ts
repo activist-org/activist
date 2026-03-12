@@ -130,4 +130,71 @@ describe("utils/routeUtils", () => {
       mod.currentRoutePathIncludes("groups_test", "en___groups_test-members")
     ).toBe(true);
   });
+
+  // MARK: Route Query to Filter Form Data
+  // @see https://github.com/activist-org/activist/issues/1738
+
+  describe("routeQueryToEventsFilterFormData", () => {
+    it("syncs query params to form data", async () => {
+      const mod = await import("../../shared/utils/routeUtils");
+      const result = mod.routeQueryToEventsFilterFormData({
+        topics: "ENVIRONMENT",
+        location: "Berlin",
+        view: "list",
+      });
+      expect(result).toMatchObject({
+        topics: ["ENVIRONMENT"],
+        location: "Berlin",
+      });
+      expect(result).not.toHaveProperty("view");
+    });
+
+    it("extracts view separately from formData", async () => {
+      const mod = await import("../../shared/utils/routeUtils");
+      const result = mod.routeQueryToEventsFilterFormData({
+        topics: "TEST",
+        view: "list",
+      });
+      expect(result).not.toHaveProperty("view");
+      expect(result).toMatchObject({ topics: ["TEST"] });
+    });
+
+    it("handles empty query object", async () => {
+      const mod = await import("../../shared/utils/routeUtils");
+      const result = mod.routeQueryToEventsFilterFormData({});
+      expect(result).toEqual({ topics: [] });
+    });
+
+    it("handles undefined query", async () => {
+      const mod = await import("../../shared/utils/routeUtils");
+      const result = mod.routeQueryToEventsFilterFormData(undefined);
+      expect(result).toEqual({ topics: [] });
+    });
+  });
+
+  describe("routeQueryToOrganizationFilterFormData", () => {
+    it("syncs query params to form data", async () => {
+      const mod = await import("../../shared/utils/routeUtils");
+      const result = mod.routeQueryToOrganizationFilterFormData({
+        topics: "ENVIRONMENT",
+        location: "Berlin",
+      });
+      expect(result).toMatchObject({
+        topics: "ENVIRONMENT",
+        location: "Berlin",
+      });
+    });
+
+    it("handles empty query object", async () => {
+      const mod = await import("../../shared/utils/routeUtils");
+      const result = mod.routeQueryToOrganizationFilterFormData({});
+      expect(result).toEqual({});
+    });
+
+    it("handles undefined query", async () => {
+      const mod = await import("../../shared/utils/routeUtils");
+      const result = mod.routeQueryToOrganizationFilterFormData(undefined);
+      expect(result).toEqual({});
+    });
+  });
 });

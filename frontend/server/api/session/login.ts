@@ -57,9 +57,11 @@ export default defineEventHandler(async (event) => {
         error.statusCode === 404
           ? "User profile endpoint not found"
           : "Invalid credentials or server error";
+      // Preserve 400 from Django (invalid credentials) so frontend can show specific error.
+      const statusCode = error.statusCode === 400 ? 400 : 401;
 
       throw createError({
-        statusCode: 401,
+        statusCode,
         statusMessage: message,
       });
     }

@@ -3,6 +3,9 @@ FROM python:3.13-alpine
 # Set work dir for relative paths.
 WORKDIR /app
 
+# Install system dependencies (curl is required for the Docker healthcheck).
+RUN apk add --no-cache curl
+
 # Install uv.
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 

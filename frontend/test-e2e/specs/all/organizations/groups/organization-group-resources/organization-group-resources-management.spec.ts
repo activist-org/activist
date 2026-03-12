@@ -88,7 +88,9 @@ test.describe(
       if (resourceCount > 0) {
         // Note: Check auth state.
         const cookies = await page.context().cookies();
-        const authCookie = cookies.find((c) => c.name === "auth.token");
+        const authCookie = cookies.find(
+          (c) => c.name === "nuxt-session" && c.value
+        );
 
         if (!authCookie) {
           throw new Error(

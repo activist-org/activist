@@ -1,58 +1,71 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { Component, Ref } from "vue";
+
 /** The rich context object passed to `next` and `onExit` functions. */
-export interface FlowContext {
+export interface FlowContext<T extends string = string> {
   allNodeData: Record<string, unknown>;
+  sharedData: Record<string, unknown>;
   actions: {
-    goto: (nodeId: string) => void;
+    goto: (nodeId: T) => void;
     submit: () => void;
+    setSharedData: (updates: Record<string, unknown>) => void;
   };
 }
 
+/** Helper type for valid return values for the next step */
+export type ValidNextNode<T extends string> = T | "end" | null | undefined;
+
 /** The function signature for a dynamic `next` property on a node. */
-export type NextFn = (
-  context: FlowContext,
+export type NextFn<T extends string> = (
+  context: FlowContext<T>,
   nodeData?: Record<string, unknown>
-) => string | null | undefined;
+) => ValidNextNode<T> | Promise<ValidNextNode<T>>;
 
 /** The function signature for the `onExit` side-effect action. */
-export type OnExitFn = (
-  context: FlowContext,
+export type OnExitFn<T extends string> = (
+  context: FlowContext<T>,
   nodeData?: Record<string, unknown>
 ) => void | Promise<void>;
 
-/** The different types a node can be. */
-export type NodeType = "screen" | "logic";
+/**
+ * The different types a node can be.
+ * - "screen": A node that renders a UI component.
+ * - "logic": A node that performs logic without rendering a UI component.
+ * - "action": A node that performs side-effect actions like API calls without rendering a UI component.
+ */
 
-export interface StateConfig {
-  label?: string; // Human-readable label for the node (for debugging or progress tracking)
-  next?: string | NextFn | null; // ID of the next node or a function to determine it
-  onExit?: OnExitFn; // Side-effect function when exiting this node
-  type?: NodeType; // Defaults to 'screen'
-  component?: Component | (() => Promise<null | unknown>); // The Vue component for screen nodes
-  initialData?: Record<string, unknown>; // Define default data co-located with the state
-  step?: number | (() => number); // Step number for progress tracking
+export type NodeType = "screen" | "logic" | "action";
+
+export interface StateConfig<T extends string = string> {
+  label?: string;
+  next?: ValidNextNode<T> | NextFn<T>;
+  onExit?: OnExitFn;
+  type?: NodeType;
+  component?: Component | (() => Promise<null | unknown>);
+  initialData?: Record<string, unknown>;
+  step?: number | (() => number);
 }
 
 /**
  * The internal representation of a node, which includes the ID.
  */
-export interface NodeConfig extends StateConfig {
-  id: string;
+export interface NodeConfig<T extends string = string> extends StateConfig<T> {
+  id: T;
 }
 
 /**
  * The structure of the machine definition object.
  */
-export interface MachineDefinition {
-  id: string; // The unique ID for the machine/store
-  initialNode: string; // The ID of the starting state
-  states: Record<string, StateConfig>; // The states, keyed by their ID
-  totalSteps?: number; // Optional total steps for progress tracking
+export interface MachineDefinition<T extends string = string> {
+  id: string;
+  initialNode: T; // <-- MUST be a valid state key
+  states: Record<T, StateConfig<T>>; // <-- Keys MUST match T
+  totalSteps?: number;
 }
 
 /** The options required to create a new flow store instance. */
-export interface FlowStoreOptions {
-  machine: MachineDefinition;
+export interface FlowStoreOptions<T extends string = string> {
+  machine: MachineDefinition<T>;
   discardOnClose?: boolean;
 }
 
@@ -65,6 +78,7 @@ export interface FlowContextState {
   nodeId: string | null;
   currentNode: Component | null;
   nodeData: Record<string, unknown>;
+  sharedData: Record<string, unknown>;
   currentStep: number;
   totalSteps: number;
 }
@@ -73,8 +87,11 @@ export interface FlowContextState {
  * The object provided via `provide("flow", ..)` to step components.
  */
 export interface FlowControls {
-  // Actions (mirror the return values from useFlowScreens).
-  start: (draft?: Record<string, unknown>) => void;
+  start: (
+    draft?: Record<string, unknown>,
+    shared?: Record<string, unknown>
+  ) => void;
+  isSaving: Ref<boolean>;
   next: (payload?: Record<string, unknown>) => Promise<void>;
   prev: () => void;
   close: (discard?: boolean) => void;
@@ -86,6 +103,8 @@ export interface FlowControls {
 export interface UseFlowScreensOptions {
   autoStart?: boolean;
   startData?: Record<string, unknown>;
-  onSubmit?: (finalData: unknown) => void;
+  startSharedData?: Record<string, unknown>;
+  onSubmit?: (finalData: unknown) => void | Promise<void>;
   onNodeEnter?: (nodeId: string) => void | Promise<void>;
+  onAction?: (actionData: unknown) => unknown | Promise<unknown>;
 }
