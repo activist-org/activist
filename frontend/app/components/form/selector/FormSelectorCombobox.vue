@@ -4,8 +4,8 @@
     :id="id"
     v-model="internalSelectedOptions"
     @click.stop
-    :disabled="disabled"
     as="div"
+    :disabled="disabled"
     :multiple="isMultiSelect"
   >
     <div class="relative">
@@ -20,8 +20,8 @@
           :id="inputId"
           ref="formInputRef"
           @update:modelValue="handleInput"
-          :label="label"
           :disabled="disabled"
+          :label="label"
           :modelValue="query"
           :onBlur="onBlur"
         />
@@ -93,8 +93,8 @@
     >
       <li v-for="option in internalSelectedOptions" :key="option.id">
         <Shield
-          @click.stop="() => onClick(option)"
           :key="option.id + '-selected-only'"
+          @click.stop="() => onClick(option)"
           :active="true"
           class="mobileTopic max-sm:w-full"
           :icon="IconMap.GLOBE"
