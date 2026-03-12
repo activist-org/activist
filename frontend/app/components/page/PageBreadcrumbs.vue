@@ -118,11 +118,12 @@ if (groupRegex.test(url)) {
 } else if (organizationRegex.test(url)) {
   pageType = "organization";
 
-  // if (organizationStore.organization)
-  //   organization = organizationStore.organization;
-  // else organization = await getOrganization(orgId || "");
-  organization = await getOrganization(orgId || "");
-  organizationStore.organization = organization;
+  let organization = organizationStore.organization;
+
+  if (!organization) {
+    organization = await getOrganization(orgId || "");
+    organizationStore.organization = organization;
+  }
 } else if (eventRegex.test(url)) {
   pageType = "event";
 
