@@ -12,14 +12,13 @@ export function defineFlowMachine<T extends string>(
   for (const [nodeId, nodeConfig] of Object.entries<StateConfig<T>>(
     config.states
   )) {
-    // Validate unique step numbers for screen nodes at runtime
+    // Validate unique step numbers for screen nodes at runtime.
     if (nodeConfig.type !== "logic" && nodeConfig.step) {
       const stepVal =
         typeof nodeConfig.step === "function"
           ? nodeConfig.step()
           : nodeConfig.step;
 
-      // 1. Check FIRST
       if (stepNumbers.has(stepVal)) {
         // eslint-disable-next-line no-console
         console.warn(
@@ -27,7 +26,7 @@ export function defineFlowMachine<T extends string>(
         );
       }
 
-      // 2. THEN add it to the set for the next loop iteration
+      // Add it to the set for the next loop iteration.
       stepNumbers.add(stepVal);
     }
   }

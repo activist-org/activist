@@ -61,22 +61,22 @@ export function useFlowScreens(
       loading.value = true;
       try {
         if (options.onAction) {
-          store.setSaving(true); // Optionally set a saving state in the store
-          // 1. Call the API function provided by the Modal
+          store.setSaving(true); // optionally set a saving state in the store
+          // Call the API function provided by the Modal.
           const actionResult = await options.onAction(store.nodeData);
 
-          // 2. Save the result so the machine's onExit/next hooks can read it
+          // Save the result so the machine's onExit/next hooks can read it.
           store.setSharedData({ __lastActionResult: actionResult });
         }
-        // 3. Move to the next node automatically
+        // Move to the next node automatically.
         await store.next();
       } catch (error) {
         const errorMessage = errorHandler(error);
         toast.showToastError(errorMessage.message);
-        // Optionally handle errors (e.g., toast message) and don't advance
+        // Optionally handle errors (e.g., toast message) and don't advance.
       } finally {
         loading.value = false;
-        store.setSaving(false); // Reset the saving state
+        store.setSaving(false); // reset the saving state
       }
       return;
     }

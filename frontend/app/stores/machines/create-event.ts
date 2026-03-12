@@ -81,7 +81,7 @@ export const useCreateEventStore = createFlowStore({
         label: "Create Event Loop",
         type: "action",
         onExit: (context: FlowContext) => {
-          // Read the result that useFlowScreens injected
+          // Read the result that useFlowScreens injected.
           const result = context.sharedData
             .__lastActionResult as unknown as CommunityEvent;
           if (result && result.id) {
@@ -89,7 +89,7 @@ export const useCreateEventStore = createFlowStore({
               (context.sharedData.createdEventIds as string[]) || [];
             context.actions.setSharedData({
               createdEventIds: [...existingIds, result.id],
-              __lastActionResult: null, // Clean up for the next loop iteration
+              __lastActionResult: null, // clean up for the next loop iteration
             });
           }
         },

@@ -273,6 +273,8 @@ const handleSubmit = (_values: unknown) => {
 
   router.push({
     query: {
+      // Preserve id from post-creation routing so newly created events remain visible.
+      ...(route.query.id ? { id: route.query.id } : {}),
       ...(values as LocationQueryRaw),
       view: viewType.value,
     },

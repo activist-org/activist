@@ -72,8 +72,11 @@ async function handleSubmit(values: unknown) {
     ...(values as Resource),
     order: formData.value?.order ?? (event.value?.resources ?? []).length,
   };
-  if (isAddMode) await createResource(newValues as ResourceInput);
-  else await updateResource(newValues as ResourceInput);
-  handleCloseModal();
+  const success = isAddMode
+    ? await createResource(newValues as ResourceInput)
+    : await updateResource(newValues as ResourceInput);
+  if (success) {
+    handleCloseModal();
+  }
 }
 </script>
