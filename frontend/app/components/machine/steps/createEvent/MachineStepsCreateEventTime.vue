@@ -160,6 +160,7 @@ import {
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
+const isCreating = ref(false);
 
 const scheduleSchema = z.object({
   dates: z.object({
@@ -252,8 +253,9 @@ const handlePrev = () => {
 
 const handleSubmit = async (values: Record<string, unknown>) => {
   const { times, createAnother } = values;
+
   if (!flow) return;
-  // Serialize times to API shape: date string, start_time/end_time as ISO (per review: normalize on the step).
+  if (isCreating.value) return;
   const mappedTimes = (
     times as {
       date: Date;
@@ -273,6 +275,10 @@ const handleSubmit = async (values: Record<string, unknown>) => {
         : (t.endTime as string),
     all_day: t.allDayLong || false,
   }));
-  flow.next({ times: mappedTimes, createAnother });
+
+  flow.next({
+    times: mappedTimes,
+    createAnother,
+  });
 };
 </script>

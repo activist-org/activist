@@ -16,11 +16,8 @@ export function useGetOrganizationsByUser(
   const page = ref(1);
   const userIdRef = computed(() => unref(userId));
   const filtersRef = computed(() => unref(filters));
-
-  watch([userIdRef, filtersRef], () => {
-    page.value = 1;
-  });
-
+  const oldFilters = ref<OrganizationFilters | undefined>(filtersRef.value);
+  const isFinished = ref(true);
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
     () =>
@@ -31,31 +28,51 @@ export function useGetOrganizationsByUser(
       ),
     async () => {
       try {
-        if (!userIdRef.value || userIdRef.value === "") {
-          return [];
+        if (
+          !userIdRef.value ||
+          (userIdRef.value === "" && !isLastPageRef.value)
+        ) {
+          return organizations.value as Organization[];
         }
+        if (
+          JSON.stringify(oldFilters.value) !== JSON.stringify(filtersRef.value)
+        ) {
+          oldFilters.value = filtersRef.value;
+          page.value = 1;
+          organizations.value = [];
+        }
+        isFinished.value = false;
         const paginatedOrganizations = await listOrganizationsByUserId(
           userIdRef.value,
           page.value,
           filtersRef.value
         );
+        isFinished.value = true;
         isLastPageRef.value = paginatedOrganizations.isLastPage;
-        return [
-          ...organizations.value,
-          ...paginatedOrganizations.data,
-        ] as Organization[];
+        const newOrgs = paginatedOrganizations.data.filter(
+          (newOrg) =>
+            !organizations.value.some(
+              (existingOrg) => existingOrg.id === newOrg.id
+            )
+        );
+        organizations.value = organizations.value.concat(newOrgs);
+        return organizations.value as Organization[];
       } catch (error) {
         showToastError((error as AppError).message);
         throw error;
       }
     },
     {
-      watch: [page, userIdRef, filtersRef],
+      watch: [userIdRef, filtersRef],
       default: () => [],
     }
   );
   const getMore = async () => {
-    if (isLastPageRef.value) {
+    if (
+      isLastPageRef.value ||
+      JSON.stringify(oldFilters.value) !== JSON.stringify(filtersRef.value) ||
+      !isFinished.value
+    ) {
       return;
     }
     page.value += 1;
