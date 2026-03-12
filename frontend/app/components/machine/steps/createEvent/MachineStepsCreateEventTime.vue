@@ -186,9 +186,7 @@ const initialTimeData = computed(() => {
   const first = times[0];
   const last = times[times.length - 1];
   const dates =
-    first && last
-      ? { start: first.date, end: last.date }
-      : undefined;
+    first && last ? { start: first.date, end: last.date } : undefined;
   return {
     times,
     createAnother: d.createAnother,
