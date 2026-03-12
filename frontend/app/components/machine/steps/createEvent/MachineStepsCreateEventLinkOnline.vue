@@ -3,6 +3,7 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
       id="event-link-online"
+      :initial-values="initialLinkOnlineData"
       @submit="handleSubmit"
       :action-buttons="[
         {
@@ -49,7 +50,17 @@
 <script setup lang="ts">
 import { z } from "zod";
 
+import { CreateEventSteps } from "~~/shared/types";
+
 const flow = inject<FlowControls>("flow");
+
+const initialLinkOnlineData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.LinkOnline) return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
+
 const linkSchema = z.object({
   onlineLocationLink: z.string().url("Please enter a valid URL").optional(),
 });

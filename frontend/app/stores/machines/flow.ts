@@ -205,7 +205,14 @@ export function createFlowStore<T extends string = string>(
         }
       },
 
-      prev() {
+      prev(payload?: Record<string, unknown>) {
+        const currentId = this.nodeId;
+        if (payload && currentId && Object.keys(payload).length > 0) {
+          this.nodeData[currentId] = {
+            ...(this.nodeData[currentId] || {}),
+            ...payload,
+          };
+        }
         const previousNodeId = this.history.pop();
         if (previousNodeId) {
           const prevNode = nodesArray.find((n) => n.id === previousNodeId);

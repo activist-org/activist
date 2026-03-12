@@ -111,4 +111,8 @@ if (props.sendOnChange) {
 const onSubmit = handleSubmit((values) => {
   emit("submit", values);
 });
+
+defineExpose({
+  getValues: () => ({ ...values }),
+});
 </script>

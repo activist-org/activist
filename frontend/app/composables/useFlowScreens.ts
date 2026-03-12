@@ -124,7 +124,7 @@ export function useFlowScreens(
   const close = (discard?: boolean) => store.close(discard);
   const next = async (payload?: Record<string, unknown>) =>
     await store.next(payload);
-  const prev = () => store.prev();
+  const prev = (payload?: Record<string, unknown>) => store.prev(payload);
 
   const context = computed(() => ({
     active: store?.active,

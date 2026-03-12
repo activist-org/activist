@@ -4,6 +4,7 @@
     <FormSearchLocation :handle-submit="handleSubmitLocation" />
     <Form
       id="event-location"
+      :initial-values="initialLocationData"
       @submit="handleSubmit"
       :action-buttons="[
         {
@@ -48,6 +49,8 @@
 <script setup lang="ts">
 import { z } from "zod";
 
+import { CreateEventSteps } from "~~/shared/types";
+
 const query = ref<Record<string, string> | null>(null);
 const options = ref<RadioOption[]>([]);
 const handleSubmitLocation = (values: unknown) => {
@@ -60,6 +63,13 @@ const handleSubmitLocation = (values: unknown) => {
   };
 };
 const flow = inject<FlowControls>("flow");
+
+const initialLocationData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.Location) return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
 const locationSchema = z.object({
   location: z
     .object({

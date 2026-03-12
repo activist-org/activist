@@ -165,6 +165,88 @@ test.describe(
       await expect(modal.descriptionField).toHaveValue("Retained description.");
     });
 
+    test("previous button retains rehydrated data on Event Type and Details when going back from Link Online", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+      await modal.nameField.fill("Rehydration Test Event");
+      await modal.descriptionField.fill("Testing step rehydration.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.eventTypeForm).toBeVisible();
+      await modal.locationTypeSection
+        .getByRole("radio", { name: /online/i })
+        .click();
+      await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
+      await selectFirstTopic(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.linkOnlineForm).toBeVisible();
+      await modal.onlineLinkField.fill(
+        "https://example.com/rehydration-test"
+      );
+      await modal.getPreviousStepButton().click();
+
+      await expect(modal.eventTypeForm).toBeVisible();
+      await expect(
+        modal.locationTypeSection.getByRole("radio", { name: /online/i })
+      ).toBeChecked();
+      await expect(
+        modal.eventTypeSection.getByRole("radio", { name: /learn/i })
+      ).toBeChecked();
+
+      await modal.getPreviousStepButton().click();
+
+      await expect(modal.eventDetailsForm).toBeVisible();
+      await expect(modal.nameField).toHaveValue("Rehydration Test Event");
+      await expect(modal.descriptionField).toHaveValue(
+        "Testing step rehydration."
+      );
+    });
+
+    test("Time step retains date and time after Previous then Next", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+      await modal.nameField.fill("Time Persist Event");
+      await modal.descriptionField.fill("Testing time step rehydration.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.eventTypeForm).toBeVisible();
+      await modal.locationTypeSection
+        .getByRole("radio", { name: /online/i })
+        .click();
+      await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
+      await selectFirstTopic(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.linkOnlineForm).toBeVisible();
+      await modal.onlineLinkField.fill("https://example.com/time-persist-test");
+      await modal.getNextStepButton().click();
+
+      await expect(modal.timeForm).toBeVisible();
+      const dayButtons = modal.root.locator(
+        ".vc-day.in-month .vc-day-content[role='button']"
+      );
+      await dayButtons.first().click();
+      await dayButtons.nth(1).click();
+      await setFirstDayEndTimeToFuture(modal, page);
+
+      await modal.getPreviousStepButton().click();
+      await expect(modal.linkOnlineForm).toBeVisible();
+      await modal.getNextStepButton().click();
+
+      await expect(modal.timeForm).toBeVisible();
+      await expect(
+        modal.timeForm.locator('[id="form-item-times.0.startTime"]')
+      ).toContainText("10");
+      await expect(
+        modal.timeForm.locator('[id="form-item-times.0.endTime"]')
+      ).toContainText("11");
+    });
+
     // MARK: Modal close
 
     test("modal close button hides modal", async ({ page }) => {
