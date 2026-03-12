@@ -12,12 +12,9 @@ export const useGroupMutations = () => {
     error.value = null;
     try {
       const groupId = await createGroup(groupData);
-      try {
-        await refreshGroupList();
-      } catch {
-        // console.warn("Failed to refresh group list after create", refreshError);
-      }
-
+      
+      await refreshGroupList();
+      
       return groupId;
     } catch (e) {
       error.value = e as AppError;
