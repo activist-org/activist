@@ -155,6 +155,7 @@ import { addDays, differenceInCalendarDays, format, isSameDay } from "date-fns";
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
+const isCreating = ref(false);
 
 const scheduleSchema = z.object({
   dates: z.object({
@@ -247,7 +248,10 @@ const handlePrev = () => {
 
 const handleSubmit = async (values: Record<string, unknown>) => {
   const { times, createAnother } = values;
+
   if (!flow) return;
+  if (isCreating.value) return;
+
   const mappedTimes = (
     times as {
       date: Date;
@@ -261,6 +265,10 @@ const handleSubmit = async (values: Record<string, unknown>) => {
     end_time: t.endTime,
     all_day: t.allDayLong || false,
   }));
-  flow.next({ times: mappedTimes, createAnother });
+
+  flow.next({
+    times: mappedTimes,
+    createAnother,
+  });
 };
 </script>

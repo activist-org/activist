@@ -15,6 +15,9 @@ const modalName = "ModalCreateEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 const { create } = useEventMutations();
 
+const route = useRoute();
+const router = useRouter();
+
 // Runs mid-machine during the "loop" node.
 async function handleLoopSubmit(iterationData: unknown) {
   const dataToSubmit = Object.values(
@@ -34,16 +37,7 @@ async function handleSubmission(finalData: unknown) {
 
   // Combine all IDs.
   const allIds = [...loopedEventIds];
-
-  // Route the user based on how many events were created.
-  if (allIds.length === 1) {
-    // Just one event created, go to its page
-    // console.log("Navigating to event with ID:", allIds[0]);
-  } else if (allIds.length > 1) {
-    // Multiple events created, maybe go to a list or dashboard
-    // Example: router.push({ name: "EventsList", query: { highlight: allIds.join(',') } });
-    // console.log("Navigating to events list with IDs:", allIds);
-  }
+  await handleCreatedEventRouting(allIds);
   // Close the modal.
   handleCloseModal();
 }
@@ -54,4 +48,29 @@ const flowOptions = {
   autoStart: true,
   onAction: handleLoopSubmit, // pass the loop submission handler
 };
+
+async function handleCreatedEventRouting(createdEventIds: string[]) {
+  // Route the user based on how many events were created.
+  if (!createdEventIds || createdEventIds.length === 0) return;
+
+  if (createdEventIds.length === 1) {
+    await router.push({
+      path: `/events/${createdEventIds[0]}/about`,
+    });
+    return;
+  }
+
+  const viewQueryValue = route.query.view || ViewType.LIST; // default to 'list' if no view query param is present
+
+  // Preserve the next query in case we are navigating to a new path.
+  const preserveNextQuery = useState("preserveNextQuery", () => false);
+  preserveNextQuery.value = true;
+  await router.push({
+    path: "/events",
+    query: {
+      view: viewQueryValue,
+      id: createdEventIds.join(","),
+    },
+  });
+}
 </script>
