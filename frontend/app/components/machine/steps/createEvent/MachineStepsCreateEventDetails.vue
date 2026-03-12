@@ -95,7 +95,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-
 import { CreateEventSteps } from "~~/shared/types";
 
 const { t } = useI18n();
@@ -112,8 +111,7 @@ const eventDetailsSchema = z.object({
 
 const initialDetailsData = computed(() => {
   const ctx = flow?.context?.value;
-  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.EventDetails)
-    return {};
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.EventDetails) return {};
   return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
     {}) as Record<string, unknown>;
 });

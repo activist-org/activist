@@ -49,9 +49,7 @@ export const newCreateEventModal = (page: Page) => {
     getPreviousStepButton(): Locator {
       return root.getByRole("button", {
         name: new RegExp(
-          getEnglishText(
-            "i18n.components.machine.steps._global.previous_step"
-          ),
+          getEnglishText("i18n.components.machine.steps._global.previous_step"),
           "i"
         ),
       });

@@ -62,9 +62,7 @@ export function useGetOrganizationsByUser(
   };
 
   const canFetchMore = computed(
-    () =>
-      (data.value?.length ?? 0) > 0 &&
-      !isLastPageRef.value
+    () => (data.value?.length ?? 0) > 0 && !isLastPageRef.value
   );
 
   return {

@@ -15,9 +15,7 @@ const modalName = "ModalCreateEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 const { create } = useEventMutations();
 
-function normalizeEventPayload(
-  raw: Record<string, unknown>
-): CreateEventInput {
+function normalizeEventPayload(raw: Record<string, unknown>): CreateEventInput {
   const { createAnother, ...rest } = raw;
   const payload = { ...rest } as Record<string, unknown>;
 
