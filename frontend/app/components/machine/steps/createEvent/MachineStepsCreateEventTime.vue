@@ -253,6 +253,7 @@ const handlePrev = () => {
 const handleSubmit = async (values: Record<string, unknown>) => {
   const { times, createAnother } = values;
   if (!flow) return;
+  // Serialize times to API shape: date string, start_time/end_time as ISO (per review: normalize on the step).
   const mappedTimes = (
     times as {
       date: Date;
@@ -262,8 +263,14 @@ const handleSubmit = async (values: Record<string, unknown>) => {
     }[]
   ).map((t) => ({
     date: t.date.toISOString().split("T")[0],
-    start_time: t.startTime,
-    end_time: t.endTime,
+    start_time:
+      t.startTime instanceof Date
+        ? t.startTime.toISOString()
+        : (t.startTime as string),
+    end_time:
+      t.endTime instanceof Date
+        ? t.endTime.toISOString()
+        : (t.endTime as string),
     all_day: t.allDayLong || false,
   }));
   flow.next({ times: mappedTimes, createAnother });

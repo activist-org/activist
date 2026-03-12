@@ -15,71 +15,30 @@ const modalName = "ModalCreateEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 const { create } = useEventMutations();
 
-function normalizeEventPayload(raw: Record<string, unknown>): CreateEventInput {
-  const { createAnother, ...rest } = raw;
-  const payload = { ...rest } as Record<string, unknown>;
-
-  if (Array.isArray(payload.orgs)) {
-    payload.orgs = payload.orgs.map((o: unknown) =>
-      typeof o === "object" && o !== null && "id" in o
-        ? (o as { id: string }).id
-        : o
-    );
-  }
-  if (Array.isArray(payload.groups)) {
-    payload.groups = payload.groups.map((g: unknown) =>
-      typeof g === "object" && g !== null && "id" in g
-        ? (g as { id: string }).id
-        : g
-    );
-  }
-  if (
-    payload.location &&
-    typeof payload.location === "object" &&
-    payload.location !== null
-  ) {
-    const loc = payload.location as Record<string, unknown>;
-    const { id: _id, ...locRest } = loc;
-    if (typeof locRest.lat === "number") locRest.lat = String(locRest.lat);
-    if (typeof locRest.lon === "number") locRest.lon = String(locRest.lon);
-    if (Array.isArray(locRest.bbox)) {
-      locRest.bbox = locRest.bbox.map((x: unknown) => String(x));
-    }
-    payload.location = locRest;
-  }
-  if (Array.isArray(payload.times)) {
-    payload.times = payload.times.map((t: unknown) => {
-      const row = t as Record<string, unknown>;
-      const out = { ...row };
-      if (row.start_time instanceof Date) {
-        out.start_time = row.start_time.toISOString();
-      }
-      if (row.end_time instanceof Date) {
-        out.end_time = row.end_time.toISOString();
-      }
-      return out;
-    });
-  }
-  return payload as unknown as CreateEventInput;
-}
+const route = useRoute();
+const router = useRouter();
 
 // Runs mid-machine during the "loop" node.
 async function handleLoopSubmit(iterationData: unknown) {
   const dataToSubmit = Object.values(
     iterationData as ContextCreateEventData
   ).reduce((acc, d) => ({ ...acc, ...(d as Record<string, unknown>) }), {});
-  const normalized = normalizeEventPayload(
-    dataToSubmit as Record<string, unknown>
-  );
-  return create(normalized); // Returns to useFlowScreens
+  return create(dataToSubmit as unknown as CreateEventInput); // Returns to useFlowScreens
 }
 
 /**
  * This function will be called by the machine when the flow completes.
  * @param {unknown} finalData The consolidated data from all steps.
  */
-async function handleSubmission(_finalData: unknown) {
-  // Close the modal (routing by createdEventIds can be added later).
+async function handleSubmission(finalData: unknown) {
+  // Extract the loop IDs we saved into `sharedData`.
+  const loopedEventIds =
+    (finalData as { createdEventIds?: string[] }).createdEventIds || [];
+
+  // Combine all IDs.
+  const allIds = [...loopedEventIds];
+  await handleCreatedEventRouting(allIds);
+  // Close the modal.
   handleCloseModal();
 }
 
@@ -89,4 +48,29 @@ const flowOptions = {
   autoStart: true,
   onAction: handleLoopSubmit, // pass the loop submission handler
 };
+
+async function handleCreatedEventRouting(createdEventIds: string[]) {
+  // Route the user based on how many events were created.
+  if (!createdEventIds || createdEventIds.length === 0) return;
+
+  if (createdEventIds.length === 1) {
+    await router.push({
+      path: `/events/${createdEventIds[0]}/about`,
+    });
+    return;
+  }
+
+  const viewQueryValue = route.query.view || ViewType.LIST; // default to 'list' if no view query param is present
+
+  // Preserve the next query in case we are navigating to a new path.
+  const preserveNextQuery = useState("preserveNextQuery", () => false);
+  preserveNextQuery.value = true;
+  await router.push({
+    path: "/events",
+    query: {
+      view: viewQueryValue,
+      id: createdEventIds.join(","),
+    },
+  });
+}
 </script>

@@ -64,16 +64,30 @@ async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
   });
 }
 
-/** Set the first day's end time to a future time (e.g. 01:00) so start < end; frontend shows error if they are equal. */
+/** Set each day's start time to 10:00 and end time to 11:00 so backend receives start_time < end_time for every entry. */
 async function setFirstDayEndTimeToFuture(
   modal: ReturnType<typeof newCreateEventModal>,
   page: { keyboard: { press: (key: string) => Promise<void>; type: (text: string) => Promise<void> } }
 ) {
-  // v-calendar DatePicker renders a div, not a native input; use click + keyboard to type the time (24h).
-  const container = modal.timeForm.locator('[id="form-item-times.0.endTime"]');
-  await container.click();
-  await page.keyboard.press("Control+a");
-  await page.keyboard.type("01:00");
+  // v-calendar renders a div, not a native input; use click + keyboard to type (24h).
+  // When multiple days are selected we have times.0, times.1, ...; all must have start < end.
+  const timeEntries = await modal.timeForm.locator('[id^="form-item-times."]').all();
+  const indices = new Set<string>();
+  for (const el of timeEntries) {
+    const id = await el.getAttribute("id");
+    const m = id?.match(/form-item-times\.(\d+)\.(startTime|endTime)/);
+    if (m?.[1]) indices.add(m[1]);
+  }
+  for (const idx of Array.from(indices).sort()) {
+    const startContainer = modal.timeForm.locator(`[id="form-item-times.${idx}.startTime"]`);
+    await startContainer.click();
+    await page.keyboard.press("Control+a");
+    await page.keyboard.type("10:00");
+    const endContainer = modal.timeForm.locator(`[id="form-item-times.${idx}.endTime"]`);
+    await endContainer.click();
+    await page.keyboard.press("Control+a");
+    await page.keyboard.type("11:00");
+  }
 }
 
 test.describe(
@@ -198,6 +212,7 @@ test.describe(
       await modal.getNextStepButton().click();
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
+      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, { timeout: 10000 });
     });
 
     // MARK: Full flow (online, all day)
@@ -237,9 +252,12 @@ test.describe(
       );
       await allDayCheckbox.scrollIntoViewIfNeeded();
       await allDayCheckbox.check();
+      // Second day (times.1) is not all-day; backend requires start_time < end_time for it.
+      await setFirstDayEndTimeToFuture(modal, page);
       await modal.getNextStepButton().click();
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
+      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, { timeout: 10000 });
     });
 
     // MARK: Create Another checkbox flow
@@ -381,6 +399,7 @@ test.describe(
       await submitBtn.click();
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
+      await expect(page).toHaveURL(/\/events\/[^/]+\/about/, { timeout: 10000 });
     });
   }
 );
