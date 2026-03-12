@@ -15,9 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-
-import { useOrganizationMutations } from "@/composables/mutations";
 
 const router = useRouter();
 const modalName = "ModalCreateOrganization";
