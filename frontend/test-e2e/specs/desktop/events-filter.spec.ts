@@ -164,9 +164,12 @@ test.describe("Events Filter Component", { tag: "@desktop" }, () => {
       await physicalButton.click();
 
       // Wait for all filters to be applied.
-      await page.waitForURL(/days_ahead=7.*type=action.*locationType=physical/, {
-        timeout: 5000,
-      });
+      await page.waitForURL(
+        /days_ahead=7.*type=action.*locationType=physical/,
+        {
+          timeout: 5000,
+        }
+      );
     });
 
     await withTestStep(
