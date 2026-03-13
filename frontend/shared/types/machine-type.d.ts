@@ -102,7 +102,7 @@ export interface FlowControls {
   ) => void;
   isSaving: Ref<boolean>;
   next: (payload?: Record<string, unknown>) => Promise<void>;
-  prev: (payload?: Record<string, unknown>) => void;
+  prev: () => void;
   close: (discard?: boolean) => void;
 
   // Reactive state.
