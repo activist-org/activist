@@ -116,7 +116,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         org.application.create()
 
         return Response(
-            self.get_serializer(org).data,
+            OrganizationSerializer(org).data,
             status=status.HTTP_201_CREATED,
         )
 
