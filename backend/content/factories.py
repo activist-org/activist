@@ -63,40 +63,40 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
                 "13.3989367",
                 ["52.3382448", "52.6755087", "13.0883450", "13.7611609"],
                 "Berlin, Germany",
-                'DE',
-                'Berlin'
+                "DE",
+                "Berlin",
             ],
             [
                 "48.8534951",
                 "2.3483915",
                 ["48.8155755", "48.9021560", "2.2241220", "2.4697602"],
                 "Paris, Ile-de-France, Metropolitan France, France",
-                'FR',
-                'Paris'
+                "FR",
+                "Paris",
             ],
             [
                 "38.8950368",
                 "-77.0365427",
                 ["38.7916303", "38.9959680", "-77.1197949", "-76.9093660"],
                 "Washington, District of Columbia, United States",
-                'EN',
-                'Washington, D.C.'
+                "EN",
+                "Washington, D.C.",
             ],
             [
                 "55.625578",
                 "37.6063916",
                 ["55.1421745", "56.0212238", "36.8031012", "37.9674277"],
                 "Moscow, Central Federal District, Russia",
-                'RU',
-                'Moscow'
+                "RU",
+                "Moscow",
             ],
             [
                 "40.190632",
                 "116.412144",
                 ["39.1707096", "41.0595584", "115.4172086", "117.7371243"],
                 "Beijing, China",
-                'CN',
-                'Beijing'
+                "CN",
+                "Beijing",
             ],
         ]
 
@@ -107,6 +107,7 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
         self.address_or_name = random_locations[self.location_idx][3]
         self.country_code = random_locations[self.location_idx][4]
         self.city = random_locations[self.location_idx][5]
+
 
 # MARK: Event Loc
 

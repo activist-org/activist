@@ -127,7 +127,7 @@ const schema = z.object({
   location: z.string().optional(),
   topics: z.array(z.string()).optional(),
   type: z.string().optional(),
-  setting: z.string().optional(),
+  locationType: z.string().optional(),
   viewType: z.string().optional(),
 });
 const sidebar = useSidebar();
