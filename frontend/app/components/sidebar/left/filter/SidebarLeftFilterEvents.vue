@@ -55,7 +55,7 @@
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-location-type"
         :label="$t('i18n.components._global.location_type')"
-        name="setting"
+        name="locationType"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio

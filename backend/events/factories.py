@@ -39,8 +39,7 @@ class EventFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("word")
     tagline = factory.Faker("word")
     type = random.choice(["learn", "action"])
-    online_location_link = factory.Faker("url")
-    physical_location = factory.SubFactory("content.factories.EventLocationFactory")
+    location_type = random.choice(["online", "physical"])
     is_private = factory.Faker("boolean")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
@@ -52,7 +51,10 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
-    location_type = random.choice(["online", "physical"])
+    if location_type == "online":
+        online_location_link = factory.Faker("url")
+    else:
+        physical_location = factory.SubFactory("content.factories.EventLocationFactory")
 
     @factory.post_generation
     def orgs(self, create, extracted, **kwargs):  # type: ignore[override]
