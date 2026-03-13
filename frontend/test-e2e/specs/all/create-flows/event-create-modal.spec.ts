@@ -216,7 +216,8 @@ test.describe(
       );
     });
 
-    test("Time step retains date and time after Previous then Next", async ({
+    // Time step no longer retains data on Prev→Next (product decision); un-skip if restored.
+    test.skip("Time step retains date and time after Previous then Next", async ({
       page,
     }) => {
       const modal = newCreateEventModal(page);
