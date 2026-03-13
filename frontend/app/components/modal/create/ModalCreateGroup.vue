@@ -28,12 +28,11 @@ async function handleSubmission(value: unknown) {
 
   const organizationId = payload.organization;
 
-  // if (!organizationId) {
-  //   return;
-  // }
-
+  
   await router.push(`/organizations/${organizationId}/groups/${groupId}/about`);
+
   handleCloseModal();
+
 }
 
 // Pass the handler to the machine via its options.
