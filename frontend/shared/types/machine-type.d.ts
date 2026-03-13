@@ -10,6 +10,8 @@ export interface FlowContext<T extends string = string> {
     submit: () => void;
     setSharedData: (updates: Record<string, unknown>) => void;
     clearNodeData: (nodeId: T) => void;
+    setNodeData: (nodeId: T, updates: Record<string, unknown>) => void;
+    setAllNodeData: (newData: Record<string, unknown>) => void;
   };
 }
 

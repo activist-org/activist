@@ -48,7 +48,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import { CreateEventSteps } from "~~/shared/types";
 
 const query = ref<Record<string, string> | null>(null);
 const options = ref<RadioOption[]>([]);

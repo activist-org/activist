@@ -20,7 +20,6 @@
         },
       ]"
       class="space-y-4"
-      :initial-values="initialTimeData"
       :isLoading="loading?.value"
       :schema="scheduleSchema"
     >
@@ -155,44 +154,8 @@
 <script setup lang="ts">
 import { addDays, differenceInCalendarDays, format, isSameDay } from "date-fns";
 import { z } from "zod";
-import { CreateEventSteps } from "~~/shared/types";
 
 const flow = inject<FlowControls>("flow");
-const isCreating = ref(false);
-const timeFormRef = ref<{ getValues: () => Record<string, unknown> } | null>(
-  null
-);
-
-const initialTimeData = computed(() => {
-  const ctx = flow?.context?.value;
-  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.Time) return {};
-  const d = (ctx.nodeData as Record<string, unknown>)[ctx.nodeId] as
-    | Record<string, unknown>
-    | undefined;
-  if (!d) return {};
-  const timesRaw =
-    (d.times as Array<{
-      date?: string;
-      start_time?: string;
-      end_time?: string;
-      all_day?: boolean;
-    }>) ?? [];
-  const times = timesRaw.map((t) => ({
-    date: t.date ? new Date(t.date) : new Date(),
-    startTime: t.start_time ? new Date(t.start_time) : new Date(),
-    endTime: t.end_time ? new Date(t.end_time) : new Date(),
-    allDayLong: t.all_day ?? false,
-  }));
-  const first = times[0];
-  const last = times[times.length - 1];
-  const dates =
-    first && last ? { start: first.date, end: last.date } : undefined;
-  return {
-    times,
-    createAnother: d.createAnother,
-    ...(dates && { dates }),
-  };
-});
 
 const scheduleSchema = z.object({
   dates: z.object({
@@ -278,39 +241,15 @@ const formatDate = (date: Date | string) => {
   return format(new Date(date), "EEE, MMM d"); // e.g., "Mon, Jan 1"
 };
 
-function serializeTimeValues(values: Record<string, unknown>) {
-  const times = values.times as
-    | { date: Date; startTime: Date; endTime: Date; allDayLong?: boolean }[]
-    | undefined;
-  if (!times?.length) return { times: [], createAnother: values.createAnother };
-  const mappedTimes = times.map((t) => ({
-    date: t.date instanceof Date ? t.date.toISOString().split("T")[0] : t.date,
-    start_time:
-      t.startTime instanceof Date
-        ? t.startTime.toISOString()
-        : (t.startTime as string),
-    end_time:
-      t.endTime instanceof Date
-        ? t.endTime.toISOString()
-        : (t.endTime as string),
-    all_day: t.allDayLong ?? false,
-  }));
-  return { times: mappedTimes, createAnother: values.createAnother };
-}
-
 const handlePrev = () => {
   if (!flow) return;
-  const values = timeFormRef.value?.getValues?.();
-  if (values && typeof values === "object" && Object.keys(values).length > 0)
-    flow.prev(serializeTimeValues(values));
-  else flow.prev();
+  flow.prev();
 };
 
 const handleSubmit = async (values: Record<string, unknown>) => {
   const { times, createAnother } = values;
 
   if (!flow) return;
-  if (isCreating.value) return;
   const mappedTimes = (
     times as {
       date: Date;

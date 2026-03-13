@@ -2,9 +2,10 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
-      id="event-details"
+      id="group-details"
       @submit="handleSubmit"
       class="space-y-4"
+      :initial-values="initialDetailsData"
       :schema="organizationDetailsSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -87,8 +88,15 @@ const organizationDetailsSchema = z.object({
   description: z.string().min(1, t("i18n._global.required")),
   organization: z.string().min(1, t("i18n._global.required")),
 });
+
+const initialDetailsData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateGroupSteps.GroupDetails) return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
+
 const handleSubmit = (values: Record<string, unknown>) => {
-  // Simulate an API call.
   if (!flow) return;
   flow.next({ ...values, org: values.organization });
 };

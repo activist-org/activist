@@ -49,7 +49,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import { CreateEventSteps } from "~~/shared/types";
 
 const flow = inject<FlowControls>("flow");
 

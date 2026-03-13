@@ -157,9 +157,9 @@ export function createFlowStore<T extends string = string>(
               goto: this.goto,
               submit: this.submit,
               setSharedData: this.setSharedData,
-              clearNodeData: (nodeId: T) => {
-                this.nodeData[nodeId] = {};
-              },
+              clearNodeData: this.clearNodeData,
+              setNodeData: this.setNodeData,
+              setAllNodeData: this.setAllNodeData,
             },
           };
 
@@ -205,14 +205,7 @@ export function createFlowStore<T extends string = string>(
         }
       },
 
-      prev(payload?: Record<string, unknown>) {
-        const currentId = this.nodeId;
-        if (payload && currentId && Object.keys(payload).length > 0) {
-          this.nodeData[currentId] = {
-            ...(this.nodeData[currentId] || {}),
-            ...payload,
-          };
-        }
+      prev() {
         const previousNodeId = this.history.pop();
         if (previousNodeId) {
           const prevNode = nodesArray.find((n) => n.id === previousNodeId);
@@ -236,7 +229,21 @@ export function createFlowStore<T extends string = string>(
       setSharedData(updates: Record<string, unknown>) {
         Object.assign(this.sharedData, updates);
       },
-
+      setNodeData(nodeId: T, updates: Record<string, unknown>) {
+        if (!this.nodeData[nodeId]) {
+          this.nodeData[nodeId] = {};
+        }
+        this.nodeData[nodeId] = {
+          ...(this.nodeData[nodeId] as Record<string, unknown>),
+          ...updates,
+        };
+      },
+      clearNodeData(nodeId: T) {
+        this.nodeData[nodeId] = {};
+      },
+      setAllNodeData(newData: Record<string, unknown>) {
+        this.nodeData = newData;
+      },
       submit() {
         if (this.isFinished) return;
 

@@ -95,7 +95,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-import { CreateEventSteps } from "~~/shared/types";
 
 const { t } = useI18n();
 const { user } = useUser();
