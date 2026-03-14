@@ -76,9 +76,7 @@ export async function listGroups(
 
 // MARK: Create
 
-export async function createGroup(
-  data: CreateGroupInput
-): Promise<Group> {
+export async function createGroup(data: CreateGroupInput): Promise<Group> {
   const res = await post<GroupResponse, typeof data>(
     `/communities/groups`,
     data,

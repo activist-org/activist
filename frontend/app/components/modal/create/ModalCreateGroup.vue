@@ -21,7 +21,7 @@ const router = useRouter();
 async function handleSubmission(value: unknown) {
   const payload = value as CreateGroupInput;
 
-  const result = await create(payload); 
+  const result = await create(payload);
   if (!result) return;
 
   const groupId = result.id;
@@ -31,7 +31,6 @@ async function handleSubmission(value: unknown) {
   await router.push(`/organizations/${organizationId}/groups/${groupId}/about`);
 
   handleCloseModal();
-
 }
 
 // Pass the handler to the machine via its options.

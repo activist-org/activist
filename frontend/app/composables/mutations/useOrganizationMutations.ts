@@ -13,7 +13,7 @@ export const useOrganizationMutations = () => {
     try {
       const organization = await createOrganization(organizationData);
       await refreshOrganizationList();
-      return organization; 
+      return organization;
     } catch (e) {
       error.value = e as AppError;
       showToastError(error.value.message);

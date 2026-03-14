@@ -12,9 +12,9 @@ export const useGroupMutations = () => {
     error.value = null;
     try {
       const groupId = await createGroup(groupData);
-      
+
       await refreshGroupList();
-      
+
       return groupId;
     } catch (e) {
       error.value = e as AppError;
@@ -25,7 +25,7 @@ export const useGroupMutations = () => {
     }
   };
   const refreshGroupList = async () => {
-     // Invalidate and refetch group list data.
+    // Invalidate and refetch group list data.
     clearNuxtData((key) => key.startsWith("groups-list:"));
 
     const organizationId = store.getOrganization()?.id;

@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-
 const router = useRouter();
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
