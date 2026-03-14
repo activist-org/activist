@@ -202,9 +202,12 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
       faqPage.faqCards.filter({ hasText: updatedQuestion })
     ).not.toBeVisible();
 
-    // Verify FAQ count decreased (should be back to initial or less if we successfully deleted).
-    const finalFaqCount = await faqPage.getFAQCount();
-    expect(finalFaqCount).toBeLessThanOrEqual(afterCreateCount - 1);
+    // Verify FAQ count decreased once the list has updated (poll to avoid race with DOM update).
+    await expect
+      .poll(async () => await faqPage.getFAQCount(), {
+        timeout: 10000,
+      })
+      .toBeLessThanOrEqual(afterCreateCount - 1);
   });
 
   // MARK: - View and Interact
