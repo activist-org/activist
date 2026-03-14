@@ -90,10 +90,15 @@ def create_org_events(
             event_type = random.choice(["learn", "action"])
             location_type = random.choice(["online", "physical"])
             verb = "Learning about" if event_type == "learn" else "Fighting for"
+
             if location_type == "online":
-                link = f"https://www.{user_topic_name.lower()}-event.com"
+                link = (
+                    f"https://activist.org/test-online-event/{user_topic_name.lower()}"
+                )
+
             else:
                 physical_location = EventLocationFactory.create()
+
             user_org_event = EventFactory(
                 name=f"{user_topic_name} Event",
                 tagline=f"{verb} {user_topic_name}",
@@ -103,8 +108,11 @@ def create_org_events(
                 groups=None,
                 location_type=location_type,
                 online_location_link=link if location_type == "online" else None,
-                physical_location=physical_location if location_type == "physical" else None,
+                physical_location=physical_location
+                if location_type == "physical"
+                else None,
             )
+
         # MARK: Topics
 
         user_org_event.topics.set([user_topic])
