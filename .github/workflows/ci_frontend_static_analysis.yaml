@@ -1,4 +1,4 @@
-name: ci_frontend_tests
+name: ci_frontend_static_analysis
 on:
   workflow_dispatch:
   pull_request:
@@ -17,8 +17,8 @@ on:
       - "frontend/**"
 
 jobs:
-  frontend_tests:
-    name: Run PR Frontend Tests
+  frontend_static_analysis:
+    name: Run PR Frontend Static Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
@@ -33,6 +33,17 @@ jobs:
           corepack enable
           sudo yarn install
 
-      - name: Run Vitest - Component Testing
+      - name: Run Prettier - Formatting Check
         working-directory: ./frontend
-        run: sudo yarn test --coverage --silent
+        run: |
+          sudo yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
+
+      - name: Run Nuxt Type Check
+        if: always()
+        working-directory: ./frontend
+        run: sudo yarn typecheck
+
+      - name: Run ESLint - Linting
+        if: always()
+        working-directory: ./frontend
+        run: sudo yarn lint
