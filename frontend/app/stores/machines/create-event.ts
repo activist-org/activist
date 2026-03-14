@@ -92,6 +92,12 @@ export const useCreateEventStore = createFlowStore({
               __lastActionResult: null, // clean up for the next loop iteration
             });
           }
+          // Signal that all node data should be cleared when we enter it (Create another flow).
+          const data = context.allNodeData as unknown as ContextCreateEventData;
+          const stepData = data[CreateEventSteps.Time];
+          if (stepData?.createAnother) {
+            context.actions.setAllNodeData({});
+          }
         },
 
         next: (context) => {

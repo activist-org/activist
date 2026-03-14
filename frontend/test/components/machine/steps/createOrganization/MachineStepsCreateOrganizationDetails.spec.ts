@@ -52,8 +52,7 @@ describe("MachineStepsCreateOrganizationDetails component", () => {
       const { wrapper } = createWrapper();
       const form = wrapper.find('[data-testid="form"]');
       expect(form.exists()).toBe(true);
-      // Source component uses "event-details" (likely copy-paste from event step).
-      expect(form.attributes("id")).toBe("event-details");
+      expect(form.attributes("id")).toBe("organization-details");
     });
 
     it("renders three form items (name, tagline, description)", () => {
