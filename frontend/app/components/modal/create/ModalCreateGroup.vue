@@ -28,7 +28,6 @@ async function handleSubmission(value: unknown) {
 
   const organizationId = payload.organization;
 
-  
   await router.push(`/organizations/${organizationId}/groups/${groupId}/about`);
 
   handleCloseModal();
