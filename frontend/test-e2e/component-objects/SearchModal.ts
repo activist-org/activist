@@ -7,6 +7,6 @@ export const newSearchModal = (parent: Page | Locator) => {
   return {
     root,
     input: root.locator("input"),
-    closeButton: root.locator("button"),
+    closeButton: root.getByTestId("modal-close-button"),
   };
 };

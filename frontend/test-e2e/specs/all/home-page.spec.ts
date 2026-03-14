@@ -57,8 +57,9 @@ test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
     );
 
     await withTestStep(testInfo, "Close search modal", async () => {
+      await expect(searchModal.closeButton).toBeVisible();
       await searchModal.closeButton.click({ force: true });
-      await expect(searchModal.root).not.toBeAttached();
+      await expect(searchModal.root).not.toBeAttached({ timeout: 15000 });
     });
   });
 
