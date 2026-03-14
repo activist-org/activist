@@ -8,8 +8,8 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from authentication.models import UserModel
-from content.factories import EventLocationFactory
 from communities.organizations.models import Organization
+from content.factories import EventLocationFactory
 from content.models import Topic
 from events.factories import (
     EventFactory,
