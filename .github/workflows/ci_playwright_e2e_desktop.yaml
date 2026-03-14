@@ -10,13 +10,21 @@ on:
       - synchronize
     paths:
       - "backend/**"
+      - "!backend/**/tests/**/*.py"
       - "frontend/**"
+      - "!frontend/test/**"
+      - ".github/workflows/ci_playwright_e2e_desktop.yaml"
+      - ".github/workflows/ci_playwright_e2e_mobile.yaml"
   push:
     branches:
       - main
     paths:
       - "backend/**"
+      - "!backend/**/tests/**/*.py"
       - "frontend/**"
+      - "!frontend/test/**"
+      - ".github/workflows/ci_playwright_e2e_desktop.yaml"
+      - ".github/workflows/ci_playwright_e2e_mobile.yaml"
 
 jobs:
   frontend-e2e-desktop:
@@ -64,7 +72,7 @@ jobs:
       - name: Install Dependencies and Build
         working-directory: ./frontend
         env:
-          USE_PREVIEW: "true"
+          USE_PREVIEW: true
           VITE_FRONTEND_URL: http://localhost:3000
           VITE_BACKEND_URL: http://localhost:8000
           VITE_API_URL: http://localhost:8000/v1
@@ -127,8 +135,8 @@ jobs:
       - name: Run Playwright Tests (Desktop Chrome)
         working-directory: ./frontend
         env:
-          FAST_TESTS: "true"
-          SKIP_WEBSERVER: "true"
+          FAST_TESTS: true
+          SKIP_WEBSERVER: true
           PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
           NUXT_SESSION_PASSWORD: "password-with-at-least-32-characters"
           VITE_BACKEND_URL: http://localhost:8000
