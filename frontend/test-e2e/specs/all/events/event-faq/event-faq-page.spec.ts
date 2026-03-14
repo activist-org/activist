@@ -215,7 +215,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
 
     await page.waitForLoadState("domcontentloaded");
 
-    // Ensure at least 2 FAQs exist so view/interact assertions have stable data (shared helper; DRY).
+    // Ensure at least 2 FAQs exist so view/interact assertions have stable data.
     await ensureMinimumFAQs(page, faqPage, 2);
 
     await expect(faqPage.faqCards.first()).toBeVisible();
