@@ -6,6 +6,7 @@
       v-slot="{ values }"
       @submit="handleSubmit"
       class="space-y-4"
+      :initial-values="initialDetailsData"
       :schema="eventDetailsSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -106,6 +107,14 @@ const eventDetailsSchema = z.object({
   orgs: z.array(z.string()).min(1, "Please select at least one organization"),
   groups: z.array(z.string()).optional(),
 });
+
+const initialDetailsData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.EventDetails) return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
+
 const handleSubmit = (values: Record<string, unknown>) => {
   if (!flow) return;
   flow.next(values);

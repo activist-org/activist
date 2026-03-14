@@ -10,7 +10,7 @@ Following this guide helps to communicate that you respect the time of the devel
 
 If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 
-## **Contents**
+## Contents
 
 - [First steps as a contributor](#first-steps-as-a-contributor)
 - [Mentorship and growth](#mentorship-and-growth)

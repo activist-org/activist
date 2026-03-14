@@ -1,4 +1,4 @@
-name: ci_backend
+name: ci_backend_pytest
 on:
   workflow_dispatch:
   pull_request:
@@ -25,7 +25,7 @@ env:
   DATABASE_PASSWORD: postgres
 
 jobs:
-  backend:
+  backend_tests:
     services:
       postgres:
         image: postgres:15
@@ -42,7 +42,7 @@ jobs:
       checks: write
       pull-requests: write
 
-    name: Run PR Backend Check
+    name: Run PR Backend Tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -62,18 +62,7 @@ jobs:
       - name: Install Dependencies
         run: uv sync --frozen --all-extras
 
-      - name: Run Ruff Format - Formatting Check
-        run: uv run ruff format .
-
-      - name: Run Ruff - Linting and Import Sorting Check
-        if: always()
-        run: uv run ruff check .
-
-      - name: Run mypy - Static Type Checking
-        if: always()
-        run: uv run mypy . --config-file ./pyproject.toml
       - name: Run Django Migrations - Database Migrations Check
-        if: always()
         run: |
           uv run manage.py makemigrations
           uv run manage.py migrate

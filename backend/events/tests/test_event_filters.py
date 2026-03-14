@@ -320,7 +320,7 @@ def test_filter_id_handles_nonexistent_uuid() -> None:
     # Events with non target test uuids.
     event_filler = EventFactory(id=uuid_filler)
 
-    # remove last 3 characters of 'uuid_target_2' to invalidate
+    # Remove last 3 characters of 'uuid_target_2' to invalidate.
     response = client.get(f"{EVENTS_URL}?id={uuid_target}&id={uuid_nonexistent}")
     assert response.status_code == 200
 
@@ -348,7 +348,7 @@ def test_filter_id_handles_invalid_uuid() -> None:
     # Events with non target test uuids.
     event_filler = EventFactory(id=uuid_filler)
 
-    # remove last 3 characters of 'uuid_target_2' to invalidate
+    # Remove last 3 characters of 'uuid_target_2' to invalidate.
     response = client.get(
         f"{EVENTS_URL}?id={uuid_target_1}&id={str(uuid_target_2)[:-3]}"
     )

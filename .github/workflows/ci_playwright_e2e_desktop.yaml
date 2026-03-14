@@ -1,4 +1,4 @@
-name: ci_playwright_e2e
+name: ci_playwright_e2e_desktop
 on:
   workflow_dispatch:
   pull_request:
@@ -10,17 +10,25 @@ on:
       - synchronize
     paths:
       - "backend/**"
+      - "!backend/**/tests/**/*.py"
       - "frontend/**"
+      - "!frontend/test/**"
+      - ".github/workflows/ci_playwright_e2e_desktop.yaml"
+      - ".github/workflows/ci_playwright_e2e_mobile.yaml"
   push:
     branches:
       - main
     paths:
       - "backend/**"
+      - "!backend/**/tests/**/*.py"
       - "frontend/**"
+      - "!frontend/test/**"
+      - ".github/workflows/ci_playwright_e2e_desktop.yaml"
+      - ".github/workflows/ci_playwright_e2e_mobile.yaml"
 
 jobs:
-  frontend:
-    name: Run PR Frontend E2E Check
+  frontend-e2e-desktop:
+    name: E2E Desktop Chrome
     runs-on: ubuntu-latest
 
     steps:
@@ -64,7 +72,7 @@ jobs:
       - name: Install Dependencies and Build
         working-directory: ./frontend
         env:
-          USE_PREVIEW: "true"
+          USE_PREVIEW: true
           VITE_FRONTEND_URL: http://localhost:3000
           VITE_BACKEND_URL: http://localhost:8000
           VITE_API_URL: http://localhost:8000/v1
@@ -124,22 +132,22 @@ jobs:
           curl -s http://localhost:8000/v1/entities/events/ > /dev/null || true
           sleep 3
 
-      - name: Run Playwright Tests
+      - name: Run Playwright Tests (Desktop Chrome)
         working-directory: ./frontend
         env:
-          FAST_TESTS: true # only Desktop Chrome + Mobile Chrome
-          SKIP_WEBSERVER: true # Server already started manually
+          FAST_TESTS: true
+          SKIP_WEBSERVER: true
           PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
           NUXT_SESSION_PASSWORD: "password-with-at-least-32-characters"
           VITE_BACKEND_URL: http://localhost:8000
           VITE_API_URL: http://localhost:8000/v1
           VITE_BACKEND_URL_PROXY: http://localhost:8000
-        run: sudo -E yarn playwright test
+        run: sudo -E yarn playwright test --project="Desktop Chrome"
 
       - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-desktop
           path: frontend/playwright-report/
           retention-days: 30

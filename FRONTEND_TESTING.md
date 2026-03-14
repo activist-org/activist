@@ -1,15 +1,17 @@
+<a id="top"></a>
+
 # Frontend Testing
 
-<a id="contents"></a>
+## Contents
 
-## **Contents**
-- [End to End Tests](#end-to-end-tests-)
-- [Component and Unit Tests](#component-and-unit-tests-)
-  - [Mocking Composables](#mocking-composables-)
+- [End to End Tests](#end-to-end-tests)
+  - [What to Test](#what-to-test)
+  - [Where to Write Tests](#where-to-write-tests)
+  - [Best Practices](#best-practices)
+  - [Checking E2E coverage](#checking-e2e-coverage)
+- [Component and Unit Tests](#component-and-unit-tests)
 
-<a id="end-to-end-tests-"></a>
-
-## End to End Tests [`⇧`](#contents)
+## End to End Tests
 
 End to End Tests (E2E) are used to ensure that the whole application (frontend, backend, database, etc.) functions together correctly. E2E tests are very useful, but they have some important drawbacks:
 
@@ -29,6 +31,8 @@ Not every test belongs in the E2E test suite. Tests that should go in the E2E te
     - Switching the color theme
     - Putting a url in the user's clipboard
 4. Browser-specific bugs
+
+<sub><a href="#top">Back to top.</a></sub>
 
 ### Where to write tests
 
@@ -52,11 +56,13 @@ test.describe("Home Page", { tag: ["@desktop"] }, () => {
 });
 ```
 
-### Best practices
+<sub><a href="#top">Back to top.</a></sub>
+
+### Best Practices
 
 We recommend following [playwright's best practices](https://playwright.dev/docs/best-practices) and locating UI elements by their accessible names when possible.
 
-### Avoid complicated design patterns
+#### Avoid complicated design patterns
 
 We want the E2E test suite to be as easy to read as possible. That means most of the logic of a test should be in the test itself, and not hidden in classes or methods.
 
@@ -80,6 +86,8 @@ The steps to do this are:
 1. Wrap the lines from your test that you want to re-use in a function
 2. Move that function into a file in `frontend/test-e2e/actions` and name it based on the action being performed
 3. Import the function into the test files where you use it
+
+<sub><a href="#top">Back to top.</a></sub>
 
 ### Checking E2E coverage
 
@@ -105,9 +113,9 @@ The script distinguishes between:
 - **Stub routes** — pages marked `:underDevelopment="true"` with no implemented UI (excluded from the testable coverage calculation)
 - **Uncovered testable routes** — implemented routes that have no E2E coverage yet
 
-<a id="component-and-unit-tests-"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Component and Unit Tests [`⇧`](#contents)
+## Component and Unit Tests
 
 For component and unit tests we are using Vitest and Vue Testing Library. For a general overview on how to write these tests, see the documentation for the [Testing Library Frameworks](https://testing-library.com/docs/).
 
@@ -135,9 +143,7 @@ We recommend using mocking for dependencies that are unreliable and/or slow, lik
 * We provide a global mock for `useColorMode`. This is necessary because `useColorMode` currently does not work in Vitest. See example use in [useColor.spec.ts](frontend/test/composables/useColor.spec.ts).
 * Nuxt provides a `registerEndpoint` function to mock network requests. See example use in [sign-in.spec.ts](frontend/test/pages/auth/sign-in.spec.ts).
 
-<a id="mocking-composables-"></a>
-
-### 4. Mocking Composables [`⇧`](#contents)
+### 4. Mocking Composables
 
 When testing components or composables that use Nuxt composables (like `useRoute`, `useRouter`, `useLocalePath`, `useAuth`, etc.), we use a factory-based mocking approach to make test dependencies explicit and maintainable.
 
@@ -321,3 +327,5 @@ Some composables are set up globally in `setup.ts` because they require infrastr
 - `useAuthState` - Requires global data reference
 
 These don't need explicit setup in individual tests unless you need to override their behavior.
+
+<sub><a href="#top">Back to top.</a></sub>
