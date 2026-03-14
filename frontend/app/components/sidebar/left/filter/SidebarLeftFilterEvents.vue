@@ -55,7 +55,7 @@
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-location-type"
         :label="$t('i18n.components._global.location_type')"
-        name="setting"
+        name="locationType"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
@@ -127,7 +127,7 @@ const schema = z.object({
   location: z.string().optional(),
   topics: z.array(z.string()).optional(),
   type: z.string().optional(),
-  setting: z.string().optional(),
+  locationType: z.string().optional(),
   viewType: z.string().optional(),
 });
 const sidebar = useSidebar();
@@ -273,6 +273,8 @@ const handleSubmit = (_values: unknown) => {
 
   router.push({
     query: {
+      // Preserve id from post-creation routing so newly created events remain visible.
+      ...(route.query.id ? { id: route.query.id } : {}),
       ...(values as LocationQueryRaw),
       view: viewType.value,
     },
