@@ -51,8 +51,10 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
+
     if location_type == "online":
         online_location_link = factory.Faker("url")
+
     else:
         physical_location = factory.SubFactory("content.factories.EventLocationFactory")
 
