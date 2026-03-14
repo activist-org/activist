@@ -26,11 +26,11 @@ dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.18.1",
     "mypy>=1.19.1",
-    "prek>=0.3.4",
+    "prek>=0.3.5",
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
     "pytest-django>=4.12.0",
-    "ruff>=0.15.5",
+    "ruff>=0.15.6",
     "ts-backend-check>=1.4.3",
     "types-icalendar>=6.3.2.20260223",
 ]
