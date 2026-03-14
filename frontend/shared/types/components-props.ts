@@ -7,6 +7,7 @@ export interface BtnBase {
   fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
   iconSize?: string;
   ariaLabel: string;
+  isLoading?: boolean;
 }
 
 export interface BtnAction extends BtnBase {

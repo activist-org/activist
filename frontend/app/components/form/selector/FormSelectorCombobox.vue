@@ -3,15 +3,16 @@
   <Combobox
     :id="id"
     v-model="internalSelectedOptions"
+    @click.stop
     as="div"
     :disabled="disabled"
     :multiple="isMultiSelect"
   >
     <div class="relative">
-      <!-- Pass the setupInputWrapper function as the ref for the container. -->
       <ComboboxInput
         :ref="setupInputWrapper"
         v-slot="{ id: inputId, onBlur }"
+        @click.stop
         as="div"
         class="flex"
       >
@@ -26,8 +27,10 @@
         />
       </ComboboxInput>
       <ComboboxButton
+        @click.stop.prevent
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
+        type="button"
       >
         <Icon :name="IconMap.CHEVRON_EXPAND" />
       </ComboboxButton>
@@ -65,7 +68,6 @@
             </span>
           </li>
         </ComboboxOption>
-        <!-- Infinite scroll sentinel. -->
         <li
           v-if="infinite"
           ref="sentinel"
@@ -93,7 +95,7 @@
       <li v-for="option in internalSelectedOptions" :key="option.id">
         <Shield
           :key="option.id + '-selected-only'"
-          @click="() => onClick(option)"
+          @click.stop="() => onClick(option)"
           :active="true"
           class="mobileTopic max-sm:w-full"
           :icon="IconMap.GLOBE"
@@ -127,7 +129,6 @@ interface Props {
   label: string;
   hasColOptions?: boolean;
   isMultiSelect?: boolean;
-  // Infinite scroll props.
   infinite?: boolean;
   fetchMore?: () => void;
   canFetchMore?: boolean;
@@ -156,19 +157,11 @@ const emit = defineEmits<{
 
 const query = ref("");
 const sentinel = ref(null);
-
-// Reference to the FormTextInput component.
 const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
-// Reference to the actual native input element inside FormTextInput.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const actualInputRef = ref<any>(null);
+const actualInputRef = ref<HTMLInputElement | null>(null);
 
-// This function is passed as the `ref` for the ComboboxInput wrapper.
-// It patches the wrapper's `setSelectionRange` method to forward calls to the inner input.
 function setupInputWrapper(el: unknown) {
   if (!el) return;
-
-  // Get the DOM element of the wrapper.
   const element = ((el as { $el?: HTMLElement })?.$el || el) as HTMLElement & {
     setSelectionRange?: (
       selectionStart: number,
@@ -177,25 +170,19 @@ function setupInputWrapper(el: unknown) {
     ) => void;
   };
 
-  // If the wrapper doesn't have setSelectionRange, we add a shim.
   if (element && !element.setSelectionRange) {
     element.setSelectionRange = (
       selectionStart: number,
       selectionEnd: number,
       selectionDirection?: "forward" | "backward" | "none"
     ) => {
-      // Try to get the input from our cached ref or look it up.
       let inputElement = actualInputRef.value;
-
       if (!inputElement && formInputRef.value?.$el) {
         inputElement = formInputRef.value.$el.querySelector(
           "input"
         ) as HTMLInputElement | null;
-        if (inputElement) {
-          actualInputRef.value = inputElement;
-        }
+        if (inputElement) actualInputRef.value = inputElement;
       }
-
       if (
         inputElement &&
         typeof inputElement.setSelectionRange === "function"
@@ -207,14 +194,13 @@ function setupInputWrapper(el: unknown) {
             selectionDirection
           );
         } catch {
-          // Ignore errors
+          /* ignore */
         }
       }
     };
   }
 }
 
-// Watch the component ref to cache the native input as soon as it's available.
 watch(
   formInputRef,
   (newRef) => {
@@ -223,24 +209,19 @@ watch(
         const inputElement = newRef.$el?.querySelector(
           "input"
         ) as HTMLInputElement | null;
-        if (inputElement) {
-          actualInputRef.value = inputElement;
-        }
+        if (inputElement) actualInputRef.value = inputElement;
       });
     }
   },
   { immediate: true }
 );
-// Infinite scroll logic.
+
 const enabled = computed(() => props.infinite);
 const canFetchMoreRef = computed(() => props.canFetchMore);
 
 const handleFetchMore = () => {
-  if (props.fetchMore) {
-    props.fetchMore();
-  } else {
-    emit("load-more");
-  }
+  if (props.fetchMore) props.fetchMore();
+  else emit("load-more");
 };
 
 useCustomInfiniteScroll({
@@ -254,7 +235,6 @@ useCustomInfiniteScroll({
 
 const onClick = (option: Option) => {
   if (
-    internalSelectedOptions.value &&
     internalSelectedOptions.value &&
     Array.isArray(internalSelectedOptions.value)
   ) {
@@ -282,12 +262,7 @@ const internalSelectedOptions = computed({
     const selected = props.options.filter((option: Option) =>
       (props.selectedOptions as unknown[]).includes(option.value)
     );
-
-    // For single-select, Headless UI expects the object itself, not an array.
-    if (!props.isMultiSelect) {
-      return selected.length > 0 ? selected[0] : null;
-    }
-
+    if (!props.isMultiSelect) return selected.length > 0 ? selected[0] : null;
     return selected;
   },
   set(newOptions) {
@@ -298,28 +273,20 @@ const internalSelectedOptions = computed({
       }
       return;
     }
-
-    // Single select handling.
     const option = newOptions as unknown as Option | null;
     const value = option?.value || null;
-
-    // Update display text immediately.
     query.value = option?.label || "";
-
     if (value !== (props.selectedOptions as unknown[])[0]) {
       emit("update:selectedOption", value);
     }
   },
 });
 
-// Watcher to update the input text ('query') when props change externally.
-// This handles the async loading case where data arrives after mount.
 watch(
   internalSelectedOptions,
   (newVal) => {
     if (!props.isMultiSelect && newVal) {
       const option = newVal as Option;
-      // If the currently selected option label is different from what's in the input box, update it.
       if (option.label && query.value !== option.label) {
         query.value = option.label;
       }

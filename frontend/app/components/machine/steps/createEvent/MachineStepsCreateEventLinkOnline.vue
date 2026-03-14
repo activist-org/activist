@@ -16,6 +16,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="initialLinkOnlineData"
       :schema="linkSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -50,6 +51,14 @@
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
+
+const initialLinkOnlineData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.LinkOnline) return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
+
 const linkSchema = z.object({
   onlineLocationLink: z.string().url("Please enter a valid URL").optional(),
 });

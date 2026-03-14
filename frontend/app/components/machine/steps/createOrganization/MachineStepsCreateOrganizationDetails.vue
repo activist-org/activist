@@ -2,9 +2,10 @@
 <template>
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <Form
-      id="event-details"
+      id="organization-details"
       @submit="handleSubmit"
       class="space-y-4"
+      :initial-values="initialDetailsData"
       :schema="organizationDetailsSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -62,14 +63,25 @@ import { z } from "zod";
 
 const { t } = useI18n();
 const flow = inject<FlowControls>("flow");
+
 const organizationDetailsSchema = z.object({
   name: z.string().min(1, t("i18n._global.required")),
   tagline: z.string().optional(),
   description: z.string().min(1, t("i18n._global.required")),
 });
+
+const initialDetailsData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (
+    !ctx?.nodeData ||
+    ctx.nodeId !== CreateOrganizationSteps.OrganizationDetails
+  )
+    return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
+
 const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   if (!flow) return;
   flow.next(values);
 };

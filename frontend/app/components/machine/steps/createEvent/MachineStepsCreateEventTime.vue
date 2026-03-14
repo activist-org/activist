@@ -5,6 +5,7 @@
   >
     <Form
       id="event-location-and-time"
+      ref="timeFormRef"
       v-slot="{ values, setFieldValue }"
       @submit="handleSubmit"
       :action-buttons="[
@@ -19,6 +20,7 @@
         },
       ]"
       class="space-y-4"
+      :isLoading="loading?.value"
       :schema="scheduleSchema"
     >
       <FormItem
@@ -171,6 +173,7 @@ const scheduleSchema = z.object({
         allDayLong: z.boolean().optional(),
       })
     )
+    .min(1, "At least one date with time is required")
     .refine(
       (times) => {
         // Ensure startTime is before endTime for each entry.
@@ -179,7 +182,7 @@ const scheduleSchema = z.object({
           if (t.startTime && t.endTime) {
             return t.startTime <= t.endTime;
           }
-          return true; // skip validation if times are null/undefined
+          return true; // skip validation if times are null/undefined.
         });
       },
       {
@@ -188,6 +191,8 @@ const scheduleSchema = z.object({
     ),
   createAnother: z.boolean().optional(),
 });
+const loading = computed(() => flow?.isSaving);
+
 const syncTimesArray = (
   dateRange: { start: Date; end: Date } | null,
   currentTimes: {
@@ -243,6 +248,7 @@ const handlePrev = () => {
 
 const handleSubmit = async (values: Record<string, unknown>) => {
   const { times, createAnother } = values;
+
   if (!flow) return;
   const mappedTimes = (
     times as {
@@ -253,10 +259,20 @@ const handleSubmit = async (values: Record<string, unknown>) => {
     }[]
   ).map((t) => ({
     date: t.date.toISOString().split("T")[0],
-    start_time: t.startTime,
-    end_time: t.endTime,
+    start_time:
+      t.startTime instanceof Date
+        ? t.startTime.toISOString()
+        : (t.startTime as string),
+    end_time:
+      t.endTime instanceof Date
+        ? t.endTime.toISOString()
+        : (t.endTime as string),
     all_day: t.allDayLong || false,
   }));
-  flow.next({ times: mappedTimes, createAnother });
+
+  flow.next({
+    times: mappedTimes,
+    createAnother,
+  });
 };
 </script>

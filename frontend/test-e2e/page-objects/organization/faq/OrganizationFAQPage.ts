@@ -34,6 +34,8 @@ export const newOrganizationFAQPage = (page: Page) => ({
       .getByTestId("faq-disclosure-button"),
   getFAQEditButton: (index: number) =>
     page.getByTestId("faq-card").nth(index).getByTestId("faq-edit-button"),
+  getFAQDeleteButton: (index: number) =>
+    page.getByTestId("faq-card").nth(index).getByTestId("faq-delete-button"),
 
   // MARK: FAQ Disclosure
 

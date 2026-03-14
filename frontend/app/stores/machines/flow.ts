@@ -1,4 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
+import type { UnwrapRef } from "vue";
+
+import { defineStore } from "pinia";
+
 /*
  * A generic Pinia store factory for creating sophisticated, multi-step flow machines.
  *
@@ -16,23 +21,39 @@
  *
  * 5. Rich `context` for Functions:
  *    Functions receive a full `context` object with access to data and actions.
+ *
+ * 6. Dynamic Next Steps:
+ *   The `next` property can be a function that determines the next node based on context and data.
+ *
+ * 7. History Management:
+ *   The store maintains a history stack for "previous" navigation of screens.
+ *
+ * 8. Total Steps and Current Step Tracking:
+ *   The machine can define `totalSteps`, and nodes can specify their step number for accurate progress tracking.
+ *
+ * 9. Shared Data:
+ *   A `sharedData` object allows nodes to share information without polluting individual node data.
+ *
+ * 10. Final Submission Handling:
+ *    The `submit` action consolidates all node data and shared data into a single `saveResult`.
  */
-import { defineStore } from "pinia";
 
-export function createFlowStore(opts: FlowStoreOptions) {
+export function createFlowStore<T extends string = string>(
+  opts: FlowStoreOptions<T>
+) {
   const { machine, discardOnClose = true } = opts;
   const { id: storeId, initialNode: defaultNodeId, states } = machine;
 
-  // We derive the node array once from the config. All lookups and ordering use this array.
-  const nodes: NodeConfig[] = Object.entries(states).map(([id, config]) => ({
-    id,
+  // Build the array of strictly typed nodes
+  const nodesArray: NodeConfig<T>[] = Object.entries<StateConfig<T>>(
+    states
+  ).map(([id, config]) => ({
+    id: id as T,
     ...config,
   }));
 
-  // Helper: Generates a fresh data object from the nodes array.
-  // Use reduce here to transform [Nodes] -> { ID: Data }.
   const getInitialData = () => {
-    return nodes.reduce(
+    return nodesArray.reduce(
       (acc, node) => {
         acc[node.id] = node.initialData ? { ...node.initialData } : {};
         return acc;
@@ -41,26 +62,24 @@ export function createFlowStore(opts: FlowStoreOptions) {
     );
   };
 
+  const defaultNode = nodesArray.find((n) => n.id === defaultNodeId);
   return defineStore(storeId, {
     state: () => ({
       active: false,
-      // Find the initial node in our array.
-      currentNode: nodes.find((n) => n.id === defaultNodeId) ?? null,
-      nodes,
+      currentNode: defaultNode ?? (null as NodeConfig<T> | null), // Start with initial node or null
       nodeData: getInitialData(),
-      history: [] as string[],
+      sharedData: {} as Record<string, unknown>, // For loop data, meta, etc.
+      history: [] as T[],
       isFinished: false,
       saving: false,
       saveResult: null as unknown | null,
     }),
 
     getters: {
-      nodeId: (state) => state.currentNode?.id ?? null,
+      nodeId: (state) => (state.currentNode?.id as T) ?? null,
 
-      visibleNodes: (state) =>
-        state.nodes.filter(
-          (node: NodeConfig) => !!node.component && node.type !== "logic"
-        ),
+      visibleNodes: () =>
+        nodesArray.filter((node) => !!node.component && node.type === "screen"),
 
       totalSteps(): number {
         return machine.totalSteps ?? this.visibleNodes.length;
@@ -69,35 +88,44 @@ export function createFlowStore(opts: FlowStoreOptions) {
       currentStep(state): number {
         if (machine.totalSteps) {
           const { currentNode } = state;
-          if (currentNode?.step && typeof currentNode.step === "number") {
-            return currentNode.step;
+          if (currentNode?.step) {
+            return typeof currentNode.step === "number"
+              ? currentNode.step
+              : currentNode.step();
           }
           return 1;
         }
 
         const currentVisibleIndex = this.visibleNodes.findIndex(
-          (node: NodeConfig) => node.id === this.nodeId
+          (node) => node.id === this.nodeId
         );
 
         if (currentVisibleIndex !== -1) return currentVisibleIndex + 1;
 
-        // Fallback: Check history for the last visible node.
         for (let i = state.history.length - 1; i >= 0; i--) {
           const lastVisibleIndex = this.visibleNodes.findIndex(
-            (node: NodeConfig) => node.id === state.history[i]
+            (node) => node.id === state.history[i]
           );
           if (lastVisibleIndex !== -1) return lastVisibleIndex + 1;
         }
         return 1;
       },
     },
-
     actions: {
-      start(draftNodeData?: Record<string, unknown>) {
+      setSaving(value: boolean) {
+        this.saving = value;
+      },
+      start(
+        draftNodeData?: Record<string, unknown>,
+        initialSharedData?: Record<string, unknown>
+      ) {
         this.resetToInitial();
         this.active = true;
         if (draftNodeData) {
           this.nodeData = { ...this.nodeData, ...draftNodeData };
+        }
+        if (initialSharedData) {
+          this.sharedData = { ...initialSharedData };
         }
       },
 
@@ -111,90 +139,139 @@ export function createFlowStore(opts: FlowStoreOptions) {
         const currentId = this.nodeId;
         if (!node || !currentId) return;
 
-        // 1. Update data
-        if (payload && Object.keys(payload).length) {
-          this.nodeData[currentId] = {
-            ...(this.nodeData[currentId] || {}),
-            ...payload,
+        this.saving = true;
+
+        try {
+          // Update data
+          if (payload && Object.keys(payload).length) {
+            this.nodeData[currentId] = {
+              ...(this.nodeData[currentId] || {}),
+              ...payload,
+            };
+          }
+
+          const context: FlowContext<T> = {
+            allNodeData: this.nodeData,
+            sharedData: this.sharedData,
+            actions: {
+              goto: this.goto,
+              submit: this.submit,
+              setSharedData: this.setSharedData,
+              clearNodeData: this.clearNodeData,
+              setNodeData: this.setNodeData,
+              setAllNodeData: this.setAllNodeData,
+            },
           };
-        }
 
-        const context: FlowContext = {
-          allNodeData: this.nodeData,
-          actions: { goto: this.goto, submit: this.submit },
-        };
+          if (node.onExit) {
+            await node.onExit(
+              context,
+              (this.nodeData[currentId] ?? {}) as Record<string, unknown>
+            );
+          }
 
-        // 2. Side effects
-        if (node.onExit) {
-          await node.onExit(
+          let nextId = this.calculateNextNode(
+            node as NodeConfig<T>,
             context,
-            (this.nodeData[currentId] ?? {}) as Record<string, unknown>
+            currentId
           );
-        }
 
-        // 3. Calculate Next
-        const nextId = this.calculateNextNode(node, context, currentId);
+          if (nextId instanceof Promise) {
+            nextId = await nextId;
+          }
 
-        if (!nextId || nextId === "end") {
-          this.submit();
-          return;
-        }
+          if (!nextId || nextId === "end") {
+            this.submit();
+            return;
+          }
 
-        // 4. Transition (Simple array lookup)
-        const nextNode = this.nodes.find((n: NodeConfig) => n.id === nextId);
-        if (nextNode) {
-          const isCurrentNodeScreen = !!node.component && node.type !== "logic";
-          if (isCurrentNodeScreen) this.history.push(currentId);
-          this.currentNode = nextNode;
-        } else {
-          this.submit();
+          // Array lookup instead of Map
+          const nextNode = nodesArray.find((n) => n.id === nextId);
+
+          if (nextNode) {
+            const isCurrentNodeScreen =
+              !!node.component && node.type !== "logic";
+            if (isCurrentNodeScreen) (this.history as T[]).push(currentId);
+            // Run onEnter before switching node so the next node sees cleared/updated store state when it first renders.
+            if (nextNode.onEnter) {
+              await nextNode.onEnter(context);
+            }
+            (this.currentNode as NodeConfig<T>) = nextNode;
+          } else {
+            this.submit();
+          }
+        } finally {
+          this.saving = false;
         }
       },
 
       prev() {
         const previousNodeId = this.history.pop();
         if (previousNodeId) {
-          const prevNode = this.nodes.find(
-            (n: NodeConfig) => n.id === previousNodeId
-          );
-          if (prevNode) this.currentNode = prevNode;
+          const prevNode = nodesArray.find((n) => n.id === previousNodeId);
+          if (prevNode) (this.currentNode as NodeConfig<T>) = prevNode;
         }
       },
 
-      goto(nodeId: string) {
-        const targetNode = this.nodes.find((n: NodeConfig) => n.id === nodeId);
+      goto(nodeId: T) {
+        const targetNode = nodesArray.find((n) => n.id === nodeId);
         if (!targetNode || targetNode.id === this.nodeId) return;
 
         const isCurrentScreen =
           !!this.currentNode?.component && this.currentNode?.type !== "logic";
 
         if (isCurrentScreen && this.nodeId) {
-          this.history.push(this.nodeId);
+          (this.history as T[]).push(this.nodeId);
         }
-        this.currentNode = targetNode;
+        (this.currentNode as NodeConfig<T>) = targetNode;
       },
 
+      setSharedData(updates: Record<string, unknown>) {
+        Object.assign(this.sharedData, updates);
+      },
+      setNodeData(nodeId: T, updates: Record<string, unknown>) {
+        if (!this.nodeData[nodeId]) {
+          this.nodeData[nodeId] = {};
+        }
+        this.nodeData[nodeId] = {
+          ...(this.nodeData[nodeId] as Record<string, unknown>),
+          ...updates,
+        };
+      },
+      clearNodeData(nodeId: T) {
+        this.nodeData[nodeId] = {};
+      },
+      setAllNodeData(newData: Record<string, unknown>) {
+        this.nodeData = newData;
+      },
       submit() {
         if (this.isFinished) return;
 
-        const finalData = Object.values(this.nodeData).reduce(
+        const finalNodeData = Object.values(this.nodeData).reduce<
+          Record<string, unknown>
+        >(
           (acc, data) => ({
-            ...(acc as Record<string, unknown>),
+            ...acc,
             ...(data as Record<string, unknown>),
           }),
-          {}
+          {} // The initial value
         );
 
-        this.saveResult = finalData;
+        this.saveResult = {
+          ...finalNodeData,
+          ...(this.sharedData as Record<string, unknown>),
+        };
         this.isFinished = true;
         this.active = false;
       },
 
       resetToInitial() {
         this.active = false;
-        this.currentNode =
-          this.nodes.find((n: NodeConfig) => n.id === defaultNodeId) ?? null;
-        this.nodeData = getInitialData(); // fresh data copy
+        this.currentNode = (defaultNode ?? null) as UnwrapRef<
+          NodeConfig<T>
+        > | null;
+        this.nodeData = getInitialData();
+        this.sharedData = {};
         this.history = [];
         this.isFinished = false;
         this.saveResult = null;
@@ -202,14 +279,15 @@ export function createFlowStore(opts: FlowStoreOptions) {
       },
 
       calculateNextNode(
-        node: NodeConfig,
-        context: FlowContext,
+        node: NodeConfig<T>,
+        context: FlowContext<T>,
         currentId: string
-      ): string | null | undefined {
+      ): ValidNextNode<T> | Promise<ValidNextNode<T>> {
         if (!node.next) return null;
-        if (typeof node.next !== "function") return node.next as string;
+        if (typeof node.next !== "function")
+          return node.next as ValidNextNode<T>;
 
-        if (node.type === "logic") {
+        if (node.type === "logic" || node.type === "action") {
           return node.next(context);
         }
         return node.next(

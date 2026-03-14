@@ -65,6 +65,7 @@ frontend/!.yarn/plugins
 frontend/!.yarn/releases
 frontend/!.yarn/sdks
 frontend/!.yarn/versions
+**/package-lock.json
 
 # Media
 backend/media/images/*
