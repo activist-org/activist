@@ -5,6 +5,7 @@
   >
     <Form
       id="event-location-and-time"
+      ref="timeFormRef"
       v-slot="{ values, setFieldValue }"
       @submit="handleSubmit"
       :action-buttons="[
@@ -155,7 +156,6 @@ import { addDays, differenceInCalendarDays, format, isSameDay } from "date-fns";
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
-const isCreating = ref(false);
 
 const scheduleSchema = z.object({
   dates: z.object({
@@ -250,8 +250,6 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   const { times, createAnother } = values;
 
   if (!flow) return;
-  if (isCreating.value) return;
-
   const mappedTimes = (
     times as {
       date: Date;
@@ -261,8 +259,14 @@ const handleSubmit = async (values: Record<string, unknown>) => {
     }[]
   ).map((t) => ({
     date: t.date.toISOString().split("T")[0],
-    start_time: t.startTime,
-    end_time: t.endTime,
+    start_time:
+      t.startTime instanceof Date
+        ? t.startTime.toISOString()
+        : (t.startTime as string),
+    end_time:
+      t.endTime instanceof Date
+        ? t.endTime.toISOString()
+        : (t.endTime as string),
     all_day: t.allDayLong || false,
   }));
 

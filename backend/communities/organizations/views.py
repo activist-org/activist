@@ -19,6 +19,7 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework import status, viewsets
+from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
@@ -169,7 +170,18 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
 
         if user.is_admin or user.is_staff:
             queryset = self.get_queryset()
-            page = self.paginate_queryset(queryset)
+            if not queryset.exists():
+                return Response(
+                    {"count": 0, "next": None, "previous": None, "results": []},
+                    status=status.HTTP_200_OK,
+                )
+            try:
+                page = self.paginate_queryset(queryset)
+            except NotFound:
+                return Response(
+                    {"count": 0, "next": None, "previous": None, "results": []},
+                    status=status.HTTP_200_OK,
+                )
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
