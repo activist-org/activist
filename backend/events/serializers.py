@@ -341,8 +341,6 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
             start_time = time.get("start_time")
             end_time = time.get("end_time")
 
-            print(start_time, end_time)
-
             if not start_time or not end_time:
                 raise serializers.ValidationError(
                     "Both start_time and end_time are required for each event time."

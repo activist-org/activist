@@ -18,7 +18,7 @@
         id="modal"
         :class="{
           'flex flex-col items-center': imageModal,
-          'container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text card-style-base md:h-auto':
+          'container h-full max-h-[90vh] w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text card-style-base md:h-auto md:max-h-[90vh]':
             !imageModal,
         }"
         :data-testid="`modal-${modalName}`"
