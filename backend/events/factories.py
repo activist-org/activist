@@ -24,6 +24,8 @@ from events.models import (
     Role,
 )
 
+types = ["learn", "action"]
+location_types = ["online", "physical"]
 # MARK: Event
 
 
@@ -38,8 +40,8 @@ class EventFactory(factory.django.DjangoModelFactory):
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")
     tagline = factory.Faker("word")
-    type = random.choice(["learn", "action"])
-    location_type = random.choice(["online", "physical"])
+    type = random.choice(types)
+    location_type = random.choice(location_types)
     is_private = factory.Faker("boolean")
     creation_date = factory.LazyFunction(
         lambda: datetime.datetime.now(tz=datetime.timezone.utc)
@@ -51,7 +53,6 @@ class EventFactory(factory.django.DjangoModelFactory):
             + datetime.timedelta(days=30),
         ]
     )
-
     if location_type == "online":
         online_location_link = factory.Faker("url")
 

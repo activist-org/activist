@@ -8,6 +8,7 @@ import random
 from typing import Any, Dict, List, Tuple
 
 from authentication.models import UserModel
+from content.factories import EventLocationFactory
 from communities.organizations.models import Organization
 from content.models import Topic
 from events.factories import (
@@ -87,7 +88,12 @@ def create_org_events(
 
         else:
             event_type = random.choice(["learn", "action"])
+            location_type = random.choice(["online", "physical"])
             verb = "Learning about" if event_type == "learn" else "Fighting for"
+            if location_type == "online":
+                link = f"https://www.{user_topic_name.lower()}-event.com"
+            else:
+                physical_location = EventLocationFactory.create()
             user_org_event = EventFactory(
                 name=f"{user_topic_name} Event",
                 tagline=f"{verb} {user_topic_name}",
@@ -95,8 +101,10 @@ def create_org_events(
                 created_by=user,
                 orgs=user_org,
                 groups=None,
+                location_type=location_type,
+                online_location_link=link if location_type == "online" else None,
+                physical_location=physical_location if location_type == "physical" else None,
             )
-
         # MARK: Topics
 
         user_org_event.topics.set([user_topic])
