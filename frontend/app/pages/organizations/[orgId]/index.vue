@@ -7,7 +7,7 @@
     <Head>
       <Title>{{ organization?.name }} </Title>
     </Head>
-    <div class="mx-auto h-[260px] w-3/4">
+    <div class="h-65 mx-auto w-3/4">
       <ImageOrganization
         :alt="
           $t('i18n._global.entity_logo', {

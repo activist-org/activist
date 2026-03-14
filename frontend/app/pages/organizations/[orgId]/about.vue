@@ -13,7 +13,7 @@
     </Head>
     <HeaderAppPageOrganization>
       <div class="flex pb-3 lg:pb-4">
-        <div class="flex flex-col gap-2 sm:flex-row sm:space-x-2 lg:space-x-3">
+        <div class="flex flex-col gap-2 sm:flex-row">
           <BtnRouteExternal
             v-if="organization?.texts[0]?.getInvolvedUrl"
             ariaLabel="i18n._global.join_organization_aria_label"
@@ -26,9 +26,9 @@
             :rightIcon="IconMap.ARROW_RIGHT"
           />
           <!-- <BtnAction
-          class="w-full sm:w-max"
+          class="flex w-full justify-center sm:w-max"
           :cta="true"
-          label="flex w-full justify-center sm:w-max"
+          label="i18n._global.support"
           fontSize="sm"
           leftIcon="IconSupport"
           iconSize="1.45em"
