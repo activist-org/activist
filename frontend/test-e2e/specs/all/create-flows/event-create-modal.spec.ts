@@ -64,7 +64,8 @@ async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
   });
 }
 
-/** Set each day's start time to 10:00 and end time to 11:00 so backend receives start_time < end_time for every entry. */
+// Set each day's start time to 10:00 and end time to 11:00.
+// Backend receives start_time < end_time for every entry.
 async function setFirstDayEndTimeToFuture(
   modal: ReturnType<typeof newCreateEventModal>,
   page: {
