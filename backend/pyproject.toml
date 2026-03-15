@@ -18,6 +18,7 @@ dependencies = [
     "icalendar>=7.0.3",
     "pillow>=12.1.1",
     "psycopg2-binary>=2.9.11",
+    "pyyaml>=6.0.3",
     "python-dotenv>=1.2.2",
 ]
 
