@@ -11,11 +11,11 @@ export const useGroupMutations = () => {
     loading.value = true;
     error.value = null;
     try {
-      const groupId = await createGroup(groupData);
+      const group = await createGroup(groupData);
 
       await refreshGroupList();
 
-      return groupId;
+      return group;
     } catch (e) {
       error.value = e as AppError;
       showToastError(error.value.message);
