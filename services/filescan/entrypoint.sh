@@ -11,6 +11,7 @@ mkdir -p "$SOCKET_DIR"
 chown clamav:clamav "$SOCKET_DIR" 2>/dev/null || true
 
 # Optional: update virus DB on startup (skip if no network or to speed startup)
+# To toggle off, try commenting out this line.
 freshclam 2>/dev/null || true
 
 # Start clamd in background

@@ -4,10 +4,11 @@ FROM python:3.13-alpine
 
 WORKDIR /app
 
-# Runtime dependencies: curl (for tests/health checks), clamav for clamd
-# Clamav checks malware dictionary for updates when the container starts/runs.
+# Runtime dependencies: clamav for clamd.
+# ClamAV updates malware database when the container starts/runs.
+# To toggle off, try commenting out the line `freshclam 2>/dev/null || true` in entrypoint.sh.
+
 RUN apk add --no-cache \
-    curl \
     clamav && \
     mkdir -p /run/clamav /var/run/clamav /var/lib/clamav && \
     chown -R clamav:clamav /run/clamav /var/run/clamav /var/lib/clamav

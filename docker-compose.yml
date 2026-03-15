@@ -92,7 +92,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    # TODO: Needs a volume to store the quarantined files.
+    # TODO: Needs a volume to store uploaded files, and another to store the quarantined files.
 
   frontend:
     env_file:

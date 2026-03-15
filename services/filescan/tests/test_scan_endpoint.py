@@ -14,34 +14,28 @@ TEST_FILES_DIR = BASE_DIR / "test_files"
 client = TestClient(app)
 
 
-class _FakeClamdClient:
-    """
-    Lightweight fake ClamAV client for tests.
+def _mock_scan_with_clamav(
+    monkeypatch,
+    result: tuple[bool, str, str | None],
+) -> None:
+    """Patch main.scan_with_clamav to return a fixed result."""
 
-    It mimics the subset of the pyclamd API that our code relies on:
-    - ping()
-    - scan_stream(bytes)
-    """
+    async def _fake_scan(_file_bytes: bytes) -> tuple[bool, str, str | None]:
+        return result
 
-    def __init__(self, scan_result: dict | None) -> None:
-        self._scan_result = scan_result
-
-    def ping(self) -> bool:
-        return True
-
-    def scan_stream(self, data: bytes) -> dict | None:  # noqa: ARG002
-        return self._scan_result
+    monkeypatch.setattr("main.scan_with_clamav", _fake_scan)
 
 
-def _mock_clamd_client(monkeypatch, scan_result: dict | None) -> None:
-    """
-    Patch main.get_clamd_client to return a fake client with a fixed scan result.
-    """
+def _mock_scan_with_csam(
+    monkeypatch,
+    result: tuple[bool, str, str | None],
+) -> None:
+    """Patch main.scan_with_csam to return a fixed result."""
 
-    def _factory() -> _FakeClamdClient:
-        return _FakeClamdClient(scan_result)
+    async def _fake_scan(_file_bytes: bytes) -> tuple[bool, str, str | None]:
+        return result
 
-    monkeypatch.setattr("main.get_clamd_client", _factory)
+    monkeypatch.setattr("main.scan_with_csam", _fake_scan)
 
 
 def test_healthcheck_returns_ok() -> None:
@@ -57,8 +51,13 @@ def test_scan_without_file_returns_400() -> None:
     assert "detail" in body
 
 
+CLEAN_RESULT = (False, "No malware detected by ClamAV.", None)
+CLEAN_RESULT_CSAM = (False, "No CSAM detected.", None)
+
+
 def test_scan_empty_file_treated_as_clean(monkeypatch) -> None:
-    _mock_clamd_client(monkeypatch, scan_result=None)
+    _mock_scan_with_clamav(monkeypatch, CLEAN_RESULT)
+    _mock_scan_with_csam(monkeypatch, CLEAN_RESULT_CSAM)
 
     empty_path = TEST_FILES_DIR / "empty.txt"
     with empty_path.open("rb") as f:
@@ -71,7 +70,8 @@ def test_scan_empty_file_treated_as_clean(monkeypatch) -> None:
 
 
 def test_scan_clean_file_treated_as_clean(monkeypatch) -> None:
-    _mock_clamd_client(monkeypatch, scan_result=None)
+    _mock_scan_with_clamav(monkeypatch, CLEAN_RESULT)
+    _mock_scan_with_csam(monkeypatch, CLEAN_RESULT_CSAM)
     clean_path = TEST_FILES_DIR / "clean.txt"
     with clean_path.open("rb") as f:
         response = client.post("/scan", files={"file": ("clean.txt", f, "text/plain")})
@@ -83,10 +83,11 @@ def test_scan_clean_file_treated_as_clean(monkeypatch) -> None:
 
 
 def test_scan_eicar_file_detects_malware(monkeypatch) -> None:
-    _mock_clamd_client(
+    _mock_scan_with_clamav(
         monkeypatch,
-        scan_result={"stream": ("FOUND", "Eicar-Test-Signature")},
+        (True, "Malware detected by ClamAV.", "Eicar-Test-Signature"),
     )
+    _mock_scan_with_csam(monkeypatch, CLEAN_RESULT_CSAM)
     eicar_path = TEST_FILES_DIR / "eicar.txt"
     with eicar_path.open("rb") as f:
         response = client.post("/scan", files={"file": ("eicar.txt", f, "text/plain")})
@@ -98,10 +99,30 @@ def test_scan_eicar_file_detects_malware(monkeypatch) -> None:
     # Signature name can vary slightly depending on definitions, so just assert it's present.
     assert "signature" in body
     assert isinstance(body["signature"], str) and body["signature"]
+    assert body.get("source") == "clamav"
+
+
+def test_scan_csam_detected(monkeypatch) -> None:
+    """When CSAM scanner returns positive, response has malware_detected True and source csam."""
+    _mock_scan_with_clamav(monkeypatch, CLEAN_RESULT)
+    _mock_scan_with_csam(
+        monkeypatch,
+        (True, "CSAM detected.", "PhotoDNA-match"),
+    )
+    with (TEST_FILES_DIR / "clean.txt").open("rb") as f:
+        response = client.post("/scan", files={"file": ("clean.txt", f, "text/plain")})
+    assert response.status_code == 200
+    body = response.json()
+    assert body["filename"] == "clean.txt"
+    assert body["malware_detected"] is True
+    assert body["detail"] == "CSAM detected."
+    assert body.get("signature") == "PhotoDNA-match"
+    assert body.get("source") == "csam"
 
 
 def test_scan_large_clean_file_treated_as_clean(monkeypatch) -> None:
-    _mock_clamd_client(monkeypatch, scan_result=None)
+    _mock_scan_with_clamav(monkeypatch, CLEAN_RESULT)
+    _mock_scan_with_csam(monkeypatch, CLEAN_RESULT_CSAM)
     large_clean_path = TEST_FILES_DIR / "large_clean.txt"
     with large_clean_path.open("rb") as f:
         response = client.post(
@@ -120,7 +141,8 @@ def test_scan_fake_binary_image_treated_as_clean(monkeypatch) -> None:
     Ensure that a file uploaded with an image content-type but non-image content
     is still treated purely based on its bytes by ClamAV.
     """
-    _mock_clamd_client(monkeypatch, scan_result=None)
+    _mock_scan_with_clamav(monkeypatch, CLEAN_RESULT)
+    _mock_scan_with_csam(monkeypatch, CLEAN_RESULT_CSAM)
 
     fake_image_path = TEST_FILES_DIR / "fake_image.bin"
     with fake_image_path.open("rb") as f:
@@ -133,4 +155,3 @@ def test_scan_fake_binary_image_treated_as_clean(monkeypatch) -> None:
     body = response.json()
     assert body["filename"] == "fake.png"
     assert body["malware_detected"] is False
-
