@@ -12,18 +12,14 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <template v-if="canEdit(event)">
-          <BtnActionAdd
-            ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-            :element="$t('i18n._global.resources_lower')"
-            :entity="event"
-            :onClick="openModal"
-          />
-        </template>
+        <BtnActionAdd
+          ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
+          :element="$t('i18n._global.resources_lower')"
+          :entity="event"
+          :onClick="openModal"
+        />
       </div>
-      <template v-if="canEdit(event)">
-        <ModalResourceEvent />
-      </template>
+      <ModalResourceEvent v-if="canCreate(event)" />
     </HeaderAppPageEvent>
     <!-- Draggable list -->
     <div v-if="(event?.resources ?? []).length" class="py-4">
@@ -81,7 +77,7 @@ const route = useRoute();
 const eventId = (route.params.eventId as string) ?? "";
 
 const { openModal } = useModalHandlers("ModalResourceEvent");
-const { canEdit } = useUser();
+const { canEdit, canCreate } = useUser();
 const { data: event } = useGetEvent(eventId);
 const { reorderResources } = useEventResourcesMutations(eventId);
 

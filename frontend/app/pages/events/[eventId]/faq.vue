@@ -10,15 +10,13 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <template v-if="canEdit(event)">
-          <ModalFaqEntryEvent />
-          <BtnActionAdd
-            ariaLabel="i18n.pages._global.new_faq_aria_label"
-            :element="$t('i18n._global.faq')"
-            :entity="event"
-            :onClick="openModal"
-          />
-        </template>
+        <ModalFaqEntryEvent v-if="canCreate(event)" />
+        <BtnActionAdd
+          ariaLabel="i18n.pages._global.new_faq_aria_label"
+          :element="$t('i18n._global.faq')"
+          :entity="event"
+          :onClick="openModal"
+        />
       </div>
     </HeaderAppPageEvent>
     <div v-if="faqList.length > 0" class="py-4" data-testid="event-faq-list">
@@ -81,7 +79,7 @@ const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
 
-const { canEdit } = useUser();
+const { canEdit, canCreate } = useUser();
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
