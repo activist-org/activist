@@ -19,10 +19,10 @@ export const useUser = () => {
     return entity?.createdBy === user.value?.id;
   };
 
-  const canCreate = () => {
+  const canCreate = (entity?: Entity | null) => {
     if (!userIsSignedIn.value) return false;
     if (userIsAdmin.value) return true;
-    return true;
+    return entity?.createdBy === user.value?.id;
   };
 
   const canView = () => {
