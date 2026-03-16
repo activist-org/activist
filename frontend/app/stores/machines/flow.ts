@@ -157,6 +157,9 @@ export function createFlowStore<T extends string = string>(
               goto: this.goto,
               submit: this.submit,
               setSharedData: this.setSharedData,
+              clearNodeData: this.clearNodeData,
+              setNodeData: this.setNodeData,
+              setAllNodeData: this.setAllNodeData,
             },
           };
 
@@ -189,6 +192,10 @@ export function createFlowStore<T extends string = string>(
             const isCurrentNodeScreen =
               !!node.component && node.type !== "logic";
             if (isCurrentNodeScreen) (this.history as T[]).push(currentId);
+            // Run onEnter before switching node so the next node sees cleared/updated store state when it first renders.
+            if (nextNode.onEnter) {
+              await nextNode.onEnter(context);
+            }
             (this.currentNode as NodeConfig<T>) = nextNode;
           } else {
             this.submit();
@@ -220,9 +227,23 @@ export function createFlowStore<T extends string = string>(
       },
 
       setSharedData(updates: Record<string, unknown>) {
-        this.sharedData = { ...this.sharedData, ...updates };
+        Object.assign(this.sharedData, updates);
       },
-
+      setNodeData(nodeId: T, updates: Record<string, unknown>) {
+        if (!this.nodeData[nodeId]) {
+          this.nodeData[nodeId] = {};
+        }
+        this.nodeData[nodeId] = {
+          ...(this.nodeData[nodeId] as Record<string, unknown>),
+          ...updates,
+        };
+      },
+      clearNodeData(nodeId: T) {
+        this.nodeData[nodeId] = {};
+      },
+      setAllNodeData(newData: Record<string, unknown>) {
+        this.nodeData = newData;
+      },
       submit() {
         if (this.isFinished) return;
 

@@ -17,6 +17,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="initialLocationData"
       :schema="locationSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -60,6 +61,13 @@ const handleSubmitLocation = (values: unknown) => {
   };
 };
 const flow = inject<FlowControls>("flow");
+
+const initialLocationData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.Location) return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
 const locationSchema = z.object({
   location: z
     .object({
