@@ -10,7 +10,7 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <ModalFaqEntryEvent v-if="canCreate(event)" />
+        <ModalFaqEntryEvent />
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
@@ -79,7 +79,7 @@ const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
 
-const { canEdit, canCreate } = useUser();
+const { canEdit } = useUser();
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(

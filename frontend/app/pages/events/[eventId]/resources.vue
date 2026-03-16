@@ -19,7 +19,7 @@
           :onClick="openModal"
         />
       </div>
-      <ModalResourceEvent v-if="canCreate(event)" />
+      <ModalResourceEvent />
     </HeaderAppPageEvent>
     <!-- Draggable list -->
     <div v-if="(event?.resources ?? []).length" class="py-4">
@@ -77,7 +77,7 @@ const route = useRoute();
 const eventId = (route.params.eventId as string) ?? "";
 
 const { openModal } = useModalHandlers("ModalResourceEvent");
-const { canEdit, canCreate } = useUser();
+const { canEdit } = useUser();
 const { data: event } = useGetEvent(eventId);
 const { reorderResources } = useEventResourcesMutations(eventId);
 
