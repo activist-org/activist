@@ -10,7 +10,7 @@ from typing import Type
 from uuid import UUID
 
 from django.contrib.auth.models import AnonymousUser
-from django.db.models import Case, IntegerField, Q, Value, When
+from django.db.models import Case, IntegerField, Q, QuerySet, Value, When
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
@@ -66,7 +66,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     filterset_class = OrganizationFilter
     filter_backends = [DjangoFilterBackend]
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Organization]:
         queryset = super().get_queryset().order_by("id")
 
         if os.environ.get("ENVIRONMENT") != "development":
