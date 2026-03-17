@@ -9,8 +9,6 @@
 <script setup lang="ts">
 import type { LayerSpecification } from "maplibre-gl";
 
-import "maplibre-gl/dist/maplibre-gl.css";
-
 const props = defineProps<{
   pointer?: Pointer;
   type: MapType;
@@ -34,12 +32,13 @@ const colorMode = useColorMode();
 const { setMapLayers, setMap } = useRouting();
 
 const isTouchDevice =
-  // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  navigator.msMaxTouchPoints > 0 ||
-  "ontouchstart" in window ||
-  navigator.maxTouchPoints > 0;
+  window &&
+  navigator &&
+  // IE/old Edge
+  (navigator?.msMaxTouchPoints > 0 ||
+    // Standard
+    "ontouchstart" in window ||
+    navigator?.maxTouchPoints > 0);
 
 // MARK: Map Layers
 

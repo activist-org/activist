@@ -79,7 +79,7 @@ import { getGroup } from "~/services/communities/group/group";
 import { getOrganization } from "~/services/communities/organization/organization";
 import { getEvent } from "~/services/event/event";
 
-const url = window.location.href;
+const url = window?.location?.href || "";
 let pageType = "";
 
 const { locales } = useI18n();
@@ -131,7 +131,7 @@ if (groupRegex.test(url)) {
 const breadcrumbs = ref<string[]>([]);
 
 function setBreadcrumbs() {
-  const url = window.location.pathname;
+  const url = window?.location?.pathname || "";
   const nonEmptySegments = getNonEmptySegmentsFromURL(url);
   breadcrumbs.value = nonEmptySegments;
 }
