@@ -10,7 +10,7 @@ Following this guide helps to communicate that you respect the time of the devel
 
 If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 
-## **Contents**
+## Contents
 
 - [First steps as a contributor](#first-steps-as-a-contributor)
 - [Mentorship and growth](#mentorship-and-growth)
@@ -42,7 +42,7 @@ Thank you for your interest in contributing to activist.org! We look forward to 
 - Read through this contributing guide and the [style guide](STYLEGUIDE.md) for all the information you need to contribute
 - Look into issues marked [`good first issue`](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and the [Projects board](https://github.com/orgs/activist-org/projects/1) to get a better understanding of what you can work on
 - Check out our [public designs on Figma](https://www.figma.com/file/I9McFfaLu1RiiWp5IP3YjE/activist_public_designs?type=design&node-id=10%3A18&mode=design&t=tdQyOtl5lU1n7oLN-1) to understand activist's goals and direction
-- Consider joining our [bi-weekly developer sync](https://etherpad.wikimedia.org/p/activist-dev-sync) — new joiners are always welcome!
+- Consider joining our bi-weekly developer sync — new joiners are always welcome!
 
 <sub><a href="#top">Back to top.</a></sub>
 

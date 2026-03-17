@@ -75,7 +75,7 @@
     <MenuItems
       class="rounded-md focus-brand"
       :class="{
-        'absolute right-0 mt-2 origin-top-right divide-y bg-layer-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-primary-text':
+        'absolute right-0 z-50 mt-2 origin-top-right divide-y bg-layer-0 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-primary-text':
           !isSidebarLeftMenu,
         'static!': isSideMenu || isSidebarLeftMenu,
         'mt-1 bg-layer-2 p-1': isSidebarLeftMenu,

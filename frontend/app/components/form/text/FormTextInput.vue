@@ -3,12 +3,16 @@
 <!-- See: https://mui.com/material-ui/react-text-field/ -->
 <template>
   <div
-    class="primary-text relative inline-flex w-full flex-col space-y-2 align-top"
+    class="form-text-input-container primary-text relative inline-flex w-full flex-col space-y-2 align-top"
   >
     <label
-      class="z-1 absolute"
+      class="form-text-input-label pointer-events-none absolute z-10"
       :class="{
-        '-translate-y-2 translate-x-4 text-sm text-distinct-text': shrinkLabel,
+        '-translate-y-2 translate-x-4 text-sm text-distinct-text':
+          shrinkLabel && iconLocation === 'right',
+        '-translate-y-2 translate-x-[3.4rem] text-sm text-distinct-text':
+          shrinkLabel && iconLocation === 'left',
+        'text-primary-text': !shrinkLabel,
         'translate-y-[0.6rem] pl-3': !shrinkLabel && iconLocation === 'right',
         'translate-y-[0.6rem] pl-[3.4rem]':
           !shrinkLabel && iconLocation === 'left',
@@ -28,12 +32,14 @@
       </span>
       <input
         :id="id"
+        ref="inputRef"
+        @animationstart="handleAnimationStart"
         @blur="handleBlur"
-        @focus="shrinkLabel = true"
-        @input="
-          (e) => emit('update:modelValue', (e.target as HTMLInputElement).value)
-        "
-        class="box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
+        @change="handleChange"
+        @focus="handleFocus"
+        @input="handleInput"
+        @pointerdown="handlePointerDown"
+        class="form-text-input box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
         :placeholder="shrinkLabel ? '' : label"
         role="textbox"
         :type="type"
@@ -96,19 +102,112 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
+const inputRef = ref<HTMLInputElement | null>(null);
 const shrinkLabel = ref<boolean>(!!props.modelValue);
+let autofillSyncIntervalId: ReturnType<typeof setInterval> | undefined;
+
+const isAutofilled = (input: HTMLInputElement): boolean => {
+  try {
+    return input.matches(":-webkit-autofill") || input.matches(":autofill");
+  } catch {
+    return false;
+  }
+};
+
+const syncShrinkLabelState = () => {
+  const input = inputRef.value;
+  if (!input) {
+    return false;
+  }
+  // Focus/blur/input events own label state during interaction. Guard for SSR/Vitest (no document).
+  if (document && document.activeElement === input) {
+    return false;
+  }
+  const hasAutofill = isAutofilled(input);
+  shrinkLabel.value = !!input.value || hasAutofill;
+  return hasAutofill;
+};
+
+const handleFocus = () => {
+  shrinkLabel.value = true;
+};
 
 const handleBlur = (event: FocusEvent) => {
   const target = event.target as HTMLInputElement | null;
-  if (!target?.value) {
+  if (target && !target.value && !isAutofilled(target)) {
     shrinkLabel.value = false;
   }
+};
+
+const handleAnimationStart = (event: AnimationEvent) => {
+  if (event.animationName === "onAutoFillStart") {
+    shrinkLabel.value = true;
+  }
+};
+
+const updateShrinkLabelState = (input: HTMLInputElement | null) => {
+  if (!input) {
+    return;
+  }
+  if (document && document.activeElement === input) {
+    shrinkLabel.value = true;
+    return;
+  }
+  shrinkLabel.value = !!input.value || isAutofilled(input);
+};
+
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLInputElement | null;
+  emit("update:modelValue", target?.value ?? "");
+};
+
+const handleChange = (event: Event) => {
+  const target = event.target as HTMLInputElement | null;
+  updateShrinkLabelState(target);
+};
+
+const handlePointerDown = (event: PointerEvent) => {
+  const target = event.target as HTMLInputElement | null;
+  if (target?.disabled) {
+    return;
+  }
+  shrinkLabel.value = true;
 };
 
 watch(
   () => props.modelValue,
   (value) => {
-    shrinkLabel.value = !!value;
+    const input = inputRef.value;
+    if (!input) {
+      shrinkLabel.value = !!value;
+      return;
+    }
+    if (document && document.activeElement === input) {
+      shrinkLabel.value = true;
+      return;
+    }
+    shrinkLabel.value = !!value || isAutofilled(input);
   }
 );
+
+onMounted(() => {
+  // Browser autofill may populate after hydration without emitting input events.
+  let autofillDetected = syncShrinkLabelState();
+  let checks = 0;
+  autofillSyncIntervalId = setInterval(() => {
+    checks += 1;
+    autofillDetected = syncShrinkLabelState() || autofillDetected;
+    if (checks >= 30 || autofillDetected) {
+      if (autofillSyncIntervalId) {
+        clearInterval(autofillSyncIntervalId);
+      }
+    }
+  }, 100);
+});
+
+onBeforeUnmount(() => {
+  if (autofillSyncIntervalId) {
+    clearInterval(autofillSyncIntervalId);
+  }
+});
 </script>

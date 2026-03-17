@@ -1,16 +1,14 @@
+<a id="top"></a>
+
 # Backend Testing
 
 This documentation details standards for writing pytest based backend testing files.
 
-<a id="contents"></a>
-
-## **Contents**
+## Contents
 
 - [Standards](#standards-)
 
-<a id="standards-"></a>
-
-## Standards [`⇧`](#contents)
+## Standards
 
 - All tests for backend applications should be in a `tests` sub directory
 - Testing files should be named `test_ENTITY_{MODEL_SUB_CLASS}_CRUD_METHOD`, with the `MODEL_SUB_CLASS` being optional
@@ -30,3 +28,5 @@ This documentation details standards for writing pytest based backend testing fi
   - Start with the name of the file
   - End with the response code that is being tested if there is only one
 - If there is only one API endpoint used in a testing file, it should be defined as a `SCREAMING_SNAKE_CASE` variable at the top of the file
+
+<sub><a href="#top">Back to top.</a></sub>

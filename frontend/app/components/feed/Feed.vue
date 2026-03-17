@@ -2,9 +2,9 @@
 <template>
   <div
     v-if="feedItemUrls && feedItemNames"
-    class="mt-3 flex items-center justify-start space-x-3"
+    class="mt-3 flex flex-col items-center justify-start space-y-2 md:flex-row md:space-x-3 md:space-y-0"
   >
-    <div v-for="(url, index) in feedItemUrls" class="max-w-[100%]">
+    <div v-for="(url, index) in feedItemUrls">
       <FeedItem
         v-if="feedItemNames[index]"
         :name="feedItemNames[index]"

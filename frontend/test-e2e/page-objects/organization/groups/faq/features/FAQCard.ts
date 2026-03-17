@@ -40,6 +40,13 @@ export const FAQCard = (page: Page) => {
         .getByTestId("faq-edit-button");
     },
 
+    getFaqDeleteButton(index: number) {
+      return page
+        .getByTestId("faq-card")
+        .nth(index)
+        .getByTestId("faq-delete-button");
+    },
+
     // MARK: Disclosure Elements
 
     getFaqDisclosurePanel(index: number) {
