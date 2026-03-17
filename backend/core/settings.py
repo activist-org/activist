@@ -197,6 +197,15 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
 # DEVELOPMENT ONLY
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+# Security event alerts
+INTERNAL_EVENTS_TOKEN = os.getenv("INTERNAL_EVENTS_TOKEN")
+SECURITY_ALERT_RECIPIENTS = tuple(
+    addr.strip()
+    for addr in os.getenv("SECURITY_ALERT_RECIPIENTS", "").split(",")
+    if addr.strip()
+)
+SECURITY_ALERT_FROM_EMAIL = os.getenv("SECURITY_ALERT_FROM_EMAIL", EMAIL_HOST_USER)
+
 # MARK: REST Framework
 
 REST_FRAMEWORK = {

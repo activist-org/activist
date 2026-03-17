@@ -5,10 +5,11 @@ import uuid
 import asyncio
 import logging
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile, Request
 from fastapi.responses import JSONResponse
 
 from scanners import scan_with_clamav, scan_with_csam
+from notification_helpers import notify_malware_quarantined
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -19,15 +20,6 @@ app = FastAPI(
     title="File Scan Service",
     version="0.1.0",
 )
-
-
-def notify_malware_quarantined(event: dict[str, object]) -> None:
-    """
-    Logging-only hook for malware quarantine events.
-    """
-    logger.warning("malware quarantined event=%s.", event)
-    # TODO: Implement notification logic here.
-    logger.info("Notifying recipents...")
 
 
 @app.get("/health")
@@ -52,7 +44,13 @@ async def healthcheck() -> dict[str, str]:
 
 
 @app.post("/scan")
-async def scan_file(file: UploadFile | None = File(None)) -> JSONResponse:
+async def scan_file(request: Request, file: UploadFile | None = File(None)) -> JSONResponse:
+    expected_token = os.getenv("FILESCAN_INTERNAL_TOKEN")
+    if expected_token:
+        provided = request.headers.get("X-Filescan-Token")
+        if provided != expected_token:
+            logger.warning("unauthorized scan request: missing or invalid X-Filescan-Token")
+            raise HTTPException(status_code=403, detail="Unauthorized")
     if file is None or not file.filename:
         logger.warning("scan request rejected: no file or filename")
         return JSONResponse(

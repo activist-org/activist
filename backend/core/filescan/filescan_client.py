@@ -70,9 +70,15 @@ def scan_file(upload: UploadedFile) -> Dict[str, Any]:
     """
     try:
         file_obj = cast(IO[bytes], upload.file)
+        headers: Dict[str, str] = {}
+        token = os.getenv("FILESCAN_INTERNAL_TOKEN")
+        if token:
+            headers["X-Filescan-Token"] = token
+
         response = httpx.post(
             FILESCAN_URL,
             files={"file": (upload.name, file_obj)},
+            headers=headers,
             timeout=10.0,
         )
     except httpx.RequestError as exc:

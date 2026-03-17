@@ -24,6 +24,10 @@ fastapi==0.115.14 \
     --hash=sha256:6c0c8bf9420bd58f565e585036d971872472b4f7d3f6c73b698e10cffdefb3ca \
     --hash=sha256:b1de15cdc1c499a4da47914db35d0e4ef8f1ce62b624e94e0e5824421df99739
     # via filescan-service
+httpx==0.28.1 \
+    --hash=sha256:2bdf0c77a3fc1311dc98a8adf9a0f995c3a665a6932d3c0798996b9efb011eb8 \
+    --hash=sha256:bcfcc9a1b7a3325057d44e016e91bd509e6c975a17dc6dcf32a6b9e0c12c3653
+    # via filescan-service
 h11==0.16.0 \
     --hash=sha256:4e35b956cf45792e4caa5885e69fba00bdbc6ffafbfa020300e549b208ee5ff1 \
     --hash=sha256:63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86

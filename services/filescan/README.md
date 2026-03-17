@@ -22,6 +22,12 @@ This service currently uses **ClamAV** for malware scanning. Other options you m
 
 How this service fits into the wider upload flow (quarantine volume, who quarantines, backend responsibilities, and Django/DRF integration) is documented in **[INTEGRATION_NOTES.md](./INTEGRATION_NOTES.md)**.
 
+When malware is detected and quarantined, this service also emits a structured security event to the backend over HTTP:
+
+- Events are sent to the backend’s internal ingestion endpoint at `POST /internal/security-events`.
+- Access to this endpoint is controlled via a shared secret header (`X-Internal-Token`) and is intended only for trusted internal services, not public clients.
+- The backend then translates accepted events into operator alerts (e.g. console emails in development, real notification channels in staging/production, depending on configuration).
+
 ## Build and run (Docker)
 
 The steps below are for **local development** only. In production the service is typically run via a docker-compose file.
@@ -141,21 +147,22 @@ These additional scanners can follow the same pattern as existing ones: accept r
 
 ## To Do
 
-- **System-level logging and observability - DONE**
+- **System-level logging and observability**
   - Implemented: INFO-level logging for scan requests (filename, size, content_type), scan responses (status, malware_detected, detail, source), and WARNING/ERROR for 400/503.
 
   - No file contents are logged elsewhere. Logs go to stderr (visible in Docker container logs).
 
-- **OpenAPI / API documentation - DONE**
+- **OpenAPI / API documentation**
   - FastAPI provides basic OpenAPI documentation by default. When the `filescan` container is built and running, this documentation can be previewed at
   ```bash
   http://localhost:9101/docs
   ```
-
+  - Need to check if the project-wide OpenAPI stuff integrates this filescan doc.
 - **Quarantine volume for violating files**
   - Establish a dedicated, access-controlled quarantine storage location (volume or bucket) for files where malware or CSAM is detected.
   - This service uses the `FILESCAN_QUARANTINE_DIR` environment variable to determine the on-disk quarantine directory (default `/var/filescan/quarantine`) and, when `malware_detected` is `true`, writes the uploaded bytes there under a generated `quarantine_id`.
   - The `/scan` response for detected files includes `quarantine_id` (and `quarantine_available: true`) so that operators can correlate API responses with quarantined files, while the exact filesystem path is only recorded in logs.
+  - Need to revisit this volume mapping when we deploy. Best solution would map to a hardened, secured storage place that can safely store malware/other quarantined files.
 
 - **General content moderation**
   - Decide if we want to implement some type of general content moderation scanning (ie "adult content", images of violence, etc.).

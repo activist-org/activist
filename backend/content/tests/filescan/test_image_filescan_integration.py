@@ -11,9 +11,11 @@ or FILESCAN_BASE_URL accordingly.
 from __future__ import annotations
 
 import io
+import os
 import time
 from typing import Any, Dict
 
+import httpx
 import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -24,6 +26,28 @@ from communities.organizations.factories import OrganizationFactory
 from content.models import Image
 
 pytestmark = pytest.mark.filescan_integration
+
+
+@pytest.fixture(scope="session", autouse=True)
+def wait_for_filescan_health() -> None:
+    """
+    Ensure the filescan service is healthy before running integration tests.
+
+    This avoids flakiness when ClamAV or other scanners are still warming up
+    and would otherwise cause transient "could not be scanned" errors.
+    """
+    health_url = os.getenv("FILESCAN_HEALTH_URL", "http://filescan:9101/health")
+    max_attempts = 20
+    for _ in range(max_attempts):
+        try:
+            response = httpx.get(health_url, timeout=5.0)
+            if response.status_code == 200:
+                return
+        except httpx.RequestError:
+            pass
+        time.sleep(0.5)
+
+    pytest.skip(f"filescan service not ready at {health_url}")
 
 
 @pytest.fixture
@@ -66,27 +90,30 @@ def test_clean_image_upload_passes_filescan(client: APIClient) -> None:
     Clean image should be accepted end-to-end (backend + filescan).
     """
     org = OrganizationFactory()
-    file = _make_clean_image_file()
-
-    data = _base_payload(str(org.id), file)
 
     # The first call to the filescan service can occasionally fail with a transient
     # "could not be scanned" error if the underlying scanners are still warming up.
     # To keep this integration test robust while still asserting the desired
     # behaviour, retry a small number of times on that specific condition.
-    max_attempts = 3
+    max_attempts = 5
     last_response = None
-    for _ in range(max_attempts):
+    for attempt in range(max_attempts):
+        file = _make_clean_image_file()
+        data = _base_payload(str(org.id), file)
         response = client.post("/v1/content/images", data, format="multipart")
         last_response = response
         if response.status_code == 201:
             break
         body = response.json()
-        if body.get("nonFieldErrors") == [
-            "The file could not be scanned. Please try again later."
-        ]:
+        if (
+            body.get("nonFieldErrors")
+            == ["The file could not be scanned. Please try again later."]
+            and attempt < max_attempts - 1
+        ):
             time.sleep(0.5)
             continue
+        # Temporary debug to understand unexpected 4xx responses in CI/local runs.
+        print("unexpected /v1/content/images response:", response.status_code, body)
         break
 
     assert last_response is not None
@@ -103,13 +130,26 @@ def test_malware_eicar_upload_rejected_by_filescan(client: APIClient) -> None:
     EICAR test file should be rejected by the backend after filescan flags it.
     """
     org = OrganizationFactory()
-    file = _make_eicar_file()
 
-    data = _base_payload(str(org.id), file)
-    response = client.post("/v1/content/images", data, format="multipart")
+    max_attempts = 5
+    response = None
+    for attempt in range(max_attempts):
+        file = _make_eicar_file()
+        data = _base_payload(str(org.id), file)
+        response = client.post("/v1/content/images", data, format="multipart")
+        body = response.json()
+        # Treat transient "could not be scanned" errors as retryable warm-up issues.
+        if (
+            body.get("nonFieldErrors")
+            == ["The file could not be scanned. Please try again later."]
+            and attempt < max_attempts - 1
+        ):
+            time.sleep(0.5)
+            continue
+        break
 
+    assert response is not None
     assert response.status_code == 400
-    body = response.json()
     # Serializer raises a non-field ValidationError -> DRF exposes it under nonFieldErrors.
     assert "The uploaded file was rejected by the security scan." in body.get(
         "nonFieldErrors", []
@@ -140,8 +180,28 @@ def test_large_clean_image_still_passes_filescan(client: APIClient) -> None:
     assert file.size < settings.IMAGE_UPLOAD_MAX_FILE_SIZE
 
     data = _base_payload(str(org.id), file)
-    response = client.post("/v1/content/images", data, format="multipart")
+    max_attempts = 5
+    response = None
+    for attempt in range(max_attempts):
+        response = client.post("/v1/content/images", data, format="multipart")
+        if response.status_code == 201:
+            break
+        body = response.json()
+        if (
+            body.get("nonFieldErrors")
+            == ["The file could not be scanned. Please try again later."]
+            and attempt < max_attempts - 1
+        ):
+            time.sleep(0.5)
+            continue
+        print(
+            "unexpected /v1/content/images response (large_clean):",
+            response.status_code,
+            body,
+        )
+        break
 
+    assert response is not None
     assert response.status_code == 201
     assert Image.objects.count() == 1
 

@@ -1,11 +1,39 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+import os
 from pathlib import Path
+from typing import Iterator
 
 import httpx
+import pytest
 
 
-def test_infected_file_includes_quarantine_id() -> None:
+@pytest.fixture
+def quarantine_dir() -> Iterator[Path]:
+    """
+    Resolve the quarantine directory for the current environment and
+    clean up any EICAR files created by this test.
+
+    The filescan service writes quarantined files under
+    FILESCAN_QUARANTINE_DIR (default: /var/filescan/quarantine), with
+    filenames of the form "<quarantine_id>__<original_filename>".
+    """
+    # Match the default used by the filescan service.
+    raw = os.getenv("FILESCAN_QUARANTINE_DIR", "/var/filescan/quarantine")
+    qdir = Path(raw)
+    yield qdir
+
+    # Best-effort cleanup: remove any EICAR quarantine files this test created.
+    if qdir.is_dir():
+        for path in qdir.glob("*__eicar.txt"):
+            try:
+                path.unlink()
+            except FileNotFoundError:
+                # If it was already removed, that's fine.
+                continue
+
+
+def test_infected_file_includes_quarantine_id(quarantine_dir: Path) -> None:
     """Integration-style check: infected file yields quarantine_id in response."""
 
     base_url = "http://localhost:9101"
@@ -22,4 +50,9 @@ def test_infected_file_includes_quarantine_id() -> None:
     body = response.json()
     assert body["malware_detected"] is True
     assert "quarantine_id" in body
-    assert isinstance(body["quarantine_id"], str) and body["quarantine_id"]
+    quarantine_id = body["quarantine_id"]
+    assert isinstance(quarantine_id, str) and quarantine_id
+
+    # Verify that the quarantine file was written to the configured directory.
+    quarantine_path = quarantine_dir / f"{quarantine_id}__eicar.txt"
+    assert quarantine_path.exists(), f"Expected quarantine file at {quarantine_path} to exist"

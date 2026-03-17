@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 from pathlib import Path
+from typing import Any, Dict, List
 
 from fastapi.testclient import TestClient
 
-from main import app
+from main import app, notify_malware_quarantined
 
 
 BASE_DIR = Path(__file__).parent
@@ -157,3 +158,45 @@ def test_scan_fake_binary_image_treated_as_clean(monkeypatch) -> None:
     body = response.json()
     assert body["filename"] == "fake.png"
     assert body["malware_detected"] is False
+
+
+def test_notify_malware_quarantined_builds_and_posts_event(monkeypatch) -> None:
+    """
+    notify_malware_quarantined should build a generic envelope and POST it
+    to the configured backend URL when alerts are enabled.
+    """
+    posted: List[Dict[str, Any]] = []
+
+    class DummyResponse:
+        def __init__(self) -> None:
+            self.status_code = 200
+            self.text = ""
+
+    def fake_post(url: str, json: Dict[str, Any], headers: Dict[str, str], timeout: float) -> DummyResponse:
+        posted.append({"url": url, "json": json, "headers": headers, "timeout": timeout})
+        return DummyResponse()
+
+    monkeypatch.setenv("FILESCAN_ALERTS_ENABLED", "true")
+    monkeypatch.setenv("ALERTS_BACKEND_URL", "http://backend/internal/security-events")
+    monkeypatch.setenv("ALERTS_BACKEND_TOKEN", "secret-token")
+    monkeypatch.setattr("notification_helpers.httpx.post", fake_post)
+
+    event = {
+        "filename": "eicar.txt",
+        "signature": "EICAR-TEST",
+        "source": "clamav",
+        "quarantine_id": "abc123",
+        "detail": "Malware detected by ClamAV.",
+    }
+
+    notify_malware_quarantined(event)
+
+    assert posted, "Expected notify_malware_quarantined to POST an event"
+    sent = posted[0]
+    assert sent["url"] == "http://backend/internal/security-events"
+    assert sent["headers"]["X-Internal-Token"] == "secret-token"
+    envelope = sent["json"]
+    assert envelope["type"] == "malware_quarantined"
+    assert envelope["producer"] == "filescan"
+    assert envelope["payload"]["filename"] == "eicar.txt"
+    assert envelope["payload"]["quarantine_id"] == "abc123"

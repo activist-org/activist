@@ -87,4 +87,4 @@ zap-reports/
 frontend/test-e2e/.auth/
 
 # services/filescan/etc.
-docker-compose.filescan-integration.yml
+docker-compose.filescan_integration.yml
