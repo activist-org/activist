@@ -9,10 +9,9 @@ from PIL import Image as TestImage
 from communities.organizations.factories import OrganizationFactory
 from content.factories import ImageFactory
 
-pytestmark = pytest.mark.django_db
-pytestmark = pytest.mark.filescan_integration
 
-
+@pytest.mark.django_db
+@pytest.mark.filescan_integration
 def test_image_icon_create_400(client: Client):
     image = ImageFactory()
 
@@ -24,6 +23,8 @@ def test_image_icon_create_400(client: Client):
     assert response.status_code == 400
 
 
+@pytest.mark.django_db
+@pytest.mark.filescan_integration
 def test_image_icon_create_201(client: Client):
     org = OrganizationFactory()
 

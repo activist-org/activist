@@ -62,6 +62,11 @@ jobs:
       - name: Install Dependencies
         run: uv sync --frozen --all-extras
 
+      - name: Start filescan service
+        working-directory: .
+        run: |
+          docker compose --env-file .env.dev -f docker-compose.yml up -d filescan
+
       - name: Run Ruff Format - Formatting Check
         run: uv run ruff format .
 
