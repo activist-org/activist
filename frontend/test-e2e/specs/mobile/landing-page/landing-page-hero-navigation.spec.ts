@@ -138,7 +138,8 @@ test.describe(
         await expect(themeMenu.toggleOpenButton).toBeVisible();
         await themeMenu.toggleOpenButton.click({ force: true });
         await expect(themeMenu.menu).toBeVisible();
-        await option.click();
+        await expect(option).toBeVisible();
+        await option.click({ timeout: 15000 });
 
         await expectTheme(page, theme);
 

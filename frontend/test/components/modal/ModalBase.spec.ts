@@ -38,6 +38,8 @@ const createWrapper = (props: Partial<ModalProps> = {}, slots = {}) =>
     global: {
       mocks: { $t: (key: string) => key },
       stubs: {
+        // Stub teleport to render content inline so wrapper.find() still works.
+        teleport: true,
         Dialog: dialogStubConfig,
         DialogPanel: { template: '<div v-bind="$attrs"><slot /></div>' },
         DialogBackdrop: { template: '<div class="backdrop-stub"></div>' },

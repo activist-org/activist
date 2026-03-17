@@ -1,4 +1,4 @@
-name: ci_playwright_e2e_desktop
+name: ci_e2e_playwright_desktop
 on:
   workflow_dispatch:
   pull_request:
@@ -14,8 +14,8 @@ on:
       - "frontend/**"
       - "!frontend/test/**"
       - "!frontend/i18n/**"
-      - ".github/workflows/ci_playwright_e2e_desktop.yaml"
-      - ".github/workflows/ci_playwright_e2e_mobile.yaml"
+      - ".github/workflows/ci_e2e_playwright_desktop.yaml"
+      - ".github/workflows/ci_e2e_playwright_mobile.yaml"
   push:
     branches:
       - main
@@ -25,8 +25,8 @@ on:
       - "frontend/**"
       - "!frontend/test/**"
       - "!frontend/i18n/**"
-      - ".github/workflows/ci_playwright_e2e_desktop.yaml"
-      - ".github/workflows/ci_playwright_e2e_mobile.yaml"
+      - ".github/workflows/ci_e2e_playwright_desktop.yaml"
+      - ".github/workflows/ci_e2e_playwright_mobile.yaml"
 
 jobs:
   frontend-e2e-desktop:

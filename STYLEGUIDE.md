@@ -90,6 +90,9 @@ activist uses Tailwind for CSS, and some parts of components will be conditional
     </template>
     ```
 
+> [!NOTE]
+> The `bg-breakpoint-test` custom style changes the background of the element it's applied to based on the current breakpoint and adds the breakpoint as text content. You can use this for visually debugging the current breakpoint.
+
 <sub><a href="#top">Back to top.</a></sub>
 
 ## TypeScript
