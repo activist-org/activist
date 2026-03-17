@@ -147,10 +147,13 @@ These additional scanners can follow the same pattern as existing ones: accept r
 
 ## To Do
 
+- **Quarantine integration test cleanup**
+  - The test in `tests_integration/test_scan_quarantine_integration.py` should confirm the quarantined file exists on disk (e.g. in the host-visible quarantine folder) and delete it when the test finishes. Currently the test can leave a file in the quarantine folder; revisit and fix so the test reliably asserts and cleans up.
+
 - **System-level logging and observability**
   - Implemented: INFO-level logging for scan requests (filename, size, content_type), scan responses (status, malware_detected, detail, source), and WARNING/ERROR for 400/503.
 
-  - No file contents are logged elsewhere. Logs go to stderr (visible in Docker container logs).
+  - No log contents are logged elsewhere. Logs go to stderr (also visible in Docker filescan container logs).
 
 - **OpenAPI / API documentation**
   - FastAPI provides basic OpenAPI documentation by default. When the `filescan` container is built and running, this documentation can be previewed at

@@ -9,33 +9,43 @@ from authentication.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
 
+_THROTTLE_CLASSES = [
+    "rest_framework.throttling.AnonRateThrottle",
+    "rest_framework.throttling.UserRateThrottle",
+]
+
 
 @pytest.mark.enable_throttling
 def test_anon_throttle():
     """
     Test the anonymous user throttle mechanism.
     """
-    # Override the autouse fixture by resetting throttle rates for this test.
-    # Clear the cache to ensure a clean state.
     cache.clear()
     client = APIClient()
 
-    settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"] = "3/min"
-    endpoint = "/v1/communities/organizations"
+    # Ensure throttle classes are active (CI may run with DEBUG=True and empty classes).
+    orig_classes = settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"]
+    orig_rates = settings.REST_FRAMEWORK.get("DEFAULT_THROTTLE_RATES", {})
+    try:
+        settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = _THROTTLE_CLASSES
+        settings.REST_FRAMEWORK.setdefault("DEFAULT_THROTTLE_RATES", {})["anon"] = (
+            "3/min"
+        )
+        endpoint = "/v1/communities/organizations"
 
-    for i in range(3):
-        print(f"Request {i + 1}")
+        for i in range(3):
+            response = client.get(endpoint)
+            assert response.status_code == status.HTTP_200_OK
+
         response = client.get(endpoint)
-        assert response.status_code == status.HTTP_200_OK
-
-    print("Request 4")
-    response = client.get(endpoint)
-    assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
-
-    # Reset the throttle rates.
-    # This is necessary to ensure that this test does not affect other tests.
-    cache.clear()
-    settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"] = None
+        assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
+    finally:
+        settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = orig_classes
+        if "anon" in orig_rates:
+            settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"] = orig_rates[
+                "anon"
+            ]
+        cache.clear()
 
 
 @pytest.mark.enable_throttling
@@ -43,8 +53,6 @@ def test_auth_throttle():
     """
     Test the user authentication throttle mechanism.
     """
-    # Override the autouse fixture by resetting throttle rates for this test.
-    # Clear the cache to ensure a clean state.
     cache.clear()
     client = APIClient()
 
@@ -56,27 +64,32 @@ def test_auth_throttle():
     user.is_staff = True
     user.save()
 
-    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
     token = login_response.json()["access"]
 
-    settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["user"] = "5/min"
-    endpoint = "/v1/communities/organizations"
+    orig_classes = settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"]
+    orig_rates = settings.REST_FRAMEWORK.get("DEFAULT_THROTTLE_RATES", {})
+    try:
+        settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = _THROTTLE_CLASSES
+        settings.REST_FRAMEWORK.setdefault("DEFAULT_THROTTLE_RATES", {})["user"] = (
+            "5/min"
+        )
+        endpoint = "/v1/communities/organizations"
 
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    for i in range(5):
-        print(f"Request {i + 1}")
+        client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+        for i in range(5):
+            response = client.get(endpoint)
+            assert response.status_code == status.HTTP_200_OK
+
         response = client.get(endpoint)
-        assert response.status_code == status.HTTP_200_OK
-
-    print("Request 6")
-    response = client.get(endpoint)
-    assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
-
-    # Reset the throttle rates.
-    # This is necessary to ensure that the test does not affect other tests.
-    cache.clear()
-    settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["user"] = None
+        assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
+    finally:
+        settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = orig_classes
+        if "user" in orig_rates:
+            settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["user"] = orig_rates[
+                "user"
+            ]
+        cache.clear()
