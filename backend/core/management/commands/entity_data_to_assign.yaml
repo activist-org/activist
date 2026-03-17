@@ -17,6 +17,9 @@ organizations:
   - link: https://github.com/activist-org/activist
     label: Source Code on GitHub
 
+  - link: https://github.com/activist-org/activist/issues?q=is%3Aopen%20is%3Aissue%20label%3A%22good%20first%20issue%22
+    label: Good First Issues
+
   - link: https://matrix.to/#/#activist_community:matrix.org
     label: Matrix Community
 
@@ -28,6 +31,17 @@ organizations:
     answer: The 'a' contains a stylized arrow on the inside of it that points down
       and to the left. This is because the goal of activist is to break down power
       structures by supporting left social movements.
+
+  - question: Where should I start if I want to contribute as a developer?
+    answer: Start with the CONTRIBUTING.md file for environment setup and workflow
+      guidance, then read the backend and frontend testing guides. After that, pick
+      an issue labeled "good first issue" and open a draft pull request early so
+      maintainers can support you while you work.
+
+  - question: How do I ask for help while I am onboarding?
+    answer: Join the Matrix rooms linked in the Connect section and share what you
+      are working on, where you are blocked, and any logs or screenshots. Community
+      members and maintainers can usually help quickly when context is included.
 
   resources:
   - name: README.md
