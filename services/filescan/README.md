@@ -44,6 +44,12 @@ From `services/filescan`:
 
 ## Endpoints
 
+- **OpenAPI documentation**
+  - FastAPI exposes an interactive OpenAPI UI for this service at `GET /docs`, showing the `/health` and `/scan` endpoints, their request/response schemas, and example payloads. This documentation can be previewed at:
+  ```bash
+  http://localhost:9101/docs
+  ```
+
 - **Health check**
   - `GET /health` → `{"status": "ok"}` if the service is up.
 
@@ -64,7 +70,9 @@ From `services/filescan`:
           "filename": "eicar.com",
           "malware_detected": true,
           "signature": "Eicar-Test-Signature",
-          "detail": "Malware detected by ClamAV."
+          "detail": "Malware detected by ClamAV.",
+          "quarantine_id": "0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c",
+          "quarantine_available": true
         }
         ```
 
@@ -95,7 +103,7 @@ From `services/filescan`:
     - `eicar.txt` — EICAR test file (industry-standard; see below).
     - `fake_image.bin` — non-image binary sent as image (tests binary handling).
   - **EICAR** (`eicar.txt`): The EICAR test file is an **industry-standard** way to verify antivirus and malware-scanning behaviour without using real malware. It is a short, harmless string that major AV engines (including ClamAV) recognise and report as “infected,” so you can confirm that your scanning pipeline is working end-to-end. It is widely used in QA and integration tests for this kind of functionality, and poses no risk to any machine on which it is present.
-## CSAM implementation
+## CSAM implementation and broader content safety pipeline
 
 The service is designed to support CSAM detection through a separate scanner implemented in `scanners/csam.py` and wired into the `/scan` endpoint alongside ClamAV.
 
@@ -105,19 +113,56 @@ For detailed design considerations, options, and testing strategy for CSAM integ
 
 - [`CSAM_IMPLEMENTATION_NOTES.md`](./CSAM_IMPLEMENTATION_NOTES.md)
 
+### Additional scan types to consider
+
+Over time, this service can evolve into a more general **content safety pipeline**, where multiple scanners run over the same upload and contribute to a single safety decision. In addition to malware and CSAM hash‑matching, candidates include:
+
+- **MIME/type validation**
+  - Validate that the declared content type and file extension match the actual bytes (magic numbers, image headers, etc.).
+  - Useful for catching spoofed uploads (e.g. `.jpg` that is really a script or archive).
+
+- **NSFW / adult‑content classifier**
+  - Use a model or service that scores images for nudity or other NSFW content.
+  - Intended for general explicit‑content filtering; not a replacement for vetted CSAM hash‑matching.
+
+- **OCR scanner**
+  - Extract text from images or PDFs (e.g. via Tesseract or an OCR API) and run the text through profanity, hate‑speech, or keyword filters.
+  - Helps catch policy violations embedded in images rather than filenames alone.
+
+- **Archive / zip‑bomb detection**
+  - Inspect archives (ZIP, TAR, etc.) for characteristics of decompression bombs (deeply nested structures, extreme compression ratios).
+  - Apply limits or reject archives that exceed safe thresholds before full extraction.
+
+- **“Pixel decoding” / re‑encode checks**
+  - Decode images and re‑encode them using safe, standardized settings (e.g. strip metadata, normalize color profiles, enforce size limits).
+  - Can help detect or mitigate steganography or malformed image payloads by ensuring the stored version is a clean re‑encode of decoded pixels.
+
+These additional scanners can follow the same pattern as existing ones: accept raw bytes, return a structured result (score, flags, or “detected” boolean plus metadata), and be orchestrated by the FastAPI endpoint to produce a unified response for the backend.
+
 ## To Do
 
-- **System-level logging and observability**
-  - Implemented: INFO-level logging for scan requests (filename, size, content_type), scan responses (status, malware_detected, detail, source), and WARNING/ERROR for 400/503. No file contents are logged. Logs go to stderr (visible in Docker container logs).
+- **System-level logging and observability - DONE**
+  - Implemented: INFO-level logging for scan requests (filename, size, content_type), scan responses (status, malware_detected, detail, source), and WARNING/ERROR for 400/503.
+
+  - No file contents are logged elsewhere. Logs go to stderr (visible in Docker container logs).
+
+- **OpenAPI / API documentation - DONE**
+  - FastAPI provides basic OpenAPI documentation by default. When the `filescan` container is built and running, this documentation can be previewed at
+  ```bash
+  http://localhost:9101/docs
+  ```
 
 - **Quarantine volume for violating files**
   - Establish a dedicated, access-controlled quarantine storage location (volume or bucket) for files where malware or CSAM is detected.
+  - This service uses the `FILESCAN_QUARANTINE_DIR` environment variable to determine the on-disk quarantine directory (default `/var/filescan/quarantine`) and, when `malware_detected` is `true`, writes the uploaded bytes there under a generated `quarantine_id`.
+  - The `/scan` response for detected files includes `quarantine_id` (and `quarantine_available: true`) so that operators can correlate API responses with quarantined files, while the exact filesystem path is only recorded in logs.
 
 - **General content moderation**
   - Decide if we want to implement some type of general content moderation scanning (ie "adult content", images of violence, etc.).
 
 - **Notification and alerting**
   - Design and implement a notification pipeline (e.g. message queue, webhook, or email integration) to alert appropriate operators or downstream systems when malware or CSAM is detected.
+  - As a first step, the service exposes a `notify_malware_quarantined(event: dict)` hook that currently logs a structured \"malware quarantined\" event; this can be extended later to send real notifications without changing the core `/scan` logic.
 
 - **CSAM service integration and configuration**
   - Select and integrate an approved CSAM detection service (hash-based or API-based), wire it into `scanners/csam.py`, and add environment-driven configuration (endpoints, credentials, timeouts) plus clear operational documentation (see [`CSAM_IMPLEMENTATION_NOTES.md`](./CSAM_IMPLEMENTATION_NOTES.md) for detailed design notes).

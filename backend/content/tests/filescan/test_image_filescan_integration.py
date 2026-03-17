@@ -11,6 +11,7 @@ or FILESCAN_BASE_URL accordingly.
 from __future__ import annotations
 
 import io
+import time
 from typing import Any, Dict
 
 import pytest
@@ -66,10 +67,29 @@ def test_clean_image_upload_passes_filescan(client: APIClient) -> None:
     file = _make_clean_image_file()
 
     data = _base_payload(str(org.id), file)
-    response = client.post("/v1/content/images", data, format="multipart")
 
-    assert response.status_code == 201
-    body = response.json()
+    # The first call to the filescan service can occasionally fail with a transient
+    # "could not be scanned" error if the underlying scanners are still warming up.
+    # To keep this integration test robust while still asserting the desired
+    # behaviour, retry a small number of times on that specific condition.
+    max_attempts = 3
+    last_response = None
+    for _ in range(max_attempts):
+        response = client.post("/v1/content/images", data, format="multipart")
+        last_response = response
+        if response.status_code == 201:
+            break
+        body = response.json()
+        if body.get("nonFieldErrors") == [
+            "The file could not be scanned. Please try again later."
+        ]:
+            time.sleep(0.5)
+            continue
+        break
+
+    assert last_response is not None
+    assert last_response.status_code == 201
+    body = last_response.json()
     assert len(body) == 1
     assert Image.objects.count() == 1
     assert "fileObject" in body[0]

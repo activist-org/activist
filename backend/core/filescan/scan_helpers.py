@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """View-layer helper: scan uploads and rewind on success."""
 
+from collections.abc import Iterable
+
+from django.core.files.uploadedfile import UploadedFile
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -11,7 +14,7 @@ FILESCAN_MSG_REJECTED = "The uploaded file was rejected by the security scan."
 FILESCAN_MSG_COULD_NOT_SCAN = "The file could not be scanned. Please try again later."
 
 
-def scan_uploads_and_rewind(uploads: list) -> Response | None:
+def scan_uploads_and_rewind(uploads: Iterable[UploadedFile]) -> Response | None:
     """
     Scan uploads; return 400 Response on malware/scan error, else rewind and return None.
 

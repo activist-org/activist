@@ -100,6 +100,8 @@ def test_scan_eicar_file_detects_malware(monkeypatch) -> None:
     assert "signature" in body
     assert isinstance(body["signature"], str) and body["signature"]
     assert body.get("source") == "clamav"
+    assert "quarantine_id" in body
+    assert isinstance(body["quarantine_id"], str) and body["quarantine_id"]
 
 
 def test_scan_csam_detected(monkeypatch) -> None:

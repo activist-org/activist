@@ -1,9 +1,12 @@
+import os
+import uuid
+
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import asyncio
 import logging
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 
 from scanners import scan_with_clamav, scan_with_csam
@@ -11,14 +14,41 @@ from scanners import scan_with_clamav, scan_with_csam
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+QUARANTINE_DIR = os.getenv("FILESCAN_QUARANTINE_DIR", "/var/filescan/quarantine")
+
 app = FastAPI(
     title="File Scan Service",
     version="0.1.0",
 )
 
 
+def notify_malware_quarantined(event: dict[str, object]) -> None:
+    """
+    Logging-only hook for malware quarantine events.
+    """
+    logger.warning("malware quarantined event=%s.", event)
+    # TODO: Implement notification logic here.
+    logger.info("Notifying recipents...")
+
+
 @app.get("/health")
 async def healthcheck() -> dict[str, str]:
+    """
+    Liveness/readiness probe.
+
+    Returns 200 only when the ClamAV scanner is reachable and responding,
+    so callers (including Docker healthcheck and integration tests) can rely
+    on the filescan service being fully ready to handle /scan requests.
+    """
+    try:
+        # Use a tiny, empty scan to verify that the ClamAV daemon is up.
+        # scan_with_clamav will raise RuntimeError if the daemon is unavailable.
+        await scan_with_clamav(b"")
+    except RuntimeError as exc:
+        # Surface scanner unavailability as a 503 so orchestrators know
+        # the service is not yet ready.
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
     return {"status": "ok"}
 
 
@@ -69,6 +99,29 @@ async def scan_file(file: UploadFile | None = File(None)) -> JSONResponse:
     if not malware_detected:
         detail = clamav_result[1]  # e.g. "No malware detected by ClamAV."
 
+    quarantine_id: str | None = None
+    quarantine_path: str | None = None
+
+    if malware_detected:
+        safe_name = os.path.basename(file.filename or "") or "unnamed"
+        safe_name = safe_name.replace(os.sep, "_")
+        try:
+            os.makedirs(QUARANTINE_DIR, exist_ok=True)
+            quarantine_id = uuid.uuid4().hex
+            quarantine_path = os.path.join(
+                QUARANTINE_DIR,
+                f"{quarantine_id}__{safe_name}",
+            )
+            with open(quarantine_path, "wb") as f_out:
+                f_out.write(file_bytes)
+        except OSError as exc:
+            logger.error(
+                "failed to write quarantine file filename=%s path=%s error=%s",
+                file.filename,
+                quarantine_path,
+                exc,
+            )
+
     content: dict[str, str | bool] = {
         "filename": file.filename,
         "malware_detected": malware_detected,
@@ -78,14 +131,34 @@ async def scan_file(file: UploadFile | None = File(None)) -> JSONResponse:
         content["signature"] = signature
     if source is not None:
         content["source"] = source
+    if malware_detected and quarantine_id is not None:
+        content["quarantine_id"] = quarantine_id
+        content["quarantine_available"] = True
 
-    logger.info(
-        "scan response status=200 malware_detected=%s detail=%s source=%s",
-        content["malware_detected"],
-        content["detail"],
-        content.get("source"),
-    )
-
-    # TODO: if 'malware_detected', send 'malware_detected' signal to backend and notify admin/designated recipients
+    if malware_detected:
+        logger.warning(
+            "scan response status=200 malware_detected=%s detail=%s source=%s "
+            "quarantine_id=%s quarantine_path=%s",
+            content["malware_detected"],
+            content["detail"],
+            content.get("source"),
+            quarantine_id,
+            quarantine_path,
+        )
+        if quarantine_id is not None:
+            event = {
+                "filename": file.filename,
+                "signature": signature,
+                "source": source,
+                "quarantine_id": quarantine_id,
+            }
+            notify_malware_quarantined(event)
+    else:
+        logger.info(
+            "scan response status=200 malware_detected=%s detail=%s source=%s",
+            content["malware_detected"],
+            content["detail"],
+            content.get("source"),
+        )
 
     return JSONResponse(content=content, status_code=200)

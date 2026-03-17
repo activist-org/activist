@@ -70,9 +70,13 @@ The most directly applicable category is **perceptual hash‑matching** against 
 In some jurisdictions or partnership models, alternative or complementary sources of CSAM hash sets exist:
 
 - National or regional CSAM hotlines / clearinghouses (e.g. NCMEC in the US, INHOPE network members).
+  - For example, **NCMEC hash lists** that partners may be allowed to consume via vetted APIs or distributed hash sets.
 - Commercial or consortium tools that provide:
   - Hash sets (PhotoDNA‑style or other perceptual/hash formats).
   - A local scanning service / daemon to which images can be submitted.
+- Other vendor ecosystems to evaluate:
+  - **Google CSAI Match** (YouTube’s perceptual hash‑matching technology exposed to qualified partners).
+  - Perceptual hashing libraries such as **pHash** or Python’s **`imagehash`** (which implements pHash and related algorithms) for general duplicate/similarity detection. These are **not** CSAM datasets by themselves, but could be used as part of a broader similarity‑matching system under strict legal and policy guidance.
 
 These generally follow similar patterns:
 

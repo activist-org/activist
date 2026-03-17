@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Small HTTP client for the filescan service, used by the backend.
 
@@ -10,7 +11,7 @@ protocol.
 from __future__ import annotations
 
 import os
-from typing import Any, Dict
+from typing import IO, Any, Dict, cast
 
 import httpx
 from django.core.files.uploadedfile import UploadedFile
@@ -68,9 +69,10 @@ def scan_file(upload: UploadedFile) -> Dict[str, Any]:
         On network error or non-200 response.
     """
     try:
+        file_obj = cast(IO[bytes], upload.file)
         response = httpx.post(
             FILESCAN_URL,
-            files={"file": (upload.name, upload.file)},
+            files={"file": (upload.name, file_obj)},
             timeout=10.0,
         )
     except httpx.RequestError as exc:
@@ -81,4 +83,4 @@ def scan_file(upload: UploadedFile) -> Dict[str, Any]:
             f"Filescan returned {response.status_code}: {response.text}"
         )
 
-    return response.json()
+    return cast(Dict[str, Any], response.json())

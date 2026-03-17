@@ -2,24 +2,24 @@
 
 ## TL;DR
 
-- **Quarantine volume:** Add the directory in the Dockerfile (no `VOLUME`); define a **named volume** and mount it in `docker-compose.yml` so quarantine persists across restarts.
+- **Quarantine storage:** Add the directory in the Dockerfile (no `VOLUME`); in local development, mount a host directory (bind mount) on that path via `docker-compose.yml` (e.g. `./quarantine:/var/quarantine`) so you can inspect quarantined files easily and they persist across restarts.
 - **Flow:** Filescan quarantines on detection and owns logging + notifications (in filescan or a separate service under `services/`); backend never saves the file and, on a positive scan response, deletes its copy and stops processing.
 - **Local dev workflow:** Use the commands below (from the repo root, with `.env.dev` present) to build images, run the stack, and exercise backend ↔ filescan integration tests.
 
 ---
 
-**1. Where to define the quarantine volume**
+**1. Where to define the quarantine path**
 
 - **Dockerfile:** Create the directory (e.g. `RUN mkdir -p /var/quarantine` and set ownership). Do **not** add a `VOLUME` instruction; it doesn't give you the persistence you want.
-- **docker-compose.yml:** Define a **named volume** and mount it on that path (e.g. `filescan-quarantine:/var/quarantine`) so quarantine data survives restarts and container replacement. The Dockerfile only prepares the path; persistence comes from compose (or whoever runs the container).
+- **docker-compose.yml (local dev):** Mount a host directory under the repo (e.g. `./quarantine:/var/quarantine`) so quarantine data survives restarts and can be inspected on the host. The Dockerfile only prepares the path; persistence comes from the compose bind mount (or whatever orchestrator you use).
 
-**2. Does the volume need to be in the Dockerfile?**
+**2. Does the bind mount need to be in the Dockerfile?**
 
-- **No.** You don't need a volume in the Dockerfile. You do need the directory (and permissions) there. The actual quarantine volume is defined and mounted in docker-compose.yml.
+- **No.** You don't define the volume/mount in the Dockerfile. You do need the directory (and permissions) there. The actual quarantine persistence comes from how you run the container (e.g. bind mount in `docker-compose.yml`).
 
 **3. Persistence and restarts**
 
-- A directory created only in the Dockerfile does **not** persist across "compose down/up" or container replacement. Only a **named volume** in docker-compose (or equivalent) gives that. So the "Dockerfile version" of the quarantine path does not persist through restarts in the way you want; the compose-defined volume does.
+- A directory created only in the Dockerfile does **not** persist across "compose down/up" or container replacement. A bind mount in docker-compose (or equivalent) gives you persistence for local development by mapping the container path to a host directory (e.g. `./quarantine`). In other environments you can use a named volume or storage class instead, as long as `/var/quarantine` (or your chosen path) is mounted to persistent storage.
 
 **4. Who quarantines and overall flow**
 
