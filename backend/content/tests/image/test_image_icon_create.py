@@ -10,6 +10,7 @@ from communities.organizations.factories import OrganizationFactory
 from content.factories import ImageFactory
 
 pytestmark = pytest.mark.django_db
+pytestmark = pytest.mark.filescan_integration
 
 
 def test_image_icon_create_400(client: Client):

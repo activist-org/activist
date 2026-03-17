@@ -23,6 +23,8 @@ from rest_framework.test import APIClient
 from communities.organizations.factories import OrganizationFactory
 from content.models import Image
 
+pytestmark = pytest.mark.filescan_integration
+
 
 @pytest.fixture
 def client() -> APIClient:
