@@ -695,7 +695,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(social_link, request.data, partial=True)
+        serializer = self.get_serializer(social_link, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(org=org)
 
