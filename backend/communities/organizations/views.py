@@ -72,9 +72,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         if os.environ.get("ENVIRONMENT") != "development":
             return queryset
 
-        activist_match = Q(name__iexact="activist") | Q(
-            name__iexact="the activist"
-        )
+        activist_match = Q(name__iexact="activist") | Q(name__iexact="the activist")
 
         return queryset.annotate(
             _priority=Case(
