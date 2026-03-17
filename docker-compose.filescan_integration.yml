@@ -1,0 +1,12 @@
+# Override for filescan integration: backend + filescan + db only (no frontend).
+# Run: docker compose -f docker-compose.yml -f docker-compose.filescan_integration.yml up db backend filescan
+# Or: make up-filescan-integration
+
+services:
+  backend:
+    depends_on:
+      - db
+      - filescan
+    environment:
+      - FILESCAN_BASE_URL=http://filescan:9101
+      - FILESCAN_URL=http://filescan:9101/scan

@@ -12,7 +12,7 @@ The service also runs a **CSAM scan**; that path is **stubbed** in code (it alwa
 
 Both scanners are implemented as async functions that run their work in background threads via the FastAPI event loop so that multiple `/scan` requests can be processed concurrently.
 
-Within the wider project, this service uses a **9100-series port** (`9101` by default) to avoid conflicts with other components; services in this project should be allocated ports in the 9100 range.
+Within the wider project, this service uses a **9100-series port** (`9101` by default). It is suggested that all services in the project—including this one—use ports in the 9100 range, so as to avoid port collisions with each other and with other software in the future.
 
 ## Alternatives to ClamAV
 
@@ -28,7 +28,7 @@ The steps below are for **local development** only. In production the service is
 
 When running as part of the wider project (e.g. via docker-compose), ensure the project’s `.env` file includes:
 
-- `FILESCAN_PORT="9101"`
+- **`FILESCAN_PORT`** — Port the filescan service listens on inside the container and that docker-compose maps to the host. Default is `9101`. Used by the main `docker-compose.yml` for the `filescan` service port mapping and healthcheck. The backend reaches the service via `FILESCAN_BASE_URL` or `FILESCAN_URL` (see [INTEGRATION_NOTES.md](./INTEGRATION_NOTES.md)); in the integration override these are set to `http://filescan:9101` (and `.../scan`), matching the default port.
 
 From `services/filescan`:
 
@@ -108,7 +108,7 @@ For detailed design considerations, options, and testing strategy for CSAM integ
 ## To Do
 
 - **System-level logging and observability**
-  - Define and implement structured logging for scan requests and outcomes (without logging file contents).
+  - Implemented: INFO-level logging for scan requests (filename, size, content_type), scan responses (status, malware_detected, detail, source), and WARNING/ERROR for 400/503. No file contents are logged. Logs go to stderr (visible in Docker container logs).
 
 - **Quarantine volume for violating files**
   - Establish a dedicated, access-controlled quarantine storage location (volume or bucket) for files where malware or CSAM is detected.

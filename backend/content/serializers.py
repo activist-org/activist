@@ -29,6 +29,7 @@ from utils.utils import validate_creation_and_deprecation_dates
 
 logger = logging.getLogger(__name__)
 
+
 # MARK: Discussion
 
 
@@ -186,6 +187,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             raise serializers.ValidationError(
                 f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
             )
+
         return data
 
     def to_representation(self, instance: Image) -> Dict[str, Any]:

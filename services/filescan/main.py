@@ -1,11 +1,15 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import asyncio
+import logging
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 
 from scanners import scan_with_clamav, scan_with_csam
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(
     title="File Scan Service",
@@ -21,12 +25,19 @@ async def healthcheck() -> dict[str, str]:
 @app.post("/scan")
 async def scan_file(file: UploadFile | None = File(None)) -> JSONResponse:
     if file is None or not file.filename:
+        logger.warning("scan request rejected: no file or filename")
         return JSONResponse(
             content={"detail": "No file was sent. Please include a file in the request."},
             status_code=400,
         )
 
     file_bytes = await file.read()
+    logger.info(
+        "scan request received filename=%s size=%s content_type=%s",
+        file.filename,
+        len(file_bytes),
+        getattr(file, "content_type", None),
+    )
 
     try:
         clamav_result, csam_result = await asyncio.gather(
@@ -35,6 +46,7 @@ async def scan_file(file: UploadFile | None = File(None)) -> JSONResponse:
             # Add other scanners here
         )
     except RuntimeError as exc:
+        logger.error("scan failed: %s", exc)
         return JSONResponse(
             content={"detail": str(exc)},
             status_code=503,
@@ -66,6 +78,13 @@ async def scan_file(file: UploadFile | None = File(None)) -> JSONResponse:
         content["signature"] = signature
     if source is not None:
         content["source"] = source
+
+    logger.info(
+        "scan response status=200 malware_detected=%s detail=%s source=%s",
+        content["malware_detected"],
+        content["detail"],
+        content.get("source"),
+    )
 
     # TODO: if 'malware_detected', send 'malware_detected' signal to backend and notify admin/designated recipients
 
