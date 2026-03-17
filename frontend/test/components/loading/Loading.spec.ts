@@ -61,12 +61,16 @@ describe("Loading Component", () => {
   describe("Color mode icon switching", () => {
     it("renders the light icon in light mode", () => {
       wrapper = createWrapper("light", true);
-      expect(wrapper.find("img").attributes("src")).toBe(ACTIVIST_ICON_LIGHT_URL);
+      expect(wrapper.find("img").attributes("src")).toBe(
+        ACTIVIST_ICON_LIGHT_URL
+      );
     });
 
     it("renders the dark icon in dark mode", () => {
       wrapper = createWrapper("dark", true);
-      expect(wrapper.find("img").attributes("src")).toBe(ACTIVIST_ICON_DARK_URL);
+      expect(wrapper.find("img").attributes("src")).toBe(
+        ACTIVIST_ICON_DARK_URL
+      );
     });
 
     it("does not render the dark icon in light mode", () => {
@@ -120,7 +124,9 @@ describe("Loading Component", () => {
       wrapper = createWrapper("light", false);
       await wrapper.setProps({ loading: true });
       await wrapper.vm.$nextTick();
-      const style = wrapper.find(".flex.items-center.justify-center").attributes("style") ?? "";
+      const style =
+        wrapper.find(".flex.items-center.justify-center").attributes("style") ??
+        "";
       expect(style).not.toContain("display: none");
     });
 
@@ -128,7 +134,9 @@ describe("Loading Component", () => {
       wrapper = createWrapper("light", true);
       await wrapper.setProps({ loading: false });
       await wrapper.vm.$nextTick();
-      expect(wrapper.find(".flex.items-center.justify-center").attributes("style")).toContain("display: none");
+      expect(
+        wrapper.find(".flex.items-center.justify-center").attributes("style")
+      ).toContain("display: none");
     });
   });
 
@@ -137,7 +145,9 @@ describe("Loading Component", () => {
   describe("Styling", () => {
     it("outer container has flex centering classes", () => {
       wrapper = createWrapper();
-      expect(wrapper.find(".flex.items-center.justify-center").exists()).toBe(true);
+      expect(wrapper.find(".flex.items-center.justify-center").exists()).toBe(
+        true
+      );
     });
 
     it("inner div has loading-pulse class", () => {
