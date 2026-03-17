@@ -15,6 +15,7 @@
     "test:local:mobile": "cross-env TEST_ENV=local PLAYWRIGHT_BLOB_OUTPUT_FILE=./blob-report/mobile.zip playwright test --project='Mobile Chrome' --reporter=blob",
     "test:local:merge": "cross-env PLAYWRIGHT_HTML_OPEN=never playwright merge-reports --reporter html,list,./test-e2e/reporters/execution-time-reporter.ts,./test-e2e/accessibility/axe-reporter.ts ./blob-report",
     "test:local:grep": "cross-env TEST_ENV=local playwright test --project='Desktop Chrome' --project='Mobile Chrome'",
+    "test:e2e:auth-setup": "cross-env TEST_ENV=local playwright test test-e2e/specs/all/authentication/sign-in/sign-in-authentication.spec.ts --grep 'User can show and hide password' --reporter=list",
     "test:prod": "cross-env TEST_ENV=prod playwright test",
     "test:comprehensive": "cross-env TEST_ENV=local CI=false playwright test",
     "test:auth": "cross-env TEST_ENV=local playwright test --user-data-dir=./test-results/user-data",
