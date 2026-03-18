@@ -44,22 +44,17 @@
     </p>
   </div>
   <ModalQRCode
-    v-if="organization"
+    v-if="hasEntity"
     @closeModal="handleCloseModal"
-    :organization="organization"
+    :firstParagraph="computedFirstParagraph"
+    :secondParagraph="computedSecondParagraph"
+    :linkUrl="computedLinkUrl"
+    :fileName="computedFileName"
   />
-  <ModalQRCode v-if="group" @closeModal="handleCloseModal" :group="group" />
-  <ModalQRCode v-if="event" @closeModal="handleCloseModal" :event="event" />
-  <ModalQRCode
-    v-if="resource"
-    @closeModal="handleCloseModal"
-    :resource="resource"
-  />
-  <ModalQRCode v-if="user" @closeModal="handleCloseModal" :user="user" />
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   organization?: Organization;
   group?: Group;
   event?: CommunityEvent;
@@ -67,8 +62,15 @@ defineProps<{
   user?: UserActivist;
   type: "icon" | "meta-tag";
   reasonForSuggesting: string;
+  // optional direct overrides
+  firstParagraph?: string;
+  secondParagraph?: string;
+  linkUrl?: string;
+  fileName?: string;
 }>();
 
+const { t } = useI18n();
+const { linkUrl: entityLinkUrl } = useLinkURL(props);
 const modals = useModals();
 const modalName = "ModalsQRCode";
 const modalIsOpen = ref(false);
@@ -82,4 +84,69 @@ const handleCloseModal = () => {
   modals.closeModal(modalName);
   modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
 };
+
+const hasEntity = computed(
+  () =>
+    !!(
+      props.organization ||
+      props.group ||
+      props.event ||
+      props.resource ||
+      props.user
+    )
+);
+
+const computedFirstParagraph = computed(() => {
+  if (props.firstParagraph) return props.firstParagraph;
+  const suffix = t("i18n.components.modal_qr_code_btn.section_1_paragraph_1_2");
+  if (props.organization)
+    return (
+      t(
+        "i18n.components.modal_qr_code_btn.section_1_paragraph_1_organization"
+      ) +
+      " " +
+      suffix
+    );
+  if (props.group)
+    return (
+      t("i18n.components.modal_qr_code_btn.section_1_paragraph_1_group") +
+      " " +
+      suffix
+    );
+  if (props.event)
+    return (
+      t("i18n.components.modal_qr_code_btn.section_1_paragraph_1_event") +
+      " " +
+      suffix
+    );
+  if (props.resource)
+    return (
+      t("i18n.components.modal_qr_code_btn.section_1_paragraph_1_resource") +
+      " " +
+      suffix
+    );
+  if (props.user)
+    return (
+      t("i18n.components.modal_qr_code_btn.section_1_paragraph_1_user") +
+      " " +
+      suffix
+    );
+  return "";
+});
+
+const computedSecondParagraph = computed(() => props.secondParagraph || "");
+
+const computedLinkUrl = computed(() => props.linkUrl || entityLinkUrl.value);
+
+const computedFileName = computed(() => {
+  if (props.fileName) return props.fileName;
+  const name =
+    props.organization?.name ??
+    props.group?.name ??
+    props.event?.name ??
+    props.resource?.name ??
+    props.user?.name ??
+    "";
+  return "qr_code_" + name.toLowerCase().replaceAll(" ", "_");
+});
 </script>
