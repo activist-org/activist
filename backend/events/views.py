@@ -65,6 +65,18 @@ class EventAPIView(GenericAPIView[Event]):
     def get_queryset(self) -> QuerySet[Event]:
         queryset = super().get_queryset().order_by("id")
 
+        # When present, put "E2E member permissions test event" first so E2E
+        # tests can open "first event" and assert non-admin (activist_0) sees
+        # no add/edit buttons deterministically (event is created by activist_1).
+        e2e_match = Q(name__iexact="E2E member permissions test event")
+        queryset = queryset.annotate(
+            _e2e_first=Case(
+                When(e2e_match, then=Value(0)),
+                default=Value(1),
+                output_field=IntegerField(),
+            )
+        ).order_by("_e2e_first", "id")
+
         if os.environ.get("ENVIRONMENT") != "development":
             return queryset
 
@@ -76,7 +88,7 @@ class EventAPIView(GenericAPIView[Event]):
                 default=Value(1),
                 output_field=IntegerField(),
             )
-        ).order_by("_priority", "id")
+        ).order_by("_e2e_first", "_priority", "id")
 
     def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":

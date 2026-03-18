@@ -19,6 +19,13 @@ from communities.organizations.models import Organization
 from content.models import Topic
 from events.models import Event
 
+from events.factories import (
+    EventFactory,
+    EventFaqFactory,
+    EventResourceFactory,
+    EventTextFactory,
+)
+
 from .populate_db_utils.populate_org_events import create_org_events
 from .populate_db_utils.populate_org_group_event import create_group_events
 from .populate_db_utils.populate_org_groups import create_org_groups
@@ -237,6 +244,76 @@ class Command(BaseCommand):
                         n_resources += group_events_resources
                         n_faq_entries += group_events_faqs
 
+            # MARK: E2E member permissions test event
+
+            n_events_created_extra = 0
+            # One event with a fixed name, created by activist_1, so E2E tests
+            # can open "first event" and assert non-admin (activist_0) sees no
+            # add/edit buttons. The events list API orders this event first when
+            # present (see events.views.EventAPIView.get_queryset).
+            if num_users >= 2:
+                e2e_member_user = users[1]
+                e2e_member_org = Organization.objects.filter(
+                    created_by=e2e_member_user
+                ).first()
+                if e2e_member_org:
+                    e2e_event = EventFactory(
+                        name="E2E member permissions test event",
+                        tagline="For E2E permission tests",
+                        type="learn",
+                        location_type="online",
+                        created_by=e2e_member_user,
+                        orgs=e2e_member_org,
+                        groups=None,
+                        online_location_link="https://activist.org/e2e-test",
+                    )
+                    e2e_event.topics.set(e2e_member_user.topics.all())
+                    e2e_event.texts.set(
+                        [
+                            EventTextFactory(
+                                iso="en",
+                                primary=True,
+                                description="E2E test event.",
+                                get_involved="",
+                            )
+                        ]
+                    )
+                    e2e_event.resources.add(
+                        EventResourceFactory(
+                            created_by=e2e_member_user,
+                            event=e2e_event,
+                            order=0,
+                            name="E2E test resource 1",
+                            description="For E2E permission tests.",
+                            url="https://activist.org/e2e-resource-1",
+                        ),
+                        EventResourceFactory(
+                            created_by=e2e_member_user,
+                            event=e2e_event,
+                            order=1,
+                            name="E2E test resource 2",
+                            description="For E2E permission tests.",
+                            url="https://activist.org/e2e-resource-2",
+                        ),
+                    )
+                    e2e_event.faqs.set(
+                        [
+                            EventFaqFactory(
+                                event=e2e_event,
+                                order=0,
+                                question="E2E test question 1?",
+                                answer="E2E test answer 1.",
+                            ),
+                            EventFaqFactory(
+                                event=e2e_event,
+                                order=1,
+                                question="E2E test question 2?",
+                                answer="E2E test answer 2.",
+                            ),
+                        ]
+                    )
+                    n_events_created_extra = 1
+
             # MARK: Print Output
 
             n_orgs_created = num_users * num_orgs_per_user
@@ -244,7 +321,7 @@ class Command(BaseCommand):
             n_events_created = num_users * (
                 (num_orgs_per_user * num_events_per_org)
                 + (num_orgs_per_user * num_groups_per_org * num_events_per_group)
-            )
+            ) + n_events_created_extra
 
             self.stdout.write(
                 self.style.ERROR(
