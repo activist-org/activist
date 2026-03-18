@@ -98,7 +98,7 @@ organizations:
       url: https://github.com/activist-org/activist/blob/main/FRONTEND_TESTING.md
 
     events:
-    - name: Dev Sync
+    - name: activist dev sync
       tagline: Community triage, Q&A and hacking session
       type: action
       texts:
