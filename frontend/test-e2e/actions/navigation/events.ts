@@ -7,7 +7,8 @@ import { expect } from "playwright/test";
 // MARK: First Event
 
 /**
- * Navigate to the first event from the events home page
+ * Navigate to the first event from the events home page.
+ *
  * @param page - Playwright page object
  * @returns Object containing eventId and eventPage
  */
