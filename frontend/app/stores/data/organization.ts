@@ -1,61 +1,31 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-interface OrganizationStore {
-  organization: Organization;
-  organizations: Organization[];
-  images: ContentImage[];
-  filters: OrganizationFilters;
-  page: number;
-}
+import { defineStore } from "pinia";
 
+import { createImageStore } from "../factories/images";
+import { createPaginationStore } from "../factories/pagination";
+
+// 1. The List/Pagination Store
+export const useOrganizationListStore = createPaginationStore<
+  Organization,
+  OrganizationFilters
+>("organization-list");
+
+// 2. The Images Store
+export const useOrganizationImageStore = createImageStore(
+  "organization-images"
+);
+
+// 3. The Core Entity Store (Now it only cares about the single active organization)
 export const useOrganizationStore = defineStore("organization", {
-  state: (): OrganizationStore => ({
+  state: () => ({
     organization: null as unknown as Organization,
-    images: [] as ContentImage[],
-    organizations: [],
-    filters: {} as OrganizationFilters,
-    page: 1,
   }),
   actions: {
-    // MARK: Set Organizations
-    getPage(): number {
-      return this.page;
-    },
-    setPage(page: number) {
-      // Ensure page is always >= 1. Invalid values are clamped to 1.
-      this.page = Math.max(1, page);
-    },
-    setOrganizations(organizations: Organization[]) {
-      this.organizations = organizations;
-    },
-    setOrganization(organization: Organization) {
-      this.organization = organization;
-    },
     getOrganization() {
       return this.organization;
     },
-
-    // MARK: Get Organizations
-
-    getOrganizations() {
-      return this.organizations;
-    },
-    getImages() {
-      return this.images;
-    },
-
-    // MARK: Clear
-
-    setImages(images: ContentImage[]) {
-      this.images = images;
-    },
-    clearImages() {
-      this.images = [];
-    },
-    getFilters() {
-      return this.filters;
-    },
-    setFilters(filters: OrganizationFilters) {
-      this.filters = filters;
+    setOrganization(org: Organization) {
+      this.organization = org;
     },
   },
 });

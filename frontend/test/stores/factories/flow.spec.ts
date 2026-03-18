@@ -4,9 +4,9 @@ import { createPinia, defineStore, setActivePinia } from "pinia";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { defineComponent, markRaw, nextTick } from "vue";
 
-import type { NodeConfig } from "../../shared/types/machine-type";
+import type { NodeConfig } from "../../../shared/types/machine-type";
 
-import { useFlowScreens } from "../../app/composables/useFlowScreens";
+import { useFlowScreens } from "../../../app/composables/useFlowScreens";
 
 // MARK: Mocks & Setup
 
@@ -53,7 +53,7 @@ const useMockStore = defineStore("mock-flow", {
 });
 
 // Mock the registry.
-vi.mock("../../app/stores/machines/index", () => ({
+vi.mock("../../../app/stores/machines/index", () => ({
   machineRegistry: {
     testMachine: () => useMockStore(),
   },

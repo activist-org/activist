@@ -1,49 +1,25 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-interface EventStore {
-  event: CommunityEvent;
-  events: CommunityEvent[];
-  filters: EventFilters;
-  page: number;
-}
+import { defineStore } from "pinia";
 
+import { createPaginationStore } from "../factories/pagination";
+
+// 1. The List/Pagination Store
+export const useEventListStore = createPaginationStore<
+  CommunityEvent,
+  EventFilters
+>("event-list");
+
+// 3. The Core Entity Store (Now it only cares about the single active event)
 export const useEventStore = defineStore("event", {
-  // MARK: Properties
-
-  state: (): EventStore => ({
+  state: () => ({
     event: null as unknown as CommunityEvent,
-    events: [],
-    filters: {} as EventFilters,
-    page: 1,
   }),
   actions: {
-    setEvent(event: CommunityEvent) {
-      this.event = event;
-    },
-
-    getPage(): number {
-      return this.page;
-    },
-    setPage(page: number) {
-      // Ensure page is always >= 1. Invalid values are clamped to 1.
-      this.page = Math.max(1, page);
-    },
-
-    getEvent(): CommunityEvent {
+    getEvent() {
       return this.event;
     },
-    setEvents(events: CommunityEvent[]) {
-      this.events = events;
-    },
-
-    getEvents(): CommunityEvent[] {
-      return this.events;
-    },
-    setFilters(filters: EventFilters) {
-      this.filters = filters;
-    },
-
-    getFilters(): EventFilters {
-      return this.filters;
+    setEvent(event: CommunityEvent) {
+      this.event = event;
     },
   },
 });
