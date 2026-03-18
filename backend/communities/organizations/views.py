@@ -15,6 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
+    OpenApiParameter,
     OpenApiResponse,
     extend_schema,
 )
@@ -65,6 +66,14 @@ class OrganizationAPIView(GenericAPIView[Organization]):
     filter_backends = [DjangoFilterBackend]
 
     @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="topics",
+                type=OpenApiTypes.STR,
+                many=True,
+                description="Filter by topic type (e.g. from Topic.model type).",
+            ),
+        ],
         responses={200: OrganizationSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
@@ -133,6 +142,14 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
 
     @extend_schema(
         summary="Retrieve organizations by linked user ID",
+        parameters=[
+            OpenApiParameter(
+                name="topics",
+                type=OpenApiTypes.STR,
+                many=True,
+                description="Filter by topic type (e.g. from Topic.model type).",
+            ),
+        ],
         responses={
             200: OrganizationSerializer(many=True),
             400: OpenApiResponse(
@@ -846,6 +863,16 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
 # MARK: Image
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            "org_id",
+            OpenApiTypes.UUID,
+            location=OpenApiParameter.PATH,
+            description="Organization UUID.",
+        ),
+    ],
+)
 class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer

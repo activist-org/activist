@@ -12,6 +12,7 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from icalendar import Calendar
 from icalendar import Event as ICalEvent
@@ -71,7 +72,17 @@ class EventAPIView(GenericAPIView[Event]):
 
         return EventSerializer
 
-    @extend_schema(responses={200: EventSerializer(many=True)})
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="topics",
+                type=OpenApiTypes.STR,
+                many=True,
+                description="Filter by topic type (e.g. from Topic.model type).",
+            ),
+        ],
+        responses={200: EventSerializer(many=True)},
+    )
     def get(self, request: Request) -> Response:
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
@@ -682,7 +693,18 @@ class EventCalenderAPIView(APIView):
                 type=UUID,
                 required=True,
             )
-        ]
+        ],
+        responses={
+            200: OpenApiResponse(
+                description="iCalendar (.ics) file for the requested event.",
+            ),
+            400: OpenApiResponse(
+                description="Event ID is required.",
+            ),
+            404: OpenApiResponse(
+                description="Event not found.",
+            ),
+        },
     )
     def get(self, request: Request) -> HttpResponse | Response:
         event_id = request.query_params.get("event_id")
