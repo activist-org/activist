@@ -36,6 +36,7 @@ class EventFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Event
+        skip_postgeneration_save = True
 
     created_by = factory.SubFactory("authentication.factories.UserFactory")
     name = factory.Faker("word")

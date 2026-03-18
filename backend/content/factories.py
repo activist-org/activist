@@ -38,6 +38,7 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Location
+        skip_postgeneration_save = True
 
     @factory.post_generation
     def location(self, create, extracted, **kwargs):
@@ -119,6 +120,7 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Location
+        skip_postgeneration_save = True
 
     @factory.post_generation
     def location(self, create, extracted, **kwargs):
