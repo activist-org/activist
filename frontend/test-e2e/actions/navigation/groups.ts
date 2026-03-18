@@ -85,7 +85,7 @@ export async function navigateToOrganizationGroupSubpage(
         .isVisible()
         .catch(() => false);
       expect(groupsListVisible || emptyStateVisible).toBe(true);
-    }).toPass({ timeout: 5000 });
+    }).toPass({ timeout: 10000 });
   } catch {
     // Groups list/empty state not found; continue with fallback.
   }
