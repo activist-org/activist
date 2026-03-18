@@ -7,16 +7,12 @@ import { expect } from "playwright/test";
 // MARK: First Event
 
 /**
- * Navigate to an event from the events home page by its index in the list.
- * Use index 0 for the first event (default). Use index 1 for the second event, etc.
- * Useful for permission tests where the first list entry may be created by the
- * current user (e.g. non-admin member) and we need an event created by another user.
+ * Navigate to the first event from the events home page.
  *
  * @param page - Playwright page object
- * @param eventIndex - Zero-based index of the event card to open (default 0)
  * @returns Object containing eventId and eventPage
  */
-export async function navigateToFirstEvent(page: Page, eventIndex = 0) {
+export async function navigateToFirstEvent(page: Page) {
   // Navigate to events home page.
   await page.goto("/events", { waitUntil: "load" });
 
@@ -35,16 +31,21 @@ export async function navigateToFirstEvent(page: Page, eventIndex = 0) {
     await listViewButton.click();
   }
 
-  // Wait for at least the requested event card to load.
-  const eventCard = page.getByTestId("event-card").nth(eventIndex);
-  await expect(eventCard).toBeVisible({ timeout: 5000 });
+  // Wait for at least one event card to load.
+  await expect(page.getByTestId("event-card").first()).toBeVisible({
+    timeout: 5000,
+  });
 
-  // Get the event link for the chosen card.
-  const eventLink = eventCard.getByRole("link").first();
-  await expect(eventLink).toBeVisible({ timeout: 5000 });
+  // Get the first event link.
+  const firstEventLink = page
+    .getByTestId("event-card")
+    .first()
+    .getByRole("link")
+    .first();
+  await expect(firstEventLink).toBeVisible({ timeout: 5000 });
 
   // Get the href to extract event ID.
-  const eventUrl = await eventLink.getAttribute("href");
+  const eventUrl = await firstEventLink.getAttribute("href");
 
   if (!eventUrl) {
     throw new Error("Could not get event URL");
@@ -58,7 +59,7 @@ export async function navigateToFirstEvent(page: Page, eventIndex = 0) {
   }
 
   // Click to navigate to the event.
-  await eventLink.click();
+  await firstEventLink.click();
   await page.waitForURL(`**/events/${eventId}/**`);
 
   // Verify we're on the event page.
@@ -76,25 +77,14 @@ export async function navigateToFirstEvent(page: Page, eventIndex = 0) {
 
 // MARK: Event Subpage
 
-export interface NavigateToEventSubpageOptions {
-  /** Zero-based index of the event in the list (default 0). Use 1 for second event, e.g. for non-admin member permission tests. */
-  eventIndex?: number;
-}
-
 /**
  * Navigate to an event subpage
  * @param page - Playwright page object
  * @param subpage - The event subpage to navigate to (e.g., 'about', 'faq', 'resources')
- * @param options - Optional; eventIndex to open the Nth event in the list (default 0)
  * @returns Object containing eventId and eventPage
  */
-export async function navigateToEventSubpage(
-  page: Page,
-  subpage: string,
-  options?: NavigateToEventSubpageOptions
-) {
-  const eventIndex = options?.eventIndex ?? 0;
-  const { eventId, eventPage } = await navigateToFirstEvent(page, eventIndex);
+export async function navigateToEventSubpage(page: Page, subpage: string) {
+  const { eventId, eventPage } = await navigateToFirstEvent(page);
 
   // Map subpage names to menu option names.
   const subpageMapping: Record<string, string> = {
