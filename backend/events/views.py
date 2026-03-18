@@ -66,9 +66,17 @@ class EventAPIView(GenericAPIView[Event]):
     def get_queryset(self) -> QuerySet[Event]:
         queryset = super().get_queryset().order_by("id")
 
-        # E2E: put activist_0's events last so "first event" is never theirs and
+        # E2E: only in development or CI — put activist_0's events last so
         # member permission tests (open first event, assert no add/edit) are deterministic.
-        e2e_member = UserModel.objects.filter(username="activist_0").first()
+        apply_e2e_ordering = (
+            os.environ.get("ENVIRONMENT") == "development"
+            or os.environ.get("CI") == "true"
+        )
+        e2e_member = (
+            UserModel.objects.filter(username="activist_0").first()
+            if apply_e2e_ordering
+            else None
+        )
         if e2e_member is not None:
             queryset = queryset.annotate(
                 _e2e_last=Case(
