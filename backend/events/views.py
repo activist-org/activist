@@ -4,11 +4,13 @@ API views for event management.
 """
 
 import logging
+import os
 import re
 from typing import Any, Sequence, Type
 from uuid import UUID
 
 from django.core.exceptions import ValidationError
+from django.db.models import Case, IntegerField, Q, QuerySet, Value, When
 from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -53,12 +55,28 @@ logger = logging.getLogger("django")
 
 
 class EventAPIView(GenericAPIView[Event]):
-    queryset = Event.objects.all().order_by("id")
+    queryset = Event.objects.all()
     serializer_class = EventSerializer
     pagination_class = CustomPagination
     filterset_class = EventFilters
     filter_backends = [DjangoFilterBackend]
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self) -> QuerySet[Event]:
+        queryset = super().get_queryset().order_by("id")
+
+        if os.environ.get("ENVIRONMENT") != "development":
+            return queryset
+
+        dev_sync_match = Q(name__iexact="activist dev sync")
+
+        return queryset.annotate(
+            _priority=Case(
+                When(dev_sync_match, then=Value(0)),
+                default=Value(1),
+                output_field=IntegerField(),
+            )
+        ).order_by("_priority", "id")
 
     def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":
@@ -560,7 +578,7 @@ class EventSocialLinkViewSet(viewsets.ModelViewSet[EventSocialLink]):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(social_link, request.data, partial=True)
+        serializer = self.get_serializer(social_link, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(event=event)
 
