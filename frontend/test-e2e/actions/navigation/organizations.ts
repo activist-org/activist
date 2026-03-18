@@ -25,7 +25,7 @@ export async function navigateToFirstOrganization(page: Page) {
   );
 
   await expect(page.getByTestId("organization-card").first()).toBeVisible({
-    timeout: 30000,
+    timeout: 10000,
   });
 
   await expect(organizationsHomePage.organizationLink).toBeVisible({
