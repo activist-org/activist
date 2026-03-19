@@ -42,8 +42,10 @@ class OrganizationFilter(django_filters.FilterSet):  # type: ignore[misc]
         ----------
         queryset : QuerySet[Organization]
             Base queryset of organizations.
+
         name : str
             Filter field name (unused).
+
         value : QuerySet[Topic] | list[Any]
             Selected Topic instances or list of topic types to filter by.
 
@@ -54,10 +56,13 @@ class OrganizationFilter(django_filters.FilterSet):  # type: ignore[misc]
         """
         if not value:
             return queryset
+
         if isinstance(value, QuerySet):
             types = list(value.values_list("type", flat=True))
+
         else:
             types = [getattr(t, "type", t) for t in value]
+
         return queryset.filter(topics__type__in=types)
 
     class Meta:

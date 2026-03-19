@@ -62,8 +62,10 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         ----------
         queryset : QuerySet[Any, Any]
             Base queryset of events.
+
         name : str
             Filter field name (unused).
+
         value : QuerySet[Topic] | list[Any]
             Selected Topic instances or list of topic types to filter by.
 
@@ -153,7 +155,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         now = timezone.now()
 
         try:
-            days_ahead_int = int(days)
+            days_ahead_int = days
 
         except Exception:
             return queryset.none()
