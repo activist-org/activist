@@ -19,6 +19,7 @@ dependencies = [
     "icalendar>=7.0.3",
     "pillow>=12.1.1",
     "psycopg2-binary>=2.9.11",
+    "pyyaml>=6.0.3",
     "python-dotenv>=1.2.2",
 ]
 
@@ -27,7 +28,7 @@ dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.18.1",
     "mypy>=1.19.1",
-    "prek>=0.3.5",
+    "prek>=0.3.6",
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
     "pytest-django>=4.12.0",
