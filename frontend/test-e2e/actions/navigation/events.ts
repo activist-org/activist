@@ -178,42 +178,88 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
 
 // MARK: Last event (activist_0's when E2E ordering is on)
 
+const MAX_SCROLL_ITERATIONS = 10;
+const SCROLL_POLL_MS = 100;
+const SCROLL_WAIT_FOR_MORE_MS = 600;
+
 /**
- * Navigate to the last event in the API list (activist_0's when backend has
- * ENVIRONMENT=development or CI=true) and open the given subpage. Use after
- * signing in as activist_0 so edit permission checks pass.
+ * Navigate to the last event in the list (infinite scroll), then open the given subpage.
+ * Use after signing in as activist_0 so edit permission checks pass (last event is activist_0's when E2E ordering is on).
  *
- * Fetches /api/public/events/events?page_size=100 and uses the last result's id,
- * then navigates to /events/{id}/{subpage}.
+ * @param page - Playwright page
+ * @param subpage - Event subpage to open: "about" | "resources" | "faq"
+ * @returns Object with eventId (from last card link) and eventPage
  */
 export async function navigateToLastEventSubpage(
   page: Page,
   subpage: "about" | "resources" | "faq"
 ) {
-  await page.goto("/events", { waitUntil: "domcontentloaded" });
-
-  const eventId = await page.evaluate(async (): Promise<string> => {
-    const res = await fetch("/api/public/events/events?page_size=100");
-    if (!res.ok) throw new Error(`Events API failed: ${res.status}`);
-    const data = (await res.json()) as { results?: { id: string }[] };
-    const results = data.results ?? [];
-    if (results.length === 0) throw new Error("Events list is empty");
-    const last = results[results.length - 1];
-    if (!last?.id) throw new Error("Last event has no id");
-    return last.id;
+  // 1. Events list in list view (same as navigateToFirstEvent).
+  await page.goto("/events", { waitUntil: "load" });
+  const listViewButton = page.getByRole("radio", { name: /list view/i });
+  await listViewButton
+    .waitFor({ state: "visible", timeout: 3000 })
+    .catch(() => {});
+  const isChecked = await listViewButton.isChecked().catch(() => false);
+  if (!isChecked) {
+    await listViewButton.click();
+  }
+  await expect(page.getByTestId("event-card").first()).toBeVisible({
+    timeout: 5000,
   });
 
-  await page.goto(`/events/${eventId}/${subpage}`, {
-    waitUntil: "domcontentloaded",
-  });
-  await expect(page).toHaveURL(
-    new RegExp(`.*\\/events\\/${eventId}\\/${subpage}`)
-  );
+  // 2. Infinite scroll until no new cards load (or max iterations). Poll for count increase instead of fixed wait.
+  const eventCards = page.getByTestId("event-card");
+  let prevCount = await eventCards.count();
+  for (let i = 0; i < MAX_SCROLL_ITERATIONS; i++) {
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    const deadline = Date.now() + SCROLL_WAIT_FOR_MORE_MS;
+    let count = await eventCards.count();
+    while (Date.now() < deadline && count <= prevCount) {
+      await page.waitForTimeout(SCROLL_POLL_MS);
+      count = await eventCards.count();
+    }
+    if (count <= prevCount) break;
+    prevCount = count;
+  }
+
+  // 3. Last card: get link href and extract event id.
+  const lastCard = eventCards.last();
+  await expect(lastCard).toBeVisible();
+  const lastCardLink = lastCard.getByRole("link").first();
+  await expect(lastCardLink).toBeVisible();
+  const eventUrl = await lastCardLink.getAttribute("href");
+  if (!eventUrl) throw new Error("Last event card has no link href");
+  const eventIdMatch = eventUrl.match(/\/events\/([a-f0-9-]{36})/);
+  if (!eventIdMatch?.[1])
+    throw new Error("Could not extract event id from last card link");
+  const eventId = eventIdMatch[1];
+
+  // 4. Navigate to event by clicking the last card (user flow).
+  await lastCardLink.click();
+  await page.waitForURL(/\/events\/[a-f0-9-]{36}(\/|$)/);
 
   const { newEventPage } =
     await import("~/test-e2e/page-objects/event/EventPage");
   const eventPage = newEventPage(page);
   await expect(eventPage.pageHeading).toBeVisible();
+
+  // 5. If subpage is not "about", open it via the event page menu (desktop).
+  if (subpage !== "about") {
+    const subpageMapping: Record<string, string> = {
+      faq: "questions",
+    };
+    const menuSubpage = subpageMapping[subpage] ?? subpage;
+    const subpageOption =
+      eventPage.menu[`${menuSubpage}Option` as keyof typeof eventPage.menu];
+    await expect(subpageOption).toBeVisible();
+    await subpageOption.click();
+  }
+
+  // 6. Assert we landed on the event we clicked (URL id matches extracted id) and the requested subpage.
+  await expect(page).toHaveURL(
+    new RegExp(`.*\\/events\\/${eventId}\\/${subpage}`)
+  );
 
   return { eventId, eventPage };
 }

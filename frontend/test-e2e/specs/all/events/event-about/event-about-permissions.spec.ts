@@ -170,7 +170,9 @@ test.describe(
   () => {
     test.use({ storageState: MEMBER_AUTH_STATE_PATH });
 
-    test("Member can edit the About card description", async ({ page }, testInfo) => {
+    test("Member can edit the About card description", async ({
+      page,
+    }, testInfo) => {
       logTestPath(testInfo);
       await navigateToLastEventSubpage(page, "about");
 

@@ -7,9 +7,9 @@
           {{ $t("i18n._global.about") }}
         </h3>
         <IconEdit
-          :entity="event"
           @click="openModalTextEvent"
           @keydown.enter="openModalTextEvent"
+          :entity="event"
         />
       </div>
       <div class="flex-col space-y-3">

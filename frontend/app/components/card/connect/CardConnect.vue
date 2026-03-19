@@ -7,11 +7,11 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        :entity="entity"
         @click="openModalSocialLinks"
         @keydown.enter="openModalSocialLinks"
         class="flex"
         data-testid="icon-edit"
+        :entity="entity"
       />
     </div>
     <ul

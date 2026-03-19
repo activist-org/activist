@@ -14,9 +14,9 @@
             {{ $t("i18n.components.card_details.header") }}
           </h3>
           <IconEdit
-            :entity="event"
             @click="openModalTextEvent()"
             @keydown.enter="openModalTextEvent()"
+            :entity="event"
           />
         </div>
         <div v-if="event" class="flex-col space-y-6 py-2">
