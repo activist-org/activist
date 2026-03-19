@@ -3,6 +3,7 @@ import pytest
 from django.conf import settings
 from django.core.cache import cache
 from rest_framework import status
+from rest_framework.settings import api_settings
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -15,6 +16,32 @@ _THROTTLE_CLASSES = [
 ]
 
 
+def _set_test_throttle_settings(
+    *, anon_rate: str, user_rate: str
+) -> tuple[list[str], dict]:
+    """Apply test throttle settings and return originals for restoration."""
+    original_classes = list(settings.REST_FRAMEWORK.get("DEFAULT_THROTTLE_CLASSES", []))
+    original_rates = dict(settings.REST_FRAMEWORK.get("DEFAULT_THROTTLE_RATES", {}))
+    settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = list(_THROTTLE_CLASSES)
+    settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {
+        **original_rates,
+        "anon": anon_rate,
+        "user": user_rate,
+    }
+    # DRF caches settings; force reload after runtime changes.
+    api_settings.reload()
+    return original_classes, original_rates
+
+
+def _restore_throttle_settings(
+    original_classes: list[str], original_rates: dict
+) -> None:
+    """Restore throttle settings after a test and clear DRF cache."""
+    settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = original_classes
+    settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = original_rates
+    api_settings.reload()
+
+
 @pytest.mark.enable_throttling
 def test_anon_throttle():
     """
@@ -24,13 +51,11 @@ def test_anon_throttle():
     client = APIClient()
 
     # Ensure throttle classes are active (CI may run with DEBUG=True and empty classes).
-    orig_classes = settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"]
-    orig_rates = settings.REST_FRAMEWORK.get("DEFAULT_THROTTLE_RATES", {})
+    orig_classes, orig_rates = _set_test_throttle_settings(
+        anon_rate="3/min",
+        user_rate="5/min",
+    )
     try:
-        settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = _THROTTLE_CLASSES
-        settings.REST_FRAMEWORK.setdefault("DEFAULT_THROTTLE_RATES", {})["anon"] = (
-            "3/min"
-        )
         endpoint = "/v1/communities/organizations"
 
         for i in range(3):
@@ -40,11 +65,7 @@ def test_anon_throttle():
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
     finally:
-        settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = orig_classes
-        if "anon" in orig_rates:
-            settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"] = orig_rates[
-                "anon"
-            ]
+        _restore_throttle_settings(orig_classes, orig_rates)
         cache.clear()
 
 
@@ -70,13 +91,11 @@ def test_auth_throttle():
     )
     token = login_response.json()["access"]
 
-    orig_classes = settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"]
-    orig_rates = settings.REST_FRAMEWORK.get("DEFAULT_THROTTLE_RATES", {})
+    orig_classes, orig_rates = _set_test_throttle_settings(
+        anon_rate="3/min",
+        user_rate="5/min",
+    )
     try:
-        settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = _THROTTLE_CLASSES
-        settings.REST_FRAMEWORK.setdefault("DEFAULT_THROTTLE_RATES", {})["user"] = (
-            "5/min"
-        )
         endpoint = "/v1/communities/organizations"
 
         client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
@@ -87,9 +106,5 @@ def test_auth_throttle():
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
     finally:
-        settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = orig_classes
-        if "user" in orig_rates:
-            settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["user"] = orig_rates[
-                "user"
-            ]
+        _restore_throttle_settings(orig_classes, orig_rates)
         cache.clear()

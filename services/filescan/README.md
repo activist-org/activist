@@ -155,6 +155,9 @@ These additional scanners can follow the same pattern as existing ones: accept r
 
 ## To Do
 
+- **HTTP method hardening tests for filescan port (`9101`)**
+  - Add explicit tests that probe `http://localhost:9101` using non-supported HTTP methods (for example `PUT`, `PATCH`, `DELETE`, `OPTIONS`, `TRACE`) against `/scan` and `/health`, and assert only intended methods are accepted while others return sensible error codes (for example `405 Method Not Allowed`).
+
 - **Quarantine integration test cleanup**
   - The test in `tests_integration/test_scan_quarantine_integration.py` should confirm the quarantined file exists on disk (e.g. in the host-visible quarantine folder) and delete it when the test finishes. Currently the test can leave a file in the quarantine folder; revisit and fix so the test reliably asserts and cleans up.
 

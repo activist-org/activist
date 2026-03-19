@@ -8,7 +8,7 @@ from __future__ import annotations
 from rest_framework import serializers
 
 
-class SecurityEventPayloadSerializer(serializers.Serializer):
+class SecurityEventPayloadSerializer(serializers.Serializer[dict[str, object]]):
     """
     Define the payload shape for documentation and schema generation.
 
@@ -36,7 +36,7 @@ class SecurityEventPayloadSerializer(serializers.Serializer):
     )
 
 
-class SecurityEventEnvelopeSerializer(serializers.Serializer):
+class SecurityEventEnvelopeSerializer(serializers.Serializer[dict[str, object]]):
     """
     Describe the top-level security event envelope expected by the ingest view.
 
@@ -47,5 +47,5 @@ class SecurityEventEnvelopeSerializer(serializers.Serializer):
 
     type = serializers.CharField()
     occurred_at = serializers.DateTimeField()
-    source = serializers.CharField()
+    source = serializers.CharField()  # type: ignore[assignment]
     payload = SecurityEventPayloadSerializer()
