@@ -230,6 +230,9 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "CAMELIZE_NAMES": False,
+    "ENUM_NAME_OVERRIDES": {
+        "CountryCodeEnum": "utils.models.ISO_CHOICES",
+    },
     "POSTPROCESSING_HOOKS": [
         "drf_spectacular.hooks.postprocess_schema_enums",
         "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",
