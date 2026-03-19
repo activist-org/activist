@@ -223,6 +223,10 @@ test.describe(
       await expect(resourcesPage.resourcesList).toBeVisible({
         timeout: 15000,
       });
+      // Wait for new resource button so event is loaded and canEdit has resolved for card icons.
+      await expect(resourcesPage.newResourceButton).toBeVisible({
+        timeout: 15000,
+      });
 
       const cardCount = await resourcesPage.resourceCards.count();
       if (cardCount > 0) {
@@ -230,7 +234,9 @@ test.describe(
           testInfo,
           "Verify resource edit button is visible for member on own event",
           async () => {
-            await expect(resourcesPage.getResourceEditButton(0)).toBeVisible();
+            await expect(resourcesPage.getResourceEditButton(0)).toBeVisible({
+              timeout: 10000,
+            });
           }
         );
       }

@@ -197,6 +197,10 @@ test.describe(
       await page.waitForLoadState("domcontentloaded");
 
       const { faqPage } = newEventPage(page);
+      // Wait for FAQ content (list or empty state) so event is loaded and BtnActionAdd's v-if="canAdd" has resolved.
+      await expect(
+        faqPage.faqCards.first().or(faqPage.emptyState)
+      ).toBeVisible({ timeout: 15000 });
       await expect(faqPage.newFAQButton).toBeVisible({ timeout: 15000 });
     });
 
@@ -212,6 +216,7 @@ test.describe(
       await expect(faqPage.faqCards.first().or(faqPage.emptyState)).toBeVisible(
         { timeout: 15000 }
       );
+      await expect(faqPage.newFAQButton).toBeVisible({ timeout: 15000 });
 
       await ensureMinimumFAQs(page, faqPage, 1);
 
@@ -219,7 +224,9 @@ test.describe(
         testInfo,
         "Verify FAQ edit button is visible for member on own event",
         async () => {
-          await expect(faqPage.getFAQEditButton(0)).toBeVisible();
+          await expect(faqPage.getFAQEditButton(0)).toBeVisible({
+            timeout: 10000,
+          });
         }
       );
     });
