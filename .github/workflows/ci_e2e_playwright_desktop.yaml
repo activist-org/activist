@@ -9,8 +9,8 @@ on:
       - reopened
       - synchronize
     paths:
-      - "backend/**"
-      - "!backend/**/tests/**/*.py"
+      # - "backend/**"
+      # - "!backend/**/tests/**/*.py"
       - "frontend/**"
       - "!frontend/test/**"
       - "!frontend/i18n/**"
@@ -20,8 +20,8 @@ on:
     branches:
       - main
     paths:
-      - "backend/**"
-      - "!backend/**/tests/**/*.py"
+      # - "backend/**"
+      # - "!backend/**/tests/**/*.py"
       - "frontend/**"
       - "!frontend/test/**"
       - "!frontend/i18n/**"
