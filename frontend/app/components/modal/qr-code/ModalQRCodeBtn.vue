@@ -44,18 +44,18 @@
     </p>
   </div>
   <ModalQRCode
-    v-if="organization"
+    v-if="renderModal !== false && organization"
     @closeModal="handleCloseModal"
     :organization="organization"
   />
-  <ModalQRCode v-if="group" @closeModal="handleCloseModal" :group="group" />
-  <ModalQRCode v-if="event" @closeModal="handleCloseModal" :event="event" />
+  <ModalQRCode v-if="renderModal !== false && group" @closeModal="handleCloseModal" :group="group" />
+  <ModalQRCode v-if="renderModal !== false && event" @closeModal="handleCloseModal" :event="event" />
   <ModalQRCode
-    v-if="resource"
+    v-if="renderModal !== false && resource"
     @closeModal="handleCloseModal"
     :resource="resource"
   />
-  <ModalQRCode v-if="user" @closeModal="handleCloseModal" :user="user" />
+  <ModalQRCode v-if="renderModal !== false && user" @closeModal="handleCloseModal" :user="user" />
 </template>
 
 <script setup lang="ts">
@@ -67,6 +67,8 @@ defineProps<{
   user?: UserActivist;
   type: "icon" | "meta-tag";
   reasonForSuggesting: string;
+  // Note: When false, parent (e.g. ModalSharePage) renders ModalQRCode outside ModalBase itself.
+  renderModal?: boolean;
 }>();
 
 const modals = useModals();

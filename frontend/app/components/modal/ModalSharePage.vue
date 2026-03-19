@@ -70,6 +70,7 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            :render-modal="false"
             type="meta-tag"
           />
           <ModalQRCodeBtn
@@ -78,6 +79,7 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            :render-modal="false"
             type="meta-tag"
           />
           <ModalQRCodeBtn
@@ -86,6 +88,7 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            :render-modal="false"
             type="meta-tag"
           />
           <ModalQRCodeBtn
@@ -93,6 +96,7 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            :render-modal="false"
             :resource="resource"
             type="meta-tag"
           />
@@ -101,6 +105,7 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
+            :render-modal="false"
             type="meta-tag"
             :user="user"
           />
@@ -211,6 +216,32 @@
       </div>
     </div>
   </ModalBase>
+  <!-- Note: ModalQRCode is intentionally outside ModalBase so it survives when the share modal closes. -->
+  <ModalQRCode
+    v-if="organization"
+    @closeModal="() => modals.closeModal('ModalsQRCode')"
+    :organization="organization"
+  />
+  <ModalQRCode
+    v-if="group"
+    @closeModal="() => modals.closeModal('ModalsQRCode')"
+    :group="group"
+  />
+  <ModalQRCode
+    v-if="event"
+    @closeModal="() => modals.closeModal('ModalsQRCode')"
+    :event="event"
+  />
+  <ModalQRCode
+    v-if="resource"
+    @closeModal="() => modals.closeModal('ModalsQRCode')"
+    :resource="resource"
+  />
+  <ModalQRCode
+    v-if="user"
+    @closeModal="() => modals.closeModal('ModalsQRCode')"
+    :user="user"
+  />
 </template>
 
 <script setup lang="ts">
@@ -227,6 +258,7 @@ const props = defineProps<{
 }>();
 
 const modalName = "ModalSharePage";
+const modals = useModals();
 
 const getEntityType = () => {
   if (props.organization) {
