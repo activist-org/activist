@@ -57,6 +57,11 @@ def test_anon_throttle():
     )
     try:
         endpoint = "/v1/communities/organizations"
+        print(
+            "settings throttle classes:",
+            settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"],
+        )
+        print("api_settings throttle classes:", api_settings.DEFAULT_THROTTLE_CLASSES)
 
         for i in range(3):
             response = client.get(endpoint)
@@ -99,6 +104,11 @@ def test_auth_throttle():
         endpoint = "/v1/communities/organizations"
 
         client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+        print(
+            "settings throttle classes:",
+            settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"],
+        )
+        print("api_settings throttle classes:", api_settings.DEFAULT_THROTTLE_CLASSES)
         for i in range(5):
             response = client.get(endpoint)
             assert response.status_code == status.HTTP_200_OK
