@@ -34,11 +34,54 @@
 **6. Backend security event ingestion (`/internal/security-events`)**
 
 - When filescan quarantines a file (for example after a ClamAV malware hit), it can emit a structured event to the backend so that operators can be notified.
-- These events are sent as JSON to the backend’s internal endpoint `POST /internal/security-events`, implemented by `SecurityEventIngestView`.
+- These events are sent as JSON to the backend’s internal endpoint `POST /internal/security-events`, implemented by `SecurityEventIngestView` in `backend/core/internal_events.py`.
 - The endpoint is intended for internal service-to-service communication:
   - Clients must include `X-Internal-Token: <INTERNAL_EVENTS_TOKEN>`; the backend compares this with its `INTERNAL_EVENTS_TOKEN` setting and rejects mismatches with HTTP 403.
   - In production, this path should also be restricted at the network/proxy layer (for example, only reachable on an internal network), and not exposed as part of the public API surface.
 - The backend then translates accepted events into whatever notification channels are configured for that environment (for example, console output in local development and real email or paging channels in staging/production).
+
+The expected request body is a **security event envelope** described by `SecurityEventEnvelopeSerializer` (see `backend/core/serializers.py`). Conceptually it looks like:
+
+- Top-level envelope:
+  - `type` — string identifying the event type (currently `malware_quarantined`).
+  - `occurred_at` — ISO‑8601 timestamp for when the event occurred.
+  - `source` — string identifying the source service (for example `"filescan"`).
+  - `payload` — object with event‑specific fields.
+- Payload for `malware_quarantined` events:
+  - `filename` — original filename of the uploaded file (required).
+  - `quarantine_id` — identifier that can be correlated with the on‑disk quarantine entry (required).
+  - `signature` — malware signature reported by ClamAV (optional).
+  - `detail` — human‑readable description of the detection (optional).
+  - `detected_by` — string indicating which scanner reported the hit (optional, for example `"clamav"`).
+
+Example JSON envelope sent from filescan:
+
+```json
+{
+  "type": "malware_quarantined",
+  "occurred_at": "2025-01-01T12:34:56Z",
+  "source": "filescan",
+  "payload": {
+    "filename": "eicar.com",
+    "quarantine_id": "0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c",
+    "signature": "Eicar-Test-Signature",
+    "detail": "Malware detected by ClamAV.",
+    "detected_by": "clamav"
+  }
+}
+```
+
+The ingest view uses the serializer schema for documentation/OpenAPI, but still performs its own runtime validation (for example, checking types, `occurred_at` parseability, and required payload fields) and will return HTTP 400 for malformed envelopes.
+
+On accepted `malware_quarantined` events, the backend currently dispatches a **security alert email**:
+
+- **Config keys:**
+  - `INTERNAL_EVENTS_TOKEN` — shared secret used to authenticate calls (compared against the `X-Internal-Token` header).
+  - `SECURITY_ALERT_RECIPIENTS` — iterable of email addresses that should receive malware‑quarantined alerts.
+  - `SECURITY_ALERT_FROM_EMAIL` — from‑address used when sending the alert.
+- Behaviour:
+  - If `SECURITY_ALERT_RECIPIENTS` or `SECURITY_ALERT_FROM_EMAIL` is missing, the event is rejected with HTTP 500 and an error is logged.
+  - When configured correctly, the backend builds a short plaintext summary (filename, quarantine ID, signature, detector, timestamp) and sends it via `send_mail`, then returns HTTP 204.
 
 ---
 
@@ -126,8 +169,17 @@ This package is the only place where the backend knows how to call the `/scan` e
 
 **Recommended for views:** Use the helper so the backend doesn't duplicate scan/error handling:
 
-- `from core.filescan import scan_uploads_and_rewind`
-- Before using uploads in a serializer, call `err = scan_uploads_and_rewind(list_of_uploads)`; if `err is not None`, return `err` (it is a 400 `Response`); otherwise proceed with validation/save.
+- Example:
+  ```python
+  from core.filescan import scan_uploads_and_rewind
+
+  ...
+
+  def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+      files = request.FILES.getlist("file_object")
+      if err := scan_uploads_and_rewind(files or []):
+          return err
+  ```
 
 **Lower-level usage:** For custom flows, use `scan_file` and handle the result yourself:
 

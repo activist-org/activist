@@ -18,7 +18,7 @@ Within the wider project, this service uses a **9100-series port** (`9101` by de
 
 This service currently uses **ClamAV** for malware scanning. Other options you might consider (as replacements or in addition) include: **VirusTotal**, **Cloudmersive**, **Opswat**, **Scanii**, and **MultiAV**. For offloading scan work to background tasks, **Celery** can be used as a 'task runner' to run scans asynchronously. Evaluation of any alternative should take into account licensing, cost, privacy, and whether the engine runs on-premises or via a third-party API.
 
-## Integration with the backend
+## Integration with activist backend
 
 How this service fits into the wider upload flow (quarantine volume, who quarantines, backend responsibilities, and Django/DRF integration) is documented in **[INTEGRATION_NOTES.md](./INTEGRATION_NOTES.md)**.
 
@@ -27,6 +27,8 @@ When malware is detected and quarantined, this service also emits a structured s
 - Events are sent to the backend’s internal ingestion endpoint at `POST /internal/security-events`.
 - Access to this endpoint is controlled via a shared secret header (`X-Internal-Token`) and is intended only for trusted internal services, not public clients.
 - The backend then translates accepted events into operator alerts (e.g. console emails in development, real notification channels in staging/production, depending on configuration).
+
+The JSON envelope for these events is described by `SecurityEventEnvelopeSerializer` in the backend (see `backend/core/serializers.py`), but the ingest view in `backend/core/internal_events.py` also performs additional runtime validation before dispatching alerts. For a concrete example payload, and details of the email alert behaviour, see **[INTEGRATION_NOTES.md](./INTEGRATION_NOTES.md)**.
 
 ## Build and run (Docker)
 
@@ -47,6 +49,12 @@ From `services/filescan`:
   docker run --rm -p 9101:9101 filescan-service
   ```
   The service listens on port 9101. Use `-d` to run in the background.
+
+When exercising full backend ↔ filescan integration locally, you will typically run the service as part of the main stack rather than as an ad‑hoc container. From the project root, use the `docker compose ... -f docker-compose.yml -f docker-compose.filescan_integration.yml ...` commands documented in **[INTEGRATION_NOTES.md](./INTEGRATION_NOTES.md)** so that:
+
+- The backend can reach filescan at `http://filescan:9101/scan`.
+- The internal security events endpoint (`POST /internal/security-events`) is available to receive events from filescan.
+
 
 ## Endpoints
 

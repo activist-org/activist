@@ -18,15 +18,24 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core.serializers import SecurityEventEnvelopeSerializer
+
 logger = logging.getLogger(__name__)
 
 
 class SecurityEventIngestView(APIView):
     """
     Receive security events from internal services and dispatch notifications.
+
+    Notes
+    -----
+    The ``serializer_class`` is set explicitly so that drf-spectacular can
+    generate an OpenAPI schema for this endpoint. The view still performs
+    additional runtime validation on the incoming payload.
     """
 
     permission_classes = [AllowAny]
+    serializer_class = SecurityEventEnvelopeSerializer
 
     def _authenticate(self, request: HttpRequest) -> bool:
         """
