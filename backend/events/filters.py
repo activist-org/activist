@@ -155,7 +155,8 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         now = timezone.now()
 
         try:
-            days_ahead_int = days
+            # Note: We need the int cast as days could be decimal.Decimal.
+            days_ahead_int = int(days)
 
         except Exception:
             return queryset.none()
