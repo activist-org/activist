@@ -5,8 +5,10 @@ from django.core.cache import cache
 from rest_framework import status
 from rest_framework.settings import api_settings
 from rest_framework.test import APIClient
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 from authentication.factories import UserFactory
+from communities.organizations.views import OrganizationAPIView
 
 pytestmark = pytest.mark.django_db
 
@@ -42,6 +44,23 @@ def _restore_throttle_settings(
     api_settings.reload()
 
 
+def _set_test_view_throttle_classes() -> list[type]:
+    """
+    Force throttle classes on OrganizationAPIView for deterministic tests.
+
+    OrganizationAPIView is imported before tests mutate settings, so its
+    class-level ``throttle_classes`` may still reflect startup defaults.
+    """
+    original = list(getattr(OrganizationAPIView, "throttle_classes", []))
+    OrganizationAPIView.throttle_classes = [AnonRateThrottle, UserRateThrottle]
+    return original
+
+
+def _restore_test_view_throttle_classes(original: list[type]) -> None:
+    """Restore OrganizationAPIView throttle classes after each test."""
+    OrganizationAPIView.throttle_classes = original
+
+
 @pytest.mark.enable_throttling
 def test_anon_throttle():
     """
@@ -55,13 +74,9 @@ def test_anon_throttle():
         anon_rate="3/min",
         user_rate="5/min",
     )
+    orig_view_classes = _set_test_view_throttle_classes()
     try:
         endpoint = "/v1/communities/organizations"
-        print(
-            "settings throttle classes:",
-            settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"],
-        )
-        print("api_settings throttle classes:", api_settings.DEFAULT_THROTTLE_CLASSES)
 
         for i in range(3):
             response = client.get(endpoint)
@@ -70,6 +85,7 @@ def test_anon_throttle():
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
     finally:
+        _restore_test_view_throttle_classes(orig_view_classes)
         _restore_throttle_settings(orig_classes, orig_rates)
         cache.clear()
 
@@ -100,15 +116,11 @@ def test_auth_throttle():
         anon_rate="3/min",
         user_rate="5/min",
     )
+    orig_view_classes = _set_test_view_throttle_classes()
     try:
         endpoint = "/v1/communities/organizations"
 
         client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-        print(
-            "settings throttle classes:",
-            settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"],
-        )
-        print("api_settings throttle classes:", api_settings.DEFAULT_THROTTLE_CLASSES)
         for i in range(5):
             response = client.get(endpoint)
             assert response.status_code == status.HTTP_200_OK
@@ -116,5 +128,6 @@ def test_auth_throttle():
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
     finally:
+        _restore_test_view_throttle_classes(orig_view_classes)
         _restore_throttle_settings(orig_classes, orig_rates)
         cache.clear()
