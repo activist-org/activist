@@ -14,6 +14,7 @@
             {{ $t("i18n.components.card_details.header") }}
           </h3>
           <IconEdit
+            :entity="event"
             @click="openModalTextEvent()"
             @keydown.enter="openModalTextEvent()"
           />

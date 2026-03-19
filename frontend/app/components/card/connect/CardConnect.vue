@@ -7,6 +7,7 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
+        :entity="entity"
         @click="openModalSocialLinks"
         @keydown.enter="openModalSocialLinks"
         class="flex"
@@ -55,6 +56,7 @@ const props = defineProps<{
     | GroupSocialLink[]
     | OrganizationSocialLink[];
   pageType: "organization" | "group" | "event";
+  entity?: Entity | null;
 }>();
 
 const { openModal: openModalSocialLinks } = useModalHandlers(

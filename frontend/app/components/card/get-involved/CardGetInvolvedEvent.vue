@@ -7,6 +7,7 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
+        :entity="event"
         @click="openModalTextEvent"
         @keydown.enter="openModalTextEvent"
       />

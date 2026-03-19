@@ -175,3 +175,45 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
 
   return { eventId, eventPage };
 }
+
+// MARK: Last event (activist_0's when E2E ordering is on)
+
+/**
+ * Navigate to the last event in the API list (activist_0's when backend has
+ * ENVIRONMENT=development or CI=true) and open the given subpage. Use after
+ * signing in as activist_0 so edit permission checks pass.
+ *
+ * Fetches /api/public/events/events?page_size=100 and uses the last result's id,
+ * then navigates to /events/{id}/{subpage}.
+ */
+export async function navigateToLastEventSubpage(
+  page: Page,
+  subpage: "about" | "resources" | "faq"
+) {
+  await page.goto("/events", { waitUntil: "domcontentloaded" });
+
+  const eventId = await page.evaluate(async (): Promise<string> => {
+    const res = await fetch("/api/public/events/events?page_size=100");
+    if (!res.ok) throw new Error(`Events API failed: ${res.status}`);
+    const data = (await res.json()) as { results?: { id: string }[] };
+    const results = data.results ?? [];
+    if (results.length === 0) throw new Error("Events list is empty");
+    const last = results[results.length - 1];
+    if (!last?.id) throw new Error("Last event has no id");
+    return last.id;
+  });
+
+  await page.goto(`/events/${eventId}/${subpage}`, {
+    waitUntil: "domcontentloaded",
+  });
+  await expect(page).toHaveURL(
+    new RegExp(`.*\\/events\\/${eventId}\\/${subpage}`)
+  );
+
+  const { newEventPage } =
+    await import("~/test-e2e/page-objects/event/EventPage");
+  const eventPage = newEventPage(page);
+  await expect(eventPage.pageHeading).toBeVisible();
+
+  return { eventId, eventPage };
+}
