@@ -37,7 +37,7 @@ def test_populate_db_command_with_arguments():
         events_per_group=1,
         resources_per_entity=1,
         faq_entries_per_entity=1,
-        json_data_to_assign="",
+        yaml_data_to_assign="",
     )
 
     assert UserModel.objects.count() == 2
@@ -109,7 +109,7 @@ def test_populate_db_command_with_nondefault_arguments():
         events_per_group=2,
         resources_per_entity=2,
         faq_entries_per_entity=2,
-        json_data_to_assign="",
+        yaml_data_to_assign="",
     )
     assert UserModel.objects.count() == 1
 
@@ -169,15 +169,15 @@ def test_populate_db_command_with_preexisting_users():
 
 
 @pytest.mark.django_db
-def test_populate_db_command_with_json_data_to_assign():
+def test_populate_db_command_with_yaml_data_to_assign():
     """
-    Test that json_data_to_assign assigns org/group/event fields.
+    Test that yaml_data_to_assign assigns org/group/event fields.
     """
     call_command("flush", "--noinput")
     call_command("loaddata", "fixtures/topics.json")
 
     fixture_path = (
-        Path(__file__).resolve().parent / "fixtures" / "populate_db_assigned.json"
+        Path(__file__).resolve().parent / "fixtures" / "populate_db_assigned.yaml"
     )
 
     call_command(
@@ -189,7 +189,7 @@ def test_populate_db_command_with_json_data_to_assign():
         events_per_group=1,
         resources_per_entity=1,
         faq_entries_per_entity=1,
-        json_data_to_assign=str(fixture_path),
+        yaml_data_to_assign=str(fixture_path),
     )
 
     org = Organization.objects.get(name="Assigned Organization")

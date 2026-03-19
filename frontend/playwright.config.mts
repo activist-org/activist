@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { defineConfig, devices } from "@playwright/test";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -14,6 +15,11 @@ export const MEMBER_AUTH_STATE_PATH = path.join(
   __dirname,
   "./test-e2e/.auth/member.json"
 );
+
+/** Use admin storage only if the file exists; avoids ENOENT when run from IDE or before auth-setup. */
+const storageState = fs.existsSync(ADMIN_AUTH_STATE_PATH)
+  ? ADMIN_AUTH_STATE_PATH
+  : undefined;
 
 /**
  * Read environment variables from file.
@@ -96,8 +102,8 @@ export default defineConfig({
     navigationTimeout: 15000,
     /* Action timeout - applies to click, fill, etc. */
     actionTimeout: 10000,
-    /* Reuse authenticated session across tests (can be overridden per test with test.use()) */
-    storageState: ADMIN_AUTH_STATE_PATH,
+    /* Reuse authenticated session when admin.json exists; omit when missing so tests can start (run yarn test:e2e:auth-setup with app up to create). */
+    storageState,
 
     /* Enhanced trace configuration for better debugging. */
     trace: {

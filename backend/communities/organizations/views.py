@@ -5,10 +5,12 @@ API views for organization management.
 """
 
 import logging
+import os
 from typing import Type
 from uuid import UUID
 
 from django.contrib.auth.models import AnonymousUser
+from django.db.models import Case, IntegerField, Q, QuerySet, Value, When
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
@@ -59,11 +61,27 @@ logger = logging.getLogger(__name__)
 
 
 class OrganizationAPIView(GenericAPIView[Organization]):
-    queryset = Organization.objects.all().order_by("id")
+    queryset = Organization.objects.all()
     pagination_class = CustomPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
     filterset_class = OrganizationFilter
     filter_backends = [DjangoFilterBackend]
+
+    def get_queryset(self) -> QuerySet[Organization]:
+        queryset = super().get_queryset().order_by("id")
+
+        if os.environ.get("ENVIRONMENT") != "development":
+            return queryset
+
+        activist_match = Q(name__iexact="activist")
+
+        return queryset.annotate(
+            _priority=Case(
+                When(activist_match, then=Value(0)),
+                default=Value(1),
+                output_field=IntegerField(),
+            )
+        ).order_by("_priority", "id")
 
     @extend_schema(
         parameters=[
@@ -84,7 +102,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(self.queryset, many=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
     def get_serializer_class(
@@ -692,7 +710,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(social_link, request.data, partial=True)
+        serializer = self.get_serializer(social_link, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(org=org)
 

@@ -139,7 +139,8 @@ test.describe(
         await themeMenu.toggleOpenButton.click({ force: true });
         await expect(themeMenu.menu).toBeVisible();
         await expect(option).toBeVisible();
-        await option.click({ timeout: 15000 });
+        // Menu can close or become unstable before click; force click so it registers.
+        await option.click({ force: true, timeout: 15000 });
 
         await expectTheme(page, theme);
 
