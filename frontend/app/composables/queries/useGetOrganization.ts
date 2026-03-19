@@ -5,7 +5,7 @@
 export const getKeyForGetOrganization = (id: string) => `organization:${id}`;
 
 export function useGetOrganization(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const organizationId = computed(() => String(unref(id)));
   const store = useOrganizationStore();
 
@@ -25,7 +25,7 @@ export function useGetOrganization(id: MaybeRef<string>) {
         store.setOrganization(organization);
         return organization;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },

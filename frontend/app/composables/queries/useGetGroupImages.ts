@@ -4,7 +4,7 @@
 export const getKeyForGetGroupImages = (id: string) => `groupImages:${id}`;
 
 export function useGetGroupImages(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const groupId = computed(() => String(unref(id)));
   const store = useGroupStore();
   // Cache key for useAsyncData.
@@ -34,7 +34,7 @@ export function useGetGroupImages(id: MaybeRef<string>) {
         store.setGroupImages(images);
         return images;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },

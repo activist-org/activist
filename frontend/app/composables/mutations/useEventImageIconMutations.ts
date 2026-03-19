@@ -2,10 +2,8 @@
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 export function useEventImageIconMutations(eventId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError, clearError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
   const store = useEventStore();
@@ -13,7 +11,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   // Upload new images.
   async function uploadIconImage(image: UploadableFile) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Direct service call - no useAsyncData needed for mutations.
@@ -24,9 +22,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;

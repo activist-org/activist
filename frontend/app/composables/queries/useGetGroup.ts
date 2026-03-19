@@ -5,7 +5,7 @@
 export const getKeyForGetGroup = (id: string) => `group:${id}`;
 
 export function useGetGroup(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const groupId = computed(() => String(unref(id)));
   const store = useGroupStore();
 
@@ -27,7 +27,7 @@ export function useGetGroup(id: MaybeRef<string>) {
         store.setGroup(group);
         return group as Group;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },

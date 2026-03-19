@@ -7,7 +7,7 @@ export function useGetEvents(
   const store = useEventStore();
   const page = ref(1);
   const isLastPageRef = ref(false);
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const eventFilters = computed(() => unref(filters));
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<CommunityEvent[]>(
@@ -57,9 +57,9 @@ export function useGetEvents(
         }
         store.setFilters(eventFilters.value);
         return events as CommunityEvent[];
-      } catch (error) {
-        showToastError((error as AppError).message);
-        throw error;
+      } catch (err) {
+        handleError(err);
+        throw err;
       }
     },
     {

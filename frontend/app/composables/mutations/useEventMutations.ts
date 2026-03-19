@@ -1,21 +1,18 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 export const useEventMutations = () => {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError, clearError } = useAppError();
 
   const create = async (eventData: CreateEventInput) => {
     loading.value = true;
-    error.value = null;
+    clearError();
     try {
       const event = await createEvent(eventData);
       await refreshEventList();
       return event;
     } catch (e) {
-      error.value = e as AppError;
-      showToastError(error.value.message);
+      handleError(e);
       return false;
     } finally {
       loading.value = false;
@@ -28,8 +25,8 @@ export const useEventMutations = () => {
   };
 
   return {
-    loading,
-    error,
+    loading: readonly(loading),
+    error: readonly(error),
     create,
     refreshEventList,
   };

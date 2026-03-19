@@ -7,7 +7,7 @@ export function useGetOrganizations(
   const store = useOrganizationStore();
   const page = ref(1);
   const isLastPageRef = ref(false);
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const orgFilters = computed(() => unref(filters));
   // Use AsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
@@ -61,7 +61,7 @@ export function useGetOrganizations(
         store.setPage(page.value);
         return organizations as Organization[];
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },

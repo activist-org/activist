@@ -6,7 +6,7 @@ export const getKeyForGetOrganizationImages = (id: string) =>
   `organizationImages:${id}`;
 
 export function useGetOrganizationImages(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const organizationId = computed(() => String(unref(id)));
   const store = useOrganizationStore();
   // Cache key for useAsyncData.
@@ -37,7 +37,7 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
         store.setImages(images);
         return images;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },
