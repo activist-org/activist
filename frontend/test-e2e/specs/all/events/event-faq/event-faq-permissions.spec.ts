@@ -198,9 +198,9 @@ test.describe(
 
       const { faqPage } = newEventPage(page);
       // Wait for FAQ content (list or empty state) so event is loaded and BtnActionAdd's v-if="canAdd" has resolved.
-      await expect(
-        faqPage.faqCards.first().or(faqPage.emptyState)
-      ).toBeVisible({ timeout: 15000 });
+      await expect(faqPage.faqCards.first().or(faqPage.emptyState)).toBeVisible(
+        { timeout: 15000 }
+      );
       await expect(faqPage.newFAQButton).toBeVisible({ timeout: 15000 });
     });
 
