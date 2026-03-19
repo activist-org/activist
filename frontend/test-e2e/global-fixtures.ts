@@ -5,8 +5,11 @@ import {
   expect as baseExpect,
 } from "@playwright/test";
 
-import { signInAsAdmin } from "~/test-e2e/actions/authentication";
-import { MEMBER_AUTH_STATE_PATH } from "~/test-e2e/constants/authPaths";
+import { signIn, signInAsAdmin } from "~/test-e2e/actions/authentication";
+import {
+  ADMIN_AUTH_STATE_PATH,
+  MEMBER_AUTH_STATE_PATH,
+} from "~/test-e2e/constants/authPaths";
 
 export { MEMBER_AUTH_STATE_PATH };
 
@@ -59,27 +62,26 @@ export const test = base.extend<{ page: Page }>({
     const isUnauthTest = testInfo.tags.includes("@unauth");
 
     if (!isUnauthTest) {
+      const isMemberTest = testInfo.tags.includes("@member");
       const needsRenewal = await isTokenExpired(page);
 
-      if (needsRenewal) {
-        // eslint-disable-next-line no-console
-        console.log("⚠️  JWT token expired, re-authenticating...");
-
+      // For @member tests: validate stored session with one auth request; only
+      // re-sign-in when the backend returns 401 (stale/expired or wrong backend).
+      if (isMemberTest) {
+        const res = await page.request.get(
+          "/api/auth/events/events?page_size=1"
+        );
+        if (res.status() === 401) {
+          await page.goto("/auth/sign-in", { waitUntil: "load" });
+          await signIn(page, "activist_0", "password", "**/home");
+          await page.context().storageState({ path: MEMBER_AUTH_STATE_PATH });
+          lastRenewalTime = Date.now();
+        }
+      } else if (needsRenewal) {
         await page.goto("/auth/sign-in", { waitUntil: "load" });
         await signInAsAdmin(page, "admin", "admin", true);
-
-        // Update the admin.json file so subsequent tests get fresh token.
-        const path = await import("path");
-        const authFile = path.join(__dirname, ".auth", "admin.json");
-        await page.context().storageState({ path: authFile });
-
-        // Update renewal timestamp.
+        await page.context().storageState({ path: ADMIN_AUTH_STATE_PATH });
         lastRenewalTime = Date.now();
-
-        // eslint-disable-next-line no-console
-        console.log(
-          "✓ Re-authenticated successfully (token saved to admin.json)"
-        );
       }
     }
 

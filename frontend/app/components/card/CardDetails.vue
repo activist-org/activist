@@ -16,6 +16,7 @@
           <IconEdit
             @click="openModalTextEvent()"
             @keydown.enter="openModalTextEvent()"
+            :entity="event"
           />
         </div>
         <div v-if="event" class="flex-col space-y-6 py-2">
