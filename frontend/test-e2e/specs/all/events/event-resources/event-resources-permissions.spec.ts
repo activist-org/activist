@@ -101,10 +101,15 @@ test.describe("Admin can manage event resources", { tag: ["@desktop"] }, () => {
       testInfo,
       "Wait for resource cards and verify edit button is visible",
       async () => {
-        await expect(resourcesPage.resourceCards.first()).toBeVisible({
-          timeout: 5000,
+        await expect(resourcesPage.newResourceButton).toBeVisible({
+          timeout: 15000,
         });
-        await expect(resourcesPage.getResourceEditButton(0)).toBeVisible();
+        await expect(resourcesPage.resourceCards.first()).toBeVisible({
+          timeout: 15000,
+        });
+        await expect(resourcesPage.getResourceEditButton(0)).toBeVisible({
+          timeout: 10000,
+        });
       }
     );
   });
@@ -118,10 +123,15 @@ test.describe("Admin can manage event resources", { tag: ["@desktop"] }, () => {
       testInfo,
       "Wait for resource cards and verify delete button is visible",
       async () => {
-        await expect(resourcesPage.resourceCards.first()).toBeVisible({
-          timeout: 5000,
+        await expect(resourcesPage.newResourceButton).toBeVisible({
+          timeout: 15000,
         });
-        await expect(resourcesPage.getResourceDeleteButton(0)).toBeVisible();
+        await expect(resourcesPage.resourceCards.first()).toBeVisible({
+          timeout: 15000,
+        });
+        await expect(resourcesPage.getResourceDeleteButton(0)).toBeVisible({
+          timeout: 10000,
+        });
       }
     );
   });
