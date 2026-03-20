@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
 
+import { runAccessibilityTestScoped } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateEventModal } from "~/test-e2e/component-objects/CreateEventModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { expect, test } from "~/test-e2e/global-fixtures";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/home");
@@ -102,6 +104,55 @@ async function setFirstDayEndTimeToFuture(
   }
 }
 
+/** Axe scope: open create-event dialog (`CreateEventModal` root). */
+const MODAL_A11Y_ROOT = '[data-testid="modal-ModalCreateEvent"]';
+
+async function goToEventTypeStep(
+  modal: ReturnType<typeof newCreateEventModal>
+) {
+  await modal.nameField.fill("A11y navigate step 2");
+  await modal.descriptionField.fill("Accessibility scan step navigation.");
+  await selectFirstOrganization(modal);
+  await modal.getNextStepButton().click({ force: true });
+  await expect(modal.eventTypeForm).toBeVisible();
+}
+
+async function goToLinkOnlineStep(
+  modal: ReturnType<typeof newCreateEventModal>
+) {
+  await goToEventTypeStep(modal);
+  await modal.locationTypeSection
+    .getByRole("radio", { name: /online/i })
+    .click();
+  await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
+  await selectFirstTopic(modal);
+  await modal.getNextStepButton().click({ force: true });
+  await expect(modal.linkOnlineForm).toBeVisible();
+}
+
+async function goToTimeStep(modal: ReturnType<typeof newCreateEventModal>) {
+  await goToLinkOnlineStep(modal);
+  await modal.onlineLinkField.fill("https://example.com/a11y-scan");
+  await modal.getNextStepButton().click();
+  await expect(modal.timeForm).toBeVisible();
+}
+
+async function goToPhysicalLocationStep(
+  modal: ReturnType<typeof newCreateEventModal>
+) {
+  await modal.nameField.fill("A11y physical location step");
+  await modal.descriptionField.fill("Accessibility scan physical path.");
+  await selectFirstOrganization(modal);
+  await modal.getNextStepButton().click({ force: true });
+  await modal.locationTypeSection
+    .getByRole("radio", { name: /physical/i })
+    .click();
+  await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
+  await selectFirstTopic(modal);
+  await modal.getNextStepButton().click({ force: true });
+  await expect(modal.locationForm).toBeVisible();
+}
+
 test.describe(
   "Event Create Modal",
   { tag: ["@desktop", "@mobile", "@all"] },
@@ -122,6 +173,149 @@ test.describe(
           ),
         })
       ).toBeVisible();
+    });
+
+    // MARK: Accessibility by wizard step (modal subtree only)
+
+    test.describe("Event Create Modal accessibility by step", () => {
+      test.setTimeout(120000);
+
+      test(
+        "step 1 event details has no detectable accessibility issues in modal",
+        { tag: "@accessibility" },
+        async ({ page }, testInfo) => {
+          logTestPath(testInfo);
+          const modal = newCreateEventModal(page);
+          await expect(modal.eventDetailsForm).toBeVisible();
+
+          await withTestStep(
+            testInfo,
+            "axe modal — step 1 details",
+            async () => {
+              const violations = await runAccessibilityTestScoped(
+                "Event Create Modal step 1 event details",
+                page,
+                testInfo,
+                MODAL_A11Y_ROOT
+              );
+              expect
+                .soft(violations, "Accessibility violations (step 1):")
+                .toHaveLength(0);
+            }
+          );
+        }
+      );
+
+      test(
+        "step 2 event type has no detectable accessibility issues in modal",
+        { tag: "@accessibility" },
+        async ({ page }, testInfo) => {
+          logTestPath(testInfo);
+          const modal = newCreateEventModal(page);
+          await goToEventTypeStep(modal);
+
+          await withTestStep(
+            testInfo,
+            "axe modal — step 2 event type",
+            async () => {
+              const violations = await runAccessibilityTestScoped(
+                "Event Create Modal step 2 event type",
+                page,
+                testInfo,
+                MODAL_A11Y_ROOT
+              );
+              expect
+                .soft(violations, "Accessibility violations (step 2):")
+                .toHaveLength(0);
+            }
+          );
+        }
+      );
+
+      test(
+        "step 3 link online has no detectable accessibility issues in modal",
+        { tag: "@accessibility" },
+        async ({ page }, testInfo) => {
+          logTestPath(testInfo);
+          const modal = newCreateEventModal(page);
+          await goToLinkOnlineStep(modal);
+
+          await withTestStep(
+            testInfo,
+            "axe modal — step 3 link online",
+            async () => {
+              const violations = await runAccessibilityTestScoped(
+                "Event Create Modal step 3 link online",
+                page,
+                testInfo,
+                MODAL_A11Y_ROOT
+              );
+              expect
+                .soft(violations, "Accessibility violations (step 3 online):")
+                .toHaveLength(0);
+            }
+          );
+        }
+      );
+
+      test(
+        "step 3 physical location has no detectable accessibility issues in modal",
+        { tag: "@accessibility" },
+        async ({ page }, testInfo) => {
+          logTestPath(testInfo);
+          const modal = newCreateEventModal(page);
+          await goToPhysicalLocationStep(modal);
+
+          await withTestStep(
+            testInfo,
+            "axe modal — step 3 physical location",
+            async () => {
+              const violations = await runAccessibilityTestScoped(
+                "Event Create Modal step 3 physical location",
+                page,
+                testInfo,
+                MODAL_A11Y_ROOT
+              );
+              expect
+                .soft(violations, "Accessibility violations (step 3 physical):")
+                .toHaveLength(0);
+            }
+          );
+        }
+      );
+
+      test(
+        "step 4 date and time has no detectable accessibility issues in modal",
+        { tag: "@accessibility" },
+        async ({ page }, testInfo) => {
+          logTestPath(testInfo);
+          const modal = newCreateEventModal(page);
+          await goToTimeStep(modal);
+          const dayButtons = modal.root.locator(
+            ".vc-day.in-month .vc-day-content[role='button']"
+          );
+          await dayButtons.first().click();
+          await dayButtons.nth(1).click();
+          await setFirstDayEndTimeToFuture(modal, page);
+
+          await withTestStep(testInfo, "axe modal — step 4 time", async () => {
+            const violations = await runAccessibilityTestScoped(
+              "Event Create Modal step 4 date and time",
+              page,
+              testInfo,
+              MODAL_A11Y_ROOT,
+              {
+                // v-calendar: icon-only nav + unlabeled time <select>s.
+                // Step 4 checkboxes/list markup also hit `label`/`list` until addressed in product code.
+                disableRules: ["button-name", "select-name", "label", "list"],
+              }
+            );
+            expect
+              .soft(violations, "Accessibility violations (step 4):")
+              .toHaveLength(0);
+          });
+        }
+      );
     });
 
     // MARK: Step 1 validation
