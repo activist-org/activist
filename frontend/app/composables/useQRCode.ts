@@ -41,8 +41,7 @@ export function useQRCode(qrCodeFileName: string) {
 
   function drawInlineSVG(
     svgElement: Element,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ctx: any,
+    ctx: CanvasRenderingContext2D,
     width: number,
     height: number,
     callback: () => void
@@ -50,7 +49,7 @@ export function useQRCode(qrCodeFileName: string) {
     const svgUrl = new XMLSerializer().serializeToString(svgElement);
     const img = new Image();
     img.onload = function () {
-      ctx.drawImage(this, 0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
       callback();
     };
     img.src = "data:image/svg+xml; charset=utf8, " + encodeURIComponent(svgUrl);

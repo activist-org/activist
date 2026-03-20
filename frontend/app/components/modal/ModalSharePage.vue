@@ -66,7 +66,9 @@
 
           <ModalQRCodeBtn
             v-if="organization"
-            :organization="organization"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_organization')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="organization.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -74,7 +76,9 @@
           />
           <ModalQRCodeBtn
             v-if="group"
-            :group="group"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_group')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="group.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -82,7 +86,9 @@
           />
           <ModalQRCodeBtn
             v-if="event"
-            :event="event"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_event')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="event.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -90,19 +96,23 @@
           />
           <ModalQRCodeBtn
             v-if="resource"
+            :firstParagraph="`${$t('i18n.components.modal_share_page.section_1_paragraph_1_resource')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="resource.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
-            :resource="resource"
             type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="user"
+            :firstParagraph="`${$t('i18n.components.modal_share_page.section_1_paragraph_1_user')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="user.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
             type="meta-tag"
-            :user="user"
           />
 
           <BtnShareIcon

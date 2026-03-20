@@ -3,7 +3,9 @@
   <CardAbout>
     <ModalQRCodeBtn
       v-if="organization && !expandText"
-      :organization="organization"
+      :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_organization')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+      :linkUrl="orgLinkUrl"
+      :name="organization.name"
       reason-for-suggesting=""
       type="icon"
     />
@@ -99,6 +101,12 @@ const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
 
 const { data: organization } = useGetOrganization(orgId);
+
+const aboveMediumBP = useBreakpoint("md");
+const orgLinkUrl = computed(() => {
+  const base = `/organizations/${organization.value?.id}`;
+  return aboveMediumBP.value ? `${base}/about` : base;
+});
 
 const description = ref();
 const descriptionExpandable = ref(false);

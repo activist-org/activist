@@ -4,7 +4,9 @@
     <div class="relative w-full flex-col">
       <ModalQRCodeBtn
         v-if="event"
-        :event="event"
+        :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_event')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+        :linkUrl="eventLinkUrl"
+        :name="event.name"
         reason-for-suggesting=""
         type="icon"
       />
@@ -77,4 +79,10 @@ const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
+
+const aboveMediumBP = useBreakpoint("md");
+const eventLinkUrl = computed(() => {
+  const base = `/events/${event.value?.id}`;
+  return aboveMediumBP.value ? `${base}/about` : base;
+});
 </script>

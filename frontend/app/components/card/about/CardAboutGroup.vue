@@ -3,7 +3,9 @@
   <CardAbout>
     <ModalQRCodeBtn
       v-if="group && !expandText"
-      :group="group"
+      :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_group')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+      :linkUrl="groupLinkUrl"
+      :name="group.name"
       reason-for-suggesting=""
       type="icon"
     />
@@ -98,6 +100,12 @@ const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
+
+const aboveMediumBP = useBreakpoint("md");
+const groupLinkUrl = computed(() => {
+  const base = `/organizations/${group.value?.org.id}/groups/${group.value?.id}`;
+  return aboveMediumBP.value ? `${base}/about` : base;
+});
 
 const description = ref();
 const descriptionExpandable = ref(false);
