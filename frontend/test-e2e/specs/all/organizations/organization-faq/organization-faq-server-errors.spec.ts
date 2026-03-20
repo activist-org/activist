@@ -2,7 +2,7 @@
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 const errorToast = (page: Parameters<typeof newOrganizationPage>[0]) =>
   page.locator(
@@ -32,34 +32,44 @@ test.describe(
       logTestPath(testInfo);
       const { faqPage } = newOrganizationPage(page);
 
-      await page.route(
-        "**/api/auth/communities/organization_faqs",
-        async (route) => {
-          if (route.request().method() !== "POST") {
-            await route.continue();
-            return;
-          }
-          await route.fulfill({
-            status: 500,
-            contentType: "application/json",
-            body: JSON.stringify({ detail: "Internal server error." }),
-          });
+      await withTestStep(
+        testInfo,
+        "Mock POST organization_faqs → 500",
+        async () => {
+          await page.route(
+            "**/api/auth/communities/organization_faqs",
+            async (route) => {
+              if (route.request().method() !== "POST") {
+                await route.continue();
+                return;
+              }
+              await route.fulfill({
+                status: 500,
+                contentType: "application/json",
+                body: JSON.stringify({ detail: "Internal server error." }),
+              });
+            }
+          );
         }
       );
 
-      await faqPage.newFAQButton.click();
-      await expect(faqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Submit new FAQ form", async () => {
+        await faqPage.newFAQButton.click();
+        await expect(faqPage.faqModal).toBeVisible();
 
-      await faqPage
-        .faqQuestionInput(faqPage.faqModal)
-        .fill("Test question for error");
-      await faqPage
-        .faqAnswerInput(faqPage.faqModal)
-        .fill("Test answer for error");
-      await faqPage.faqSubmitButton(faqPage.faqModal).click();
+        await faqPage
+          .faqQuestionInput(faqPage.faqModal)
+          .fill("Test question for error");
+        await faqPage
+          .faqAnswerInput(faqPage.faqModal)
+          .fill("Test answer for error");
+        await faqPage.faqSubmitButton(faqPage.faqModal).click();
+      });
 
-      await expect(errorToast(page)).toBeVisible();
-      await expect(faqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Assert error toast; modal stays open", async () => {
+        await expect(errorToast(page)).toBeVisible();
+        await expect(faqPage.faqModal).toBeVisible();
+      });
     });
 
     // MARK: Delete — 403
@@ -77,32 +87,42 @@ test.describe(
       const initialCount = await faqPage.getFAQCount();
       if (initialCount === 0) test.skip();
 
-      await page.route(
-        "**/api/auth/communities/organization_faqs/**",
-        async (route) => {
-          if (route.request().method() !== "DELETE") {
-            await route.continue();
-            return;
-          }
-          await route.fulfill({
-            status: 403,
-            contentType: "application/json",
-            body: JSON.stringify({ detail: "You do not have permission." }),
-          });
+      await withTestStep(
+        testInfo,
+        "Mock DELETE organization_faqs → 403",
+        async () => {
+          await page.route(
+            "**/api/auth/communities/organization_faqs/**",
+            async (route) => {
+              if (route.request().method() !== "DELETE") {
+                await route.continue();
+                return;
+              }
+              await route.fulfill({
+                status: 403,
+                contentType: "application/json",
+                body: JSON.stringify({ detail: "You do not have permission." }),
+              });
+            }
+          );
         }
       );
 
-      await faqPage
-        .getFAQDeleteButton(0)
-        .evaluate((el: HTMLElement) => el.click());
+      await withTestStep(testInfo, "Confirm delete on first FAQ", async () => {
+        await faqPage
+          .getFAQDeleteButton(0)
+          .evaluate((el: HTMLElement) => el.click());
 
-      await expect(faqDeleteModal(page)).toBeVisible();
-      await faqDeleteModal(page)
-        .getByRole("button", { name: "Confirm" })
-        .click();
+        await expect(faqDeleteModal(page)).toBeVisible();
+        await faqDeleteModal(page)
+          .getByRole("button", { name: "Confirm" })
+          .click();
+      });
 
-      await expect(errorToast(page)).toBeVisible();
-      await expect(faqPage.faqCards).toHaveCount(initialCount);
+      await withTestStep(testInfo, "Assert error toast; list unchanged", async () => {
+        await expect(errorToast(page)).toBeVisible();
+        await expect(faqPage.faqCards).toHaveCount(initialCount);
+      });
     });
 
     // MARK: Create — 429
@@ -113,35 +133,45 @@ test.describe(
       logTestPath(testInfo);
       const { faqPage } = newOrganizationPage(page);
 
-      await page.route(
-        "**/api/auth/communities/organization_faqs",
-        async (route) => {
-          if (route.request().method() !== "POST") {
-            await route.continue();
-            return;
-          }
-          await route.fulfill({
-            status: 429,
-            headers: { "Retry-After": "60" },
-            contentType: "application/json",
-            body: JSON.stringify({ detail: "Too many requests." }),
-          });
+      await withTestStep(
+        testInfo,
+        "Mock POST organization_faqs → 429",
+        async () => {
+          await page.route(
+            "**/api/auth/communities/organization_faqs",
+            async (route) => {
+              if (route.request().method() !== "POST") {
+                await route.continue();
+                return;
+              }
+              await route.fulfill({
+                status: 429,
+                headers: { "Retry-After": "60" },
+                contentType: "application/json",
+                body: JSON.stringify({ detail: "Too many requests." }),
+              });
+            }
+          );
         }
       );
 
-      await faqPage.newFAQButton.click();
-      await expect(faqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Submit new FAQ form", async () => {
+        await faqPage.newFAQButton.click();
+        await expect(faqPage.faqModal).toBeVisible();
 
-      await faqPage
-        .faqQuestionInput(faqPage.faqModal)
-        .fill("Test question for rate limit");
-      await faqPage
-        .faqAnswerInput(faqPage.faqModal)
-        .fill("Test answer for rate limit");
-      await faqPage.faqSubmitButton(faqPage.faqModal).click();
+        await faqPage
+          .faqQuestionInput(faqPage.faqModal)
+          .fill("Test question for rate limit");
+        await faqPage
+          .faqAnswerInput(faqPage.faqModal)
+          .fill("Test answer for rate limit");
+        await faqPage.faqSubmitButton(faqPage.faqModal).click();
+      });
 
-      await expect(errorToast(page)).toBeVisible();
-      await expect(faqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Assert error toast; modal stays open", async () => {
+        await expect(errorToast(page)).toBeVisible();
+        await expect(faqPage.faqModal).toBeVisible();
+      });
     });
 
     // MARK: Create — network abort
@@ -152,29 +182,39 @@ test.describe(
       logTestPath(testInfo);
       const { faqPage } = newOrganizationPage(page);
 
-      await page.route(
-        "**/api/auth/communities/organization_faqs",
-        async (route) => {
-          if (route.request().method() !== "POST") {
-            await route.continue();
-            return;
-          }
-          await route.abort("failed");
+      await withTestStep(
+        testInfo,
+        "Mock POST organization_faqs → abort",
+        async () => {
+          await page.route(
+            "**/api/auth/communities/organization_faqs",
+            async (route) => {
+              if (route.request().method() !== "POST") {
+                await route.continue();
+                return;
+              }
+              await route.abort("failed");
+            }
+          );
         }
       );
 
-      await faqPage.newFAQButton.click();
-      await expect(faqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Submit new FAQ form", async () => {
+        await faqPage.newFAQButton.click();
+        await expect(faqPage.faqModal).toBeVisible();
 
-      await faqPage
-        .faqQuestionInput(faqPage.faqModal)
-        .fill("Test question for abort");
-      await faqPage
-        .faqAnswerInput(faqPage.faqModal)
-        .fill("Test answer for abort");
-      await faqPage.faqSubmitButton(faqPage.faqModal).click();
+        await faqPage
+          .faqQuestionInput(faqPage.faqModal)
+          .fill("Test question for abort");
+        await faqPage
+          .faqAnswerInput(faqPage.faqModal)
+          .fill("Test answer for abort");
+        await faqPage.faqSubmitButton(faqPage.faqModal).click();
+      });
 
-      await expect(errorToast(page)).toBeVisible();
+      await withTestStep(testInfo, "Assert error toast", async () => {
+        await expect(errorToast(page)).toBeVisible();
+      });
     });
   }
 );

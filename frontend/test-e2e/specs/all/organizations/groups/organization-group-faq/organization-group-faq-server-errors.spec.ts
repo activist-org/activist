@@ -2,7 +2,7 @@
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
 
 const errorToast = (page: Parameters<typeof newOrganizationPage>[0]) =>
   page.locator(
@@ -32,31 +32,37 @@ test.describe(
       logTestPath(testInfo);
       const { groupFaqPage } = newOrganizationPage(page);
 
-      await page.route("**/api/auth/communities/group_faqs", async (route) => {
-        if (route.request().method() !== "POST") {
-          await route.continue();
-          return;
-        }
-        await route.fulfill({
-          status: 500,
-          contentType: "application/json",
-          body: JSON.stringify({ detail: "Internal server error." }),
+      await withTestStep(testInfo, "Mock POST group_faqs → 500", async () => {
+        await page.route("**/api/auth/communities/group_faqs", async (route) => {
+          if (route.request().method() !== "POST") {
+            await route.continue();
+            return;
+          }
+          await route.fulfill({
+            status: 500,
+            contentType: "application/json",
+            body: JSON.stringify({ detail: "Internal server error." }),
+          });
         });
       });
 
-      await groupFaqPage.newFaqButton.click();
-      await expect(groupFaqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Submit new FAQ form", async () => {
+        await groupFaqPage.newFaqButton.click();
+        await expect(groupFaqPage.faqModal).toBeVisible();
 
-      await groupFaqPage
-        .getFaqQuestionInput(groupFaqPage.faqModal)
-        .fill("Test question for error");
-      await groupFaqPage
-        .getFaqAnswerInput(groupFaqPage.faqModal)
-        .fill("Test answer for error");
-      await groupFaqPage.getFaqSubmitButton(groupFaqPage.faqModal).click();
+        await groupFaqPage
+          .getFaqQuestionInput(groupFaqPage.faqModal)
+          .fill("Test question for error");
+        await groupFaqPage
+          .getFaqAnswerInput(groupFaqPage.faqModal)
+          .fill("Test answer for error");
+        await groupFaqPage.getFaqSubmitButton(groupFaqPage.faqModal).click();
+      });
 
-      await expect(errorToast(page)).toBeVisible();
-      await expect(groupFaqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Assert error toast; modal stays open", async () => {
+        await expect(errorToast(page)).toBeVisible();
+        await expect(groupFaqPage.faqModal).toBeVisible();
+      });
     });
 
     // MARK: Delete — 403
@@ -74,9 +80,8 @@ test.describe(
       const initialCount = await groupFaqPage.getFaqCount();
       if (initialCount === 0) test.skip();
 
-      await page.route(
-        "**/api/auth/communities/group_faqs/**",
-        async (route) => {
+      await withTestStep(testInfo, "Mock DELETE group_faqs → 403", async () => {
+        await page.route("**/api/auth/communities/group_faqs/**", async (route) => {
           if (route.request().method() !== "DELETE") {
             await route.continue();
             return;
@@ -86,20 +91,24 @@ test.describe(
             contentType: "application/json",
             body: JSON.stringify({ detail: "You do not have permission." }),
           });
-        }
-      );
+        });
+      });
 
-      await groupFaqPage
-        .getFaqDeleteButton(0)
-        .evaluate((el: HTMLElement) => el.click());
+      await withTestStep(testInfo, "Confirm delete on first FAQ", async () => {
+        await groupFaqPage
+          .getFaqDeleteButton(0)
+          .evaluate((el: HTMLElement) => el.click());
 
-      await expect(faqDeleteModal(page)).toBeVisible();
-      await faqDeleteModal(page)
-        .getByRole("button", { name: "Confirm" })
-        .click();
+        await expect(faqDeleteModal(page)).toBeVisible();
+        await faqDeleteModal(page)
+          .getByRole("button", { name: "Confirm" })
+          .click();
+      });
 
-      await expect(errorToast(page)).toBeVisible();
-      await expect(groupFaqPage.faqCards).toHaveCount(initialCount);
+      await withTestStep(testInfo, "Assert error toast; list unchanged", async () => {
+        await expect(errorToast(page)).toBeVisible();
+        await expect(groupFaqPage.faqCards).toHaveCount(initialCount);
+      });
     });
 
     // MARK: Create — 429
@@ -110,32 +119,38 @@ test.describe(
       logTestPath(testInfo);
       const { groupFaqPage } = newOrganizationPage(page);
 
-      await page.route("**/api/auth/communities/group_faqs", async (route) => {
-        if (route.request().method() !== "POST") {
-          await route.continue();
-          return;
-        }
-        await route.fulfill({
-          status: 429,
-          headers: { "Retry-After": "60" },
-          contentType: "application/json",
-          body: JSON.stringify({ detail: "Too many requests." }),
+      await withTestStep(testInfo, "Mock POST group_faqs → 429", async () => {
+        await page.route("**/api/auth/communities/group_faqs", async (route) => {
+          if (route.request().method() !== "POST") {
+            await route.continue();
+            return;
+          }
+          await route.fulfill({
+            status: 429,
+            headers: { "Retry-After": "60" },
+            contentType: "application/json",
+            body: JSON.stringify({ detail: "Too many requests." }),
+          });
         });
       });
 
-      await groupFaqPage.newFaqButton.click();
-      await expect(groupFaqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Submit new FAQ form", async () => {
+        await groupFaqPage.newFaqButton.click();
+        await expect(groupFaqPage.faqModal).toBeVisible();
 
-      await groupFaqPage
-        .getFaqQuestionInput(groupFaqPage.faqModal)
-        .fill("Test question for rate limit");
-      await groupFaqPage
-        .getFaqAnswerInput(groupFaqPage.faqModal)
-        .fill("Test answer for rate limit");
-      await groupFaqPage.getFaqSubmitButton(groupFaqPage.faqModal).click();
+        await groupFaqPage
+          .getFaqQuestionInput(groupFaqPage.faqModal)
+          .fill("Test question for rate limit");
+        await groupFaqPage
+          .getFaqAnswerInput(groupFaqPage.faqModal)
+          .fill("Test answer for rate limit");
+        await groupFaqPage.getFaqSubmitButton(groupFaqPage.faqModal).click();
+      });
 
-      await expect(errorToast(page)).toBeVisible();
-      await expect(groupFaqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Assert error toast; modal stays open", async () => {
+        await expect(errorToast(page)).toBeVisible();
+        await expect(groupFaqPage.faqModal).toBeVisible();
+      });
     });
 
     // MARK: Create — network abort
@@ -146,26 +161,32 @@ test.describe(
       logTestPath(testInfo);
       const { groupFaqPage } = newOrganizationPage(page);
 
-      await page.route("**/api/auth/communities/group_faqs", async (route) => {
-        if (route.request().method() !== "POST") {
-          await route.continue();
-          return;
-        }
-        await route.abort("failed");
+      await withTestStep(testInfo, "Mock POST group_faqs → abort", async () => {
+        await page.route("**/api/auth/communities/group_faqs", async (route) => {
+          if (route.request().method() !== "POST") {
+            await route.continue();
+            return;
+          }
+          await route.abort("failed");
+        });
       });
 
-      await groupFaqPage.newFaqButton.click();
-      await expect(groupFaqPage.faqModal).toBeVisible();
+      await withTestStep(testInfo, "Submit new FAQ form", async () => {
+        await groupFaqPage.newFaqButton.click();
+        await expect(groupFaqPage.faqModal).toBeVisible();
 
-      await groupFaqPage
-        .getFaqQuestionInput(groupFaqPage.faqModal)
-        .fill("Test question for abort");
-      await groupFaqPage
-        .getFaqAnswerInput(groupFaqPage.faqModal)
-        .fill("Test answer for abort");
-      await groupFaqPage.getFaqSubmitButton(groupFaqPage.faqModal).click();
+        await groupFaqPage
+          .getFaqQuestionInput(groupFaqPage.faqModal)
+          .fill("Test question for abort");
+        await groupFaqPage
+          .getFaqAnswerInput(groupFaqPage.faqModal)
+          .fill("Test answer for abort");
+        await groupFaqPage.getFaqSubmitButton(groupFaqPage.faqModal).click();
+      });
 
-      await expect(errorToast(page)).toBeVisible();
+      await withTestStep(testInfo, "Assert error toast", async () => {
+        await expect(errorToast(page)).toBeVisible();
+      });
     });
   }
 );

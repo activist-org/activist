@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { TestInfo } from "@playwright/test";
+import { test } from "@playwright/test";
 
 /**
- * Enhanced test traceability utilities using Playwright 1.55.1 features
+ * Test traceability helpers (console + Playwright traces).
  */
 
 /**
@@ -21,19 +22,15 @@ export function logTestPath(
 }
 
 /**
- * Creates a test step with enhanced traceability
- * @param testInfo - Playwright test info object
- * @param stepName - Name of the test step
- * @param stepFunction - Function to execute for the step
+ * Named step for **HTML report + trace viewer** (`test.step`).
+ * `testInfo` is kept for call-site compatibility; use `logTestPath(testInfo)` when you need console hierarchy.
  */
 export async function withTestStep<T>(
-  testInfo: TestInfo,
+  _testInfo: TestInfo,
   stepName: string,
   stepFunction: () => Promise<T>
 ): Promise<T> {
-  // eslint-disable-next-line no-console
-  console.log(`  ➡️  Step: ${stepName}`);
-  return await stepFunction();
+  return test.step(stepName, stepFunction);
 }
 
 /**
