@@ -12,6 +12,17 @@
         :options="optionViews"
       />
     </div>
+    <div v-if="hasActiveFilters" class="px-1">
+      <BtnAction
+      @click="clearFilters"
+      ariaLabel="i18n.components.sidebar.left.filter._global.clear_filters_button_aria_label"
+      class="w-full text-nowrap"
+      :cta="true"
+      fontSize="base"
+      label="Clear Filters"
+      :leftIcon="IconMap.X_LG"
+    />
+    </div>
     <Form
       :key="formKey"
       @submit="handleSubmit"
@@ -250,7 +261,22 @@ watch(
   },
   { immediate: true }
 );
+const hasActiveFilters = computed(() =>
+  Object.keys(route.query).some((k) => k !== "view")
+);
+
+const isClearing = ref(false);
+
+const clearFilters = async () => {
+  isClearing.value = true;
+  formData.value = {};
+  formKey.value++;
+  await router.push({ query: { view: viewType.value } });
+  isClearing.value = false;
+};
+
 const handleSubmit = (_values: unknown) => {
+  if (isClearing.value) return;
   if (!currentRoutePathIncludes("events", route.name?.toString() ?? "")) return;
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
