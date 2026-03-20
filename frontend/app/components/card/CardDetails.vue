@@ -80,9 +80,9 @@ const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
 
-const aboveMediumBP = useBreakpoint("md");
-const eventLinkUrl = computed(() => {
-  const base = `/events/${event.value?.id}`;
-  return aboveMediumBP.value ? `${base}/about` : base;
+const { linkUrl: eventLinkUrl } = useLinkURL({
+  get event() {
+    return event.value ?? undefined;
+  },
 });
 </script>
