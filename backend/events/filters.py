@@ -25,6 +25,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         field_name="topics__type",  # simply "topics" if you want to filter by ID
         to_field_name="type",  # the field on Topic model to match against
         queryset=Topic.objects.all(),
+        method="filter_topics",
     )
     location = django_filters.CharFilter(
         field_name="physical_location__address_or_name",
@@ -47,6 +48,39 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
     )
 
     id = django_filters.CharFilter(method="filter_ids")
+
+    def filter_topics(
+        self,
+        queryset: QuerySet[Any, Any],
+        name: str,
+        value: QuerySet[Topic] | list[Any],
+    ) -> QuerySet[Any, Any]:
+        """
+        Filter by topic type; type hint helps drf-spectacular infer schema.
+
+        Parameters
+        ----------
+        queryset : QuerySet[Any, Any]
+            Base queryset of events.
+
+        name : str
+            Filter field name (unused).
+
+        value : QuerySet[Topic] | list[Any]
+            Selected Topic instances or list of topic types to filter by.
+
+        Returns
+        -------
+        QuerySet[Any, Any]
+            Events filtered by the given topic type(s).
+        """
+        if not value:
+            return queryset
+        if hasattr(value, "values_list"):
+            types = list(value.values_list("type", flat=True))
+        else:
+            types = [getattr(t, "type", t) for t in value]
+        return queryset.filter(topics__type__in=types)
 
     def filter_ids(
         self, queryset: QuerySet[Any, Any], name: str, _value: str
@@ -121,6 +155,7 @@ class EventFilters(django_filters.FilterSet):  # type: ignore[misc]
         now = timezone.now()
 
         try:
+            # Note: We need the int cast as days could be decimal.Decimal.
             days_ahead_int = int(days)
 
         except Exception:
