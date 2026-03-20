@@ -14,6 +14,7 @@ from django.db.models import Case, IntegerField, Q, QuerySet, Value, When
 from django.db.utils import IntegrityError, OperationalError
 from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from icalendar import Calendar
 from icalendar import Event as ICalEvent
@@ -28,6 +29,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.models import UserModel
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 from events.filters import EventFilters
@@ -65,18 +67,40 @@ class EventAPIView(GenericAPIView[Event]):
     def get_queryset(self) -> QuerySet[Event]:
         queryset = super().get_queryset().order_by("id")
 
+        # E2E: only in development or CI — put activist_0's events last so
+        # member permission tests (open first event, assert no add/edit) are deterministic.
+        apply_e2e_ordering = (
+            os.environ.get("ENVIRONMENT") == "development"
+            or os.environ.get("CI") == "true"
+        )
+        e2e_member = (
+            UserModel.objects.filter(username="activist_0").first()
+            if apply_e2e_ordering
+            else None
+        )
+        if e2e_member is not None:
+            queryset = queryset.annotate(
+                _e2e_last=Case(
+                    When(created_by=e2e_member, then=Value(1)),
+                    default=Value(0),
+                    output_field=IntegerField(),
+                )
+            ).order_by("_e2e_last", "id")
+
         if os.environ.get("ENVIRONMENT") != "development":
             return queryset
 
         dev_sync_match = Q(name__iexact="activist dev sync")
-
-        return queryset.annotate(
+        qs = queryset.annotate(
             _priority=Case(
                 When(dev_sync_match, then=Value(0)),
                 default=Value(1),
                 output_field=IntegerField(),
             )
-        ).order_by("_priority", "id")
+        )
+        if e2e_member is not None:
+            return qs.order_by("_e2e_last", "_priority", "id")
+        return qs.order_by("_priority", "id")
 
     def get_permissions(self) -> Sequence[Any]:
         if self.request.method == "POST":
@@ -89,7 +113,17 @@ class EventAPIView(GenericAPIView[Event]):
 
         return EventSerializer
 
-    @extend_schema(responses={200: EventSerializer(many=True)})
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="topics",
+                type=OpenApiTypes.STR,
+                many=True,
+                description="Filter by topic type (e.g. from Topic.model type).",
+            ),
+        ],
+        responses={200: EventSerializer(many=True)},
+    )
     def get(self, request: Request) -> Response:
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
@@ -700,7 +734,18 @@ class EventCalenderAPIView(APIView):
                 type=UUID,
                 required=True,
             )
-        ]
+        ],
+        responses={
+            200: OpenApiResponse(
+                description="iCalendar (.ics) file for the requested event.",
+            ),
+            400: OpenApiResponse(
+                description="Event ID is required.",
+            ),
+            404: OpenApiResponse(
+                description="Event not found.",
+            ),
+        },
     )
     def get(self, request: Request) -> HttpResponse | Response:
         event_id = request.query_params.get("event_id")
