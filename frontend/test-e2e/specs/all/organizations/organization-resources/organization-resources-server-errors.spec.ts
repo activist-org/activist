@@ -2,7 +2,7 @@
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/testTraceability";
 
 const errorToast = (page: Parameters<typeof newOrganizationPage>[0]) =>
   page.locator(
@@ -32,49 +32,39 @@ test.describe(
       logTestPath(testInfo);
       const { resourcesPage } = newOrganizationPage(page);
 
-      await withTestStep(
-        testInfo,
-        "Mock POST organization_resources → 500",
-        async () => {
-          await page.route(
-            "**/api/auth/communities/organization_resources",
-            async (route) => {
-              if (route.request().method() !== "POST") {
-                await route.continue();
-                return;
-              }
-              await route.fulfill({
-                status: 500,
-                contentType: "application/json",
-                body: JSON.stringify({ detail: "Internal server error." }),
-              });
-            }
-          );
+      await page.route(
+        "**/api/auth/communities/organization_resources",
+        async (route) => {
+          if (route.request().method() !== "POST") {
+            await route.continue();
+            return;
+          }
+          await route.fulfill({
+            status: 500,
+            contentType: "application/json",
+            body: JSON.stringify({ detail: "Internal server error." }),
+          });
         }
       );
 
-      await withTestStep(testInfo, "Submit new resource form", async () => {
-        await resourcesPage.newResourceButton.click();
-        await expect(resourcesPage.resourceModal).toBeVisible();
+      await resourcesPage.newResourceButton.click();
+      await expect(resourcesPage.resourceModal).toBeVisible();
 
-        await resourcesPage
-          .resourceNameInput(resourcesPage.resourceModal)
-          .fill("Test resource name");
-        await resourcesPage
-          .resourceDescriptionInput(resourcesPage.resourceModal)
-          .fill("Test resource description");
-        await resourcesPage
-          .resourceUrlInput(resourcesPage.resourceModal)
-          .fill("https://example.com");
-        await resourcesPage
-          .resourceSubmitButton(resourcesPage.resourceModal)
-          .click();
-      });
+      await resourcesPage
+        .resourceNameInput(resourcesPage.resourceModal)
+        .fill("Test resource name");
+      await resourcesPage
+        .resourceDescriptionInput(resourcesPage.resourceModal)
+        .fill("Test resource description");
+      await resourcesPage
+        .resourceUrlInput(resourcesPage.resourceModal)
+        .fill("https://example.com");
+      await resourcesPage
+        .resourceSubmitButton(resourcesPage.resourceModal)
+        .click();
 
-      await withTestStep(testInfo, "Assert error toast; modal stays open", async () => {
-        await expect(errorToast(page)).toBeVisible();
-        await expect(resourcesPage.resourceModal).toBeVisible();
-      });
+      await expect(errorToast(page)).toBeVisible();
+      await expect(resourcesPage.resourceModal).toBeVisible();
     });
 
     // MARK: Delete — 403
@@ -92,42 +82,32 @@ test.describe(
       const initialCount = await resourcesPage.getResourceCount();
       if (initialCount === 0) test.skip();
 
-      await withTestStep(
-        testInfo,
-        "Mock DELETE organization_resources → 403",
-        async () => {
-          await page.route(
-            "**/api/auth/communities/organization_resources/**",
-            async (route) => {
-              if (route.request().method() !== "DELETE") {
-                await route.continue();
-                return;
-              }
-              await route.fulfill({
-                status: 403,
-                contentType: "application/json",
-                body: JSON.stringify({ detail: "You do not have permission." }),
-              });
-            }
-          );
+      await page.route(
+        "**/api/auth/communities/organization_resources/**",
+        async (route) => {
+          if (route.request().method() !== "DELETE") {
+            await route.continue();
+            return;
+          }
+          await route.fulfill({
+            status: 403,
+            contentType: "application/json",
+            body: JSON.stringify({ detail: "You do not have permission." }),
+          });
         }
       );
 
-      await withTestStep(testInfo, "Confirm delete on first resource", async () => {
-        await resourcesPage
-          .getResourceDeleteButton(0)
-          .evaluate((el: HTMLElement) => el.click());
+      await resourcesPage
+        .getResourceDeleteButton(0)
+        .evaluate((el: HTMLElement) => el.click());
 
-        await expect(resourceDeleteModal(page)).toBeVisible();
-        await resourceDeleteModal(page)
-          .getByRole("button", { name: "Confirm" })
-          .click();
-      });
+      await expect(resourceDeleteModal(page)).toBeVisible();
+      await resourceDeleteModal(page)
+        .getByRole("button", { name: "Confirm" })
+        .click();
 
-      await withTestStep(testInfo, "Assert error toast; list unchanged", async () => {
-        await expect(errorToast(page)).toBeVisible();
-        await expect(resourcesPage.resourceCards).toHaveCount(initialCount);
-      });
+      await expect(errorToast(page)).toBeVisible();
+      await expect(resourcesPage.resourceCards).toHaveCount(initialCount);
     });
 
     // MARK: Create — 429
@@ -138,50 +118,40 @@ test.describe(
       logTestPath(testInfo);
       const { resourcesPage } = newOrganizationPage(page);
 
-      await withTestStep(
-        testInfo,
-        "Mock POST organization_resources → 429",
-        async () => {
-          await page.route(
-            "**/api/auth/communities/organization_resources",
-            async (route) => {
-              if (route.request().method() !== "POST") {
-                await route.continue();
-                return;
-              }
-              await route.fulfill({
-                status: 429,
-                headers: { "Retry-After": "60" },
-                contentType: "application/json",
-                body: JSON.stringify({ detail: "Too many requests." }),
-              });
-            }
-          );
+      await page.route(
+        "**/api/auth/communities/organization_resources",
+        async (route) => {
+          if (route.request().method() !== "POST") {
+            await route.continue();
+            return;
+          }
+          await route.fulfill({
+            status: 429,
+            headers: { "Retry-After": "60" },
+            contentType: "application/json",
+            body: JSON.stringify({ detail: "Too many requests." }),
+          });
         }
       );
 
-      await withTestStep(testInfo, "Submit new resource form", async () => {
-        await resourcesPage.newResourceButton.click();
-        await expect(resourcesPage.resourceModal).toBeVisible();
+      await resourcesPage.newResourceButton.click();
+      await expect(resourcesPage.resourceModal).toBeVisible();
 
-        await resourcesPage
-          .resourceNameInput(resourcesPage.resourceModal)
-          .fill("Test resource name");
-        await resourcesPage
-          .resourceDescriptionInput(resourcesPage.resourceModal)
-          .fill("Test resource description");
-        await resourcesPage
-          .resourceUrlInput(resourcesPage.resourceModal)
-          .fill("https://example.com");
-        await resourcesPage
-          .resourceSubmitButton(resourcesPage.resourceModal)
-          .click();
-      });
+      await resourcesPage
+        .resourceNameInput(resourcesPage.resourceModal)
+        .fill("Test resource name");
+      await resourcesPage
+        .resourceDescriptionInput(resourcesPage.resourceModal)
+        .fill("Test resource description");
+      await resourcesPage
+        .resourceUrlInput(resourcesPage.resourceModal)
+        .fill("https://example.com");
+      await resourcesPage
+        .resourceSubmitButton(resourcesPage.resourceModal)
+        .click();
 
-      await withTestStep(testInfo, "Assert error toast; modal stays open", async () => {
-        await expect(errorToast(page)).toBeVisible();
-        await expect(resourcesPage.resourceModal).toBeVisible();
-      });
+      await expect(errorToast(page)).toBeVisible();
+      await expect(resourcesPage.resourceModal).toBeVisible();
     });
 
     // MARK: Create — network abort
@@ -192,44 +162,34 @@ test.describe(
       logTestPath(testInfo);
       const { resourcesPage } = newOrganizationPage(page);
 
-      await withTestStep(
-        testInfo,
-        "Mock POST organization_resources → abort",
-        async () => {
-          await page.route(
-            "**/api/auth/communities/organization_resources",
-            async (route) => {
-              if (route.request().method() !== "POST") {
-                await route.continue();
-                return;
-              }
-              await route.abort("failed");
-            }
-          );
+      await page.route(
+        "**/api/auth/communities/organization_resources",
+        async (route) => {
+          if (route.request().method() !== "POST") {
+            await route.continue();
+            return;
+          }
+          await route.abort("failed");
         }
       );
 
-      await withTestStep(testInfo, "Submit new resource form", async () => {
-        await resourcesPage.newResourceButton.click();
-        await expect(resourcesPage.resourceModal).toBeVisible();
+      await resourcesPage.newResourceButton.click();
+      await expect(resourcesPage.resourceModal).toBeVisible();
 
-        await resourcesPage
-          .resourceNameInput(resourcesPage.resourceModal)
-          .fill("Test resource name");
-        await resourcesPage
-          .resourceDescriptionInput(resourcesPage.resourceModal)
-          .fill("Test resource description");
-        await resourcesPage
-          .resourceUrlInput(resourcesPage.resourceModal)
-          .fill("https://example.com");
-        await resourcesPage
-          .resourceSubmitButton(resourcesPage.resourceModal)
-          .click();
-      });
+      await resourcesPage
+        .resourceNameInput(resourcesPage.resourceModal)
+        .fill("Test resource name");
+      await resourcesPage
+        .resourceDescriptionInput(resourcesPage.resourceModal)
+        .fill("Test resource description");
+      await resourcesPage
+        .resourceUrlInput(resourcesPage.resourceModal)
+        .fill("https://example.com");
+      await resourcesPage
+        .resourceSubmitButton(resourcesPage.resourceModal)
+        .click();
 
-      await withTestStep(testInfo, "Assert error toast", async () => {
-        await expect(errorToast(page)).toBeVisible();
-      });
+      await expect(errorToast(page)).toBeVisible();
     });
   }
 );
