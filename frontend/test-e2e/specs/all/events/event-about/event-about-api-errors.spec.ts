@@ -7,7 +7,7 @@
 import type { Page } from "@playwright/test";
 
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/testTraceability";
 
 /** Stable UUID; list GET uses `/events/events?…` (no trailing id). */
 const MOCK_EVENT_ID = "00000000-0000-4000-8000-00000000e2e1";
@@ -77,17 +77,13 @@ test.describe(
         detail: "E2E: event detail request failed.",
       });
 
-      await withTestStep(testInfo, "Open event about with mocked 500", async () => {
-        await page.goto(`/events/${MOCK_EVENT_ID}/about`);
-      });
+      await page.goto(`/events/${MOCK_EVENT_ID}/about`);
 
-      await withTestStep(testInfo, "Assert error.vue", async () => {
-        await expectNuxtFatalErrorPage(
-          page,
-          500,
-          /E2E: event detail request failed/i
-        );
-      });
+      await expectNuxtFatalErrorPage(
+        page,
+        500,
+        /E2E: event detail request failed/i
+      );
     });
 
     test("Not found (404) shows fatal error page with API detail", async ({
@@ -99,17 +95,13 @@ test.describe(
         detail: "E2E: no event with this identifier.",
       });
 
-      await withTestStep(testInfo, "Open event about with mocked 404", async () => {
-        await page.goto(`/events/${MOCK_EVENT_ID}/about`);
-      });
+      await page.goto(`/events/${MOCK_EVENT_ID}/about`);
 
-      await withTestStep(testInfo, "Assert error.vue", async () => {
-        await expectNuxtFatalErrorPage(
-          page,
-          404,
-          /E2E: no event with this identifier/i
-        );
-      });
+      await expectNuxtFatalErrorPage(
+        page,
+        404,
+        /E2E: no event with this identifier/i
+      );
     });
 
     test("Forbidden (403) shows fatal error page with API detail", async ({
@@ -121,17 +113,13 @@ test.describe(
         detail: "E2E: you cannot view this event.",
       });
 
-      await withTestStep(testInfo, "Open event about with mocked 403", async () => {
-        await page.goto(`/events/${MOCK_EVENT_ID}/about`);
-      });
+      await page.goto(`/events/${MOCK_EVENT_ID}/about`);
 
-      await withTestStep(testInfo, "Assert error.vue", async () => {
-        await expectNuxtFatalErrorPage(
-          page,
-          403,
-          /E2E: you cannot view this event/i
-        );
-      });
+      await expectNuxtFatalErrorPage(
+        page,
+        403,
+        /E2E: you cannot view this event/i
+      );
     });
   }
 );
