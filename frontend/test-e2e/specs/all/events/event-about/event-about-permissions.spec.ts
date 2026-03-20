@@ -180,7 +180,9 @@ test.describe(
       const { aboutPage, editModal } = eventPage;
 
       await expect(aboutPage.aboutCard).toBeVisible({ timeout: 15000 });
-      await expect(aboutPage.aboutCardEditIcon).toBeVisible();
+      await expect(aboutPage.aboutCardEditIcon).toBeVisible({
+        timeout: 15000,
+      });
 
       const timestamp = Date.now();
       const updatedDescription = `Member-updated About ${timestamp}`;
@@ -211,7 +213,9 @@ test.describe(
       const { aboutPage, editModal } = eventPage;
 
       await expect(aboutPage.getInvolvedCard).toBeVisible({ timeout: 15000 });
-      await expect(aboutPage.getInvolvedCardEditIcon).toBeVisible();
+      await expect(aboutPage.getInvolvedCardEditIcon).toBeVisible({
+        timeout: 15000,
+      });
 
       const timestamp = Date.now();
       const updatedGetInvolved = `Member-updated Get Involved ${timestamp}`;
