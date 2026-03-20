@@ -70,7 +70,6 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
-            :render-modal="false"
             type="meta-tag"
           />
           <ModalQRCodeBtn
@@ -79,7 +78,6 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
-            :render-modal="false"
             type="meta-tag"
           />
           <ModalQRCodeBtn
@@ -88,7 +86,6 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
-            :render-modal="false"
             type="meta-tag"
           />
           <ModalQRCodeBtn
@@ -96,7 +93,6 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
-            :render-modal="false"
             :resource="resource"
             type="meta-tag"
           />
@@ -105,7 +101,6 @@
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
-            :render-modal="false"
             type="meta-tag"
             :user="user"
           />
