@@ -7,7 +7,7 @@ import { newCreateEventModal } from "~/test-e2e/component-objects/CreateEventMod
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/testTraceability";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/home");
@@ -188,21 +188,17 @@ test.describe(
           const modal = newCreateEventModal(page);
           await expect(modal.eventDetailsForm).toBeVisible();
 
-          await withTestStep(
-            testInfo,
-            "axe modal — step 1 details",
-            async () => {
-              const violations = await runAccessibilityTestScoped(
-                "Event Create Modal step 1 event details",
-                page,
-                testInfo,
-                MODAL_A11Y_ROOT
-              );
-              expect
-                .soft(violations, "Accessibility violations (step 1):")
-                .toHaveLength(0);
-            }
-          );
+          await test.step("axe modal — step 1 details", async () => {
+            const violations = await runAccessibilityTestScoped(
+              "Event Create Modal step 1 event details",
+              page,
+              testInfo,
+              MODAL_A11Y_ROOT
+            );
+            expect
+              .soft(violations, "Accessibility violations (step 1):")
+              .toHaveLength(0);
+          });
         }
       );
 
@@ -214,21 +210,17 @@ test.describe(
           const modal = newCreateEventModal(page);
           await goToEventTypeStep(modal);
 
-          await withTestStep(
-            testInfo,
-            "axe modal — step 2 event type",
-            async () => {
-              const violations = await runAccessibilityTestScoped(
-                "Event Create Modal step 2 event type",
-                page,
-                testInfo,
-                MODAL_A11Y_ROOT
-              );
-              expect
-                .soft(violations, "Accessibility violations (step 2):")
-                .toHaveLength(0);
-            }
-          );
+          await test.step("axe modal — step 2 event type", async () => {
+            const violations = await runAccessibilityTestScoped(
+              "Event Create Modal step 2 event type",
+              page,
+              testInfo,
+              MODAL_A11Y_ROOT
+            );
+            expect
+              .soft(violations, "Accessibility violations (step 2):")
+              .toHaveLength(0);
+          });
         }
       );
 
@@ -240,21 +232,17 @@ test.describe(
           const modal = newCreateEventModal(page);
           await goToLinkOnlineStep(modal);
 
-          await withTestStep(
-            testInfo,
-            "axe modal — step 3 link online",
-            async () => {
-              const violations = await runAccessibilityTestScoped(
-                "Event Create Modal step 3 link online",
-                page,
-                testInfo,
-                MODAL_A11Y_ROOT
-              );
-              expect
-                .soft(violations, "Accessibility violations (step 3 online):")
-                .toHaveLength(0);
-            }
-          );
+          await test.step("axe modal — step 3 link online", async () => {
+            const violations = await runAccessibilityTestScoped(
+              "Event Create Modal step 3 link online",
+              page,
+              testInfo,
+              MODAL_A11Y_ROOT
+            );
+            expect
+              .soft(violations, "Accessibility violations (step 3 online):")
+              .toHaveLength(0);
+          });
         }
       );
 
@@ -266,21 +254,17 @@ test.describe(
           const modal = newCreateEventModal(page);
           await goToPhysicalLocationStep(modal);
 
-          await withTestStep(
-            testInfo,
-            "axe modal — step 3 physical location",
-            async () => {
-              const violations = await runAccessibilityTestScoped(
-                "Event Create Modal step 3 physical location",
-                page,
-                testInfo,
-                MODAL_A11Y_ROOT
-              );
-              expect
-                .soft(violations, "Accessibility violations (step 3 physical):")
-                .toHaveLength(0);
-            }
-          );
+          await test.step("axe modal — step 3 physical location", async () => {
+            const violations = await runAccessibilityTestScoped(
+              "Event Create Modal step 3 physical location",
+              page,
+              testInfo,
+              MODAL_A11Y_ROOT
+            );
+            expect
+              .soft(violations, "Accessibility violations (step 3 physical):")
+              .toHaveLength(0);
+          });
         }
       );
 
@@ -298,7 +282,7 @@ test.describe(
           await dayButtons.nth(1).click();
           await setFirstDayEndTimeToFuture(modal, page);
 
-          await withTestStep(testInfo, "axe modal — step 4 time", async () => {
+          await test.step("axe modal — step 4 time", async () => {
             const violations = await runAccessibilityTestScoped(
               "Event Create Modal step 4 date and time",
               page,
