@@ -204,7 +204,9 @@ function eventsListNextPath(nextUrl: string): string {
  * (`EventAPIView.get_queryset`), so this id is suitable for "member edits own
  * event" tests without relying on infinite scroll or UI timing.
  */
-export async function fetchLastEventIdFromEventsApi(page: Page): Promise<string> {
+export async function fetchLastEventIdFromEventsApi(
+  page: Page
+): Promise<string> {
   let path = "/api/auth/events/events?page_size=100";
   let lastId = "";
 
