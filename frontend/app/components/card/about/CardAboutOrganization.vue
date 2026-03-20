@@ -102,10 +102,10 @@ const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
 
 const { data: organization } = useGetOrganization(orgId);
 
-const aboveMediumBP = useBreakpoint("md");
-const orgLinkUrl = computed(() => {
-  const base = `/organizations/${organization.value?.id}`;
-  return aboveMediumBP.value ? `${base}/about` : base;
+const { linkUrl: orgLinkUrl } = useLinkURL({
+  get organization() {
+    return organization.value ?? undefined;
+  },
 });
 
 const description = ref();

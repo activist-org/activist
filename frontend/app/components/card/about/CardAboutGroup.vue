@@ -101,10 +101,10 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
 
-const aboveMediumBP = useBreakpoint("md");
-const groupLinkUrl = computed(() => {
-  const base = `/organizations/${group.value?.org.id}/groups/${group.value?.id}`;
-  return aboveMediumBP.value ? `${base}/about` : base;
+const { linkUrl: groupLinkUrl } = useLinkURL({
+  get group() {
+    return group.value ?? undefined;
+  },
 });
 
 const description = ref();
