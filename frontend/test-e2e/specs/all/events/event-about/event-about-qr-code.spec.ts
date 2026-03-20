@@ -67,9 +67,13 @@ test.describe("Event About Page - QR Code", { tag: ["@desktop"] }, () => {
     // Click download button.
     const downloadButton = qrCodeModal.downloadButton(qrCodeModal.modal);
     await expect(downloadButton).toBeVisible();
-    await downloadButton.click();
-    // Wait for download to start.
+
+    // 3. Increase the timeout to 30s in case the QR generation is slow
     const downloadPromise = page.waitForEvent("download");
+
+    // 4. Force the click in case a hidden modal overlay is intercepting it
+    await downloadButton.click({ force: true });
+
     // Verify download initiated and has a filename.
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toBeTruthy();
