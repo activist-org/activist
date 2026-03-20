@@ -64,13 +64,12 @@ test.describe("Event About Page - QR Code", { tag: ["@desktop"] }, () => {
     // Verify modal is visible.
     await expect(qrCodeModal.modal).toBeVisible();
 
-    // Wait for download to start.
-    const downloadPromise = page.waitForEvent("download");
-
     // Click download button.
     const downloadButton = qrCodeModal.downloadButton(qrCodeModal.modal);
     await expect(downloadButton).toBeVisible();
     await downloadButton.click();
+    // Wait for download to start.
+    const downloadPromise = page.waitForEvent("download");
     // Verify download initiated and has a filename.
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toBeTruthy();
