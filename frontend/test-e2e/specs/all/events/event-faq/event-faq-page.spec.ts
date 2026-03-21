@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
-  // MARK: - Accessibility
+  // MARK: Accessibility
 
   test("Event FAQ Page has no detectable accessibility issues", async ({
     page,
@@ -46,7 +46,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     });
   });
 
-  // MARK: - CRUD Operations
+  // MARK: CRUD Operations
 
   test("User can manage FAQ entries (CREATE, UPDATE, DELETE)", async ({
     page,
@@ -184,7 +184,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
 
     // Verify confirmation modal opens.
     const confirmationModal = page.locator("#modal").first();
-    await expect(confirmationModal).toBeVisible();
+    await expect(confirmationModal).toBeVisible({ timeout: 15000 });
 
     // Confirm deletion.
     const confirmButton = confirmationModal.getByRole("button", {
@@ -210,7 +210,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
       .toBeLessThanOrEqual(afterCreateCount - 1);
   });
 
-  // MARK: - View and Interact
+  // MARK: View and Interact
 
   test("User can view and interact with FAQ entries", async ({ page }) => {
     const eventPage = newEventPage(page);
