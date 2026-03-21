@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 const route = useRoute();
-const viewType = ref<ViewType>((route.query.view as ViewType) || ViewType.MAP);
+const viewType = ref<ViewType>((route.query.view as ViewType) || ViewType.LIST);
 const router = useRouter();
 const loadingFetchMore = ref(false);
 

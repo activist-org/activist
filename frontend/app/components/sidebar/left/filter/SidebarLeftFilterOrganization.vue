@@ -80,7 +80,11 @@ const handleSubmit = (_values: unknown) => {
       if (
         key === "topics" &&
         Array.isArray(input[key]) &&
-        input[key].length === 0
+        input[key].length === 0 &&
+        (!route.query.topics ||
+          route.query.topics === "" ||
+          (Array.isArray(route.query.topics) &&
+            route.query.topics.length === 0))
       ) {
         return;
       }
