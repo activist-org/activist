@@ -107,7 +107,7 @@
     "pinia-plugin-persistedstate": "4.7.1",
     "postcss": "8.5.6",
     "postcss-custom-properties": "15.0.0",
-    "qrcode.vue": "3.6.0",
+    "qrcode": "1.5.4",
     "reduced-motion": "1.0.4",
     "swiper": "12.1.2",
     "tailwind-scrollbar": "4.0.2",

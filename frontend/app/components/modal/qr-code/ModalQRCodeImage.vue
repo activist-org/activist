@@ -19,15 +19,13 @@
           :x="`${-quietZone}`"
           :y="`${-quietZone}`"
         />
-
-        <!-- Use an SVG image tag to embed the VueUse QR code base64 string -->
+        <!-- Use an SVG image tag to embed the VueUse QR code base64 string. -->
         <image
           class="qrimage"
           :height="codeSize"
           :href="svgRef"
           :width="codeSize"
         />
-
         <rect
           id="remove-top-edge-of-bottom"
           fill="#000000"
@@ -100,7 +98,7 @@ const logoBGRadius = ref(64);
 const logoSize = ref(40);
 const borderRadius = ref(24);
 
-// Safely evaluate window to prevent SSR errors
+// Safely evaluate window to prevent SSR errors.
 const getPath = computed(() => {
   if (props.codeURL && props.codeURL !== "") {
     return props.codeURL;
@@ -110,7 +108,7 @@ const getPath = computed(() => {
     : "https://activist.org";
 });
 
-// Configure the VueUse QR code. Margin is 0 because your outer SVG handles the quietZone borders!
+// Configure the VueUse QR code.
 const svgRef = useQRCode(getPath, {
   width: codeSize.value,
   margin: 0,
