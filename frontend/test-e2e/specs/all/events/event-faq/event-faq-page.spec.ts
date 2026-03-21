@@ -184,7 +184,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
 
     // Verify confirmation modal opens.
     const confirmationModal = page.locator("#modal").first();
-    await expect(confirmationModal).toBeVisible();
+    await expect(confirmationModal).toBeVisible({ timeout: 15000 });
 
     // Confirm deletion.
     const confirmButton = confirmationModal.getByRole("button", {

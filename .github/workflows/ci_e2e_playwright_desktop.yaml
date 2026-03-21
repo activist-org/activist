@@ -9,6 +9,7 @@ on:
       - reopened
       - synchronize
     paths:
+      # Note: We run only the desktop e2e tests for backend changes to catch regressions.
       - "backend/**"
       - "!backend/**/tests/**/*.py"
       - "frontend/**"
@@ -20,6 +21,7 @@ on:
     branches:
       - main
     paths:
+      # Note: We run only the desktop e2e tests for backend changes to catch regressions.
       - "backend/**"
       - "!backend/**/tests/**/*.py"
       - "frontend/**"

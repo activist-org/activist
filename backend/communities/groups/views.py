@@ -10,7 +10,8 @@ from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import OpenApiResponse, extend_schema
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
@@ -659,6 +660,16 @@ class GroupTextViewSet(GenericAPIView[GroupText]):
 # MARK: Image
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            "group_id",
+            OpenApiTypes.UUID,
+            location=OpenApiParameter.PATH,
+            description="Group UUID.",
+        ),
+    ],
+)
 class GroupImageViewSet(viewsets.ModelViewSet[Image]):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
