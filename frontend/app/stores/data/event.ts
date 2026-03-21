@@ -3,13 +3,15 @@ import { defineStore } from "pinia";
 
 import { createPaginationStore } from "../factories/pagination";
 
-// 1. The List/Pagination Store
+// MARK: List Store
+
 export const useEventListStore = createPaginationStore<
   CommunityEvent,
   EventFilters
 >("event-list");
 
-// 3. The Core Entity Store (Now it only cares about the single active event)
+// MARK: Entity Store
+
 export const useEventStore = defineStore("event", {
   state: () => ({
     event: null as unknown as CommunityEvent,

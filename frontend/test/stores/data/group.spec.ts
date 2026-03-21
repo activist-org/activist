@@ -5,9 +5,9 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { Group } from "../../../shared/types/group";
 
 import {
-  useGroupStore,
-  useGroupListStore,
   useGroupImageStore,
+  useGroupListStore,
+  useGroupStore,
 } from "../../../app/stores/data/group";
 import {
   createMockContentImage,
@@ -20,7 +20,8 @@ describe("Group Stores", () => {
     setActivePinia(createPinia());
   });
 
-  // MARK: - Core Entity Store (useGroupStore)
+  // MARK: Core Entity Store (useGroupStore)
+
   describe("useGroupStore", () => {
     it("initializes with null group", () => {
       const store = useGroupStore();
@@ -46,7 +47,8 @@ describe("Group Stores", () => {
     });
   });
 
-  // MARK: - Pagination & List Store (useGroupListStore)
+  // MARK: List Store (useGroupListStore)
+
   describe("useGroupListStore (Pagination Factory)", () => {
     describe("Initial State", () => {
       it("initializes with empty items array", () => {
@@ -124,7 +126,8 @@ describe("Group Stores", () => {
     });
   });
 
-  // MARK: - Images Store (useGroupImageStore)
+  // MARK: Images Store (useGroupImageStore)
+
   describe("useGroupImageStore (Image Factory)", () => {
     it("initializes with empty images array", () => {
       const store = useGroupImageStore();
@@ -157,7 +160,8 @@ describe("Group Stores", () => {
     });
   });
 
-  // MARK: - Integration Checks
+  // MARK: Integration Checks
+
   describe("Cross-store Independence", () => {
     it("updates in one store do not affect the others", () => {
       const coreStore = useGroupStore();

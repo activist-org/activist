@@ -6,7 +6,7 @@ import type { ContentImage } from "../../../shared/types/file-type"; // Adjust p
 
 import { createImageStore } from "../../../app/stores/factories/images";
 
-// Mock factory to create images easily
+// Mock factory to create images easily.
 const createMockImage = (overrides?: Partial<ContentImage>): ContentImage =>
   ({
     id: "img-123",
@@ -19,7 +19,7 @@ describe("createImageStore Factory", () => {
     setActivePinia(createPinia());
   });
 
-  // Create a test store using the factory
+  // Create a test store using the factory.
   const useTestImageStore = createImageStore("test-images");
 
   describe("Initial State", () => {

@@ -9,6 +9,7 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
   const organizationId = computed(() => String(unref(id)));
   const store = useOrganizationImageStore();
+
   // Cache key for useAsyncData.
   const cached = computed(
     () =>

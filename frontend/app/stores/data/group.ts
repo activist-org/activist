@@ -4,15 +4,18 @@ import { defineStore } from "pinia";
 import { createImageStore } from "../factories/images";
 import { createPaginationStore } from "../factories/pagination";
 
-// 1. The List/Pagination Store
+// MARK: List Store
+
 export const useGroupListStore = createPaginationStore<Group, GroupFilters>(
   "group-list"
 );
 
-// 2. The Images Store
+// MARK: Image Store
+
 export const useGroupImageStore = createImageStore("group-images");
 
-// 3. The Core Entity Store (Now it only cares about the single active group)
+// MARK: Entity Store
+
 export const useGroupStore = defineStore("group", {
   state: () => ({
     group: null as unknown as Group,

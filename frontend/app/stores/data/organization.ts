@@ -4,18 +4,21 @@ import { defineStore } from "pinia";
 import { createImageStore } from "../factories/images";
 import { createPaginationStore } from "../factories/pagination";
 
-// 1. The List/Pagination Store
+// MARK: List Store
+
 export const useOrganizationListStore = createPaginationStore<
   Organization,
   OrganizationFilters
 >("organization-list");
 
-// 2. The Images Store
+// MARK: Image Store
+
 export const useOrganizationImageStore = createImageStore(
   "organization-images"
 );
 
-// 3. The Core Entity Store (Now it only cares about the single active organization)
+// MARK: Entity Store
+
 export const useOrganizationStore = defineStore("organization", {
   state: () => ({
     organization: null as unknown as Organization,

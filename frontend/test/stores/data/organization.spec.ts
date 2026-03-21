@@ -5,9 +5,9 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { Organization } from "../../../shared/types/organization";
 
 import {
-  useOrganizationStore,
-  useOrganizationListStore,
   useOrganizationImageStore,
+  useOrganizationListStore,
+  useOrganizationStore,
 } from "../../../app/stores/data/organization";
 import {
   createMockContentImage,
@@ -21,7 +21,8 @@ describe("Organization Stores", () => {
     setActivePinia(createPinia());
   });
 
-  // MARK: - Core Entity Store (useOrganizationStore)
+  // MARK: Core Entity Store (useOrganizationStore)
+
   describe("useOrganizationStore", () => {
     it("initializes with null organization", () => {
       const store = useOrganizationStore();
@@ -49,7 +50,8 @@ describe("Organization Stores", () => {
     });
   });
 
-  // MARK: - Pagination & List Store (useOrganizationListStore)
+  // MARK: List Store (useOrganizationListStore)
+
   describe("useOrganizationListStore (Pagination Factory)", () => {
     describe("Initial State", () => {
       it("initializes with empty items array", () => {
@@ -127,7 +129,8 @@ describe("Organization Stores", () => {
     });
   });
 
-  // MARK: - Images Store (useOrganizationImageStore)
+  // MARK: Images Store (useOrganizationImageStore)
+
   describe("useOrganizationImageStore (Image Factory)", () => {
     it("initializes with empty images array", () => {
       const store = useOrganizationImageStore();
@@ -163,7 +166,8 @@ describe("Organization Stores", () => {
     });
   });
 
-  // MARK: - Integration sanity checks across separated stores
+  // MARK: Integration sanity checks across separated stores
+
   describe("Cross-store Independence", () => {
     it("updates in one store do not affect the others", () => {
       const coreStore = useOrganizationStore();
@@ -184,7 +188,7 @@ describe("Organization Stores", () => {
       expect(listStore.getPage()).toBe(5);
       expect(imageStore.getImages()).toHaveLength(1);
 
-      // Clear images shouldn't touch core or list stores
+      // Clear images shouldn't touch core or list stores.
       imageStore.clearImages();
       expect(imageStore.getImages()).toHaveLength(0);
       expect(coreStore.getOrganization()).not.toBeNull();

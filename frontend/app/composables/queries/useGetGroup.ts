@@ -9,6 +9,7 @@ export function useGetGroup(id: MaybeRef<string>) {
   const groupId = computed(() => String(unref(id)));
   const store = useGroupStore();
   const storeImages = useGroupImageStore();
+
   // Cache key for useAsyncData.
   const key = computed(() =>
     groupId.value ? getKeyForGetGroup(groupId.value) : null

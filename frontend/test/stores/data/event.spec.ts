@@ -15,7 +15,8 @@ describe("Event Stores", () => {
     setActivePinia(createPinia());
   });
 
-  // MARK: - Core Entity Store (useEventStore)
+  // MARK: Core Entity Store (useEventStore)
+
   describe("useEventStore", () => {
     it("initializes with null event", () => {
       const store = useEventStore();
@@ -43,7 +44,8 @@ describe("Event Stores", () => {
     });
   });
 
-  // MARK: - Pagination & List Store (useEventListStore)
+  // MARK: List Store (useEventListStore)
+
   describe("useEventListStore (Pagination Factory)", () => {
     describe("Initial State", () => {
       it("initializes with empty items array", () => {
@@ -121,7 +123,8 @@ describe("Event Stores", () => {
     });
   });
 
-  // MARK: - Integration Checks
+  // MARK: Integration Checks
+
   describe("Cross-store Independence", () => {
     it("updates in core store do not affect list store and vice versa", () => {
       const coreStore = useEventStore();

@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import { createPaginationStore } from "../../../app/stores/factories/pagination";
 
-// Define some dummy types for testing the generic factory
+// Define some dummy types for testing the generic factory.
 interface DummyItem {
   id: string;
   name: string;
@@ -20,7 +20,7 @@ describe("createPaginationStore Factory", () => {
     setActivePinia(createPinia());
   });
 
-  // Create a test store using the factory
+  // Create a test store using the factory.
   const useTestListStore = createPaginationStore<DummyItem, DummyFilters>(
     "test-list"
   );
@@ -115,7 +115,7 @@ describe("createPaginationStore Factory", () => {
       expect(store.getFilters()).toEqual({});
       expect(store.getPage()).toBe(1);
       // isLastPage wasn't specified in clear(), so we just ensure it behaves predictably
-      // based on your implementation (currently doesn't clear isLastPage)
+      // based on your implementation (currently doesn't clear isLastPage).
       expect(store.getIsLastPage()).toBe(true);
     });
   });

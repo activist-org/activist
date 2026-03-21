@@ -9,6 +9,7 @@ export function useGetOrganization(id: MaybeRef<string>) {
   const organizationId = computed(() => String(unref(id)));
   const store = useOrganizationStore();
   const imageStore = useOrganizationImageStore();
+
   // Cache key for useAsyncData.
   const key = computed(() =>
     organizationId.value ? getKeyForGetOrganization(organizationId.value) : null
