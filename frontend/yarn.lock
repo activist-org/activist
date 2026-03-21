@@ -5585,7 +5585,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/integrations@npm:^14.2.1":
+"@vueuse/integrations@npm:14.2.1":
   version: 14.2.1
   resolution: "@vueuse/integrations@npm:14.2.1"
   dependencies:
@@ -5799,7 +5799,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:4.0.18"
     "@vue/test-utils": "npm:2.4.6"
     "@vueuse/core": "npm:14.1.0"
-    "@vueuse/integrations": "npm:^14.2.1"
+    "@vueuse/integrations": "npm:14.2.1"
     "@vueuse/math": "npm:14.2.0"
     "@vueuse/nuxt": "npm:14.1.0"
     autoprefixer: "npm:10.4.23"
