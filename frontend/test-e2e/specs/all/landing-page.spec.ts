@@ -161,4 +161,20 @@ test.describe("Landing Page", { tag: ["@desktop", "@mobile"] }, () => {
       await expect(link).toHaveAttribute("href", url);
     }
   });
+
+  test("Request access button uses form URL in production mode", async ({ page }) => {
+    test.skip(process.env.TEST_ENV !== "prod");
+
+    const requestAccessLink = page.getByRole("link", {
+      name: new RegExp(
+        getEnglishText("i18n.components.landing_splash.request_access_aria_label"),
+        "i"
+      ),
+    });
+
+    await expect(requestAccessLink).toHaveAttribute(
+      "href",
+      "https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8"
+    );
+  });
 });

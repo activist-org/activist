@@ -6,12 +6,15 @@ const BASE_BACKEND_URL = import.meta.env.VITE_API_URL;
 const FRIENDLY_CAPTCHA_KEY = import.meta.env.VITE_FRIENDLY_CAPTCHA_SITE_KEY;
 const REQUEST_ACCESS_URL =
   "https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8";
+const REQUEST_ACCESS_FALLBACK_URL =
+  "https://docs.activist.org/activist/welcome/request-access";
 export const useGetBaseURLs = () => {
   return {
     BASE_FRONTEND_URL,
     BASE_BACKEND_URL,
     ACTIVIST_URL,
     REQUEST_ACCESS_URL,
+    REQUEST_ACCESS_FALLBACK_URL,
     FRIENDLY_CAPTCHA_KEY,
   };
 };
