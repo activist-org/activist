@@ -47,7 +47,10 @@ async function selectFirstOrganization(
   const firstOption = modal.root.getByRole("option").first();
   await expect(firstOption).toBeVisible({ timeout: 10000 });
   await firstOption.click();
-  await modal.root.page().keyboard.press("Escape");
+  await orgsButton.click();
+  await expect(modal.root.getByRole("option").first()).toBeHidden({
+    timeout: 5000,
+  });
 }
 
 async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
@@ -58,7 +61,10 @@ async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
   const firstOption = modal.root.getByRole("option").first();
   await expect(firstOption).toBeVisible({ timeout: 10000 });
   await firstOption.click();
-  await modal.root.page().keyboard.press("Escape");
+  await topicsButton.click();
+  await expect(modal.root.getByRole("option").first()).toBeHidden({
+    timeout: 5000,
+  });
 }
 
 // Set each day's start time to 10:00 and end time to 11:00.
