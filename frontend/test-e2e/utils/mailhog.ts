@@ -1,7 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
 
-const MAILHOG_API = "http://localhost:8025/api/v2";
+/** Base URL only (no path), e.g. `http://localhost:8025`. Override via `MAILHOG_API_URL` in CI or non-default setups. */
+function mailhogApiV2Base(): string {
+  const raw = process.env.MAILHOG_API_URL?.replace(/\/$/, "");
+  const origin = raw || "http://localhost:8025";
+  return `${origin}/api/v2`;
+}
 
 export interface MailhogEmail {
   subject: string;
@@ -10,7 +15,7 @@ export interface MailhogEmail {
 }
 
 export async function getLatestEmail(): Promise<MailhogEmail> {
-  const response = await fetch(`${MAILHOG_API}/messages?limit=1`);
+  const response = await fetch(`${mailhogApiV2Base()}/messages?limit=1`);
   const data = await response.json();
   const latest = data.items?.[0];
 
@@ -24,7 +29,7 @@ export async function getLatestEmail(): Promise<MailhogEmail> {
 }
 
 export async function clearEmails(): Promise<void> {
-  await fetch(`${MAILHOG_API}/messages`, { method: "DELETE" });
+  await fetch(`${mailhogApiV2Base()}/messages`, { method: "DELETE" });
 }
 
 function decodeQuotedPrintable(body: string): string {
@@ -44,11 +49,85 @@ export function extractConfirmationCode(body: string): string {
 }
 
 export function extractPasswordResetCode(body: string): string {
-  const code = decodeQuotedPrintable(body).match(
-    /\/auth\/pwreset\/([a-f0-9-]{36})/
+  const decoded = decodeQuotedPrintable(body);
+  // Backend uses `{FRONTEND_URL}/auth/pwreset/{uuid}`; allow optional locale prefix.
+  const code = decoded.match(
+    /\/(?:[a-z]{2}\/)?auth\/pwreset\/([a-f0-9-]{36})/i
   )?.[1];
   if (!code) throw new Error("No password reset code found in email body");
   return code;
+}
+
+const PWRESET_LINK_RE = /\/(?:[a-z]{2}\/)?auth\/pwreset\/[a-f0-9-]{36}/i;
+
+/**
+ * Poll Mailhog until a message whose body contains a password-reset link is found.
+ * Returns the newest matching message (by Mailhog `Created` timestamp).
+ */
+export async function findPasswordResetEmail(
+  maxAttempts = 40,
+  pollIntervalMs = 500
+): Promise<MailhogEmail> {
+  const base = mailhogApiV2Base();
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const response = await fetch(`${base}/messages?limit=50`);
+    const data = await response.json();
+
+    type Item = {
+      Content?: {
+        Body?: string;
+        Headers?: { Subject?: string[]; To?: string[] };
+      };
+      Created?: string;
+    };
+    const items = (data.items ?? []) as Item[];
+    const matches: { item: Item; t: number }[] = [];
+
+    for (const item of items) {
+      const body = item.Content?.Body ?? "";
+      const decoded = decodeQuotedPrintable(body);
+      if (!PWRESET_LINK_RE.test(decoded)) continue;
+      const t = item.Created ? Date.parse(item.Created) : 0;
+      matches.push({ item, t: Number.isFinite(t) ? t : 0 });
+    }
+
+    if (matches.length > 0) {
+      matches.sort((a, b) => b.t - a.t);
+      const item = matches[0]!.item;
+      return {
+        subject: item.Content?.Headers?.Subject?.[0] ?? "",
+        to: item.Content?.Headers?.To?.[0] ?? "",
+        body: item.Content?.Body ?? "",
+      };
+    }
+
+    if (attempt < maxAttempts) {
+      await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
+    }
+  }
+
+  throw new Error(
+    `No password reset email found in Mailhog after ${maxAttempts} attempts`
+  );
+}
+
+/**
+ * Waits for a password-reset email, then opens the reset form in the browser.
+ */
+export async function waitAndOpenPasswordResetLink(
+  page: Page,
+  maxAttempts = 40,
+  pollIntervalMs = 500
+): Promise<void> {
+  const email = await findPasswordResetEmail(maxAttempts, pollIntervalMs);
+  const code = extractPasswordResetCode(email.body);
+  await page.goto(`/auth/pwreset/${code}`, { waitUntil: "domcontentloaded" });
+  await page.waitForURL(/\/auth\/pwreset\/[a-f0-9-]+/i, { timeout: 15000 });
+  await page.locator("#reset-password-submit").waitFor({
+    state: "visible",
+    timeout: 15000,
+  });
 }
 
 /**
@@ -69,7 +148,7 @@ export async function waitAndConfirmEmail(
   let email: MailhogEmail | null = null;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const response = await fetch(`${MAILHOG_API}/messages?limit=1`);
+    const response = await fetch(`${mailhogApiV2Base()}/messages?limit=1`);
     const data = await response.json();
 
     if (data.items?.length > 0) {
