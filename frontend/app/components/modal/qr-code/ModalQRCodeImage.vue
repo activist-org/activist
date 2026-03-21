@@ -19,12 +19,12 @@
           :x="`${-quietZone}`"
           :y="`${-quietZone}`"
         />
-        <qrcode-vue
-          ref="qrref"
+        <!-- Use an SVG image tag to embed the VueUse QR code base64 string. -->
+        <image
           class="qrimage"
-          render-as="svg"
-          :size="codeSize"
-          :value="getPath()"
+          :height="codeSize"
+          :href="svgRef"
+          :width="codeSize"
         />
         <rect
           id="remove-top-edge-of-bottom"
@@ -84,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import QrcodeVue from "qrcode.vue";
+import { useQRCode } from "@vueuse/integrations/useQRCode";
 
 const props = defineProps<{
   codeURL?: string;
@@ -98,10 +98,25 @@ const logoBGRadius = ref(64);
 const logoSize = ref(40);
 const borderRadius = ref(24);
 
-const getPath = () =>
-  props.codeURL && props.codeURL !== ""
-    ? props.codeURL
-    : window.location.toString();
+// Safely evaluate window to prevent SSR errors.
+const getPath = computed(() => {
+  if (props.codeURL && props.codeURL !== "") {
+    return props.codeURL;
+  }
+  return typeof window !== "undefined"
+    ? window.location.href
+    : "https://activist.org";
+});
+
+// Configure the VueUse QR code.
+const svgRef = useQRCode(getPath, {
+  width: codeSize.value,
+  margin: 0,
+  color: {
+    dark: "#000000",
+    light: "#FFFFFF",
+  },
+});
 
 const getSize = () => ({
   width: codeSize.value + quietZone.value * 2 + 2,

@@ -6,7 +6,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   const { error, handleError, clearError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
-  const store = useEventStore();
+  const store = useEventListStore();
 
   // Upload new images.
   async function uploadIconImage(image: UploadableFile) {
@@ -36,7 +36,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
     // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
     // Clear cached events to force refetch with new data.
-    store.setEvents([]);
+    store.setItems([]);
   }
 
   return {
