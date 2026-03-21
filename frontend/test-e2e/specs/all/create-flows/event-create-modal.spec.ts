@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "@playwright/test";
+
 import { getEnglishText } from "#shared/utils/i18n";
 
 import { runAccessibilityTestScoped } from "~/test-e2e/accessibility/accessibilityTesting";
@@ -716,7 +717,9 @@ test.describe(
         const modal = newCreateEventModal(page);
 
         await modal.nameField.fill("E2E Error Path Event");
-        await modal.descriptionField.fill("Should not persist after failed create.");
+        await modal.descriptionField.fill(
+          "Should not persist after failed create."
+        );
         await selectFirstOrganization(modal);
         await modal.getNextStepButton().click({ force: true });
 
