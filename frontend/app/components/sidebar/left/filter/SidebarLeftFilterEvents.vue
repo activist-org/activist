@@ -233,7 +233,7 @@ const updateViewType = (
   }
 };
 
-const viewType = ref(ViewType.MAP);
+const viewType = ref(ViewType.LIST);
 const formData = ref({});
 
 watch(
@@ -246,7 +246,7 @@ watch(
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
         ? (view as ViewType)
-        : ViewType.MAP;
+        : ViewType.LIST;
   },
   { immediate: true }
 );
