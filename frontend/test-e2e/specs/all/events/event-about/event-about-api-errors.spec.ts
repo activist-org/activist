@@ -33,9 +33,7 @@ async function expectNuxtFatalErrorPage(
     page.getByText(String(expectedStatus), { exact: true })
   ).toBeVisible({ timeout: 15000 });
   await expect(page.getByText(messageMatcher)).toBeVisible({ timeout: 15000 });
-  await expect(
-    page.getByRole("link", { name: /return.*home/i })
-  ).toBeVisible();
+  await expect(page.getByRole("link", { name: /return.*home/i })).toBeVisible();
 }
 
 async function routeMockEventDetail(
