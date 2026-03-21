@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { Page } from "@playwright/test";
 import { getEnglishText } from "#shared/utils/i18n";
 
 import { runAccessibilityTestScoped } from "~/test-e2e/accessibility/accessibilityTesting";
@@ -46,10 +47,7 @@ async function selectFirstOrganization(
   const firstOption = modal.root.getByRole("option").first();
   await expect(firstOption).toBeVisible({ timeout: 10000 });
   await firstOption.click();
-  await orgsButton.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
+  await modal.root.page().keyboard.press("Escape");
 }
 
 async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
@@ -60,10 +58,7 @@ async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
   const firstOption = modal.root.getByRole("option").first();
   await expect(firstOption).toBeVisible({ timeout: 10000 });
   await firstOption.click();
-  await topicsButton.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
+  await modal.root.page().keyboard.press("Escape");
 }
 
 // Set each day's start time to 10:00 and end time to 11:00.
@@ -106,6 +101,11 @@ async function setFirstDayEndTimeToFuture(
 
 /** Axe scope: open create-event dialog (`CreateEventModal` root). */
 const MODAL_A11Y_ROOT = '[data-testid="modal-ModalCreateEvent"]';
+
+const errorToast = (page: Page) =>
+  page.locator(
+    '[data-sonner-toast][data-type="error"][data-rich-colors="true"]'
+  );
 
 async function goToEventTypeStep(
   modal: ReturnType<typeof newCreateEventModal>
@@ -680,6 +680,69 @@ test.describe(
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
       await expect(page).toHaveURL(/\/events\/[^/]+\/about/, {
         timeout: 10000,
+      });
+    });
+
+    // MARK: Create API errors
+
+    test.describe("Create event API error handling", () => {
+      test.afterEach(async ({ page }) => {
+        await page.unrouteAll();
+      });
+
+      test("shows error toast when create event returns 500", async ({
+        page,
+      }, testInfo) => {
+        logTestPath(testInfo);
+
+        await page.route("**/api/auth/events/events", async (route) => {
+          if (route.request().method() !== "POST") {
+            await route.continue();
+            return;
+          }
+          await route.fulfill({
+            status: 500,
+            contentType: "application/json",
+            body: JSON.stringify({ detail: "E2E: event create failed." }),
+          });
+        });
+
+        const modal = newCreateEventModal(page);
+
+        await modal.nameField.fill("E2E Error Path Event");
+        await modal.descriptionField.fill("Should not persist after failed create.");
+        await selectFirstOrganization(modal);
+        await modal.getNextStepButton().click({ force: true });
+
+        await expect(modal.eventTypeForm).toBeVisible();
+        await modal.locationTypeSection
+          .getByRole("radio", { name: /online/i })
+          .click();
+        await modal.eventTypeSection
+          .getByRole("radio", { name: /learn/i })
+          .click();
+        await selectFirstTopic(modal);
+        await modal.getNextStepButton().click({ force: true });
+
+        await expect(modal.linkOnlineForm).toBeVisible();
+        await modal.onlineLinkField.fill("https://example.com/error-path");
+        await modal.getNextStepButton().click({ force: true });
+
+        await expect(modal.timeForm).toBeVisible();
+        const dayButtons = modal.root.locator(
+          ".vc-day.in-month .vc-day-content[role='button']"
+        );
+        await dayButtons.first().click();
+        await dayButtons.nth(1).click();
+        await setFirstDayEndTimeToFuture(modal, page);
+        await modal.getNextStepButton().click({ force: true });
+
+        await expect(errorToast(page)).toBeVisible({ timeout: 15000 });
+        await expect(errorToast(page)).toContainText(
+          /E2E: event create failed/i
+        );
+        // Flow may close the modal after the failed create attempt; toast is the stable signal.
+        await expect(modal.root).not.toBeVisible({ timeout: 15000 });
       });
     });
   }
