@@ -40,7 +40,7 @@ export function useGetOrganizations(
           organizationsCached.length > 0 &&
           JSON.stringify(store.getFilters()) ===
             JSON.stringify(orgFilters.value) &&
-          page.value > pageCached
+          (page.value > pageCached || (page.value === 1 && pageCached === 1))
         ) {
           store.setItems([...organizationsCached, ...organizations]);
           return [...organizationsCached, ...organizations] as Organization[];

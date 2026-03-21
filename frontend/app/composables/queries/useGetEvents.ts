@@ -38,7 +38,7 @@ export function useGetEvents(
           eventsCached.length > 0 &&
           JSON.stringify(store.getFilters()) ===
             JSON.stringify(eventFilters.value) &&
-          page.value > pageCached
+          (page.value > pageCached || (page.value === 1 && pageCached === 1))
         ) {
           store.setItems([...eventsCached, ...events]);
           store.setIsLastPage(isLastPage);
