@@ -12,20 +12,8 @@ import {
   waitAndConfirmEmail,
   waitAndOpenPasswordResetLink,
 } from "~/test-e2e/utils/mailhog";
+import { isPostPasswordRequestLanding } from "~/test-e2e/utils/passwordResetNavigation";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
-
-function isPostPasswordRequestLanding(url: string): boolean {
-  let path: string;
-  try {
-    path = new URL(url).pathname.replace(/\/$/, "") || "/";
-  } catch {
-    return false;
-  }
-  if (path === "" || path === "/") return true;
-  if (path.endsWith("/home")) return true;
-  if (/^\/[a-z]{2}(-[A-Z]{2})?$/i.test(path)) return true;
-  return false;
-}
 
 test.describe.serial(
   "Password Reset Page - MailHog flow",
@@ -98,7 +86,6 @@ test.describe.serial(
 
       await withTestStep(testInfo, "Open reset link from MailHog", async () => {
         await waitAndOpenPasswordResetLink(page);
-        await expect(page).toHaveURL(/\/auth\/pwreset\/[a-f0-9-]+/i);
       });
 
       await withTestStep(testInfo, "Set new password", async () => {

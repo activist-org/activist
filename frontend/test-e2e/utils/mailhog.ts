@@ -8,6 +8,58 @@ function mailhogApiV2Base(): string {
   return `${origin}/api/v2`;
 }
 
+type MailhogMessageItem = {
+  Content?: {
+    Body?: string;
+    Headers?: { Subject?: string[]; To?: string[] };
+  };
+  Created?: string;
+};
+
+function itemToEmail(item: MailhogMessageItem): MailhogEmail {
+  return {
+    subject: item.Content?.Headers?.Subject?.[0] ?? "",
+    to: item.Content?.Headers?.To?.[0] ?? "",
+    body: item.Content?.Body ?? "",
+  };
+}
+
+async function fetchMailhogMessages(
+  limit: number
+): Promise<MailhogMessageItem[]> {
+  const response = await fetch(
+    `${mailhogApiV2Base()}/messages?limit=${limit}`
+  );
+  const data = await response.json();
+  return (data.items ?? []) as MailhogMessageItem[];
+}
+
+async function sleepMs(ms: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Polls Mailhog until `select` returns a value, or throws after `maxAttempts`.
+ */
+async function pollMailhogUntil<T>(options: {
+  limit: number;
+  maxAttempts: number;
+  pollIntervalMs: number;
+  select: (items: MailhogMessageItem[]) => T | undefined;
+  errorMessage: (maxAttempts: number) => string;
+}): Promise<T> {
+  const { limit, maxAttempts, pollIntervalMs, select, errorMessage } = options;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const items = await fetchMailhogMessages(limit);
+    const chosen = select(items);
+    if (chosen !== undefined) return chosen;
+    if (attempt < maxAttempts) await sleepMs(pollIntervalMs);
+  }
+
+  throw new Error(errorMessage(maxAttempts));
+}
+
 export interface MailhogEmail {
   subject: string;
   body: string;
@@ -15,17 +67,9 @@ export interface MailhogEmail {
 }
 
 export async function getLatestEmail(): Promise<MailhogEmail> {
-  const response = await fetch(`${mailhogApiV2Base()}/messages?limit=1`);
-  const data = await response.json();
-  const latest = data.items?.[0];
-
-  if (!latest) throw new Error("No emails found in Mailhog");
-
-  return {
-    subject: latest.Content.Headers.Subject?.[0] ?? "",
-    to: latest.Content.Headers.To?.[0] ?? "",
-    body: latest.Content.Body,
-  };
+  const items = await fetchMailhogMessages(1);
+  if (items.length === 0) throw new Error("No emails found in Mailhog");
+  return itemToEmail(items[0]!);
 }
 
 export async function clearEmails(): Promise<void> {
@@ -60,6 +104,23 @@ export function extractPasswordResetCode(body: string): string {
 
 const PWRESET_LINK_RE = /\/(?:[a-z]{2}\/)?auth\/pwreset\/[a-f0-9-]{36}/i;
 
+function newestPasswordResetEmail(
+  items: MailhogMessageItem[]
+): MailhogEmail | undefined {
+  let best: { item: MailhogMessageItem; t: number } | null = null;
+
+  for (const item of items) {
+    const body = item.Content?.Body ?? "";
+    const decoded = decodeQuotedPrintable(body);
+    if (!PWRESET_LINK_RE.test(decoded)) continue;
+    const t = item.Created ? Date.parse(item.Created) : 0;
+    const ts = Number.isFinite(t) ? t : 0;
+    if (!best || ts > best.t) best = { item, t: ts };
+  }
+
+  return best ? itemToEmail(best.item) : undefined;
+}
+
 /**
  * Poll Mailhog until a message whose body contains a password-reset link is found.
  * Returns the newest matching message (by Mailhog `Created` timestamp).
@@ -68,48 +129,14 @@ export async function findPasswordResetEmail(
   maxAttempts = 40,
   pollIntervalMs = 500
 ): Promise<MailhogEmail> {
-  const base = mailhogApiV2Base();
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const response = await fetch(`${base}/messages?limit=50`);
-    const data = await response.json();
-
-    type Item = {
-      Content?: {
-        Body?: string;
-        Headers?: { Subject?: string[]; To?: string[] };
-      };
-      Created?: string;
-    };
-    const items = (data.items ?? []) as Item[];
-    const matches: { item: Item; t: number }[] = [];
-
-    for (const item of items) {
-      const body = item.Content?.Body ?? "";
-      const decoded = decodeQuotedPrintable(body);
-      if (!PWRESET_LINK_RE.test(decoded)) continue;
-      const t = item.Created ? Date.parse(item.Created) : 0;
-      matches.push({ item, t: Number.isFinite(t) ? t : 0 });
-    }
-
-    if (matches.length > 0) {
-      matches.sort((a, b) => b.t - a.t);
-      const item = matches[0]!.item;
-      return {
-        subject: item.Content?.Headers?.Subject?.[0] ?? "",
-        to: item.Content?.Headers?.To?.[0] ?? "",
-        body: item.Content?.Body ?? "",
-      };
-    }
-
-    if (attempt < maxAttempts) {
-      await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
-    }
-  }
-
-  throw new Error(
-    `No password reset email found in Mailhog after ${maxAttempts} attempts`
-  );
+  return pollMailhogUntil({
+    limit: 50,
+    maxAttempts,
+    pollIntervalMs,
+    select: newestPasswordResetEmail,
+    errorMessage: (n) =>
+      `No password reset email found in Mailhog after ${n} attempts`,
+  });
 }
 
 /**
@@ -145,32 +172,15 @@ export async function waitAndConfirmEmail(
   maxAttempts = 10,
   pollIntervalMs = 500
 ): Promise<void> {
-  let email: MailhogEmail | null = null;
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const response = await fetch(`${mailhogApiV2Base()}/messages?limit=1`);
-    const data = await response.json();
-
-    if (data.items?.length > 0) {
-      const latest = data.items[0];
-      email = {
-        subject: latest.Content.Headers.Subject?.[0] ?? "",
-        to: latest.Content.Headers.To?.[0] ?? "",
-        body: latest.Content.Body,
-      };
-      break;
-    }
-
-    if (attempt < maxAttempts) {
-      await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
-    }
-  }
-
-  if (!email) {
-    throw new Error(
-      `No verification email arrived in Mailhog after ${maxAttempts} attempts`
-    );
-  }
+  const email = await pollMailhogUntil({
+    limit: 1,
+    maxAttempts,
+    pollIntervalMs,
+    select: (items) =>
+      items.length > 0 ? itemToEmail(items[0]!) : undefined,
+    errorMessage: (n) =>
+      `No verification email arrived in Mailhog after ${n} attempts`,
+  });
 
   const code = extractConfirmationCode(email.body);
   await page.goto(`/auth/confirm/${code}`);
