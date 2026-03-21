@@ -35,9 +35,7 @@ function itemToEmail(item: MailhogMessageItem): MailhogEmail {
 async function fetchMailhogMessages(
   limit: number
 ): Promise<MailhogMessageItem[]> {
-  const response = await fetch(
-    `${mailhogApiV2Base()}/messages?limit=${limit}`
-  );
+  const response = await fetch(`${mailhogApiV2Base()}/messages?limit=${limit}`);
   const data = await response.json();
   return (data.items ?? []) as MailhogMessageItem[];
 }
@@ -99,7 +97,9 @@ function decodeQuotedPrintable(body: string): string {
     );
 }
 
-export function extractConfirmationCodeFromDecoded(decodedBody: string): string {
+export function extractConfirmationCodeFromDecoded(
+  decodedBody: string
+): string {
   const code = decodedBody.match(/\/auth\/confirm\/([a-f0-9-]{36})/i)?.[1];
   if (!code) throw new Error("No confirmation code found in email body");
   return code;
@@ -109,7 +109,9 @@ export function extractConfirmationCode(body: string): string {
   return extractConfirmationCodeFromDecoded(decodeQuotedPrintable(body));
 }
 
-export function extractPasswordResetCodeFromDecoded(decodedBody: string): string {
+export function extractPasswordResetCodeFromDecoded(
+  decodedBody: string
+): string {
   const code = decodedBody.match(
     /\/(?:[a-z]{2}\/)?auth\/pwreset\/([a-f0-9-]{36})/i
   )?.[1];
