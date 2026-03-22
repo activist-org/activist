@@ -18,6 +18,8 @@ import type { Composer } from "vue-i18n";
 import { vi } from "vitest";
 import { ref } from "vue";
 
+import type { AppError } from "../../shared/utils/errorHandler";
+
 // AuthUser: compatible with nuxt-auth-utils User; use for auth mock params.
 type AuthUser = { [key: string]: unknown } | null;
 
@@ -318,5 +320,20 @@ export function createUseDevModeMock(active = false, check = () => {}) {
   return () => ({
     active: { value: active },
     check,
+  });
+}
+
+export function createUseAppErrorMock() {
+  const error = ref<Partial<AppError> | null>(null);
+  const handleError = (err: Partial<AppError>) => {
+    error.value = err;
+  };
+  const clearError = () => {
+    error.value = null;
+  };
+  return () => ({
+    error,
+    handleError,
+    clearError,
   });
 }
