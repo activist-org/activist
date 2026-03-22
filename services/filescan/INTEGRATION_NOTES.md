@@ -25,11 +25,11 @@
 
 - You chose **filescan** as the place that quarantines: when malware is detected, filescan writes the bytes it scanned to its quarantine and notifies admin/designated recipients. The backend never saves the file to normal storage; on a positive result it deletes its copy and logs. So: filescan "deals with" the bad file (quarantine + alerts); backend wipes its artifact and stops processing.
 
-**5. Notifications and logging (in filescan)**
+**5. Notifications and logging (in filescan + backend)**
 
 - **Logging** is enabled in the filescan service: INFO for each scan request (filename, size, content_type) and response (status, malware_detected, detail, source), and WARNING/ERROR for 400/503. No file contents are logged; output goes to stderr (e.g. Docker container logs). In production, log output should be handled (e.g. aggregation, rotation, sampling, or raising the log level) so that high request volume does not produce an unbounded stream of entries.
 - **Logging and alerting** for detections: when malware (or CSAM) is detected, filescan should **log** the event in a structured way (timestamp, filename, signature/source, quarantine reference; no file contents or raw uploads) and perform any **alerting** (e.g. metrics, internal dashboards) as part of the same flow.
-- **Notifications** should be triggered when a detection occurs (so that designated recipients—site/admin operators and any other designated users, e.g. security contacts—can act on the incident). The backend does **not** have a built-in notification service for this; notifications are owned by the scan side. The notification pipeline (email, webhook, message queue, or internal dashboard) can be implemented **within filescan** or in a **separate service under the project's `services/` folder** (e.g. a dedicated notification service that filescan calls or publishes to). The channel and recipient list can be configuration-driven.
+- **Notifications** should be triggered when a detection occurs (so that designated recipients—site/admin operators and any other designated users, e.g. security contacts—can act on the incident). When filescan gets a positive malware result, it POSTs a structured security event (including available metadata from the detection, such as filename, signature, detector, and quarantine identifier) to the backend’s internal ingestion endpoint (`POST /internal/security-events`). The backend is responsible for turning this event into concrete notifications (for example, via its existing SMTP/email configuration to send operator alerts), and can later fan this out to additional channels (webhooks, queues, dashboards) as needed.
 
 **6. Backend security event ingestion (`/internal/security-events`)**
 
@@ -202,3 +202,11 @@ At present the backend uses this package in the image upload views:
 Those views import `scan_uploads_and_rewind` from `core.filescan`, pass the request’s file(s) to it, and if it returns a `Response` they return it immediately; otherwise they proceed to the serializer and save.
 
 Any other backend code that needs to scan uploads should use this package: `from core.filescan import scan_uploads_and_rewind` for the usual view flow, or `from core.filescan import scan_file` (and `FilescanError`) for custom logic—rather than calling `/scan` directly or importing from `services/filescan/*`.
+
+---
+
+## Recent integration summary
+
+- Runtime validation in `SecurityEventIngestView` is intentionally strict: unsupported event types, invalid/missing `occurred_at`, and missing required payload fields are rejected with HTTP 400; security alert configuration/send failures return HTTP 500.
+- Backend filescan integration tests and endpoint behavior are stable with the current flow: files are scanned before processing, malware hits are rejected, and scan transport failures are surfaced as a generic "could not be scanned" response.
+- CI throttling test failures were addressed by making test throttling setup deterministic at test scope (explicit throttle class/rate setup with cleanup), without changing the intended backend<->filescan runtime behavior.
