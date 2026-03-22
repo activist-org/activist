@@ -63,7 +63,7 @@
           <ModalQRCodeImage
             ref="qrcode"
             class="elem-shadow-md select-none rounded-3xl"
-            :codeUrl="BASE_FRONTEND_URL + props.linkUrl"
+            :codeUrl="BASE_FRONTEND_URL + linkUrl"
           />
           <TooltipBase
             v-show="showTooltip"

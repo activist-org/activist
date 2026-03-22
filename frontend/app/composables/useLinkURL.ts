@@ -2,11 +2,11 @@
 const aboveMediumBP = useBreakpoint("md");
 
 export function useLinkURL(props: {
-  organization?: Organization;
-  group?: Group;
-  event?: CommunityEvent;
-  resource?: Resource;
-  user?: UserActivist;
+  organization?: Organization | null;
+  group?: Group | null;
+  event?: CommunityEvent | null;
+  resource?: Resource | null;
+  user?: UserActivist | null;
 }) {
   const linkUrl = computed<string>(() => {
     let url: string = "";

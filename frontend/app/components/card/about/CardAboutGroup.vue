@@ -3,10 +3,11 @@
   <CardAbout>
     <ModalQRCodeBtn
       v-if="group && !expandText"
-      :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_group')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+      :firstParagraph="$t('i18n.components._global.section_1_paragraph_1_group')"
       :linkUrl="groupLinkUrl"
       :name="group.name"
       reason-for-suggesting=""
+      :second-paragraph="$t('i18n.components._global.section_1_paragraph_1_2')"
       type="icon"
     />
     <button
@@ -102,9 +103,7 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 const { data: group } = useGetGroup(groupId);
 
 const { linkUrl: groupLinkUrl } = useLinkURL({
-  get group() {
-    return group.value ?? undefined;
-  },
+  group: group.value,
 });
 
 const description = ref();
