@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { createFlowStore } from "./flow";
+import { createFlowStore } from "../factories/flow";
 
 const OrganizationDetailsStep = () =>
   import("../../components/machine/steps/createOrganization/MachineStepsCreateOrganizationDetails.vue");

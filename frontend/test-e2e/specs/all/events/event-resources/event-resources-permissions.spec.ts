@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { ensureAtLeastOneEventResource } from "~/test-e2e/actions/eventResources";
 import {
   navigateToEventSubpage,
   navigateToLastEventSubpage,
@@ -80,6 +81,10 @@ test.describe(
 // MARK: Admin
 
 test.describe("Admin can manage event resources", { tag: ["@desktop"] }, () => {
+  test.beforeEach(async ({ page }) => {
+    await ensureAtLeastOneEventResource(page);
+  });
+
   test("New resource button is visible", async ({ page }, testInfo) => {
     logTestPath(testInfo);
     const { resourcesPage } = newEventPage(page);

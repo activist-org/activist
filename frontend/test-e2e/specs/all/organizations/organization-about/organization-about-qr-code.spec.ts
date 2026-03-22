@@ -9,7 +9,8 @@ test.describe(
   "Organization About Page - QR Code",
   { tag: ["@desktop"] },
   () => {
-    test.setTimeout(60000); // Increased timeout for slow dev mode loading.
+    // Increased timeout for slow dev mode loading.
+    test.setTimeout(60000);
 
     test("User can open QR code modal via Share in three-dot menu", async ({
       page,

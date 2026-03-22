@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
-  // MARK: - Accessibility
+  // MARK: Accessibility
 
   test("Event FAQ Page has no detectable accessibility issues", async ({
     page,
@@ -46,7 +46,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     });
   });
 
-  // MARK: - CRUD Operations
+  // MARK: CRUD Operations
 
   test("User can manage FAQ entries (CREATE, UPDATE, DELETE)", async ({
     page,
@@ -186,31 +186,40 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     const confirmationModal = page.locator("#modal").first();
     await expect(confirmationModal).toBeVisible({ timeout: 15000 });
 
-    // Confirm deletion.
+    // Confirm deletion. ModalAlert does not await the parent's async delete handler, so the
+    // dialog can close before DELETE + refetch finish — wait on the API response, then poll UI.
     const confirmButton = confirmationModal.getByRole("button", {
       name: /confirm|yes|delete/i,
     });
+    const deleteFaqResponse = page.waitForResponse(
+      (res) =>
+        res.request().method() === "DELETE" &&
+        /\/events\/event_faqs\//i.test(new URL(res.url()).pathname),
+      { timeout: 20000 }
+    );
     await confirmButton.click();
+    const deleteRes = await deleteFaqResponse;
+    expect(
+      [200, 204].includes(deleteRes.status()),
+      `DELETE event FAQ expected 200 or 204, got ${deleteRes.status()}`
+    ).toBe(true);
 
-    // Wait for modal to close.
     await expect(confirmationModal).not.toBeVisible();
     await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
-    // Verify the FAQ is no longer visible.
     await expect(
       faqPage.faqCards.filter({ hasText: updatedQuestion })
-    ).not.toBeVisible();
+    ).not.toBeVisible({ timeout: 15000 });
 
-    // Verify FAQ count decreased once the list has updated (poll to avoid race with DOM update).
     await expect
-      .poll(async () => await faqPage.getFAQCount(), {
-        timeout: 10000,
+      .poll(async () => faqPage.getFAQCount(), {
+        timeout: 20000,
+        intervals: [100, 200, 500],
       })
-      .toBeLessThanOrEqual(afterCreateCount - 1);
+      .toBe(initialFaqCount);
   });
 
-  // MARK: - View and Interact
+  // MARK: View and Interact
 
   test("User can view and interact with FAQ entries", async ({ page }) => {
     const eventPage = newEventPage(page);
