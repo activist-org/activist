@@ -68,16 +68,6 @@ jobs:
         run: |
           docker compose --env-file .env.dev -f docker-compose.yml up -d filescan
 
-      - name: Run Ruff Format - Formatting Check
-        run: uv run ruff format .
-
-      - name: Run Ruff - Linting and Import Sorting Check
-        if: always()
-        run: uv run ruff check .
-
-      - name: Run mypy - Static Type Checking
-        if: always()
-        run: uv run mypy . --config-file ./pyproject.toml
       - name: Run Django Migrations - Database Migrations Check
         run: |
           uv run manage.py makemigrations

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Small HTTP client for the filescan service, used by the backend.
+Small HTTP client for the filescan service used by the backend.
 
 This module is the single place where the backend knows how to call the
 ``/scan`` endpoint. Code that needs to talk to the filescan service
@@ -18,7 +18,9 @@ from django.core.files.uploadedfile import UploadedFile
 
 
 class FilescanError(Exception):
-    """Raised when the filescan service is unavailable or returns an error response."""
+    """
+    Raised when the filescan service is unavailable or returns an error response.
+    """
 
 
 def _build_scan_url() -> str:
@@ -35,12 +37,10 @@ def _build_scan_url() -> str:
     str
         URL for the scan endpoint.
     """
-    direct = os.getenv("FILESCAN_URL")
-    if direct:
+    if direct := os.getenv("FILESCAN_URL"):
         return direct
 
-    base = os.getenv("FILESCAN_BASE_URL")
-    if base:
+    if base := os.getenv("FILESCAN_BASE_URL"):
         return base.rstrip("/") + "/scan"
 
     return "http://filescan:9101/scan"
@@ -71,8 +71,7 @@ def scan_file(upload: UploadedFile) -> Dict[str, Any]:
     try:
         file_obj = cast(IO[bytes], upload.file)
         headers: Dict[str, str] = {}
-        token = os.getenv("FILESCAN_INTERNAL_TOKEN")
-        if token:
+        if token := os.getenv("FILESCAN_INTERNAL_TOKEN"):
             headers["X-Filescan-Token"] = token
 
         response = httpx.post(
@@ -81,6 +80,7 @@ def scan_file(upload: UploadedFile) -> Dict[str, Any]:
             headers=headers,
             timeout=10.0,
         )
+
     except httpx.RequestError as exc:
         raise FilescanError(f"Could not reach filescan service: {exc}") from exc
 

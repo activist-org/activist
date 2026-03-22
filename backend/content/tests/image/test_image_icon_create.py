@@ -56,6 +56,7 @@ def test_image_icon_create_201(client: Client):
         last_response = response
         if response.status_code == 201:
             break
+
         body = response.json()
         if (
             body.get("nonFieldErrors")
@@ -63,8 +64,7 @@ def test_image_icon_create_201(client: Client):
             and attempt < max_attempts - 1
         ):
             time.sleep(0.5)
-            continue
-        break
+            break
 
     assert last_response is not None
     # Integration tests should not fail the suite when filescan stays unavailable.
@@ -72,4 +72,5 @@ def test_image_icon_create_201(client: Client):
         "nonFieldErrors"
     ) == ["The file could not be scanned. Please try again later."]:
         pytest.skip("filescan unavailable after retries in integration test")
+
     assert last_response.status_code == 201

@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""View-layer helper: scan uploads and rewind on success."""
+"""
+View-layer helper: scan uploads and rewind on success.
+"""
 
 from collections.abc import Iterable
 
@@ -9,7 +11,7 @@ from rest_framework.response import Response
 
 from core.filescan.filescan_client import FilescanError, scan_file
 
-# User-facing messages for scan failures
+# User-facing messages for scan failures.
 FILESCAN_MSG_REJECTED = "The uploaded file was rejected by the security scan."
 FILESCAN_MSG_COULD_NOT_SCAN = "The file could not be scanned. Please try again later."
 
@@ -31,6 +33,7 @@ def scan_uploads_and_rewind(uploads: Iterable[UploadedFile]) -> Response | None:
     """
     if not uploads:
         return None
+
     try:
         for upload in uploads:
             result = scan_file(upload)
@@ -39,9 +42,12 @@ def scan_uploads_and_rewind(uploads: Iterable[UploadedFile]) -> Response | None:
                     {"nonFieldErrors": [FILESCAN_MSG_REJECTED]},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+
         for upload in uploads:
             upload.seek(0)
+
         return None
+
     except FilescanError:
         return Response(
             {"nonFieldErrors": [FILESCAN_MSG_COULD_NOT_SCAN]},

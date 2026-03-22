@@ -55,8 +55,10 @@ def _build_malware_quarantined_envelope(event: dict[str, object]) -> dict[str, A
     }
     if content_type is not None:
         payload["content_type"] = content_type
+
     if size_bytes is not None:
         payload["size_bytes"] = size_bytes
+
     if extra is not None:
         payload["extra"] = extra
 
@@ -77,19 +79,22 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
 
     Reads configuration from environment at call time so that tests and
     different environments can control behaviour via:
-
-      - FILESCAN_ALERTS_ENABLED
-      - ALERTS_BACKEND_URL
-      - ALERTS_BACKEND_TOKEN
+        - FILESCAN_ALERTS_ENABLED
+        - ALERTS_BACKEND_URL
+        - ALERTS_BACKEND_TOKEN
     """
     alerts_enabled = os.getenv("FILESCAN_ALERTS_ENABLED", "false").lower() == "true"
     if not alerts_enabled:
-        logger.info("Security alerts disabled; not posting event type=%s", envelope.get("type"))
+        logger.info(
+            "Security alerts disabled; not posting event type=%s", envelope.get("type")
+        )
         return
 
     backend_url = os.getenv("ALERTS_BACKEND_URL")
     if not backend_url:
-        logger.error("ALERTS_BACKEND_URL is not configured; cannot post security event.")
+        logger.error(
+            "ALERTS_BACKEND_URL is not configured; cannot post security event."
+        )
         return
 
     headers: dict[str, str] = {"Content-Type": "application/json"}
@@ -112,8 +117,11 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
                 envelope.get("type"),
                 response.status_code,
             )
+
     except httpx.RequestError as exc:
-        logger.error("Error posting security event type=%s error=%s", envelope.get("type"), exc)
+        logger.error(
+            "Error posting security event type=%s error=%s", envelope.get("type"), exc
+        )
 
 
 def notify_malware_quarantined(event: dict[str, object]) -> None:
@@ -130,7 +138,9 @@ def notify_malware_quarantined(event: dict[str, object]) -> None:
         envelope = _build_malware_quarantined_envelope(event)
     except Exception as exc:
         # Defensive: never let envelope building break scans.
-        logger.error("Failed to build malware_quarantined envelope error=%s event=%s", exc, event)
+        logger.error(
+            "Failed to build malware_quarantined envelope error=%s event=%s", exc, event
+        )
         return
 
     _post_security_event(envelope)

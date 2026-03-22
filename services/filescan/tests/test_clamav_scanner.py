@@ -1,9 +1,15 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from scanners import clamav
+from scanners.clamav import clamav
+
 
 class _FakeClamdClient:
-    def __init__(self, ping_ok: bool, scan_result: dict | None, ping_raises: Exception | None = None) -> None:
+    def __init__(
+        self,
+        ping_ok: bool,
+        scan_result: dict | None,
+        ping_raises: Exception | None = None,
+    ) -> None:
         self._ping_ok = ping_ok
         self._scan_result = scan_result
         self._ping_raises = ping_raises
@@ -76,7 +82,9 @@ def test_scan_with_clamav_raises_when_ping_false(monkeypatch) -> None:
 
 
 def test_scan_with_clamav_raises_when_ping_throws(monkeypatch) -> None:
-    client = _FakeClamdClient(ping_ok=True, scan_result=None, ping_raises=Exception("boom"))
+    client = _FakeClamdClient(
+        ping_ok=True, scan_result=None, ping_raises=Exception("boom")
+    )
     _mock_clamd(monkeypatch, client)
 
     try:

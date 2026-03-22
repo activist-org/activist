@@ -104,4 +104,3 @@ def test_scan_fake_binary_image_integration() -> None:
     body = response.json()
     assert body["filename"] == "fake.png"
     assert body["malware_detected"] is False
-

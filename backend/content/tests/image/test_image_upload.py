@@ -27,7 +27,9 @@ MEDIA_ROOT = settings.MEDIA_ROOT  # ensure this points to the images folder
 
 @pytest.fixture
 def client() -> APIClient:
-    """Use DRF APIClient so multipart and request.data match the view."""
+    """
+    Use DRF APIClient so multipart and request.data match the view.
+    """
     return APIClient()
 
 

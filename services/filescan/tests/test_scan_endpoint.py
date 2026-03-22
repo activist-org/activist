@@ -4,9 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from fastapi.testclient import TestClient
-
 from main import app, notify_malware_quarantined
-
 
 BASE_DIR = Path(__file__).parent
 TEST_FILES_DIR = BASE_DIR / "test_files"
@@ -19,7 +17,9 @@ def _mock_scan_with_clamav(
     monkeypatch,
     result: tuple[bool, str, str | None],
 ) -> None:
-    """Patch main.scan_with_clamav to return a fixed result."""
+    """
+    Patch main.scan_with_clamav to return a fixed result.
+    """
 
     async def _fake_scan(_file_bytes: bytes) -> tuple[bool, str, str | None]:
         return result
@@ -31,7 +31,9 @@ def _mock_scan_with_csam(
     monkeypatch,
     result: tuple[bool, str, str | None],
 ) -> None:
-    """Patch main.scan_with_csam to return a fixed result."""
+    """
+    Patch main.scan_with_csam to return a fixed result.
+    """
 
     async def _fake_scan(_file_bytes: bytes) -> tuple[bool, str, str | None]:
         return result
@@ -172,8 +174,12 @@ def test_notify_malware_quarantined_builds_and_posts_event(monkeypatch) -> None:
             self.status_code = 200
             self.text = ""
 
-    def fake_post(url: str, json: Dict[str, Any], headers: Dict[str, str], timeout: float) -> DummyResponse:
-        posted.append({"url": url, "json": json, "headers": headers, "timeout": timeout})
+    def fake_post(
+        url: str, json: Dict[str, Any], headers: Dict[str, str], timeout: float
+    ) -> DummyResponse:
+        posted.append(
+            {"url": url, "json": json, "headers": headers, "timeout": timeout}
+        )
         return DummyResponse()
 
     monkeypatch.setenv("FILESCAN_ALERTS_ENABLED", "true")

@@ -21,7 +21,9 @@ _THROTTLE_CLASSES = [
 def _set_test_throttle_settings(
     *, anon_rate: str, user_rate: str
 ) -> tuple[list[str], dict]:
-    """Apply test throttle settings and return originals for restoration."""
+    """
+    Apply test throttle settings and return originals for restoration.
+    """
     original_classes = list(settings.REST_FRAMEWORK.get("DEFAULT_THROTTLE_CLASSES", []))
     original_rates = dict(settings.REST_FRAMEWORK.get("DEFAULT_THROTTLE_RATES", {}))
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = list(_THROTTLE_CLASSES)
@@ -38,7 +40,9 @@ def _set_test_throttle_settings(
 def _restore_throttle_settings(
     original_classes: list[str], original_rates: dict
 ) -> None:
-    """Restore throttle settings after a test and clear DRF cache."""
+    """
+    Restore throttle settings after a test and clear DRF cache.
+    """
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = original_classes
     settings.REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = original_rates
     api_settings.reload()
@@ -47,19 +51,24 @@ def _restore_throttle_settings(
 def _set_test_throttle_rates_on_classes(
     *, anon_rate: str, user_rate: str
 ) -> tuple[dict, dict]:
-    """Set class-level DRF throttle rates and return originals."""
+    """
+    Set class-level DRF throttle rates and return originals.
+    """
     original_anon_rates = dict(AnonRateThrottle.THROTTLE_RATES)
     original_user_rates = dict(UserRateThrottle.THROTTLE_RATES)
     test_rates = {"anon": anon_rate, "user": user_rate}
     AnonRateThrottle.THROTTLE_RATES = dict(test_rates)
     UserRateThrottle.THROTTLE_RATES = dict(test_rates)
+
     return original_anon_rates, original_user_rates
 
 
 def _restore_test_throttle_rates_on_classes(
     original_anon_rates: dict, original_user_rates: dict
 ) -> None:
-    """Restore class-level DRF throttle rates after each test."""
+    """
+    Restore class-level DRF throttle rates after each test.
+    """
     AnonRateThrottle.THROTTLE_RATES = original_anon_rates
     UserRateThrottle.THROTTLE_RATES = original_user_rates
 
@@ -77,7 +86,9 @@ def _set_test_view_throttle_classes() -> list[type]:
 
 
 def _restore_test_view_throttle_classes(original: list[type]) -> None:
-    """Restore OrganizationAPIView throttle classes after each test."""
+    """
+    Restore OrganizationAPIView throttle classes after each test.
+    """
     OrganizationAPIView.throttle_classes = original
 
 
@@ -108,6 +119,7 @@ def test_anon_throttle():
 
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
+
     finally:
         _restore_test_throttle_rates_on_classes(orig_anon_rates, orig_user_rates)
         _restore_test_view_throttle_classes(orig_view_classes)
@@ -156,6 +168,7 @@ def test_auth_throttle():
 
         response = client.get(endpoint)
         assert response.status_code == status.HTTP_429_TOO_MANY_REQUESTS
+
     finally:
         _restore_test_throttle_rates_on_classes(orig_anon_rates, orig_user_rates)
         _restore_test_view_throttle_classes(orig_view_classes)

@@ -16,7 +16,9 @@ def test_infected_file_includes_quarantine_id() -> None:
 
     project_root = Path(__file__).resolve().parent.parent.parent.parent
     default_quarantine = project_root / "quarantine"
-    quarantine_dir = Path(os.getenv("FILESCAN_QUARANTINE_TEST_DIR", str(default_quarantine)))
+    quarantine_dir = Path(
+        os.getenv("FILESCAN_QUARANTINE_TEST_DIR", str(default_quarantine))
+    )
     quarantine_path = None
 
     try:

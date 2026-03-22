@@ -10,6 +10,7 @@ or FILESCAN_BASE_URL accordingly.
 
 from __future__ import annotations
 
+import contextlib
 import io
 import os
 import time
@@ -39,12 +40,11 @@ def wait_for_filescan_health() -> None:
     health_url = os.getenv("FILESCAN_HEALTH_URL", "http://filescan:9101/health")
     max_attempts = 20
     for _ in range(max_attempts):
-        try:
+        with contextlib.suppress(httpx.RequestError):
             response = httpx.get(health_url, timeout=5.0)
             if response.status_code == 200:
                 return
-        except httpx.RequestError:
-            pass
+
         time.sleep(0.5)
 
     pytest.skip(f"filescan service not ready at {health_url}")
@@ -52,7 +52,9 @@ def wait_for_filescan_health() -> None:
 
 @pytest.fixture
 def client() -> APIClient:
-    """Use DRF APIClient so multipart and request.data match the view."""
+    """
+    Use DRF APIClient so multipart and request.data match the view.
+    """
     return APIClient()
 
 
@@ -94,7 +96,7 @@ def test_clean_image_upload_passes_filescan(client: APIClient) -> None:
     # The first call to the filescan service can occasionally fail with a transient
     # "could not be scanned" error if the underlying scanners are still warming up.
     # To keep this integration test robust while still asserting the desired
-    # behaviour, retry a small number of times on that specific condition.
+    # behavior, retry a small number of times on that specific condition.
     max_attempts = 5
     last_response = None
     for attempt in range(max_attempts):
@@ -104,6 +106,7 @@ def test_clean_image_upload_passes_filescan(client: APIClient) -> None:
         last_response = response
         if response.status_code == 201:
             break
+
         body = response.json()
         if (
             body.get("nonFieldErrors")
@@ -112,6 +115,7 @@ def test_clean_image_upload_passes_filescan(client: APIClient) -> None:
         ):
             time.sleep(0.5)
             continue
+
         # Temporary debug to understand unexpected 4xx responses in CI/local runs.
         print("unexpected /v1/content/images response:", response.status_code, body)
         break
@@ -145,8 +149,7 @@ def test_malware_eicar_upload_rejected_by_filescan(client: APIClient) -> None:
             and attempt < max_attempts - 1
         ):
             time.sleep(0.5)
-            continue
-        break
+            break
 
     assert response is not None
     assert response.status_code == 400

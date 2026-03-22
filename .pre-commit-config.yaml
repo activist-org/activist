@@ -13,20 +13,28 @@ repos:
     hooks:
       - id: ruff-check
         name: run ruff linting check
-        files: ^backend/
+        files: ^(backend|services)/
         args: [--fix, --exit-non-zero-on-fix]
 
       - id: ruff-format
         name: run ruff formatting check
-        files: ^backend/
+        files: ^(backend|services)/
 
   - repo: https://github.com/numpy/numpydoc
     rev: v1.9.0
     hooks:
       - id: numpydoc-validation
-        name: run numpydoc docstring validation
+        name: run backend numpydoc docstring validation
         files: ^backend/
         exclude: ^backend/(.*/?(tests(/.*)?|views\.py|__init__\.py))$
+
+  - repo: https://github.com/numpy/numpydoc
+    rev: v1.9.0
+    hooks:
+      - id: numpydoc-validation
+        name: run services numpydoc docstring validation
+        files: ^services/
+        exclude: ^services/(.*/?(tests(/.*)?|__init__\.py))$
 
   - repo: local
     hooks:

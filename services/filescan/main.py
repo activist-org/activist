@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import os
-import uuid
 import asyncio
 import logging
+import os
+import uuid
 
-from fastapi import FastAPI, File, HTTPException, UploadFile, Request
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse
-
-from scanners import scan_with_clamav, scan_with_csam
 from notification_helpers import notify_malware_quarantined
+from scanners.clamav import scan_with_clamav
+from scanners.csam import scan_with_csam
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -35,6 +35,7 @@ async def healthcheck() -> dict[str, str]:
         # Use a tiny, empty scan to verify that the ClamAV daemon is up.
         # scan_with_clamav will raise RuntimeError if the daemon is unavailable.
         await scan_with_clamav(b"")
+
     except RuntimeError as exc:
         # Surface scanner unavailability as a 503 so orchestrators know
         # the service is not yet ready.
@@ -44,17 +45,23 @@ async def healthcheck() -> dict[str, str]:
 
 
 @app.post("/scan")
-async def scan_file(request: Request, file: UploadFile | None = File(None)) -> JSONResponse:
+async def scan_file(
+    request: Request, file: UploadFile | None = File(None)
+) -> JSONResponse:
     expected_token = os.getenv("FILESCAN_INTERNAL_TOKEN")
     if expected_token:
         provided = request.headers.get("X-Filescan-Token")
         if provided != expected_token:
-            logger.warning("unauthorized scan request: missing or invalid X-Filescan-Token")
+            logger.warning(
+                "unauthorized scan request: missing or invalid X-Filescan-Token"
+            )
             raise HTTPException(status_code=403, detail="Unauthorized")
     if file is None or not file.filename:
         logger.warning("scan request rejected: no file or filename")
         return JSONResponse(
-            content={"detail": "No file was sent. Please include a file in the request."},
+            content={
+                "detail": "No file was sent. Please include a file in the request."
+            },
             status_code=400,
         )
 
