@@ -20,13 +20,16 @@ export default defineNuxtConfig({
     },
   },
   modules: process.env.VITEST ? [] : modules,
-  ssr: false,
 
   devtools: {
     enabled: true,
   },
 
-  plugins: ["~/plugins/i18n-head.ts", "~/plugins/i18n-iso-countries.ts"],
+  plugins: [
+    "~/plugins/i18n-head.ts",
+    "~/plugins/i18n-iso-countries.ts",
+    "~/plugins/error-watcher.ts",
+  ],
   // Auto import services and stores.
   imports: {
     dirs: ["./constants", "./services", "./stores"],
@@ -59,6 +62,7 @@ export default defineNuxtConfig({
     "reduced-motion/css",
     "v-calendar/style.css",
     "vue-sonner/style.css",
+    "maplibre-gl/dist/maplibre-gl.css",
   ],
 
   postcss: {

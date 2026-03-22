@@ -176,7 +176,7 @@ export const useRouting = () => {
           };
 
           div.addEventListener("click", updateSelectedProfile);
-          if (window.innerWidth < 768) {
+          if (window?.innerWidth < 768) {
             div.addEventListener("touchend", updateSelectedProfile);
           } else {
             document.addEventListener("keydown", (event) => {
@@ -225,7 +225,7 @@ export const useRouting = () => {
                 )
               : t("i18n.composables.use_routing_map.clear_directions_tooltip");
 
-          if (window.innerWidth >= 768 && directions.waypoints.length !== 0) {
+          if (window?.innerWidth >= 768 && directions.waypoints.length !== 0) {
             label += " [x]";
           }
 
@@ -235,7 +235,7 @@ export const useRouting = () => {
             directions.clear();
             resetDirectionsControl();
           });
-          if (window.innerWidth < 768) {
+          if (window?.innerWidth < 768) {
             div.addEventListener("touchend", () => {
               directions.clear();
               resetDirectionsControl();

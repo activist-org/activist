@@ -110,11 +110,11 @@ const props = withDefaults(defineProps<Props>(), {
   expanded: false,
 });
 
-const localValue = ref(props.modelValue || "");
+const localValue = ref(props?.modelValue || "");
 watch(
   props,
   (newVal) => {
-    localValue.value = newVal.modelValue || "";
+    localValue.value = newVal?.modelValue || "";
   },
   { immediate: true }
 );

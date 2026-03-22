@@ -16,7 +16,8 @@ const locationIcon = `/icons/map/tooltip_location.png`;
 const { getEventColorByType } = useColor();
 
 const buildExpandedTooltip = () => {
-  const root = document.createElement("div");
+  const root = document?.createElement?.("div");
+  if (!root) return null;
   root.className = "w-[220px] cursor-pointer font-sans";
 
   let tooltipClass = "";

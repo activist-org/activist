@@ -20,19 +20,19 @@ describe("useBreakpoint composable", () => {
   });
 
   it("returns true when width matches small breakpoint", () => {
-    globalThis.window.innerWidth = 500;
+    globalThis.window?.innerWidth = 500;
     const isSmall = useBreakpoint("sm");
     expect(isSmall.value).toBe(true);
   });
 
   it("returns true when width matches medium breakpoint", () => {
-    globalThis.window.innerWidth = 800;
+    globalThis.window?.innerWidth = 800;
     const isMedium = useBreakpoint("md");
     expect(isMedium.value).toBe(true);
   });
 
   it("returns true when width matches large breakpoint", () => {
-    globalThis.window.innerWidth = 1200;
+    globalThis.window?.innerWidth = 1200;
     const isLarge = useBreakpoint("lg");
     expect(isLarge.value).toBe(true);
   });
