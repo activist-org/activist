@@ -37,6 +37,7 @@ from content.serializers import (
     ResourceSerializer,
     TopicSerializer,
 )
+from core.filescan import scan_uploads_and_rewind
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
@@ -404,6 +405,10 @@ class ImageViewSet(viewsets.ModelViewSet[Image]):
     parser_classes = [MultiPartParser, FormParser]
 
     def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        files = request.FILES.getlist("file_object")
+        if err := scan_uploads_and_rewind(files or []):
+            return err
+
         serializer = self.get_serializer(
             data=request.data,
             context={"request": request},
@@ -431,6 +436,10 @@ class ImageIconViewSet(viewsets.ModelViewSet[Image]):
     parser_classes = [MultiPartParser, FormParser]
 
     def create(self, request: Request, *args: Any, **kwargs: Any) -> Response:
+        upload = request.FILES.get("file_object")
+        if err := scan_uploads_and_rewind([upload] if upload else []):
+            return err
+
         serializer = self.get_serializer(
             data=request.data,
             context={"request": request},
@@ -438,7 +447,6 @@ class ImageIconViewSet(viewsets.ModelViewSet[Image]):
         if serializer.is_valid():
             image = serializer.save()  # returns an image
 
-            # We need to serialize the list of images.
             response_serializer = self.get_serializer(image)
 
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)

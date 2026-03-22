@@ -1,0 +1,13 @@
+This is a larger clean test file used to verify that bigger non-malicious uploads pass the ClamAV scan without issues.
+
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+

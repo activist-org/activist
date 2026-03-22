@@ -8,6 +8,7 @@ import os
 import uuid
 from datetime import datetime
 from typing import Any, Dict, Generator
+from unittest.mock import patch
 
 import pytest
 from django.conf import settings
@@ -22,6 +23,24 @@ from content.models import Image
 from content.serializers import ImageSerializer
 
 MEDIA_ROOT = settings.MEDIA_ROOT  # ensure this points to the images folder
+
+
+@pytest.fixture
+def client() -> APIClient:
+    """Use DRF APIClient so multipart and request.data match the view."""
+    return APIClient()
+
+
+@pytest.fixture(autouse=True)
+def mock_scan_file() -> Generator[None, None, None]:
+    """
+    Mock the filescan service so upload tests do not call the real service.
+    The view proceeds to serializer validation and create.
+    """
+    with patch(
+        "core.filescan.scan_helpers.scan_file", return_value={"malware_detected": False}
+    ):
+        yield
 
 
 @pytest.fixture
@@ -158,7 +177,7 @@ def test_image_create_single_file_view(client: APIClient) -> None:
     response = client.post("/v1/content/images", data, format="multipart")
 
     assert response.status_code == 201, (
-        f"Expected status code 201, but got {response.status_code}."
+        f"Expected 201, got {response.status_code}. Body: {response.json()}"
     )
     assert Image.objects.count() == 1, (
         "Expected one image in the database, but found more than one."
