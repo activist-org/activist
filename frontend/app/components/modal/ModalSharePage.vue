@@ -1,6 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <ModalBase :modalName="modalName">
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
@@ -66,7 +65,9 @@
 
           <ModalQRCodeBtn
             v-if="organization"
-            :organization="organization"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_organization')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="organization.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -74,7 +75,9 @@
           />
           <ModalQRCodeBtn
             v-if="group"
-            :group="group"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_group')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="group.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -82,7 +85,9 @@
           />
           <ModalQRCodeBtn
             v-if="event"
-            :event="event"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_event')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="event.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -90,19 +95,23 @@
           />
           <ModalQRCodeBtn
             v-if="resource"
+            :firstParagraph="`${$t('i18n.components.modal_share_page.section_1_paragraph_1_resource')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="resource.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
-            :resource="resource"
             type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="user"
+            :firstParagraph="`${$t('i18n.components.modal_share_page.section_1_paragraph_1_user')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="user.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
             type="meta-tag"
-            :user="user"
           />
 
           <BtnShareIcon
@@ -213,35 +222,18 @@
   </ModalBase>
   <!-- Note: ModalQRCode is intentionally outside ModalBase so it survives when the share modal closes. -->
   <ModalQRCode
-    v-if="organization"
+    v-if="user || organization || group || event || resource"
     @closeModal="() => modals.closeModal('ModalsQRCode')"
-    :organization="organization"
-  />
-  <ModalQRCode
-    v-if="group"
-    @closeModal="() => modals.closeModal('ModalsQRCode')"
-    :group="group"
-  />
-  <ModalQRCode
-    v-if="event"
-    @closeModal="() => modals.closeModal('ModalsQRCode')"
-    :event="event"
-  />
-  <ModalQRCode
-    v-if="resource"
-    @closeModal="() => modals.closeModal('ModalsQRCode')"
-    :resource="resource"
-  />
-  <ModalQRCode
-    v-if="user"
-    @closeModal="() => modals.closeModal('ModalsQRCode')"
-    :user="user"
+    :fileName="computedFileName"
+    :firstParagraph="firstParagraph"
+    :link-url="linkUrl.linkUrl.value"
+    :name="getCurrentName()"
+    :second-paragraph="$t('i18n.components._global.section_1_paragraph_1_2')"
   />
 </template>
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
-import { Toaster } from "vue-sonner";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
@@ -252,6 +244,26 @@ const props = defineProps<{
   user?: UserActivist;
 }>();
 
+const linkUrl = useLinkURL(props);
+
+const computedFileName = computed(() => {
+  return "qr_code_" + (getCurrentName() ?? "").toLowerCase().replaceAll(" ", "_");
+})
+
+const firstParagraph = computed(() => {
+  if (props.organization) {
+    return $t("i18n.components.modal_share_page.section_1_paragraph_1_organization");
+  } if (props.group) {
+    return $t("i18n.components.modal_share_page.section_1_paragraph_1_group");
+  } if (props.event) {
+    return $t("i18n.components.modal_share_page.section_1_paragraph_1_event");
+  } if (props.resource) {
+    return $t("i18n.components.modal_share_page.section_1_paragraph_1_resource");
+  } if (props.user) {
+    return $t("i18n.components.modal_share_page.section_1_paragraph_1_user");
+  }
+  return "";
+});
 const modalName = "ModalSharePage";
 const modals = useModals();
 
@@ -266,7 +278,7 @@ const getEntityType = () => {
 };
 
 const setEntityInfo = (
-  data: typeof props.organization | typeof props.group | typeof props.event
+  data: Entity
 ) => {
   if (!data) return;
   return {

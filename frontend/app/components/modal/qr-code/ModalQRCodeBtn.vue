@@ -44,29 +44,23 @@
     </p>
   </div>
   <ModalQRCode
-    v-if="organization"
     @closeModal="handleCloseModal"
-    :organization="organization"
+    :fileName="computedFileName"
+    :firstParagraph="firstParagraph"
+    :linkUrl="linkUrl"
+    :secondParagraph="secondParagraph ?? ''"
   />
-  <ModalQRCode v-if="group" @closeModal="handleCloseModal" :group="group" />
-  <ModalQRCode v-if="event" @closeModal="handleCloseModal" :event="event" />
-  <ModalQRCode
-    v-if="resource"
-    @closeModal="handleCloseModal"
-    :resource="resource"
-  />
-  <ModalQRCode v-if="user" @closeModal="handleCloseModal" :user="user" />
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  organization?: Organization;
-  group?: Group;
-  event?: CommunityEvent;
-  resource?: Resource;
-  user?: UserActivist;
+const props = defineProps<{
   type: "icon" | "meta-tag";
   reasonForSuggesting: string;
+  firstParagraph: string;
+  linkUrl: string;
+  name?: string;
+  secondParagraph?: string;
+  fileName?: string;
 }>();
 
 const modals = useModals();
@@ -82,4 +76,9 @@ const handleCloseModal = () => {
   modals.closeModal(modalName);
   modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
 };
+
+const computedFileName = computed(() => {
+  if (props.fileName) return props.fileName;
+  return "qr_code_" + (props.name ?? "").toLowerCase().replaceAll(" ", "_");
+});
 </script>
