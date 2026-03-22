@@ -53,6 +53,7 @@
         fontSize="xl"
         label="i18n.components.landing_splash.request_access"
         :linkTo="REQUEST_ACCESS_URL"
+        @click="handleRequestAccessClick"
       />
     </div>
   </div>
@@ -62,4 +63,33 @@
 const aboveMediumBP = useBreakpoint("md");
 const devMode = useDevMode();
 devMode.check();
+
+async function canReachRequestAccessForm(): Promise<boolean> {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 2500);
+
+  try {
+    // no-cors allows a lightweight connectivity check for external domains.
+    await fetch(REQUEST_ACCESS_URL, {
+      mode: "no-cors",
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    return true;
+  } catch {
+    return false;
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
+async function handleRequestAccessClick(event: MouseEvent) {
+  event.preventDefault();
+
+  const targetUrl = (await canReachRequestAccessForm())
+    ? REQUEST_ACCESS_URL
+    : REQUEST_ACCESS_FALLBACK_URL;
+
+  window.location.assign(targetUrl);
+}
 </script>

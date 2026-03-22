@@ -7,3 +7,5 @@ export const FRIENDLY_CAPTCHA_KEY = import.meta.env
   .VITE_FRIENDLY_CAPTCHA_SITE_KEY;
 export const REQUEST_ACCESS_URL =
   "https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8";
+export const REQUEST_ACCESS_FALLBACK_URL =
+  "https://docs.activist.org/activist/welcome/request-access";

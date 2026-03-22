@@ -6,6 +6,7 @@ import {
   BASE_FRONTEND_URL,
   BASE_BACKEND_URL,
   REQUEST_ACCESS_URL,
+  REQUEST_ACCESS_FALLBACK_URL,
 } from "../../app/constants/baseUrls";
 
 describe("constants/baseUrls", () => {
@@ -15,6 +16,9 @@ describe("constants/baseUrls", () => {
     expect(ACTIVIST_URL).toBe("https://activist.org");
     expect(REQUEST_ACCESS_URL).toBe(
       "https://forms.activist.org/s/cm30ujrcj0003107fqc75yke8"
+    );
+    expect(REQUEST_ACCESS_FALLBACK_URL).toBe(
+      "https://docs.activist.org/activist/welcome/request-access"
     );
   });
 
