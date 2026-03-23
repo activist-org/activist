@@ -2,8 +2,8 @@
 import { setActivePinia, createPinia } from "pinia";
 import { describe, it, expect, beforeEach } from "vitest";
 
-import { useCreateEventStore } from "../../app/stores";
-import { CreateEventSteps } from "../../shared/types";
+import { useCreateEventStore } from "../../../app/stores";
+import { CreateEventSteps } from "../../../shared/types";
 
 describe("useCreateEventStore", () => {
   beforeEach(() => {

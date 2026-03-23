@@ -21,6 +21,7 @@ services:
       - .env.dev
     depends_on:
       - db
+      - mailhog
     build:
       context: ./backend
     container_name: django_backend
@@ -62,6 +63,12 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - VITE_FRONTEND_URL=${VITE_FRONTEND_URL}
       - VITE_BACKEND_URL=${VITE_BACKEND_URL}
+      - EMAIL_BACKEND=${EMAIL_BACKEND}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
     healthcheck:
       test:
         [
@@ -74,6 +81,13 @@ services:
       start_period: 60s
     volumes:
       - ./backend/media:/app/media
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
   frontend:
     env_file:

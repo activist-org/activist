@@ -178,88 +178,81 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
 
 // MARK: Last event (activist_0's when E2E ordering is on)
 
-const MAX_SCROLL_ITERATIONS = 10;
-const SCROLL_POLL_MS = 100;
-const SCROLL_WAIT_FOR_MORE_MS = 600;
+type PaginatedEventsResponse = {
+  results: Array<{ id: string }>;
+  next: string | null;
+};
 
 /**
- * Navigate to the last event in the list (infinite scroll), then open the given subpage.
- * Use after signing in as activist_0 so edit permission checks pass (last event is activist_0's when E2E ordering is on).
+ * Turn DRF `next` (absolute or relative) into a path Playwright can pass to
+ * `page.request.get` with the suite `baseURL`.
+ */
+function eventsListNextPath(nextUrl: string): string {
+  try {
+    const u = new URL(nextUrl, "http://localhost");
+    return `${u.pathname}${u.search}`;
+  } catch {
+    return nextUrl;
+  }
+}
+
+/**
+ * Walk paginated GET /api/auth/events/events using the same session as `page`
+ * until the final page, then return the **last** event id in API order.
  *
- * @param page - Playwright page
- * @param subpage - Event subpage to open: "about" | "resources" | "faq"
- * @returns Object with eventId (from last card link) and eventPage
+ * In CI / development the backend orders activist_0's events last
+ * (`EventAPIView.get_queryset`), so this id is suitable for "member edits own
+ * event" tests without relying on infinite scroll or UI timing.
+ */
+export async function fetchLastEventIdFromEventsApi(
+  page: Page
+): Promise<string> {
+  let path = "/api/auth/events/events?page_size=100";
+  let lastId = "";
+
+  for (;;) {
+    const res = await page.request.get(path);
+    if (!res.ok()) {
+      const snippet = (await res.text()).slice(0, 400);
+      throw new Error(`GET ${path} failed: ${res.status()} — ${snippet}`);
+    }
+    const body = (await res.json()) as PaginatedEventsResponse;
+    if (!body.results?.length) {
+      throw new Error(`Events list returned no results (${path})`);
+    }
+    lastId = body.results[body.results.length - 1]!.id;
+    if (!body.next) break;
+    path = eventsListNextPath(body.next);
+  }
+
+  if (!lastId) {
+    throw new Error("Could not resolve last event id from API");
+  }
+  return lastId;
+}
+
+/**
+ * Open the event that is **last** in the authenticated events list API order,
+ * then the requested subpage, via direct navigation (no list scroll / card click).
+ *
+ * Use with activist_0's session: backend E2E ordering puts that user's events last.
  */
 export async function navigateToLastEventSubpage(
   page: Page,
   subpage: "about" | "resources" | "faq"
 ) {
-  // 1. Events list in list view (same as navigateToFirstEvent).
-  await page.goto("/events", { waitUntil: "load" });
-  const listViewButton = page.getByRole("radio", { name: /list view/i });
-  await listViewButton
-    .waitFor({ state: "visible", timeout: 3000 })
-    .catch(() => {});
-  const isChecked = await listViewButton.isChecked().catch(() => false);
-  if (!isChecked) {
-    await listViewButton.click();
-  }
-  await expect(page.getByTestId("event-card").first()).toBeVisible({
-    timeout: 5000,
-  });
+  const eventId = await fetchLastEventIdFromEventsApi(page);
 
-  // 2. Infinite scroll until no new cards load (or max iterations). Poll for count increase instead of fixed wait.
-  const eventCards = page.getByTestId("event-card");
-  let prevCount = await eventCards.count();
-  for (let i = 0; i < MAX_SCROLL_ITERATIONS; i++) {
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    const deadline = Date.now() + SCROLL_WAIT_FOR_MORE_MS;
-    let count = await eventCards.count();
-    while (Date.now() < deadline && count <= prevCount) {
-      await page.waitForTimeout(SCROLL_POLL_MS);
-      count = await eventCards.count();
-    }
-    if (count <= prevCount) break;
-    prevCount = count;
-  }
+  await page.goto(`/events/${eventId}/${subpage}`, { waitUntil: "load" });
 
-  // 3. Last card: get link href and extract event id.
-  const lastCard = eventCards.last();
-  await expect(lastCard).toBeVisible();
-  const lastCardLink = lastCard.getByRole("link").first();
-  await expect(lastCardLink).toBeVisible();
-  const eventUrl = await lastCardLink.getAttribute("href");
-  if (!eventUrl) throw new Error("Last event card has no link href");
-  const eventIdMatch = eventUrl.match(/\/events\/([a-f0-9-]{36})/);
-  if (!eventIdMatch?.[1])
-    throw new Error("Could not extract event id from last card link");
-  const eventId = eventIdMatch[1];
-
-  // 4. Navigate to event by clicking the last card (user flow).
-  await lastCardLink.click();
-  await page.waitForURL(/\/events\/[a-f0-9-]{36}(\/|$)/);
+  await expect(page).toHaveURL(
+    new RegExp(`.*\\/events\\/${eventId}\\/${subpage}`)
+  );
 
   const { newEventPage } =
     await import("~/test-e2e/page-objects/event/EventPage");
   const eventPage = newEventPage(page);
-  await expect(eventPage.pageHeading).toBeVisible();
-
-  // 5. If subpage is not "about", open it via the event page menu (desktop).
-  if (subpage !== "about") {
-    const subpageMapping: Record<string, string> = {
-      faq: "questions",
-    };
-    const menuSubpage = subpageMapping[subpage] ?? subpage;
-    const subpageOption =
-      eventPage.menu[`${menuSubpage}Option` as keyof typeof eventPage.menu];
-    await expect(subpageOption).toBeVisible();
-    await subpageOption.click();
-  }
-
-  // 6. Assert we landed on the event we clicked (URL id matches extracted id) and the requested subpage.
-  await expect(page).toHaveURL(
-    new RegExp(`.*\\/events\\/${eventId}\\/${subpage}`)
-  );
+  await expect(eventPage.pageHeading).toBeVisible({ timeout: 15000 });
 
   return { eventId, eventPage };
 }
