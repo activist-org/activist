@@ -4,11 +4,15 @@
     <div class="relative w-full flex-col">
       <ModalQRCodeBtn
         v-if="event"
-        :firstParagraph="$t('i18n.components._global.section_1_paragraph_1_event')"
+        :firstParagraph="
+          $t('i18n.components._global.section_1_paragraph_1_event')
+        "
         :linkUrl="eventLinkUrl"
         :name="event.name"
         reason-for-suggesting=""
-        :second-paragraph="$t('i18n.components._global.section_1_paragraph_1_2')"
+        :second-paragraph="
+          $t('i18n.components._global.section_1_paragraph_1_2')
+        "
         type="icon"
       />
       <div class="flex-col space-y-3">

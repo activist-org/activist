@@ -247,19 +247,27 @@ const props = defineProps<{
 const linkUrl = useLinkURL(props);
 
 const computedFileName = computed(() => {
-  return "qr_code_" + (getCurrentName() ?? "").toLowerCase().replaceAll(" ", "_");
-})
+  return (
+    "qr_code_" + (getCurrentName() ?? "").toLowerCase().replaceAll(" ", "_")
+  );
+});
 
 const firstParagraph = computed(() => {
   if (props.organization) {
-    return $t("i18n.components.modal_share_page.section_1_paragraph_1_organization");
-  } if (props.group) {
-    return $t("i18n.components.modal_share_page.section_1_paragraph_1_group");
-  } if (props.event) {
-    return $t("i18n.components.modal_share_page.section_1_paragraph_1_event");
-  } if (props.resource) {
-    return $t("i18n.components.modal_share_page.section_1_paragraph_1_resource");
-  } if (props.user) {
+    return $t("i18n.components._global.section_1_paragraph_1_organization");
+  }
+  if (props.group) {
+    return $t("i18n.components._global.section_1_paragraph_1_group");
+  }
+  if (props.event) {
+    return $t("i18n.components._global.section_1_paragraph_1_event");
+  }
+  if (props.resource) {
+    return $t(
+      "i18n.components.modal_share_page.section_1_paragraph_1_resource"
+    );
+  }
+  if (props.user) {
     return $t("i18n.components.modal_share_page.section_1_paragraph_1_user");
   }
   return "";
@@ -277,9 +285,7 @@ const getEntityType = () => {
   }
 };
 
-const setEntityInfo = (
-  data: Entity
-) => {
+const setEntityInfo = (data: Entity) => {
   if (!data) return;
   return {
     subject: `Share ${data.name}!`,

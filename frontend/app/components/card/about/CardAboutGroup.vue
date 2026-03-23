@@ -3,7 +3,9 @@
   <CardAbout>
     <ModalQRCodeBtn
       v-if="group && !expandText"
-      :firstParagraph="$t('i18n.components._global.section_1_paragraph_1_group')"
+      :firstParagraph="
+        $t('i18n.components._global.section_1_paragraph_1_group')
+      "
       :linkUrl="groupLinkUrl"
       :name="group.name"
       reason-for-suggesting=""
