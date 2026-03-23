@@ -47,9 +47,8 @@
             ]"
             :cta="true"
             fontSize="base"
-          >
-            {{ option }}
-          </BtnAction>
+            :label="option"
+          />
         </MenuItem>
       </MenuItems>
     </Menu>
