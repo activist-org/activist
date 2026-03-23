@@ -2,9 +2,18 @@
 import type { VueWrapper } from "@vue/test-utils";
 
 import { mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+import type { CommunityEvent } from "../../../shared/types/event";
+import type { Group } from "../../../shared/types/group";
+import type { Organization } from "../../../shared/types/organization";
+import type { Resource } from "../../../shared/types/resource";
+import type { UserActivist } from "../../../shared/types/user";
 
 import ModalSharePage from "../../../app/components/modal/ModalSharePage.vue";
+
+// Mock global $t for setup context
+vi.stubGlobal("$t", (key: string) => key);
 
 // MARK: Stubs
 
@@ -56,12 +65,6 @@ const IconStub = {
   name: "Icon",
   props: ["name", "size"],
   template: '<span class="icon-stub"></span>',
-};
-
-const ToasterStub = {
-  name: "Toaster",
-  props: ["theme"],
-  template: '<div data-testid="toaster"></div>',
 };
 
 // MARK: Test Data
@@ -148,7 +151,6 @@ const createWrapper = (
         BtnShareIcon: BtnShareIconStub,
         ModalQRCodeBtn: ModalQRCodeBtnStub,
         Icon: IconStub,
-        Toaster: ToasterStub,
       },
     },
   });
@@ -185,11 +187,6 @@ describe("ModalSharePage component", () => {
       expect(wrapper.text()).toContain(
         "i18n.components.modal_share_page.other"
       );
-    });
-
-    it("renders Toaster component", () => {
-      const wrapper = createWrapper({ organization: testOrganization });
-      expect(wrapper.find('[data-testid="toaster"]').exists()).toBe(true);
     });
   });
 
