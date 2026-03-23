@@ -32,19 +32,24 @@
           :key="option"
           v-slot="{ active }"
           @click="dropdownOptionsCallback(option)"
-          as="button"
-          class="block w-full cursor-pointer px-4 py-2 text-left text-sm"
-          :class="[
-            option === dropdownOptions[0] ? 'rounded-t-md' : '',
-            option === dropdownOptions[dropdownOptions.length - 1]
-              ? 'rounded-b-md'
-              : '',
-            active
-              ? 'bg-cta-orange/80 text-primary-text dark:bg-cta-orange/40 dark:text-cta-orange'
-              : 'text-primary-text',
-          ]"
         >
-          {{ option }}
+          <BtnAction
+            :ariaLabel="option"
+            class="block w-full cursor-pointer px-4 py-2 text-left text-sm"
+            :class="[
+              option === dropdownOptions[0] ? 'rounded-t-md' : '',
+              option === dropdownOptions[dropdownOptions.length - 1]
+                ? 'rounded-b-md'
+                : '',
+              active
+                ? 'bg-cta-orange/80 text-primary-text dark:bg-cta-orange/40 dark:text-cta-orange'
+                : 'text-primary-text',
+            ]"
+            :cta="true"
+            fontSize="base"
+          >
+            {{ option }}
+          </BtnAction>
         </MenuItem>
       </MenuItems>
     </Menu>
