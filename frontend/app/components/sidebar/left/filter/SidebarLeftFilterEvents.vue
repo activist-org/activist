@@ -24,7 +24,6 @@
     />
     </div>
     <Form
-      :key="formKey"
       @submit="handleSubmit"
       class="px-1"
       :initial-values="formData"
@@ -224,7 +223,6 @@ const optionLocations = [
 
 const route = useRoute();
 const router = useRouter();
-const formKey = ref(0);
 
 const updateViewType = (
   value: string | number | boolean | Record<string, unknown> | undefined
@@ -250,9 +248,28 @@ const formData = ref({});
 watch(
   route,
   (r) => {
-    const q = (r.query as Record<string, unknown>) || {};
-    const { view, ..._rest } = q;
-    formData.value = routeQueryToEventsFilterFormData(q);
+    const q = { ...(r.query as Record<string, unknown>) };
+    const { view } = q;
+
+    // 🔥 Explicitly set all schema fields to undefined by default.
+    // If they are missing from the URL, this forces VeeValidate to clear them
+    // instead of resetting them to their initial page-load values.
+    const newFormData = {
+      days_ahead: undefined,
+      type: undefined,
+      locationType: undefined,
+      location: undefined,
+      topics: [],
+      ...q
+    };
+
+    // Normalize topics into an array for the Combobox
+    if (newFormData.topics && !Array.isArray(newFormData.topics)) {
+      newFormData.topics = [newFormData.topics];
+    }
+
+    formData.value = newFormData;
+
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
@@ -261,26 +278,20 @@ watch(
   },
   { immediate: true }
 );
+
 const hasActiveFilters = computed(() =>
   Object.keys(route.query).some((k) => k !== "view")
 );
 
-const isClearing = ref(false);
 
 const clearFilters = async () => {
-  isClearing.value = true;
-  formData.value = {};
-  formKey.value++;
-  await router.push({ query: { view: viewType.value } });
-  isClearing.value = false;
+  router.push({ query: { view: viewType.value } });
 };
 
 const handleSubmit = (_values: unknown) => {
-  if (isClearing.value) return;
   if (!currentRoutePathIncludes("events", route.name?.toString() ?? "")) return;
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
-
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
       if (
