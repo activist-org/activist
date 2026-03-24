@@ -5572,6 +5572,68 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vueuse/core@npm:14.2.1":
+  version: 14.2.1
+  resolution: "@vueuse/core@npm:14.2.1"
+  dependencies:
+    "@types/web-bluetooth": "npm:^0.0.21"
+    "@vueuse/metadata": "npm:14.2.1"
+    "@vueuse/shared": "npm:14.2.1"
+  peerDependencies:
+    vue: ^3.5.0
+  checksum: 10c0/cd6f01fb074d423bdab324d8f262ff2597d6ce397d6fd139f3fe741e3e4f636b3481456e12b265021bf3626026410df1c3635981c1912648d80581cf066a3bf4
+  languageName: node
+  linkType: hard
+
+"@vueuse/integrations@npm:14.2.1":
+  version: 14.2.1
+  resolution: "@vueuse/integrations@npm:14.2.1"
+  dependencies:
+    "@vueuse/core": "npm:14.2.1"
+    "@vueuse/shared": "npm:14.2.1"
+  peerDependencies:
+    async-validator: ^4
+    axios: ^1
+    change-case: ^5
+    drauu: ^0.4
+    focus-trap: ^7 || ^8
+    fuse.js: ^7
+    idb-keyval: ^6
+    jwt-decode: ^4
+    nprogress: ^0.2
+    qrcode: ^1.5
+    sortablejs: ^1
+    universal-cookie: ^7 || ^8
+    vue: ^3.5.0
+  peerDependenciesMeta:
+    async-validator:
+      optional: true
+    axios:
+      optional: true
+    change-case:
+      optional: true
+    drauu:
+      optional: true
+    focus-trap:
+      optional: true
+    fuse.js:
+      optional: true
+    idb-keyval:
+      optional: true
+    jwt-decode:
+      optional: true
+    nprogress:
+      optional: true
+    qrcode:
+      optional: true
+    sortablejs:
+      optional: true
+    universal-cookie:
+      optional: true
+  checksum: 10c0/296115b82386f95c30d67c9c26370c7e73228361b8e9be12fb98dbfa401344345b278ce95c2dcc2e41d3def8d56510e141b2bb65e24d9dd6238ef5e0c0815d6a
+  languageName: node
+  linkType: hard
+
 "@vueuse/math@npm:14.2.0":
   version: 14.2.0
   resolution: "@vueuse/math@npm:14.2.0"
@@ -5587,6 +5649,13 @@ __metadata:
   version: 14.1.0
   resolution: "@vueuse/metadata@npm:14.1.0"
   checksum: 10c0/983296b13dc979e8a18831315631e0d08934e655edd0d12073c06512228a5a5140af0671eb28b20068ef42c55312a58287a7d51314427d2edcbbf0c38f5994c8
+  languageName: node
+  linkType: hard
+
+"@vueuse/metadata@npm:14.2.1":
+  version: 14.2.1
+  resolution: "@vueuse/metadata@npm:14.2.1"
+  checksum: 10c0/f36571b6898876242dd20a621d343caa1804fabeb14cacd89571fedd0d56885066587aa6b0c6f98108d3d26e1876e61913629cbc70e3776949326f312e6ad769
   languageName: node
   linkType: hard
 
@@ -5620,6 +5689,15 @@ __metadata:
   peerDependencies:
     vue: ^3.5.0
   checksum: 10c0/39c3ffc7d7b2a3ce3a85ac099b2eb9e6bbf7b445958d25c8befc99a5dcea84f21f78a8dd2b689dd2e04910b7f81b33e5914f8e6e9be809557e5f9ef9c7ed217c
+  languageName: node
+  linkType: hard
+
+"@vueuse/shared@npm:14.2.1":
+  version: 14.2.1
+  resolution: "@vueuse/shared@npm:14.2.1"
+  peerDependencies:
+    vue: ^3.5.0
+  checksum: 10c0/c646b6313ba1092f858dfda13aa84750844661919632346202a2ed9e640febd0898953d2cdaa3e42ea174bea95ad0ba61295ce5bc32a49502f1583f1f3471bd7
   languageName: node
   linkType: hard
 
@@ -5721,6 +5799,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:4.0.18"
     "@vue/test-utils": "npm:2.4.6"
     "@vueuse/core": "npm:14.1.0"
+    "@vueuse/integrations": "npm:14.2.1"
     "@vueuse/math": "npm:14.2.0"
     "@vueuse/nuxt": "npm:14.1.0"
     autoprefixer: "npm:10.4.23"
@@ -5755,7 +5834,6 @@ __metadata:
     prettier: "npm:3.8.1"
     prettier-plugin-tailwindcss: "npm:0.7.2"
     qrcode: "npm:1.5.4"
-    qrcode.vue: "npm:3.6.0"
     reduced-motion: "npm:1.0.4"
     rollup: "npm:4.59.0"
     swiper: "npm:12.1.2"
@@ -8352,9 +8430,9 @@ __metadata:
   linkType: hard
 
 "flatted@npm:^3.2.9":
-  version: 3.3.3
-  resolution: "flatted@npm:3.3.3"
-  checksum: 10c0/e957a1c6b0254aa15b8cce8533e24165abd98fadc98575db082b786b5da1b7d72062b81bfdcd1da2f4d46b6ed93bec2434e62333e9b4261d79ef2e75a10dd538
+  version: 3.4.2
+  resolution: "flatted@npm:3.4.2"
+  checksum: 10c0/a65b67aae7172d6cdf63691be7de6c5cd5adbdfdfe2e9da1a09b617c9512ed794037741ee53d93114276bff3f93cd3b0d97d54f9b316e1e4885dde6e9ffdf7ed
   languageName: node
   linkType: hard
 
@@ -8805,8 +8883,8 @@ __metadata:
   linkType: hard
 
 "h3@npm:^1.12.0, h3@npm:^1.15.4, h3@npm:^1.15.5":
-  version: 1.15.5
-  resolution: "h3@npm:1.15.5"
+  version: 1.15.9
+  resolution: "h3@npm:1.15.9"
   dependencies:
     cookie-es: "npm:^1.2.2"
     crossws: "npm:^0.3.5"
@@ -8817,7 +8895,7 @@ __metadata:
     radix3: "npm:^1.1.2"
     ufo: "npm:^1.6.3"
     uncrypto: "npm:^0.1.3"
-  checksum: 10c0/d36c05176555109aa0b42c520dc03350d5baa9fff5067075f0919920a80f966a53eff2785051203a4630f8472bec118e5e0187b186a3105eba3106087cb0ddb9
+  checksum: 10c0/22fccf8a52d9944dd85158ee81eed06916ddbbb9fb7cbf4e9f47a581719b294231732d9d1ac419f352a32a5a61f82f1e965156828757c5cde1ad98331ca7a2c7
   languageName: node
   linkType: hard
 
@@ -12533,15 +12611,6 @@ __metadata:
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
   checksum: 10c0/14f76a8206bc3464f794fb2e3d3cc665ae416c01893ad7a02b23766eb07159144ee612ad67af5e84fa4479ccfe67678c4feb126b0485651b302babf66f04f9e9
-  languageName: node
-  linkType: hard
-
-"qrcode.vue@npm:3.6.0":
-  version: 3.6.0
-  resolution: "qrcode.vue@npm:3.6.0"
-  peerDependencies:
-    vue: ^3.0.0
-  checksum: 10c0/47324708259664311d378fc10b7b00c79c9966a7d192c54af7fe4a6406ce911e7940e82b2b004d880f49380b78999ab39d491d5a54743b0f66cfe4a2ce3a7529
   languageName: node
   linkType: hard
 

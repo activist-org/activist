@@ -5,8 +5,8 @@ export const getKeyForGetGroupImages = (id: string) => `groupImages:${id}`;
 
 export function useGetGroupImages(id: MaybeRef<string>) {
   const { showToastError } = useToaster();
-  const groupId = computed(() => String(unref(id)));
-  const store = useGroupStore();
+  const groupId = computed(() => unref(id));
+  const store = useGroupImageStore();
   // Cache key for useAsyncData.
   const key = computed(() =>
     groupId.value ? getKeyForGetGroupImages(groupId.value) : null
@@ -14,9 +14,7 @@ export function useGetGroupImages(id: MaybeRef<string>) {
 
   // Check if we have cached data.
   const cached = computed(
-    () =>
-      store.getGroupImages().length > 0 &&
-      groupId.value === store.getGroup()?.id
+    () => store.getImages().length > 0 && groupId.value === store.getEntityId()
   );
 
   // Only fetch if we have an ID and no cached data.
@@ -31,7 +29,7 @@ export function useGetGroupImages(id: MaybeRef<string>) {
       try {
         const images = await fetchGroupImages(groupId.value);
         // Cache the result in store.
-        store.setGroupImages(images);
+        store.setImages(images);
         return images;
       } catch (error) {
         showToastError((error as AppError).message);
@@ -44,10 +42,10 @@ export function useGetGroupImages(id: MaybeRef<string>) {
       getCachedData: (key, nuxtApp) => {
         if (
           nuxtApp.isHydrating &&
-          store.getGroupImages().length > 0 &&
-          groupId.value === store.getGroup()?.id
+          store.getImages().length > 0 &&
+          groupId.value === store.getEntityId()
         ) {
-          return store.getGroupImages();
+          return store.getImages();
         }
         return nuxtApp.isHydrating
           ? nuxtApp.payload.data[key]
@@ -72,8 +70,8 @@ export function useGetGroupImages(id: MaybeRef<string>) {
       return;
     }
     // Clear cache first to force refetch.
-    if (groupId.value) {
-      store.clearGroupImages(groupId.value);
+    if (groupId.value === store.getEntityId()) {
+      store.clearImages();
     }
     // Let useAsyncData refetch and update store in the success path above.
     await refreshNuxtData(key.value);

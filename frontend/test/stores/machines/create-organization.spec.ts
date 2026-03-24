@@ -2,8 +2,8 @@
 import { setActivePinia, createPinia } from "pinia";
 import { describe, it, expect, beforeEach } from "vitest";
 
-import { useCreateOrganizationStore } from "../../app/stores";
-import { CreateOrganizationSteps } from "../../shared/types";
+import { useCreateOrganizationStore } from "../../../app/stores";
+import { CreateOrganizationSteps } from "../../../shared/types";
 
 // If these are "OrganizationDetails" and "Location" in your real file, this test will pass.
 

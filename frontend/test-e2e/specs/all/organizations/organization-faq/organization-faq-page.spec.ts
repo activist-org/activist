@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
-  // MARK: - Accessibility
+  // MARK: Accessibility
 
   test("Organization FAQ Page has no detectable accessibility issues", async ({
     page,
@@ -45,7 +45,7 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
     });
   });
 
-  // MARK: - CRUD Operations
+  // MARK: CRUD Operations
 
   test("User can manage FAQ entries (CREATE, UPDATE, DELETE)", async ({
     page,
@@ -206,7 +206,7 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
     expect(finalFaqCount).toBeLessThanOrEqual(afterCreateCount - 1);
   });
 
-  // MARK: - View and Interact
+  // MARK: View and Interact
 
   test("User can view and interact with FAQ entries", async ({ page }) => {
     const organizationPage = newOrganizationPage(page);
