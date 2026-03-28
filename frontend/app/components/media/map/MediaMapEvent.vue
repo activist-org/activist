@@ -17,7 +17,7 @@ const { getEventColorByType } = useColor();
 
 const buildExpandedTooltip = () => {
   const root = document?.createElement?.("div");
-  if (!root) return null;
+  if (!root) return undefined;
   root.className = "w-[220px] cursor-pointer font-sans";
 
   let tooltipClass = "";
@@ -57,8 +57,9 @@ const buildExpandedTooltip = () => {
       </a>
     `;
 
-  return root;
+  return root as HTMLDivElement;
 };
+
 const pointer: Pointer = {
   id: event.id,
   color: getEventColorByType(event.type as EventType),

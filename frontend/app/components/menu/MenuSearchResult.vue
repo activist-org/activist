@@ -67,8 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
 defineProps<{
   organization?: Organization;
   group?: Group;

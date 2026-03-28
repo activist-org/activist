@@ -2,9 +2,9 @@
 <template>
   <NuxtLoadingIndicator color="#F0A14C" />
   <HeaderMobile />
-    <MenuMobileNavigationDropdown class="block md:hidden" />
+  <MenuMobileNavigationDropdown class="block md:hidden" />
   <slot />
-    <MenuMobileNavBar class="block md:hidden" />
+  <MenuMobileNavBar class="block md:hidden" />
 </template>
 
 <script setup lang="ts">

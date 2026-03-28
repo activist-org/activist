@@ -11,7 +11,7 @@
     }"
   >
     <!-- MARK: Mobile Header (Visible only on small screens) -->
-    <div id="mobile-header" class="flex md:hidden px-4 py-3">
+    <div id="mobile-header" class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
         <div
           class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
@@ -58,7 +58,7 @@
     </div>
 
     <!-- MARK: Desktop Header (Visible only on md screens and up) -->
-    <div id="desktop-header" class="hidden md:block mx-auto py-3">
+    <div id="desktop-header" class="mx-auto hidden py-3 md:block">
       <div class="responsive-px-5 flex items-center justify-between">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
@@ -146,7 +146,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from "vue";
 
 // REMOVED useBreakpoint as it is now handled by CSS
 const devMode = useDevMode();

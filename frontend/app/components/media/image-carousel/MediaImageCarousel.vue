@@ -11,9 +11,11 @@
       :spaceBetween="0"
     >
       <swiper-slide
-        v-for="[idx, img] of ( isMounted ? imageUrls?.entries(): imageUrls?.entries().take(1))"
+        v-for="[idx, img] of isMounted
+          ? imageUrls?.entries()
+          : imageUrls?.entries().take(1)"
         :key="idx"
-        class="swiper-zoom-container items-center justify-center bg-layer-2 flex"
+        class="swiper-zoom-container flex items-center justify-center bg-layer-2"
       >
         <img
           :alt="$t('i18n.components.media_image_carousel.img_alt_text')"
@@ -44,8 +46,8 @@
 
 <script setup lang="ts">
 import type { Swiper as SwiperInstance } from "swiper";
-import { register } from "swiper/element/bundle";
 
+import { register } from "swiper/element/bundle";
 
 interface Props {
   fullscreen: boolean;

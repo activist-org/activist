@@ -34,11 +34,7 @@ const { setMapLayers, setMap } = useRouting();
 const isTouchDevice =
   window &&
   navigator &&
-  // IE/old Edge
-  (navigator?.msMaxTouchPoints > 0 ||
-    // Standard
-    "ontouchstart" in window ||
-    navigator?.maxTouchPoints > 0);
+  ("ontouchstart" in window || navigator?.maxTouchPoints > 0);
 
 // MARK: Map Layers
 

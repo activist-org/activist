@@ -4,9 +4,15 @@
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
   >
     <div class="relative flex w-full flex-col md:flex-row">
-      <div class="flex w-full justify-center md:w-fit shrink-0">
-        <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)" class="block">
-          <div class="h-fit w-fit rounded-md border border-section-div overflow-hidden">
+      <div class="flex w-full shrink-0 justify-center md:w-fit">
+        <NuxtLink
+          :aria-label="$t(ariaLabel)"
+          class="block"
+          :to="localePath(linkUrl)"
+        >
+          <div
+            class="h-fit w-fit overflow-hidden rounded-md border border-section-div"
+          >
             <slot :imageAlt="imageAlt" :imageUrl="imageUrl" name="image">
               <img
                 v-if="imageUrl"
@@ -26,10 +32,12 @@
           </div>
         </NuxtLink>
       </div>
-      <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6 min-w-0">
+      <div
+        class="min-w-0 flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6"
+      >
         <div class="-mb-2 flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
-            <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)" >
+            <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
               <h3 class="font-bold" data-testid="group-title">
                 {{ title }}
               </h3>
@@ -39,9 +47,7 @@
               name="menu"
             />
           </div>
-          <div
-            class="hidden md:flex items-center space-x-3 lg:space-x-5"
-          >
+          <div class="hidden items-center space-x-3 md:flex lg:space-x-5">
             <slot name="desktop-meta-tags" />
           </div>
         </div>

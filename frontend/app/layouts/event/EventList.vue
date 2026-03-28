@@ -6,7 +6,7 @@
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="hidden md:block fixed top-0 z-20 h-screen"
+      class="fixed top-0 z-20 hidden h-screen md:block"
     />
     <div class="flex flex-col">
       <div
@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =

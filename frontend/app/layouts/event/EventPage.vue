@@ -11,7 +11,7 @@
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen md:block hidden"
+      class="fixed top-0 z-20 hidden h-screen md:block"
     />
     <div class="flex flex-col">
       <div
@@ -29,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
-
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
