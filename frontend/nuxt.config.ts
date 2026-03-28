@@ -24,7 +24,6 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
-
   plugins: [
     "~/plugins/i18n-head.ts",
     "~/plugins/i18n-iso-countries.ts",
@@ -112,7 +111,7 @@ export default defineNuxtConfig({
   nitro: {
     // Use node-server preset for local preview/Docker (creates .output/server/index.mjs)
     // Use netlify-static preset for Netlify deployment (creates static site)
-    preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
+    preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify",
   },
 
   plausible: {
