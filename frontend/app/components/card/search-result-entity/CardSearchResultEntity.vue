@@ -4,9 +4,9 @@
     class="card-style flex flex-col justify-center px-3 py-4 md:grow md:flex-row md:justify-start md:py-3 lg:px-5"
   >
     <div class="relative flex w-full flex-col md:flex-row">
-      <div class="flex w-full justify-center md:w-fit">
-        <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
-          <div class="h-min w-max rounded-md border border-section-div">
+      <div class="flex w-full justify-center md:w-fit shrink-0">
+        <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)" class="block">
+          <div class="h-fit w-fit rounded-md border border-section-div overflow-hidden">
             <slot :imageAlt="imageAlt" :imageUrl="imageUrl" name="image">
               <img
                 v-if="imageUrl"
@@ -26,10 +26,10 @@
           </div>
         </NuxtLink>
       </div>
-      <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
+      <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6 min-w-0">
         <div class="-mb-2 flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
-            <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
+            <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)" >
               <h3 class="font-bold" data-testid="group-title">
                 {{ title }}
               </h3>
@@ -40,16 +40,14 @@
             />
           </div>
           <div
-            v-if="aboveMediumBP"
-            class="flex items-center space-x-3 lg:space-x-5"
+            class="hidden md:flex items-center space-x-3 lg:space-x-5"
           >
             <slot name="desktop-meta-tags" />
           </div>
         </div>
         <div class="flex flex-col space-y-3 md:flex-row md:space-y-0">
           <div
-            v-if="!aboveMediumBP"
-            class="flex flex-col items-center justify-center space-y-1.5 pt-4"
+            class="flex flex-col items-center justify-center space-y-1.5 pt-4 md:hidden"
           >
             <slot name="mobile-meta-tags" />
           </div>
@@ -97,7 +95,6 @@ const props = defineProps<{
   isReduced?: boolean;
 }>();
 
-const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 
 const imageSizeClass = computed(() => ({

@@ -14,11 +14,11 @@
   >
     <template #image="{ imageUrl: slotImageUrl }">
       <div
-        class="flex items-center justify-center"
+        class="flex items-center justify-center shrink-0"
         :class="{
-          'h-[150px] w-[150px]': isReduced,
-          'h-[200px] w-[200px]': !isReduced,
-        }"
+      'h-28 w-28 md:h-[150px] md:w-[150px]': isReduced,
+      'h-32 w-32 md:h-[200px] md:w-[200px]': !isReduced,
+    }"
       >
         <ImageEvent
           :alt="imageAlt"

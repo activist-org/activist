@@ -7,12 +7,11 @@
     /> -->
     <!-- <ModalUploadImage @upload-complete="handleUploadComplete" /> -->
     <SidebarLeft
-      v-if="aboveMediumBP"
       @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen"
+      class="fixed top-0 z-20 h-screen md:block hidden"
     />
     <div class="flex flex-col">
       <div
@@ -30,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

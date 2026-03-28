@@ -7,12 +7,11 @@
       :entityType="EntityType.EVENT"
     />
     <SidebarLeft
-      v-if="aboveMediumBP"
       @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen"
+      class="fixed top-0 z-20 h-screen md:block hidden"
     />
     <div class="flex flex-col">
       <div

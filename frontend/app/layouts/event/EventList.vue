@@ -2,12 +2,11 @@
 <template>
   <NuxtLayout name="app">
     <SidebarLeft
-      v-if="aboveMediumBP"
       @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen"
+      class="hidden md:block fixed top-0 z-20 h-screen"
     />
     <div class="flex flex-col">
       <div
@@ -25,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

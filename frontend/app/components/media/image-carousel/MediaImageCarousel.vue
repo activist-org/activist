@@ -11,16 +11,16 @@
       :spaceBetween="0"
     >
       <swiper-slide
-        v-for="[idx, img] of imageUrls?.entries()"
+        v-for="[idx, img] of ( isMounted ? imageUrls?.entries(): imageUrls?.entries().take(1))"
         :key="idx"
-        class="swiper-zoom-container flex items-center justify-center bg-layer-2"
+        class="swiper-zoom-container items-center justify-center bg-layer-2 flex"
       >
         <img
           :alt="$t('i18n.components.media_image_carousel.img_alt_text')"
           class="object-cover object-center"
           :class="{
-            'h-5/6 w-5/6': props.fullscreen,
-            'h-70': !props.fullscreen,
+            'h-5/6 w-5/6': fullscreen,
+            'h-70': !fullscreen,
           }"
           :src="img"
         />
@@ -44,8 +44,8 @@
 
 <script setup lang="ts">
 import type { Swiper as SwiperInstance } from "swiper";
-
 import { register } from "swiper/element/bundle";
+
 
 interface Props {
   fullscreen: boolean;
@@ -57,6 +57,9 @@ const props = defineProps<Props>();
 
 register();
 
+// MARK: State to track when SSR hydration is complete
+const isMounted = ref(false);
+
 const uploadError = ref(false);
 const currentImageId = ref<string>("");
 const { openModal: openModalUploadImageOrganization } = useModalHandlers(
@@ -65,17 +68,20 @@ const { openModal: openModalUploadImageOrganization } = useModalHandlers(
 const { openModal: openModalUploadImageGroup } = useModalHandlers(
   "ModalUploadImageGroup"
 );
+
 const handleOpenModalUploadImage = () => {
   if (props.entityType === EntityType.GROUP) openModalUploadImageGroup();
   if (props.entityType === EntityType.ORGANIZATION)
     openModalUploadImageOrganization();
 };
-// Get the swiper instance. Use this instance to listen for the slideChange event.
+
 const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);
 
 onMounted(() => {
+  // MARK: Inform the template that JS has loaded
+  isMounted.value = true;
+
   const swiperEl = swiperRef.value;
-  // Now we assert swiperRef value is a Swiper instance.
   if (swiperEl?.swiper) {
     swiperEl.swiper.on("slideChange", () => {
       const activeIndex = swiperEl?.swiper?.realIndex ?? 1;

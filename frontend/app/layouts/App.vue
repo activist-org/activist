@@ -2,17 +2,12 @@
 <template>
   <NuxtLoadingIndicator color="#F0A14C" />
   <HeaderMobile />
-  <ClientOnly>
-    <MenuMobileNavigationDropdown v-if="!aboveMediumBP" />
-  </ClientOnly>
+    <MenuMobileNavigationDropdown class="block md:hidden" />
   <slot />
-  <ClientOnly>
-    <MenuMobileNavBar v-if="!aboveMediumBP" />
-  </ClientOnly>
+    <MenuMobileNavBar class="block md:hidden" />
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
 const sidebar = useSidebar();
 
 onMounted(() => {

@@ -13,12 +13,11 @@
       :entityType="EntityType.GROUP"
     />
     <SidebarLeft
-      v-if="aboveMediumBP"
       @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="block"
+      class="hidden md:block"
     />
     <div class="flex flex-col md:h-screen md:overflow-y-scroll">
       <div
