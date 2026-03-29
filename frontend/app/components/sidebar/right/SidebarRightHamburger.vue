@@ -10,7 +10,7 @@
       class="group relative z-50 outline-offset-4 focus-brand"
     >
       <div
-        class="relative flex h-[20px] w-[30px] transform items-center justify-center bg-transparent transition-all duration-200"
+        class="relative flex h-5 w-[30px] transform items-center justify-center bg-transparent transition-all duration-200"
       >
         <span
           class="duration-250 absolute left-0 top-0 h-[0.2rem] w-full transform rounded-full bg-menu-selection transition-all ease-in-out"

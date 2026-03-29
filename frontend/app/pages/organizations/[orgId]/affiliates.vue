@@ -40,6 +40,4 @@
 defineProps<{
   organization: Organization;
 }>();
-
-// const orgSupporters = [];
 </script>

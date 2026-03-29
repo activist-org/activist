@@ -4,6 +4,10 @@ import { describe, expect, it } from "vitest";
 
 import MenuLinkWrapper from "../../../app/components/menu/MenuLinkWrapper.vue";
 import render from "../../../test/render";
+import { createUseLocalePathMock } from "../../mocks/composableMocks";
+
+// Explicitly set up useLocalePath mock using factory.
+globalThis.useLocalePath = createUseLocalePathMock();
 
 const baseProps = {
   to: "/settings",

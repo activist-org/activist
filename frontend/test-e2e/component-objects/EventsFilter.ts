@@ -8,7 +8,7 @@ import type { Locator, Page } from "@playwright/test";
  * - View type selector (list, map, calendar)
  * - Days ahead selector (1, 7, 30)
  * - Event type selector (learn, action)
- * - Location type selector (offline, online)
+ * - Location type selector (physical, online)
  * - Location search input
  * - Topics combobox
  *
@@ -39,7 +39,7 @@ export const newEventsFilter = (parent: Page | Locator) => {
     /**
      * Days ahead filter section (1, 7, 30 days).
      */
-    daysSection: root.getByTestId("events-filter-days"),
+    daysSection: root.getByTestId("events-filter-days-ahead"),
 
     /**
      * Event type filter section (learn, action).
@@ -47,7 +47,7 @@ export const newEventsFilter = (parent: Page | Locator) => {
     eventTypeSection: root.getByTestId("events-filter-event-type"),
 
     /**
-     * Location type filter section (offline/in-person, online).
+     * Location type filter section (physical, online).
      */
     locationTypeSection: root.getByTestId("events-filter-location-type"),
 

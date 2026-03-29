@@ -65,6 +65,7 @@ frontend/!.yarn/plugins
 frontend/!.yarn/releases
 frontend/!.yarn/sdks
 frontend/!.yarn/versions
+**/package-lock.json
 
 # Media
 backend/media/images/*
@@ -79,3 +80,6 @@ backend/media/images/*
 # ZAP Security Reports
 zap-reports/
 frontend/test-e2e/.auth/
+
+# Snyk Security Extension
+.cursor/rules/snyk_rules.mdc

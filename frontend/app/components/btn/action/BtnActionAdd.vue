@@ -16,13 +16,14 @@
 </template>
 
 <script setup lang="ts">
-import type { BtnAction } from "#shared/types/btn-props";
+import type { BtnAction } from "#shared/types/components-props";
 
 const { canCreate } = useUser();
-const canAdd = computed(() => canCreate());
 type Props = Omit<BtnAction, "label" | "leftIcon" | "cta" | "fontSize"> & {
   element: string;
+  entity?: Entity | null;
   onClick?: () => void;
 };
-defineProps<Props>();
+const props = defineProps<Props>();
+const canAdd = computed(() => canCreate(props.entity));
 </script>

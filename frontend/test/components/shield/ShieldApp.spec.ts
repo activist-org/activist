@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import ShieldApp from "../../../app/components/shield/ShieldApp.vue";
 import render from "../../../test/render";
 
-// Shield App Basic Rendering
+// MARK: Basic Rendering
 
 describe("Shield App Basic Rendering", () => {
   it("renders link correctly", async () => {
@@ -16,11 +16,11 @@ describe("Shield App Basic Rendering", () => {
       },
     });
 
-    // Link exists and renders slot correctly
+    // Link exists and renders slot correctly.
     const link = screen.getByRole("link", { name: /test link name/i });
     expect(link).toBeTruthy();
 
-    // Link URL is correct and opens in new tab
+    // Link URL is correct and opens in new tab.
     expect(link.getAttribute("href")).toBe("https://test-url.com");
     expect(link.getAttribute("target")).toBe("_blank");
   });

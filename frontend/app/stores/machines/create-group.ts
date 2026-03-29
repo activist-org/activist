@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { createFlowStore } from "./flow";
+import { createFlowStore } from "../factories/flow";
 
 const GroupDetailsStep = () =>
   import("../../components/machine/steps/createGroup/MachineStepsCreateGroupDetails.vue");
@@ -7,7 +7,7 @@ const GroupLocationStep = () =>
   import("../../components/machine/steps/createGroup/MachineStepsCreateGroupLocation.vue");
 
 export const useCreateGroupStore = createFlowStore({
-  machine: {
+  machine: defineFlowMachine({
     id: "createGroupFlow",
     initialNode: CreateGroupSteps.GroupDetails,
     states: {
@@ -24,5 +24,5 @@ export const useCreateGroupStore = createFlowStore({
         component: GroupLocationStep,
       },
     },
-  },
+  }),
 });

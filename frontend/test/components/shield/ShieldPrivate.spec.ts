@@ -19,17 +19,17 @@ const createWrapper = async (props: Partial<ShieldPrivateProps> = {}) =>
     },
   });
 
-// Shield Private Basic Rendering
+// MARK: Basic Rendering
 
 describe("Shield Private Basic Rendering", () => {
   it("renders by default with correct label and icons", async () => {
     await createWrapper();
 
-    // Uses correct label
+    // Uses correct label.
     const label = screen.getByText("Private");
     expect(label).toBeTruthy();
 
-    // Uses correct icon (`IconMap.HIDDEN` has aria-label `bi:eye-slash-fill`)
+    // Uses correct icon (`IconMap.HIDDEN` has aria-label `bi:eye-slash-fill`).
     const icon = screen.getByRole("img", { name: "bi:eye-slash-fill" });
     expect(icon).toBeTruthy();
   });
@@ -42,7 +42,7 @@ describe("Shield Private Basic Rendering", () => {
   });
 });
 
-// Shield Private Visual & Responsive Styling
+// MARK: Visual & Responsive Styling
 
 describe("Shield Private Visual & Responsive Styling", () => {
   const fontSizeClasses = [

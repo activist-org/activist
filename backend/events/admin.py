@@ -30,7 +30,7 @@ class EventAdminForm(ModelForm):  # type: ignore[type-arg]
 
     def clean(self) -> dict[str, Any]:
         """
-        Validate and normalize Event admin form data based on the `setting` field.
+        Validate and normalize Event admin form data based on the `location_type` field.
 
         Returns
         -------
@@ -38,11 +38,11 @@ class EventAdminForm(ModelForm):  # type: ignore[type-arg]
             Validated and normalized form data.
         """
         cleaned_data: dict[str, Any] = super().clean() or {}
-        setting = cleaned_data.get("setting")
+        location_type = cleaned_data.get("location_type")
         online_location_link = cleaned_data.get("online_location_link")
-        offline_location = cleaned_data.get("offline_location")
+        physical_location = cleaned_data.get("physical_location")
 
-        if setting == "online":
+        if location_type == "online":
             if not online_location_link:
                 raise ValidationError(
                     {
@@ -50,13 +50,13 @@ class EventAdminForm(ModelForm):  # type: ignore[type-arg]
                     }
                 )
 
-            cleaned_data["offline_location"] = None
+            cleaned_data["physical_location"] = None
 
-        elif setting == "offline":
-            if not offline_location:
+        elif location_type == "physical":
+            if not physical_location:
                 raise ValidationError(
                     {
-                        "offline_location": "Offline location is required for offline events."
+                        "physical_location": "Physical location is required for physical events."
                     }
                 )
 

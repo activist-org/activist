@@ -4,7 +4,7 @@
     <div class="flex-col space-y-2">
       <!-- <BtnAction
         @keydown="handleTabPress(false, $event)"
-        class="flex max-h-[40px] w-full"
+        class="flex max-h-10 w-full"
         :cta="true"
         label="i18n._global.support"
         leftIcon="IconSupport"
@@ -12,7 +12,7 @@
         ariaLabel="i18n._global.support_event_aria_label"
       /> -->
       <!-- <BtnAction
-        class="flex max-h-[40px] w-full items-center"
+        class="flex max-h-10 w-full items-center"
         :cta="true"
         label="i18n.components.tooltip_menu_search_result_event.attend"
         leftIcon="IconJoin"
@@ -24,7 +24,7 @@
         @keydown="handleTabPress(true, $event)"
         @keydown.enter="openModal()"
         ariaLabel="i18n._global.share_event_aria_label"
-        class="flex max-h-[40px] w-full items-center"
+        class="flex max-h-10 w-full items-center"
         :cta="true"
         fontSize="lg"
         label="i18n._global.share"
@@ -34,7 +34,7 @@
         @click="downloadCalendarEntry"
         @keydown.enter="downloadCalendarEntry"
         ariaLabel="i18n._global.subscribe_to_event_aria_label"
-        class="flex max-h-[40px] w-full items-center"
+        class="flex max-h-10 w-full items-center"
         :cta="true"
         fontSize="lg"
         :hideLabelOnMobile="false"

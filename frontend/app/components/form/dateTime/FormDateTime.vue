@@ -17,7 +17,6 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import { DatePicker } from "v-calendar";
-import "v-calendar/style.css";
 
 defineOptions({
   inheritAttrs: false,
@@ -25,7 +24,6 @@ defineOptions({
 
 export interface Props {
   id?: string;
-  label?: string;
   modelValue?: Date | null | undefined;
   mode?: "date" | "dateTime" | "time";
 }

@@ -2,7 +2,7 @@
 <template>
   <div
     id="map"
-    class="card-style-base dark:brightness-95 dark:contrast-[90%] dark:hue-rotate-180 dark:invert"
+    class="dark:contrast-90 card-style-base dark:brightness-95 dark:hue-rotate-180 dark:invert"
   ></div>
 </template>
 

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// See: backend/communities/groups/models.py
 // Note: We need to import here to overwrite base types.
 
 // MARK: Main Table
@@ -32,6 +33,14 @@ export interface GroupImage {
   groupId: string;
   imageId: string;
   sequenceIndex: number;
+}
+export interface CreateGroupInput {
+  name: string;
+  tagline?: string;
+  city: string;
+  description: string;
+  topics: TopicEnum[];
+  organization: string;
 }
 
 export interface GroupMember {

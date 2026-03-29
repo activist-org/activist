@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// TODO: This file should be refactored to decouple the file management logic from the API calls, and to handle errors more robustly.
 export function useFileManager() {
   const uploadError = ref(false);
-  const { token } = useAuth();
 
   async function deleteImage(imageId: string) {
     if (!imageId) {
@@ -9,15 +9,7 @@ export function useFileManager() {
     }
 
     try {
-      return await fetch(
-        `${BASE_BACKEND_URL as string}/content/images/${imageId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `${token.value}`,
-          },
-        }
-      );
+      return del(`/content/images/${imageId}`, { withoutAuth: false });
     } catch (error) {
       void error;
     }

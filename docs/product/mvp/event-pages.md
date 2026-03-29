@@ -19,7 +19,7 @@ Event pages on activist.org support a range of event formats to meet diverse org
 
 * **Live Feed**: Event organizers can share real-time updates, announcements, and important information with participants, keeping everyone informed and engaged throughout the event.
 * **Event Templates**: Organizations can create reusable templates for specific types of events, making it easy to coordinate with allied organizations and maintain consistent event branding.
-* **Transformable Pages**: Event pages can be converted into different formats, such as flyers or posters. Organizations can generate these materials with a QR code that links directly to the online event page, facilitating easy sharing both online and offline.
+* **Transformable Pages**: Event pages can be converted into different formats, such as flyers or posters. Organizations can generate these materials with a QR code that links directly to the online event page, facilitating easy sharing both online and physically.
 * **Organizer Notes**: Add essential information or warnings for participants. This feature is especially useful for action events where participants may need to be aware of potential risks or logistical considerations.
 
 #### How to Use

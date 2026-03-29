@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// See: backend/events/models.py
+
 // MARK: Main Table
 
 interface EventBase extends Entity {
@@ -6,13 +8,12 @@ interface EventBase extends Entity {
   iconUrl?: ContentImage;
   type: EventType;
   onlineLocationLink?: string;
-  offlineLocation?: PhysicalLocation;
+  physicalLocation?: PhysicalLocation;
   socialLinks: EventSocialLink[];
   faqEntries?: FaqEntry[];
-  startTime: string;
-  endTime?: string;
+  times: EventTime[];
   // TODO: Convert to an array.
-  orgs: Organization;
+  orgs: Organization[];
   discussion?: DiscussionEntry[];
   resources?: Resource[];
   // task?: Task[];
@@ -28,6 +29,13 @@ export interface CommunityEvent extends EventBase {
 
 export type EventsPaginatedResponse = PaginatedResponse<CommunityEvent>;
 
+export interface EventTime {
+  startTime: string;
+  endTime: string;
+  allDay: boolean;
+  date: string;
+}
+
 // MARK: Bridge Tables
 
 export interface EventAttendee {
@@ -41,7 +49,7 @@ export interface EventAttendee {
 
 export interface EventFilters {
   setting?: EventType;
-  locationType?: "online" | "offline";
+  locationType?: "online" | "physical";
   topics?: TopicEnum[]; // array of topic IDs
   name?: string; // search term for event name
   days_ahead?: number; // number of days in the future
@@ -103,4 +111,33 @@ export interface EventUpdateTextFormData {
   description: string;
   getInvolved: string;
   getInvolvedUrl?: string;
+}
+
+export interface EventTimeInput {
+  date: string;
+  all_day: boolean;
+  start_time?: string;
+  end_time?: string;
+}
+
+export interface CreateEventInput {
+  name: string;
+  tagline?: string;
+  description: string;
+  organizations: string[];
+  groups?: string[];
+  location_type: "offline" | "online";
+  event_type: EventType;
+  topics: TopicEnum[];
+  online_location_link?: string;
+  location?: {
+    address_or_name: string;
+    city: string;
+    country_code: string;
+    lat: string;
+    lon: string;
+    bbox: string[];
+  };
+  times: EventTimeInput[];
+  createdEventIds: string[];
 }

@@ -28,11 +28,11 @@
       </div>
       <!-- Note: Search Input -->
       <div
-        class="flex select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-[12px] text-left text-distinct-text transition duration-200 elem-shadow-sm focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
+        class="flex select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-3 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
       >
         <div class="flex flex-1 items-center space-x-2 pl-1">
           <Icon
-            class="my-1 h-4 w-4 flex-shrink-0"
+            class="my-1 h-4 w-4 shrink-0"
             :name="IconMap.SEARCH"
             size="1em"
           />
@@ -54,39 +54,36 @@
         </div>
         <div
           ref="hotkeyIndicators"
-          class="transition-duration-200 flex flex-shrink-0 space-x-1 pr-1 transition-opacity"
+          class="transition-duration-200 flex shrink-0 space-x-1 pr-1 transition-opacity"
         >
           <div
-            class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
+            v-tooltip="$t('i18n.components._global.slash_tooltip_label')"
+            class="flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
           >
-            <TooltipBase
-              class="invisible -mt-8"
-              :text="$t('i18n.components._global.slash_tooltip_label')"
-            />
+            <!-- prettier-ignore -->
             <p class="-mt-[0.075rem]">
-              <!-- Preserve line break. -->
               /
             </p>
           </div>
           <div
             v-if="isMacOS"
-            class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
+            v-tooltip="$t('i18n.components._global.command_tooltip_label')"
+            class="flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
           >
-            <TooltipBase
-              class="invisible -mt-8"
-              :text="$t('i18n.components._global.command_tooltip_label')"
-            />
-            <p>⌘k</p>
+            <!-- prettier-ignore -->
+            <p>
+              ⌘k
+            </p>
           </div>
           <div
             v-else
-            class="has-tooltip flex rounded-md bg-highlight px-2 py-[0.125rem] text-center text-sm text-distinct-text"
+            v-tooltip="$t('i18n.components._global.control_tooltip_label')"
+            class="flex rounded-md bg-highlight px-2 py-0.5 text-center text-sm text-distinct-text"
           >
-            <TooltipBase
-              class="invisible -mt-8"
-              :text="$t('i18n.components._global.control_tooltip_label')"
-            />
-            <p>⌃k</p>
+            <!-- prettier-ignore -->
+            <p>
+              ⌃k
+            </p>
           </div>
         </div>
       </div>
@@ -98,7 +95,7 @@
       >
         <h3 class="mb-3 flex items-center gap-2">
           <span
-            class="font-redhat flex items-center text-[22px] font-[600] leading-[29.11px]"
+            class="font-redhat flex items-center text-[22px] font-semibold leading-[29.11px]"
           >
             {{ section.title }}
             <Icon
@@ -116,7 +113,7 @@
             @click="toggleTag(tag)"
             @keydown.enter="toggleTag(tag)"
             :ariaLabel="$t(tag.name)"
-            class="flex max-h-[40px]"
+            class="flex max-h-10"
             :cta="tag.selected"
             fontSize="sm"
             :label="tag.name"

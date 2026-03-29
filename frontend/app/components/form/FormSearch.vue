@@ -1,13 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <div
-    class="flex h-9 select-none items-center space-x-2 rounded-md border border-interactive bg-layer-2 py-2 pl-[12px] pr-[10px] text-left text-distinct-text"
+    class="flex h-9 select-none items-center space-x-2 rounded-md border border-interactive bg-layer-2 py-2 pl-3 pr-2.5 text-left text-distinct-text"
   >
-    <Icon
-      class="my-1 h-4 w-4 flex-shrink-0"
-      :name="IconMap.SEARCH"
-      size="1em"
-    />
+    <Icon class="my-1 h-4 w-4 shrink-0" :name="IconMap.SEARCH" size="1em" />
     <input
       :id="uuid"
       class="h-5 w-full bg-transparent outline-none"

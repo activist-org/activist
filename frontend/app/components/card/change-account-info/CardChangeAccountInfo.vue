@@ -7,7 +7,7 @@
         <!-- <FriendlyCaptcha /> -->
         <BtnAction
           :ariaLabel="ctaAriaLabel"
-          class="flex max-h-[48px] md:max-h-[40px]"
+          class="flex max-h-12 md:max-h-10"
           :cta="true"
           fontSize="sm"
           :label="ctaLabel"

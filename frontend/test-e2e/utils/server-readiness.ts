@@ -18,8 +18,8 @@ export interface ServerReadinessResult {
 }
 
 /**
- * Checks if the server is ready by making multiple requests and ensuring they're stable
- * This helps avoid issues where Nuxt dev server reloads multiple times during startup
+ * Checks if the frontend server is ready by verifying it returns an HTML 200 response.
+ * Works for both Nuxt dev server and static builds served by `serve`.
  */
 export async function checkServerReadiness(
   options: ServerReadinessOptions
@@ -41,7 +41,6 @@ export async function checkServerReadiness(
     attempts++;
 
     try {
-      // Make a request to check if server is responding.
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeout);
 
@@ -58,68 +57,11 @@ export async function checkServerReadiness(
       clearTimeout(timeoutId);
 
       if (response.ok) {
-        // Check if we got HTML content (not an error page).
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("text/html")) {
-          const text = await response.text();
-
-          // Check for signs that the server is still compiling/loading.
-          // Only check for actual compilation indicators, not normal app loading states.
-          const compilationIndicators = [
-            "Compiling...",
-            "Building...",
-            "Hot Module Replacement",
-            "webpack-dev-server",
-            "vite-dev-server",
-            "webpack is compiling",
-            "vite is building",
-          ];
-
-          const foundIndicators = compilationIndicators.filter((indicator) =>
-            text.includes(indicator)
-          );
-          if (foundIndicators.length > 0) {
-            // eslint-disable-next-line no-console
-            console.log(
-              `🔍 Found compilation indicators: ${foundIndicators.join(", ")}`
-            );
-            // eslint-disable-next-line no-console
-            console.log(
-              `🔍 Response sample with indicators: ${text.substring(0, 1000)}...`
-            );
-            throw new Error(
-              `Server is still compiling/loading: ${foundIndicators.join(", ")}`
-            );
-          }
-
-          // Check for Nuxt-specific indicators that the app is ready.
-          // We need both the Nuxt container and the Nuxt data to be present.
-          if (text.includes('id="__nuxt"') && text.includes("__NUXT__")) {
-            // eslint-disable-next-line no-console
-            console.log(`✅ Server is ready after ${attempts} attempt(s)`);
-            return { isReady: true, attempts };
-          } else {
-            const hasNuxtContainer = text.includes('id="__nuxt"');
-            const hasNuxtData = text.includes("__NUXT__");
-            // eslint-disable-next-line no-console
-            console.log(
-              `⚠️  Server responded but missing Nuxt indicators: container=${hasNuxtContainer}, data=${hasNuxtData}`
-            );
-
-            // Additional debug: check for compilation indicators that might be false positives.
-            const hasLoadingText = text.includes("Loading...");
-            const hasLoadingAlt = text.includes("loading the platform");
-            const hasViteClient = text.includes("@vite/client");
-            // eslint-disable-next-line no-console
-            console.log(
-              `🔍 Debug - loading indicators: Loading...=${hasLoadingText}, alt text=${hasLoadingAlt}, vite client=${hasViteClient}`
-            );
-
-            // Log a sample of the response for debugging.
-            const sample = text.substring(0, 500);
-            // eslint-disable-next-line no-console
-            console.log(`🔍 Response sample: ${sample}...`);
-          }
+          // eslint-disable-next-line no-console
+          console.log(`✅ Server is ready after ${attempts} attempt(s)`);
+          return { isReady: true, attempts };
         }
       }
 

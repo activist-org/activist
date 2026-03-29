@@ -2,9 +2,19 @@
 <template>
   <span v-if="status == 2">
     <button
+      v-tooltip="
+        $t(
+          'i18n.components.icon_organization_status.approved_tooltip_hover_text',
+          {
+            entity_name: organization.name,
+            year: new Date().toISOString().slice(0, 10),
+            num_supporters: 6,
+          }
+        )
+      "
       @click="openModal()"
       @keydown.enter="openModal()"
-      class="has-tooltip w-5 cursor-pointer sm:w-6 md:w-7 xl:w-9"
+      class="w-5 cursor-pointer sm:w-6 md:w-7 xl:w-9"
     >
       <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -20,19 +30,6 @@
           d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
         />
       </svg>
-      <TooltipBase
-        class="invisible -ml-32 mt-3 max-w-56 md:-ml-36 md:max-w-96"
-        :text="
-          $t(
-            'i18n.components.icon_organization_status.approved_tooltip_hover_text',
-            {
-              entity_name: organization.name,
-              year: new Date().toISOString().slice(0, 10),
-              num_supporters: 6,
-            }
-          )
-        "
-      />
     </button>
     <ModalOrganizationStatus
       @closeModal="handleCloseModal"
@@ -41,7 +38,17 @@
     />
   </span>
   <span v-else>
-    <div class="has-tooltip w-5 sm:w-6 md:w-7 xl:w-9">
+    <div
+      v-tooltip="
+        $t(
+          'i18n.components.icon_organization_status.pending_tooltip_hover_text',
+          {
+            entity_name: organization.name,
+          }
+        )
+      "
+      class="w-5 sm:w-6 md:w-7 xl:w-9"
+    >
       <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
         <path
           class="fill-warn-yellow dark:fill-warn-yellow"
@@ -56,17 +63,6 @@
           d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016a.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06a.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017a.163.163 0 0 1-.054-.06a.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"
         />
       </svg>
-      <TooltipBase
-        class="invisible -ml-32 mt-3 max-w-56 md:-ml-36 md:max-w-96"
-        :text="
-          $t(
-            'i18n.components.icon_organization_status.pending_tooltip_hover_text',
-            {
-              entity_name: organization.name,
-            }
-          )
-        "
-      />
     </div>
   </span>
 </template>
