@@ -102,7 +102,7 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
     alerts_enabled = os.getenv("FILESCAN_ALERTS_ENABLED", "false").lower() == "true"
     if not alerts_enabled:
         logger.info(
-            "Security alerts disabled; not posting event type=%s", envelope.get("type")
+            f"Security alerts disabled; not posting event type={envelope.get('type')}"
         )
         return
 
@@ -122,22 +122,18 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
         response = httpx.post(backend_url, json=envelope, headers=headers, timeout=5.0)
         if response.status_code >= 400:
             logger.error(
-                "Failed to post security event type=%s status=%s body=%s",
-                envelope.get("type"),
-                response.status_code,
-                response.text,
+                f"Failed to post security event type={envelope.get('type')} "
+                f"status={response.status_code} body={response.text}"
             )
 
         else:
             logger.info(
-                "Posted security event type=%s status=%s",
-                envelope.get("type"),
-                response.status_code,
+                f"Posted security event type={envelope.get('type')} status={response.status_code}"
             )
 
     except httpx.RequestError as exc:
         logger.error(
-            "Error posting security event type=%s error=%s", envelope.get("type"), exc
+            f"Error posting security event type={envelope.get('type')} error={exc}"
         )
 
 
@@ -149,14 +145,14 @@ def notify_malware_quarantined(event: dict[str, object]) -> None:
     security event envelope to the backend over HTTP so that the backend can
     fan-out notifications to operators or downstream systems.
     """
-    logger.warning("malware quarantined event=%s.", event)
+    logger.warning(f"malware quarantined event={event}.")
 
     try:
         envelope = _build_malware_quarantined_envelope(event)
     except Exception as exc:
         # Defensive: never let envelope building break scans.
         logger.error(
-            "Failed to build malware_quarantined envelope error=%s event=%s", exc, event
+            f"Failed to build malware_quarantined envelope error={exc} event={event}"
         )
         return
 

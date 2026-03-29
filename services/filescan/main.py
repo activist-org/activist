@@ -49,8 +49,7 @@ async def healthcheck() -> dict[str, str]:
 async def scan_file(
     request: Request, file: UploadFile | None = File(None)
 ) -> JSONResponse:
-    expected_token = os.getenv("FILESCAN_INTERNAL_TOKEN")
-    if expected_token:
+    if expected_token := os.getenv("FILESCAN_INTERNAL_TOKEN"):
         provided = request.headers.get("X-Filescan-Token")
         if provided != expected_token:
             logger.warning(
@@ -68,10 +67,7 @@ async def scan_file(
 
     file_bytes = await file.read()
     logger.info(
-        "scan request received filename=%s size=%s content_type=%s",
-        file.filename,
-        len(file_bytes),
-        getattr(file, "content_type", None),
+        f"scan request received filename={file.filename} size={len(file_bytes)} content_type={getattr(file, 'content_type', None)}"
     )
 
     try:
@@ -80,7 +76,7 @@ async def scan_file(
             scan_with_csam(file_bytes),
         )
     except RuntimeError as exc:
-        logger.error("scan failed: %s", exc)
+        logger.error(f"scan failed: {exc}")
         return JSONResponse(
             content={"detail": str(exc)},
             status_code=503,
@@ -118,12 +114,10 @@ async def scan_file(
             )
             with open(quarantine_path, "wb") as f_out:
                 f_out.write(file_bytes)
+
         except OSError as exc:
             logger.error(
-                "failed to write quarantine file filename=%s path=%s error=%s",
-                file.filename,
-                quarantine_path,
-                exc,
+                f"failed to write quarantine file filename={file.filename} path={quarantine_path} error={exc}"
             )
 
     content: dict[str, str | bool] = {
@@ -133,21 +127,19 @@ async def scan_file(
     }
     if signature is not None:
         content["signature"] = signature
+
     if source is not None:
         content["source"] = source
+
     if malware_detected and quarantine_id is not None:
         content["quarantine_id"] = quarantine_id
         content["quarantine_available"] = True
 
     if malware_detected:
         logger.warning(
-            "scan response status=200 malware_detected=%s detail=%s source=%s "
-            "quarantine_id=%s quarantine_path=%s",
-            content["malware_detected"],
-            content["detail"],
-            content.get("source"),
-            quarantine_id,
-            quarantine_path,
+            f"scan response status=200 malware_detected={content['malware_detected']} "
+            f"detail={content['detail']} source={content.get('source')} "
+            f"quarantine_id={quarantine_id} quarantine_path={quarantine_path}",
         )
         if quarantine_id is not None:
             event = {
@@ -156,13 +148,12 @@ async def scan_file(
                 "source": source,
                 "quarantine_id": quarantine_id,
             }
-            notify_malware_quarantined(event)
+            notify_malware_quarantined(event=event)
+
     else:
         logger.info(
-            "scan response status=200 malware_detected=%s detail=%s source=%s",
-            content["malware_detected"],
-            content["detail"],
-            content.get("source"),
+            f"scan response status=200 malware_detected={content['malware_detected']} "
+            f"detail={content['detail']} source={content.get('source')}"
         )
 
     return JSONResponse(content=content, status_code=200)

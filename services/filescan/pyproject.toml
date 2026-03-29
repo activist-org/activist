@@ -76,6 +76,7 @@ omit = ["*/tests/*", "*/__init__.py"]
 
 [tool.mypy]
 mypy_path = "services/filescan"
+explicit_package_bases = true
 strict = true
 exclude = ["^.*/tests/.*\\.py$", "^.*/test_.*\\.py$", "^.*/.*_tests\\.py$"]
 
