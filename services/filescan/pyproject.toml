@@ -79,6 +79,10 @@ mypy_path = "services/filescan"
 strict = true
 exclude = ["^.*/tests/.*\\.py$", "^.*/test_.*\\.py$", "^.*/.*_tests\\.py$"]
 
+[[tool.mypy.overrides]]
+module = "pyclamd.*"
+ignore_missing_imports = true
+
 [tool.numpydoc_validation]
 checks = [
     "all",  # report on all checks, except the below

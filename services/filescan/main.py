@@ -78,7 +78,6 @@ async def scan_file(
         clamav_result, csam_result = await asyncio.gather(
             scan_with_clamav(file_bytes),
             scan_with_csam(file_bytes),
-            # Add other scanners here
         )
     except RuntimeError as exc:
         logger.error("scan failed: %s", exc)
