@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./services
+        working-directory: ./services/filescan
 
     steps:
       - name: Checkout Project
