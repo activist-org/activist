@@ -1,4 +1,4 @@
-name: ci_backend_static_analysis
+name: ci_services_static_analysis
 on:
   workflow_dispatch:
   pull_request:
@@ -17,8 +17,8 @@ on:
       - "services/**"
 
 jobs:
-  backend_static_analysis:
-    name: Run PR Backend Static Check
+  services_static_analysis:
+    name: Run PR Services Static Check
     runs-on: ubuntu-latest
     defaults:
       run:

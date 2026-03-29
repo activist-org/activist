@@ -1,4 +1,4 @@
-name: ci_backend_pytest
+name: ci_services_pytest
 on:
   workflow_dispatch:
   pull_request:
