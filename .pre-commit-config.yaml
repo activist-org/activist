@@ -20,6 +20,7 @@ repos:
         name: run ruff formatting check
         files: ^(backend|services)/
 
+  # Note: Two separate calls to numpydoc as we have separate pyproject.toml files.
   - repo: https://github.com/numpy/numpydoc
     rev: v1.9.0
     hooks:

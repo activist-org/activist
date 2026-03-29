@@ -1,4 +1,4 @@
-name: ci_backend_static_analysis
+name: ci_backend_pytest
 on:
   workflow_dispatch:
   pull_request:
@@ -9,20 +9,23 @@ on:
       - reopened
       - synchronize
     paths:
-      - "backend/**"
+      - "services/**"
   push:
     branches:
       - main
     paths:
-      - "backend/**"
-
+      - "services/**"
 jobs:
-  backend_static_analysis:
-    name: Run PR Backend Static Check
+  services_tests:
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+    name: Run PR Services Tests
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./services
 
     steps:
       - name: Checkout Project
@@ -39,17 +42,7 @@ jobs:
       - name: Install Dependencies
         run: uv sync --frozen --all-extras
 
-      - name: Run Ruff Format - Formatting Check
-        run: uv run ruff format .
-
-      - name: Run Ruff - Linting and Import Sorting Check
+      - name: Run pytest - Unit Tests
         if: always()
-        run: uv run ruff check .
-
-      - name: Run mypy - Static Type Checking
-        if: always()
-        run: uv run mypy . --config-file ./pyproject.toml
-
-      - name: Run numpydoc Documentation Check
-        if: always()
-        run: uv run numpydoc **/*.py
+        run: |
+          uv run pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv

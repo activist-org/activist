@@ -9,12 +9,12 @@ on:
       - reopened
       - synchronize
     paths:
-      - "backend/**"
+      - "services/**"
   push:
     branches:
       - main
     paths:
-      - "backend/**"
+      - "services/**"
 
 jobs:
   backend_static_analysis:
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./services
 
     steps:
       - name: Checkout Project

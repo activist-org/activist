@@ -75,8 +75,10 @@ def test_scan_with_clamav_raises_when_ping_false(monkeypatch) -> None:
 
     try:
         clamav._scan_with_clamav_sync(b"dummy-bytes")
+
     except RuntimeError as exc:
         assert "ClamAV daemon is not responding to ping()" in str(exc)
+
     else:  # pragma: no cover - defensive
         assert False, "Expected RuntimeError when ping() returns False"
 
@@ -89,7 +91,9 @@ def test_scan_with_clamav_raises_when_ping_throws(monkeypatch) -> None:
 
     try:
         clamav._scan_with_clamav_sync(b"dummy-bytes")
+
     except RuntimeError as exc:
         assert "Unable to connect to ClamAV daemon" in str(exc)
+
     else:  # pragma: no cover - defensive
         assert False, "Expected RuntimeError when ping() raises"

@@ -7,7 +7,9 @@ import httpx
 
 
 def test_infected_file_includes_quarantine_id() -> None:
-    """Integration-style check: infected file yields quarantine_id and is stored in quarantine."""
+    """
+    Integration-style check: infected file yields quarantine_id and is stored in quarantine.
+    """
     base_url = "http://localhost:9101"
     scan_url = f"{base_url}/scan"
 

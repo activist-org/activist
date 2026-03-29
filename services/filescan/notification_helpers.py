@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Helper functions for notifications being sent by the filescan.
+"""
 
 from __future__ import annotations
 
@@ -36,6 +39,14 @@ def _build_malware_quarantined_envelope(event: dict[str, object]) -> dict[str, A
             "extra": {...}
         },
     }
+
+    Parameters
+    ----------
+    event : dict[str, object]
+
+    Returns
+    -------
+    dict[str, Any]
     """
     filename = event.get("filename")
     quarantine_id = event.get("quarantine_id")
@@ -70,6 +81,7 @@ def _build_malware_quarantined_envelope(event: dict[str, object]) -> dict[str, A
         "producer": "filescan",
         "payload": payload,
     }
+
     return envelope
 
 
@@ -82,6 +94,10 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
         - FILESCAN_ALERTS_ENABLED
         - ALERTS_BACKEND_URL
         - ALERTS_BACKEND_TOKEN
+
+    Parameters
+    ----------
+    envelope : dict[str, Any]
     """
     alerts_enabled = os.getenv("FILESCAN_ALERTS_ENABLED", "false").lower() == "true"
     if not alerts_enabled:
@@ -111,6 +127,7 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
                 response.status_code,
                 response.text,
             )
+
         else:
             logger.info(
                 "Posted security event type=%s status=%s",

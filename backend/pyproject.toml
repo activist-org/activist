@@ -23,18 +23,22 @@ dependencies = [
     "python-dotenv>=1.2.2",
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.18.1",
     "mypy>=1.19.1",
-    "prek>=0.3.6",
+    "prek>=0.3.8",
     "pytest>=9.0.2",
     "pytest-cov>=7.1.0",
     "pytest-django>=4.12.0",
-    "ruff>=0.15.6",
+    "ruff>=0.15.8",
     "ts-backend-check>=1.4.3",
     "types-icalendar>=6.3.2.20260223",
+]
+docs = [
+    # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
+    "numpydoc>=1.10.0",
 ]
 
 [tool.ruff]

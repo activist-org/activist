@@ -13,13 +13,17 @@ dependencies = [
     "uvicorn[standard]>=0.41.0,<0.42",
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
     "mypy>=1.19.1",
     "prek>=0.3.6",
     "pytest>=9.0.2",
     "pytest-cov>=7.1.0",
     "ruff>=0.15.6",
+]
+docs = [
+    # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
+    "numpydoc>=1.10.0",
 ]
 
 [tool.pytest.ini_options]
