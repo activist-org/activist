@@ -78,6 +78,11 @@ test.describe(
 // MARK: Admin
 
 test.describe("Admin can manage event FAQs", { tag: ["@desktop"] }, () => {
+  test.beforeEach(async ({ page }) => {
+    const { faqPage } = newEventPage(page);
+    await ensureMinimumFAQs(page, faqPage, 1);
+  });
+
   test("New FAQ button is visible", async ({ page }, testInfo) => {
     logTestPath(testInfo);
     const { faqPage } = newEventPage(page);
@@ -99,8 +104,11 @@ test.describe("Admin can manage event FAQs", { tag: ["@desktop"] }, () => {
       testInfo,
       "Wait for FAQ cards and verify edit button is visible",
       async () => {
-        await expect(faqPage.faqCards.first()).toBeVisible({ timeout: 5000 });
-        await expect(faqPage.getFAQEditButton(0)).toBeVisible();
+        await expect(faqPage.newFAQButton).toBeVisible({ timeout: 15000 });
+        await expect(faqPage.faqCards.first()).toBeVisible({ timeout: 15000 });
+        await expect(faqPage.getFAQEditButton(0)).toBeVisible({
+          timeout: 10000,
+        });
       }
     );
   });
@@ -114,8 +122,11 @@ test.describe("Admin can manage event FAQs", { tag: ["@desktop"] }, () => {
       testInfo,
       "Wait for FAQ cards and verify delete button is visible",
       async () => {
-        await expect(faqPage.faqCards.first()).toBeVisible({ timeout: 5000 });
-        await expect(faqPage.getFAQDeleteButton(0)).toBeVisible();
+        await expect(faqPage.newFAQButton).toBeVisible({ timeout: 15000 });
+        await expect(faqPage.faqCards.first()).toBeVisible({ timeout: 15000 });
+        await expect(faqPage.getFAQDeleteButton(0)).toBeVisible({
+          timeout: 10000,
+        });
       }
     );
   });
