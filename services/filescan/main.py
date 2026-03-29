@@ -142,7 +142,7 @@ async def scan_file(
             f"quarantine_id={quarantine_id} quarantine_path={quarantine_path}",
         )
         if quarantine_id is not None:
-            event = {
+            event: dict[str, object] = {
                 "filename": file.filename,
                 "signature": signature,
                 "source": source,
