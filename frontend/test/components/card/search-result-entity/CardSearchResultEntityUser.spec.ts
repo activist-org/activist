@@ -63,7 +63,9 @@ const createWrapper = (
           `,
         },
         MenuSearchResult: { template: '<div class="menu-stub"></div>' },
-        MetaTagLocation: { template: '<div class="location-stub"><slot /></div>' },
+        MetaTagLocation: {
+          template: '<div class="location-stub"><slot /></div>',
+        },
       },
     },
   });

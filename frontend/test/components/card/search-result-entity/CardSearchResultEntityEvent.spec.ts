@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { VueWrapper } from "@vue/test-utils";
+
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
+import type { Organization } from "../../../../shared/types/organization";
+
 import CardSearchResultEntityEvent from "../../../app/components/card/search-result-entity/CardSearchResultEntityEvent.vue";
 
 interface EventEntity {
@@ -17,7 +21,7 @@ interface EventEntity {
   iconUrl?: {
     fileObject?: string;
   };
-  orgs?: any;
+  orgs?: Organization[];
 }
 
 const defaultEntity: EventEntity = {
@@ -31,7 +35,7 @@ const defaultEntity: EventEntity = {
   },
 };
 
-// Mock composables
+// Mock composables.
 vi.mock("#app", () => ({
   useI18n: () => ({
     t: (key: string) => key,
@@ -39,7 +43,7 @@ vi.mock("#app", () => ({
   }),
 }));
 
-// Mock useLinkURL composable
+// Mock useLinkURL composable.
 vi.mock("~/composables/useLinkURL", () => ({
   useLinkURL: () => ({
     linkUrl: { value: "/events/event-1/about" },
@@ -72,9 +76,11 @@ const createWrapper = (
             </div>
           `,
         },
-        ImageEvent: { template: '<img />' },
+        ImageEvent: { template: "<img />" },
         MenuSearchResult: { template: '<div class="menu-stub"></div>' },
-        MetaTagLocation: { template: '<div class="location-stub"><slot /></div>' },
+        MetaTagLocation: {
+          template: '<div class="location-stub"><slot /></div>',
+        },
         MetaTagVideo: { template: '<div class="video-stub"></div>' },
         MetaTagDate: { template: '<div class="date-stub"></div>' },
         MetaTagOrganization: { template: '<div class="org-stub"></div>' },
@@ -155,7 +161,7 @@ describe("CardSearchResultEntityEvent", () => {
     });
   });
 
-  // MARK: Styling 
+  // MARK: Styling
 
   describe("Styling", () => {
     it("component renders when isReduced is false", () => {
