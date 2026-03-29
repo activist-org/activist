@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Methods for the ClamAV file scanner.
+"""
 
 import asyncio
 import os
@@ -13,10 +16,15 @@ async def scan_with_clamav(file_bytes: bytes) -> tuple[bool, str, str | None]:
     """
     Async wrapper that scans file bytes with ClamAV in a worker thread.
 
+    Parameters
+    ----------
+    file_bytes : bytes
+        The bytes of a file to be scanned with ClamAV.
+
     Returns
     -------
     tuple[bool, str, str | None]
-        malware_detected, detail, signature_or_none
+        A tuple of (malware detected, detail, signature or none).
 
     Raises
     ------
@@ -28,7 +36,22 @@ async def scan_with_clamav(file_bytes: bytes) -> tuple[bool, str, str | None]:
 
 def _scan_with_clamav_sync(file_bytes: bytes) -> tuple[bool, str, str | None]:
     """
-    Synchronous implementation used by the async wrapper above and unit tests.
+    Implementation used by the async wrapper to scan file bytes with ClamAV as well as unit tests.
+
+    Parameters
+    ----------
+    file_bytes : bytes
+        The bytes of a file to be scanned with ClamAV.
+
+    Returns
+    -------
+    tuple[bool, str, str | None]
+        A tuple of (malware detected, detail, signature or none).
+
+    Raises
+    ------
+    RuntimeError
+        If the ClamAV daemon is unavailable.
     """
     # Create a connection to the ClamAV daemon.
     client = pyclamd.ClamdUnixSocket(CLAMAV_SOCKET)

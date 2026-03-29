@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 def _build_malware_quarantined_envelope(event: dict[str, object]) -> dict[str, Any]:
     """
-    Build a generic security event envelope for a malware_quarantined event.
+    Build a generic security event envelope for a malware quarantine event.
 
     The envelope is intentionally generic so that other services and event
     types (e.g. CSAM detection) can reuse the same structure:
@@ -43,10 +43,12 @@ def _build_malware_quarantined_envelope(event: dict[str, object]) -> dict[str, A
     Parameters
     ----------
     event : dict[str, object]
+        The malware quarantine event that has triggered the filescan to generate a security event envelope.
 
     Returns
     -------
     dict[str, Any]
+        A dictionary of values describing the generated security event envelope.
     """
     filename = event.get("filename")
     quarantine_id = event.get("quarantine_id")
@@ -90,7 +92,7 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
     Best-effort HTTP POST of a security event envelope to the backend.
 
     Reads configuration from environment at call time so that tests and
-    different environments can control behaviour via:
+    different environments can control behavior via:
         - FILESCAN_ALERTS_ENABLED
         - ALERTS_BACKEND_URL
         - ALERTS_BACKEND_TOKEN
@@ -98,6 +100,12 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
     Parameters
     ----------
     envelope : dict[str, Any]
+        A security event envelope for a filescan malware quarantine events triggered by malware detection.
+
+    Returns
+    -------
+    None
+        The event envelope is posted to the backend and information is logged via the service.
     """
     alerts_enabled = os.getenv("FILESCAN_ALERTS_ENABLED", "false").lower() == "true"
     if not alerts_enabled:
@@ -144,11 +152,22 @@ def notify_malware_quarantined(event: dict[str, object]) -> None:
     Logs the raw event and, when enabled via configuration, emits a generic
     security event envelope to the backend over HTTP so that the backend can
     fan-out notifications to operators or downstream systems.
+
+    Parameters
+    ----------
+    event : dict[str, object]
+        A malware quarantine event that triggers a notification.
+
+    Returns
+    -------
+    None
+        A security event envelope is generated and posted, or a failure is logged.
     """
     logger.warning(f"malware quarantined event={event}.")
 
     try:
         envelope = _build_malware_quarantined_envelope(event)
+
     except Exception as exc:
         # Defensive: never let envelope building break scans.
         logger.error(

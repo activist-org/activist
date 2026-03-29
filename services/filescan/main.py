@@ -1,4 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+The main application file for the filescan service.
+"""
 
 import asyncio
 import logging
@@ -31,6 +34,11 @@ async def healthcheck() -> dict[str, str]:
     Returns 200 only when the ClamAV scanner is reachable and responding,
     so callers (including Docker healthcheck and integration tests) can rely
     on the filescan service being fully ready to handle /scan requests.
+
+    Returns
+    -------
+    dict[str, str]
+        Returns {"status": "ok"} when the scan_with_clamav function has finished running.
     """
     try:
         # Use a tiny, empty scan to verify that the ClamAV daemon is up.
@@ -49,6 +57,22 @@ async def healthcheck() -> dict[str, str]:
 async def scan_file(
     request: Request, file: UploadFile | None = File(None)
 ) -> JSONResponse:
+    """
+    Scan a file that has been sent to the filescan service.
+
+    Parameters
+    ----------
+    request : Request
+        The scan request from the activist backend.
+
+    file : UploadFile | None, default=File(None)
+        The file to be scanned.
+
+    Returns
+    -------
+    JSONResponse
+        A JSON response with the content information about the scan and the status code.
+    """
     if expected_token := os.getenv("FILESCAN_INTERNAL_TOKEN"):
         provided = request.headers.get("X-Filescan-Token")
         if provided != expected_token:
@@ -56,6 +80,7 @@ async def scan_file(
                 "unauthorized scan request: missing or invalid X-Filescan-Token"
             )
             raise HTTPException(status_code=403, detail="Unauthorized")
+
     if file is None or not file.filename:
         logger.warning("scan request rejected: no file or filename")
         return JSONResponse(
@@ -75,6 +100,7 @@ async def scan_file(
             scan_with_clamav(file_bytes),
             scan_with_csam(file_bytes),
         )
+
     except RuntimeError as exc:
         logger.error(f"scan failed: {exc}")
         return JSONResponse(
