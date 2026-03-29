@@ -45,8 +45,8 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Group instance, UUID or str.
+        value : Group | UUID | str
+            The value to validate: a Group instance, UUID, or string id.
 
         Returns
         -------
@@ -98,8 +98,8 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Group instance, UUID or str.
+        value : Group | UUID | str
+            The value to validate: a Group instance, UUID, or string id.
 
         Returns
         -------
@@ -142,8 +142,8 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Group instance, UUID or str.
+        value : Group | UUID | str
+            The value to validate: a Group instance, UUID, or string id.
 
         Returns
         -------
@@ -222,7 +222,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
         Returns
         -------
         dict[str, Any]
-            The data post validation.
+            Validated data after validation completes.
         """
         return data
 
@@ -237,7 +237,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
 
         Returns
         -------
-        Organization
+        Group
             The group object that was created in the database.
         """
         with transaction.atomic():

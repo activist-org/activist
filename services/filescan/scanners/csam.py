@@ -41,11 +41,6 @@ def _scan_with_csam_sync(file_bytes: bytes) -> tuple[bool, str, str | None]:
     tuple[bool, str, str | None]
         A tuple of (malware detected, detail, signature or None).
 
-    Raises
-    ------
-    RuntimeError
-        If unavailable.
-
     Notes
     -----
     - Currently stubbed to always return clean.

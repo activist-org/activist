@@ -22,8 +22,8 @@ def scan_uploads_and_rewind(uploads: Iterable[UploadedFile]) -> Response | None:
 
     Parameters
     ----------
-    uploads : list
-        List of uploaded file objects to scan.
+    uploads : Iterable[UploadedFile]
+        Uploaded file objects to scan (typically from ``request.FILES``).
 
     Returns
     -------

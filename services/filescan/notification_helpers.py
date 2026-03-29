@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Helper functions for notifications being sent by the filescan.
+Helpers for notifications emitted by the filescan service.
 """
 
 from __future__ import annotations
@@ -43,7 +43,8 @@ def _build_malware_quarantined_envelope(event: dict[str, object]) -> dict[str, A
     Parameters
     ----------
     event : dict[str, object]
-        The malware quarantine event that has triggered the filescan to generate a security event envelope.
+        Fields describing the quarantine (for example ``filename`` and
+        ``quarantine_id``) used to build the envelope payload.
 
     Returns
     -------
@@ -100,12 +101,15 @@ def _post_security_event(envelope: dict[str, Any]) -> None:
     Parameters
     ----------
     envelope : dict[str, Any]
-        A security event envelope for a filescan malware quarantine events triggered by malware detection.
+        Security event envelope produced by the filescan service for a
+        malware quarantine.
 
     Returns
     -------
     None
-        The event envelope is posted to the backend and information is logged via the service.
+        No return value. When posting is enabled and configured, sends the
+        envelope to the backend; otherwise logs and returns early. HTTP and
+        transport outcomes are logged.
     """
     alerts_enabled = os.getenv("FILESCAN_ALERTS_ENABLED", "false").lower() == "true"
     if not alerts_enabled:
@@ -161,7 +165,8 @@ def notify_malware_quarantined(event: dict[str, object]) -> None:
     Returns
     -------
     None
-        A security event envelope is generated and posted, or a failure is logged.
+        No return value. Builds and may POST an envelope when alerts are
+        enabled; logs envelope build failures and HTTP errors.
     """
     logger.warning(f"malware quarantined event={event}.")
 

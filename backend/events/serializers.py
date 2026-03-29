@@ -57,8 +57,8 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------
@@ -110,8 +110,8 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------
@@ -167,8 +167,8 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------

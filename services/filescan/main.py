@@ -38,7 +38,8 @@ async def healthcheck() -> dict[str, str]:
     Returns
     -------
     dict[str, str]
-        Returns {"status": "ok"} when the scan_with_clamav function has finished running.
+        ``{"status": "ok"}`` after a successful empty ClamAV scan confirms
+        the daemon is reachable.
     """
     try:
         # Use a tiny, empty scan to verify that the ClamAV daemon is up.
@@ -71,7 +72,13 @@ async def scan_file(
     Returns
     -------
     JSONResponse
-        A JSON response with the content information about the scan and the status code.
+        Successful scans return HTTP 200 with JSON including ``filename``,
+        ``malware_detected``, and ``detail``, plus optional ``signature``,
+        ``source``, ``quarantine_id``, and related fields when applicable.
+
+        Client or configuration errors may yield HTTP 400 (no file) or
+        403 (invalid ``X-Filescan-Token``). Scanner failures return HTTP
+        503 with an error ``detail``.
     """
     if expected_token := os.getenv("FILESCAN_INTERNAL_TOKEN"):
         provided = request.headers.get("X-Filescan-Token")

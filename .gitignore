@@ -75,6 +75,7 @@ backend/media/images/*
 quarantine/
 
 # LLMs
+.cursor/commands/
 .cursorrules
 # Snyk Security Extension
 .cursor/rules/snyk_rules.mdc

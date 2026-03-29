@@ -47,8 +47,8 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
@@ -100,8 +100,8 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
@@ -146,8 +146,8 @@ class OrganizationSocialLinkSerializer(
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
@@ -212,7 +212,7 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
         Returns
         -------
         dict[str, Any]
-            The data post validation.
+            Validated data after validation completes.
         """
         return data
 
