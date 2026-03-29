@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from scanners.csam import csam
+from scanners import csam
 
 
 def test_scan_with_csam_stub_always_clean() -> None:

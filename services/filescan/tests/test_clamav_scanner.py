@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from scanners.clamav import clamav
+from scanners import clamav
 
 
 class _FakeClamdClient:
