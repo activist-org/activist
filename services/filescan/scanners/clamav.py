@@ -13,8 +13,15 @@ async def scan_with_clamav(file_bytes: bytes) -> tuple[bool, str, str | None]:
     """
     Async wrapper that scans file bytes with ClamAV in a worker thread.
 
-    Returns (malware_detected, detail, signature_or_none).
-    Raises RuntimeError if the ClamAV daemon is unavailable.
+    Returns
+    -------
+    tuple[bool, str, str | None]
+        malware_detected, detail, signature_or_none
+
+    Raises
+    ------
+    RuntimeError
+        If the ClamAV daemon is unavailable.
     """
     return await asyncio.to_thread(_scan_with_clamav_sync, file_bytes)
 

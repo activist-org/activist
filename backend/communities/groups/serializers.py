@@ -48,15 +48,15 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
         value : Any
             The value to validate, expected to be a Group instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the group does not exist.
-
         Returns
         -------
         Group
             The validated Group instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the group does not exist.
         """
         if isinstance(value, Group):
             return value
@@ -101,15 +101,15 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
         value : Any
             The value to validate, expected to be a Group instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the group does not exist.
-
         Returns
         -------
         Group
             The validated Group instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the group does not exist.
         """
         if isinstance(value, Group):
             return value
@@ -145,15 +145,15 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
         value : Any
             The value to validate, expected to be a Group instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the group does not exist.
-
         Returns
         -------
         Group
             The validated Group instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the group does not exist.
         """
         if isinstance(value, Group):
             return value

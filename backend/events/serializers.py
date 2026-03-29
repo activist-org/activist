@@ -60,15 +60,15 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
         value : Any
             The value to validate, expected to be a Event instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
-
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value
@@ -113,15 +113,15 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
         value : Any
             The value to validate, expected to be a Event instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
-
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value
@@ -170,15 +170,15 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
         value : Any
             The value to validate, expected to be a Event instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
-
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value

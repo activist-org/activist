@@ -50,15 +50,15 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
         value : Any
             The value to validate, expected to be a Organization instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
-
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value
@@ -103,15 +103,15 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
         value : Any
             The value to validate, expected to be a Organization instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
-
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value
@@ -149,15 +149,15 @@ class OrganizationSocialLinkSerializer(
         value : Any
             The value to validate, expected to be a Organization instance, UUID or str.
 
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
-
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value

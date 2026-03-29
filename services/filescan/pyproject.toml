@@ -96,4 +96,5 @@ exclude = [
     "^.*\\.Meta$",    # meta classes
     "^.*\\.__str__$", # __str__ methods
     "^__init__$",     # __init__ files
+    "^test_.*$",      # test files
 ]

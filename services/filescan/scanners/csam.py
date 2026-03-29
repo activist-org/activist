@@ -20,7 +20,12 @@ def _scan_with_csam_sync(file_bytes: bytes) -> tuple[bool, str, str | None]:
     Stub: always returns clean.
 
     Intended to be wired to an approved API service.
-    Returns (detected, detail, signature_or_none). Raises RuntimeError if unavailable.
+    Returns (detected, detail, signature_or_none).
+
+    Raises
+    ------
+    RuntimeError
+        If unavailable.
     """
     # TODO: Integrate with approved CSAM API service.
     return (False, "No CSAM detected.", None)
