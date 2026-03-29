@@ -19,8 +19,7 @@ export function mapEvent(res: EventResponse): EventResponse {
     socialLinks: res.socialLinks ?? [],
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
-    startTime: res.startTime,
-    endTime: res.endTime,
+    times: res.times ?? [],
     creationDate: res.creationDate,
     orgs: res.orgs,
     texts: res.texts ?? [],
@@ -74,26 +73,13 @@ export async function listEvents(
 // MARK: Create
 
 export async function createEvent(
-  data: EventCreateFormData
-): Promise<string | false> {
+  data: CreateEventInput
+): Promise<EventResponse> {
   try {
-    const payload = {
-      name: data.name,
-      location: data.location,
-      tagline: data.tagline,
-      social_accounts: data.social_accounts,
-      description: data.description,
-      topics: data.topics,
-      high_risk: false,
-      total_flags: 0,
-      acceptance_date: new Date(),
-    };
-    const res = await post<EventResponse, typeof payload>(
-      `/events/events`,
-      payload,
-      { headers: { "Content-Type": "application/json" } }
-    );
-    return res.id;
+    const res = await post<EventResponse, typeof data>(`/events/events`, data, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return res;
   } catch (e) {
     throw errorHandler(e);
   }

@@ -7,7 +7,7 @@ export interface ContextCreateEventData {
   };
   [CreateEventSteps.EventType]: {
     type: EventType;
-    setting: "online" | "physical";
+    location_type: "online" | "physical";
   };
   [CreateEventSteps.Time]: {
     dates: {
@@ -15,5 +15,6 @@ export interface ContextCreateEventData {
       endDate: string;
     };
     createAnother: boolean;
+    createdEventIds: string[];
   };
 }

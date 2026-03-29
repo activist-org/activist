@@ -1,0 +1,49 @@
+name: ci_frontend_static_analysis
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      - "frontend/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+
+jobs:
+  frontend_static_analysis:
+    name: Run PR Frontend Static Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v4
+
+      - name: Setup Node environment
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies via Yarn
+        working-directory: ./frontend
+        run: |
+          corepack enable
+          sudo yarn install
+
+      - name: Run Prettier - Formatting Check
+        working-directory: ./frontend
+        run: |
+          sudo yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore
+
+      - name: Run Nuxt Type Check
+        if: always()
+        working-directory: ./frontend
+        run: sudo yarn typecheck
+
+      - name: Run ESLint - Linting
+        if: always()
+        working-directory: ./frontend
+        run: sudo yarn lint

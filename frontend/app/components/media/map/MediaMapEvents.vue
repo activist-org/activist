@@ -54,17 +54,17 @@ const buildExpandedTooltipPointer = (pointer: unknown) => {
               <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">${event.name}</h3>
 
               <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
-                <img src="${organizationIcon}"/>
+                <img src="${organizationIcon}" alt=""/>
                 <span>${organization}</span>
               </div>
 
               <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
-                <img src="${calendarIcon}"/>
+                <img src="${calendarIcon}" alt=""/>
                 <span>${datetime}</span>
               </div>
 
               <div class="flex items-start text-xs text-black mb-1.5 font-semibold space-x-2">
-                <img src="${locationIcon}"/>
+                <img src="${locationIcon}" alt=""/>
                 <span>${event.location}</span>
               </div>
             </div>
@@ -128,7 +128,9 @@ const pointers: PointerCluster[] = events.map((event) => {
     id: event.id,
     color: getEventColorByType(event.type as EventType),
     location: event.physicalLocation || {
-      displayName: event.name,
+      city: "",
+      countryCode: "",
+      addressOrName: event.name,
       lat: "0",
       lon: "0",
       id: "",
@@ -140,7 +142,7 @@ const pointers: PointerCluster[] = events.map((event) => {
       name: event.name,
       type: event.type,
       location: event.physicalLocation
-        ? event.physicalLocation.displayName
+        ? event.physicalLocation.addressOrName
         : "",
     },
   };

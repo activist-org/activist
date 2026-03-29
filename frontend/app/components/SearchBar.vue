@@ -146,6 +146,7 @@ const { slash } = useMagicKeys({
   },
 });
 
+// Note: Type error if we don't have @vueuse/math.
 whenever(logicAnd(slash, notUsingTextEditor), () => {
   setTimeout(() => {
     if (input.value) {

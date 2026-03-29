@@ -16,11 +16,30 @@
 import type { Composer } from "vue-i18n";
 
 import { vi } from "vitest";
+import { ref } from "vue";
 
-import type { User } from "../../shared/types/user";
+import type { AppError } from "../../shared/utils/errorHandler";
 
-// AuthUser type from vitest-globals.d.ts.
+// AuthUser: compatible with nuxt-auth-utils User; use for auth mock params.
 type AuthUser = { [key: string]: unknown } | null;
+
+// MARK: Machine Flow
+
+/**
+ * Creates a mock flow object for machine step component tests.
+ * @param currentStep - Current step number (default: 1)
+ * @param totalSteps - Total number of steps (default: 2)
+ */
+export function createMockFlow(currentStep = 1, totalSteps = 2) {
+  return {
+    next: vi.fn().mockResolvedValue(undefined),
+    prev: vi.fn(),
+    close: vi.fn(),
+    start: vi.fn(),
+    isSaving: ref(false),
+    context: ref({ currentStep, totalSteps, nodeData: {} }),
+  };
+}
 
 // MARK: I18n
 
@@ -54,6 +73,25 @@ export function createUseRouteMock(
     query,
     path,
     name,
+  });
+}
+
+/**
+ * Creates a useRoute mock that reads from a mutable route object at call time.
+ * Use when tests mutate route.query before mount and need the component to see the updated values.
+ *
+ * @param mockRoute - Route object { path, query, name? }; tests mutate mockRoute.query before mount
+ */
+export function createUseRouteMockWithMutableQuery(mockRoute: {
+  path: string;
+  query: Record<string, unknown>;
+  name?: string;
+}) {
+  return () => ({
+    params: {},
+    query: mockRoute.query,
+    path: mockRoute.path,
+    name: mockRoute.name,
   });
 }
 
@@ -118,9 +156,27 @@ export function createUseLocalStorageMock<T>(defaultValue: T) {
  * Creates a mock for useAuthState composable.
  * @param user - User object or null (default: null)
  */
-export function createUseAuthStateMock(user: User | null = null) {
+export function createUseAuthStateMock(user: AuthUser = null) {
   return () => ({
     data: { value: user },
+  });
+}
+
+/**
+ * Creates a mock for useUserSession composable (nuxt-auth-utils).
+ * @param loggedIn - Whether user is logged in (default: false)
+ * @param user - User object or null (default: null)
+ * @param clear - Clear session function (default: vi.fn())
+ */
+export function createUseUserSessionMock(
+  loggedIn = false,
+  user: AuthUser = null,
+  clear = vi.fn()
+) {
+  return () => ({
+    loggedIn: { value: loggedIn },
+    user: { value: user },
+    clear,
   });
 }
 
@@ -225,6 +281,34 @@ export function createUseSidebarSpy(
   }));
 }
 
+// MARK: Toaster (Mutation Tests)
+
+/**
+ * Documents the useToaster mock shape for mutation tests.
+ * vi.mock factories are hoisted and cannot reference imports, so specs must
+ * inline: useToaster: () => ({ showToastError, showToastInfo: vi.fn(), showToastSuccess: vi.fn() }).
+ * Use vi.hoisted for showToastError so the mock factory can reference it.
+ * @param showToastError - Spy for error toasts (default: vi.fn())
+ */
+export function createUseToasterMock(showToastError = vi.fn()) {
+  return () => ({
+    showToastError,
+    showToastInfo: vi.fn(),
+    showToastSuccess: vi.fn(),
+  });
+}
+
+/**
+ * Documents the refreshNuxtData mock shape for mutation tests.
+ * vi.mock factories are hoisted and cannot reference imports, so specs must
+ * inline in vi.hoisted: mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined).
+ * Use with mockNuxtImport: mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData).
+ * @returns vi.fn() resolved to undefined
+ */
+export function createRefreshNuxtDataMock() {
+  return vi.fn().mockResolvedValue(undefined);
+}
+
 // MARK: Dev Mode
 
 /**
@@ -236,5 +320,20 @@ export function createUseDevModeMock(active = false, check = () => {}) {
   return () => ({
     active: { value: active },
     check,
+  });
+}
+
+export function createUseAppErrorMock() {
+  const error = ref<Partial<AppError> | null>(null);
+  const handleError = (err: Partial<AppError>) => {
+    error.value = err;
+  };
+  const clearError = () => {
+    error.value = null;
+  };
+  return () => ({
+    error,
+    handleError,
+    clearError,
   });
 }

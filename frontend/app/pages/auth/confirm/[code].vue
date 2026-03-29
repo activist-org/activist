@@ -3,11 +3,7 @@
 const route = useRoute();
 const { status } = await useAsyncData(
   async () =>
-    await fetchWithoutToken(
-      `/auth/verify_email/${route.params.code}`,
-      {},
-      "POST"
-    )
+    await fetchSession(`${route.params.code}/verifyEmailSignUp`, {}, "POST")
 );
 if (status.value === "success") {
   await useRouter().push("/auth/sign-in");

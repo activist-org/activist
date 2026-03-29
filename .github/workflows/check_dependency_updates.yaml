@@ -1,7 +1,7 @@
 name: check_dependency_updates
 on:
   schedule:
-    - cron: '0 0 15 */2 *'
+    - cron: "0 0 15 */2 *"
   workflow_dispatch:
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.12"
 
       - name: Setup Yarn
         working-directory: ./frontend

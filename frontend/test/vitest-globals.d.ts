@@ -70,6 +70,11 @@ declare global {
   >;
   var useSidebar: () => { collapsed: boolean; collapsedSwitch: boolean };
   var useDevMode: () => { active: { value: boolean }; check: () => void };
+  var useUserSession: () => {
+    loggedIn: { value: boolean };
+    user: { value: AuthUser };
+    clear: () => void;
+  };
   var data: { value: AuthUser };
   var useAuthStateMock: Mock<() => { data: { value: AuthUser } }>;
   var $fetch: FetchGlobal;

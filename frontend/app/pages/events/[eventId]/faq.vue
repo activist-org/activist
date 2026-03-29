@@ -14,6 +14,7 @@
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
+          :entity="event"
           :onClick="openModal"
         />
       </div>
@@ -24,7 +25,7 @@
         @end="onDragEnd"
         :animation="150"
         :chosen-class="'sortable-chosen'"
-        class="space-y-4"
+        class="flex flex-col gap-4"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -46,16 +47,16 @@
             :key="element.id"
             :ref="(el: any) => (faqCardList[index] = el?.root)"
             @delete-faq="handleDeleteFAQ"
-            @focus="isEditable ? onFocus(index) : undefined"
-            @keydown.down.prevent="isEditable ? moveDown() : undefined"
-            @keydown.up.prevent="isEditable ? moveUp() : undefined"
+            @focusin="canEdit(event) ? onFocus(index) : undefined"
+            @keydown.down.prevent="canEdit(event) ? moveDown() : undefined"
+            @keydown.up.prevent="canEdit(event) ? moveUp() : undefined"
             :class="{
-              selected: isEditable && selectedIndex === index,
+              selected: canEdit(event) && selectedIndex === index,
             }"
             :entity="event"
             :faqEntry="element"
             :pageType="EntityType.EVENT"
-            :tabindex="isEditable ? 0 : -1"
+            :tabindex="canEdit(event) ? 0 : -1"
           />
         </template>
       </draggable>
@@ -67,7 +68,7 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-const { openModal } = useModalHandlers("ModalFAQEntryEvent");
+const { openModal } = useModalHandlers("ModalFaqEntryEvent");
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
@@ -79,7 +80,6 @@ const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
 
 const { canEdit } = useUser();
-const isEditable = computed(() => canEdit(event.value));
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
@@ -98,8 +98,7 @@ watch(
   () => event?.value?.faqEntries,
   (newVal) => {
     faqList.value = newVal?.slice() ?? [];
-  },
-  { immediate: true }
+  }
 );
 
 async function onDragEnd() {

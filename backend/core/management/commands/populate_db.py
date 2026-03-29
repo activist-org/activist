@@ -4,11 +4,11 @@ Classes controlling the CLI command to populate the database when starting the b
 """
 
 # mypy: ignore-errors
-import json
 import random
 from argparse import ArgumentParser
-from typing import Any, TypedDict
+from typing import TypedDict
 
+import yaml
 from django.core.management.base import BaseCommand
 from typing_extensions import Unpack
 
@@ -39,7 +39,7 @@ class Options(TypedDict):
     events_per_group: int
     resources_per_entity: int
     faq_entries_per_entity: int
-    json_data_to_assign: dict[str, Any]
+    yaml_data_to_assign: str
 
 
 class Command(BaseCommand):
@@ -67,7 +67,13 @@ class Command(BaseCommand):
         parser.add_argument("--events-per-group", type=int, default=1)
         parser.add_argument("--faq-entries-per-entity", type=int, default=1)
         parser.add_argument("--resources-per-entity", type=int, default=1)
-        parser.add_argument("--json-data-to-assign", type=str)
+        parser.add_argument("--yaml-data-to-assign", type=str, default="")
+        parser.add_argument(
+            "--json-data-to-assign",
+            type=str,
+            dest="yaml_data_to_assign",
+            help="Deprecated alias for --yaml-data-to-assign",
+        )
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
         """
@@ -94,12 +100,15 @@ class Command(BaseCommand):
         # MARK: Load Data
 
         assigned_org_fields = []
-        if options["json_data_to_assign"]:
-            with open(options["json_data_to_assign"], encoding="utf-8") as f:
-                json_data_to_assign = json.loads(f.read())
+        if options["yaml_data_to_assign"]:
+            with open(options["yaml_data_to_assign"], encoding="utf-8") as f:
+                yaml_data_to_assign = yaml.safe_load(f)
 
-            if "organizations" in json_data_to_assign:
-                assigned_org_fields = json_data_to_assign["organizations"]
+            if (
+                isinstance(yaml_data_to_assign, dict)
+                and "organizations" in yaml_data_to_assign
+            ):
+                assigned_org_fields = yaml_data_to_assign["organizations"]
 
         # MARK: Clear Data
 
@@ -120,7 +129,7 @@ class Command(BaseCommand):
         # MARK: Populate Data
 
         try:
-            users = [
+            users: list[UserModel] = [
                 UserFactory(username=f"activist_{i}", name=f"Activist {i}")
                 for i in range(num_users)
             ]

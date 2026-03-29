@@ -31,6 +31,7 @@
             :class="props.classButton"
             :cta="true"
             fontSize="lg"
+            :isLoading="isLoading"
             :label="labelForSubmit"
             type="submit"
           />
@@ -45,6 +46,7 @@ import type { z } from "zod";
 
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
+import { unref } from "vue";
 type Btn = BtnAction & { [key: string]: unknown };
 const props = withDefaults(
   defineProps<{
@@ -57,6 +59,7 @@ const props = withDefaults(
     sendOnChange?: boolean;
     isThereSubmitButton?: boolean;
     actionButtons?: Btn[];
+    isLoading?: boolean;
   }>(),
   {
     isThereSubmitButton: true,
@@ -72,6 +75,22 @@ const { handleSubmit, values, ...rest } = useForm({
   validationSchema: toTypedSchema(props.schema),
   initialValues: props.initialValues,
 });
+
+let pendingReset: ReturnType<typeof setTimeout> | null = null;
+
+watch(
+  () => props.initialValues,
+  (newValues, oldValues) => {
+    if (JSON.stringify(newValues) === JSON.stringify(oldValues)) return;
+
+    if (pendingReset !== null) clearTimeout(pendingReset);
+    pendingReset = setTimeout(() => {
+      pendingReset = null;
+      rest.resetForm({ values: newValues || {} });
+    }, 0);
+  },
+  { deep: true }
+);
 
 const emit = defineEmits<{
   (e: "submit", values: Record<string, unknown>): void;
@@ -92,5 +111,9 @@ if (props.sendOnChange) {
 
 const onSubmit = handleSubmit((values) => {
   emit("submit", values);
+});
+
+defineExpose({
+  getValues: () => ({ ...(unref(values) ?? {}) }),
 });
 </script>

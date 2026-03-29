@@ -12,7 +12,6 @@
         :options="optionViews"
       />
     </div>
-
     <Form
       :key="formKey"
       @submit="handleSubmit"
@@ -24,9 +23,9 @@
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
-        data-testid="events-filter-days"
+        data-testid="events-filter-days-ahead"
         :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
-        name="days"
+        name="days_ahead"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
@@ -56,7 +55,7 @@
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-location-type"
         :label="$t('i18n.components._global.location_type')"
-        name="setting"
+        name="locationType"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
@@ -124,11 +123,11 @@ const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   id: index,
 }));
 const schema = z.object({
-  days: z.string().optional(),
+  days_ahead: z.string().optional(),
   location: z.string().optional(),
   topics: z.array(z.string()).optional(),
   type: z.string().optional(),
-  setting: z.string().optional(),
+  locationType: z.string().optional(),
   viewType: z.string().optional(),
 });
 const sidebar = useSidebar();
@@ -215,6 +214,7 @@ const optionLocations = [
 const route = useRoute();
 const router = useRouter();
 const formKey = ref(0);
+
 const updateViewType = (
   value: string | number | boolean | Record<string, unknown> | undefined
 ) => {
@@ -233,32 +233,30 @@ const updateViewType = (
   }
 };
 
-const viewType = ref(ViewType.MAP);
+const viewType = ref(ViewType.LIST);
 const formData = ref({});
+
 watch(
   route,
-  (form) => {
-    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    const topics = normalizeArrayFromURLQuery(form.query.topics);
-    formData.value = { ...rest, topics };
+  (r) => {
+    const q = (r.query as Record<string, unknown>) || {};
+    const { view, ..._rest } = q;
+    formData.value = routeQueryToEventsFilterFormData(q);
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
         ? (view as ViewType)
-        : ViewType.MAP;
+        : ViewType.LIST;
   },
   { immediate: true }
 );
 const handleSubmit = (_values: unknown) => {
+  if (!currentRoutePathIncludes("events", route.name?.toString() ?? "")) return;
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
 
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
-      if (key === "days") {
-        values["days_ahead"] = input[key];
-        return;
-      }
       if (
         key === "topics" &&
         Array.isArray(input[key]) &&
@@ -275,6 +273,8 @@ const handleSubmit = (_values: unknown) => {
 
   router.push({
     query: {
+      // Preserve id from post-creation routing so newly created events remain visible.
+      ...(route.query.id ? { id: route.query.id } : {}),
       ...(values as LocationQueryRaw),
       view: viewType.value,
     },

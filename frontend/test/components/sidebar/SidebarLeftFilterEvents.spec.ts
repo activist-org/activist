@@ -55,7 +55,9 @@ describe("SidebarLeftFilterEvents", () => {
       });
 
       // Find the days filter by test id.
-      const daysFilter = wrapper.find('[data-testid="events-filter-days"]');
+      const daysFilter = wrapper.find(
+        '[data-testid="events-filter-days-ahead"]'
+      );
       expect(daysFilter.exists()).toBe(true);
 
       // Find FormSelectorRadio within the days filter.

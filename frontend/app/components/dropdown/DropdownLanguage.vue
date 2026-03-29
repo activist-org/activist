@@ -40,7 +40,7 @@ defineProps<{
 const { locale, locales } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const localesValues: LocaleObject[] = locales.value;
+const localesValues = computed(() => locales.value);
 
 function getLocaleCode(locale: LocaleObject) {
   return typeof locale === "string" ? locale : locale.code;
@@ -51,10 +51,9 @@ function getLocaleName(locale: LocaleObject) {
 }
 
 const availableLocales = computed(() => {
-  return localesValues.filter((i) => getLocaleCode(i) !== locale.value);
+  return localesValues.value.filter((i) => getLocaleCode(i) !== locale.value);
 });
 
-// Function to update HTML lang attribute immediately.
 const updateLangAttribute = (newLocale: string) => {
   if (import.meta.client) {
     document.documentElement.setAttribute("lang", newLocale);

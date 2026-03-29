@@ -31,13 +31,19 @@ export const ResourceModal = (page: Page) => {
 
     getResourceNameInput(modal: Locator) {
       return modal.getByRole("textbox", {
-        name: new RegExp(getEnglishText("i18n.pages.contact.name"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components.form_resource.name"),
+          "i"
+        ),
       });
     },
 
     getResourceDescriptionInput(modal: Locator) {
       return modal.getByRole("textbox", {
-        name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components.form_resource.description"),
+          "i"
+        ),
       });
     },
 

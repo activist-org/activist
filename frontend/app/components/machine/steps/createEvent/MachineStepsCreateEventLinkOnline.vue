@@ -16,6 +16,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="initialLinkOnlineData"
       :schema="linkSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -26,7 +27,7 @@
             'i18n.components.machine_steps_create_event_link_online.link_to_event'
           )
         "
-        name="link"
+        name="onlineLocationLink"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormTextInput
@@ -50,16 +51,22 @@
 import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
+
+const initialLinkOnlineData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.LinkOnline) return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
+
 const linkSchema = z.object({
-  link: z.string().url("Please enter a valid URL").optional(),
+  onlineLocationLink: z.string().url("Please enter a valid URL").optional(),
 });
 const handlePrev = () => {
   if (!flow) return;
   flow.prev();
 };
-const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+const handleSubmit = (values: Record<string, unknown>) => {
   if (!flow) return;
   flow.next(values);
 };
