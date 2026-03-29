@@ -6,6 +6,7 @@ from typing import Any, Dict, List
 from fastapi.testclient import TestClient
 
 from main import app, notify_malware_quarantined
+from tests.eicar_payload import eicar_test_fileobj
 
 BASE_DIR = Path(__file__).parent
 TEST_FILES_DIR = BASE_DIR / "test_files"
@@ -42,7 +43,15 @@ def _mock_scan_with_csam(
     monkeypatch.setattr("main.scan_with_csam", _fake_scan)
 
 
-def test_healthcheck_returns_ok() -> None:
+CLEAN_RESULT = (False, "No malware detected by ClamAV.", None)
+CLEAN_RESULT_CSAM = (False, "No CSAM detected.", None)
+
+
+def test_healthcheck_returns_ok(monkeypatch) -> None:
+    """
+    Unit test: do not require a real ClamAV socket (CI has no clamd).
+    """
+    _mock_scan_with_clamav(monkeypatch, CLEAN_RESULT)
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
@@ -53,10 +62,6 @@ def test_scan_without_file_returns_400() -> None:
     assert response.status_code == 400
     body = response.json()
     assert "detail" in body
-
-
-CLEAN_RESULT = (False, "No malware detected by ClamAV.", None)
-CLEAN_RESULT_CSAM = (False, "No CSAM detected.", None)
 
 
 def test_scan_empty_file_treated_as_clean(monkeypatch) -> None:
@@ -86,15 +91,24 @@ def test_scan_clean_file_treated_as_clean(monkeypatch) -> None:
     assert body["malware_detected"] is False
 
 
-def test_scan_eicar_file_detects_malware(monkeypatch) -> None:
+def test_scan_eicar_file_detects_malware(monkeypatch, tmp_path) -> None:
+    """
+    Use a writable quarantine dir: default /var/filescan/quarantine is not
+    writable on CI runners.
+    """
+    monkeypatch.setattr("main.QUARANTINE_DIR", str(tmp_path))
+
     _mock_scan_with_clamav(
         monkeypatch,
         (True, "Malware detected by ClamAV.", "Eicar-Test-Signature"),
     )
     _mock_scan_with_csam(monkeypatch, CLEAN_RESULT_CSAM)
-    eicar_path = TEST_FILES_DIR / "eicar.txt"
-    with eicar_path.open("rb") as f:
-        response = client.post("/scan", files={"file": ("eicar.txt", f, "text/plain")})
+
+    eicar_file = eicar_test_fileobj()
+    response = client.post(
+        "/scan",
+        files={"file": ("eicar.txt", eicar_file, "text/plain")},
+    )
 
     assert response.status_code == 200
     body = response.json()
@@ -207,3 +221,85 @@ def test_notify_malware_quarantined_builds_and_posts_event(monkeypatch) -> None:
     assert envelope["producer"] == "filescan"
     assert envelope["payload"]["filename"] == "eicar.txt"
     assert envelope["payload"]["quarantine_id"] == "abc123"
+
+
+def test_healthcheck_returns_503_when_clamav_unavailable(monkeypatch) -> None:
+    async def _fake_scan(_file_bytes: bytes) -> tuple[bool, str, str | None]:
+        raise RuntimeError("ClamAV daemon is not responding")
+
+    monkeypatch.setattr("main.scan_with_clamav", _fake_scan)
+
+    response = client.get("/health")
+    assert response.status_code == 503
+    assert "ClamAV" in response.json()["detail"]
+
+
+def test_scan_returns_403_when_token_invalid(monkeypatch) -> None:
+    monkeypatch.setenv("FILESCAN_INTERNAL_TOKEN", "expected-secret")
+
+    clean_path = TEST_FILES_DIR / "clean.txt"
+    with clean_path.open("rb") as f:
+        response = client.post(
+            "/scan",
+            files={"file": ("clean.txt", f, "text/plain")},
+            headers={"X-Filescan-Token": "wrong-token"},
+        )
+
+    assert response.status_code == 403
+    assert response.json()["detail"] == "Unauthorized"
+
+
+def test_scan_returns_503_when_scanner_raises(monkeypatch) -> None:
+    async def _fake_scan(_file_bytes: bytes) -> tuple[bool, str, str | None]:
+        raise RuntimeError("scanner failure")
+
+    monkeypatch.setattr("main.scan_with_clamav", _fake_scan)
+    monkeypatch.setattr("main.scan_with_csam", _fake_scan)
+
+    clean_path = TEST_FILES_DIR / "clean.txt"
+    with clean_path.open("rb") as f:
+        response = client.post("/scan", files={"file": ("clean.txt", f, "text/plain")})
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == "scanner failure"
+
+
+def test_notify_malware_quarantined_optional_payload_fields(monkeypatch) -> None:
+    posted: List[Dict[str, Any]] = []
+
+    class DummyResponse:
+        def __init__(self) -> None:
+            self.status_code = 200
+            self.text = ""
+
+    def fake_post(
+        url: str, json: Dict[str, Any], headers: Dict[str, str], timeout: float
+    ) -> DummyResponse:
+        posted.append(
+            {"url": url, "json": json, "headers": headers, "timeout": timeout}
+        )
+        return DummyResponse()
+
+    monkeypatch.setenv("FILESCAN_ALERTS_ENABLED", "true")
+    monkeypatch.setenv("ALERTS_BACKEND_URL", "http://backend/internal/security-events")
+    monkeypatch.setenv("ALERTS_BACKEND_TOKEN", "secret-token")
+    monkeypatch.setattr("notification_helpers.httpx.post", fake_post)
+
+    event = {
+        "filename": "eicar.txt",
+        "signature": "EICAR-TEST",
+        "source": "clamav",
+        "quarantine_id": "abc123",
+        "detail": "Malware detected by ClamAV.",
+        "content_type": "text/plain",
+        "size_bytes": 68,
+        "extra": {"note": "test"},
+    }
+
+    notify_malware_quarantined(event)
+
+    assert posted
+    payload = posted[0]["json"]["payload"]
+    assert payload["content_type"] == "text/plain"
+    assert payload["size_bytes"] == 68
+    assert payload["extra"] == {"note": "test"}

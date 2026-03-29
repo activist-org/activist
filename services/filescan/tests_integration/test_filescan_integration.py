@@ -11,35 +11,18 @@ configured as in the Docker image.
 
 from __future__ import annotations
 
-import os
-from pathlib import Path
-
 import httpx
-import pytest
 
-BASE_URL = os.getenv("FILESCAN_BASE_URL", "http://localhost:9101")
-BASE_DIR = Path(__file__).resolve().parent
-TEST_FILES_DIR = BASE_DIR.parent / "tests" / "test_files"
-
-
-def _require_service() -> None:
-    """
-    Skip tests if the running service is not reachable.
-    """
-    try:
-        response = httpx.get(f"{BASE_URL}/health", timeout=2.0)
-    except Exception as exc:  # noqa: BLE001
-        pytest.skip(f"filescan service not reachable at {BASE_URL}: {exc}")
-
-    if response.status_code != 200:
-        pytest.skip(
-            f"filescan service at {BASE_URL} returned {response.status_code} "
-            "for /health; expected 200.",
-        )
+from tests.eicar_payload import eicar_test_fileobj
+from tests_integration.integration_helpers import (
+    BASE_URL,
+    TEST_FILES_DIR,
+    require_filescan_service,
+)
 
 
 def test_health_integration_ok() -> None:
-    _require_service()
+    require_filescan_service()
 
     response = httpx.get(f"{BASE_URL}/health", timeout=2.0)
     assert response.status_code == 200
@@ -47,7 +30,7 @@ def test_health_integration_ok() -> None:
 
 
 def test_scan_empty_file_integration() -> None:
-    _require_service()
+    require_filescan_service()
 
     empty_path = TEST_FILES_DIR / "empty.txt"
     with empty_path.open("rb") as f:
@@ -62,7 +45,7 @@ def test_scan_empty_file_integration() -> None:
 
 
 def test_scan_clean_file_integration() -> None:
-    _require_service()
+    require_filescan_service()
 
     clean_path = TEST_FILES_DIR / "clean.txt"
     with clean_path.open("rb") as f:
@@ -76,12 +59,10 @@ def test_scan_clean_file_integration() -> None:
 
 
 def test_scan_eicar_file_integration() -> None:
-    _require_service()
+    require_filescan_service()
 
-    eicar_path = TEST_FILES_DIR / "eicar.txt"
-    with eicar_path.open("rb") as f:
-        files = {"file": ("eicar.txt", f, "text/plain")}
-        response = httpx.post(f"{BASE_URL}/scan", files=files, timeout=10.0)
+    files = {"file": ("eicar.txt", eicar_test_fileobj(), "text/plain")}
+    response = httpx.post(f"{BASE_URL}/scan", files=files, timeout=10.0)
 
     assert response.status_code == 200
     body = response.json()
@@ -92,7 +73,7 @@ def test_scan_eicar_file_integration() -> None:
 
 
 def test_scan_fake_binary_image_integration() -> None:
-    _require_service()
+    require_filescan_service()
 
     fake_image_path = TEST_FILES_DIR / "fake_image.bin"
     with fake_image_path.open("rb") as f:

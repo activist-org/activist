@@ -114,9 +114,8 @@ When exercising full backend ↔ filescan integration locally, you will typicall
 - **Test files and manual checks**
   - Test assets live in `services/filescan/tests/test_files/`:
     - `clean.txt`, `empty.txt`, `large_clean.txt` — benign content (ClamAV reports clean).
-    - `eicar.txt` — EICAR test file (industry-standard; see below).
     - `fake_image.bin` — non-image binary sent as image (tests binary handling).
-  - **EICAR** (`eicar.txt`): The EICAR test file is an **industry-standard** way to verify antivirus and malware-scanning behaviour without using real malware. It is a short, harmless string that major AV engines (including ClamAV) recognise and report as “infected,” so you can confirm that your scanning pipeline is working end-to-end. It is widely used in QA and integration tests for this kind of functionality, and poses no risk to any machine on which it is present.
+  - **EICAR**: The industry-standard EICAR test payload is **not** committed as a file (repository scanners correctly flag it). Tests build the 68-byte string in memory via `tests/eicar_payload.py` and upload it as `eicar.txt`. That string is harmless and lets AV engines (including ClamAV) report a positive hit so you can verify end-to-end scanning without real malware.
 ## CSAM implementation and broader content safety pipeline
 
 The service is designed to support CSAM detection through a separate scanner implemented in `scanners/csam.py` and wired into the `/scan` endpoint alongside ClamAV.

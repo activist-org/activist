@@ -42,7 +42,12 @@ jobs:
       - name: Install Dependencies
         run: uv sync --frozen --all-extras
 
-      - name: Run pytest - Unit Tests
+      - name: Run pytest - Unit tests with coverage
         if: always()
         run: |
-          uv run pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv
+          uv run pytest tests/ --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv
+
+      - name: Run pytest - Integration tests (no coverage gate)
+        if: always()
+        run: |
+          uv run pytest tests_integration/ -vv

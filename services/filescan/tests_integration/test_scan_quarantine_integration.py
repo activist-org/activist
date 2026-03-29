@@ -5,16 +5,17 @@ from pathlib import Path
 
 import httpx
 
+from tests.eicar_payload import eicar_test_fileobj
+from tests_integration.integration_helpers import BASE_URL, require_filescan_service
+
 
 def test_infected_file_includes_quarantine_id() -> None:
     """
     Integration-style check: infected file yields quarantine_id and is stored in quarantine.
     """
-    base_url = "http://localhost:9101"
-    scan_url = f"{base_url}/scan"
+    require_filescan_service()
 
-    tests_dir = Path(__file__).resolve().parent.parent / "tests" / "test_files"
-    eicar_path = tests_dir / "eicar.txt"
+    scan_url = f"{BASE_URL}/scan"
 
     project_root = Path(__file__).resolve().parent.parent.parent.parent
     default_quarantine = project_root / "quarantine"
@@ -24,9 +25,8 @@ def test_infected_file_includes_quarantine_id() -> None:
     quarantine_path = None
 
     try:
-        with eicar_path.open("rb") as f:
-            files = {"file": ("eicar.txt", f, "text/plain")}
-            response = httpx.post(scan_url, files=files, timeout=30.0)
+        files = {"file": ("eicar.txt", eicar_test_fileobj(), "text/plain")}
+        response = httpx.post(scan_url, files=files, timeout=30.0)
 
         assert response.status_code == 200
         body = response.json()
