@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from fastapi.testclient import TestClient
+
 from main import app, notify_malware_quarantined
 
 BASE_DIR = Path(__file__).parent

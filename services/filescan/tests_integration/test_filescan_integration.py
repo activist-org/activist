@@ -17,7 +17,6 @@ from pathlib import Path
 import httpx
 import pytest
 
-
 BASE_URL = os.getenv("FILESCAN_BASE_URL", "http://localhost:9101")
 BASE_DIR = Path(__file__).resolve().parent
 TEST_FILES_DIR = BASE_DIR.parent / "tests" / "test_files"

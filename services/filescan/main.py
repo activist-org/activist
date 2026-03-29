@@ -7,6 +7,7 @@ import uuid
 
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse
+
 from notification_helpers import notify_malware_quarantined
 from scanners.clamav import scan_with_clamav
 from scanners.csam import scan_with_csam
