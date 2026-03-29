@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 // MARK: Delete
+
 export async function deleteImage(imageId: string) {
   if (!imageId) {
     return;

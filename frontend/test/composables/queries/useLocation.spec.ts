@@ -8,7 +8,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   getKeyForLocation,
   useLocation,
-} from "../../../app/composables/queries/useLocation"; // Adjust path if needed
+} from "../../../app/composables/queries/useLocation";
 
 // MARK: Mocks
 
@@ -23,7 +23,7 @@ vi.mock("../../../app/composables/generic/useAppError", () => ({
   }),
 }));
 
-// Mock the service call
+// Mock the service call.
 mockNuxtImport("searchLocationNomatim", () => mocks.searchLocationNomatim);
 vi.mock("../../../app/services/location", () => ({
   searchLocationNomatim: mocks.searchLocationNomatim,

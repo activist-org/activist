@@ -9,30 +9,30 @@ export function useAppError() {
   const { showToastError } = useToaster();
   const { clear } = useUserSession();
 
-  // Reactive state to hold the current error
+  // Reactive state to hold the current error.
   const error = ref<AppError | null>(null);
 
   const handleError = (e: unknown) => {
     const appError = e as AppError;
 
-    // Set the reactive error state
+    // Set the reactive error state.
     error.value = appError;
 
-    // Show the error toast
+    // Show the error toast.
     showToastError(appError?.message || "An unexpected error occurred");
 
-    // Check for 401 Unauthorized status or cause
+    // Check for 401 Unauthorized status or cause.
     const isUnauthorized =
       appError?.status === 401 ||
       appError?.causeTag === AppErrorCause.UNAUTHORIZED;
 
     if (isUnauthorized) {
-      // The server already rejected the session, so we just clear the local state
+      // The server already rejected the session, so we just clear the local state.
       clear();
     }
   };
 
-  // Helper to clear the error state if needed
+  // Helper to clear the error state if needed.
   const clearError = () => {
     error.value = null;
   };

@@ -28,7 +28,7 @@ describe("services/location", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
 
-    // Check if the URL was constructed correctly with all params
+    // Check if the URL was constructed correctly with all params.
     const calledUrl = fetchMock.mock.calls[0][0];
     expect(calledUrl).toContain("https://nominatim.openstreetmap.org/search?");
     expect(calledUrl).toContain("city=Paris");

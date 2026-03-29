@@ -11,7 +11,6 @@ const mocks = vi.hoisted(() => ({
   showToastError: vi.fn(),
 }));
 
-// Fallback mocks if auto-imports aren't mapped via #imports in your test environment
 vi.mock("../../app/composables/generic/useToaster", () => ({
   useToaster: () => {
     return {
@@ -22,7 +21,7 @@ vi.mock("../../app/composables/generic/useToaster", () => ({
 
 describe("useAppError", () => {
   beforeEach(() => {
-    // Reset mocks and state before each test
+    // Reset mocks and state before each test.
     vi.clearAllMocks();
     // Default: user is logged out.
     globalThis.useUserSession = createUseUserSessionMock();
@@ -125,7 +124,7 @@ describe("useAppError", () => {
     const mockError: Partial<AppError> = {
       status: 500,
       causeTag: AppErrorCause.SERVER,
-      // No message provided
+      // No message provided.
     };
 
     handleError(mockError);
