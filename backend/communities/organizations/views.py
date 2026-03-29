@@ -142,9 +142,9 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
         org.application.create()
 
-        return Response(
-            "Successfully created organization", status=status.HTTP_201_CREATED
-        )
+        data = OrganizationSerializer(org).data
+
+        return Response(data, status=status.HTTP_201_CREATED)
 
 
 # MARK: Get Organization by User ID

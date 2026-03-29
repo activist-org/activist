@@ -10,11 +10,13 @@ on:
       - synchronize
     paths:
       - "frontend/**"
+      - "!frontend/test-e2e"
   push:
     branches:
       - main
     paths:
       - "frontend/**"
+      - "!frontend/test-e2e"
 
 jobs:
   frontend_tests:
