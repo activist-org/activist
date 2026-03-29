@@ -10,7 +10,7 @@ export function useGetOrganizationsByUser(
   userId: string,
   filters?: MaybeRef<OrganizationFilters>
 ) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const isLastPageRef = ref(false);
   const organizations = ref<Organization[]>([]);
   const page = ref(1);
@@ -53,7 +53,7 @@ export function useGetOrganizationsByUser(
         organizations.value = organizations.value.concat(newOrgs);
         return organizations.value as Organization[];
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },
