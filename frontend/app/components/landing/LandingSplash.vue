@@ -45,15 +45,15 @@
           linkTo="/events"
         />
       </div>
-      <BtnRouteExternal
+     <button
         id="request-access"
         v-else
-        ariaLabel="i18n.components.landing_splash.request_access_aria_label"
-        :cta="true"
-        fontSize="xl"
-        label="i18n.components.landing_splash.request_access"
-        :linkTo="REQUEST_ACCESS_URL"
-      />
+        type="button"
+        class="btn-base-class style-cta rounded-md xl:rounded-lg"
+        @click="handleRequestAccessFallback"
+      >
+        {{ $t("i18n.components.landing_splash.request_access") }}
+      </button>
     </div>
   </div>
 </template>
@@ -62,4 +62,7 @@
 const aboveMediumBP = useBreakpoint("md");
 const devMode = useDevMode();
 devMode.check();
+const handleRequestAccessFallback = () => {
+  window.alert("The request access form is currently unavailable. Please try again later.");
+};
 </script>
