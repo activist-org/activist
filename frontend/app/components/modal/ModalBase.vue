@@ -2,9 +2,7 @@
 <template>
   <Teleport to="body">
     <Dialog class="relative z-50" :open="modalIsOpen">
-      <DialogBackdrop
-        className="fixed inset-0 bg-layer-0/95 dark:bg-layer-0/95"
-      />
+      <DialogBackdrop class="fixed inset-0 bg-layer-0/95 dark:bg-layer-0/95" />
       <div
         @click="closeModal()"
         @keydown.enter="closeModal()"

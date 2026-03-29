@@ -1,22 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 export const useGroupMutations = () => {
-  const { showToastError } = useToaster();
-
   const store = useOrganizationStore();
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError, clearError } = useAppError();
 
   const create = async (groupData: CreateGroupInput) => {
     loading.value = true;
-    error.value = null;
+    clearError();
     try {
       const group = await createGroup(groupData);
       await refreshGroupList();
       return group;
     } catch (e) {
-      error.value = e as AppError;
-      showToastError(error.value.message);
+      handleError(e);
       return false;
     } finally {
       loading.value = false;
@@ -26,7 +23,11 @@ export const useGroupMutations = () => {
     // Invalidate and refetch group list data.
     // Invalidate the useAsyncData cache so next read will refetch.
     clearNuxtData((key) => key.startsWith("groups-list:"));
-    await refreshNuxtData(getKeyForGetOrganization(store.getOrganization().id));
+    if (store.getOrganization()) {
+      await refreshNuxtData(
+        getKeyForGetOrganization(store.getOrganization().id)
+      );
+    }
   };
 
   return {

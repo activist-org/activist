@@ -3,7 +3,7 @@ export const getKeyForGetGroups = (filters: GroupFilters, page: number) =>
   `groups-list:filters:${JSON.stringify(filters)}:page:${page}`;
 
 export function useGetGroups(filters: MaybeRef<GroupFilters>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const isLastPageRef = ref(false);
   const groups = ref<Group[]>([]);
   const page = ref(1);
@@ -30,7 +30,7 @@ export function useGetGroups(filters: MaybeRef<GroupFilters>) {
         isLastPageRef.value = paginatedGroups.isLastPage;
         return [...groups.value, ...paginatedGroups.data] as Group[];
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },
