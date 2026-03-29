@@ -6,7 +6,13 @@
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
   >
+    <Icon
+      v-if="isLoading"
+      :name="IconMap.SPINNER"
+      :size="iconSize || '1.5em'"
+    />
     <BtnIconsLabel
+      v-else
       :counter="counter"
       :hideLabelOnMobile="hideLabelOnMobile"
       :iconSize="iconSize"
@@ -18,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BtnAction } from "#shared/types/btn-props";
+import type { BtnAction } from "#shared/types/components-props";
 
 const props = defineProps<BtnAction>();
 

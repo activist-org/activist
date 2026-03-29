@@ -17,7 +17,7 @@
     <Icon
       v-if="iconName"
       :class="{
-        'h-5 w-5 flex-shrink-0': isSidebarLeftMenu,
+        'h-5 w-5 shrink-0': isSidebarLeftMenu,
       }"
       :name="iconName"
       size="1em"
@@ -50,7 +50,7 @@ const props = defineProps<{
 }>();
 
 const sidebar = useSidebar();
-const { signOut } = useAuth();
+const { clear } = useUserSession();
 
 const infoComponent = computed(() => {
   return props.isButton
@@ -88,7 +88,7 @@ const infoLabel = computed(() => {
 
 function conditionallyLogOut() {
   if (props.iconName === `${IconMap.SIGN_OUT}`) {
-    signOut();
+    clear();
   }
 }
 </script>

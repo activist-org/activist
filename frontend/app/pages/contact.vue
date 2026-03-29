@@ -17,7 +17,7 @@
         </h1>
         <div class="flex flex-row space-x-3 py-2">
           <Icon
-            class="mt-[0.125rem] text-link-text"
+            class="mt-0.5 text-link-text"
             :name="IconMap.CIRCLE_INFO"
             size="1.25em"
           />
@@ -101,7 +101,7 @@
                 }"
                 for="name"
               >
-                {{ $t("i18n.pages.contact.name") }}
+                {{ $t("i18n._global.name") }}
                 <span v-if="!nameValidated">
                   {{ $t("i18n.pages.contact.error_empty") }}
                 </span>
@@ -228,7 +228,7 @@
         </h1>
         <div class="flex flex-row space-x-3 py-2 text-start">
           <Icon
-            class="mt-[0.125rem] text-link-text"
+            class="mt-0.5 text-link-text"
             :name="IconMap.CIRCLE_INFO"
             size="1.25em"
           />

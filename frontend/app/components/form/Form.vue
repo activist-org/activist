@@ -9,19 +9,33 @@
     >
       <div class="flex flex-col gap-y-4">
         <div class="grid gap-y-4">
-          <slot />
+          <slot v-bind="{ ...rest, values }" />
         </div>
-        <BtnAction
-          :id="submitId"
-          v-if="props.isThereSubmitButton"
-          ariaLabel="i18n.components.submit_aria_label"
-          class="flex items-center justify-center"
-          :class="props.classButton"
-          :cta="true"
-          fontSize="lg"
-          :label="labelForSubmit"
-          type="submit"
-        />
+        <div class="mt-4 flex items-center justify-between">
+          <template
+            v-if="props.actionButtons && props.actionButtons.length > 0"
+            v-for="btn in props.actionButtons"
+            :key="btn.id || btn.label"
+          >
+            <BtnAction
+              class="ml-2 flex items-center justify-center"
+              :label="btn.label"
+              v-bind="btn"
+            />
+          </template>
+          <BtnAction
+            :id="submitId"
+            v-if="props.isThereSubmitButton"
+            ariaLabel="i18n.components.submit_aria_label"
+            class="flex items-center justify-center"
+            :class="props.classButton"
+            :cta="true"
+            fontSize="lg"
+            :isLoading="isLoading"
+            :label="labelForSubmit"
+            type="submit"
+          />
+        </div>
       </div>
     </form>
   </div>
@@ -32,7 +46,8 @@ import type { z } from "zod";
 
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
-
+import { unref } from "vue";
+type Btn = BtnAction & { [key: string]: unknown };
 const props = withDefaults(
   defineProps<{
     schema: z.Schema;
@@ -43,6 +58,8 @@ const props = withDefaults(
     initialValues?: Record<string, unknown>;
     sendOnChange?: boolean;
     isThereSubmitButton?: boolean;
+    actionButtons?: Btn[];
+    isLoading?: boolean;
   }>(),
   {
     isThereSubmitButton: true,
@@ -54,10 +71,27 @@ const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
 const id = props.id || "form-id";
 const submitId = props.id ? `${props.id}-submit` : "form-submit-id";
 
-const { handleSubmit, values } = useForm({
+const { handleSubmit, values, ...rest } = useForm({
   validationSchema: toTypedSchema(props.schema),
   initialValues: props.initialValues,
 });
+
+let pendingReset: ReturnType<typeof setTimeout> | null = null;
+
+watch(
+  () => props.initialValues,
+  (newValues, oldValues) => {
+    if (JSON.stringify(newValues) === JSON.stringify(oldValues)) return;
+
+    if (pendingReset !== null) clearTimeout(pendingReset);
+    pendingReset = setTimeout(() => {
+      pendingReset = null;
+      rest.resetForm({ values: newValues || {} });
+    }, 0);
+  },
+  { deep: true }
+);
+
 const emit = defineEmits<{
   (e: "submit", values: Record<string, unknown>): void;
 }>();
@@ -74,7 +108,12 @@ if (props.sendOnChange) {
     }
   );
 }
+
 const onSubmit = handleSubmit((values) => {
   emit("submit", values);
+});
+
+defineExpose({
+  getValues: () => ({ ...(unref(values) ?? {}) }),
 });
 </script>

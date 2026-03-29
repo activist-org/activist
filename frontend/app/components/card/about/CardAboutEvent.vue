@@ -7,9 +7,9 @@
           {{ $t("i18n._global.about") }}
         </h3>
         <IconEdit
-          v-if="userIsSignedIn"
           @click="openModalTextEvent"
           @keydown.enter="openModalTextEvent"
+          :entity="event"
         />
       </div>
       <div class="flex-col space-y-3">
@@ -60,9 +60,9 @@
 </template>
 
 <script setup lang="ts">
-const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
+import IconEdit from "~/components/icon/IconEdit.vue";
 
-const { userIsSignedIn } = useUser();
+const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";

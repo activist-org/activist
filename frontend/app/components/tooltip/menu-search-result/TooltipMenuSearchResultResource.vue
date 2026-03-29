@@ -4,7 +4,7 @@
     <div class="space-y-2">
       <!-- <BtnAction
         @keydown="handleTabPress(false, $event)"
-        class="flex max-h-[40px] w-full"
+        class="flex max-h-10 w-full"
         :cta="true"
         label="i18n.components._global.star"
         :leftIcon="IconMap.STAR"
@@ -16,7 +16,7 @@
         @keydown="handleTabPress(true, $event)"
         @keydown.enter="openModal()"
         ariaLabel="i18n._global.share"
-        class="flex max-h-[40px] w-full items-center"
+        class="flex max-h-10 w-full items-center"
         :cta="true"
         fontSize="lg"
         label="i18n._global.share"

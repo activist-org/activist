@@ -1,12 +1,21 @@
-FROM python:3.11-alpine3.16
+FROM python:3.13-alpine
 
 # Set work dir for relative paths.
 WORKDIR /app
 
+# Install system dependencies (curl is required for the Docker healthcheck).
+RUN apk add --no-cache curl
+
+# Install uv.
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+# Copy from the cache instead of linking since it's a mounted volume.
+ENV UV_LINK_MODE=copy
+ENV UV_SYSTEM_PYTHON=true
+
 # Install dependencies.
-COPY ./requirements-dev.txt .
-RUN pip install --upgrade pip
-RUN pip install -r requirements-dev.txt
+COPY ./pyproject.toml ./uv.lock* ./
+RUN uv sync --frozen --no-dev
 
 # Copy code from context to image.
 COPY . .

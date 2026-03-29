@@ -310,15 +310,15 @@ describe("FormTextInputPassword", () => {
     });
 
     const input = screen.getByRole("textbox") as HTMLInputElement;
-    // Default value from withDefaults is ""
+    // Default value from withDefaults is "".
     expect(input.value).toBe("");
   });
 
   // MARK: Style Coverage Tests
 
   it("shrinks label when input is focused", async () => {
-    // Style classes verified against frontend/app/assets/css/tailwind.css
-    // Label shrinking behavior inherited from FormTextInput component
+    // Style classes verified against frontend/app/assets/css/tailwind.css.
+    // Label shrinking behavior inherited from FormTextInput component.
     await render(FormTextInputPassword, {
       props: defaultProps,
     });
@@ -340,8 +340,8 @@ describe("FormTextInputPassword", () => {
   });
 
   it("expands label when input is empty and blurred", async () => {
-    // Style classes verified against frontend/app/assets/css/tailwind.css
-    // Label expanding behavior inherited from FormTextInput component
+    // Style classes verified against frontend/app/assets/css/tailwind.css.
+    // Label expanding behavior inherited from FormTextInput component.
     await render(FormTextInputPassword, {
       props: defaultProps,
     });
@@ -387,8 +387,8 @@ describe("FormTextInputPassword", () => {
   });
 
   it("handles empty string id and label gracefully", async () => {
-    // Edge case: Empty strings for required props
-    // Component should still render, though this is not recommended usage
+    // Edge case: Empty strings for required props.
+    // Component should still render, though this is not recommended usage.
     await render(FormTextInputPassword, {
       props: {
         id: "",
@@ -402,7 +402,7 @@ describe("FormTextInputPassword", () => {
   });
 
   it("handles very long password values", async () => {
-    // Edge case: Very long password strings
+    // Edge case: Very long password strings.
     const longPassword = "a".repeat(1000);
     await render(FormTextInputPassword, {
       props: {
@@ -417,7 +417,7 @@ describe("FormTextInputPassword", () => {
   });
 
   it("handles special characters in password", async () => {
-    // Edge case: Special characters in password
+    // Edge case: Special characters in password.
     const specialPassword = "!@#$%^&*()_+-=[]{}|;:,.<>?";
     await render(FormTextInputPassword, {
       props: {

@@ -4,7 +4,7 @@
     <div class="space-y-2">
       <!-- <BtnAction
         @keydown="handleTabPress(false, $event)"
-        class="flex max-h-[40px] w-full"
+        class="flex max-h-10 w-full"
         :cta="true"
         label="i18n._global.support"
         leftIcon="IconSupport"
@@ -12,7 +12,7 @@
         ariaLabel="i18n._global.support_organization_aria_label"
       /> -->
       <!-- <BtnRouteInternal
-        class="flex max-h-[40px] w-full"
+        class="flex max-h-10 w-full"
         :cta="true"
         label="i18n.components.tooltip.menu_search_result._global.join"
         leftIcon="IconJoin"
@@ -26,7 +26,7 @@
         @keydown="handleTabPress(true, $event)"
         @keydown.enter="openModal()"
         ariaLabel="i18n._global.share_organization_aria_label"
-        class="flex max-h-[40px] w-full items-center"
+        class="flex max-h-10 w-full items-center"
         :cta="true"
         fontSize="lg"
         label="i18n._global.share"

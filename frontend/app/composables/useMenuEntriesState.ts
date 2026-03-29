@@ -30,11 +30,7 @@ const useMenuEntriesState = () => {
   const organizationEntries = ref([
     createMenuEntry("i18n._global.about", "organizations", `${IconMap.ABOUT}`),
     createMenuEntry("i18n._global.events", "organizations", `${IconMap.EVENT}`),
-    createMenuEntry(
-      "i18n.composables.use_menu_entries_state.groups",
-      "organizations",
-      `${IconMap.GROUP}`
-    ),
+    createMenuEntry("i18n._global.groups", "organizations", `${IconMap.GROUP}`),
     createMenuEntry(
       "i18n._global.resources",
       "organizations",
@@ -110,7 +106,7 @@ const useMenuEntriesState = () => {
 
     for (const button of buttons.value) {
       if (currentPath.value.includes("/groups/")) {
-        if (button.label === "i18n.composables.use_menu_entries_state.groups") {
+        if (button.label === "i18n._global.groups") {
           button.selected = true;
         } else {
           button.selected = false;

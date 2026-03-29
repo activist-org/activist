@@ -28,13 +28,13 @@ const TestWrapper = defineComponent({
 
 function expectNormalLabel(label: HTMLElement) {
   expect(label.className, "Label should be normal size").toMatch(
-    "translate-y-[0.6rem] pl-[12px]"
+    "translate-y-[0.6rem] pl-3"
   );
 }
 
 function expectShrunkLabel(label: HTMLElement) {
   expect(label.className, "Label should be shrunk").toMatch(
-    "translate-x-4 translate-y-[-0.5rem] text-sm text-distinct-text"
+    "absolute z-10 -translate-y-2 translate-x-4 text-sm text-distinct-text"
   );
 }
 
@@ -181,6 +181,53 @@ describe("FormTextInput component", () => {
     });
   });
 
+  it("clears placeholder on first pointer down", async () => {
+    await render(FormTextInput, {
+      props: { id: "pointerdown-test", label: "Username" },
+    });
+
+    const input = screen.getByRole("textbox");
+    expect(input.getAttribute("placeholder")).toBe("Username");
+
+    await fireEvent.pointerDown(input);
+    await waitFor(() => {
+      expect(input.getAttribute("placeholder")).toBe("");
+    });
+  });
+
+  it("keeps label shrunk on first focus even if modelValue is set to empty", async () => {
+    const FocusRaceWrapper = defineComponent({
+      components: { FormTextInput },
+      setup() {
+        const modelValue = ref<string | undefined>(undefined);
+        const resetToEmpty = () => {
+          modelValue.value = "";
+        };
+        return { modelValue, resetToEmpty };
+      },
+      template: `
+        <div>
+          <FormTextInput
+            id="focus-race"
+            label="Username"
+            :modelValue="modelValue"
+          />
+          <button type="button" @click="resetToEmpty">reset</button>
+        </div>
+      `,
+    });
+
+    await render(FocusRaceWrapper);
+
+    const input = screen.getByRole("textbox");
+    await fireEvent.focus(input);
+    await fireEvent.click(screen.getByRole("button", { name: "reset" }));
+
+    await waitFor(() => {
+      expect(input.getAttribute("placeholder")).toBe("");
+    });
+  });
+
   // MARK: Props
 
   it("applies error border when hasError is true", async () => {
@@ -232,7 +279,7 @@ describe("FormTextInput component", () => {
     expect(icon).toBeTruthy();
 
     const label = screen.getByText("Right Icon", { selector: "label" });
-    expect(label.className).toContain("pl-[12px]");
+    expect(label.className).toContain("pl-3");
   });
 
   // MARK: Edge Cases

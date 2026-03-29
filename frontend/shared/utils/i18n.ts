@@ -5,6 +5,7 @@ import de from "~~/i18n/locales/de.json" assert { type: "json" };
 import enUS from "~~/i18n/locales/en-US.json" assert { type: "json" };
 import es from "~~/i18n/locales/es.json" assert { type: "json" };
 import fr from "~~/i18n/locales/fr.json" assert { type: "json" };
+import id from "~~/i18n/locales/id.json" assert { type: "json" };
 import it from "~~/i18n/locales/it.json" assert { type: "json" };
 import pt from "~~/i18n/locales/pt.json" assert { type: "json" };
 
@@ -14,6 +15,7 @@ const localeFiles: Record<LOCALE_CODE, LocaleFile> = {
   [LOCALE_CODE.ENGLISH]: enUS,
   [LOCALE_CODE.ARABIC]: ar,
   [LOCALE_CODE.GERMAN]: de,
+  [LOCALE_CODE.INDONESIAN]: id,
   [LOCALE_CODE.ITALIAN]: it,
   [LOCALE_CODE.SPANISH]: es,
   [LOCALE_CODE.FRENCH]: fr,

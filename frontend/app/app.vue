@@ -4,6 +4,9 @@
   <NuxtLayout>
     <Toaster :richColors="true" :theme="isDark ? 'dark' : 'light'" />
     <ModalCommandPalette :paletteData="commandPaletteData" />
+    <ModalCreateEvent />
+    <ModalCreateOrganization />
+    <ModalCreateGroup />
     <NuxtPage />
   </NuxtLayout>
 </template>
@@ -11,7 +14,6 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
-import "vue-sonner/style.css";
 
 const { openModal: openModalCommandPalette } = useModalHandlers(
   "ModalCommandPalette"

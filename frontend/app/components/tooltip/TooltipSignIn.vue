@@ -7,7 +7,7 @@
     <div class="grid w-max grid-cols-1 gap-4 md:grid-cols-2">
       <BtnRouteInternal
         ariaLabel="i18n._global.sign_in_aria_label"
-        class="flex max-h-[40px] items-center justify-center truncate"
+        class="flex max-h-10 items-center justify-center truncate"
         :cta="true"
         fontSize="lg"
         label="i18n._global.sign_in"
@@ -15,7 +15,7 @@
       />
       <BtnRouteInternal
         ariaLabel="i18n._global.sign_up_aria_label"
-        class="flex max-h-[40px] items-center justify-center truncate"
+        class="flex max-h-10 items-center justify-center truncate"
         :cta="true"
         fontSize="lg"
         label="i18n._global.sign_up"

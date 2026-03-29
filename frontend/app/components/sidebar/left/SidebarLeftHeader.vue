@@ -16,7 +16,7 @@
         }"
       >
         <IconActivist
-          class="z-1 absolute inset-0 flex h-8 w-[1.3em] flex-shrink-0 items-center justify-center overflow-clip"
+          class="z-1 absolute inset-0 flex h-8 w-[1.3em] shrink-0 items-center justify-center overflow-clip"
           :class="{
             hidden:
               sidebar.collapsed == false || sidebar.collapsedSwitch == false,
@@ -27,13 +27,13 @@
             v-if="
               sidebar.collapsed == false || sidebar.collapsedSwitch == false
             "
-            class="z-1 absolute inset-0 flex h-8 w-32 flex-shrink-0 items-center justify-center overflow-clip"
+            class="z-1 absolute inset-0 flex h-8 w-32 shrink-0 items-center justify-center overflow-clip"
             color="fill-primary-text-over-layer-2 hover:fill-distinct-text-over-layer-2"
           />
         </Transition>
       </div>
       <!-- @mouseover.stop cancels the sidebar expansion for the button. -->
-      <div @mouseover.stop class="absolute -right-0">
+      <div @mouseover.stop class="absolute right-0">
         <button
           id="sidebar-left-toggle"
           @click="

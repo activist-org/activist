@@ -5,7 +5,7 @@
 
 @config "~~/tailwind.config.ts";
 
-@plugin 'tailwind-scrollbar' {
+@plugin "tailwind-scrollbar" {
   nocompatible: true;
 }
 
@@ -21,7 +21,7 @@ MARK: Colors
   --section-div: 216, 222, 228;
   --primary-text: 0, 0, 0;
   --primary-text-over-layer-2: 36, 36, 35;
-  --distinct-text: 90, 90, 90;
+  --distinct-text: 70, 70, 70;
   --distinct-text-over-layer-2: 105, 105, 105;
   --link-text: 0, 92, 184;
   --link-text-hover: 0, 59, 119;
@@ -154,6 +154,51 @@ MARK: Base
     @apply text-warn-yellow;
   }
 
+  .form-text-input:-webkit-autofill,
+  .form-text-input:-webkit-autofill:hover,
+  .form-text-input:-webkit-autofill:focus,
+  .form-text-input:-webkit-autofill:active {
+    animation-name: onAutoFillStart;
+    animation-duration: 0s;
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
+    box-shadow: 0 0 0 1000px rgb(var(--layer-2)) inset;
+    color: rgb(var(--primary-text)) !important;
+    -webkit-text-fill-color: rgb(var(--primary-text)) !important;
+    caret-color: rgb(var(--primary-text)) !important;
+    transition: background-color 9999s ease-out;
+  }
+
+  .form-text-input:autofill {
+    color: rgb(var(--primary-text)) !important;
+    -webkit-text-fill-color: rgb(var(--primary-text)) !important;
+  }
+
+  .auth-layout-pane .form-text-input:-webkit-autofill,
+  .auth-layout-pane .form-text-input:-webkit-autofill:hover,
+  .auth-layout-pane .form-text-input:-webkit-autofill:focus,
+  .auth-layout-pane .form-text-input:-webkit-autofill:active,
+  .auth-layout-pane .form-text-input:autofill {
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--layer-1)) inset;
+    box-shadow: 0 0 0 1000px rgb(var(--layer-1)) inset;
+  }
+
+  .auth-layout-pane .form-text-input {
+    color: rgb(var(--primary-text));
+    -webkit-text-fill-color: rgb(var(--primary-text));
+  }
+
+  .form-text-input:-webkit-autofill::placeholder,
+  .form-text-input:autofill::placeholder {
+    color: transparent;
+  }
+
+  @keyframes onAutoFillStart {
+    from {
+    }
+    to {
+    }
+  }
+
   /*
   MARK: Buttons
   */
@@ -273,10 +318,6 @@ MARK: Base
     @apply absolute;
   }
 
-  .has-tooltip:hover .tooltip {
-    @apply visible z-40;
-  }
-
   /*
   MARK: Special
   */
@@ -291,6 +332,10 @@ MARK: Base
 
   .style-warn {
     @apply border border-primary-text bg-warn-yellow text-primary-text focus-brand hover:bg-warn-yellow/80 active:bg-warn-yellow dark:border-warn-yellow dark:bg-warn-yellow/10 dark:text-warn-yellow dark:hover:bg-warn-yellow/25 dark:active:bg-warn-yellow/10;
+  }
+
+  .bg-breakpoint-test {
+    @apply bg-red-500 before:content-['breakpoint:xs'] sm:bg-orange-500 sm:before:content-['breakpoint:sm'] md:bg-yellow-500 md:before:content-['breakpoint:md'] lg:bg-green-500 lg:before:content-['breakpoint:lg'] xl:bg-blue-500 xl:before:content-['breakpoint:xl'] 2xl:bg-violet-500 2xl:before:content-['breakpoint:2xl'] 3xl:bg-pink-500 3xl:before:content-['breakpoint:3xl'];
   }
 }
 

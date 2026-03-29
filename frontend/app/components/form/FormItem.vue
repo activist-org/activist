@@ -5,13 +5,14 @@
       v-if="label"
       :for="id"
       :label="label"
-      :name="name"
+      :name="props.name"
       :required="required"
     />
     <slot v-bind="field" :id="id" />
     <FormErrorMessage
       :id="`${id}-error`"
       v-if="field.errorMessage"
+      :aria-label="`${field.errorMessage.value} error message.`"
       class="pt-2"
       :message="field.errorMessage.value"
     />

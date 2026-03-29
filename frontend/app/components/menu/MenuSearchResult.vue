@@ -70,7 +70,7 @@ defineProps<{
   group?: Group;
   event?: CommunityEvent;
   resource?: Resource;
-  user?: User;
+  user?: UserActivist;
 }>();
 
 const showTooltip = ref(false);

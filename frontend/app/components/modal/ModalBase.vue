@@ -1,78 +1,81 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Dialog class="relative z-50" :open="modalIsOpen">
-    <DialogBackdrop
-      className="fixed inset-0 bg-layer-0/95 dark:bg-layer-0/95"
-    />
-    <div
-      @click="closeModal()"
-      @keydown.enter="closeModal()"
-      class="cursor-pointer"
-      :class="{
-        'fixed top-0 z-10 flex h-screen w-full flex-col items-center overflow-hidden':
-          imageModal,
-        'fixed inset-0 flex w-screen items-center justify-center': !imageModal,
-      }"
-    >
-      <DialogPanel
-        id="modal"
+  <Teleport to="body">
+    <Dialog class="relative z-50" :open="modalIsOpen">
+      <DialogBackdrop class="fixed inset-0 bg-layer-0/95 dark:bg-layer-0/95" />
+      <div
+        @click="closeModal()"
+        @keydown.enter="closeModal()"
+        class="cursor-pointer"
         :class="{
-          'flex flex-col items-center': imageModal,
-          'container h-full w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text card-style-base md:h-auto':
+          'fixed top-0 z-10 flex h-screen w-full flex-col items-center overflow-hidden':
+            imageModal,
+          'fixed inset-0 flex w-screen items-center justify-center':
             !imageModal,
         }"
-        :data-testid="`modal-${modalName}`"
       >
-        <button
-          id="modal-close-button"
-          v-if="imageModal"
-          @click="closeModal()"
-          :aria-label="
-            $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
-          "
-          class="absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
-          data-testid="modal-close-button"
-          role="button"
+        <DialogPanel
+          id="modal"
+          :class="{
+            'flex flex-col items-center': imageModal,
+            'container h-full max-h-[90vh] w-full max-w-4xl cursor-default overflow-y-auto bg-layer-0 p-5 pl-6 text-primary-text card-style-base md:h-auto md:max-h-[90vh]':
+              !imageModal,
+          }"
+          :data-testid="`modal-${modalName}`"
         >
-          <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
-        </button>
-        <div v-else class="relative">
           <button
             id="modal-close-button"
+            v-if="imageModal"
             @click="closeModal()"
             :aria-label="
               $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
             "
-            class="absolute right-0 cursor-pointer rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
+            class="absolute right-0 mr-24 mt-8 rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
             data-testid="modal-close-button"
             role="button"
           >
             <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
           </button>
-        </div>
-        <div
-          v-if="imageModal"
-          @click="closeModal()"
-          @keypress.esc="closeModal()"
-          :aria-label="
-            $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
-          "
-          class="flex flex-col items-center justify-center focus-brand"
-          role="button"
-          tabindex="0"
-        >
-          <slot />
-        </div>
-        <div v-else>
-          <slot />
-        </div>
-      </DialogPanel>
-    </div>
-  </Dialog>
+          <div v-else class="relative">
+            <button
+              id="modal-close-button"
+              @click="closeModal()"
+              :aria-label="
+                $t
+                  ? $t('i18n.components.modal_base.close_modal_aria_label')
+                  : ''
+              "
+              class="absolute right-0 cursor-pointer rounded-full p-1 text-distinct-text focus-brand hover:text-primary-text"
+              data-testid="modal-close-button"
+              role="button"
+            >
+              <Icon class="h-10 w-10" :name="IconMap.CIRCLE_X_FILL" />
+            </button>
+          </div>
+          <div
+            v-if="imageModal"
+            @click="closeModal()"
+            @keypress.esc="closeModal()"
+            :aria-label="
+              $t ? $t('i18n.components.modal_base.close_modal_aria_label') : ''
+            "
+            class="flex flex-col items-center justify-center focus-brand"
+            role="button"
+            tabindex="0"
+          >
+            <slot />
+          </div>
+          <div v-else>
+            <slot />
+          </div>
+        </DialogPanel>
+      </div>
+    </Dialog>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
-import { Dialog, DialogPanel } from "@headlessui/vue";
+import { Dialog, DialogPanel, DialogBackdrop } from "@headlessui/vue";
 import { useRoute } from "vue-router";
 
 const props = defineProps<{

@@ -5,6 +5,7 @@ import { getEnglishText } from "#shared/utils/i18n";
 
 import { newEditModal } from "~/test-e2e/component-objects/EditModal";
 import { newOrganizationMenu } from "~/test-e2e/component-objects/OrganizationMenu";
+import { newQRCodeModal } from "~/test-e2e/component-objects/QRCodeModal";
 import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSocialLinksModal } from "~/test-e2e/component-objects/SocialLinksModal";
@@ -37,6 +38,7 @@ export const newOrganizationPage = (page: Page) => ({
   // MARK: Modals
 
   shareModal: newShareModal(page),
+  qrCodeModal: newQRCodeModal(page),
   editModal: newEditModal(page),
   socialLinksModal: newSocialLinksModal(page),
 
