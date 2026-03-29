@@ -72,7 +72,17 @@ line_length = 88
 python_files = "test_*.py"
 
 [tool.coverage.run]
-omit = ["*/tests/*", "*/__init__.py"]
+# Paths are often relative to services/filescan (e.g. ``tests/foo.py``). Patterns like
+# ``*/tests/*`` do not match those (fnmatch ``*`` does not cross ``/`` as a prefix).
+omit = [
+    "tests/*",
+    "tests_integration/*",
+    "*/tests/*",
+    "*/tests_integration/*",
+    "**/tests/**",
+    "**/tests_integration/**",
+    "*/__init__.py",
+]
 
 [tool.mypy]
 mypy_path = "services/filescan"

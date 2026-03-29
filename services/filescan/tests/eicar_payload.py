@@ -16,6 +16,11 @@ import io
 def eicar_test_bytes() -> bytes:
     """
     Return the canonical 68-byte EICAR test string.
+
+    Returns
+    -------
+    bytes
+        The standard EICAR anti-malware test payload.
     """
     return b"X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"
 
@@ -23,6 +28,11 @@ def eicar_test_bytes() -> bytes:
 def eicar_test_fileobj() -> io.BytesIO:
     """
     Return a BytesIO suitable for multipart upload as ``eicar.txt``.
+
+    Returns
+    -------
+    io.BytesIO
+        Buffer positioned at the start, containing ``eicar_test_bytes()``.
     """
     buf = io.BytesIO(eicar_test_bytes())
     buf.seek(0)
