@@ -437,7 +437,7 @@ yarn test --silent
 If you would like to run a specific test, please run the following command:
 
 ```bash
-yarn vitest FILE.spec.ts --run
+yarn test FILE.spec.ts --run
 ```
 
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.

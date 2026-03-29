@@ -4,27 +4,11 @@ import type { VueWrapper } from "@vue/test-utils";
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { Organization } from "../../../../shared/types/organization";
+import type { CommunityEvent } from "./../../../../shared/types/event.d";
 
 import CardSearchResultEntityEvent from "../../../app/components/card/search-result-entity/CardSearchResultEntityEvent.vue";
 
-interface EventEntity {
-  id: string;
-  name: string;
-  type: "action" | "learn";
-  startTime?: string;
-  texts?: Array<{ description?: string }>;
-  offlineLocation?: {
-    displayName: string;
-  };
-  onlineLocationLink?: string;
-  iconUrl?: {
-    fileObject?: string;
-  };
-  orgs?: Organization[];
-}
-
-const defaultEntity: EventEntity = {
+const defaultEntity: CommunityEvent = {
   id: "event-1",
   name: "Sample Event",
   type: "action",
