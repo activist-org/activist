@@ -2,7 +2,7 @@ name: OWASP ZAP Optimized Security Scan
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * 1'  # Run weekly on Mondays at 2 AM UTC
+    - cron: "0 2 * * 1" # Run weekly on Mondays at 2 AM UTC
 
 jobs:
   zap_scan:
@@ -10,7 +10,7 @@ jobs:
     name: Security Scan with OWASP ZAP
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Create reports directory with proper permissions
         run: |
@@ -32,7 +32,7 @@ jobs:
           ls -la zap-reports/
 
       - name: Upload ZAP Scan Results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: zap-scan-results
           path: zap-reports/
