@@ -10,7 +10,7 @@ jobs:
     name: Security Scan with OWASP ZAP
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Create reports directory with proper permissions
         run: |
