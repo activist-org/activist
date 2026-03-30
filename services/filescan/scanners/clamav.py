@@ -4,9 +4,10 @@ Methods for the ClamAV file scanner.
 """
 
 import asyncio
+import io
 import os
 
-import pyclamd
+from clamav_client.clamd import ClamdUnixSocket
 
 # Socket path must match clamd.conf (and entrypoint.sh). Default matches Alpine.
 CLAMAV_SOCKET = os.environ.get("CLAMAV_SOCKET_PATH", "/run/clamav/clamd.sock")
@@ -53,23 +54,26 @@ def _scan_with_clamav_sync(file_bytes: bytes) -> tuple[bool, str, str | None]:
     RuntimeError
         If the ClamAV daemon is unavailable.
     """
-    # Create a connection to the ClamAV daemon.
-    client = pyclamd.ClamdUnixSocket(CLAMAV_SOCKET)
+    client = ClamdUnixSocket(CLAMAV_SOCKET)
 
     try:
-        if not client.ping():
+        # clamav-client returns the daemon reply (typically "PONG") on success.
+        if not client.ping().startswith("PONG"):
             raise RuntimeError("ClamAV daemon is not responding to ping()")
 
     except Exception as exc:  # noqa: BLE001
         raise RuntimeError(f"Unable to connect to ClamAV daemon: {exc}") from exc
 
-    # scan_stream returns None (clean) or e.g. {"stream": ("FOUND", "Eicar-Test-Signature")}.
-    result = client.scan_stream(file_bytes)
+    try:
+        # INSTREAM scan: empty dict means clean; otherwise values are (status, signature).
+        result = client.instream(io.BytesIO(file_bytes))
+    except Exception as exc:  # noqa: BLE001
+        raise RuntimeError(f"Unable to connect to ClamAV daemon: {exc}") from exc
 
     if not result:
         return (False, "No malware detected by ClamAV.", None)
 
-    status, signature = result["stream"]
+    _, (status, signature) = next(iter(result.items()))
     malware_detected = status == "FOUND"
     detail = (
         "Malware detected by ClamAV." if malware_detected else "Unexpected scan status."

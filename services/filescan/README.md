@@ -4,6 +4,8 @@ FastAPI-based service that accepts file uploads over HTTP and scans them with Cl
 
 The service runs a `clamd` daemon **inside the same container** and talks to it over a Unix socket.
 
+The Python application uses the [`clamav-client`](https://pypi.org/project/clamav-client/) package ([`clamav_client`](https://github.com/artefactual-labs/clamav-client) on GitHub) to connect to `clamd` via `INSTREAM` scans; the engine itself is the Alpine `clamav` package in the image.
+
 On startup, the container updates the ClamAV malware signature database before accepting requests. You can adjust this behavior by editing the `freshclam 2>/dev/null || true` line in [`entrypoint.sh`](./entrypoint.sh).
 
 Uploaded files are read into memory and passed to ClamAV; the result is returned as JSON indicating whether malware was detected and, if so, which signature matched.

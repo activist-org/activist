@@ -134,6 +134,15 @@ wheels = [
 ]
 
 [[package]]
+name = "clamav-client"
+version = "0.7.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/1a/0e/3d1813e43dce80a7f76220a715720906244b93e12692f0f4ede54d2c515f/clamav_client-0.7.2.tar.gz", hash = "sha256:d136f44acc79ceada188a200ac0f68840abb7cfae1fa5f9d535f11cfc244cccd", size = 35393, upload-time = "2026-03-05T14:42:41.495Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a8/d2/d7eceaa22d6fb01d7c3667c5c7129d8ccd4dde90935a7ea9064f688704c8/clamav_client-0.7.2-py3-none-any.whl", hash = "sha256:294ade0fb1e902db2399daa3f27a7023ca216282f129f0b2466abd5672b27397", size = 14410, upload-time = "2026-03-05T14:42:40.118Z" },
+]
+
+[[package]]
 name = "click"
 version = "8.3.1"
 source = { registry = "https://pypi.org/simple" }
@@ -268,9 +277,9 @@ name = "filescan-service"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "clamav-client" },
     { name = "fastapi" },
     { name = "httpx" },
-    { name = "pyclamd" },
     { name = "python-multipart" },
     { name = "uvicorn", extra = ["standard"] },
 ]
@@ -289,12 +298,12 @@ docs = [
 
 [package.metadata]
 requires-dist = [
+    { name = "clamav-client", specifier = ">=0.7.2" },
     { name = "fastapi", specifier = ">=0.135.1,<0.136" },
     { name = "httpx", specifier = ">=0.27.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.19.1" },
     { name = "numpydoc", marker = "extra == 'docs'", specifier = ">=1.10.0" },
     { name = "prek", marker = "extra == 'dev'", specifier = ">=0.3.6" },
-    { name = "pyclamd", specifier = ">=0.4.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.0.2" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=7.1.0" },
     { name = "python-multipart", specifier = ">=0.0.22" },
@@ -635,12 +644,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/0c/b4/46b59fe49f635acd9f6530778ce577f9d8b49452835726a5311ffc902c67/prek-0.3.8-py3-none-win_amd64.whl", hash = "sha256:bc147fdbdd4ec33fc7a987b893ecb69b1413ac100d95c9889a70f3fd58c73d06", size = 5346551, upload-time = "2026-03-23T08:23:34.501Z" },
     { url = "https://files.pythonhosted.org/packages/53/05/9cca1708bb8c65264124eb4b04251e0f65ce5bfc707080bb6b492d5a0df7/prek-0.3.8-py3-none-win_arm64.whl", hash = "sha256:a2614647aeafa817a5802ccb9561e92eedc20dcf840639a1b00826e2c2442515", size = 5190872, upload-time = "2026-03-23T08:23:29.463Z" },
 ]
-
-[[package]]
-name = "pyclamd"
-version = "0.4.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/13/73/97a0518b59f1b6aefa2ac851566038d2c9128f8a5503bcf4cd0adf8b0072/pyClamd-0.4.0.tar.gz", hash = "sha256:ddd588577e5db123760b6ddaac46b5c4b1d9044a00b5d9422de59f83a55c20fe", size = 11177, upload-time = "2017-08-27T22:06:02.757Z" }
 
 [[package]]
 name = "pydantic"

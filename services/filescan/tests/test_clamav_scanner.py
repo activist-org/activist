@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+import io
+
 from scanners import clamav
 
 
@@ -14,20 +16,20 @@ class _FakeClamdClient:
         self._scan_result = scan_result
         self._ping_raises = ping_raises
 
-    def ping(self) -> bool:
+    def ping(self) -> str:
         if self._ping_raises is not None:
             raise self._ping_raises
-        return self._ping_ok
+        return "PONG" if self._ping_ok else ""
 
-    def scan_stream(self, data: bytes) -> dict | None:  # noqa: ARG002
-        return self._scan_result
+    def instream(self, buff: io.BytesIO) -> dict:  # noqa: ARG002
+        return self._scan_result if self._scan_result is not None else {}
 
 
 def _mock_clamd(monkeypatch, client: _FakeClamdClient) -> None:
     def _factory(_socket: str) -> _FakeClamdClient:  # noqa: ARG001
         return client
 
-    monkeypatch.setattr("scanners.clamav.pyclamd.ClamdUnixSocket", _factory)
+    monkeypatch.setattr("scanners.clamav.ClamdUnixSocket", _factory)
 
 
 def test_scan_with_clamav_returns_clean_for_none_result(monkeypatch) -> None:
