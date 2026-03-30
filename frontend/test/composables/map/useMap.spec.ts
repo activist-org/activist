@@ -1,5 +1,9 @@
+import maplibregl from "maplibre-gl";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
+// 5. Import the composable under test
+import { useMap } from "../../../app/composables";
 
 // 1. Use vi.hoisted to define variables that need to be accessed in vi.mock
 const {
@@ -95,10 +99,6 @@ vi.stubGlobal("useI18n", () => ({
   t: vi.fn((key: string) => key),
 }));
 
-// 5. Import the composable under test
-import { useMap } from "../../../app/composables/map/useMap";
-import maplibregl from "maplibre-gl";
-
 describe("useMap", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -146,7 +146,7 @@ describe("useMap", () => {
   describe("createMap", () => {
     it("initializes maplibre Map with correct configuration", () => {
       const { createMap } = useMap();
-      const layers = [{ id: "test-layer" }] as any;
+      const layers = [{ id: "test-layer" }] as never;
       const map = createMap(layers);
 
       expect(maplibregl.Map).toHaveBeenCalledWith(expect.objectContaining({
@@ -187,7 +187,7 @@ describe("useMap", () => {
         ".maplibregl-ctrl-geolocate": { title: "" },
       };
 
-      const mockMapInstance = new maplibregl.Map({} as any);
+      const mockMapInstance = new maplibregl.Map({} as never);
       mockMapInstance.getContainer = vi.fn(() => ({
         querySelector: vi.fn((selector: string) => mockElements[selector]),
       })) as any;
@@ -216,7 +216,7 @@ describe("useMap", () => {
 
     it("handles missing DOM elements gracefully for all buttons", () => {
       const { addDefaultControls } = useMap();
-      const mockMapInstance = new maplibregl.Map({} as any);
+      const mockMapInstance = new maplibregl.Map({} as never);
       mockMapInstance.getContainer = vi.fn(() => ({
         querySelector: vi.fn().mockReturnValue(null),
       })) as any;
