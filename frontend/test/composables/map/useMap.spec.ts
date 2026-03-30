@@ -1,9 +1,5 @@
-import maplibregl from "maplibre-gl";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
-// 5. Import the composable under test
-import { useMap } from "../../../app/composables";
 
 // 1. Use vi.hoisted to define variables that need to be accessed in vi.mock
 const {
@@ -39,6 +35,7 @@ const {
   };
 });
 
+// 2. Mock dependent composables
 vi.mock("../../../app/composables/map/usePointerMap", () => {
   const mock = () => ({
     createMapForPointerTypeMap: mockCreateMapForPointerTypeMap,
@@ -97,6 +94,10 @@ vi.mock("maplibre-gl", () => {
 vi.stubGlobal("useI18n", () => ({
   t: vi.fn((key: string) => key),
 }));
+
+// 5. Import the composable under test
+import { useMap } from "../../../app/composables/map/useMap";
+import maplibregl from "maplibre-gl";
 
 describe("useMap", () => {
   beforeEach(() => {
@@ -175,7 +176,7 @@ describe("useMap", () => {
   });
 
   describe("addDefaultControls", () => {
-    it("adds all default controls and sets localized titles", async () => {
+    it("adds and localizes all map control buttons", async () => {
       const { addDefaultControls } = useMap();
 
       const mockElements: Record<string, { title: string }> = {
@@ -186,22 +187,41 @@ describe("useMap", () => {
         ".maplibregl-ctrl-geolocate": { title: "" },
       };
 
-      // Create a mock instance of Map
       const mockMapInstance = new maplibregl.Map({} as any);
-      // Override its getContainer to return our mock elements
       mockMapInstance.getContainer = vi.fn(() => ({
         querySelector: vi.fn((selector: string) => mockElements[selector]),
-      })) as never;
+      })) as any;
 
       addDefaultControls(mockMapInstance);
 
+      // Verify all controls were added to the map
       expect(mockMapInstance.addControl).toHaveBeenCalledTimes(3);
-      expect(mockElements[".maplibregl-ctrl-zoom-in"].title).toBe("i18n.composables.use_map.zoom_in");
+      expect(maplibregl.FullscreenControl).toHaveBeenCalled();
+      expect(maplibregl.NavigationControl).toHaveBeenCalledWith(expect.objectContaining({ visualizePitch: true }));
+      expect(maplibregl.GeolocateControl).toHaveBeenCalledWith(expect.objectContaining({ trackUserLocation: true }));
 
+      // Verify all button titles are correctly localized
+      expect(mockElements[".maplibregl-ctrl-fullscreen"].title).toBe("i18n.composables.use_map.fullscreen");
+      expect(mockElements[".maplibregl-ctrl-zoom-in"].title).toBe("i18n.composables.use_map.zoom_in");
+      expect(mockElements[".maplibregl-ctrl-zoom-out"].title).toBe("i18n.composables.use_map.zoom_out");
+      expect(mockElements[".maplibregl-ctrl-compass"].title).toBe("i18n.composables.use_map.reset_north");
+      expect(mockElements[".maplibregl-ctrl-geolocate"].title).toBe("i18n.composables.use_map.geolocate");
+
+      // Verify arrow image loading
       await vi.waitFor(() => {
         expect(mockMapInstance.loadImage).toHaveBeenCalledWith("/icons/from_library/bootstrap_arrow_right.png");
         expect(mockMapInstance.addImage).toHaveBeenCalledWith("route-direction-arrow", expect.anything());
       });
+    });
+
+    it("handles missing DOM elements gracefully for all buttons", () => {
+      const { addDefaultControls } = useMap();
+      const mockMapInstance = new maplibregl.Map({} as any);
+      mockMapInstance.getContainer = vi.fn(() => ({
+        querySelector: vi.fn().mockReturnValue(null),
+      })) as any;
+
+      expect(() => addDefaultControls(mockMapInstance)).not.toThrow();
     });
   });
 });
