@@ -25,6 +25,7 @@ env:
   DATABASE_PASSWORD: postgres
   FILESCAN_PORT: 9101
   FILESCAN_URL: "http://localhost:9101/scan"
+
 jobs:
   backend_tests:
     services:

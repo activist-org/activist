@@ -15,6 +15,7 @@ on:
       - main
     paths:
       - "services/**"
+
 jobs:
   services_tests:
     permissions:

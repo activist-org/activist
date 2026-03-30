@@ -29,7 +29,6 @@ from utils.utils import validate_creation_and_deprecation_dates
 
 logger = logging.getLogger(__name__)
 
-
 # MARK: Discussion
 
 

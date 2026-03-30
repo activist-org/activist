@@ -5,4 +5,4 @@ The backend for activist, which is separated into various apps based on entities
 ## Security events ingestion
 
 - **Ingest endpoint:** Security events from internal services (such as the filescan service) are ingested via `POST /internal/security-events`, implemented by `SecurityEventIngestView` in `core/internal_events.py`.
-- **Schema and validation:** The expected JSON envelope is described by `SecurityEventEnvelopeSerializer` in `core/serializers.py` for schema/OpenAPI purposes, but the view also performs additional runtime validation (for example, basic type checks and timestamp parsing) before dispatching alerts.
+- **Schema and validation:** The expected JSON security event envelope is described by `SecurityEventEnvelopeSerializer` in `core/serializers.py` for schema/OpenAPI purposes, but the view also performs additional runtime validation (for example, basic type checks and timestamp parsing) before dispatching alerts.

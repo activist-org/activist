@@ -6,8 +6,6 @@
 - **Flow:** Filescan quarantines on detection and owns logging + notifications (in filescan or a separate service under `services/`); backend never saves the file and, on a positive scan response, deletes its copy and stops processing.
 - **Local dev workflow:** Use the commands below (from the repo root, with `.env.dev` present) to build images, run the stack, and exercise backend ↔ filescan integration tests.
 
----
-
 **1. Where to define the quarantine path**
 
 - **Dockerfile:** Create the directory (e.g. `RUN mkdir -p /var/quarantine` and set ownership). Do **not** add a `VOLUME` instruction; it doesn't give you the persistence you want.
@@ -83,8 +81,6 @@ On accepted `malware_quarantined` events, the backend currently dispatches a **s
   - If `SECURITY_ALERT_RECIPIENTS` or `SECURITY_ALERT_FROM_EMAIL` is missing, the event is rejected with HTTP 500 and an error is logged.
   - When configured correctly, the backend builds a short plaintext summary (filename, quarantine ID, signature, detector, timestamp) and sends it via `send_mail`, then returns HTTP 204.
 
----
-
 ## Integration tasks: build, run, test
 
 All commands below assume you run them from the **project root** and that `.env.dev` exists and is up to date.
@@ -134,8 +130,6 @@ docker compose --env-file .env.dev \
 ```
 
 **Note:** Both test commands use `-W ignore` so that deprecation and other warnings (e.g. from factory_boy, pagination) do not clutter the output. Remove `-W ignore` if you need to see warnings.
-
----
 
 ## Backend ↔ filescan HTTP client
 
@@ -202,8 +196,6 @@ At present the backend uses this package in the image upload views:
 Those views import `scan_uploads_and_rewind` from `core.filescan`, pass the request’s file(s) to it, and if it returns a `Response` they return it immediately; otherwise they proceed to the serializer and save.
 
 Any other backend code that needs to scan uploads should use this package: `from core.filescan import scan_uploads_and_rewind` for the usual view flow, or `from core.filescan import scan_file` (and `FilescanError`) for custom logic—rather than calling `/scan` directly or importing from `services/filescan/*`.
-
----
 
 ## Recent integration summary
 
