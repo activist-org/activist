@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import maplibregl from "maplibre-gl";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useMap } from "../../../app/composables";
 
