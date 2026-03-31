@@ -12,8 +12,8 @@ import {
   waitAndConfirmEmail,
   waitAndOpenPasswordResetLink,
 } from "~/test-e2e/utils/mailhog";
-import { isPostPasswordRequestLanding } from "~/test-e2e/utils/passwordResetNavigation";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { isPostPasswordRequestLanding } from "~/test-e2e/utils/password-reset-navigation";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.describe.serial(
   "Password Reset Page - MailHog flow",

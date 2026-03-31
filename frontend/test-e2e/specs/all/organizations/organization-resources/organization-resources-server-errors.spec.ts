@@ -2,7 +2,7 @@
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
 const errorToast = (page: Parameters<typeof newOrganizationPage>[0]) =>
   page.locator(
