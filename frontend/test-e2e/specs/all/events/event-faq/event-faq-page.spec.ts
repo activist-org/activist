@@ -56,9 +56,9 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
 
     await page.waitForLoadState("domcontentloaded");
 
-    await expect(
-      faqPage.faqCards.first().or(faqPage.emptyState)
-    ).toBeVisible({ timeout: 15000 });
+    await expect(faqPage.faqCards.first().or(faqPage.emptyState)).toBeVisible({
+      timeout: 15000,
+    });
 
     // Generate unique content for this test run.
     const timestamp = Date.now();
