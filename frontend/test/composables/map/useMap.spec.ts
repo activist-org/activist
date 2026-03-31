@@ -15,12 +15,14 @@ const {
   mockCreateMapForClusterTypeMap,
 } = vi.hoisted(() => {
   return {
-    MockMap: vi.fn().mockImplementation(function (this: any) {
+    MockMap: vi.fn().mockImplementation(function (this: never) {
       this.addControl = vi.fn();
       this.getContainer = vi.fn(() => ({
         querySelector: vi.fn(() => ({ title: "" })),
       }));
-      this.loadImage = vi.fn().mockReturnValue(Promise.resolve({ data: "mock-image-data" }));
+      this.loadImage = vi
+        .fn()
+        .mockReturnValue(Promise.resolve({ data: "mock-image-data" }));
       this.addImage = vi.fn();
       this.on = vi.fn((event, cb) => {
         if (event === "load") cb();
@@ -78,7 +80,6 @@ vi.mock("../../../app/composables/map/useRoutingMap", () => {
   };
 });
 
-// 3. Mock maplibre-gl
 vi.mock("maplibre-gl", () => {
   return {
     default: {
@@ -125,8 +126,12 @@ describe("useMap", () => {
     expect(mapComposable.isWebglSupported).toBeDefined();
     expect(mapComposable.createMap).toBeDefined();
     expect(mapComposable.createFullScreenControl).toBeDefined();
-    expect(mapComposable.createMapForPointerTypeMap).toBe(mockCreateMapForPointerTypeMap);
-    expect(mapComposable.createMapForClusterTypeMap).toBe(mockCreateMapForClusterTypeMap);
+    expect(mapComposable.createMapForPointerTypeMap).toBe(
+      mockCreateMapForPointerTypeMap
+    );
+    expect(mapComposable.createMapForClusterTypeMap).toBe(
+      mockCreateMapForClusterTypeMap
+    );
     expect(mapComposable.addDefaultControls).toBeDefined();
   });
 
@@ -149,14 +154,16 @@ describe("useMap", () => {
       const layers = [{ id: "test-layer" }] as never;
       const map = createMap(layers);
 
-      expect(maplibregl.Map).toHaveBeenCalledWith(expect.objectContaining({
-        container: "map",
-        center: [0, 20],
-        zoom: 1.5,
-        style: expect.objectContaining({
-          layers: layers,
-        }),
-      }));
+      expect(maplibregl.Map).toHaveBeenCalledWith(
+        expect.objectContaining({
+          container: "map",
+          center: [0, 20],
+          zoom: 1.5,
+          style: expect.objectContaining({
+            layers: layers,
+          }),
+        })
+      );
       expect(map).toBeDefined();
     });
 
@@ -190,27 +197,43 @@ describe("useMap", () => {
       const mockMapInstance = new maplibregl.Map({} as never);
       mockMapInstance.getContainer = vi.fn(() => ({
         querySelector: vi.fn((selector: string) => mockElements[selector]),
-      })) as any;
+      })) as never;
 
       addDefaultControls(mockMapInstance);
 
-      // Verify all controls were added to the map
       expect(mockMapInstance.addControl).toHaveBeenCalledTimes(3);
       expect(maplibregl.FullscreenControl).toHaveBeenCalled();
-      expect(maplibregl.NavigationControl).toHaveBeenCalledWith(expect.objectContaining({ visualizePitch: true }));
-      expect(maplibregl.GeolocateControl).toHaveBeenCalledWith(expect.objectContaining({ trackUserLocation: true }));
+      expect(maplibregl.NavigationControl).toHaveBeenCalledWith(
+        expect.objectContaining({ visualizePitch: true })
+      );
+      expect(maplibregl.GeolocateControl).toHaveBeenCalledWith(
+        expect.objectContaining({ trackUserLocation: true })
+      );
 
-      // Verify all button titles are correctly localized
-      expect(mockElements[".maplibregl-ctrl-fullscreen"].title).toBe("i18n.composables.use_map.fullscreen");
-      expect(mockElements[".maplibregl-ctrl-zoom-in"].title).toBe("i18n.composables.use_map.zoom_in");
-      expect(mockElements[".maplibregl-ctrl-zoom-out"].title).toBe("i18n.composables.use_map.zoom_out");
-      expect(mockElements[".maplibregl-ctrl-compass"].title).toBe("i18n.composables.use_map.reset_north");
-      expect(mockElements[".maplibregl-ctrl-geolocate"].title).toBe("i18n.composables.use_map.geolocate");
+      expect(mockElements[".maplibregl-ctrl-fullscreen"].title).toBe(
+        "i18n.composables.use_map.fullscreen"
+      );
+      expect(mockElements[".maplibregl-ctrl-zoom-in"].title).toBe(
+        "i18n.composables.use_map.zoom_in"
+      );
+      expect(mockElements[".maplibregl-ctrl-zoom-out"].title).toBe(
+        "i18n.composables.use_map.zoom_out"
+      );
+      expect(mockElements[".maplibregl-ctrl-compass"].title).toBe(
+        "i18n.composables.use_map.reset_north"
+      );
+      expect(mockElements[".maplibregl-ctrl-geolocate"].title).toBe(
+        "i18n.composables.use_map.geolocate"
+      );
 
-      // Verify arrow image loading
       await vi.waitFor(() => {
-        expect(mockMapInstance.loadImage).toHaveBeenCalledWith("/icons/from_library/bootstrap_arrow_right.png");
-        expect(mockMapInstance.addImage).toHaveBeenCalledWith("route-direction-arrow", expect.anything());
+        expect(mockMapInstance.loadImage).toHaveBeenCalledWith(
+          "/icons/from_library/bootstrap_arrow_right.png"
+        );
+        expect(mockMapInstance.addImage).toHaveBeenCalledWith(
+          "route-direction-arrow",
+          expect.anything()
+        );
       });
     });
 
@@ -219,7 +242,7 @@ describe("useMap", () => {
       const mockMapInstance = new maplibregl.Map({} as never);
       mockMapInstance.getContainer = vi.fn(() => ({
         querySelector: vi.fn().mockReturnValue(null),
-      })) as any;
+      })) as never;
 
       expect(() => addDefaultControls(mockMapInstance)).not.toThrow();
     });
