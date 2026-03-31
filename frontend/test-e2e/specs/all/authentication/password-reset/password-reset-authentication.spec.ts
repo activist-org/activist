@@ -134,7 +134,7 @@ test.describe(
       const requestPage = newPasswordResetRequestPage(page);
       await requestPage.emailInput.fill("not-a-valid-email");
       await requestPage.submitButton.click();
-      await expect(page.getByRole("alert")).toContainText(
+      await expect(page.getByTestId("form-item-email-error")).toContainText(
         /Invalid email address|i18n\.pages\.auth\._global\.invalid_email/i
       );
     });
