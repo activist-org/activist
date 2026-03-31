@@ -1,11 +1,9 @@
-import maplibregl from "maplibre-gl";
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import maplibregl from "maplibre-gl";
 
-// 5. Import the composable under test
 import { useMap } from "../../../app/composables";
 
-// 1. Use vi.hoisted to define variables that need to be accessed in vi.mock
 const {
   MockMap,
   MockNavigationControl,
@@ -41,7 +39,6 @@ const {
   };
 });
 
-// 2. Mock dependent composables
 vi.mock("../../../app/composables/map/usePointerMap", () => {
   const mock = () => ({
     createMapForPointerTypeMap: mockCreateMapForPointerTypeMap,
