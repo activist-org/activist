@@ -92,7 +92,7 @@ vi.mock("maplibre-gl", () => {
   };
 });
 
-// 4. Stub useI18n globally
+// Stub useI18n globally.
 vi.stubGlobal("useI18n", () => ({
   t: vi.fn((key: string) => key),
 }));
@@ -101,7 +101,7 @@ describe("useMap", () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    // Mock WebGL support
+    // Mock WebGL support for needed graphics.
     vi.stubGlobal("document", {
       createElement: vi.fn(() => ({
         getContext: vi.fn((type) => {
