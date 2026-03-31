@@ -3,7 +3,8 @@ import type { Page } from "@playwright/test";
 
 let mailhogApiV2BaseCached: string | undefined;
 
-/** Base URL only (no path), e.g. `http://localhost:8025`. Override via `MAILHOG_API_URL` in CI or non-default setups. */
+// Base URL only (no path), e.g. `http://localhost:8025`.
+// Override via `MAILHOG_API_URL` in CI or non-default setups.
 function mailhogApiV2Base(): string {
   if (mailhogApiV2BaseCached !== undefined) return mailhogApiV2BaseCached;
   const raw = process.env.MAILHOG_API_URL?.replace(/\/$/, "");
@@ -12,7 +13,7 @@ function mailhogApiV2Base(): string {
   return mailhogApiV2BaseCached;
 }
 
-/** First N sleeps between empty polls use a short interval; then `pollIntervalMs`. */
+// First N sleeps between empty polls use a short interval; then `pollIntervalMs`.
 const POLL_FAST_SLEEPS = 4;
 const POLL_FAST_MS = 150;
 
