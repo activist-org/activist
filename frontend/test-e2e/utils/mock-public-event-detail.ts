@@ -2,8 +2,7 @@
 import type { Page } from "@playwright/test";
 
 /** Stable UUID for cold `page.goto` + `page.route` event-detail mocks (SSR off). */
-export const MOCK_EVENT_EMPTY_STATE_ID =
-  "00000000-0000-4000-8000-00000000e207";
+export const MOCK_EVENT_EMPTY_STATE_ID = "00000000-0000-4000-8000-00000000e207";
 
 export function isPublicEventDetailGet(url: string): boolean {
   try {

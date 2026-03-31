@@ -120,9 +120,7 @@ test.describe(
         page.getByRole("heading", {
           level: 4,
           name: new RegExp(
-            getEnglishText(
-              "i18n.components.empty_state.message_no_permission"
-            ),
+            getEnglishText("i18n.components.empty_state.message_no_permission"),
             "i"
           ),
         })
