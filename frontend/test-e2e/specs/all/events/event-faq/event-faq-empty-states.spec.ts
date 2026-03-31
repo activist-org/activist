@@ -13,8 +13,8 @@ import {
   mockEventDetailPayload,
   routeMockPublicEventDetail,
   sampleFaqEntryForMock,
-} from "~/test-e2e/utils/mockPublicEventDetail";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+} from "~/test-e2e/utils/mock-public-event-detail";
+import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
 test.describe(
   "Admin sees editable empty state on event FAQ page",

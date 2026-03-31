@@ -9,7 +9,7 @@ import { newCreateEventModal } from "~/test-e2e/component-objects/CreateEventMod
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/home");

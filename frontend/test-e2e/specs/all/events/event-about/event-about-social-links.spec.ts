@@ -2,7 +2,7 @@
 import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
-import { submitModalWithRetry } from "~/test-e2e/utils/modalHelpers";
+import { submitModalWithRetry } from "~/test-e2e/utils/modal-helpers";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
