@@ -19,7 +19,7 @@
       @mouseover="sidebarHover = true"
       class="fixed top-0 z-20 h-screen"
     />
-    <div class="md:grid md:grid-rows-[1fr_auto] flex flex-col grid-rows-none">
+    <div class="flex grid-rows-none flex-col md:grid md:grid-rows-[1fr_auto]">
       <div
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
