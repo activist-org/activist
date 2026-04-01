@@ -14,8 +14,8 @@ const defaultEntity: CommunityEvent = {
   type: "action",
   startTime: "2025-01-01T10:00:00Z",
   texts: [{ description: "Sample event description" }],
-  offlineLocation: {
-    displayName: "Qatar, Doha",
+  physicalLocation: {
+    addressOrName: "Qatar, Doha",
   },
 };
 
@@ -96,14 +96,14 @@ describe("CardSearchResultEntityEvent", () => {
 
     it("renders location when offline location provided", () => {
       wrapper = createWrapper({
-        offlineLocation: { displayName: "Qatar, Doha" },
+        physicalLocation: { addressOrName: "Qatar, Doha" },
       });
       const location = wrapper.find(".location-stub");
       expect(location.exists()).toBe(true);
     });
 
     it("does not render location when missing", () => {
-      wrapper = createWrapper({ offlineLocation: undefined });
+      wrapper = createWrapper({ physicalLocation: undefined });
       const location = wrapper.find(".location-stub");
       expect(location.exists()).toBe(false);
     });
@@ -179,7 +179,7 @@ describe("CardSearchResultEntityEvent", () => {
 
   describe("Edge Cases", () => {
     it("handles undefined offline location gracefully", () => {
-      wrapper = createWrapper({ offlineLocation: undefined });
+      wrapper = createWrapper({ physicalLocation: undefined });
       expect(wrapper.exists()).toBe(true);
     });
 
@@ -196,7 +196,7 @@ describe("CardSearchResultEntityEvent", () => {
 
     it("renders online location link when provided", () => {
       wrapper = createWrapper({
-        offlineLocation: undefined,
+        physicalLocation: undefined,
         onlineLocationLink: "https://example.com/event",
       });
       const video = wrapper.find(".video-stub");
@@ -226,7 +226,7 @@ describe("CardSearchResultEntityEvent", () => {
 
     it("handles both online and offline location", () => {
       wrapper = createWrapper({
-        offlineLocation: { displayName: "Doha, Qatar" },
+        physicalLocation: { addressOrName: "Doha, Qatar" },
         onlineLocationLink: "https://example.com/stream",
       });
       const location = wrapper.find(".location-stub");
@@ -252,9 +252,9 @@ describe("CardSearchResultEntityEvent", () => {
       expect(wrapper.exists()).toBe(true);
     });
 
-    it("handles location with multiple parts in displayName", () => {
+    it("handles location with multiple parts in addressOrName", () => {
       wrapper = createWrapper({
-        offlineLocation: { displayName: "City, State, Country, Extra" },
+        physicalLocation: { addressOrName: "City, State, Country, Extra" },
       });
       const location = wrapper.find(".location-stub");
       expect(location.exists()).toBe(true);
