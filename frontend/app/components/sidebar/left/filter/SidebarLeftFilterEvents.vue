@@ -14,14 +14,14 @@
     </div>
     <div v-if="hasActiveFilters" class="px-1">
       <BtnAction
-      @click="clearFilters"
-      ariaLabel="i18n.components.sidebar.left.filter._global.clear_filters_button_aria_label"
-      class="w-full text-nowrap"
-      :cta="true"
-      fontSize="base"
-      label="Clear Filters"
-      :leftIcon="IconMap.X_LG"
-    />
+        @click="clearFilters"
+        ariaLabel="i18n.components.sidebar_left_filter_events.clear_filters_button_aria_label"
+        class="w-full text-nowrap"
+        :cta="true"
+        fontSize="base"
+        label="Clear Filters"
+        :leftIcon="IconMap.X_LG"
+      />
     </div>
     <Form
       @submit="handleSubmit"
@@ -260,7 +260,7 @@ watch(
       locationType: undefined,
       location: undefined,
       topics: [],
-      ...q
+      ...q,
     };
 
     // Normalize topics into an array for the Combobox
@@ -282,7 +282,6 @@ watch(
 const hasActiveFilters = computed(() =>
   Object.keys(route.query).some((k) => k !== "view")
 );
-
 
 const clearFilters = async () => {
   router.push({ query: { view: viewType.value } });
