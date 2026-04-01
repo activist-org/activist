@@ -9,7 +9,7 @@
       @mouseover="sidebarHover = true"
       class="block"
     />
-    <div class="flex flex-col md:h-screen md:overflow-y-scroll">
+    <div class="grid grid-rows-[1fr_auto] md:h-screen md:overflow-y-scroll">
       <div
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
