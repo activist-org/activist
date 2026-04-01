@@ -3,10 +3,12 @@ import type { RouteLocationNormalized } from "vue-router";
 
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { nextTick, ref } from "vue";
 
+// @ts-expect-error - TypeScript has issues resolving .vue files in test environment, but import works at runtime
 import CardSearchResultEntityGroup from "../../../app/components/card/search-result-entity/CardSearchResultEntityGroup.vue";
+import { createUseRouteMock } from "../../../mocks/composableMocks";
 
 const mockRoute = ref<Partial<RouteLocationNormalized>>({
   path: "/test",
@@ -18,14 +20,21 @@ const mockRoute = ref<Partial<RouteLocationNormalized>>({
   meta: {},
 });
 
-vi.mock("vue-router", () => ({ useRoute: () => mockRoute }));
+// Use factory to create useRoute mock instead of vi.mock.
+// Access ref value when creating the mock.
+globalThis.useRoute = createUseRouteMock(
+  (mockRoute.value.params || {}) as Record<string, unknown>,
+  (mockRoute.value.query || {}) as Record<string, unknown>,
+  mockRoute.value.path || "/test",
+  undefined
+);
 
 const createWrapper = (props: Record<string, unknown> = {}) => {
   return mount(CardSearchResultEntityGroup, {
     props: { group: {}, ...props },
     global: {
       mocks: {
-        $t: (key: string, params?: Record<string>) => {
+        $t: (key: string, params?: Record<string, unknown>) => {
           if (key === "i18n.components._global.navigate_to_group_aria_label") {
             return "Navigate to the page for this group";
           }
@@ -127,7 +136,7 @@ describe("CardSearchResultEntityGroup", () => {
 
     it("renders location when location exists", () => {
       const group = createMockGroup({
-        location: { displayName: "New York, USA" },
+        location: { addressOrName: "New York, USA" },
       });
       const wrapper = createWrapper({ group });
       expect(wrapper.findAll(".meta-tag-location-stub").length).toBeGreaterThan(
@@ -149,10 +158,10 @@ describe("CardSearchResultEntityGroup", () => {
 
     it("renders imageUrl when iconUrl.fileObject exists", () => {
       const group = createMockGroup({
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "images/icon.png" },
       });
       const wrapper = createWrapper({ group });
-      expect(wrapper.vm.imageUrl).toBe("https://example.com/icon.png");
+      expect(wrapper.vm.imageUrl).toBe("api/images/icon.png");
     });
 
     it("renders empty imageUrl when iconUrl is undefined", () => {
@@ -190,8 +199,8 @@ describe("CardSearchResultEntityGroup", () => {
         name: "Complex Group",
         groupName: "complex-group",
         texts: [{ description: "Full description" }],
-        iconUrl: { fileObject: "https://example.com/icon.png" },
-        location: { displayName: "London, UK" },
+        iconUrl: { fileObject: "images/icon.png" },
+        location: { addressOrName: "London, UK" },
       });
       const wrapper = createWrapper({
         group: mockGroup,
@@ -199,7 +208,7 @@ describe("CardSearchResultEntityGroup", () => {
       });
 
       expect(wrapper.vm.description).toBe("Full description");
-      expect(wrapper.vm.imageUrl).toBe("https://example.com/icon.png");
+      expect(wrapper.vm.imageUrl).toBe("api/images/icon.png");
       expect(wrapper.vm.location).toBe("London");
     });
   });
@@ -235,7 +244,7 @@ describe("CardSearchResultEntityGroup", () => {
   describe("Styling", () => {
     it("applies reduced size classes when isReduced is true", () => {
       const mockGroup = createMockGroup({
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "api/images/icon.png" },
       });
       const wrapper = createWrapper({ group: mockGroup, isReduced: true });
       const cardStub = wrapper.findComponent({
@@ -247,7 +256,7 @@ describe("CardSearchResultEntityGroup", () => {
 
     it("applies normal size classes when isReduced is false", () => {
       const mockGroup = createMockGroup({
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "api/images/icon.png" },
       });
       const wrapper = createWrapper({ group: mockGroup, isReduced: false });
       const cardStub = wrapper.findComponent({
@@ -260,7 +269,7 @@ describe("CardSearchResultEntityGroup", () => {
     it("applies consistent styling for various group states", () => {
       const mockGroup = createMockGroup({
         name: "Styled Group",
-        iconUrl: { fileObject: "https://example.com/icon.png" },
+        iconUrl: { fileObject: "images/icon.png" },
       });
       const wrapper = createWrapper({ group: mockGroup, isReduced: false });
       const cardStub = wrapper.findComponent({
@@ -268,7 +277,7 @@ describe("CardSearchResultEntityGroup", () => {
       });
 
       expect(cardStub.props("title")).toBe("Styled Group");
-      expect(cardStub.props("imageUrl")).toBe("https://example.com/icon.png");
+      expect(cardStub.props("imageUrl")).toBe("api/images/icon.png");
     });
   });
 
@@ -299,23 +308,23 @@ describe("CardSearchResultEntityGroup", () => {
 
       await wrapper.setProps({
         group: createMockGroup({
-          iconUrl: { fileObject: "https://example.com/new.png" },
+          iconUrl: { fileObject: "images/new.png" },
         }),
       });
       await nextTick();
 
-      expect(wrapper.vm.imageUrl).toBe("https://example.com/new.png");
+      expect(wrapper.vm.imageUrl).toBe("api/images/new.png");
     });
 
     it("updates location when group location changes", async () => {
       const mockGroup = createMockGroup({
-        location: { displayName: "Paris, France" },
+        location: { addressOrName: "Paris, France" },
       });
       const wrapper = createWrapper({ group: mockGroup });
 
       await wrapper.setProps({
         group: createMockGroup({
-          location: { displayName: "Berlin, Germany" },
+          location: { addressOrName: "Berlin, Germany" },
         }),
       });
       await nextTick();
@@ -329,7 +338,9 @@ describe("CardSearchResultEntityGroup", () => {
   describe("Edge Cases", () => {
     it("handles location with multiple commas", () => {
       const mockGroup = createMockGroup({
-        location: { displayName: "123 Main St, Suite 100, New York, NY, USA" },
+        location: {
+          addressOrName: "123 Main St, Suite 100, New York, NY, USA",
+        },
       });
       const wrapper = createWrapper({ group: mockGroup });
 

@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+export interface BtnBase {
+  id?: string;
+  cta: boolean;
+  label?: string;
+  hideLabelOnMobile?: boolean;
+  fontSize: "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
+  iconSize?: string;
+  ariaLabel: string;
+  isLoading?: boolean;
+}
+
+export interface BtnAction extends BtnBase {
+  leftIcon?: string;
+  rightIcon?: string;
+  counter?: number;
+}
+
+export interface BtnActionDropdown extends BtnAction {
+  dropdownIcon: string;
+  dropdownOptions: string[];
+  dropdownOptionsCallback: (option: string) => void;
+  ariaLabelDropdown: string;
+}
+
+export interface BtnRoute extends BtnBase {
+  linkTo: string;
+  leftIcon?: string;
+  rightIcon?: string;
+}
+export interface RadioOption {
+  value: string | number | { id: string | number; [key: string]: unknown };
+  customColor?: string;
+  label: string;
+}

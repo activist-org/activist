@@ -1,0 +1,23 @@
+name: ci_license_header_check
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+
+jobs:
+  check_license_header:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v6
+
+      - name: Verify License Headers
+        uses: apache/skywalking-eyes/header@main

@@ -34,7 +34,9 @@ export function useOrganizationResourcesMutations(
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      const appError = err as AppError;
+      error.value = appError;
+      showToastError(appError.message);
       return false;
     } finally {
       loading.value = false;
@@ -55,7 +57,9 @@ export function useOrganizationResourcesMutations(
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      const appError = errorHandler(err);
+      error.value = appError;
+      showToastError(appError.message);
       return false;
     } finally {
       loading.value = false;
@@ -75,7 +79,9 @@ export function useOrganizationResourcesMutations(
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      const appError = errorHandler(err);
+      error.value = appError;
+      showToastError(appError.message);
       return false;
     } finally {
       loading.value = false;
@@ -98,7 +104,9 @@ export function useOrganizationResourcesMutations(
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      const appError = errorHandler(err);
+      error.value = appError;
+      showToastError(appError.message);
       return false;
     } finally {
       loading.value = false;

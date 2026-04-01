@@ -5,6 +5,7 @@
  * Note: Handler execution behavior is tested in integration tests.
  * These unit tests focus on structure, cache keys, and return values.
  */
+import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
@@ -17,23 +18,23 @@ import {
 
 // MARK: Mocks
 
-const mockShowToastError = vi.fn();
-
 vi.mock("../../../app/composables/generic/useToaster", () => ({
-  useToaster: () => ({
-    showToastError: mockShowToastError,
-  }),
+  useToaster: () => {
+    const mockShowToastError = vi.fn();
+    return {
+      showToastError: mockShowToastError,
+    };
+  },
 }));
 
-const mockListOrganizationsByUserId = vi.fn();
-
-vi.mock("../../../app/services/entities/organization", () => ({
-  listOrganizationsByUserId: (
-    userId: string,
-    page: number,
-    filters?: unknown
-  ) => mockListOrganizationsByUserId(userId, page, filters),
+const { mockListOrganizationsByUserId } = vi.hoisted(() => ({
+  mockListOrganizationsByUserId: vi.fn(),
 }));
+
+mockNuxtImport(
+  "listOrganizationsByUserId",
+  () => mockListOrganizationsByUserId
+);
 
 // MARK: Tests
 

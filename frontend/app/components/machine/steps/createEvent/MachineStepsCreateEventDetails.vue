@@ -6,6 +6,7 @@
       v-slot="{ values }"
       @submit="handleSubmit"
       class="space-y-4"
+      :initial-values="initialDetailsData"
       :schema="eventDetailsSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -57,7 +58,7 @@
       <FormItem
         v-slot="{ id, handleChange, value }"
         :label="$t('i18n._global.organizations')"
-        name="organizations"
+        name="orgs"
         required
       >
         <!-- prettier-ignore-attribute :selected-organizations -->
@@ -72,7 +73,7 @@
         />
       </FormItem>
       <FormItem
-        v-if="values.organizations && values.organizations.length"
+        v-if="values.orgs && values.orgs.length"
         v-slot="{ id, handleChange, value }"
         :label="$t('i18n._global.groups')"
         name="groups"
@@ -84,7 +85,7 @@
             (val: unknown) => handleChange(val as Group[])
           "
           :label="$t('i18n._global.groups')"
-          :linked-organizations="values?.organizations as string[]"
+          :linked-organizations="values?.orgs as string[]"
           :selected-groups="((value.value ?? []) as Group[])"
         />
       </FormItem>
@@ -103,14 +104,18 @@ const eventDetailsSchema = z.object({
   name: z.string().min(1, t("i18n._global.required")),
   tagline: z.string().optional(),
   description: z.string().min(1, t("i18n._global.required")),
-  organizations: z
-    .array(z.string())
-    .min(1, "Please select at least one organization"),
+  orgs: z.array(z.string()).min(1, "Please select at least one organization"),
   groups: z.array(z.string()).optional(),
 });
-const handleSubmit = async (values: Record<string, unknown>) => {
-  // Simulate an API call.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+const initialDetailsData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.EventDetails) return {};
+  return ((ctx.nodeData as Record<string, unknown>)[ctx.nodeId] ??
+    {}) as Record<string, unknown>;
+});
+
+const handleSubmit = (values: Record<string, unknown>) => {
   if (!flow) return;
   flow.next(values);
 };

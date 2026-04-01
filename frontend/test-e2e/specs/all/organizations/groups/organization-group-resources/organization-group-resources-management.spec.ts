@@ -2,7 +2,7 @@
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
@@ -88,7 +88,9 @@ test.describe(
       if (resourceCount > 0) {
         // Note: Check auth state.
         const cookies = await page.context().cookies();
-        const authCookie = cookies.find((c) => c.name === "auth.token");
+        const authCookie = cookies.find(
+          (c) => c.name === "nuxt-session" && c.value
+        );
 
         if (!authCookie) {
           throw new Error(

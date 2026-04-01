@@ -15,6 +15,7 @@
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           :element="$t('i18n._global.resources_lower')"
+          :entity="event"
           :onClick="openModal"
         />
       </div>
@@ -49,7 +50,7 @@
           <CardResource
             :key="element.id"
             :ref="(el: any) => (resourceCardList[index] = el?.root)"
-            @focus="canEdit(event) ? onFocus(index) : undefined"
+            @focusin="canEdit(event) ? onFocus(index) : undefined"
             @keydown.down.prevent="canEdit(event) ? moveDown() : undefined"
             @keydown.up.prevent="canEdit(event) ? moveUp() : undefined"
             :class="{
@@ -65,7 +66,7 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else pageType="resources" :permission="false" />
+    <EmptyState v-else pageType="resources" :permission="canEdit(event)" />
   </div>
 </template>
 

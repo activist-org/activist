@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <LoadingScreen />
+  <NuxtRouteAnnouncer />
   <NuxtLayout>
     <Toaster :richColors="true" :theme="isDark ? 'dark' : 'light'" />
     <ModalCommandPalette :paletteData="commandPaletteData" />
@@ -14,7 +14,6 @@
 <script setup lang="ts">
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { Toaster } from "vue-sonner";
-import "vue-sonner/style.css";
 
 const { openModal: openModalCommandPalette } = useModalHandlers(
   "ModalCommandPalette"

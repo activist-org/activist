@@ -4,22 +4,21 @@
 export const getKeyForGetGroupImages = (id: string) => `groupImages:${id}`;
 
 export function useGetGroupImages(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
-  const groupId = computed(() => String(unref(id)));
-  const store = useGroupStore();
+  const { handleError } = useAppError();
+  const groupId = computed(() => unref(id));
+  const store = useGroupImageStore();
   // Cache key for useAsyncData.
   const key = computed(() =>
     groupId.value ? getKeyForGetGroupImages(groupId.value) : null
   );
 
   // Check if we have cached data.
-  const cached = computed<ContentImage[]>(() => store.getGroupImages());
-
-  // Only fetch if we have an ID and no cached data.
-  const shouldFetch = computed(
-    () => !!groupId.value && cached.value.length === 0
+  const cached = computed(
+    () => store.getImages().length > 0 && groupId.value === store.getEntityId()
   );
 
+  // Only fetch if we have an ID and no cached data.
+  const shouldFetch = computed(() => !!groupId.value && !cached.value);
   const query = useAsyncData(
     getKeyForGetGroupImages(groupId.value),
     async () => {
@@ -30,20 +29,23 @@ export function useGetGroupImages(id: MaybeRef<string>) {
       try {
         const images = await fetchGroupImages(groupId.value);
         // Cache the result in store.
-        store.setGroupImages(images);
+        store.setImages(images);
         return images;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },
     {
       watch: [groupId],
-      immediate: shouldFetch.value,
       dedupe: "defer",
       getCachedData: (key, nuxtApp) => {
-        if (nuxtApp.isHydrating && store.getGroupImages().length > 0) {
-          return store.getGroupImages();
+        if (
+          nuxtApp.isHydrating &&
+          store.getImages().length > 0 &&
+          groupId.value === store.getEntityId()
+        ) {
+          return store.getImages();
         }
         return nuxtApp.isHydrating
           ? nuxtApp.payload.data[key]
@@ -55,10 +57,8 @@ export function useGetGroupImages(id: MaybeRef<string>) {
   );
 
   // Return cached data if available, otherwise data from useAsyncData.
-  const data = computed<ContentImage[]>(() =>
-    cached.value && cached.value.length > 0
-      ? cached.value
-      : (query.data.value as ContentImage[]) || []
+  const data = computed<ContentImage[]>(
+    () => (query.data.value as ContentImage[]) || []
   );
   // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() =>
@@ -70,8 +70,8 @@ export function useGetGroupImages(id: MaybeRef<string>) {
       return;
     }
     // Clear cache first to force refetch.
-    if (groupId.value) {
-      store.clearGroupImages(groupId.value);
+    if (groupId.value === store.getEntityId()) {
+      store.clearImages();
     }
     // Let useAsyncData refetch and update store in the success path above.
     await refreshNuxtData(key.value);

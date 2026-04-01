@@ -16,7 +16,7 @@
     />
     <div class="flex flex-col">
       <div
-        class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
+        class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
         <NuxtPage :event="event" />

@@ -2,10 +2,8 @@
 // Update event social links with error handling and store updates.
 
 export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError, clearError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
 
@@ -17,7 +15,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     if (!currentEventId.value) return false;
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await updateEventSocialLink(currentEventId.value, linkId, {
@@ -29,7 +27,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -41,7 +39,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     if (!currentEventId.value || !links.length) return false;
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await createEventSocialLinks(currentEventId.value, links);
@@ -51,7 +49,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -61,7 +59,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   // Delete a single social link.
   async function deleteLink(linkId: string) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await deleteEventSocialLink(linkId);
@@ -71,7 +69,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -85,7 +83,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     if (!currentEventId.value) return false;
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await replaceAllEventSocialLinks(currentEventId.value, links);
@@ -95,7 +93,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;

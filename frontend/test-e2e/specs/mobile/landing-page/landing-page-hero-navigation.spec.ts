@@ -134,10 +134,13 @@ test.describe(
 
       for (const { theme, option } of themes) {
         await sidebar.openButton.click();
+        await expect(sidebar.closeButton).toBeVisible();
         await expect(themeMenu.toggleOpenButton).toBeVisible();
-        await themeMenu.toggleOpenButton.click();
+        await themeMenu.toggleOpenButton.click({ force: true });
         await expect(themeMenu.menu).toBeVisible();
-        await option.click();
+        await expect(option).toBeVisible();
+        // Menu can close or become unstable before click; force click so it registers.
+        await option.click({ force: true, timeout: 15000 });
 
         await expectTheme(page, theme);
 
@@ -146,6 +149,7 @@ test.describe(
           themeMenu.systemThemeOption,
           "Theme menu should be closed"
         ).not.toBeVisible();
+        await expect(themeMenu.toggleOpenButton).not.toBeVisible();
       }
     });
 

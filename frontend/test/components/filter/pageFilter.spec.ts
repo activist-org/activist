@@ -3,9 +3,12 @@ import { render, screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import PageFilter from "../../../app/components/page/PageFilter.vue";
+import { createUseDeviceMock } from "../../mocks/composableMocks";
 
-// Note: This test provides its own useDevice mock via global.provide.
-// Other auto-imports are handled globally in test/setup.ts.
+// Explicitly set up useDevice mock using factory (Pattern 1: default behavior).
+// Note: The test also provides useDevice via global.provide for component injection,
+// but we set up globalThis.useDevice for auto-import compatibility.
+globalThis.useDevice = createUseDeviceMock();
 
 describe("PageFilter", () => {
   const minimumProps = {

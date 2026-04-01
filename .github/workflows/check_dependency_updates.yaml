@@ -1,7 +1,7 @@
 name: check_dependency_updates
 on:
   schedule:
-    - cron: '0 0 15 */2 *'
+    - cron: "0 0 15 */2 *"
   workflow_dispatch:
 
 jobs:
@@ -26,10 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Node Environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
 
@@ -39,9 +39,9 @@ jobs:
           echo "## Available Update ⚙️" >> reports.md
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: "3.12"
 
       - name: Setup Yarn
         working-directory: ./frontend

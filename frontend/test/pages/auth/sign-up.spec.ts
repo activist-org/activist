@@ -9,9 +9,12 @@ import {
   PASSWORD_RATING as RATING,
 } from "../../../test/constants";
 import render from "../../../test/render";
+import { createUseLocalePathMock } from "../../mocks/composableMocks";
 
 // Note: Auto-import mocks (useI18n, useAuthState, etc.) and Icon component mock
 // are handled globally in test/setup.ts.
+// Explicitly set up useLocalePath mock using factory.
+globalThis.useLocalePath = createUseLocalePathMock();
 
 describe("sign-up", () => {
   it("shows error border when password invalid", async () => {

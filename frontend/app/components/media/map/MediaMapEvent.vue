@@ -38,18 +38,18 @@ const buildExpandedTooltip = () => {
             <h3 class="font-display text-base text-black font-bold mb-2 leading-tight">${event.name}</h3>
 
             <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
-              <img src="${organizationIcon}"/>
+              <img src="${organizationIcon}" alt=""/>
               <span>${organization}</span>
             </div>
 
             <div class="flex items-center text-xs text-black mb-1.5 font-semibold space-x-2">
-              <img src="${calendarIcon}"/>
+              <img src="${calendarIcon}" alt=""/>
               <span>${datetime}</span>
             </div>
 
             <div class="flex items-start text-xs text-black mb-1.5 font-semibold space-x-2">
-              <img src="${locationIcon}"/>
-              <span>${event.physicalLocation?.displayName.split(",").slice(0, 3).join(", ")}</span>
+              <img src="${locationIcon}" alt=""/>
+              <span>${event.physicalLocation?.addressOrName.split(",").slice(0, 3).join(", ")}</span>
             </div>
           </div>
         </div>
@@ -62,7 +62,9 @@ const pointer: Pointer = {
   id: event.id,
   color: getEventColorByType(event.type as EventType),
   location: event.physicalLocation || {
-    displayName: event.name,
+    addressOrName: event.name,
+    city: "",
+    countryCode: "",
     lat: "0",
     lon: "0",
     id: "",

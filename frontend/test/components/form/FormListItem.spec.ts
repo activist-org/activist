@@ -13,6 +13,7 @@ const swapMock = vi.fn();
 
 vi.mock("vee-validate", () => ({
   useFieldArray: vi.fn(),
+  useFieldError: vi.fn(),
 }));
 
 // Helper to change mock data dynamically.

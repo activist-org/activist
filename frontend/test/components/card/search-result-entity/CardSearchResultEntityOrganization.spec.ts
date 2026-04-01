@@ -7,7 +7,9 @@ import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick, ref } from "vue";
 
+// @ts-expect-error - TypeScript has issues resolving .vue files in test environment, but import works at runtime
 import CardSearchResultEntityOrganization from "../../../app/components/card/search-result-entity/CardSearchResultEntityOrganization.vue";
+import { createUseRouteMock } from "../../../mocks/composableMocks";
 
 // MARK: Mock composables & state
 
@@ -21,7 +23,14 @@ const mockRoute = ref<Partial<RouteLocationNormalized>>({
   meta: {},
 });
 
-vi.mock("vue-router", () => ({ useRoute: () => mockRoute.value }));
+// Use factory to create useRoute mock instead of vi.mock.
+// Access ref value when creating the mock.
+globalThis.useRoute = createUseRouteMock(
+  (mockRoute.value.params || {}) as Record<string, unknown>,
+  (mockRoute.value.query || {}) as Record<string, unknown>,
+  mockRoute.value.path || "/test",
+  undefined
+);
 
 vi.mock("../../../app/composables/useLinkURL", () => ({
   useLinkURL: () => ({ linkUrl: ref("/test-link-url") }),
@@ -29,7 +38,7 @@ vi.mock("../../../app/composables/useLinkURL", () => ({
 
 vi.mock("vue-i18n", () => ({
   useI18n: () => ({
-    t: (key: string, params?: Record<string>) => {
+    t: (key: string, params?: Record<string, unknown>) => {
       if (
         key === "i18n.components._global.navigate_to_organization_aria_label"
       ) {
@@ -166,12 +175,10 @@ describe("CardSearchResultEntityOrganization", () => {
     it("renders imageUrl when iconUrl.fileObject exists", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          iconUrl: { fileObject: "https://example.com/image.png" },
+          iconUrl: { fileObject: "images/image.png" },
         }),
       });
-      expect(getCardProps(wrapper).imageUrl).toBe(
-        "https://example.com/image.png"
-      );
+      expect(getCardProps(wrapper).imageUrl).toBe("api/images/image.png");
     });
 
     it("renders empty imageUrl when iconUrl is undefined", () => {
@@ -192,10 +199,10 @@ describe("CardSearchResultEntityOrganization", () => {
   // MARK: Rendering Location
 
   describe("Rendering Location", () => {
-    it("renders location from first part of displayName", () => {
+    it("renders location from first part of addressOrName", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { displayName: "New York, USA" },
+          location: { addressOrName: "New York, USA" },
         }),
       });
 
@@ -211,7 +218,9 @@ describe("CardSearchResultEntityOrganization", () => {
     it("handles location with multiple commas", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { displayName: "121 Wall St, Suite 67, New York, NY, USA" },
+          location: {
+            addressOrName: "121 Wall St, Suite 67, New York, NY, USA",
+          },
         }),
       });
       expect(wrapper.text()).toContain("121 Wall St");
@@ -243,8 +252,8 @@ describe("CardSearchResultEntityOrganization", () => {
           name: "Complex Org",
           orgName: "complex-org",
           texts: [{ description: "Full description" }],
-          iconUrl: { fileObject: "https://example.com/icon.png" },
-          location: { displayName: "London, UK" },
+          iconUrl: { fileObject: "images/icon.png" },
+          location: { addressOrName: "London, UK" },
         }),
         isReduced: true,
       });
@@ -252,7 +261,7 @@ describe("CardSearchResultEntityOrganization", () => {
 
       expect(props.title).toBe("Complex Org");
       expect(props.description).toBe("Full description");
-      expect(props.imageUrl).toBe("https://example.com/icon.png");
+      expect(props.imageUrl).toBe("api/images/icon.png");
       expect(props.isReduced).toBe(true);
     });
   });
@@ -377,26 +386,24 @@ describe("CardSearchResultEntityOrganization", () => {
     it("updates imageUrl when iconUrl changes", async () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          iconUrl: { fileObject: "https://example.com/old.png" },
+          iconUrl: { fileObject: "images/old.png" },
         }),
       });
 
       await wrapper.setProps({
         organization: createMockOrganization({
-          iconUrl: { fileObject: "https://example.com/new.png" },
+          iconUrl: { fileObject: "images/new.png" },
         }),
       });
       await nextTick();
 
-      expect(getCardProps(wrapper).imageUrl).toBe(
-        "https://example.com/new.png"
-      );
+      expect(getCardProps(wrapper).imageUrl).toBe("api/images/new.png");
     });
 
     it("handles location changes and removal", async () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { displayName: "Paris, France" },
+          location: { addressOrName: "Paris, France" },
         }),
       });
 

@@ -160,7 +160,6 @@ def test_validate_group_with_group_instance():
     group = Group.objects.create(
         org=org,
         created_by=user,
-        group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
         location=location,
@@ -186,7 +185,6 @@ def test_validate_group_with_valid_uuid():
     group = Group.objects.create(
         org=org,
         created_by=user,
-        group_name=fake.company(),
         name=fake.company(),
         tagline=fake.catch_phrase(),
         location=location,
