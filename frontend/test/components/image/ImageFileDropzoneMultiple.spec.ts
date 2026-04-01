@@ -8,13 +8,26 @@ import type { FileUploadMix } from "../../../shared/types/file-type";
 import FileDropZone from "../../../app/components/image/ImageFileDropZone.vue";
 import MultipleImageDropzone from "../../../app/components/image/ImageMultipleFileDropZone.vue";
 
-// Helpers to generate mock files and FileUploadMix objects.
+// MARK: Helpers to generate mock files and FileUploadMix objects.
+/**
+ * Creates an array of mock File objects for testing file uploads.
+ * @returns An array containing a PNG and a JPG File object with mock content.
+ */
 function createFiles() {
   const png = new File(["png-bytes"], "a.png", { type: "image/png" });
   const jpg = new File(["jpg-bytes"], "b.jpg", { type: "image/jpeg" });
   return [png, jpg];
 }
 
+/**
+ * Creates a FileUploadMix object for testing file upload handling.
+ * @param name - The name of the file.
+ * @param url - The URL representing the file (can be a blob URL for testing).
+ * @param type - The type of the mix, either "upload" for new uploads or "file" for existing files.
+ * @param sequence - The sequence number for ordering files (default is 0).
+ * @param sequence_index - The index within the sequence for ordering files (default is 0).
+ * @returns A FileUploadMix object with the specified properties and a unique ID.
+ */
 function createFileUploadMix(
   name: string,
   url: string,

@@ -18,7 +18,11 @@ const { create } = useEventMutations();
 const route = useRoute();
 const router = useRouter();
 
-// Runs mid-machine during the "loop" node.
+/**
+ * Handles the submission of each iteration of the event creation flow. This function takes the data from each step of the flow as input, processes it, and creates an event on the server using the create mutation. The function is designed to be called multiple times during the flow, allowing for the creation of multiple events if needed. The data from each step is consolidated and sent to the server to create an event, and any necessary feedback or updates can be handled based on the response from the server.
+ * @param iterationData The data from each step of the event creation flow, which may include details such as the event name, description, date, location, and other relevant information. This data is used to create an event on the server when the user wants to create multiple events. The function processes these values and interacts with the create mutation to perform the event creation operation, allowing for multiple events to be created.
+ * @returns The response from the create mutation, which will be the event created on the server. This return value can be used to provide feedback to the user or to perform additional actions based on the created event, such as routing to the event's detail page or updating the UI to reflect the new event.
+ */
 async function handleLoopSubmit(iterationData: unknown) {
   const dataToSubmit = Object.values(
     iterationData as ContextCreateEventData
@@ -28,7 +32,7 @@ async function handleLoopSubmit(iterationData: unknown) {
 
 /**
  * This function will be called by the machine when the flow completes.
- * @param {unknown} finalData The consolidated data from all steps.
+ * @param finalData The consolidated data from all steps.
  */
 async function handleSubmission(finalData: unknown) {
   // Extract the loop IDs we saved into `sharedData`.
@@ -49,6 +53,10 @@ const flowOptions = {
   onAction: handleLoopSubmit, // pass the loop submission handler
 };
 
+/**
+ * Handles the routing after events have been created. This function takes the IDs of the created events, determines the appropriate route based on the number of events, and navigates the user accordingly. If only one event is created, the user is routed to the event's detail page. If multiple events are created, the user is routed to the events list page with the created event IDs included in the query parameters.
+ * @param createdEventIds The IDs of the events that were created. This array is used to determine the routing logic, allowing the function to navigate the user to the appropriate page based on the number of events created.
+ */
 async function handleCreatedEventRouting(createdEventIds: string[]) {
   // Route the user based on how many events were created.
   if (!createdEventIds || createdEventIds.length === 0) return;

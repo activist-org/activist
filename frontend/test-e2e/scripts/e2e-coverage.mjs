@@ -34,6 +34,11 @@ const UNCOVERED_ONLY = args.includes("--uncovered");
 
 // MARK: Enumerate Application Routes
 
+/**
+ * Converts a Vue file path in the app/pages/ directory to a corresponding route pattern. It handles dynamic segments (e.g., [id].vue → :id) and index files (e.g., index.vue → /). It also filters out non-navigable layout/wrapper files based on a predefined set of routes to skip.
+ * @param filePath - The absolute file path of a Vue component within the app/pages/ directory
+ * @returns The corresponding route pattern as a string, or null if the file is a non-navigable layout/wrapper
+ */
 function vueFileToRoute(filePath) {
   let rel = relative(PAGES_DIR, filePath)
     .replace(/\.vue$/, "")
@@ -74,6 +79,12 @@ const STUB_ROUTES = new Set([
   "/organizations/:id/team",
 ]);
 
+/**
+ * Recursively walks a directory and returns a list of all files with a given extension, excluding TypeScript declaration files. This function is used to find all Vue component files in the app/pages/ directory to extract route patterns from them.
+ * @param dir - The directory path to start walking from
+ * @param ext - The file extension to filter by (e.g., ".vue" or ".ts")
+ * @returns An array of absolute file paths that match the given extension
+ */
 function walkFiles(dir, ext) {
   const results = [];
   for (const entry of readdirSync(dir)) {
@@ -98,6 +109,12 @@ const stubRoutes = allRoutes.filter((r) => STUB_ROUTES.has(r));
 
 // MARK: Extract URL Patterns
 
+/**
+ * Extracts route patterns from the given file content by searching for string and regex literals used in Playwright navigation and assertion methods.
+ * It identifies routes in page.goto, waitForURL, and toHaveURL calls, handling both static paths and dynamic segments.
+ * @param content - The content of a file to scan for route patterns
+ * @returns A set of route patterns found in the content
+ */
 function extractRoutes(content) {
   const found = new Set();
 
@@ -150,6 +167,12 @@ for (const scanDir of SCAN_DIRS) {
 
 // MARK: Match Extracted Routes
 
+/**
+ * Determines if a given application route is exercised by any of the routes extracted from the spec files. It checks for direct matches, segment-wise matches with dynamic parameters (e.g., :id), and suffix matches to account for nested routes.
+ * The function returns true if the app route is covered by any of the spec routes, indicating that it is exercised in the E2E tests.
+ * @param appRoute - The application route to check for coverage
+ * @returns True if the route is exercised, false otherwise
+ */
 function routeIsExercised(appRoute) {
   // Landing page: specs use `/en` or `/`.
   if (

@@ -2,6 +2,20 @@
 
 export const getKeyForGetOrganizations = () => `organizations-list`;
 
+/**
+ * Composable for fetching and managing the list of organizations in the frontend application.
+ * This composable uses the useAsyncData hook to fetch the list of organizations from the server, handle loading and error states, and cache the data for efficient retrieval.
+ * The fetched organizations are stored in a Vuex store using the useOrganizationListStore composable, allowing other components to access and reactively update based on the list of organizations.
+ * The composable also integrates error handling using the useAppError composable to manage any errors that occur during the data fetching process.
+ * Additionally, it provides a getMore function to fetch additional pages of organizations when needed, and it manages pagination state within the store to ensure proper handling of paginated data.
+ * @param filters A reactive reference or computed reference containing the filters to be applied when fetching the list of organizations, allowing the composable to reactively update the fetched data based on changes to the filters.
+ * @returns An object containing the data (list of organizations),
+ * pending state,
+ * error state,
+ * a refresh function for managing the fetching and state of organizations in the application,
+ * the current filters applied,
+ * and a getMore function for fetching additional pages of organizations.
+ */
 export function useGetOrganizations(
   filters: MaybeRef<OrganizationFilters> | ComputedRef<OrganizationFilters>
 ) {

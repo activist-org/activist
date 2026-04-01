@@ -15,6 +15,8 @@ import { ResourceModal } from "./features/ResourceModal";
  * Handles interactions with the group resources page within an organization.
  *
  * Composed from focused features for better maintainability.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with the organization group resources page, including resource list management, individual resource card interactions, resource creation/editing modal, and drag-and-drop reordering functionality.
  */
 export const newOrganizationGroupResourcesPage = (page: Page) => {
   // Get global share modal (from component-objects/).

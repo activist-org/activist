@@ -150,6 +150,9 @@ const { userIsSignedIn } = useUser();
 const headerOpacity: Ref<number> = ref(1);
 const prevScrollY: Ref<number> = ref(0);
 
+/**
+ *
+ */
 function handleScroll() {
   const scrollY = window.scrollY;
 

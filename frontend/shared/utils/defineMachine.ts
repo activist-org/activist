@@ -4,6 +4,11 @@ import type {
   StateConfig,
 } from "#shared/types/machine-type";
 
+/**
+ * Helper function to define a flow machine with runtime validation for unique step numbers on screen nodes.
+ * @param config - The machine definition configuration object.
+ * @returns The same machine definition configuration object, with runtime validation applied.
+ */
 export function defineFlowMachine<T extends string>(
   config: MachineDefinition<T>
 ): MachineDefinition<T> {

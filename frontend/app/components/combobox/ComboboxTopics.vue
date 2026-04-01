@@ -184,19 +184,25 @@ const filteredTopics = computed(() =>
       )
 );
 
+/**
+ * Determines the display value for the Combobox input. If the input is currently focused, it returns an empty string to allow the user to type their query. If the input is not focused, it returns a placeholder text prompting the user to filter by topic. This function ensures that the placeholder text is only shown when the input is not active, providing a clear and user-friendly experience when interacting with the Combobox component.
+ * @returns A string that represents the display value for the Combobox input.
+ */
 function displayValue(): string {
   if (inputFocussed.value) {
     return "";
-  } else {
-    return t("i18n.components.combobox_topics.filter_by_topic");
   }
-  return "";
+  return t("i18n.components.combobox_topics.filter_by_topic");
 }
 
 const displayValueHandler = () => {
   return t(displayValue());
 };
 
+/**
+ * Handles the focus event on the Combobox input. This function is responsible for ensuring that the dropdown options are visible when the input is focused. It uses a timeout to check if the dropdown element is present in the DOM, and if it is not, it programmatically clicks the input element to trigger the dropdown to open. This ensures that users can see and interact with the dropdown options as soon as they focus on the input field, providing a seamless user experience when filtering topics.
+ * @param e The focus event triggered on the Combobox input. This event is used to determine when the input field has been focused by the user, allowing the function to check for the visibility of the dropdown options and take appropriate action to ensure they are displayed.
+ */
 function handleInputFocus(e: Event) {
   // A timeout to make sure the dropdown exist before checking.
   setTimeout(() => {

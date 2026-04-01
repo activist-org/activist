@@ -103,6 +103,9 @@ const expandReduceText = () => {
 const windowWidth = ref(window.innerWidth);
 const shareButtonLabel = ref("");
 
+/**
+ *
+ */
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {
@@ -130,6 +133,9 @@ const modals = useModals();
 const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
+/**
+ *
+ */
 function openModal() {
   modals.openModal(modalName);
   modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;

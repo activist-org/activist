@@ -29,6 +29,7 @@ type AuthUser = { [key: string]: unknown } | null;
  * Creates a mock flow object for machine step component tests.
  * @param currentStep - Current step number (default: 1)
  * @param totalSteps - Total number of steps (default: 2)
+ * @returns A mock flow object with next, prev, close, start functions and context containing currentStep and totalSteps
  */
 export function createMockFlow(currentStep = 1, totalSteps = 2) {
   return {
@@ -48,6 +49,7 @@ export function createMockFlow(currentStep = 1, totalSteps = 2) {
  * Note: Most tests should use the default from setup.ts which provides the real i18n instance.
  * Only use this if you need a completely custom i18n mock.
  * @param composer - I18n composer instance (optional)
+ * @returns A mock implementation of useI18n that returns the provided composer or an empty object if none is provided
  */
 export function createUseI18nMock(composer?: Composer) {
   return () => composer || ({} as Composer);
@@ -61,6 +63,7 @@ export function createUseI18nMock(composer?: Composer) {
  * @param query - Query parameters (default: {})
  * @param path - Route path (default: "/")
  * @param name - Route name (optional)
+ * @returns A mock implementation of useRoute that returns the specified route parameters, query, path, and name
  */
 export function createUseRouteMock(
   params: Record<string, unknown> = {},
@@ -79,8 +82,11 @@ export function createUseRouteMock(
 /**
  * Creates a useRoute mock that reads from a mutable route object at call time.
  * Use when tests mutate route.query before mount and need the component to see the updated values.
- *
  * @param mockRoute - Route object { path, query, name? }; tests mutate mockRoute.query before mount
+ * @param mockRoute.path - Route path (e.g. "/events")
+ * @param mockRoute.query - Query parameters (e.g. { page: "2" })
+ * @param mockRoute.name - Route name (optional)
+ * @returns A mock implementation of useRoute that returns the specified route parameters, query, path, and name
  */
 export function createUseRouteMockWithMutableQuery(mockRoute: {
   path: string;
@@ -99,6 +105,7 @@ export function createUseRouteMockWithMutableQuery(mockRoute: {
  * Creates a mock for useRouter composable.
  * @param push - Router push function (default: vi.fn())
  * @param currentRoute - Current route value (default: { name: "home" })
+ * @returns A mock implementation of useRouter that returns the specified push function and current route value
  */
 export function createUseRouterMock(
   push = vi.fn(),
@@ -113,6 +120,7 @@ export function createUseRouterMock(
 /**
  * Creates a mock for useLocalePath composable.
  * @param prefix - Locale prefix to prepend (default: "/en")
+ * @returns A mock implementation of useLocalePath that returns a function prepending the specified prefix to a given path
  */
 export function createUseLocalePathMock(prefix = "/en") {
   return () => (path: string) => `${prefix}${path}`;
@@ -125,6 +133,7 @@ export function createUseLocalePathMock(prefix = "/en") {
  * @param isMobile - Whether device is mobile (default: false)
  * @param isTablet - Whether device is tablet (default: false)
  * @param isDesktop - Whether device is desktop (default: true)
+ * @returns A mock implementation of useDevice that returns the specified device type flags
  */
 export function createUseDeviceMock(
   isMobile = false,
@@ -143,6 +152,7 @@ export function createUseDeviceMock(
 /**
  * Creates a mock for useLocalStorage composable.
  * @param defaultValue - Default value to return (default: null)
+ * @returns A mock implementation of useLocalStorage that returns the specified default value
  */
 export function createUseLocalStorageMock<T>(defaultValue: T) {
   return (_key: string, _defaultValue: T) => ({
@@ -155,6 +165,7 @@ export function createUseLocalStorageMock<T>(defaultValue: T) {
 /**
  * Creates a mock for useAuthState composable.
  * @param user - User object or null (default: null)
+ * @returns A mock implementation of useAuthState that returns the specified user object
  */
 export function createUseAuthStateMock(user: AuthUser = null) {
   return () => ({
@@ -167,6 +178,7 @@ export function createUseAuthStateMock(user: AuthUser = null) {
  * @param loggedIn - Whether user is logged in (default: false)
  * @param user - User object or null (default: null)
  * @param clear - Clear session function (default: vi.fn())
+ * @returns A mock implementation of useUserSession that returns the specified logged-in status, user object, and clear function
  */
 export function createUseUserSessionMock(
   loggedIn = false,
@@ -187,6 +199,7 @@ export function createUseUserSessionMock(
  * @param signUp - Sign up function (default: resolved promise)
  * @param signIn - Sign in function (default: resolved promise)
  * @param signOut - Sign out function (default: resolved promise)
+ * @returns A mock implementation of useAuth that returns the specified user object, token, and authentication functions
  */
 export function createUseAuthMock(
   user: AuthUser = null,
@@ -212,6 +225,7 @@ export function createUseAuthMock(
  * @param canCreate - Can create function (default: () => false)
  * @param canView - Can view function (default: () => true)
  * @param canEdit - Can edit function (optional)
+ * @returns A mock implementation of useUser that returns the specified user status flags and permission functions
  */
 export function createUseUserMock(
   userIsSignedIn = false,
@@ -238,7 +252,8 @@ export function createUseUserMock(
 
 /**
  * Creates a mock for useDebounceFn composable.
- * By default, returns the function unchanged (no debouncing in tests).
+ * By default, returns the function unchanged (no debouncing in tests)
+ * @returns The original function without any debouncing applied.
  */
 export function createUseDebounceFnMock() {
   return <T extends (...args: unknown[]) => unknown>(fn: T, _delay: number) =>
@@ -252,6 +267,7 @@ export function createUseDebounceFnMock() {
  * Returns a vi.fn() that can be configured with mockImplementation().
  * @param preference - Color preference (default: "dark")
  * @param value - Current color value (default: "dark")
+ * @returns A mock implementation of useColorMode that returns the specified color preference and value
  */
 export function createUseColorModeSpy(
   preference: "dark" | "light" = "dark",
@@ -270,6 +286,7 @@ export function createUseColorModeSpy(
  * Returns a vi.fn() that can be configured with mockImplementation().
  * @param collapsed - Whether sidebar is collapsed (default: false)
  * @param collapsedSwitch - Whether toggle switch is in collapsed mode (default: false)
+ * @returns A mock implementation of useSidebar that returns the specified collapsed state and toggle switch state
  */
 export function createUseSidebarSpy(
   collapsed = false,
@@ -289,6 +306,7 @@ export function createUseSidebarSpy(
  * inline: useToaster: () => ({ showToastError, showToastInfo: vi.fn(), showToastSuccess: vi.fn() }).
  * Use vi.hoisted for showToastError so the mock factory can reference it.
  * @param showToastError - Spy for error toasts (default: vi.fn())
+ * @returns A mock implementation of useToaster that returns the specified showToastError function and default implementations for showToastInfo and showToastSuccess
  */
 export function createUseToasterMock(showToastError = vi.fn()) {
   return () => ({
@@ -315,6 +333,7 @@ export function createRefreshNuxtDataMock() {
  * Creates a mock for useDevMode composable.
  * @param active - Whether dev mode is active (default: false)
  * @param check - Check function (default: no-op)
+ * @returns A mock implementation of useDevMode that returns the specified active status and check function
  */
 export function createUseDevModeMock(active = false, check = () => {}) {
   return () => ({
@@ -323,6 +342,10 @@ export function createUseDevModeMock(active = false, check = () => {}) {
   });
 }
 
+/**
+ * Creates a mock for useAppError composable.
+ * @returns A mock implementation of useAppError that returns the specified error state and handling functions
+ */
 export function createUseAppErrorMock() {
   const error = ref<Partial<AppError> | null>(null);
   const handleError = (err: Partial<AppError>) => {

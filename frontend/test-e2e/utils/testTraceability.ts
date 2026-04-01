@@ -25,6 +25,7 @@ export function logTestPath(
  * @param testInfo - Playwright test info object
  * @param stepName - Name of the test step
  * @param stepFunction - Function to execute for the step
+ * @returns The result of the step function execution
  */
 export async function withTestStep<T>(
   testInfo: TestInfo,

@@ -10,10 +10,16 @@
  * 4. Executing side-effect actions for "action" type nodes and integrating their results into the flow context.
  * 5. Calling lifecycle hooks like onNodeEnter when entering a new node.
  * 6. Handling form submission when the flow is finished by calling the onSubmit handler with the final data.
- *
  * This composable abstracts away the complexities of managing a multi-step flow with dynamic screens and side effects, allowing components to easily implement complex flows by simply defining their machine and providing necessary handlers.
  */
 
+/**
+ * Composable for managing multi-step flows with dynamic screens and side effects in the frontend application.
+ * This composable provides an interface for handling the current screen component based on the active node in a state machine, managing loading states during screen resolution and action execution, and providing an API for starting, advancing, going back, and closing the flow. It also handles the execution of side-effect actions for "action" type nodes and integrates their results into the flow context, as well as calling lifecycle hooks like onNodeEnter when entering a new node and handling form submission when the flow is finished by calling the onSubmit handler with the final data.
+ * @param machineType The type of the state machine to be used for managing the flow.
+ * @param options An object containing optional handlers and configuration for the flow, such as onAction, onNodeEnter, and onSubmit.
+ * @returns An object containing the current screen component, loading state, context of the flow, and API functions for managing the flow, which can be used in components that require multi-step flow functionality with dynamic screens and side effects.
+ */
 export function useFlowScreens(
   machineType: MachineType,
   options: UseFlowScreensOptions = {}

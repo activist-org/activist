@@ -25,7 +25,6 @@ interface FAQPageObject {
  * Returns the total number of FAQs after ensuring the minimum count.
  *
  * Works with both Event/Organization FAQ page objects and Group FAQ page objects.
- *
  * @param page - Playwright Page object
  * @param faqPage - FAQ page object with methods for interacting with FAQs
  * @param minCount - Minimum number of FAQs required (default: 2)

@@ -26,12 +26,20 @@ const TestWrapper = defineComponent({
 
 // MARK: Label Helpers
 
+/**
+ * Asserts that the label has the normal (unfocused) styling.
+ * @param label - The label element to check for normal styling.
+ */
 function expectNormalLabel(label: HTMLElement) {
   expect(label.className, "Label should be normal size").toMatch(
     "translate-y-[0.6rem] pl-3"
   );
 }
 
+/**
+ * Asserts that the label has the shrunk (focused) styling.
+ * @param label - The label element to check for shrunk styling.
+ */
 function expectShrunkLabel(label: HTMLElement) {
   expect(label.className, "Label should be shrunk").toMatch(
     "absolute z-10 -translate-y-2 translate-x-4 text-sm text-distinct-text"
@@ -40,6 +48,10 @@ function expectShrunkLabel(label: HTMLElement) {
 
 // MARK: Legend Helpers
 
+/**
+ * Asserts that the hidden legend has the normal (unfocused) styling.
+ * @param legend - The legend element to check for normal styling.
+ */
 function expectNormalLegend(legend: HTMLElement) {
   expect(
     Array.from(legend.classList),
@@ -47,6 +59,10 @@ function expectNormalLegend(legend: HTMLElement) {
   ).toContain("max-w-[0.01px]");
 }
 
+/**
+ * Asserts that the hidden legend has the shrunk (focused) styling.
+ * @param legend - The legend element to check for shrunk styling.
+ */
 function expectShrunkLegend(legend: HTMLElement) {
   expect(
     Array.from(legend.classList),

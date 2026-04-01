@@ -6,6 +6,8 @@ import { getEnglishText } from "#shared/utils/i18n";
 /**
  * FAQ Modal Feature
  * Handles FAQ creation/edit modal interactions.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with the FAQ modal, including accessing form fields, submit button, and performing form filling and submission actions.
  */
 export const FAQModal = (page: Page) => {
   return {

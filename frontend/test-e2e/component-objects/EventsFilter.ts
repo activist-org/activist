@@ -11,10 +11,8 @@ import type { Locator, Page } from "@playwright/test";
  * - Location type selector (physical, online)
  * - Location search input
  * - Topics combobox
- *
  * @param parent - The parent Page or Locator to scope the component within
  * @returns Object containing locators for all filter elements
- *
  * @example
  * ```ts
  * const eventsFilter = newEventsFilter(page);
@@ -65,12 +63,14 @@ export const newEventsFilter = (parent: Page | Locator) => {
      * Helper method to get a specific radio button within a section by its value.
      * @param section - The section locator containing the radio buttons
      * @param value - The value attribute of the radio button
+     * @returns Locator for the specified radio button
      */
     getRadioButton: (section: Locator, value: string) =>
       section.getByRole("radio", { name: new RegExp(value, "i") }),
 
     /**
      * Helper method to get the location input field.
+     * @returns Locator for the location search input
      */
     getLocationInput: () => root.locator("#form-item-location"),
   };

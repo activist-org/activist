@@ -67,6 +67,10 @@ const labelsOpt = [
   },
 ];
 
+/**
+ * Handles the click event for changing the color mode. This function is called when a user selects a different color mode from the dropdown menu. It takes the selected color mode as an argument and updates the colorMode preference accordingly. This allows users to switch between system, light, and dark themes based on their preference, providing a customizable user experience.
+ * @param optColorMode The selected color mode option, which can be "system", "light", or "dark". This value is used to update the colorMode preference in the application, allowing the theme to change based on the user's selection from the dropdown menu.
+ */
 function handlerClick(optColorMode: string): void {
   colorMode.preference = optColorMode;
 }

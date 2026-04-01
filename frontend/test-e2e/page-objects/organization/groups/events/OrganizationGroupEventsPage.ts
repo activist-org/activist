@@ -6,6 +6,8 @@ import { getEnglishText } from "#shared/utils/i18n";
 /**
  * Page Object Model for Organization Group Events Page.
  * Handles interactions with the group events page within an organization.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with the organization group events page, including event list management, individual event card interactions, empty state handling, tab navigation, and actions like creating new events and subscribing to events.
  */
 export const newOrganizationGroupEventsPage = (page: Page) => {
   return {

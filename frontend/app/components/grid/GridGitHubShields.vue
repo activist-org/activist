@@ -48,6 +48,9 @@ onMounted(() => {
   fetchDataFromGitHubAPI();
 });
 
+/**
+ *
+ */
 async function fetchDataFromGitHubAPI() {
   isLoading.value = true;
   try {

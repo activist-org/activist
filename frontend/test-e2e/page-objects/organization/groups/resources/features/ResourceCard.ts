@@ -6,6 +6,8 @@ import { getEnglishText } from "#shared/utils/i18n";
 /**
  * Resource Card Feature
  * Handles individual resource card interactions.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with resource cards, including accessing card elements, menu buttons, and performing actions like clicking links and retrieving content.
  */
 export const ResourceCard = (page: Page) => {
   return {

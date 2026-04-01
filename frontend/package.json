@@ -100,6 +100,7 @@
     "dotenv": "17.2.3",
     "eslint-config-prettier": "10.1.8",
     "eslint-flat-config-utils": "2.1.4",
+    "eslint-plugin-jsdoc": "^62.8.1",
     "floating-vue": "5.2.2",
     "i18n-iso-countries": "7.14.0",
     "maplibre-gl": "5.16.0",

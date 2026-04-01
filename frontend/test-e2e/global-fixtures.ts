@@ -54,11 +54,11 @@ async function isTokenExpired(page: Page): Promise<boolean> {
  * Custom test fixtures with automatic JWT token renewal.
  *
  * Before each test runs, checks if JWT is expired and auto-renews.
- * Skips renewal for @unauth tests (detected by test tags).
+ * Skips renewal for "@unauth" tests (detected by test tags).
  */
 export const test = base.extend<{ page: Page }>({
   page: async ({ page }, use, testInfo) => {
-    // Skip token renewal for @unauth tests (sign-in, sign-up tests).
+    // Skip token renewal for "@unauth" tests (sign-in, sign-up tests).
     const isUnauthTest = testInfo.tags.includes("@unauth");
 
     if (!isUnauthTest) {

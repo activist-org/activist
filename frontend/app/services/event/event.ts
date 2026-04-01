@@ -6,6 +6,11 @@ import { del, get, post } from "~/services/http";
 
 // MARK: Map API Response to Type
 
+/**
+ * Maps the raw API response for an event to the EventResponse type used in the frontend, ensuring that all optional fields are properly handled and defaulted to empty arrays where necessary to prevent undefined values in the application.
+ * @param res The raw event response from the API, which may contain optional fields that are undefined.
+ * @returns An EventResponse object with all fields defined, where optional array fields are defaulted to empty arrays if they were undefined in the input.
+ */
 export function mapEvent(res: EventResponse): EventResponse {
   return {
     id: res.id,
@@ -28,6 +33,12 @@ export function mapEvent(res: EventResponse): EventResponse {
 
 // MARK: Get by ID
 
+/**
+ * Fetches a single event by its unique identifier from the backend API, using the get helper function for making HTTP requests and the errorHandler for consistent error handling. The function maps the raw API response to the EventResponse type used in the frontend, ensuring that all optional fields are properly handled.
+ * @param id The unique identifier of the event to be fetched from the API.
+ * @returns A Promise that resolves to an EventResponse object containing the details of the fetched event, with all optional fields defined and defaulted as necessary.
+ * @throws {AppError} if the API request fails or if there is an error during the mapping of the response.
+ */
 export async function getEvent(id: string): Promise<EventResponse> {
   try {
     const res = await get<EventResponse>(`/events/events/${id}`, {
@@ -41,6 +52,12 @@ export async function getEvent(id: string): Promise<EventResponse> {
 
 // MARK: List All
 
+/**
+ * Fetches a list of events from the backend API, applying optional filters and pagination parameters. The function maps the raw API response to the EventResponse type used in the frontend, ensuring that all optional fields are properly handled.
+ * @param filters An object containing optional filter parameters and pagination settings to be applied to the API request for fetching events.
+ * @returns A Promise that resolves to an EventsPaginatedResponse object containing an array of EventResponse objects and a boolean indicating if the current page is the last page of results.
+ * @throws {AppError} if the API request fails or if there is an error during the mapping of the response.
+ */
 export async function listEvents(
   filters: EventFilters & Pagination = { page: 1, page_size: 10 }
 ): Promise<EventsPaginatedResponse> {
@@ -57,7 +74,7 @@ export async function listEvents(
 
     // Add the remaining filters as single query params.
     Object.entries(rest).forEach(([key, value]) => {
-      if (value === undefined || value === null) return;
+      if (!value) return;
       query.append(key, String(value));
     });
     const res = await get<EventsResponseBody>(
@@ -72,6 +89,12 @@ export async function listEvents(
 
 // MARK: Create
 
+/**
+ * Creates a new event in the backend API, using the post helper function for making HTTP requests and the errorHandler for consistent error handling. The function maps the raw API response to the EventResponse type used in the frontend, ensuring that all optional fields are properly handled.
+ * @param data The input data for creating a new event, conforming to the CreateEventInput type.
+ * @returns A Promise that resolves to an EventResponse object containing the details of the newly created event, with all optional fields defined and defaulted as necessary.
+ * @throws {AppError} if the API request fails or if there is an error during the mapping of the response.
+ */
 export async function createEvent(
   data: CreateEventInput
 ): Promise<EventResponse> {
@@ -87,6 +110,12 @@ export async function createEvent(
 
 // MARK: Delete
 
+/**
+ * Deletes an event by its unique identifier from the backend API, using the del helper function for making HTTP requests and the errorHandler for consistent error handling.
+ * @param eventId The unique identifier of the event to be deleted.
+ * @returns A Promise that resolves when the event has been successfully deleted.
+ * @throws {AppError} if the API request fails or if there is an error during the deletion process.
+ */
 export async function deleteEvent(eventId: string): Promise<void> {
   try {
     await del(`/events/events/${eventId}`);

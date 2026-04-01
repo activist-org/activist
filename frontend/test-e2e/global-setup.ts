@@ -27,6 +27,8 @@ const MAX_SESSION_AGE_HOURS = 20;
  *
  * On CI the file never exists before the run, so this always returns false
  * there and a fresh session is created every time.
+ * @param authFile - The path to the authentication state file to validate.
+ * @returns indicating whether the authentication state is valid and can be reused.
  */
 function isAuthStateValid(authFile: string): boolean {
   if (!fs.existsSync(authFile)) return false;
@@ -69,6 +71,8 @@ function isAuthStateValid(authFile: string): boolean {
 /**
  * Signs in as the given account and saves the browser storage state to disk,
  * retrying up to maxRetries times on failure.
+ * @param baseURL - The base URL of the application under test.
+ * @param account - The account information including username, password, and auth file path.
  */
 async function createAuthState(
   baseURL: string,
@@ -125,6 +129,7 @@ async function createAuthState(
 /**
  * Global setup runs once before all tests.
  * Creates authenticated sessions for each account used in the test suite.
+ * @param config - The Playwright FullConfig object containing the test configuration.
  */
 async function globalSetup(config: FullConfig) {
   const baseURL = config.projects[0]?.use.baseURL;

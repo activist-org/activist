@@ -33,6 +33,11 @@ export interface MockNuxtApp {
 
 /**
  * Creates a mock NuxtApp for testing getCachedData behavior.
+ * @param options - Configuration for the mock NuxtApp.
+ * @param options.isHydrating - Whether the app is in hydration mode.
+ * @param options.payloadData - Data to include in the payload for hydration tests.
+ * @param options.staticData - Data to include in the static property for non-hydration tests.
+ * @returns A mock NuxtApp object with specified hydration state and data.
  */
 export function createMockNuxtApp(
   options: {
@@ -50,6 +55,11 @@ export function createMockNuxtApp(
 
 /**
  * Creates controlled return values for useAsyncData mock.
+ * @param options - Configuration for the mock return values.
+ * @param options.data - The data to return in the mock's data ref.
+ * @param options.pending - The pending state to return in the mock's pending ref.
+ * @param options.error - The error to return in the mock's error ref.
+ * @returns An object mimicking the return structure of useAsyncData with refs for data, pending, and error, along with mocked refresh and execute functions.
  */
 export function createMockAsyncDataReturn<T>(
   options: {
@@ -90,6 +100,11 @@ export function resetCapturedCalls() {
 /**
  * Creates a useAsyncData mock that captures calls for testing.
  * Returns a factory that produces controlled return values.
+ * @param returnOptions - Options to control the returned data, pending state, and error.
+ * @param returnOptions.data - The data to return in the mock's data ref.
+ * @param returnOptions.pending - The pending state to return in the mock's pending ref.
+ * @param returnOptions.error - The error to return in the mock's error ref.
+ * @returns A mock function to replace useAsyncData in tests.
  */
 export function createUseAsyncDataMock<T>(
   returnOptions: {

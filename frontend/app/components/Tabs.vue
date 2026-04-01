@@ -48,6 +48,10 @@ const aboveMediumBP = useBreakpoint("md");
 const nuxtApp = useNuxtApp();
 const router = useRouter();
 
+/**
+ * Handles the change event when a tab is selected. This function is called whenever a user clicks on a tab in the TabGroup component. It takes the index of the selected tab as an argument and uses it to determine the corresponding route URL from the tabs array. If a valid route URL is found for the selected tab, it programmatically navigates to that route using the router.push method, allowing users to switch between different pages or sections of the application by selecting different tabs.
+ * @param index The index of the selected tab, which corresponds to the position of the tab in the tabs array. This index is used to retrieve the route URL associated with the selected tab, enabling navigation to the appropriate page or section of the application when a tab is clicked.
+ */
 function changeTab(index: number) {
   const selectedTab = props.tabs[index]?.routeUrl;
   if (selectedTab) {

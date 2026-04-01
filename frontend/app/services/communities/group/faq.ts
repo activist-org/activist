@@ -3,6 +3,13 @@ import { del, post, put } from "~/services/http";
 
 // MARK: Create
 
+/**
+ * Creates a new FAQ entry for a specific group by sending a POST request to the backend API with the provided FAQ data, including the question, answer, order, and associated group ID. The function uses the post helper for making HTTP requests and the errorHandler for consistent error handling across the application.
+ * @param groupId The unique identifier of the group for which the FAQ entry is being created.
+ * @param faq The FAQ entry data, including the question, answer, order, and ISO code for the FAQ to be created.
+ * @returns A Promise that resolves when the FAQ entry has been successfully created in the backend.
+ * @throws {AppError} if the API request fails or if there is an error during the creation process.
+ */
 export async function createGroupFaq(
   groupId: string,
   faq: FaqEntry
@@ -27,6 +34,12 @@ export async function createGroupFaq(
 
 // MARK: Update
 
+/**
+ * Updates an existing FAQ entry for a specific group by sending a PUT request to the backend API with the provided FAQ data, including the question, answer, order, and associated group ID. The function uses the put helper for making HTTP requests and the errorHandler for consistent error handling across the application.
+ * @param faq The FAQ entry data to be updated, including the unique identifier of the FAQ entry, question, answer, order, and ISO code for the FAQ to be updated.
+ * @returns A Promise that resolves when the FAQ entry has been successfully updated in the backend.
+ * @throws {AppError} if the API request fails or if there is an error during the update process.
+ */
 export async function updateGroupFaq(faq: FaqEntry): Promise<void> {
   try {
     await put(
@@ -46,6 +59,12 @@ export async function updateGroupFaq(faq: FaqEntry): Promise<void> {
 
 // MARK: Reorder
 
+/**
+ * Updates the order of multiple FAQ entries for a specific group by sending PUT requests to the backend API with the updated order data for each FAQ entry. The function uses the put helper for making HTTP requests and the errorHandler for consistent error handling across the application.
+ * @param faqs An array of FAQ entry data, including the unique identifier and updated order for each FAQ entry to be reordered.
+ * @returns A Promise that resolves when all FAQ entries have been successfully reordered in the backend.
+ * @throws {AppError} if any of the API requests fail or if there is an error during the reordering process.
+ */
 export async function reorderGroupFaqs(faqs: FaqEntry[]): Promise<void> {
   try {
     await Promise.all(
@@ -63,6 +82,12 @@ export async function reorderGroupFaqs(faqs: FaqEntry[]): Promise<void> {
 
 // MARK: Delete
 
+/**
+ * Deletes an existing FAQ entry for a specific group by sending a DELETE request to the backend API with the provided FAQ ID. The function uses the del helper for making HTTP requests and the errorHandler for consistent error handling across the application.
+ * @param faqId The unique identifier of the FAQ entry to be deleted.
+ * @returns A Promise that resolves when the FAQ entry has been successfully deleted in the backend.
+ * @throws {AppError} if the API request fails or if there is an error during the deletion process.
+ */
 export async function deleteGroupFaq(faqId: string): Promise<void> {
   try {
     await del(`/communities/group_faqs/${faqId}`);

@@ -4,6 +4,8 @@ import type { Page } from "@playwright/test";
 /**
  * Resource Drag and Drop Feature
  * Handles resource card reordering via drag and drop.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for performing drag and drop operations on resource cards, including accessing drag handles and simulating drag movements to reorder resources.
  */
 export const ResourceDragDrop = (page: Page) => {
   return {

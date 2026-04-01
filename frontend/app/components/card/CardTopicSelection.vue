@@ -249,6 +249,11 @@ const selectTopic = (topic: TopicTag) => {
   }
 };
 
+/**
+ * Checks if a given topic is currently active (selected) in the Combobox. This function takes a topic as an argument and returns a boolean indicating whether that topic is included in the current selection (value). It is used to determine the active state of each topic option in the dropdown, allowing for appropriate styling and user feedback when topics are selected or deselected.
+ * @param topic The topic to check for active status, represented as a TopicEnum. This is the topic that the function will look for in the current selection (value) to determine if it is active (selected) or not.
+ * @returns A boolean value indicating whether the given topic is currently active (selected) in the Combobox. It returns true if the topic is included in the current selection (value) and false otherwise.
+ */
 function isActiveTopic(topic: TopicEnum) {
   return value.value.includes(topic);
 }

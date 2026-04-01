@@ -45,7 +45,10 @@ const formData = computed(() => ({
 
 const submitLabel = "i18n.components.modal.social_links._global.update_links";
 
-// Individual CRUD operations.
+/**
+ * Handles the submission of the event social links update form. This function takes the form values as input, processes them to determine which links need to be created, updated, or deleted, and then performs the necessary operations using the corresponding mutations. After all operations are completed, the modal is closed.
+ * @param values The values from the event social links update form, which include the link, label, and order for each social link. These values are used to update the event's social links on the server when the form is submitted. The function processes these values and interacts with the createLinks, updateLink, and deleteLink mutations to perform the necessary operations.
+ */
 async function handleSubmit(values: unknown) {
   const formValues = (
     values as {
@@ -91,7 +94,7 @@ async function handleSubmit(values: unknown) {
     ) || [];
   await Promise.all(
     toUpdate.map(async (refItem) => {
-      await updateLink(refItem.id, {
+      updateLink(refItem.id, {
         link: refItem.link,
         label: refItem.label,
         order: refItem.order,

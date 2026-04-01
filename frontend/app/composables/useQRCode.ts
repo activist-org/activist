@@ -1,4 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * Composable for generating and downloading QR codes in various formats (SVG, PNG, JPEG) in the frontend application. This composable provides functions to create QR codes, add necessary font styling, draw SVG elements onto a canvas, and download the QR code in the specified format. The composable returns these functions for use in components that require QR code generation and download functionality.
+ * @param qrCodeFileName The default file name to use when downloading the QR code, without the file extension.
+ * @returns An object containing reactive properties and functions for managing QR code generation and download,
+ * including showTooltip for controlling tooltip visibility, availableFormats for listing supported download formats with dimensions,
+ * downloadQRCode for handling the download process, onImageClick for opening the QR code in a new window, and qrcode for referencing the QR code element.
+ */
 export function useQRCode(qrCodeFileName: string) {
   const showTooltip = ref(false);
 
@@ -17,7 +24,7 @@ export function useQRCode(qrCodeFileName: string) {
 
   const availableFormats: Ref<string[]> = computed(() => {
     const size = qrPixelGraphicsSize.value;
-    const qrCodeIsReady = size != undefined;
+    const qrCodeIsReady = !!size;
     return [
       "PNG" +
         (qrCodeIsReady
@@ -39,6 +46,14 @@ export function useQRCode(qrCodeFileName: string) {
     ];
   });
 
+  /**
+   * Draws an inline SVG element onto a canvas context by converting the SVG element to a data URL and loading it as an image, then drawing the image onto the canvas with the specified width and height. The function takes a callback that is executed after the image has been drawn onto the canvas, allowing for further processing or actions to be taken once the drawing is complete.
+   * @param svgElement The SVG element to be drawn onto the canvas.
+   * @param ctx The canvas rendering context where the SVG will be drawn.
+   * @param width The width to draw the SVG on the canvas.
+   * @param height The height to draw the SVG on the canvas.
+   * @param callback A function to be called after the SVG has been drawn onto the canvas, allowing for further processing or actions to be taken once the drawing is complete.
+   */
   function drawInlineSVG(
     svgElement: Element,
     ctx: CanvasRenderingContext2D,
@@ -55,12 +70,22 @@ export function useQRCode(qrCodeFileName: string) {
     img.src = "data:image/svg+xml; charset=utf8, " + encodeURIComponent(svgUrl);
   }
 
+  /**
+   * Adds font styling to the SVG element by appending a <style> element with the QR code font CSS.
+   * @param svgElement The SVG element to which the font styling will be added, allowing the QR code to be rendered with the appropriate font when drawn onto a canvas or exported as an image.
+   * The function creates a <def> element, sets its innerHTML to include a <style> tag with the QR code font CSS, and appends this <def> element to the provided SVG element, ensuring that the necessary font styling is included for proper rendering of the QR code.
+   */
   function addFontStyling(svgElement: Element) {
     const def = document.createElement("def");
     def.innerHTML = `<style>${QR_CODE_FONT_CSS}</style>`;
     svgElement.appendChild(def);
   }
 
+  /**
+   * Generates a PNG data URL from an SVG element by first adding font styling to the SVG, then creating a canvas element with the appropriate dimensions based on the QR code size, and finally drawing the SVG onto the canvas and converting it to a PNG data URL. The function returns a Promise that resolves to the generated PNG data URL, which can be used for downloading or displaying the QR code as an image.
+   * @param svgElement The SVG element representing the QR code, which will be processed to generate a PNG data URL. The function adds necessary font styling to the SVG, creates a canvas with dimensions based on the QR code size, draws the SVG onto the canvas, and converts the canvas content to a PNG data URL that can be used for various purposes such as downloading or displaying the QR code as an image.
+   * @returns A Promise that resolves to a PNG data URL generated from the provided SVG element, allowing for the QR code to be downloaded or displayed as an image in the frontend application.
+   */
   function getPNGDataUrl(svgElement: Element): Promise<string> {
     addFontStyling(svgElement);
     const canvas = document.createElement("canvas");
@@ -75,6 +100,10 @@ export function useQRCode(qrCodeFileName: string) {
     });
   }
 
+  /**
+   * Downloads the QR code in the specified format (SVG, PNG, or JPEG) by creating a temporary download link and triggering a click event on it. The function handles adding necessary font styling for SVG, creating a canvas for PNG and JPEG, and setting the appropriate file extension and MIME type for the download.
+   * @param format The format in which to download the QR code, either "SVG", "PNG", or "JPEG".
+   */
   function downloadQRCode(format: string) {
     const svgData = document.querySelector("#result-qr")!;
     const def = document.createElement("def");
@@ -115,6 +144,9 @@ export function useQRCode(qrCodeFileName: string) {
     }
   }
 
+  /**
+   *
+   */
   function onImageClick() {
     const svgData = document.querySelector("#result-qr");
     if (svgData !== null) {

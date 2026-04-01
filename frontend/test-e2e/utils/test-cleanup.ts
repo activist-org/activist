@@ -6,6 +6,8 @@ import type { Page } from "@playwright/test";
  * Minimal cleanup that prevents test pollution without interfering with Playwright's lifecycle
  *
  * Performance optimized: Uses timeouts to avoid blocking on already-closed elements
+ * @param page - The Playwright Page object to perform cleanup on
+ * @returns A promise that resolves when cleanup is complete
  */
 export async function cleanupTestState(page: Page): Promise<void> {
   try {
@@ -74,6 +76,8 @@ export async function cleanupTestState(page: Page): Promise<void> {
 /**
  * Reset page state to a clean state
  * Useful for ensuring tests start from a known state
+ * @param page - The Playwright Page object to reset
+ * @returns A promise that resolves when the page state is reset
  */
 export async function resetPageState(page: Page): Promise<void> {
   try {

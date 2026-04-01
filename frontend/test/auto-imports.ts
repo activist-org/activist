@@ -15,6 +15,8 @@ const __dirname = dirname(__filename);
 
 /**
  * Extracts all use* composable names from .nuxt/imports.d.ts.
+ * @param importsContent - The content of the imports.d.ts file to parse.
+ * @returns A set of composable names (e.g., useAuth, useFetch) found in the file.
  */
 function extractComposableNames(importsContent: string): Set<string> {
   const composables = new Set<string>();
@@ -48,6 +50,7 @@ function extractComposableNames(importsContent: string): Set<string> {
  * Default mock factory for composables.
  * Returns a function that returns an empty object by default.
  * This prevents "ReferenceError" when new composables are used but not yet mocked.
+ * @returns A function that returns an empty object, serving as a default mock for composables.
  */
 function createDefaultMock(): () => Record<string, unknown> {
   return () => ({});
@@ -55,7 +58,7 @@ function createDefaultMock(): () => Record<string, unknown> {
 
 /**
  * Composables that should NOT be auto-mocked because they're required by the Nuxt test framework.
- * These composables are used by @nuxt/test-utils to initialize the test environment.
+ * These composables are used by "@nuxt/test-utils" to initialize the test environment.
  */
 const EXCLUDED_COMPOSABLES = new Set([
   "useNuxtApp", // required by Nuxt test framework for initialization

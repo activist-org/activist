@@ -3,6 +3,11 @@ import { beforeEach, expect, vi } from "vitest";
 
 import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals.d.ts";
 
+/**
+ * Sets up global mocks for service tests, including $fetch and useAuth.
+ * Call this in a test file to initialize the mocks before each test.
+ * @returns an object with the fetch mocks for use in assertions.
+ */
 export function setupServiceTestMocks() {
   const mocks = {
     fetchMock: vi.fn<FetchFn>(),
@@ -37,6 +42,12 @@ export type FetchOptions = {
 export type FetchCall = [string, FetchOptions];
 
 // Extract fetch call arguments with proper typing.
+/**
+ * Helper to extract the URL and options from a specific call to the mocked fetch function.
+ * @param fetchMock - The mocked fetch function to extract call arguments from
+ * @param index - Index of the fetch call to retrieve (default: 0)
+ * @returns An array containing the URL and options of the specified fetch call, typed as [string, FetchOptions]
+ */
 export function getFetchCall(
   fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
   index = 0
@@ -45,6 +56,13 @@ export function getFetchCall(
 }
 
 // Assert common HTTP request properties.
+/**
+ * Helper to assert common properties of a JSON HTTP request made with the mocked fetch function.
+ * @param fetchMock - The mocked fetch function to assert
+ * @param expectedUrl - The expected URL of the request
+ * @param expectedMethod - The expected HTTP method of the request
+ * @param expectedBody - The expected body of the request (optional)
+ */
 export function expectJsonRequest(
   fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
   expectedUrl: string | RegExp,
@@ -66,6 +84,12 @@ export function expectJsonRequest(
 }
 
 // Assert simple HTTP request (no body checks).
+/**
+ * Helper to assert common properties of a simple HTTP request made with the mocked fetch function.
+ * @param fetchMock - The mocked fetch function to assert
+ * @param expectedUrl - The expected URL of the request
+ * @param expectedMethod - The expected HTTP method of the request
+ */
 export function expectRequest(
   fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
   expectedUrl: string | RegExp,

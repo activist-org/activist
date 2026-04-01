@@ -317,6 +317,10 @@
 const localePath = useLocalePath();
 
 const settingValue = ref("");
+/**
+ * Updates the setting value in the form data and the local state when the user selects a different event setting (e.g., In-person or Online) from the FormRadioGroup component. The function takes the selected event setting as an argument, updates the corresponding field in the formData object, and also updates the local state variable settingValue to reflect the current selection for use in the FormRadioGroup component's modelValue binding.
+ * @param event The selected event setting value.
+ */
 function updateSetting(event: string) {
   formData.value.setting = event;
   settingValue.value = event;
@@ -333,6 +337,10 @@ const settingOptions = [
 ];
 
 const eventTypeValue = ref("");
+/**
+ * Updates the event type value in the form data and the local state when the user selects a different event type (e.g., Learn or Action) from the FormRadioGroup component. The function takes the selected event type as an argument, updates the corresponding field in the formData object, and also updates the local state variable eventTypeValue to reflect the current selection for use in the FormRadioGroup component's modelValue binding.
+ * @param event The selected event type value.
+ */
 function updateEventType(event: string) {
   formData.value.eventType = event;
   eventTypeValue.value = event;
@@ -356,6 +364,9 @@ const pageCount = computed(() => 3);
 const hasNextPage = computed(() => page.value < pageCount.value - 1);
 const hasPreviousPage = computed(() => page.value > 0);
 
+/**
+ * Moves the user to the next page of the event creation form when the "Next" button is clicked, after performing any necessary validation checks. If there are more pages to navigate to (i.e., if hasNextPage is true), the function increments the page value to display the next section of the form. The TODO comment indicates that validation checks should be implemented before allowing the user to proceed to the next page.
+ */
 function nextPage() {
   // TODO: check validation before moving.
   if (hasNextPage.value) {
@@ -363,6 +374,9 @@ function nextPage() {
   }
 }
 
+/**
+ *
+ */
 function previousPage() {
   // TODO: Check validation before moving.
   if (hasPreviousPage.value) {

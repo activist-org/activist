@@ -1,4 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * Utility function to generate dynamic class bindings for button components based on their "call to action" status and font size.
+ * @param cta - Indicates whether the button is a call to action.
+ * @param fontSize - The font size of the button text.
+ * @returns An object containing the dynamic class bindings for the button component.
+ */
 export function getBtnDynamicClass(cta: boolean, fontSize: string) {
   return {
     "style-cta": cta,

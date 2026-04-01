@@ -6,6 +6,8 @@ import { getEnglishText } from "#shared/utils/i18n";
 /**
  * Page Object Model for Organization Group About Page.
  * Handles interactions with the group about page within an organization.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with the organization group about page, including header actions, main content access, edit icons, modals, tab navigation, and various user interactions and verifications.
  */
 export const newOrganizationGroupAboutPage = (page: Page) => {
   // Helper method to wait for tab state to update (private in closure).

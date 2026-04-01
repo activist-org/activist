@@ -117,6 +117,9 @@ const { linkUrl: groupLinkUrl } = useLinkURL({
 const description = ref();
 const descriptionExpandable = ref(false);
 
+/**
+ *
+ */
 function setDescriptionExpandable(): void {
   descriptionExpandable.value =
     description.value.scrollHeight > description.value.clientHeight
@@ -136,6 +139,9 @@ onUnmounted(() => {
 const emit = defineEmits(["expand-reduce-text"]);
 const expandText = ref(false);
 
+/**
+ *
+ */
 function expand_reduce_text() {
   expandText.value = !expandText.value;
 }

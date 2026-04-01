@@ -28,6 +28,13 @@ describe("utils/errorHandler", () => {
     expect(res.message).toBe("boom");
   });
 
+  /**
+   * Helper to create FetchError with specified status and data for testing.
+   * @param status - HTTP status code
+   * @param data - Response data
+   * @param message - Error message
+   * @returns FetchError instance with assigned properties
+   */
   function makeFetchError(
     status: number | undefined,
     data: unknown,

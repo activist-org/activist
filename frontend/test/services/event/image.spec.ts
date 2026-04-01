@@ -5,6 +5,11 @@ import { uploadEventIconImage } from "../../../app/services/event/image";
 import { AppError } from "../../../shared/utils/errorHandler";
 import { getFetchCall, setupServiceTestMocks } from "../helpers";
 
+/**
+ * Type guard to check if a value is FormData. Used in tests to assert that the request body is FormData when uploading an event icon image.
+ * @param value - The value to check if it is FormData
+ * @returns true if the value is FormData, false otherwise
+ */
 function isFormData(value: unknown): value is FormData {
   return typeof FormData !== "undefined" && value instanceof FormData;
 }

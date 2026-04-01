@@ -63,6 +63,10 @@ if (!isAddMode) {
   );
 }
 
+/**
+ * Handles the submission of the event resource form. This function takes the form values as input, processes them to determine whether to create a new resource or update an existing one based on the isAddMode flag, and then performs the necessary operation using the corresponding mutation. After the operation is completed successfully, the modal is closed to provide feedback to the user that their action has been processed.
+ * @param values The values from the event resource form, which include the name, description, URL, topics, and order of the resource. These values are used to either create a new resource or update an existing one on the server when the form is submitted. The function processes these values and interacts with the createResource or updateResource mutation based on whether the form is in add mode or edit mode to perform the appropriate operation.
+ */
 async function handleSubmit(values: unknown) {
   const newValues = {
     ...formData.value,

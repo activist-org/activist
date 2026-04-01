@@ -4,6 +4,8 @@ import type { Page } from "@playwright/test";
 /**
  * FAQ List Feature
  * Handles FAQ list container and collection operations.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with the FAQ list, including accessing the list container, FAQ cards, empty state, and performing operations like counting FAQs and checking visibility.
  */
 export const FAQList = (page: Page) => {
   return {

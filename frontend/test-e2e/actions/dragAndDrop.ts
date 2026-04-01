@@ -46,7 +46,6 @@ export async function getFAQCardOrder(page: Page): Promise<string[]> {
 
 /**
  * Performs a drag and drop operation from source to target.
- *
  * @remarks
  * Two strategies are used depending on whether the browser context has touch
  * emulation enabled (`hasTouch`):
@@ -63,7 +62,6 @@ export async function getFAQCardOrder(page: Page): Promise<string[]> {
  *
  * `dragTo()` is not used because it dispatches a single jump with no
  * intermediate moves, which is too fast for Sortable.js to register a swap.
- *
  * @param page - Playwright page object
  * @param sourceLocator - The locator for the element to drag (typically a drag handle)
  * @param targetLocator - The locator for the target position (typically another drag handle)

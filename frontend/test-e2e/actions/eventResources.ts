@@ -9,6 +9,8 @@ import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
  * Ensures the current event resources page has at least one `resource-card`.
  * If the list is empty (first event from `/events` may have no seeded resources),
  * creates one through the modal as the current user (expects admin).
+ * @param page - Playwright page object
+ * @returns Promise that resolves when at least one resource card is present on the page, or rejects if creation fails.
  */
 export async function ensureAtLeastOneEventResource(page: Page): Promise<void> {
   const { resourcesPage } = newEventPage(page);

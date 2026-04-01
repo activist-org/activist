@@ -12,6 +12,11 @@ import { logTestPath } from "~/test-e2e/utils/testTraceability";
 /** Stable UUID; list GET uses `/events/events?…` (no trailing id). */
 const MOCK_EVENT_ID = "00000000-0000-4000-8000-00000000e2e1";
 
+/**
+ * Heuristic to identify the event detail GET request we want to mock, since the ID is dynamic and we want to avoid over-mocking other API calls. Matches `/api/public/events/events/{uuid}` where `{uuid}` is a UUIDv4.
+ * @param url - The URL to check for being an event detail GET request
+ * @returns True if the URL matches the event detail GET pattern, false otherwise
+ */
 function isPublicEventDetailGet(url: string): boolean {
   try {
     const u = new URL(url);
@@ -23,7 +28,14 @@ function isPublicEventDetailGet(url: string): boolean {
   }
 }
 
-/** Matches `app/error.vue`: large status code, message body, return-home CTA. */
+/**
+ * Matches `app/error.vue`: large status code, message body, return-home CTA.
+ * @param page - The Playwright Page object representing the current browser page
+ * @param expectedStatus - The expected HTTP status code to match
+ * @param messageMatcher - A regular expression to match the error message
+ * @returns A promise that resolves when the expected elements are visible on the page, or rejects if they are not found within the timeout
+ * @throws {Error} if the expected status code, message, or return home link are not visible within the timeout
+ */
 async function expectNuxtFatalErrorPage(
   page: Page,
   expectedStatus: number,
@@ -36,6 +48,13 @@ async function expectNuxtFatalErrorPage(
   await expect(page.getByRole("link", { name: /return.*home/i })).toBeVisible();
 }
 
+/**
+ * Mocks the event detail GET request for a specific event.
+ * @param page - The Playwright Page object representing the current browser page
+ * @param status - The HTTP status code to return for the mocked request
+ * @param body - The response body to return for the mocked request
+ * @returns A promise that resolves when the route is set up
+ */
 async function routeMockEventDetail(
   page: Page,
   status: number,

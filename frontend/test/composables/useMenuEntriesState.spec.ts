@@ -40,6 +40,7 @@ beforeEach(() => {
 /**
  * Helper to mount the composable inside a real component context
  * so lifecycle hooks (onMounted, onUnmounted, watch) work properly.
+ * @returns The mounted wrapper and the composable result for assertions
  */
 function mountComposable() {
   let result: ReturnType<typeof useMenuEntriesState>;
