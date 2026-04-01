@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Teleport to="body">
-    <Dialog as="div" class="relative z-50" :open="modalIsOpen">
+    <Dialog class="relative z-50" :open="modalIsOpen">
       <DialogBackdrop class="fixed inset-0 bg-layer-0/95 dark:bg-layer-0/95" />
       <div
         @click="closeModal()"

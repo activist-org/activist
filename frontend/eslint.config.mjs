@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import prettier from "eslint-config-prettier";
-import jsdoc from 'eslint-plugin-jsdoc'
+import jsdoc from "eslint-plugin-jsdoc";
 import perfectionist from "eslint-plugin-perfectionist";
 import vue from "eslint-plugin-vue";
 import vueA11y from "eslint-plugin-vuejs-accessibility";
