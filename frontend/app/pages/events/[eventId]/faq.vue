@@ -61,7 +61,12 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else class="py-4" pageType="faq" :permission="false" />
+    <EmptyState
+      v-else
+      class="py-4"
+      pageType="faq"
+      :permission="canEdit(event)"
+    />
   </div>
 </template>
 
