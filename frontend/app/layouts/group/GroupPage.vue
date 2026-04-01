@@ -20,7 +20,7 @@
       @mouseover="sidebarHover = true"
       class="block"
     />
-    <div class="grid grid-rows-[1fr_auto] md:h-screen md:overflow-y-scroll">
+    <div id="test" class="md:grid md:grid-rows-[1fr_auto] md:overflow-y-hidden md:h-screen flex flex-col grid-rows-none overflow-x-hidden">
       <div
         v-if="group && images"
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
