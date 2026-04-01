@@ -42,7 +42,11 @@
         <div class="flex items-center gap-3">
           <MetaTagLocation
             v-if="group?.location"
-            :location="group.location.addressOrName.split(',')[0] ?? ''"
+            :location="`${group.location.city ? group.location.city + ', ' : ''}${
+              group.location.countryCode
+                ? $countryName(group.location.countryCode)
+                : ''
+            }`"
           />
           <!-- <MetaTagMembers
               :members="group.members.length"
@@ -98,6 +102,8 @@
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const { userIsSignedIn } = useUser();
+
+const { $countryName } = useNuxtApp();
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";

@@ -3,7 +3,7 @@ import { getEnglishText } from "#shared/utils/i18n";
 
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en");

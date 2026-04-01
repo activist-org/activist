@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// TODO: This file should be refactored to decouple the file management logic from the API calls, and to handle errors more robustly.
 export function useFileManager() {
   const uploadError = ref(false);
 

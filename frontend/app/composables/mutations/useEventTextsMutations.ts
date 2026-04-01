@@ -2,10 +2,8 @@
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 export function useEventTextsMutations(eventId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError, clearError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
 
@@ -17,7 +15,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
     if (!currentEventId.value) return false;
 
     loading.value = true;
-    error.value = null;
+    clearError();
     try {
       // Service function handles the HTTP call and throws normalized errors.
       await updateEventTexts(currentEventId.value, textId, textsData);
@@ -26,9 +24,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
       await refreshEventData();
       return true;
     } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;

@@ -14,7 +14,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Thank You Message
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
             ## Thank you for the pull request! ❤️
@@ -32,7 +32,7 @@ jobs:
             > activist uses [Conventional Comments](https://conventionalcomments.org/) in reviews to make sure that communication is as clear as possible.
 
       - name: Add Checklist
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
             ## Maintainer Checklist

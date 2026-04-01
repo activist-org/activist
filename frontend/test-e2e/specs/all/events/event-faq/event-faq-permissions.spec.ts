@@ -6,8 +6,8 @@ import {
 import { MEMBER_AUTH_STATE_PATH } from "~/test-e2e/constants/authPaths";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
-import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { ensureMinimumFAQs } from "~/test-e2e/utils/faq-helpers";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   await navigateToEventSubpage(page, "faq");

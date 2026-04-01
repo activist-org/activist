@@ -3,7 +3,7 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
