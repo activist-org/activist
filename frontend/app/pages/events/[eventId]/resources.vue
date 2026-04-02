@@ -66,7 +66,7 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else pageType="resources" :permission="false" />
+    <EmptyState v-else pageType="resources" :permission="canEdit(event)" />
   </div>
 </template>
 

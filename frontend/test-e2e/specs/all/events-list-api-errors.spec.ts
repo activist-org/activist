@@ -6,7 +6,7 @@
 import type { Page } from "@playwright/test";
 
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
 /** Public list endpoint used by `listEvents` (`withoutAuth: true` → /api/public). */
 const EVENTS_LIST_ROUTE = "**/api/public/events/events**";
