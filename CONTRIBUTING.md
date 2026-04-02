@@ -26,6 +26,8 @@ If you have questions or would like to communicate with the team, please [join u
 - [Pull requests](#pull-requests)
 - [Internationalization](#internationalization)
 - [Documentation](#documentation)
+  - [Backend Function Docstrings](#backend-function-docstrings)
+  - [Frontend JSDoc](#frontend-jsdoc)
 - [Accessibility](#accessibility)
 - [Design](#design)
 - [Troubleshooting](#troubleshooting)
@@ -363,7 +365,7 @@ Please see the [activist style guide](STYLEGUIDE.md) for details about how to fo
 
 For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
 
-For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support. [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) may be enabled for `/** … */` rules in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs); whenever those rules apply, follow [Frontend JSDoc](#frontend-jsdoc) under [Documentation](#documentation). General comment conventions (sentence style, JSDoc as block comments) also appear under [Comments](STYLEGUIDE.md#comments) in the style guide.
 
 <sub><a href="#top">Back to top.</a></sub>
 
@@ -704,6 +706,92 @@ def example_function(argument: argument_type) -> return_type:
 
     return return_value
 ```
+
+### Frontend JSDoc
+
+The frontend may enforce `/** … */` documentation on some functions and other symbols using [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), configured in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs). Run `yarn lint` from [`frontend/`](frontend/) to see violations.
+
+**When to write JSDoc**
+
+- **Exported composables and shared utils:** always add JSDoc.
+- **Local helpers and Vue event handlers:** add JSDoc only when the name and types are not self-explanatory.
+- **Vue `Props` interfaces:** one-line comments on fields where useful; skip when the field name and type are obvious.
+
+**Do / Don't**
+
+- **Do** write one short summary sentence by default. Add a second only when behavior, edge cases, or side effects are not obvious.
+- **Do** use `@param` and `@returns` when they add something the TypeScript types alone do not.
+- **Do** use the format `@param name - Description` for consistency.
+- **Don't** restate TypeScript types in prose (e.g. don't write "takes a string" when the signature says `(path: string)`).
+- **Don't** describe obvious control flow (e.g. "returns true if X, false otherwise" when the return type is `boolean` and the function name is `isX`).
+- **Don't** repeat the same information in the opening lines, `@param`, and `@returns`.
+- **Don't** leave empty `/** */` blocks.
+
+**Examples**
+
+One sentence when the signature is clear:
+
+```ts
+/** Removes leading and trailing slashes from a path segment. */
+function normalizePath(path: string): string {
+```
+
+Short prose plus tags when types alone are not enough:
+
+```ts
+/**
+ * Normalizes a router query value to a string array; omits null entries.
+ * @param arr - A single value, an array, or undefined from the route query.
+ * @returns Possibly empty array of strings.
+ */
+export function normalizeArrayFromURLQuery(
+  arr: LocationQueryValue | LocationQueryValue[] | undefined,
+): string[] {
+```
+
+Composable with a short overview and `@returns` when the return shape matters:
+
+```ts
+/**
+ * Shared app error state, toast on failure, and optional session clear on 401.
+ * @returns Reactive `error`, `handleError`, and `clearError`.
+ */
+export function useAppError() {
+```
+
+Vue `Props` — one line per field when useful:
+
+```ts
+export interface Props {
+  /** Organizations currently voting in favor. */
+  organizations: Organization[];
+}
+```
+
+**Bad → Good** (shortening an overlong block):
+
+Before — verbose, restates types:
+
+```ts
+/**
+ * Extracts the locale code from a locale object or string for use when switching
+ * languages or updating the document language attribute.
+ * @param locale The locale to extract the code from, which may be a string such
+ *   as "en" or "fr" or an object with a `code` property such as { code: "en", name: "English" }.
+ * @returns The locale code as a string. If the input is a string it is returned
+ *   directly; if an object, the `code` property is returned.
+ */
+function getLocaleCode(locale: LocaleObject) {
+```
+
+After — types already document `LocaleObject`:
+
+```ts
+/** Locale code string, whether `locale` is a plain code or `{ code, name }`. */
+function getLocaleCode(locale: LocaleObject) {
+```
+
+**References in the codebase:** [`frontend/shared/utils/routeUtils.ts`](frontend/shared/utils/routeUtils.ts), [`frontend/app/composables/generic/useAppError.ts`](frontend/app/composables/generic/useAppError.ts), [`frontend/app/components/card/CardOrgApplicationVote.vue`](frontend/app/components/card/CardOrgApplicationVote.vue).
 
 <sub><a href="#top">Back to top.</a></sub>
 
