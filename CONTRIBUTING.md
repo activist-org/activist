@@ -429,15 +429,13 @@ We use [Vitest](https://vitest.dev/) for component and unit testing. You can run
 
 ```bash
 # Within ./frontend:
-yarn test --silent
+yarn test
 ```
-> [!NOTE]
-> The `--silent` flag is to suppress a lot of warnings from existing issues between Nuxt and Vitest.  If you need to see the warnings omit the `--silent` flag.
 
 If you would like to run a specific test, please run the following command:
 
 ```bash
-yarn vitest FILE.spec.ts --run
+yarn test FILE.spec.ts --run
 ```
 
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
