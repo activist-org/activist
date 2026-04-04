@@ -57,18 +57,18 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value
@@ -110,18 +110,18 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value
@@ -167,18 +167,18 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value

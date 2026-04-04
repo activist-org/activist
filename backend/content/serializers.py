@@ -186,6 +186,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             raise serializers.ValidationError(
                 f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
             )
+
         return data
 
     def to_representation(self, instance: Image) -> Dict[str, Any]:
@@ -229,7 +230,8 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         This method:
         1. Processes the uploaded file to remove metadata
         2. Creates the image record
-        3. Links the image to an organization if specified
+        3. Links the image to an organization or group carousel when
+           ``entity_type`` indicates those entity types
         """
         request = self.context["request"]
 
@@ -273,7 +275,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
 class ImageIconSerializer(serializers.ModelSerializer[Image]):
     """
-    Serializer for Image model data.
+    Serializer for Image records used as organization, group, or event icons.
     """
 
     class Meta:
@@ -311,8 +313,8 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
                 "No entity_id was specified for the image."
             )
 
-        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
-        # The file size limit is not being enforced. We're checking the file size here.
+        # IMAGE_UPLOAD_MAX_FILE_SIZE is defined in core/settings.py (alongside
+        # DATA_UPLOAD_MAX_MEMORY_SIZE); enforce the upload limit here.
         if (
             data["file_object"].size is not None
             and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
@@ -364,7 +366,8 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         This method:
         1. Processes the uploaded file to remove metadata
         2. Creates the image record
-        3. Links the image to an organization if specified
+        3. Associates the image as an icon with the requested entity type
+           (organization or event) when applicable
         """
         request = self.context["request"]
 
