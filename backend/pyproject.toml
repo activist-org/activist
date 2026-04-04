@@ -3,6 +3,7 @@ name = "backend"
 version = "0.0.1"
 requires-python = ">=3.12"
 dependencies = [
+    "httpx>=0.27.0",
     "django>=6.0.3",
     "django-cors-headers>=4.9.0",
     "django-filter>=25.2",
@@ -22,7 +23,7 @@ dependencies = [
     "python-dotenv>=1.2.2",
 ]
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.18.1",
@@ -34,6 +35,10 @@ dev = [
     "ruff>=0.15.8",
     "ts-backend-check>=1.4.4",
     "types-icalendar>=6.3.2.20260223",
+]
+docs = [
+    # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
+    "numpydoc>=1.10.0",
 ]
 
 [tool.ruff]
@@ -59,7 +64,6 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-
 select = [
     "E", # pycodestyle errors
     "F", # pyflakes
@@ -128,4 +132,6 @@ exclude = [
     "^.*\\.Meta$",    # meta classes
     "^.*\\.__str__$", # __str__ methods
     "^__init__$",     # __init__ files
+    "^test_.*$",      # test files
+    "^views.*$",      # test files
 ]
