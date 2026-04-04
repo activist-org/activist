@@ -12,8 +12,18 @@
         :options="optionViews"
       />
     </div>
+    <div v-if="hasActiveFilters" class="px-1">
+      <BtnAction
+        @click="clearFilters"
+        ariaLabel="i18n.components.sidebar_left_filter_events.clear_filters_button_aria_label"
+        class="w-full text-nowrap"
+        :cta="true"
+        fontSize="base"
+        label="Clear Filters"
+        :leftIcon="IconMap.X_LG"
+      />
+    </div>
     <Form
-      :key="formKey"
       @submit="handleSubmit"
       class="px-1"
       :initial-values="formData"
@@ -213,7 +223,6 @@ const optionLocations = [
 
 const route = useRoute();
 const router = useRouter();
-const formKey = ref(0);
 
 const updateViewType = (
   value: string | number | boolean | Record<string, unknown> | undefined
@@ -239,9 +248,28 @@ const formData = ref({});
 watch(
   route,
   (r) => {
-    const q = (r.query as Record<string, unknown>) || {};
-    const { view, ..._rest } = q;
-    formData.value = routeQueryToEventsFilterFormData(q);
+    const q = { ...(r.query as Record<string, unknown>) };
+    const { view } = q;
+
+    // Explicitly set all schema fields to undefined by default.
+    // If they are missing from the URL, this forces VeeValidate to clear them
+    // instead of resetting them to their initial page-load values.
+    const newFormData = {
+      days_ahead: undefined,
+      type: undefined,
+      locationType: undefined,
+      location: undefined,
+      topics: [],
+      ...q,
+    };
+
+    // Normalize topics into an array for the Combobox.
+    if (newFormData.topics && !Array.isArray(newFormData.topics)) {
+      newFormData.topics = [newFormData.topics];
+    }
+
+    formData.value = newFormData;
+
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
@@ -250,11 +278,19 @@ watch(
   },
   { immediate: true }
 );
+
+const hasActiveFilters = computed(() =>
+  Object.keys(route.query).some((k) => k !== "view")
+);
+
+const clearFilters = async () => {
+  router.push({ query: { view: viewType.value } });
+};
+
 const handleSubmit = (_values: unknown) => {
   if (!currentRoutePathIncludes("events", route.name?.toString() ?? "")) return;
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
-
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
       if (

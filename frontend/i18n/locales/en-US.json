@@ -424,6 +424,7 @@
   "i18n.components.sidebar_left_content_event.edit_aria_label": "Edit the image to this event",
   "i18n.components.sidebar_left_content_group_page.edit_aria_label": "Edit the image to this group",
   "i18n.components.sidebar_left_content_organization.edit_aria_label": "Edit the image to this organization",
+  "i18n.components.sidebar_left_filter_events.clear_filters_button_aria_label": "Clear filters button",
   "i18n.components.sidebar_left_filter_events.days_1_aria_label": "1 day ahead",
   "i18n.components.sidebar_left_filter_events.days_30_aria_label": "30 days ahead",
   "i18n.components.sidebar_left_filter_events.days_7_aria_label": "7 days ahead",
