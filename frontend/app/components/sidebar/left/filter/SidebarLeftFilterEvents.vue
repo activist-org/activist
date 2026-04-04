@@ -251,7 +251,7 @@ watch(
     const q = { ...(r.query as Record<string, unknown>) };
     const { view } = q;
 
-    // 🔥 Explicitly set all schema fields to undefined by default.
+    // Explicitly set all schema fields to undefined by default.
     // If they are missing from the URL, this forces VeeValidate to clear them
     // instead of resetting them to their initial page-load values.
     const newFormData = {
@@ -263,7 +263,7 @@ watch(
       ...q,
     };
 
-    // Normalize topics into an array for the Combobox
+    // Normalize topics into an array for the Combobox.
     if (newFormData.topics && !Array.isArray(newFormData.topics)) {
       newFormData.topics = [newFormData.topics];
     }
