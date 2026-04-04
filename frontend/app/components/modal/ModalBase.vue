@@ -89,7 +89,7 @@ const route = useRoute();
 const modals = useModals();
 const modalName = props.modalName;
 const modalIsOpen = ref(false);
-
+const modalFocusEl = ref<HTMLElement | null>(null);
 onMounted(() => {
   // Ensure modals.modals[modalName] is defined. If so, save isOpen in store.
   if (modals.modals[modalName]) {
@@ -101,8 +101,12 @@ onMounted(() => {
 watch(
   () => modals.modals[modalName]?.isOpen,
   (newVal) => {
-    if (newVal !== undefined) {
+    if (newVal) {
       modalIsOpen.value = newVal;
+    } else {
+      // If the modal is closed, reset the focus element to null.
+      modalFocusEl.value = null;
+      modalIsOpen.value = false;
     }
   }
 );
