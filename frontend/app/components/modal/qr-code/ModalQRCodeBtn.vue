@@ -2,7 +2,7 @@
 <!-- Note: This file doesn't use ModalBase, so we handle modal events in the script block below. -->
 <template>
   <button
-    v-if="type == 'icon'"
+    v-if="type === 'icon'"
     @click="handleOpenModal()"
     @keydown.enter="handleOpenModal()"
     :aria-label="$t('i18n.components.modal_qr_code_btn.open_modal_aria_label')"
