@@ -27,7 +27,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Tab size](#tab-size)
 - [Padding](#padding)
 - [Comments](#comments)
-  - [JSDoc block comments](#jsdoc-block-comments)
+  - [JSDoc docstrings](#jsdoc-docstrings)
 
 ## Vue and Nuxt
 
@@ -373,9 +373,9 @@ There are a few custom padding classes that can be used for `px` and `py` stylin
 
 Please write all comments that are their own lines as complete sentences that start with a capital letter and end in punctuation - likely a period. Inline comments should not be capitalized and should not end in punctuation. If you're writing short comments for sections, please make these `MARK:` comments so that the sections appear in the code editor minimap. `MARK:` comments should be written as section headers with all non stop words capitalized and shouldn't have punctuation at the end.
 
-### JSDoc block comments
+### JSDoc docstrings
 
-Use `/** … */` blocks for documentation comments on exported functions, composables, and non-obvious helpers. JSDoc blocks follow the same sentence rules above and are enforced by [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc). For conventions, examples, and do/don't rules see [Frontend JSDoc](CONTRIBUTING.md#frontend-jsdoc) in the contributing guide.
+Use `/** … */` docstring blocks for documentation comments on exported functions, composables, and non-obvious helpers. JSDoc blocks follow the same sentence rules above and are enforced by [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc). For conventions, examples and explicit directions see [Frontend JSDoc docstrings](CONTRIBUTING.md#frontend-jsdoc-docstrings) in the contributing guide.
 
 <!--
 Regex to find incorrect comments:

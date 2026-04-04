@@ -26,8 +26,6 @@ If you have questions or would like to communicate with the team, please [join u
 - [Pull requests](#pull-requests)
 - [Internationalization](#internationalization)
 - [Documentation](#documentation)
-  - [Backend Function Docstrings](#backend-function-docstrings)
-  - [Frontend JSDoc](#frontend-jsdoc)
 - [Accessibility](#accessibility)
 - [Design](#design)
 - [Troubleshooting](#troubleshooting)
@@ -365,7 +363,7 @@ Please see the [activist style guide](STYLEGUIDE.md) for details about how to fo
 
 For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
 
-For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support. [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) may be enabled for `/** … */` rules in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs); whenever those rules apply, follow [Frontend JSDoc](#frontend-jsdoc) under [Documentation](#documentation). General comment conventions (sentence style, JSDoc as block comments) also appear under [Comments](STYLEGUIDE.md#comments) in the style guide.
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support. [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) is enabled for function docstring rules in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs); whenever those rules apply, follow [Frontend JSDoc](#frontend-jsdoc) under [Documentation](#documentation). General comment conventions (sentence style, JSDoc as block comments) also appear under [Comments](STYLEGUIDE.md#comments) in the style guide.
 
 <sub><a href="#top">Back to top.</a></sub>
 
@@ -667,7 +665,7 @@ Thank you in advance for your contributions!
 
 Documentation is an invaluable way to contribute to coding projects as it allows others to more easily understand the project structure and contribute. Issues related to documentation are marked with the [`documentation`](https://github.com/activist-org/activist/labels/documentation) label in the [issues](https://github.com/activist-org/activist/issues).
 
-### Backend Function Docstrings
+### Backend numpydoc docstrings
 
 activist follows [numpydoc conventions](https://numpydoc.readthedocs.io/en/latest/format.html) for documenting functions and Python code.
 
@@ -705,17 +703,17 @@ def example_function(argument: argument_type) -> return_type:
     return return_value
 ```
 
-### Frontend JSDoc
+### Frontend JSDoc docstrings
 
-The frontend may enforce `/** … */` documentation on some functions and other symbols using [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), configured in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs). Run `yarn lint` from [`frontend/`](frontend/) to see violations.
+The frontend may enforce docstring documentation on some functions and other symbols using [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), configured in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs). Run `yarn lint` from [`frontend/`](frontend/) to see violations.
 
-**When to write JSDoc**
+#### When to write JSDoc
 
 - **Exported composables and shared utils:** always add JSDoc.
 - **Local helpers and Vue event handlers:** add JSDoc only when the name and types are not self-explanatory.
 - **Vue `Props` interfaces:** one-line comments on fields where useful; skip when the field name and type are obvious.
 
-**Do / Don't**
+#### Explicit directions
 
 - **Do** write one short summary sentence by default. Add a second only when behavior, edge cases, or side effects are not obvious.
 - **Do** use `@param` and `@returns` when they add something the TypeScript types alone do not.
@@ -725,7 +723,7 @@ The frontend may enforce `/** … */` documentation on some functions and other 
 - **Don't** repeat the same information in the opening lines, `@param`, and `@returns`.
 - **Don't** leave empty `/** */` blocks.
 
-**Examples**
+#### Examples
 
 One sentence when the signature is clear:
 
@@ -765,31 +763,6 @@ export interface Props {
   organizations: Organization[];
 }
 ```
-
-**Bad → Good** (shortening an overlong block):
-
-Before — verbose, restates types:
-
-```ts
-/**
- * Extracts the locale code from a locale object or string for use when switching
- * languages or updating the document language attribute.
- * @param locale The locale to extract the code from, which may be a string such
- *   as "en" or "fr" or an object with a `code` property such as { code: "en", name: "English" }.
- * @returns The locale code as a string. If the input is a string it is returned
- *   directly; if an object, the `code` property is returned.
- */
-function getLocaleCode(locale: LocaleObject) {
-```
-
-After — types already document `LocaleObject`:
-
-```ts
-/** Locale code string, whether `locale` is a plain code or `{ code, name }`. */
-function getLocaleCode(locale: LocaleObject) {
-```
-
-**References in the codebase:** [`frontend/shared/utils/routeUtils.ts`](frontend/shared/utils/routeUtils.ts), [`frontend/app/composables/generic/useAppError.ts`](frontend/app/composables/generic/useAppError.ts), [`frontend/app/components/card/CardOrgApplicationVote.vue`](frontend/app/components/card/CardOrgApplicationVote.vue).
 
 <sub><a href="#top">Back to top.</a></sub>
 
