@@ -3,8 +3,8 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
-import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { ensureMinimumFAQs } from "~/test-e2e/utils/faq-helpers";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
@@ -55,6 +55,10 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     const { faqPage } = eventPage;
 
     await page.waitForLoadState("domcontentloaded");
+
+    await expect(faqPage.faqCards.first().or(faqPage.emptyState)).toBeVisible({
+      timeout: 15000,
+    });
 
     // Generate unique content for this test run.
     const timestamp = Date.now();

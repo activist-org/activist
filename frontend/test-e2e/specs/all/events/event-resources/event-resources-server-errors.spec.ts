@@ -2,7 +2,7 @@
 import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
 const errorToast = (page: Parameters<typeof newEventPage>[0]) =>
   page.locator(

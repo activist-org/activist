@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { newEventsFilter } from "~/test-e2e/component-objects/EventsFilter";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test("should load more events on infinite scroll", async ({
   page,

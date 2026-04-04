@@ -27,13 +27,13 @@ dependencies = [
 dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.18.1",
-    "mypy>=1.19.1",
+    "mypy>=1.20.0",
     "prek>=0.3.8",
     "pytest>=9.0.2",
     "pytest-cov>=7.1.0",
     "pytest-django>=4.12.0",
     "ruff>=0.15.8",
-    "ts-backend-check>=1.4.3",
+    "ts-backend-check>=1.4.4",
     "types-icalendar>=6.3.2.20260223",
 ]
 docs = [
