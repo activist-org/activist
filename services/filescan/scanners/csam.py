@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Methods for the CSAM file scanner.
+
+Note: This scanner is a stub placeholder to demonstrate how the filescan service can be expanded.
+Attn: The result of this scan is always "No CSAM detected.".
 """
 
 import asyncio
@@ -46,5 +49,4 @@ def _scan_with_csam_sync(file_bytes: bytes) -> tuple[bool, str, str | None]:
     - Currently stubbed to always return clean.
     - Intended to be wired to an approved API service.
     """
-    # TODO: Integrate with approved CSAM API service.
     return (False, "No CSAM detected.", None)

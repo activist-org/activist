@@ -67,6 +67,7 @@ def _scan_with_clamav_sync(file_bytes: bytes) -> tuple[bool, str, str | None]:
     try:
         # INSTREAM scan: empty dict means clean; otherwise values are (status, signature).
         result = client.instream(io.BytesIO(file_bytes))
+
     except Exception as exc:  # noqa: BLE001
         raise RuntimeError(f"Unable to connect to ClamAV daemon: {exc}") from exc
 

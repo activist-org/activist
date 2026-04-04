@@ -1,4 +1,10 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Tests for the CSAM scanner.
+
+Note: This scanner is a stub placeholder to demonstrate how the filescan service can be expanded.
+Attn: The result of this scan is always "No CSAM detected.".
+"""
 
 from scanners import csam
 
