@@ -4,7 +4,7 @@ import type { Locator, Page } from "@playwright/test";
 import { getEnglishText } from "#shared/utils/i18n";
 
 export const newQRCodeModal = (page: Page) => ({
-  modal: page.locator("#modal").first(),
+  modal: page.getByTestId("modal-ModalsQRCode").first(),
   closeButton: (modal: Locator) => modal.getByTestId("modal-close-button"),
 
   // QR Code image and interaction.
