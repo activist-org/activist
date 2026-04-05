@@ -24,9 +24,14 @@ class OrganizationFilter(django_filters.FilterSet):  # type: ignore[misc]
         queryset=Topic.objects.all(),
         method="filter_topics",
     )
-    location = django_filters.CharFilter(
+    city = django_filters.CharFilter(
         field_name="location__city",
         lookup_expr="icontains",
+    )
+
+    country = django_filters.CharFilter(
+        field_name="location__country_code",
+        lookup_expr="iexact",
     )
 
     def filter_topics(
@@ -67,4 +72,4 @@ class OrganizationFilter(django_filters.FilterSet):  # type: ignore[misc]
 
     class Meta:
         model = Organization
-        fields = ["name", "topics", "location"]
+        fields = ["name", "topics", "city", "country"]

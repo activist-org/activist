@@ -292,17 +292,16 @@ const handleSubmit = (_values: unknown) => {
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
   Object.keys(input).forEach((key) => {
-    if (input[key] && input[key] !== "") {
-      if (
-        key === "topics" &&
-        Array.isArray(input[key]) &&
-        input[key].length === 0
-      ) {
-        return;
-      }
-      if (key === "view") return;
-      values[key] = input[key];
+    if (!input[key] && input[key] === "") return (values[key] = undefined);
+    if (
+      key === "topics" &&
+      Array.isArray(input[key]) &&
+      input[key].length === 0
+    ) {
+      return;
     }
+    if (key === "view") return;
+    values[key] = input[key];
   });
   if (route.query.name && route.query.name !== "")
     values["name"] = route.query.name;

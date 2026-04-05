@@ -419,6 +419,7 @@
   "i18n.components.page_filter.search_to_filer": "Search to filter",
   "i18n.components.shield_private.private": "Private",
   "i18n.components.sidebar.left.filter._global.filter_by_location": "Filter by location",
+  "i18n.components.sidebar.left.filter._global.filter_by_city": "Filter by city",
   "i18n.components.sidebar.left.filter._global.search_button_aria_label": "Search button",
   "i18n.components.sidebar_left.sidebar_left_aria_label": "Main navigation menu",
   "i18n.components.sidebar_left_content_event.edit_aria_label": "Edit the image to this event",

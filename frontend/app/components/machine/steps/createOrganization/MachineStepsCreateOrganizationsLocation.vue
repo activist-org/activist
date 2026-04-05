@@ -56,7 +56,10 @@ import { z } from "zod";
 
 const flow = inject<FlowControls>("flow");
 const locationSchema = z.object({
-  country: z.string().min(1, "Country is required"),
+  country: z.string({
+    required_error: "Country is required",
+    invalid_type_error: "Country is required",
+  }).min(1, "Country is required"),
   city: z.string().min(1, "City is required"),
 });
 const handlePrev = () => {

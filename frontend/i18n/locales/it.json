@@ -419,6 +419,7 @@
   "i18n.components.page_filter.search_to_filer": "Cerca per filtrare",
   "i18n.components.shield_private.private": "Privato",
   "i18n.components.sidebar.left.filter._global.filter_by_location": "Filtra per posizione",
+  "i18n.components.sidebar.left.filter._global.filter_by_city": "Filtra per città",
   "i18n.components.sidebar.left.filter._global.search_button_aria_label": "Pulsante di ricerca",
   "i18n.components.sidebar_left.sidebar_left_aria_label": "Menù di navigazione principale",
   "i18n.components.sidebar_left_content_event.edit_aria_label": "Modifica l'immagine di questo evento",
