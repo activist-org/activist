@@ -95,7 +95,7 @@ import { DialogTitle } from "@headlessui/vue";
 const { context } = useModalHandlers("ModalsQRCode");
 
 const props = computed(() => {
-  const modalProps = context.value as {
+  const modalProps = (context.value ?? {}) as {
     firstParagraph?: string;
     secondParagraph?: string;
     reasonForSuggesting?: string;
