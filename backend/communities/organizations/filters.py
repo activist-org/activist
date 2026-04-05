@@ -25,7 +25,7 @@ class OrganizationFilter(django_filters.FilterSet):  # type: ignore[misc]
         method="filter_topics",
     )
     location = django_filters.CharFilter(
-        field_name="location__address_or_name",
+        field_name="location__city",
         lookup_expr="icontains",
     )
 

@@ -264,6 +264,26 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
                 raise e
 
 
+class OrganizationListSerializer(serializers.ModelSerializer[Organization]):
+    """
+    Serializer for listing Organization model data.
+    """
+
+    texts = OrganizationTextSerializer(many=True, read_only=True)
+    location = LocationSerializer()
+
+    icon_url = ImageSerializer(required=False)
+
+    class Meta:
+        model = Organization
+        extra_kwargs = {
+            "created_by": {"read_only": True},
+            "status_updated": {"read_only": True},
+            "acceptance_date": {"read_only": True},
+        }
+        fields = ["id", "name", "tagline", "location", "topics", "texts", "icon_url"]
+
+
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     """
     Serializer for Organization model data.

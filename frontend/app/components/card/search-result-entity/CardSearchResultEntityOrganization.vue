@@ -37,6 +37,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { linkUrl } = useLinkURL(props);
+const { $countryName } = useNuxtApp();
 
 const description = computed(() => {
   return props.organization.texts[0]?.description || "";
@@ -66,7 +67,7 @@ const defaultIconName = computed(() => {
 
 const location = computed(() => {
   if (props.organization.location) {
-    return props.organization.location.addressOrName.split(",")[0];
+    return `${props.organization.location.city}, ${$countryName(props.organization.location.countryCode)}`;
   }
   return "";
 });
