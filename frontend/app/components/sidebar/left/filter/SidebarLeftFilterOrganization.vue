@@ -39,7 +39,7 @@
         "
         :hasError="!!errorMessage.value"
         :label="
-          $t('i18n.components.sidebar.left.filter._global.filter_by_city')
+          $t('i18n.components.sidebar_left_filter_organization.filter_by_city')
         "
         :modelValue="(value.value as string)"
       />
@@ -105,19 +105,18 @@ const handleSubmit = (_values: unknown) => {
   const values: LocationQueryRaw = {};
   const input = (_values || {}) as Record<string, LocationQueryRaw[string]>;
   Object.keys(input).forEach((key) => {
-    if (!input[key] && input[key] === "") return values[key] = undefined;
-      if (
-        key === "topics" &&
-        Array.isArray(input[key]) &&
-        input[key].length === 0 &&
-        (!route.query.topics ||
-          route.query.topics === "" ||
-          (Array.isArray(route.query.topics) &&
-            route.query.topics.length === 0))
-      ) {
-        return;
-      }
-      values[key] = input[key];
+    if (!input[key] && input[key] === "") return (values[key] = undefined);
+    if (
+      key === "topics" &&
+      Array.isArray(input[key]) &&
+      input[key].length === 0 &&
+      (!route.query.topics ||
+        route.query.topics === "" ||
+        (Array.isArray(route.query.topics) && route.query.topics.length === 0))
+    ) {
+      return;
+    }
+    values[key] = input[key];
     if (route.query.name && route.query.name !== "")
       values["name"] = route.query.name;
   });

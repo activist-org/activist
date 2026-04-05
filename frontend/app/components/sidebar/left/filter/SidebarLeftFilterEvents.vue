@@ -94,7 +94,7 @@
           "
           :hasError="!!errorMessage.value"
           :label="
-            $t('i18n.components.sidebar.left.filter._global.filter_by_location')
+            $t('i18n.components.sidebar_left_filter_events.filter_by_location')
           "
           :modelValue="(value.value as string)"
         />

@@ -32,11 +32,14 @@
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
         type="button"
       >
-        <Icon v-if="isMultiSelect ? true : !internalSelectedOptions" :name="IconMap.CHEVRON_EXPAND" />
+        <Icon
+          v-if="isMultiSelect ? true : !internalSelectedOptions"
+          :name="IconMap.CHEVRON_EXPAND"
+        />
         <Icon
           v-else
-          :name="IconMap.X_LG"
           @click.stop.prevent="internalSelectedOptions = null"
+          :name="IconMap.X_LG"
         />
       </ComboboxButton>
       <ComboboxOptions
