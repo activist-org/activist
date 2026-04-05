@@ -41,7 +41,11 @@
         <div class="flex items-center gap-3">
           <MetaTagLocation
             v-if="organization?.location"
-            :location="organization.location.addressOrName.split(',')[0] ?? ''"
+            :location="`${organization.location.city ? organization.location.city + ', ' : ''}${
+              organization.location.countryCode
+                ? $countryName(organization.location.countryCode)
+                : ''
+            }`"
           />
           <!-- <MetaTagMembers
               :members="organization.members.length"
@@ -94,6 +98,7 @@
 </template>
 
 <script setup lang="ts">
+const { $countryName } = useNuxtApp();
 const { openModal: openModalTextOrganization } = useModalHandlers(
   "ModalTextOrganization"
 );

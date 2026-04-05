@@ -23,12 +23,13 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
+
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python Environment
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -48,3 +49,7 @@ jobs:
       - name: Run mypy - Static Type Checking
         if: always()
         run: uv run mypy . --config-file ./pyproject.toml
+
+      - name: Run numpydoc Documentation Check
+        if: always()
+        run: uv run numpydoc lint **/*.py

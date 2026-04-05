@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
+// Mutation composable for images - uses direct service calls, not useAsyncData.
 
 export function useGroupImageMutations(groupId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError, clearError } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
 
@@ -16,7 +14,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
     }
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Service function handles the HTTP call and throws normalized errors.
@@ -30,9 +28,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -42,7 +38,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
   // Upload new images.
   async function uploadImages(images: UploadableFile[], sequences?: number[]) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Direct service call - no useAsyncData needed for mutations.
@@ -53,9 +49,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;

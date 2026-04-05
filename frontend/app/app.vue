@@ -1,5 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
+  <NuxtRouteAnnouncer />
   <NuxtLayout>
     <Toaster :richColors="true" :theme="isDark ? 'dark' : 'light'" />
     <ModalCommandPalette :paletteData="commandPaletteData" />

@@ -23,6 +23,8 @@ env:
   DATABASE_NAME: postgres
   DATABASE_USER: postgres
   DATABASE_PASSWORD: postgres
+  FILESCAN_PORT: 9101
+  FILESCAN_URL: "http://localhost:9101/scan"
 
 jobs:
   backend_tests:
@@ -47,12 +49,13 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
+
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python Environment
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -61,6 +64,11 @@ jobs:
 
       - name: Install Dependencies
         run: uv sync --frozen --all-extras
+
+      - name: Start filescan service
+        working-directory: .
+        run: |
+          docker compose --env-file .env.dev -f docker-compose.yml up -d filescan
 
       - name: Run Django Migrations - Database Migrations Check
         run: |

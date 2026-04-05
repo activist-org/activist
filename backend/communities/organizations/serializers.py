@@ -47,18 +47,18 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value
@@ -100,18 +100,18 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value
@@ -146,18 +146,18 @@ class OrganizationSocialLinkSerializer(
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value
@@ -212,7 +212,7 @@ class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
         Returns
         -------
         dict[str, Any]
-            The data post validation.
+            Validated data after validation completes.
         """
         return data
 

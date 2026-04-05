@@ -2,7 +2,9 @@
 name = "backend"
 version = "0.0.1"
 requires-python = ">=3.12"
+
 dependencies = [
+    "httpx>=0.27.0",
     "django>=6.0.3",
     "django-cors-headers>=4.9.0",
     "django-filter>=25.2",
@@ -26,13 +28,14 @@ dependencies = [
 dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.18.1",
-    "mypy>=1.19.1",
-    "prek>=0.3.6",
+    "mypy>=1.20.0",
+    "numpydoc>=1.10.0",
+    "prek>=0.3.8",
     "pytest>=9.0.2",
-    "pytest-cov>=7.0.0",
+    "pytest-cov>=7.1.0",
     "pytest-django>=4.12.0",
-    "ruff>=0.15.6",
-    "ts-backend-check>=1.4.3",
+    "ruff>=0.15.9",
+    "ts-backend-check>=1.4.4",
     "types-icalendar>=6.3.2.20260223",
 ]
 
@@ -59,7 +62,6 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-
 select = [
     "E", # pycodestyle errors
     "F", # pyflakes
@@ -128,4 +130,6 @@ exclude = [
     "^.*\\.Meta$",    # meta classes
     "^.*\\.__str__$", # __str__ methods
     "^__init__$",     # __init__ files
+    "^test_.*$",      # test files
+    "^views.*$",      # test files
 ]

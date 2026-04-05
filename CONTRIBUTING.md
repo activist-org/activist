@@ -363,7 +363,7 @@ Please see the [activist style guide](STYLEGUIDE.md) for details about how to fo
 
 For the backend [Ruff](https://github.com/astral-sh/ruff) is installed via the required packages to assure that errors are reported correctly. We'd also suggest that VS Code users install the [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff).
 
-For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support.
+For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuejs.org/) and [vue-a11y](https://vue-a11y.github.io/eslint-plugin-vuejs-accessibility/) are added via the dependencies to provide linting support. [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) is enabled for function docstring rules in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs); whenever those rules apply, follow [Frontend JSDoc](#frontend-jsdoc) under [Documentation](#documentation). General comment conventions (sentence style, JSDoc as block comments) also appear under [Comments](STYLEGUIDE.md#comments) in the style guide.
 
 <sub><a href="#top">Back to top.</a></sub>
 
@@ -429,15 +429,13 @@ We use [Vitest](https://vitest.dev/) for component and unit testing. You can run
 
 ```bash
 # Within ./frontend:
-yarn test --silent
+yarn test
 ```
-> [!NOTE]
-> The `--silent` flag is to suppress a lot of warnings from existing issues between Nuxt and Vitest.  If you need to see the warnings omit the `--silent` flag.
 
 If you would like to run a specific test, please run the following command:
 
 ```bash
-yarn vitest FILE.spec.ts --run
+yarn test FILE.spec.ts --run
 ```
 
 Please see the [frontend testing guide](FRONTEND_TESTING.md) for information on how to write component tests.
@@ -667,7 +665,7 @@ Thank you in advance for your contributions!
 
 Documentation is an invaluable way to contribute to coding projects as it allows others to more easily understand the project structure and contribute. Issues related to documentation are marked with the [`documentation`](https://github.com/activist-org/activist/labels/documentation) label in the [issues](https://github.com/activist-org/activist/issues).
 
-### Backend Function Docstrings
+### Backend numpydoc docstrings
 
 activist follows [numpydoc conventions](https://numpydoc.readthedocs.io/en/latest/format.html) for documenting functions and Python code.
 
@@ -703,6 +701,67 @@ def example_function(argument: argument_type) -> return_type:
     ...
 
     return return_value
+```
+
+### Frontend JSDoc docstrings
+
+The frontend may enforce docstring documentation on some functions and other symbols using [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc), configured in [`frontend/eslint.config.mjs`](frontend/eslint.config.mjs). Run `yarn lint` from [`frontend/`](frontend/) to see violations.
+
+#### When to write JSDoc
+
+- **Exported composables and shared utils:** always add JSDoc.
+- **Local helpers and Vue event handlers:** add JSDoc only when the name and types are not self-explanatory.
+- **Vue `Props` interfaces:** one-line comments on fields where useful; skip when the field name and type are obvious.
+
+#### Explicit directions
+
+- **Do** write one short summary sentence by default. Add a second only when behavior, edge cases, or side effects are not obvious.
+- **Do** use `@param` and `@returns` when they add something the TypeScript types alone do not.
+- **Do** use the format `@param name - Description` for consistency.
+- **Don't** restate TypeScript types in prose (e.g. don't write "takes a string" when the signature says `(path: string)`).
+- **Don't** describe obvious control flow (e.g. "returns true if X, false otherwise" when the return type is `boolean` and the function name is `isX`).
+- **Don't** repeat the same information in the opening lines, `@param`, and `@returns`.
+- **Don't** leave empty `/** */` blocks.
+
+#### Examples
+
+One sentence when the signature is clear:
+
+```ts
+/** Removes leading and trailing slashes from a path segment. */
+function normalizePath(path: string): string {
+```
+
+Short prose plus tags when types alone are not enough:
+
+```ts
+/**
+ * Normalizes a router query value to a string array; omits null entries.
+ * @param arr - A single value, an array, or undefined from the route query.
+ * @returns Possibly empty array of strings.
+ */
+export function normalizeArrayFromURLQuery(
+  arr: LocationQueryValue | LocationQueryValue[] | undefined,
+): string[] {
+```
+
+Composable with a short overview and `@returns` when the return shape matters:
+
+```ts
+/**
+ * Shared app error state, toast on failure, and optional session clear on 401.
+ * @returns Reactive `error`, `handleError`, and `clearError`.
+ */
+export function useAppError() {
+```
+
+Vue `Props` — one line per field when useful:
+
+```ts
+export interface Props {
+  /** Organizations currently voting in favor. */
+  organizations: Organization[];
+}
 ```
 
 <sub><a href="#top">Back to top.</a></sub>
