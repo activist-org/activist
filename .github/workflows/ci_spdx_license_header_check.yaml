@@ -20,11 +20,11 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Check SPDX Licenses
-        uses: to-sta/spdx-checker-action@v0.0.1
+        uses: to-sta/spdx-checker-action@v0.0.2
         with:
           target-license: "AGPL-3.0-or-later"
           file-paths: "backend/,frontend/,services/"
-          extensions: ".css,.d.ts,.html,.js,.ts,.mjs,.mts,.py,.ts,.vue"
+          extensions: "css,d.ts,html,js,ts,mjs,mts,py,ts,vue"
           exclude: "dist/,node_modules/,**/*.md,LICENSE,NOTICE,**/__pycache__/**,**/.git/**,**/*__init__.py"
           continue-on-error: false
           fix: false
