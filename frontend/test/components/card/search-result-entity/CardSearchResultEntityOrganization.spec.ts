@@ -10,7 +10,7 @@ import { nextTick, ref } from "vue";
 // @ts-expect-error - TypeScript has issues resolving .vue files in test environment, but import works at runtime
 import CardSearchResultEntityOrganization from "../../../app/components/card/search-result-entity/CardSearchResultEntityOrganization.vue";
 import { createUseRouteMock } from "../../../mocks/composableMocks";
-import { createMockOrganization } from '../../../mocks/factories';
+import { createMockOrganization } from "../../../mocks/factories";
 // MARK: Mock composables & state
 
 const mockRoute = ref<Partial<RouteLocationNormalized>>({
@@ -107,7 +107,6 @@ const createWrapper = (props: Record<string, unknown> = {}) =>
     },
   });
 
-
 // MARK: Reusable Assertions
 
 const getCardProps = (wrapper: VueWrapper) =>
@@ -194,7 +193,7 @@ describe("CardSearchResultEntityOrganization", () => {
     it("renders location from first part of addressOrName", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { city: "New York", country_code:'US' },
+          location: { city: "New York", country_code: "US" },
         }),
       });
 
@@ -203,9 +202,11 @@ describe("CardSearchResultEntityOrganization", () => {
     });
 
     it("does not render MetaTagLocation when location is undefined", () => {
-      wrapper = createWrapper({ organization: createMockOrganization({
-        location: undefined,
-      }) });
+      wrapper = createWrapper({
+        organization: createMockOrganization({
+          location: undefined,
+        }),
+      });
       expect(getMetaTagCount(wrapper)).toBe(0);
     });
   });
