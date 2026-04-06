@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Check SPDX Licenses
-        uses: to-sta/spdx-checker-action@v0.0.2
+        uses: to-sta/spdx-checker-action@v0.0.3
         with:
           target-license: "AGPL-3.0-or-later"
           file-paths: "backend/,frontend/,services/"
