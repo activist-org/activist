@@ -1,0 +1,30 @@
+name: ci_spdx_license_header_check
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+
+jobs:
+  check_license_header:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v6
+
+      - name: Check SPDX Licenses
+        uses: to-sta/spdx-checker-action@v0.0.1
+        with:
+          target-license: "AGPL-3.0-or-later"
+          file-paths: "backend/,frontend/,services/"
+          extensions: ".css,.d.ts,.html,.js,.ts,.mjs,.mts,.py,.ts,.vue"
+          exclude: "dist/,node_modules/**/*.md,LICENSE,NOTICE,**/__pycache__/**,**/.git/**,**/*__init__.py"
+          continue-on-error: false
+          fix: false
