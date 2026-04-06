@@ -69,6 +69,6 @@ const location = computed(() => {
   if (props.organization.location) {
     return `${props.organization.location.city}, ${$countryName(props.organization.location.countryCode)}`;
   }
-  return "";
+  return null;
 });
 </script>

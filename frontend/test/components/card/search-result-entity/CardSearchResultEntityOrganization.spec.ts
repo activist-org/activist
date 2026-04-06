@@ -10,7 +10,7 @@ import { nextTick, ref } from "vue";
 // @ts-expect-error - TypeScript has issues resolving .vue files in test environment, but import works at runtime
 import CardSearchResultEntityOrganization from "../../../app/components/card/search-result-entity/CardSearchResultEntityOrganization.vue";
 import { createUseRouteMock } from "../../../mocks/composableMocks";
-
+import { createMockOrganization } from '../../../mocks/factories';
 // MARK: Mock composables & state
 
 const mockRoute = ref<Partial<RouteLocationNormalized>>({
@@ -107,14 +107,6 @@ const createWrapper = (props: Record<string, unknown> = {}) =>
     },
   });
 
-const createMockOrganization = (overrides = {}) => ({
-  id: 1,
-  name: "Test Organization",
-  orgName: "test-organization",
-  texts: [],
-  org: { id: 1 },
-  ...overrides,
-});
 
 // MARK: Reusable Assertions
 
@@ -202,7 +194,7 @@ describe("CardSearchResultEntityOrganization", () => {
     it("renders location from first part of addressOrName", () => {
       wrapper = createWrapper({
         organization: createMockOrganization({
-          location: { addressOrName: "New York, USA" },
+          location: { city: "New York", country_code:'US' },
         }),
       });
 
@@ -211,19 +203,10 @@ describe("CardSearchResultEntityOrganization", () => {
     });
 
     it("does not render MetaTagLocation when location is undefined", () => {
-      wrapper = createWrapper({ organization: createMockOrganization() });
+      wrapper = createWrapper({ organization: createMockOrganization({
+        location: undefined,
+      }) });
       expect(getMetaTagCount(wrapper)).toBe(0);
-    });
-
-    it("handles location with multiple commas", () => {
-      wrapper = createWrapper({
-        organization: createMockOrganization({
-          location: {
-            addressOrName: "121 Wall St, Suite 67, New York, NY, USA",
-          },
-        }),
-      });
-      expect(wrapper.text()).toContain("121 Wall St");
     });
   });
 
