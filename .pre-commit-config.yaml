@@ -64,7 +64,7 @@ repos:
           - i18n-check
 
   - repo: https://github.com/to-sta/spdx-checker-pre-commit
-    rev: 0.1.7
+    rev: 0.1.8
     hooks:
       - id: spdx-license-checker
         name: run spdx-checker license check
