@@ -13,6 +13,28 @@
   - [Process](#process)
   - [Alternatives](#alternatives)
 - [Integration with activist backend](#integration-with-activist-backend)
+  - [Quarantine storage](#quarantine-storage)
+  - [Defining the quarantine path](#defining-the-quarantine-path)
+  - [Persistence and restarts](#persistence-and-restarts)
+  - [Notifications and logging](#notifications-and-logging)
+  - [Backend security event ingestion](#backend-security-event-ingestion)
+  - [Configuration](#configuration)
+- [Integration commands](#integration-commands)
+  - [Build images](#build-images)
+  - [Start services](#start-services)
+  - [Serializer and upload tests](#serializer-and-upload-tests)
+  - [Backend to filescan integration tests](#backend-to-filescan-integration-tests)
+- [HTTP Client](#http-client)
+  - [Where the client lives](#where-the-client-lives)
+  - [scan_file](#scan_file)
+  - [Intended use](#intended-use)
+  - [Current use](#current-use)
+- [Endpoints](#endpoints)
+  - [OpenAPI documentation](#openapi-documentation)
+  - [Health check](#health-check)
+  - [Malware scan](#malware-scan)
+- [Additional scans to consider](#additional-scans-to-consider)
+- [To Do](#to-do)
 
 ## ClamAV scanner
 
@@ -30,6 +52,8 @@ Scanners are implemented as async functions that run their work in background th
 
 Within the wider project, this service uses a **9100-series port** (`9101` by default). It is suggested that all services in the project—including this one—use ports in the 9100 range, so as to avoid port collisions with each other and with other software in the future.
 
+<sub><a href="#top">Back to top.</a></sub>
+
 ### Alternatives
 
 This service currently uses **ClamAV** for malware scanning. Other options include: **VirusTotal**, **Cloudmersive**, **Opswat**, **Scanii**, and **MultiAV**. For offloading scan work to background tasks, **Celery** can be used as a task runner to run scans asynchronously.
@@ -46,36 +70,40 @@ When malware is detected and quarantined, this service also emits a structured s
 
 The JSON envelope for these events is described by `SecurityEventEnvelopeSerializer` in the backend (see `backend/core/serializers.py`), but the ingest view in `backend/core/internal_events.py` also performs additional runtime validation before dispatching alerts. For a concrete example payload, and details of the email alert behaviour, see **[INTEGRATION_NOTES.md](./INTEGRATION_NOTES.md)**.
 
-## TL;DR
+<sub><a href="#top">Back to top.</a></sub>
 
-- **Quarantine storage:** Add the directory in the Dockerfile (no `VOLUME`); in local development, mount a host directory (bind mount) on that path via `docker-compose.yml` (e.g. `./quarantine:/var/quarantine`) so you can inspect quarantined files easily and they persist across restarts.
-- **Flow:** Filescan quarantines on detection and owns logging + notifications (in filescan or a separate service under `services/`); backend never saves the file and, on a positive scan response, deletes its copy and stops processing.
-- **Local dev workflow:** Use the commands below (from the repo root, with `.env.dev` present) to build images, run the stack, and exercise backend ↔ filescan integration tests.
+### Quarantine storage
 
-**1. Where to define the quarantine path**
+Add the directory in the Dockerfile (no `VOLUME`); in local development, mount a host directory (bind mount) on that path via `docker-compose.yml` (e.g. `./quarantine:/var/quarantine`) so you can inspect quarantined files easily and they persist across restarts.
+
+The filescan service quarantines on detection and owns logging + notifications (in filescan or a separate service under `services/`); backend never saves the file and, on a positive scan response, deletes its copy and stops processing.
+
+<sub><a href="#top">Back to top.</a></sub>
+
+### Defining the quarantine path
 
 - **Dockerfile:** Create the directory (e.g. `RUN mkdir -p /var/quarantine` and set ownership). Do **not** add a `VOLUME` instruction; it doesn't give you the persistence you want.
 - **docker-compose.yml (local dev):** Mount a host directory under the repo (e.g. `./quarantine:/var/quarantine`) so quarantine data survives restarts and can be inspected on the host. The Dockerfile only prepares the path; persistence comes from the compose bind mount (or whatever orchestrator you use).
 
-**2. Does the bind mount need to be in the Dockerfile?**
+You don't define the volume/mount in the Dockerfile. You do need the directory (and permissions) there. The actual quarantine persistence comes from how you run the container (e.g. bind mount in `docker-compose.yml`).
 
-- **No.** You don't define the volume/mount in the Dockerfile. You do need the directory (and permissions) there. The actual quarantine persistence comes from how you run the container (e.g. bind mount in `docker-compose.yml`).
+<sub><a href="#top">Back to top.</a></sub>
 
-**3. Persistence and restarts**
+### Persistence and restarts
 
-- A directory created only in the Dockerfile does **not** persist across "compose down/up" or container replacement. A bind mount in docker-compose (or equivalent) gives you persistence for local development by mapping the container path to a host directory (e.g. `./quarantine`). In other environments you can use a named volume or storage class instead, as long as `/var/quarantine` (or your chosen path) is mounted to persistent storage.
+A directory created only in the Dockerfile does **not** persist across "compose down/up" or container replacement. A bind mount in docker-compose (or equivalent) gives you persistence for local development by mapping the container path to a host directory (e.g. `./quarantine`). In other environments you can use a named volume or storage class instead, as long as `/var/quarantine` (or your chosen path) is mounted to persistent storage.
 
-**4. Who quarantines and overall flow**
+<sub><a href="#top">Back to top.</a></sub>
 
-- You chose **filescan** as the place that quarantines: when malware is detected, filescan writes the bytes it scanned to its quarantine and notifies admin/designated recipients. The backend never saves the file to normal storage; on a positive result it deletes its copy and logs. So: filescan "deals with" the bad file (quarantine + alerts); backend wipes its artifact and stops processing.
+### Notifications and logging
 
-**5. Notifications and logging (in filescan + backend)**
-
-- **Logging** is enabled in the filescan service: INFO for each scan request (filename, size, content_type) and response (status, malware_detected, detail, source), and WARNING/ERROR for 400/503. No file contents are logged; output goes to stderr (e.g. Docker container logs). In production, log output should be handled (e.g. aggregation, rotation, sampling, or raising the log level) so that high request volume does not produce an unbounded stream of entries.
-- **Logging and alerting** for detections: when malware (or CSAM) is detected, filescan should **log** the event in a structured way (timestamp, filename, signature/source, quarantine reference; no file contents or raw uploads) and perform any **alerting** (e.g. metrics, internal dashboards) as part of the same flow.
+- **Logging** is enabled in the filescan service: `INFO` for each scan request (filename, size, content_type) `response` (status, malware_detected, detail, source), and `WARNING/ERROR` for 400/503. No file contents are logged; output goes to `stderr` (e.g. Docker container logs). In production, log output should be handled (e.g. aggregation, rotation, sampling, or raising the log level) so that high request volume does not produce an unbounded stream of entries.
+- **Logging and alerting** for detections: when malware is detected, the filescan service should **log** the event in a structured way (timestamp, filename, signature/source, quarantine reference; no file contents or raw uploads) and perform any **alerting** (e.g. metrics, internal dashboards) as part of the same flow.
 - **Notifications** should be triggered when a detection occurs (so that designated recipients—site/admin operators and any other designated users, e.g. security contacts—can act on the incident). When filescan gets a positive malware result, it POSTs a structured security event (including available metadata from the detection, such as filename, signature, detector, and quarantine identifier) to the backend’s internal ingestion endpoint (`POST /internal/security-events`). The backend is responsible for turning this event into concrete notifications (for example, via its existing SMTP/email configuration to send operator alerts), and can later fan this out to additional channels (webhooks, queues, dashboards) as needed.
 
-**6. Backend security event ingestion (`/internal/security-events`)**
+<sub><a href="#top">Back to top.</a></sub>
+
+### Backend security event ingestion
 
 - When filescan quarantines a file (for example after a ClamAV malware hit), it can emit a structured event to the backend so that operators can be notified.
 - These events are sent as JSON to the backend’s internal endpoint `POST /internal/security-events`, implemented by `SecurityEventIngestView` in `backend/core/internal_events.py`.
@@ -117,21 +145,27 @@ Example JSON envelope sent from filescan:
 
 The ingest view uses the serializer schema for documentation/OpenAPI, but still performs its own runtime validation (for example, checking types, `occurred_at` parseability, and required payload fields) and will return HTTP 400 for malformed envelopes.
 
-On accepted `malware_quarantined` events, the backend currently dispatches a **security alert email**:
+On accepted `malware_quarantined` events, the backend currently dispatches a **security alert email**.
 
-- **Config keys:**
-  - `INTERNAL_EVENTS_TOKEN` — shared secret used to authenticate calls (compared against the `X-Internal-Token` header).
-  - `SECURITY_ALERT_RECIPIENTS` — iterable of email addresses that should receive malware‑quarantined alerts.
-  - `SECURITY_ALERT_FROM_EMAIL` — from‑address used when sending the alert.
-- Behaviour:
-  - If `SECURITY_ALERT_RECIPIENTS` or `SECURITY_ALERT_FROM_EMAIL` is missing, the event is rejected with HTTP 500 and an error is logged.
-  - When configured correctly, the backend builds a short plaintext summary (filename, quarantine ID, signature, detector, timestamp) and sends it via `send_mail`, then returns HTTP 204.
+<sub><a href="#top">Back to top.</a></sub>
 
-## Integration tasks: build, run, test
+### Configuration
+
+The following keys are needed for configuration:
+
+- `INTERNAL_EVENTS_TOKEN` — shared secret used to authenticate calls (compared against the `X-Internal-Token` header).
+- `SECURITY_ALERT_RECIPIENTS` — iterable of email addresses that should receive malware‑quarantined alerts.
+- `SECURITY_ALERT_FROM_EMAIL` — from‑address used when sending the alert.
+
+If `SECURITY_ALERT_RECIPIENTS` or `SECURITY_ALERT_FROM_EMAIL` is missing, the event is rejected with HTTP 500 and an error is logged. When configured correctly, the backend builds a short plaintext summary (filename, quarantine ID, signature, detector, timestamp) and sends it via `send_mail`, then returns HTTP 204.
+
+<sub><a href="#top">Back to top.</a></sub>
+
+## Integration commands
 
 All commands below assume you run them from the **project root** and that `.env.dev` exists and is up to date.
 
-### 1. Build images
+### Build images
 
 Build backend and filescan (run after changing their code or dependencies). For a clean rebuild of both:
 
@@ -141,9 +175,11 @@ docker compose --env-file .env.dev \
   build --no-cache backend filescan
 ```
 
-### 2. Start services
+<sub><a href="#top">Back to top.</a></sub>
 
-Start db, backend, and filescan in the background (initial start, or after a full rebuild):
+### Start services
+
+Start the db, backend, and filescan in the background (initial start, or after a full rebuild):
 
 ```bash
 docker compose --env-file .env.dev \
@@ -153,7 +189,9 @@ docker compose --env-file .env.dev \
 
 After rebuilding only the backend image (step 1), run `up -d backend` so the running container is recreated from the new image.
 
-### 3. Serializer + upload tests (mocked filescan)
+<sub><a href="#top">Back to top.</a></sub>
+
+### Serializer and upload tests
 
 Run inside the **running** backend container. These tests do not call the real filescan service (scan is mocked). Warnings are suppressed for this run.
 
@@ -164,7 +202,9 @@ docker compose --env-file .env.dev \
   uv run pytest -W ignore content/tests/image/test_image_serializer.py content/tests/image/test_image_upload.py
 ```
 
-### 4. Backend ↔ filescan integration tests
+<sub><a href="#top">Back to top.</a></sub>
+
+### Backend to filescan integration tests
 
 Run inside the **running** backend container. These tests make real HTTP calls to the filescan service (`/scan` on port 9101). Warnings are suppressed for this run.
 
@@ -177,7 +217,9 @@ docker compose --env-file .env.dev \
 
 **Note:** Both test commands use `-W ignore` so that deprecation and other warnings (e.g. from factory_boy, pagination) do not clutter the output. Remove `-W ignore` if you need to see warnings.
 
-## Backend ↔ filescan HTTP client
+<sub><a href="#top">Back to top.</a></sub>
+
+## HTTP client
 
 ### Where the client lives
 
@@ -193,19 +235,24 @@ This package is the only place where the backend knows how to call the `/scan` e
 - `FilescanError(Exception)`
 - `scan_uploads_and_rewind(uploads: list) -> Response | None` — returns `None` if all scans pass (and rewinds uploads); returns a DRF `Response` with 400 on malware or `FilescanError`
 
-`scan_file`:
+<sub><a href="#top">Back to top.</a></sub>
+
+### scan_file
 
 - Resolves the scan URL as follows:
   - If `FILESCAN_URL` is set, it is used directly.
   - Else if `FILESCAN_BASE_URL` is set, `/scan` is appended.
   - Else it defaults to `http://filescan:9101/scan` (the docker-compose service name + port).
 
-  The filescan service listens on the port given by **`FILESCAN_PORT`** (default `9101`). That variable is used in the project's `docker-compose.yml` for port mapping and healthcheck; see [README.md](./README.md) for details.
+The filescan service listens on the port given by **`FILESCAN_PORT`** (default `9101`). That variable is used in the project's `docker-compose.yml` for port mapping and healthcheck; see [README.md](./README.md) for details.
+
 - Sends the uploaded file to the filescan service using `httpx.post(...)` with a multipart field named `file`.
 - Returns **exactly** the JSON body returned by filescan when the status code is 200.
 - Raises `FilescanError` if the request fails (network/timeout) or if the service returns a non-200 status code.
 
-### How it is intended to be used
+<sub><a href="#top">Back to top.</a></sub>
+
+### Intended use
 
 **Recommended for views:** Use the helper so the backend doesn't duplicate scan/error handling:
 
@@ -231,7 +278,9 @@ This package is the only place where the backend knows how to call the `/scan` e
 
 Detailed metadata from filescan (`detail`, `signature`, `source`) is meant for logging, metrics, and notification workflows on the filescan side (or a dedicated incident/notification pipeline), not for user-facing messages from the backend.
 
-### Where it is currently used
+<sub><a href="#top">Back to top.</a></sub>
+
+### Current use
 
 At present the backend uses this package in the image upload views:
 
@@ -243,55 +292,57 @@ Those views import `scan_uploads_and_rewind` from `core.filescan`, pass the requ
 
 Any other backend code that needs to scan uploads should use this package: `from core.filescan import scan_uploads_and_rewind` for the usual view flow, or `from core.filescan import scan_file` (and `FilescanError`) for custom logic—rather than calling `/scan` directly or importing from `services/filescan/*`.
 
-## Recent integration summary
-
-- Runtime validation in `SecurityEventIngestView` is intentionally strict: unsupported event types, invalid/missing `occurred_at`, and missing required payload fields are rejected with HTTP 400; security alert configuration/send failures return HTTP 500.
-- Backend filescan integration tests and endpoint behavior are stable with the current flow: files are scanned before processing, malware hits are rejected, and scan transport failures are surfaced as a generic "could not be scanned" response.
-- CI throttling test failures were addressed by making test throttling setup deterministic at test scope (explicit throttle class/rate setup with cleanup), without changing the intended backend<->filescan runtime behavior.
+<sub><a href="#top">Back to top.</a></sub>
 
 ## Endpoints
 
-- **OpenAPI documentation**
-  - FastAPI exposes an interactive OpenAPI UI for this service at `GET /docs`, showing the `/health` and `/scan` endpoints, their request/response schemas, and example payloads. This documentation can be previewed at:
-  ```bash
-  http://localhost:9101/docs
-  ```
+### OpenAPI documentation
 
-- **Health check**
-  - `GET /health` → `{"status": "ok"}` if the service is up.
+FastAPI exposes an interactive OpenAPI UI for this service at `GET /docs`, showing the `/health` and `/scan` endpoints, their request/response schemas, and example payloads. This documentation can be previewed at:
 
-- **Malware scan**
-  - `POST /scan` with `multipart/form-data` and a `file` field. The service runs both ClamAV (malware) and a CSAM scan (currently a stub; intended for an approved hash/API service e.g. PhotoDNA). If any scanner reports a hit, the response has `malware_detected: true` and an optional `source` field (`"clamav"` or `"csam"`).
-  - On success, returns HTTP 200 with a body like:
-      - Clean file:
-        ```json
-        {
-          "filename": "example.png",
-          "malware_detected": false,
-          "detail": "No malware detected by ClamAV."
-        }
-        ```
-      - Infected file:
-        ```json
-        {
-          "filename": "eicar.com",
-          "malware_detected": true,
-          "signature": "Eicar-Test-Signature",
-          "detail": "Malware detected by ClamAV.",
-          "quarantine_id": "0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c",
-          "quarantine_available": true
-        }
-        ```
+```bash
+http://localhost:9101/docs
+```
 
-## CSAM implementation and broader content safety pipeline
+### Health check
 
-The service is designed to support CSAM detection through a separate scanner implemented in `scanners/csam.py` and wired into the `/scan` endpoint alongside ClamAV.
+`GET /health` → `{"status": "ok"}` if the service is up.
 
-At present, the CSAM path is stubbed (it always reports clean) and is intended to be wired to an approved hash‑based or API‑based CSAM detection service (for example, a PhotoDNA‑style cloud service or a vetted hash‑matching daemon provided by a hotline or clearinghouse).
+### Malware scan
 
-### Additional scan types to consider
+`POST /scan` with `multipart/form-data` and a `file` field. The service runs both ClamAV (malware) and a CSAM scan (currently a stub; intended for an approved hash/API service e.g. PhotoDNA). If any scanner reports a hit, the response has `malware_detected: true` and an optional `source` field (`"clamav"` or `"csam"`).
 
-Over time, this service can evolve into a more general **content safety pipeline**, where multiple scanners run over the same upload and contribute to a single safety decision. In addition to malware and CSAM hash‑matching, candidates include:
+On success, returns HTTP 200 with a body like:
+
+  - Clean file:
+    ```json
+    {
+      "filename": "example.png",
+      "malware_detected": false,
+      "detail": "No malware detected by ClamAV."
+    }
+    ```
+  - Infected file:
+    ```json
+    {
+      "filename": "eicar.com",
+      "malware_detected": true,
+      "signature": "Eicar-Test-Signature",
+      "detail": "Malware detected by ClamAV.",
+      "quarantine_id": "0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c",
+      "quarantine_available": true
+    }
+    ```
+
+<sub><a href="#top">Back to top.</a></sub>
+
+## Additional scans to consider
+
+Over time, this service can evolve into a more general **content safety pipeline**, where multiple scanners run over the same upload and contribute to a single safety decision.
+
+The service is designed to eventually include CSAM detection through a separate scanner implemented in `scanners/csam.py` and wired into the `/scan` endpoint alongside ClamAV. This service is currently stubbed so that the architecture of having multiple concurrent scanners is set. If a CSAM scanner is included, then it likely would use Microsoft's **PhotoDNA Cloud Service** or Google's **CSAI Match** via `CSAM_API_URL` and `CSAM_API_KEY`.
+
+In addition to malware and potentially expanding the CSAM hash‑matching, candidates include:
 
 - **MIME/type validation**
   - Validate that the declared content type and file extension match the actual bytes (magic numbers, image headers, etc.).
@@ -315,6 +366,8 @@ Over time, this service can evolve into a more general **content safety pipeline
 
 These additional scanners can follow the same pattern as existing ones: accept raw bytes, return a structured result (score, flags, or “detected” boolean plus metadata), and be orchestrated by the FastAPI endpoint to produce a unified response for the backend.
 
+<sub><a href="#top">Back to top.</a></sub>
+
 ## To Do
 
 - **HTTP method hardening tests for filescan port (`9101`)**
@@ -326,16 +379,19 @@ These additional scanners can follow the same pattern as existing ones: accept r
 - **System-level logging and observability**
   - Implemented: INFO-level logging for scan requests (filename, size, content_type), scan responses (status, malware_detected, detail, source), and WARNING/ERROR for 400/503.
 
-  - No log contents are logged elsewhere. Logs go to stderr (also visible in Docker filescan container logs).
+  - No log contents are logged elsewhere. Logs go to `stderr` (also visible in Docker filescan container logs).
 
 - **OpenAPI / API documentation**
   - FastAPI provides basic OpenAPI documentation by default. When the `filescan` container is built and running, this documentation can be previewed at
+
   ```bash
   http://localhost:9101/docs
   ```
-  - Need to check if the project-wide OpenAPI stuff integrates this filescan doc.
+
+  - Need to check if the project-wide OpenAPI configuration integrates this filescan doc.
+
 - **Quarantine volume for violating files**
-  - Establish a dedicated, access-controlled quarantine storage location (volume or bucket) for files where malware or CSAM is detected.
+  - Establish a dedicated, access-controlled quarantine storage location (volume or bucket) for files where malware is detected.
   - This service uses the `FILESCAN_QUARANTINE_DIR` environment variable to determine the on-disk quarantine directory (default `/var/filescan/quarantine`) and, when `malware_detected` is `true`, writes the uploaded bytes there under a generated `quarantine_id`.
   - The `/scan` response for detected files includes `quarantine_id` (and `quarantine_available: true`) so that operators can correlate API responses with quarantined files, while the exact filesystem path is only recorded in logs.
   - Need to revisit this volume mapping when we deploy. Best solution would map to a hardened, secured storage place that can safely store malware/other quarantined files.
@@ -356,89 +412,4 @@ These additional scanners can follow the same pattern as existing ones: accept r
 - **Compliance, retention, and reporting workflows**
   - Document and implement policies around data retention (including how long quarantined files and logs are kept), legal reporting obligations for CSAM, and operator playbooks for handling detections in different jurisdictions.
 
-## CSAM Notes
-
-The service has a saved, but non-functional CSAM scanner in `scanners/csam.py` that is wired into the `/scan` endpoint:
-
-- **Interfaces**
-  - `scan_with_csam(file_bytes: bytes) -> tuple[bool, str, str | None]` (async)
-  - `_scan_with_csam_sync(file_bytes: bytes) -> tuple[bool, str, str | None]` (sync)
-- **Tuple semantics**
-  - `detected` (`bool`): whether CSAM was detected.
-  - `detail` (`str`): human‑readable summary (e.g. `"CSAM detected."`, `"No CSAM detected."`).
-  - `signature` (`str | None`): identifier from the CSAM service (e.g. hash or signature name), else `None`.
-  - `_scan_with_csam_sync` is expected to raise `RuntimeError` when the CSAM service is unavailable.
-
-The FastAPI endpoint already:
-
-- Runs `scan_with_clamav` and `scan_with_csam` concurrently.
-- Returns HTTP `503` when a `RuntimeError` escapes from either scanner.
-- Prefers the first positive result (ClamAV then CSAM) and includes an optional `"source"` field (`"clamav"` or `"csam"`).
-
-Implementation work is therefore localized to replacing the stub inside `_scan_with_csam_sync` and providing configuration.
-
-## 2. Hash‑based CSAM detection
-
-The most directly applicable category is **perceptual hash‑matching** against vetted CSAM databases, e.g. Microsoft’s **PhotoDNA Cloud Service** or Google's **Google CSAI Match**.
-
-**Key characteristics:**
-
-- You send images and the service derives a **perceptual hash** and compares it to a database of known CSAM.
-- The API returns match / no‑match plus limited metadata; customer content is not stored and hashes are non‑reversible.
-- Access is restricted to **qualified online service providers** and involves vetting and legal/operational review.
-- Designed explicitly for CSAM workflows alongside organizations such as NCMEC.
-
-**How it maps to `csam.py`:**
-
-- `_scan_with_csam_sync(file_bytes)` would:
-  - Read configuration from environment (e.g. `CSAM_API_URL`, `CSAM_API_KEY`, timeouts).
-  - Send `file_bytes` to the service's endpoint according to their documentation.
-  - Map responses to the existing tuple:
-    - No match → `(False, "No CSAM detected.", None)`.
-    - Positive match → `(True, "CSAM detected.", "<PhotoDNA-match-id>")` or similar.
-  - Interpret network failures, timeouts, or explicit service errors as **"service unavailable"** and raise `RuntimeError("CSAM scanner unavailable")`.
-- The async wrapper `scan_with_csam` remains unchanged, continuing to offload work via `asyncio.to_thread`.
-- The positives of this are that it's hash-based so we never store or manage raw CSAM datasets.
-- We should note that this could create operational and legal obligations (e.g. reporting flows, audits).
-
-## 3. Implementation approach for this codebase
-
-Given the current design (CSAM scanner as a separate async component with a well‑defined tuple API), a practical, future‑proof plan is:
-
-1. **Keep the public interface stable**
-   - Continue to expose `scan_with_csam` and `_scan_with_csam_sync` with the existing tuple contract and `RuntimeError` semantics.
-   - Do not change the FastAPI endpoint or response shape; CSAM remains one of multiple scanners.
-
-2. **Introduce a small internal “CSAM client” abstraction**
-   - Implement a thin client that:
-     - Reads configuration from environment (endpoint, credentials, timeouts, optional region/customer ID).
-     - Handles HTTP or local‑daemon communication.
-     - Normalizes responses into a simple “match/no‑match + identifier” structure.
-   - `_scan_with_csam_sync` should delegate to this client and convert its output to `(detected, detail, signature)`.
-
-3. **Error handling and availability**
-   - Treat network errors, timeouts, and provider 5xx as “scanner unavailable”; raise `RuntimeError` so the `/scan` endpoint can return HTTP `503`.
-   - Consider adding basic retry/backoff or circuit‑breaker behaviour if the upstream service is flaky.
-
-4. **Configuration and secrets**
-   - Use environment variables (and, where appropriate, secret management systems) for:
-     - API keys / tokens.
-     - Service URLs.
-     - Timeouts and any optional flags.
-   - Do not log raw request payloads or image bytes; log only high‑level events and error summaries.
-
-5. **Testing strategy**
-   - **Unit tests**:
-     - Mock the CSAM client or HTTP layer to simulate:
-       - Clean result → `(False, "No CSAM detected.", None)`.
-       - Positive result → `(True, "CSAM detected.", "<signature>")`.
-       - Service unavailable → `_scan_with_csam_sync` raising `RuntimeError`.
-     - Optionally cover malformed responses and ensure they are handled safely (e.g. treated as unavailable or as “no decision”).
-   - **Endpoint tests**:
-     - Continue to use `monkeypatch` in `tests/test_scan_endpoint.py` to patch `main.scan_with_csam` and assert:
-       - Positive CSAM → `malware_detected: true`, appropriate `detail`, `signature`, and `source: "csam"`.
-       - Scanner failure → HTTP `503` with a clear error message, if desired.
-   - **Integration tests** (optional and heavily controlled):
-     - If the chosen provider offers a test environment and safe test vectors, add opt‑in integration tests that:
-       - Are skipped when CSAM credentials/config are absent.
-       - Use provider‑approved benign test samples or hashes, never real CSAM.
+<sub><a href="#top">Back to top.</a></sub>
