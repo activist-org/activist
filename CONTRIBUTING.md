@@ -587,6 +587,19 @@ To make the above steps easier, the activist team asks that contributors report 
 Again, thank you for your time in reporting issues!
 
 <sub><a href="#top">Back to top.</a></sub>
+## Reporting security vulnerabilities
+
+If you discover a security vulnerability within activist, please **do not** report it through the public issue tracker. Instead, send an email to [security@activist.org](mailto:security@activist.org) (or reach out to a maintainer privately via Matrix).
+
+We will acknowledge your report within 48 hours and work with you to understand and address the issue. Once resolved, we will publicly credit you (unless you prefer to remain anonymous).
+
+Please include as much of the following as possible:
+- A clear description of the vulnerability
+- Steps to reproduce it
+- Potential impact
+- Any suggested fix (optional)
+
+Thank you for helping keep activist secure.
 
 ## Feature requests
 
