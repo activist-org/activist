@@ -189,6 +189,28 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
+    def to_representation(self, instance: Image) -> Dict[str, Any]:
+        """
+        Customize the output to return the file path (name) instead of the full URL.
+
+        Parameters
+        ----------
+        instance : Image
+            The Image instance to be serialized.
+
+        Returns
+        -------
+        Dict[str, Any]
+            The serialized representation of the image, with 'file_object'
+            as a relative path.
+        """
+        representation = super().to_representation(instance)
+        if instance.file_object:
+            # This returns the relative path (e.g., 'images/file.jpg').
+
+            representation["file_object"] = instance.file_object.name
+        return representation
+
     def create(self, validated_data: Dict[str, Any]) -> Any:
         """
         Create an Image instance with privacy-enhanced processing.
@@ -208,7 +230,8 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         This method:
         1. Processes the uploaded file to remove metadata
         2. Creates the image record
-        3. Links the image to an organization if specified
+        3. Links the image to an organization or group carousel when
+           ``entity_type`` indicates those entity types
         """
         request = self.context["request"]
 
@@ -218,8 +241,8 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         sequences = request.data.getlist("sequences", [])
         entity_type = request.data.get("entity_type")
         entity_id = request.data.get("entity_id")
-        index = 0
-        for file_obj in files:
+
+        for i, file_obj in enumerate(files):
             file_data = validated_data.copy()
             file_data["file_object"] = scrub_exif(file_obj)
             image = super().create(file_data)
@@ -227,23 +250,23 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             logger.info(f"Created Image instance with ID {image.id}")
 
             if entity_type == "organization":
-                sequence_index = sequences[index] if sequences else index
+                sequence_index = sequences[i] if sequences else i
                 OrganizationImage.objects.create(
                     org_id=entity_id, image=image, sequence_index=sequence_index
                 )
                 logger.info(
-                    f"Added image {image.id} to organization {entity_id} carousel at index {index}"
+                    f"Added image {image.id} to organization {entity_id} carousel at index {i}"
                 )
 
             if entity_type == "group":
-                sequence_index = sequences[index] if sequences else index
+                sequence_index = sequences[i] if sequences else i
                 GroupImage.objects.create(
                     group_id=entity_id, image=image, sequence_index=sequence_index
                 )
                 logger.info(
-                    f"Added image {image.id} to group {entity_id} carousel at index {index}"
+                    f"Added image {image.id} to group {entity_id} carousel at index {i}"
                 )
-            index += 1
+
         return images
 
 
@@ -252,7 +275,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
 class ImageIconSerializer(serializers.ModelSerializer[Image]):
     """
-    Serializer for Image model data.
+    Serializer for Image records used as organization, group, or event icons.
     """
 
     class Meta:
@@ -290,8 +313,8 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
                 "No entity_id was specified for the image."
             )
 
-        # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
-        # The file size limit is not being enforced. We're checking the file size here.
+        # IMAGE_UPLOAD_MAX_FILE_SIZE is defined in core/settings.py (alongside
+        # DATA_UPLOAD_MAX_MEMORY_SIZE); enforce the upload limit here.
         if (
             data["file_object"].size is not None
             and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
@@ -301,6 +324,28 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
             )
 
         return data
+
+    def to_representation(self, instance: Image) -> Dict[str, Any]:
+        """
+        Customize the output to return the file path (name) instead of the full URL.
+
+        Parameters
+        ----------
+        instance : Image
+            The Image instance to be serialized.
+
+        Returns
+        -------
+        Dict[str, Any]
+            The serialized representation of the image, with 'file_object'
+            as a relative path.
+        """
+        representation = super().to_representation(instance)
+        if instance.file_object:
+            # This returns the relative path (e.g., 'images/file.jpg').
+            representation["file_object"] = instance.file_object.name
+
+        return representation
 
     def create(self, validated_data: Dict[str, Any]) -> Any:
         """
@@ -321,7 +366,8 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         This method:
         1. Processes the uploaded file to remove metadata
         2. Creates the image record
-        3. Links the image to an organization if specified
+        3. Associates the image as an icon with the requested entity type
+           (organization or event) when applicable
         """
         request = self.context["request"]
 

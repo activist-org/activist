@@ -1,0 +1,39 @@
+name: ci_i18n_check
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      - "frontend/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+
+jobs:
+  i18n_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install Dependencies
+        run: uv sync --frozen --all-extras
+        working-directory: ./backend
+
+      - name: Execute All i18n-check Key-Value Checks
+        run: uv run --project ./backend i18n-check -a

@@ -85,13 +85,13 @@ describe("services/communities/group", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     // Note: endpoint is singular "group" per current service implementation.
-    expectRequest(fetchMock, /\/communities\/group$/, "GET");
+    expectRequest(fetchMock, "/communities/groups?page=1&page_size=10", "GET");
     const [, opts] = getFetchCall(fetchMock);
     expect(opts.headers?.Authorization).toBeUndefined();
 
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe("grp-2");
-    expect(result[0].texts).toEqual([]);
+    expect(result.data).toHaveLength(1);
+    expect(result.data[0].id).toBe("grp-2");
+    expect(result.data[0].texts).toEqual([]);
   });
 
   // MARK: Error Handling

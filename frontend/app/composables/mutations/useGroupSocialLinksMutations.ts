@@ -2,10 +2,9 @@
 // Update group social links with error handling and store updates.
 
 export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { error, handleError, clearError } = useAppError();
 
   const loading = ref(false);
-  const error = ref<Error | null>(null);
 
   const currentGroupId = computed(() => unref(groupId));
 
@@ -19,7 +18,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await updateGroupSocialLink(linkId, {
@@ -32,7 +31,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -46,7 +45,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await createGroupSocialLinks(currentGroupId.value, links);
@@ -56,7 +55,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -66,7 +65,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
   // Delete a single social link.
   async function deleteLink(linkId: string) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await deleteGroupSocialLink(linkId);
@@ -76,7 +75,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -92,7 +91,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await replaceAllGroupSocialLinks(currentGroupId.value, links);
@@ -102,7 +101,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;

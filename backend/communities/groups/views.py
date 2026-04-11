@@ -9,7 +9,9 @@ from typing import List, Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
-from drf_spectacular.utils import OpenApiResponse, extend_schema
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import (
@@ -21,6 +23,7 @@ from rest_framework.permissions import (
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from communities.groups.filters import GroupFilter
 from communities.groups.models import (
     Group,
     GroupFaq,
@@ -39,7 +42,7 @@ from communities.groups.serializers import (
     GroupSocialLinkSerializer,
     GroupTextSerializer,
 )
-from content.models import Image, Location
+from content.models import Image
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
@@ -54,6 +57,8 @@ class GroupAPIView(GenericAPIView[Group]):
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
     permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = GroupFilter
 
     def get_permissions(self) -> List[BasePermission]:
         """
@@ -98,25 +103,9 @@ class GroupAPIView(GenericAPIView[Group]):
         serializer_class = self.get_serializer_class()
         serializer = serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-
-        location_dict = serializer.validated_data["location"]
-        location = Location.objects.create(**location_dict)
-
-        try:
-            serializer.save(created_by=request.user, location=location)
-            logger.info(
-                f"Group created by user {request.user.id} with location {location.id}"
-            )
-
-        except (IntegrityError, OperationalError) as e:
-            logger.exception(f"Failed to create group for user {request.user.id}: {e}")
-            Location.objects.filter(id=location.id).delete()
-            return Response(
-                {"detail": "Failed to create group."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        group = serializer.save(created_by=request.user)
+        data = GroupSerializer(group).data
+        return Response(data, status=status.HTTP_201_CREATED)
 
 
 # MARK: Detail API
@@ -669,6 +658,16 @@ class GroupTextViewSet(GenericAPIView[GroupText]):
 # MARK: Image
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            "group_id",
+            OpenApiTypes.UUID,
+            location=OpenApiParameter.PATH,
+            description="Group UUID.",
+        ),
+    ],
+)
 class GroupImageViewSet(viewsets.ModelViewSet[Image]):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer

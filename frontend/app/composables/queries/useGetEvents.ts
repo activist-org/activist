@@ -1,19 +1,26 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
 export const getKeyForGetEvents = () => `events-list`;
 
 export function useGetEvents(
   filters: Ref<EventFilters> | ComputedRef<EventFilters>
 ) {
-  const store = useEventStore();
+  const store = useEventListStore();
   const page = ref(1);
-  const isLastPageRef = ref(false);
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const eventFilters = computed(() => unref(filters));
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<CommunityEvent[]>(
     () => getKeyForGetEvents(),
     async () => {
       try {
+        if (
+          JSON.stringify(store.getFilters()) ===
+            JSON.stringify(eventFilters.value) &&
+          store.getIsLastPage()
+        ) {
+          return store.getItems();
+        }
         const { data: events, isLastPage } = await listEvents({
           ...eventFilters.value,
           page:
@@ -23,21 +30,22 @@ export function useGetEvents(
               : 1,
           page_size: 10,
         });
-        const eventsCached = store.getEvents();
+        const eventsCached = store.getItems();
         const pageCached = store.getPage();
-        isLastPageRef.value = isLastPage;
 
         // Append new events to cached events if page > 1.
         if (
           eventsCached.length > 0 &&
           JSON.stringify(store.getFilters()) ===
             JSON.stringify(eventFilters.value) &&
-          page.value > pageCached
+          (page.value > pageCached || (page.value === 1 && pageCached === 1))
         ) {
-          store.setEvents([...eventsCached, ...events]);
+          store.setItems([...eventsCached, ...events]);
+          store.setIsLastPage(isLastPage);
           return [...eventsCached, ...events] as CommunityEvent[];
         }
-        store.setEvents(events);
+        store.setItems(events);
+        store.setIsLastPage(isLastPage);
         // Reset to page 1 if filters changed.
         if (
           JSON.stringify(store.getFilters()) !==
@@ -50,9 +58,9 @@ export function useGetEvents(
         }
         store.setFilters(eventFilters.value);
         return events as CommunityEvent[];
-      } catch (error) {
-        showToastError((error as AppError).message);
-        throw error;
+      } catch (err) {
+        handleError(err);
+        throw err;
       }
     },
     {
@@ -61,12 +69,12 @@ export function useGetEvents(
       getCachedData: (key, nuxtApp) => {
         // Return cached data from store if available and filters/page match.
         if (
-          store.getEvents().length > 0 &&
+          store.getItems().length > 0 &&
           JSON.stringify(store.getFilters()) ===
             JSON.stringify(eventFilters.value) &&
           page.value === store.getPage()
         ) {
-          return store.getEvents();
+          return store.getItems();
         }
         return nuxtApp.isHydrating
           ? nuxtApp.payload.data[key]
@@ -77,7 +85,7 @@ export function useGetEvents(
   );
 
   const getMore = () => {
-    if (isLastPageRef.value) return;
+    if (store.getIsLastPage()) return;
     page.value += 1;
   };
 

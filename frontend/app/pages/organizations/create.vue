@@ -94,7 +94,7 @@
         <div class="card-style mt-5 px-5 py-6">
           <FormItem
             v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-            :label="$t('i18n.pages._global.create.tagline')"
+            :label="$t('i18n._global.tagline')"
             name="tagline"
           >
             <!-- prettier-ignore-attribute :modelValue -->

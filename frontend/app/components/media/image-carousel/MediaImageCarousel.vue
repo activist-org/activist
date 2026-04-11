@@ -20,7 +20,7 @@
           class="object-cover object-center"
           :class="{
             'h-5/6 w-5/6': props.fullscreen,
-            'h-[17.5rem]': !props.fullscreen,
+            'h-70': !props.fullscreen,
           }"
           :src="img"
         />

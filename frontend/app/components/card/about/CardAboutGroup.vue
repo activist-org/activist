@@ -3,8 +3,13 @@
   <CardAbout>
     <ModalQRCodeBtn
       v-if="group && !expandText"
-      :group="group"
+      :firstParagraph="
+        $t('i18n.components._global.section_1_paragraph_1_group')
+      "
+      :linkUrl="groupLinkUrl"
+      :name="group.name"
       reason-for-suggesting=""
+      :second-paragraph="$t('i18n.components._global.section_1_paragraph_1_2')"
       type="icon"
     />
     <button
@@ -37,7 +42,11 @@
         <div class="flex items-center gap-3">
           <MetaTagLocation
             v-if="group?.location"
-            :location="group.location.displayName.split(',')[0] ?? ''"
+            :location="`${group.location.city ? group.location.city + ', ' : ''}${
+              group.location.countryCode
+                ? $countryName(group.location.countryCode)
+                : ''
+            }`"
           />
           <!-- <MetaTagMembers
               :members="group.members.length"
@@ -94,10 +103,16 @@ const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const { userIsSignedIn } = useUser();
 
+const { $countryName } = useNuxtApp();
+
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
+
+const { linkUrl: groupLinkUrl } = useLinkURL({
+  group: group.value,
+});
 
 const description = ref();
 const descriptionExpandable = ref(false);

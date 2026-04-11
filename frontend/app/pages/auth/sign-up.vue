@@ -17,10 +17,14 @@
           :id="id"
           @blur="handleBlur"
           @input="handleChange"
+          autocapitalize="none"
+          autocomplete="off"
+          autocorrect="off"
           :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth._global.enter_a_user_name')"
           :modelValue="(value.value as string)"
+          :spellcheck="false"
         />
       </FormItem>
       <FormItem
@@ -32,10 +36,14 @@
           :id="id"
           @blur="handleBlur"
           @input="handleChange"
+          autocapitalize="none"
+          autocomplete="off"
+          autocorrect="off"
           :data-testid="$t('i18n.pages.auth._global.enter_email')"
           :hasError="!!errorMessage.value"
           :label="$t('i18n.pages.auth._global.enter_email')"
           :modelValue="(value.value as string)"
+          :spellcheck="false"
         />
       </FormItem>
       <FormItem
@@ -119,6 +127,7 @@
                     ? IconMap.CHECK
                     : IconMap.X_LG
                 "
+                role="img"
                 size="1.2em"
               />
               <title id="sign-up-confirm-password-match" class="sr-only">
@@ -151,13 +160,14 @@
             :id="id"
             @blur="handleBlur"
             @update:model-value="handleChange"
+            aria-labelledby="sign-up-terms-label"
             data-testid="sign-up-terms-checkbox"
           />
         </FormItem>
-        <p class="flex flex-wrap pl-2">
+        <p id="sign-up-terms-label" class="pl-2">
           {{ $t("i18n.pages._global.terms_of_service_pt_1") }}
           <NuxtLink
-            class="link-text inline-link-underline ml-1 sm:block"
+            class="link-text inline-link-underline ml-0.5"
             target="_blank"
             :to="localePath('/legal/privacy-policy')"
           >
@@ -189,15 +199,15 @@ const { t } = useI18n();
 
 const signUpSchema = z
   .object({
-    userName: z.string().min(1, t("i18n.pages.auth._global.required")),
+    userName: z.string().min(1, t("i18n._global.required")),
     password: z.string(),
     confirmPassword: z.string(),
     email: z.string().email(t("i18n.pages.auth._global.invalid_email")),
     hasRead: z.boolean().refine((val) => val, {
-      message: t("i18n.pages.auth._global.required"),
+      message: t("i18n._global.required"),
     }),
     verifyCaptcha: z.boolean().refine((val) => val, {
-      message: t("i18n.pages.auth._global.required"),
+      message: t("i18n._global.required"),
     }),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
@@ -217,22 +227,18 @@ const signUpSchema = z
     }
   });
 
-const { signUp } = useAuth();
 const { showToastError } = useToaster();
 const isPasswordFieldFocused = ref(false);
 
 const handleSignUp = async (values: unknown) => {
   try {
-    await signUp(
-      {
-        username: (values as Record<string, unknown>).userName as string,
-        password: (values as Record<string, unknown>).password as string,
-        email: (values as Record<string, unknown>).email as string,
-        passwordConfirmed: (values as Record<string, unknown>)
-          .confirmPassword as string,
-      },
-      { preventLoginFlow: true }
-    );
+    await fetchSession("/signUp", {}, "POST", {
+      username: (values as Record<string, unknown>).userName as string,
+      password: (values as Record<string, unknown>).password as string,
+      email: (values as Record<string, unknown>).email as string,
+      passwordConfirmed: (values as Record<string, unknown>)
+        .confirmPassword as string,
+    });
     navigateTo(localePath("/auth/confirm/email"));
   } catch (error) {
     if (error && error instanceof FetchError) {

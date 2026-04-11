@@ -7,6 +7,7 @@ import logging
 from typing import Any
 from uuid import UUID
 
+from django.db import IntegrityError, OperationalError, transaction
 from rest_framework import serializers
 
 from communities.groups.serializers import GroupSerializer
@@ -22,8 +23,8 @@ from communities.organizations.models import (
     OrganizationTask,
     OrganizationText,
 )
-from content.models import Topic
-from content.serializers import ImageSerializer, LocationSerializer
+from content.models import Location, Topic
+from content.serializers import ImageSerializer, LocationSerializer, TopicSerializer
 from events.serializers import EventSerializer
 
 logger = logging.getLogger(__name__)
@@ -46,18 +47,18 @@ class OrganizationFaqSerializer(serializers.ModelSerializer[OrganizationFaq]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value
@@ -99,18 +100,18 @@ class OrganizationResourceSerializer(serializers.ModelSerializer[OrganizationRes
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value
@@ -145,18 +146,18 @@ class OrganizationSocialLinkSerializer(
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Organization instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the organization does not exist.
+        value : Organization | UUID | str
+            The value to validate: an Organization instance, UUID, or string id.
 
         Returns
         -------
         Organization
             The validated Organization instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the organization does not exist.
         """
         if isinstance(value, Organization):
             return value
@@ -185,6 +186,82 @@ class OrganizationTextSerializer(serializers.ModelSerializer[OrganizationText]):
 
 
 # MARK: Organization
+
+
+class OrganizationPOSTSerializer(serializers.Serializer[Organization]):
+    """
+    Serializer for Organization model data on POST requests.
+    """
+
+    name = serializers.CharField(max_length=255)
+    tagline = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    description = serializers.CharField(max_length=2500)
+    topics = TopicSerializer(many=True, required=False)
+    country_code = serializers.CharField(max_length=3, default="en")
+    city = serializers.CharField(max_length=255)
+
+    def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Validate the data being posted.
+
+        Parameters
+        ----------
+        data : dict[str, Any]
+            The data to be posted.
+
+        Returns
+        -------
+        dict[str, Any]
+            Validated data after validation completes.
+        """
+        return data
+
+    def create(self, validated_data: dict[str, Any]) -> Organization:
+        """
+        Create an organization via a post operation.
+
+        Parameters
+        ----------
+        validated_data : dict[str, Any]
+            Data to be used in the creation of an organization.
+
+        Returns
+        -------
+        Organization
+            The organization object that was created in the database.
+        """
+        with transaction.atomic():
+            city = validated_data.pop("city")
+            country_code = validated_data.pop("country_code")
+            description = validated_data.pop("description", "")
+            # iso = validated_data.pop("iso")
+
+            location_data = {
+                "city": city,
+                "country_code": country_code,
+                "lat": "",
+                "lon": "",
+            }
+            location = Location.objects.create(**location_data)
+
+            try:
+                org = Organization.objects.create(location=location, **validated_data)
+
+                org_text = OrganizationText.objects.create(
+                    org=org,
+                    # iso=iso,
+                    primary=True,
+                    description=description,
+                )
+                org.texts.set([org_text])
+
+                logger.info("Created Organization with id: %s", org.id)
+
+                return org
+
+            except (IntegrityError, OperationalError) as e:
+                location.delete()
+                raise e
 
 
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):

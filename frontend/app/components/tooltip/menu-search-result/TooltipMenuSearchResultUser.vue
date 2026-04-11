@@ -4,7 +4,7 @@
     <div class="space-y-2">
       <!-- <BtnAction
         @keydown="handleTabPress(false, $event)"
-        class="flex max-h-[40px] w-full"
+        class="flex max-h-10 w-full"
         :cta="true"
         label="i18n._global.support"
         leftIcon="IconSupport"
@@ -20,7 +20,7 @@
             'i18n.components.tooltip_menu_search_result_user.share_user_aria_label'
           )
         "
-        class="flex max-h-[40px] w-full items-center"
+        class="flex max-h-10 w-full items-center"
         :cta="true"
         fontSize="lg"
         label="i18n._global.share"
@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  user: User;
+  user: UserActivist;
 }>();
 
 const emit = defineEmits(["tab"]);

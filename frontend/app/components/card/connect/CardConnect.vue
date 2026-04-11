@@ -11,6 +11,7 @@
         @keydown.enter="openModalSocialLinks"
         class="flex"
         data-testid="icon-edit"
+        :entity="entity"
       />
     </div>
     <ul
@@ -55,6 +56,7 @@ const props = defineProps<{
     | GroupSocialLink[]
     | OrganizationSocialLink[];
   pageType: "organization" | "group" | "event";
+  entity?: Entity | null;
 }>();
 
 const { openModal: openModalSocialLinks } = useModalHandlers(

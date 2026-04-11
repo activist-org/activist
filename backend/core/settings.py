@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -25,6 +26,11 @@ if os.getenv("DJANGO_ENV") == "LOCAL_DEV":
 
 else:
     dotenv.load_dotenv()
+
+# Ensure the repository root (which contains ``services``) is importable so that
+# backend code can import helper modules such as ``services.filescan.client``.
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 # MARK: DB
 
@@ -62,6 +68,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
     "djangorestframework_camel_case",
     "drf_spectacular",
     "rest_framework",
@@ -187,17 +194,29 @@ EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
-# DEVELOPMENT ONLY
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = os.getenv(
+    "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+)
+
+# Security event alerts
+INTERNAL_EVENTS_TOKEN = os.getenv("INTERNAL_EVENTS_TOKEN")
+SECURITY_ALERT_RECIPIENTS = tuple(
+    addr.strip()
+    for addr in os.getenv("SECURITY_ALERT_RECIPIENTS", "").split(",")
+    if addr.strip()
+)
+SECURITY_ALERT_FROM_EMAIL = os.getenv("SECURITY_ALERT_FROM_EMAIL", EMAIL_HOST_USER)
 
 # MARK: REST Framework
 
 REST_FRAMEWORK = {
-    "DEFAULT_THROTTLE_CLASSES": [
+    # Disable throttling in development to avoid "Too Many Requests" during E2E tests.
+    "DEFAULT_THROTTLE_CLASSES": []
+    if DEBUG
+    else [
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ],
-    # Note: We need to figure out why conftest.py isn't disabling throttling for tests and set this back to 100/150.
     "DEFAULT_THROTTLE_RATES": {"anon": "150/min", "user": "200/min"},
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -227,6 +246,9 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "CAMELIZE_NAMES": False,
+    "ENUM_NAME_OVERRIDES": {
+        "CountryCodeEnum": "utils.models.ISO_CHOICES",
+    },
     "POSTPROCESSING_HOOKS": [
         "drf_spectacular.hooks.postprocess_schema_enums",
         "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",

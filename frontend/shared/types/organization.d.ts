@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// See: backend/organizations/groups/models.py
+
 // MARK: Main Table
 
 interface OrganizationBase extends Entity {
@@ -43,6 +45,7 @@ export interface OrganizationFilters {
   name?: string;
   location?: string;
   topics?: TopicEnum[];
+  name?: string;
 }
 
 export interface OrganizationMember {
@@ -110,4 +113,12 @@ export interface OrganizationUpdateTextFormData {
   description: string;
   getInvolved: string;
   getInvolvedUrl?: string;
+}
+export interface CreateOrganizationInput {
+  name: string;
+  tagline?: string;
+  city: string;
+  country_code: string;
+  description: string;
+  topics?: TopicEnum[];
 }

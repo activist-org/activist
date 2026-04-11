@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { get, post, put } from "~/services/http";
+import { post, put } from "~/services/http";
+
 // MARK: Upload
 
 export async function uploadGroupImages(
@@ -43,7 +44,10 @@ export async function fetchGroupImages(
   entityId: string
 ): Promise<ContentImage[]> {
   try {
-    return await get<ContentImage[]>(`/communities/group/${entityId}/images`);
+    const images = (await get(`/communities/group/${entityId}/images`, {
+      withoutAuth: true,
+    })) as ContentImage[];
+    return images;
   } catch (e) {
     const err = errorHandler(e);
     throw err;

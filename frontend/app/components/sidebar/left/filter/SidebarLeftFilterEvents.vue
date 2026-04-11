@@ -12,6 +12,17 @@
         :options="optionViews"
       />
     </div>
+    <div v-if="hasActiveFilters" class="px-1">
+      <BtnAction
+        @click="clearFilters"
+        ariaLabel="i18n.components.sidebar_left_filter_events.clear_filters_button_aria_label"
+        class="w-full text-nowrap"
+        :cta="true"
+        fontSize="base"
+        label="Clear Filters"
+        :leftIcon="IconMap.X_LG"
+      />
+    </div>
     <Form
       @submit="handleSubmit"
       class="px-1"
@@ -22,9 +33,9 @@
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
-        data-testid="events-filter-days"
+        data-testid="events-filter-days-ahead"
         :label="$t('i18n.components.sidebar_left_filter_events.days_ahead')"
-        name="days"
+        name="days_ahead"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
@@ -32,12 +43,13 @@
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionDays"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-event-type"
-        :label="$t('i18n.components.sidebar_left_filter_events.event_type')"
+        :label="$t('i18n.components._global.event_type')"
         name="type"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -46,13 +58,14 @@
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionEventTypes"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, value }"
         data-testid="events-filter-location-type"
-        :label="$t('i18n.components.sidebar_left_filter_events.location_type')"
-        name="setting"
+        :label="$t('i18n.components._global.location_type')"
+        name="locationType"
       >
         <!-- prettier-ignore-attribute :modelValue -->
         <FormSelectorRadio
@@ -60,6 +73,7 @@
           @update:modelValue="handleChange"
           :modelValue="(value.value as string)"
           :options="optionLocations"
+          :toggleable="true"
         />
       </FormItem>
       <FormItem
@@ -119,11 +133,11 @@ const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   id: index,
 }));
 const schema = z.object({
-  days: z.string().optional(),
+  days_ahead: z.string().optional(),
   location: z.string().optional(),
   topics: z.array(z.string()).optional(),
   type: z.string().optional(),
-  setting: z.string().optional(),
+  locationType: z.string().optional(),
   viewType: z.string().optional(),
 });
 const sidebar = useSidebar();
@@ -178,45 +192,38 @@ const optionEventTypes = [
     value: "learn",
     key: "LEARN",
     content: t("i18n.components._global.learn"),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_learn_aria_label",
+    aria_label: "i18n.components._global.event_type_learn_aria_label",
     checkedClass: "style-learn",
   },
   {
     value: "action",
     key: "ACTION",
     content: t("i18n.components._global.action"),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.event_type_action_aria_label",
+    aria_label: "i18n.components._global.event_type_action_aria_label",
     checkedClass: "style-action",
   },
 ];
 
 const optionLocations = [
   {
-    value: "offline",
-    key: "OFFLINE",
-    content: t(
-      "i18n.components.sidebar_left_filter_events.location_type_in_person"
-    ),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.location_type_in_person_aria_label",
+    value: "physical",
+    key: "PHYSICAL",
+    content: t("i18n.components._global.location_type_physical"),
+    aria_label: "i18n.components._global.location_type_physical_aria_label",
     class: "text-nowrap",
   },
   {
     value: "online",
     key: "ONLINE",
-    content: t(
-      "i18n.components.sidebar_left_filter_events.location_type_online"
-    ),
-    aria_label:
-      "i18n.components.sidebar_left_filter_events.location_type_online_aria_label",
+    content: t("i18n.components._global.location_type_online"),
+    aria_label: "i18n.components._global.location_type_online_aria_label",
     class: "text-nowrap",
   },
 ];
 
 const route = useRoute();
 const router = useRouter();
+
 const updateViewType = (
   value: string | number | boolean | Record<string, unknown> | undefined
 ) => {
@@ -235,31 +242,57 @@ const updateViewType = (
   }
 };
 
-const viewType = ref(ViewType.MAP);
+const viewType = ref(ViewType.LIST);
 const formData = ref({});
+
 watch(
   route,
-  (form) => {
-    const { view, ...rest } = (form.query as Record<string, unknown>) || {};
-    const topics = normalizeArrayFromURLQuery(form.query.topics);
-    formData.value = { ...rest, topics };
+  (r) => {
+    const q = { ...(r.query as Record<string, unknown>) };
+    const { view } = q;
+
+    // Explicitly set all schema fields to undefined by default.
+    // If they are missing from the URL, this forces VeeValidate to clear them
+    // instead of resetting them to their initial page-load values.
+    const newFormData = {
+      days_ahead: undefined,
+      type: undefined,
+      locationType: undefined,
+      location: undefined,
+      topics: [],
+      ...q,
+    };
+
+    // Normalize topics into an array for the Combobox.
+    if (newFormData.topics && !Array.isArray(newFormData.topics)) {
+      newFormData.topics = [newFormData.topics];
+    }
+
+    formData.value = newFormData;
+
     viewType.value =
       typeof view === "string" &&
       Object.values(ViewType).includes(view as ViewType)
         ? (view as ViewType)
-        : ViewType.MAP;
+        : ViewType.LIST;
   },
   { immediate: true }
 );
+
+const hasActiveFilters = computed(() =>
+  Object.keys(route.query).some((k) => k !== "view")
+);
+
+const clearFilters = async () => {
+  router.push({ query: { view: viewType.value } });
+};
+
 const handleSubmit = (_values: unknown) => {
+  if (!currentRoutePathIncludes("events", route.name?.toString() ?? "")) return;
   const values: Record<string, unknown> = {};
   const input = (_values || {}) as Record<string, unknown>;
   Object.keys(input).forEach((key) => {
     if (input[key] && input[key] !== "") {
-      if (key === "days") {
-        values["days_ahead"] = input[key];
-        return;
-      }
       if (
         key === "topics" &&
         Array.isArray(input[key]) &&
@@ -270,11 +303,14 @@ const handleSubmit = (_values: unknown) => {
       if (key === "view") return;
       values[key] = input[key];
     }
-    if (route.query.name && route.query.name !== "")
-      values["name"] = route.query.name;
   });
+  if (route.query.name && route.query.name !== "")
+    values["name"] = route.query.name;
+
   router.push({
     query: {
+      // Preserve id from post-creation routing so newly created events remain visible.
+      ...(route.query.id ? { id: route.query.id } : {}),
       ...(values as LocationQueryRaw),
       view: viewType.value,
     },

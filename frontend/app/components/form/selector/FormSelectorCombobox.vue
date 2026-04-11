@@ -1,32 +1,36 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Combobox :id="id" v-model="internalSelectedOptions" as="div" multiple>
+  <Combobox
+    :id="id"
+    v-model="internalSelectedOptions"
+    @click.stop
+    as="div"
+    :disabled="disabled"
+    :multiple="isMultiSelect"
+  >
     <div class="relative">
       <ComboboxInput
         :ref="setupInputWrapper"
         v-slot="{ id: inputId, onBlur }"
+        @click.stop
         as="div"
         class="flex"
       >
         <FormTextInput
           :id="inputId"
-          :ref="
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (el: any) => {
-              formInputRef = el;
-            }
-          "
-          @update:modelValue="(val) => (query = val)"
+          ref="formInputRef"
+          @update:modelValue="handleInput"
+          :disabled="disabled"
           :label="label"
           :modelValue="query"
           :onBlur="onBlur"
-          :placeholder="label"
         />
       </ComboboxInput>
-      <!-- Minimal visible button to open combobox for programmatic control. -->
       <ComboboxButton
+        @click.stop.prevent
         :aria-label="label"
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
+        type="button"
       >
         <Icon :name="IconMap.CHEVRON_EXPAND" />
       </ComboboxButton>
@@ -50,7 +54,7 @@
             }"
           >
             <span class="block truncate">
-              {{ $t(option.label) }}
+              {{ option.label }}
             </span>
             <span
               v-if="selected"
@@ -64,10 +68,24 @@
             </span>
           </li>
         </ComboboxOption>
+        <li
+          v-if="infinite"
+          ref="sentinel"
+          class="flex justify-center py-2 pl-10 pr-4 text-sm text-gray-500"
+        >
+          <slot v-if="showLoadingSlot" name="loading">
+            {{ $t("i18n.components.form_selector_combobox.loading") }}
+          </slot>
+        </li>
       </ComboboxOptions>
     </div>
     <ul
-      v-if="internalSelectedOptions.length > 0"
+      v-if="
+        internalSelectedOptions &&
+        Array.isArray(internalSelectedOptions) &&
+        internalSelectedOptions.length > 0 &&
+        isMultiSelect
+      "
       class="mt-2 flex"
       :class="{
         'flex-col space-y-2': hasColOptions,
@@ -77,7 +95,7 @@
       <li v-for="option in internalSelectedOptions" :key="option.id">
         <Shield
           :key="option.id + '-selected-only'"
-          @click="() => onClick(option)"
+          @click.stop="() => onClick(option)"
           :active="true"
           class="mobileTopic max-sm:w-full"
           :icon="IconMap.GLOBE"
@@ -110,24 +128,40 @@ interface Props {
   id: string;
   label: string;
   hasColOptions?: boolean;
+  isMultiSelect?: boolean;
+  infinite?: boolean;
+  fetchMore?: () => void;
+  canFetchMore?: boolean;
+  threshold?: number | number[];
+  rootMargin?: string;
+  showLoadingSlot?: boolean;
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   hasColOptions: true,
+  infinite: false,
+  canFetchMore: true,
+  threshold: 0.1,
+  rootMargin: "0px",
+  showLoadingSlot: true,
+  isMultiSelect: true,
 });
-const query = ref("");
-const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
-// Use any type to avoid strict Headless UI type conflicts with DOM types.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const actualInputRef = ref<any>(null);
 
-// Workaround: Headless UI tries to call setSelectionRange on the wrapper div
-// when using as="div", but divs don't have this method. We forward the call
-// to the actual input element inside FormTextInput.
+const emit = defineEmits<{
+  (e: "update:selectedOptions", value: unknown[]): void;
+  (e: "update:filterValue", value: string): void;
+  (e: "load-more"): void;
+  (e: "update:selectedOption", value: unknown): void;
+}>();
+
+const query = ref("");
+const sentinel = ref(null);
+const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
+const actualInputRef = ref<HTMLInputElement | null>(null);
+
 function setupInputWrapper(el: unknown) {
   if (!el) return;
-
-  // Get the actual DOM element (could be component instance or DOM element).
   const element = ((el as { $el?: HTMLElement })?.$el || el) as HTMLElement & {
     setSelectionRange?: (
       selectionStart: number,
@@ -136,24 +170,19 @@ function setupInputWrapper(el: unknown) {
     ) => void;
   };
 
-  // Forward setSelectionRange to the actual input element.
   if (element && !element.setSelectionRange) {
     element.setSelectionRange = (
       selectionStart: number,
       selectionEnd: number,
       selectionDirection?: "forward" | "backward" | "none"
     ) => {
-      // Use cached input reference if available, otherwise find it.
       let inputElement = actualInputRef.value;
       if (!inputElement && formInputRef.value?.$el) {
         inputElement = formInputRef.value.$el.querySelector(
           "input"
         ) as HTMLInputElement | null;
-        if (inputElement) {
-          actualInputRef.value = inputElement;
-        }
+        if (inputElement) actualInputRef.value = inputElement;
       }
-
       if (
         inputElement &&
         typeof inputElement.setSelectionRange === "function"
@@ -165,26 +194,13 @@ function setupInputWrapper(el: unknown) {
             selectionDirection
           );
         } catch {
-          // Silently ignore if selection range can't be set.
+          /* ignore */
         }
       }
     };
   }
-
-  // Try to find and cache the input element immediately.
-  nextTick(() => {
-    if (formInputRef.value?.$el && !actualInputRef.value) {
-      const inputElement = formInputRef.value.$el.querySelector(
-        "input"
-      ) as HTMLInputElement | null;
-      if (inputElement) {
-        actualInputRef.value = inputElement;
-      }
-    }
-  });
 }
 
-// Watch for formInputRef changes and cache the input element immediately.
 watch(
   formInputRef,
   (newRef) => {
@@ -193,24 +209,45 @@ watch(
         const inputElement = newRef.$el?.querySelector(
           "input"
         ) as HTMLInputElement | null;
-        if (inputElement) {
-          actualInputRef.value = inputElement;
-        }
+        if (inputElement) actualInputRef.value = inputElement;
       });
     }
   },
   { immediate: true }
 );
 
-const onClick = (option: Option) => {
-  internalSelectedOptions.value = internalSelectedOptions.value.filter(
-    (o: Option) => o.id !== option.id
-  );
+const enabled = computed(() => props.infinite);
+const canFetchMoreRef = computed(() => props.canFetchMore);
+
+const handleFetchMore = () => {
+  if (props.fetchMore) props.fetchMore();
+  else emit("load-more");
 };
 
-const emit = defineEmits<{
-  (e: "update:selectedOptions", value: unknown[]): void;
-}>();
+useCustomInfiniteScroll({
+  sentinel,
+  fetchMore: handleFetchMore,
+  canFetchMore: canFetchMoreRef,
+  enabled,
+  threshold: props.threshold,
+  rootMargin: props.rootMargin,
+});
+
+const onClick = (option: Option) => {
+  if (
+    internalSelectedOptions.value &&
+    Array.isArray(internalSelectedOptions.value)
+  ) {
+    internalSelectedOptions.value = internalSelectedOptions.value.filter(
+      (o: Option) => o.id !== option.id
+    );
+  }
+};
+
+const handleInput = (val: string) => {
+  query.value = val;
+  emit("update:filterValue", val);
+};
 
 const filteredOptions = computed(() =>
   query.value !== ""
@@ -222,20 +259,39 @@ const filteredOptions = computed(() =>
 
 const internalSelectedOptions = computed({
   get() {
-    if (props.selectedOptions && props.selectedOptions.length === 0) {
-      return [];
-    }
-    // Always compute from prop.
-    return props.options.filter((option: Option) =>
+    const selected = props.options.filter((option: Option) =>
       (props.selectedOptions as unknown[]).includes(option.value)
     );
+    if (!props.isMultiSelect) return selected.length > 0 ? selected[0] : null;
+    return selected;
   },
   set(newOptions) {
-    const values = (newOptions as Option[]).map((option) => option.value);
-    // Only emit if value actually changed.
-    if (JSON.stringify(values) !== JSON.stringify(props.selectedOptions)) {
-      emit("update:selectedOptions", values);
+    if (props.isMultiSelect) {
+      const values = (newOptions as Option[]).map((option) => option.value);
+      if (JSON.stringify(values) !== JSON.stringify(props.selectedOptions)) {
+        emit("update:selectedOptions", values);
+      }
+      return;
+    }
+    const option = newOptions as unknown as Option | null;
+    const value = option?.value || null;
+    query.value = option?.label || "";
+    if (value !== (props.selectedOptions as unknown[])[0]) {
+      emit("update:selectedOption", value);
     }
   },
 });
+
+watch(
+  internalSelectedOptions,
+  (newVal) => {
+    if (!props.isMultiSelect && newVal) {
+      const option = newVal as Option;
+      if (option.label && query.value !== option.label) {
+        query.value = option.label;
+      }
+    }
+  },
+  { immediate: true }
+);
 </script>

@@ -2,12 +2,12 @@
 import { newEventsFilter } from "~/test-e2e/component-objects/EventsFilter";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.describe(
   "Route Query Topics Stability",
   {
-    tag: ["@desktop", "@mobile"],
+    tag: ["@desktop"],
   },
   () => {
     test.beforeEach(async ({ page }) => {

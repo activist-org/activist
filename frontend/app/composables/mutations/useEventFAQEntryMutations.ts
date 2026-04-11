@@ -2,10 +2,8 @@
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError, clearError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
 
@@ -14,7 +12,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     if (!currentEventId.value) return false;
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Service function handles the HTTP call and throws normalized errors.
@@ -25,9 +23,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -37,7 +33,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   // Update existing FAQ entry.
   async function updateFAQ(faq: FaqEntry) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Direct service call - no useAsyncData needed for mutations.
@@ -48,9 +44,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -60,7 +54,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   // Reorder multiple FAQ entries.
   async function reorderFAQs(faqs: FaqEntry[]) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await reorderEventFaqs(currentEventId.value, faqs);
@@ -70,7 +64,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -80,7 +74,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   // Delete FAQ entry.
   async function deleteFAQ(faqId: string) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await deleteEventFaq(faqId);
@@ -90,7 +84,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;

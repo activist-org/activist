@@ -14,7 +14,7 @@
       <div class="pt-4">
         <BtnAction
           ariaLabel="i18n._global.auth.reset_password"
-          class="flex max-h-[48px] items-center justify-center truncate md:max-h-[40px]"
+          class="flex max-h-12 items-center justify-center truncate md:max-h-10"
           :cta="true"
           fontSize="lg"
           label="i18n._global.auth.reset_password"

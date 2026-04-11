@@ -41,8 +41,8 @@ const props = defineProps<{
 const modalName = props.name ?? "ModalAlert";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const onConfirm = () => {
-  props.onConfirmation?.();
+const onConfirm = async () => {
+  await props.onConfirmation?.();
   handleCloseModal();
 };
 </script>

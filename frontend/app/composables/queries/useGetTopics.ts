@@ -3,7 +3,7 @@ export const getKeyForGetTopics = () => `topics-list`;
 
 export function useGetTopics() {
   const store = useTopics();
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
 
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Topic[]>(
@@ -14,7 +14,7 @@ export function useGetTopics() {
         store.setTopics(topics);
         return topics as Topic[];
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },

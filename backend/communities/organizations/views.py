@@ -5,24 +5,31 @@ API views for organization management.
 """
 
 import logging
+import os
+from typing import Type
 from uuid import UUID
 
+from django.contrib.auth.models import AnonymousUser
+from django.db.models import Case, IntegerField, Q, QuerySet, Value, When
 from django.db.utils import IntegrityError, OperationalError
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiExample,
+    OpenApiParameter,
     OpenApiResponse,
     extend_schema,
 )
 from rest_framework import status, viewsets
+from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from authentication.models import UserModel
 from communities.models import StatusType
 from communities.organizations.filters import OrganizationFilter
 from communities.organizations.models import (
@@ -37,12 +44,13 @@ from communities.organizations.models import (
 from communities.organizations.serializers import (
     OrganizationFaqSerializer,
     OrganizationFlagSerializer,
+    OrganizationPOSTSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
     OrganizationSocialLinkSerializer,
     OrganizationTextSerializer,
 )
-from content.models import Image, Location
+from content.models import Image
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
@@ -53,14 +61,37 @@ logger = logging.getLogger(__name__)
 
 
 class OrganizationAPIView(GenericAPIView[Organization]):
-    queryset = Organization.objects.all().order_by("id")
-    serializer_class = OrganizationSerializer
+    queryset = Organization.objects.all()
     pagination_class = CustomPagination
     permission_classes = [IsAuthenticatedOrReadOnly]
     filterset_class = OrganizationFilter
     filter_backends = [DjangoFilterBackend]
 
+    def get_queryset(self) -> QuerySet[Organization]:
+        queryset = super().get_queryset().order_by("id")
+
+        if os.environ.get("ENVIRONMENT") != "development":
+            return queryset
+
+        activist_match = Q(name__iexact="activist")
+
+        return queryset.annotate(
+            _priority=Case(
+                When(activist_match, then=Value(0)),
+                default=Value(1),
+                output_field=IntegerField(),
+            )
+        ).order_by("_priority", "id")
+
     @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="topics",
+                type=OpenApiTypes.STR,
+                many=True,
+                description="Filter by topic type (e.g. from Topic.model type).",
+            ),
+        ],
         responses={200: OrganizationSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
@@ -71,8 +102,15 @@ class OrganizationAPIView(GenericAPIView[Organization]):
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(self.queryset, many=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    def get_serializer_class(
+        self,
+    ) -> Type[OrganizationPOSTSerializer | OrganizationSerializer]:
+        if self.request.method == "POST":
+            return OrganizationPOSTSerializer
+        return OrganizationSerializer
 
     @extend_schema(
         summary="Create a new organization",
@@ -96,29 +134,97 @@ class OrganizationAPIView(GenericAPIView[Organization]):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        location_dict = serializer.validated_data["location"]
-        location = Location.objects.create(**location_dict)
-        serializer.validated_data["location"] = location
-
         # Location post-cleanup if the organization creation fails.
         # This is necessary because of a not null constraint on the location field.
-        try:
-            org = serializer.save(created_by=request.user)
-            logger.info(f"Organization created successfully: {org.id}")
 
-        except (IntegrityError, OperationalError):
-            logger.exception(
-                f"Failed to create organization for user {request.user.id}"
-            )
-            Location.objects.filter(id=location.id).delete()
-            return Response(
-                {"detail": "Failed to create organization."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        org = serializer.save(created_by=request.user)
+        logger.info(f"Organization created successfully: {org.id}")
 
         org.application.create()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        data = OrganizationSerializer(org).data
+
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
+# MARK: Get Organization by User ID
+
+
+class OrganizationByUserAPIView(GenericAPIView[Organization]):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = CustomPagination
+    filterset_class = OrganizationFilter
+    filter_backends = [DjangoFilterBackend]
+
+    @extend_schema(
+        summary="Retrieve organizations by linked user ID",
+        parameters=[
+            OpenApiParameter(
+                name="topics",
+                type=OpenApiTypes.STR,
+                many=True,
+                description="Filter by topic type (e.g. from Topic.model type).",
+            ),
+        ],
+        responses={
+            200: OrganizationSerializer(many=True),
+            400: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="User ID is required",
+                examples=[
+                    OpenApiExample(
+                        name="User ID required",
+                        value={"detail": "User ID is required."},
+                        media_type="application/json",
+                    )
+                ],
+            ),
+        },
+    )
+    def get(self, request: Request, user_id: None | UUID = None) -> Response:
+        user: UserModel | AnonymousUser = request.user
+        if user_id is None:
+            return Response(
+                {"detail": "User ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if user is None or not user.is_authenticated:
+            return Response(
+                {"detail": "Authentication credentials were not provided."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        if user.id != user_id:
+            return Response(
+                {"detail": "You are not authorized to view these organizations."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        if user.is_admin or user.is_staff:
+            queryset = self.get_queryset()
+            if not queryset.exists():
+                return Response(
+                    {"count": 0, "next": None, "previous": None, "results": []},
+                    status=status.HTTP_200_OK,
+                )
+            try:
+                page = self.paginate_queryset(queryset)
+            except NotFound:
+                return Response(
+                    {"count": 0, "next": None, "previous": None, "results": []},
+                    status=status.HTTP_200_OK,
+                )
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        orgs = Organization.objects.filter(created_by__user__id=user_id).order_by(
+            "creation_date"
+        )
+        serializer = OrganizationSerializer(orgs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # MARK: Detail API
@@ -604,7 +710,7 @@ class OrganizationSocialLinkViewSet(viewsets.ModelViewSet[OrganizationSocialLink
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(social_link, request.data, partial=True)
+        serializer = self.get_serializer(social_link, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(org=org)
 
@@ -775,6 +881,16 @@ class OrganizationResourceViewSet(viewsets.ModelViewSet[OrganizationResource]):
 # MARK: Image
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            "org_id",
+            OpenApiTypes.UUID,
+            location=OpenApiParameter.PATH,
+            description="Organization UUID.",
+        ),
+    ],
+)
 class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer

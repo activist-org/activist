@@ -11,6 +11,7 @@ export enum IconMap {
   BELL = "bi:bell",
   CHAT = "bi:chat-left",
   CHECK = "bi:check-lg",
+  SPINNER = "svg-spinners:6-dots-rotate",
   CHEVRON_BAR_LEFT = "bi:chevron-bar-left",
   CHEVRON_BAR_RIGHT = "bi:chevron-bar-right",
   CHEVRON_DOWN = "bi:chevron-down",

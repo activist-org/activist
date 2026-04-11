@@ -27,6 +27,8 @@ from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from core.internal_events import SecurityEventIngestView
+
 ADMIN_PATH = os.getenv("ADMIN_PATH")
 
 urlpatterns = [
@@ -35,6 +37,11 @@ urlpatterns = [
     path("v1/content/", include("content.urls", namespace="content")),
     path("v1/communities/", include("communities.urls", namespace="communities")),
     path("v1/events/", include("events.urls", namespace="events")),
+    path(
+        "internal/security-events",
+        SecurityEventIngestView.as_view(),
+        name="security-events-ingest",
+    ),
     # MARK: API Documentation
     path("v1/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

@@ -72,6 +72,23 @@ export const newOrganizationGroupAboutPage = (page: Page) => {
       return page.getByTestId("card-connect");
     },
 
+    // MARK: Edit Icons
+
+    get aboutCardEditIcon() {
+      return page.getByTestId("card-about").getByTestId("icon-edit").first();
+    },
+
+    get getInvolvedCardEditIcon() {
+      return page
+        .getByTestId("card-get-involved")
+        .getByTestId("icon-edit")
+        .first();
+    },
+
+    get connectCardEditIcon() {
+      return page.getByTestId("card-connect").getByTestId("icon-edit").first();
+    },
+
     // MARK: Modals
 
     get shareModal() {

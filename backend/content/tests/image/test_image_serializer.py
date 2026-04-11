@@ -5,14 +5,12 @@ Testing for Image Serializers.
 
 import io
 import logging
-from datetime import timedelta
 from unittest.mock import patch
 from uuid import uuid4
 
 import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.utils import timezone
 from PIL import Image as TestImage
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -53,6 +51,23 @@ def test_image_serializer_missing_entity_id() -> None:
     serializer = ImageSerializer(context={"request": request})
     with pytest.raises(ValidationError, match="No entity_id was specified"):
         serializer.validate({"file_object": fake_file})
+
+
+@pytest.mark.django_db
+def test_image_serializer_allows_valid_file() -> None:
+    """
+    Ensure serializer.validate succeeds for a valid, in-range image upload.
+    """
+    fake_file = SimpleUploadedFile(
+        "test.png", b"file_content", content_type="image/png"
+    )
+    request = type(
+        "Request", (), {"data": {"entity_type": "group", "entity_id": "123"}}
+    )()
+    serializer = ImageSerializer(context={"request": request})
+
+    validated = serializer.validate({"file_object": fake_file})
+    assert validated["file_object"] is fake_file
 
 
 # MARK:  Icon Tests
@@ -121,6 +136,19 @@ def test_image_icon_serializer_validate_file_too_large():
 
 
 @pytest.mark.django_db
+def test_image_icon_serializer_allows_valid_file() -> None:
+    """
+    Ensure ImageIconSerializer.validate succeeds for a valid, in-range image upload.
+    """
+    file = SimpleUploadedFile("test.jpg", b"file_content", content_type="image/jpeg")
+    request = type("Request", (), {"data": {"entity_type": "org", "entity_id": "1"}})()
+    serializer = ImageIconSerializer(context={"request": request})
+
+    validated = serializer.validate({"file_object": file})
+    assert validated["file_object"] is file
+
+
+@pytest.mark.django_db
 def test_image_icon_serializer_create_organization(caplog):
     """
     Test create method links image to organization.
@@ -180,12 +208,10 @@ def test_image_icon_serializer_create_event(caplog):
     # Create event with ALL required fields.
     event = Event.objects.create(
         name="Test Event",
-        start_time=timezone.now(),
-        end_time=timezone.now() + timedelta(hours=1),
         created_by=user,
-        orgs=org,
-        offline_location=location,  # associate with location
+        physical_location=location,  # associate with location
     )
+    event.orgs.set([org])
 
     # Create a valid image.
     img = TestImage.new("RGB", (100, 100), color="red")

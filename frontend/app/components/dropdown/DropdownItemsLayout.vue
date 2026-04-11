@@ -10,6 +10,7 @@
       :id="opt.id"
       v-for="opt in options"
       :key="opt.id"
+      @click="opt?.onClick"
       :data-testid="opt['data-testid']"
       :isAddStyles="false"
       :selected="opt.selected"

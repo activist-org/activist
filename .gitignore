@@ -24,9 +24,11 @@ venv/
 # Testing
 .coverage
 cov_html/
+
 # Vitest coverage
 coverage/
 frontend/coverage/
+
 # For Docker testing add ./tmp:/tmp to the needed container.
 /tmp
 
@@ -65,13 +67,21 @@ frontend/!.yarn/plugins
 frontend/!.yarn/releases
 frontend/!.yarn/sdks
 frontend/!.yarn/versions
+**/package-lock.json
 
 # Media
 backend/media/images/*
 !backend/media/images/.keep
 
+# Filescan quarantine (malware / violating uploads)
+quarantine/
+
 # LLMs
+.cursor/commands/
 .cursorrules
+
+# Snyk Security Extension
+.cursor/rules/snyk_rules.mdc
 
 # Scratch/temp development files
 .scratch/
@@ -79,3 +89,6 @@ backend/media/images/*
 # ZAP Security Reports
 zap-reports/
 frontend/test-e2e/.auth/
+
+# services/filescan/etc.
+docker-compose.filescan_integration.yml

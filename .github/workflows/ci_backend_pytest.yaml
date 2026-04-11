@@ -1,0 +1,81 @@
+name: ci_backend_pytest
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      - "backend/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+
+env:
+  SECRET_KEY: "ONLY_FOR_TESTING"
+  DATABASE_PORT: 5432
+  DATABASE_HOST: localhost
+  DATABASE_NAME: postgres
+  DATABASE_USER: postgres
+  DATABASE_PASSWORD: postgres
+  FILESCAN_PORT: 9101
+  FILESCAN_URL: "http://localhost:9101/scan"
+
+jobs:
+  backend_tests:
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: ${{ env.DATABASE_USER }}
+          POSTGRES_PASSWORD: ${{ env.DATABASE_PASSWORD }}
+          POSTGRES_DB: ${{ env.DATABASE_NAME }}
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+
+    name: Run PR Backend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v6
+
+      - name: Set up Python Environment
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install Dependencies
+        run: uv sync --frozen --all-extras
+
+      - name: Start filescan service
+        working-directory: .
+        run: |
+          docker compose --env-file .env.dev -f docker-compose.yml up -d filescan
+
+      - name: Run Django Migrations - Database Migrations Check
+        run: |
+          uv run manage.py makemigrations
+          uv run manage.py migrate
+
+      - name: Run pytest - Unit Tests
+        if: always()
+        run: |
+          uv run pytest . --cov=. --cov-report=term-missing --cov-fail-under=90 --cov-config=./pyproject.toml -vv

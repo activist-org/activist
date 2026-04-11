@@ -23,10 +23,13 @@
 <script setup lang="ts">
 defineProps<{
   location?: DropdownLocation;
-  userIsSignedIn: boolean;
 }>();
 
-const { signOut } = useAuth();
+const { clear } = useUserSession();
+const { userIsSignedIn } = useUser();
+
+const { openModal: openModalCreateEvent } =
+  useModalHandlers("ModalCreateEvent");
 const userOptionsSignedIn: MenuSelector[] = [
   {
     id: "user-options-your-profile",
@@ -43,6 +46,9 @@ const userOptionsSignedIn: MenuSelector[] = [
     routeUrl: "/",
     iconUrl: `${IconMap.EVENT}`,
     selected: false,
+    onClick: () => {
+      openModalCreateEvent();
+    },
   },
   {
     id: "user-options-your-orgs",
@@ -76,7 +82,12 @@ const userOptionsSignedIn: MenuSelector[] = [
     iconUrl: `${IconMap.SIGN_OUT}`,
     selected: false,
     onClick: () => {
-      signOut({ callbackUrl: "/", external: false });
+      fetch("api/public/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }).then(() => {
+        clear();
+      });
     },
   },
 ];

@@ -9,7 +9,7 @@ import type {
   EventText,
 } from "../../shared/types/event";
 import type { ContentImage } from "../../shared/types/file-type";
-import type { Group, GroupText } from "../../shared/types/group";
+import type { Group, GroupFilters, GroupText } from "../../shared/types/group";
 import type { PhysicalLocation } from "../../shared/types/location-type";
 import type {
   Organization,
@@ -26,6 +26,7 @@ import {
   defaultEventFiltersData,
   defaultEventTextData,
   defaultGroupData,
+  defaultGroupFiltersData,
   defaultGroupTextData,
   defaultOrganizationData,
   defaultOrganizationFiltersData,
@@ -34,7 +35,25 @@ import {
   defaultSocialLinkData,
   defaultTopicData,
   defaultUserData,
+  defaultResourceData,
 } from "./data";
+
+// Type helper to include inherited Entity properties (workaround for .d.ts inheritance).
+type WithEntityProps<T> = Partial<T> & {
+  id?: string;
+  name?: string;
+  createdBy?: unknown;
+  creationDate?: string;
+};
+
+// MARK: Resource
+
+export const createResource = (
+  overrides: Partial<Resource> = {}
+): Resource => ({
+  ...defaultResourceData,
+  ...overrides,
+});
 
 // MARK: ContentImage
 
@@ -88,7 +107,7 @@ export function createMockEventText(overrides?: Partial<EventText>): EventText {
 }
 
 export function createMockEvent(
-  overrides?: Partial<CommunityEvent>
+  overrides?: WithEntityProps<CommunityEvent>
 ): CommunityEvent {
   return {
     ...defaultEventData,
@@ -119,7 +138,7 @@ export function createMockOrganizationText(
 }
 
 export function createMockOrganization(
-  overrides?: Partial<Organization>
+  overrides?: WithEntityProps<Organization>
 ): Organization {
   return {
     ...defaultOrganizationData,
@@ -147,7 +166,7 @@ export function createMockGroupText(overrides?: Partial<GroupText>): GroupText {
   };
 }
 
-export function createMockGroup(overrides?: Partial<Group>): Group {
+export function createMockGroup(overrides?: WithEntityProps<Group>): Group {
   return {
     ...defaultGroupData,
     createdBy: createMockUser(),
@@ -155,6 +174,15 @@ export function createMockGroup(overrides?: Partial<Group>): Group {
     org: createMockOrganization(),
     ...overrides,
   } as Group;
+}
+
+export function createMockGroupFilters(
+  overrides?: Partial<GroupFilters>
+): GroupFilters {
+  return {
+    ...defaultGroupFiltersData,
+    ...overrides,
+  };
 }
 
 // MARK: Topic

@@ -1,14 +1,14 @@
-# Style Guidelines for activist.org
+<a id="top"></a>
+
+# Style Guide
 
 Thank you for following our style guide! The team asks that you familiarize yourself with this guide and follow it for any contributions. Doing so makes PRs and general code collaboration much more effective :)
 
-We'll also link to this document in cases where these guidelines have not been followed. If that's what brought you here, no stress! Thanks for your interest and your drive to contribute to open-source and activist in particular! ❤️
+We'll also link to this document in cases where this guide has not been followed. If that's what brought you here, no stress! Thanks for your interest and your drive to contribute to open-source and activist in particular! ❤️
 
 If you have questions or would like to communicate with the team, please [join us in our public Matrix chat rooms](https://matrix.to/#/#activist_community:matrix.org). We'd be happy to hear from you!
 
-<a id="contents"></a>
-
-## **Contents**
+## Contents
 
 - [Vue and Nuxt](#vue-and-nuxt)
   - [Page routing](#page-routing)
@@ -27,10 +27,9 @@ If you have questions or would like to communicate with the team, please [join u
 - [Tab size](#tab-size)
 - [Padding](#padding)
 - [Comments](#comments)
+  - [JSDoc docstrings](#jsdoc-docstrings)
 
-<a id="vue-and-nuxt"></a>
-
-## Vue and Nuxt [`⇧`](#contents)
+## Vue and Nuxt
 
 > [!NOTE]
 > For VS Code users: it is recommended to install [Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to enable in-editor type-checking.
@@ -65,15 +64,11 @@ Vue files (`.vue`) are Single-File Components that have `<template>`, `<script>`
 
 Please see the [Vue.js style guide](https://vuejs.org/style-guide) for general suggestions on how to write Vue files.
 
-<a id="page-routing"></a>
-
-### Page Routing [`⇧`](#contents)
+### Page Routing
 
 Page routing should use the `<NuxtLink />` component wherever possible to ensure that the platform maintains the localization path of the user. If an external link via an `<a>` tag should be set, then please include `target="_blank"` to open a new tab (unless it's an email href).
 
-<a id="breakpoints"></a>
-
-### Breakpoints [`⇧`](#contents)
+### Breakpoints
 
 activist uses Tailwind for CSS, and some parts of components will be conditionally rendered based on Tailwind breakpoints, but we want to avoid using it to show and hide whole components. The reason for this is that using CSS in this way means that unneeded TypeScript for the hidden components will still run on page load. Please use `useBreakpoint` for all conditional rendering of full components.
 
@@ -96,9 +91,12 @@ activist uses Tailwind for CSS, and some parts of components will be conditional
     </template>
     ```
 
-<a id="typescript"></a>
+> [!NOTE]
+> The `bg-breakpoint-test` custom style changes the background of the element it's applied to based on the current breakpoint and adds the breakpoint as text content. You can use this for visually debugging the current breakpoint.
 
-## TypeScript [`⇧`](#contents)
+<sub><a href="#top">Back to top.</a></sub>
+
+## TypeScript
 
 - Create general frontend types in the [frontend/types](frontend/types) directory
 - When typing Arrays, use `arrayElementType[]` rather than the generic type `Array<T>` unless [extending](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays):
@@ -142,9 +140,9 @@ Before opening a new PR, it is recommended to first generate the current types, 
 
 Within VS Code TS errors are visible, however, running these commands will help to ensure the new code does not introduce unintended TS errors at build time. Existing TS errors may be ignored. PRs are always welcome to address these errors!
 
-<a id="tailwind"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Tailwind [`⇧`](#contents)
+## Tailwind
 
 activist uses [Tailwind CSS](https://tailwindcss.com/) for CSS styling and [Headless UI](https://headlessui.com/) unstyled, accessible components for more complex page elements like dropdowns and popups. Tailwind styles are applied via space-separated `class="STYLE"` attributes on HTML elements in Vue `<template>` blocks. Generally these class attributes should be the first applied to an element and thus proceed all Vue component props so differences from shared styling are apparent:
 
@@ -153,9 +151,9 @@ activist uses [Tailwind CSS](https://tailwindcss.com/) for CSS styling and [Head
 
 Please note that as activist uses Tailwind, this means that `<style>` blocks are often times not used within Vue Single-File Components. `<style>` blocks should only be used in cases where including the styles within the `<template>` block would be overly complex or if Tailwind does not support a certain style parameter. The team understands that Tailwind at times can lead to very long style classes, but because of this we make use of the custom classes [below](#common-styles) to combine commonly used elements into consistent, responsive drop-in attributes.
 
-<a id="common-styles"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Common styles [`⇧`](#contents)
+## Common styles
 
 The following are custom Tailwind classes from [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) that are consistently used within the activist frontend codes:
 
@@ -174,15 +172,15 @@ The following are custom Tailwind classes from [frontend/assets/css/tailwind.css
     - Colors are defined for light and dark mode with border width and radius also being applied
     - Used in cases like about page sections, search results, etc
 
-<a id="formatting"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Formatting [`⇧`](#contents)
+## Formatting
 
 The activist frontend uses [Prettier](https://prettier.io/) to format the code and [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss) to sort Tailwind CSS classes. Backend code that's written in Python should be formatted using [black](https://github.com/psf/black). The team suggests that you set up your environment to autoformat using these formatters on save. We have workflows to check formatting for pull requests and will notify you if something's wrong :)
 
-<a id="colors"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Colors [`⇧`](#contents)
+## Colors
 
 The files [frontend/app/assets/css/tailwind.css](frontend/app/assets/css/tailwind.css) and [frontend/tailwind.config.ts](frontend/tailwind.config.ts) define all colors for the platform. Light and dark mode versions of each color are defined and loaded in via variables such that we only need to use a singular identifier throughout the codebase. There are however cases where you still need to specify `dark:` for colors - specifically when the color identifier for light mode is different than dark mode like in cases of CTA buttons where the text and border are `primary-text` in light mode and `cta-orange` in dark mode.
 
@@ -198,10 +196,9 @@ Note further that Tailwind allows for alpha components for opacity to be applied
 <div class="bg-cta-orange/40"></div>
 ```
 
+<sub><a href="#top">Back to top.</a></sub>
 
-<a id="text-styles"></a>
-
-## Text styles [`⇧`](#contents)
+## Text styles
 
 > [!IMPORTANT]
 > The examples below use plain text to be easily understandable, but note that all texts should be defined using i18n keys in the `frontend/i18n` JSON files. Please see the [Localization](#localization) section below to learn more.
@@ -241,15 +238,13 @@ Only add utility overrides if absolutely necessary for a unique layout or design
 > [!NOTE]
 > Global styles for headings and body text help ensure accessibility, dark mode support, and visual consistency. Avoid duplicating or overriding them unless necessary.
 
-<a id="font"></a>
-
-### Font [`⇧`](#contents)
+### Font
 
 The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat.com/en/about/brand/standards/typography) as defined in [frontend/tailwind.config.ts](frontend/tailwind.config.ts). `Red Hat Text` is applied throughout the website and `Red Hat Display` is used for all headers by applying `font-display`. As headers are defined by `responsive-h#` custom classes that include `font-display` being applied globally to their corresponding `h#` HTML, it will be rare that you'll need to apply it directly. See the next section for more details.
 
-<a id="text-size"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-### Text size [`⇧`](#contents)
+### Text size
 
 [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css) defines custom combinations of default and activist defined Tailwind header sizes. Responsive header classes all have `font-display` applied to them and are globally applied to the corresponding HTML `h#` tag. Note that headers should generally have a `bold` style applied to them as well, with for example page headers being defined as follows:
 
@@ -257,6 +252,8 @@ The fonts for activist are [Red Hat Text and Red Hat Display](https://www.redhat
 <!-- The size and weight styles for page headers. -->
 <h1 class="font-bold">Page Header</h1>
 ```
+
+<sub><a href="#top">Back to top.</a></sub>
 
 ### Text colors
 
@@ -296,9 +293,9 @@ These utility classes are responsive to theme changes (light/dark) and should be
 > [!NOTE]
 > Need a new text color variant? Add it to `@layer components` and ensure it maps to a CSS variable for both themes.
 
-<a id="localization"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Localization [`⇧`](#contents)
+## Localization
 
 activist is a global platform and must function in countless different regions around the world. To achieve this, all strings on the platform must be defined using keys found in the [i18n directory of the frontend](frontend/i18n). We further leverage [i18n-check](https://github.com/activist-org/i18n-check) to make sure that our i18n keys are valid.
 
@@ -348,9 +345,9 @@ Localization keys should be defined based on the file in which they're used with
 > [!NOTE]
 > The activist community maintains the [i18n-check project](https://github.com/activist-org/i18n-check) that enforces all of the above in pull requests. Do your best and we'll help you out during the PR process! You can also join us in the [localization room on Matrix](https://matrix.to/#/!DzbdYyfhjinQBWXgQe:matrix.org?via=matrix.org) if you have questions :)
 
-<a id="images-icons"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Images and icons [`⇧`](#contents)
+## Images and icons
 
 Please define all routes for images and icons in the respective [url registry utils file](frontend/utils/imageURLRegistry.s.ts) and [icon map enum](frontend/types/icon-map.ts).
 
@@ -358,25 +355,31 @@ activist uses [@nuxt/icon](https://github.com/nuxt-modules/icon) for all icons. 
 
 Custom icons for activist can further be found in the [Icon directory of the frontend components](frontend/components/icon). These icons can also be referenced via the `<Icon>` component via their file name (ex: `<Icon name="IconSupport">` for the grasped hands we use). For Tailwind coloration note that we need to use `fill-COLOR` for the custom activist icons rather than `text-COLOR`.
 
-<a id="tab-size"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Tab size [`⇧`](#contents)
+## Tab size
 
 Code in the frontend for Vue (`<template>`, `<script>` and `<style>` blocks), TypeScript, CSS and other related files should use two spaces for tabs. For the backend four spaces should be used for Python files.
 
-<a id="padding"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Padding [`⇧`](#contents)
+## Padding
 
 There are a few custom padding classes that can be used for `px` and `py` styling as defined in [frontend/assets/css/tailwind.css](frontend/assets/css/tailwind.css). Please use consistent custom padding classes to ensure that elements move together at different breakpoints.
 
-<a id="comments"></a>
+<sub><a href="#top">Back to top.</a></sub>
 
-## Comments [`⇧`](#contents)
+## Comments
 
 Please write all comments that are their own lines as complete sentences that start with a capital letter and end in punctuation - likely a period. Inline comments should not be capitalized and should not end in punctuation. If you're writing short comments for sections, please make these `MARK:` comments so that the sections appear in the code editor minimap. `MARK:` comments should be written as section headers with all non stop words capitalized and shouldn't have punctuation at the end.
+
+### JSDoc docstrings
+
+Use `/** … */` docstring blocks for documentation comments on exported functions, composables, and non-obvious helpers. JSDoc blocks follow the same sentence rules above and are enforced by [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc). For conventions, examples and explicit directions see [Frontend JSDoc docstrings](CONTRIBUTING.md#frontend-jsdoc-docstrings) in the contributing guide.
 
 <!--
 Regex to find incorrect comments:
 ^\s*(?:\/\/|#)(?!.*(SPDX|eslint-disable|MARK:|mypy:))(?:\s*$|.*[^\.\s]\s*$)
  -->
+
+<sub><a href="#top">Back to top.</a></sub>

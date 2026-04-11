@@ -1,0 +1,157 @@
+name: ci_e2e_playwright_desktop
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      # Note: We run only the desktop e2e tests for backend changes to catch regressions.
+      - "backend/**"
+      - "!backend/**/tests/**/*.py"
+      - "frontend/**"
+      - "!frontend/test/**"
+      - "!frontend/i18n/**"
+      - ".github/workflows/ci_e2e_playwright_desktop.yaml"
+      - ".github/workflows/ci_e2e_playwright_mobile.yaml"
+  push:
+    branches:
+      - main
+    paths:
+      # Note: We run only the desktop e2e tests for backend changes to catch regressions.
+      - "backend/**"
+      - "!backend/**/tests/**/*.py"
+      - "frontend/**"
+      - "!frontend/test/**"
+      - "!frontend/i18n/**"
+      - ".github/workflows/ci_e2e_playwright_desktop.yaml"
+      - ".github/workflows/ci_e2e_playwright_mobile.yaml"
+
+jobs:
+  frontend-e2e-desktop:
+    name: E2E Desktop Chrome
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cleanup Old Checkout
+        run: chmod +w -R ${GITHUB_WORKSPACE}; rm -rf ${GITHUB_WORKSPACE}/*;
+
+      - name: Checkout Project
+        uses: actions/checkout@v6
+
+      - name: Clean Any Existing Containers
+        run: |
+          docker stop $(docker ps -aq) || true
+          docker rm $(docker ps -aq) || true
+
+      - name: Check Port Availability
+        run: |
+          ! nc -z localhost 3000 && \
+          ! nc -z localhost 8000 && \
+          ! nc -z localhost 5432
+
+      - name: Run Docker Compose
+        run: docker compose --env-file .env.dev up --build -d backend db
+
+      - name: Wait for Database
+        run: |
+          timeout 60 bash -c 'until docker compose --env-file .env.dev exec -T db pg_isready -U postgres; do sleep 2; done'
+
+      - name: Wait for Backend
+        run: |
+          timeout 180 bash -c 'until curl -s http://localhost:8000/v1/auth/sign_in -o /dev/null -w "%{http_code}" | grep -qE "^(200|405)"; do sleep 3; done'
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - uses: c-py/action-dotenv-to-setenv@v5
+        with:
+          env-file: .env.dev
+
+      - name: Install Dependencies and Build
+        working-directory: ./frontend
+        env:
+          USE_PREVIEW: true
+          VITE_FRONTEND_URL: http://localhost:3000
+          VITE_BACKEND_URL: http://localhost:8000
+          VITE_API_URL: http://localhost:8000/v1
+          VITE_BACKEND_URL_PROXY: http://localhost:8000
+        run: |
+          sudo corepack enable
+          sudo yarn install
+          sudo -E yarn build
+
+          if [ ! -d ".output" ]; then
+            echo "Build failed: .output directory not found"
+            exit 1
+          fi
+
+      - name: Install Playwright Browsers
+        working-directory: ./frontend
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
+        run: |
+          sudo mkdir -p /opt/playwright-browsers
+          sudo -E yarn playwright install --with-deps chromium
+          sudo chmod -R 755 /opt/playwright-browsers
+
+      - name: Start Preview Server
+        working-directory: ./frontend
+        env:
+          NUXT_SESSION_PASSWORD: "password-with-at-least-32-characters"
+          VITE_BACKEND_URL: http://localhost:8000
+          VITE_API_URL: http://localhost:8000/v1
+          VITE_BACKEND_URL_PROXY: http://localhost:8000
+          PORT: 3000
+        run: |
+          nohup sudo -E yarn preview --port 3000 > server.log 2>&1 &
+          echo $! > server.pid
+          sleep 5
+
+          if ! ps -p $(cat server.pid) > /dev/null; then
+            echo "Server failed to start:"
+            cat server.log
+            exit 1
+          fi
+
+      - name: Wait for Frontend
+        working-directory: ./frontend
+        run: |
+          yarn wait-on http://localhost:3000 --timeout 60000 || {
+            echo "Frontend server not responding:"
+            cat server.log
+            exit 1
+          }
+
+      - name: Warm Up Backend
+        run: |
+          curl -s -X OPTIONS http://localhost:8000/v1/auth/sign_in > /dev/null || true
+          curl -s http://localhost:8000/v1/entities/users/ > /dev/null || true
+          curl -s http://localhost:8000/v1/entities/organizations/ > /dev/null || true
+          curl -s http://localhost:8000/v1/entities/events/ > /dev/null || true
+          sleep 3
+
+      - name: Run Playwright Tests (Desktop Chrome)
+        working-directory: ./frontend
+        env:
+          FAST_TESTS: true
+          SKIP_WEBSERVER: true
+          PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
+          NUXT_SESSION_PASSWORD: "password-with-at-least-32-characters"
+          VITE_BACKEND_URL: http://localhost:8000
+          VITE_API_URL: http://localhost:8000/v1
+          VITE_BACKEND_URL_PROXY: http://localhost:8000
+        run: sudo -E yarn playwright test --project="Desktop Chrome"
+
+      - name: Upload Playwright Report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: playwright-report-desktop
+          path: frontend/playwright-report/
+          retention-days: 30

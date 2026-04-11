@@ -4,7 +4,7 @@ import { pressControlKey } from "~/test-e2e/actions/keyboard";
 import { newSearchModal } from "~/test-e2e/component-objects/SearchModal";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newHomePage } from "~/test-e2e/page-objects/HomePage";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/home");
@@ -33,10 +33,16 @@ test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
     });
   });
 
+  // Keyboard shortcut (Ctrl/Cmd+K) is desktop-only; no mobile entry point in the app.
   test("User can use search modal with CTRL+'K'", async ({
     page,
   }, testInfo) => {
     logTestPath(testInfo);
+
+    test.skip(
+      testInfo.project?.name === "Mobile Chrome",
+      "CTRL+K is a desktop keyboard shortcut"
+    );
 
     const searchModal = newSearchModal(page);
 
@@ -57,8 +63,9 @@ test.describe("Home Page", { tag: ["@desktop", "@mobile"] }, () => {
     );
 
     await withTestStep(testInfo, "Close search modal", async () => {
+      await expect(searchModal.closeButton).toBeVisible();
       await searchModal.closeButton.click({ force: true });
-      await expect(searchModal.root).not.toBeAttached();
+      await expect(searchModal.root).not.toBeAttached({ timeout: 15000 });
     });
   });
 

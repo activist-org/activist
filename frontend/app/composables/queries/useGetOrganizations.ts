@@ -1,19 +1,27 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
 export const getKeyForGetOrganizations = () => `organizations-list`;
 
 export function useGetOrganizations(
-  filters: Ref<OrganizationFilters> | ComputedRef<OrganizationFilters>
+  filters: MaybeRef<OrganizationFilters> | ComputedRef<OrganizationFilters>
 ) {
-  const store = useOrganizationStore();
+  const store = useOrganizationListStore();
   const page = ref(1);
-  const isLastPageRef = ref(false);
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const orgFilters = computed(() => unref(filters));
   // Use AsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
     () => getKeyForGetOrganizations(),
     async () => {
       try {
+        if (
+          store.getItems().length > 0 &&
+          JSON.stringify(store.getFilters()) ===
+            JSON.stringify(orgFilters.value) &&
+          store.getIsLastPage()
+        ) {
+          return store.getItems();
+        }
         const { data: organizations, isLastPage } = await listOrganizations({
           ...orgFilters.value,
           page:
@@ -23,22 +31,22 @@ export function useGetOrganizations(
               : 1,
           page_size: 10,
         });
-        const organizationsCached = store.getOrganizations();
+        const organizationsCached = store.getItems();
         const pageCached = store.getPage();
-        isLastPageRef.value = isLastPage;
+        store.setIsLastPage(isLastPage);
 
         // Append new events to cached events if page > 1.
         if (
           organizationsCached.length > 0 &&
           JSON.stringify(store.getFilters()) ===
             JSON.stringify(orgFilters.value) &&
-          page.value > pageCached
+          (page.value > pageCached || (page.value === 1 && pageCached === 1))
         ) {
-          store.setOrganizations([...organizationsCached, ...organizations]);
+          store.setItems([...organizationsCached, ...organizations]);
           return [...organizationsCached, ...organizations] as Organization[];
         }
 
-        store.setOrganizations(organizations);
+        store.setItems(organizations);
         if (
           JSON.stringify(store.getFilters()) !==
           JSON.stringify(orgFilters.value)
@@ -53,7 +61,7 @@ export function useGetOrganizations(
         store.setPage(page.value);
         return organizations as Organization[];
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },
@@ -62,12 +70,12 @@ export function useGetOrganizations(
       immediate: true,
       getCachedData: (key, nuxtApp) => {
         if (
-          store.getOrganizations().length > 0 &&
+          store.getItems().length > 0 &&
           JSON.stringify(store.getFilters()) ===
             JSON.stringify(orgFilters.value) &&
           page.value === store.getPage()
         ) {
-          return store.getOrganizations();
+          return store.getItems();
         }
         return nuxtApp.isHydrating
           ? nuxtApp.payload.data[key]
@@ -78,7 +86,7 @@ export function useGetOrganizations(
   );
 
   const getMore = () => {
-    if (isLastPageRef.value) return;
+    if (store.getIsLastPage()) return;
     page.value += 1;
   };
 

@@ -13,27 +13,36 @@ repos:
     hooks:
       - id: ruff-check
         name: run ruff linting check
-        files: ^backend/
+        files: ^(backend|services)/
         args: [--fix, --exit-non-zero-on-fix]
 
       - id: ruff-format
         name: run ruff formatting check
+        files: ^(backend|services)/
+
+  # Note: Two separate calls to numpydoc as we have separate pyproject.toml files.
+  - repo: https://github.com/numpy/numpydoc
+    rev: v1.9.0
+    hooks:
+      - id: numpydoc-validation
+        name: run backend numpydoc docstring validation
         files: ^backend/
+        exclude: ^backend/(.*/?(tests(/.*)?|views\.py|__init__\.py))$
 
   - repo: https://github.com/numpy/numpydoc
     rev: v1.9.0
     hooks:
       - id: numpydoc-validation
-        name: run numpydoc docstring validation
-        files: ^backend/
-        exclude: ^backend/(.*/?(tests(/.*)?|views\.py|__init__\.py))$
+        name: run services numpydoc docstring validation
+        files: ^services/
+        exclude: ^services/(.*/?(tests(/.*)?|__init__\.py))$
 
   - repo: local
     hooks:
       - id: mypy-check
         name: run mypy static type checking
         files: ^backend/
-        entry: mypy ./backend --config-file ./backend/pyproject.toml
+        entry: uv run mypy ./backend --config-file ./backend/pyproject.toml
         language: python
         types: [python]
         pass_filenames: false
@@ -48,14 +57,14 @@ repos:
       - id: run-i18n-check
         name: run i18n-check key-value checks
         files: ^frontend/
-        entry: i18n-check -a
+        entry: uv run i18n-check -a
         language: python
         pass_filenames: false
         additional_dependencies:
           - i18n-check
 
   - repo: https://github.com/to-sta/spdx-checker-pre-commit
-    rev: 0.1.7
+    rev: 0.1.8
     hooks:
       - id: spdx-license-checker
         name: run spdx-checker license check

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// See: backend/communities/groups/models.py
 // Note: We need to import here to overwrite base types.
 
 // MARK: Main Table
@@ -15,10 +16,12 @@ interface GroupBase extends Entity {
   faqEntries?: FaqEntry[];
   resources?: Resource[];
   images?: ContentImage[];
-  // topics?: Topic[];
-  // supportingOrgs?: Organization[];
-  // supportingUsers?: User[];
 }
+export interface GroupFilters {
+  linked_organizations?: string[];
+}
+
+export type GroupPaginatedResponse = PaginatedResponse<Group>;
 
 export interface Group extends GroupBase {
   texts: GroupText[];
@@ -30,6 +33,14 @@ export interface GroupImage {
   groupId: string;
   imageId: string;
   sequenceIndex: number;
+}
+export interface CreateGroupInput {
+  name: string;
+  tagline?: string;
+  city: string;
+  description: string;
+  topics: TopicEnum[];
+  organization: string;
 }
 
 export interface GroupMember {

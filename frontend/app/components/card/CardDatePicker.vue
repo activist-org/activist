@@ -51,8 +51,10 @@
 import { DatePicker } from "v-calendar";
 import "v-calendar/style.css";
 
-const date1 = "2021-02-28T18:20:00.000Z";
-const date2 = "2021-02-28T18:20:00.000Z";
+let date1 = "2021-02-28T18:20:00.000Z";
+let date2 = "2021-02-28T18:20:00.000Z";
+date1 = new Date().toDateString();
+date2 = new Date().toDateString();
 
 const colorMode = useColorMode();
 const colorModePreference = colorMode.preference == "light" ? "light" : "dark";

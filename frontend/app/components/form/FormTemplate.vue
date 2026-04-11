@@ -1,4 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- Note: This is a template form to demonstrate how to create forms. Labels are not localized on purpose. -->
 <template>
   <Form @submit="onSubmit" :schema="schema">
     <FormItem
