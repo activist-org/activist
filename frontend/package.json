@@ -94,7 +94,7 @@
     "@vueuse/integrations": "14.2.1",
     "@vueuse/math": "14.2.0",
     "autoprefixer": "10.4.23",
-    "axios": "1.13.5",
+    "axios": "1.15.0",
     "commander": "14.0.2",
     "dompurify": "3.3.2",
     "dotenv": "17.2.3",
