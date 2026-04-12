@@ -1,3 +1,4 @@
+// @vitest-environment nuxt
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -166,35 +167,35 @@ describe("useDebounce", () => {
   it("handles errors thrown by the callback without breaking the debounce", () => {
     const error = new Error("callback failed");
     const callback = vi.fn();
-    
+
     callback.mockImplementationOnce(() => {
       throw error;
     });
     callback.mockImplementationOnce(() => {});
-    
+
     const { debounce } = useDebounce();
     const debounced = debounce(callback, 100);
 
     debounced("save");
     vi.advanceTimersByTime(100);
-    
+
     debounced("retry");
     vi.advanceTimersByTime(100);
 
     expect(callback).toHaveBeenCalledTimes(2);
     expect(callback).toHaveBeenNthCalledWith(1, "save");
     expect(callback).toHaveBeenNthCalledWith(2, "retry");
-    
+
     expect(callback.mock.results[0].type).toBe("throw");
     expect(callback.mock.results[0].value).toBe(error);
-    
+
     expect(callback.mock.results[1].type).toBe("return");
   });
 
   it("can be scheduled again after a callback error", () => {
     const error = new Error("first failure");
     const callback = vi.fn();
-    
+
     callback.mockImplementationOnce(() => {
       throw error;
     });
@@ -206,10 +207,10 @@ describe("useDebounce", () => {
 
     debounced("attempt-1");
     vi.advanceTimersByTime(100);
-    
+
     debounced("attempt-2");
     vi.advanceTimersByTime(100);
-    
+
     debounced("attempt-3");
     vi.advanceTimersByTime(100);
 
@@ -223,20 +224,20 @@ describe("useDebounce", () => {
     const callback1 = vi.fn();
     const callback2 = vi.fn();
     const { debounce } = useDebounce();
-    
+
     const debounced1 = debounce(callback1, 100);
     const debounced2 = debounce(callback2, 200);
 
     debounced1("fn1");
     debounced2("fn2");
-    
+
     vi.advanceTimersByTime(100);
-    
+
     expect(callback1).toHaveBeenCalledWith("fn1");
     expect(callback2).not.toHaveBeenCalled();
-    
+
     vi.advanceTimersByTime(100);
-    
+
     expect(callback2).toHaveBeenCalledWith("fn2");
   });
 
