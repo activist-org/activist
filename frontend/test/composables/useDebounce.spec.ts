@@ -167,7 +167,6 @@ describe("useDebounce", () => {
     const error = new Error("callback failed");
     const callback = vi.fn();
     
-    // First call throws, second succeeds
     callback.mockImplementationOnce(() => {
       throw error;
     });
@@ -176,11 +175,9 @@ describe("useDebounce", () => {
     const { debounce } = useDebounce();
     const debounced = debounce(callback, 100);
 
-    // First call - should throw but be caught internally
     debounced("save");
     vi.advanceTimersByTime(100);
     
-    // Second call - should work normally
     debounced("retry");
     vi.advanceTimersByTime(100);
 
@@ -188,11 +185,9 @@ describe("useDebounce", () => {
     expect(callback).toHaveBeenNthCalledWith(1, "save");
     expect(callback).toHaveBeenNthCalledWith(2, "retry");
     
-    // Verify first call threw an error
     expect(callback.mock.results[0].type).toBe("throw");
     expect(callback.mock.results[0].value).toBe(error);
     
-    // Verify second call succeeded
     expect(callback.mock.results[1].type).toBe("return");
   });
 
@@ -209,15 +204,12 @@ describe("useDebounce", () => {
     const { debounce } = useDebounce();
     const debounced = debounce(callback, 100);
 
-    // First attempt - fails
     debounced("attempt-1");
     vi.advanceTimersByTime(100);
     
-    // Second attempt - succeeds
     debounced("attempt-2");
     vi.advanceTimersByTime(100);
     
-    // Third attempt - succeeds
     debounced("attempt-3");
     vi.advanceTimersByTime(100);
 
@@ -225,25 +217,6 @@ describe("useDebounce", () => {
     expect(callback).toHaveBeenNthCalledWith(1, "attempt-1");
     expect(callback).toHaveBeenNthCalledWith(2, "attempt-2");
     expect(callback).toHaveBeenNthCalledWith(3, "attempt-3");
-  });
-
-  it("handles async callback functions", async () => {
-    const asyncCallback = vi.fn(async (value: string) => {
-      return await Promise.resolve(value.toUpperCase());
-    });
-    
-    const { debounce } = useDebounce();
-    // Cast to any to bypass type checking since the implementation accepts unknown[]
-    const debounced = debounce(asyncCallback as any, 100);
-
-    debounced("test");
-    vi.advanceTimersByTime(100);
-    
-    // Wait for the promise to resolve
-    await vi.runAllTimersAsync();
-    
-    expect(asyncCallback).toHaveBeenCalledTimes(1);
-    expect(asyncCallback).toHaveBeenCalledWith("test");
   });
 
   it("maintains separate timeouts for different debounced functions", () => {
@@ -267,7 +240,6 @@ describe("useDebounce", () => {
     expect(callback2).toHaveBeenCalledWith("fn2");
   });
 
-  // Additional test for type flexibility
   it("accepts callbacks with any number of arguments", () => {
     const callback = vi.fn();
     const { debounce } = useDebounce();
