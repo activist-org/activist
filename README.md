@@ -289,6 +289,7 @@ We would be happy to discuss granting you further rights as a contributor after 
   - Please join our [public localization project on Weblate](https://hosted.weblate.org/projects/activist/activist)!
 - [Documentation](https://github.com/activist-org/activist/issues?q=is%3Aissue+is%3Aopen+label%3Adocumentation) for onboarding and project cohesion 📝
 - [Sharing activist.org](https://github.com/activist-org/activist/issues/23) with others! 🚀
+  - Dev.to — write a post to reach developers and open-source contributors
 
 <sub><a href="#top">Back to top.</a></sub>
 
