@@ -83,7 +83,7 @@ max-complexity = 10
 line_length = 88
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "core.settings"
+DJANGO_SETTINGS_MODULE = "core.test_settings"
 python_files = "test_*.py"
 addopts = "--nomigrations"
 

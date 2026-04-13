@@ -328,14 +328,17 @@ IMAGE_UPLOAD_MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # 5MB
 
 # MARK: API Settings
+#
+# Avoid running this setup during import of alternate settings modules
+# (e.g. ``core.test_settings``), where ``core.settings`` is imported as a base.
+if os.getenv("DJANGO_SETTINGS_MODULE") == "core.settings":
+    django.setup()
 
-django.setup()
+    from rest_framework import viewsets  # noqa: E402
 
-from rest_framework import viewsets  # noqa: E402
+    django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
 
-django_stubs_ext.monkeypatch(extra_classes=(viewsets.ModelViewSet,))
+    from rest_framework.settings import api_settings  # noqa: E402
 
-from rest_framework.settings import api_settings  # noqa: E402
-
-# Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
-api_settings.reload()
+    # Workaround #471 / monkeypatch() is overriding the REST_FRAMEWORK dict.
+    api_settings.reload()
