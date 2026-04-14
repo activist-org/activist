@@ -23,6 +23,7 @@
         @submit="submit"
         class="flex w-full flex-col items-center justify-center pt-4"
         class-button="mb-4"
+        :is-loading="loading"
         :schema="schema"
         submit-label="i18n.pages.organizations.create.complete_application"
       >
@@ -152,7 +153,7 @@
 </template>
 
 <script setup lang="ts">
-import { Toaster, toast } from "vue-sonner";
+import { Toaster } from "vue-sonner";
 import { z } from "zod";
 
 const schema = z.object({
@@ -164,16 +165,20 @@ const schema = z.object({
 });
 
 const localePath = useLocalePath();
+const { create, loading } = useOrganizationMutations();
 
-const submit = async () => {
-  // const responseId = await organizationStore.create(
-  //   values as OrganizationCreateFormData
-  // );
-  const responseId = "test-id"; // TODO: Replace with actual response from store
-  if (responseId) {
-    navigateTo(localePath(`/organizations/${responseId}`));
-  } else {
-    toast.error("Something went wrong. Please try again later.");
+const submit = async (values: Record<string, unknown>) => {
+  const organization = await create({
+    name: values.name as string,
+    tagline: values.tagline as string | undefined,
+    city: values.location as string,
+    country_code: "en",
+    description: values.description as string,
+    topics: values.topics as TopicEnum[] | undefined,
+  });
+
+  if (organization) {
+    navigateTo(localePath(`/organizations/${organization.id}`));
   }
 };
 </script>
