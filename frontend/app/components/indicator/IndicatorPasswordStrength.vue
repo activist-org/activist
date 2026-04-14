@@ -21,11 +21,9 @@
     >
       {{ $t("i18n.components.indicator_password_strength.title") }}:
       {{
-        $t(
-          !!(password || []).length
-            ? text
-            : "i18n.components.indicator_password_strength.invalid"
-        )
+        !!(password || []).length
+          ? $t("i18n.components.indicator_password_strength.time_to_crack", { time: crackTimeDisplay })
+          : $t("i18n.components.indicator_password_strength.invalid")
       }}
     </div>
   </div>
@@ -38,50 +36,40 @@ const props = defineProps<{
   passwordValue?: string | Ref<string | undefined>;
 }>();
 
-const width = computed(() => (score.value + 1) * 20);
-const color = computed(() => passwordStrengthMap[score.value].color);
-const text = computed(() => passwordStrengthMap[score.value].text);
-
 const password = computed(() => unref(props.passwordValue));
 type PasswordIndexKey = 0 | 1 | 2 | 3 | 4;
 
 const passwordStrengthMap: Record<
   PasswordIndexKey,
-  { color: string; text: string }
+  { color: string }
 > = {
-  0: {
-    color: "bg-password-strength-very-weak",
-    text: "i18n.components.indicator_password_strength.very_weak",
-  },
-  1: {
-    color: "bg-password-strength-weak",
-    text: "i18n.components.indicator_password_strength.weak",
-  },
-  2: {
-    color: "bg-password-strength-medium",
-    text: "i18n.components.indicator_password_strength.medium",
-  },
-  3: {
-    color: "bg-password-strength-strong",
-    text: "i18n.components.indicator_password_strength.strong",
-  },
-  4: {
-    color: "bg-primary-text",
-    text: "i18n.components.indicator_password_strength.very_strong",
-  },
+  0: { color: "bg-password-strength-very-weak" },
+  1: { color: "bg-password-strength-weak" },
+  2: { color: "bg-password-strength-medium" },
+  3: { color: "bg-password-strength-strong" },
+  4: { color: "bg-primary-text" },
 };
 
 const SCORE_THRESHOLDS: number[] = [6, 9, 11.5, 13.5, 15];
 
-// Finds the case where guessLog is less than the value among those specified in the SCORE_THRESHOLDS array.
 const score = computed((): PasswordIndexKey => {
   if (!password.value) return 0;
-  const guessLog: number = zxcvbn(password.value as string).guesses_log10;
+  const result = zxcvbn(password.value as string);
+  const guessLog: number = result.guesses_log10;
   const scoreIndex = SCORE_THRESHOLDS.findIndex(
     (threshold) => guessLog < threshold
   );
   return (
     scoreIndex >= 0 ? scoreIndex : SCORE_THRESHOLDS.length - 1
   ) as PasswordIndexKey;
+});
+
+const width = computed(() => (score.value + 1) * 20);
+const color = computed(() => passwordStrengthMap[score.value].color);
+
+const crackTimeDisplay = computed(() => {
+  if (!password.value) return "";
+  const result = zxcvbn(password.value as string);
+  return result.crack_times_display.offline_slow_hashing_1e4_per_second;
 });
 </script>

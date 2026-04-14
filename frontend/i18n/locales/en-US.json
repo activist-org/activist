@@ -302,6 +302,7 @@
   "i18n.components.indicator_password_strength.invalid": "invalid",
   "i18n.components.indicator_password_strength.medium": "medium",
   "i18n.components.indicator_password_strength.strong": "strong",
+  "i18n.components.indicator_password_strength.time_to_crack": "Time to crack: {time}",
   "i18n.components.indicator_password_strength.title": "Password strength",
   "i18n.components.indicator_password_strength.very_strong": "very strong",
   "i18n.components.indicator_password_strength.very_weak": "very weak",
