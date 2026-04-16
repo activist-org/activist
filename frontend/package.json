@@ -96,7 +96,7 @@
     "autoprefixer": "10.4.23",
     "axios": "1.13.5",
     "commander": "14.0.2",
-    "dompurify": "3.3.2",
+    "dompurify": "3.4.0",
     "dotenv": "17.2.3",
     "eslint-config-prettier": "10.1.8",
     "eslint-flat-config-utils": "2.1.4",
