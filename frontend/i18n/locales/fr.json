@@ -255,7 +255,7 @@
   "i18n.components.form_resource.description": "Description de ressource",
   "i18n.components.form_resource.description_required": "Description de la ressource requise",
   "i18n.components.form_resource.invalid_topic": "Sujet non valide sélectionné",
-  "i18n.components.form_resource.link": "Lien URL de la ressource",
+  "i18n.components.form_resource.link": "Lien URL ressource",
   "i18n.components.form_resource.link_required": "Lien URL de la ressource requis",
   "i18n.components.form_resource.name": "Nom ressource",
   "i18n.components.form_resource.name_required": "Nom ressource requis",
