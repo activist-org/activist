@@ -113,7 +113,7 @@ const props = computed(() => {
 const aboveMediumBP = useBreakpoint("md");
 const modalName = "ModalsQRCode";
 
-const qrCodeFileName: string = props.value.fileName;
+const qrCodeFileName = computed(() => props.value.fileName);
 
 const { qrcode, showTooltip, availableFormats, downloadQRCode, onImageClick } =
   useQRCode(qrCodeFileName);

@@ -25,7 +25,7 @@
         <Icon :name="dropdownIcon" :size="iconSize" />
       </MenuButton>
       <MenuItems
-        class="elem-shadow-lg absolute right-0 top-full z-[100] mt-2 w-max rounded-md bg-layer-1 ring-1 ring-black/5 focus:outline-none"
+        class="elem-shadow-lg z-100 absolute right-0 top-full mt-2 flex w-max flex-col gap-2 rounded-md bg-layer-1 p-2 ring-1 ring-black/5 focus:outline-none"
       >
         <MenuItem
           v-for="option in dropdownOptions"

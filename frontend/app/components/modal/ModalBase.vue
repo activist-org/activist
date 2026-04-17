@@ -1,11 +1,9 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <Teleport to="body">
-    <Dialog class="relative z-50" :open="modalIsOpen">
+    <Dialog @close="closeModal" class="relative z-50" :open="modalIsOpen">
       <DialogBackdrop class="fixed inset-0 bg-layer-0/95 dark:bg-layer-0/95" />
       <div
-        @click="closeModal()"
-        @keydown.enter="closeModal()"
         class="cursor-pointer"
         :class="{
           'fixed top-0 z-10 flex h-screen w-full flex-col items-center overflow-hidden':
@@ -75,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { Dialog, DialogPanel, DialogBackdrop } from "@headlessui/vue";
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/vue";
 import { useRoute } from "vue-router";
 
 const props = defineProps<{
