@@ -79,7 +79,7 @@ class EntityLocationFactory(factory.django.DjangoModelFactory):
                 "-77.0365427",
                 ["38.7916303", "38.9959680", "-77.1197949", "-76.9093660"],
                 "Washington, District of Columbia, United States",
-                "EN",
+                "US",
                 "Washington, D.C.",
             ],
             [

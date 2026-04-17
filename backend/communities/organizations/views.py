@@ -44,6 +44,7 @@ from communities.organizations.models import (
 from communities.organizations.serializers import (
     OrganizationFaqSerializer,
     OrganizationFlagSerializer,
+    OrganizationListSerializer,
     OrganizationPOSTSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
@@ -92,7 +93,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
                 description="Filter by topic type (e.g. from Topic.model type).",
             ),
         ],
-        responses={200: OrganizationSerializer(many=True)},
+        responses={200: OrganizationListSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
         queryset = self.filter_queryset(self.get_queryset())
@@ -107,10 +108,10 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
     def get_serializer_class(
         self,
-    ) -> Type[OrganizationPOSTSerializer | OrganizationSerializer]:
+    ) -> Type[OrganizationPOSTSerializer | OrganizationListSerializer]:
         if self.request.method == "POST":
             return OrganizationPOSTSerializer
-        return OrganizationSerializer
+        return OrganizationListSerializer
 
     @extend_schema(
         summary="Create a new organization",
