@@ -2,21 +2,23 @@
 name = "backend"
 version = "0.0.1"
 requires-python = ">=3.12"
+
 dependencies = [
-    "django>=6.0.3",
+    "httpx>=0.27.0",
+    "django>=6.0.4",
     "django-cors-headers>=4.9.0",
     "django-filter>=25.2",
     "django-ical>=1.9.2",
     "django-stubs>=5.2.9",
     "django-stubs-ext>=5.2.9",
-    "djangorestframework>=3.16.1",
+    "djangorestframework>=3.17.1",
     "djangorestframework-camel-case>=1.4.2",
     "djangorestframework-simplejwt>=5.5.1",
-    "djangorestframework-stubs>=3.16.8",
+    "djangorestframework-stubs>=3.16.9",
     "drf-spectacular>=0.29.0",
-    "gunicorn>=25.1.0",
+    "gunicorn>=25.3.0",
     "icalendar>=7.0.3",
-    "pillow>=12.1.1",
+    "pillow>=12.2.0",
     "psycopg2-binary>=2.9.11",
     "pyyaml>=6.0.3",
     "python-dotenv>=1.2.2",
@@ -27,13 +29,14 @@ dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.18.1",
     "mypy>=1.20.0",
+    "numpydoc>=1.10.0",
     "prek>=0.3.8",
-    "pytest>=9.0.2",
+    "pytest>=9.0.3",
     "pytest-cov>=7.1.0",
     "pytest-django>=4.12.0",
-    "ruff>=0.15.8",
+    "ruff>=0.15.9",
     "ts-backend-check>=1.4.4",
-    "types-icalendar>=6.3.2.20260223",
+    "types-icalendar>=6.3.2.20260408",
 ]
 
 [tool.ruff]
@@ -59,7 +62,6 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-
 select = [
     "E", # pycodestyle errors
     "F", # pyflakes
@@ -128,4 +130,6 @@ exclude = [
     "^.*\\.Meta$",    # meta classes
     "^.*\\.__str__$", # __str__ methods
     "^__init__$",     # __init__ files
+    "^test_.*$",      # test files
+    "^views.*$",      # test files
 ]

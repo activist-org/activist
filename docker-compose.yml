@@ -82,6 +82,28 @@ services:
     volumes:
       - ./backend/media:/app/media
 
+  filescan:
+    env_file:
+      - .env.dev
+    build:
+      context: ./services/filescan
+    container_name: filescan_service
+    environment:
+      - FILESCAN_QUARANTINE_DIR=/var/filescan/quarantine
+    ports:
+      - "${FILESCAN_PORT}:${FILESCAN_PORT}"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:${FILESCAN_PORT}/health || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./quarantine:/var/filescan/quarantine
+
   mailhog:
     image: mailhog/mailhog:latest
     container_name: mailhog
@@ -94,9 +116,10 @@ services:
       - .env.dev
     build:
       context: ./frontend
-    container_name: nuxt_frontend
-    # Use USE_PREVIEW=true to run pre-built version (faster for E2E tests).
-    # Use USE_PREVIEW=false or unset for dev mode (default).
+    container_name:
+      nuxt_frontend
+      # Use USE_PREVIEW=true to run pre-built version (faster for E2E tests).
+      # Use USE_PREVIEW=false or unset for dev mode (default).
     command: sh -c "
       corepack enable && yarn install &&
       if [ \"$${USE_PREVIEW}\" = \"true\" ]; then

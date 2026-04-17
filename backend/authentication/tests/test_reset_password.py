@@ -16,7 +16,6 @@ pytestmark = pytest.mark.django_db
 def test_pwreset_email_sent_successfully(authenticated_client) -> None:
     """
     Test that password reset email is sent successfully for a valid user.
-
     """
     logger.info("Testing password reset email request for valid user")
     client, user = authenticated_client

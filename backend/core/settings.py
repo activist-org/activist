@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -25,6 +26,11 @@ if os.getenv("DJANGO_ENV") == "LOCAL_DEV":
 
 else:
     dotenv.load_dotenv()
+
+# Ensure the repository root (which contains ``services``) is importable so that
+# backend code can import helper modules such as ``services.filescan.client``.
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 # MARK: DB
 
@@ -191,6 +197,15 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
 EMAIL_BACKEND = os.getenv(
     "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
 )
+
+# Security event alerts
+INTERNAL_EVENTS_TOKEN = os.getenv("INTERNAL_EVENTS_TOKEN")
+SECURITY_ALERT_RECIPIENTS = tuple(
+    addr.strip()
+    for addr in os.getenv("SECURITY_ALERT_RECIPIENTS", "").split(",")
+    if addr.strip()
+)
+SECURITY_ALERT_FROM_EMAIL = os.getenv("SECURITY_ALERT_FROM_EMAIL", EMAIL_HOST_USER)
 
 # MARK: REST Framework
 
