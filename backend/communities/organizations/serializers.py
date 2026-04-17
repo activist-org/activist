@@ -271,7 +271,6 @@ class OrganizationListSerializer(serializers.ModelSerializer[Organization]):
 
     texts = OrganizationTextSerializer(many=True, read_only=True)
     location = LocationSerializer()
-
     icon_url = ImageSerializer(required=False)
 
     class Meta:
