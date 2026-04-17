@@ -68,7 +68,7 @@ The following are the current and planned technologies for [activist.org](https:
 
 ### Backend
 
-- [Django](https://www.djangoproject.com) • [PostgreSQL](https://www.postgresql.org)
+- [Django](https://www.djangoproject.com) • [FastAPI](https://fastapi.tiangolo.com/) (services) • [PostgreSQL](https://www.postgresql.org)
 
 ### Deployment
 
