@@ -7,12 +7,11 @@
       :entityType="EntityType.EVENT"
     />
     <SidebarLeft
-      v-if="aboveMediumBP"
       @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen"
+      class="fixed top-0 z-20 hidden h-screen md:block"
     />
     <div class="grid grid-rows-[1fr_auto] md:h-screen md:overflow-y-scroll">
       <div
@@ -30,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
-
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 

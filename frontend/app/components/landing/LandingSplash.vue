@@ -13,11 +13,11 @@
     </div>
     <div class="flex justify-center">
       <div class="w-10/12 text-center">
-        <div v-if="aboveMediumBP" class="block flex-col space-y-1 xl:space-y-2">
+        <div class="hidden flex-col space-y-1 md:block xl:space-y-2">
           <h4>{{ $t("i18n.components.landing_splash.message_1") }}</h4>
           <h4>{{ $t("i18n.components.landing_splash.message_2") }}</h4>
         </div>
-        <h4 v-else>
+        <h4 class="block md:hidden">
           {{ $t("i18n.components.landing_splash.message_1") }}&nbsp;{{
             $t("i18n.components.landing_splash.message_2")
           }}
@@ -59,7 +59,8 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
 const devMode = useDevMode();
-devMode.check();
+onMounted(() => {
+  devMode.check();
+});
 </script>

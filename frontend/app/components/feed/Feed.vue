@@ -39,12 +39,12 @@ const feedItemUrls = computed<string[]>(() => {
   }
 });
 
-const currentWidth = ref(window.innerWidth);
+const currentWidth = ref(window?.innerWidth);
 const numberOfFeedItems = ref(1);
 let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const updateWidth = () => {
-  currentWidth.value = window.innerWidth;
+  currentWidth.value = window?.innerWidth;
   if (currentWidth.value < BreakpointMap.SMALL) {
     numberOfFeedItems.value = 1;
   } else if (currentWidth.value < BreakpointMap.LARGE) {
@@ -66,11 +66,11 @@ const handleResize = () => {
 };
 
 onMounted(() => {
-  window.addEventListener("resize", handleResize);
+  window?.addEventListener?.("resize", handleResize);
   updateWidth();
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", handleResize);
+  window?.removeEventListener?.("resize", handleResize);
 });
 </script>

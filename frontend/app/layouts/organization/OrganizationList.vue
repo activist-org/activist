@@ -7,12 +7,11 @@
     /> -->
     <!-- <ModalUploadImage @upload-complete="handleUploadComplete" /> -->
     <SidebarLeft
-      v-if="aboveMediumBP"
       @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen"
+      class="fixed top-0 z-20 hidden h-screen md:block"
     />
     <div class="grid grid-rows-[1fr_auto] md:h-screen md:overflow-y-scroll">
       <div
@@ -30,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
-
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =

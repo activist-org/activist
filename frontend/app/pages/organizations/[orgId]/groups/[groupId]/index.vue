@@ -3,10 +3,10 @@
 const { orgId } = useRoute().params;
 const { groupid } = useRoute().params;
 
-const windowWidth = ref(window.innerWidth);
+const windowWidth = ref(window?.innerWidth);
 
 const handleResize = () => {
-  windowWidth.value = window.innerWidth;
+  windowWidth.value = window?.innerWidth;
   if (windowWidth.value > BreakpointMap.SMALL) {
     const { locale } = useI18n();
     const currentRoute = useRoute();

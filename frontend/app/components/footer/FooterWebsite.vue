@@ -171,13 +171,13 @@
 </template>
 
 <script setup lang="ts">
-const currentWidth = ref(window.innerWidth);
+const currentWidth = ref(window?.innerWidth);
 const isMobileDevice = ref(false);
 let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 const localePath = useLocalePath();
 
 const updateWidth = () => {
-  currentWidth.value = window.innerWidth;
+  currentWidth.value = window?.innerWidth || 0;
   if (currentWidth.value < BreakpointMap.LARGE) {
     isMobileDevice.value = true;
   } else {

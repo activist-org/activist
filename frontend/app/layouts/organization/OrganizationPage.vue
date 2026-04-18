@@ -12,12 +12,11 @@
       :entityType="EntityType.ORGANIZATION"
     />
     <SidebarLeft
-      v-if="aboveMediumBP"
       @blur="sidebarHover = false"
       @focus="sidebarHover = true"
       @mouseleave="sidebarHover = false"
       @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen"
+      class="fixed top-0 z-20 hidden h-screen md:block"
     />
     <div class="flex grid-rows-none flex-col md:grid md:grid-rows-[1fr_auto]">
       <div
@@ -35,8 +34,6 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
-
 const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
   "ModalUploadImageOrganization"
 );

@@ -2,14 +2,12 @@
 <template>
   <NuxtLoadingIndicator color="#F0A14C" />
   <HeaderMobile />
-  <MenuMobileNavigationDropdown v-if="!aboveMediumBP" />
+  <MenuMobileNavigationDropdown class="block md:hidden" />
   <slot />
-  <MenuMobileNavBar v-if="!aboveMediumBP" />
+  <MenuMobileNavBar class="block md:hidden" />
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
-
 const sidebar = useSidebar();
 
 onMounted(() => {
@@ -22,7 +20,7 @@ onUnmounted(() => {
 });
 
 const handleWindowSizeChange = () => {
-  if (window.innerWidth < 1280) {
+  if (window?.innerWidth < 1280) {
     sidebar.collapsed = true;
     sidebar.collapsedSwitch = true;
   }

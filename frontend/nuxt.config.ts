@@ -20,13 +20,15 @@ export default defineNuxtConfig({
     },
   },
   modules: process.env.VITEST ? [] : modules,
-  ssr: false,
 
   devtools: {
     enabled: true,
   },
-
-  plugins: ["~/plugins/i18n-head.ts", "~/plugins/i18n-iso-countries.ts"],
+  plugins: [
+    "~/plugins/i18n-head.ts",
+    "~/plugins/i18n-iso-countries.ts",
+    "~/plugins/error-watcher.ts",
+  ],
   // Auto import services and stores.
   imports: {
     dirs: ["./constants", "./services", "./stores"],
@@ -59,6 +61,7 @@ export default defineNuxtConfig({
     "reduced-motion/css",
     "v-calendar/style.css",
     "vue-sonner/style.css",
+    "maplibre-gl/dist/maplibre-gl.css",
   ],
 
   postcss: {
@@ -108,7 +111,7 @@ export default defineNuxtConfig({
   nitro: {
     // Use node-server preset for local preview/Docker (creates .output/server/index.mjs)
     // Use netlify-static preset for Netlify deployment (creates static site)
-    preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
+    preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify",
   },
 
   plausible: {

@@ -2,9 +2,8 @@
 <template>
   <header
     id="mobile-header"
-    v-if="!aboveMediumBP"
     ref="header"
-    class="sticky top-0 z-50 h-12 w-full bg-layer-2 drop-shadow-md duration-500"
+    class="sticky top-0 z-50 block h-12 w-full bg-layer-2 drop-shadow-md duration-500 md:hidden"
   >
     <div class="h-full">
       <div class="flex h-full justify-between gap-2 px-4">
@@ -54,7 +53,9 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
+import { ref } from "vue";
+
+// 1. Removed `useBreakpoint("md")` as CSS now handles this
 
 const { userIsSignedIn } = useUser();
 

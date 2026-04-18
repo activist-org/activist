@@ -19,36 +19,36 @@
         </span>
         <span v-if="index !== displayBreadcrumbs.length - 1">
           <NuxtLink
-            v-if="isValidUUID(breadcrumb) && pageType == 'event'"
+            v-if="isValidUUID(breadcrumb) && pageType === 'event'"
             class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
-            {{ event.name }}
+            {{ event?.name }}
           </NuxtLink>
           <NuxtLink
-            v-else-if="isValidUUID(breadcrumb) && pageType == 'organization'"
+            v-else-if="isValidUUID(breadcrumb) && pageType === 'organization'"
             class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
-            {{ organization.name }}
+            {{ organization?.name }}
           </NuxtLink>
           <NuxtLink
             v-else-if="
-              isValidUUID(breadcrumb) && pageType == 'group' && index == 1
+              isValidUUID(breadcrumb) && pageType === 'group' && index === 1
             "
             class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
-            {{ group.org.name }}
+            {{ group?.org?.name }}
           </NuxtLink>
           <NuxtLink
             v-else-if="
-              isValidUUID(breadcrumb) && pageType == 'group' && index == 3
+              isValidUUID(breadcrumb) && pageType === 'group' && index === 3
             "
             class="text-distinct-text focus-brand hover:text-primary-text"
             :to="makeURL(breadcrumb)"
           >
-            {{ group.name }}
+            {{ group?.name }}
           </NuxtLink>
           <NuxtLink
             v-else
@@ -74,76 +74,42 @@
 
 <script setup lang="ts">
 import { validate as isValidUUID } from "uuid";
+import { computed } from "vue";
 
-import { getGroup } from "~/services/communities/group/group";
-import { getOrganization } from "~/services/communities/organization/organization";
-import { getEvent } from "~/services/event/event";
-
-const url = window.location.href;
-let pageType = "";
-
+const route = useRoute();
 const { locales } = useI18n();
 const localePath = useLocalePath();
 
-const paramsOrgId = useRoute().params.orgId;
-const paramsGroupId = useRoute().params.groupId;
-const paramsEventId = useRoute().params.eventId;
+const paramsOrgId = route.params.orgId;
+const paramsGroupId = route.params.groupId;
+const paramsEventId = route.params.eventId;
 
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
-const organizationStore = useOrganizationStore();
-const groupStore = useGroupStore();
-const eventStore = useEventStore();
+const { data: organization } = useGetOrganization(orgId || "");
+const { data: group } = useGetGroup(groupId);
+const { data: event } = useGetEvent(eventId || "");
 
-let organization: Organization;
-let group: Group;
-let event: CommunityEvent;
+// MARK: Compute pageType dynamically based on route path (SSR Safe)
+const pageType = computed(() => {
+  const path = route.path;
+  // Checking path segments is safer and works flawlessly on the server
+  if (path.includes("/groups/")) {
+    return "group";
+  } else if (path.includes("/organizations/")) {
+    return "organization";
+  } else if (path.includes("/events/")) {
+    return "event";
+  }
+  return "";
+});
 
-// Note: UUID Regex: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.
-const organizationRegex =
-  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.+$/;
-const groupRegex =
-  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/organizations\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/groups\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).+$/;
-const eventRegex =
-  /^(http:\/\/localhost:\d+|https?:\/\/[\w.-]+)(\/[a-z]{2})?\/events\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).+$/;
-
-// Note: We need to test for groups before organizations as the org test passes for groups.
-if (groupRegex.test(url)) {
-  pageType = "group";
-
-  if (groupStore.group) group = groupStore.group;
-  else group = await getGroup(groupId);
-} else if (organizationRegex.test(url)) {
-  pageType = "organization";
-
-  if (organizationStore.organization)
-    organization = organizationStore.organization;
-  else organization = await getOrganization(orgId || "");
-} else if (eventRegex.test(url)) {
-  pageType = "event";
-
-  if (eventStore.event) event = eventStore.event;
-  else event = await getEvent(eventId || "");
-}
-
-const breadcrumbs = ref<string[]>([]);
-
-function setBreadcrumbs() {
-  const url = window.location.pathname;
-  const nonEmptySegments = getNonEmptySegmentsFromURL(url);
-  breadcrumbs.value = nonEmptySegments;
-}
-
-function getNonEmptySegmentsFromURL(url: string) {
-  const segments = url.split("/");
-  const nonEmptySegments = segments.filter((segment) => segment);
-  return nonEmptySegments;
-}
-
-onMounted(() => {
-  setBreadcrumbs();
+// MARK: Compute breadcrumbs dynamically based on route path (SSR Safe)
+const breadcrumbs = computed(() => {
+  const segments = route.path.split("/");
+  return segments.filter((segment) => segment); // Remove empty strings
 });
 
 function isLocaleSegment(segment: string) {
@@ -159,8 +125,7 @@ const displayBreadcrumbs = computed(() => {
 function makeURL(breadcrumb: string) {
   const clickedBreadcrumbIndex = breadcrumbs.value.indexOf(breadcrumb);
   const segmentsForURL = breadcrumbs.value.slice(0, clickedBreadcrumbIndex + 1);
-  const url = "/" + segmentsForURL.join("/");
-  return url;
+  return "/" + segmentsForURL.join("/");
 }
 
 function capitalizeFirstLetter(string: string) {

@@ -10,8 +10,8 @@
       'invisible opacity-0': headerOpacity == 0,
     }"
   >
-    <!-- MARK: Mobile Header -->
-    <div id="mobile-header" v-if="!aboveMediumBP" class="flex px-4 py-3">
+    <!-- MARK: Mobile Header (Visible only on small screens) -->
+    <div id="mobile-header" class="flex px-4 py-3 md:hidden">
       <div class="z-0 mx-auto">
         <div
           class="absolute left-0 top-0 z-0 flex h-full w-full items-center justify-center"
@@ -56,8 +56,9 @@
         </div>
       </SidebarRight>
     </div>
-    <!-- MARK: Desktop Header -->
-    <div id="desktop-header" v-if="aboveMediumBP" class="mx-auto py-3">
+
+    <!-- MARK: Desktop Header (Visible only on md screens and up) -->
+    <div id="desktop-header" class="mx-auto hidden py-3 md:block">
       <div class="responsive-px-5 flex items-center justify-between">
         <div class="flex items-center md:space-x-4 lg:space-x-6 xl:space-x-8">
           <div class="relative z-0 h-10 w-36">
@@ -71,31 +72,36 @@
           <div class="flex items-center space-x-3 lg:space-x-4 xl:space-x-6">
             <DropdownTheme />
             <DropdownLanguage />
+
+            <!-- MARK: Desktop Buttons -->
+            <!-- Large Screens (lg and up) -->
             <BtnRouteInternal
               id="btn-sign-in-large"
-              v-if="aboveLargeBP && devMode.active"
+              v-if="devMode.active"
               ariaLabel="i18n._global.sign_in_aria_label"
-              class="block"
+              class="hidden lg:block"
               :cta="true"
               fontSize="sm"
               label="i18n._global.sign_in"
               linkTo="/auth/sign-in"
             />
+            <!-- Medium Screens (md only) -->
             <BtnRouteInternal
               id="btn-sign-in-medium"
-              v-else-if="aboveMediumBP && devMode.active"
+              v-if="devMode.active"
               ariaLabel="i18n._global.sign_in_aria_label"
-              class="block"
+              class="hidden md:block lg:hidden"
               :cta="true"
               fontSize="xs"
               label="i18n._global.sign_in"
               linkTo="/auth/sign-in"
             />
+
             <BtnRouteInternal
               id="btn-sign-up-large"
-              v-if="aboveLargeBP && devMode.active"
+              v-if="devMode.active"
               ariaLabel="i18n._global.sign_up_aria_label"
-              class="block"
+              class="hidden lg:block"
               :cta="true"
               fontSize="sm"
               label="i18n._global.sign_up"
@@ -103,19 +109,20 @@
             />
             <BtnRouteInternal
               id="btn-sign-up-medium"
-              v-else-if="aboveMediumBP && devMode.active"
+              v-if="devMode.active"
               ariaLabel="i18n._global.sign_up_aria_label"
-              class="block"
+              class="hidden md:block lg:hidden"
               :cta="true"
               fontSize="xs"
               label="i18n._global.sign_up"
               linkTo="/auth/sign-up"
             />
+
             <BtnRouteInternal
               id="btn-get-in-touch-large"
-              v-if="aboveLargeBP && !devMode.active"
+              v-if="!devMode.active"
               ariaLabel="i18n.components.header_website.support_aria_label"
-              class="block"
+              class="hidden lg:block"
               :cta="true"
               fontSize="sm"
               label="i18n._global.support"
@@ -123,9 +130,9 @@
             />
             <BtnRouteInternal
               id="btn-get-in-touch-medium"
-              v-else-if="aboveMediumBP && !devMode.active"
+              v-if="!devMode.active"
               ariaLabel="i18n.components.header_website.support_aria_label"
-              class="block"
+              class="hidden md:block lg:hidden"
               :cta="true"
               fontSize="xs"
               label="i18n._global.support"
@@ -139,16 +146,18 @@
 </template>
 
 <script setup lang="ts">
-const aboveMediumBP = useBreakpoint("md");
-const aboveLargeBP = useBreakpoint("lg");
+import { ref, onMounted, onUnmounted } from "vue";
 
+// REMOVED useBreakpoint as it is now handled by CSS
 const devMode = useDevMode();
-devMode.check();
-
 const { userIsSignedIn } = useUser();
 
-const headerOpacity: Ref<number> = ref(1);
-const prevScrollY: Ref<number> = ref(0);
+onMounted(() => {
+  devMode.check();
+});
+
+const headerOpacity = ref<number>(1);
+const prevScrollY = ref<number>(0);
 
 function handleScroll() {
   const scrollY = window.scrollY;
