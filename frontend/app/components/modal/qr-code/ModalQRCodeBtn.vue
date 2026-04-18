@@ -2,9 +2,9 @@
 <!-- Note: This file doesn't use ModalBase, so we handle modal events in the script block below. -->
 <template>
   <button
-    v-if="type == 'icon'"
-    @click="openModal()"
-    @keydown.enter="openModal()"
+    v-if="type === 'icon'"
+    @click="handleOpenModal()"
+    @keydown.enter="handleOpenModal()"
     :aria-label="$t('i18n.components.modal_qr_code_btn.open_modal_aria_label')"
     class="elem-on-card-style absolute right-0 flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-primary-text focus-brand sm:h-16 sm:w-16"
   >
@@ -27,8 +27,8 @@
   </button>
   <div v-else>
     <MetaTagSocialMedia
-      @click="openModal()"
-      @keydown.enter="openModal()"
+      @click="handleOpenModal()"
+      @keydown.enter="handleOpenModal()"
       class="dark:hover:distinct-text text-primary-text focus-brand hover:text-distinct-text"
       :iconName="IconMap.QR_CODE"
       iconSize="1.5em"
@@ -43,13 +43,6 @@
       {{ reasonForSuggesting }}
     </p>
   </div>
-  <ModalQRCode
-    @closeModal="handleCloseModal"
-    :fileName="computedFileName"
-    :firstParagraph="firstParagraph"
-    :linkUrl="linkUrl"
-    :secondParagraph="secondParagraph ?? ''"
-  />
 </template>
 
 <script setup lang="ts">
@@ -63,19 +56,17 @@ const props = defineProps<{
   fileName?: string;
 }>();
 
-const modals = useModals();
-const modalName = "ModalsQRCode";
-const modalIsOpen = ref(false);
+const { openModal } = useModalHandlers("ModalQRCode");
 
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
+function handleOpenModal() {
+  openModal({
+    firstParagraph: props.firstParagraph,
+    linkUrl: props.linkUrl,
+    name: props.name,
+    secondParagraph: props.secondParagraph,
+    fileName: computedFileName.value,
+  });
 }
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-};
 
 const computedFileName = computed(() => {
   if (props.fileName) return props.fileName;

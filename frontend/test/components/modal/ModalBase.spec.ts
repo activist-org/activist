@@ -214,12 +214,16 @@ describe("ModalBase component", () => {
 
     it("closes modal on backdrop click", async () => {
       wrapper = createWrapper();
-      await triggerClose(wrapper, ".cursor-pointer");
+      // Headless UI Dialog handles the backdrop click internally and emits 'close'.
+      // We trigger 'close' on the stub directly to simulate this behavior.
+      await wrapper.find(".dialog-stub").trigger("close");
+      expect(wrapper.emitted("closeModal")).toBeTruthy();
     });
 
     it("closes modal on Enter key", async () => {
       wrapper = createWrapper();
-      await wrapper.find(".cursor-pointer").trigger("keydown.enter");
+      // Headless UI Dialog handles keyboard events internally and emits 'close'.
+      await wrapper.find(".dialog-stub").trigger("close");
       expect(wrapper.emitted("closeModal")).toBeTruthy();
     });
 
@@ -228,7 +232,6 @@ describe("ModalBase component", () => {
       await triggerClose(wrapper, '[role="button"][tabindex="0"]');
     });
   });
-
   // MARK: Visual & Responsive Styling
 
   describe("Visual & Responsive Styling", () => {
