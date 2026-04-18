@@ -5,6 +5,15 @@
 export const getKeyForGetOrganizationImages = (id: string) =>
   `organizationImages:${id}`;
 
+/**
+ * Composable for fetching and managing the images associated with an organization in the frontend application.
+ * This composable uses the useAsyncData hook to fetch the organization's images from the server, handle loading and error states, and cache the data for efficient retrieval.
+ * The fetched images are stored in a Vuex store using the useOrganizationImageStore composable, allowing other components to access and reactively update based on the organization's images.
+ * The composable also integrates error handling using the useAppError composable to manage any errors that occur during the data fetching process.
+ * The returned object includes the data (list of images), pending state, error state, and a refresh function to manually trigger a re-fetch of the organization's images.
+ * @param id A reactive reference containing the ID of the organization for which to fetch the images, allowing the composable to reactively update the fetched data based on changes to the organization ID.
+ * @returns An object containing the data (list of images), pending state, error state, and a refresh function for managing the fetching and state of an organization's images in the application.
+ */
 export function useGetOrganizationImages(id: MaybeRef<string>) {
   const { handleError } = useAppError();
   const organizationId = computed(() => String(unref(id)));
@@ -71,6 +80,9 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
     shouldFetch.value ? query.pending.value : false
   );
 
+  /**
+   *
+   */
   async function refresh() {
     if (!key.value) {
       return;

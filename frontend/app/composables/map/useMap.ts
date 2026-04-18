@@ -7,6 +7,10 @@ export const useMap = () => {
   const { createMapForPointerTypeMap } = usePointerMap();
   const { createMapForClusterTypeMap } = useClusterMap();
 
+  /**
+   * Checks if the current browser environment supports WebGL, which is required for rendering interactive maps using MapLibre GL. The function creates a temporary canvas element and attempts to obtain a WebGL rendering context to determine support. If WebGL is supported and enabled, the function returns true; otherwise, it returns false, indicating that the map functionality may not work properly in the current environment.
+   * @returns A boolean value indicating whether WebGL is supported and enabled in the current browser environment, where true represents support for WebGL and false indicates that WebGL is not supported or is disabled.
+   */
   function isWebglSupported() {
     if (window.WebGLRenderingContext) {
       const canvas = document.createElement("canvas");
@@ -26,9 +30,9 @@ export const useMap = () => {
     return false;
   }
 
-  const addDefaultControls = (map: maplibregl.Map) => {
-    // MARK: Basic Controls
+  // MARK: Basic Controls
 
+  const addDefaultControls = (map: maplibregl.Map) => {
     // Localize FullscreenControl.
     const fullscreenControl = createFullScreenControl();
     map.addControl(fullscreenControl);

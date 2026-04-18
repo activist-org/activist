@@ -166,6 +166,9 @@ const sidebarContentScrollable = useState<boolean>(
 );
 const applyTopShadow = ref(false);
 
+/**
+ * Sets the scrollable state of the sidebar content based on its height.
+ */
 function setSidebarContentScrollable(): void {
   setTimeout(() => {
     // eslint-disable-next-line vue/no-ref-as-operand
@@ -177,6 +180,9 @@ function setSidebarContentScrollable(): void {
   isAtTop();
 }
 
+/**
+ * Applies a shadow to the top of the sidebar content if it is not scrolled to the top, providing a visual indication that there is more content to scroll through. This function checks the scroll position of the sidebar content and updates the applyTopShadow reactive reference accordingly, allowing the component to conditionally render the shadow based on whether the user has scrolled down from the top of the content.
+ */
 function isAtTop(): void {
   if (sidebarContentScrollable && content && content.value) {
     applyTopShadow.value = !(content.value.scrollTop === 0);
@@ -185,11 +191,19 @@ function isAtTop(): void {
 
 const sidebarWrapper = ref<HTMLElement | null>(null);
 
+/**
+ * Collapses or expands the sidebar based on the provided boolean value. When collapse is true, the sidebar will be collapsed, and when false, it will be expanded. This function also calls setSidebarContentScrollable to ensure that the scrollable state of the sidebar content is updated accordingly after changing the collapsed state of the sidebar.
+ * @param collapse A boolean value indicating whether to collapse (true) or expand (false) the sidebar. This parameter is used to update the collapsed state of the sidebar and ensure that the scrollable state of the sidebar content is set correctly after the change.
+ */
 function collapseSidebar(collapse: boolean): void {
   sidebar.collapsed = collapse;
   setSidebarContentScrollable();
 }
 
+/**
+ * Handles the focusout event on the sidebar wrapper to determine whether the sidebar should be collapsed or not. If the newly focused element is still within the sidebar wrapper, the sidebar will remain expanded; otherwise, it will be collapsed. This function ensures that the sidebar behaves intuitively when users navigate through it using keyboard or mouse interactions, providing a better user experience by keeping the sidebar open when interacting with its content and collapsing it when focus moves away.
+ * @param event The FocusEvent triggered when the focus moves out of the sidebar wrapper. This event contains information about the newly focused element, which is used to determine whether the sidebar should remain expanded or be collapsed based on whether the new focus is still within the sidebar wrapper.
+ */
 function handleFocusOut(event: FocusEvent) {
   const focusedElement = event.relatedTarget as HTMLElement;
   if (sidebarWrapper.value && sidebarWrapper.value.contains(focusedElement)) {

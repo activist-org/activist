@@ -20,6 +20,8 @@ export interface ServerReadinessResult {
 /**
  * Checks if the frontend server is ready by verifying it returns an HTML 200 response.
  * Works for both Nuxt dev server and static builds served by `serve`.
+ * @param options - The server readiness options
+ * @returns An object indicating whether the server is ready, how many attempts were made, and the last error if not ready.
  */
 export async function checkServerReadiness(
   options: ServerReadinessOptions
@@ -88,6 +90,8 @@ export async function checkServerReadiness(
 
 /**
  * Waits for the server to be ready with exponential backoff
+ * @param options - The server readiness options
+ * @returns A promise that resolves when the server is ready, or rejects if it fails after max retries
  */
 export async function waitForServerReady(
   options: ServerReadinessOptions
@@ -104,6 +108,8 @@ export async function waitForServerReady(
 
 /**
  * Quick server health check - just verifies the server responds
+ * @param baseURL - The base URL of the server to check
+ * @returns True if the server responds with a valid response, false otherwise
  */
 export async function quickServerHealthCheck(
   baseURL: string

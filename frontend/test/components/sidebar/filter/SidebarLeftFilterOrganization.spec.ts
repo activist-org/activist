@@ -3,7 +3,6 @@
  * Unit tests for SidebarLeftFilterOrganization.vue.
  * Route query sync behavior is tested in test/utils/routeUtils.spec.ts
  * (routeQueryToOrganizationFilterFormData). Here we verify component integration.
- *
  * @see https://github.com/activist-org/activist/issues/1738
  * @see https://github.com/activist-org/activist/issues/1753
  */

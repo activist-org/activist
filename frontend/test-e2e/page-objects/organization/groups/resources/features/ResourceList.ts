@@ -4,6 +4,8 @@ import type { Page } from "@playwright/test";
 /**
  * Resource List Feature
  * Handles resource list container and collection operations.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with the resource list, including accessing the list container, resource cards, empty state, and performing operations like counting resources and checking visibility.
  */
 export const ResourceList = (page: Page) => {
   return {

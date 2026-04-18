@@ -168,6 +168,10 @@ const sentinel = ref(null);
 const formInputRef = ref<{ $el?: HTMLElement } | null>(null);
 const actualInputRef = ref<HTMLInputElement | null>(null);
 
+/**
+ * Sets up the input wrapper for the ComboboxInput component. This function is responsible for ensuring that the actual input element within the ComboboxInput is accessible and can have its selection range set properly. It checks if the provided element has a setSelectionRange method, and if not, it attempts to find the input element within the ComboboxInput's $el and assigns it to actualInputRef. This allows for proper handling of text selection within the input field, even when using a custom wrapper component.
+ * @param el The element reference passed from the ComboboxInput component. This can be either the element itself or an object containing a $el property that references the actual DOM element. The function processes this reference to ensure that the input element is correctly identified and can be manipulated for text selection purposes.
+ */
 function setupInputWrapper(el: unknown) {
   if (!el) return;
   const element = ((el as { $el?: HTMLElement })?.$el || el) as HTMLElement & {

@@ -57,6 +57,11 @@ export const createResource = (
 
 // MARK: ContentImage
 
+/**
+ * Creates a mock ContentImage object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock ContentImage object with default values overridden by any provided values.
+ */
 export function createMockContentImage(
   overrides?: Partial<ContentImage>
 ): ContentImage {
@@ -68,6 +73,11 @@ export function createMockContentImage(
 
 // MARK: User
 
+/**
+ * Creates a mock User object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock User object with default values overridden by any provided values.
+ */
 export function createMockUser(overrides?: Partial<User>): User {
   return {
     ...defaultUserData,
@@ -77,6 +87,11 @@ export function createMockUser(overrides?: Partial<User>): User {
 
 // MARK: PhysicalLocation
 
+/**
+ * Creates a mock PhysicalLocation object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock PhysicalLocation object with default values overridden by any provided values.
+ */
 export function createMockPhysicalLocation(
   overrides?: Partial<PhysicalLocation>
 ): PhysicalLocation {
@@ -88,6 +103,11 @@ export function createMockPhysicalLocation(
 
 // MARK: SocialLink
 
+/**
+ * Creates a mock SocialLink object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock SocialLink object with default values overridden by any provided values.
+ */
 export function createMockSocialLink(
   overrides?: Partial<SocialLink>
 ): SocialLink {
@@ -99,6 +119,11 @@ export function createMockSocialLink(
 
 // MARK: Event
 
+/**
+ * Creates a mock EventText object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock EventText object with default values overridden by any provided values.
+ */
 export function createMockEventText(overrides?: Partial<EventText>): EventText {
   return {
     ...defaultEventTextData,
@@ -106,6 +131,11 @@ export function createMockEventText(overrides?: Partial<EventText>): EventText {
   };
 }
 
+/**
+ * Creates a mock CommunityEvent object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock CommunityEvent object with default values overridden by any provided values.
+ */
 export function createMockEvent(
   overrides?: WithEntityProps<CommunityEvent>
 ): CommunityEvent {
@@ -117,6 +147,11 @@ export function createMockEvent(
   } as CommunityEvent;
 }
 
+/**
+ * Creates a mock EventFilters object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock EventFilters object with default values overridden by any provided values.
+ */
 export function createMockEventFilters(
   overrides?: Partial<EventFilters>
 ): EventFilters {
@@ -128,6 +163,11 @@ export function createMockEventFilters(
 
 // MARK: Organization
 
+/**
+ * Creates a mock OrganizationText object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock OrganizationText object with default values overridden by any provided values.
+ */
 export function createMockOrganizationText(
   overrides?: Partial<OrganizationText>
 ): OrganizationText {
@@ -137,6 +177,11 @@ export function createMockOrganizationText(
   };
 }
 
+/**
+ * Creates a mock Organization object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock Organization object with default values overridden by any provided values.
+ */
 export function createMockOrganization(
   overrides?: WithEntityProps<Organization>
 ): Organization {
@@ -148,6 +193,11 @@ export function createMockOrganization(
   } as Organization;
 }
 
+/**
+ * Creates a mock OrganizationFilters object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock OrganizationFilters object with default values overridden by any provided values.
+ */
 export function createMockOrganizationFilters(
   overrides?: Partial<OrganizationFilters>
 ): OrganizationFilters {
@@ -159,6 +209,11 @@ export function createMockOrganizationFilters(
 
 // MARK: Group
 
+/**
+ * Creates a mock GroupText object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock GroupText object with default values overridden by any provided values.
+ */
 export function createMockGroupText(overrides?: Partial<GroupText>): GroupText {
   return {
     ...defaultGroupTextData,
@@ -166,6 +221,11 @@ export function createMockGroupText(overrides?: Partial<GroupText>): GroupText {
   };
 }
 
+/**
+ * Creates a mock Group object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock Group object with default values overridden by any provided values.
+ */
 export function createMockGroup(overrides?: WithEntityProps<Group>): Group {
   return {
     ...defaultGroupData,
@@ -176,6 +236,11 @@ export function createMockGroup(overrides?: WithEntityProps<Group>): Group {
   } as Group;
 }
 
+/**
+ * Creates a mock GroupFilters object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock GroupFilters object with default values overridden by any provided values.
+ */
 export function createMockGroupFilters(
   overrides?: Partial<GroupFilters>
 ): GroupFilters {
@@ -187,6 +252,11 @@ export function createMockGroupFilters(
 
 // MARK: Topic
 
+/**
+ * Creates a mock Topic object for testing.
+ * @param overrides - Values to override the default mock data
+ * @returns A mock Topic object with default values overridden by any provided values.
+ */
 export function createMockTopic(overrides?: Partial<Topic>): Topic {
   return {
     ...defaultTopicData,

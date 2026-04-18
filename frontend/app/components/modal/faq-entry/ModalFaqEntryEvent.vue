@@ -73,6 +73,10 @@ watch(
   }
 );
 
+/**
+ * Handles the submission of the event FAQ entry form. This function takes the form values as input, processes them to determine whether to create a new FAQ entry or update an existing one based on the isAddMode flag, and then performs the necessary operation using the corresponding mutation. After the operation is completed successfully, the modal is closed to provide feedback to the user that their action has been processed.
+ * @param values The values from the event FAQ entry form, which include the question, answer, and order of the FAQ entry. These values are used to either create a new FAQ entry or update an existing one on the server when the form is submitted. The function processes these values and interacts with the createFAQ or updateFAQ mutation based on whether the form is in add mode or edit mode to perform the appropriate operation.
+ */
 async function handleSubmit(values: unknown) {
   let updateResponse = false;
   const newValues = { ...formData.value, ...(values as FaqEntry) };

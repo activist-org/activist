@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Helper to check JWT expiration without external libraries.
+/**
+ * Checks if a JWT token is expired by decoding its payload and comparing the expiration time to the current time.
+ * @param token - The JWT token string to check for expiration.
+ * @returns True if the token is expired or invalid, false if it is still valid.
+ */
 function isTokenExpired(token: string): boolean {
   try {
     const payloadBase64 = token.split(".")[1];

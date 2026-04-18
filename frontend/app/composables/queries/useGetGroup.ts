@@ -4,6 +4,11 @@
 
 export const getKeyForGetGroup = (id: string) => `group:${id}`;
 
+/**
+ * Composable for fetching and managing the data of a specific group in the frontend application. This composable uses the useAsyncData hook to fetch the group's data from the server based on the provided group ID, handle loading and error states, and cache the data for efficient retrieval. The fetched group data is stored in a Vuex store using the useGroupStore composable, allowing other components to access and reactively update based on the group's data. The composable also integrates error handling using the useAppError composable to manage any errors that occur during the data fetching process. Additionally, it provides a refresh function to manually trigger a re-fetch of the group's data when needed.
+ * @param id A reactive reference containing the ID of the group to be fetched, allowing the composable to reactively update the fetched data based on changes to the group ID.
+ * @returns An object containing the data (group), pending state, error state, and a refresh function for managing the fetching and state of a group in the application.
+ */
 export function useGetGroup(id: MaybeRef<string>) {
   const { handleError } = useAppError();
   const groupId = computed(() => String(unref(id)));
@@ -59,6 +64,9 @@ export function useGetGroup(id: MaybeRef<string>) {
   // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() => query.pending.value);
 
+  /**
+   *
+   */
   async function refresh() {
     if (!key.value) {
       return;

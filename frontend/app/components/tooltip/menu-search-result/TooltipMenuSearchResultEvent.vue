@@ -65,6 +65,9 @@ const modals = useModals();
 const modalName = "ModalSharePage";
 const modalIsOpen = ref(false);
 
+/**
+ *
+ */
 function openModal() {
   modals.openModal(modalName);
   modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;

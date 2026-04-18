@@ -92,6 +92,9 @@ const { handleAddFiles, removeFile } = useFileManager();
 const localFiles = ref<FileUploadMix[]>([]);
 
 // Emit file changes.
+/**
+ * Emits the current state of the localFiles array to the parent component. This function is called whenever there is a change in the localFiles array, ensuring that the parent component always has the latest list of files. It emits the "update:modelValue" event with the current localFiles array as the payload.
+ */
 function emitFiles() {
   emit("update:modelValue", localFiles.value);
 }
@@ -104,12 +107,20 @@ watch(
   { immediate: true }
 );
 
+/**
+ * Handles the addition of files when they are dropped into the drop zone. This function takes an array of File objects as input, processes them using the handleAddFiles utility function to add them to the localFiles array, and then emits the updated list of files to the parent component. Additionally, it emits a "files-dropped" event with the updated list of files, allowing the parent component to react to the new files being added, such as by uploading them to the server or updating the UI accordingly.
+ * @param files An array of File objects that have been dropped into the drop zone. These files are processed and added to the localFiles array, which is a local representation of the files being managed by this component. The function uses the handleAddFiles utility to handle the addition of these files, ensuring that they are properly integrated into the component's state before emitting the changes to the parent component.
+ */
 function handleAdd(files: File[]) {
   localFiles.value = handleAddFiles(files, localFiles.value); // this should mutate localFiles
   emitFiles();
   emit("files-dropped", localFiles.value);
 }
 
+/**
+ * Handles the removal of a file from the localFiles array. This function takes a FileUploadMix object as input, removes it from the localFiles array using the removeFile utility function, and then emits the updated list of files to the parent component. Additionally, it emits a "file-deleted" event with the removed file, allowing the parent component to react to the file being deleted, such as by removing it from the server or updating the UI accordingly.
+ * @param file The FileUploadMix object representing the file to be removed. This object contains information about the file, such as its type and data, which is used to identify and remove it from the localFiles array. The function uses the removeFile utility to handle the removal of this file, ensuring that it is properly removed from the component's state before emitting the changes to the parent component.
+ */
 function handleRemoveFile(file: FileUploadMix) {
   removeFile(localFiles.value, file.data);
   emitFiles();

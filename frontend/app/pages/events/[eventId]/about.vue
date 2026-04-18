@@ -111,6 +111,9 @@ const windowWidth = ref(window.innerWidth);
 
 const shareButtonLabel = ref("");
 
+/**
+ *
+ */
 function updateShareBtnLabel() {
   windowWidth.value = window.innerWidth;
   if (windowWidth.value < BreakpointMap.SMALL) {

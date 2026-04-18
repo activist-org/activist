@@ -8,6 +8,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { ContentImage } from "../../../../shared/types/file-type";
 
+import { createMockContentImage } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
 
 // MARK: Mocks
@@ -38,16 +39,6 @@ vi.mock("../../../../app/services/entities/group", () => ({
   fetchGroupImages: (id: string) => mockFetchGroupImages(id),
 }));
 
-// Mock image factory.
-function createMockImage(id = "img-1"): ContentImage {
-  return {
-    id,
-    fileObject: "https://example.com/image.jpg",
-    creation_date: "2024-01-01",
-    sequence_index: 1,
-  };
-}
-
 // MARK: Tests
 
 describe("useGetGroupImages Integration", () => {
@@ -74,7 +65,10 @@ describe("useGetGroupImages Integration", () => {
     });
 
     it("fetchGroupImages service can be called with ID", async () => {
-      const mockImages = [createMockImage("img-1"), createMockImage("img-2")];
+      const mockImages = [
+        createMockContentImage({ id: "img-1" }),
+        createMockContentImage({ id: "img-2" }),
+      ];
       mockFetchGroupImages.mockResolvedValue(mockImages);
 
       const result = await mockFetchGroupImages("group-123");
@@ -85,7 +79,7 @@ describe("useGetGroupImages Integration", () => {
     });
 
     it("setGroupImages store method can be called with array", () => {
-      const mockImages = [createMockImage()];
+      const mockImages = [createMockContentImage()];
       mockSetGroupImages(mockImages);
 
       expect(mockSetGroupImages).toHaveBeenCalledWith(mockImages);
@@ -96,7 +90,7 @@ describe("useGetGroupImages Integration", () => {
 
   describe("Cache Fallback Logic (Array)", () => {
     it("getGroupImages returns cached images when store has data", () => {
-      const cachedImages = [createMockImage("cached-1")];
+      const cachedImages = [createMockContentImage({ id: "cached-1" })];
       mockGetGroupImages.mockReturnValue(cachedImages);
 
       const result = mockGetGroupImages();
@@ -115,7 +109,7 @@ describe("useGetGroupImages Integration", () => {
     });
 
     it("cache check logic: length > 0 returns cached images", () => {
-      const cachedImages = [createMockImage()];
+      const cachedImages = [createMockContentImage()];
       mockGetGroupImages.mockReturnValue(cachedImages);
 
       const getCachedDataLogic = () => {
@@ -146,7 +140,7 @@ describe("useGetGroupImages Integration", () => {
 
   describe("Conditional Fetch (shouldFetch)", () => {
     it("shouldFetch is false when cache exists", () => {
-      const cachedImages = [createMockImage()];
+      const cachedImages = [createMockContentImage()];
       mockGetGroupImages.mockReturnValue(cachedImages);
 
       const groupId = "group-123";
@@ -181,13 +175,15 @@ describe("useGetGroupImages Integration", () => {
 
   describe("Hydration Logic", () => {
     it("getCachedData returns store images during hydration when available", () => {
-      const storeImages = [createMockImage("store-img")];
+      const storeImages = [createMockContentImage({ id: "store-img" })];
       mockGetGroupImages.mockReturnValue(storeImages);
 
       const nuxtApp = createMockNuxtApp({
         isHydrating: true,
         payloadData: {
-          "groupImages:group-1": [createMockImage("payload-img")],
+          "groupImages:group-1": [
+            createMockContentImage({ id: "payload-img" }),
+          ],
         },
       });
 
@@ -204,7 +200,7 @@ describe("useGetGroupImages Integration", () => {
     });
 
     it("getCachedData returns payload during hydration when no store cache", () => {
-      const payloadImages = [createMockImage("payload-img")];
+      const payloadImages = [createMockContentImage({ id: "payload-img" })];
       mockGetGroupImages.mockReturnValue([]);
 
       const nuxtApp = createMockNuxtApp({
@@ -225,7 +221,7 @@ describe("useGetGroupImages Integration", () => {
     });
 
     it("getCachedData returns static when not hydrating", () => {
-      const staticImages = [createMockImage("static-img")];
+      const staticImages = [createMockContentImage({ id: "static-img" })];
       mockGetGroupImages.mockReturnValue([]);
 
       const nuxtApp = createMockNuxtApp({

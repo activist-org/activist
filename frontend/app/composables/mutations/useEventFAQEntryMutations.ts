@@ -1,13 +1,22 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
+/**
+ * Composable for managing mutations related to event FAQ entries in the frontend application. This composable provides functions to create, update, reorder, and delete FAQ entries for an event, as well as a function to refresh the event data after mutations. It handles loading and error states during the mutation process and integrates with the useToaster composable to display error messages to the user. The composable ensures that after any mutation, the event's data is refreshed by invalidating the cache, allowing subsequent reads to fetch the updated data from the server.
+ * @param eventId A reactive reference containing the ID of the event for which the FAQ entries are being managed, allowing the composable to reactively update its behavior based on changes to the event ID.
+ * @returns An object containing the loading state, error state, functions for creating, updating, reordering, and deleting FAQ entries, and a function for refreshing the event's data after mutations.
+ */
 export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   const loading = ref(false);
   const { error, handleError, clearError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
 
-  // Create new FAQ entry.
+  /**
+   * Creates a new FAQ entry for the current event based on the provided data.
+   * @param faqData An object containing the data for the new FAQ entry, excluding the ID.
+   * @returns A boolean value indicating the success of the creation operation, where true represents a successful creation and false indicates a failure due to an error during the mutation process.
+   */
   async function createFAQ(faqData: Omit<FaqEntry, "id">) {
     if (!currentEventId.value) return false;
 
@@ -30,7 +39,11 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Update existing FAQ entry.
+  /**
+   * Updates an existing FAQ entry for the current event based on the provided data.
+   * @param faq An object containing the data for the FAQ entry to be updated, including the ID.
+   * @returns A boolean value indicating the success of the update operation, where true represents a successful update and false indicates a failure due to an error during the mutation process.
+   */
   async function updateFAQ(faq: FaqEntry) {
     loading.value = true;
     clearError();
@@ -51,7 +64,11 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Reorder multiple FAQ entries.
+  /**
+   * Reorders multiple FAQ entries for the current event based on the provided array of FAQ entries.
+   * @param faqs An array of FAQ entries representing the new order.
+   * @returns A boolean value indicating the success of the reorder operation, where true represents a successful reorder and false indicates a failure due to an error during the mutation process.
+   */
   async function reorderFAQs(faqs: FaqEntry[]) {
     loading.value = true;
     clearError();
@@ -71,7 +88,11 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Delete FAQ entry.
+  /**
+   * Deletes an existing FAQ entry for the current event based on the provided ID.
+   * @param faqId The ID of the FAQ entry to be deleted.
+   * @returns A boolean value indicating the success of the deletion operation, where true represents a successful deletion and false indicates a failure due to an error during the mutation process.
+   */
   async function deleteFAQ(faqId: string) {
     loading.value = true;
     clearError();
@@ -91,7 +112,9 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     }
   }
 
-  // Helper to refresh event data after mutations.
+  /**
+   * Refreshes the event data by invalidating the cache and refetching fresh data.
+   */
   async function refreshEventData() {
     if (!currentEventId.value) return;
 
@@ -101,7 +124,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
 
   return {
     loading: readonly(loading),
-    error: readonly(error),
+    error,
     createFAQ,
     updateFAQ,
     reorderFAQs,

@@ -38,6 +38,11 @@ import { defineStore } from "pinia";
  *    The `submit` action consolidates all node data and shared data into a single `saveResult`.
  */
 
+/**
+ * Factory function to create a flow store based on a defined machine configuration, providing state management and actions for navigating through a multi-step flow with dynamic nodes, shared data, and submission handling.
+ * @param opts - Options for configuring the flow store, including the machine definition and discard behavior on close.
+ * @returns A Pinia store instance with state, getters, and actions for managing the flow, including navigation between nodes, data handling, and submission logic.
+ */
 export function createFlowStore<T extends string = string>(
   opts: FlowStoreOptions<T>
 ) {

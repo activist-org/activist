@@ -67,6 +67,9 @@ const modals = useModals();
 const modalName = "ModalsQRCode";
 const modalIsOpen = ref(false);
 
+/**
+ * Opens the QR code modal when the user clicks the button or presses enter while the button is focused. This function interacts with the modals store to set the state of the specified modal to open, allowing the ModalQRCode component to be displayed. The function ensures that the modal is opened in response to user interaction, providing access to the QR code functionality.
+ */
 function openModal() {
   modals.openModal(modalName);
   modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;

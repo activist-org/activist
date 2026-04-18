@@ -5,6 +5,10 @@ import { h } from "vue";
 
 import FileDropZone from "../../../app/components/image/ImageFileDropZone.vue";
 
+/**
+ * Creates an array of mock File objects for testing file uploads.
+ * @returns An array containing a PNG and a JPG File object with mock content.
+ */
 function createFiles() {
   const png = new File(["png-bytes"], "a.png", { type: "image/png" });
   const jpg = new File(["jpg-bytes"], "b.jpg", { type: "image/jpeg" });

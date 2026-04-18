@@ -7,9 +7,12 @@ import { ref } from "vue";
 
 /**
  * Creates a mock for useAsyncData that can be configured per test.
- *
  * @param options - Configuration for the mock behavior
- * @returns Mocked useAsyncData return value
+ * @param options.data - The data to return from the mock (default: null)
+ * @param options.pending - Whether the mock should indicate a pending state (default: false)
+ * @param options.error - The error to return from the mock (default: null)
+ * @param options.execute - Custom implementation for the execute function (default: a resolved mock function)
+ * @returns A mock implementation of useAsyncData with the specified behavior
  */
 export function createMockUseAsyncData<T>(
   options: {
@@ -34,6 +37,11 @@ export function createMockUseAsyncData<T>(
 
 /**
  * Creates a mock NuxtApp for testing getCachedData behavior.
+ * @param options - Configuration for the mock NuxtApp
+ * @param options.isHydrating - Whether the app is in a hydrating state (default: false)
+ * @param options.payloadData - The data to include in the payload (default: empty object)
+ * @param options.staticData - The data to include in the static data (default: empty object)
+ * @returns A mock NuxtApp with the specified configuration
  */
 export function createMockNuxtApp(
   options: {

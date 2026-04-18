@@ -38,6 +38,11 @@ test.beforeEach(async ({ page }) => {
 const orgsLabel = getEnglishText("i18n._global.organizations");
 const topicsLabel = getEnglishText("i18n.components._global.topics");
 
+/**
+ * Selects the first organization from the organizations combobox in the event creation modal. This function assumes that the modal is already open and that the organizations combobox is present. It clicks on the combobox to open the options, waits for the first option to be visible, clicks on it to select it, and then verifies that the options list is closed.
+ * @param modal - The instance of the CreateEventModal component object representing the currently open event creation modal
+ * @returns A promise that resolves when the first organization is selected
+ */
 async function selectFirstOrganization(
   modal: ReturnType<typeof newCreateEventModal>
 ) {
@@ -54,6 +59,11 @@ async function selectFirstOrganization(
   });
 }
 
+/**
+ * Selects the first topic from the topics combobox in the event creation modal. This function assumes that the modal is already open and that the topics combobox is present. It clicks on the combobox to open the options, waits for the first option to be visible, clicks on it to select it, and then verifies that the options list is closed.
+ * @param modal - The instance of the CreateEventModal component object representing the currently open event creation modal
+ * @returns A promise that resolves when the first topic is selected
+ */
 async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
   const topicsButton = modal.topicsCombobox.getByRole("button", {
     name: new RegExp(topicsLabel, "i"),
@@ -70,6 +80,14 @@ async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
 
 // Set each day's start time to 10:00 and end time to 11:00.
 // Backend receives start_time < end_time for every entry.
+/**
+ * Sets the start and end times for each selected day in the event creation modal's time step to 10:00 and 11:00 respectively, ensuring that the end time is always after the start time. This function interacts with the time inputs rendered by v-calendar, which are divs rather than native inputs, by clicking on them and using keyboard input to set the times in 24-hour format. It identifies all time entries based on their IDs, iterates through them, and updates the start and end times accordingly.
+ * @param modal - The instance of the CreateEventModal component object representing the currently open event creation modal
+ * @param page - The Playwright Page object representing the current browser page, used for keyboard interactions to set the time values
+ * @param page.keyboard - The keyboard object from the Playwright Page, used to perform keyboard actions such as pressing keys and typing text to set the time values in the v-calendar time inputs
+ * @param page.keyboard.press - A function that simulates pressing a key on the keyboard, used to perform actions like "Control+a" to select existing time values before typing new ones
+ * @param page.keyboard.type - A function that simulates typing text on the keyboard, used to input the new time values (e.g., "10:00" for start time and "11:00" for end time) into the v-calendar time inputs after selecting them
+ */
 async function setFirstDayEndTimeToFuture(
   modal: ReturnType<typeof newCreateEventModal>,
   page: {
@@ -114,6 +132,11 @@ const errorToast = (page: Page) =>
     '[data-sonner-toast][data-type="error"][data-rich-colors="true"]'
   );
 
+/**
+ * Navigates to the event type step in the event creation modal.
+ * @param modal - The instance of the CreateEventModal component object representing the currently open event creation modal
+ * @returns A promise that resolves when the event type step is visible
+ */
 async function goToEventTypeStep(
   modal: ReturnType<typeof newCreateEventModal>
 ) {
@@ -124,6 +147,11 @@ async function goToEventTypeStep(
   await expect(modal.eventTypeForm).toBeVisible();
 }
 
+/**
+ * Navigates to the link online step in the event creation modal by filling out the required fields in the previous steps, selecting "Online" as the location type and "Learn" as the event type, and then clicking the next button. This function assumes that the modal is already open and starts from the event details step, proceeding through the necessary interactions to reach the link online step where it verifies that the link online form is visible.
+ * @param modal - The instance of the CreateEventModal component object representing the currently open event creation modal
+ * @returns A promise that resolves when the link online form is visible in the modal
+ */
 async function goToLinkOnlineStep(
   modal: ReturnType<typeof newCreateEventModal>
 ) {
@@ -137,6 +165,11 @@ async function goToLinkOnlineStep(
   await expect(modal.linkOnlineForm).toBeVisible();
 }
 
+/**
+ * Navigates to the date and time step in the event creation modal by filling out the required fields in the previous steps, selecting "Physical" as the location type and "Learn" as the event type, and then clicking the next button. This function assumes that the modal is already open and starts from the event details step, proceeding through the necessary interactions to reach the physical location step, where it fills in the required fields for that step before clicking next to reach the date and time step, finally verifying that the time form is visible.
+ * @param modal - The instance of the CreateEventModal component object representing the currently open event creation modal
+ * @returns A promise that resolves when the time form is visible in the modal
+ */
 async function goToTimeStep(modal: ReturnType<typeof newCreateEventModal>) {
   await goToLinkOnlineStep(modal);
   await modal.onlineLinkField.fill("https://example.com/a11y-scan");
@@ -144,6 +177,11 @@ async function goToTimeStep(modal: ReturnType<typeof newCreateEventModal>) {
   await expect(modal.timeForm).toBeVisible();
 }
 
+/**
+ * Navigates to the physical location step in the event creation modal by filling out the required fields in the previous steps, selecting "Physical" as the location type and "Learn" as the event type, and then clicking the next button. This function assumes that the modal is already open and starts from the event details step, proceeding through the necessary interactions to reach the physical location step where it verifies that the location form is visible.
+ * @param modal - The instance of the CreateEventModal component object representing the currently open event creation modal
+ * @returns A promise that resolves when the location form is visible in the modal
+ */
 async function goToPhysicalLocationStep(
   modal: ReturnType<typeof newCreateEventModal>
 ) {

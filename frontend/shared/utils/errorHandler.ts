@@ -50,6 +50,11 @@ interface ServerErrorData {
   [key: string]: unknown; // for Object.values() to work
 }
 
+/**
+ * Extracts a user-friendly error message from various possible server error response formats.
+ * @param data - The error data which can be a string or an object with various fields containing error messages.
+ * @returns A string message extracted from the error data, or undefined if no message could be found.
+ */
 function extractMessage(data: unknown): string | undefined {
   // Handle string payload (like your sign-up form gets).
   if (typeof data === "string") {
@@ -89,6 +94,8 @@ function extractMessage(data: unknown): string | undefined {
  * Centralized error handler for HTTP requests.
  * Handles both FetchError and generic Errors.
  * Infers the error cause from the response and normalizes it into an AppError.
+ * @param e - The error object caught from a failed HTTP request, which can be a FetchError or any other Error.
+ * @returns An AppError instance containing a user-friendly message, inferred cause, and any relevant details from the original error.
  */
 export function errorHandler(e: unknown): AppError {
   if (e instanceof AppError) {

@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { defineStore } from "pinia";
 
+/**
+ * Factory function to create a pagination store with a unique ID, allowing for multiple independent pagination states across the application.
+ * @param id - A unique string identifier for the pagination store, used to differentiate it from other stores created by this factory.
+ * @returns A Pinia store instance with state and actions for managing pagination, including items, filters, current page, and last page status.
+ */
 export function createPaginationStore<TItem, TFilters>(id: string) {
   return defineStore(id, {
     state: () => ({

@@ -14,6 +14,8 @@ import { FAQModal } from "./features/FAQModal";
  * Handles interactions with the group FAQ page within an organization.
  *
  * Composed from focused features for better maintainability.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with the organization group FAQ page, including FAQ list management, individual FAQ card interactions, FAQ creation/editing modal, and drag-and-drop reordering functionality.
  */
 export const newOrganizationGroupFAQPage = (page: Page) => {
   return {

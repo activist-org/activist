@@ -4,6 +4,8 @@ import type { Page } from "@playwright/test";
 /**
  * FAQ Card Feature
  * Handles individual FAQ card interactions.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for interacting with FAQ cards, including accessing card elements, menu buttons, and performing actions like clicking disclosure buttons, retrieving content, and checking expansion state.
  */
 export const FAQCard = (page: Page) => {
   return {

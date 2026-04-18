@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Read a single event with useAsyncData. Store-first, then fetch if missing.
-// After fetch, cache it via store. You can always call refresh() to force refetch.
 
 export const getKeyForGetEvent = (id: string) => `event:${id}`;
 
+/**
+ * Composable for fetching and managing the data of a specific event in the frontend application. This composable uses the useAsyncData hook to fetch the event's data from the server based on the provided event ID, handle loading and error states, and cache the data for efficient retrieval. The fetched event data is stored in a Vuex store using the useEventStore composable, allowing other components to access and reactively update based on the event's data. The composable also integrates error handling using the useAppError composable to manage any errors that occur during the data fetching process. Additionally, it provides a refresh function to manually trigger a re-fetch of the event's data when needed.
+ * @param id A reactive reference containing the ID of the event to be fetched, allowing the composable to reactively update the fetched data based on changes to the event ID.
+ * @returns An object containing the data (event), pending state, error state, and a refresh function for managing the fetching and state of an event in the application.
+ */
 export function useGetEvent(id: MaybeRef<string>) {
   const { handleError } = useAppError();
   const eventId = computed(() => String(unref(id)));
@@ -56,6 +59,10 @@ export function useGetEvent(id: MaybeRef<string>) {
   // Only show pending when we're actually fetching (not when using cache).
   const pending = computed(() => query.pending.value);
 
+  /**
+   * Refreshes the event data by triggering a re-fetch from the server.
+   * This function updates the store with the latest event data.
+   */
   async function refresh() {
     if (!key.value) return;
     // Let useAsyncData refetch and update store in the success path above.

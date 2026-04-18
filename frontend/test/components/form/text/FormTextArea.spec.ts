@@ -16,7 +16,6 @@ import render from "../../../render";
  * - Style coverage (dynamic classes, responsive styling)
  * - Accessibility (ARIA attributes, semantic HTML)
  * - Edge cases and incorrect prop usage
- *
  * @see https://github.com/activist-org/activist/issues/1676
  */
 

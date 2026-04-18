@@ -8,6 +8,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { ContentImage } from "../../../../shared/types/file-type";
 
+import { createMockContentImage } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
 
 // MARK: Mocks
@@ -38,16 +39,6 @@ vi.mock("../../../../app/services/entities/organization", () => ({
   fetchOrganizationImages: (id: string) => mockFetchOrganizationImages(id),
 }));
 
-// Mock image factory.
-function createMockImage(id = "img-1"): ContentImage {
-  return {
-    id,
-    fileObject: "https://example.com/image.jpg",
-    creation_date: "2024-01-01",
-    sequence_index: 1,
-  };
-}
-
 // MARK: Tests
 
 describe("useGetOrganizationImages Integration", () => {
@@ -74,7 +65,10 @@ describe("useGetOrganizationImages Integration", () => {
     });
 
     it("fetchOrganizationImages service can be called with ID", async () => {
-      const mockImages = [createMockImage("img-1"), createMockImage("img-2")];
+      const mockImages = [
+        createMockContentImage({ id: "img-1" }),
+        createMockContentImage({ id: "img-2" }),
+      ];
       mockFetchOrganizationImages.mockResolvedValue(mockImages);
 
       const result = await mockFetchOrganizationImages("org-123");
@@ -85,7 +79,7 @@ describe("useGetOrganizationImages Integration", () => {
     });
 
     it("setImages store method can be called with array", () => {
-      const mockImages = [createMockImage()];
+      const mockImages = [createMockContentImage()];
       mockSetImages(mockImages);
 
       expect(mockSetImages).toHaveBeenCalledWith(mockImages);
@@ -96,7 +90,7 @@ describe("useGetOrganizationImages Integration", () => {
 
   describe("Cache Fallback Logic (Array)", () => {
     it("getImages returns cached images when store has data", () => {
-      const cachedImages = [createMockImage("cached-1")];
+      const cachedImages = [createMockContentImage({ id: "cached-1" })];
       mockGetImages.mockReturnValue(cachedImages);
 
       const result = mockGetImages();
@@ -115,7 +109,7 @@ describe("useGetOrganizationImages Integration", () => {
     });
 
     it("cache check logic: length > 0 returns cached images", () => {
-      const cachedImages = [createMockImage()];
+      const cachedImages = [createMockContentImage({ id: "cached-1" })];
       mockGetImages.mockReturnValue(cachedImages);
 
       // Simulate getCachedData logic for images.
@@ -147,7 +141,7 @@ describe("useGetOrganizationImages Integration", () => {
 
   describe("Conditional Fetch (shouldFetch)", () => {
     it("shouldFetch is false when cache exists", () => {
-      const cachedImages = [createMockImage()];
+      const cachedImages = [createMockContentImage({ id: "cached-1" })];
       mockGetImages.mockReturnValue(cachedImages);
 
       // Simulate shouldFetch logic.
@@ -183,13 +177,15 @@ describe("useGetOrganizationImages Integration", () => {
 
   describe("Hydration Logic", () => {
     it("getCachedData returns store images during hydration when available", () => {
-      const storeImages = [createMockImage("store-img")];
+      const storeImages = [createMockContentImage({ id: "store-img" })];
       mockGetImages.mockReturnValue(storeImages);
 
       const nuxtApp = createMockNuxtApp({
         isHydrating: true,
         payloadData: {
-          "organizationImages:org-1": [createMockImage("payload-img")],
+          "organizationImages:org-1": [
+            createMockContentImage({ id: "payload-img" }),
+          ],
         },
       });
 
@@ -209,7 +205,7 @@ describe("useGetOrganizationImages Integration", () => {
     });
 
     it("getCachedData returns payload during hydration when no store cache", () => {
-      const payloadImages = [createMockImage("payload-img")];
+      const payloadImages = [createMockContentImage({ id: "payload-img" })];
       mockGetImages.mockReturnValue([]);
 
       const nuxtApp = createMockNuxtApp({
@@ -232,7 +228,7 @@ describe("useGetOrganizationImages Integration", () => {
     });
 
     it("getCachedData returns static when not hydrating", () => {
-      const staticImages = [createMockImage("static-img")];
+      const staticImages = [createMockContentImage({ id: "static-img" })];
       mockGetImages.mockReturnValue([]);
 
       const nuxtApp = createMockNuxtApp({

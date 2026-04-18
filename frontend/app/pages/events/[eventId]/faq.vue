@@ -106,6 +106,9 @@ watch(
   }
 );
 
+/**
+ * Updates the order of FAQ entries in the backend when a drag-and-drop action is completed by iterating through the faqList and assigning a new order value based on the current index of each FAQ entry, then calling the reorderFAQs function with the updated faqList to persist the new order in the backend.
+ */
 async function onDragEnd() {
   faqList.value.forEach((faq, index) => {
     faq.order = index;
@@ -114,6 +117,10 @@ async function onDragEnd() {
   await reorderFAQs(faqList.value);
 }
 
+/**
+ * Deletes a FAQ entry in the backend when the user triggers a delete action.
+ * @param faqId The unique identifier of the FAQ entry to be deleted.
+ */
 async function handleDeleteFAQ(faqId: string) {
   await deleteFAQ(faqId);
 }

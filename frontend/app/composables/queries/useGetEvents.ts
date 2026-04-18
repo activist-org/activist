@@ -2,6 +2,11 @@
 
 export const getKeyForGetEvents = () => `events-list`;
 
+/**
+ * Composable for fetching and managing the list of events in the frontend application. This composable uses the useAsyncData hook to fetch the list of events from the server based on the provided filters and pagination, handle loading and error states, and cache the data for efficient retrieval. The fetched events are stored in a Vuex store using the useEventListStore composable, allowing other components to access and reactively update based on the list of events. The composable also integrates error handling using the useAppError composable to manage any errors that occur during the data fetching process. Additionally, it provides a getMore function to fetch additional pages of events when pagination is supported by the API.
+ * @param filters A reactive reference or computed reference containing the filters to be applied when fetching the list of events, allowing the composable to reactively update the fetched data based on changes to the filters.
+ * @returns An object containing the data (list of events), pending state, error state, a refresh function for managing the fetching and state of events in the application, the current filters applied, and a getMore function for fetching additional pages of events.
+ */
 export function useGetEvents(
   filters: Ref<EventFilters> | ComputedRef<EventFilters>
 ) {

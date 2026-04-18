@@ -2,7 +2,7 @@
 import { describe, it } from "vitest";
 
 /**
- * NOTE: The full sign-in flow (including @sidebase/nuxt-auth) is currently
+ * NOTE: The full sign-in flow (including "@sidebase/nuxt-auth") is currently
  * tested via Playwright E2E specs under frontend/test-e2e/specs/all/authentication.
  * These Vitest tests are intentionally left as TODOs until we decide on a
  * maintainable unit-testing strategy for the auth pages.
@@ -14,7 +14,7 @@ describe("sign-in", () => {
 
 // ---------------------------------------------------------------------------
 // Attn: Legacy Vitest implementation (kept for reference only).
-// These tests were written before @sidebase/nuxt-auth and the current
+// These tests were written before "@sidebase/nuxt-auth"  and the current
 // Playwright-based auth flows. When re-implementing unit tests, use this
 // block as a reference, but prefer the newer mocking patterns and helpers.
 // ---------------------------------------------------------------------------
@@ -39,7 +39,7 @@ describe("sign-in", () => {
 // });
 // /**
 //  * NOTE: This test was originally disabled because authentication is handled
-//  * by @sidebase/nuxt-auth and parts of the flow moved to Playwright tests.
+//  * by "@sidebase/nuxt-auth" and parts of the flow moved to Playwright tests.
 //  */
 // describe("sign-in (legacy)", () => {
 //   it("signs in user with form data", async () => {

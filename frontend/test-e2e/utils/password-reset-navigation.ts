@@ -3,6 +3,8 @@
 /**
  * True when the URL is an allowed post-submit landing after requesting a password-reset email.
  * Matches `/`, locale-only roots (e.g. `/en`), and `/home` — `pages/auth/pwreset/email.vue` uses `push("/")`, not `/home`.
+ * @param url - The URL to check for being a post-password-reset landing page
+ * @returns True if the URL is an allowed post-password-reset landing page, false otherwise
  */
 export function isPostPasswordRequestLanding(url: string): boolean {
   let path: string;

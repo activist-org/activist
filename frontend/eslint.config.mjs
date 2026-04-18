@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import prettier from "eslint-config-prettier";
+import jsdoc from "eslint-plugin-jsdoc";
 import perfectionist from "eslint-plugin-perfectionist";
 import vue from "eslint-plugin-vue";
 import vueA11y from "eslint-plugin-vuejs-accessibility";
@@ -18,10 +19,12 @@ export default withNuxt(
       "vuejs-accessibility": vueA11y,
       perfectionist,
       prettier,
+      jsdoc,
     },
 
     rules: {
       ...vue.configs.recommended.rules,
+      ...jsdoc.configs["flat/recommended-typescript"].rules,
 
       "no-console": "error",
       "valid-v-for": "off",

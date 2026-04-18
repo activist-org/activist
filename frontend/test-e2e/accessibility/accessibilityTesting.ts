@@ -3,6 +3,13 @@ import type { Page, TestInfo } from "@playwright/test";
 
 import AxeBuilder from "@axe-core/playwright";
 
+/**
+ * Run axe on the entire page and attach results to the test info for reporting.
+ * @param pageName - A descriptive name for the page being tested, used in the attachment name.
+ * @param page - Playwright page object to run the accessibility scan on.
+ * @param testInfo - Playwright TestInfo object to attach the results to.
+ * @returns An array of formatted accessibility violations found on the page, with details for each violation and affected nodes.
+ */
 export async function runAccessibilityTest(
   pageName: string,
   page: Page,
@@ -36,7 +43,15 @@ export type AccessibilityScopedOptions = {
   disableRules?: string[];
 };
 
-/** Run axe on a subtree only (e.g. an open modal) to avoid unrelated page noise. */
+/**
+ * Run axe on a subtree only (e.g. an open modal) to avoid unrelated page noise.
+ * @param pageName - A descriptive name for the page/section being tested, used in the attachment name.
+ * @param page - Playwright page object to run the accessibility scan on.
+ * @param testInfo - Playwright TestInfo object to attach the results to.
+ * @param rootCssSelector - CSS selector for the root of the subtree to test (e.g. a modal container).
+ * @param options - Optional configuration for the accessibility test, such as rules to disable.
+ * @returns An array of formatted accessibility violations found within the specified subtree, with details for each violation and affected nodes.
+ */
 export async function runAccessibilityTestScoped(
   pageName: string,
   page: Page,

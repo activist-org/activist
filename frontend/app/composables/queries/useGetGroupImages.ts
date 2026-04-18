@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Read a single group with useAsyncData. Store-first, then fetch if missing.
-// After fetch, cache it via store. You can always call refresh() to force refetch.
 export const getKeyForGetGroupImages = (id: string) => `groupImages:${id}`;
 
+/**
+ * Composable for fetching and managing the images associated with a group in the frontend application. This composable uses the useAsyncData hook to fetch the group's images from the server, handle loading and error states, and cache the data for efficient retrieval. The fetched images are stored in a Vuex store using the useGroupImageStore composable, allowing other components to access and reactively update based on the group's images. The composable also integrates error handling using the useAppError composable to manage any errors that occur during the data fetching process. The returned object includes the data (list of images), pending state, error state, and a refresh function to manually trigger a re-fetch of the group's images.
+ * @param id A reactive reference containing the ID of the group for which to fetch the images, allowing the composable to reactively update the fetched data based on changes to the group ID.
+ * @returns An object containing the data (list of images), pending state, error state, and a refresh function for managing the fetching and state of a group's images in the application.
+ */
 export function useGetGroupImages(id: MaybeRef<string>) {
   const { handleError } = useAppError();
   const groupId = computed(() => unref(id));
@@ -65,6 +68,10 @@ export function useGetGroupImages(id: MaybeRef<string>) {
     shouldFetch.value ? query.pending.value : false
   );
 
+  /**
+   * Refreshes the group's images by triggering a re-fetch from the server.
+   * This function clears the cached data and updates the store with the latest images
+   */
   async function refresh() {
     if (!key.value) {
       return;

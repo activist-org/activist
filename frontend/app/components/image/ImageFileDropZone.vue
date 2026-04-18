@@ -31,6 +31,9 @@ const fileInputRef = ref<HTMLInputElement | null>(null);
 
 defineEmits(["files-dropped"]);
 
+/**
+ * Handles the click event on the file input. This function is triggered when the user clicks on the drop zone, and it programmatically clicks the hidden file input element to open the file selection dialog. This allows users to select files from their device in addition to dragging and dropping them into the drop zone, providing a more flexible and user-friendly way to add files.
+ */
 function onClickFileInput() {
   fileInputRef.value?.click();
 }

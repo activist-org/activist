@@ -86,6 +86,9 @@ const infoLabel = computed(() => {
           };
 });
 
+/**
+ * Conditionally logs the user out when the menu item is clicked. This function checks if the iconName prop matches the sign-out icon, and if so, it calls the clear function from the user session to log the user out. This allows for a menu item to serve as a logout button when the appropriate icon is used, providing a convenient way for users to log out of their account directly from the menu.
+ */
 function conditionallyLogOut() {
   if (props.iconName === `${IconMap.SIGN_OUT}`) {
     clear();

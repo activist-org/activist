@@ -8,7 +8,6 @@ import { expect } from "playwright/test";
 
 /**
  * Navigate to the first event from the events home page.
- *
  * @param page - Playwright page object
  * @returns Object containing eventId and eventPage
  */
@@ -186,6 +185,8 @@ type PaginatedEventsResponse = {
 /**
  * Turn DRF `next` (absolute or relative) into a path Playwright can pass to
  * `page.request.get` with the suite `baseURL`.
+ * @param nextUrl - The `next` URL from the paginated API response, which may be absolute or relative.
+ * @returns A string path that can be used with `page.request.get` to fetch the next page of results.
  */
 function eventsListNextPath(nextUrl: string): string {
   try {
@@ -203,6 +204,8 @@ function eventsListNextPath(nextUrl: string): string {
  * In CI / development the backend orders activist_0's events last
  * (`EventAPIView.get_queryset`), so this id is suitable for "member edits own
  * event" tests without relying on infinite scroll or UI timing.
+ * @param page - Playwright page object
+ * @returns The last event id in API order
  */
 export async function fetchLastEventIdFromEventsApi(
   page: Page
@@ -236,6 +239,9 @@ export async function fetchLastEventIdFromEventsApi(
  * then the requested subpage, via direct navigation (no list scroll / card click).
  *
  * Use with activist_0's session: backend E2E ordering puts that user's events last.
+ * @param page - Playwright page object
+ * @param subpage - The event subpage to navigate to (e.g., 'about', 'faq', 'resources')
+ * @returns Object containing eventId and eventPage
  */
 export async function navigateToLastEventSubpage(
   page: Page,

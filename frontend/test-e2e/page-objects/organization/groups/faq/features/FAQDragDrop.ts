@@ -4,6 +4,8 @@ import type { Page } from "@playwright/test";
 /**
  * FAQ Drag and Drop Feature
  * Handles FAQ card reordering via drag and drop.
+ * @param page - The Playwright Page object representing the browser page
+ * @returns An object containing locators and actions for performing drag and drop operations on FAQ cards, including accessing drag handles and simulating drag movements to reorder FAQs.
  */
 export const FAQDragDrop = (page: Page) => {
   return {

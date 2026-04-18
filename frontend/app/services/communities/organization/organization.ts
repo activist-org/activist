@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Organizations service: plain exported functions (no composables, no state).
+// Organizations services.
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
 // MARK: Map API Response to Type
 
+/**
+ * Maps the raw API response for an organization to the Organization type used in the frontend, ensuring that all fields are properly handled and formatted. The function takes an OrganizationResponse object from the API response and returns a new Organization object with the same properties, allowing for any necessary transformations or default values to be applied as needed.
+ * @param res An OrganizationResponse object received from the API response, containing the raw data for the organization.
+ * @returns An Organization object formatted according to the frontend's Organization type, with all fields properly handled and any necessary transformations applied.
+ */
 export function mapOrganization(res: OrganizationResponse): Organization {
   return {
     id: res.id,
@@ -27,6 +32,12 @@ export function mapOrganization(res: OrganizationResponse): Organization {
 
 // MARK: Get by ID
 
+/**
+ * Fetches the details of a specific organization by sending a GET request to the backend API with the unique identifier of the organization. The function uses the get helper for making HTTP requests and the errorHandler for consistent error handling across the application. The response from the API is mapped to an Organization object using the mapOrganization function before being returned.
+ * @param id The unique identifier of the organization to be retrieved.
+ * @returns A Promise that resolves to an Organization object formatted according to the frontend's Organization type.
+ * @throws {AppError} if the API request fails or if there is an error during the retrieval process.
+ */
 export async function getOrganization(id: string): Promise<Organization> {
   try {
     const res = await get<OrganizationResponse>(
@@ -41,6 +52,14 @@ export async function getOrganization(id: string): Promise<Organization> {
 
 // MARK: List by User ID
 
+/**
+ * Fetches a paginated list of organizations associated with a specific user by sending a GET request to the backend API with the unique identifier of the user, along with pagination parameters and optional filters. The function uses the get helper for making HTTP requests and the errorHandler for consistent error handling across the application. The response from the API is mapped to an array of Organization objects using the mapOrganization function before being returned, along with a flag indicating whether the current page is the last page of results.
+ * @param userId The unique identifier of the user for whom the organizations are being retrieved.
+ * @param page The page number for pagination, indicating which page of results to retrieve.
+ * @param filters Optional filters to apply when retrieving the organizations, such as filtering by topics or other criteria.
+ * @returns A Promise that resolves to an object containing an array of Organization objects formatted according to the frontend's Organization type and a boolean flag indicating whether the current page is the last page of results.
+ * @throws {AppError} if the API request fails or if there is an error during the retrieval process.
+ */
 export async function listOrganizationsByUserId(
   userId: string,
   page: number,
@@ -74,6 +93,12 @@ export async function listOrganizationsByUserId(
 
 // MARK: Create
 
+/**
+ * Creates a new organization by sending a POST request to the backend API with the provided organization data, including the organization's name, tagline, location, and associated topics. The function uses the post helper for making HTTP requests and the errorHandler for consistent error handling across the application. The response from the API is mapped to an Organization object using the mapOrganization function before being returned.
+ * @param data The data for the organization to be created, including the organization's name, tagline, location, and associated topics.
+ * @returns A Promise that resolves to an Organization object representing the newly created organization, formatted according to the frontend's Organization type.
+ * @throws {AppError} if the API request fails or if there is an error during the creation process.
+ */
 export async function createOrganization(
   data: CreateOrganizationInput
 ): Promise<Organization> {
@@ -91,6 +116,12 @@ export async function createOrganization(
 
 // MARK: List All
 
+/**
+ * Fetches a paginated list of all organizations by sending a GET request to the backend API with pagination parameters and optional filters. The function uses the get helper for making HTTP requests and the errorHandler for consistent error handling across the application. The response from the API is mapped to an array of Organization objects using the mapOrganization function before being returned, along with a flag indicating whether the current page is the last page of results.
+ * @param filters Optional filters to apply when retrieving the organizations, such as filtering by topics or other criteria, along with pagination parameters like page number and page size.
+ * @returns A Promise that resolves to an object containing an array of Organization objects formatted according to the frontend's Organization type and a boolean flag indicating whether the current page is the last page of results.
+ * @throws {AppError} if the API request fails or if there is an error during the retrieval process.
+ */
 export async function listOrganizations(
   filters: OrganizationFilters & Pagination = { page: 1, page_size: 10 }
 ): Promise<OrganizationPaginatedResponse> {
@@ -121,6 +152,12 @@ export async function listOrganizations(
 
 // MARK: Delete
 
+/**
+ * Deletes an existing organization by sending a DELETE request to the backend API with the unique identifier of the organization. The function uses the del helper for making HTTP requests and the errorHandler for consistent error handling across the application.
+ * @param orgId The unique identifier of the organization to be deleted.
+ * @returns A Promise that resolves when the organization has been successfully deleted in the backend.
+ * @throws {AppError} if the API request fails or if there is an error during the deletion process.
+ */
 export async function deleteOrganization(orgId: string): Promise<void> {
   try {
     await del(`/communities/organizations/${orgId}`);

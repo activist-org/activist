@@ -22,7 +22,7 @@ const { create } = useOrganizationMutations();
 const router = useRouter();
 /**
  * This function will be called by the machine when the flow completes.
- * @param {unknown} finalData The consolidated data from all steps.
+ * @param values The values from the organization creation form, which include the name, description, and other relevant information for creating an organization. This data is used to create a new organization on the server when the form is submitted. The function processes this data and interacts with the create mutation to perform the organization creation operation, allowing for the creation of a new organization based on the information provided in the form.
  */
 async function handleSubmission(values: unknown) {
   const organization = await create(values as CreateOrganizationInput);

@@ -9,7 +9,6 @@ import type { Page } from "playwright";
  * https://github.com/microsoft/playwright-java/issues/1643
  *
  * It still doesn't work as of version 1.49.1.
- *
  * @param page Page
  * @param key string representing desired key press
  */

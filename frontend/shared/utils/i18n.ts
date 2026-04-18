@@ -22,6 +22,11 @@ const localeFiles: Record<LOCALE_CODE, LocaleFile> = {
   [LOCALE_CODE.PORTUGUESE]: pt,
 };
 
+/**
+ * Retrieves the locale text for a given locale code, defaulting to English if no locale is provided.
+ * @param locale - The locale code for which to retrieve the text.
+ * @returns The locale text for the specified locale code, or English text if no locale is provided.
+ */
 export function getLocaleText(locale?: LOCALE_CODE): LocaleFile {
   return localeFiles[locale ?? LOCALE_CODE.ENGLISH];
 }

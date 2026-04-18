@@ -5,6 +5,11 @@ import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigatio
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 
+/**
+ * Helper function to get the order of resource cards by their titles. This is used to verify that drag and drop reordering works correctly by comparing the order before and after the operation.
+ * @param page - The Playwright Page object representing the current browser page
+ * @returns A promise that resolves to an array of strings representing the titles of the resource cards in their current order
+ */
 async function getResourceCardOrder(page: Page) {
   return await page
     .getByTestId("resource-card")
