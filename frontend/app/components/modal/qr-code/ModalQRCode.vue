@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const { context } = useModalHandlers("ModalsQRCode");
+const { context } = useModalHandlers("ModalQRCode");
 
 const props = computed(() => {
   const modalProps = (context.value ?? {}) as {
@@ -111,7 +111,7 @@ const props = computed(() => {
   };
 });
 const aboveMediumBP = useBreakpoint("md");
-const modalName = "ModalsQRCode";
+const modalName = "ModalQRCode";
 
 const qrCodeFileName = computed(() => props.value.fileName);
 

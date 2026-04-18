@@ -56,7 +56,7 @@ const props = defineProps<{
   fileName?: string;
 }>();
 
-const { openModal } = useModalHandlers("ModalsQRCode");
+const { openModal } = useModalHandlers("ModalQRCode");
 
 function handleOpenModal() {
   openModal({
