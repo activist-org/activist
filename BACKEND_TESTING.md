@@ -7,6 +7,7 @@ This documentation details standards for writing pytest based backend testing fi
 ## Contents
 
 - [Standards](#standards-)
+- [Quickstart: Local Pytest Setup](#quickstart-local-pytest-setup)
 
 ## Standards
 
@@ -28,5 +29,41 @@ This documentation details standards for writing pytest based backend testing fi
   - Start with the name of the file
   - End with the response code that is being tested if there is only one
 - If there is only one API endpoint used in a testing file, it should be defined as a `SCREAMING_SNAKE_CASE` variable at the top of the file
+
+## Quickstart: Local Pytest Setup
+
+Use this flow to run backend pytest locally with Docker Postgres.
+
+1. Start Docker Desktop.
+2. From repo root, start the database container:
+
+```bash
+docker compose --env-file .env.dev up -d db
+docker compose --env-file .env.dev ps db
+```
+
+3. Set host-side environment variables (PowerShell):
+
+```powershell
+$env:DJANGO_ENV="LOCAL_DEV"
+$env:DATABASE_HOST="localhost"
+$env:DATABASE_PORT="5432"
+$env:DATABASE_NAME="activist"
+$env:DATABASE_USER="postgres"
+$env:DATABASE_PASSWORD="postgres"
+```
+
+4. Run backend tests:
+
+```bash
+pytest -v
+# or run a specific subset
+pytest backend/tests/test_models.py backend/tests/test_api.py -v --tb=short
+```
+
+Notes:
+
+- Pytest uses `core.test_settings` via `backend/pyproject.toml`.
+- `core.test_settings` defines explicit test DB defaults and can still be overridden by env vars.
 
 <sub><a href="#top">Back to top.</a></sub>
