@@ -8,7 +8,7 @@ const modules: (string | [string, Record<string, object>] | NuxtModule)[] = [
   "@nuxt/icon",
   "@nuxtjs/color-mode",
   "@nuxtjs/device",
-  "@nuxtjs/plausible",
+  // "@nuxtjs/plausible",
   "nuxt-security",
   "nuxt-auth-utils",
 ];
