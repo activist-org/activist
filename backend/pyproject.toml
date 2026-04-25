@@ -27,7 +27,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "factory-boy>=3.3.3",
-    "i18n-check>=1.19.2",
+    "i18n-check>=1.19.3",
     "mypy>=1.20.2",
     "numpydoc>=1.10.0",
     "prek>=0.3.10",
