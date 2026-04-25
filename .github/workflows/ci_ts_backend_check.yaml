@@ -9,13 +9,13 @@ on:
       - reopened
       - synchronize
     paths:
-      - "backend/**/model.py"
+      - "backend/**/models.py"
       - "frontend/shared/types/**/*.{ts, d.ts}"
   push:
     branches:
       - main
     paths:
-      - "backend/**/model.py"
+      - "backend/**/models.py"
       - "frontend/shared/types/**/*.{ts, d.ts}"
 
 jobs:
@@ -39,4 +39,4 @@ jobs:
 
       - name: Check Django Models Against TypeScript Interfaces
         run: |
-          # ts-backend-check -a
+          uv run ts-backend-check -a

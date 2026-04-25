@@ -128,7 +128,7 @@ dev = [
     { name = "pytest-cov", specifier = ">=7.1.0" },
     { name = "pytest-django", specifier = ">=4.12.0" },
     { name = "ruff", specifier = ">=0.15.12" },
-    { name = "ts-backend-check", specifier = ">=1.4.4" },
+    { name = "ts-backend-check", specifier = ">=1.5.0" },
     { name = "types-icalendar", specifier = ">=6.3.2.20260408" },
 ]
 
@@ -1398,7 +1398,7 @@ wheels = [
 
 [[package]]
 name = "ts-backend-check"
-version = "1.4.4"
+version = "1.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "packaging" },
@@ -1406,8 +1406,9 @@ dependencies = [
     { name = "requests" },
     { name = "rich" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/cb/a3/99e94190f749aad52785988bb8329a2425209b45d2573aa052653f711ccb/ts_backend_check-1.5.0.tar.gz", hash = "sha256:7dbc7035da306bc30a0734b35b2b7d051d036f9a0f2919fe2107980e03b3d1c4", size = 102039, upload-time = "2026-04-25T13:01:16.091Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4c/e1/f2bd11376623be2c34e511696be42dff863cfaa10c6a5fb6e6b70775f7a8/ts_backend_check-1.4.4-py3-none-any.whl", hash = "sha256:2aa321686b56730b6c6914137c7226e884174fcf7ec4dc62087c349bf9a4b678", size = 34642, upload-time = "2026-03-29T11:49:04.155Z" },
+    { url = "https://files.pythonhosted.org/packages/0f/49/da099aaf018f7897e6d76e3922eb363b2467cba8af9b61cba7027f12a277/ts_backend_check-1.5.0-py3-none-any.whl", hash = "sha256:53780326fa1e35384399df4aee6a2f73e03588ed7b60d24806e88d950fea15e4", size = 36040, upload-time = "2026-04-25T13:01:17.424Z" },
 ]
 
 [[package]]
