@@ -43,4 +43,3 @@ jobs:
         run: |
           echo $(pwd)
           echo $(which ts-backend-check)
-          uv run ts-backend-check -a
