@@ -16,6 +16,7 @@
         },
       ]"
       class="space-y-4"
+      :initial-values="initialEventTypeData"
       :schema="topicsSettingsSchema"
       :submit-label="$t('i18n._global.next_step')"
     >
@@ -74,6 +75,21 @@ import { z } from "zod";
 
 const { t } = useI18n();
 const flow = inject<FlowControls>("flow");
+
+const initialEventTypeData = computed(() => {
+  const ctx = flow?.context?.value;
+  if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.EventType) return {};
+  const d = (ctx.nodeData as Record<string, unknown>)[ctx.nodeId] as
+    | Record<string, unknown>
+    | undefined;
+  if (!d) return {};
+  return {
+    setting: d.location_type ?? d.setting,
+    type: d.type,
+    topics: d.topics ?? [],
+  };
+});
+
 const topicsSettingsSchema = z.object({
   setting: z.string().min(1, t("i18n._global.required")),
   topics: z.array(z.string()).min(1, t("i18n._global.required")),

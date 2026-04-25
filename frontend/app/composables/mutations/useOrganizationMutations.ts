@@ -5,7 +5,7 @@ export const useOrganizationMutations = () => {
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
-  const store = useOrganizationStore();
+  const store = useOrganizationListStore();
 
   const create = async (organizationData: CreateOrganizationInput) => {
     loading.value = true;
@@ -28,7 +28,7 @@ export const useOrganizationMutations = () => {
     await refreshNuxtData(getKeyForGetOrganizations());
     await refreshNuxtData(getKeyForGetOrganizations());
     // Clear cached organizations to force refetch with new data.
-    store.setOrganizations([]);
+    store.setItems([]);
   };
 
   return {

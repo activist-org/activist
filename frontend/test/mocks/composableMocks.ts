@@ -16,9 +16,30 @@
 import type { Composer } from "vue-i18n";
 
 import { vi } from "vitest";
+import { ref } from "vue";
+
+import type { AppError } from "../../shared/utils/errorHandler";
 
 // AuthUser: compatible with nuxt-auth-utils User; use for auth mock params.
 type AuthUser = { [key: string]: unknown } | null;
+
+// MARK: Machine Flow
+
+/**
+ * Creates a mock flow object for machine step component tests.
+ * @param currentStep - Current step number (default: 1)
+ * @param totalSteps - Total number of steps (default: 2)
+ */
+export function createMockFlow(currentStep = 1, totalSteps = 2) {
+  return {
+    next: vi.fn().mockResolvedValue(undefined),
+    prev: vi.fn(),
+    close: vi.fn(),
+    start: vi.fn(),
+    isSaving: ref(false),
+    context: ref({ currentStep, totalSteps, nodeData: {} }),
+  };
+}
 
 // MARK: I18n
 
@@ -299,5 +320,20 @@ export function createUseDevModeMock(active = false, check = () => {}) {
   return () => ({
     active: { value: active },
     check,
+  });
+}
+
+export function createUseAppErrorMock() {
+  const error = ref<Partial<AppError> | null>(null);
+  const handleError = (err: Partial<AppError>) => {
+    error.value = err;
+  };
+  const clearError = () => {
+    error.value = null;
+  };
+  return () => ({
+    error,
+    handleError,
+    clearError,
   });
 }

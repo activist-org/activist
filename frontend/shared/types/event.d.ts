@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// See: backend/events/models.py
 
 // MARK: Main Table
 
@@ -138,4 +139,5 @@ export interface CreateEventInput {
     bbox: string[];
   };
   times: EventTimeInput[];
+  createdEventIds: string[];
 }

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <CardGetInvolved>
-    <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col lg:flex-row">
       <div class="flex items-center gap-5">
         <h3 class="text-left font-display">
           {{ $t("i18n.components._global.get_involved") }}

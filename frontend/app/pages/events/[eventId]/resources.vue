@@ -15,6 +15,7 @@
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           :element="$t('i18n._global.resources_lower')"
+          :entity="event"
           :onClick="openModal"
         />
       </div>
@@ -65,7 +66,7 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else pageType="resources" :permission="false" />
+    <EmptyState v-else pageType="resources" :permission="canEdit(event)" />
   </div>
 </template>
 

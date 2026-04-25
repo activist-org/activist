@@ -6,6 +6,7 @@
       :entityId="eventId || ''"
       :entityType="EntityType.EVENT"
     />
+    <ModalQRCode />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"
@@ -14,7 +15,7 @@
       @mouseover="sidebarHover = true"
       class="fixed top-0 z-20 h-screen"
     />
-    <div class="flex flex-col">
+    <div class="grid grid-rows-[1fr_auto] md:h-screen md:overflow-y-scroll">
       <div
         class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"

@@ -2,9 +2,18 @@
 import type { VueWrapper } from "@vue/test-utils";
 
 import { mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+import type { CommunityEvent } from "../../../shared/types/event";
+import type { Group } from "../../../shared/types/group";
+import type { Organization } from "../../../shared/types/organization";
+import type { Resource } from "../../../shared/types/resource";
+import type { UserActivist } from "../../../shared/types/user";
 
 import ModalSharePage from "../../../app/components/modal/ModalSharePage.vue";
+
+// Mock global $t for setup context
+vi.stubGlobal("$t", (key: string) => key);
 
 // MARK: Stubs
 
@@ -42,12 +51,11 @@ const BtnShareIconStub = {
 const ModalQRCodeBtnStub = {
   name: "ModalQRCodeBtn",
   props: [
-    "organization",
-    "group",
-    "event",
-    "resource",
-    "user",
+    "firstParagraph",
+    "linkUrl",
+    "name",
     "reasonForSuggesting",
+    "secondParagraph",
     "type",
   ],
   template: '<div data-testid="qr-code-btn"></div>',
@@ -57,12 +65,6 @@ const IconStub = {
   name: "Icon",
   props: ["name", "size"],
   template: '<span class="icon-stub"></span>',
-};
-
-const ToasterStub = {
-  name: "Toaster",
-  props: ["theme"],
-  template: '<div data-testid="toaster"></div>',
 };
 
 // MARK: Test Data
@@ -149,7 +151,6 @@ const createWrapper = (
         BtnShareIcon: BtnShareIconStub,
         ModalQRCodeBtn: ModalQRCodeBtnStub,
         Icon: IconStub,
-        Toaster: ToasterStub,
       },
     },
   });
@@ -186,11 +187,6 @@ describe("ModalSharePage component", () => {
       expect(wrapper.text()).toContain(
         "i18n.components.modal_share_page.other"
       );
-    });
-
-    it("renders Toaster component", () => {
-      const wrapper = createWrapper({ organization: testOrganization });
-      expect(wrapper.find('[data-testid="toaster"]').exists()).toBe(true);
     });
   });
 
@@ -259,34 +255,43 @@ describe("ModalSharePage component", () => {
       expect(qrBtns).toHaveLength(0);
     });
 
-    it("passes organization to QR code button", () => {
+    it("passes organization name and link to QR code button", () => {
       const wrapper = createWrapper({ organization: testOrganization });
       const qrBtn = wrapper.findComponent({ name: "ModalQRCodeBtn" });
-      expect(qrBtn.props("organization")).toEqual(testOrganization);
+      expect(qrBtn.props("name")).toBe(testOrganization.name);
+      expect(qrBtn.props("linkUrl")).toContain(
+        `/organizations/${testOrganization.id}`
+      );
     });
 
-    it("passes event to QR code button", () => {
+    it("passes event name and link to QR code button", () => {
       const wrapper = createWrapper({ event: testEvent });
       const qrBtn = wrapper.findComponent({ name: "ModalQRCodeBtn" });
-      expect(qrBtn.props("event")).toEqual(testEvent);
+      expect(qrBtn.props("name")).toBe(testEvent.name);
+      expect(qrBtn.props("linkUrl")).toContain(`/events/${testEvent.id}`);
     });
 
-    it("passes group to QR code button", () => {
+    it("passes group name and link to QR code button", () => {
       const wrapper = createWrapper({ group: testGroup });
       const qrBtn = wrapper.findComponent({ name: "ModalQRCodeBtn" });
-      expect(qrBtn.props("group")).toEqual(testGroup);
+      expect(qrBtn.props("name")).toBe(testGroup.name);
+      expect(qrBtn.props("linkUrl")).toContain(
+        `/organizations/${testGroup.org.id}/groups/${testGroup.id}`
+      );
     });
 
-    it("passes resource to QR code button", () => {
+    it("passes resource name and link to QR code button", () => {
       const wrapper = createWrapper({ resource: testResource });
       const qrBtn = wrapper.findComponent({ name: "ModalQRCodeBtn" });
-      expect(qrBtn.props("resource")).toEqual(testResource);
+      expect(qrBtn.props("name")).toBe(testResource.name);
+      expect(qrBtn.props("linkUrl")).toBe(testResource.url);
     });
 
-    it("passes user to QR code button", () => {
+    it("passes user name and link to QR code button", () => {
       const wrapper = createWrapper({ user: testUser });
       const qrBtn = wrapper.findComponent({ name: "ModalQRCodeBtn" });
-      expect(qrBtn.props("user")).toEqual(testUser);
+      expect(qrBtn.props("name")).toBe(testUser.name);
+      expect(qrBtn.props("linkUrl")).toContain(`/users/${testUser.id}`);
     });
   });
 

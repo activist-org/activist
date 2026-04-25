@@ -12,6 +12,7 @@
       :entityId="group?.id || ''"
       :entityType="EntityType.GROUP"
     />
+    <ModalQRCode />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"
@@ -20,7 +21,9 @@
       @mouseover="sidebarHover = true"
       class="block"
     />
-    <div class="flex flex-col md:h-screen md:overflow-y-scroll">
+    <div
+      class="flex grid-rows-none flex-col overflow-x-hidden md:grid md:h-screen md:grid-rows-[1fr_auto] md:overflow-y-hidden"
+    >
       <div
         v-if="group && images"
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"

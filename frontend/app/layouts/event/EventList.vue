@@ -1,6 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
+    <ModalQRCode />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"
@@ -9,7 +10,7 @@
       @mouseover="sidebarHover = true"
       class="fixed top-0 z-20 h-screen"
     />
-    <div class="flex flex-col">
+    <div class="grid grid-rows-[1fr_auto] md:h-screen md:overflow-y-scroll">
       <div
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"

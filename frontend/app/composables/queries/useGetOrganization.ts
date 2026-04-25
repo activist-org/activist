@@ -5,9 +5,10 @@
 export const getKeyForGetOrganization = (id: string) => `organization:${id}`;
 
 export function useGetOrganization(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const organizationId = computed(() => String(unref(id)));
   const store = useOrganizationStore();
+  const imageStore = useOrganizationImageStore();
 
   // Cache key for useAsyncData.
   const key = computed(() =>
@@ -23,9 +24,10 @@ export function useGetOrganization(id: MaybeRef<string>) {
         const organization = await getOrganization(organizationId.value);
         // Cache the result in store.
         store.setOrganization(organization);
+        imageStore.setEntityId(organization?.id);
         return organization;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },

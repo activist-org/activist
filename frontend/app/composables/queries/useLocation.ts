@@ -3,7 +3,7 @@
 export const getKeyForLocation = (query: Record<string, string> | null) =>
   `user-location:${JSON.stringify(query)}`;
 export const useLocation = (query: MaybeRef<Record<string, string> | null>) => {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const queryRef = computed(() => unref(query));
   const { pending, error, data, refresh } = useAsyncData<
     NomatimLocation[] | null
@@ -17,7 +17,7 @@ export const useLocation = (query: MaybeRef<Record<string, string> | null>) => {
         const location = await searchLocationNomatim(queryRef.value);
         return location;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },

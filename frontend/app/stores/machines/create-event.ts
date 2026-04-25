@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { ContextCreateEventData } from "~~/shared/types/create-event-type";
 
-import { createFlowStore } from "./flow";
+import { createFlowStore } from "../factories/flow";
 
 // Import your step components dynamically
 const EventDetailsStep = () =>
@@ -91,6 +91,12 @@ export const useCreateEventStore = createFlowStore({
               createdEventIds: [...existingIds, result.id],
               __lastActionResult: null, // clean up for the next loop iteration
             });
+          }
+          // Signal that all node data should be cleared when we enter it (Create another flow).
+          const data = context.allNodeData as unknown as ContextCreateEventData;
+          const stepData = data[CreateEventSteps.Time];
+          if (stepData?.createAnother) {
+            context.actions.setAllNodeData({});
           }
         },
 

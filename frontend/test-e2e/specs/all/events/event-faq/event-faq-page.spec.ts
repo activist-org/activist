@@ -3,7 +3,8 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { ensureMinimumFAQs } from "~/test-e2e/utils/faq-helpers";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
@@ -11,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
-  // MARK: - Accessibility
+  // MARK: Accessibility
 
   test("Event FAQ Page has no detectable accessibility issues", async ({
     page,
@@ -45,7 +46,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     });
   });
 
-  // MARK: - CRUD Operations
+  // MARK: CRUD Operations
 
   test("User can manage FAQ entries (CREATE, UPDATE, DELETE)", async ({
     page,
@@ -54,6 +55,10 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     const { faqPage } = eventPage;
 
     await page.waitForLoadState("domcontentloaded");
+
+    await expect(faqPage.faqCards.first().or(faqPage.emptyState)).toBeVisible({
+      timeout: 15000,
+    });
 
     // Generate unique content for this test run.
     const timestamp = Date.now();
@@ -183,86 +188,85 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
 
     // Verify confirmation modal opens.
     const confirmationModal = page.locator("#modal").first();
-    await expect(confirmationModal).toBeVisible();
+    await expect(confirmationModal).toBeVisible({ timeout: 15000 });
 
-    // Confirm deletion.
+    // Confirm deletion. ModalAlert does not await the parent's async delete handler, so the
+    // dialog can close before DELETE + refetch finish — wait on the API response, then poll UI.
     const confirmButton = confirmationModal.getByRole("button", {
       name: /confirm|yes|delete/i,
     });
+    const deleteFaqResponse = page.waitForResponse(
+      (res) =>
+        res.request().method() === "DELETE" &&
+        /\/events\/event_faqs\//i.test(new URL(res.url()).pathname),
+      { timeout: 20000 }
+    );
     await confirmButton.click();
+    const deleteRes = await deleteFaqResponse;
+    expect(
+      [200, 204].includes(deleteRes.status()),
+      `DELETE event FAQ expected 200 or 204, got ${deleteRes.status()}`
+    ).toBe(true);
 
-    // Wait for modal to close.
     await expect(confirmationModal).not.toBeVisible();
     await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
-    // Verify the FAQ is no longer visible.
     await expect(
       faqPage.faqCards.filter({ hasText: updatedQuestion })
-    ).not.toBeVisible();
+    ).not.toBeVisible({ timeout: 15000 });
 
-    // Verify FAQ count decreased (should be back to initial or less if we successfully deleted).
-    const finalFaqCount = await faqPage.getFAQCount();
-    expect(finalFaqCount).toBeLessThanOrEqual(afterCreateCount - 1);
+    await expect
+      .poll(async () => faqPage.getFAQCount(), {
+        timeout: 20000,
+        intervals: [100, 200, 500],
+      })
+      .toBe(initialFaqCount);
   });
 
-  // MARK: - View and Interact
+  // MARK: View and Interact
 
   test("User can view and interact with FAQ entries", async ({ page }) => {
     const eventPage = newEventPage(page);
     const { faqPage } = eventPage;
 
-    // Wait for page to load completely.
     await page.waitForLoadState("domcontentloaded");
 
-    // Wait for FAQ cards to be visible (since the page should have FAQ entries).
-    await expect(faqPage.faqCards.first()).toBeVisible();
+    // Ensure at least 2 FAQs exist so view/interact assertions have stable data.
+    await ensureMinimumFAQs(page, faqPage, 2);
 
-    // Wait for the page to be stable.
+    await expect(faqPage.faqCards.first()).toBeVisible();
     await page.waitForLoadState("domcontentloaded");
 
     const faqCount = await faqPage.getFAQCount();
+    expect(faqCount).toBeGreaterThanOrEqual(2);
 
-    if (faqCount > 0) {
-      // Verify FAQ list and elements are visible.
-      await expect(faqPage.faqList).toBeVisible();
-      await expect(faqPage.faqCards.first()).toBeVisible();
+    // Verify FAQ list and elements are visible.
+    await expect(faqPage.faqList).toBeVisible();
+    await expect(faqPage.faqCards.first()).toBeVisible();
 
-      const firstFAQCard = faqPage.getFAQCard(0);
-      const firstFAQQuestion = faqPage.getFAQQuestion(0);
-      const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
-      const firstFAQEditButton = faqPage.getFAQEditButton(0);
+    const firstFAQCard = faqPage.getFAQCard(0);
+    const firstFAQQuestion = faqPage.getFAQQuestion(0);
+    const firstFAQDragHandle = faqPage.getFAQDragHandle(0);
+    const firstFAQEditButton = faqPage.getFAQEditButton(0);
 
-      await expect(firstFAQCard).toBeVisible();
-      await expect(firstFAQQuestion).toBeVisible();
-      await expect(firstFAQQuestion).toContainText(/.+/);
-      await expect(firstFAQDragHandle).toBeVisible();
-      await expect(firstFAQEditButton).toBeVisible();
+    await expect(firstFAQCard).toBeVisible();
+    await expect(firstFAQQuestion).toBeVisible();
+    await expect(firstFAQQuestion).toContainText(/.+/);
+    await expect(firstFAQDragHandle).toBeVisible();
+    await expect(firstFAQEditButton).toBeVisible();
 
-      // Test expand/collapse functionality.
-      const isInitiallyExpanded = await faqPage.isFAQExpanded(0);
-      expect(isInitiallyExpanded).toBe(false);
+    // Test expand/collapse functionality.
+    const isInitiallyExpanded = await faqPage.isFAQExpanded(0);
+    expect(isInitiallyExpanded).toBe(false);
 
-      // Expand FAQ.
-      await faqPage.expandFAQ(0);
+    await faqPage.expandFAQ(0);
+    await expect(faqPage.getFAQAnswer(0)).toBeVisible();
 
-      // Wait for FAQ to be expanded.
-      await expect(faqPage.getFAQAnswer(0)).toBeVisible();
+    const answer = faqPage.getFAQAnswer(0);
+    await expect(answer).toBeVisible();
+    await expect(answer).toContainText(/.+/);
 
-      const answer = faqPage.getFAQAnswer(0);
-      await expect(answer).toBeVisible();
-      await expect(answer).toContainText(/.+/);
-
-      // Collapse FAQ.
-      await faqPage.expandFAQ(0);
-
-      // Wait for FAQ to be collapsed.
-      await expect(faqPage.getFAQAnswer(0)).not.toBeVisible();
-    } else {
-      // This should not happen since we expect FAQ entries to be present.
-      throw new Error(
-        "Expected FAQ entries to be present, but none were found"
-      );
-    }
+    await faqPage.expandFAQ(0);
+    await expect(faqPage.getFAQAnswer(0)).not.toBeVisible();
   });
 });

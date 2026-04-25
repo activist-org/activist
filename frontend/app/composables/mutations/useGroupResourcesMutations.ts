@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
+// Mutation composable for group resources - uses direct service calls, not useAsyncData.
 
 export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { error, handleError, clearError } = useAppError();
 
   const loading = ref(false);
-  const error = ref<Error | null>(null);
 
   const currentGroupId = computed(() => unref(groupId));
 
@@ -16,7 +15,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     }
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Service function handles the HTTP call and throws normalized errors.
@@ -27,9 +26,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -39,7 +36,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   // Update existing resource.
   async function updateResource(resource: ResourceInput) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Direct service call - no useAsyncData needed for mutations.
@@ -50,9 +47,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -62,7 +57,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   // Delete existing resource.
   async function deleteResource(resourceId: string) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await deleteGroupResource(resourceId);
@@ -72,9 +67,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -84,7 +77,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   // Reorder multiple resource entries.
   async function reorderResources(resources: Resource[]) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await reorderGroupResources(resources);
@@ -94,9 +87,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;

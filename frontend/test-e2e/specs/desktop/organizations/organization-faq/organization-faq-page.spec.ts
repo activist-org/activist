@@ -7,7 +7,7 @@ import {
 import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
+import { ensureMinimumFAQs } from "~/test-e2e/utils/faq-helpers";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.

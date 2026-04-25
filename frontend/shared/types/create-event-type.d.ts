@@ -15,5 +15,6 @@ export interface ContextCreateEventData {
       endDate: string;
     };
     createAnother: boolean;
+    createdEventIds: string[];
   };
 }

@@ -5,7 +5,7 @@
 export const getKeyForGetEvent = (id: string) => `event:${id}`;
 
 export function useGetEvent(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const eventId = computed(() => String(unref(id)));
   const store = useEventStore();
 
@@ -23,9 +23,9 @@ export function useGetEvent(id: MaybeRef<string>) {
         // Cache the result in store.
         store.setEvent(event);
         return event as CommunityEvent;
-      } catch (error) {
-        showToastError((error as AppError).message);
-        throw error;
+      } catch (err) {
+        handleError(err);
+        throw err;
       }
     },
     {

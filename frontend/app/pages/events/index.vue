@@ -39,8 +39,8 @@
 </template>
 
 <script setup lang="ts">
-const viewType = ref<ViewType>(ViewType.MAP);
 const route = useRoute();
+const viewType = ref<ViewType>((route.query.view as ViewType) || ViewType.LIST);
 const router = useRouter();
 const loadingFetchMore = ref(false);
 

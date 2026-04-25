@@ -7,3 +7,4 @@ export * from "./useModalHandlers";
 export * from "./useSortableList";
 export * from "./useTabNavigationEmit";
 export * from "./useToaster";
+export * from "./useAppError";

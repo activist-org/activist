@@ -6,14 +6,15 @@ export const getKeyForGetOrganizationImages = (id: string) =>
   `organizationImages:${id}`;
 
 export function useGetOrganizationImages(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const organizationId = computed(() => String(unref(id)));
-  const store = useOrganizationStore();
+  const store = useOrganizationImageStore();
+
   // Cache key for useAsyncData.
   const cached = computed(
     () =>
       store.getImages().length > 0 &&
-      organizationId.value === store.getOrganization().id
+      organizationId.value === store.getEntityId()
   );
   const key = computed(() =>
     organizationId.value
@@ -33,11 +34,13 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
 
       try {
         const images = await fetchOrganizationImages(organizationId.value);
+
         // Cache the result in store.
         store.setImages(images);
+
         return images;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },
@@ -48,7 +51,7 @@ export function useGetOrganizationImages(id: MaybeRef<string>) {
         if (
           nuxtApp.isHydrating &&
           store.getImages().length > 0 &&
-          organizationId.value === store.getOrganization()?.id
+          organizationId.value === store.getEntityId()
         ) {
           return store.getImages();
         }

@@ -53,6 +53,23 @@ def test_image_serializer_missing_entity_id() -> None:
         serializer.validate({"file_object": fake_file})
 
 
+@pytest.mark.django_db
+def test_image_serializer_allows_valid_file() -> None:
+    """
+    Ensure serializer.validate succeeds for a valid, in-range image upload.
+    """
+    fake_file = SimpleUploadedFile(
+        "test.png", b"file_content", content_type="image/png"
+    )
+    request = type(
+        "Request", (), {"data": {"entity_type": "group", "entity_id": "123"}}
+    )()
+    serializer = ImageSerializer(context={"request": request})
+
+    validated = serializer.validate({"file_object": fake_file})
+    assert validated["file_object"] is fake_file
+
+
 # MARK:  Icon Tests
 
 
@@ -116,6 +133,19 @@ def test_image_icon_serializer_validate_file_too_large():
         f"too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE}"
         in str(excinfo.value)
     )
+
+
+@pytest.mark.django_db
+def test_image_icon_serializer_allows_valid_file() -> None:
+    """
+    Ensure ImageIconSerializer.validate succeeds for a valid, in-range image upload.
+    """
+    file = SimpleUploadedFile("test.jpg", b"file_content", content_type="image/jpeg")
+    request = type("Request", (), {"data": {"entity_type": "org", "entity_id": "1"}})()
+    serializer = ImageIconSerializer(context={"request": request})
+
+    validated = serializer.validate({"file_object": file})
+    assert validated["file_object"] is file
 
 
 @pytest.mark.django_db

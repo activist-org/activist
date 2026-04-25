@@ -15,7 +15,6 @@ pytestmark = pytest.mark.django_db
 def test_verify_email_for_reset_password_valid_code(authenticated_client) -> None:
     """
     Test email verification with valid verification code and new password.
-
     """
     logger.info("Testing valid email verification for password reset")
     client, user = authenticated_client
@@ -35,7 +34,6 @@ def test_verify_email_for_reset_password_valid_code(authenticated_client) -> Non
 def test_verify_email_for_reset_password_invalid_code(authenticated_client) -> None:
     """
     Test email verification with invalid verification code.
-
     """
     client, user = authenticated_client
     invalid_code = uuid.uuid4()

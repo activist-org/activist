@@ -1,75 +1,31 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-interface GroupStore {
-  group: Group;
-  groups: Group[];
-  images: ContentImage[];
-  page: number;
-  filters: GroupFilters;
-}
+import { defineStore } from "pinia";
+
+import { createImageStore } from "../factories/images";
+import { createPaginationStore } from "../factories/pagination";
+
+// MARK: List Store
+
+export const useGroupListStore = createPaginationStore<Group, GroupFilters>(
+  "group-list"
+);
+
+// MARK: Image Store
+
+export const useGroupImageStore = createImageStore("group-images");
+
+// MARK: Entity Store
 
 export const useGroupStore = defineStore("group", {
-  // MARK: Properties
-
-  state: (): GroupStore => ({
+  state: () => ({
     group: null as unknown as Group,
-    groups: [],
-    images: [],
-    page: 1,
-    filters: {} as GroupFilters,
   }),
   actions: {
     getGroup() {
       return this.group;
     },
-
-    getGroups() {
-      return this.groups;
-    },
-
-    getGroupImages() {
-      return this.images;
-    },
-
     setGroup(group: Group) {
       this.group = group;
-    },
-
-    setGroups(groups: Group[]) {
-      this.groups = groups;
-    },
-
-    setGroupImages(images: ContentImage[]) {
-      this.images = images;
-    },
-    setPage(page: number) {
-      this.page = page;
-    },
-
-    getPage() {
-      return this.page;
-    },
-
-    setFilters(filters: GroupFilters) {
-      this.filters = filters;
-    },
-
-    getFilters() {
-      return this.filters;
-    },
-    clearGroupImages(id: string) {
-      if (this.group.id === id) {
-        this.images = [];
-      }
-    },
-
-    clearGroup(id: string) {
-      if (this.group.id === id) {
-        this.group = null as unknown as Group;
-      }
-    },
-
-    clearGroups() {
-      this.groups = [];
     },
   },
 });

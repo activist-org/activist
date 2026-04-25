@@ -7,7 +7,8 @@ import { expect } from "playwright/test";
 // MARK: First Event
 
 /**
- * Navigate to the first event from the events home page
+ * Navigate to the first event from the events home page.
+ *
  * @param page - Playwright page object
  * @returns Object containing eventId and eventPage
  */
@@ -171,6 +172,87 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
   }
 
   await expect(page).toHaveURL(new RegExp(`.*\\/events\\/.*\\/${subpage}`));
+
+  return { eventId, eventPage };
+}
+
+// MARK: Last event (activist_0's when E2E ordering is on)
+
+type PaginatedEventsResponse = {
+  results: Array<{ id: string }>;
+  next: string | null;
+};
+
+/**
+ * Turn DRF `next` (absolute or relative) into a path Playwright can pass to
+ * `page.request.get` with the suite `baseURL`.
+ */
+function eventsListNextPath(nextUrl: string): string {
+  try {
+    const u = new URL(nextUrl, "http://localhost");
+    return `${u.pathname}${u.search}`;
+  } catch {
+    return nextUrl;
+  }
+}
+
+/**
+ * Walk paginated GET /api/auth/events/events using the same session as `page`
+ * until the final page, then return the **last** event id in API order.
+ *
+ * In CI / development the backend orders activist_0's events last
+ * (`EventAPIView.get_queryset`), so this id is suitable for "member edits own
+ * event" tests without relying on infinite scroll or UI timing.
+ */
+export async function fetchLastEventIdFromEventsApi(
+  page: Page
+): Promise<string> {
+  let path = "/api/auth/events/events?page_size=100";
+  let lastId = "";
+
+  for (;;) {
+    const res = await page.request.get(path);
+    if (!res.ok()) {
+      const snippet = (await res.text()).slice(0, 400);
+      throw new Error(`GET ${path} failed: ${res.status()} — ${snippet}`);
+    }
+    const body = (await res.json()) as PaginatedEventsResponse;
+    if (!body.results?.length) {
+      throw new Error(`Events list returned no results (${path})`);
+    }
+    lastId = body.results[body.results.length - 1]!.id;
+    if (!body.next) break;
+    path = eventsListNextPath(body.next);
+  }
+
+  if (!lastId) {
+    throw new Error("Could not resolve last event id from API");
+  }
+  return lastId;
+}
+
+/**
+ * Open the event that is **last** in the authenticated events list API order,
+ * then the requested subpage, via direct navigation (no list scroll / card click).
+ *
+ * Use with activist_0's session: backend E2E ordering puts that user's events last.
+ */
+export async function navigateToLastEventSubpage(
+  page: Page,
+  subpage: "about" | "resources" | "faq"
+) {
+  const eventId = await fetchLastEventIdFromEventsApi(page);
+
+  await page.goto(`/events/${eventId}/${subpage}`, { waitUntil: "load" });
+
+  await expect(page).toHaveURL(
+    new RegExp(`.*\\/events\\/${eventId}\\/${subpage}`)
+  );
+
+  const { newEventPage } =
+    await import("~/test-e2e/page-objects/event/EventPage");
+  const eventPage = newEventPage(page);
+  await expect(eventPage.pageHeading).toBeVisible({ timeout: 15000 });
 
   return { eventId, eventPage };
 }

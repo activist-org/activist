@@ -2,12 +2,12 @@
 <template>
   <div
     v-if="windowWidth < BreakpointMap.SMALL"
-    class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-8 py-8"
+    class="flex flex-col items-center justify-between gap-8 bg-layer-0 px-4 py-8 sm:px-8"
   >
     <Head>
       <Title>{{ organization?.name }} </Title>
     </Head>
-    <div class="mx-auto h-[260px] w-3/4">
+    <div class="h-65 mx-auto w-3/4">
       <ImageOrganization
         :alt="
           $t('i18n._global.entity_logo', {
@@ -52,7 +52,7 @@
       </MenuLinkWrapper>
       <BtnRouteInternal
         ariaLabel="i18n._global.offer_to_help_aria_label"
-        class="w-max"
+        class="flex w-full justify-center sm:w-max"
         :cta="true"
         fontSize="base"
         iconSize="1.25em"

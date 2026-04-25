@@ -45,9 +45,10 @@ describe("useUser composable", () => {
     expect(user.userIsAdmin.value).toBe(false);
     expect(user.canEdit({ createdBy: 42 })).toBe(true);
     expect(user.canDelete({ createdBy: 42 })).toBe(true);
+    expect(user.canCreate({ createdBy: 42 })).toBe(true);
     expect(user.canEdit({ createdBy: 99 })).toBe(false);
     expect(user.canDelete({ createdBy: 99 })).toBe(false);
-    expect(user.canCreate()).toBe(true);
+    expect(user.canCreate({ createdBy: 99 })).toBe(false);
     expect(user.canView()).toBe(true);
   });
 

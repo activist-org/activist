@@ -1,6 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Toaster :theme="$colorMode.value === 'dark' ? 'dark' : 'light'" />
   <ModalBase :modalName="modalName">
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
@@ -66,7 +65,9 @@
 
           <ModalQRCodeBtn
             v-if="organization"
-            :organization="organization"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_organization')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="organization.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -74,7 +75,9 @@
           />
           <ModalQRCodeBtn
             v-if="group"
-            :group="group"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_group')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="group.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -82,7 +85,9 @@
           />
           <ModalQRCodeBtn
             v-if="event"
-            :event="event"
+            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_event')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="event.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
@@ -90,19 +95,23 @@
           />
           <ModalQRCodeBtn
             v-if="resource"
+            :firstParagraph="`${$t('i18n.components.modal_share_page.section_1_paragraph_1_resource')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="resource.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
-            :resource="resource"
             type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="user"
+            :firstParagraph="`${$t('i18n.components.modal_share_page.section_1_paragraph_1_user')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :linkUrl="getCurrentUrl()"
+            :name="user.name"
             :reason-for-suggesting="
               $t('i18n.components.modal_share_page.suggested_qr_code')
             "
             type="meta-tag"
-            :user="user"
           />
 
           <BtnShareIcon
@@ -215,7 +224,6 @@
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
-import { Toaster } from "vue-sonner";
 
 const props = defineProps<{
   cta: BtnAction["cta"];
@@ -238,9 +246,7 @@ const getEntityType = () => {
   }
 };
 
-const setEntityInfo = (
-  data: typeof props.organization | typeof props.group | typeof props.event
-) => {
+const setEntityInfo = (data: Entity) => {
   if (!data) return;
   return {
     subject: `Share ${data.name}!`,

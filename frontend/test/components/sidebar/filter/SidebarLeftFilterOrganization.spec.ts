@@ -43,7 +43,11 @@ describe("SidebarLeftFilterOrganization Route Query Sync", () => {
       await wrapper.vm.$nextTick();
 
       const form = wrapper.findComponent({ name: "Form" });
-      expect(form.props("initialValues")).toEqual({});
+      expect(form.props("initialValues")).toEqual({
+        topics: [],
+        city: undefined,
+        country: undefined,
+      });
     });
   });
 });

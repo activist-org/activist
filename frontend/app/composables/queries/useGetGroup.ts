@@ -5,9 +5,10 @@
 export const getKeyForGetGroup = (id: string) => `group:${id}`;
 
 export function useGetGroup(id: MaybeRef<string>) {
-  const { showToastError } = useToaster();
+  const { handleError } = useAppError();
   const groupId = computed(() => String(unref(id)));
   const store = useGroupStore();
+  const storeImages = useGroupImageStore();
 
   // Cache key for useAsyncData.
   const key = computed(() =>
@@ -25,9 +26,10 @@ export function useGetGroup(id: MaybeRef<string>) {
         const group = await getGroup(groupId.value);
         // Cache the result in store.
         store.setGroup(group);
+        storeImages.setEntityId(group?.id);
         return group as Group;
       } catch (error) {
-        showToastError((error as AppError).message);
+        handleError(error);
         throw error;
       }
     },

@@ -112,10 +112,10 @@ describe("services/communities/organization", () => {
       topics: [],
     } as const;
 
-    const created = "org-3";
+    const created = { id: "org-3" };
     fetchMock.mockResolvedValueOnce(created);
 
-    const id = await createOrganization({ ...form } as unknown as Parameters<
+    const org = await createOrganization({ ...form } as unknown as Parameters<
       typeof createOrganization
     >[0]);
 
@@ -126,7 +126,7 @@ describe("services/communities/organization", () => {
       description: form.description,
       topics: form.topics,
     });
-    expect(id).toBe("org-3");
+    expect(org.id).toBe("org-3");
   });
 
   // MARK: Delete

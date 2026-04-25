@@ -38,7 +38,10 @@ export default defineEventHandler(async (event) => {
   if (isTokenExpired(session.secure.token)) {
     if (!session.secure.refresh) {
       await clearUserSession(event);
-      throw createError({ statusCode: 401, statusMessage: "Session expired" });
+      throw createError({
+        statusCode: 401,
+        statusMessage: "Session expired, please log in again",
+      });
     }
 
     try {

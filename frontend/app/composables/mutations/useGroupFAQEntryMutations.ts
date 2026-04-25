@@ -2,10 +2,8 @@
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
 export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError, clearError } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
 
@@ -16,7 +14,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     }
 
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Service function handles the HTTP call and throws normalized errors.
@@ -27,8 +25,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      error.value = err as AppError;
-      showToastError((err as AppError).message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -38,7 +35,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   // Update existing FAQ entry.
   async function updateFAQ(faq: FaqEntry) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       // Direct service call - no useAsyncData needed for mutations.
@@ -49,9 +46,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -61,7 +56,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   // Reorder multiple FAQ entries.
   async function reorderFAQs(faqs: FaqEntry[]) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await reorderGroupFaqs(faqs);
@@ -71,9 +66,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;
@@ -83,7 +76,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   // Delete FAQ entry.
   async function deleteFAQ(faqId: string) {
     loading.value = true;
-    error.value = null;
+    clearError();
 
     try {
       await deleteGroupFaq(faqId);
@@ -93,9 +86,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
 
       return true;
     } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+      handleError(err);
       return false;
     } finally {
       loading.value = false;

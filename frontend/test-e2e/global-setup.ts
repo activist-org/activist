@@ -148,12 +148,10 @@ async function globalSetup(config: FullConfig) {
     },
   ];
 
-  // Check if all sessions are still valid — skip server warmup and auth entirely.
   if (accounts.every((a) => isAuthStateValid(a.authFile))) {
     return;
   }
 
-  // Wait for server to be fully ready (skip warmup if local server is already responding).
   const isCI = process.env.CI === "true";
   const skipWarmup = !isCI && (await quickServerHealthCheck(baseURL));
 
@@ -173,6 +171,11 @@ async function globalSetup(config: FullConfig) {
 
   // eslint-disable-next-line no-console
   console.log("🔐 Setting up authenticated sessions...");
+
+  const authDir = path.join(__dirname, ".auth");
+  if (!fs.existsSync(authDir)) {
+    fs.mkdirSync(authDir, { recursive: true });
+  }
 
   for (const account of accounts) {
     if (isAuthStateValid(account.authFile)) continue;

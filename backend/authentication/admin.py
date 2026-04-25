@@ -49,15 +49,15 @@ class UserCreationForm(forms.ModelForm):  # type: ignore[type-arg]
         """
         Validate that the two entered passwords match.
 
-        Raises
-        -------
-        ValidationError
-            If the two passwords do not match.
-
         Returns
         -------
         Any | None
             The second password if valid.
+
+        Raises
+        ------
+        ValidationError
+            If the two passwords do not match.
         """
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")

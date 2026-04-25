@@ -9,6 +9,7 @@
         <IconEdit
           @click="openModalTextEvent"
           @keydown.enter="openModalTextEvent"
+          :entity="event"
         />
       </div>
       <div class="flex-col space-y-3">

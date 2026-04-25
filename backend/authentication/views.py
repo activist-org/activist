@@ -80,10 +80,11 @@ class SignOutView(APIView):
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
+        request=None,
         responses={
             200: OpenApiResponse(response={"message": "User logged out successfully."}),
             401: OpenApiResponse(response={"detail": "You are not authenticated."}),
-        }
+        },
     )
     def post(self, request: Request) -> Response:
         user = request.user

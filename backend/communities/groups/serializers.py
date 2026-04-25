@@ -45,18 +45,18 @@ class GroupFaqSerializer(serializers.ModelSerializer[GroupFaq]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Group instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the group does not exist.
+        value : Group | UUID | str
+            The value to validate: a Group instance, UUID, or string id.
 
         Returns
         -------
         Group
             The validated Group instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the group does not exist.
         """
         if isinstance(value, Group):
             return value
@@ -98,18 +98,18 @@ class GroupResourceSerializer(serializers.ModelSerializer[GroupResource]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Group instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the group does not exist.
+        value : Group | UUID | str
+            The value to validate: a Group instance, UUID, or string id.
 
         Returns
         -------
         Group
             The validated Group instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the group does not exist.
         """
         if isinstance(value, Group):
             return value
@@ -142,18 +142,18 @@ class GroupSocialLinkSerializer(serializers.ModelSerializer[GroupSocialLink]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Group instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the group does not exist.
+        value : Group | UUID | str
+            The value to validate: a Group instance, UUID, or string id.
 
         Returns
         -------
         Group
             The validated Group instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the group does not exist.
         """
         if isinstance(value, Group):
             return value
@@ -222,7 +222,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
         Returns
         -------
         dict[str, Any]
-            The data post validation.
+            Validated data after validation completes.
         """
         return data
 
@@ -237,7 +237,7 @@ class GroupPOSTSerializer(serializers.Serializer[Group]):
 
         Returns
         -------
-        Organization
+        Group
             The group object that was created in the database.
         """
         with transaction.atomic():
