@@ -19,10 +19,14 @@
       }"
       data-testid="sign-in-password-strength-text"
     >
-      {{ $t("i18n.components.indicator_password_strength.title") }}:
       {{
         !!(password || []).length
-          ? $t("i18n.components.indicator_password_strength.time_to_crack", { time: crackTimeDisplay })
+          ? $t(
+              "i18n.components.indicator_password_strength.time_to_crack_password",
+              {
+                time: crackTimeDisplay,
+              }
+            )
           : $t("i18n.components.indicator_password_strength.invalid")
       }}
     </div>
@@ -39,10 +43,7 @@ const props = defineProps<{
 const password = computed(() => unref(props.passwordValue));
 type PasswordIndexKey = 0 | 1 | 2 | 3 | 4;
 
-const passwordStrengthMap: Record<
-  PasswordIndexKey,
-  { color: string }
-> = {
+const passwordStrengthMap: Record<PasswordIndexKey, { color: string }> = {
   0: { color: "bg-password-strength-very-weak" },
   1: { color: "bg-password-strength-weak" },
   2: { color: "bg-password-strength-medium" },
