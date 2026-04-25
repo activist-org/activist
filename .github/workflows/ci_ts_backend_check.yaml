@@ -42,4 +42,5 @@ jobs:
       - name: Check Django Models Against TypeScript Interfaces
         run: |
           echo $(pwd)
+          echo $(which ts-backend-check)
           uv run ts-backend-check -a
