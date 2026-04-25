@@ -41,4 +41,4 @@ jobs:
 
       - name: Check Django Models Against TypeScript Interfaces
         run: |
-          uv run --project . ts-backend-check -a
+          uv run --project ./backend ts-backend-check -a
