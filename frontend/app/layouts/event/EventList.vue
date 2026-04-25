@@ -1,6 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
+    <ModalQRCode />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"

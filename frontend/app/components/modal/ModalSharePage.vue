@@ -220,16 +220,6 @@
       </div>
     </div>
   </ModalBase>
-  <!-- Note: ModalQRCode is intentionally outside ModalBase so it survives when the share modal closes. -->
-  <ModalQRCode
-    v-if="user || organization || group || event || resource"
-    @closeModal="() => modals.closeModal('ModalsQRCode')"
-    :fileName="computedFileName"
-    :firstParagraph="firstParagraph"
-    :link-url="linkUrl.linkUrl.value"
-    :name="getCurrentName()"
-    :second-paragraph="$t('i18n.components._global.section_1_paragraph_1_2')"
-  />
 </template>
 
 <script setup lang="ts">
@@ -244,36 +234,7 @@ const props = defineProps<{
   user?: UserActivist;
 }>();
 
-const linkUrl = useLinkURL(props);
-
-const computedFileName = computed(() => {
-  return (
-    "qr_code_" + (getCurrentName() ?? "").toLowerCase().replaceAll(" ", "_")
-  );
-});
-
-const firstParagraph = computed(() => {
-  if (props.organization) {
-    return $t("i18n.components._global.section_1_paragraph_1_organization");
-  }
-  if (props.group) {
-    return $t("i18n.components._global.section_1_paragraph_1_group");
-  }
-  if (props.event) {
-    return $t("i18n.components._global.section_1_paragraph_1_event");
-  }
-  if (props.resource) {
-    return $t(
-      "i18n.components.modal_share_page.section_1_paragraph_1_resource"
-    );
-  }
-  if (props.user) {
-    return $t("i18n.components.modal_share_page.section_1_paragraph_1_user");
-  }
-  return "";
-});
 const modalName = "ModalSharePage";
-const modals = useModals();
 
 const getEntityType = () => {
   if (props.organization) {

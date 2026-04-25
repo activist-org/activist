@@ -11,6 +11,7 @@
       :entityId="organization?.id || ''"
       :entityType="EntityType.ORGANIZATION"
     />
+    <ModalQRCode />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"

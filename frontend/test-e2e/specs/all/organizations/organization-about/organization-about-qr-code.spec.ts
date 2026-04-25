@@ -86,7 +86,7 @@ test.describe(
       // Click QR code button inside share modal.
       const qrCodeBtn = shareModal.qrCodeButton(shareModal.modal);
       await expect(qrCodeBtn).toBeVisible();
-      await qrCodeBtn.click({ force: true });
+      await qrCodeBtn.click();
 
       // QR code modal opens — regression test for About page fix.
       await expect(qrCodeModal.modal).toBeVisible({ timeout: 10000 });

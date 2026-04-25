@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export function useQRCode(qrCodeFileName: string) {
+export function useQRCode(qrCodeFileName: MaybeRef<string>) {
   const showTooltip = ref(false);
 
   const qrcode = ref();
+  const qrCodeFileNameForDownload = computed(() => unref(qrCodeFileName));
 
   const qrPixelGraphicsSize = computed(() => {
     if (qrcode?.value) {
@@ -87,7 +88,7 @@ export function useQRCode(qrCodeFileName: string) {
       const svgUrl = URL.createObjectURL(svgBlob);
       const downloadLink = document.createElement("a");
       downloadLink.href = svgUrl;
-      downloadLink.download = `${qrCodeFileName}.svg`;
+      downloadLink.download = `${qrCodeFileNameForDownload.value}.svg`;
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
@@ -107,7 +108,7 @@ export function useQRCode(qrCodeFileName: string) {
       drawInlineSVG(svgData, ctx, canvas.width, canvas.height, function () {
         const downloadLink = document.createElement("a");
         downloadLink.href = canvas.toDataURL(`image/${fileExtension}`, 1.0);
-        downloadLink.download = `${qrCodeFileName}.${fileExtension}`;
+        downloadLink.download = `${qrCodeFileNameForDownload.value}.${fileExtension}`;
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
@@ -142,7 +143,7 @@ img {
           if (event.key === "s" && (event.ctrlKey || event.metaKey)) {
             const downloadLink = document.createElement("a");
             downloadLink.href = document.querySelector("img").src;
-            downloadLink.download = "${qrCodeFileName}.png";
+            downloadLink.download = "${qrCodeFileNameForDownload.value}.png";
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);

@@ -1,0 +1,51 @@
+# Configuration file for ts-backend-check validation.
+# See https://github.com/activist-org/ts-backend-check for details.
+
+authentication:
+  backend_model_path: backend/authentication/models.py
+  ts_interface_paths:
+    - frontend/shared/types/user.d.ts
+  check_blank_model_fields: true
+  backend_models_to_ignore:
+    - CustomAccountManager
+    - SupportEntityType
+    - Support
+    - SessionModel
+    - UserModel
+    - UserFlag
+
+# organizations:
+#   backend_model_path: backend/communities/organizations/models.py
+#   ts_interface_paths:
+#     - frontend/shared/types/organization.d.ts
+#   check_blank_model_fields: true
+#   backend_models_to_ignore:
+#     - Model
+
+# groups:
+#   backend_model_path: backend/communities/groups/models.py
+#   ts_interface_paths:
+#     - frontend/shared/types/group.d.ts
+#   check_blank_model_fields: true
+#   backend_models_to_ignore:
+#     - Model
+
+# events:
+#   backend_model_path: backend/events/models.py
+#   ts_interface_paths:
+#     - frontend/shared/types/event.d.ts
+#   check_blank_model_fields: true
+#   backend_models_to_ignore:
+#     - Model
+
+# content:
+#   backend_model_path: backend/content/models.py
+#   ts_interface_paths:
+#     - frontend/shared/types/discussion.d.ts
+#     - frontend/shared/types/faq-entry.d.ts
+#     - frontend/shared/types/resource.d.ts
+#     - frontend/shared/types/social-link.d.ts
+#     - frontend/shared/types/topics-type.d.ts
+#   check_blank_model_fields: true
+#   backend_models_to_ignore:
+#     - Model

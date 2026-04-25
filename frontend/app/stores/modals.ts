@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 interface Modal {
   isOpen: boolean;
-  data?: unknown;
+  context?: unknown;
 }
 
 export const useModals = defineStore("modals", {
@@ -10,45 +10,25 @@ export const useModals = defineStore("modals", {
   }),
 
   actions: {
-    openModal(modalName: string) {
+    openModal(modalName: string, params?: unknown) {
       const { modals } = this;
       for (const key in modals) {
         if (modals[key]) {
           modals[key].isOpen = false;
         }
       }
-      modals[modalName] = { isOpen: true };
+      modals[modalName] = { isOpen: true, context: params };
     },
 
     closeModal(modalName: string) {
       if (this.modals[modalName]) {
         this.modals[modalName].isOpen = false;
+        this.modals[modalName].context = null;
       }
     },
-
-    // The following are called in useModalHandlers.ts.
-    // They allow for multiple modal handlers on a page / component.
-    // We can rename the modal handlers so that the code is a little more self-documenting and readable.
-    openModalAndUpdateState(modalName: string, params?: unknown) {
-      this.openModal(modalName);
-
+    updateContext(modalName: string, params: unknown = {}) {
       if (this.modals[modalName]) {
-        this.modals[modalName] = {
-          ...this.modals[modalName],
-          data: params,
-        };
-      }
-
-      return this.modals[modalName];
-    },
-
-    closeModalAndUpdateState(modalName: string) {
-      this.closeModal(modalName);
-
-      if (this.modals[modalName]) {
-        return this.modals[modalName].isOpen;
-      } else {
-        return false;
+        this.modals[modalName].context = params;
       }
     },
   },

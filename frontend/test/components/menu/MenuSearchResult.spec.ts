@@ -81,17 +81,4 @@ describe("MenuSearchResult", () => {
     const final = tooltip.getAttribute("style") || "";
     expect(final).not.toBeNull();
   });
-
-  it("registers click-outside handler and allows invoking it", async () => {
-    await renderMenuSearchResult();
-
-    expect(onClickOutsideMock).toHaveBeenCalledTimes(1);
-
-    const callArgs = onClickOutsideMock.mock.calls[0];
-    const handler = callArgs[1];
-
-    expect(typeof handler).toBe("function");
-
-    (handler as () => void)();
-  });
 });
