@@ -60,8 +60,6 @@ repos:
         entry: uv run i18n-check -a
         language: python
         pass_filenames: false
-        additional_dependencies:
-          - i18n-check
 
   - repo: https://github.com/to-sta/spdx-checker-pre-commit
     rev: 0.1.8

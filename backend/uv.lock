@@ -120,7 +120,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "factory-boy", specifier = ">=3.3.3" },
-    { name = "i18n-check", specifier = ">=1.19.3" },
+    { name = "i18n-check", specifier = ">=1.19.4" },
     { name = "mypy", specifier = ">=1.20.2" },
     { name = "numpydoc", specifier = ">=1.10.0" },
     { name = "prek", specifier = ">=0.3.10" },
@@ -532,7 +532,7 @@ wheels = [
 
 [[package]]
 name = "i18n-check"
-version = "1.19.3"
+version = "1.19.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "packaging" },
@@ -540,9 +540,9 @@ dependencies = [
     { name = "requests" },
     { name = "rich" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c6/b8/5789d10d059ab496301fe2192fb88567e6cd3235d2f557082c5c72c3a65e/i18n_check-1.19.3.tar.gz", hash = "sha256:5314303b21e3e83f963c6f734eced920a24de36514b504b2ce3c1cc8ce89adf9", size = 158146, upload-time = "2026-04-25T21:11:14.86Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d5/7b/5e2abdbe5c83462d89ca8bcfb9da4ed8caaec46fbd4a9782e089ec9531d8/i18n_check-1.19.4.tar.gz", hash = "sha256:3a7f8375d24e38fd1bb973e51f727c39653232967f5ffcda09b703781f5a3b68", size = 158172, upload-time = "2026-04-26T11:22:41.226Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2e/b1/56b748a5ac58cf5929a02fdfdfaf8fb4a4cd7941aa78da3bfc6d10d69826/i18n_check-1.19.3-py3-none-any.whl", hash = "sha256:c68598b7060532ffc5397ea8d3c2b3b8dbfdf3131356571572bbd28be9d1fcf4", size = 71593, upload-time = "2026-04-25T21:11:13.263Z" },
+    { url = "https://files.pythonhosted.org/packages/56/1d/e90519698fe7a665d8d87468da80592bf5e75a0eac865b2ac88a0f42f61d/i18n_check-1.19.4-py3-none-any.whl", hash = "sha256:a05aa567abaee3322b16c9e55eb3e89cedb4343e332523a367ca8c9085fe9a11", size = 71600, upload-time = "2026-04-26T11:22:39.877Z" },
 ]
 
 [[package]]
