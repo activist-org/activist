@@ -211,16 +211,11 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     await expect(confirmationModal).not.toBeVisible();
     await page.waitForLoadState("domcontentloaded");
 
+    // Assert on our specific FAQ only — total count is unreliable under fullyParallel
+    // because the "view and interact" test runs concurrently and may add FAQ cards.
     await expect(
       faqPage.faqCards.filter({ hasText: updatedQuestion })
-    ).not.toBeVisible({ timeout: 15000 });
-
-    await expect
-      .poll(async () => faqPage.getFAQCount(), {
-        timeout: 20000,
-        intervals: [100, 200, 500],
-      })
-      .toBe(initialFaqCount);
+    ).toHaveCount(0, { timeout: 20000 });
   });
 
   // MARK: View and Interact
