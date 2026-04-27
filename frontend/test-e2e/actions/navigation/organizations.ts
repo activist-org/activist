@@ -117,20 +117,28 @@ export async function navigateToOrganizationSubpage(
 
     await page.getByRole("listbox").waitFor({ timeout: 5000 });
 
+    // Exhaustive map of organization subpages to their menu entry i18n keys.
+    // Mirrors the entries in `app/composables/useMenuEntriesState.ts`.
+    // Static values keep i18n-check's nonexistent-keys check happy when this
+    // file is included via search-dirs.
     const i18nKeyMap: Record<string, string> = {
-      resources: "i18n._global.resources",
+      about: "i18n._global.about",
       events: "i18n._global.events",
-      faq: "i18n._global.faq",
       groups: "i18n._global.groups",
+      resources: "i18n._global.resources",
+      faq: "i18n._global.faq",
       affiliates: "i18n.composables.use_menu_entries_state.affiliates",
       tasks: "i18n.composables.use_menu_entries_state.tasks",
       discussions: "i18n._global.discussions",
       settings: "i18n._global.settings",
     };
 
-    const i18nKey =
-      i18nKeyMap[subpage] ||
-      `i18n.composables.use_menu_entries_state.${subpage}`;
+    const i18nKey = i18nKeyMap[subpage];
+    if (!i18nKey) {
+      throw new Error(
+        `Unknown organization subpage "${subpage}". Add it to i18nKeyMap in test-e2e/actions/navigation/organizations.ts.`
+      );
+    }
 
     const subpageOption = page.getByRole("option", {
       name: new RegExp(getEnglishText(i18nKey), "i"),

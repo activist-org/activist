@@ -12,6 +12,7 @@
       </DialogTitle>
       <div class="mt-4">
         <ImageMultipleFileDropZone
+          @file-deleted="handleFileDeleted"
           @update:modelValue="(newFiles) => (files = newFiles)"
           :model-value="files"
           :uploadLimit="uploadLimit"
@@ -47,8 +48,18 @@ const props = withDefaults(defineProps<Props>(), {
 
 const groupId = computed(() => props.groupId);
 const { data: groupImages } = useGetGroupImages(groupId);
-const { updateImage, uploadImages } = useGroupImageMutations(groupId);
+const { updateImage, uploadImages, refreshGroupData } =
+  useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
+
+// useFileManager.removeFile() deletes on the server but doesn't invalidate
+// the groupImages cache, so the carousel stays stale until reload (same
+// class of bug as #1791). Only server-side images need a refresh.
+const handleFileDeleted = async (file: FileUploadMix) => {
+  if (file?.type === "file") {
+    await refreshGroupData();
+  }
+};
 
 watch(
   groupImages,

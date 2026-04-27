@@ -58,15 +58,18 @@ describe("FormSocialLink", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_social_link._global.save",
-        title: "i18n.components.form_social_link._global.edit_links",
+        submitLabel: "i18n.components.modal.social_links._global.update_links",
+        title: "i18n.components.modal.social_links._global.update_links",
       },
     });
 
-    // Title from `title` prop (raw i18n key in test env).
-    const heading = screen.getByText(
-      "i18n.components.form_social_link._global.edit_links"
-    );
+    // Title from `title` prop, translated via vue-i18n at runtime.
+    // Disambiguates from the inner static "Social links" heading and the
+    // submit button (which both also render via $t).
+    const heading = screen.getByRole("heading", {
+      level: 2,
+      name: /update links/i,
+    });
     expect(heading.tagName).toBe("H2");
 
     // Initial label + URL inputs populated from formData.
@@ -105,7 +108,7 @@ describe("FormSocialLink", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_social_link._global.save",
+        submitLabel: "i18n.components.modal.social_links._global.update_links",
       },
     });
 
@@ -154,7 +157,7 @@ describe("FormSocialLink", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_social_link._global.save",
+        submitLabel: "i18n.components.modal.social_links._global.update_links",
       },
     });
 
@@ -198,7 +201,7 @@ describe("FormSocialLink", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_social_link._global.save",
+        submitLabel: "i18n.components.modal.social_links._global.update_links",
       },
     });
 
@@ -238,8 +241,8 @@ describe("FormSocialLink", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_social_link._global.save",
-        title: "i18n.components.form_social_link._global.edit_links",
+        submitLabel: "i18n.components.modal.social_links._global.update_links",
+        title: "i18n.components.modal.social_links._global.update_links",
       },
     });
 
@@ -277,7 +280,7 @@ describe("FormSocialLink", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_social_link._global.save",
+        submitLabel: "i18n.components.modal.social_links._global.update_links",
       },
     });
 
@@ -298,7 +301,7 @@ describe("FormSocialLink", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_social_link._global.save",
+        submitLabel: "i18n.components.modal.social_links._global.update_links",
       },
     });
 
@@ -328,7 +331,7 @@ describe("FormSocialLink", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_social_link._global.save",
+        submitLabel: "i18n.components.modal.social_links._global.update_links",
         // No title prop here.
       },
     });

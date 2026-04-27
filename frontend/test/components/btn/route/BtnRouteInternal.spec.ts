@@ -25,7 +25,7 @@ describe("BtnRouteInternal", () => {
   const defaultProps = {
     cta: true,
     fontSize: "base" as const,
-    ariaLabel: "i18n.test.link",
+    ariaLabel: "internal route aria",
     linkTo: "/test-page",
   };
 

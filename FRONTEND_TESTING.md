@@ -8,6 +8,7 @@
   - [What to Test](#what-to-test)
   - [Where to Write Tests](#where-to-write-tests)
   - [Best Practices](#best-practices)
+  - [Flaky Tests](#flaky-tests)
   - [Checking E2E coverage](#checking-e2e-coverage)
 - [Component and Unit Tests](#component-and-unit-tests)
 
@@ -86,6 +87,70 @@ The steps to do this are:
 1. Wrap the lines from your test that you want to re-use in a function
 2. Move that function into a file in `frontend/test-e2e/actions` and name it based on the action being performed
 3. Import the function into the test files where you use it
+
+<sub><a href="#top">Back to top.</a></sub>
+
+### Flaky Tests
+
+A test is flaky when it fails intermittently without any change to the code under test. Because E2E tests share a live database and run with `fullyParallel: true` (two workers in CI), the most common causes are:
+
+1. **Shared mutable state** — asserting on a total count of items (e.g. FAQ cards, images) when a parallel test may be adding or removing items on the same record at the same time.
+2. **Timing / network delays** — a page assertion fires before an async operation (API refetch, cache invalidation, Vue reactivity propagation) has completed.
+3. **Test pollution across runs** — a previous test run left data in the database that changes the starting state of the next run.
+4. **Ambiguous or unstable selectors** — using `.nth(index)` on dynamic lists, CSS class selectors on third-party components that clone DOM nodes (e.g. Swiper loop mode), or role selectors that match more elements than intended.
+5. **CSS transitions and animations** — an element is present in the DOM and passes `toBeVisible()` before it has finished animating into an interactive state.
+
+#### Protocol when you encounter a flaky test
+
+1. **Reproduce it** — run the spec file in isolation with `--repeat-each=5` to confirm it fails non-deterministically:
+   ```bash
+   yarn playwright test path/to/spec.ts --repeat-each=5
+   ```
+
+2. **Identify the cause** — check whether the failure is due to shared state, timing, selector instability, or database pollution (see causes above).
+
+3. **Fix the root cause** — prefer targeted fixes over workarounds:
+   - Replace total-count assertions with assertions scoped to the specific element your test owns.
+   - Use `page.request` in `beforeEach` to purge relevant data via the API before the test runs, guaranteeing a clean starting state. Call `page.reload({ waitUntil: "networkidle" })` afterwards so the page reflects the purged state before assertions read it.
+   - Intercept the relevant API response with `page.waitForResponse()` before asserting on its effects, rather than relying on a fixed timeout or `waitForLoadState`.
+   - Use `toHaveCount()` or `toBeVisible()` with an adequate timeout instead of `waitForTimeout()`.
+   - Scope locators to a specific container (`.locator()`, `.filter()`) to avoid matching elements in unintended parts of the page or in framework-generated clones.
+
+4. **Tag as `@flaky-<issue-number>` only as a temporary measure** — if a fix requires significant work and the flakiness is blocking a merge, open a GitHub issue to track it, then tag the test with the issue number to skip it in CI:
+   ```typescript
+   test("User can do something @flaky-1234", async ({ page }) => { ... });
+   ```
+   The `@flaky-<issue-number>` tag causes the test to be skipped in CI (`testIgnore` in `playwright.config.mts`) but it still runs locally. The issue number in the tag makes the tracking issue discoverable from the code and prevents flaky tests from being left skipped indefinitely without a record.
+
+#### Writing parallel-safe assertions
+
+Because tests within the same `test.describe` block may run concurrently, avoid asserting on global state that other tests can modify:
+
+```typescript
+// Fragile: total count is affected by parallel tests adding their own items.
+await expect.poll(() => page.getByTestId("faq-card").count()).toBe(initialCount);
+
+// Robust: assert only on the specific item this test created/deleted.
+await expect(page.getByTestId("faq-card").filter({ hasText: myQuestion })).toHaveCount(0);
+```
+
+When a test mutates data and must assert on the server response, wait for the specific response rather than relying on load state or a fixed delay:
+
+```typescript
+// Fragile: waitForLoadState fires when the HTML is ready, not when the API responds.
+await confirmButton.click();
+await page.waitForLoadState("domcontentloaded");
+await expect(myCard).not.toBeVisible();
+
+// Robust: wait for the DELETE response, then assert.
+const deleteResponse = page.waitForResponse(
+  (res) => res.request().method() === "DELETE" && res.url().includes("/my-resource/"),
+  { timeout: 10000 }
+);
+await confirmButton.click();
+await deleteResponse;
+await expect(myCard).not.toBeVisible();
+```
 
 <sub><a href="#top">Back to top.</a></sub>
 
