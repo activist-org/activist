@@ -112,11 +112,11 @@ A test is flaky when it fails intermittently without any change to the code unde
    - Use `page.request` in `beforeEach` to purge relevant data via the API before the test runs, guaranteeing a clean starting state.
    - Use `toHaveCount()` or `toBeVisible()` with an adequate timeout instead of `waitForTimeout()`.
 
-4. **Tag as `@flaky` only as a temporary measure** — if a fix requires significant work and the flakiness is blocking a merge, you can tag the test to skip it in CI while the fix is tracked in a separate issue:
+4. **Tag as `@flaky-<issue-number>` only as a temporary measure** — if a fix requires significant work and the flakiness is blocking a merge, open a GitHub issue to track it, then tag the test with the issue number to skip it in CI:
    ```typescript
-   test("User can do something @flaky", async ({ page }) => { ... });
+   test("User can do something @flaky-1234", async ({ page }) => { ... });
    ```
-   The `@flaky` tag causes the test to be skipped in CI (`testIgnore` in `playwright.config.mts`) but it still runs locally. **Always open a follow-up issue** when using this tag so the test is not left skipped indefinitely.
+   The `@flaky-<issue-number>` tag causes the test to be skipped in CI (`testIgnore` in `playwright.config.mts`) but it still runs locally. The issue number in the tag makes the tracking issue discoverable from the code and prevents flaky tests from being left skipped indefinitely without a record.
 
 #### Writing parallel-safe assertions
 

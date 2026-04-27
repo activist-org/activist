@@ -49,8 +49,8 @@ export default defineConfig({
   tsconfig: "./tsconfig.playwright.json",
   /* Global setup to create authenticated session once */
   globalSetup: "./test-e2e/global-setup",
-  /* Skip flaky tests in CI */
-  testIgnore: process.env.CI ? ["**/*@flaky*"] : [],
+  /* Skip tests tagged @flaky-<issue-number> in CI (e.g. @flaky-1234). */
+  testIgnore: process.env.CI ? ["**/*@flaky-*"] : [],
   /* Run tests in files in parallel. */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
