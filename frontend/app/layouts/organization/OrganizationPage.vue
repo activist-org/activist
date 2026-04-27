@@ -4,7 +4,7 @@
     <ModalUploadImageOrganization
       @closeModal="handleCloseModalUploadImage"
       :images="images || []"
-      :orgId="organization?.id || ''"
+      :orgId="orgId || ''"
     />
     <ModalUploadImageIcon
       @closeModal="handleCloseModalUploadImageIcon"
