@@ -486,8 +486,8 @@ set -a && . ../.env.dev && set +a
 export USE_PREVIEW=true
 corepack enable
 yarn install
-rm -rf dist                                   # force nuxi preview to use .output/ (node-server)
-yarn build:local                              # hit 'n' at any install prompts
+rm -rf dist         # force nuxi preview to use .output/ (node-server)
+yarn build:local    # hit 'n' at any install prompts
 nohup env NUXT_SESSION_PASSWORD="$NUXT_SESSION_PASSWORD" NUXT_API_SECRET="" \
   node .output/server/index.mjs > /dev/null 2>&1 &
 ```
@@ -501,7 +501,7 @@ Leave those running in the background. Playwright's [`globalSetup`](frontend/tes
 
 1. Open the **Testing** view (beaker icon in the sidebar).
 2. Expand **Playwright** to see the `Desktop Chrome` / `Mobile Chrome` projects.
-3. Click ▶ next to a spec, `describe` block, or single `test` to run it; click the bug icon to debug.
+3. Click `▶` next to a spec, `describe` block, or single `test` to run it; click the bug icon to debug.
 4. Use **Show browser** in the Playwright panel to run headed, and toggle projects to run desktop-only or mobile-only.
 
 When you're done for the day, stop the background processes:
@@ -513,7 +513,7 @@ docker compose --env-file .env.dev down
 
 #### Run with `run-e2e-tests.sh`
 
-Use this when you want a single command to bring up Docker, build and serve the frontend, run Playwright, and tear everything down. Run from the **repository root**:
+Use [run-e2e-tests.sh](./run-e2e-tests.sh) when you want a single command to bring up Docker, build and serve the frontend, run Playwright, and tear everything down. Run from the **repository root**:
 
 ```bash
 # Note: There may be installation prompts in the build logs. Hit 'n' to say no.
@@ -541,12 +541,12 @@ The script accepts a few flags (see `./run-e2e-tests.sh -h` for the authoritativ
 With no `-d`/`-m`, both desktop and mobile run (default). Examples:
 
 ```bash
-./run-e2e-tests.sh                                                          # full suite, desktop + mobile
-./run-e2e-tests.sh -d                                                       # desktop only
-./run-e2e-tests.sh -f test-e2e/specs/all/landing-page.spec.ts               # one spec, both projects
-./run-e2e-tests.sh -f frontend/test-e2e/specs/all/landing-page.spec.ts -m   # one spec, mobile only
+./run-e2e-tests.sh                                                            # full suite, desktop + mobile
+./run-e2e-tests.sh -d                                                         # desktop only
+./run-e2e-tests.sh -f test-e2e/specs/all/landing-page.spec.ts                 # one spec, both projects
+./run-e2e-tests.sh -f frontend/test-e2e/specs/all/landing-page.spec.ts -m     # one spec, mobile only
 ./run-e2e-tests.sh -s -f test-e2e/specs/all/landing-page.spec.ts -- --headed  # fast iter, visible browser
-./run-e2e-tests.sh -- --grep "qr code"                                      # filter by test name
+./run-e2e-tests.sh -- --grep "qr code"                                        # filter by test name
 ```
 
 > [!TIP]
