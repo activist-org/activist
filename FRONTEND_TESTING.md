@@ -8,6 +8,7 @@
   - [What to Test](#what-to-test)
   - [Where to Write Tests](#where-to-write-tests)
   - [Best Practices](#best-practices)
+  - [Flaky Tests](#flaky-tests)
   - [Checking E2E coverage](#checking-e2e-coverage)
 - [Component and Unit Tests](#component-and-unit-tests)
 
@@ -86,6 +87,48 @@ The steps to do this are:
 1. Wrap the lines from your test that you want to re-use in a function
 2. Move that function into a file in `frontend/test-e2e/actions` and name it based on the action being performed
 3. Import the function into the test files where you use it
+
+<sub><a href="#top">Back to top.</a></sub>
+
+### Flaky Tests
+
+A test is flaky when it fails intermittently without any change to the code under test. Because E2E tests share a live database and run with `fullyParallel: true` (two workers in CI), the most common causes are:
+
+1. **Shared mutable state** — asserting on a total count of items (e.g. FAQ cards, images) when a parallel test may be adding or removing items on the same record at the same time.
+2. **Timing / network delays** — a page assertion fires before an async operation (refetch, cache invalidation) has completed.
+3. **Test pollution across runs** — a previous test run left data in the database that changes the starting state of the next run.
+
+#### Protocol when you encounter a flaky test
+
+1. **Reproduce it** — run the spec file in isolation with `--repeat-each=5` to confirm it fails non-deterministically:
+   ```bash
+   yarn playwright test path/to/spec.ts --repeat-each=5
+   ```
+
+2. **Identify the cause** — check whether the failure is due to shared state, timing, or pollution (see causes above).
+
+3. **Fix the root cause** — prefer targeted fixes over workarounds:
+   - Replace total-count assertions with assertions scoped to the specific element your test owns.
+   - Use `page.request` in `beforeEach` to purge relevant data via the API before the test runs, guaranteeing a clean starting state.
+   - Use `toHaveCount()` or `toBeVisible()` with an adequate timeout instead of `waitForTimeout()`.
+
+4. **Tag as `@flaky` only as a temporary measure** — if a fix requires significant work and the flakiness is blocking a merge, you can tag the test to skip it in CI while the fix is tracked in a separate issue:
+   ```typescript
+   test("User can do something @flaky", async ({ page }) => { ... });
+   ```
+   The `@flaky` tag causes the test to be skipped in CI (`testIgnore` in `playwright.config.mts`) but it still runs locally. **Always open a follow-up issue** when using this tag so the test is not left skipped indefinitely.
+
+#### Writing parallel-safe assertions
+
+Because tests within the same `test.describe` block may run concurrently, avoid asserting on global state that other tests can modify:
+
+```typescript
+// Fragile: total count is affected by parallel tests adding their own items.
+await expect.poll(() => page.getByTestId("faq-card").count()).toBe(initialCount);
+
+// Robust: assert only on the specific item this test created/deleted.
+await expect(page.getByTestId("faq-card").filter({ hasText: myQuestion })).toHaveCount(0);
+```
 
 <sub><a href="#top">Back to top.</a></sub>
 
