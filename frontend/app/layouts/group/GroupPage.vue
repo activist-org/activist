@@ -4,7 +4,7 @@
     <ModalUploadImageGroup
       @closeModal="handleCloseModalUploadImage"
       @upload-complete="handleUploadComplete"
-      :groupId="group?.id || ''"
+      :groupId="groupId || ''"
       :images="images || []"
     />
     <ModalUploadImageIcon

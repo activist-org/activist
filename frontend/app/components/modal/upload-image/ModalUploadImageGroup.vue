@@ -69,7 +69,8 @@ watch(
       data: image,
       sequence: index,
     })) as FileUploadMix[];
-    files.value = images.concat(files.value);
+    const pendingUploads = files.value.filter((f) => f.type === "upload");
+    files.value = images.concat(pendingUploads);
     return;
   },
   { immediate: true, deep: true }
