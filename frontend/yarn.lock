@@ -3039,6 +3039,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pinia/colada@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@pinia/colada@npm:1.2.0"
+  peerDependencies:
+    pinia: ^2.2.6 || ^3.0.0
+    vue: ^3.5.17
+  checksum: 10c0/e3f5eec854b1b42e8c0d6c77682e08111f36aa34123cd410424c2ebce2e6a3eb59cd59fd8f5f695fb9db3e181b0368f374e2158eb6413d4df0efc1db065ecbf7
+  languageName: node
+  linkType: hard
+
 "@pinia/nuxt@npm:0.11.3":
   version: 0.11.3
   resolution: "@pinia/nuxt@npm:0.11.3"
@@ -5756,6 +5766,7 @@ __metadata:
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.2.3"
     "@opentelemetry/api": "npm:1.9.0"
+    "@pinia/colada": "npm:^1.2.0"
     "@pinia/nuxt": "npm:0.11.3"
     "@playwright/test": "npm:1.58.0"
     "@popperjs/core": "npm:2.11.8"
