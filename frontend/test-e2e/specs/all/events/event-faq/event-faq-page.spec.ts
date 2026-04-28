@@ -103,7 +103,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     const createFaqResponse = page.waitForResponse(
       (res) =>
         res.request().method() === "POST" &&
-        /\/events\/event_faqs\//i.test(new URL(res.url()).pathname),
+        /\/events\/event_faqs/i.test(new URL(res.url()).pathname),
       { timeout: 20000 }
     );
 
