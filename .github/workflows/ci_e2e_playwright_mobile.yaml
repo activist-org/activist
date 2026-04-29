@@ -54,7 +54,7 @@ jobs:
           ! nc -z localhost 5432
 
       - name: Run Docker Compose
-        run: docker compose --env-file .env.dev up --build -d backend db
+        run: docker compose --env-file .env.dev up --build -d backend db filescan
 
       - name: Wait for Database
         run: |
@@ -63,6 +63,10 @@ jobs:
       - name: Wait for Backend
         run: |
           timeout 180 bash -c 'until curl -s http://localhost:8000/v1/auth/sign_in -o /dev/null -w "%{http_code}" | grep -qE "^(200|405)"; do sleep 3; done'
+
+      - name: Wait for Filescan
+        run: |
+          timeout 180 bash -c 'until curl -s -o /dev/null http://localhost:9101/health; do sleep 3; done'
 
       - name: Setup Node Environment
         uses: actions/setup-node@v5
