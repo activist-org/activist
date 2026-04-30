@@ -15,13 +15,6 @@ function isLoopbackCookieDomain(domainRaw: unknown): boolean {
   );
 }
 
-/**
- * WebKit omits RFC `Secure` cookies on plain HTTP (`http://localhost`) while
- * Chromium tends to forward them anyway. Clearing `Secure` only for loopback
- * hosts keeps Chromium behavior correct and aligns Safari/WebKit/iPad/Mobile Safari
- * with the same `.auth/*.json`, without weakening production-bound cookies when
- * the domain is a real HTTPS host such as activist.org.
- */
 export function normalizeAuthStorageLoopbackSecureCookies(
   authFilePath: string
 ): void {
