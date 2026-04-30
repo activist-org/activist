@@ -4,8 +4,8 @@ import type { Page, Response } from "@playwright/test";
 import { getEnglishText } from "#shared/utils/i18n";
 
 import { runAccessibilityTestScoped } from "~/test-e2e/accessibility/accessibilityTesting";
-import { newCreateOrganizationModal } from "~/test-e2e/component-objects/CreateOrganizationModal";
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
+import { newCreateOrganizationModal } from "~/test-e2e/component-objects/CreateOrganizationModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { expect, test } from "~/test-e2e/global-fixtures";
@@ -75,7 +75,9 @@ test.describe(
         });
         await createDropdown.clickNewOrganization();
       } else {
-        await expect(page.locator("#sidebar-left")).toBeVisible({ timeout: 15000 });
+        await expect(page.locator("#sidebar-left")).toBeVisible({
+          timeout: 15000,
+        });
         const sidebarLeft = newSidebarLeft(page);
         await sidebarLeft.open();
         const createDropdown = newCreateDropdown(page);
@@ -236,10 +238,7 @@ test.describe(
       await modal.getNextStepButton().click({ force: true });
       await expect(modal.locationForm).toBeVisible();
 
-      await selectCountryInOrganizationModal(
-        modal,
-        E2E_GEO_REFERENCE_COUNTRY
-      );
+      await selectCountryInOrganizationModal(modal, E2E_GEO_REFERENCE_COUNTRY);
       await modal.cityField.fill("Berlin");
 
       const createResponse = page.waitForResponse(
@@ -273,19 +272,22 @@ test.describe(
       }, testInfo) => {
         logTestPath(testInfo);
 
-        await page.route("**/api/auth/communities/organizations", async (route) => {
-          if (route.request().method() !== "POST") {
-            await route.continue();
-            return;
+        await page.route(
+          "**/api/auth/communities/organizations",
+          async (route) => {
+            if (route.request().method() !== "POST") {
+              await route.continue();
+              return;
+            }
+            await route.fulfill({
+              status: 500,
+              contentType: "application/json",
+              body: JSON.stringify({
+                detail: "E2E: organization create failed.",
+              }),
+            });
           }
-          await route.fulfill({
-            status: 500,
-            contentType: "application/json",
-            body: JSON.stringify({
-              detail: "E2E: organization create failed.",
-            }),
-          });
-        });
+        );
 
         const modal = newCreateOrganizationModal(page);
 
@@ -297,9 +299,9 @@ test.describe(
         await expect(modal.locationForm).toBeVisible();
 
         await selectCountryInOrganizationModal(
-        modal,
-        E2E_GEO_REFERENCE_COUNTRY
-      );
+          modal,
+          E2E_GEO_REFERENCE_COUNTRY
+        );
         await modal.cityField.fill("Berlin");
 
         const createResponse = page.waitForResponse(
