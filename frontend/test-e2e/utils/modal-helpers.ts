@@ -4,6 +4,35 @@ import type { Locator, Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 
 /**
+ * Row label regexp for country comboboxes when tests use a fixed address (e.g. Berlin) and
+ * need consistent geocoding / search API behavior in English locale.
+ */
+export const E2E_GEO_REFERENCE_COUNTRY = /Germany/i;
+
+/**
+ * Opens a localized country combobox, then selects a listbox option by accessible name.
+ *
+ * Used for org create (location step) and event create (physical search form); callers supply
+ * the trigger that matches their DOM (e.g. `#form-item-country` + localized label).
+ *
+ * @param optionListRoot - Locator that contains the option elements (usually the modal root).
+ * @param countryTrigger - Combobox button that opens the country list.
+ * @param optionNameMatch - `RegExp` or substring passed to `getByRole("option", { name })`.
+ * @param visibilityTimeoutMs - Max wait for the option to become visible (default 5000).
+ */
+export async function selectCountryComboboxOption(
+  optionListRoot: Locator,
+  countryTrigger: Locator,
+  optionNameMatch: RegExp | string,
+  visibilityTimeoutMs: number = 5000
+) {
+  await countryTrigger.click();
+  const option = optionListRoot.getByRole("option", { name: optionNameMatch });
+  await expect(option).toBeVisible({ timeout: visibilityTimeoutMs });
+  await option.click();
+}
+
+/**
  * Submit a modal form with robust retry logic to handle timing/hydration issues
  * @param page - Playwright page object
  * @param modal - The modal locator
