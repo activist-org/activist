@@ -10,6 +10,7 @@ import {
   ADMIN_AUTH_STATE_PATH,
   MEMBER_AUTH_STATE_PATH,
 } from "~/test-e2e/constants/authPaths";
+import { normalizeAuthStorageLoopbackSecureCookies } from "~/test-e2e/utils/normalize-auth-storage-for-webkit-http";
 
 export { MEMBER_AUTH_STATE_PATH };
 
@@ -75,12 +76,14 @@ export const test = base.extend<{ page: Page }>({
           await page.goto("/auth/sign-in", { waitUntil: "load" });
           await signIn(page, "activist_0", "password", "**/home");
           await page.context().storageState({ path: MEMBER_AUTH_STATE_PATH });
+          normalizeAuthStorageLoopbackSecureCookies(MEMBER_AUTH_STATE_PATH);
           lastRenewalTime = Date.now();
         }
       } else if (needsRenewal) {
         await page.goto("/auth/sign-in", { waitUntil: "load" });
         await signInAsAdmin(page, "admin", "admin", true);
         await page.context().storageState({ path: ADMIN_AUTH_STATE_PATH });
+        normalizeAuthStorageLoopbackSecureCookies(ADMIN_AUTH_STATE_PATH);
         lastRenewalTime = Date.now();
       }
     }
