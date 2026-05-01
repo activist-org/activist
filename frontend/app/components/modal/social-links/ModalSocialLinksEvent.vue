@@ -91,10 +91,11 @@ async function handleSubmit(values: unknown) {
     ) || [];
   await Promise.all(
     toUpdate.map(async (refItem) => {
-      await updateLink(refItem.id, {
-        link: refItem.link,
-        label: refItem.label,
-        order: refItem.order,
+      await updateLink({
+          id: refItem.id,
+          link: refItem.link,
+          label: refItem.label,
+          order: refItem.order,
       });
     })
   );

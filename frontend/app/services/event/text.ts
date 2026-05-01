@@ -7,9 +7,9 @@ export async function updateEventTexts(
   eventId: string,
   textId: string,
   data: EventUpdateTextFormData
-): Promise<void> {
+): Promise<CommunityEvent> {
   try {
-    await put(
+    return put(
       `/events/event_texts/${textId}`,
       {
         primary: true,

@@ -2077,6 +2077,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nuxt/kit@npm:^4.4.2":
+  version: 4.4.4
+  resolution: "@nuxt/kit@npm:4.4.4"
+  dependencies:
+    c12: "npm:^3.3.4"
+    consola: "npm:^3.4.2"
+    defu: "npm:^6.1.7"
+    destr: "npm:^2.0.5"
+    errx: "npm:^0.1.0"
+    exsolve: "npm:^1.0.8"
+    ignore: "npm:^7.0.5"
+    jiti: "npm:^2.6.1"
+    klona: "npm:^2.0.6"
+    mlly: "npm:^1.8.2"
+    ohash: "npm:^2.0.11"
+    pathe: "npm:^2.0.3"
+    pkg-types: "npm:^2.3.1"
+    rc9: "npm:^3.0.1"
+    scule: "npm:^1.3.0"
+    semver: "npm:^7.7.4"
+    tinyglobby: "npm:^0.2.16"
+    ufo: "npm:^1.6.4"
+    unctx: "npm:^2.5.0"
+    untyped: "npm:^2.0.0"
+  checksum: 10c0/9d9289d4715c454e72deebc1e1e38faf943599b0710b7dd5716e6a9ad9b433a532802506ed49a32ed0bf907aec0e231e6f74e3b6c7ebda05578b12350ef5a738
+  languageName: node
+  linkType: hard
+
 "@nuxt/nitro-server@npm:4.2.2":
   version: 4.2.2
   resolution: "@nuxt/nitro-server@npm:4.2.2"
@@ -3036,6 +3064,17 @@ __metadata:
   version: 1.0.0
   resolution: "@phc/format@npm:1.0.0"
   checksum: 10c0/56cec2687ac3767298f77b2202c0d6f282878c1375948b01da16e03475dc293628847d33150469a793d55095700dce65ac1760ada271deeab15bd0c6d1ceb306
+  languageName: node
+  linkType: hard
+
+"@pinia/colada-nuxt@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@pinia/colada-nuxt@npm:1.0.0"
+  dependencies:
+    "@nuxt/kit": "npm:^4.4.2"
+  peerDependencies:
+    "@pinia/colada": ">=1.2.0"
+  checksum: 10c0/f2cb1ee97fcf0247d20d4df6062d29cbf61d6e53ceb10c1971315093148d0ca421b37ca98b5662cad0f7cc1dc935fc60a97ad7ad0874807491d7d32dd539f317
   languageName: node
   linkType: hard
 
@@ -5749,6 +5788,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"acorn@npm:^8.16.0":
+  version: 8.16.0
+  resolution: "acorn@npm:8.16.0"
+  bin:
+    acorn: bin/acorn
+  checksum: 10c0/c9c52697227661b68d0debaf972222d4f622aa06b185824164e153438afa7b08273432ca43ea792cadb24dada1d46f6f6bb1ef8de9956979288cc1b96bf9914e
+  languageName: node
+  linkType: hard
+
 "activist@workspace:.":
   version: 0.0.0-use.local
   resolution: "activist@workspace:."
@@ -5767,6 +5815,7 @@ __metadata:
     "@nuxtjs/i18n": "npm:10.2.3"
     "@opentelemetry/api": "npm:1.9.0"
     "@pinia/colada": "npm:^1.2.0"
+    "@pinia/colada-nuxt": "npm:1.0.0"
     "@pinia/nuxt": "npm:0.11.3"
     "@playwright/test": "npm:1.58.0"
     "@popperjs/core": "npm:2.11.8"
@@ -6365,6 +6414,31 @@ __metadata:
     magicast:
       optional: true
   checksum: 10c0/5b2ac937175717df62fc74ce7fe38685ebd02b3fa94e9cc05be9630d3e5d7f1ec437413d23d63ec0d2eaffcfeda824fb14d3d0fab3df522e60a8b4b3e32a4a33
+  languageName: node
+  linkType: hard
+
+"c12@npm:^3.3.4":
+  version: 3.3.4
+  resolution: "c12@npm:3.3.4"
+  dependencies:
+    chokidar: "npm:^5.0.0"
+    confbox: "npm:^0.2.4"
+    defu: "npm:^6.1.6"
+    dotenv: "npm:^17.3.1"
+    exsolve: "npm:^1.0.8"
+    giget: "npm:^3.2.0"
+    jiti: "npm:^2.6.1"
+    ohash: "npm:^2.0.11"
+    pathe: "npm:^2.0.3"
+    perfect-debounce: "npm:^2.1.0"
+    pkg-types: "npm:^2.3.0"
+    rc9: "npm:^3.0.1"
+  peerDependencies:
+    magicast: "*"
+  peerDependenciesMeta:
+    magicast:
+      optional: true
+  checksum: 10c0/d305df0c6e219464b3460fdd3443e62590e7d0d2f331e450a44f29e31e7120a0c7a6a76b6212bc0cf9f41058e3545c4fd04b0f1c6ea8d549678ea6479d94d8ad
   languageName: node
   linkType: hard
 
@@ -7173,6 +7247,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"defu@npm:^6.1.6, defu@npm:^6.1.7":
+  version: 6.1.7
+  resolution: "defu@npm:6.1.7"
+  checksum: 10c0/e6635388103c8be3c574ac31302f6930e5e6eeedba32cb1b30cf993c7d9fb571aec2485446dfa23bfa63e55e66156fe109027a9695db82a50f931e91e8d4bedb
+  languageName: node
+  linkType: hard
+
 "delayed-stream@npm:~1.0.0":
   version: 1.0.0
   resolution: "delayed-stream@npm:1.0.0"
@@ -7313,6 +7394,13 @@ __metadata:
   version: 17.2.4
   resolution: "dotenv@npm:17.2.4"
   checksum: 10c0/901aeee9cb40860291bdb452f6ca66aada78438331a026b0bd86fd41b94a79752dbc6a8971f4f26e6cafef11b4a27bb12ea99c0cbe7dfa61791f194727f799e5
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^17.3.1":
+  version: 17.4.2
+  resolution: "dotenv@npm:17.4.2"
+  checksum: 10c0/164f8e77a646c8446867d5b588d26ea6005c8ea7c5eb41cf926f6113d23f2191355f6e0cfd95ea9bab98394a5b0a3f1e51a8399711b666fe55cc7b0bd745f942
   languageName: node
   linkType: hard
 
@@ -8727,6 +8815,15 @@ __metadata:
   bin:
     giget: dist/cli.mjs
   checksum: 10c0/53978c402abafacc55c0633abb8098fb00cb9db037a43e4d57b0579cf260a2e495b14b8db9786f1b658d499a22b7a60b75ae33cfd5e247395caaa1e52626f133
+  languageName: node
+  linkType: hard
+
+"giget@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "giget@npm:3.2.0"
+  bin:
+    giget: dist/cli.mjs
+  checksum: 10c0/c3d670435e9247e658ab34201f7a944281bdf001d1e10fbb16016926735e8c57f38273a6ef0703feb63551a9628baa8ffa76edbc216118f33abdd42174b0e714
   languageName: node
   linkType: hard
 
@@ -10550,6 +10647,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mlly@npm:^1.8.2":
+  version: 1.8.2
+  resolution: "mlly@npm:1.8.2"
+  dependencies:
+    acorn: "npm:^8.16.0"
+    pathe: "npm:^2.0.3"
+    pkg-types: "npm:^1.3.1"
+    ufo: "npm:^1.6.3"
+  checksum: 10c0/aa826683a6daddf2aef65f9c8142e362731cf8e415a5591faf92fd51040a76697e45ab6dbb7a3b38be74e0f8c464825a7eabe827750455c7472421953f5da733
+  languageName: node
+  linkType: hard
+
 "mocked-exports@npm:^0.1.1":
   version: 0.1.1
   resolution: "mocked-exports@npm:0.1.1"
@@ -11756,6 +11865,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"picomatch@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "picomatch@npm:4.0.4"
+  checksum: 10c0/e2c6023372cc7b5764719a5ffb9da0f8e781212fa7ca4bd0562db929df8e117460f00dff3cb7509dacfc06b86de924b247f504d0ce1806a37fac4633081466b0
+  languageName: node
+  linkType: hard
+
 "pidtree@npm:^0.6.0":
   version: 0.6.0
   resolution: "pidtree@npm:0.6.0"
@@ -11819,6 +11935,17 @@ __metadata:
     exsolve: "npm:^1.0.7"
     pathe: "npm:^2.0.3"
   checksum: 10c0/d2bbddc5b81bd4741e1529c08ef4c5f1542bbdcf63498b73b8e1d84cff71806d1b8b1577800549bb569cb7aa20056257677b979bff48c97967cba7e64f72ae12
+  languageName: node
+  linkType: hard
+
+"pkg-types@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "pkg-types@npm:2.3.1"
+  dependencies:
+    confbox: "npm:^0.2.4"
+    exsolve: "npm:^1.0.8"
+    pathe: "npm:^2.0.3"
+  checksum: 10c0/dd9b20682426abaddcac9dc786aa22542e12df15a03dea2afa7bf54da0933358c6c7f545c0c3c1c7b24a2904ab4a451bf4e34a50c6837e458359eea30c257ed4
   languageName: node
   linkType: hard
 
@@ -12686,6 +12813,16 @@ __metadata:
     defu: "npm:^6.1.4"
     destr: "npm:^2.0.5"
   checksum: 10c0/26ace5f6d03c946525c0dda3ed26a58a66659d1537e1fa262a75ee37dde9be28b4e09e17273bab7cb4dc99333b97a7a770066b0cb8d6840a8510a92262f43e2b
+  languageName: node
+  linkType: hard
+
+"rc9@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "rc9@npm:3.0.1"
+  dependencies:
+    defu: "npm:^6.1.6"
+    destr: "npm:^2.0.5"
+  checksum: 10c0/f952f80a6008b1be8b89f06cfec83ecc948aceb4ec4fabc25144bc0fa88aa601beb838d86720ae2c623971c4643cfea272535d6df15e40055082a4b6e4a24277
   languageName: node
   linkType: hard
 
@@ -14008,6 +14145,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tinyglobby@npm:^0.2.16":
+  version: 0.2.16
+  resolution: "tinyglobby@npm:0.2.16"
+  dependencies:
+    fdir: "npm:^6.5.0"
+    picomatch: "npm:^4.0.4"
+  checksum: 10c0/f2e09fd93dd95c41e522113b686ff6f7c13020962f8698a864a257f3d7737599afc47722b7ab726e12f8a813f779906187911ff8ee6701ede65072671a7e934b
+  languageName: node
+  linkType: hard
+
 "tinyqueue@npm:^3.0.0":
   version: 3.0.0
   resolution: "tinyqueue@npm:3.0.0"
@@ -14171,6 +14318,13 @@ __metadata:
   version: 1.6.3
   resolution: "ufo@npm:1.6.3"
   checksum: 10c0/bf0e4ebff99e54da1b9c7182ac2f40475988b41faa881d579bc97bc2a0509672107b0a0e94c4b8d31a0ab8c4bf07f4aa0b469ac6da8536d56bda5b085ea2e953
+  languageName: node
+  linkType: hard
+
+"ufo@npm:^1.6.4":
+  version: 1.6.4
+  resolution: "ufo@npm:1.6.4"
+  checksum: 10c0/3a2b29e7e3d772fbf6893d7d23bf442981457adb2fe122828abdbda89bedcb81aafd0dcc080e41b45f9a877db00cb42cbfee9639753a19d9b9bd39b5627039cf
   languageName: node
   linkType: hard
 

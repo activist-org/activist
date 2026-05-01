@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
-import { useMutation, useQueryCache } from "@pinia/colada";
+// Mutation composable for event image icon
+
 
 export function useEventImageIconMutations(eventId: MaybeRef<string>) {
-  const queryCache = useQueryCache();
   const { handleError } = useAppError();
   const loading = ref(false);
   const store = useEventListStore();
-
+  const { invalidateEventCache } = useEventCache();
   const {
     mutate: mutateUploadIconImage,
     isLoading: loadingUploadIconImage,
@@ -16,9 +15,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
     mutation: (image: UploadableFile) =>
       uploadEventIconImage(unref(eventId), image),
     async onSettled() {
-      await queryCache.invalidateQueries({
-        key: EVENT_KEYS.byId(unref(eventId)),
-      });
+      await invalidateEventCache(unref(eventId));
       // Clear cached events to force refetch with new data.
       store.setItems([]);
     },
@@ -26,8 +23,6 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
       handleError(err);
     },
   });
-  const uploadIconImage = (image: UploadableFile) =>
-    mutateUploadIconImage(image);
 
   watch(loadingUploadIconImage, (val) => {
     loading.value = val;
@@ -36,6 +31,6 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   return {
     loading: readonly(loading),
     error,
-    uploadIconImage,
+    uploadIconImage: mutateUploadIconImage,
   };
 }

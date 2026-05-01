@@ -48,12 +48,10 @@ watch(
 );
 
 async function handleSubmit(values: unknown) {
-  const response = await updateTexts(
-    values as EventUpdateTextFormData,
-    String(event.value?.texts[0]?.id)
-  );
-  if (response) {
+  updateTexts({
+    textId: String(event.value?.texts[0]?.id),
+    data: values as EventUpdateTextFormData
+  });
     handleCloseModal();
-  }
 }
 </script>
