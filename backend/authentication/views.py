@@ -68,7 +68,7 @@ class VerifyEmailView(APIView):
         serializer = self.serializer_class(user)
 
         return Response(
-            {"message": "Email confirmed is verified.", "user": serializer.data},
+            {"message": "Email is verified.", "user": serializer.data},
             status=status.HTTP_200_OK,
         )
 
@@ -338,7 +338,7 @@ class VerifyAccountResetPassword(APIView):
         user.set_password(request.data.get("new_password"))
         user.save()
         return Response(
-            {"message": "Password reset has been successfully."},
+            {"message": "Password has been reset successfully."},
             status=status.HTTP_200_OK,
         )
 
