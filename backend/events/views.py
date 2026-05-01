@@ -174,6 +174,19 @@ class EventDetailAPIView(APIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
+    def get_permissions(self) -> Sequence[Any]:
+        """
+        Return permissions based on the HTTP method.
+
+        Returns
+        -------
+        Sequence[Any]
+            AllowAny for GET requests, IsAuthenticated for PUT and DELETE.
+        """
+        if self.request.method in ("PUT", "DELETE"):
+            return [IsAuthenticated()]
+        return [AllowAny()]
+
     @extend_schema(
         responses={
             200: EventSerializer,
@@ -204,7 +217,7 @@ class EventDetailAPIView(APIView):
         responses={
             200: EventSerializer,
             400: OpenApiResponse(response={"detail": "Event ID is required."}),
-            401: OpenApiResponse(response={"detail": "User not authorized."}),
+            403: OpenApiResponse(response={"detail": "User not authorized."}),
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
@@ -225,10 +238,10 @@ class EventDetailAPIView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        if request.user != event.created_by:
+        if request.user != event.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "User not authorized."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         serializer = self.serializer_class(event, data=request.data, partial=True)
@@ -239,9 +252,9 @@ class EventDetailAPIView(APIView):
 
     @extend_schema(
         responses={
-            200: OpenApiResponse(response={"message": "Event deleted successfully."}),
+            204: OpenApiResponse(response={"message": "Event deleted successfully."}),
             400: OpenApiResponse(response={"detail": "Event ID is required."}),
-            401: OpenApiResponse(response={"detail": "User not authorized."}),
+            403: OpenApiResponse(response={"detail": "User not authorized."}),
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
@@ -261,10 +274,10 @@ class EventDetailAPIView(APIView):
                 {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != event.created_by:
+        if request.user != event.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "User not authorized."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         event.delete()
