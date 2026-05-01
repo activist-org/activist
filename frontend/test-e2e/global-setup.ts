@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 
 import { signInAsAdmin } from "~/test-e2e/actions/authentication";
+import { normalizeAuthStorageLoopbackSecureCookies } from "~/test-e2e/utils/normalize-auth-storage-for-webkit-http";
 import {
   quickServerHealthCheck,
   waitForServerReady,
@@ -133,6 +134,14 @@ async function globalSetup(config: FullConfig) {
     throw new Error("baseURL is not configured in playwright.config.ts");
   }
 
+  /** Same paths as playwright.config / authPaths `.auth/` directory. */
+  const normalizeAuthFilesLoopbackCookies = (): void => {
+    const authDir = path.join(__dirname, ".auth");
+    for (const name of ["admin.json", "member.json"]) {
+      normalizeAuthStorageLoopbackSecureCookies(path.join(authDir, name));
+    }
+  };
+
   const accounts: AuthAccount[] = [
     {
       username: "admin",
@@ -149,6 +158,7 @@ async function globalSetup(config: FullConfig) {
   ];
 
   if (accounts.every((a) => isAuthStateValid(a.authFile))) {
+    normalizeAuthFilesLoopbackCookies();
     return;
   }
 
@@ -181,6 +191,8 @@ async function globalSetup(config: FullConfig) {
     if (isAuthStateValid(account.authFile)) continue;
     await createAuthState(baseURL, account);
   }
+
+  normalizeAuthFilesLoopbackCookies();
 }
 
 export default globalSetup;

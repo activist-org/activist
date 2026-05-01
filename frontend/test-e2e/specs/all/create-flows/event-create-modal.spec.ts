@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Page } from "@playwright/test";
+import type { Page, Response } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
 
@@ -9,31 +9,18 @@ import { newCreateEventModal } from "~/test-e2e/component-objects/CreateEventMod
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { expect, test } from "~/test-e2e/global-fixtures";
+import {
+  E2E_GEO_REFERENCE_COUNTRY,
+  selectCountryComboboxOption,
+} from "~/test-e2e/utils/modal-helpers";
 import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/home");
-  await page.waitForURL("**/home**");
-
-  const viewportSize = page.viewportSize();
-  const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
-
-  if (isMobileLayout) {
-    const sidebarRight = newSidebarRight(page);
-    await sidebarRight.openButton.click();
-    await expect(sidebarRight.closeButton).toBeVisible();
-    const createDropdown = newCreateDropdown(page, {
-      root: page.locator("#drawer-navigation"),
-    });
-    await createDropdown.clickNewEvent();
-  } else {
-    await expect(page.locator("#sidebar-left")).toBeVisible({ timeout: 15000 });
-    const sidebarLeft = newSidebarLeft(page);
-    await sidebarLeft.open();
-    const createDropdown = newCreateDropdown(page);
-    await createDropdown.clickNewEvent();
-  }
-});
+/** POST create-event (`services/event/event.ts`: `POST /events/events`). */
+function isPostCreateEventResponse(res: Response): boolean {
+  if (res.request().method() !== "POST") return false;
+  const path = new URL(res.url()).pathname.replace(/\/$/, "");
+  return path.endsWith("/events/events");
+}
 
 const orgsLabel = getEnglishText("i18n._global.organizations");
 const topicsLabel = getEnglishText("i18n.components._global.topics");
@@ -164,6 +151,32 @@ test.describe(
   "Event Create Modal",
   { tag: ["@desktop", "@mobile", "@all"] },
   () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto("/home");
+      await page.waitForURL("**/home**");
+
+      const viewportSize = page.viewportSize();
+      const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
+
+      if (isMobileLayout) {
+        const sidebarRight = newSidebarRight(page);
+        await sidebarRight.openButton.click();
+        await expect(sidebarRight.closeButton).toBeVisible();
+        const createDropdown = newCreateDropdown(page, {
+          root: page.locator("#drawer-navigation"),
+        });
+        await createDropdown.clickNewEvent();
+      } else {
+        await expect(page.locator("#sidebar-left")).toBeVisible({
+          timeout: 15000,
+        });
+        const sidebarLeft = newSidebarLeft(page);
+        await sidebarLeft.open();
+        const createDropdown = newCreateDropdown(page);
+        await createDropdown.clickNewEvent();
+      }
+    });
+
     // MARK: Modal opens
 
     test("modal opens with correct heading", async ({ page }) => {
@@ -195,7 +208,7 @@ test.describe(
           const modal = newCreateEventModal(page);
           await expect(modal.eventDetailsForm).toBeVisible();
 
-          await test.step("axe modal — step 1 details", async () => {
+          await test.step("axe modal - step 1 details", async () => {
             const violations = await runAccessibilityTestScoped(
               "Event Create Modal step 1 event details",
               page,
@@ -217,7 +230,7 @@ test.describe(
           const modal = newCreateEventModal(page);
           await goToEventTypeStep(modal);
 
-          await test.step("axe modal — step 2 event type", async () => {
+          await test.step("axe modal - step 2 event type", async () => {
             const violations = await runAccessibilityTestScoped(
               "Event Create Modal step 2 event type",
               page,
@@ -239,7 +252,7 @@ test.describe(
           const modal = newCreateEventModal(page);
           await goToLinkOnlineStep(modal);
 
-          await test.step("axe modal — step 3 link online", async () => {
+          await test.step("axe modal - step 3 link online", async () => {
             const violations = await runAccessibilityTestScoped(
               "Event Create Modal step 3 link online",
               page,
@@ -261,7 +274,7 @@ test.describe(
           const modal = newCreateEventModal(page);
           await goToPhysicalLocationStep(modal);
 
-          await test.step("axe modal — step 3 physical location", async () => {
+          await test.step("axe modal - step 3 physical location", async () => {
             const violations = await runAccessibilityTestScoped(
               "Event Create Modal step 3 physical location",
               page,
@@ -289,7 +302,7 @@ test.describe(
           await dayButtons.nth(1).click();
           await setFirstDayEndTimeToFuture(modal, page);
 
-          await test.step("axe modal — step 4 time", async () => {
+          await test.step("axe modal - step 4 time", async () => {
             const violations = await runAccessibilityTestScoped(
               "Event Create Modal step 4 date and time",
               page,
@@ -491,7 +504,17 @@ test.describe(
       await dayButtons.first().click();
       await dayButtons.nth(1).click();
       await setFirstDayEndTimeToFuture(modal, page);
+
+      const createResponse = page.waitForResponse(isPostCreateEventResponse, {
+        timeout: 30000,
+      });
       await modal.getNextStepButton().click();
+
+      const createRes = await createResponse;
+      expect(
+        [200, 201].includes(createRes.status()),
+        `POST event create expected 200 or 201, got ${createRes.status()}`
+      ).toBe(true);
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
       await expect(page).toHaveURL(/\/events\/[^/]+\/about/, {
@@ -538,7 +561,17 @@ test.describe(
       await allDayCheckbox.check();
       // Second day (times.1) is not all-day; backend requires start_time < end_time for it.
       await setFirstDayEndTimeToFuture(modal, page);
+
+      const createResponse = page.waitForResponse(isPostCreateEventResponse, {
+        timeout: 30000,
+      });
       await modal.getNextStepButton().click();
+
+      const createRes = await createResponse;
+      expect(
+        [200, 201].includes(createRes.status()),
+        `POST event create expected 200 or 201, got ${createRes.status()}`
+      ).toBe(true);
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
       await expect(page).toHaveURL(/\/events\/[^/]+\/about/, {
@@ -596,7 +629,17 @@ test.describe(
       await createAnotherCheckbox.check();
       const submitBtn = modal.getNextStepButton();
       await submitBtn.scrollIntoViewIfNeeded();
+
+      const createResponse = page.waitForResponse(isPostCreateEventResponse, {
+        timeout: 30000,
+      });
       await submitBtn.click();
+
+      const createRes = await createResponse;
+      expect(
+        [200, 201].includes(createRes.status()),
+        `POST event create expected 200 or 201, got ${createRes.status()}`
+      ).toBe(true);
 
       await expect(modal.root).toBeVisible({ timeout: 15000 });
       await expect(modal.eventDetailsForm).toBeVisible();
@@ -628,15 +671,14 @@ test.describe(
       await expect(modal.locationForm).toBeVisible();
       const searchLocationForm = modal.root.locator("#search-location");
       const countryLabel = getEnglishText("i18n.components._global.country");
-      const countryButton = searchLocationForm
+      const countryTrigger = searchLocationForm
         .locator("#form-item-country")
         .getByRole("button", { name: new RegExp(countryLabel, "i") });
-      await countryButton.click();
-      const germanyOption = modal.root.getByRole("option", {
-        name: /Germany/i,
-      });
-      await expect(germanyOption).toBeVisible({ timeout: 5000 });
-      await germanyOption.click();
+      await selectCountryComboboxOption(
+        modal.root,
+        countryTrigger,
+        E2E_GEO_REFERENCE_COUNTRY
+      );
       const cityField = searchLocationForm.locator("#form-item-city");
       await cityField.click();
       await expect(modal.root.getByRole("option").first()).toBeHidden({
@@ -682,7 +724,17 @@ test.describe(
         el.scrollTop = el.scrollHeight;
       });
       const submitBtn = modal.getNextStepButton();
+
+      const createResponse = page.waitForResponse(isPostCreateEventResponse, {
+        timeout: 30000,
+      });
       await submitBtn.click();
+
+      const createRes = await createResponse;
+      expect(
+        [200, 201].includes(createRes.status()),
+        `POST event create expected 200 or 201, got ${createRes.status()}`
+      ).toBe(true);
 
       await expect(modal.root).not.toBeVisible({ timeout: 15000 });
       await expect(page).toHaveURL(/\/events\/[^/]+\/about/, {
@@ -744,7 +796,17 @@ test.describe(
         await dayButtons.first().click();
         await dayButtons.nth(1).click();
         await setFirstDayEndTimeToFuture(modal, page);
+
+        const createResponse = page.waitForResponse(isPostCreateEventResponse, {
+          timeout: 30000,
+        });
         await modal.getNextStepButton().click({ force: true });
+
+        const createRes = await createResponse;
+        expect(
+          createRes.status(),
+          `POST event create expected 500 error path, got ${createRes.status()}`
+        ).toBe(500);
 
         await expect(errorToast(page)).toBeVisible({ timeout: 15000 });
         await expect(errorToast(page)).toContainText(
@@ -753,6 +815,54 @@ test.describe(
         // Flow may close the modal after the failed create attempt; toast is the stable signal.
         await expect(modal.root).not.toBeVisible({ timeout: 15000 });
       });
+    });
+  }
+);
+
+test.describe(
+  "Event create modal — unauthenticated user",
+  { tag: ["@desktop", "@unauth"] },
+  () => {
+    test.use({ storageState: { cookies: [], origins: [] } });
+
+    test.beforeEach(async ({ page }) => {
+      await page.goto("/home");
+      await page.waitForURL("**/home**");
+    });
+
+    test("Create control is not shown in left sidebar footer", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+      await expect(page.locator("#sidebar-left")).toBeVisible({
+        timeout: 15000,
+      });
+      const sidebarLeft = newSidebarLeft(page);
+      await sidebarLeft.open();
+      await expect(page.locator("#sidebar-left #create")).toHaveCount(0);
+    });
+  }
+);
+
+test.describe(
+  "Event create modal — unauthenticated user (mobile drawer)",
+  { tag: ["@mobile", "@all", "@unauth"] },
+  () => {
+    test.use({ storageState: { cookies: [], origins: [] } });
+
+    test.beforeEach(async ({ page }) => {
+      await page.goto("/home");
+      await page.waitForURL("**/home**");
+    });
+
+    test("Create control is not shown in header drawer menu", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+      const sidebarRight = newSidebarRight(page);
+      await sidebarRight.openButton.click();
+      await expect(sidebarRight.closeButton).toBeVisible();
+      await expect(page.locator("#drawer-navigation #create")).toHaveCount(0);
     });
   }
 );

@@ -11,8 +11,8 @@ export const newCreateOrganizationModal = (page: Page) => {
     root,
     closeButton: root.getByTestId("modal-close-button"),
 
-    // MARK: Details
-    detailsForm: root.locator("#event-details"),
+    // MARK: Organization Details
+    detailsForm: root.locator("#organization-details"),
     nameField: root.locator("#form-item-name"),
     taglineField: root.locator("#form-item-tagline"),
     descriptionField: root.locator("#form-item-description"),
@@ -21,11 +21,15 @@ export const newCreateOrganizationModal = (page: Page) => {
     locationForm: root.locator("#event-location"),
     countryField: root.locator("#form-item-country"),
     cityField: root.locator("#form-item-city"),
+    submitLocationButton: root.locator("#event-location-submit"),
 
     // MARK: Step Buttons
     getNextStepButton(): Locator {
       return root.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n._global.next_step"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components.submit_aria_label"),
+          "i"
+        ),
       });
     },
 
