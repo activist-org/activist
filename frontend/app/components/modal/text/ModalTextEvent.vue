@@ -50,8 +50,8 @@ watch(
 async function handleSubmit(values: unknown) {
   updateTexts({
     textId: String(event.value?.texts[0]?.id),
-    data: values as EventUpdateTextFormData
+    data: values as EventUpdateTextFormData,
   });
-    handleCloseModal();
+  handleCloseModal();
 }
 </script>

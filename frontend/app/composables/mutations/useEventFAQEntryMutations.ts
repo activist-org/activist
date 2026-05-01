@@ -9,10 +9,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   const { invalidateEventCache } = useEventCache();
 
   // Update existing FAQ entry.
-  const {
-    mutate: createFAQ,
-    isLoading: loadingCreateFAQ,
-  } = useMutation({
+  const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
     mutation: (faqData: Omit<FaqEntry, "id">) =>
       createEventFaq(currentEventId.value, faqData as FaqEntry),
     async onSettled() {
@@ -23,12 +20,8 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     },
   });
 
-
   // Reorder multiple FAQ entries.
-  const {
-    mutate: reorderFAQs,
-    isLoading: loadingReorderFAQs,
-  } = useMutation({
+  const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
     mutation: (orderedFaqs: FaqEntry[]) =>
       reorderEventFaqs(currentEventId.value, orderedFaqs),
     async onSettled() {
@@ -40,10 +33,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   });
 
   // Delete FAQ entry.
-  const {
-    mutate: deleteFAQ,
-    isLoading: loadingDeleteFAQ,
-  } = useMutation({
+  const { mutate: deleteFAQ, isLoading: loadingDeleteFAQ } = useMutation({
     mutation: (faqId: string) => deleteEventFaq(faqId),
     async onSettled() {
       await invalidateEventCache(currentEventId.value);
@@ -54,10 +44,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   });
 
   // Update existing FAQ entry.
-  const {
-    mutate: updateFAQ,
-    isLoading: loadingUpdateFAQ,
-  } = useMutation({
+  const { mutate: updateFAQ, isLoading: loadingUpdateFAQ } = useMutation({
     mutation: (faqData: FaqEntry) =>
       updateEventFaq(currentEventId.value, faqData),
     async onSettled() {
@@ -79,6 +66,6 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     createFAQ,
     updateFAQ,
     reorderFAQs,
-    deleteFAQ
+    deleteFAQ,
   };
 }

@@ -8,12 +8,13 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   const currentEventId = computed(() => unref(eventId));
   const { invalidateEventCache } = useEventCache();
   // Update a single social link.
-  const {
-    mutate: updateLink,
-    isLoading: loadingUpdateLink,
-  } = useMutation({
-    mutation: (linkData: { id: string; link: string; label: string; order: number }) =>
-      updateEventSocialLink(currentEventId.value, linkData.id, linkData),
+  const { mutate: updateLink, isLoading: loadingUpdateLink } = useMutation({
+    mutation: (linkData: {
+      id: string;
+      link: string;
+      label: string;
+      order: number;
+    }) => updateEventSocialLink(currentEventId.value, linkData.id, linkData),
     async onSettled() {
       await invalidateEventCache(currentEventId.value);
     },
@@ -23,10 +24,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   });
 
   // Create multiple social links.
-  const {
-    mutate: createLinks,
-    isLoading: loadingCreateLinks,
-  } = useMutation({
+  const { mutate: createLinks, isLoading: loadingCreateLinks } = useMutation({
     mutation: (links: { link: string; label: string; order: number }[]) =>
       createEventSocialLinks(currentEventId.value, links),
     async onSettled() {
@@ -38,10 +36,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   });
 
   // Delete a single social link.
-  const {
-    mutate: deleteLink,
-    isLoading: loadingDeleteLink,
-  } = useMutation({
+  const { mutate: deleteLink, isLoading: loadingDeleteLink } = useMutation({
     mutation: (linkId: string) => deleteEventSocialLink(linkId),
     async onSettled() {
       await invalidateEventCache(currentEventId.value);
@@ -52,22 +47,25 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   });
 
   // Replace all social links (delete all + create new ones).
-  const {
-    mutate: replaceAllLinks,
-    isLoading: loadingReplaceAllLinks,
-  } = useMutation({
-    mutation: (links: { link: string; label: string; order: number }[]) =>
-      replaceAllEventSocialLinks(currentEventId.value, links),
-    async onSettled() {
-      await invalidateEventCache(currentEventId.value);
-    },
-    onError(err) {
+  const { mutate: replaceAllLinks, isLoading: loadingReplaceAllLinks } =
+    useMutation({
+      mutation: (links: { link: string; label: string; order: number }[]) =>
+        replaceAllEventSocialLinks(currentEventId.value, links),
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
         handleError(err);
-    },
-  });
+      },
+    });
 
   watch(
-    [loadingUpdateLink, loadingCreateLinks, loadingDeleteLink, loadingReplaceAllLinks],
+    [
+      loadingUpdateLink,
+      loadingCreateLinks,
+      loadingDeleteLink,
+      loadingReplaceAllLinks,
+    ],
     ([update, create, del, replace]) => {
       loading.value = update || create || del || replace;
     }

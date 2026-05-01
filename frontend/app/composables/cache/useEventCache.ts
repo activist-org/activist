@@ -6,7 +6,8 @@ export const useEventCache = () => {
     await invalidateQueries({
       key: EVENT_KEYS.byId(eventId),
     });
-  }
-  const eventCacheEntries = (eventId: string) => getEntries({ key: EVENT_KEYS.byId(eventId) });
+  };
+  const eventCacheEntries = (eventId: string) =>
+    getEntries({ key: EVENT_KEYS.byId(eventId) });
   return { invalidateEventCache, eventCacheEntries };
-}
+};

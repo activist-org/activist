@@ -4,17 +4,14 @@ export const useEventMutations = () => {
   const { error, handleError } = useAppError();
   const store = useEventListStore();
 
-  const {
-    mutate: create,
-    isLoading: loading,
-  } = useMutation({
+  const { mutate: create, isLoading: loading } = useMutation({
     mutation: (eventData: CreateEventInput) => createEvent(eventData),
     onError(err) {
       handleError(err);
     },
     onSettled() {
       refreshEventList();
-    }
+    },
   });
 
   const refreshEventList = async () => {

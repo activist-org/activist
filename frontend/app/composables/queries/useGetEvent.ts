@@ -2,7 +2,6 @@
 // Read a single event with Pinia Colada. Store-first, then fetch if missing.
 // After fetch, cache it via store. You can always call refresh() to force refetch.
 
-
 export const EVENT_KEYS = {
   root: ["event"] as const,
   byId: (id: string) => [...EVENT_KEYS.root, id] as const,
