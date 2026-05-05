@@ -1,12 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalSocialLinksOrganization />
-  <ModalTextOrganization />
-  <ModalSharePage
-    v-if="organization"
-    :cta="true"
-    :organization="organization as unknown as Organization"
-  />
   <div class="flex flex-col bg-layer-0 px-4 pt-6 md:pt-0 xl:px-8">
     <Head>
       <Title>{{ organization?.name }}</Title>
@@ -36,8 +29,16 @@
           ariaLabel="i18n._global.support_organization_aria_label"
         /> -->
           <BtnAction
-            @click="openModalSharePage()"
-            @keydown.enter="openModalSharePage()"
+            @click="
+              openModalSharePage({
+                organization: organization as unknown as Organization,
+              })
+            "
+            @keydown.enter="
+              openModalSharePage({
+                organization: organization as unknown as Organization,
+              })
+            "
             ariaLabel="i18n._global.share_organization_aria_label"
             class="flex w-full justify-center sm:w-max"
             :cta="true"
@@ -68,14 +69,14 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :entityId="organization?.id ?? ''"
-            :entityType="'organization' as EntityType"
+            :entityId="organization?.id || ''"
+            :entityType="EntityType.ORGANIZATION"
             :images="images || []"
           />
         </div>
       </div>
       <CardGetInvolvedOrganization />
-      <CardConnectOrganization />
+      <CardConnectOrganization :organization="organization" />
       <!-- <CardDonate
         v-if="organization.status === 2"
         :userIsAdmin="true"

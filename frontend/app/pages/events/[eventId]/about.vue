@@ -1,7 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalSocialLinksEvent />
-  <ModalTextEvent />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ event?.name }}</Title>
@@ -10,7 +8,6 @@
       <div
         class="flex w-full flex-col space-y-2 pb-3 sm:w-auto sm:flex-row sm:space-x-2 sm:space-y-0 lg:space-x-3 lg:pb-4"
       >
-        <ModalSharePage v-if="event" :cta="true" :event="event" />
         <BtnRouteExternal
           v-if="event?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.offer_to_help_aria_label"
@@ -34,8 +31,12 @@
           ariaLabel="i18n._global.support_event_aria_label"
         /> -->
         <BtnAction
-          @click="openModalSharePage()"
-          @keydown.enter="openModalSharePage()"
+          @click="
+            openModalSharePage({ event: event as unknown as CommunityEvent })
+          "
+          @keydown.enter="
+            openModalSharePage({ event: event as unknown as CommunityEvent })
+          "
           ariaLabel="i18n._global.share_event_aria_label"
           class="w-full sm:w-max"
           :cta="true"
@@ -89,7 +90,7 @@
         disclaimer="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
         :event="event"
       />
-      <CardConnectEvent />
+      <CardConnectEvent :event="event" />
     </div>
   </div>
 </template>

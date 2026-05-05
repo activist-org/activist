@@ -1,17 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImageOrganization
-      @closeModal="handleCloseModalUploadImage"
-      :images="images || []"
-      :orgId="orgId || ''"
-    />
-    <ModalUploadImageIcon
-      @closeModal="handleCloseModalUploadImageIcon"
-      :entityId="orgId || ''"
-      :entityType="EntityType.ORGANIZATION"
-    />
-    <ModalQRCode />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"
@@ -38,18 +27,10 @@
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
 
-const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
-  "ModalUploadImageOrganization"
-);
-const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
-  "ModalUploadImageIcon"
-);
-
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const { data: organization } = useGetOrganization(orgId || "");
-const { data: images } = useGetOrganizationImages(orgId || "");
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

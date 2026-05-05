@@ -114,8 +114,10 @@ function handleAdd(files: File[]) {
   emit("files-dropped", localFiles.value);
 }
 
-function handleRemoveFile(file: FileUploadMix) {
-  removeFile(localFiles.value, file.data);
+async function handleRemoveFile(file: FileUploadMix) {
+  // Await the removal so the API call finishes and local array is spliced.
+  await removeFile(localFiles.value, file.data);
+
   emitFiles();
   emit("file-deleted", file);
 }

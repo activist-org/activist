@@ -91,7 +91,7 @@ export const ResourceCard = (page: Page) => {
     },
 
     async clickResourceEdit(index: number) {
-      await this.getResourceEditButton(index).click();
+      await this.getResourceEditButton(index).click({ force: true });
     },
 
     // MARK: Content Methods

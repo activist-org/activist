@@ -4,11 +4,10 @@
 </template>
 
 <script setup lang="ts">
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
-
-const { data: event } = useGetEvent(eventId);
+const props = defineProps<{
+  event: CommunityEvent | null;
+}>();
 
 // Use computed to ensure social links are reactive to store changes.
-const socialLinks = computed(() => event.value?.socialLinks ?? []);
+const socialLinks = computed(() => props.event?.socialLinks ?? []);
 </script>

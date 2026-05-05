@@ -8,8 +8,18 @@
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
-          @click="openModalTextOrganization()"
-          @keydown.enter="openModalTextOrganization()"
+          @click="
+            () =>
+              openModalTextOrganization({
+                entityId: organization?.id,
+              })
+          "
+          @keydown.enter="
+            () =>
+              openModalTextOrganization({
+                entityId: organization?.id,
+              })
+          "
         />
       </div>
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">

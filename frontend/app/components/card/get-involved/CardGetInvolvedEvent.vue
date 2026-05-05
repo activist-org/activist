@@ -7,8 +7,18 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        @click="openModalTextEvent"
-        @keydown.enter="openModalTextEvent"
+        @click="
+          () =>
+            openModalTextEvent({
+              entityId: event?.id,
+            })
+        "
+        @keydown.enter="
+          () =>
+            openModalTextEvent({
+              entityId: event?.id,
+            })
+        "
         :entity="event"
       />
     </div>

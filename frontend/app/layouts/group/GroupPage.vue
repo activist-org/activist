@@ -1,18 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImageGroup
-      @closeModal="handleCloseModalUploadImage"
-      @upload-complete="handleUploadComplete"
-      :groupId="groupId || ''"
-      :images="images || []"
-    />
-    <ModalUploadImageIcon
-      @closeModal="handleCloseModalUploadImageIcon"
-      :entityId="group?.id || ''"
-      :entityType="EntityType.GROUP"
-    />
-    <ModalQRCode />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"
@@ -46,17 +34,6 @@ const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 const { data: group } = useGetGroup(groupId ?? "");
 const { data: images } = useGetGroupImages(groupId ?? "");
-
-const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
-  "ModalUploadImageGroup"
-);
-const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
-  "ModalUploadImageIcon"
-);
-
-const handleUploadComplete = () => {
-  // Note: For future implementation.
-};
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

@@ -16,10 +16,14 @@
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           :element="$t('i18n._global.resources_lower')"
           :entity="event"
-          :onClick="openModal"
+          :onClick="
+            () =>
+              openModal({
+                entityId: eventId,
+              })
+          "
         />
       </div>
-      <ModalResourceEvent />
     </HeaderAppPageEvent>
     <!-- Draggable list -->
     <div v-if="(event?.resources ?? []).length" class="py-4">

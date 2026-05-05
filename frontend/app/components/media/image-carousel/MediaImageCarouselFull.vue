@@ -2,13 +2,24 @@
 <template>
   <div class="relative" data-testid="image-carousel">
     <MediaImageCarousel
+      @edit-images="handleEditUploadImage()"
       :entityType="entityType"
       :fullscreen="false"
       :imageUrls="imageUrls"
     />
     <button
-      @click="openMediaImageCarousel()"
-      @keydown.enter="openMediaImageCarousel()"
+      @click="
+        openMediaImageCarousel({
+          entityType: props.entityType,
+          imageUrls,
+        })
+      "
+      @keydown.enter="
+        openMediaImageCarousel({
+          entityType: props.entityType,
+          imageUrls,
+        })
+      "
       :aria-label="
         $t('i18n.components.media_image_carousel_full.open_modal_aria_label')
       "
@@ -16,12 +27,6 @@
     >
       <Icon class="-mb-1" :name="IconMap.FULL_SCREEN" size="1.5em" />
     </button>
-    <ModalMediaImageCarousel
-      @closeModal="handleCloseMediaImageCarousel"
-      :entityId="props.entityId"
-      :entityType="props.entityType"
-      :imageUrls="imageUrls"
-    />
   </div>
 </template>
 
@@ -32,10 +37,24 @@ const props = defineProps<{
   images: ContentImage[];
 }>();
 
-const {
-  openModal: openMediaImageCarousel,
-  handleCloseModal: handleCloseMediaImageCarousel,
-} = useModalHandlers("ModalMediaImage");
+const { openModal: openMediaImageCarousel } =
+  useModalHandlers("ModalMediaImage");
+const { openModal: openModalUploadImageOrganization } = useModalHandlers(
+  "ModalUploadImageOrganization"
+);
+const { openModal: openModalUploadImageGroup } = useModalHandlers(
+  "ModalUploadImageGroup"
+);
+const handleEditUploadImage = () => {
+  if (props.entityType === EntityType.GROUP)
+    openModalUploadImageGroup({
+      groupId: props.entityId as unknown as Group,
+    });
+  if (props.entityType === EntityType.ORGANIZATION)
+    openModalUploadImageOrganization({
+      orgId: props.entityId as unknown as Organization,
+    });
+};
 
 const { defaultImageUrls } = useFileManager();
 const imageUrls = ref<string[]>([]);
