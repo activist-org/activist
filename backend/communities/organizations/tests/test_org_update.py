@@ -8,7 +8,6 @@ from uuid import uuid4
 import pytest
 from django.test import Client
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import OrganizationFactory
 
 pytestmark = pytest.mark.django_db

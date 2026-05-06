@@ -24,7 +24,11 @@ from drf_spectacular.utils import (
 from rest_framework import status, viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
