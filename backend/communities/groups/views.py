@@ -143,9 +143,6 @@ class GroupDetailAPIView(GenericAPIView[Group]):
         responses={
             200: GroupSerializer,
             400: OpenApiResponse(response={"detail": "Group ID is required."}),
-            401: OpenApiResponse(
-                response={"detail": "You are not authorized to update this group."}
-            ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to perform this action."}
             ),
@@ -178,11 +175,8 @@ class GroupDetailAPIView(GenericAPIView[Group]):
 
     @extend_schema(
         responses={
-            200: OpenApiResponse(response={"message": "Group deleted successfully."}),
+            204: OpenApiResponse(response={"message": "Group deleted successfully."}),
             400: OpenApiResponse(response={"detail": "Group ID is required."}),
-            401: OpenApiResponse(
-                response={"detail": "You are not authorized to delete this group."}
-            ),
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to perform this action."}
             ),
@@ -400,7 +394,7 @@ class GroupFaqViewSet(viewsets.ModelViewSet[GroupFaq]):
             creator = group.created_by
 
         else:
-            raise ValueError("Org is None.")
+            raise ValueError("Group is None.")
 
         if request.user != creator and not request.user.is_staff:
             return Response(
