@@ -85,7 +85,7 @@ test.describe(
       await expect(page.getByTestId("empty-state")).toBeVisible({
         timeout: 15000,
       });
-      await expect(errorToasts(page)).toHaveCount(0, { timeout: 3000 });
+      await expect(errorToasts(page)).toHaveCount(0);
     });
 
     test("Non-empty 200 list for active name filter does not show empty state", async ({
@@ -121,9 +121,10 @@ test.describe(
         /events/i
       );
 
-      await expect(page.getByTestId("empty-state")).not.toBeVisible({
+      await expect(page.getByTestId("event-card").first()).toBeVisible({
         timeout: 15000,
       });
+      await expect(page.getByTestId("empty-state")).not.toBeVisible();
     });
   }
 );

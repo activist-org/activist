@@ -88,7 +88,7 @@ test.describe(
       await expect(page.getByTestId("empty-state")).toBeVisible({
         timeout: 15000,
       });
-      await expect(errorToasts(page)).toHaveCount(0, { timeout: 3000 });
+      await expect(errorToasts(page)).toHaveCount(0);
     });
 
     test("Non-empty 200 list for active city filter does not show empty state", async ({
@@ -124,9 +124,10 @@ test.describe(
         getEnglishText("i18n.pages.organizations.index.header_title")
       );
 
-      await expect(page.getByTestId("empty-state")).not.toBeVisible({
+      await expect(page.getByTestId("organization-card").first()).toBeVisible({
         timeout: 15000,
       });
+      await expect(page.getByTestId("empty-state")).not.toBeVisible();
     });
   }
 );
