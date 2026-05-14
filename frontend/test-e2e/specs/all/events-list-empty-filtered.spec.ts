@@ -65,7 +65,9 @@ test.describe(
       await page.goto(
         `/events?view=list&location=${encodeURIComponent(FILTER_LOCATION_MARKER)}`
       );
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText(/events/i);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+        /events/i
+      );
 
       await expect(page.getByTestId("empty-state")).toBeVisible({
         timeout: 15000,
