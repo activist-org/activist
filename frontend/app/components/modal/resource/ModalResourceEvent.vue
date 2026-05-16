@@ -11,60 +11,51 @@
 </template>
 
 <script setup lang="ts">
+const modalName = "ModalResourceEvent";
+const { handleCloseModal } = useModalHandlers<{ resource?: Resource }>(
+  modalName
+);
 const props = defineProps<{
   resource?: Resource;
+  entityId: string;
 }>();
 
-const isAddMode = !props.resource;
-const modalName = "ModalResourceEvent" + (props.resource?.id ?? "");
-const { handleCloseModal } = useModalHandlers(modalName);
-
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
+const eventId = computed(() => props.entityId);
 
 const { data: event } = useGetEvent(eventId);
 const { updateResource, createResource } = useEventResourcesMutations(eventId);
 
 const formData = ref<Resource | undefined>();
 
-const submitLabel = isAddMode
-  ? "i18n.components.modal.resource._global.add_resource"
-  : "i18n.components.modal.resource._global.update_resource";
+let isAddMode = true;
+let submitLabel = "";
+let title = "";
 
-const title = isAddMode
-  ? "i18n.components.modal.resource._global.add_resource"
-  : "i18n.components.modal.resource._global.edit_resource";
-if (!isAddMode) {
-  onMounted(async () => {
-    if (props.resource) {
+watch(
+  () => props,
+  (newProps) => {
+    isAddMode = !newProps.resource;
+
+    submitLabel = isAddMode
+      ? "i18n.components.modal.resource._global.add_resource"
+      : "i18n.components.modal.resource._global.update_resource";
+
+    title = isAddMode
+      ? "i18n.components.modal.resource._global.add_resource"
+      : "i18n.components.modal.resource._global.edit_resource";
+
+    if (!isAddMode) {
       formData.value = {} as Resource;
-      formData.value.id = props.resource.id;
-      formData.value.name = props.resource.name;
-      formData.value.description = props.resource.description;
-      formData.value.url = props.resource.url;
-      formData.value.topics = props.resource.topics || [];
-      formData.value.order = props.resource.order;
+      formData.value.id = newProps.resource?.id || "";
+      formData.value.name = newProps.resource?.name || "";
+      formData.value.description = newProps.resource?.description || "";
+      formData.value.url = newProps.resource?.url || "";
+      formData.value.topics = newProps.resource?.topics || [];
+      formData.value.order = newProps.resource?.order || 0;
     }
-  });
-
-  watch(
-    props,
-    (newValues) => {
-      if (newValues.resource) {
-        formData.value = {} as Resource;
-        formData.value.name = newValues.resource.name;
-        formData.value.id = newValues.resource.id;
-        formData.value.description = newValues.resource.description;
-        formData.value.url = newValues.resource.url;
-        formData.value.topics = newValues.resource.topics || [];
-        formData.value.order = newValues.resource.order;
-      }
-    },
-    {
-      deep: true,
-    }
-  );
-}
+  },
+  { immediate: true }
+);
 
 async function handleSubmit(values: unknown) {
   const newValues = {

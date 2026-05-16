@@ -1,10 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Test cases for updating organizations.
+"""
+
 from uuid import uuid4
 
 import pytest
 from django.test import Client
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import OrganizationFactory
 
 pytestmark = pytest.mark.django_db
@@ -12,55 +15,78 @@ pytestmark = pytest.mark.django_db
 ORGS_URL = "/v1/communities/organizations"
 
 
-def test_org_update(client: Client) -> None:
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
+# MARK: Unauthenticated
+
+
+def test_org_update_unauthenticated_401(client: Client) -> None:
+    """
+    Unauthenticated user receives 401 when trying to update an organization.
+
+    Parameters
+    ----------
+    client : Client
+        An unauthenticated Django test client.
+    """
     org = OrganizationFactory()
 
-    """
-    Un-authorized user updating org info.
-    """
     response = client.put(
         path=f"{ORGS_URL}/{org.id}",
         data={"orgName": "new_org", "name": "test_org"},
+        content_type="application/json",
     )
 
     assert response.status_code == 401
+
+
+# MARK: Non-Owner
+
+
+def test_org_update_non_owner_403(authenticated_client) -> None:
+    """
+    Authenticated user who is not the owner receives 403 when trying to update.
+
+    Parameters
+    ----------
+    authenticated_client : tuple[APIClient, UserModel]
+        An authenticated client with a test user.
+    """
+    client, user = authenticated_client
+
+    org = OrganizationFactory()
+
+    response = client.put(
+        path=f"{ORGS_URL}/{org.id}",
+        data={"orgName": "new_org", "name": "test_org"},
+        content_type="application/json",
+    )
+
+    assert response.status_code == 403
+
     response_body = response.json()
     assert (
         response_body["detail"] == "You are not authorized to update this organization."
     )
 
+
+# MARK: Not Found
+
+
+def test_org_update_not_found_404(authenticated_client) -> None:
     """
-    Org does not exist.
+    Authenticated user receives 404 when trying to update a non-existent organization.
+
+    Parameters
+    ----------
+    authenticated_client : tuple[APIClient, UserModel]
+        An authenticated client with a test user.
     """
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={
-            "username": test_username,
-            "password": test_password,
-        },
-    )
-
-    assert login_response.status_code == 200
-
-    login_response_json = login_response.json()
-    token = login_response_json["access"]
+    client, user = authenticated_client
 
     bad_org_id = uuid4()
-    org.created_by = user
 
     response = client.put(
         path=f"{ORGS_URL}/{bad_org_id}",
         data={"orgName": "new_org", "name": "test_org"},
-        headers={"Authorization": f"Token {token}"},
         content_type="application/json",
     )
 
@@ -69,35 +95,30 @@ def test_org_update(client: Client) -> None:
     response_body = response.json()
     assert response_body["detail"] == "Organization not found."
 
+
+# MARK: Owner
+
+
+def test_org_update_owner_200(authenticated_client) -> None:
     """
-    Authorized User updating Org info.
+    Owner of the organization can successfully update it.
+
+    Parameters
+    ----------
+    authenticated_client : tuple[APIClient, UserModel]
+        An authenticated client with a test user.
     """
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
+    client, user = authenticated_client
 
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={
-            "username": test_username,
-            "password": test_password,
-        },
-    )
-
-    assert login_response.status_code == 200
-
-    login_response_json = login_response.json()
-    token = login_response_json["access"]
-
-    org.created_by = user
+    org = OrganizationFactory(created_by=user)
 
     response = client.put(
         path=f"{ORGS_URL}/{org.id}",
-        data={"orgName": "new_org", "name": "test_org"},
-        headers={"Authorization": f"Token {token}"},
+        data={"name": "updated_org_name"},
         content_type="application/json",
     )
 
     assert response.status_code == 200
+
+    response_body = response.json()
+    assert response_body["name"] == "updated_org_name"

@@ -7,8 +7,8 @@
           {{ $t("i18n._global.about") }}
         </h3>
         <IconEdit
-          @click="openModalTextEvent"
-          @keydown.enter="openModalTextEvent"
+          @click="() => openModalTextEvent({ entityId: event?.id })"
+          @keydown.enter="() => openModalTextEvent({ entityId: event?.id })"
           :entity="event"
         />
       </div>
@@ -60,14 +60,11 @@
 </template>
 
 <script setup lang="ts">
-import IconEdit from "~/components/icon/IconEdit.vue";
-
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
-
-const { data: event } = useGetEvent(eventId);
+defineProps<{
+  event: CommunityEvent | null;
+}>();
 
 const description = ref();
 const descriptionExpandable = ref(false);

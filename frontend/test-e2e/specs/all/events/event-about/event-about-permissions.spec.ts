@@ -195,7 +195,18 @@ test.describe(
           await expect(editModal.modal).toBeVisible();
           const descriptionField = editModal.descriptionField(editModal.modal);
           await descriptionField.fill(updatedDescription);
+
+          // Register before click so the response is captured even if it
+          // resolves before the await below.
+          const updateResponse = page.waitForResponse(
+            (res) =>
+              res.request().method() === "PUT" &&
+              /\/events\/event_texts\//i.test(new URL(res.url()).pathname),
+            { timeout: 20000 }
+          );
           await editModal.submitButton(editModal.modal).click();
+          await updateResponse;
+
           await expect(editModal.modal).not.toBeVisible();
         }
       );
@@ -231,7 +242,18 @@ test.describe(
             .getInvolvedField(editModal.modal)
             .fill(updatedGetInvolved);
           await editModal.joinUrlField(editModal.modal).fill(updatedJoinUrl);
+
+          // Register before click so the response is captured even if it
+          // resolves before the await below.
+          const updateResponse = page.waitForResponse(
+            (res) =>
+              res.request().method() === "PUT" &&
+              /\/events\/event_texts\//i.test(new URL(res.url()).pathname),
+            { timeout: 20000 }
+          );
           await editModal.submitButton(editModal.modal).click();
+          await updateResponse;
+
           await expect(editModal.modal).not.toBeVisible();
         }
       );

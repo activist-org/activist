@@ -40,10 +40,7 @@
         <div class="flex gap-2 pr-2">
           <IconEdit
             @click="
-              useModalHandlers(
-                `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}` +
-                  props.faqEntry.id
-              ).openModal()
+              openModalEditFAQ({ faqEntry: faqEntry, entityId: entity?.id })
             "
             class="flex"
             data-testid="faq-edit-button"
@@ -51,33 +48,22 @@
           />
           <IconDelete
             @click.stop="
-              useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
+              openModalDeleteFAQ({
+                entityId: entity?.id,
+                faqEntryId: faqEntry.id,
+              })
             "
             @keydown.enter="
-              useModalHandlers(`ModalDeleteFAQ${faqEntry.id}`).openModal()
+              openModalDeleteFAQ({
+                entityId: entity?.id,
+                faqEntryId: faqEntry.id,
+              })
             "
             :aria-label="$t('i18n.components.card_faq_entry.delete_aria_label')"
             class="flex"
             data-testid="faq-delete-button"
           />
         </div>
-        <ModalFaqEntryOrganization
-          v-if="pageType === 'organization'"
-          :faqEntry="faqEntry"
-        />
-        <ModalFaqEntryGroup
-          v-else-if="pageType === 'group'"
-          :faqEntry="faqEntry"
-        />
-        <ModalFaqEntryEvent
-          v-else-if="pageType === 'event'"
-          :faqEntry="faqEntry"
-        />
-        <ModalAlert
-          message="i18n.components.card_faq_entry.delete_confirmation"
-          :name="`ModalDeleteFAQ${faqEntry.id}`"
-          :onConfirmation="handleDelete"
-        />
       </div>
       <DisclosurePanel
         class="mt-2 border-t border-section-div py-2 pl-4 focus-within:border-0"
@@ -104,11 +90,18 @@ const props = defineProps<{
   entity?: Entity | null;
   tabindex?: number;
 }>();
+
+const modalName = computed(
+  () =>
+    `ModalFaqEntry${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}`
+);
+
+const { openModal: openModalEditFAQ } = useModalHandlers(modalName.value);
+
+const { openModal: openModalDeleteFAQ } = useModalHandlers(
+  `ModalFaqEntryDelete${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}`
+);
+
 const root = ref<HTMLElement | null>(null);
 defineExpose({ root });
-
-const emit = defineEmits<{
-  (e: "delete-faq", faqId: string): void;
-}>();
-const handleDelete = () => emit("delete-faq", props.faqEntry.id);
 </script>

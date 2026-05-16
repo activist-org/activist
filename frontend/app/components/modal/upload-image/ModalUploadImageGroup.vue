@@ -25,6 +25,7 @@
           :disabled="files.length === 0 || files.length > uploadLimit"
           fontSize="sm"
           iconSize="1.25em"
+          :is-loading="loading"
           label="i18n.components._global.upload"
           :leftIcon="IconMap.ARROW_UP"
         />
@@ -47,9 +48,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const groupId = computed(() => props.groupId);
-const { data: groupImages } = useGetGroupImages(groupId);
-const { updateImage, uploadImages, refreshGroupData } =
-  useGroupImageMutations(groupId);
+const { data: groupImages, refresh } = useGetGroupImages(groupId);
+const { updateImage, uploadImages, loading } = useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 
 // useFileManager.removeFile() deletes on the server but doesn't invalidate
@@ -57,7 +57,7 @@ const files = ref<FileUploadMix[]>([]);
 // class of bug as #1791). Only server-side images need a refresh.
 const handleFileDeleted = async (file: FileUploadMix) => {
   if (file?.type === "file") {
-    await refreshGroupData();
+    await refresh();
   }
 };
 

@@ -10,11 +10,15 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <ModalFaqEntryOrganization />
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
-          :onClick="openModal"
+          :onClick="
+            () =>
+              openModal({
+                entityId: organization?.id,
+              })
+          "
         />
       </div>
     </HeaderAppPageOrganization>

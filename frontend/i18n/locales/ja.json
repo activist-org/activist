@@ -87,7 +87,6 @@
   "i18n.components.card_donate.donate": "寄付",
   "i18n.components.card_donate.go_to_donation_page_aria_label": "この組織の寄付ページを開く",
   "i18n.components.card_faq_entry.delete_aria_label": "この質問を削除",
-  "i18n.components.card_faq_entry.delete_confirmation": "本当にこの質問を削除しますか？取り消しはできません。",
   "i18n.components.card_get_involved_organization.view_all_groups": "すべてのグループを表示",
   "i18n.components.card_get_involved_organization.view_all_groups_aria_label": "この組織内のすべてのグループを表示",
   "i18n.components.card_legal_disclaimer.header": "免責条項",
@@ -114,5 +113,6 @@
   "i18n.components.empty_state.create_organization": "組織を作成",
   "i18n.components.empty_state.create_organization_aria_label": "組織作成フォームを開く",
   "i18n.components.empty_state.create_resource_aria_label": "リソース作成フォームを開く",
-  "i18n.components.empty_state.cta_header_no_permission": "その間に、ぜひコミュニティに参加してください！"
+  "i18n.components.empty_state.cta_header_no_permission": "その間に、ぜひコミュニティに参加してください！",
+  "i18n.components.modal.faq_entry.delete._global.message": "本当にこの質問を削除しますか？取り消しはできません。"
 }

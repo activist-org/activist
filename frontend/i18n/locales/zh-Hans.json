@@ -153,7 +153,6 @@
   "i18n.components.card_donate.go_to_donation_page_aria_label": "前往组织的捐赠页面",
   "i18n.components.card_donate.template_text": "感谢您对支持此组织的兴趣！下面的按钮将带您到我们的资金页面，在那里您可以进行一次性或定期捐赠。再次感谢！",
   "i18n.components.card_faq_entry.delete_aria_label": "删除常问问题条目",
-  "i18n.components.card_faq_entry.delete_confirmation": "您确定要删除此常问问题条目吗？此操作无法撤销。",
   "i18n.components.card_get_involved_event.legal_disclaimer_subtext": "请阅读下面的法律免责声明以获取更多关于您在此活动期间权利的信息。",
   "i18n.components.card_get_involved_event.participate_subtext": "点击下方的“提供帮助”按钮，即可进入表格，我们将询问您希望如何参与的信息。",
   "i18n.components.card_get_involved_group.join_group_subtext": "点击上方的“加入群组”即可参与 {entity_name}",
@@ -166,8 +165,6 @@
   "i18n.components.card_metrics_overview.header": "最新活动",
   "i18n.components.card_metrics_overview.new_organizations": "新组织",
   "i18n.components.card_org_application_vote.downvote_application_aria_label": "投票反对该组织加入活动家",
-  "i18n.components.card_resource.confirm_delete": "删除",
-  "i18n.components.card_resource.confirm_delete_message": "您确定要删除此资源吗？此操作无法撤销。",
   "i18n.components.card_resource.navigate_to_resource_aria_label": "导航到此资源的页面",
   "i18n.components.card_search_result_entity_event.all_day_event": "全天活动",
   "i18n.components.card_search_result_entity_event.event_img_alt_text": "{entity_name} 的活动标志。",
@@ -248,5 +245,7 @@
   "i18n.components.footer_website.version_number": "v0.0.1",
   "i18n.components.footer_website.version_number_aria_label": "查看github发布版本",
   "i18n.components.form._global.valid_url_required": "网址无效",
-  "i18n.components.form_faq_entry.answer": "答案"
+  "i18n.components.form_faq_entry.answer": "答案",
+  "i18n.components.modal.faq_entry.delete._global.message": "您确定要删除此常问问题条目吗？此操作无法撤销。",
+  "i18n.components.modal.resource.delete._global.message": "您确定要删除此资源吗？此操作无法撤销。"
 }

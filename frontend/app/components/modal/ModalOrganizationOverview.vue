@@ -10,7 +10,9 @@
       <div class="mt-6 py-2 pr-1 md:max-h-[50vh] md:overflow-y-auto">
         <div v-if="event" class="space-y-3">
           <div class="card-style m-1 p-2">
-            <MetaTagOrganization :organization="event.orgs" />
+            <MetaTagOrganization
+              :organization="event.orgs as unknown as Organization[]"
+            />
           </div>
           <!-- TODO: Once we have more than one organization. -->
           <!-- <div v-for="(o, i) in event.orgs" :key="i" class="card-style m-1 p-2">
@@ -25,9 +27,9 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
+const modalName = "ModalOrganizationOverview";
 defineProps<{
   event?: CommunityEvent;
+  group?: Group;
 }>();
-
-const modalName = "ModalOrganizationOverview";
 </script>

@@ -26,6 +26,7 @@
           :disabled="files.length === 0 || files.length > uploadLimit"
           fontSize="sm"
           iconSize="1.25em"
+          :is-loading="loading"
           label="i18n.components._global.upload"
           :leftIcon="IconMap.ARROW_UP"
         />
@@ -40,15 +41,14 @@ import { DialogTitle } from "@headlessui/vue";
 interface Props {
   orgId: string;
   uploadLimit?: number;
-  images: ContentImage[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 const orgId = computed(() => props.orgId);
-const { data: organizationImages } = useGetOrganizationImages(orgId);
-const { updateImage, uploadImages, refreshOrganizationImagesData } =
+const { data: organizationImages, refresh } = useGetOrganizationImages(orgId);
+const { updateImage, uploadImages, loading } =
   useOrganizationImageMutations(orgId);
 const files = ref<FileUploadMix[]>([]);
 
@@ -57,7 +57,7 @@ const files = ref<FileUploadMix[]>([]);
 // (issue #1791). Only server-side images (`type === "file"`) need a refresh.
 const handleFileDeleted = async (file: FileUploadMix) => {
   if (file?.type === "file") {
-    await refreshOrganizationImagesData();
+    await refresh();
   }
 };
 

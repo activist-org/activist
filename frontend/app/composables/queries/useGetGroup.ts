@@ -63,6 +63,7 @@ export function useGetGroup(id: MaybeRef<string>) {
     if (!key.value) {
       return;
     }
+
     // Let useAsyncData refetch and update store in the success path above.
     await refreshNuxtData(key.value);
   }
