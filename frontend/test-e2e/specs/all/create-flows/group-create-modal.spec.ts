@@ -143,11 +143,7 @@ test.describe(
               "Group Create Modal step 2 location",
               page,
               testInfo,
-              MODAL_A11Y_ROOT,
-              {
-                // FormSelectorComboboxCountry renders an unlabeled combobox input.
-                disableRules: ["label"],
-              }
+              MODAL_A11Y_ROOT
             );
             expect
               .soft(violations, "Accessibility violations (step 2):")
