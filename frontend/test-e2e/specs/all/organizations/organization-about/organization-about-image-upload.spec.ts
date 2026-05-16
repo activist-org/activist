@@ -38,7 +38,7 @@ const purgeImages = async (page: Page, organizationId: string) => {
   await page.reload({ waitUntil: "networkidle" });
 };
 
-test.describe(
+test.describe.serial(
   "Organization About Page - Image Carousel",
   { tag: ["@desktop", "@mobile"] },
   () => {
@@ -80,6 +80,9 @@ test.describe(
       // Verify the image upload modal appears.
       await expect(organizationPage.uploadImageModal.modal).toBeVisible();
 
+      // Wait for the modal to finish loading existing images from the server.
+      await page.waitForLoadState("networkidle");
+
       // Verify the image upload form is visible.
       const imageUploadInput =
         organizationPage.uploadImageModal.imageUploadInput(
@@ -119,6 +122,10 @@ test.describe(
 
       // Open the modal and remove the first image
       await organizationPage.aboutPage.imageCarouselEditIcon.click();
+
+      // Wait for the modal to finish loading existing images from the server.
+      await page.waitForLoadState("networkidle");
+
       await organizationPage.uploadImageModal
         .removeButton(organizationPage.uploadImageModal.modal, 0)
         .click();
@@ -177,6 +184,9 @@ test.describe(
 
       // Verify the image upload modal appears.
       await expect(organizationPage.uploadImageModal.modal).toBeVisible();
+
+      // Wait for the modal to finish loading existing images from the server.
+      await page.waitForLoadState("networkidle");
 
       // Verify the image upload form is visible.
       const imageUploadInput =
