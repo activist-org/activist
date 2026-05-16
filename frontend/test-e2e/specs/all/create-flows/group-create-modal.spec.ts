@@ -238,27 +238,22 @@ test.describe(
 
       await modal.getNextStepButton().click({ force: true });
       await expect(modal.locationForm).toBeVisible();
-      // Wait for the org's country to be fetched and pre-filled.
-      await page.waitForLoadState("networkidle");
+      // Country is pre-filled from the selected org's location data via a deferred
+      // resetForm (setTimeout 0) in Form.vue. Waiting for the country field to show
+      // a value ensures that resetForm has already fired – filling city before this
+      // would be cleared by the pending resetForm call.
+      await expect(modal.countryField).not.toHaveValue("", { timeout: 15000 });
 
       await modal.cityField.fill("Berlin");
 
-      const createResponse = page.waitForResponse(isPostCreateGroupResponse, {
-        timeout: 30000,
-      });
-
       await modal.submitLocationButton.click();
 
-      const createRes = await createResponse;
-      expect(
-        [200, 201].includes(createRes.status()),
-        `POST group expected 200 or 201, got ${createRes.status()}`
-      ).toBe(true);
-
-      await expect(modal.root).not.toBeVisible({ timeout: 20000 });
+      // waitForURL is used instead of waitForResponse because on mobile the
+      // page navigates away fast enough that the response context is destroyed
+      // before waitForResponse can resolve, causing "Target page context closed".
       await expect(page).toHaveURL(
         /\/organizations\/[^/]+\/groups\/[^/]+\/about/,
-        { timeout: 15000 }
+        { timeout: 30000 }
       );
     });
 
@@ -296,8 +291,9 @@ test.describe(
 
         await modal.getNextStepButton().click({ force: true });
         await expect(modal.locationForm).toBeVisible();
-        // Wait for the org's country to be fetched and pre-filled.
-        await page.waitForLoadState("networkidle");
+        // Same deferred resetForm race as the full flow test: wait for country
+        // to be pre-filled before filling city.
+        await expect(modal.countryField).not.toHaveValue("", { timeout: 15000 });
 
         await modal.cityField.fill("Berlin");
 

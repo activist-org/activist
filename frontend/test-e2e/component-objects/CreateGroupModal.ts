@@ -20,7 +20,8 @@ export const newCreateGroupModal = (page: Page) => {
 
     // MARK: Location
     locationForm: root.locator("#event-location"),
-    countryField: root.locator("#form-item-country"),
+    // Use input[id=...] to avoid matching the <Combobox as="div"> root which shares the same id.
+    countryField: root.locator("input#form-item-country"),
     cityField: root.locator("#form-item-city"),
     submitLocationButton: root.locator("#event-location-submit"),
 
