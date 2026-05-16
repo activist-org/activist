@@ -12,7 +12,9 @@ export const MOCK_GROUP_EMPTY_STATE_ID = "00000000-0000-4000-8000-00000000b002";
 export function isPublicGroupDetailGet(url: string): boolean {
   try {
     const u = new URL(url);
-    const m = u.pathname.match(/\/api\/public\/communities\/groups\/([^/?#]+)$/);
+    const m = u.pathname.match(
+      /\/api\/public\/communities\/groups\/([^/?#]+)$/
+    );
     if (!m?.[1]) return false;
     return /^[0-9a-f-]{36}$/i.test(m[1]);
   } catch {
@@ -23,7 +25,9 @@ export function isPublicGroupDetailGet(url: string): boolean {
 function groupIdFromDetailUrl(url: string): string | null {
   try {
     const u = new URL(url);
-    const m = u.pathname.match(/\/api\/public\/communities\/groups\/([^/?#]+)$/);
+    const m = u.pathname.match(
+      /\/api\/public\/communities\/groups\/([^/?#]+)$/
+    );
     return m?.[1]?.toLowerCase() ?? null;
   } catch {
     return null;

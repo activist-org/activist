@@ -12,7 +12,10 @@
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
-      <div v-if="canEdit(group)" class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+      <div
+        v-if="canEdit(group)"
+        class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4"
+      >
         <BtnAction
           @click.stop="
             () =>
