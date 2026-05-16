@@ -120,7 +120,7 @@ const syncShrinkLabelState = () => {
     return false;
   }
   // Focus/blur/input events own label state during interaction. Guard for SSR/Vitest (no document).
-  if (document && document.activeElement === input) {
+  if (typeof document !== "undefined" && document.activeElement === input) {
     return false;
   }
   const hasAutofill = isAutofilled(input);
