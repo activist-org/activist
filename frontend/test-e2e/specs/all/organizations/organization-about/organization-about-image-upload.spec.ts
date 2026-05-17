@@ -60,7 +60,7 @@ test.describe.serial(
         timeout: 15000,
       });
 
-      // Get the initial number of images in the carousel
+      // Get the initial number of images in the carousel.
       const initialCarouselCount = parseInt(
         (await page
           .getByTestId("image-carousel-main")
@@ -114,13 +114,13 @@ test.describe.serial(
         timeout: 10000,
       });
 
-      // Verify the carousel grew by exactly one image
+      // Verify the carousel grew by exactly one image.
       await expect(page.getByTestId("image-carousel-main")).toHaveAttribute(
         "data-slide-count",
         String(existingUploadEntriesCount + 1)
       );
 
-      // Open the modal and remove the first image
+      // Open the modal and remove the first image.
       await organizationPage.aboutPage.imageCarouselEditIcon.click();
 
       // Wait for the modal to finish loading existing images from the server.
@@ -200,12 +200,12 @@ test.describe.serial(
         .getUploadedImages(organizationPage.uploadImageModal.modal)
         .count();
 
+      // Upload 3 images.
       const filePng = [
         tinyPng("file1.png"),
         tinyPng("file2.png"),
         tinyPng("file3.png"),
       ];
-      // Upload 3 images
       await imageUploadInput.setInputFiles(filePng);
 
       // New entry appears in the modal.
@@ -231,11 +231,11 @@ test.describe.serial(
         String(existingUploadEntriesCount + filePng.length)
       );
 
-      // Pagination using dots
+      // Pagination using dots.
       const dots = organizationPage.aboutPage.getImageCarouselBullets;
 
       if ((await dots.count()) > 1) {
-        // Click second dot
+        // Click second dot.
         await dots.nth(1).click();
         await expect(
           organizationPage.aboutPage.getImageCarouselImages.nth(1)
