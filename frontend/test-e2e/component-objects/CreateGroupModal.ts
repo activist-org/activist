@@ -12,7 +12,7 @@ export const newCreateGroupModal = (page: Page) => {
     closeButton: root.getByTestId("modal-close-button"),
 
     // MARK: Details
-    detailsForm: root.locator("#group-details"),
+    detailsForm: root.locator("#event-details"),
     nameField: root.locator("#form-item-name"),
     taglineField: root.locator("#form-item-tagline"),
     descriptionField: root.locator("#form-item-description"),
@@ -20,18 +20,13 @@ export const newCreateGroupModal = (page: Page) => {
 
     // MARK: Location
     locationForm: root.locator("#event-location"),
-    // Use input[id=...] to avoid matching the <Combobox as="div"> root which shares the same id.
-    countryField: root.locator("input#form-item-country"),
+    countryField: root.locator("#form-item-country"),
     cityField: root.locator("#form-item-city"),
-    submitLocationButton: root.locator("#event-location-submit"),
 
     // MARK: Step Buttons
     getNextStepButton(): Locator {
       return root.getByRole("button", {
-        name: new RegExp(
-          getEnglishText("i18n.components.submit_aria_label"),
-          "i"
-        ),
+        name: new RegExp(getEnglishText("i18n._global.next_step"), "i"),
       });
     },
 

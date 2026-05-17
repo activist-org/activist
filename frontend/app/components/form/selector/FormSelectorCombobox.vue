@@ -17,7 +17,7 @@
         class="flex"
       >
         <FormTextInput
-          :id="inputId ?? id"
+          :id="inputId"
           ref="formInputRef"
           @update:modelValue="handleInput"
           :disabled="disabled"
