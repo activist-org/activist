@@ -29,7 +29,12 @@
           showButton &&
           (sidebar.collapsed == false || sidebar.collapsedSwitch == false)
         "
-        @click="openModal()"
+        @click="
+          openModal({
+            entityId: event?.id,
+            entityType: EntityType.EVENT,
+          })
+        "
         :aria-label="
           $t('i18n.components.sidebar_left_content_event.edit_aria_label')
         "

@@ -43,6 +43,7 @@
             :disabled="!fileImageIcon"
             fontSize="sm"
             iconSize="1.25em"
+            :is-loading="loadingOrganization || loadingEvent"
             label="i18n.components._global.upload"
             :leftIcon="IconMap.ARROW_UP"
           />
@@ -66,9 +67,11 @@ interface Props {
 
 const props = defineProps<Props>();
 const entityId = computed(() => props.entityId);
-const { uploadIconImage: uploadOrganizationIconImage } =
-  useOrganizationImageMutations(entityId);
-const { uploadIconImage: uploadEventIconImage } =
+const {
+  uploadIconImage: uploadOrganizationIconImage,
+  loading: loadingOrganization,
+} = useOrganizationImageMutations(entityId);
+const { uploadIconImage: uploadEventIconImage, loading: loadingEvent } =
   useEventImageIconMutations(entityId);
 const emit = defineEmits(["upload-complete", "upload-error"]);
 const fileImageIcon = ref();

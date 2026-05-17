@@ -123,13 +123,12 @@ test.describe(
           {}
         );
 
-        // Click the edit button for the first resource.
+        // Click the card and edit button for resource.
+        await groupResourcesPage.clickResourceEdit(0);
         await groupResourcesPage.clickResourceEdit(0);
 
         // Wait for modal to open with exact testid (includes resource ID).
-        const editResourceModal = page.getByTestId(
-          `modal-ModalResourceGroup${resourceId}`
-        );
+        const editResourceModal = page.getByTestId(`modal-ModalResourceGroup`);
         await expect(editResourceModal).toBeVisible();
 
         // Generate unique content for this test run.

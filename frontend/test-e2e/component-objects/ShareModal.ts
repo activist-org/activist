@@ -4,7 +4,7 @@ import type { Locator, Page } from "@playwright/test";
 import { getEnglishText } from "#shared/utils/i18n";
 
 export const newShareModal = (page: Page) => ({
-  modal: page.locator("#modal").first(),
+  modal: page.getByTestId("modal-ModalSharePage").first(),
   closeButton: (modal: Locator) => modal.getByTestId("modal-close-button"),
   qrCodeButton: (modal: Locator) =>
     modal.locator("div.group").filter({

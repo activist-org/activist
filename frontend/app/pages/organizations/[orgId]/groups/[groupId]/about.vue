@@ -1,7 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalSocialLinksGroup />
-  <ModalTextGroup />
   <Tabs class="pt-2 md:pt-0" :selectedTab="0" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
@@ -9,13 +7,6 @@
     </Head>
     <HeaderAppPageGroup>
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <ModalSharePage
-          v-if="group"
-          @closeModal="handleCloseModal"
-          :cta="true"
-          :group="group"
-          :isOpen="modalIsOpen"
-        />
         <BtnRouteExternal
           v-if="group?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.join_group_aria_label"
@@ -38,8 +29,8 @@
           :counter="group.supporters"
         /> -->
         <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
+          @click="openModalSharePage({ group: group })"
+          @keydown.enter="openModalSharePage({ group: group })"
           ariaLabel="i18n.pages.organizations.groups.about.share_group_aria_label"
           class="w-max"
           :cta="true"
@@ -73,13 +64,13 @@
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
             :entityId="group?.id || ''"
-            :entityType="'group' as EntityType"
+            :entityType="EntityType.GROUP"
             :images="images || []"
           />
         </div>
       </div>
       <CardGetInvolvedGroup :group="group" />
-      <CardConnectGroup />
+      <CardConnectGroup :group="group" />
     </div>
   </div>
 </template>
@@ -126,17 +117,5 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateShareBtnLabel);
 });
 
-const modals = useModals();
-const modalName = "ModalSharePage";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-};
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 </script>

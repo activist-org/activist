@@ -12,21 +12,15 @@
         ariaLabel="i18n.components._global.star"
       /> -->
       <BtnAction
-        @click="openModal()"
+        @click="openModalSharePage({ resource: resource })"
         @keydown="handleTabPress(true, $event)"
-        @keydown.enter="openModal()"
+        @keydown.enter="openModalSharePage({ resource: resource })"
         ariaLabel="i18n._global.share"
         class="flex max-h-10 w-full items-center"
         :cta="true"
         fontSize="lg"
         label="i18n._global.share"
         :rightIcon="IconMap.SHARE"
-      />
-      <ModalSharePage
-        @closeModal="handleCloseModal"
-        :cta="true"
-        :isOpen="modalIsOpen"
-        :resource="resource"
       />
     </div>
   </TooltipBase>
@@ -40,17 +34,5 @@ defineProps<{
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
-const modals = useModals();
-const modalName = "ModalSharePage";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-};
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 </script>

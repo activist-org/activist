@@ -17,11 +17,14 @@
 const modalName = "ModalTextOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const props = defineProps<{
+  entityId: string;
+}>();
 
-const { data: organization } = useGetOrganization(orgId || "");
-const { updateTexts } = useOrganizationTextsMutations(orgId || "");
+const organizationId = computed(() => props.entityId);
+
+const { data: organization } = useGetOrganization(organizationId);
+const { updateTexts } = useOrganizationTextsMutations(organizationId);
 
 const formData = ref<OrganizationUpdateTextFormData>({
   description: "",

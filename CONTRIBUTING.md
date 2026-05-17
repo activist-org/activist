@@ -74,9 +74,9 @@ The following are the current and planned technologies for [activist.org](https:
 
 - [Docker](https://www.docker.com) • [Netlify](https://www.netlify.com)
 
-### Deployment
+### Testing
 
-[pytest](https://docs.pytest.org/en/stable/) (backend) • [Vitest](https://vitest.dev/) (frontend) • [Playwright](https://playwright.dev/) (end to end)
+- [pytest](https://docs.pytest.org/en/stable/) (backend) • [Vitest](https://vitest.dev/) (frontend) • [Playwright](https://playwright.dev/) (end to end)
 
 ### Localization
 

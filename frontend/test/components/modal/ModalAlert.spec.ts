@@ -121,7 +121,7 @@ describe("ModalAlert component", () => {
     });
 
     it("uses custom modal name when provided", () => {
-      createWrapper({ name: "CustomModal" });
+      createWrapper({ modalName: "CustomModal" });
       expect(vi.mocked(useModalHandlers)).toHaveBeenCalledWith("CustomModal");
     });
 
@@ -165,7 +165,7 @@ describe("ModalAlert component", () => {
   describe("Button Interactions", () => {
     it("calls onConfirmation and closes modal on confirm", async () => {
       const wrapper = createWrapper({
-        onConfirmation: mockOnConfirmation,
+        onConfirm: mockOnConfirmation,
       });
 
       const confirmButton = wrapper.find(
@@ -205,7 +205,7 @@ describe("ModalAlert component", () => {
 
   describe("ModalBase Integration", () => {
     it("passes correct modal name to ModalBase", () => {
-      const wrapper = createWrapper({ name: "TestModal" });
+      const wrapper = createWrapper({ modalName: "TestModal" });
       const modalBase = wrapper.find('[data-testid="modal-base"]');
       expect(modalBase.exists()).toBe(true);
     });
@@ -256,7 +256,7 @@ describe("ModalAlert component", () => {
 
   describe("Composable Integration", () => {
     it("calls useModalHandlers with correct modal name", () => {
-      createWrapper({ name: "TestModal" });
+      createWrapper({ modalName: "TestModal" });
       expect(vi.mocked(useModalHandlers)).toHaveBeenCalledWith("TestModal");
     });
 
