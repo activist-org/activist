@@ -293,7 +293,9 @@ test.describe(
         await expect(modal.locationForm).toBeVisible();
         // Same deferred resetForm race as the full flow test: wait for country
         // to be pre-filled before filling city.
-        await expect(modal.countryField).not.toHaveValue("", { timeout: 15000 });
+        await expect(modal.countryField).not.toHaveValue("", {
+          timeout: 15000,
+        });
 
         await modal.cityField.fill("Berlin");
 
