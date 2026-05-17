@@ -99,7 +99,7 @@ test.describe(
       ).toBeVisible();
     });
 
-    // MARK: Accessibility by wizard step (modal subtree only)
+    // MARK: Accessibility
 
     test.describe("Group Create Modal accessibility by step", () => {
       test.setTimeout(120000);
@@ -153,7 +153,7 @@ test.describe(
       );
     });
 
-    // MARK: Step 1 validation
+    // MARK: Validation
 
     test("step 1 shows validation when required fields are empty", async ({
       page,
@@ -168,7 +168,7 @@ test.describe(
       await expect(modal.root).toBeVisible();
     });
 
-    // MARK: Step 1 → 2
+    // MARK: Details and Location
 
     test("step 1 to 2: filled details advance to location step", async ({
       page,
