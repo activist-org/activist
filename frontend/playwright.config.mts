@@ -130,6 +130,9 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         // Memory optimization: Add launch options to prevent browser crashes in long test runs
         launchOptions: {
+          slowMo: process.env.PLAYWRIGHT_SLOW_MO
+            ? parseInt(process.env.PLAYWRIGHT_SLOW_MO)
+            : undefined,
           args: [
             "--disable-dev-shm-usage", // Use /tmp instead of /dev/shm for shared memory
             "--disable-background-timer-throttling",
