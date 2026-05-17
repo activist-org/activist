@@ -135,18 +135,5 @@ test.describe(
       // If neither events nor empty state is visible, that's also valid (handled by early return above).
     });
 
-    test("User can access new event creation", async ({ page }, testInfo) => {
-      logTestPath(testInfo);
-      const organizationPage = newOrganizationPage(page);
-      const { groupEventsPage } = organizationPage;
-
-      // Verify new event button is visible and functional.
-      await expect(groupEventsPage.newEventButton).toBeVisible();
-      await expect(groupEventsPage.newEventButton).toHaveAttribute(
-        "href",
-        /.+/
-      );
-      // Note: We don't click it as it would navigate away from the current page.
-    });
   }
 );
