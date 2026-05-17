@@ -85,7 +85,7 @@ jobs:
         if: always()
         uses: peter-evans/create-issue-from-file@v4
         with:
-          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖"
+          title: "Dependency Audit Report - ${{ env.REPORT_DATE }} 🤖"
           content-filepath: reports.md
           labels: |
             dependencies
