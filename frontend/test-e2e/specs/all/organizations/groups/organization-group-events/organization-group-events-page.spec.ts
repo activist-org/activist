@@ -134,6 +134,5 @@ test.describe(
       }
       // If neither events nor empty state is visible, that's also valid (handled by early return above).
     });
-
   }
 );
