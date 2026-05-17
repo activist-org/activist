@@ -46,6 +46,27 @@ test.describe(
       });
     });
 
+    // MARK: Create
+
+    test("New event button opens create event modal", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const { groupEventsPage } = organizationPage;
+
+      await expect(groupEventsPage.newEventButton).toBeVisible();
+      await groupEventsPage.newEventButton.click();
+
+      const modal = page.getByTestId("modal-ModalCreateEvent");
+      await expect(modal).toBeVisible({ timeout: 10000 });
+
+      await modal.getByTestId("modal-close-button").click();
+      await expect(modal).not.toBeVisible({ timeout: 5000 });
+    });
+
+    // MARK: Display
+
     test("User can view group events", async ({ page }, testInfo) => {
       logTestPath(testInfo);
       const organizationPage = newOrganizationPage(page);

@@ -12,7 +12,14 @@ export const newOrganizationGroupEventsPage = (page: Page) => {
     // MARK: Header
 
     get newEventButton() {
-      return page.getByRole("link", { name: /new event/i });
+      return page.getByRole("button", {
+        name: new RegExp(
+          getEnglishText(
+            "i18n.pages.organizations.groups.events.new_group_event_aria_label"
+          ),
+          "i"
+        ),
+      });
     },
 
     get subscribeToEventsButton() {

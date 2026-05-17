@@ -14,16 +14,18 @@ test.describe(
   () => {
     // MARK: Create
 
-    test("User can access new event creation", async ({ page }) => {
+    test("New event button opens create event modal", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
       const { eventsPage } = organizationPage;
 
-      // Verify new event button is visible and functional.
       await expect(eventsPage.eventsNewButton).toBeVisible();
-      await expect(eventsPage.eventsNewButton).toHaveAttribute("href", /.+/);
+      await eventsPage.eventsNewButton.click();
 
-      // Note: We don't click it as it would navigate away from the current page
-      // and we want to keep the test focused on the events page functionality.
+      const modal = page.getByTestId("modal-ModalCreateEvent");
+      await expect(modal).toBeVisible({ timeout: 10000 });
+
+      await modal.getByTestId("modal-close-button").click();
+      await expect(modal).not.toBeVisible({ timeout: 5000 });
     });
 
     // MARK: Subscribe
