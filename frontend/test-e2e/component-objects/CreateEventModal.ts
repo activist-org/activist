@@ -34,6 +34,12 @@ export const newCreateEventModal = (page: Page) => {
 
     // MARK: Validation Errors (step 4 - time)
     datesError: root.getByTestId("form-item-dates-error"),
+    // FormListItem renders FormErrorMessage without an explicit id, so the
+    // testid defaults to "form-error". Scoped to the time form to avoid
+    // matching other form-error elements on the page.
+    timesError: root
+      .locator("#event-location-and-time")
+      .getByTestId("form-error"),
 
     // MARK: Event Type
     eventTypeForm: root.locator("#event-type-and-roles"),

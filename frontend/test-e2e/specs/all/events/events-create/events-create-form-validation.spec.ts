@@ -264,6 +264,49 @@ test.describe(
       await expect(modal.datesError).toBeVisible();
     });
 
+    test("setting start time after end time shows ordering error", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+      await navigateToTimeStep(modal);
+
+      // Select a two-day range so the times rows appear.
+      const dayButtons = modal.timeForm.locator(
+        ".vc-day.in-month .vc-day-content[role='button']"
+      );
+      await dayButtons.first().click();
+      await dayButtons.nth(1).click();
+
+      // Wait for the first times row to appear.
+      await expect(
+        modal.timeForm.locator('[id^="form-item-times.0"]').first()
+      ).toBeAttached({ timeout: 5000 });
+
+      // Set start time (14:00) AFTER end time (10:00) for the first day.
+      // v-calendar time input requires click + Control+a to select then type.
+      const startInput = modal.timeForm.locator(
+        '[id="form-item-times.0.startTime"]'
+      );
+      await startInput.click();
+      await page.keyboard.press("Control+a");
+      await page.keyboard.type("14:00");
+
+      const endInput = modal.timeForm.locator(
+        '[id="form-item-times.0.endTime"]'
+      );
+      await endInput.click();
+      await page.keyboard.press("Control+a");
+      await page.keyboard.type("10:00");
+
+      await modal.getNextStepButton().click();
+
+      await expect(modal.timeForm).toBeVisible();
+      await expect(modal.timesError).toBeVisible();
+      await expect(modal.timesError).toContainText(
+        "Start time must be before end time"
+      );
+    });
+
     // MARK: Correction
 
     test("correcting all errors allows advancing past step 1", async ({
