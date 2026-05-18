@@ -33,7 +33,7 @@
         type="button"
       >
         <Icon
-          v-if="isMultiSelect ? true : !internalSelectedOptions"
+          v-if="(isMultiSelect ? true : !internalSelectedOptions) || disabled"
           :name="IconMap.CHEVRON_EXPAND"
         />
         <Icon
