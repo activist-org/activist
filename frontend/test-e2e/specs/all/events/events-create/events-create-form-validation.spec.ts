@@ -9,6 +9,7 @@ import { expect, test } from "~/test-e2e/global-fixtures";
 
 // Event orgs field is a multi-select combobox (plural label).
 const orgsLabel = getEnglishText("i18n._global.organizations");
+const topicsLabel = getEnglishText("i18n.components._global.topics");
 
 async function selectFirstOrganization(
   modal: ReturnType<typeof newCreateEventModal>
@@ -25,6 +26,48 @@ async function selectFirstOrganization(
   await expect(modal.root.getByRole("option").first()).toBeHidden({
     timeout: 5000,
   });
+}
+
+async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
+  const topicsButton = modal.topicsCombobox.getByRole("button", {
+    name: new RegExp(topicsLabel, "i"),
+  });
+  await topicsButton.click();
+  const firstOption = modal.root.getByRole("option").first();
+  await expect(firstOption).toBeVisible({ timeout: 10000 });
+  await firstOption.click();
+  await topicsButton.click();
+  await expect(modal.root.getByRole("option").first()).toBeHidden({
+    timeout: 5000,
+  });
+}
+
+/** Navigate through steps 1-3 to land on the time step (step 4, online path). */
+async function navigateToTimeStep(
+  modal: ReturnType<typeof newCreateEventModal>
+) {
+  // Step 1: details.
+  await modal.nameField.fill("E2E Time Validation Event");
+  await modal.descriptionField.fill("Time step validation test.");
+  await selectFirstOrganization(modal);
+  await modal.getNextStepButton().click({ force: true });
+
+  // Step 2: event type - select online, event type, and topic (all required).
+  await expect(modal.eventTypeForm).toBeVisible();
+  await modal.locationTypeSection
+    .getByRole("radio", { name: /online/i })
+    .click();
+  await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
+  await selectFirstTopic(modal);
+  await modal.getNextStepButton().click({ force: true });
+
+  // Step 3: link online.
+  await expect(modal.linkOnlineForm).toBeVisible();
+  await modal.onlineLinkField.fill("https://example.com/time-validation");
+  await modal.getNextStepButton().click();
+
+  // Now on step 4: time.
+  await expect(modal.timeForm).toBeVisible();
 }
 
 test.describe(
@@ -103,6 +146,23 @@ test.describe(
       // Remaining required fields still show errors.
       await expect(modal.descriptionError).toBeVisible();
       await expect(modal.orgsError).toBeVisible();
+    });
+
+    // MARK: Time step validation
+
+    test("submitting time step without selecting dates shows date error", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+      await navigateToTimeStep(modal);
+
+      await modal.getNextStepButton().click();
+
+      // Time form stays visible - no event was created.
+      await expect(modal.timeForm).toBeVisible();
+
+      // Dates field shows inline error.
+      await expect(modal.datesError).toBeVisible();
     });
 
     // MARK: Correction

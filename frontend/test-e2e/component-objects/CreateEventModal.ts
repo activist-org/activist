@@ -23,6 +23,7 @@ export const newCreateEventModal = (page: Page) => {
     nameError: root.getByTestId("form-item-name-error"),
     descriptionError: root.getByTestId("form-item-description-error"),
     orgsError: root.getByTestId("form-item-orgs-error"),
+    datesError: root.getByTestId("form-item-dates-error"),
 
     // MARK: Event Type
     eventTypeForm: root.locator("#event-type-and-roles"),
