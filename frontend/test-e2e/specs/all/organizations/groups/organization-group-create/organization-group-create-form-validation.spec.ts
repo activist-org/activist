@@ -127,6 +127,47 @@ test.describe(
       await expect(modal.organizationError).not.toBeVisible();
     });
 
+    // MARK: Location step - country field non-interactive
+
+    test("group location country field is disabled and non-interactive", async ({
+      page,
+    }) => {
+      const modal = newCreateGroupModal(page);
+
+      await modal.nameField.fill("E2E Country Disabled Group");
+      await modal.descriptionField.fill("Country disabled validation.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.locationForm).toBeVisible();
+      // Wait for the org's country to be auto-filled.
+      await expect(modal.countryField).not.toHaveValue("", { timeout: 15000 });
+
+      const countryValue = await modal.countryField.inputValue();
+
+      // The input is disabled - inherited from the org, not user-editable.
+      await expect(modal.countryField).toBeDisabled();
+
+      // Clicking the combobox button (which previously showed an X clear button)
+      // must not alter the country value.
+      const countryComboboxButton = modal.locationForm.getByRole("button", {
+        name: new RegExp(
+          getEnglishText("i18n.components._global.country"),
+          "i"
+        ),
+      });
+      await countryComboboxButton.click({ force: true });
+      await expect(modal.countryField).toHaveValue(countryValue);
+
+      // Submitting with a valid city must not trigger a country error -
+      // the pre-filled disabled value is still submitted correctly.
+      await modal.cityField.fill("Berlin");
+      await modal.submitLocationButton.click();
+
+      await expect(modal.countryError).not.toBeVisible();
+      await expect(modal.countryField).toHaveValue(countryValue);
+    });
+
     // MARK: Location step - empty city
     // Note: The group's country field is always disabled (inherited from the
     // selected org and non-editable). Only the city field can be validated.
