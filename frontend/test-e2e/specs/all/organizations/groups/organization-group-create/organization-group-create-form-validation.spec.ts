@@ -102,6 +102,68 @@ test.describe(
       await expect(modal.organizationError).toBeVisible();
     });
 
+    // MARK: Organization - typed text without selection
+
+    test("typing in organization field without selecting from list still shows required error", async ({
+      page,
+    }) => {
+      const modal = newCreateGroupModal(page);
+
+      await modal.nameField.fill("E2E Org Partial Group");
+      await modal.descriptionField.fill("Org partial validation.");
+
+      // Type text in the org combobox input without picking an option.
+      // The typed text filters the dropdown but does not commit a form value.
+      await modal.organizationCombobox.locator("input").fill("Nonexistent Org");
+
+      await modal.getNextStepButton().click();
+
+      // Typed text ≠ valid selection: org error must still appear.
+      await expect(modal.detailsForm).toBeVisible();
+      await expect(modal.organizationError).toBeVisible();
+      const requiredText = getEnglishText("i18n._global.required");
+      await expect(modal.organizationError).toContainText(requiredText);
+    });
+
+    // MARK: Organization clear button
+
+    test("clearing a selected organization with the X button shows the required error", async ({
+      page,
+    }) => {
+      const modal = newCreateGroupModal(page);
+
+      // Select an organization so the X clear button appears.
+      await selectFirstOrganization(modal);
+
+      // Wait for the selection to be reflected: the combobox input must show
+      // the org name (non-empty) before the X icon renders.
+      const orgInput = modal.organizationCombobox.locator("input");
+      await expect(orgInput).not.toHaveValue("", { timeout: 5000 });
+
+      // The X icon inside ComboboxButton renders as a CSS <span> with
+      // pointer-events: none, so a normal .click() on the button dispatches
+      // to the button element, not the icon span. Use dispatchEvent to fire
+      // the click directly on the icon element so the Vue handler fires.
+      const orgComboboxButton = modal.organizationCombobox.getByRole("button", {
+        name: new RegExp(getEnglishText("i18n._global.organization"), "i"),
+      });
+      await orgComboboxButton.locator("span").dispatchEvent("click");
+
+      // Input should now be empty - selection was cleared.
+      await expect(orgInput).toHaveValue("", { timeout: 5000 });
+
+      // Submit to trigger validation on the now-empty field.
+      await modal.nameField.fill("E2E Clear Org Group");
+      await modal.descriptionField.fill("Clear org test.");
+      await modal.getNextStepButton().click();
+
+      // Organization was cleared - error must appear with the "Required" message,
+      // not "Expected string, received null" (which was the bug before the fix).
+      await expect(modal.organizationError).toBeVisible();
+      const requiredText = getEnglishText("i18n._global.required");
+      await expect(modal.organizationError).toContainText(requiredText);
+    });
+
     // MARK: Correction
 
     test("correcting all errors allows advancing to location step", async ({

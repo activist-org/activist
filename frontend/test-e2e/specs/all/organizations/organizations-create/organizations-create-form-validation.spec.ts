@@ -125,6 +125,50 @@ test.describe(
       await expect(modal.cityError).toBeVisible();
     });
 
+    // MARK: Location step - clear selected country with X button
+
+    test("clearing a selected country with the X button shows the required error", async ({
+      page,
+    }) => {
+      const modal = newCreateOrganizationModal(page);
+
+      await modal.nameField.fill("E2E Clear Country Org");
+      await modal.descriptionField.fill("Clear country test.");
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.locationForm).toBeVisible();
+
+      // Select a country so the X clear button appears on the combobox button.
+      const countryComboboxButton = modal.locationForm.getByRole("button", {
+        name: new RegExp(
+          getEnglishText("i18n.components._global.country"),
+          "i"
+        ),
+      });
+      await countryComboboxButton.click();
+      const firstCountryOption = modal.root.getByRole("option").first();
+      await expect(firstCountryOption).toBeVisible({ timeout: 10000 });
+      await firstCountryOption.click();
+      await expect(modal.countryError).not.toBeVisible();
+
+      // Wait for the selected country name to appear in the input before the
+      // X icon renders, then dispatch the click directly on the icon span
+      // (CSS icons have pointer-events: none, so regular .click() misses them).
+      await expect(modal.countryField).not.toHaveValue("", { timeout: 5000 });
+      await countryComboboxButton.locator("span").dispatchEvent("click");
+
+      // Submit to trigger validation.
+      await modal.cityField.fill("Berlin");
+      await modal.submitLocationButton.click();
+
+      // Country was cleared - error must use the "Required" message,
+      // not "Expected string, received null" (the bug before the fix).
+      await expect(modal.countryError).toBeVisible();
+      await expect(modal.countryError).toContainText("required", {
+        ignoreCase: true,
+      });
+    });
+
     // MARK: Location step - typed text without selection
 
     test("typing in country field without selecting from list still shows country error", async ({
