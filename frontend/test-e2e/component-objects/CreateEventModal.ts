@@ -19,6 +19,11 @@ export const newCreateEventModal = (page: Page) => {
     orgsCombobox: root.locator("#form-item-orgs"),
     groupsCombobox: root.locator("#form-item-groups"),
 
+    // MARK: Validation Errors
+    nameError: root.getByTestId("form-item-name-error"),
+    descriptionError: root.getByTestId("form-item-description-error"),
+    orgsError: root.getByTestId("form-item-orgs-error"),
+
     // MARK: Event Type
     eventTypeForm: root.locator("#event-type-and-roles"),
     locationTypeSection: root.getByTestId("events-filter-location-type"),

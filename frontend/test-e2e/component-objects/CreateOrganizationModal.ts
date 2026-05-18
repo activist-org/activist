@@ -17,6 +17,10 @@ export const newCreateOrganizationModal = (page: Page) => {
     taglineField: root.locator("#form-item-tagline"),
     descriptionField: root.locator("#form-item-description"),
 
+    // MARK: Validation Errors
+    nameError: root.getByTestId("form-item-name-error"),
+    descriptionError: root.getByTestId("form-item-description-error"),
+
     // MARK: Location
     locationForm: root.locator("#event-location"),
     countryField: root.locator("#form-item-country"),
