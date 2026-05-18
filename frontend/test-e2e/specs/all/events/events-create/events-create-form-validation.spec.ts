@@ -148,6 +148,110 @@ test.describe(
       await expect(modal.orgsError).toBeVisible();
     });
 
+    // MARK: Event type step (step 2) - empty submission
+
+    test("submitting empty event type step shows errors for all required fields", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+
+      // Navigate through step 1.
+      await modal.nameField.fill("E2E Event Type Validation");
+      await modal.descriptionField.fill("Event type step validation test.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.eventTypeForm).toBeVisible();
+
+      // Click next without filling any of the three required fields.
+      await modal.getNextStepButton().click();
+
+      // Still on step 2.
+      await expect(modal.eventTypeForm).toBeVisible();
+
+      // All three required fields show inline errors.
+      await expect(modal.settingError).toBeVisible();
+      await expect(modal.typeError).toBeVisible();
+      await expect(modal.topicsError).toBeVisible();
+
+      const requiredText = getEnglishText("i18n._global.required");
+      await expect(modal.settingError).toContainText(requiredText);
+      await expect(modal.typeError).toContainText(requiredText);
+      await expect(modal.topicsError).toContainText(requiredText);
+    });
+
+    // MARK: Event type step (step 2) - partial submission
+
+    test("selecting only location type leaves event type and topics errors", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+
+      await modal.nameField.fill("E2E Event Type Partial");
+      await modal.descriptionField.fill("Event type partial validation.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.eventTypeForm).toBeVisible();
+
+      // Select location type only.
+      await modal.locationTypeSection
+        .getByRole("radio", { name: /online/i })
+        .click();
+      await modal.getNextStepButton().click();
+
+      // Still on step 2.
+      await expect(modal.eventTypeForm).toBeVisible();
+
+      // Location type is valid - no error for it.
+      await expect(modal.settingError).not.toBeVisible();
+
+      // Event type and topics are still required.
+      await expect(modal.typeError).toBeVisible();
+      await expect(modal.topicsError).toBeVisible();
+    });
+
+    // MARK: Event type step (step 2) - topics type-without-select
+
+    test("typing in topics field without selecting still shows required error", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+
+      await modal.nameField.fill("E2E Topics Partial");
+      await modal.descriptionField.fill("Topics partial validation.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.eventTypeForm).toBeVisible();
+
+      // Select location type and event type (valid), but only type in topics.
+      await modal.locationTypeSection
+        .getByRole("radio", { name: /online/i })
+        .click();
+      await modal.eventTypeSection
+        .getByRole("radio", { name: /learn/i })
+        .click();
+
+      // Type text in the topics combobox without picking an option.
+      // Typed text filters the dropdown but does not commit a selection.
+      await modal.topicsCombobox.locator("input").fill("some topic");
+
+      await modal.getNextStepButton().click();
+
+      // Still on step 2.
+      await expect(modal.eventTypeForm).toBeVisible();
+
+      // Setting and type are valid.
+      await expect(modal.settingError).not.toBeVisible();
+      await expect(modal.typeError).not.toBeVisible();
+
+      // Topics error shows since nothing was actually selected.
+      await expect(modal.topicsError).toBeVisible();
+      const requiredText = getEnglishText("i18n._global.required");
+      await expect(modal.topicsError).toContainText(requiredText);
+    });
+
     // MARK: Link step - invalid URL format
 
     test("entering an invalid URL in the link step shows format error", async ({

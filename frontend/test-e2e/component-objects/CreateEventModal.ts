@@ -24,6 +24,11 @@ export const newCreateEventModal = (page: Page) => {
     descriptionError: root.getByTestId("form-item-description-error"),
     orgsError: root.getByTestId("form-item-orgs-error"),
 
+    // MARK: Validation Errors (step 2 - event type)
+    settingError: root.getByTestId("form-item-setting-error"),
+    typeError: root.getByTestId("form-item-type-error"),
+    topicsError: root.getByTestId("form-item-topics-error"),
+
     // MARK: Validation Errors (step 3 - link online)
     onlineLinkError: root.getByTestId("form-item-onlineLocationLink-error"),
 
