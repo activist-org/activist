@@ -67,15 +67,11 @@ test.describe(
 
       await modal.getNextStepButton().click();
 
-      // Modal stays on step 1 - no entity was created.
       await expect(modal.detailsForm).toBeVisible();
-
-      // All three required fields show inline error messages.
       await expect(modal.nameError).toBeVisible();
       await expect(modal.descriptionError).toBeVisible();
       await expect(modal.organizationError).toBeVisible();
 
-      // Errors contain the expected "Required" text.
       const requiredText = getEnglishText("i18n._global.required");
       await expect(modal.nameError).toContainText(requiredText);
       await expect(modal.descriptionError).toContainText(requiredText);
@@ -91,13 +87,8 @@ test.describe(
       await modal.nameField.fill("E2E Partial Group");
       await modal.getNextStepButton().click();
 
-      // Still on step 1.
       await expect(modal.detailsForm).toBeVisible();
-
-      // Name is valid - no error for it.
       await expect(modal.nameError).not.toBeVisible();
-
-      // Remaining required fields still show errors.
       await expect(modal.descriptionError).toBeVisible();
       await expect(modal.organizationError).toBeVisible();
     });
@@ -112,8 +103,7 @@ test.describe(
       await modal.nameField.fill("E2E Org Partial Group");
       await modal.descriptionField.fill("Org partial validation.");
 
-      // Type text in the org combobox input without picking an option.
-      // The typed text filters the dropdown but does not commit a form value.
+      // Typed text filters the dropdown but does not commit a form value.
       await modal.organizationCombobox.locator("input").fill("Nonexistent Org");
 
       await modal.getNextStepButton().click();
@@ -132,7 +122,6 @@ test.describe(
     }) => {
       const modal = newCreateGroupModal(page);
 
-      // Select an organization so the X clear button appears.
       await selectFirstOrganization(modal);
 
       // Wait for the selection to be reflected: the combobox input must show
@@ -149,10 +138,8 @@ test.describe(
       });
       await orgComboboxButton.locator("span").dispatchEvent("click");
 
-      // Input should now be empty - selection was cleared.
       await expect(orgInput).toHaveValue("", { timeout: 5000 });
 
-      // Submit to trigger validation on the now-empty field.
       await modal.nameField.fill("E2E Clear Org Group");
       await modal.descriptionField.fill("Clear org test.");
       await modal.getNextStepButton().click();
@@ -171,18 +158,15 @@ test.describe(
     }) => {
       const modal = newCreateGroupModal(page);
 
-      // Trigger validation errors first.
       await modal.getNextStepButton().click();
       await expect(modal.nameError).toBeVisible();
 
-      // Fill all required fields.
       await modal.nameField.fill("E2E Corrected Group");
       await modal.descriptionField.fill("Corrected description.");
       await selectFirstOrganization(modal);
 
       await modal.getNextStepButton().click({ force: true });
 
-      // Advanced to step 2 - no inline errors remain.
       await expect(modal.locationForm).toBeVisible();
       await expect(modal.nameError).not.toBeVisible();
       await expect(modal.descriptionError).not.toBeVisible();
@@ -209,9 +193,6 @@ test.describe(
 
       // The input is disabled - inherited from the org, not user-editable.
       await expect(modal.countryField).toBeDisabled();
-
-      // Clicking the combobox button (which previously showed an X clear button)
-      // must not alter the country value.
       const countryComboboxButton = modal.locationForm.getByRole("button", {
         name: new RegExp(
           getEnglishText("i18n.components._global.country"),
@@ -221,8 +202,6 @@ test.describe(
       await countryComboboxButton.click({ force: true });
       await expect(modal.countryField).toHaveValue(countryValue);
 
-      // Submitting with a valid city must not trigger a country error -
-      // the pre-filled disabled value is still submitted correctly.
       await modal.cityField.fill("Berlin");
       await modal.submitLocationButton.click();
 
@@ -248,7 +227,6 @@ test.describe(
       // Wait for any auto-fill from the selected org to complete.
       await expect(modal.countryField).not.toHaveValue("", { timeout: 15000 });
 
-      // Leave city empty and submit.
       await modal.cityField.fill("");
       await modal.submitLocationButton.click();
 

@@ -50,14 +50,10 @@ test.describe(
 
       await modal.getNextStepButton().click();
 
-      // Modal stays on step 1 - no entity was created.
       await expect(modal.detailsForm).toBeVisible();
-
-      // Both required fields show inline error messages.
       await expect(modal.nameError).toBeVisible();
       await expect(modal.descriptionError).toBeVisible();
 
-      // Errors contain the expected "Required" text.
       const requiredText = getEnglishText("i18n._global.required");
       await expect(modal.nameError).toContainText(requiredText);
       await expect(modal.descriptionError).toContainText(requiredText);
@@ -71,13 +67,8 @@ test.describe(
       await modal.nameField.fill("E2E Partial Org");
       await modal.getNextStepButton().click();
 
-      // Still on step 1.
       await expect(modal.detailsForm).toBeVisible();
-
-      // Name is valid - no error for it.
       await expect(modal.nameError).not.toBeVisible();
-
-      // Description still required.
       await expect(modal.descriptionError).toBeVisible();
     });
 
@@ -88,17 +79,14 @@ test.describe(
     }) => {
       const modal = newCreateOrganizationModal(page);
 
-      // Trigger validation errors first.
       await modal.getNextStepButton().click();
       await expect(modal.nameError).toBeVisible();
 
-      // Fill all required fields.
       await modal.nameField.fill("E2E Corrected Org");
       await modal.descriptionField.fill("Corrected description.");
 
       await modal.getNextStepButton().click({ force: true });
 
-      // Advanced to step 2 - no inline errors remain.
       await expect(modal.locationForm).toBeVisible();
       await expect(modal.nameError).not.toBeVisible();
       await expect(modal.descriptionError).not.toBeVisible();
@@ -119,7 +107,6 @@ test.describe(
 
       await modal.submitLocationButton.click();
 
-      // Location form stays visible - no entity was created.
       await expect(modal.locationForm).toBeVisible();
       await expect(modal.countryError).toBeVisible();
       await expect(modal.cityError).toBeVisible();
@@ -138,7 +125,6 @@ test.describe(
 
       await expect(modal.locationForm).toBeVisible();
 
-      // Select a country so the X clear button appears on the combobox button.
       const countryComboboxButton = modal.locationForm.getByRole("button", {
         name: new RegExp(
           getEnglishText("i18n.components._global.country"),
@@ -157,7 +143,6 @@ test.describe(
       await expect(modal.countryField).not.toHaveValue("", { timeout: 5000 });
       await countryComboboxButton.locator("span").dispatchEvent("click");
 
-      // Submit to trigger validation.
       await modal.cityField.fill("Berlin");
       await modal.submitLocationButton.click();
 
@@ -182,8 +167,7 @@ test.describe(
 
       await expect(modal.locationForm).toBeVisible();
 
-      // Type text directly into the combobox input without picking an option.
-      // The typed text filters the dropdown but does not commit a form value.
+      // Typed text filters the dropdown but does not commit a form value.
       await modal.countryField.fill("Germ");
       await modal.cityField.fill("Berlin");
       await modal.submitLocationButton.click();
@@ -191,8 +175,6 @@ test.describe(
       // Typed text ≠ valid selection: country error must still appear.
       await expect(modal.locationForm).toBeVisible();
       await expect(modal.countryError).toBeVisible();
-
-      // City was filled correctly - no city error.
       await expect(modal.cityError).not.toBeVisible();
     });
   }

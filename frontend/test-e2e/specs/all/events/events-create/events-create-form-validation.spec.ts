@@ -46,13 +46,11 @@ async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
 async function navigateToTimeStep(
   modal: ReturnType<typeof newCreateEventModal>
 ) {
-  // Step 1: details.
   await modal.nameField.fill("E2E Time Validation Event");
   await modal.descriptionField.fill("Time step validation test.");
   await selectFirstOrganization(modal);
   await modal.getNextStepButton().click({ force: true });
 
-  // Step 2: event type - select online, event type, and topic (all required).
   await expect(modal.eventTypeForm).toBeVisible();
   await modal.locationTypeSection
     .getByRole("radio", { name: /online/i })
@@ -61,12 +59,10 @@ async function navigateToTimeStep(
   await selectFirstTopic(modal);
   await modal.getNextStepButton().click({ force: true });
 
-  // Step 3: link online.
   await expect(modal.linkOnlineForm).toBeVisible();
   await modal.onlineLinkField.fill("https://example.com/time-validation");
   await modal.getNextStepButton().click();
 
-  // Now on step 4: time.
   await expect(modal.timeForm).toBeVisible();
 }
 
@@ -113,15 +109,11 @@ test.describe(
 
       await modal.getNextStepButton().click();
 
-      // Modal stays on step 1 - no entity was created.
       await expect(modal.eventDetailsForm).toBeVisible();
-
-      // All required fields show inline error messages.
       await expect(modal.nameError).toBeVisible();
       await expect(modal.descriptionError).toBeVisible();
       await expect(modal.orgsError).toBeVisible();
 
-      // Errors contain the expected "Required" text.
       const requiredText = getEnglishText("i18n._global.required");
       await expect(modal.nameError).toContainText(requiredText);
       await expect(modal.descriptionError).toContainText(requiredText);
@@ -137,13 +129,8 @@ test.describe(
       await modal.nameField.fill("E2E Partial Event");
       await modal.getNextStepButton().click();
 
-      // Still on step 1.
       await expect(modal.eventDetailsForm).toBeVisible();
-
-      // Name is valid - no error for it.
       await expect(modal.nameError).not.toBeVisible();
-
-      // Remaining required fields still show errors.
       await expect(modal.descriptionError).toBeVisible();
       await expect(modal.orgsError).toBeVisible();
     });
@@ -155,21 +142,15 @@ test.describe(
     }) => {
       const modal = newCreateEventModal(page);
 
-      // Navigate through step 1.
       await modal.nameField.fill("E2E Event Type Validation");
       await modal.descriptionField.fill("Event type step validation test.");
       await selectFirstOrganization(modal);
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.eventTypeForm).toBeVisible();
-
-      // Click next without filling any of the three required fields.
       await modal.getNextStepButton().click();
 
-      // Still on step 2.
       await expect(modal.eventTypeForm).toBeVisible();
-
-      // All three required fields show inline errors.
       await expect(modal.settingError).toBeVisible();
       await expect(modal.typeError).toBeVisible();
       await expect(modal.topicsError).toBeVisible();
@@ -193,20 +174,13 @@ test.describe(
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.eventTypeForm).toBeVisible();
-
-      // Select location type only.
       await modal.locationTypeSection
         .getByRole("radio", { name: /online/i })
         .click();
       await modal.getNextStepButton().click();
 
-      // Still on step 2.
       await expect(modal.eventTypeForm).toBeVisible();
-
-      // Location type is valid - no error for it.
       await expect(modal.settingError).not.toBeVisible();
-
-      // Event type and topics are still required.
       await expect(modal.typeError).toBeVisible();
       await expect(modal.topicsError).toBeVisible();
     });
@@ -225,7 +199,6 @@ test.describe(
 
       await expect(modal.eventTypeForm).toBeVisible();
 
-      // Select location type and event type (valid), but only type in topics.
       await modal.locationTypeSection
         .getByRole("radio", { name: /online/i })
         .click();
@@ -233,20 +206,14 @@ test.describe(
         .getByRole("radio", { name: /learn/i })
         .click();
 
-      // Type text in the topics combobox without picking an option.
       // Typed text filters the dropdown but does not commit a selection.
       await modal.topicsCombobox.locator("input").fill("some topic");
 
       await modal.getNextStepButton().click();
 
-      // Still on step 2.
       await expect(modal.eventTypeForm).toBeVisible();
-
-      // Setting and type are valid.
       await expect(modal.settingError).not.toBeVisible();
       await expect(modal.typeError).not.toBeVisible();
-
-      // Topics error shows since nothing was actually selected.
       await expect(modal.topicsError).toBeVisible();
       const requiredText = getEnglishText("i18n._global.required");
       await expect(modal.topicsError).toContainText(requiredText);
@@ -259,7 +226,6 @@ test.describe(
     }) => {
       const modal = newCreateEventModal(page);
 
-      // Navigate through steps 1 and 2 to reach the link online step.
       await modal.nameField.fill("E2E URL Validation Event");
       await modal.descriptionField.fill("URL format validation test.");
       await selectFirstOrganization(modal);
@@ -276,12 +242,9 @@ test.describe(
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.linkOnlineForm).toBeVisible();
-
-      // Enter a string that is not a valid URL.
       await modal.onlineLinkField.fill("not-a-url");
       await modal.getNextStepButton().click();
 
-      // Link form stays visible - format error appears.
       await expect(modal.linkOnlineForm).toBeVisible();
       await expect(modal.onlineLinkError).toBeVisible();
       await expect(modal.onlineLinkError).toContainText(/valid url/i);
@@ -297,10 +260,7 @@ test.describe(
 
       await modal.getNextStepButton().click();
 
-      // Time form stays visible - no event was created.
       await expect(modal.timeForm).toBeVisible();
-
-      // Dates field shows inline error.
       await expect(modal.datesError).toBeVisible();
     });
 
@@ -311,18 +271,15 @@ test.describe(
     }) => {
       const modal = newCreateEventModal(page);
 
-      // Trigger validation errors first.
       await modal.getNextStepButton().click();
       await expect(modal.nameError).toBeVisible();
 
-      // Fill all required fields.
       await modal.nameField.fill("E2E Corrected Event");
       await modal.descriptionField.fill("Corrected description.");
       await selectFirstOrganization(modal);
 
       await modal.getNextStepButton().click({ force: true });
 
-      // Advanced past step 1 - details form is no longer the active step.
       await expect(modal.eventDetailsForm).not.toBeVisible();
       await expect(modal.nameError).not.toBeVisible();
       await expect(modal.descriptionError).not.toBeVisible();
