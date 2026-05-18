@@ -41,9 +41,31 @@ export const newCreateEventModal = (page: Page) => {
     eventTypeSection: root.getByTestId("events-filter-event-type"),
     topicsCombobox: root.locator("#form-item-topics"),
 
-    // MARK: Location
+    // MARK: Location (in-person path)
+    locationSearchForm: root.locator("#search-location"),
+    // input#form-item-country narrows to the <input> only, avoiding the strict
+    // mode violation caused by FormSelectorComboboxCountry rendering both a
+    // wrapper div and an inner input with the same id.
+    countrySearchField: root.locator("input#form-item-country"),
+    citySearchField: root.locator("#form-item-city"),
+    streetSearchField: root.locator("#form-item-street"),
+    // The Form component sets id="{form-id}-submit" on its submit button.
+    locationSearchButton: root.locator("#search-location-submit"),
     locationForm: root.locator("#event-location"),
     locationField: root.locator("#form-item-location"),
+    locationResultsGroup: root.locator("#form-item-location"),
+
+    // MARK: Validation Errors (location search form)
+    countrySearchError: root.getByTestId("form-item-country-error"),
+    citySearchError: root.getByTestId("form-item-city-error"),
+    streetSearchError: root.getByTestId("form-item-street-error"),
+
+    // MARK: Validation Errors (location picker - form-item-location)
+    locationError: root.getByTestId("form-item-location-error"),
+
+    // The location step has two Form submit buttons (search + picker). Use
+    // the picker form's id directly to avoid a strict mode violation.
+    locationNextButton: root.locator("#event-location-submit"),
 
     // MARK: Link Online
     linkOnlineForm: root.locator("#event-link-online"),
