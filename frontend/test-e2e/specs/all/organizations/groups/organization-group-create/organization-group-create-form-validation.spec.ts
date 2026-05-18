@@ -126,5 +126,31 @@ test.describe(
       await expect(modal.descriptionError).not.toBeVisible();
       await expect(modal.organizationError).not.toBeVisible();
     });
+
+    // MARK: Location step - empty city
+    // Note: The group's country field is always disabled (inherited from the
+    // selected org and non-editable). Only the city field can be validated.
+
+    test("submitting location step without city shows city error", async ({
+      page,
+    }) => {
+      const modal = newCreateGroupModal(page);
+
+      await modal.nameField.fill("E2E City Validation Group");
+      await modal.descriptionField.fill("City validation test.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.locationForm).toBeVisible();
+      // Wait for any auto-fill from the selected org to complete.
+      await expect(modal.countryField).not.toHaveValue("", { timeout: 15000 });
+
+      // Leave city empty and submit.
+      await modal.cityField.fill("");
+      await modal.submitLocationButton.click();
+
+      await expect(modal.locationForm).toBeVisible();
+      await expect(modal.cityError).toBeVisible();
+    });
   }
 );

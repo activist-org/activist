@@ -148,6 +148,41 @@ test.describe(
       await expect(modal.orgsError).toBeVisible();
     });
 
+    // MARK: Link step - invalid URL format
+
+    test("entering an invalid URL in the link step shows format error", async ({
+      page,
+    }) => {
+      const modal = newCreateEventModal(page);
+
+      // Navigate through steps 1 and 2 to reach the link online step.
+      await modal.nameField.fill("E2E URL Validation Event");
+      await modal.descriptionField.fill("URL format validation test.");
+      await selectFirstOrganization(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.eventTypeForm).toBeVisible();
+      await modal.locationTypeSection
+        .getByRole("radio", { name: /online/i })
+        .click();
+      await modal.eventTypeSection
+        .getByRole("radio", { name: /learn/i })
+        .click();
+      await selectFirstTopic(modal);
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.linkOnlineForm).toBeVisible();
+
+      // Enter a string that is not a valid URL.
+      await modal.onlineLinkField.fill("not-a-url");
+      await modal.getNextStepButton().click();
+
+      // Link form stays visible - format error appears.
+      await expect(modal.linkOnlineForm).toBeVisible();
+      await expect(modal.onlineLinkError).toBeVisible();
+      await expect(modal.onlineLinkError).toContainText(/valid url/i);
+    });
+
     // MARK: Time step validation
 
     test("submitting time step without selecting dates shows date error", async ({

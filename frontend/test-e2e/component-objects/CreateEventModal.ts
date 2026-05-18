@@ -19,10 +19,15 @@ export const newCreateEventModal = (page: Page) => {
     orgsCombobox: root.locator("#form-item-orgs"),
     groupsCombobox: root.locator("#form-item-groups"),
 
-    // MARK: Validation Errors
+    // MARK: Validation Errors (step 1)
     nameError: root.getByTestId("form-item-name-error"),
     descriptionError: root.getByTestId("form-item-description-error"),
     orgsError: root.getByTestId("form-item-orgs-error"),
+
+    // MARK: Validation Errors (step 3 - link online)
+    onlineLinkError: root.getByTestId("form-item-onlineLocationLink-error"),
+
+    // MARK: Validation Errors (step 4 - time)
     datesError: root.getByTestId("form-item-dates-error"),
 
     // MARK: Event Type

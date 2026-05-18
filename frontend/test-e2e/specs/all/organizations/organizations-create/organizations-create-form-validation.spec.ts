@@ -103,5 +103,53 @@ test.describe(
       await expect(modal.nameError).not.toBeVisible();
       await expect(modal.descriptionError).not.toBeVisible();
     });
+
+    // MARK: Location step - empty submission
+
+    test("submitting empty location step shows country and city errors", async ({
+      page,
+    }) => {
+      const modal = newCreateOrganizationModal(page);
+
+      await modal.nameField.fill("E2E Location Validation Org");
+      await modal.descriptionField.fill("Location validation test.");
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.locationForm).toBeVisible();
+
+      await modal.submitLocationButton.click();
+
+      // Location form stays visible - no entity was created.
+      await expect(modal.locationForm).toBeVisible();
+      await expect(modal.countryError).toBeVisible();
+      await expect(modal.cityError).toBeVisible();
+    });
+
+    // MARK: Location step - typed text without selection
+
+    test("typing in country field without selecting from list still shows country error", async ({
+      page,
+    }) => {
+      const modal = newCreateOrganizationModal(page);
+
+      await modal.nameField.fill("E2E Country Partial Org");
+      await modal.descriptionField.fill("Country partial validation.");
+      await modal.getNextStepButton().click({ force: true });
+
+      await expect(modal.locationForm).toBeVisible();
+
+      // Type text directly into the combobox input without picking an option.
+      // The typed text filters the dropdown but does not commit a form value.
+      await modal.countryField.fill("Germ");
+      await modal.cityField.fill("Berlin");
+      await modal.submitLocationButton.click();
+
+      // Typed text ≠ valid selection: country error must still appear.
+      await expect(modal.locationForm).toBeVisible();
+      await expect(modal.countryError).toBeVisible();
+
+      // City was filled correctly - no city error.
+      await expect(modal.cityError).not.toBeVisible();
+    });
   }
 );
