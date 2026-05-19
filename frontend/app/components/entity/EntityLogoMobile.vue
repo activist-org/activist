@@ -83,19 +83,9 @@ const entityLogoAlt = computed(() =>
   })
 );
 
-const editAriaLabel = computed(() => {
-  if (props.entityType === EntityType.ORGANIZATION) {
-    return t(
-      "i18n.components.sidebar_left_content_organization.edit_aria_label"
-    );
-  }
-
-  if (props.entityType === EntityType.EVENT) {
-    return t("i18n.components.sidebar_left_content_event.edit_aria_label");
-  }
-
-  return t("i18n.components.sidebar_left_content_group_page.edit_aria_label");
-});
+const editAriaLabel = computed(() =>
+  t("i18n.components._global.edit_aria_label")
+);
 
 function handleEdit(): void {
   if (!props.entity?.id) {

@@ -67,6 +67,7 @@
   "i18n.components._global.documentation": "Документація",
   "i18n.components._global.draggable_element": "Перетягуваний елемент сторінки",
   "i18n.components._global.drop_image": "Перетягніть зображення сюди, щоб додати його",
+  "i18n.components._global.edit_aria_label": "Редагувати зображення",
   "i18n.components._global.event_type": "Тип події",
   "i18n.components._global.event_type_action_aria_label": "Дієвий тип події",
   "i18n.components._global.event_type_learn_aria_label": "Навчальний тип події",
