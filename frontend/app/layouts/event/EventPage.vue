@@ -14,6 +14,14 @@
         class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
+        <EntityLogoMobile
+          v-if="showMobileEntityShortcut"
+          :entity="event"
+          :entityType="EntityType.EVENT"
+          :eventType="event?.type"
+          :imgUrl="eventIconUrl"
+          :tagline="event?.tagline"
+        />
         <NuxtPage :event="event" />
       </div>
       <FooterWebsite
@@ -27,10 +35,26 @@
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
 
-const paramsEventId = useRoute().params.eventId;
+const route = useRoute();
+const paramsEventId = route.params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const { data: event } = useGetEvent(eventId || "");
+
+const eventIconUrl = computed(() =>
+  event.value?.iconUrl?.fileObject
+    ? `/api/${event.value.iconUrl.fileObject}`
+    : ""
+);
+
+const normalizedRoutePath = computed(() => route.path.replace(/\/$/, ""));
+const showMobileEntityShortcut = computed(
+  () =>
+    !aboveMediumBP.value &&
+    !!event.value &&
+    !!eventId &&
+    !normalizedRoutePath.value.endsWith(`/events/${eventId}`)
+);
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

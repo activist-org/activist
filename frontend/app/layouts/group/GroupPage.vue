@@ -17,6 +17,13 @@
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
+        <EntityLogoMobile
+          v-if="showMobileEntityShortcut"
+          :entity="group"
+          :entityType="EntityType.GROUP"
+          :imgUrl="groupIconUrl"
+          :tagline="group?.tagline"
+        />
         <NuxtPage />
       </div>
       <FooterWebsite
@@ -34,6 +41,15 @@ const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 const { data: group } = useGetGroup(groupId ?? "");
 const { data: images } = useGetGroupImages(groupId ?? "");
+
+const groupIconUrl = computed(() =>
+  group.value?.iconUrl?.fileObject
+    ? `/api/${group.value.iconUrl.fileObject}`
+    : ""
+);
+const showMobileEntityShortcut = computed(
+  () => !aboveMediumBP.value && !!group.value
+);
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");

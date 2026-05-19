@@ -14,6 +14,13 @@
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
+        <EntityLogoMobile
+          v-if="showMobileEntityShortcut"
+          :entity="organization"
+          :entityType="EntityType.ORGANIZATION"
+          :imgUrl="organizationIconUrl"
+          :tagline="organization?.tagline"
+        />
         <NuxtPage :organization="organization" />
       </div>
       <FooterWebsite
@@ -27,10 +34,26 @@
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
 
-const paramsOrgId = useRoute().params.orgId;
+const route = useRoute();
+const paramsOrgId = route.params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const { data: organization } = useGetOrganization(orgId || "");
+
+const organizationIconUrl = computed(() =>
+  organization.value?.iconUrl?.fileObject
+    ? `/api/${organization.value.iconUrl.fileObject}`
+    : ""
+);
+
+const normalizedRoutePath = computed(() => route.path.replace(/\/$/, ""));
+const showMobileEntityShortcut = computed(
+  () =>
+    !aboveMediumBP.value &&
+    !!organization.value &&
+    !!orgId &&
+    !normalizedRoutePath.value.endsWith(`/organizations/${orgId}`)
+);
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
