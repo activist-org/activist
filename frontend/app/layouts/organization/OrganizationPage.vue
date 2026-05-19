@@ -18,7 +18,7 @@
           v-if="showMobileEntityShortcut"
           @edit="handleEditOrganizationLogo"
           :entity="organization"
-          :fallbackIcon="IconMap.ORGANIZATION"
+          :icon="IconMap.ORGANIZATION"
           :imgUrl="organizationIconUrl"
           :tagline="organization?.tagline"
         />

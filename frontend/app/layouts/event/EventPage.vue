@@ -19,7 +19,7 @@
           @edit="handleEditEventLogo"
           :accentClass="eventLogoAccentClass"
           :entity="event"
-          :fallbackIcon="IconMap.EVENT"
+          :icon="IconMap.EVENT"
           :imgUrl="eventIconUrl"
           :tagline="event?.tagline"
         />

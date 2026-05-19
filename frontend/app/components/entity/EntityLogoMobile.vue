@@ -27,7 +27,7 @@
             class="flex h-full items-center justify-center text-primary-text"
             :class="fallbackClass"
           >
-            <Icon :name="fallbackIcon" size="2.75em" />
+            <Icon :name="icon" size="2.75em" />
           </div>
         </div>
         <button
@@ -57,7 +57,7 @@
 const props = defineProps<{
   entity: Entity | null;
   accentClass?: string;
-  fallbackIcon: string;
+  icon: string;
   imgUrl?: string;
   tagline?: string;
 }>();

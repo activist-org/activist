@@ -1,35 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { mount } from "@vue/test-utils";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import EntityLogoMobile from "../../../app/components/entity/EntityLogoMobile.vue";
-import { EntityType } from "../../../shared/types/entity";
 import { createUseUserSessionMock } from "../../mocks/composableMocks";
-
-const { openModal, showToastError } = vi.hoisted(() => ({
-  openModal: vi.fn(),
-  showToastError: vi.fn(),
-}));
-
-mockNuxtImport("useModalHandlers", () => () => ({ openModal }));
-mockNuxtImport("useToaster", () => () => ({ showToastError }));
-
-const imageOrganizationStub = {
-  props: ["alt", "imgUrl"],
-  template: '<img data-testid="organization-logo" :alt="alt" :src="imgUrl" />',
-};
-
-const imageEventStub = {
-  props: ["alt", "eventType", "imgUrl"],
-  template:
-    '<img data-testid="event-logo" :alt="alt" :data-event-type="eventType" :src="imgUrl" />',
-};
 
 type MobileEntityLogoProps = {
   entity: { id: string; name: string; createdBy: string } | null;
-  entityType: EntityType;
-  eventType?: "action" | "learn";
+  icon: string;
   imgUrl?: string;
   tagline?: string;
 };
@@ -40,8 +18,6 @@ function mountEntityLogoMobile(props: MobileEntityLogoProps) {
     global: {
       stubs: {
         Icon: true,
-        ImageEvent: imageEventStub,
-        ImageOrganization: imageOrganizationStub,
       },
     },
   });
@@ -49,54 +25,45 @@ function mountEntityLogoMobile(props: MobileEntityLogoProps) {
 
 describe("EntityLogoMobile.vue", () => {
   beforeEach(() => {
-    openModal.mockClear();
-    showToastError.mockClear();
-
     globalThis.useUserSession = createUseUserSessionMock(true, {
       id: "user-1",
       isAdmin: true,
     });
   });
 
-  it("opens the icon upload modal for editable organizations", async () => {
+  it("renders the image and emits edit when the editable shortcut is clicked", async () => {
     const wrapper = mountEntityLogoMobile({
       entity: { id: "org-1", name: "Food Collective", createdBy: "user-1" },
-      entityType: EntityType.ORGANIZATION,
+      icon: "bi:building",
       imgUrl: "/api/org-icon.png",
       tagline: "Local mutual aid",
     });
 
-    expect(
-      wrapper.get('[data-testid="organization-logo"]').attributes("src")
-    ).toBe("/api/org-icon.png");
+    expect(wrapper.get("img").attributes("src")).toBe("/api/org-icon.png");
+    expect(wrapper.get("img").attributes("alt")).toContain("Food Collective");
 
     await wrapper
       .get('[data-testid="entity-logo-mobile-edit"]')
       .trigger("click");
 
-    expect(openModal).toHaveBeenCalledWith({
-      entityId: "org-1",
-      entityType: EntityType.ORGANIZATION,
-    });
+    expect(wrapper.emitted("edit")).toHaveLength(1);
   });
 
-  it("uses the existing coming-soon behavior for editable groups", async () => {
+  it("renders the provided icon when there is no image URL", () => {
     const wrapper = mountEntityLogoMobile({
       entity: {
         id: "group-1",
         name: "Neighborhood Group",
         createdBy: "user-1",
       },
-      entityType: EntityType.GROUP,
+      icon: "bi:people",
       imgUrl: "",
     });
 
-    await wrapper
-      .get('[data-testid="entity-logo-mobile-edit"]')
-      .trigger("click");
-
-    expect(showToastError).toHaveBeenCalledWith("THIS FEATURE IS COMING SOON!");
-    expect(openModal).not.toHaveBeenCalled();
+    expect(wrapper.find("img").exists()).toBe(false);
+    expect(wrapper.getComponent({ name: "Icon" }).attributes("name")).toBe(
+      "bi:people"
+    );
   });
 
   it("hides the edit shortcut when the user cannot edit the entity", () => {
@@ -107,8 +74,7 @@ describe("EntityLogoMobile.vue", () => {
 
     const wrapper = mountEntityLogoMobile({
       entity: { id: "event-1", name: "Repair Workshop", createdBy: "user-1" },
-      entityType: EntityType.EVENT,
-      eventType: "learn",
+      icon: "bi:calendar-event",
       imgUrl: "/api/event-icon.png",
     });
 

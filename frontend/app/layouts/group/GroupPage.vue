@@ -21,7 +21,7 @@
           v-if="showMobileEntityShortcut"
           @edit="handleEditGroupLogo"
           :entity="group"
-          :fallbackIcon="IconMap.GROUP"
+          :icon="IconMap.GROUP"
           :imgUrl="groupIconUrl"
           :tagline="group?.tagline"
         />
