@@ -7,35 +7,27 @@
   >
     <div class="flex items-center gap-3">
       <div class="relative h-16 w-16 shrink-0">
-        <ImageOrganization
-          v-if="entityType === EntityType.ORGANIZATION"
-          :alt="entityLogoAlt"
-          class="elem-shadow-sm"
-          :imgUrl="imgUrl"
-        />
-        <ImageEvent
-          v-else-if="entityType === EntityType.EVENT"
-          :alt="entityLogoAlt"
-          class="elem-shadow-sm"
-          :eventType="eventType || 'action'"
-          :imgUrl="imgUrl"
-          size="2.75em"
-        />
         <div
-          v-else
-          class="flex h-full w-full justify-center rounded-md border border-section-div bg-layer-0"
+          class="flex h-full w-full justify-center overflow-hidden rounded-md border border-section-div bg-layer-0 elem-shadow-sm"
         >
+          <div
+            v-if="accentClass"
+            class="h-full w-[20%] rounded-l-md"
+            :class="accentClass"
+          ></div>
           <img
             v-if="imgUrl"
             :alt="entityLogoAlt"
-            class="h-full w-full rounded-md object-cover"
+            class="h-full object-cover"
+            :class="imageClass"
             :src="imgUrl"
           />
           <div
             v-else
-            class="flex h-full w-full items-center justify-center text-primary-text"
+            class="flex h-full items-center justify-center text-primary-text"
+            :class="fallbackClass"
           >
-            <Icon :name="IconMap.GROUP" size="2.75em" />
+            <Icon :name="fallbackIcon" size="2.75em" />
           </div>
         </div>
         <button
@@ -64,18 +56,21 @@
 <script setup lang="ts">
 const props = defineProps<{
   entity: Entity | null;
-  entityType: EntityType;
-  eventType?: EventType;
+  accentClass?: string;
+  fallbackIcon: string;
   imgUrl?: string;
   tagline?: string;
 }>();
 
-const { openModal } = useModalHandlers("ModalUploadImageIcon");
-const { showToastError } = useToaster();
+const emit = defineEmits(["edit"]);
 const { canEdit } = useUser();
 const { t } = useI18n();
 
 const canEditEntity = computed(() => canEdit(props.entity));
+const imageClass = computed(() => (props.accentClass ? "w-[80%]" : "w-full"));
+const fallbackClass = computed(() =>
+  props.accentClass ? "w-[80%] rounded-r-md" : "w-full"
+);
 
 const entityLogoAlt = computed(() =>
   t("i18n._global.entity_logo", {
@@ -88,18 +83,6 @@ const editAriaLabel = computed(() =>
 );
 
 function handleEdit(): void {
-  if (!props.entity?.id) {
-    return;
-  }
-
-  if (props.entityType === EntityType.GROUP) {
-    showToastError("THIS FEATURE IS COMING SOON!");
-    return;
-  }
-
-  openModal({
-    entityId: props.entity.id,
-    entityType: props.entityType,
-  });
+  emit("edit");
 }
 </script>

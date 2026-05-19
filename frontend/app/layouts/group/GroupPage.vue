@@ -19,8 +19,9 @@
       >
         <EntityLogoMobile
           v-if="showMobileEntityShortcut"
+          @edit="handleEditGroupLogo"
           :entity="group"
-          :entityType="EntityType.GROUP"
+          :fallbackIcon="IconMap.GROUP"
           :imgUrl="groupIconUrl"
           :tagline="group?.tagline"
         />
@@ -61,4 +62,9 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+const { showToastError } = useToaster();
+
+function handleEditGroupLogo(): void {
+  showToastError("THIS FEATURE IS COMING SOON!");
+}
 </script>

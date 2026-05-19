@@ -16,9 +16,10 @@
       >
         <EntityLogoMobile
           v-if="showMobileEntityShortcut"
+          @edit="handleEditEventLogo"
+          :accentClass="eventLogoAccentClass"
           :entity="event"
-          :entityType="EntityType.EVENT"
-          :eventType="event?.type"
+          :fallbackIcon="IconMap.EVENT"
           :imgUrl="eventIconUrl"
           :tagline="event?.tagline"
         />
@@ -46,6 +47,9 @@ const eventIconUrl = computed(() =>
     ? `/api/${event.value.iconUrl.fileObject}`
     : ""
 );
+const eventLogoAccentClass = computed(() =>
+  event.value?.type === "learn" ? "bg-learn-blue" : "bg-action-red"
+);
 
 const normalizedRoutePath = computed(() => route.path.replace(/\/$/, ""));
 const showMobileEntityShortcut = computed(
@@ -66,4 +70,17 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
+function handleEditEventLogo(): void {
+  if (!event.value?.id) {
+    return;
+  }
+
+  openModal({
+    entityId: event.value.id,
+    entityType: EntityType.EVENT,
+  });
+}
 </script>

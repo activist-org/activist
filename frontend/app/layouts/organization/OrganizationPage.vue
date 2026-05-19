@@ -16,8 +16,9 @@
       >
         <EntityLogoMobile
           v-if="showMobileEntityShortcut"
+          @edit="handleEditOrganizationLogo"
           :entity="organization"
-          :entityType="EntityType.ORGANIZATION"
+          :fallbackIcon="IconMap.ORGANIZATION"
           :imgUrl="organizationIconUrl"
           :tagline="organization?.tagline"
         />
@@ -65,4 +66,17 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
+function handleEditOrganizationLogo(): void {
+  if (!organization.value?.id) {
+    return;
+  }
+
+  openModal({
+    entityId: organization.value.id,
+    entityType: EntityType.ORGANIZATION,
+  });
+}
 </script>
