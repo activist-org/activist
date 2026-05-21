@@ -21,8 +21,16 @@
             {{ $t("i18n.components.card_details.header") }}
           </h3>
           <IconEdit
-            @click="openModalTextEvent()"
-            @keydown.enter="openModalTextEvent()"
+            @click="
+              openModalTextEvent({
+                entityId: event?.id,
+              })
+            "
+            @keydown.enter="
+              openModalTextEvent({
+                entityId: event?.id,
+              })
+            "
             :entity="event"
           />
         </div>
@@ -37,17 +45,12 @@
             />
             <button
               v-if="event.orgs.length > 1"
-              @click="openModalOrganizationOverview()"
-              @keydown.enter="openModalOrganizationOverview()"
+              @click="openModalOrganizationOverview({event: event})"
+              @keydown.enter="openModalOrganizationOverview({event: event})"
               class="text-sm font-semibold text-black"
             >
               (+{{ event.orgs.length - 1 }} more)
             </button> -->
-            <ModalOrganizationOverview
-              @closeModal="openModalOrganizationOverview()"
-              :cta="true"
-              :event="event"
-            />
           </div>
           <!-- <MetaTagAttendance
             :numAttending="event.attendees ? event.attendees.length : 0"
@@ -76,18 +79,16 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{
+  event: CommunityEvent | null;
+}>();
+
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
-const { openModal: openModalOrganizationOverview } = useModalHandlers(
-  "ModalOrganizationOverview"
-);
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
-const { data: event } = useGetEvent(eventId);
-
+const eventForLinkURL = computed(() => props.event);
 const { linkUrl: eventLinkUrl } = useLinkURL({
   get event() {
-    return event.value ?? undefined;
+    return eventForLinkURL.value ?? undefined;
   },
 });
 </script>

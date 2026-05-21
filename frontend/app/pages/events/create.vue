@@ -95,7 +95,8 @@
             />
           </div>
           <div class="mx-14 mt-5 w-full">
-            <CardConnectEvent />
+            <!-- NOTE: The page should be deleted according to the new designs, but leaving this here for now in case we want to an overview of old designs -->
+            <!-- <CardConnectEvent /> -->
           </div>
           <div class="card-style mx-14 mt-5 w-full px-5 py-6">
             <h3 class="block font-medium" for="description">

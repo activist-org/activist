@@ -127,7 +127,8 @@
         </div>
         <!-- MARK: Connect -->
         <div class="mt-5">
-          <CardConnectOrganization />
+          <!-- NOTE: The page should be deleted according to the new designs, but leaving this here for now in case we want to an overview of old designs -->
+          <!-- <CardConnectOrganization /> -->
         </div>
         <!-- MARK: Terms -->
         <div class="mt-5 flex flex-col">

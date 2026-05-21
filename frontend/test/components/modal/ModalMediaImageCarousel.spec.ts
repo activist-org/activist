@@ -4,7 +4,7 @@ import type { VueWrapper } from "@vue/test-utils";
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 
-import ModalMediaImageCarousel from "../../../app/components/modal/ModalMediaImageCarousel.vue";
+import ModalMediaImageCarousel from "../../../app/components/modal/ModalMediaImage.vue";
 import { EntityType } from "../../../shared/types/entity";
 
 // MARK: Stubs

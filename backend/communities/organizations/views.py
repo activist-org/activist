@@ -6,7 +6,7 @@ API views for organization management.
 
 import logging
 import os
-from typing import Type
+from typing import Any, Sequence, Type
 from uuid import UUID
 
 from django.contrib.auth.models import AnonymousUser
@@ -24,7 +24,11 @@ from drf_spectacular.utils import (
 from rest_framework import status, viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -235,6 +239,19 @@ class OrganizationDetailAPIView(APIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
+    def get_permissions(self) -> Sequence[Any]:
+        """
+        Return permissions based on the HTTP method.
+
+        Returns
+        -------
+        Sequence[Any]
+            AllowAny for GET requests, IsAuthenticated for PUT and DELETE.
+        """
+        if self.request.method in ("PUT", "DELETE"):
+            return [IsAuthenticated()]
+        return [AllowAny()]
+
     @extend_schema(
         summary="Retrieve a single organization by ID",
         responses={
@@ -296,6 +313,19 @@ class OrganizationDetailAPIView(APIView):
                     )
                 ],
             ),
+            403: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="You are not authorized to update this organization",
+                examples=[
+                    OpenApiExample(
+                        name="Forbidden",
+                        value={
+                            "detail": "You are not authorized to update this organization."
+                        },
+                        media_type="application/json",
+                    )
+                ],
+            ),
             404: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
                 description="Organization not found",
@@ -328,7 +358,7 @@ class OrganizationDetailAPIView(APIView):
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to update this organization."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         serializer = self.serializer_class(org, data=request.data, partial=True)
@@ -340,7 +370,7 @@ class OrganizationDetailAPIView(APIView):
     @extend_schema(
         summary="Delete an organization by ID",
         responses={
-            200: OpenApiResponse(
+            204: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
                 description="Organization deleted successfully",
                 examples=[
@@ -362,12 +392,12 @@ class OrganizationDetailAPIView(APIView):
                     )
                 ],
             ),
-            401: OpenApiResponse(
+            403: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
                 description="You are not authorized to delete this organization",
                 examples=[
                     OpenApiExample(
-                        name="Unauthorized",
+                        name="Forbidden",
                         value={
                             "detail": "You are not authorized to delete this organization."
                         },
@@ -407,7 +437,7 @@ class OrganizationDetailAPIView(APIView):
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to delete this organization."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status

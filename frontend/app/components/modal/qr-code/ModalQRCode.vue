@@ -92,31 +92,21 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const { context } = useModalHandlers("ModalQRCode");
+const props = defineProps<{
+  firstParagraph?: string;
+  secondParagraph?: string;
+  reasonForSuggesting?: string;
+  linkUrl?: string;
+  fileName?: string;
+}>();
 
-const props = computed(() => {
-  const modalProps = (context.value ?? {}) as {
-    firstParagraph?: string;
-    secondParagraph?: string;
-    reasonForSuggesting?: string;
-    linkUrl?: string;
-    fileName?: string;
-  };
-  return {
-    firstParagraph: modalProps.firstParagraph || "",
-    secondParagraph: modalProps.secondParagraph || "",
-    reasonForSuggesting: modalProps.reasonForSuggesting || "",
-    linkUrl: modalProps.linkUrl || "",
-    fileName: modalProps.fileName || "",
-  };
-});
 const aboveMediumBP = useBreakpoint("md");
 const modalName = "ModalQRCode";
 
-const qrCodeFileName = computed(() => props.value.fileName);
+const qrCodeFileName = computed(() => props.fileName);
 
 const { qrcode, showTooltip, availableFormats, downloadQRCode, onImageClick } =
-  useQRCode(qrCodeFileName);
+  useQRCode(qrCodeFileName.value ?? "");
 
 const handleMainBtnClicked = () => {
   downloadQRCode("PNG");

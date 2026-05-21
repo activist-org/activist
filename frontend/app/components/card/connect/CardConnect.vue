@@ -7,8 +7,18 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        @click="openModalSocialLinks"
-        @keydown.enter="openModalSocialLinks"
+        @click="
+          () =>
+            openModalSocialLinks({
+              entityId: entity?.id ?? '',
+            })
+        "
+        @keydown.enter="
+          () =>
+            openModalSocialLinks({
+              entityId: entity?.id ?? '',
+            })
+        "
         class="flex"
         data-testid="icon-edit"
         :entity="entity"

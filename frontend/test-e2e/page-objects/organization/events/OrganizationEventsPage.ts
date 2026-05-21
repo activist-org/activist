@@ -6,7 +6,7 @@ import { getEnglishText } from "#shared/utils/i18n";
 export const newOrganizationEventsPage = (page: Page) => ({
   // MARK: Header Action
 
-  eventsNewButton: page.getByRole("link", {
+  eventsNewButton: page.getByRole("button", {
     name: new RegExp(
       getEnglishText(
         "i18n.pages.organizations.events.new_org_event_aria_label"
