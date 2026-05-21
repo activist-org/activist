@@ -17,7 +17,9 @@
       :tagline="$t('i18n.pages.organizations._global.events_tagline')"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnRouteInternal
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
           ariaLabel="i18n.pages.organizations.events.new_org_event_aria_label"
           class="w-max"
           :cta="true"
@@ -25,7 +27,6 @@
           iconSize="1.35em"
           label="i18n._global.new_event"
           :leftIcon="IconMap.PLUS"
-          linkTo="/"
         />
         <BtnAction
           @click="downloadCalendarEntries"
@@ -60,6 +61,8 @@
 const { data: organization } = useGetOrganization(
   useRoute().params.orgId as string
 );
+
+const { openModal } = useModalHandlers("ModalCreateEvent");
 
 const downloadCalendarEntries = () => {};
 </script>
