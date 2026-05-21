@@ -9,7 +9,7 @@
 [![issues](https://img.shields.io/github/issues/activist-org/activist?label=%20&logo=github)](https://github.com/activist-org/activist/issues)
 [![django](https://img.shields.io/badge/Django%205-092E20.svg?logo=django&logoColor=ffffff)](./CONTRIBUTING.md#tech-stack)
 [![fastapi](https://img.shields.io/badge/FastAPI%201-009687.svg?logo=fastapi&logoColor=ffffff)](./CONTRIBUTING.md#tech-stack)
-[![nuxt](https://img.shields.io/badge/Nuxt%204-41b883.svg?logo=nuxt.js&logoColor=ffffff)](./CONTRIBUTING.md#tech-stack)
+[![nuxt](https://img.shields.io/badge/Nuxt%204-41b883.svg?logo=nuxt&logoColor=ffffff)](./CONTRIBUTING.md#tech-stack)
 [![vue](https://img.shields.io/badge/Vue%203-41b883.svg?logo=vue.js&logoColor=ffffff)](./CONTRIBUTING.md#tech-stack)
 [![tailwind](https://img.shields.io/badge/Tailwind%204-38BDF8.svg?logo=tailwindcss&logoColor=ffffff)](./CONTRIBUTING.md#tech-stack)
 [![license](https://img.shields.io/github/license/activist-org/activist.svg?label=%20)](LICENSE.txt)

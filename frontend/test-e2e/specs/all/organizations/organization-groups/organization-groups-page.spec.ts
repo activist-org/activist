@@ -128,6 +128,24 @@ test.describe(
       }
     });
 
+    // MARK: Create
+
+    test("New group button opens create group modal", async ({ page }) => {
+      const organizationPage = newOrganizationPage(page);
+      const { groupsPage } = organizationPage;
+
+      await expect(groupsPage.newGroupButton).toBeVisible();
+      await groupsPage.newGroupButton.click();
+
+      const modal = page.getByTestId("modal-ModalCreateGroup");
+      await expect(modal).toBeVisible({ timeout: 10000 });
+
+      await modal.getByTestId("modal-close-button").click();
+      await expect(modal).not.toBeVisible({ timeout: 5000 });
+    });
+
+    // MARK: Share
+
     test("User can share organization groups", async ({ page }) => {
       const organizationPage = newOrganizationPage(page);
       const { groupsPage, shareModal } = organizationPage;

@@ -26,6 +26,7 @@
             'h-5/6 w-5/6': props.fullscreen,
             'h-70': !props.fullscreen,
           }"
+          data-testid="image-carousel-image"
           :src="img"
         />
       </swiper-slide>

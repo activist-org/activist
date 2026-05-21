@@ -38,6 +38,9 @@ dev = [
     "ts-backend-check>=1.6.0",
     "types-icalendar>=6.3.2.20260408",
 ]
+audit = [
+    "pysentry-rs>=0.4.5"
+]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.

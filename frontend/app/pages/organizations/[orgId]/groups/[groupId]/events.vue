@@ -17,7 +17,9 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
-        <BtnRouteInternal
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
           ariaLabel="i18n.pages.organizations.groups.events.new_group_event_aria_label"
           class="w-max"
           :cta="true"
@@ -25,7 +27,6 @@
           iconSize="1.35em"
           label="i18n._global.new_event"
           :leftIcon="IconMap.PLUS"
-          linkTo="/"
         />
         <BtnAction
           @click="downloadCalendarEntries"
@@ -59,6 +60,8 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
 const groupTabs = useGetGroupTabs();
+
+const { openModal } = useModalHandlers("ModalCreateEvent");
 
 const downloadCalendarEntries = () => {};
 </script>

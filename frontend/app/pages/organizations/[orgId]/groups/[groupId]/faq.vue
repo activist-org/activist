@@ -69,7 +69,7 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else pageType="faq" :permission="false" />
+    <EmptyState v-else pageType="faq" :permission="canEdit(group)" />
   </div>
 </template>
 
