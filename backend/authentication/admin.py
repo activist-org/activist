@@ -261,8 +261,9 @@ class UserFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
                 obj.created_by,
                 request.user,
             )
+
         else:
-            logger.warning(
+            logger.info(
                 "Created user flag: %s -> %s (by %s)",
                 obj.user.email,
                 obj.created_by,
