@@ -217,6 +217,7 @@ git remote add upstream https://github.com/activist-org/activist.git
 
     ```bash
     cd backend && uv sync --all-extras  # create .venv and install all dependencies from uv.lock
+    # uv lock --upgrade-package <package>
 
     # Unix or macOS:
     source .venv/bin/activate
@@ -307,6 +308,7 @@ On Unix or MacOS, run:
 
 ```bash
 cd backend && uv sync --all-extras  # create .venv and install all dependencies from uv.lock
+# uv lock --upgrade-package <package>
 
 # Unix or macOS:
 source .venv/bin/activate

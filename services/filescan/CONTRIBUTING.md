@@ -50,6 +50,7 @@ Run the following commands before running any tests for the first time within `s
 
   ```bash
   uv sync --all-extras  # create .venv and install all dependencies from uv.lock
+  # uv lock --upgrade-package <package>
 
   # Unix or macOS:
   source .venv/bin/activate
