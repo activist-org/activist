@@ -11,7 +11,7 @@
     />
     <div class="flex grid-rows-none flex-col md:grid md:grid-rows-[1fr_auto]">
       <div
-        class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
+        class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
         <EntityLogoMobile
