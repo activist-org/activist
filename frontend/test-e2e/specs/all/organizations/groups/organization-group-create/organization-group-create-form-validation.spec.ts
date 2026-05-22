@@ -22,6 +22,14 @@ async function selectFirstOrganization(
   await expect(modal.root.getByRole("option").first()).toBeHidden({
     timeout: 5000,
   });
+  // Wait for the selected value to be committed to the form state before
+  // callers proceed. On mobile, Vue's reactive update from option click to
+  // vee-validate handleChange is slightly async and can cause the next step
+  // button click to land before the org field is considered valid.
+  await expect(modal.organizationCombobox.locator("input")).not.toHaveValue(
+    "",
+    { timeout: 5000 }
+  );
 }
 
 test.describe(
