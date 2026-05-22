@@ -13,7 +13,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Password Reset
 
 
-def test_pwreset_email_sent_successfully(authenticated_client) -> None:
+def test_pwreset_email_sent_successfully_200(authenticated_client) -> None:
     """
     Test that password reset email is sent successfully for a valid user.
     """
@@ -30,7 +30,7 @@ def test_pwreset_email_sent_successfully(authenticated_client) -> None:
     logger.info(f"Password reset email sent successfully to: {user.email}")
 
 
-def test_pwreset_invalid_email(authenticated_client) -> None:
+def test_pwreset_invalid_email_404(authenticated_client) -> None:
     """
     Test password reset attempt with an invalid email.
     """
@@ -43,7 +43,7 @@ def test_pwreset_invalid_email(authenticated_client) -> None:
     assert response.status_code == 404
 
 
-def test_pwreset_invalid_verification_code(authenticated_client) -> None:
+def test_pwreset_invalid_verification_code_404(authenticated_client) -> None:
     """
     Test password reset attempt with an invalid verification code.
     """
@@ -59,7 +59,7 @@ def test_pwreset_invalid_verification_code(authenticated_client) -> None:
     assert response.status_code == 404
 
 
-def test_pwreset_email_sending_failure(authenticated_client) -> None:
+def test_pwreset_email_sending_failure_500(authenticated_client) -> None:
     """
     Test password reset when email sending fails.
 

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-def test_user_flag_create(authenticated_client):
+def test_user_flag_create_201(authenticated_client):
     logger.info("Starting test_user_flag_create test")
     client, user = authenticated_client
     flagged_client, flagged_user = authenticated_client
@@ -25,7 +25,7 @@ def test_user_flag_create(authenticated_client):
     logger.info(f"User flag created successfully, status: {response.status_code}")
 
 
-def test_user_flag_create_error():
+def test_user_flag_create_401():
     logger.info("Starting test_user_flag_create_error test")
     client = APIClient()
 

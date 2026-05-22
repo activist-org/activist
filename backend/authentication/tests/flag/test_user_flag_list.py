@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-def test_user_flag_list(authenticated_client):
+def test_user_flag_list_200(authenticated_client):
     """
     Test to list all user flags.
     """
@@ -22,7 +22,7 @@ def test_user_flag_list(authenticated_client):
     logger.info("User flag list test completed successfully")
 
 
-def test_user_flag_list_no_pagination(authenticated_client):
+def test_user_flag_list_no_pagination_200(authenticated_client):
     """
     Test list all user flags in case of no pagination.
     """

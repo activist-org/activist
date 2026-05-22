@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-def test_user_flag_retrieve(authenticated_client):
+def test_user_flag_retrieve_200(authenticated_client):
     """
     Test to retrieve a flag of a user.
     """
@@ -27,7 +27,7 @@ def test_user_flag_retrieve(authenticated_client):
     logger.info("test_user_flag_retrieve completed successfully")
 
 
-def test_user_flag_retrieve_does_not_exist(authenticated_client):
+def test_user_flag_retrieve_404(authenticated_client):
     logger.info("Starting test_user_flag_retrieve_does_not_exist")
 
     client, user = authenticated_client

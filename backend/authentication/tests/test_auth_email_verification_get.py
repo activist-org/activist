@@ -13,7 +13,7 @@ from authentication.factories import UserFactory
 pytestmark = pytest.mark.django_db  # noqa: N999
 
 
-def test_auth_email_verification_get_valid_code():
+def test_auth_email_verification_get_valid_code_200():
     """
     Test email verification with valid code.
     """
@@ -36,7 +36,7 @@ def test_auth_email_verification_get_valid_code():
     assert user.verification_code is None
 
 
-def test_auth_email_verification_get_invalid_code():
+def test_auth_email_verification_get_invalid_code_404():
     """
     Test email verification with invalid code.
     """
@@ -60,7 +60,7 @@ def test_auth_email_verification_get_invalid_code():
     assert str(user.verification_code) == verification_code
 
 
-def test_auth_email_verification_get_nonexistent_code():
+def test_auth_email_verification_get_nonexistent_code_404():
     """
     Test email verification with code that doesn't exist.
     """
@@ -73,7 +73,7 @@ def test_auth_email_verification_get_nonexistent_code():
     assert response.data["detail"] == "User does not exist."
 
 
-def test_auth_email_verification_get_empty_code():
+def test_auth_email_verification_get_empty_code_404():
     """
     Test email verification with empty code.
     """
@@ -85,7 +85,7 @@ def test_auth_email_verification_get_empty_code():
     assert response.data["detail"] == "User does not exist."
 
 
-def test_auth_email_verification_get_malformed_code():
+def test_auth_email_verification_get_malformed_code_404():
     """
     Test email verification with malformed UUID.
     """
@@ -97,7 +97,7 @@ def test_auth_email_verification_get_malformed_code():
     assert response.data["detail"] == "User does not exist."
 
 
-def test_auth_email_verification_get_already_confirmed():
+def test_auth_email_verification_get_already_confirmed_200():
     """
     Test email verification for already confirmed user.
     """
@@ -120,7 +120,7 @@ def test_auth_email_verification_get_already_confirmed():
     assert user.verification_code is None
 
 
-def test_auth_email_verification_get_user_with_empty_code():
+def test_auth_email_verification_get_user_with_empty_code_404():
     """
     Test email verification for user with empty verification code.
     """
@@ -138,7 +138,7 @@ def test_auth_email_verification_get_user_with_empty_code():
     assert response.data["detail"] == "User does not exist."
 
 
-def test_auth_email_verification_get_sql_injection_attempt():
+def test_auth_email_verification_get_sql_injection_attempt_404():
     """
     Test email verification with SQL injection attempt.
     """
@@ -151,7 +151,7 @@ def test_auth_email_verification_get_sql_injection_attempt():
     assert response.data["detail"] == "User does not exist."
 
 
-def test_auth_email_verification_get_unicode_characters():
+def test_auth_email_verification_get_unicode_characters_404():
     """
     Test email verification with unicode/emoji characters.
     """
@@ -164,7 +164,7 @@ def test_auth_email_verification_get_unicode_characters():
     assert response.data["detail"] == "User does not exist."
 
 
-def test_auth_email_verification_get_whitespace_handling():
+def test_auth_email_verification_get_whitespace_handling_404():
     """
     Test email verification with whitespace in code.
     """

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-def test_user_flag_delete(authenticated_client):
+def test_user_flag_delete_204(authenticated_client):
     """
     Test to delete a flag of a user.
     """
@@ -31,7 +31,7 @@ def test_user_flag_delete(authenticated_client):
     logger.info("User flag deletion test completed successfully")
 
 
-def test_user_flag_delete_does_not_exist(authenticated_client):
+def test_user_flag_delete_404(authenticated_client):
     logger.info("Starting test_user_flag_delete_does_not_exist")
 
     client, user = authenticated_client

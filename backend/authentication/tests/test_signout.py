@@ -19,7 +19,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Sign Out
 
 
-def test_signout_successful_logout():
+def test_signout_successful_logout_200():
     """
     Test successful logout with authenticated user.
 
@@ -93,7 +93,7 @@ def test_signout_successful_logout():
     logger.info("test_signout_successful_logout completed successfully")
 
 
-def test_signout_unauthenticated_user():
+def test_signout_unauthenticated_user_401():
     """
     Test logout with unauthenticated user returns 401.
 
@@ -115,7 +115,7 @@ def test_signout_unauthenticated_user():
     logger.info("test_signout_unauthenticated_user completed successfully")
 
 
-def test_signout_invalid_token():
+def test_signout_invalid_token_401():
     """
     Test logout with invalid authentication token returns 401.
 
@@ -137,7 +137,7 @@ def test_signout_invalid_token():
     logger.info("test_signout_invalid_token completed successfully")
 
 
-def test_signout_malformed_token():
+def test_signout_malformed_token_401():
     """
     Test logout with malformed authentication header returns 401.
 
@@ -167,7 +167,7 @@ def test_signout_malformed_token():
     logger.info("test_signout_malformed_token completed successfully")
 
 
-def test_signout_deletes_all_user_sessions():
+def test_signout_deletes_all_user_sessions_200():
     """
     Test that logout deletes all sessions for the user, not just the current one.
 
@@ -212,7 +212,7 @@ def test_signout_deletes_all_user_sessions():
     logger.info("test_signout_deletes_all_user_sessions completed successfully")
 
 
-def test_signout_user_with_no_sessions():
+def test_signout_user_with_no_sessions_200():
     """
     Test logout for user with no existing sessions.
 
@@ -255,7 +255,7 @@ def test_signout_user_with_no_sessions():
     logger.info("test_signout_user_with_no_sessions completed successfully")
 
 
-def test_signout_response_format():
+def test_signout_response_format_200():
     """
     Test that logout response has correct format and status code.
 
@@ -297,7 +297,7 @@ def test_signout_response_format():
 
 
 @patch("authentication.views.logger")
-def test_signout_logging(mock_logger):
+def test_signout_logging_200(mock_logger):
     """
     Test that logout logs appropriate messages.
 
@@ -350,7 +350,7 @@ def test_signout_logging(mock_logger):
     logger.info("test_signout_logging completed successfully")
 
 
-def test_signout_http_methods():
+def test_signout_http_methods_200_and_405():
     """
     Test that only POST method is allowed for logout.
 
@@ -416,7 +416,7 @@ def test_signout_http_methods():
     logger.info("test_signout_http_methods completed successfully")
 
 
-def test_signout_database_integrity():
+def test_signout_database_integrity_200():
     """
     Test logout behavior with database integrity issues.
 
@@ -453,7 +453,7 @@ def test_signout_database_integrity():
     logger.info("test_signout_database_integrity completed successfully")
 
 
-def test_signout_concurrent_requests():
+def test_signout_concurrent_requests_200():
     """
     Test logout behavior with concurrent requests.
 

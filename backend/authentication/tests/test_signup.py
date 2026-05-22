@@ -17,7 +17,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Sign Up
 
 
-def test_sign_up_with_weak_password(client: APIClient) -> None:
+def test_sign_up_with_weak_password_400(client: APIClient) -> None:
     """
     Test that sign-up fails when password is too weak.
 
@@ -48,7 +48,7 @@ def test_sign_up_with_weak_password(client: APIClient) -> None:
     assert not UserModel.objects.filter(username=username).exists()
 
 
-def test_sign_up_with_password_mismatch(client: APIClient) -> None:
+def test_sign_up_with_password_mismatch_400(client: APIClient) -> None:
     """
     Test that sign-up fails when passwords don't match.
 
@@ -82,7 +82,7 @@ def test_sign_up_with_password_mismatch(client: APIClient) -> None:
     assert not UserModel.objects.filter(username=username).exists()
 
 
-def test_sign_up_without_email(client: APIClient) -> None:
+def test_sign_up_without_email_400(client: APIClient) -> None:
     """
     Test that sign-up fails when email is missing.
 
@@ -113,7 +113,7 @@ def test_sign_up_without_email(client: APIClient) -> None:
     assert not UserModel.objects.filter(username=username).exists()
 
 
-def test_sign_up_successful(client: APIClient) -> None:
+def test_sign_up_successful_201(client: APIClient) -> None:
     """
     Test successful user registration.
 
@@ -152,7 +152,7 @@ def test_sign_up_successful(client: APIClient) -> None:
     )
 
 
-def test_sign_up_with_duplicate_user(client: APIClient) -> None:
+def test_sign_up_with_duplicate_user_400(client: APIClient) -> None:
     """
     Test that sign-up fails when user already exists.
 

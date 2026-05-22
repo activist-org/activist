@@ -7,7 +7,7 @@ from authentication.factories import UserFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_session_get(authenticated_client):
+def test_session_get_200(authenticated_client):
     client, user = authenticated_client
     response = client.get(path="/v1/auth/sessions")
 
