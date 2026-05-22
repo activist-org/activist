@@ -99,7 +99,8 @@ class EventAPIView(GenericAPIView[Event]):
             )
         )
         if e2e_member is not None:
-            return qs.order_by("_e2e_last", "_priority", "id")
+            return qs.order_by("_e2e_last", "_priority", "id")  # type: ignore
+
         return qs.order_by("_priority", "id")
 
     def get_permissions(self) -> Sequence[Any]:
