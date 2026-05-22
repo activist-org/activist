@@ -226,7 +226,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
             return self.get_paginated_response(serializer.data)
 
         orgs = Organization.objects.filter(created_by__user__id=user_id).order_by(
-            "creation_date"
+            "acceptance_date"
         )
         serializer = OrganizationSerializer(orgs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
