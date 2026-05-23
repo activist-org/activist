@@ -2,7 +2,7 @@
 <template>
   <section
     v-if="entity"
-    class="mx-4 mb-4 rounded-md border border-section-div bg-layer-1 p-3 elem-shadow-sm sm:mx-8"
+    class="mx-4 mb-2 rounded-md border border-section-div bg-layer-1 p-3 elem-shadow-sm sm:mx-8"
     data-testid="entity-logo-mobile"
   >
     <div class="flex items-center gap-3">
