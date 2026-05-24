@@ -33,14 +33,14 @@ def test_sign_in(client: APIClient) -> None:
     plaintext_password = "Activist@123!?"
     user = UserFactory(plaintext_password=plaintext_password)
 
-    # 1. User that signed up with email, that has not confirmed their email.
+    # User that signed up with email, that has not confirmed their email.
     response = client.post(
         path="/v1/auth/sign_in",
         data={"username": user.username, "password": plaintext_password},
     )
     assert response.status_code == 400
 
-    # 2. User that signed up with email, confirmed email address. Is logged in successfully.
+    # User that signed up with email, confirmed email address. Is logged in successfully.
     logger.info("Testing successful sign-in with confirmed user")
     user.is_confirmed = True
     user.save()
@@ -60,14 +60,14 @@ def test_sign_in(client: APIClient) -> None:
         f"Successfully signed in user: {user.username} via both email and username"
     )
 
-    # 3. User exists but password is incorrect.
+    # User exists but password is incorrect.
     response = client.post(
         path="/v1/auth/sign_in",
         data={"email": user.email, "password": "Strong_But_Incorrect?!123"},
     )
     assert response.status_code == 400
 
-    # 4. User does not exists and tries to sign in.
+    # User does not exists and tries to sign in.
     response = client.post(
         path="/v1/auth/sign_in",
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},

@@ -109,7 +109,7 @@ def test_event_faq_delete_not_found_404(authenticated_client) -> None:
     assert response.data["detail"] == "FAQ not found."
 
 
-def test_event_faq_delete_not_authorized_403(authenticated_client) -> None:
+def test_event_faq_delete_403(authenticated_client) -> None:
     """
     Test Event FAQ deletion by unauthorized user.
 

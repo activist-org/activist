@@ -72,7 +72,7 @@ def test_event_faq_update(authenticated_client) -> None:
     assert response.status_code == 404
 
 
-def test_event_faq_update_not_authorized(authenticated_client) -> None:
+def test_event_faq_update_403(authenticated_client) -> None:
     client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True

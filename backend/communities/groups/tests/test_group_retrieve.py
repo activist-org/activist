@@ -33,7 +33,7 @@ def test_group_retrieve(client: Client) -> None:
     group_id = group.id
 
     """
-    1. Group ID exists in the database.
+    Group ID exists in the database.
     """
     response = client.get(
         path=f"/v1/communities/groups/{group_id}",
@@ -42,7 +42,7 @@ def test_group_retrieve(client: Client) -> None:
     assert response.status_code == 200
 
     """
-    2. Group ID does not exist in the database.
+    Group ID does not exist in the database.
     """
     bad_group_uuid = uuid4()
 
@@ -53,7 +53,7 @@ def test_group_retrieve(client: Client) -> None:
     assert response_body["detail"] == "Failed to retrieve the group."
 
     """
-    3. Group ID is None.
+    Group ID is None.
     """
 
     response = client.get(path=f"/v1/communities/groups/{None}")

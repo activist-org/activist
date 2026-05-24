@@ -15,6 +15,9 @@ pytestmark = pytest.mark.django_db
 
 
 def get_login(client: Client, staff_user=False):
+    """
+    Login credentials for group tests.
+    """
     test_username = "test_user"
     test_password = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_password)
@@ -42,7 +45,7 @@ def get_login(client: Client, staff_user=False):
 
 def test_group_delete_unauthorized_403(client: Client) -> None:
     """
-    # 1. Un-Authorized user trying to delete group (not staff).
+    Un-Authorized user trying to delete group (not staff).
     """
     group = GroupFactory()
     login_details = get_login(client)
@@ -66,7 +69,7 @@ def test_group_delete_unauthorized_403(client: Client) -> None:
 
 def test_group_delete_404(client: Client) -> None:
     """
-    2. Group id not found.
+    Group id not found.
     """
     login_details = get_login(client)
     test_uuid = uuid4()
@@ -88,7 +91,7 @@ def test_group_delete_404(client: Client) -> None:
 
 def test_group_delete_staffuser_204(client: Client) -> None:
     """
-    3. User is confirmed and is staff.
+    User is confirmed and is staff.
     """
     group = GroupFactory()
     login_details = get_login(client, staff_user=True)

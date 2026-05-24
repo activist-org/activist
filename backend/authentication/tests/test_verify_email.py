@@ -24,12 +24,12 @@ def test_verify_email_200_and_400(authenticated_client) -> None:
     user.verification_code = uuid.uuid4()
     user.save()
 
-    # 1. Valid verification code.
+    # Valid verification code.
     logger.info("Testing valid email verification")
     response = client.post(path=f"/v1/auth/verify_email/{user.verification_code}")
     assert response.status_code == 200
 
-    # 2. Invalid verification code.
+    # Invalid verification code.
     logger.info("Testing invalid email verification")
     response = client.post(path="/v1/auth/verify_email/invalid_code")
     assert response.status_code == 404

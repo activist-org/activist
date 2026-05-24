@@ -15,7 +15,7 @@ pytestmark = pytest.mark.django_db
 # Split test.
 def test_group_update(client: Client) -> None:
     """
-    1. Test for when the user is not authorized (not staff).
+    Test for when the user is not authorized (not staff).
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ def test_group_update(client: Client) -> None:
     )
 
     """
-    2. Test for Authorized user updating the group information.
+    Test for Authorized user updating the group information.
     """
     test_username = "test_user"
     test_password = "test_pass"

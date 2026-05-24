@@ -27,7 +27,7 @@ def test_org_text_languages() -> None:
     """
     org = OrganizationFactory()
 
-    # 1. Test primary language text.
+    # Test primary language text.
     primary_text = OrganizationTextFactory(
         org=org,
         iso="eng",
@@ -40,7 +40,7 @@ def test_org_text_languages() -> None:
     assert primary_text.iso == "eng"
     assert primary_text.description == "Primary description"
 
-    # 2. Test secondary language text.
+    # Test secondary language text.
     secondary_text = OrganizationTextFactory(
         org=org,
         iso="spa",

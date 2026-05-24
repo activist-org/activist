@@ -12,7 +12,6 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-# Delete partial update tests.
 def test_group_partial_update(client: Client) -> None:
     """
     Test group_partial_update.
@@ -38,7 +37,7 @@ def test_group_partial_update(client: Client) -> None:
     user.save()
 
     """
-    1. Unauthorized user patches updates.
+    Unauthorized user patches updates.
     """
     user.verified = True
     user.is_confirmed = True

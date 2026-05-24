@@ -8,7 +8,7 @@ from events.factories import EventFactory, EventSocialLinkFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_social_link_delete_204(authenticated_client):
+def test_event_social_link_delete_204(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory(created_by=user)
@@ -21,7 +21,7 @@ def test_social_link_delete_204(authenticated_client):
     assert response.status_code == 204
 
 
-def test_social_link_delete_404(authenticated_client):
+def test_event_social_link_delete_404(authenticated_client):
     client, user = authenticated_client
 
     bad_uuid = uuid4()
@@ -33,9 +33,9 @@ def test_social_link_delete_404(authenticated_client):
     assert response.status_code == 404
 
 
-def test_event_faq_destroy_not_authorized_403(authenticated_client) -> None:
+def test_event_social_link_delete_403(authenticated_client) -> None:
     """
-    Test Event FAQ deletion by unauthorized user.
+    Test Event social link deletion by unauthorized user.
 
     Parameters
     ----------
@@ -46,7 +46,7 @@ def test_event_faq_destroy_not_authorized_403(authenticated_client) -> None:
     -------
     None
         This test asserts that users who are neither the creator nor staff
-        cannot delete a FAQ (status 403).
+        cannot delete a social link (status 403).
     """
     client, user = authenticated_client
     user.is_staff = False

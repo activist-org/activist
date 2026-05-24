@@ -20,7 +20,7 @@ FIXED_NOW = datetime(1970, 1, 1, 0, 0, tzinfo=dt_timezone.utc)
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_filters_events_within_window(mock_now) -> None:
+def test_event_filters_days_ahead_within_window(mock_now) -> None:
     """
     days_ahead returns only events starting between now and now + N days.
     """
@@ -67,7 +67,7 @@ def test_days_ahead_filters_events_within_window(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_rolling_24h_window(mock_now) -> None:
+def test_event_filters_days_ahead_rolling_24h_window(mock_now) -> None:
     """
     days_ahead=1 includes events within the next 24 hours, and excludes events
     just beyond that window.
@@ -104,7 +104,9 @@ def test_days_ahead_rolling_24h_window(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_with_type_and_location_type_combination(mock_now) -> None:
+def test_event_filters_days_ahead_with_type_and_location_type_combination(
+    mock_now,
+) -> None:
     """
     days_ahead works in combination with other filters (type, location_type).
     """
@@ -171,7 +173,7 @@ def test_days_ahead_with_type_and_location_type_combination(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
+def test_event_filters_days_ahead_ignores_non_positive_values(mock_now) -> None:
     """
     Non-positive days_ahead (0 or negative) should not crash and should behave
     like an empty or immediate window (only events starting at now for 0).
@@ -201,7 +203,7 @@ def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
     assert str(event_future.id) not in ids
 
 
-def test_filter_id_handles_single_id() -> None:
+def test_event_filters_id_handles_single_id() -> None:
     """
     A single valid uuid passed as an id parameter
     should filter down to the single event with the same id field.
@@ -224,7 +226,7 @@ def test_filter_id_handles_single_id() -> None:
     assert str(event_filler.id) not in ids
 
 
-def test_filter_id_handles_multiple_separate_ids() -> None:
+def test_event_filters_id_handles_multiple_separate_ids() -> None:
     """
     Multiple valid uuids each passed as individual id parameters
     should filter down to the events with the same id fields.
@@ -262,7 +264,7 @@ def test_filter_id_handles_multiple_separate_ids() -> None:
     assert str(event_filler_2.id) not in ids
 
 
-def test_filter_id_handles_multiple_listed_ids() -> None:
+def test_event_filters_id_handles_multiple_listed_ids() -> None:
     """
     Multiple valid uuids passed as a coma separated string
     in a single id parameter should filter down to the events
@@ -301,7 +303,7 @@ def test_filter_id_handles_multiple_listed_ids() -> None:
     assert str(event_filler_2.id) not in ids
 
 
-def test_filter_id_handles_nonexistent_uuid() -> None:
+def test_event_filters_id_handles_nonexistent_uuid() -> None:
     """
     Uuids that are not present in the backend data
     should be ignored and any existing uuids given
@@ -331,7 +333,7 @@ def test_filter_id_handles_nonexistent_uuid() -> None:
     assert str(event_filler.id) not in ids
 
 
-def test_filter_id_handles_invalid_uuid() -> None:
+def test_event_filters_id_handles_invalid_uuid() -> None:
     """
     Invalid uuids should be ignored and any valid uuids given
     should still be matched to events with the same id field.
