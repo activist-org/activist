@@ -30,7 +30,7 @@ pytestmark = pytest.mark.filescan_integration
 
 
 @pytest.fixture(scope="session", autouse=True)
-def wait_for_filescan_health() -> None:
+def _wait_for_filescan_health() -> None:
     """
     Ensure the filescan service is healthy before running integration tests.
 
@@ -48,14 +48,6 @@ def wait_for_filescan_health() -> None:
         time.sleep(0.5)
 
     pytest.skip(f"filescan service not ready at {health_url}")
-
-
-@pytest.fixture
-def client() -> APIClient:
-    """
-    Use DRF APIClient so multipart and request.data match the view.
-    """
-    return APIClient()
 
 
 def _make_clean_image_file(name: str = "clean.jpg") -> SimpleUploadedFile:
@@ -87,7 +79,9 @@ def _base_payload(org_id: str, file: SimpleUploadedFile) -> Dict[str, Any]:
 
 
 @pytest.mark.django_db
-def test_clean_image_upload_passes_filescan(client: APIClient) -> None:
+def test_content_filescan_integration_clean_image_upload_passes_filescan(
+    client: APIClient,
+) -> None:
     """
     Clean image should be accepted end-to-end (backend + filescan).
     """
@@ -129,7 +123,9 @@ def test_clean_image_upload_passes_filescan(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_malware_eicar_upload_rejected_by_filescan(client: APIClient) -> None:
+def test_content_filescan_integration_malware_eicar_upload_rejected_by_filescan(
+    client: APIClient,
+) -> None:
     """
     EICAR test file should be rejected by the backend after filescan flags it.
     """
@@ -162,7 +158,9 @@ def test_malware_eicar_upload_rejected_by_filescan(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_large_clean_image_still_passes_filescan(client: APIClient) -> None:
+def test_content_filescan_integration_large_clean_image_still_passes_filescan(
+    client: APIClient,
+) -> None:
     """
     Large-but-allowed clean image should still pass both size and scan checks.
     """
@@ -210,7 +208,9 @@ def test_large_clean_image_still_passes_filescan(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_fake_image_binary_handled_gracefully(client: APIClient) -> None:
+def test_content_filescan_integration_fake_image_binary_handled_gracefully(
+    client: APIClient,
+) -> None:
     """
     A file uploaded as image content-type but with non-image bytes should
     be handled gracefully (2xx or 4xx, but not 5xx).

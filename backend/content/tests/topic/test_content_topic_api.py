@@ -7,7 +7,7 @@ from content.factories import TopicFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_content_topic_list():
+def test_content_topic_api_list():
     """
     Test to list all active topics.
     """
@@ -35,7 +35,7 @@ def test_content_topic_list():
     assert "active" in response.data[0]
 
 
-def test_content_topic_list_empty():
+def test_content_topic_api_list_empty():
     """
     Test to list topics when no active topics exist.
     """
@@ -51,7 +51,7 @@ def test_content_topic_list_empty():
     assert len(response.data) == 0
 
 
-def test_content_topic_list_no_topics():
+def test_content_topic_api_list_no_topics():
     """
     Test to list topics when no topics exist at all.
     """

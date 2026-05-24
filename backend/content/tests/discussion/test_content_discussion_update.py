@@ -22,7 +22,7 @@ def test_content_discussion_update_200(authenticated_client):
     assert response.status_code == 200
 
 
-def test_discussion_update_403(authenticated_client):
+def test_content_discussion_update_403(authenticated_client):
     client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True

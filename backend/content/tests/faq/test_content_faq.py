@@ -100,7 +100,7 @@ def test_content_faq_group_serializer() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_group_with_group_instance():
+def test_content_faq_validate_group_with_group_instance():
     """
     Should return the same group when a Group instance is passed.
     """
@@ -125,7 +125,7 @@ def test_validate_group_with_group_instance():
 
 
 @pytest.mark.django_db
-def test_validate_group_with_valid_uuid():
+def test_content_faq_validate_group_with_valid_uuid():
     """
     Should fetch and return the group when a valid UUID is given.
     """
@@ -150,7 +150,7 @@ def test_validate_group_with_valid_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_group_with_invalid_uuid():
+def test_content_faq_validate_group_with_invalid_uuid():
     """
     Should raise ValidationError when group does not exist.
     """
@@ -186,7 +186,7 @@ def test_content_faq_event_serializer() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_event_with_event_instance():
+def test_content_faq_validate_event_with_event_instance():
     """
     Should return the same event when an Event instance is passed.
     """
@@ -197,7 +197,7 @@ def test_validate_event_with_event_instance():
 
 
 @pytest.mark.django_db
-def test_validate_event_with_valid_uuid():
+def test_content_faq_validate_event_with_valid_uuid():
     """
     Should fetch and return the event when a valid UUID is given.
     """
@@ -208,7 +208,7 @@ def test_validate_event_with_valid_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_event_with_valid_uuid_string():
+def test_content_faq_validate_event_with_valid_uuid_string():
     """
     Should fetch and return the event when a valid UUID string is given.
     """
@@ -219,7 +219,7 @@ def test_validate_event_with_valid_uuid_string():
 
 
 @pytest.mark.django_db
-def test_validate_event_with_nonexistent_uuid():
+def test_content_faq_validate_event_with_nonexistent_uuid():
     """
     Should raise ValidationError when a valid UUID format but non-existent event is provided.
     """
@@ -231,7 +231,7 @@ def test_validate_event_with_nonexistent_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_event_with_nonexistent_uuid_string():
+def test_content_faq_validate_event_with_nonexistent_uuid_string():
     """
     Should raise ValidationError when a valid UUID string format but non-existent event is provided.
     """
@@ -246,7 +246,7 @@ def test_validate_event_with_nonexistent_uuid_string():
 
 
 @pytest.mark.django_db
-def test_organization_faq_list_view_200(client: APIClient) -> None:
+def test_content_faq_org_faq_list_view_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for an organization.
     This is like a GET request.
@@ -262,7 +262,7 @@ def test_organization_faq_list_view_200(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_group_faq_list_view_200(client: APIClient) -> None:
+def test_content_faq_group_faq_list_view_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for a group.
     This is like a GET request.
@@ -278,7 +278,7 @@ def test_group_faq_list_view_200(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_event_faq_list_view_200(client: APIClient) -> None:
+def test_content_faq_event_faq_list_view_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for an event.
     This is like a GET request.
@@ -297,7 +297,7 @@ def test_event_faq_list_view_200(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_organization_faq_create_view_200() -> None:
+def test_content_faq_org_faq_create_view_200() -> None:
     """
     Test the creation of FAQs for an organization.
     The API uses PUT method instead of POST.
@@ -355,7 +355,7 @@ def test_organization_faq_create_view_200() -> None:
 
 
 @pytest.mark.django_db
-def test_group_faq_create_view_200() -> None:
+def test_content_faq_group_faq_create_view_200() -> None:
     """
     Test the creation of FAQs for a group.
     The API uses PUT method instead of POST.
@@ -412,7 +412,7 @@ def test_group_faq_create_view_200() -> None:
 
 
 @pytest.mark.django_db
-def test_event_faq_create_view_200() -> None:
+def test_content_faq_event_faq_create_view_200() -> None:
     """
     Test the creation of FAQs for an event.
     The API uses PUT method instead of POST.
@@ -468,7 +468,7 @@ def test_event_faq_create_view_200() -> None:
     assert EventFaq.objects.get(id=test_id).question == "Test Question"
 
 
-def test_faq_str_methods():
+def test_content_faq_str_methods():
     """
     Test the __str__ method of the Faq model.
     """

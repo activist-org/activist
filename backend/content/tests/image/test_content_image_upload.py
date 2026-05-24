@@ -25,16 +25,8 @@ from content.serializers import ImageSerializer
 MEDIA_ROOT = settings.MEDIA_ROOT  # ensure this points to the images folder
 
 
-@pytest.fixture
-def client() -> APIClient:
-    """
-    Use DRF APIClient so multipart and request.data match the view.
-    """
-    return APIClient()
-
-
 @pytest.fixture(autouse=True)
-def mock_scan_file() -> Generator[None, None, None]:
+def _mock_scan_file() -> Generator[None, None, None]:
     """
     Mock the filescan service so upload tests do not call the real service.
     The view proceeds to serializer validation and create.
@@ -46,7 +38,7 @@ def mock_scan_file() -> Generator[None, None, None]:
 
 
 @pytest.fixture
-def test_content_image_with_file() -> Generator[Image, None, None]:
+def _test_content_image_with_file() -> Generator[Image, None, None]:
     """
     Fixture for creating an image with a file.
     Deletes the file after the test.
@@ -61,7 +53,7 @@ def test_content_image_with_file() -> Generator[Image, None, None]:
         os.remove(file_path)
 
 
-def create_organization_and_image() -> Dict[str, Any]:
+def _create_organization_and_image() -> Dict[str, Any]:
     """
     Helper function to create a test organization and a simple test image.
     """
@@ -85,7 +77,7 @@ def create_organization_and_image() -> Dict[str, Any]:
 
 
 @pytest.mark.django_db
-def test_content_image_creation(image_with_file: Image) -> None:
+def test_content_image_upload_creation(image_with_file: Image) -> None:
     """
     Test the creation of an image with a file.
     This is like a Model test.
@@ -101,7 +93,7 @@ def test_content_image_creation(image_with_file: Image) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_serializer(image_with_file: Image) -> None:
+def test_content_image_upload_serializer(image_with_file: Image) -> None:
     """
     Test the serializer with a file.
     """
@@ -117,7 +109,7 @@ def test_content_image_serializer(image_with_file: Image) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_serializer_missing_file() -> None:
+def test_content_image_upload_serializer_missing_file() -> None:
     """
     Test the serializer with a missing file.
     """
@@ -127,7 +119,7 @@ def test_content_image_serializer_missing_file() -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_serializer_missing_file_object() -> None:
+def test_content_image_upload_serializer_missing_file_object() -> None:
     """
     Ensure serializer raises ValidationError when file_object is missing.
     """
@@ -140,7 +132,7 @@ def test_content_image_serializer_missing_file_object() -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_list_view(client: APIClient) -> None:
+def test_content_image_upload_list_view(client: APIClient) -> None:
     """
     Test the list view for images.
     This is like a GET request.
@@ -160,7 +152,7 @@ def test_content_image_list_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_create_single_file_view(client: APIClient) -> None:
+def test_content_image_upload_create_single_file_view(client: APIClient) -> None:
     """
     Test the create view for images.
     This is like a POST request.
@@ -174,7 +166,7 @@ def test_content_image_create_single_file_view(client: APIClient) -> None:
     8. Delete the file from the file system. This is for test cleanup and does not happen in production.
     """
 
-    data = create_organization_and_image()
+    data = _create_organization_and_image()
 
     response = client.post("/v1/content/images", data, format="multipart")
 
@@ -214,7 +206,7 @@ def test_content_image_create_single_file_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_create_multiple_files_view(client: APIClient) -> None:
+def test_content_image_upload_create_multiple_files_view(client: APIClient) -> None:
     """
     Test the create view for multiple images.
     This is like a POST request.
@@ -273,7 +265,7 @@ def test_content_image_create_multiple_files_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_create_missing_file(client: APIClient) -> None:
+def test_content_image_upload_create_missing_file(client: APIClient) -> None:
     """
     Test the create view for images with a missing file.
     Test can return 'WARNING ... Bad Request: /v1/content/images/'. This is expected.
@@ -289,7 +281,7 @@ def test_content_image_create_missing_file(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_create_corrupted_file(client: APIClient) -> None:
+def test_content_image_upload_create_corrupted_file(client: APIClient) -> None:
     """
     Test the create view for images with a corrupted file.
     The validation is likely happening in the model, not the serializer.
@@ -324,7 +316,7 @@ def test_content_image_create_corrupted_file(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_create_large_file(client: APIClient) -> None:
+def test_content_image_upload_create_large_file(client: APIClient) -> None:
     """
     Test the create view for images with a large file.
     Test can return 'WARNING ... Bad Request: /v1/content/images/'. This is expected.
@@ -363,7 +355,7 @@ def test_content_image_create_large_file(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_destroy_view(client: APIClient) -> None:
+def test_content_image_upload_destroy_view(client: APIClient) -> None:
     """
     Test the destroy/delete view for an existing image.
 
@@ -377,7 +369,7 @@ def test_content_image_destroy_view(client: APIClient) -> None:
     2. Delete the image from the database and the file from the file system.
     """
 
-    data = create_organization_and_image()
+    data = _create_organization_and_image()
 
     response = client.post("/v1/content/images", data, format="multipart")
     response_data = response.json()
@@ -412,7 +404,7 @@ def test_content_image_destroy_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_destroy_non_existent_file_view(client: APIClient) -> None:
+def test_content_image_upload_destroy_non_existent_file_view(client: APIClient) -> None:
     """
     Test the destroy/delete view for a non-existent file.
 

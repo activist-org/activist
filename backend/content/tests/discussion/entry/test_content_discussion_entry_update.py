@@ -35,7 +35,7 @@ def test_content_discussion_entry_update(authenticated_client):
     )
 
 
-def test_disc_entry_update_403(authenticated_client):
+def test_content_discussion_entry_update_403(authenticated_client):
     """
     Test for updating a discussion entry.
     """

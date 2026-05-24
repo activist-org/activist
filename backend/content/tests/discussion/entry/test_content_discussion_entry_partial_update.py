@@ -8,7 +8,7 @@ from content.factories import DiscussionEntryFactory, DiscussionFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_content_discussion_entry_update():
+def test_content_discussion_entry_partial_update():
     """
     Test to partial update a discussion entry.
     """

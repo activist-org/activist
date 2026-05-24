@@ -25,7 +25,7 @@ def test_content_discussion_create_201(authenticated_client):
     assert response.status_code == 201
 
 
-def test_discussion_create_401():
+def test_content_discussion_create_401():
     """
     Test that unauthenticated users cannot create discussions.
     """

@@ -55,7 +55,7 @@ def test_event_resource_serializer_serialization() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_event_with_event_instance() -> None:
+def test_event_resource_serializer_validate_instance() -> None:
     """
     Should return the same event when an Event instance is passed.
     """
@@ -67,7 +67,7 @@ def test_validate_event_with_event_instance() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_event_with_valid_uuid() -> None:
+def test_event_resource_serializer_validate_with_valid_uuid() -> None:
     """
     Should fetch and return the event when a valid UUID is given.
     """
@@ -79,7 +79,7 @@ def test_validate_event_with_valid_uuid() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_event_with_valid_uuid_string() -> None:
+def test_event_resource_serializer_validate_with_valid_uuid_string() -> None:
     """
     Should fetch and return the event when a valid UUID string is given.
     """
@@ -91,7 +91,7 @@ def test_validate_event_with_valid_uuid_string() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_event_with_invalid_uuid() -> None:
+def test_event_resource_serializer_validate_with_invalid_uuid() -> None:
     """
     Should raise ValidationError when event does not exist.
     """
@@ -105,7 +105,7 @@ def test_validate_event_with_invalid_uuid() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_event_with_invalid_uuid_string() -> None:
+def test_event_resource_serializer_validate_with_invalid_uuid_string() -> None:
     """
     Should raise ValidationError when a valid UUID format but non-existent event is provided.
     """

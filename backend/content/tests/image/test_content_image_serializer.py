@@ -74,7 +74,7 @@ def test_content_image_serializer_allows_valid_file() -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_validate_missing_file():
+def test_content_image_serializer_icon_validate_missing_file():
     """
     Test validate method raises error when file_object is missing.
     """
@@ -85,7 +85,7 @@ def test_content_image_icon_serializer_validate_missing_file():
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_validate_missing_entity_type():
+def test_content_image_serializer_icon_validate_missing_entity_type():
     """
     Test validate method raises error when entity_type is missing.
     """
@@ -99,7 +99,7 @@ def test_content_image_icon_serializer_validate_missing_entity_type():
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_validate_missing_entity_id():
+def test_content_image_serializer_icon_validate_missing_entity_id():
     """
     Test validate method raises error when entity_id is missing.
     """
@@ -113,7 +113,7 @@ def test_content_image_icon_serializer_validate_missing_entity_id():
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_validate_file_too_large():
+def test_content_image_serializer_icon_validate_file_too_large():
     """
     Test validate method raises error for oversized files.
     """
@@ -136,7 +136,7 @@ def test_content_image_icon_serializer_validate_file_too_large():
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_allows_valid_file() -> None:
+def test_content_image_serializer_icon_allows_valid_file() -> None:
     """
     Ensure ImageIconSerializer.validate succeeds for a valid, in-range image upload.
     """
@@ -149,7 +149,7 @@ def test_content_image_icon_serializer_allows_valid_file() -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_create_organization(caplog):
+def test_content_image_serializer_icon_create_organization(caplog):
     """
     Test create method links image to organization.
     """
@@ -192,7 +192,7 @@ def test_content_image_icon_serializer_create_organization(caplog):
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_create_event(caplog):
+def test_content_image_serializer_icon_create_event(caplog):
     """
     Test create method links image to event.
     """
@@ -242,7 +242,7 @@ def test_content_image_icon_serializer_create_event(caplog):
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_create_unknown_entity():
+def test_content_image_serializer_icon_create_unknown_entity():
     """
     Test create method ignores unknown entity types.
     """
@@ -265,7 +265,7 @@ def test_content_image_icon_serializer_create_unknown_entity():
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_create_organization_not_found():
+def test_content_image_serializer_icon_create_organization_not_found():
     """
     Test create method handles non-existent organization.
     """
@@ -288,7 +288,7 @@ def test_content_image_icon_serializer_create_organization_not_found():
 
 
 @pytest.mark.django_db
-def test_content_image_icon_serializer_create_organization_save_failure(caplog):
+def test_content_image_serializer_icon_create_organization_save_failure(caplog):
     """
     Test create method handles organization save failures.
     """

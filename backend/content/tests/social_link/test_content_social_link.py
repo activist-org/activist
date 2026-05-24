@@ -70,7 +70,7 @@ def test_content_social_link_organization_serializer() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_org_with_org_instance():
+def test_content_social_link_validate_with_org_instance():
     """
     Should return the same organization when an Organization instance is passed.
     """
@@ -81,7 +81,7 @@ def test_validate_org_with_org_instance():
 
 
 @pytest.mark.django_db
-def test_validate_org_with_valid_uuid():
+def test_content_social_link_validate_with_valid_org_uuid():
     """
     Should fetch and return the organization when a valid UUID is given.
     """
@@ -92,7 +92,7 @@ def test_validate_org_with_valid_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_org_with_valid_uuid_string():
+def test_content_social_link_validate_with_valid_org_uui_string():
     """
     Should fetch and return the organization when a valid UUID string is given.
     """
@@ -103,7 +103,7 @@ def test_validate_org_with_valid_uuid_string():
 
 
 @pytest.mark.django_db
-def test_validate_org_with_nonexistent_uuid():
+def test_content_social_link_validate_with_nonexistent_org_uuid():
     """
     Should raise ValidationError when a valid UUID format but non-existent organization is provided.
     """
@@ -115,7 +115,7 @@ def test_validate_org_with_nonexistent_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_org_with_nonexistent_uuid_string():
+def test_content_social_link_validate_with_nonexistent_org_uuid_string():
     """
     Should raise ValidationError when a valid UUID string format but non-existent organization is provided.
     """
@@ -148,7 +148,7 @@ def test_content_social_link_group_serializer() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_group_with_group_instance():
+def test_content_social_link_validate_with_group_instance():
     """
     Should return the same group when a Group instance is passed.
     """
@@ -173,7 +173,7 @@ def test_validate_group_with_group_instance():
 
 
 @pytest.mark.django_db
-def test_validate_group_with_valid_uuid():
+def test_content_social_link_validate_creation_with_valid_uuid():
     """
     Should fetch and return the group when a valid UUID is given.
     """
@@ -198,7 +198,7 @@ def test_validate_group_with_valid_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_group_with_invalid_uuid():
+def test_content_social_link_validate_with_invalid_uuid():
     """
     Should raise ValidationError when group does not exist.
     """
@@ -231,7 +231,7 @@ def test_content_social_link_event_serializer() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_event_with_event_instance():
+def test_content_social_link_validate_with_event_instance():
     """
     Should return the same event when an Event instance is passed.
     """
@@ -242,7 +242,7 @@ def test_validate_event_with_event_instance():
 
 
 @pytest.mark.django_db
-def test_validate_event_with_valid_uuid():
+def test_content_social_link_validate_with_valid_event_uuid():
     """
     Should fetch and return the event when a valid UUID is given.
     """
@@ -253,7 +253,7 @@ def test_validate_event_with_valid_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_event_with_valid_uuid_string():
+def test_content_social_link_validate_with_valid_event_string():
     """
     Should fetch and return the event when a valid UUID string is given.
     """
@@ -264,7 +264,7 @@ def test_validate_event_with_valid_uuid_string():
 
 
 @pytest.mark.django_db
-def test_validate_event_with_nonexistent_uuid():
+def test_content_social_link_validate_with_nonexistent_event_uuid():
     """
     Should raise ValidationError when a valid UUID format but non-existent event is provided.
     """
@@ -276,7 +276,7 @@ def test_validate_event_with_nonexistent_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_event_with_nonexistent_uuid_string():
+def test_content_social_link_validate_with_nonexistent_event_string():
     """
     Should raise ValidationError when a valid UUID string format but non-existent event is provided.
     """
@@ -291,7 +291,7 @@ def test_validate_event_with_nonexistent_uuid_string():
 
 
 @pytest.mark.django_db
-def test_content_social_link_organization_list_view(client: APIClient) -> None:
+def test_content_social_link_org_list_view(client: APIClient) -> None:
     """
     Test the listing of social links for an organization.
     This is like a GET request.
@@ -342,7 +342,7 @@ def test_content_social_link_event_list_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_social_link_organization_create_view(client: APIClient) -> None:
+def test_content_social_link_org_create_view(client: APIClient) -> None:
     """
     Test the creation of social links for an organization.
     The API uses PUT method instead of POST.

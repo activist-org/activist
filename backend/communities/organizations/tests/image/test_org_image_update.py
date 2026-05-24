@@ -14,7 +14,7 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.django_db
-def test_org_update_sequence_index(client: Client) -> None:
+def test_org_image_update_sequence_index(client: Client) -> None:
     """
     Test updating the sequence index of organization images.
     """
@@ -55,7 +55,7 @@ def test_org_update_sequence_index(client: Client) -> None:
 
 
 @pytest.mark.django_db
-def test_org_update_org_image_404(client: Client):
+def test_org_image_update_404(client: Client):
     fake_image_id = uuid4()
     org = OrganizationFactory()
 

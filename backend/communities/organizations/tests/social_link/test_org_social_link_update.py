@@ -87,7 +87,7 @@ def test_org_social_link_update(client: Client) -> None:
     assert response_body["detail"] == "Social link not found."
 
 
-def test_org_social_link_not_creator_or_admin_403():
+def test_org_social_link_update_not_creator_or_admin_403():
     client = APIClient()
 
     test_username = "test_user"

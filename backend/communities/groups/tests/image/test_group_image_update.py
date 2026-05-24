@@ -9,7 +9,7 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.django_db
-def test_group_update_sequence_index(client: Client) -> None:
+def test_group_image_update_sequence_index(client: Client) -> None:
     """
     Test updating the sequence index of group images.
     """

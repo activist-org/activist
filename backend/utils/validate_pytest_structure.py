@@ -7,10 +7,12 @@ import os
 import re
 from pathlib import Path
 
-# Read in the functions of said files
-# Validate that functions are named {file_name}_...
-
 PATH_SEPARATOR = "\\" if os.name == "nt" else "/"
+
+
+class ValidationError(Exception):
+    pass
+
 
 backend_dir = Path(__file__).parent.parent
 directories_to_check = [
@@ -69,7 +71,9 @@ for f in test_files:
         file_fxn_names = re.findall(file_fxn_name_regex, file_contents)
 
     for fxn_name in file_fxn_names:
-        if not fxn_name.startswith(test_file_name.replace(".py", "")):
+        if not fxn_name.startswith(
+            test_file_name.replace(".py", "")
+        ) and not fxn_name.startswith("_"):
             invalid_file_function_names.append(test_file_name)
 
 # MARK: Validate
@@ -84,7 +88,19 @@ if (
         | set(invalid_file_names_include_dir_path)
         | set(invalid_file_function_names)
     )
-    invalid_file_names_str = "\n- " + "\n- ".join(invalid_file_names)
-    raise ValueError(
-        f"The following files have invalid names or function names:{invalid_file_names_str}"
+    invalid_file_names_str = "\n- " + "\n- ".join(sorted(invalid_file_names))
+
+    file_or_files = "file" if len(invalid_file_names) == 1 else "files"
+    error_preamble = f"The following {len(invalid_file_names)} {file_or_files} have invalid names or function names:"
+    error_directions = (
+        "\n\nactivist backend test file rules include:"
+        "\n- Test file names must begin with 'test_'"
+        "\n- Test file names must match their directory paths (backend applications are singular)"
+        "\n- Test file function names must start with the file name"
     )
+
+    error_message = f"{error_preamble}{invalid_file_names_str}{error_directions}"
+
+    raise ValidationError(error_message)
+
+print("All activist backend test files and functions are valid.")

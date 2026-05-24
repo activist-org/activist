@@ -6,7 +6,7 @@ from events.factories import EventFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_social_link_create_201(authenticated_client):
+def test_event_social_link_create_201(authenticated_client):
     client, user = authenticated_client
     event = EventFactory(created_by=user)
 
@@ -24,7 +24,7 @@ def test_social_link_create_201(authenticated_client):
     assert response.json()["message"] == "Social link created successfully."
 
 
-def test_social_link_create_403(authenticated_client):
+def test_event_social_link_create_403(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory()

@@ -12,7 +12,7 @@ from communities.organizations.models import OrganizationFaq
 
 
 @pytest.mark.django_db
-def test_OrganizationFaqViewSet_destroy(authenticated_client) -> None:
+def test_org_faq_delete(authenticated_client) -> None:
     """
     Test OrganizationFaqViewSet destroy method (DELETE request)
 
@@ -97,7 +97,7 @@ def test_OrganizationFaqViewSet_destroy(authenticated_client) -> None:
 
 
 @pytest.mark.django_db
-def test_OrganizationFaqViewSet_destroy_multiple_faqs(authenticated_client) -> None:
+def test_org_faq_delete_multiple_faqs(authenticated_client) -> None:
     """
     Test that multiple FAQs can be deleted independently.
 
@@ -117,13 +117,13 @@ def test_OrganizationFaqViewSet_destroy_multiple_faqs(authenticated_client) -> N
     assert OrganizationFaq.objects.filter(org=org).count() == 3
 
     # Delete first FAQ.
-    response = client.delete(f"{'/v1/communities/organization_faqs'}/{faq1.id}")
+    response = client.delete(f"/v1/communities/organization_faqs/{faq1.id}")
     assert response.status_code == 204
     assert not OrganizationFaq.objects.filter(id=faq1.id).exists()
     assert OrganizationFaq.objects.filter(org=org).count() == 2
 
     # Delete second FAQ.
-    response = client.delete(f"{'/v1/communities/organization_faqs'}/{faq2.id}")
+    response = client.delete(f"'/v1/communities/organization_faqs'/{faq2.id}")
     assert response.status_code == 204
     assert not OrganizationFaq.objects.filter(id=faq2.id).exists()
     assert OrganizationFaq.objects.filter(org=org).count() == 1

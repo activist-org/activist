@@ -10,7 +10,7 @@ from events.factories import EventFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_export_events_ics():
+def test_event_calendar_export_ics():
     client = APIClient()
     event = EventFactory()
 
@@ -32,7 +32,7 @@ def test_export_events_ics():
     )
 
 
-def test_export_events_ics_400():
+def test_event_calendar_export_ics_400():
     client = APIClient()
 
     response = client.get(
@@ -43,7 +43,7 @@ def test_export_events_ics_400():
     assert response.json()["detail"] == "Event ID is required."
 
 
-def test_export_events_ics_404():
+def test_event_calendar_export_ics_404():
     client = APIClient()
     bad_event_uuid = uuid4()
 

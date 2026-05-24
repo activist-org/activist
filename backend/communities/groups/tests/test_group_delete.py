@@ -14,7 +14,7 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-def get_login(client: Client, staff_user=False):
+def _get_login(client: Client, staff_user=False):
     """
     Login credentials for group tests.
     """
@@ -43,12 +43,12 @@ def get_login(client: Client, staff_user=False):
     return (response_code, access_token, user)
 
 
-def test_group_delete_unauthorized_403(client: Client) -> None:
+def test_group_delete_403(client: Client) -> None:
     """
     Un-Authorized user trying to delete group (not staff).
     """
     group = GroupFactory()
-    login_details = get_login(client)
+    login_details = _get_login(client)
     group.created_by = login_details[2]
 
     assert login_details[0] == 200
@@ -71,7 +71,7 @@ def test_group_delete_404(client: Client) -> None:
     """
     Group id not found.
     """
-    login_details = get_login(client)
+    login_details = _get_login(client)
     test_uuid = uuid4()
 
     assert login_details[0] == 200
@@ -94,7 +94,7 @@ def test_group_delete_staffuser_204(client: Client) -> None:
     User is confirmed and is staff.
     """
     group = GroupFactory()
-    login_details = get_login(client, staff_user=True)
+    login_details = _get_login(client, staff_user=True)
     group.created_by = login_details[2]
 
     delete_response = client.delete(

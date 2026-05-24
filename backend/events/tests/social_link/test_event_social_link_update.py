@@ -64,7 +64,7 @@ def test_event_social_link_update_200(authenticated_client) -> None:
     assert response_body["detail"] == "Social link not found."
 
 
-def test_event_social_link_not_creator_or_admin_403(authenticated_client):
+def test_event_social_link_update_not_creator_or_admin_403(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory()

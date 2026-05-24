@@ -41,7 +41,7 @@ def test_group_text_update_403(authenticated_client):
     )
 
 
-def test_event_text_update_404(authenticated_client):
+def test_group_text_update_404(authenticated_client):
     client, user = authenticated_client
 
     bad_texts_id = uuid4()
