@@ -14,34 +14,15 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-# Split test.
-def test_group_delete(client: Client) -> None:
-    """
-    Test Group Delete API.
-
-    Parameters
-    ----------
-    client : Client
-        A Django test client used for making requests.
-
-    Returns
-    -------
-    None
-        This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
-    """
+def get_login(client: Client, staff_user=False):
     test_username = "test_user"
     test_password = "test_pass"
     user = UserFactory(username=test_username, plaintext_password=test_password)
-    group = GroupFactory()
 
-    """
-    # 1. Un-Authorized user trying to delete group (not staff).
-    """
     user.is_confirmed = True
     user.verified = True
+    user.is_staff = staff_user
     user.save()
-
-    group.created_by = user
 
     # Login to get token.
     login_response = client.post(
@@ -51,15 +32,27 @@ def test_group_delete(client: Client) -> None:
             "password": test_password,
         },
     )
-
-    assert login_response.status_code == 200
-
     login_response_body = login_response.json()
-    token = login_response_body.get("access")
+
+    response_code = login_response.status_code
+    access_token = login_response_body.get("access")
+
+    return (response_code, access_token, user)
+
+
+def test_group_delete_unauthorized_403(client: Client) -> None:
+    """
+    # 1. Un-Authorized user trying to delete group (not staff).
+    """
+    group = GroupFactory()
+    login_details = get_login(client)
+    group.created_by = login_details[2]
+
+    assert login_details[0] == 200
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}",
-        headers={"Authorization": f"Token {token}"},
+        headers={"Authorization": f"Token {login_details[1]}"},
     )
 
     assert delete_response.status_code == 403
@@ -70,68 +63,40 @@ def test_group_delete(client: Client) -> None:
         == "You are not authorized to perform this action."
     )
 
+
+def test_group_delete_404(client: Client) -> None:
     """
     2. Group id not found.
     """
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
+    login_details = get_login(client)
     test_uuid = uuid4()
 
-    group.created_by = user
-
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={
-            "username": test_username,
-            "password": test_password,
-        },
-    )
-
-    assert login_response.status_code == 200
-
-    login_response_body = login_response.json()
-    token = login_response_body.get("access")
+    assert login_details[0] == 200
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{test_uuid}",
-        headers={"Authorization": f"Token {token}"},
+        headers={"Authorization": f"Token {login_details[1]}"},
     )
 
     assert delete_response.status_code == 404
 
     delete_response_json = delete_response.json()
     assert delete_response_json["detail"] == "Group not found."
+    delete_response_json = delete_response.json()
+    assert delete_response_json["detail"] == "Group not found."
 
+
+def test_group_delete_staffuser_204(client: Client) -> None:
     """
     3. User is confirmed and is staff.
     """
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
-    group.created_by = user
-
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={
-            "username": test_username,
-            "password": test_password,
-        },
-    )
-
-    assert login_response.status_code == 200
-
-    login_response_body = login_response.json()
-    token = login_response_body.get("access")
+    group = GroupFactory()
+    login_details = get_login(client, staff_user=True)
+    group.created_by = login_details[2]
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}",
-        headers={"Authorization": f"Token {token}"},
+        headers={"Authorization": f"Token {login_details[1]}"},
     )
 
     assert delete_response.status_code == 204
