@@ -11,6 +11,10 @@ PATH_SEPARATOR = "\\" if os.name == "nt" else "/"
 
 
 class ValidationError(Exception):
+    """
+    Custom class for a more descriptive error output.
+    """
+
     pass
 
 

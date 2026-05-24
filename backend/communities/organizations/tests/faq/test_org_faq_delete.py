@@ -123,7 +123,7 @@ def test_org_faq_delete_multiple_faqs(authenticated_client) -> None:
     assert OrganizationFaq.objects.filter(org=org).count() == 2
 
     # Delete second FAQ.
-    response = client.delete(f"'/v1/communities/organization_faqs'/{faq2.id}")
+    response = client.delete(f"/v1/communities/organization_faqs/{faq2.id}")
     assert response.status_code == 204
     assert not OrganizationFaq.objects.filter(id=faq2.id).exists()
     assert OrganizationFaq.objects.filter(org=org).count() == 1

@@ -38,7 +38,7 @@ def _mock_scan_file() -> Generator[None, None, None]:
 
 
 @pytest.fixture
-def _test_content_image_with_file() -> Generator[Image, None, None]:
+def _image_with_file() -> Generator[Image, None, None]:
     """
     Fixture for creating an image with a file.
     Deletes the file after the test.
@@ -77,12 +77,12 @@ def _create_organization_and_image() -> Dict[str, Any]:
 
 
 @pytest.mark.django_db
-def test_content_image_upload_creation(image_with_file: Image) -> None:
+def test_content_image_upload_creation(_image_with_file: Image) -> None:
     """
     Test the creation of an image with a file.
     This is like a Model test.
     """
-    image = image_with_file
+    image = _image_with_file
 
     file_path = os.path.join(settings.MEDIA_ROOT, image.file_object.name)
 
@@ -93,11 +93,11 @@ def test_content_image_upload_creation(image_with_file: Image) -> None:
 
 
 @pytest.mark.django_db
-def test_content_image_upload_serializer(image_with_file: Image) -> None:
+def test_content_image_upload_serializer(_image_with_file: Image) -> None:
     """
     Test the serializer with a file.
     """
-    image = image_with_file
+    image = _image_with_file
     serializer = ImageSerializer(image)
 
     assert serializer.data["id"] == str(image.id)
