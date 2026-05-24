@@ -282,9 +282,6 @@ const internalSelectedOptions = computed({
       return;
     }
     const option = newOptions as unknown as Option | null;
-    // Use ?? "" so clearing the selection emits "" rather than null.
-    // null causes Zod to produce "Expected string, received null" instead of
-    // the field's own required-error message (e.g. "Required").
     const value = option?.value ?? "";
     query.value = option?.label || "";
     if (value !== (props.selectedOptions as unknown[])[0]) {
