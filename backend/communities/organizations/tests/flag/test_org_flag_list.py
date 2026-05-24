@@ -4,7 +4,7 @@ import pytest
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_list(authenticated_client):
+def test_org_flag_list_200(authenticated_client):
     """
     Test to list all organization flags.
     """

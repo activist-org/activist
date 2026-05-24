@@ -14,6 +14,7 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
+# Split test.
 def test_group_delete(client: Client) -> None:
     """
     Test Group Delete API.

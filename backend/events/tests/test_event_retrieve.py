@@ -11,7 +11,7 @@ from events.factories import EventFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_retrieve(client: Client) -> None:
+def test_event_retrieve_200(client: Client) -> None:
     """
     Retrieve event using event ID.
     """

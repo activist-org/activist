@@ -8,6 +8,7 @@ from content.factories import DiscussionFactory
 pytestmark = pytest.mark.django_db
 
 
+# Delete Partial update
 def test_discussion_partial_update():
     """
     Test to partially update a discussion.

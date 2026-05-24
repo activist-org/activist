@@ -12,6 +12,7 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
+# Split test.
 def test_group_update(client: Client) -> None:
     """
     1. Test for when the user is not authorized (not staff).

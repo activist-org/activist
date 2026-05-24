@@ -8,7 +8,7 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_create(authenticated_client):
+def test_group_flag_create_201(authenticated_client):
     """
     Test to create a flag for a group.
     """
@@ -24,7 +24,7 @@ def test_group_flag_create(authenticated_client):
     assert response.status_code == 201
 
 
-def test_group_flag_create_error():
+def test_group_flag_create_error_401():
     """
     Test to create a flag for a group as an unauthorized user.
     """

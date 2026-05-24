@@ -8,7 +8,7 @@ from communities.organizations.factories import OrganizationFlagFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_retrieve(authenticated_client):
+def test_org_flag_retrieve_200(authenticated_client):
     """
     Test to retrieve a flag of an organization.
     """
@@ -21,7 +21,7 @@ def test_org_flag_retrieve(authenticated_client):
     assert response.status_code == 200
 
 
-def test_org_flag_retrieve_does_not_exist(authenticated_client):
+def test_org_flag_retrieve_does_not_exist_404(authenticated_client):
     """
     Test to retrieve a flag of an organization.
     """

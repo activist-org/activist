@@ -8,7 +8,7 @@ from communities.groups.factories import GroupFlagFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_retrieve(authenticated_client):
+def test_group_flag_retrieve_200(authenticated_client):
     """
     Test to retrieve a flag of a group.
     """
@@ -20,7 +20,7 @@ def test_group_flag_retrieve(authenticated_client):
     assert response.status_code == 200
 
 
-def test_group_flag_retrieve_error(authenticated_client):
+def test_group_flag_retrieve_error_404(authenticated_client):
     client, user = authenticated_client
 
     flag = uuid4()

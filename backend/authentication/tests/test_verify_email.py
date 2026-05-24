@@ -12,7 +12,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Verify Email
 
 
-def test_verify_email(authenticated_client) -> None:
+def test_verify_email_200_and_400(authenticated_client) -> None:
     """
     Test email verification view.
 

@@ -8,7 +8,7 @@ from communities.organizations.factories import OrganizationFlagFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_delete(authenticated_client):
+def test_org_flag_delete_204(authenticated_client):
     """
     Test to delete a flag of an organization.
     """
@@ -25,7 +25,7 @@ def test_org_flag_delete(authenticated_client):
     assert response.status_code == 204
 
 
-def test_org_flag_delete_does_not_exist(authenticated_client):
+def test_org_flag_delete_does_not_exist_404(authenticated_client):
     client, user = authenticated_client
 
     bad_flagged_org_uuid = uuid4()

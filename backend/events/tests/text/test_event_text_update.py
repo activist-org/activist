@@ -8,7 +8,7 @@ from events.factories import EventFactory, EventTextFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_text_update(authenticated_client):
+def test_event_text_update_200(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory(created_by=user)

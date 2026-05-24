@@ -14,6 +14,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
+# Split test
 def test_event_faq_update(authenticated_client) -> None:
     """
     Test Event FAQ updates.

@@ -7,7 +7,7 @@ from content.factories import DiscussionFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_discussion_retrieve(client: Client):
+def test_discussion_retrieve_200(client: Client):
     thread = DiscussionFactory()
 
     response = client.get(path=f"/v1/content/discussions/{thread.id}")

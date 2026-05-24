@@ -8,7 +8,7 @@ from content.factories import ResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_resource_retrieve():
+def test_resource_retrieve_200():
     client = APIClient()
 
     test_username = "test_user"

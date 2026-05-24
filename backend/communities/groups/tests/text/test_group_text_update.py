@@ -8,7 +8,7 @@ from communities.groups.factories import GroupFactory, GroupTextFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_text_update(authenticated_client):
+def test_group_text_update_200(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)

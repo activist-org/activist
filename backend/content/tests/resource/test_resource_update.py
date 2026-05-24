@@ -8,6 +8,7 @@ from content.factories import EntityLocationFactory, ResourceFactory
 pytestmark = pytest.mark.django_db
 
 
+# Split test
 def test_resource_update():
     """
     Test to update the resources.

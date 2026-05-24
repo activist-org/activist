@@ -18,6 +18,7 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
+# Split test
 def test_org_social_link_update(client: Client) -> None:
     """
     Test Organization Social Link updates.
@@ -86,7 +87,7 @@ def test_org_social_link_update(client: Client) -> None:
     assert response_body["detail"] == "Social link not found."
 
 
-def test_org_social_link_not_creator_or_admin():
+def test_org_social_link_not_creator_or_admin_403():
     client = APIClient()
 
     test_username = "test_user"

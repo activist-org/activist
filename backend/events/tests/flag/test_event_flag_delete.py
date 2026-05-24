@@ -8,7 +8,7 @@ from events.factories import EventFlagFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_flag_delete(authenticated_client):
+def test_event_flag_delete_204(authenticated_client):
     client, user = authenticated_client
     user.is_staff = True
     user.save()
@@ -19,7 +19,7 @@ def test_event_flag_delete(authenticated_client):
     assert response.status_code == 204
 
 
-def test_event_flag_delete_does_not_exist(authenticated_client):
+def test_event_flag_delete_404(authenticated_client):
     client, user = authenticated_client
 
     bad_flagged_event_uuid = uuid4()

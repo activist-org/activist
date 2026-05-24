@@ -5,7 +5,7 @@ from django.test import Client
 pytestmark = pytest.mark.django_db
 
 
-def test_event_list(client: Client) -> None:
+def test_event_list_200(client: Client) -> None:
     """
     List Events.
     """

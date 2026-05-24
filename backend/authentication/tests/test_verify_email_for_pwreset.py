@@ -12,7 +12,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Verify Email Pwd Reset
 
 
-def test_verify_email_for_reset_password_valid_code(authenticated_client) -> None:
+def test_verify_email_for_reset_password_valid_code_200(authenticated_client) -> None:
     """
     Test email verification with valid verification code and new password.
     """
@@ -31,7 +31,7 @@ def test_verify_email_for_reset_password_valid_code(authenticated_client) -> Non
     logger.info(f"Successfully verified email for user: {user.username}")
 
 
-def test_verify_email_for_reset_password_invalid_code(authenticated_client) -> None:
+def test_verify_email_for_reset_password_invalid_code_404(authenticated_client) -> None:
     """
     Test email verification with invalid verification code.
     """
@@ -43,7 +43,7 @@ def test_verify_email_for_reset_password_invalid_code(authenticated_client) -> N
     assert response.data["detail"] == "User does not exist."
 
 
-def test_verify_email_for_reset_password_reused_code(authenticated_client) -> None:
+def test_verify_email_for_reset_password_reused_code_404(authenticated_client) -> None:
     """
     Test that already used verification code cannot be reused.
     """

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Test cases for the event FAQ destroy methods.
+Test cases for the event FAQ delete methods.
 """
 
 from uuid import uuid4
@@ -12,10 +12,8 @@ from events.models import EventFaq
 
 pytestmark = pytest.mark.django_db
 
-# MARK: Destroy
 
-
-def test_event_faq_destroy_success(authenticated_client) -> None:
+def test_event_faq_delete_success_204(authenticated_client) -> None:
     """
     Test successful Event FAQ deletion by the creator.
 
@@ -48,7 +46,7 @@ def test_event_faq_destroy_success(authenticated_client) -> None:
     assert not EventFaq.objects.filter(id=test_id).exists()
 
 
-def test_event_faq_destroy_by_staff(authenticated_client) -> None:
+def test_event_faq_delete_by_staff_204(authenticated_client) -> None:
     """
     Test successful Event FAQ deletion by a staff member.
 
@@ -83,7 +81,7 @@ def test_event_faq_destroy_by_staff(authenticated_client) -> None:
     assert not EventFaq.objects.filter(id=test_id).exists()
 
 
-def test_event_faq_destroy_not_found(authenticated_client) -> None:
+def test_event_faq_delete_not_found_404(authenticated_client) -> None:
     """
     Test Event FAQ deletion with non-existent FAQ ID.
 
@@ -111,7 +109,7 @@ def test_event_faq_destroy_not_found(authenticated_client) -> None:
     assert response.data["detail"] == "FAQ not found."
 
 
-def test_event_faq_destroy_not_authorized(authenticated_client) -> None:
+def test_event_faq_delete_not_authorized_403(authenticated_client) -> None:
     """
     Test Event FAQ deletion by unauthorized user.
 

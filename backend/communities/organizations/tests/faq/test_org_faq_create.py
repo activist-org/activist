@@ -15,6 +15,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
+# Split test
 def test_org_faq_create(authenticated_client) -> None:
     """
     Test Organization FAQ creations.

@@ -8,7 +8,7 @@ from events.factories import EventFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_flag_create(authenticated_client):
+def test_event_flag_create_201(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory()
@@ -19,7 +19,7 @@ def test_event_flag_create(authenticated_client):
     assert response.status_code == 201
 
 
-def test_event_flag_create_error():
+def test_event_flag_create_401():
     client = APIClient()
 
     test_username = "test_user"

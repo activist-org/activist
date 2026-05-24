@@ -14,7 +14,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_group_faq_update(authenticated_client) -> None:
+def test_group_faq_update_200_and_404(authenticated_client) -> None:
     """
     Test Group FAQ updates.
 
@@ -66,7 +66,7 @@ def test_group_faq_update(authenticated_client) -> None:
     assert response.status_code == 404
 
 
-def test_group_faq_update_unauthorized(authenticated_client) -> None:
+def test_group_faq_update_unauthorized_403(authenticated_client) -> None:
     """
     Test Group FAQ updates.
 

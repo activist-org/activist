@@ -8,7 +8,7 @@ from content.factories import EntityLocationFactory, ResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_resource_create():
+def test_resource_create_201():
     """
     Test to create a resource.
     """

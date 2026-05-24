@@ -8,7 +8,7 @@ from events.factories import EventFlagFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_flag_retrieve(authenticated_client):
+def test_event_flag_retrieve_200(authenticated_client):
     client, user = authenticated_client
     flag = EventFlagFactory()
 
@@ -17,7 +17,7 @@ def test_event_flag_retrieve(authenticated_client):
     assert response.status_code == 200
 
 
-def test_event_flag_retrieve_does_not_exist(authenticated_client):
+def test_event_flag_retrieve_404(authenticated_client):
     client, user = authenticated_client
 
     flag = uuid4()

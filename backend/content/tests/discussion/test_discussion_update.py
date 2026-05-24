@@ -6,7 +6,7 @@ from content.factories import DiscussionFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_discussion_update(authenticated_client):
+def test_discussion_update_200(authenticated_client):
     client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True
@@ -22,7 +22,7 @@ def test_discussion_update(authenticated_client):
     assert response.status_code == 200
 
 
-def test_discussion_update_not_authorized(authenticated_client):
+def test_discussion_update_not_authorized_200(authenticated_client):
     client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True

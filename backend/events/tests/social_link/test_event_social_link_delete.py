@@ -8,7 +8,7 @@ from events.factories import EventFactory, EventSocialLinkFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_social_link_delete(authenticated_client):
+def test_social_link_delete_204(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory(created_by=user)
@@ -33,7 +33,7 @@ def test_social_link_delete_404(authenticated_client):
     assert response.status_code == 404
 
 
-def test_event_faq_destroy_not_authorized(authenticated_client) -> None:
+def test_event_faq_destroy_not_authorized_403(authenticated_client) -> None:
     """
     Test Event FAQ deletion by unauthorized user.
 

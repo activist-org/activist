@@ -11,7 +11,7 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_org_text_update(authenticated_client):
+def test_org_text_update_200(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)

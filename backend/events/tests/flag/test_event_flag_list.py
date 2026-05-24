@@ -6,14 +6,14 @@ import pytest
 pytestmark = pytest.mark.django_db
 
 
-def test_event_flag_list(authenticated_client):
+def test_event_flag_list_200(authenticated_client):
     client, user = authenticated_client
     response = client.get(path="/v1/events/event_flags")
 
     assert response.status_code == 200
 
 
-def test_event_flag_list_no_pagination(authenticated_client):
+def test_event_flag_list_no_pagination_200(authenticated_client):
     """
     Test to list all user flags in case of no pagination.
     """

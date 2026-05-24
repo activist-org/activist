@@ -9,6 +9,7 @@ from communities.organizations.factories import OrganizationFactory
 pytestmark = pytest.mark.django_db
 
 
+# Split test
 def test_org_retrieve(client: Client) -> None:
     org = OrganizationFactory()
 

@@ -9,7 +9,7 @@ from content.models import Topic
 pytestmark = pytest.mark.django_db
 
 
-def test_event_create(authenticated_client) -> None:
+def test_event_create_201(authenticated_client) -> None:
     """
     Test event creation.
     """

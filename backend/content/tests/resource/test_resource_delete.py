@@ -8,6 +8,7 @@ from content.factories import ResourceFactory
 pytestmark = pytest.mark.django_db
 
 
+# Split test
 def test_resource_delete():
     """
     Test to delete resources.

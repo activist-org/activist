@@ -5,7 +5,7 @@ from django.test import Client
 pytestmark = pytest.mark.django_db
 
 
-def test_org_list(client: Client) -> None:
+def test_org_list_200(client: Client) -> None:
     response = client.get(path="/v1/communities/organizations")
 
     assert response.status_code == 200

@@ -17,6 +17,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
+# Split test
 def test_org_faq_update(authenticated_client) -> None:
     """
     Test Organization FAQ updates.
@@ -80,7 +81,7 @@ def test_org_faq_update(authenticated_client) -> None:
     assert response_body["detail"] == "FAQ not found."
 
 
-def test_org_faq_update_unathorized(authenticated_client) -> None:
+def test_org_faq_update_unathorized_403(authenticated_client) -> None:
     client, user = authenticated_client
     user.is_staff = False
     user.save()

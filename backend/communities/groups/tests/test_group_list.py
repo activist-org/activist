@@ -11,7 +11,7 @@ from django.test import Client
 pytestmark = pytest.mark.django_db
 
 
-def test_group_list(client: Client) -> None:
+def test_group_list_200(client: Client) -> None:
     """
     Test group_list method.
 
@@ -30,7 +30,7 @@ def test_group_list(client: Client) -> None:
     assert response.status_code == 200
 
 
-def test_group_list_no_pagination(client: Client) -> None:
+def test_group_list_no_pagination_200(client: Client) -> None:
     with patch(
         "communities.groups.views.GroupAPIView.paginate_queryset"
     ) as mock_paginate:

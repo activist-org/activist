@@ -8,7 +8,7 @@ from communities.groups.factories import GroupFactory, GroupResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_resource_list():
+def test_group_resource_list_200():
     """
     Test to list all group resources.
     """
@@ -27,7 +27,7 @@ def test_group_resource_list():
     assert len(response_body) >= 3
 
 
-def test_group_resource_list_empty():
+def test_group_resource_list_empty_200():
     """
     Test listing group resources when none exist.
     """

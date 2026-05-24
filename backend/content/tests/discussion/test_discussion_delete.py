@@ -8,6 +8,7 @@ from content.factories import DiscussionFactory
 pytestmark = pytest.mark.django_db
 
 
+# Split test
 def test_discussion_delete():
     """
     Test to delete a discussion.

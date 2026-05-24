@@ -17,7 +17,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_group_faq_create() -> None:
+def test_group_faq_create_200() -> None:
     """
     Test Group FAQ updates.
 

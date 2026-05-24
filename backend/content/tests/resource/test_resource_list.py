@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 pytestmark = pytest.mark.django_db
 
 
-def test_resource_list():
+def test_resource_list_200():
     """
     Test to list the resources.
     """

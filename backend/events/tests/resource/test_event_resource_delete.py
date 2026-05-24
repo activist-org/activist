@@ -8,7 +8,7 @@ from events.factories import EventFactory, EventResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_resource_delete_200(authenticated_client):
+def test_event_resource_delete_204(authenticated_client):
     """
     Test successful deletion of an event resource by the event owner.
     """
@@ -81,7 +81,7 @@ def test_event_resource_delete_404(authenticated_client):
     assert response.status_code == 404
 
 
-def test_event_resource_delete_staff_200():
+def test_event_resource_delete_staff_204():
     """
     Test that staff users can delete any event resource.
     """

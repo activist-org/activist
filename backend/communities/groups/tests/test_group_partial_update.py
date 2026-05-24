@@ -12,6 +12,7 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
+# Delete partial update tests.
 def test_group_partial_update(client: Client) -> None:
     """
     Test group_partial_update.

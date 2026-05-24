@@ -8,7 +8,7 @@ from events.factories import EventFactory, EventResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_resource_list():
+def test_event_resource_list_200():
     """
     Test to list all event resources.
     """

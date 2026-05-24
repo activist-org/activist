@@ -246,7 +246,7 @@ def test_validate_event_with_nonexistent_uuid_string():
 
 
 @pytest.mark.django_db
-def test_organization_faq_list_view(client: APIClient) -> None:
+def test_organization_faq_list_view_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for an organization.
     This is like a GET request.
@@ -262,7 +262,7 @@ def test_organization_faq_list_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_group_faq_list_view(client: APIClient) -> None:
+def test_group_faq_list_view_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for a group.
     This is like a GET request.
@@ -278,7 +278,7 @@ def test_group_faq_list_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_event_faq_list_view(client: APIClient) -> None:
+def test_event_faq_list_view_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for an event.
     This is like a GET request.
@@ -297,7 +297,7 @@ def test_event_faq_list_view(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_organization_faq_create_view() -> None:
+def test_organization_faq_create_view_200() -> None:
     """
     Test the creation of FAQs for an organization.
     The API uses PUT method instead of POST.
@@ -355,7 +355,7 @@ def test_organization_faq_create_view() -> None:
 
 
 @pytest.mark.django_db
-def test_group_faq_create_view() -> None:
+def test_group_faq_create_view_200() -> None:
     """
     Test the creation of FAQs for a group.
     The API uses PUT method instead of POST.
@@ -412,7 +412,7 @@ def test_group_faq_create_view() -> None:
 
 
 @pytest.mark.django_db
-def test_event_faq_create_view() -> None:
+def test_event_faq_create_view_200() -> None:
     """
     Test the creation of FAQs for an event.
     The API uses PUT method instead of POST.

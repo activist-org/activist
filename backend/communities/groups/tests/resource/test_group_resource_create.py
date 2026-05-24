@@ -8,7 +8,7 @@ from content.models import Topic
 pytestmark = pytest.mark.django_db
 
 
-def test_group_resource_create_200(authenticated_client):
+def test_group_resource_create_201(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)

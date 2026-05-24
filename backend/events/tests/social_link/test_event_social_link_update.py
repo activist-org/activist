@@ -12,7 +12,8 @@ from events.factories import EventFactory, EventSocialLinkFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_social_link_update(authenticated_client) -> None:
+# Split test
+def test_event_social_link_update_200(authenticated_client) -> None:
     """
     Test Event Social Link updates.
 
@@ -63,7 +64,7 @@ def test_event_social_link_update(authenticated_client) -> None:
     assert response_body["detail"] == "Social link not found."
 
 
-def test_event_social_link_not_creator_or_admin(authenticated_client):
+def test_event_social_link_not_creator_or_admin_403(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory()

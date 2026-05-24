@@ -7,7 +7,7 @@ from content.factories import DiscussionFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_discussion_create(authenticated_client):
+def test_discussion_create_201(authenticated_client):
     client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True
@@ -25,7 +25,7 @@ def test_discussion_create(authenticated_client):
     assert response.status_code == 201
 
 
-def test_discussion_create_not_authorized():
+def test_discussion_create_not_authorized_401():
     """
     Test that unauthenticated users cannot create discussions.
     """

@@ -8,6 +8,7 @@ from content.factories import EntityLocationFactory, ResourceFactory
 pytestmark = pytest.mark.django_db
 
 
+# Delete partial update
 def test_resource_partial_update():
     """
     Test to partially update resources.

@@ -8,7 +8,7 @@ from communities.groups.factories import GroupFlagFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_delete(authenticated_client):
+def test_group_flag_delete_204(authenticated_client):
     """
     Test to delete a flag of a group.
     """
@@ -22,7 +22,7 @@ def test_group_flag_delete(authenticated_client):
     assert response.status_code == 204
 
 
-def test_group_flag_does_not_exist(authenticated_client):
+def test_group_flag_does_not_exist_404(authenticated_client):
     client, user = authenticated_client
 
     bad_flagged_group_uuid = uuid4()
