@@ -15,7 +15,6 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-# Split test
 def test_org_faq_create(authenticated_client) -> None:
     """
     Test Organization FAQ creations.
@@ -53,7 +52,18 @@ def test_org_faq_create(authenticated_client) -> None:
 
     assert response.status_code == 201
 
-    # MARK: Update Failure
+
+def test_org_faq_create_400(authenticated_client):
+    client, user = authenticated_client
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    org = OrganizationFactory(created_by=user)
+
+    faqs = OrganizationFaqFactory()
+    test_order = faqs.order
 
     response = client.post(
         path="/v1/communities/organization_faqs",

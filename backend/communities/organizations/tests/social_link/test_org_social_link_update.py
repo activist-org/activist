@@ -7,7 +7,6 @@ from uuid import uuid4
 
 import pytest
 from django.test import Client
-from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from communities.organizations.factories import (
@@ -18,53 +17,45 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-# Split test
-def test_org_social_link_update(client: Client) -> None:
-    """
-    Test Organization Social Link updates.
-
-    Parameters
-    ----------
-    client : Client
-        A Django test client used to send HTTP requests to the application.
-
-    Returns
-    -------
-    None
-        This test asserts the correctness of status codes (200 for success, 404 for not found).
-    """
+def _get_login(client: Client, staff_user=False):
     test_username = "test_user"
     test_password = "test_password"
     user = UserFactory(username=test_username, plaintext_password=test_password)
     user.is_confirmed = True
     user.verified = True
-    user.is_staff = True
+    user.is_staff = staff_user
     user.save()
 
-    org = OrganizationFactory(created_by=user)
+    login_response = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": test_username, "password": test_password},
+    )
+
+    access_token = login_response.json()
+
+    return {
+        "status_code": login_response.status_code,
+        "access_token": access_token["access"],
+        "user": user,
+    }
+
+
+def test_org_social_link_update_200(client: Client) -> None:
+    login_details = _get_login(client, staff_user=True)
+
+    org = OrganizationFactory(created_by=login_details["user"])
 
     social_links = OrganizationSocialLinkFactory(org=org)
     test_link = social_links.link
     test_label = social_links.label
     test_order = social_links.order
 
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
-
-    assert login_response.status_code == 200
-
-    # MARK: Update Success
-
-    login_body = login_response.json()
-    token = login_body["access"]
+    assert login_details["status_code"] == 200
 
     response = client.put(
         path=f"/v1/communities/organization_social_links/{social_links.id}",
         data={"link": test_link, "label": test_label, "order": test_order},
-        headers={"Authorization": f"Token {token}"},
+        headers={"Authorization": f"Token {login_details['access_token']}"},
         content_type="application/json",
     )
     response_body = response.json()
@@ -72,13 +63,24 @@ def test_org_social_link_update(client: Client) -> None:
     assert response.status_code == 200
     assert response_body["message"] == "Social link updated successfully."
 
-    # MARK: Update Failure
+
+def test_org_social_link_update_404(client: Client):
+    login_details = _get_login(client, staff_user=True)
+
+    org = OrganizationFactory(created_by=login_details["user"])
+
+    social_links = OrganizationSocialLinkFactory(org=org)
+    test_link = social_links.link
+    test_label = social_links.label
+    test_order = social_links.order
+
+    assert login_details["status_code"] == 200
 
     bad_social_link_uuid = uuid4()
     response = client.put(
         path=f"/v1/communities/organization_social_links/{bad_social_link_uuid}",
         data={"link": test_link, "label": test_label, "order": test_order},
-        headers={"Authorization": f"Token {token}"},
+        headers={"Authorization": f"Token {login_details['access_token']}"},
         content_type="application/json",
     )
     response_body = response.json()
@@ -87,15 +89,8 @@ def test_org_social_link_update(client: Client) -> None:
     assert response_body["detail"] == "Social link not found."
 
 
-def test_org_social_link_update_not_creator_or_admin_403():
-    client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_password"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.save()
+def test_org_social_link_update_not_creator_or_admin_403(client: Client):
+    login_details = _get_login(client)
 
     org = OrganizationFactory()
 
@@ -104,24 +99,13 @@ def test_org_social_link_update_not_creator_or_admin_403():
     test_label = social_links.label
     test_order = social_links.order
 
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={"username": test_username, "password": test_password},
-    )
+    assert login_details["status_code"] == 200
 
-    assert login_response.status_code == 200
-
-    # MARK: Access Failure
-
-    login_body = login_response.json()
-    token = login_body["access"]
-
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.put(
         path=f"/v1/communities/organization_social_links/{social_links.id}",
         data={"link": test_link, "label": test_label, "order": test_order},
         content_type="application/json",
+        headers={"Authorization": f"Token {login_details['access_token']}"},
     )
     response_body = response.json()
 

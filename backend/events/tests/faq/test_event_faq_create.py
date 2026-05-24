@@ -12,8 +12,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-# Split test
-def test_event_faq_create(authenticated_client) -> None:
+def test_event_faq_create_200(authenticated_client) -> None:
     """
     Test Event FAQ updates.
 
@@ -50,7 +49,18 @@ def test_event_faq_create(authenticated_client) -> None:
 
     assert response.status_code == 201
 
-    # MARK: Update Failure
+
+def test_event_faq_create_400(authenticated_client):
+    client, user = authenticated_client
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    event = EventFactory(created_by=user)
+
+    faqs = EventFaqFactory()
+    test_order = faqs.order
 
     response = client.post(
         path="/v1/events/event_faqs",

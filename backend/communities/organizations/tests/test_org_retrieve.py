@@ -9,7 +9,6 @@ from communities.organizations.factories import OrganizationFactory
 pytestmark = pytest.mark.django_db
 
 
-# Split test
 def test_org_retrieve(client: Client) -> None:
     org = OrganizationFactory()
 
@@ -19,8 +18,11 @@ def test_org_retrieve(client: Client) -> None:
 
     assert response.status_code == 200
 
+
+def test_org_retrieve_404(client: Client):
     bad_org_id = uuid4()
     response = client.get(path=f"/v1/communities/organizations/{bad_org_id}")
     assert response.status_code == 404
+
     response_body = response.json()
     assert response_body["detail"] == "Failed to retrieve the organization."

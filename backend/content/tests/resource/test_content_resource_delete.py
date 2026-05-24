@@ -8,13 +8,7 @@ from content.factories import ResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-# Split test
-def test_content_resource_delete():
-    """
-    Test to delete resources.
-    """
-    client = APIClient()
-
+def _get_login(client: APIClient):
     test_username = "test_user"
     test_pass = "test_pass"
     user = UserFactory(
@@ -23,28 +17,39 @@ def test_content_resource_delete():
         is_confirmed=True,
         verified=True,
     )
-
-    resource = ResourceFactory(created_by=user)
-    unowned_resource = ResourceFactory()
-
-    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
     )
 
-    assert login_response.status_code == 200
-
     login_body = login_response.json()
-    token = login_body["access"]
 
-    # Authorized owner tried to delete the resource.
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    return {
+        "user": user,
+        "status_code": login_response.status_code,
+        "access_token": login_body["access"],
+    }
+
+
+def test_content_resource_delete_200():
+    """
+    Test to delete resources.
+    """
+    client = APIClient()
+    login_details = _get_login(client)
+    resource = ResourceFactory(created_by=login_details["user"])
+
+    assert login_details["status_code"] == 200
+
+    client.credentials(HTTP_AUTHORIZATION=f"Token {login_details['access_token']}")
     response = client.delete(path=f"/v1/content/resources/{resource.id}")
 
     assert response.status_code == 204
 
-    # Authorized non-owner tries to delete the resource.
+
+def test_content_resource_delete_403():
+    client = APIClient()
+    unowned_resource = ResourceFactory()
     error_response = client.delete(path=f"/v1/content/resources/{unowned_resource.id}")
     assert error_response.status_code == 403
 

@@ -17,7 +17,6 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-# Split test
 def test_org_faq_update(authenticated_client) -> None:
     """
     Test Organization FAQ updates.
@@ -61,7 +60,21 @@ def test_org_faq_update(authenticated_client) -> None:
 
     assert response.status_code == 200
 
-    # MARK: Update Failure
+
+def test_org_faq_update_404(authenticated_client):
+    client, user = authenticated_client
+    user.is_confirmed = True
+    user.verified = True
+    user.is_staff = True
+    user.save()
+
+    org = OrganizationFactory(created_by=user)
+
+    faqs = OrganizationFaqFactory(org=org)
+    test_id = faqs.id
+    test_question = faqs.question
+    test_answer = faqs.answer
+    test_order = faqs.order
 
     bad_faq_uuid = uuid4()
     response = client.put(

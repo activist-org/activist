@@ -12,8 +12,34 @@ from communities.groups.factories import GroupFactory
 pytestmark = pytest.mark.django_db
 
 
-# Split test.
-def test_group_update(client: Client) -> None:
+def _get_login(client: Client, staff_user=False):
+    test_username = "test_user"
+    test_password = "test_pass"
+    user = UserFactory(username=test_username, plaintext_password=test_password)
+
+    user.verified = True
+    user.is_confirmed = True
+    user.is_staff = staff_user
+    user.save()
+
+    login_response = client.post(
+        path="/v1/auth/sign_in",
+        data={
+            "username": test_username,
+            "password": test_password,
+        },
+    )
+
+    body = login_response.json()
+
+    return {
+        "user": user,
+        "login_status_code": login_response.status_code,
+        "access_token": body["access"],
+    }
+
+
+def test_group_update_403(client: Client) -> None:
     """
     Test for when the user is not authorized (not staff).
 
@@ -27,30 +53,12 @@ def test_group_update(client: Client) -> None:
     None
         This test asserts the correctness of HTTP status codes (401 for unauthorized, 200 for success).
     """
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
     group = GroupFactory()
 
-    user.verified = True
-    user.is_confirmed = True
-    user.save()
+    login_details = _get_login(client)
+    assert login_details["login_status_code"] == 200
 
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={
-            "username": test_username,
-            "password": test_password,
-        },
-    )
-
-    assert login_response.status_code == 200
-
-    login_response_body = login_response.json()
-    token = login_response_body.get("access")
-
-    group.created_by = user
+    group.created_by = login_details["user"]
 
     response = client.get(path=f"/v1/communities/groups/{group.id}")
     assert response.status_code == 200
@@ -62,7 +70,7 @@ def test_group_update(client: Client) -> None:
             "name": "new_test_name",
             "category": "new_test_category",
         },
-        headers={"Authorization": f"Token {token}"},
+        headers={"Authorization": f"Token {login_details['access_token']}"},
         content_type="application/json",
     )
 
@@ -73,34 +81,17 @@ def test_group_update(client: Client) -> None:
         request_body_json["detail"] == "You are not authorized to perform this action."
     )
 
+
+def test_group_update_200(client: Client):
     """
     Test for Authorized user updating the group information.
     """
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
+
+    login_details = _get_login(client, staff_user=True)
+    assert login_details["login_status_code"] == 200
+
     group = GroupFactory()
-
-    user.verified = True
-    user.is_confirmed = True
-    user.is_staff = True
-    user.save()
-
-    # Login to get token.
-    login_response = client.post(
-        path="/v1/auth/sign_in",
-        data={
-            "username": test_username,
-            "password": test_password,
-        },
-    )
-
-    assert login_response.status_code == 200
-
-    login_response_body = login_response.json()
-    token = login_response_body.get("access")
-
-    group.created_by = user
+    group.created_by = login_details["user"]
 
     response = client.get(path=f"/v1/communities/groups/{group.id}")
 
@@ -113,7 +104,7 @@ def test_group_update(client: Client) -> None:
             "name": "new_test_name",
             "category": "new_test_category",
         },
-        headers={"Authorization": f"Token {token}"},
+        headers={"Authorization": f"Token {login_details['access_token']}"},
         content_type="application/json",
     )
 

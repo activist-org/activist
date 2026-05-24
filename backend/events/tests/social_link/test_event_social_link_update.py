@@ -12,7 +12,6 @@ from events.factories import EventFactory, EventSocialLinkFactory
 pytestmark = pytest.mark.django_db
 
 
-# Split test
 def test_event_social_link_update_200(authenticated_client) -> None:
     """
     Test Event Social Link updates.
@@ -45,10 +44,17 @@ def test_event_social_link_update_200(authenticated_client) -> None:
     assert response.status_code == 200
     assert response_body["message"] == "Social link updated successfully."
 
-    # MARK: Update Failure
 
+def test_event_social_link_update(authenticated_client):
+    client, user = authenticated_client
     test_uuid = uuid4()
 
+    event = EventFactory(created_by=user)
+
+    social_links = EventSocialLinkFactory(event=event)
+    test_link = social_links.link
+    test_label = social_links.label
+    test_order = social_links.order
     response = client.put(
         path=f"/v1/events/event_social_links/{test_uuid}",
         data={

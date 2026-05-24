@@ -8,13 +8,8 @@ from content.factories import EntityLocationFactory, ResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-# Split test
-def test_content_resource_update():
-    """
-    Test to update the resources.
-    """
+def _get_login():
     client = APIClient()
-
     test_username = "test_user"
     test_pass = "test_pass"
     user = UserFactory(
@@ -24,20 +19,33 @@ def test_content_resource_update():
         verified=True,
     )
 
-    unowned_resource = ResourceFactory()
-    resource = ResourceFactory(created_by=user)
-    location = EntityLocationFactory()
-
-    # Login to get token.
     login_response = client.post(
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_pass},
     )
 
-    assert login_response.status_code == 200
-
     login_body = login_response.json()
-    token = login_body["access"]
+
+    return {
+        "user": user,
+        "access_token": login_body["access"],
+        "status_code": login_response.status_code,
+    }
+
+
+def test_content_resource_update():
+    """
+    Test to update the resources.
+    """
+    client = APIClient()
+
+    login_details = _get_login()
+    user = login_details["user"]
+
+    resource = ResourceFactory(created_by=user)
+    location = EntityLocationFactory()
+
+    assert login_details["status_code"] == 200
 
     payload = {
         "name": "new_resource",
@@ -50,13 +58,30 @@ def test_content_resource_update():
         "created_by": user.id,
     }
 
-    # Authorized owner tries to update the resources.
-    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+    client.credentials(HTTP_AUTHORIZATION=f"Token {login_details['access_token']}")
     response = client.put(path=f"/v1/content/resources/{resource.id}", data=payload)
 
     assert response.status_code == 200
 
-    # Authorized non-owner tries to update the resources.
+
+def test_content_resource_update_403():
+    client = APIClient()
+
+    unowned_resource = ResourceFactory()
+    location = EntityLocationFactory()
+    user = UserFactory()
+
+    payload = {
+        "name": "new_resource",
+        "description": "New Description",
+        "url": "https://activist.org/",
+        "order": 0,
+        "location": location.id,
+        "is_private": True,
+        "terms_checked": True,
+        "created_by": user.id,
+    }
+
     error_response = client.put(
         path=f"/v1/content/resources/{unowned_resource.id}", data=payload
     )
