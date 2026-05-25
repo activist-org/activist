@@ -38,9 +38,7 @@ dev = [
     "ts-backend-check>=1.6.0",
     "types-icalendar>=6.3.2.20260518",
 ]
-audit = [
-    "pysentry-rs>=0.4.5"
-]
+audit = ["pysentry-rs>=0.4.5"]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -134,5 +132,5 @@ exclude = [
     "^.*\\.__str__$", # __str__ methods
     "^__init__$",     # __init__ files
     "^test_.*$",      # test files
-    "^views.*$",      # test files
+    "^views.*$",      # view files
 ]
