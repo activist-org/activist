@@ -42,7 +42,7 @@
     </div>
   </div>
   <div id="home-header" class="flex items-baseline gap-2 md:gap-4">
-    <h1 class="hidden md:block">
+    <h1>
       {{ headerName }}
     </h1>
     <!-- <IconOrganizationStatus
@@ -57,7 +57,7 @@
     <h4 v-if="statusPending" class="warn-text">
       {{ $t("i18n.components.header_app_page.status_pending") }}
     </h4>
-    <h4 v-else-if="headerTagline" class="distinct-text hidden md:block">
+    <h4 v-else-if="headerTagline" class="distinct-text">
       {{ headerTagline }}
     </h4>
     <!-- Slot is for Btn and Dropdown components at the top of the page. -->
