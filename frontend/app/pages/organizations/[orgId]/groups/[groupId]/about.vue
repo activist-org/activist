@@ -6,7 +6,9 @@
       <Title>{{ group?.name }}</Title>
     </Head>
     <HeaderAppPageGroup>
-      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+      <div
+        class="flex w-full flex-col space-y-2 pb-3 sm:w-auto sm:flex-row sm:space-x-2 sm:space-y-0 lg:space-x-3 lg:pb-4"
+      >
         <BtnRouteExternal
           v-if="group?.texts[0]?.getInvolvedUrl"
           ariaLabel="i18n._global.join_group_aria_label"
