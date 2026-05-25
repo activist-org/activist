@@ -17,9 +17,9 @@
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <EntityLogoMobile
+        <EntityIconMobile
           v-if="showMobileEntityShortcut"
-          @edit="handleEditGroupLogo"
+          @edit="handleEditGroupIcon"
           :entity="group"
           :icon="IconMap.GROUP"
           :imgUrl="groupIconUrl"
@@ -64,7 +64,7 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
 const { showToastError } = useToaster();
 
-function handleEditGroupLogo(): void {
+function handleEditGroupIcon(): void {
   showToastError("THIS FEATURE IS COMING SOON!");
 }
 </script>

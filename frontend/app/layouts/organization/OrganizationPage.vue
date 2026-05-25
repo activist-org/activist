@@ -14,9 +14,9 @@
         class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <EntityLogoMobile
+        <EntityIconMobile
           v-if="showMobileEntityShortcut"
-          @edit="handleEditOrganizationLogo"
+          @edit="handleEditOrganizationIcon"
           :entity="organization"
           :icon="IconMap.ORGANIZATION"
           :imgUrl="organizationIconUrl"
@@ -69,7 +69,7 @@ const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
 
 const { openModal } = useModalHandlers("ModalUploadImageIcon");
 
-function handleEditOrganizationLogo(): void {
+function handleEditOrganizationIcon(): void {
   if (!organization.value?.id) {
     return;
   }

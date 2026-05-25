@@ -14,9 +14,9 @@
         class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
-        <EntityLogoMobile
+        <EntityIconMobile
           v-if="showMobileEntityShortcut"
-          @edit="handleEditEventLogo"
+          @edit="handleEditEventIcon"
           :accentClass="eventLogoAccentClass"
           :entity="event"
           :icon="IconMap.EVENT"
@@ -73,7 +73,7 @@ const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
 
 const { openModal } = useModalHandlers("ModalUploadImageIcon");
 
-function handleEditEventLogo(): void {
+function handleEditEventIcon(): void {
   if (!event.value?.id) {
     return;
   }

@@ -2,18 +2,18 @@
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import EntityLogoMobile from "../../../app/components/entity/EntityLogoMobile.vue";
+import EntityIconMobile from "../../../app/components/entity/EntityIconMobile.vue";
 import { createUseUserSessionMock } from "../../mocks/composableMocks";
 
-type MobileEntityLogoProps = {
+type MobileEntityIconProps = {
   entity: { id: string; name: string; createdBy: string } | null;
   icon: string;
   imgUrl?: string;
   tagline?: string;
 };
 
-function mountEntityLogoMobile(props: MobileEntityLogoProps) {
-  return mount(EntityLogoMobile, {
+function mountEntityIconMobile(props: MobileEntityIconProps) {
+  return mount(EntityIconMobile, {
     props,
     global: {
       stubs: {
@@ -23,7 +23,7 @@ function mountEntityLogoMobile(props: MobileEntityLogoProps) {
   });
 }
 
-describe("EntityLogoMobile.vue", () => {
+describe("EntityIconMobile.vue", () => {
   beforeEach(() => {
     globalThis.useUserSession = createUseUserSessionMock(true, {
       id: "user-1",
@@ -32,7 +32,7 @@ describe("EntityLogoMobile.vue", () => {
   });
 
   it("renders the image and emits edit when the editable shortcut is clicked", async () => {
-    const wrapper = mountEntityLogoMobile({
+    const wrapper = mountEntityIconMobile({
       entity: { id: "org-1", name: "Food Collective", createdBy: "user-1" },
       icon: "bi:building",
       imgUrl: "/api/org-icon.png",
@@ -50,7 +50,7 @@ describe("EntityLogoMobile.vue", () => {
   });
 
   it("renders the provided icon when there is no image URL", () => {
-    const wrapper = mountEntityLogoMobile({
+    const wrapper = mountEntityIconMobile({
       entity: {
         id: "group-1",
         name: "Neighborhood Group",
@@ -72,7 +72,7 @@ describe("EntityLogoMobile.vue", () => {
       isAdmin: false,
     });
 
-    const wrapper = mountEntityLogoMobile({
+    const wrapper = mountEntityIconMobile({
       entity: { id: "event-1", name: "Repair Workshop", createdBy: "user-1" },
       icon: "bi:calendar-event",
       imgUrl: "/api/event-icon.png",
