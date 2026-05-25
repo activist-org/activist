@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 
 from communities.organizations.factories import OrganizationFactory
 from communities.organizations.models import Organization
@@ -9,7 +10,7 @@ from content.models import Topic
 pytestmark = pytest.mark.django_db
 
 
-def test_event_create(authenticated_client) -> None:
+def test_event_created_201(authenticated_client) -> None:
     """
     Test event creation.
     """
@@ -49,4 +50,4 @@ def test_event_create(authenticated_client) -> None:
         format="json",
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED

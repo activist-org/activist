@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 
 from communities.organizations.factories import (
     OrganizationFactory,
@@ -11,7 +12,7 @@ from content.models import Topic
 pytestmark = pytest.mark.django_db
 
 
-def test_org_resource_create_200(authenticated_client):
+def test_org_resource_create_ok_200(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)
@@ -37,11 +38,11 @@ def test_org_resource_create_200(authenticated_client):
 
     response_body = response.json()
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     assert response_body["message"] == "Resource created successfully."
 
 
-def test_org_resource_create_403(authenticated_client):
+def test_org_resource_create_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory()
@@ -67,7 +68,7 @@ def test_org_resource_create_403(authenticated_client):
 
     response_body = response.json()
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert (
         response_body["detail"]
         == "You are not authorized to create resource for this organization."

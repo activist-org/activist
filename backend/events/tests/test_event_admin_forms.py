@@ -23,7 +23,7 @@ class TestEventAdminForm(EventAdminForm):
 # if there is invalid data. Do nothing otherwise.
 
 
-def test_good_phys_event() -> None:
+def test_event_admin_forms_good_physical_event() -> None:
     test_address = EventLocationFactory.create()
 
     form = TestEventAdminForm(EventAdminForm)
@@ -36,7 +36,7 @@ def test_good_phys_event() -> None:
     assert form.clean()
 
 
-def test_bad_phys_event() -> None:
+def test_event_admin_forms_bad_physical_event() -> None:
     test_url = "https://example.com"
 
     form = TestEventAdminForm(EventAdminForm)
@@ -50,7 +50,7 @@ def test_bad_phys_event() -> None:
         form.clean()
 
 
-def test_good_online_event() -> None:
+def test_event_admin_forms_good_online_event() -> None:
     test_url = "https://example.com"
 
     form = TestEventAdminForm(EventAdminForm)
@@ -63,7 +63,7 @@ def test_good_online_event() -> None:
     assert form.clean()
 
 
-def test_bad_online_event() -> None:
+def test_event_admin_forms_bad_online_event() -> None:
     test_address = EventLocationFactory.create()
 
     form = TestEventAdminForm(EventAdminForm)

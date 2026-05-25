@@ -53,3 +53,7 @@ jobs:
       - name: Run numpydoc Documentation Check
         if: always()
         run: uv run numpydoc lint **/*.py
+
+      - name: Run Pytest Structure Validation
+        if: always()
+        run: python utils/validate_pytest_structure.py

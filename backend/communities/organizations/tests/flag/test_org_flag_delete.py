@@ -2,13 +2,14 @@
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from communities.organizations.factories import OrganizationFlagFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_delete(authenticated_client):
+def test_org_flag_delete_no_content_204(authenticated_client):
     """
     Test to delete a flag of an organization.
     """
@@ -22,10 +23,10 @@ def test_org_flag_delete(authenticated_client):
 
     response = client.delete(path=f"/v1/communities/organization_flags/{flag.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_org_flag_delete_does_not_exist(authenticated_client):
+def test_org_flag_delete_not_found_404(authenticated_client):
     client, user = authenticated_client
 
     bad_flagged_org_uuid = uuid4()
@@ -34,5 +35,5 @@ def test_org_flag_delete_does_not_exist(authenticated_client):
     )
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Flag not found."

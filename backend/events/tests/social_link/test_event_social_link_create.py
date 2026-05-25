@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 
 from events.factories import EventFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_social_link_create(authenticated_client):
+def test_event_social_link_created_201(authenticated_client):
     client, user = authenticated_client
     event = EventFactory(created_by=user)
 
@@ -20,11 +21,11 @@ def test_social_link_create(authenticated_client):
         },
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     assert response.json()["message"] == "Social link created successfully."
 
 
-def test_social_link_create_403(authenticated_client):
+def test_event_social_link_create_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory()
@@ -39,7 +40,7 @@ def test_social_link_create_403(authenticated_client):
         },
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert (
         response.json()["detail"]
         == "You are not authorized to create social links for this event."

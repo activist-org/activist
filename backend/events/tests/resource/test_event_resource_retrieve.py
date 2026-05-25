@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -8,7 +9,7 @@ from events.factories import EventFactory, EventResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_resource_retrieve_200():
+def test_event_resource_retrieve_ok_200():
     """
     Test retrieving a specific event resource.
     """
@@ -19,7 +20,7 @@ def test_event_resource_retrieve_200():
     resource = EventResourceFactory(created_by=user, event=event)
 
     response = client.get(path=f"/v1/events/event_resources/{resource.id}")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     response_body = response.json()
     assert response_body["id"] == str(resource.id)
@@ -27,7 +28,7 @@ def test_event_resource_retrieve_200():
     assert response_body["description"] == resource.description
 
 
-def test_event_resource_retrieve_404():
+def test_event_resource_retrieve_not_found_404():
     """
     Test retrieving a non-existent event resource returns 404.
     """
@@ -36,4 +37,4 @@ def test_event_resource_retrieve_404():
     fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = client.get(path=f"/v1/events/event_resources/{fake_uuid}")
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
