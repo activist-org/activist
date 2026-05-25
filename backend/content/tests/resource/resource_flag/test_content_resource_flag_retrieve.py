@@ -2,6 +2,7 @@
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from content.factories import ResourceFlagFactory
 
@@ -14,7 +15,7 @@ def test_content_resource_flag_retrieve(authenticated_client):
 
     response = client.get(path=f"/v1/content/resource_flags/{flag.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
 def test_content_resource_flag_retrieve_does_not_exist(authenticated_client):
@@ -26,5 +27,5 @@ def test_content_resource_flag_retrieve_does_not_exist(authenticated_client):
     )
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Failed to retrieve the flag."

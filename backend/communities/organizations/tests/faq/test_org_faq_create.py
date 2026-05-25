@@ -4,6 +4,7 @@ Test cases for the organization social link methods.
 """
 
 import pytest
+from rest_framework import status
 
 from communities.organizations.factories import (
     OrganizationFactory,
@@ -50,10 +51,10 @@ def test_org_faq_create(authenticated_client) -> None:
         format="json",
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
 
 
-def test_org_faq_create_400(authenticated_client):
+def test_org_faq_create_bad_request_400(authenticated_client):
     client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True
@@ -76,7 +77,7 @@ def test_org_faq_create_400(authenticated_client):
         format="json",
     )
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 def test_org_faq_create_unathorized(authenticated_client) -> None:
@@ -104,4 +105,4 @@ def test_org_faq_create_unathorized(authenticated_client) -> None:
         format="json",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN

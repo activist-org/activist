@@ -7,6 +7,7 @@ from uuid import uuid4
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from authentication.factories import UserFactory
 from communities.organizations.factories import (
@@ -40,7 +41,7 @@ def _get_login(client: Client, staff_user=False):
     }
 
 
-def test_org_social_link_update_200(client: Client) -> None:
+def test_org_social_link_update_ok_200(client: Client) -> None:
     login_details = _get_login(client, staff_user=True)
 
     org = OrganizationFactory(created_by=login_details["user"])
@@ -50,7 +51,7 @@ def test_org_social_link_update_200(client: Client) -> None:
     test_label = social_links.label
     test_order = social_links.order
 
-    assert login_details["status_code"] == 200
+    assert login_details["status_code"] == status.HTTP_200_OK
 
     response = client.put(
         path=f"/v1/communities/organization_social_links/{social_links.id}",
@@ -60,11 +61,11 @@ def test_org_social_link_update_200(client: Client) -> None:
     )
     response_body = response.json()
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response_body["message"] == "Social link updated successfully."
 
 
-def test_org_social_link_update_404(client: Client):
+def test_org_social_link_update_not_found_404(client: Client):
     login_details = _get_login(client, staff_user=True)
 
     org = OrganizationFactory(created_by=login_details["user"])
@@ -74,7 +75,7 @@ def test_org_social_link_update_404(client: Client):
     test_label = social_links.label
     test_order = social_links.order
 
-    assert login_details["status_code"] == 200
+    assert login_details["status_code"] == status.HTTP_200_OK
 
     bad_social_link_uuid = uuid4()
     response = client.put(
@@ -85,11 +86,11 @@ def test_org_social_link_update_404(client: Client):
     )
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Social link not found."
 
 
-def test_org_social_link_update_not_creator_or_admin_403(client: Client):
+def test_org_social_link_update_not_creator_or_admin_forbidden_403(client: Client):
     login_details = _get_login(client)
 
     org = OrganizationFactory()
@@ -99,7 +100,7 @@ def test_org_social_link_update_not_creator_or_admin_403(client: Client):
     test_label = social_links.label
     test_order = social_links.order
 
-    assert login_details["status_code"] == 200
+    assert login_details["status_code"] == status.HTTP_200_OK
 
     response = client.put(
         path=f"/v1/communities/organization_social_links/{social_links.id}",
@@ -109,7 +110,7 @@ def test_org_social_link_update_not_creator_or_admin_403(client: Client):
     )
     response_body = response.json()
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert (
         response_body["detail"]
         == "You are not authorized to update the social links for this organization."

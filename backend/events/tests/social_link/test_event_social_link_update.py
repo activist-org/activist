@@ -6,13 +6,14 @@ Test cases for the event social link methods.
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from events.factories import EventFactory, EventSocialLinkFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_event_social_link_update_200(authenticated_client) -> None:
+def test_event_social_link_update_ok_200(authenticated_client) -> None:
     """
     Test Event Social Link updates.
 
@@ -41,7 +42,7 @@ def test_event_social_link_update_200(authenticated_client) -> None:
     )
     response_body = response.json()
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response_body["message"] == "Social link updated successfully."
 
 
@@ -66,11 +67,13 @@ def test_event_social_link_update(authenticated_client):
     )
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Social link not found."
 
 
-def test_event_social_link_update_not_creator_or_admin_403(authenticated_client):
+def test_event_social_link_update_not_creator_or_admin_forbidden_403(
+    authenticated_client,
+):
     client, user = authenticated_client
 
     event = EventFactory()
@@ -87,7 +90,7 @@ def test_event_social_link_update_not_creator_or_admin_403(authenticated_client)
     )
     response_body = response.json()
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert (
         response_body["detail"]
         == "You are not authorized to update the social links for this event."

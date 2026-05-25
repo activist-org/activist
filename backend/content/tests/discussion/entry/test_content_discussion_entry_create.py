@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -31,7 +32,7 @@ def test_content_discussion_entry_create():
         data={"username": test_username, "password": test_pass},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
     login_body = login_response.json()
     token = login_body["access"]
 
@@ -42,4 +43,4 @@ def test_content_discussion_entry_create():
         data={"discussion": discussion_thread, "created_by": user},
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED

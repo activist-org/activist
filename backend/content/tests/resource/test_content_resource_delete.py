@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -31,7 +32,7 @@ def _get_login(client: APIClient):
     }
 
 
-def test_content_resource_delete_200():
+def test_content_resource_delete_ok_200():
     """
     Test to delete resources.
     """
@@ -39,19 +40,19 @@ def test_content_resource_delete_200():
     login_details = _get_login(client)
     resource = ResourceFactory(created_by=login_details["user"])
 
-    assert login_details["status_code"] == 200
+    assert login_details["status_code"] == status.HTTP_200_OK
 
     client.credentials(HTTP_AUTHORIZATION=f"Token {login_details['access_token']}")
     response = client.delete(path=f"/v1/content/resources/{resource.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_content_resource_delete_403():
+def test_content_resource_delete_forbidden_403():
     client = APIClient()
     unowned_resource = ResourceFactory()
     error_response = client.delete(path=f"/v1/content/resources/{unowned_resource.id}")
-    assert error_response.status_code == 403
+    assert error_response.status_code == status.HTTP_403_FORBIDDEN
 
     error_body = error_response.json()
     assert error_body["detail"] == "You are not allowed to delete this resource."

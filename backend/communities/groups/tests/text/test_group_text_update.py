@@ -2,13 +2,14 @@
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from communities.groups.factories import GroupFactory, GroupTextFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_text_update_200(authenticated_client):
+def test_group_text_update_ok_200(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)
@@ -19,10 +20,10 @@ def test_group_text_update_200(authenticated_client):
         data={"description": "New test description for this group.", "iso": "en"},
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
-def test_group_text_update_403(authenticated_client):
+def test_group_text_update_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory()
@@ -34,14 +35,14 @@ def test_group_text_update_403(authenticated_client):
     )
     response_body = response.json()
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert (
         response_body["detail"]
         == "You are not authorized to update to this group's text."
     )
 
 
-def test_group_text_update_404(authenticated_client):
+def test_group_text_update_not_found_404(authenticated_client):
     client, user = authenticated_client
 
     bad_texts_id = uuid4()
@@ -52,5 +53,5 @@ def test_group_text_update_404(authenticated_client):
     )
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Group text not found."

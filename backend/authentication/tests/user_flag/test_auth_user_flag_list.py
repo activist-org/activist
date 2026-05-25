@@ -3,12 +3,13 @@ import logging
 from unittest.mock import patch
 
 import pytest
+from rest_framework import status
 
 logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-def test_user_flag_list_200(authenticated_client):
+def test_auth_user_flag_list_ok_200(authenticated_client):
     """
     Test to list all user flags.
     """
@@ -18,11 +19,11 @@ def test_user_flag_list_200(authenticated_client):
     logger.debug("Making request to user flag endpoint")
     response = client.get(path="/v1/auth/user_flags")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     logger.info("User flag list test completed successfully")
 
 
-def test_user_flag_list_no_pagination_200(authenticated_client):
+def test_auth_user_flag_list_no_pagination_ok_200(authenticated_client):
     """
     Test list all user flags in case of no pagination.
     """
@@ -37,7 +38,7 @@ def test_user_flag_list_no_pagination_200(authenticated_client):
         logger.debug("Making request to user flag endpoint")
         response = client.get(path="/v1/auth/user_flags")
 
-        assert response.status_code == 200
+        assert response.status_code == status.HTTP_200_OK
 
         # Verify that paginate_queryset was called.
         mock_paginate.assert_called_once()

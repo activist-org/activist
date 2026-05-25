@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -8,7 +9,7 @@ from events.factories import EventFactory, EventResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_resource_delete_204(authenticated_client):
+def test_event_resource_delete_no_content_204(authenticated_client):
     """
     Test successful deletion of an event resource by the event owner.
     """
@@ -20,10 +21,10 @@ def test_event_resource_delete_204(authenticated_client):
     # Delete the resource as the owner
     response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_event_resource_delete_403(authenticated_client):
+def test_event_resource_delete_forbidden_403(authenticated_client):
     """
     Test that non-owner cannot delete an event resource.
     """
@@ -56,7 +57,7 @@ def test_event_resource_delete_403(authenticated_client):
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -65,10 +66,10 @@ def test_event_resource_delete_403(authenticated_client):
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_event_resource_delete_404(authenticated_client):
+def test_event_resource_delete_not_found_404(authenticated_client):
     """
     Test deletion of non-existent event resource returns 404.
     """
@@ -78,10 +79,10 @@ def test_event_resource_delete_404(authenticated_client):
     fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = client.delete(path=f"/v1/events/event_resources/{fake_uuid}")
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_event_resource_delete_staff_204():
+def test_event_resource_delete_staff_no_content_204():
     """
     Test that staff users can delete any event resource.
     """
@@ -115,7 +116,7 @@ def test_event_resource_delete_staff_204():
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -124,4 +125,4 @@ def test_event_resource_delete_staff_204():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/events/event_resources/{resource.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT

@@ -2,6 +2,7 @@
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from content.factories import ResourceFlagFactory
 
@@ -17,7 +18,7 @@ def test_content_resource_flag_delete(authenticated_client):
 
     response = client.delete(path=f"/v1/content/resource_flags/{flag.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 def test_content_resource_flag_delete_does_not_exist(authenticated_client):
@@ -29,5 +30,5 @@ def test_content_resource_flag_delete_does_not_exist(authenticated_client):
     )
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Flag not found."

@@ -3,6 +3,7 @@ import re
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from events.factories import EventFactory
@@ -23,7 +24,7 @@ def test_event_calendar_export_ics():
 
     print(response.content)
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response["Content-Type"] == "text/calendar"
     assert b"PRODID:-//Activist//EN" in response.content
     assert (
@@ -32,18 +33,18 @@ def test_event_calendar_export_ics():
     )
 
 
-def test_event_calendar_export_ics_400():
+def test_event_calendar_export_ics_bad_request_400():
     client = APIClient()
 
     response = client.get(
         path="/v1/events/event_calendar",
     )
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.json()["detail"] == "Event ID is required."
 
 
-def test_event_calendar_export_ics_404():
+def test_event_calendar_export_ics_not_found_404():
     client = APIClient()
     bad_event_uuid = uuid4()
 
@@ -51,4 +52,4 @@ def test_event_calendar_export_ics_404():
         path="/v1/events/event_calendar", data={"event_id": bad_event_uuid}
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND

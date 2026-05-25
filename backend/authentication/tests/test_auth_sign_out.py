@@ -7,6 +7,7 @@ import logging
 from unittest.mock import patch
 
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import SessionFactory, UserFactory
@@ -19,7 +20,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Sign Out
 
 
-def test_signout_successful_logout_200():
+def test_auth_sign_out_successful_logout_ok_200():
     """
     Test successful logout with authenticated user.
 
@@ -51,7 +52,7 @@ def test_signout_successful_logout_200():
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
     logger.debug("User login successful")
 
     # Verify sessions exist before logout (2 created + 1 from login = 3 total).
@@ -66,7 +67,7 @@ def test_signout_successful_logout_200():
     logger.debug("Attempting user logout")
     response = client.post(path="/v1/auth/sign_out")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.data["message"] == "User was logged out successfully."
     logger.debug(f"Logout response: {response.data}")
 
@@ -93,7 +94,7 @@ def test_signout_successful_logout_200():
     logger.info("test_signout_successful_logout completed successfully")
 
 
-def test_signout_unauthenticated_user_401():
+def test_auth_sign_out_unauthenticated_unauthorized_401():
     """
     Test logout with unauthenticated user returns 401.
 
@@ -108,14 +109,14 @@ def test_signout_unauthenticated_user_401():
     logger.debug("Attempting logout without authentication")
     response = client.post(path="/v1/auth/sign_out")
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert response.data["detail"] == "Authentication credentials were not provided."
     logger.debug(f"Unauthenticated logout response: {response.data}")
 
     logger.info("test_signout_unauthenticated_user completed successfully")
 
 
-def test_signout_invalid_token_401():
+def test_auth_sign_out_invalid_token_unauthorized_401():
     """
     Test logout with invalid authentication token returns 401.
 
@@ -131,13 +132,13 @@ def test_signout_invalid_token_401():
     logger.debug("Attempting logout with invalid token")
     response = client.post(path="/v1/auth/sign_out")
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     logger.debug(f"Invalid token logout response: {response.data}")
 
     logger.info("test_signout_invalid_token completed successfully")
 
 
-def test_signout_malformed_token_401():
+def test_auth_sign_out_malformed_token_unauthorized_401():
     """
     Test logout with malformed authentication header returns 401.
 
@@ -161,13 +162,13 @@ def test_signout_malformed_token_401():
         logger.debug(f"Attempting logout with malformed header: '{header}'")
         response = client.post(path="/v1/auth/sign_out")
 
-        assert response.status_code == 401
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
         logger.debug(f"Malformed header '{header}' response: {response.status_code}")
 
     logger.info("test_signout_malformed_token completed successfully")
 
 
-def test_signout_deletes_all_user_sessions_200():
+def test_auth_sign_out_deletes_all_user_sessions_ok_200():
     """
     Test that logout deletes all sessions for the user, not just the current one.
 
@@ -195,7 +196,7 @@ def test_signout_deletes_all_user_sessions_200():
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # Get authentication token and test logout.
     login_body = login_response.json()
@@ -203,7 +204,7 @@ def test_signout_deletes_all_user_sessions_200():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
 
     response = client.post(path="/v1/auth/sign_out")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # Verify all sessions are deleted.
     assert SessionModel.objects.filter(user=user).count() == 0
@@ -212,7 +213,7 @@ def test_signout_deletes_all_user_sessions_200():
     logger.info("test_signout_deletes_all_user_sessions completed successfully")
 
 
-def test_signout_user_with_no_sessions_200():
+def test_auth_sign_out_user_with_no_sessions_ok_200():
     """
     Test logout for user with no existing sessions.
 
@@ -239,7 +240,7 @@ def test_signout_user_with_no_sessions_200():
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # Get authentication token, test logout and verify response.
     login_body = login_response.json()
@@ -248,14 +249,14 @@ def test_signout_user_with_no_sessions_200():
 
     response = client.post(path="/v1/auth/sign_out")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.data["message"] == "User was logged out successfully."
     logger.debug("Logout successful for user with no sessions")
 
     logger.info("test_signout_user_with_no_sessions completed successfully")
 
 
-def test_signout_response_format_200():
+def test_auth_sign_out_response_format_ok_200():
     """
     Test that logout response has correct format and status code.
 
@@ -278,7 +279,7 @@ def test_signout_response_format_200():
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # Get authentication token, test logout and verify repose format.
     login_body = login_response.json()
@@ -287,7 +288,7 @@ def test_signout_response_format_200():
 
     response = client.post(path="/v1/auth/sign_out")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert "message" in response.data
     assert response.data["message"] == "User was logged out successfully."
     assert len(response.data) == 1  # only message field should be present
@@ -297,7 +298,7 @@ def test_signout_response_format_200():
 
 
 @patch("authentication.views.logger")
-def test_signout_logging_200(mock_logger):
+def test_auth_sign_out_logging_ok_200(mock_logger):
     """
     Test that logout logs appropriate messages.
 
@@ -320,7 +321,7 @@ def test_signout_logging_200(mock_logger):
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # Get authentication token and clear log calls.
     login_body = login_response.json()
@@ -331,7 +332,7 @@ def test_signout_logging_200(mock_logger):
 
     # Test logout and verify logging.
     response = client.post(path="/v1/auth/sign_out")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert mock_logger.info.call_count == 2  # one for attempt, one for success
 
     # Check logout attempt log.
@@ -350,7 +351,7 @@ def test_signout_logging_200(mock_logger):
     logger.info("test_signout_logging completed successfully")
 
 
-def test_signout_http_methods_200_and_405():
+def test_auth_sign_out_http_methods_ok_200_and_not_allowed_405():
     """
     Test that only POST method is allowed for logout.
 
@@ -372,7 +373,7 @@ def test_signout_http_methods_200_and_405():
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # Get authentication token.
     login_body = login_response.json()
@@ -382,7 +383,7 @@ def test_signout_http_methods_200_and_405():
     # Test POST method (should work)
     post_response = client.post(path="/v1/auth/sign_out")
 
-    assert post_response.status_code == 200
+    assert post_response.status_code == status.HTTP_200_OK
     logger.debug("POST method works correctly")
 
     # Re-login for other method tests.
@@ -391,7 +392,7 @@ def test_signout_http_methods_200_and_405():
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
     login_body = login_response.json()
     token = login_body["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
@@ -402,13 +403,15 @@ def test_signout_http_methods_200_and_405():
     for method in methods_to_test:
         response = getattr(client, method.lower())(path="/v1/auth/sign_out")
 
-        assert response.status_code == 405, f"{method} method should return 405"
+        assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED, (
+            f"{method} method should return 405"
+        )
         logger.debug(f"{method} method correctly returns 405")
 
     # Test OPTIONS method (returns 200 for CORS preflight).
     options_response = client.options(path="/v1/auth/sign_out")
 
-    assert options_response.status_code == 200, (
+    assert options_response.status_code == status.HTTP_200_OK, (
         "OPTIONS method should return 200 for CORS"
     )
     logger.debug("OPTIONS method correctly returns 200 for CORS")
@@ -416,7 +419,7 @@ def test_signout_http_methods_200_and_405():
     logger.info("test_signout_http_methods completed successfully")
 
 
-def test_signout_database_integrity_200():
+def test_auth_sign_out_database_integrity_ok_200():
     """
     Test logout behavior with database integrity issues.
 
@@ -438,7 +441,7 @@ def test_signout_database_integrity_200():
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # Get authentication token.
     login_body = login_response.json()
@@ -447,13 +450,13 @@ def test_signout_database_integrity_200():
 
     # Test logout (should work normally).
     response = client.post(path="/v1/auth/sign_out")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     logger.debug("Normal logout works correctly")
 
     logger.info("test_signout_database_integrity completed successfully")
 
 
-def test_signout_concurrent_requests_200():
+def test_auth_sign_out_concurrent_requests_ok_200():
     """
     Test logout behavior with concurrent requests.
 
@@ -476,7 +479,7 @@ def test_signout_concurrent_requests_200():
         path="/v1/auth/sign_in",
         data={"username": test_username, "password": test_password},
     )
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # Get authentication token.
     login_body = login_response.json()
@@ -485,11 +488,11 @@ def test_signout_concurrent_requests_200():
 
     # Test multiple logout requests.
     response1 = client.post(path="/v1/auth/sign_out")
-    assert response1.status_code == 200
+    assert response1.status_code == status.HTTP_200_OK
 
     # Second logout should still work (user is already logged out).
     response2 = client.post(path="/v1/auth/sign_out")
-    assert response2.status_code == 200
+    assert response2.status_code == status.HTTP_200_OK
 
     # Verify sessions are deleted.
     assert SessionModel.objects.filter(user=user).count() == 0

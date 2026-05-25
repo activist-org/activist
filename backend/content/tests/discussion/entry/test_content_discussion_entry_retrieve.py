@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from content.factories import DiscussionEntryFactory
@@ -17,4 +18,4 @@ def test_content_discussion_entry_retrieve():
 
     response = client.get(path=f"/v1/content/discussion_entries/{entry_instance.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK

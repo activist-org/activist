@@ -6,6 +6,7 @@ Test cases for the organization social link methods.
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from communities.organizations.factories import (
     OrganizationFactory,
@@ -58,10 +59,10 @@ def test_org_faq_update(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
-def test_org_faq_update_404(authenticated_client):
+def test_org_faq_update_not_found_404(authenticated_client):
     client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True
@@ -88,13 +89,13 @@ def test_org_faq_update_404(authenticated_client):
         content_type="application/json",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
     response_body = response.json()
     assert response_body["detail"] == "FAQ not found."
 
 
-def test_org_faq_update_unathorized_403(authenticated_client) -> None:
+def test_org_faq_update_unauthorized_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
     user.is_staff = False
     user.save()
@@ -120,4 +121,4 @@ def test_org_faq_update_unathorized_403(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN

@@ -3,6 +3,7 @@ from uuid import uuid4
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from communities.organizations.factories import (
     OrganizationFactory,
@@ -39,13 +40,13 @@ def test_org_image_update_sequence_index(client: Client) -> None:
             },
             content_type="application/json",
         )
-        assert response.status_code == 200
+        assert response.status_code == status.HTTP_200_OK
 
     # Verify the new sequence order.
     response = client.get(
         path=f"/v1/communities/organization/{organization.id}/images",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     new_images = response.json()
     expected_order = [image2, image0, image1]
@@ -55,7 +56,7 @@ def test_org_image_update_sequence_index(client: Client) -> None:
 
 
 @pytest.mark.django_db
-def test_org_image_update_404(client: Client):
+def test_org_image_update_not_found_404(client: Client):
     fake_image_id = uuid4()
     org = OrganizationFactory()
 
@@ -65,4 +66,4 @@ def test_org_image_update_404(client: Client):
         content_type="application/json",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND

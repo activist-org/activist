@@ -9,6 +9,7 @@ from datetime import timezone as dt_timezone
 from unittest.mock import patch
 
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from events.factories import EventFactory, EventTimeFactory
@@ -57,7 +58,7 @@ def test_event_filters_days_ahead_within_window(mock_now) -> None:
     )
 
     response = client.get(f"{EVENTS_URL}?days_ahead=10")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -95,7 +96,7 @@ def test_event_filters_days_ahead_rolling_24h_window(mock_now) -> None:
     )
 
     response = client.get(f"{EVENTS_URL}?days_ahead=1")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -162,7 +163,7 @@ def test_event_filters_days_ahead_with_type_and_location_type_combination(
     response = client.get(
         f"{EVENTS_URL}?days_ahead=10&type=learn&location_type=online",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     results = response.data["results"]
     ids = {item["id"] for item in results}
@@ -195,7 +196,7 @@ def test_event_filters_days_ahead_ignores_non_positive_values(mock_now) -> None:
     event_future = EventFactory.create()
 
     response = client.get(f"{EVENTS_URL}?days_ahead=0")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -218,7 +219,7 @@ def test_event_filters_id_handles_single_id() -> None:
     event_filler = EventFactory(id=uuid_filler)
 
     response = client.get(f"{EVENTS_URL}?id={uuid_target}")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -250,7 +251,7 @@ def test_event_filters_id_handles_multiple_separate_ids() -> None:
     response = client.get(
         f"{EVENTS_URL}?id={uuid_target_1}&id={uuid_target_2}&id={uuid_target_3}"
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -289,7 +290,7 @@ def test_event_filters_id_handles_multiple_listed_ids() -> None:
     response = client.get(
         f"{EVENTS_URL}?id={uuid_target_1},{uuid_target_2},{uuid_target_3}"
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -324,7 +325,7 @@ def test_event_filters_id_handles_nonexistent_uuid() -> None:
 
     # Remove last 3 characters of 'uuid_target_2' to invalidate.
     response = client.get(f"{EVENTS_URL}?id={uuid_target}&id={uuid_nonexistent}")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -354,7 +355,7 @@ def test_event_filters_id_handles_invalid_uuid() -> None:
     response = client.get(
         f"{EVENTS_URL}?id={uuid_target_1}&id={str(uuid_target_2)[:-3]}"
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 

@@ -9,6 +9,28 @@ from pathlib import Path
 
 PATH_SEPARATOR = "\\" if os.name == "nt" else "/"
 
+# MARK: Setup
+
+backend_dir = Path(__file__).parent.parent
+directories_to_check = [
+    "authentication/tests",
+    "communities/groups/tests",
+    "communities/organizations/tests",
+    "content/tests",
+    "events/tests",
+]
+
+error_code_description_dict = {
+    200: "ok",
+    201: "created",
+    204: "no_content",
+    400: "bad_request",
+    401: "unauthorized",
+    403: "forbidden",
+    404: "not_found",
+    405: "not_allowed",
+}
+
 
 class ValidationError(Exception):
     """
@@ -18,17 +40,8 @@ class ValidationError(Exception):
     pass
 
 
-backend_dir = Path(__file__).parent.parent
-directories_to_check = [
-    "communities/groups/tests",
-    "communities/organizations/tests",
-    "content/tests",
-    "events/tests",
-]
-test_files = []
-
 # MARK: Derive Test Files
-
+test_files = []
 for d in directories_to_check:
     for root, dirs, files in os.walk(backend_dir / d):
         if root.split(f"{PATH_SEPARATOR}")[-1] != "__pycache__":
@@ -63,8 +76,8 @@ for f in test_files:
     sub_dir_path = f"_{test_file_dir_path[2]}" if len(test_file_dir_path) == 3 else ""
 
     valid_test_file_stub = f"test_{test_file_app_without_s}{sub_dir_path}".replace(
-        "organization", "org"
-    )
+        "authentication", "auth"
+    ).replace("organization", "org")
     if not test_file_name.startswith(valid_test_file_stub):
         invalid_file_names_include_dir_path.append(test_file_name)
 
@@ -74,10 +87,20 @@ for f in test_files:
         file_contents = file.read()
         file_fxn_names = re.findall(file_fxn_name_regex, file_contents)
 
+    # Check that error codes are proceeded by their descriptions via 'error_code_description_dict'.
     for fxn_name in file_fxn_names:
         if not fxn_name.startswith(
             test_file_name.replace(".py", "")
         ) and not fxn_name.startswith("_"):
+            invalid_file_function_names.append(test_file_name)
+
+        for k, v in error_code_description_dict.items():
+            if fxn_name.endswith(f"{k}") and not fxn_name.endswith(f"{v}_{k}"):
+                invalid_file_function_names.append(test_file_name)
+
+    # Check that assertions are not made on error code integers.
+    for k in error_code_description_dict.keys():
+        if f"status_code == {k}" in file_contents:
             invalid_file_function_names.append(test_file_name)
 
 # MARK: Validate
@@ -101,10 +124,12 @@ if (
         "\n- Test file names must begin with 'test_'"
         "\n- Test file names must match their directory paths (backend applications are singular)"
         "\n- Test file function names must start with the file name"
+        "\n- Test file function name error codes should be proceeded by the description (ex: *_not_found_404)"
+        "\n- Test assertions should be made on rest_framework.status.HTTP_*, not on integers"
     )
 
     error_message = f"{error_preamble}{invalid_file_names_str}{error_directions}"
 
     raise ValidationError(error_message)
 
-print("All activist backend test files and functions are valid.")
+print("All activist backend test files and functions are valid 🎉")

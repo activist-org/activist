@@ -2,6 +2,7 @@
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from communities.organizations.factories import (
     OrganizationFactory,
@@ -11,7 +12,7 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_org_social_link_delete_204(authenticated_client):
+def test_org_social_link_delete_no_content_204(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)
@@ -21,10 +22,10 @@ def test_org_social_link_delete_204(authenticated_client):
         path=f"/v1/communities/organization_social_links/{social_links.id}"
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_org_social_link_delete_404(authenticated_client):
+def test_org_social_link_delete_not_found_404(authenticated_client):
     client, user = authenticated_client
 
     bad_uuid = uuid4()
@@ -33,4 +34,4 @@ def test_org_social_link_delete_404(authenticated_client):
         path=f"/v1/communities/organization_social_links/{bad_uuid}",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND

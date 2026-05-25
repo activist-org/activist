@@ -5,6 +5,7 @@ Test group update functionality.
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory
@@ -39,7 +40,7 @@ def _get_login(client: Client, staff_user=False):
     }
 
 
-def test_group_update_403(client: Client) -> None:
+def test_group_update_forbidden_403(client: Client) -> None:
     """
     Test for when the user is not authorized (not staff).
 
@@ -56,12 +57,12 @@ def test_group_update_403(client: Client) -> None:
     group = GroupFactory()
 
     login_details = _get_login(client)
-    assert login_details["login_status_code"] == 200
+    assert login_details["login_status_code"] == status.HTTP_200_OK
 
     group.created_by = login_details["user"]
 
     response = client.get(path=f"/v1/communities/groups/{group.id}")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     request_body = client.put(
         path=f"/v1/communities/groups/{group.id}",
@@ -74,7 +75,7 @@ def test_group_update_403(client: Client) -> None:
         content_type="application/json",
     )
 
-    assert request_body.status_code == 403
+    assert request_body.status_code == status.HTTP_403_FORBIDDEN
 
     request_body_json = request_body.json()
     assert (
@@ -82,20 +83,20 @@ def test_group_update_403(client: Client) -> None:
     )
 
 
-def test_group_update_200(client: Client):
+def test_group_update_ok_200(client: Client):
     """
     Test for Authorized user updating the group information.
     """
 
     login_details = _get_login(client, staff_user=True)
-    assert login_details["login_status_code"] == 200
+    assert login_details["login_status_code"] == status.HTTP_200_OK
 
     group = GroupFactory()
     group.created_by = login_details["user"]
 
     response = client.get(path=f"/v1/communities/groups/{group.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     request_body = client.put(
         path=f"/v1/communities/groups/{group.id}",
@@ -108,4 +109,4 @@ def test_group_update_200(client: Client):
         content_type="application/json",
     )
 
-    assert request_body.status_code == 200
+    assert request_body.status_code == status.HTTP_200_OK

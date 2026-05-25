@@ -3,6 +3,7 @@ import logging
 import uuid
 
 import pytest
+from rest_framework import status
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Verify Email Pwd Reset
 
 
-def test_verify_email_for_reset_password_valid_code_200(authenticated_client) -> None:
+def test_auth_verify_email_for_reset_pw_ok_200(authenticated_client) -> None:
     """
     Test email verification with valid verification code and new password.
     """
@@ -23,7 +24,7 @@ def test_verify_email_for_reset_password_valid_code_200(authenticated_client) ->
         path=f"/v1/auth/verify_email_password/{user.verification_code}",
         data={"new_password": new_password},
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     user.refresh_from_db()
     assert user.check_password(new_password) is True
@@ -31,7 +32,9 @@ def test_verify_email_for_reset_password_valid_code_200(authenticated_client) ->
     logger.info(f"Successfully verified email for user: {user.username}")
 
 
-def test_verify_email_for_reset_password_invalid_code_404(authenticated_client) -> None:
+def test_auth_verify_email_for_reset_pw_invalid_code_not_found_404(
+    authenticated_client,
+) -> None:
     """
     Test email verification with invalid verification code.
     """
@@ -39,11 +42,13 @@ def test_verify_email_for_reset_password_invalid_code_404(authenticated_client) 
     invalid_code = uuid.uuid4()
     logger.info("Testing invalid email verification code for password reset")
     response = client.post(path=f"/v1/auth/verify_email_password/{invalid_code}")
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.data["detail"] == "User does not exist."
 
 
-def test_verify_email_for_reset_password_reused_code_404(authenticated_client) -> None:
+def test_auth_verify_email_for_reset_pw_reused_code_not_found_404(
+    authenticated_client,
+) -> None:
     """
     Test that already used verification code cannot be reused.
     """
@@ -56,10 +61,10 @@ def test_verify_email_for_reset_password_reused_code_404(authenticated_client) -
         path=f"/v1/auth/verify_email_password/{user.verification_code}",
         data={"new_password": new_password},
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # Attempt to reuse the same verification code.
     response = client.post(
         path=f"/v1/auth/verify_email_password/{user.verification_code}"
     )
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND

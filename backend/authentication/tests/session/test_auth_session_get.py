@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -7,14 +8,14 @@ from authentication.factories import UserFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_session_get_200(authenticated_client):
+def test_auth_session_get_ok_200(authenticated_client):
     client, user = authenticated_client
     response = client.get(path="/v1/auth/sessions")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
-def test_session_get_401():
+def test_auth_session_get_unauthorized_401():
     client = APIClient()
 
     test_username = "test_user"
@@ -26,4 +27,4 @@ def test_session_get_401():
 
     response = client.get(path="/v1/auth/sessions")
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED

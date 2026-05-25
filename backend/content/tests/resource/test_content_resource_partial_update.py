@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -33,7 +34,7 @@ def test_content_resource_partial_update():
         data={"username": test_username, "password": test_pass},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -50,13 +51,13 @@ def test_content_resource_partial_update():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.patch(path=f"/v1/content/resources/{resource.id}", data=payload)
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # Authorized non-owner tries to update the resource.
     error_response = client.patch(
         path=f"/v1/content/resources/{unowned_resource.id}", data=payload
     )
-    assert error_response.status_code == 403
+    assert error_response.status_code == status.HTTP_403_FORBIDDEN
 
     error_body = error_response.json()
     assert error_body["detail"] == "You are not allowed to update this resource."

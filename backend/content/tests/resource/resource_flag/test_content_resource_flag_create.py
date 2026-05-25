@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -18,7 +19,7 @@ def test_content_resource_flag_create(authenticated_client):
         data={"resource": resource.id, "created_by": user.id},
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
 
 
 def test_content_resource_flag_create_error():
@@ -39,5 +40,5 @@ def test_content_resource_flag_create_error():
     )
     response_body = response.json()
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert response_body["detail"] == "Authentication credentials were not provided."

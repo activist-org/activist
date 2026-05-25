@@ -2,6 +2,7 @@
 import logging
 
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -10,7 +11,7 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-def test_user_flag_create_201(authenticated_client):
+def test_auth_user_flag_created_201(authenticated_client):
     logger.info("Starting test_user_flag_create test")
     client, user = authenticated_client
     flagged_client, flagged_user = authenticated_client
@@ -21,11 +22,11 @@ def test_user_flag_create_201(authenticated_client):
         data={"user": flagged_user.id, "created_by": user.id},
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     logger.info(f"User flag created successfully, status: {response.status_code}")
 
 
-def test_user_flag_create_401():
+def test_auth_user_flag_create_unauthorized_401():
     logger.info("Starting test_user_flag_create_error test")
     client = APIClient()
 
@@ -50,7 +51,7 @@ def test_user_flag_create_401():
 
     response_body = response.json()
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert response_body["detail"] == "Authentication credentials were not provided."
     logger.info(
         f"Authentication error correctly returned, status: {response.status_code}"

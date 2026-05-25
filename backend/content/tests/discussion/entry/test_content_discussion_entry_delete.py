@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -29,7 +30,7 @@ def test_content_discussion_entry_delete():
         data={"username": test_username, "password": test_pass},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
     login_body = login_response.json()
     token = login_body["access"]
 
@@ -41,7 +42,7 @@ def test_content_discussion_entry_delete():
         path=f"/v1/content/discussion_entries/{discussion_entry.id}"
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
     # Check of authorized non-owner deleting the discussion entry.
     unowned_entry = DiscussionEntryFactory()
@@ -50,7 +51,7 @@ def test_content_discussion_entry_delete():
         path=f"/v1/content/discussion_entries/{unowned_entry.id}"
     )
 
-    assert error_response.status_code == 403
+    assert error_response.status_code == status.HTTP_403_FORBIDDEN
 
     error_response_body = error_response.json()
     assert (

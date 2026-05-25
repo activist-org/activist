@@ -5,6 +5,7 @@ Test cases for deleting events.
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from events.factories import EventFactory
 
@@ -14,7 +15,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Unauthenticated
 
 
-def test_event_delete_unauthenticated_401(client: Client) -> None:
+def test_event_delete_unauthenticated_unauthorized_401(client: Client) -> None:
     """
     Unauthenticated user receives 401 when trying to delete an event.
 
@@ -29,13 +30,13 @@ def test_event_delete_unauthenticated_401(client: Client) -> None:
         path=f"/v1/events/events/{event.id}",
     )
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 # MARK: Non-Owner
 
 
-def test_event_delete_non_owner_403(authenticated_client) -> None:
+def test_event_delete_non_owner_forbidden_403(authenticated_client) -> None:
     """
     Authenticated user who is not the owner receives 403 when trying to delete.
 
@@ -52,7 +53,7 @@ def test_event_delete_non_owner_403(authenticated_client) -> None:
         path=f"/v1/events/events/{event.id}",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
     response_body = response.json()
     assert response_body["detail"] == "User not authorized."
@@ -61,7 +62,7 @@ def test_event_delete_non_owner_403(authenticated_client) -> None:
 # MARK: Owner
 
 
-def test_event_delete_owner_204(authenticated_client) -> None:
+def test_event_delete_owner_no_content_204(authenticated_client) -> None:
     """
     Owner of the event can successfully delete it.
 
@@ -78,4 +79,4 @@ def test_event_delete_owner_204(authenticated_client) -> None:
         path=f"/v1/events/events/{event.id}",
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT

@@ -4,6 +4,7 @@ Test cases for the group social link methods.
 """
 
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -17,7 +18,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_group_faq_create_200() -> None:
+def test_group_faq_create_ok_200() -> None:
     """
     Test Group FAQ updates.
 
@@ -54,7 +55,7 @@ def test_group_faq_create_200() -> None:
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # MARK: Update Success
 
@@ -76,15 +77,15 @@ def test_group_faq_create_200() -> None:
         format="json",
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
 
     # MARK: Update Success with Group ID
 
     # TODO: Test that should be added:
     # * Test with user that is not a the creator of the group. -> 403
-    # assert response == 403
+    # assert response == status.HTTP_403_FORBIDDEN
     # Test unauthenticated user
-    # assert response == 401
+    # assert response == status.HTTP_401_UNAUTHORIZED
 
     # MARK: Update Failure
 
@@ -99,4 +100,4 @@ def test_group_faq_create_200() -> None:
         format="json",
     )
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST

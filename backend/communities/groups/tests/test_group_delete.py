@@ -7,6 +7,7 @@ from uuid import uuid4
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory
@@ -43,7 +44,7 @@ def _get_login(client: Client, staff_user=False):
     return (response_code, access_token, user)
 
 
-def test_group_delete_403(client: Client) -> None:
+def test_group_delete_forbidden_403(client: Client) -> None:
     """
     Un-Authorized user trying to delete group (not staff).
     """
@@ -51,14 +52,14 @@ def test_group_delete_403(client: Client) -> None:
     login_details = _get_login(client)
     group.created_by = login_details[2]
 
-    assert login_details[0] == 200
+    assert login_details[0] == status.HTTP_200_OK
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}",
         headers={"Authorization": f"Token {login_details[1]}"},
     )
 
-    assert delete_response.status_code == 403
+    assert delete_response.status_code == status.HTTP_403_FORBIDDEN
 
     delete_response_json = delete_response.json()
     assert (
@@ -67,21 +68,21 @@ def test_group_delete_403(client: Client) -> None:
     )
 
 
-def test_group_delete_404(client: Client) -> None:
+def test_group_delete_not_found_404(client: Client) -> None:
     """
     Group id not found.
     """
     login_details = _get_login(client)
     test_uuid = uuid4()
 
-    assert login_details[0] == 200
+    assert login_details[0] == status.HTTP_200_OK
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{test_uuid}",
         headers={"Authorization": f"Token {login_details[1]}"},
     )
 
-    assert delete_response.status_code == 404
+    assert delete_response.status_code == status.HTTP_404_NOT_FOUND
 
     delete_response_json = delete_response.json()
     assert delete_response_json["detail"] == "Group not found."
@@ -89,7 +90,7 @@ def test_group_delete_404(client: Client) -> None:
     assert delete_response_json["detail"] == "Group not found."
 
 
-def test_group_delete_staffuser_204(client: Client) -> None:
+def test_group_delete_staffuser_no_content_204(client: Client) -> None:
     """
     User is confirmed and is staff.
     """
@@ -102,4 +103,4 @@ def test_group_delete_staffuser_204(client: Client) -> None:
         headers={"Authorization": f"Token {login_details[1]}"},
     )
 
-    assert delete_response.status_code == 204
+    assert delete_response.status_code == status.HTTP_204_NO_CONTENT

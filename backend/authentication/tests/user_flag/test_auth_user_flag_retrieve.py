@@ -3,6 +3,7 @@ import logging
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from authentication.factories import UserFlagFactory
 
@@ -10,7 +11,7 @@ logger = logging.getLogger(__name__)
 pytestmark = pytest.mark.django_db
 
 
-def test_user_flag_retrieve_200(authenticated_client):
+def test_auth_user_flag_retrieve_ok_200(authenticated_client):
     """
     Test to retrieve a flag of a user.
     """
@@ -23,11 +24,11 @@ def test_user_flag_retrieve_200(authenticated_client):
     logger.debug(f"Making API request to retrieve user flag: {flagged_user.id}")
     response = client.get(path=f"/v1/auth/user_flags/{flagged_user.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     logger.info("test_user_flag_retrieve completed successfully")
 
 
-def test_user_flag_retrieve_404(authenticated_client):
+def test_auth_user_flag_retrieve_not_found_404(authenticated_client):
     logger.info("Starting test_user_flag_retrieve_does_not_exist")
 
     client, user = authenticated_client
@@ -39,7 +40,7 @@ def test_user_flag_retrieve_404(authenticated_client):
     response = client.get(path=f"/v1/auth/user_flags/{flagged_user}")
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Failed to retrieve the flag."
     logger.info(
         "test_user_flag_retrieve_does_not_exist completed successfully - 404 error as expected"

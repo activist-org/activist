@@ -14,6 +14,7 @@ import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image as TestImage
+from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.test import APIClient
 
@@ -142,7 +143,7 @@ def test_content_image_upload_list_view(client: APIClient) -> None:
 
     response = client.get("/v1/content/images")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json()["count"] == 3
 
     for filename in filenames:
@@ -170,7 +171,7 @@ def test_content_image_upload_create_single_file_view(client: APIClient) -> None
 
     response = client.post("/v1/content/images", data, format="multipart")
 
-    assert response.status_code == 201, (
+    assert response.status_code == status.HTTP_201_CREATED, (
         f"Expected 201, got {response.status_code}. Body: {response.json()}"
     )
     assert Image.objects.count() == 1, (
@@ -245,7 +246,7 @@ def test_content_image_upload_create_multiple_files_view(client: APIClient) -> N
     response = client.post("/v1/content/images", data, format="multipart")
 
     # Assert that the response is a 201 status code.
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
 
     # Assert that the images were inserted into the database.
     assert Image.objects.count() == 3
@@ -275,7 +276,7 @@ def test_content_image_upload_create_missing_file(client: APIClient) -> None:
     data = {"organization_id": str(org.id)}  # no file_object provided
     response = client.post("/v1/content/images", data, format="multipart")
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert "fileObject" in response.json()
     assert "No file was submitted." in response.json()["fileObject"]
 
@@ -308,7 +309,7 @@ def test_content_image_upload_create_corrupted_file(client: APIClient) -> None:
 
     response = client.post("/v1/content/images", data, format="multipart")
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert (
         "Upload a valid image. The file you uploaded was either not an image or a corrupted image."
         in response.json()["fileObject"]
@@ -344,7 +345,7 @@ def test_content_image_upload_create_large_file(client: APIClient) -> None:
 
     response = client.post("/v1/content/images", data, format="multipart")
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
     # The file size limit is not being enforced. We're checking the file size in the serializer validation.
@@ -394,7 +395,7 @@ def test_content_image_upload_destroy_view(client: APIClient) -> None:
     response = client.delete(f"/v1/content/images/{file_id}")
 
     # Assert file is deleted from filesystem and the database.
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert not os.path.exists(uploaded_file), (
         f"File {uploaded_file} was not deleted from the filesystem"
     )
@@ -415,4 +416,4 @@ def test_content_image_upload_destroy_non_existent_file_view(client: APIClient) 
     non_existent_file_uuid = uuid.uuid4()
 
     response = client.delete(f"/v1/content/images/{non_existent_file_uuid}")
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND

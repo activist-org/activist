@@ -246,7 +246,7 @@ def test_content_faq_validate_event_with_nonexistent_uuid_string():
 
 
 @pytest.mark.django_db
-def test_content_faq_org_faq_list_view_200(client: APIClient) -> None:
+def test_content_faq_org_faq_list_view_ok_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for an organization.
     This is like a GET request.
@@ -262,7 +262,7 @@ def test_content_faq_org_faq_list_view_200(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_faq_group_faq_list_view_200(client: APIClient) -> None:
+def test_content_faq_group_faq_list_view_ok_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for a group.
     This is like a GET request.
@@ -278,7 +278,7 @@ def test_content_faq_group_faq_list_view_200(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_faq_event_faq_list_view_200(client: APIClient) -> None:
+def test_content_faq_event_faq_list_view_ok_200(client: APIClient) -> None:
     """
     Test the listing of FAQs for an event.
     This is like a GET request.
@@ -297,7 +297,7 @@ def test_content_faq_event_faq_list_view_200(client: APIClient) -> None:
 
 
 @pytest.mark.django_db
-def test_content_faq_org_faq_create_view_200() -> None:
+def test_content_faq_org_faq_create_view_ok_200() -> None:
     """
     Test the creation of FAQs for an organization.
     The API uses PUT method instead of POST.
@@ -326,7 +326,7 @@ def test_content_faq_org_faq_create_view_200() -> None:
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # MARK: Update Success
 
@@ -355,7 +355,7 @@ def test_content_faq_org_faq_create_view_200() -> None:
 
 
 @pytest.mark.django_db
-def test_content_faq_group_faq_create_view_200() -> None:
+def test_content_faq_group_faq_create_view_ok_200() -> None:
     """
     Test the creation of FAQs for a group.
     The API uses PUT method instead of POST.
@@ -384,7 +384,7 @@ def test_content_faq_group_faq_create_view_200() -> None:
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # MARK: Update Success
 
@@ -412,7 +412,7 @@ def test_content_faq_group_faq_create_view_200() -> None:
 
 
 @pytest.mark.django_db
-def test_content_faq_event_faq_create_view_200() -> None:
+def test_content_faq_event_faq_create_view_ok_200() -> None:
     """
     Test the creation of FAQs for an event.
     The API uses PUT method instead of POST.
@@ -441,7 +441,7 @@ def test_content_faq_event_faq_create_view_200() -> None:
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     # MARK: Update Success
 

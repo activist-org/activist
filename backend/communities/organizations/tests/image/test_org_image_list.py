@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from communities.organizations.factories import (
     OrganizationFactory,
@@ -9,11 +10,11 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_org_image_list_200(client: Client) -> None:
+def test_org_image_list_ok_200(client: Client) -> None:
     org = OrganizationFactory()
 
     response = client.get(
         path=f"/v1/communities/organization/{org.id}/images",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK

@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from content.factories import TopicFactory
@@ -22,7 +23,7 @@ def test_content_topic_api_list():
 
     response = client.get(path="/v1/content/topics")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert len(response.data) == 2
 
     # Verify that only active topics are returned.
@@ -47,7 +48,7 @@ def test_content_topic_api_list_empty():
 
     response = client.get(path="/v1/content/topics")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert len(response.data) == 0
 
 
@@ -59,5 +60,5 @@ def test_content_topic_api_list_no_topics():
 
     response = client.get(path="/v1/content/topics")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert len(response.data) == 0

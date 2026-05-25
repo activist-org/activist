@@ -6,6 +6,7 @@ Test cases for the group social link methods.
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from communities.groups.factories import GroupFactory, GroupFaqFactory
 
@@ -14,7 +15,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Update
 
 
-def test_group_faq_update_200_and_404(authenticated_client) -> None:
+def test_group_faq_update_ok_200_and_not_found_404(authenticated_client) -> None:
     """
     Test Group FAQ updates.
 
@@ -46,7 +47,7 @@ def test_group_faq_update_200_and_404(authenticated_client) -> None:
         format="json",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # MARK: Update Failure
 
@@ -63,10 +64,10 @@ def test_group_faq_update_200_and_404(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_group_faq_update_unauthorized_403(authenticated_client) -> None:
+def test_group_faq_update_forbidden_403(authenticated_client) -> None:
     """
     Test Group FAQ updates.
 
@@ -99,4 +100,4 @@ def test_group_faq_update_unauthorized_403(authenticated_client) -> None:
         format="json",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN

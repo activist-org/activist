@@ -6,6 +6,7 @@ Test cases for the event FAQ delete methods.
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from events.factories import EventFactory, EventFaqFactory
 from events.models import EventFaq
@@ -13,7 +14,7 @@ from events.models import EventFaq
 pytestmark = pytest.mark.django_db
 
 
-def test_event_faq_delete_success_204(authenticated_client) -> None:
+def test_event_faq_delete_no_content_204(authenticated_client) -> None:
     """
     Test successful Event FAQ deletion by the creator.
 
@@ -39,14 +40,14 @@ def test_event_faq_delete_success_204(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert response.data["message"] == "FAQ deleted successfully."
 
     # Verify the FAQ was actually deleted from the database.
     assert not EventFaq.objects.filter(id=test_id).exists()
 
 
-def test_event_faq_delete_by_staff_204(authenticated_client) -> None:
+def test_event_faq_delete_by_staff_no_content_204(authenticated_client) -> None:
     """
     Test successful Event FAQ deletion by a staff member.
 
@@ -74,7 +75,7 @@ def test_event_faq_delete_by_staff_204(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert response.data["message"] == "FAQ deleted successfully."
 
     # Verify the FAQ was actually deleted from the database.
@@ -105,11 +106,11 @@ def test_event_faq_delete_not_found_404(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.data["detail"] == "FAQ not found."
 
 
-def test_event_faq_delete_403(authenticated_client) -> None:
+def test_event_faq_delete_forbidden_403(authenticated_client) -> None:
     """
     Test Event FAQ deletion by unauthorized user.
 
@@ -138,7 +139,7 @@ def test_event_faq_delete_403(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response.data["detail"] == "You are not authorized to delete this FAQ."
 
     # Verify the FAQ still exists in the database.

@@ -21,6 +21,7 @@ import pytest
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image as TestImage
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from communities.organizations.factories import OrganizationFactory
@@ -42,7 +43,7 @@ def _wait_for_filescan_health() -> None:
     for _ in range(max_attempts):
         with contextlib.suppress(httpx.RequestError):
             response = httpx.get(health_url, timeout=5.0)
-            if response.status_code == 200:
+            if response.status_code == status.HTTP_200_OK:
                 return
 
         time.sleep(0.5)
@@ -98,7 +99,7 @@ def test_content_filescan_integration_clean_image_upload_passes_filescan(
         data = _base_payload(str(org.id), file)
         response = client.post("/v1/content/images", data, format="multipart")
         last_response = response
-        if response.status_code == 201:
+        if response.status_code == status.HTTP_201_CREATED:
             break
 
         body = response.json()
@@ -115,7 +116,7 @@ def test_content_filescan_integration_clean_image_upload_passes_filescan(
         break
 
     assert last_response is not None
-    assert last_response.status_code == 201
+    assert last_response.status_code == status.HTTP_201_CREATED
     body = last_response.json()
     assert len(body) == 1
     assert Image.objects.count() == 1
@@ -148,7 +149,7 @@ def test_content_filescan_integration_malware_eicar_upload_rejected_by_filescan(
             break
 
     assert response is not None
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     # Serializer raises a non-field ValidationError -> DRF exposes it under nonFieldErrors.
     assert "The uploaded file was rejected by the security scan." in body.get(
         "nonFieldErrors", []
@@ -185,7 +186,7 @@ def test_content_filescan_integration_large_clean_image_still_passes_filescan(
     response = None
     for attempt in range(max_attempts):
         response = client.post("/v1/content/images", data, format="multipart")
-        if response.status_code == 201:
+        if response.status_code == status.HTTP_201_CREATED:
             break
         body = response.json()
         if (
@@ -203,7 +204,7 @@ def test_content_filescan_integration_large_clean_image_still_passes_filescan(
         break
 
     assert response is not None
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     assert Image.objects.count() == 1
 
 

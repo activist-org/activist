@@ -2,6 +2,7 @@
 import logging
 
 import pytest
+from rest_framework import status
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +12,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Delete User
 
 
-def test_delete_user_204(authenticated_client) -> None:
+def test_auth_delete_user_no_content_204(authenticated_client) -> None:
     """
     Test the deletion of existing user records from the database.
 
@@ -27,5 +28,5 @@ def test_delete_user_204(authenticated_client) -> None:
     logger.info("Testing user self-deletion")
     response = client.delete(path="/v1/auth/delete")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     logger.info("Successfully deleted user")

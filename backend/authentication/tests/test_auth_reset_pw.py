@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 import pytest
 from django.core import mail
+from rest_framework import status
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,9 @@ pytestmark = pytest.mark.django_db
 # MARK: Password Reset
 
 
-def test_pwreset_email_sent_successfully_200(authenticated_client) -> None:
+def test_auth_reset_pw_email_sent_successfully_ok_200(
+    authenticated_client,
+) -> None:
     """
     Test that password reset email is sent successfully for a valid user.
     """
@@ -25,12 +28,12 @@ def test_pwreset_email_sent_successfully_200(authenticated_client) -> None:
         data={"email": user.email},
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert len(mail.outbox) == 1
     logger.info(f"Password reset email sent successfully to: {user.email}")
 
 
-def test_pwreset_invalid_email_404(authenticated_client) -> None:
+def test_auth_reset_pw_invalid_email_not_found_404(authenticated_client) -> None:
     """
     Test password reset attempt with an invalid email.
     """
@@ -40,10 +43,12 @@ def test_pwreset_invalid_email_404(authenticated_client) -> None:
         path="/v1/auth/pwreset", data={"email": "invalid_email@example.com"}
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_pwreset_invalid_verification_code_404(authenticated_client) -> None:
+def test_auth_reset_pw_invalid_verification_code_not_found_404(
+    authenticated_client,
+) -> None:
     """
     Test password reset attempt with an invalid verification code.
     """
@@ -56,10 +61,10 @@ def test_pwreset_invalid_verification_code_404(authenticated_client) -> None:
         data={"password": new_password},
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_pwreset_email_sending_failure_500(authenticated_client) -> None:
+def test_auth_reset_pw_email_sending_failure_500(authenticated_client) -> None:
     """
     Test password reset when email sending fails.
 

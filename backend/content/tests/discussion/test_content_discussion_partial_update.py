@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -29,7 +30,7 @@ def test_content_discussion_partial_update():
         data={"username": test_username, "password": test_pass},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -43,7 +44,7 @@ def test_content_discussion_partial_update():
         data={"title": "new_title"},
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # Authorized non-owner partially updates the discussion.
     unowned_discussion_thread = DiscussionFactory()
@@ -53,7 +54,7 @@ def test_content_discussion_partial_update():
         data={"title": "new_title"},
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
     body = response.json()
     assert body["detail"] == "You are not allowed to update this discussion."

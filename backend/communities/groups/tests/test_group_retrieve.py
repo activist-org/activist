@@ -7,13 +7,14 @@ from uuid import uuid4
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from communities.groups.factories import GroupFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_retrieve_200(client: Client) -> None:
+def test_group_retrieve_ok_200(client: Client) -> None:
     """
     Test retrieving groups.
 
@@ -38,10 +39,10 @@ def test_group_retrieve_200(client: Client) -> None:
         path=f"/v1/communities/groups/{group_id}",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
-def test_group_retrieve_404(client: Client):
+def test_group_retrieve_not_found_404(client: Client):
     """
     Group ID does not exist in the database.
     """
@@ -50,7 +51,7 @@ def test_group_retrieve_404(client: Client):
     response = client.get(path=f"/v1/communities/groups/{bad_group_uuid}")
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Failed to retrieve the group."
 
     """
@@ -59,5 +60,5 @@ def test_group_retrieve_404(client: Client):
 
     response = client.get(path=f"/v1/communities/groups/{None}")
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Failed to retrieve the group."

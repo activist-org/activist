@@ -3,6 +3,7 @@ import logging
 import uuid
 
 import pytest
+from rest_framework import status
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Verify Email
 
 
-def test_verify_email_200_and_400(authenticated_client) -> None:
+def test_auth_verify_email_ok_200_and_bad_request_400(authenticated_client) -> None:
     """
     Test email verification view.
 
@@ -27,9 +28,9 @@ def test_verify_email_200_and_400(authenticated_client) -> None:
     # Valid verification code.
     logger.info("Testing valid email verification")
     response = client.post(path=f"/v1/auth/verify_email/{user.verification_code}")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # Invalid verification code.
     logger.info("Testing invalid email verification")
     response = client.post(path="/v1/auth/verify_email/invalid_code")
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND

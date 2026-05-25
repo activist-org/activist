@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -45,7 +46,7 @@ def test_content_resource_update():
     resource = ResourceFactory(created_by=user)
     location = EntityLocationFactory()
 
-    assert login_details["status_code"] == 200
+    assert login_details["status_code"] == status.HTTP_200_OK
 
     payload = {
         "name": "new_resource",
@@ -61,10 +62,10 @@ def test_content_resource_update():
     client.credentials(HTTP_AUTHORIZATION=f"Token {login_details['access_token']}")
     response = client.put(path=f"/v1/content/resources/{resource.id}", data=payload)
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
-def test_content_resource_update_403():
+def test_content_resource_update_forbidden_403():
     client = APIClient()
 
     unowned_resource = ResourceFactory()
@@ -85,7 +86,7 @@ def test_content_resource_update_403():
     error_response = client.put(
         path=f"/v1/content/resources/{unowned_resource.id}", data=payload
     )
-    assert error_response.status_code == 403
+    assert error_response.status_code == status.HTTP_403_FORBIDDEN
 
     error_body = error_response.json()
     assert error_body["detail"] == "You are not allowed to update this resource."

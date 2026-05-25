@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -30,7 +31,7 @@ def test_content_discussion_delete():
         data={"username": test_username, "password": test_pass},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -39,14 +40,14 @@ def test_content_discussion_delete():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/content/discussions/{discussion_thread.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
     # Authorized non-owner deletes the discussion.
     response = client.delete(
         path=f"/v1/content/discussions/{unowned_discussion_thread.id}"
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
     body = response.json()
     assert body["detail"] == "You are not allowed to delete this discussion."

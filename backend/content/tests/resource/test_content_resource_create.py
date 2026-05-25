@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -8,7 +9,7 @@ from content.factories import EntityLocationFactory, ResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_content_resource_create_201():
+def test_content_resource_created_201():
     """
     Test to create a resource.
     """
@@ -29,7 +30,7 @@ def test_content_resource_create_201():
         data={"username": test_username, "password": test_pass},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -53,4 +54,4 @@ def test_content_resource_create_201():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.post(path="/v1/content/resources", data=payload)
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED

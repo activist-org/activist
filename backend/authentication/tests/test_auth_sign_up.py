@@ -5,6 +5,7 @@ from uuid import UUID
 import pytest
 from django.core import mail
 from faker import Faker
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.models import UserModel
@@ -17,7 +18,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Sign Up
 
 
-def test_sign_up_with_weak_password_400(client: APIClient) -> None:
+def test_auth_sign_up_with_weak_password_bad_request_400(client: APIClient) -> None:
     """
     Test that sign-up fails when password is too weak.
 
@@ -44,11 +45,11 @@ def test_sign_up_with_weak_password_400(client: APIClient) -> None:
         },
     )
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert not UserModel.objects.filter(username=username).exists()
 
 
-def test_sign_up_with_password_mismatch_400(client: APIClient) -> None:
+def test_auth_sign_up_with_password_mismatch_bad_request_400(client: APIClient) -> None:
     """
     Test that sign-up fails when passwords don't match.
 
@@ -78,11 +79,11 @@ def test_sign_up_with_password_mismatch_400(client: APIClient) -> None:
         },
     )
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert not UserModel.objects.filter(username=username).exists()
 
 
-def test_sign_up_without_email_400(client: APIClient) -> None:
+def test_auth_sign_up_without_email_bad_request_400(client: APIClient) -> None:
     """
     Test that sign-up fails when email is missing.
 
@@ -109,11 +110,11 @@ def test_sign_up_without_email_400(client: APIClient) -> None:
 
     user = UserModel.objects.filter(username=username).first()
     assert user is None
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert not UserModel.objects.filter(username=username).exists()
 
 
-def test_sign_up_successful_201(client: APIClient) -> None:
+def test_auth_sign_up_created_201(client: APIClient) -> None:
     """
     Test successful user registration.
 
@@ -141,7 +142,7 @@ def test_sign_up_successful_201(client: APIClient) -> None:
     )
     user = UserModel.objects.filter(username=username).first()
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     assert UserModel.objects.filter(username=username)
     assert isinstance(user.verification_code, UUID)
     assert user.is_confirmed is False
@@ -152,7 +153,7 @@ def test_sign_up_successful_201(client: APIClient) -> None:
     )
 
 
-def test_sign_up_with_duplicate_user_400(client: APIClient) -> None:
+def test_auth_sign_up_with_duplicate_user_bad_request_400(client: APIClient) -> None:
     """
     Test that sign-up fails when user already exists.
 
@@ -189,5 +190,5 @@ def test_sign_up_with_duplicate_user_400(client: APIClient) -> None:
         },
     )
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert UserModel.objects.filter(username=username).count() == 1

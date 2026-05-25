@@ -13,7 +13,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Create User and SuperUser
 
 
-def test_create_user_and_superuser():
+def test_auth_create_user_and_superuser():
     """
     Test create_user and create_superuser methods of the CustomAccountManager.
     """

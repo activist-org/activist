@@ -2,6 +2,7 @@
 import logging
 
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -14,7 +15,7 @@ pytestmark = pytest.mark.django_db
 # MARK: Sign In
 
 
-def test_sign_in(client: APIClient) -> None:
+def test_auth_sign_in(client: APIClient) -> None:
     """
     Test sign in view.
 
@@ -38,7 +39,7 @@ def test_sign_in(client: APIClient) -> None:
         path="/v1/auth/sign_in",
         data={"username": user.username, "password": plaintext_password},
     )
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     # User that signed up with email, confirmed email address. Is logged in successfully.
     logger.info("Testing successful sign-in with confirmed user")
@@ -48,14 +49,14 @@ def test_sign_in(client: APIClient) -> None:
         path="/v1/auth/sign_in",
         data={"email": user.email, "password": plaintext_password},
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # Sign in via username.
     response = client.post(
         path="/v1/auth/sign_in",
         data={"username": user.username, "password": plaintext_password},
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     logger.info(
         f"Successfully signed in user: {user.username} via both email and username"
     )
@@ -65,11 +66,11 @@ def test_sign_in(client: APIClient) -> None:
         path="/v1/auth/sign_in",
         data={"email": user.email, "password": "Strong_But_Incorrect?!123"},
     )
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     # User does not exists and tries to sign in.
     response = client.post(
         path="/v1/auth/sign_in",
         data={"email": "unknown_user@example.com", "password": "Password@123!?"},
     )
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
