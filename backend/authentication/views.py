@@ -118,7 +118,7 @@ class SignUpView(APIView):
 
         logger.info(f"User created successfully: {user.username} (ID: {user.id})")
 
-        if user.email != "":
+        if user.email:
             user.verification_code = uuid.uuid4()
 
             confirmation_link = (
