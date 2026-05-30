@@ -28,6 +28,7 @@ from communities.organizations.views import (
     OrganizationResourceViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
+    OrganizationEventViewSet,
 )
 from communities.views import StatusViewSet
 
@@ -47,6 +48,7 @@ router.register(
     viewset=GroupImageViewSet,
     basename="group-images",
 )
+
 router.register(
     prefix=r"group_faqs",
     viewset=GroupFaqViewSet,
@@ -84,6 +86,11 @@ router.register(
     prefix=r"organization/(?P<org_id>[^/.]+)/images",
     viewset=OrganizationImageViewSet,
     basename="organization-images",
+)
+router.register(
+    prefix=r"organizations/(?P<org_id>[^/.]+)/events",
+    viewset=OrganizationEventViewSet,
+    basename="organization-events",
 )
 
 # MARK: URL Patterns

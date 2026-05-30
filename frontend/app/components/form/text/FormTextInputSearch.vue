@@ -48,7 +48,7 @@ watch(
 const { debounce } = useDebounce();
 const emitDebouncedUpdate = debounce((value: unknown) => {
   emit("update:modelValue", value as string);
-}, 300);
+}, 500);
 watch(localValue, (newVal) => {
   emitDebouncedUpdate(newVal);
 });

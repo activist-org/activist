@@ -6,7 +6,9 @@ API views for organization management.
 
 import logging
 import os
+from tracemalloc import start
 from typing import Any, Sequence, Type
+from urllib import request
 from uuid import UUID
 
 from django.contrib.auth.models import AnonymousUser
@@ -35,6 +37,8 @@ from rest_framework.views import APIView
 
 from authentication.models import UserModel
 from communities.models import StatusType
+from events.models import Event
+from events.serializers import EventSerializer
 from communities.organizations.filters import OrganizationFilter
 from communities.organizations.models import (
     Organization,
@@ -657,6 +661,46 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         return Response(
             {"message": "FAQ deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )
+
+# MARK: Events
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            "org_id",
+            OpenApiTypes.UUID,
+            location=OpenApiParameter.PATH,
+            description="Organization UUID.",
+        ),
+    ],
+)
+class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    def list(self, request: Request, org_id: UUID) -> Response:
+        queryset = Event.objects.filter(orgs__id=org_id)
+        start = request.query_params.get("start_date")
+        end = request.query_params.get("end_date")
+        name = request.query_params.get("name")
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        # overlap logic: event interval intersects requested interval
+        if start and end:
+            queryset = queryset.filter(
+                times__start_time__date__lte=end,
+                times__end_time__date__gte=start,
+            )
+        elif start:
+                # events that end on/after start
+            queryset = queryset.filter(times__end_time__date__gte=start)
+        elif end:
+                # events that start on/before end
+            queryset = queryset.filter(times__start_time__date__lte=end)
+
+        queryset = queryset.order_by("times__start_time").distinct()
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 
 # MARK: Social Link

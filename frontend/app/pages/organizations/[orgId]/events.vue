@@ -17,6 +17,16 @@
       :tagline="$t('i18n.pages.organizations._global.events_tagline')"
     >
       <div class="flex space-x-2 lg:space-x-3">
+        <FormTextInputSearch
+          id="organization-events-search"
+          label="Search"
+          ariaLabel="Search events"
+          v-model="name"
+        />
+        <FormDateTimeInput
+          :label="$t('i18n.pages.organizations.events.filter_by_date')"
+          v-model="dateRange"
+        />
         <BtnAction
           @click="openModal()"
           @keydown.enter="openModal()"
@@ -42,12 +52,12 @@
       </div>
     </HeaderAppPageOrganization>
     <div
-      v-if="organization?.events && (organization?.events ?? []).length > 0"
+      v-if="events && (events ?? []).length > 0"
       class="space-y-3 py-4"
       data-testid="organization-events-list"
     >
       <CardSearchResultEntityEvent
-        v-for="(e, i) in organization?.events"
+        v-for="(e, i) in events"
         :key="i"
         :event="e"
         :isReduced="true"
@@ -58,11 +68,23 @@
 </template>
 
 <script setup lang="ts">
-const { data: organization } = useGetOrganization(
-  useRoute().params.orgId as string
-);
+const organizationId = useRoute().params.orgId as string
 
-const { openModal } = useModalHandlers("ModalCreateEvent");
+const name = ref<string>("")
+const dateRange = ref<{ start?: Date; end?: Date }>({})
 
-const downloadCalendarEntries = () => {};
+// format to YYYY-MM-DD for backend __date filter
+const toDateParam = (d?: Date) => (d ? d.toISOString().slice(0, 10) : undefined)
+
+const filters = computed(() => ({
+  name: name.value || undefined,
+  startDate: toDateParam(dateRange.value.start),
+  endDate: toDateParam(dateRange.value.end),
+}))
+
+const { data: organization } = useGetOrganization(organizationId)
+const { data: events } = useGetOrganizationEvents(organizationId, filters)
+
+const { openModal } = useModalHandlers("ModalCreateEvent")
+const downloadCalendarEntries = () => {}
 </script>

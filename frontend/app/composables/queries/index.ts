@@ -10,3 +10,4 @@ export * from "./useGetTopics";
 export * from "./useGetGroups";
 export * from "./useGetOrganizationByUser";
 export * from "./useLocation";
+export * from "./useGetOrganizationEvents";
