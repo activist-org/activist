@@ -475,7 +475,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         except UserFlag.DoesNotExist:
             logger.warning(f"User flag not found: ID {id}")
             return Response(
-                {"detail": "Failed to retrieve the flag."},
+                {"detail": "Failed to retrieve the user flag."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -493,7 +493,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to delete this flag."}
             ),
-            404: OpenApiResponse(response={"detail": "Failed to retrieve flag."}),
+            404: OpenApiResponse(response={"detail": "Flag not found."}),
         }
     )
     def delete(self, request: Request, id: str | uuid.UUID) -> Response:
