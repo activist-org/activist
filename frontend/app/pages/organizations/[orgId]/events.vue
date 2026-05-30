@@ -58,6 +58,7 @@
         </div>
       </div>
     </HeaderAppPageOrganization>
+    <Loading v-if="pending" :loading="pending" />
     <div
       v-if="events && (events ?? []).length > 0"
       class="space-y-3 py-4"
@@ -91,7 +92,7 @@ const filters = computed(() => ({
 }));
 
 const { data: organization } = useGetOrganization(organizationId);
-const { data: events } = useGetOrganizationEvents(organizationId, filters);
+const { data: events, pending } = useGetOrganizationEvents(organizationId, filters);
 
 const { openModal } = useModalHandlers("ModalCreateEvent");
 const downloadCalendarEntries = () => {};
