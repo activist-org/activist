@@ -16,39 +16,46 @@
       "
       :tagline="$t('i18n.pages.organizations._global.events_tagline')"
     >
-      <div class="flex space-x-2 lg:space-x-3">
-        <FormTextInputSearch
-          id="organization-events-search"
-          label="Search"
-          ariaLabel="Search events"
-          v-model="name"
-        />
-        <FormDateTimeInput
-          :label="$t('i18n.pages.organizations.events.filter_by_date')"
-          v-model="dateRange"
-        />
-        <BtnAction
-          @click="openModal()"
-          @keydown.enter="openModal()"
-          ariaLabel="i18n.pages.organizations.events.new_org_event_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n._global.new_event"
-          :leftIcon="IconMap.PLUS"
-        />
-        <BtnAction
-          @click="downloadCalendarEntries"
-          @keydown.enter="downloadCalendarEntries"
-          ariaLabel="i18n.pages.organizations._global.subscribe_to_events_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.25em"
-          label="i18n.pages.organizations._global.subscribe_to_events"
-          :leftIcon="IconMap.DATE"
-        />
+      <div
+        class="flex items-center space-x-2 w-[75%] lg:flex-row lg:items-center lg:justify-around lg:space-y-0"
+      >
+        <div class="flex items-center justify-around lg:space-x-3 w-full">
+          <FormTextInputSearch
+            id="organization-events-search"
+            label="Search"
+            ariaLabel="Search events"
+            v-model="name"
+            size="lg"
+          />
+          <FormDateTimeInput
+            :label="$t('i18n.pages.organizations.events.filter_by_date')"
+            v-model="dateRange"
+          />
+        </div>
+        <div class="flex space-x-2 lg:space-x-3 justify-end w-fit">
+          <BtnAction
+            @click="openModal()"
+            @keydown.enter="openModal()"
+            ariaLabel="i18n.pages.organizations.events.new_org_event_aria_label"
+            class="w-max"
+            :cta="true"
+            fontSize="sm"
+            iconSize="1.35em"
+            label="i18n._global.new_event"
+            :leftIcon="IconMap.PLUS"
+          />
+          <BtnAction
+            @click="downloadCalendarEntries"
+            @keydown.enter="downloadCalendarEntries"
+            ariaLabel="i18n.pages.organizations._global.subscribe_to_events_aria_label"
+            class="w-max"
+            :cta="true"
+            fontSize="sm"
+            iconSize="1.25em"
+            label="i18n.pages.organizations._global.subscribe_to_events"
+            :leftIcon="IconMap.DATE"
+          />
+        </div>
       </div>
     </HeaderAppPageOrganization>
     <div
@@ -68,23 +75,24 @@
 </template>
 
 <script setup lang="ts">
-const organizationId = useRoute().params.orgId as string
+const organizationId = useRoute().params.orgId as string;
 
-const name = ref<string>("")
-const dateRange = ref<{ start?: Date; end?: Date }>({})
+const name = ref<string>("");
+const dateRange = ref<{ start?: Date; end?: Date }>({});
 
 // format to YYYY-MM-DD for backend __date filter
-const toDateParam = (d?: Date) => (d ? d.toISOString().slice(0, 10) : undefined)
+const toDateParam = (d?: Date) =>
+  d ? d.toISOString().slice(0, 10) : undefined;
 
 const filters = computed(() => ({
   name: name.value || undefined,
   startDate: toDateParam(dateRange.value.start),
   endDate: toDateParam(dateRange.value.end),
-}))
+}));
 
-const { data: organization } = useGetOrganization(organizationId)
-const { data: events } = useGetOrganizationEvents(organizationId, filters)
+const { data: organization } = useGetOrganization(organizationId);
+const { data: events } = useGetOrganizationEvents(organizationId, filters);
 
-const { openModal } = useModalHandlers("ModalCreateEvent")
-const downloadCalendarEntries = () => {}
+const { openModal } = useModalHandlers("ModalCreateEvent");
+const downloadCalendarEntries = () => {};
 </script>

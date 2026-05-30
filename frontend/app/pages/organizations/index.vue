@@ -4,9 +4,11 @@
     <Head>
       <Title>{{ $t("i18n.pages.organizations.index.header_title") }}</Title>
     </Head>
-    <HeaderAppPage
+    <HeaderAppPageList
+      @filter-click="removeFilter"
       :header="$t('i18n.pages.organizations.index.header_title')"
       :tagline="$t('i18n.pages.organizations.index.subheader')"
+      :filters="listFilters"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
         <ComboboxTopics
@@ -14,7 +16,8 @@
           :receivedSelectedTopics="selectedTopics"
         />
       </div>
-    </HeaderAppPage>
+
+    </HeaderAppPageList>
     <Loading
       v-if="pending && !loadingFetchMore"
       :loading="pending && !loadingFetchMore"
@@ -59,6 +62,40 @@ const filters = computed<OrganizationFilters>(() => {
   return normalizedFilters;
 });
 const selectedTopics = ref<TopicEnum[]>([]);
+
+const listFilters = computed(() => {
+  const mappedFilters = Object.entries(filters.value).flatMap(([key, value]) => {
+    if (Array.isArray(value)) {
+      return value.map((v) => ({
+        id: `${key}-${v}`,
+        label: String(v).replace(/_/g, " "),
+        value: v,
+      }));
+    }
+    return {
+      id: key,
+      label: String(value).replace(/_/g, " "), // Simple label formatting, can be improved.
+      value,
+    };
+  });
+  return mappedFilters;
+});
+const removeFilter = (option: { id: number | string; label: string; value: unknown }) => {
+  const [key] = option.id.toString().split("-");
+  const query = { ...route.query };
+
+  if (Array.isArray(query[key])) {
+    query[key] = (query[key] as string[]).filter((v) => v !== option.value);
+    if ((query[key] as string[]).length === 0) {
+      delete query[key];
+    }
+  } else {
+    delete query[key];
+  }
+
+  router.replace({ query });
+};
+
 watch(
   () => route.query.topics,
   (newVal) => {
