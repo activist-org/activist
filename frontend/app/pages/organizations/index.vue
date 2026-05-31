@@ -8,7 +8,7 @@
       :header="$t('i18n.pages.organizations.index.header_title')"
       :tagline="$t('i18n.pages.organizations.index.subheader')"
     >
-      <div class="flex gap-3 md:hidden">
+      <div class="flex flex-col gap-3 sm:flex-row md:hidden">
         <ComboboxTopics
           @update:selectedTopics="handleSelectedTopicsUpdate"
           class="flex-1"
