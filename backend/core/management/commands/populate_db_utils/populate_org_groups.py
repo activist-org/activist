@@ -5,7 +5,7 @@ Populate the database with groups for organizations.
 
 # mypy: ignore-errors
 import contextlib
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from authentication.models import UserModel
 from communities.groups.factories import (
@@ -26,11 +26,11 @@ def create_org_groups(
     user_topic: Topic,
     user_topic_name: str,
     user_org: Organization,
-    assigned_groups: List[Dict[str, Any]],
+    assigned_groups: list[dict[str, Any]],
     num_groups_per_org: int,
     num_faq_entries_per_entity: int,
     num_resources_per_entity: int,
-) -> Tuple[List[Group], int, int, int]:
+) -> tuple[list[Group], int, int, int]:
     """
     Create groups for `user_org`.
 
@@ -48,7 +48,7 @@ def create_org_groups(
     user_org : Organization
         The organization for which events are being generated for.
 
-    assigned_groups : List[Dict[str, Any]]
+    assigned_groups : list[dict[str, Any]]
         The per-org 'groups' list from the org spec (may be []).
 
         - If not empty, this function will consume (pop) the first item and use values from it where provided.
@@ -65,10 +65,10 @@ def create_org_groups(
 
     Returns
     -------
-    Tuple[List[Group], int, int, int]
+    tuple[list[Group], int, int, int]
         A list of groups created along with the number of social links, resources and faq entries created for them.
     """
-    groups: List[Group] = []
+    groups: list[Group] = []
     n_social = 0
     n_resources = 0
     n_faq = 0
