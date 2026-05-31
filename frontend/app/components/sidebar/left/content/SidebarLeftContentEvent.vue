@@ -35,9 +35,7 @@
             entityType: EntityType.EVENT,
           })
         "
-        :aria-label="
-          $t('i18n.components.sidebar_left_content_event.edit_aria_label')
-        "
+        :aria-label="$t('i18n.components._global.edit_aria_label')"
         class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
       />
     </div>

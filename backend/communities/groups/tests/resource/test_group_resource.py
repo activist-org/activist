@@ -82,7 +82,7 @@ def test_group_resource_serializer() -> None:
 
 
 @pytest.mark.django_db
-def test_validate_group_with_group_instance_resource_serializer():
+def test_group_resource_validate_with_group_instance_resource_serializer():
     """
     Should return the same group when a Group instance is passed.
     """
@@ -107,7 +107,7 @@ def test_validate_group_with_group_instance_resource_serializer():
 
 
 @pytest.mark.django_db
-def test_validate_group_with_valid_uuid_resource_serializer():
+def test_group_resource_validate_with_valid_uuid_resource_serializer():
     """
     Should fetch and return the group when a valid UUID is given.
     """
@@ -132,7 +132,7 @@ def test_validate_group_with_valid_uuid_resource_serializer():
 
 
 @pytest.mark.django_db
-def test_validate_group_with_invalid_uuid_resource_serializer():
+def test_group_resource_validate_with_invalid_uuid_resource_serializer():
     """
     Should raise ValidationError when group does not exist.
     """

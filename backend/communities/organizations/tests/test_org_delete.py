@@ -7,6 +7,7 @@ from uuid import uuid4
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from communities.organizations.factories import OrganizationFactory
 
@@ -18,7 +19,7 @@ ORGS_URL = "/v1/communities/organizations"
 # MARK: Unauthenticated
 
 
-def test_org_delete_unauthenticated_401(client: Client) -> None:
+def test_org_delete_unauthenticated_unauthorized_401(client: Client) -> None:
     """
     Unauthenticated user receives 401 when trying to delete an organization.
 
@@ -33,13 +34,13 @@ def test_org_delete_unauthenticated_401(client: Client) -> None:
         path=f"{ORGS_URL}/{org.id}",
     )
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 # MARK: Non-Owner
 
 
-def test_org_delete_non_owner_403(authenticated_client) -> None:
+def test_org_delete_non_owner_forbidden_403(authenticated_client) -> None:
     """
     Authenticated user who is not the owner receives 403 when trying to delete.
 
@@ -56,7 +57,7 @@ def test_org_delete_non_owner_403(authenticated_client) -> None:
         path=f"{ORGS_URL}/{org.id}",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
     response_body = response.json()
     assert (
@@ -84,7 +85,7 @@ def test_org_delete_not_found_404(authenticated_client) -> None:
         path=f"{ORGS_URL}/{bad_org_id}",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
     response_body = response.json()
     assert response_body["detail"] == "Organization not found."

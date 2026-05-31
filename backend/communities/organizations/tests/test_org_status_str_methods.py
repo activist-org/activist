@@ -15,7 +15,7 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_status_str_methods() -> None:
+def test_org_status_str_methods() -> None:
     """
     Test the __str__ methods of the Status and StatusType models.
 

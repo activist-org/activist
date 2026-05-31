@@ -9,6 +9,7 @@ from datetime import timezone as dt_timezone
 from unittest.mock import patch
 
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from events.factories import EventFactory, EventTimeFactory
@@ -20,7 +21,7 @@ FIXED_NOW = datetime(1970, 1, 1, 0, 0, tzinfo=dt_timezone.utc)
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_filters_events_within_window(mock_now) -> None:
+def test_event_filters_days_ahead_within_window(mock_now) -> None:
     """
     days_ahead returns only events starting between now and now + N days.
     """
@@ -57,7 +58,7 @@ def test_days_ahead_filters_events_within_window(mock_now) -> None:
     )
 
     response = client.get(f"{EVENTS_URL}?days_ahead=10")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -67,7 +68,7 @@ def test_days_ahead_filters_events_within_window(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_rolling_24h_window(mock_now) -> None:
+def test_event_filters_days_ahead_rolling_24h_window(mock_now) -> None:
     """
     days_ahead=1 includes events within the next 24 hours, and excludes events
     just beyond that window.
@@ -95,7 +96,7 @@ def test_days_ahead_rolling_24h_window(mock_now) -> None:
     )
 
     response = client.get(f"{EVENTS_URL}?days_ahead=1")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -104,7 +105,9 @@ def test_days_ahead_rolling_24h_window(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_with_type_and_location_type_combination(mock_now) -> None:
+def test_event_filters_days_ahead_with_type_and_location_type_combination(
+    mock_now,
+) -> None:
     """
     days_ahead works in combination with other filters (type, location_type).
     """
@@ -160,7 +163,7 @@ def test_days_ahead_with_type_and_location_type_combination(mock_now) -> None:
     response = client.get(
         f"{EVENTS_URL}?days_ahead=10&type=learn&location_type=online",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     results = response.data["results"]
     ids = {item["id"] for item in results}
@@ -171,7 +174,7 @@ def test_days_ahead_with_type_and_location_type_combination(mock_now) -> None:
 
 
 @patch("django.utils.timezone.now", return_value=FIXED_NOW)
-def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
+def test_event_filters_days_ahead_ignores_non_positive_values(mock_now) -> None:
     """
     Non-positive days_ahead (0 or negative) should not crash and should behave
     like an empty or immediate window (only events starting at now for 0).
@@ -193,7 +196,7 @@ def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
     event_future = EventFactory.create()
 
     response = client.get(f"{EVENTS_URL}?days_ahead=0")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -201,7 +204,7 @@ def test_days_ahead_ignores_non_positive_values(mock_now) -> None:
     assert str(event_future.id) not in ids
 
 
-def test_filter_id_handles_single_id() -> None:
+def test_event_filters_id_handles_single_id() -> None:
     """
     A single valid uuid passed as an id parameter
     should filter down to the single event with the same id field.
@@ -216,7 +219,7 @@ def test_filter_id_handles_single_id() -> None:
     event_filler = EventFactory(id=uuid_filler)
 
     response = client.get(f"{EVENTS_URL}?id={uuid_target}")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -224,7 +227,7 @@ def test_filter_id_handles_single_id() -> None:
     assert str(event_filler.id) not in ids
 
 
-def test_filter_id_handles_multiple_separate_ids() -> None:
+def test_event_filters_id_handles_multiple_separate_ids() -> None:
     """
     Multiple valid uuids each passed as individual id parameters
     should filter down to the events with the same id fields.
@@ -248,7 +251,7 @@ def test_filter_id_handles_multiple_separate_ids() -> None:
     response = client.get(
         f"{EVENTS_URL}?id={uuid_target_1}&id={uuid_target_2}&id={uuid_target_3}"
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -262,7 +265,7 @@ def test_filter_id_handles_multiple_separate_ids() -> None:
     assert str(event_filler_2.id) not in ids
 
 
-def test_filter_id_handles_multiple_listed_ids() -> None:
+def test_event_filters_id_handles_multiple_listed_ids() -> None:
     """
     Multiple valid uuids passed as a coma separated string
     in a single id parameter should filter down to the events
@@ -287,7 +290,7 @@ def test_filter_id_handles_multiple_listed_ids() -> None:
     response = client.get(
         f"{EVENTS_URL}?id={uuid_target_1},{uuid_target_2},{uuid_target_3}"
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -301,7 +304,7 @@ def test_filter_id_handles_multiple_listed_ids() -> None:
     assert str(event_filler_2.id) not in ids
 
 
-def test_filter_id_handles_nonexistent_uuid() -> None:
+def test_event_filters_id_handles_nonexistent_uuid() -> None:
     """
     Uuids that are not present in the backend data
     should be ignored and any existing uuids given
@@ -322,7 +325,7 @@ def test_filter_id_handles_nonexistent_uuid() -> None:
 
     # Remove last 3 characters of 'uuid_target_2' to invalidate.
     response = client.get(f"{EVENTS_URL}?id={uuid_target}&id={uuid_nonexistent}")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 
@@ -331,7 +334,7 @@ def test_filter_id_handles_nonexistent_uuid() -> None:
     assert str(event_filler.id) not in ids
 
 
-def test_filter_id_handles_invalid_uuid() -> None:
+def test_event_filters_id_handles_invalid_uuid() -> None:
     """
     Invalid uuids should be ignored and any valid uuids given
     should still be matched to events with the same id field.
@@ -352,7 +355,7 @@ def test_filter_id_handles_invalid_uuid() -> None:
     response = client.get(
         f"{EVENTS_URL}?id={uuid_target_1}&id={str(uuid_target_2)[:-3]}"
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     ids = {item["id"] for item in response.data["results"]}
 

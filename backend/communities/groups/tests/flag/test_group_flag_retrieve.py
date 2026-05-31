@@ -2,13 +2,14 @@
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from communities.groups.factories import GroupFlagFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_flag_retrieve(authenticated_client):
+def test_group_flag_retrieve_ok_200(authenticated_client):
     """
     Test to retrieve a flag of a group.
     """
@@ -17,10 +18,10 @@ def test_group_flag_retrieve(authenticated_client):
 
     response = client.get(path=f"/v1/communities/group_flags/{flag.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
-def test_group_flag_retrieve_error(authenticated_client):
+def test_group_flag_retrieve_not_found_404(authenticated_client):
     client, user = authenticated_client
 
     flag = uuid4()
@@ -28,5 +29,5 @@ def test_group_flag_retrieve_error(authenticated_client):
     response = client.get(path=f"/v1/communities/group_flags/{flag}")
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Failed to retrieve the flag."

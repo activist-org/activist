@@ -18,6 +18,15 @@ export const newCreateGroupModal = (page: Page) => {
     descriptionField: root.locator("#form-item-description"),
     organizationCombobox: root.locator("#form-item-organization"),
 
+    // MARK: Validation Errors (step 1)
+    nameError: root.getByTestId("form-item-name-error"),
+    descriptionError: root.getByTestId("form-item-description-error"),
+    organizationError: root.getByTestId("form-item-organization-error"),
+
+    // MARK: Validation Errors (step 2 - location)
+    countryError: root.getByTestId("form-item-country-error"),
+    cityError: root.getByTestId("form-item-city-error"),
+
     // MARK: Location
     locationForm: root.locator("#event-location"),
     // Use input[id=...] to avoid matching the <Combobox as="div"> root which shares the same id.

@@ -22,7 +22,7 @@ from authentication.models import UserFlag, UserModel
 pytestmark = pytest.mark.django_db
 
 
-def test_user_creation_form_valid():
+def test_auth_admin_forms_user_creation_form_valid():
     """
     Ensure UserCreationForm creates a user when passwords match.
     """
@@ -40,7 +40,7 @@ def test_user_creation_form_valid():
     assert check_password("SecurePass123!", user.password)
 
 
-def test_user_creation_form_password_mismatch():
+def test_auth_admin_forms_user_creation_form_password_mismatch():
     """
     Ensure UserCreationForm fails when passwords do not match.
     """
@@ -55,7 +55,7 @@ def test_user_creation_form_password_mismatch():
     assert "Passwords don't match" in form.errors["password2"]
 
 
-def test_user_change_form_password_readonly():
+def test_auth_admin_forms_user_change_form_password_readonly():
     """
     Ensure UserChangeForm shows hashed password as read-only.
     """
@@ -64,7 +64,7 @@ def test_user_change_form_password_readonly():
     assert "password" in form.fields
 
 
-def test_user_model_registered_with_user_admin():
+def test_auth_admin_forms_user_model_registered_with_user_admin():
     """
     Ensure UserModel is registered in admin using UserAdmin.
     """
@@ -73,7 +73,7 @@ def test_user_model_registered_with_user_admin():
     assert isinstance(model_admin, UserAdmin)
 
 
-def test_user_admin_list_display():
+def test_auth_admin_forms_user_admin_list_display():
     """
     Ensure UserAdmin.list_display contains expected fields.
     """
@@ -83,7 +83,7 @@ def test_user_admin_list_display():
     assert "is_admin" in user_admin.list_display
 
 
-def test_user_admin_fieldsets_titles():
+def test_auth_admin_forms_user_admin_fieldsets_titles():
     """
     Ensure UserAdmin.fieldsets include expected section titles.
     """
@@ -94,7 +94,7 @@ def test_user_admin_fieldsets_titles():
     assert "Verification" in fieldset_titles
 
 
-def test_user_admin_save_model_logs(caplog):
+def test_auth_admin_forms_user_admin_save_model_logs(caplog):
     """
     Ensure UserAdmin.save_model correctly logs user creations and updates.
     """
@@ -126,7 +126,7 @@ def test_user_admin_save_model_logs(caplog):
     )
 
 
-def test_user_flag_admin_save_model_logs(caplog):
+def test_auth_admin_forms_user_flag_admin_save_model_logs(caplog):
     """
     Ensure UserFlagAdmin.save_model correctly logs user flag creations and updates.
     """
@@ -162,7 +162,7 @@ def test_user_flag_admin_save_model_logs(caplog):
     )
 
 
-def test_user_flag_admin_delete_model_logs(caplog):
+def test_auth_admin_forms_user_flag_admin_delete_model_logs(caplog):
     """
     Ensure UserFlagAdmin.delete_model correctly logs user flag deletions.
     """

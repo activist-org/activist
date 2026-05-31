@@ -14,6 +14,15 @@
         class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
+        <EntityIconMobile
+          v-if="showMobileEntityShortcut"
+          @edit="handleEditEventIcon"
+          :accentClass="eventLogoAccentClass"
+          :entity="event"
+          :icon="IconMap.EVENT"
+          :imgUrl="eventIconUrl"
+          :tagline="event?.tagline"
+        />
         <NuxtPage :event="event" />
       </div>
       <FooterWebsite
@@ -27,10 +36,29 @@
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
 
-const paramsEventId = useRoute().params.eventId;
+const route = useRoute();
+const paramsEventId = route.params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : undefined;
 
 const { data: event } = useGetEvent(eventId || "");
+
+const eventIconUrl = computed(() =>
+  event.value?.iconUrl?.fileObject
+    ? `/api/${event.value.iconUrl.fileObject}`
+    : ""
+);
+const eventLogoAccentClass = computed(() =>
+  event.value?.type === "learn" ? "bg-learn-blue" : "bg-action-red"
+);
+
+const normalizedRoutePath = computed(() => route.path.replace(/\/$/, ""));
+const showMobileEntityShortcut = computed(
+  () =>
+    !aboveMediumBP.value &&
+    !!event.value &&
+    !!eventId &&
+    !normalizedRoutePath.value.endsWith(`/events/${eventId}`)
+);
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
@@ -42,4 +70,17 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
+function handleEditEventIcon(): void {
+  if (!event.value?.id) {
+    return;
+  }
+
+  openModal({
+    entityId: event.value.id,
+    entityType: EntityType.EVENT,
+  });
+}
 </script>

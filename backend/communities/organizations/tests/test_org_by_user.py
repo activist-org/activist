@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -7,7 +8,7 @@ from authentication.factories import UserFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_org_by_user_200():
+def test_org_by_user_ok_200():
     client = APIClient()
 
     test_username = "test_user"
@@ -28,7 +29,7 @@ def test_org_by_user_200():
 
     user_login_body = user_login.json()
     token = user_login_body["access"]
-    assert user_login.status_code == 200
+    assert user_login.status_code == status.HTTP_200_OK
 
     response = client.get(
         path=f"/v1/communities/organizations_by_user/{user.id}",
@@ -37,10 +38,10 @@ def test_org_by_user_200():
 
     print(response.json())
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
-def test_org_by_user_403():
+def test_org_by_user_forbidden_403():
     client = APIClient()
 
     test_username = "test_user"
@@ -52,10 +53,10 @@ def test_org_by_user_403():
 
     response = client.get(path=f"/v1/communities/organizations_by_user/{user.id}")
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_org_by_user_401():
+def test_org_by_user_unauthorized_401():
     client = APIClient()
 
     test_username = "test_user"
@@ -84,10 +85,10 @@ def test_org_by_user_401():
         },
     )
 
-    assert user_login.status_code == 200
+    assert user_login.status_code == status.HTTP_200_OK
 
     response = client.get(
         path=f"/v1/communities/organizations_by_user/{non_authenticated_user.id}"
     )
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED

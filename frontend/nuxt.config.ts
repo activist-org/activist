@@ -19,6 +19,7 @@ export default defineNuxtConfig({
       apiBase: process.env.VITE_BACKEND_URL || "http://localhost:8000",
     },
   },
+
   modules: process.env.VITEST ? [] : modules,
   ssr: false,
 

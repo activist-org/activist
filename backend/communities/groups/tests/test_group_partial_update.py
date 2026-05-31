@@ -5,6 +5,7 @@ Test group_partial_update.py API.
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory
@@ -37,7 +38,7 @@ def test_group_partial_update(client: Client) -> None:
     user.save()
 
     """
-    1. Unauthorized user patches updates.
+    Unauthorized user patches updates.
     """
     user.verified = True
     user.is_confirmed = True
@@ -52,7 +53,7 @@ def test_group_partial_update(client: Client) -> None:
         },
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_response_body = login_response.json()
     token = login_response_body.get("access")
@@ -61,7 +62,7 @@ def test_group_partial_update(client: Client) -> None:
 
     response = client.get(path=f"/v1/communities/groups/{group.id}")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # Patch is not implemented and should return 405.
     request_body = client.patch(
@@ -75,4 +76,4 @@ def test_group_partial_update(client: Client) -> None:
         content_type="application/json",
     )
 
-    assert request_body.status_code == 405
+    assert request_body.status_code == status.HTTP_405_METHOD_NOT_ALLOWED

@@ -62,6 +62,7 @@
   "i18n.components._global.control_tooltip_label": "Pressione \"^ + k\" para saltar para uma página",
   "i18n.components._global.documentation": "Documentação",
   "i18n.components._global.drop_image": "Solte a imagem aqui para adicioná-la",
+  "i18n.components._global.edit_aria_label": "Editar imagem",
   "i18n.components._global.get_involved": "Envolver-se",
   "i18n.components._global.github": "GitHub",
   "i18n.components._global.github_aria_label": "Visite o repositório do GitHub de activist",

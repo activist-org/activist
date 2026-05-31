@@ -42,9 +42,9 @@ async function selectCountryInOrganizationModal(
   optionNameMatch: RegExp | string
 ) {
   const countryLabel = getEnglishText("i18n.components._global.country");
-  const countryTrigger = modal.countryField.getByRole("button", {
-    name: new RegExp(countryLabel, "i"),
-  });
+  const countryTrigger = modal.locationForm
+    .locator("#form-item-country")
+    .getByRole("button", { name: new RegExp(countryLabel, "i") });
   await selectCountryComboboxOption(
     modal.root,
     countryTrigger,
