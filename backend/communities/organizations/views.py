@@ -6,9 +6,8 @@ API views for organization management.
 
 import logging
 import os
-from tracemalloc import start
-from typing import Any, Sequence, Type
-from urllib import request
+from collections.abc import Sequence
+from typing import Any
 from uuid import UUID
 
 from django.contrib.auth.models import AnonymousUser
@@ -116,7 +115,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
     def get_serializer_class(
         self,
-    ) -> Type[OrganizationPOSTSerializer | OrganizationListSerializer]:
+    ) -> type[OrganizationPOSTSerializer | OrganizationListSerializer]:
         if self.request.method == "POST":
             return OrganizationPOSTSerializer
         return OrganizationListSerializer

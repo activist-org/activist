@@ -11,7 +11,7 @@ protocol.
 from __future__ import annotations
 
 import os
-from typing import IO, Any, Dict, cast
+from typing import IO, Any, cast
 
 import httpx
 from django.core.files.uploadedfile import UploadedFile
@@ -49,7 +49,7 @@ def _build_scan_url() -> str:
 FILESCAN_URL = _build_scan_url()
 
 
-def scan_file(upload: UploadedFile) -> Dict[str, Any]:
+def scan_file(upload: UploadedFile) -> dict[str, Any]:
     """
     Call the filescan service with the uploaded file and return its JSON response.
 
@@ -70,7 +70,7 @@ def scan_file(upload: UploadedFile) -> Dict[str, Any]:
     """
     try:
         file_obj = cast(IO[bytes], upload.file)
-        headers: Dict[str, str] = {}
+        headers: dict[str, str] = {}
         if token := os.getenv("FILESCAN_INTERNAL_TOKEN"):
             headers["X-Filescan-Token"] = token
 
@@ -89,4 +89,4 @@ def scan_file(upload: UploadedFile) -> Dict[str, Any]:
             f"Filescan returned {response.status_code}: {response.text}"
         )
 
-    return cast(Dict[str, Any], response.json())
+    return cast(dict[str, Any], response.json())
