@@ -3,12 +3,6 @@ import { navigateToOrganizationSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
-// Regression coverage for #2158: the entity logo and its admin edit shortcut
-// were absent on mobile because the left sidebar is hidden below the `md`
-// breakpoint. The fix renders `EntityIconMobile` (data-testid
-// "entity-logo-mobile") on entity subpages instead. These checks exercise the
-// mobile-viewport rendering and the modal wiring that the component unit test
-// cannot cover.
 test.describe("Organization Logo Shortcut - Mobile", { tag: "@mobile" }, () => {
   test.beforeEach(async ({ page }) => {
     // Landing on a subpage (not the entity root) is required for the
