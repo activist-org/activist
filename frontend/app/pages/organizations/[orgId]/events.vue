@@ -17,22 +17,33 @@
       :tagline="$t('i18n.pages.organizations._global.events_tagline')"
     >
       <div
-        class="flex items-center space-x-2 w-[75%] lg:flex-row lg:items-center lg:justify-around lg:space-y-0"
+        class="flex w-[75%] items-center space-x-2 lg:flex-row lg:items-center lg:justify-around lg:space-y-0"
       >
-        <div class="flex items-center justify-around lg:space-x-3 w-full">
+        <div class="flex w-full items-end justify-around lg:space-x-3">
           <FormTextInputSearch
             id="organization-events-search"
-            label="Search"
-            ariaLabel="Search events"
             v-model="name"
+            :ariaLabel="
+              $t('i18n.pages.organizations.events.search_events_aria_label')
+            "
+            :label="$t('i18n._global.search')"
             size="lg"
           />
-          <FormDateTimeInput
-            :label="$t('i18n.pages.organizations.events.filter_by_date')"
-            v-model="dateRange"
-          />
+          <div class="flex flex-col justify-end space-x-1">
+            <FormLabel
+              class="hidden lg:block"
+              for="filter-date-range"
+              :label="$t('i18n.pages.organizations.events.filter_by_date')"
+            />
+            <FormDateTimeInput
+              id="filter-date-range"
+              v-model="dateRange"
+              class="flex items-center"
+              :label="$t('i18n.pages.organizations.events.filter_by_date')"
+            />
+          </div>
         </div>
-        <div class="flex space-x-2 lg:space-x-3 justify-end w-fit">
+        <div class="flex w-fit justify-end space-x-2 lg:space-x-3">
           <BtnAction
             @click="openModal()"
             @keydown.enter="openModal()"
@@ -92,7 +103,10 @@ const filters = computed(() => ({
 }));
 
 const { data: organization } = useGetOrganization(organizationId);
-const { data: events, pending } = useGetOrganizationEvents(organizationId, filters);
+const { data: events, pending } = useGetOrganizationEvents(
+  organizationId,
+  filters
+);
 
 const { openModal } = useModalHandlers("ModalCreateEvent");
 const downloadCalendarEntries = () => {};

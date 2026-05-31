@@ -6,9 +6,9 @@
     </Head>
     <HeaderAppPageList
       @filter-click="removeFilter"
+      :filters="listFilters"
       :header="$t('i18n.pages.organizations.index.header_title')"
       :tagline="$t('i18n.pages.organizations.index.subheader')"
-      :filters="listFilters"
     >
       <div class="flex flex-col space-x-3 sm:flex-row">
         <ComboboxTopics
@@ -16,7 +16,6 @@
           :receivedSelectedTopics="selectedTopics"
         />
       </div>
-
     </HeaderAppPageList>
     <Loading
       v-if="pending && !loadingFetchMore"
@@ -46,9 +45,13 @@
 </template>
 
 <script setup lang="ts">
+import type { LocationQueryRaw } from "vue-router";
+
 const route = useRoute();
 const router = useRouter();
 const loadingFetchMore = ref(false);
+
+const { getLabelByKey } = useGetLabelByKeyFilter();
 
 const filters = computed<OrganizationFilters>(() => {
   // Note: We do not have a view filter for organizations.
@@ -64,36 +67,51 @@ const filters = computed<OrganizationFilters>(() => {
 const selectedTopics = ref<TopicEnum[]>([]);
 
 const listFilters = computed(() => {
-  const mappedFilters = Object.entries(filters.value).flatMap(([key, value]) => {
-    if (Array.isArray(value)) {
-      return value.map((v) => ({
-        id: `${key}-${v}`,
-        label: String(v).replace(/_/g, " "),
-        value: v,
-      }));
+  const mappedFilters = Object.entries(filters.value).flatMap(
+    ([key, value]) => {
+      if (Array.isArray(value)) {
+        return value.map((v) => ({
+          id: `${key}-${v}`,
+          label: (getLabelByKey(key, v) ||
+            String(v).replace(/_/g, " ")) as string, // Simple label formatting, can be improved.
+          value: v,
+        }));
+      }
+      return {
+        id: key,
+        label: (getLabelByKey(key, value) ||
+          String(value).replace(/_/g, " ")) as string, // Simple label formatting, can be improved.
+        value,
+      };
     }
-    return {
-      id: key,
-      label: String(value).replace(/_/g, " "), // Simple label formatting, can be improved.
-      value,
-    };
-  });
+  );
   return mappedFilters;
 });
-const removeFilter = (option: { id: number | string; label: string; value: unknown }) => {
-  const [key] = option.id.toString().split("-");
-  const query = { ...route.query };
+const removeFilter = (option: {
+  id: number | string;
+  label: string;
+  value: unknown;
+}) => {
+  const key = option.id.toString().split("-")[0];
+  if (!key) return;
 
-  if (Array.isArray(query[key])) {
-    query[key] = (query[key] as string[]).filter((v) => v !== option.value);
-    if ((query[key] as string[]).length === 0) {
-      delete query[key];
+  const query = { ...route.query } as OrganizationFilters &
+    Record<string, unknown>;
+  const current = query[key];
+
+  if (Array.isArray(current)) {
+    const next = current.filter((v) => String(v) !== String(option.value));
+    if (next.length > 0) {
+      router.replace({
+        query: { ...query, [key]: next } as LocationQueryRaw,
+      });
+      return;
     }
-  } else {
-    delete query[key];
   }
 
-  router.replace({ query });
+  // remove key without dynamic delete
+  const { [key]: _removed, ...rest } = query;
+  router.replace({ query: rest as LocationQueryRaw });
 };
 
 watch(

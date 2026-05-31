@@ -1,10 +1,16 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <DatePicker v-model="range" is-range>
+  <DatePicker
+    v-model="range"
+    :color="colorModePreference"
+    is-range
+    v-bind="$attrs"
+  >
     <template #default="{ inputValue, inputEvents }">
-      <div class="flex justify-center items-center">
-        <FormTextInput :value="inputValue.start" v-on="inputEvents.start" />
-        <Icon :name="IconMap.ARROW_RIGHT" size="1.5em" class="mx-2" />
-        <FormTextInput :value="inputValue.end" v-on="inputEvents.end" />
+      <div class="flex items-center justify-center">
+        <FormTextInput v-on="inputEvents.start" :value="inputValue.start" />
+        <Icon class="mx-2" :name="IconMap.ARROW_RIGHT" size="1.5em" />
+        <FormTextInput v-on="inputEvents.end" :value="inputValue.end" />
       </div>
     </template>
   </DatePicker>
@@ -12,9 +18,9 @@
 
 <script setup>
 import { DatePicker } from "v-calendar";
-
-import { ref } from 'vue';
-
+import { ref } from "vue";
+const colorMode = useColorMode();
+const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
 const range = ref({
   start: new Date(2020, 9, 12),
   end: new Date(2020, 9, 16),

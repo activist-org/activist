@@ -5,23 +5,23 @@
     :tagline="tagline"
     :underDevelopment="underDevelopment"
   >
-  <div v-if="filters && filters.length" class="flex flex-wrap gap-2 mb-4">
-    <Shield
-      v-for="option in filters || []"
-      :key="option.id"
-      @click.stop="() => onClick(option)"
-      :active="true"
-      class="mobileTopic max-sm:w-full"
-      :isSelector="true"
-      :label="option.label"
-    />
-  </div>
+    <div v-if="filters && filters.length" class="mb-4 flex flex-wrap gap-2">
+      <Shield
+        v-for="option in filters || []"
+        :key="option.id"
+        @click.stop="() => onClick(option)"
+        :active="true"
+        class="mobileTopic max-sm:w-full"
+        :isSelector="true"
+        :label="option.label"
+      />
+    </div>
     <slot />
   </HeaderAppPage>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   header?: string;
   tagline?: string;
   underDevelopment?: boolean;
@@ -32,9 +32,16 @@ const props = defineProps<{
   }[];
 }>();
 const emit = defineEmits<{
-  "filter-click": (option: { id: number | string; label: string; value: unknown }) => void;
+  "filter-click": [
+    option: { id: number | string; label: string; value: unknown },
+  ];
 }>();
-const onClick = (option: { id: number | string; label: string; value: unknown }) => {
+
+const onClick = (option: {
+  id: number | string;
+  label: string;
+  value: unknown;
+}) => {
   emit("filter-click", option);
 };
 </script>

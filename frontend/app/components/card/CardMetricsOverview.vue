@@ -19,14 +19,14 @@
         backgroundColor="bg-action-red/60 dark:bg-action-red/20 hover:bg-action-red/50 dark:hover:bg-action-red/30 active:bg-action-red/60 active:dark:bg-action-red/20"
         borderColor="border-primary-text dark:border-action-red"
         :number="metrics['action events']"
-        :text="$t('i18n.components._global.action')"
+        :text="$t('i18n._global.action')"
         textColor="text-primary-text dark:text-action-red"
       />
       <CardMetric
         backgroundColor="bg-learn-blue/60 dark:bg-learn-blue/20 hover:bg-learn-blue/50 dark:hover:bg-learn-blue/30 active:bg-learn-blue/60 active:dark:bg-learn-blue/20"
         borderColor="border-primary-text dark:border-learn-blue"
         :number="metrics['learn events']"
-        :text="$t('i18n.components._global.learn')"
+        :text="$t('i18n._global.learn')"
         textColor="text-primary-text dark:text-learn-blue"
       />
       <CardMetric

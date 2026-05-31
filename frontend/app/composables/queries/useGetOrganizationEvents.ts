@@ -24,13 +24,7 @@ export function useGetOrganizationEvents(
       ? getKeyForGetOrganizationEvents(organizationId.value, filtersRef.value)
       : null
   );
-  watch(
-    filtersRef,
-    (newFilters) => {
-      console.log("Filters updated:", newFilters);
-    },
-    { deep: true, immediate: true }
-  );
+
   // Cache key for useAsyncData.
   const cached = computed(
     () =>
@@ -43,18 +37,14 @@ export function useGetOrganizationEvents(
   const shouldFetch = computed(() => !!organizationId.value && !cached.value);
 
   const query = useAsyncData(
-    () => getKeyForGetOrganizationEvents(organizationId.value, filtersRef.value),
+    () =>
+      getKeyForGetOrganizationEvents(organizationId.value, filtersRef.value),
     async () => {
-      console.log("Fetching organization events with filters:", filtersRef.value);
       if (!organizationId.value) {
         return null;
       }
 
       try {
-        console.log(
-          "Fetching organization events with filters:",
-          filtersRef.value
-        );
         const events = await fetchOrganizationEvents(
           organizationId.value,
           filtersRef.value
@@ -75,13 +65,6 @@ export function useGetOrganizationEvents(
       default: () => (cached.value ? store.getEvents() : []),
       immediate: true,
       getCachedData: (key, nuxtApp) => {
-        console.log(
-          nuxtApp.isHydrating &&
-            store.getEvents().length > 0 &&
-            organizationId.value === store.getEntityId() &&
-            JSON.stringify(filtersRef.value) ===
-              JSON.stringify(store.getFilters())
-        );
         if (
           nuxtApp.isHydrating &&
           store.getEvents().length > 0 &&
