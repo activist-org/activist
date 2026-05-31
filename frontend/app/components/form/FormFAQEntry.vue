@@ -54,10 +54,6 @@ defineProps<{
 
 const { t } = useI18n();
 
-// Required text fields use `.default("")` so an untouched (undefined) value
-// becomes an empty string and the field-specific `.min()` message applies.
-// These inputs can only ever yield a string or undefined, so a separate
-// invalid_type message would be unreachable.
 const schema = z.object({
   question: z
     .string()
