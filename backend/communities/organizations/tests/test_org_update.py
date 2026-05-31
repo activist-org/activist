@@ -7,6 +7,7 @@ from uuid import uuid4
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from communities.organizations.factories import OrganizationFactory
 
@@ -18,7 +19,7 @@ ORGS_URL = "/v1/communities/organizations"
 # MARK: Unauthenticated
 
 
-def test_org_update_unauthenticated_401(client: Client) -> None:
+def test_org_update_unauthenticated_unauthorized_401(client: Client) -> None:
     """
     Unauthenticated user receives 401 when trying to update an organization.
 
@@ -35,13 +36,13 @@ def test_org_update_unauthenticated_401(client: Client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 # MARK: Non-Owner
 
 
-def test_org_update_non_owner_403(authenticated_client) -> None:
+def test_org_update_forbidden_403(authenticated_client) -> None:
     """
     Authenticated user who is not the owner receives 403 when trying to update.
 
@@ -60,7 +61,7 @@ def test_org_update_non_owner_403(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
     response_body = response.json()
     assert (
@@ -90,7 +91,7 @@ def test_org_update_not_found_404(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
     response_body = response.json()
     assert response_body["detail"] == "Organization not found."
@@ -99,7 +100,7 @@ def test_org_update_not_found_404(authenticated_client) -> None:
 # MARK: Owner
 
 
-def test_org_update_owner_200(authenticated_client) -> None:
+def test_org_update_owner_ok_200(authenticated_client) -> None:
     """
     Owner of the organization can successfully update it.
 
@@ -118,7 +119,7 @@ def test_org_update_owner_200(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     response_body = response.json()
     assert response_body["name"] == "updated_org_name"

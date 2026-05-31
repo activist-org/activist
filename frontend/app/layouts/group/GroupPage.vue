@@ -17,6 +17,14 @@
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
+        <EntityIconMobile
+          v-if="showMobileEntityShortcut"
+          @edit="handleEditGroupIcon"
+          :entity="group"
+          :icon="IconMap.GROUP"
+          :imgUrl="groupIconUrl"
+          :tagline="group?.tagline"
+        />
         <NuxtPage />
       </div>
       <FooterWebsite
@@ -35,6 +43,15 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 const { data: group } = useGetGroup(groupId ?? "");
 const { data: images } = useGetGroupImages(groupId ?? "");
 
+const groupIconUrl = computed(() =>
+  group.value?.iconUrl?.fileObject
+    ? `/api/${group.value.iconUrl.fileObject}`
+    : ""
+);
+const showMobileEntityShortcut = computed(
+  () => !aboveMediumBP.value && !!group.value
+);
+
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
@@ -45,4 +62,9 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+const { showToastError } = useToaster();
+
+function handleEditGroupIcon(): void {
+  showToastError("THIS FEATURE IS COMING SOON!");
+}
 </script>

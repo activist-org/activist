@@ -46,6 +46,7 @@
   "i18n.components._global.command_tooltip_label": "\"⌘ + k\"を押してページを開く",
   "i18n.components._global.draggable_element": "ドラッグ可能な要素",
   "i18n.components._global.drop_image": "画像をドロップして追加",
+  "i18n.components._global.edit_aria_label": "画像を編集",
   "i18n.components._global.github": "GitHub",
   "i18n.components._global.github_aria_label": "activistのGitHubリポジトリを見る",
   "i18n.components._global.instagram": "Instagram",

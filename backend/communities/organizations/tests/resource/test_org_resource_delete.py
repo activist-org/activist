@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -11,7 +12,7 @@ from communities.organizations.factories import (
 pytestmark = pytest.mark.django_db
 
 
-def test_org_resource_delete_200(authenticated_client):
+def test_org_resource_delete_ok_200(authenticated_client):
     """
     Test successful deletion of an organization resource by the organization owner.
     """
@@ -25,10 +26,10 @@ def test_org_resource_delete_200(authenticated_client):
         path=f"/v1/communities/organization_resources/{resource.id}"
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_org_resource_delete_403(authenticated_client):
+def test_org_resource_delete_forbidden_403(authenticated_client):
     """
     Test that non-owner cannot delete an organization resource.
     """
@@ -61,7 +62,7 @@ def test_org_resource_delete_403(authenticated_client):
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -72,10 +73,10 @@ def test_org_resource_delete_403(authenticated_client):
         path=f"/v1/communities/organization_resources/{resource.id}"
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_org_resource_delete_404(authenticated_client):
+def test_org_resource_delete_not_found_404(authenticated_client):
     """
     Test deletion of non-existent organization resource returns 404.
     """
@@ -85,10 +86,10 @@ def test_org_resource_delete_404(authenticated_client):
     fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = client.delete(path=f"/v1/communities/organization_resources/{fake_uuid}")
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_org_resource_delete_staff_200():
+def test_org_resource_delete_staff_ok_200():
     """
     Test that staff users can delete any organization resource.
     """
@@ -122,7 +123,7 @@ def test_org_resource_delete_staff_200():
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -133,4 +134,4 @@ def test_org_resource_delete_staff_200():
         path=f"/v1/communities/organization_resources/{resource.id}"
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT

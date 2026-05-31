@@ -11,7 +11,7 @@ from communities.groups.factories import GroupFactory, GroupMemberFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_org_str_methods() -> None:
+def test_group_str_methods() -> None:
     """
     Test the __str__ methods for groups.
     """

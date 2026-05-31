@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -8,7 +9,7 @@ from communities.organizations.factories import OrganizationFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_org_flag_create(authenticated_client):
+def test_org_flag_created_201(authenticated_client):
     """
     Test to create a flag for an organization.
     """
@@ -21,10 +22,10 @@ def test_org_flag_create(authenticated_client):
         data={"created_by": user.id, "org": org.id},
     )
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
 
 
-def test_org_flag_create_error():
+def test_org_flag_create_unauthorized_401():
     """
     Test to create a flag for an organization as an unauthorized user.
     """
@@ -45,5 +46,5 @@ def test_org_flag_create_error():
     )
     response_body = response.json()
 
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert response_body["detail"] == "Authentication credentials were not provided."

@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -12,7 +13,7 @@ from communities.organizations.models import OrganizationFaq
 
 
 @pytest.mark.django_db
-def test_OrganizationFaqViewSet_destroy(authenticated_client) -> None:
+def test_org_faq_delete(authenticated_client) -> None:
     """
     Test OrganizationFaqViewSet destroy method (DELETE request)
 
@@ -46,7 +47,7 @@ def test_OrganizationFaqViewSet_destroy(authenticated_client) -> None:
     response = unauthenticated_client.delete(
         f"{'/v1/communities/organization_faqs'}/{faq.id}"
     )
-    assert response.status_code == 401
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert OrganizationFaq.objects.filter(id=faq.id).exists()
 
     # MARK: Unauthorized DELETE
@@ -54,7 +55,7 @@ def test_OrganizationFaqViewSet_destroy(authenticated_client) -> None:
     # Test 2: Regular user (not creator, not staff) cannot delete FAQ.
     # Using the authenticated_client fixture user who is not the creator.
     response = client.delete(f"{'/v1/communities/organization_faqs'}/{faq.id}")
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response.data["detail"] == "You are not authorized to delete this FAQ."
     assert OrganizationFaq.objects.filter(id=faq.id).exists()
 
@@ -69,7 +70,7 @@ def test_OrganizationFaqViewSet_destroy(authenticated_client) -> None:
     response = staff_client.delete(
         f"{'/v1/communities/organization_faqs'}/{faq_for_staff.id}"
     )
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert response.data["message"] == "FAQ deleted successfully."
     assert not OrganizationFaq.objects.filter(id=faq_for_staff.id).exists()
 
@@ -79,7 +80,7 @@ def test_OrganizationFaqViewSet_destroy(authenticated_client) -> None:
     creator_client = APIClient()
     creator_client.force_authenticate(user=creator)
     response = creator_client.delete(f"{'/v1/communities/organization_faqs'}/{faq.id}")
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert response.data["message"] == "FAQ deleted successfully."
 
     # Verify FAQ is removed from database.
@@ -92,12 +93,12 @@ def test_OrganizationFaqViewSet_destroy(authenticated_client) -> None:
     response = creator_client.delete(
         f"{'/v1/communities/organization_faqs'}/{fake_uuid}"
     )
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.data["detail"] == "FAQ not found."
 
 
 @pytest.mark.django_db
-def test_OrganizationFaqViewSet_destroy_multiple_faqs(authenticated_client) -> None:
+def test_org_faq_delete_multiple_faqs(authenticated_client) -> None:
     """
     Test that multiple FAQs can be deleted independently.
 
@@ -117,14 +118,14 @@ def test_OrganizationFaqViewSet_destroy_multiple_faqs(authenticated_client) -> N
     assert OrganizationFaq.objects.filter(org=org).count() == 3
 
     # Delete first FAQ.
-    response = client.delete(f"{'/v1/communities/organization_faqs'}/{faq1.id}")
-    assert response.status_code == 204
+    response = client.delete(f"/v1/communities/organization_faqs/{faq1.id}")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert not OrganizationFaq.objects.filter(id=faq1.id).exists()
     assert OrganizationFaq.objects.filter(org=org).count() == 2
 
     # Delete second FAQ.
-    response = client.delete(f"{'/v1/communities/organization_faqs'}/{faq2.id}")
-    assert response.status_code == 204
+    response = client.delete(f"/v1/communities/organization_faqs/{faq2.id}")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert not OrganizationFaq.objects.filter(id=faq2.id).exists()
     assert OrganizationFaq.objects.filter(org=org).count() == 1
 

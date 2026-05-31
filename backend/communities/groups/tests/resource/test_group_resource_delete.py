@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -8,7 +9,7 @@ from communities.groups.factories import GroupFactory, GroupResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_group_resource_delete_200(authenticated_client):
+def test_group_resource_delete_ok_200(authenticated_client):
     """
     Test successful deletion of a group resource by the group owner.
     """
@@ -20,10 +21,10 @@ def test_group_resource_delete_200(authenticated_client):
     # Delete the resource as the owner.
     response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_group_resource_delete_403(authenticated_client):
+def test_group_resource_delete_forbidden_403(authenticated_client):
     """
     Test that non-owner cannot delete a group resource.
     NOTE: Currently fails - the API allows any authenticated user to delete.
@@ -58,7 +59,7 @@ def test_group_resource_delete_403(authenticated_client):
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -67,10 +68,10 @@ def test_group_resource_delete_403(authenticated_client):
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_group_resource_delete_404(authenticated_client):
+def test_group_resource_delete_not_found_404(authenticated_client):
     """
     Test deletion of non-existent group resource returns 404.
     """
@@ -80,10 +81,10 @@ def test_group_resource_delete_404(authenticated_client):
     fake_uuid = "00000000-0000-0000-0000-000000000000"
     response = client.delete(path=f"/v1/communities/group_resources/{fake_uuid}")
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_group_resource_delete_staff_200():
+def test_group_resource_delete_staff_ok_200():
     """
     Test that staff users can delete any group resource.
     """
@@ -117,7 +118,7 @@ def test_group_resource_delete_staff_200():
         data={"username": test_username, "password": test_password},
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
 
     login_body = login_response.json()
     token = login_body["access"]
@@ -126,4 +127,4 @@ def test_group_resource_delete_staff_200():
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
     response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
