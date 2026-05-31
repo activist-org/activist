@@ -26,7 +26,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "complexipy>=4.2.0",
     "factory-boy>=3.3.3",
     "i18n-check>=1.19.5",
     "mypy>=2.1.0",
@@ -39,6 +38,10 @@ dev = [
     "ts-backend-check>=1.6.0",
     "types-icalendar>=6.3.2.20260518",
 ]
+# complexipy is kept out of the default `dev` group because it ships no
+# musllinux wheel, so the Alpine dev container would try (and fail) to build it
+# from source. Install it explicitly with `--group complexity` where needed.
+complexity = ["complexipy>=4.2.0"]
 audit = ["pysentry-rs>=0.4.5"]
 
 [tool.ruff]
