@@ -11,7 +11,7 @@ from events.models import EventText
 pytestmark = pytest.mark.django_db
 
 
-def test_event_text_str_method() -> None:
+def test_event_text_str_methods() -> None:
     """
     Test string representation method for EventText model.
     """

@@ -62,6 +62,7 @@
   "i18n.components._global.documentation": "Dokümantasyon",
   "i18n.components._global.draggable_element": "Sürüklenebilir sayfa öğesi",
   "i18n.components._global.drop_image": "Eklemek için resmi buraya bırak",
+  "i18n.components._global.edit_aria_label": "Görseli düzenle",
   "i18n.components._global.get_involved": "Katıl",
   "i18n.components._global.github": "GitHub",
   "i18n.components._global.github_aria_label": "Aktivist GitHub deposunu ziyaret et",

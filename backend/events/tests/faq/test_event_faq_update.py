@@ -6,6 +6,7 @@ Test cases for the event social link methods.
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from events.factories import EventFactory, EventFaqFactory
 
@@ -51,11 +52,20 @@ def test_event_faq_update(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
-    # MARK: Update Failure
 
+def test_event_faq_update_not_found_404(authenticated_client):
+    client, user = authenticated_client
     test_uuid = uuid4()
+
+    event = EventFactory(created_by=user)
+
+    faqs = EventFaqFactory(event=event)
+    test_id = faqs.id
+    test_question = faqs.question
+    test_answer = faqs.answer
+    test_order = faqs.order
 
     response = client.put(
         path=f"/v1/events/event_faqs/{test_uuid}",
@@ -68,10 +78,10 @@ def test_event_faq_update(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_event_faq_update_not_authorized(authenticated_client) -> None:
+def test_event_faq_update_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
     user.is_confirmed = True
     user.verified = True
@@ -99,4 +109,4 @@ def test_event_faq_update_not_authorized(authenticated_client) -> None:
         content_type="application/json",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN

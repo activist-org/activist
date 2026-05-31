@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -24,7 +25,7 @@ def test_org_resource_list():
     OrganizationResourceFactory.create_batch(3, org=org, created_by=user)
 
     response = client.get(path="/v1/communities/organization_resources")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     response_body = response.json()
     assert len(response_body) >= 3
@@ -37,7 +38,7 @@ def test_org_resource_list_empty():
     client = APIClient()
 
     response = client.get(path="/v1/communities/organization_resources")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # API returns paginated response.
     response_body = response.json()

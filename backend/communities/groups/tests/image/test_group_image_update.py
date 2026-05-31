@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
 from django.test import Client
+from rest_framework import status
 
 from communities.groups.factories import GroupFactory, GroupImageFactory
 from content.factories import ImageFactory
@@ -9,7 +10,7 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.django_db
-def test_group_update_sequence_index(client: Client) -> None:
+def test_group_image_update_sequence_index(client: Client) -> None:
     """
     Test updating the sequence index of group images.
     """
@@ -34,13 +35,13 @@ def test_group_update_sequence_index(client: Client) -> None:
             },
             content_type="application/json",
         )
-        assert response.status_code == 200
+        assert response.status_code == status.HTTP_200_OK
 
     # Verify the new sequence order.
     response = client.get(
         path=f"/v1/communities/group/{group.id}/images",
     )
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     new_images = response.json()
     expected_order = [image2, image0, image1]
@@ -49,7 +50,7 @@ def test_group_update_sequence_index(client: Client) -> None:
     ]
 
 
-def test_group_image_update_404(client: Client):
+def test_group_image_update_not_found_404(client: Client):
     image0 = ImageFactory()
     image1 = ImageFactory()
     image2 = ImageFactory()
@@ -71,5 +72,5 @@ def test_group_image_update_404(client: Client):
             content_type="application/json",
         )
         response_body = response.json()
-        assert response.status_code == 404
+        assert response.status_code == status.HTTP_404_NOT_FOUND
         assert response_body["detail"] == "GroupImage relation not found."

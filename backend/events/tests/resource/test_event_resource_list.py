@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
@@ -8,7 +9,7 @@ from events.factories import EventFactory, EventResourceFactory
 pytestmark = pytest.mark.django_db
 
 
-def test_event_resource_list():
+def test_event_resource_list_ok_200():
     """
     Test to list all event resources.
     """
@@ -21,7 +22,7 @@ def test_event_resource_list():
     EventResourceFactory.create_batch(3, event=event, created_by=user)
 
     response = client.get(path="/v1/events/event_resources")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     response_body = response.json()
     assert len(response_body) >= 3
@@ -34,7 +35,7 @@ def test_event_resource_list_empty():
     client = APIClient()
 
     response = client.get(path="/v1/events/event_resources")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
     # API returns paginated response.
     response_body = response.json()

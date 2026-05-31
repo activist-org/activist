@@ -13,7 +13,7 @@ from communities.organizations.serializers import OrganizationResourceSerializer
 
 
 @pytest.mark.django_db
-def test_validate_org_with_org_instance():
+def test_org_resource_serializer_validate_with_org_instance():
     """
     Should return the same organization when an Organization instance is passed.
     """
@@ -24,7 +24,7 @@ def test_validate_org_with_org_instance():
 
 
 @pytest.mark.django_db
-def test_validate_org_with_valid_uuid():
+def test_org_resource_serializer_validate_with_valid_uuid():
     """
     Should fetch and return the organization when a valid UUID is given.
     """
@@ -35,7 +35,7 @@ def test_validate_org_with_valid_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_org_with_valid_uuid_string():
+def test_org_resource_serializer_validate_with_valid_uuid_string():
     """
     Should fetch and return the organization when a valid UUID string is given.
     """
@@ -46,7 +46,7 @@ def test_validate_org_with_valid_uuid_string():
 
 
 @pytest.mark.django_db
-def test_validate_org_with_nonexistent_uuid():
+def test_org_resource_serializer_validate_with_nonexistent_uuid():
     """
     Should raise ValidationError when a valid UUID format but non-existent organization is provided.
     """
@@ -58,7 +58,7 @@ def test_validate_org_with_nonexistent_uuid():
 
 
 @pytest.mark.django_db
-def test_validate_org_with_nonexistent_uuid_string():
+def test_org_resource_serializer_validate_with_nonexistent_uuid_string():
     """
     Should raise ValidationError when a valid UUID string format but non-existent organization is provided.
     """

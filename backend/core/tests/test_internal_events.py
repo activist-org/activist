@@ -4,6 +4,7 @@ import json
 from typing import Any, Dict
 
 import pytest
+from rest_framework import status
 from rest_framework.test import APIClient
 
 pytestmark = pytest.mark.django_db
@@ -38,7 +39,7 @@ def test_security_events_ingest_rejects_without_token(
         content_type="application/json",
     )
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 def test_security_events_ingest_sends_email_for_malware_quarantined(
@@ -74,7 +75,7 @@ def test_security_events_ingest_sends_email_for_malware_quarantined(
         HTTP_X_INTERNAL_TOKEN="secret-token",
     )
 
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
     assert sent["from_email"] == "alerts@example.com"
     assert "eicar.txt" in sent["message"]
     assert "abc123" in sent["message"]

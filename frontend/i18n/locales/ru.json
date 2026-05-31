@@ -65,6 +65,7 @@
   "i18n.components._global.documentation": "Документация",
   "i18n.components._global.draggable_element": "Перетаскиваемый элемент страницы",
   "i18n.components._global.drop_image": "Перетащите фото сюда, чтобы добавить его",
+  "i18n.components._global.edit_aria_label": "Редактировать изображение",
   "i18n.components._global.event_type": "Тип мероприятия",
   "i18n.components._global.event_type_action_aria_label": "Событие типа действия",
   "i18n.components._global.event_type_learn_aria_label": "Событие типа изучения",

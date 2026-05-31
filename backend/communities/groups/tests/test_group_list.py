@@ -7,11 +7,12 @@ from unittest.mock import patch
 
 import pytest
 from django.test import Client
+from rest_framework import status
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_list(client: Client) -> None:
+def test_group_list_ok_200(client: Client) -> None:
     """
     Test group_list method.
 
@@ -27,10 +28,10 @@ def test_group_list(client: Client) -> None:
     """
     response = client.get(path="/v1/communities/groups")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
-def test_group_list_no_pagination(client: Client) -> None:
+def test_group_list_no_pagination_ok_200(client: Client) -> None:
     with patch(
         "communities.groups.views.GroupAPIView.paginate_queryset"
     ) as mock_paginate:
@@ -38,7 +39,7 @@ def test_group_list_no_pagination(client: Client) -> None:
 
         response = client.get(path="/v1/communities/groups")
 
-        assert response.status_code == 200
+        assert response.status_code == status.HTTP_200_OK
 
         # Verify that paginate_queryset was called.
         mock_paginate.assert_called_once()
