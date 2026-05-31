@@ -60,4 +60,4 @@ jobs:
 
       - name: Run complexipy - Cognitive Complexity Check
         if: always()
-        run: uv run complexipy .
+        run: uv run --group complexity complexipy .
