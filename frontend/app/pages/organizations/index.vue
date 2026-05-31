@@ -18,6 +18,7 @@
         <FormSelectorComboboxCountry
           id="mobile-country-filter"
           @update:selectedCountry="handleSelectedCountryUpdate"
+          class="w-32 shrink-0"
           :label="$t('i18n._global.country')"
           :selectedCountry="selectedCountry"
         />
@@ -31,6 +32,7 @@
             }
           "
           :ariaLabel="$t('i18n._global.search_button_aria_label')"
+          class="w-32 shrink-0"
           :label="$t('i18n._global.filter_by_city')"
           :modelValue="selectedCity"
         />
