@@ -133,8 +133,10 @@ dependencies = [
 audit = [
     { name = "pysentry-rs" },
 ]
-dev = [
+complexity = [
     { name = "complexipy" },
+]
+dev = [
     { name = "factory-boy" },
     { name = "i18n-check" },
     { name = "mypy" },
@@ -172,8 +174,8 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 audit = [{ name = "pysentry-rs", specifier = ">=0.4.5" }]
+complexity = [{ name = "complexipy", specifier = ">=4.2.0" }]
 dev = [
-    { name = "complexipy", specifier = ">=4.2.0" },
     { name = "factory-boy", specifier = ">=3.3.3" },
     { name = "i18n-check", specifier = ">=1.19.5" },
     { name = "mypy", specifier = ">=2.1.0" },
