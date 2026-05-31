@@ -5,7 +5,7 @@ Populate the database with organizations.
 
 # mypy: ignore-errors
 import contextlib
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from authentication.models import UserModel
 from communities.organizations.factories import (
@@ -43,10 +43,10 @@ def get_topic_label(topic: Topic) -> str:
 def create_organization(
     user: UserModel,
     user_topic: Topic,
-    assigned_org_fields: List[Dict[str, Any]],
+    assigned_org_fields: list[dict[str, Any]],
     num_faq_entries_per_entity: int,
     num_resources_per_entity: int,
-) -> Tuple[Organization, int, int, int, Dict[str, Any]]:
+) -> tuple[Organization, int, int, int, dict[str, Any]]:
     """
     Create one organization for `user`.
 
@@ -58,7 +58,7 @@ def create_organization(
     user_topic : Topic
         The topic of the user.
 
-    assigned_org_fields : List[Dict[str, Any]]
+    assigned_org_fields : list[dict[str, Any]]
         The data to assign to the generated organization.
 
         - If not empty, this function will consume (pop) the first item and use values from it where provided.
@@ -72,7 +72,7 @@ def create_organization(
 
     Returns
     -------
-    Tuple[Organization, int, int, int, Dict[str, Any]]
+    tuple[Organization, int, int, int, dict[str, Any]]
         The organization created along with the number of social links, resources and faq entries created for it.
     """
     # Consume assigned fields if present (caller can pass the global list).

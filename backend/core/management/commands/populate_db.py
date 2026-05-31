@@ -6,11 +6,10 @@ Classes controlling the CLI command to populate the database when starting the b
 # mypy: ignore-errors
 import random
 from argparse import ArgumentParser
-from typing import TypedDict
+from typing import TypedDict, Unpack
 
 import yaml
 from django.core.management.base import BaseCommand
-from typing_extensions import Unpack
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel

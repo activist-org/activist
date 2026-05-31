@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import json
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 from rest_framework import status
@@ -10,7 +10,7 @@ from rest_framework.test import APIClient
 pytestmark = pytest.mark.django_db
 
 
-def _base_envelope() -> Dict[str, Any]:
+def _base_envelope() -> dict[str, Any]:
     return {
         "type": "malware_quarantined",
         "occurred_at": "2026-03-17T12:34:56Z",
@@ -49,7 +49,7 @@ def test_security_events_ingest_sends_email_for_malware_quarantined(
     settings.SECURITY_ALERT_RECIPIENTS = ("ops@example.com",)
     settings.SECURITY_ALERT_FROM_EMAIL = "alerts@example.com"
 
-    sent: Dict[str, Any] = {}
+    sent: dict[str, Any] = {}
 
     def fake_send_mail(
         subject: str,
