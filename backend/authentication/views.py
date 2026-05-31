@@ -41,12 +41,14 @@ from authentication.serializers import (
 )
 from core.permissions import IsAdminStaffCreatorOrReadOnly
 
+from .tasks import email_user
+
 logger = logging.getLogger(__name__)
 
 dotenv.load_dotenv()
 
 FRONTEND_BASE_URL = os.getenv("VITE_FRONTEND_URL")
-ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL")
+ACTIVIST_EMAIL = os.getenv("ACTIVIST_EMAIL", "noreply@activist.org")
 
 # MARK: Verify Email
 
@@ -120,11 +122,9 @@ class SignUpView(APIView):
 
         if user.email != "":
             user.verification_code = uuid.uuid4()
-
             confirmation_link = (
                 f"{FRONTEND_BASE_URL}/auth/confirm/{user.verification_code}"
             )
-            message = f"Welcome to activist.org, {user.username}!, Please confirm your email address by clicking the link: {confirmation_link}"
             html_message = render_to_string(
                 template_name="signup_email.html",
                 context={
@@ -133,20 +133,15 @@ class SignUpView(APIView):
                 },
             )
 
-            try:
-                send_mail(
-                    subject="Welcome to activist.org",
-                    message=message,
-                    from_email=ACTIVIST_EMAIL,
-                    recipient_list=[user.email],
-                    html_message=html_message,
-                    fail_silently=False,
-                )
-                logger.info(f"Verification email sent to {user.email}")
-
-            except Exception as e:
-                logger.error(f"Failed to send verification email to {user.email}: {e}")
-                # Continue with user creation even if email fails.
+            logger.info(
+                f"Background task for Verification email enqueued, to {user.email}"
+            )
+            email_user.enqueue(
+                from_email=ACTIVIST_EMAIL,
+                to=user.email,
+                subject="Welcome to activist.org",
+                message=html_message,
+            )
 
             user.save()
 
