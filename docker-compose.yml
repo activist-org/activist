@@ -48,7 +48,8 @@ services:
       --events-per-group 1 \
       --faq-entries-per-entity 3 \
       --resources-per-entity 2 \
-      --yaml-data-to-assign core/management/commands/entity_data_to_assign.yaml &&
+      --yaml-data-to-assign core/management/commands/entity_data_to_assign.yaml || exit 1;
+      uv run manage.py db_worker &
       uv run manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
