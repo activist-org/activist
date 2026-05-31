@@ -6,7 +6,8 @@ API views for event management.
 import logging
 import os
 import re
-from typing import Any, Sequence, Type
+from collections.abc import Sequence
+from typing import Any
 from uuid import UUID
 
 from django.core.exceptions import ValidationError
@@ -108,7 +109,7 @@ class EventAPIView(GenericAPIView[Event]):
             return [IsAuthenticated()]
         return [IsAuthenticatedOrReadOnly()]
 
-    def get_serializer_class(self) -> Type[EventPOSTSerializer | EventSerializer]:
+    def get_serializer_class(self) -> type[EventPOSTSerializer | EventSerializer]:
         if self.request.method == "POST":
             return EventPOSTSerializer
 

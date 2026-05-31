@@ -4,7 +4,7 @@ Tests for the filescan service endpoint.
 """
 
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from fastapi.testclient import TestClient
 
@@ -185,7 +185,7 @@ def test_notify_malware_quarantined_builds_and_posts_event(monkeypatch) -> None:
     notify_malware_quarantined should build a generic envelope and POST it
     to the configured backend URL when alerts are enabled.
     """
-    posted: List[Dict[str, Any]] = []
+    posted: list[dict[str, Any]] = []
 
     class DummyResponse:
         def __init__(self) -> None:
@@ -193,7 +193,7 @@ def test_notify_malware_quarantined_builds_and_posts_event(monkeypatch) -> None:
             self.text = ""
 
     def fake_post(
-        url: str, json: Dict[str, Any], headers: Dict[str, str], timeout: float
+        url: str, json: dict[str, Any], headers: dict[str, str], timeout: float
     ) -> DummyResponse:
         posted.append(
             {"url": url, "json": json, "headers": headers, "timeout": timeout}
@@ -268,7 +268,7 @@ def test_scan_returns_503_when_scanner_raises(monkeypatch) -> None:
 
 
 def test_notify_malware_quarantined_optional_payload_fields(monkeypatch) -> None:
-    posted: List[Dict[str, Any]] = []
+    posted: list[dict[str, Any]] = []
 
     class DummyResponse:
         def __init__(self) -> None:
@@ -276,7 +276,7 @@ def test_notify_malware_quarantined_optional_payload_fields(monkeypatch) -> None
             self.text = ""
 
     def fake_post(
-        url: str, json: Dict[str, Any], headers: Dict[str, str], timeout: float
+        url: str, json: dict[str, Any], headers: dict[str, str], timeout: float
     ) -> DummyResponse:
         posted.append(
             {"url": url, "json": json, "headers": headers, "timeout": timeout}

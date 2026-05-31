@@ -5,7 +5,6 @@ API views for group management.
 """
 
 import logging
-from typing import List, Type
 from uuid import UUID
 
 from django.db.utils import IntegrityError, OperationalError
@@ -56,11 +55,11 @@ class GroupAPIView(GenericAPIView[Group]):
     queryset = Group.objects.all().order_by("id")
     serializer_class = GroupSerializer
     pagination_class = CustomPagination
-    permission_classes: List[Type[BasePermission]] = [IsAuthenticatedOrReadOnly]
+    permission_classes: list[type[BasePermission]] = [IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_class = GroupFilter
 
-    def get_permissions(self) -> List[BasePermission]:
+    def get_permissions(self) -> list[BasePermission]:
         """
         Instantiates and returns the list of permissions that this view requires.
         """
@@ -72,7 +71,7 @@ class GroupAPIView(GenericAPIView[Group]):
 
         return super().get_permissions()  # type: ignore
 
-    def get_serializer_class(self) -> Type[GroupSerializer | GroupPOSTSerializer]:
+    def get_serializer_class(self) -> type[GroupSerializer | GroupPOSTSerializer]:
         if self.request.method in SAFE_METHODS:
             return GroupSerializer
 
