@@ -6,7 +6,7 @@ Internal endpoint to ingest security events (e.g. malware_quarantined) from file
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -85,7 +85,7 @@ class SecurityEventIngestView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        body: Dict[str, Any] = request.data
+        body: dict[str, Any] = request.data
 
         event_type = body.get("type")
         occurred_at = body.get("occurred_at")
@@ -119,8 +119,8 @@ class SecurityEventIngestView(APIView):
 
     def _handle_malware_quarantined(
         self,
-        envelope: Dict[str, Any],
-        payload: Dict[str, Any],
+        envelope: dict[str, Any],
+        payload: dict[str, Any],
     ) -> Response:
         """
         Handle a malware_quarantined event and send an operator alert email.
