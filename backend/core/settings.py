@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     "events",
     "rest_framework_simplejwt",
     "django_filters",
+    "django_tasks_db",
 ]
 
 # MARK: Middleware
@@ -209,6 +210,7 @@ TASK_BACKEND = (
 TASKS = {
     "default": {
         "BACKEND": TASK_BACKEND,
+        "QUEUES": ["default"],
     }
 }
 
