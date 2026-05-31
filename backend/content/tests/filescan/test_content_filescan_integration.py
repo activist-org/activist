@@ -14,7 +14,7 @@ import contextlib
 import io
 import os
 import time
-from typing import Any, Dict
+from typing import Any
 
 import httpx
 import pytest
@@ -71,7 +71,7 @@ def _make_eicar_file(name: str = "eicar.txt") -> SimpleUploadedFile:
     return SimpleUploadedFile(name, eicar_bytes, content_type="text/plain")
 
 
-def _base_payload(org_id: str, file: SimpleUploadedFile) -> Dict[str, Any]:
+def _base_payload(org_id: str, file: SimpleUploadedFile) -> dict[str, Any]:
     return {
         "entity_id": org_id,
         "entity_type": "organization",

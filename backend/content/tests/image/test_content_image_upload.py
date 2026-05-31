@@ -6,8 +6,9 @@ Testing for Image upload-related functionality.
 import io
 import os
 import uuid
+from collections.abc import Generator
 from datetime import datetime
-from typing import Any, Dict, Generator
+from typing import Any
 from unittest.mock import patch
 
 import pytest
@@ -54,7 +55,7 @@ def _image_with_file() -> Generator[Image, None, None]:
         os.remove(file_path)
 
 
-def _create_organization_and_image() -> Dict[str, Any]:
+def _create_organization_and_image() -> dict[str, Any]:
     """
     Helper function to create a test organization and a simple test image.
     """
