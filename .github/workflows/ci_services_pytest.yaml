@@ -22,7 +22,7 @@ jobs:
       contents: write
       checks: write
       pull-requests: write
-    name: Run PR Services Tests
+    name: Run CI Services Tests
     runs-on: ubuntu-latest
     defaults:
       run:

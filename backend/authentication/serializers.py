@@ -6,7 +6,7 @@ Serializers for the authentication app.
 import logging
 import re
 from datetime import timedelta
-from typing import Any, Dict, Union
+from typing import Any
 
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import serializers
@@ -41,18 +41,18 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
         fields = ("username", "password", "password_confirmed", "email")
         extra_kwargs = {"password": {"write_only": True}, "email": {"required": True}}
 
-    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+    def validate(self, data: dict[str, str | Any]) -> dict[str, str | Any]:
         """
         Validate the data before signing up a user.
 
         Parameters
         ----------
-        data : dict[str, Union[str, Any]]
+        data : dict[str, str | Any]
             Data from a request to validate.
 
         Returns
         -------
-        dict[str, Union[str, Any]]
+        dict[str, str | Any]
             Validated data for processing.
         """
         pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{12,}$"
@@ -84,13 +84,13 @@ class SignUpSerializer(serializers.ModelSerializer[UserModel]):
         )
         return data
 
-    def create(self, validated_data: Dict[str, Union[str, Any]]) -> UserModel:
+    def create(self, validated_data: dict[str, str | Any]) -> UserModel:
         """
         Create and return a new UserModel instance.
 
         Parameters
         ----------
-        validated_data : dict[str, Union[str, Any]]
+        validated_data : dict[str, str | Any]
             Data from a request to validate.
 
         Returns
@@ -128,18 +128,18 @@ class SignInSerializer(serializers.Serializer[UserModel]):
     username = serializers.CharField(required=False)
     password = serializers.CharField(write_only=True)
 
-    def validate(self, data: Dict[str, Union[str, Any]]) -> Dict[str, Union[str, Any]]:
+    def validate(self, data: dict[str, str | Any]) -> dict[str, str | Any]:
         """
         Validate the data before signing in a user.
 
         Parameters
         ----------
-        data : dict[str, Union[str, Any]]
+        data : dict[str, str | Any]
             Data from a request to validate.
 
         Returns
         -------
-        dict[str, Union[str, Any]]
+        dict[str, str | Any]
             Validated data for processing.
         """
         identifier = data.get("email") or data.get("username", "unknown")
@@ -250,13 +250,13 @@ class PasswordResetSerializer(serializers.Serializer[UserModel]):
     password = serializers.CharField(write_only=True)
     code = serializers.UUIDField(required=False)
 
-    def validate(self, data: Dict[str, Union[str, Any]]) -> UserModel:
+    def validate(self, data: dict[str, str | Any]) -> UserModel:
         """
         Validate the data before signing up a user.
 
         Parameters
         ----------
-        data : dict[str, Union[str, Any]]
+        data : dict[str, str | Any]
             Data from a request to validate.
 
         Returns

@@ -20,7 +20,7 @@ on:
 
 jobs:
   frontend_tests:
-    name: Run PR Frontend Tests
+    name: Run CI Frontend Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project

@@ -5,7 +5,7 @@ Populate the database with events for organizations.
 
 # mypy: ignore-errors
 import random
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from authentication.models import UserModel
 from communities.organizations.models import Organization
@@ -26,11 +26,11 @@ def create_org_events(
     user_topic: Topic,
     user_topic_name: str,
     user_org: Organization,
-    assigned_events: List[Dict[str, Any]],
+    assigned_events: list[dict[str, Any]],
     num_events_per_org: int,
     num_faq_entries_per_entity: int,
     num_resources_per_entity: int,
-) -> Tuple[int, int, int]:
+) -> tuple[int, int, int]:
     """
     Create organization-level events for `user_org`.
 
@@ -48,7 +48,7 @@ def create_org_events(
     user_org : Organization
         The organization for which events are being generated for.
 
-    assigned_events : List[Dict[str, Any]]
+    assigned_events : list[dict[str, Any]]
         The data to assign to the generated events.
 
     num_events_per_org : int
@@ -62,7 +62,7 @@ def create_org_events(
 
     Returns
     -------
-    Tuple[int, int, int]
+    tuple[int, int, int]
         The number of social links, resources and faq entries created for organization events.
     """
     n_social = 0
