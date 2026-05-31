@@ -44,7 +44,7 @@ jobs:
       checks: write
       pull-requests: write
 
-    name: Run PR Backend Tests
+    name: Run CI Backend Tests
     runs-on: ubuntu-latest
     defaults:
       run:

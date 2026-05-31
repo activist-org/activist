@@ -18,7 +18,7 @@ on:
 
 jobs:
   backend_static_analysis:
-    name: Run PR Backend Static Check
+    name: Run CI Backend Static Check
     runs-on: ubuntu-latest
     defaults:
       run:
