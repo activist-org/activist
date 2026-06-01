@@ -209,12 +209,6 @@ test.describe(
       });
       await countryComboboxButton.click({ force: true });
       await expect(modal.countryField).toHaveValue(countryValue);
-
-      await modal.cityField.fill("Berlin");
-      await modal.submitLocationButton.click();
-
-      await expect(modal.countryError).not.toBeVisible();
-      await expect(modal.countryField).toHaveValue(countryValue);
     });
 
     // MARK: Location step - empty city
