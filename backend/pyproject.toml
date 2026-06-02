@@ -41,8 +41,14 @@ dev = [
 # complexipy is kept out of the default `dev` group because it ships no
 # musllinux wheel, so the Alpine dev container would try (and fail) to build it
 # from source. Install it explicitly with `--group complexity` where needed.
-complexity = ["complexipy>=4.2.0"]
-audit = ["pysentry-rs>=0.4.5"]
+complexity = [
+    # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
+    "complexipy>=4.2.0",
+]
+audit = [
+    # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
+    "pysentry-rs>=0.4.5",
+]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -141,4 +147,3 @@ exclude = [
 
 [tool.complexipy]
 max-complexity-allowed = 10
-sort = "desc"
