@@ -18,7 +18,7 @@ on:
 
 jobs:
   services_static_analysis:
-    name: Run PR Services Static Check
+    name: Run CI Services Static Check
     runs-on: ubuntu-latest
     defaults:
       run:
