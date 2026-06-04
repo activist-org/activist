@@ -481,7 +481,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         responses={
             200: UserFlagSerializers,
             404: OpenApiResponse(
-                response={"detail": "Failed to retrieve the user flag."}
+                response={"detail": "Failed to retrieve the flag."}
             ),
         }
     )
@@ -495,7 +495,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         except UserFlag.DoesNotExist:
             logger.warning(f"User flag not found: ID {id}")
             return Response(
-                {"detail": "Failed to retrieve the user flag."},
+                {"detail": "Failed to retrieve the flag."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
