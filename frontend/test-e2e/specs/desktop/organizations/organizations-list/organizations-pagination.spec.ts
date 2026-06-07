@@ -27,17 +27,16 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
       async () => {
         await page.evaluate(() => {
           const container = document.querySelector(
-            ".\\!overflow-y-scroll, [class*='overflow-y-scroll']"
+            "[class*='overflow-y-scroll']"
           ) as HTMLElement | null;
-          if (container) {
-            container.scrollTo(0, container.scrollHeight);
-          }
+          if (container) container.scrollTo(0, container.scrollHeight);
         });
 
-        await page.waitForLoadState("networkidle");
-
-        const totalCount = await orgCards.count();
-        expect(totalCount).toBeGreaterThan(10);
+        // Assert the resulting count rather than a specific page response,
+        // which may already have fired if results auto-paginate on load.
+        await expect
+          .poll(() => orgCards.count(), { timeout: 8000 })
+          .toBeGreaterThan(10);
       }
     );
 
@@ -65,14 +64,6 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
       testInfo,
       "Scroll container to trigger all organizations to load via pagination",
       async () => {
-        const page2Response = page.waitForResponse(
-          (resp) =>
-            resp.url().includes("/organizations") &&
-            resp.url().includes("page=2") &&
-            resp.status() === 200,
-          { timeout: 8000 }
-        );
-
         await page.evaluate(() => {
           const container = document.querySelector(
             "[class*='overflow-y-scroll']"
@@ -80,9 +71,9 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
           if (container) container.scrollTo(0, container.scrollHeight);
         });
 
-        await page2Response;
-        const totalCount = await orgCards.count();
-        expect(totalCount).toBeGreaterThan(10);
+        await expect
+          .poll(() => orgCards.count(), { timeout: 8000 })
+          .toBeGreaterThan(10);
       }
     );
 
@@ -115,14 +106,6 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
         await page.goto("/organizations");
         await page.waitForLoadState("networkidle");
 
-        const page2Response = page.waitForResponse(
-          (resp) =>
-            resp.url().includes("/organizations") &&
-            resp.url().includes("page=2") &&
-            resp.status() === 200,
-          { timeout: 8000 }
-        );
-
         await page.evaluate(() => {
           const container = document.querySelector(
             "[class*='overflow-y-scroll']"
@@ -130,10 +113,9 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
           if (container) container.scrollTo(0, container.scrollHeight);
         });
 
-        await page2Response;
-
-        const resetCount = await orgCards.count();
-        expect(resetCount).toBeGreaterThan(10);
+        await expect
+          .poll(() => orgCards.count(), { timeout: 8000 })
+          .toBeGreaterThan(10);
 
         const titles = await orgCards.evaluateAll((nodes) =>
           nodes.map((item) => item.textContent?.trim())

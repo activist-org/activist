@@ -23,17 +23,16 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
       async () => {
         await page.evaluate(() => {
           const container = document.querySelector(
-            ".\\!overflow-y-scroll, [class*='overflow-y-scroll']"
+            "[class*='overflow-y-scroll']"
           ) as HTMLElement | null;
-          if (container) {
-            container.scrollTo(0, container.scrollHeight);
-          }
+          if (container) container.scrollTo(0, container.scrollHeight);
         });
 
-        await page.waitForLoadState("networkidle");
-
-        const totalCount = await eventCards.count();
-        expect(totalCount).toBeGreaterThan(10);
+        // Events auto-paginate on load, so assert the resulting count rather
+        // than a specific page response, which may already have fired.
+        await expect
+          .poll(() => eventCards.count(), { timeout: 8000 })
+          .toBeGreaterThan(10);
       }
     );
 
@@ -61,14 +60,6 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
       testInfo,
       "Scroll the page to trigger all events to load via pagination",
       async () => {
-        const page2Response = page.waitForResponse(
-          (resp) =>
-            resp.url().includes("/events") &&
-            resp.url().includes("page=2") &&
-            resp.status() === 200,
-          { timeout: 8000 }
-        );
-
         await page.evaluate(() => {
           const container = document.querySelector(
             "[class*='overflow-y-scroll']"
@@ -76,9 +67,9 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
           if (container) container.scrollTo(0, container.scrollHeight);
         });
 
-        await page2Response;
-        const totalCount = await eventCards.count();
-        expect(totalCount).toBeGreaterThan(10);
+        await expect
+          .poll(() => eventCards.count(), { timeout: 8000 })
+          .toBeGreaterThan(10);
       }
     );
 
@@ -111,14 +102,6 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
         await page.goto("/events?view=list");
         await page.waitForLoadState("networkidle");
 
-        const page2Response = page.waitForResponse(
-          (resp) =>
-            resp.url().includes("/events") &&
-            resp.url().includes("page=2") &&
-            resp.status() === 200,
-          { timeout: 8000 }
-        );
-
         await page.evaluate(() => {
           const container = document.querySelector(
             "[class*='overflow-y-scroll']"
@@ -126,10 +109,9 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
           if (container) container.scrollTo(0, container.scrollHeight);
         });
 
-        await page2Response;
-
-        const resetCount = await eventCards.count();
-        expect(resetCount).toBeGreaterThan(10);
+        await expect
+          .poll(() => eventCards.count(), { timeout: 8000 })
+          .toBeGreaterThan(10);
 
         const titles = await eventCards.evaluateAll((nodes) =>
           nodes.map((item) => item.textContent?.trim())
