@@ -1,8 +1,33 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import type { Locator, Page } from "@playwright/test";
+
 import { newEventsFilter } from "~/test-e2e/component-objects/EventsFilter";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
+
+/**
+ * Scroll the list container until pagination loads a second page. A single
+ * scroll can fire before the layout settles or land the 1px sentinel exactly on
+ * the viewport edge (below the IntersectionObserver threshold), so re-scroll on
+ * each poll until the rendered card count grows past one page.
+ */
+const loadSecondPage = async (page: Page, cards: Locator): Promise<void> => {
+  await expect
+    .poll(
+      async () => {
+        await page.evaluate(() => {
+          const container = document.querySelector(
+            "[class*='overflow-y-scroll']"
+          ) as HTMLElement | null;
+          if (container) container.scrollTo(0, container.scrollHeight);
+        });
+        return cards.count();
+      },
+      { timeout: 15000, intervals: [300, 700, 1000, 1500, 2000] }
+    )
+    .toBeGreaterThan(10);
+};
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/events?view=list");
@@ -21,18 +46,7 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
       testInfo,
       "Scroll the page to trigger loading more events",
       async () => {
-        await page.evaluate(() => {
-          const container = document.querySelector(
-            "[class*='overflow-y-scroll']"
-          ) as HTMLElement | null;
-          if (container) container.scrollTo(0, container.scrollHeight);
-        });
-
-        // Events auto-paginate on load, so assert the resulting count rather
-        // than a specific page response, which may already have fired.
-        await expect
-          .poll(() => eventCards.count(), { timeout: 8000 })
-          .toBeGreaterThan(10);
+        await loadSecondPage(page, eventCards);
       }
     );
 
@@ -60,16 +74,7 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
       testInfo,
       "Scroll the page to trigger all events to load via pagination",
       async () => {
-        await page.evaluate(() => {
-          const container = document.querySelector(
-            "[class*='overflow-y-scroll']"
-          ) as HTMLElement | null;
-          if (container) container.scrollTo(0, container.scrollHeight);
-        });
-
-        await expect
-          .poll(() => eventCards.count(), { timeout: 8000 })
-          .toBeGreaterThan(10);
+        await loadSecondPage(page, eventCards);
       }
     );
 
@@ -102,16 +107,7 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
         await page.goto("/events?view=list");
         await page.waitForLoadState("networkidle");
 
-        await page.evaluate(() => {
-          const container = document.querySelector(
-            "[class*='overflow-y-scroll']"
-          ) as HTMLElement | null;
-          if (container) container.scrollTo(0, container.scrollHeight);
-        });
-
-        await expect
-          .poll(() => eventCards.count(), { timeout: 8000 })
-          .toBeGreaterThan(10);
+        await loadSecondPage(page, eventCards);
 
         const titles = await eventCards.evaluateAll((nodes) =>
           nodes.map((item) => item.textContent?.trim())
