@@ -3,11 +3,11 @@
   <Form
     @submit="handleSubmit"
     class="px-1"
+    data-testid="organizations-filter"
     :initial-values="formData"
     :is-there-submit-button="false"
     :schema="schema"
     :send-on-change="true"
-    data-testid="organizations-filter"
   >
     <FormItem
       v-slot="{ id, handleChange, errorMessage, value }"
@@ -18,10 +18,10 @@
       <FormSelectorComboboxCountry
         :id="id"
         @update:selected-country="handleChange"
+        data-testid="organizations-filter-country"
         :hasError="!!errorMessage.value"
         :label="$t('i18n.components._global.country')"
         :selected-country="(value.value as string) || ''"
-        data-testid="organizations-filter-country"
       />
     </FormItem>
     <FormItem
@@ -39,12 +39,12 @@
             'i18n.components.sidebar.left.filter._global.search_button_aria_label'
           )
         "
+        data-testid="organizations-filter-city"
         :hasError="!!errorMessage.value"
         :label="
           $t('i18n.components.sidebar_left_filter_organization.filter_by_city')
         "
         :modelValue="(value.value as string)"
-        data-testid="organizations-filter-city"
       />
     </FormItem>
     <FormItem
@@ -58,9 +58,9 @@
         @update:selectedOptions="
           (val: unknown) => handleChange(val as TopicEnum[])
         "
+        data-testid="organizations-filter-topics"
         :label="$t('i18n.components._global.topics')"
         :selected-topics="((value.value ?? []) as TopicEnum[])"
-        data-testid="organizations-filter-topics"
       />
     </FormItem>
   </Form>

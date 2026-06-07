@@ -22,15 +22,12 @@ export function useGetOrganizations(
         ) {
           return store.getItems();
         }
-        // When page > 1 but the store is empty, SSR hydration bypassed the
-        // factory for page 1 (via getCachedData). Seed the store from the SSR
-        // payload so the combined result includes the first page.
+        // SSR hydration skipped this factory; seed the store so page 2 appends correctly.
         if (page.value > 1 && store.getItems().length === 0) {
           const nuxtApp = useNuxtApp();
-          const ssrItems =
-            nuxtApp.payload.data?.[getKeyForGetOrganizations()] as
-              | Organization[]
-              | undefined;
+          const ssrItems = nuxtApp.payload.data?.[
+            getKeyForGetOrganizations()
+          ] as Organization[] | undefined;
           if (ssrItems?.length) {
             store.setItems(ssrItems);
             store.setPage(1);
@@ -93,9 +90,7 @@ export function useGetOrganizations(
         ) {
           return store.getItems();
         }
-        // Only use SSR payload during hydration to avoid skipping the factory
-        // on the first client-side run. Post-hydration, the factory must run to
-        // populate the store so subsequent pages can be appended correctly.
+        // Skip SSR payload post-hydration so the factory runs and populates the store.
         return nuxtApp.isHydrating
           ? nuxtApp.payload.data[key]
           : nuxtApp.static.data[key];
