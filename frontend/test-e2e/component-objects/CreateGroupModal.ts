@@ -61,11 +61,12 @@ export const newCreateGroupModal = (page: Page) => {
     /**
      * Open the organization combobox and select the first available option.
      *
-     * The combobox loads its options asynchronously, so the open click can land
-     * before the panel is interactive (e.g. during hydration), leaving the
-     * dropdown closed and no option ever rendering. To stay robust, click only
-     * while the button is collapsed and retry until it reports expanded; this
-     * avoids a second click toggling an already-open panel back closed.
+     * The combobox loads its options asynchronously, so two races can occur:
+     * the open click can land before the panel is interactive (leaving it
+     * closed), and the organization fetch can resolve after the panel opens
+     * (notably on mobile CI), so no option has rendered yet. Retry the whole
+     * open-and-wait, clicking only while the button is collapsed so an
+     * already-open panel is never toggled shut, until an option appears.
      */
     async selectFirstOrganization(): Promise<void> {
       const orgsButton = organizationCombobox.getByRole("button", {
@@ -77,12 +78,9 @@ export const newCreateGroupModal = (page: Page) => {
         if ((await orgsButton.getAttribute("aria-expanded")) !== "true") {
           await orgsButton.click();
         }
-        await expect(orgsButton).toHaveAttribute("aria-expanded", "true", {
-          timeout: 1000,
-        });
-      }).toPass({ timeout: 15000 });
+        await expect(firstOption).toBeVisible({ timeout: 2000 });
+      }).toPass({ timeout: 20000 });
 
-      await expect(firstOption).toBeVisible({ timeout: 10000 });
       await firstOption.click();
       // Single-select closes the dropdown automatically after a choice.
       await expect(firstOption).toBeHidden({ timeout: 5000 });
