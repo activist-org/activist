@@ -7,6 +7,7 @@
     :is-there-submit-button="false"
     :schema="schema"
     :send-on-change="true"
+    data-testid="organizations-filter"
   >
     <FormItem
       v-slot="{ id, handleChange, errorMessage, value }"
@@ -20,6 +21,7 @@
         :hasError="!!errorMessage.value"
         :label="$t('i18n.components._global.country')"
         :selected-country="(value.value as string) || ''"
+        data-testid="organizations-filter-country"
       />
     </FormItem>
     <FormItem
@@ -42,6 +44,7 @@
           $t('i18n.components.sidebar_left_filter_organization.filter_by_city')
         "
         :modelValue="(value.value as string)"
+        data-testid="organizations-filter-city"
       />
     </FormItem>
     <FormItem
@@ -57,6 +60,7 @@
         "
         :label="$t('i18n.components._global.topics')"
         :selected-topics="((value.value ?? []) as TopicEnum[])"
+        data-testid="organizations-filter-topics"
       />
     </FormItem>
   </Form>
