@@ -8,10 +8,33 @@
       :header="$t('i18n.pages.organizations.index.header_title')"
       :tagline="$t('i18n.pages.organizations.index.subheader')"
     >
-      <div class="flex flex-col space-x-3 sm:flex-row">
+      <div class="flex flex-col gap-3 sm:flex-row md:hidden">
         <ComboboxTopics
           @update:selectedTopics="handleSelectedTopicsUpdate"
+          class="flex-1"
           :receivedSelectedTopics="selectedTopics"
+        />
+
+        <FormSelectorComboboxCountry
+          id="mobile-country-filter"
+          @update:selectedCountry="handleSelectedCountryUpdate"
+          class="w-32 shrink-0"
+          :label="$t('i18n._global.country')"
+          :selectedCountry="selectedCountry"
+        />
+
+        <FormTextInputSearch
+          id="mobile-city-filter"
+          @update:modelValue="
+            (value: string) => {
+              selectedCity = value;
+              handleCityUpdate();
+            }
+          "
+          :ariaLabel="$t('i18n._global.search_button_aria_label')"
+          class="w-32 shrink-0"
+          :label="$t('i18n._global.filter_by_city')"
+          :modelValue="selectedCity"
         />
       </div>
     </HeaderAppPage>
@@ -108,4 +131,46 @@ const showOrganizations = computed(() => {
   }
   return false;
 });
+const selectedCountry = ref<string>("");
+const selectedCity = ref<string>("");
+
+watch(
+  () => route.query.country,
+  (newVal) => {
+    selectedCountry.value = (newVal as string) || "";
+  },
+  { immediate: true }
+);
+
+watch(
+  () => route.query.city,
+  (newVal) => {
+    selectedCity.value = (newVal as string) || "";
+  },
+  { immediate: true }
+);
+
+const handleSelectedCountryUpdate = (country: string) => {
+  const query = { ...route.query };
+
+  if (country) {
+    query.country = country;
+  } else {
+    delete query.country;
+  }
+
+  router.replace({ query });
+};
+
+const handleCityUpdate = () => {
+  const query = { ...route.query };
+
+  if (selectedCity.value) {
+    query.city = selectedCity.value;
+  } else {
+    delete query.city;
+  }
+
+  router.replace({ query });
+};
 </script>
