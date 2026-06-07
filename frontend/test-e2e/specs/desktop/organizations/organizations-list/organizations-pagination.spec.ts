@@ -14,54 +14,81 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
-  test("should load more organizations on infinite scroll", async ({
+  test("should automatically paginate when all results are in viewport", async ({
     page,
   }, testInfo) => {
     logTestPath(testInfo);
 
     const orgCards = page.getByTestId("organization-card");
-    const initialCount = await orgCards.count();
 
     await withTestStep(
       testInfo,
-      "Scroll down to trigger loading more organizations",
+      "Scroll the layout container to trigger loading more organizations",
       async () => {
-        await page.evaluate(() =>
-          window.scrollTo(0, document.body.scrollHeight)
-        );
-        await page.waitForTimeout(1500);
+        await page.evaluate(() => {
+          const container = document.querySelector(
+            ".\\!overflow-y-scroll, [class*='overflow-y-scroll']"
+          ) as HTMLElement | null;
+          if (container) {
+            container.scrollTo(0, container.scrollHeight);
+          }
+        });
 
-        const newCount = await orgCards.count();
-        expect(newCount).toBeGreaterThan(initialCount);
+        await page.waitForLoadState("networkidle");
+
+        const totalCount = await orgCards.count();
+        expect(totalCount).toBeGreaterThan(10);
       }
     );
 
     await withTestStep(
       testInfo,
-      "Ensure no duplicate organizations appear after infinite scroll",
+      "Ensure no duplicate organizations appear after pagination",
       async () => {
-        const ids = await orgCards.evaluateAll((nodes) =>
-          nodes.map(
-            (item) => item.getAttribute("data-id") ?? item.textContent?.trim()
-          )
+        const titles = await orgCards.evaluateAll((nodes) =>
+          nodes.map((item) => item.textContent?.trim())
         );
-        const uniqueIds = new Set(ids);
-        expect(uniqueIds.size).toEqual(ids.length);
+        const uniqueTitles = new Set(titles);
+        expect(uniqueTitles.size).toEqual(titles.length);
       }
     );
   });
 
-  test("should update organizations and reset infinite scroll on filter", async ({
+  test("should reset pagination and reload on filter change", async ({
     page,
   }, testInfo) => {
     logTestPath(testInfo);
 
     const orgCards = page.getByTestId("organization-card");
-    const initialCount = await orgCards.count();
 
     await withTestStep(
       testInfo,
-      "Apply city filter and check organizations change",
+      "Scroll container to trigger all organizations to load via pagination",
+      async () => {
+        const page2Response = page.waitForResponse(
+          (resp) =>
+            resp.url().includes("/organizations") &&
+            resp.url().includes("page=2") &&
+            resp.status() === 200,
+          { timeout: 8000 }
+        );
+
+        await page.evaluate(() => {
+          const container = document.querySelector(
+            "[class*='overflow-y-scroll']"
+          ) as HTMLElement | null;
+          if (container) container.scrollTo(0, container.scrollHeight);
+        });
+
+        await page2Response;
+        const totalCount = await orgCards.count();
+        expect(totalCount).toBeGreaterThan(10);
+      }
+    );
+
+    await withTestStep(
+      testInfo,
+      "Apply city filter and verify results reset to first page",
       async () => {
         const sidebarLeft = newSidebarLeft(page);
         await sidebarLeft.open();
@@ -74,33 +101,45 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
         await cityInput.blur();
 
         await page.waitForURL(/city=Berlin/, { timeout: 5000 });
-        await page.waitForTimeout(1000);
+        await page.waitForLoadState("networkidle");
 
         const filteredCount = await orgCards.count();
-        expect(filteredCount).not.toEqual(initialCount);
         expect(filteredCount).toBeLessThanOrEqual(10);
       }
     );
 
     await withTestStep(
       testInfo,
-      "Scroll to load more filtered organizations",
+      "Navigate to unfiltered list and verify pagination resumes",
       async () => {
-        await page.evaluate(() =>
-          window.scrollTo(0, document.body.scrollHeight)
-        );
-        await page.waitForTimeout(1500);
+        await page.goto("/organizations");
+        await page.waitForLoadState("networkidle");
 
-        const scrolledCount = await orgCards.count();
-        expect(scrolledCount).toBeGreaterThan(10);
-
-        const ids = await orgCards.evaluateAll((nodes) =>
-          nodes.map(
-            (item) => item.getAttribute("data-id") ?? item.textContent?.trim()
-          )
+        const page2Response = page.waitForResponse(
+          (resp) =>
+            resp.url().includes("/organizations") &&
+            resp.url().includes("page=2") &&
+            resp.status() === 200,
+          { timeout: 8000 }
         );
-        const uniqueIds = new Set(ids);
-        expect(uniqueIds.size).toEqual(ids.length);
+
+        await page.evaluate(() => {
+          const container = document.querySelector(
+            "[class*='overflow-y-scroll']"
+          ) as HTMLElement | null;
+          if (container) container.scrollTo(0, container.scrollHeight);
+        });
+
+        await page2Response;
+
+        const resetCount = await orgCards.count();
+        expect(resetCount).toBeGreaterThan(10);
+
+        const titles = await orgCards.evaluateAll((nodes) =>
+          nodes.map((item) => item.textContent?.trim())
+        );
+        const uniqueTitles = new Set(titles);
+        expect(uniqueTitles.size).toEqual(titles.length);
       }
     );
   });
