@@ -42,7 +42,7 @@ services:
       uv run manage.py loaddata fixtures/topics.json &&
       uv run manage.py populate_db \
       --users 10 \
-      --orgs-per-user 1 \
+      --orgs-per-user 2 \
       --groups-per-org 2 \
       --events-per-org 1 \
       --events-per-group 1 \

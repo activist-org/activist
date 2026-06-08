@@ -7,30 +7,9 @@ import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { expect, test } from "~/test-e2e/global-fixtures";
 
-const orgsLabel = getEnglishText("i18n._global.organization");
-
-async function selectFirstOrganization(
+const selectFirstOrganization = (
   modal: ReturnType<typeof newCreateGroupModal>
-) {
-  const orgsButton = modal.organizationCombobox.getByRole("button", {
-    name: new RegExp(orgsLabel, "i"),
-  });
-  await orgsButton.click();
-  const firstOption = modal.root.getByRole("option").first();
-  await expect(firstOption).toBeVisible({ timeout: 10000 });
-  await firstOption.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
-  // Wait for the selected value to be committed to the form state before
-  // callers proceed. On mobile, Vue's reactive update from option click to
-  // vee-validate handleChange is slightly async and can cause the next step
-  // button click to land before the org field is considered valid.
-  await expect(modal.organizationCombobox.locator("input")).not.toHaveValue(
-    "",
-    { timeout: 5000 }
-  );
-}
+) => modal.selectFirstOrganization();
 
 test.describe(
   "Group Create Modal - Form Validation",
