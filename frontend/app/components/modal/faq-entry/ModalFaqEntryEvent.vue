@@ -60,15 +60,11 @@ watch(
 );
 
 async function handleSubmit(values: unknown) {
-  let updateResponse = false;
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
-  updateResponse = isAddMode
-    ? await createFAQ(newValues as FaqEntry)
-    : await updateFAQ(newValues as FaqEntry);
+  if (isAddMode) createFAQ(newValues as FaqEntry);
+  else updateFAQ(newValues as FaqEntry);
 
-  if (updateResponse) {
-    handleCloseModal();
-  }
+  handleCloseModal();
 }
 </script>
