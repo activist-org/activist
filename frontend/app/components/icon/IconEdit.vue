@@ -8,7 +8,7 @@
   >
     <Icon :name="IconMap.EDIT" size="1.2em" />
     <!-- Note: Buttons need text for a11y. Adding the following for e2e tests. -->
-    <span id="icon-edit-label" hidden>Edit</span>
+    <span id="icon-edit-label" hidden>{{ $t("i18n.components.icon_edit.aria_label_alt_text") }}</span>
   </button>
 </template>
 

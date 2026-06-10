@@ -8,7 +8,7 @@
   >
     <Icon :name="IconMap.TRASH" size="1.2em" />
     <!-- Note: Buttons need text for a11y. Adding the following for e2e tests. -->
-    <span id="icon-delete-label" hidden>Delete</span>
+    <span id="icon-delete-label" hidden>{{ $t("i18n.components.icon_delete.aria_label_alt_text") }}</span>
   </button>
 </template>
 
