@@ -39,6 +39,7 @@ class Options(TypedDict):
     resources_per_entity: int
     faq_entries_per_entity: int
     yaml_data_to_assign: str
+    skip_if_populated: bool
 
 
 class Command(BaseCommand):
@@ -73,6 +74,11 @@ class Command(BaseCommand):
             dest="yaml_data_to_assign",
             help="Deprecated alias for --yaml-data-to-assign",
         )
+        parser.add_argument(
+            "--skip-if-populated",
+            action="store_true",
+            help="Leave the database untouched if it already contains data, so restarts don't wipe local work",
+        )
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
         """
@@ -86,6 +92,23 @@ class Command(BaseCommand):
         **options : Unpack[Options]
             Options that can be used to control the database wait functionality.
         """
+        # MARK: Skip If Populated
+
+        # With --skip-if-populated, an already seeded or otherwise used database
+        # is left untouched so that bringing the dev stack back up doesn't wipe
+        # locally created accounts and entities. Run without the flag (or after
+        # docker compose down -v) for an explicit reseed.
+        if options.get("skip_if_populated") and (
+            UserModel.objects.exclude(username="admin").exists()
+            or Organization.objects.exists()
+        ):
+            self.stdout.write(
+                self.style.SUCCESS(
+                    "Database already contains data. Skipping population (--skip-if-populated)."
+                )
+            )
+            return
+
         # MARK: Load Arguments
 
         num_users = options["users"]
