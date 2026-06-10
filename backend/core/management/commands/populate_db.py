@@ -80,6 +80,46 @@ class Command(BaseCommand):
             help="Leave the database untouched if it already contains data, so restarts don't wipe local work",
         )
 
+    def _skip_population_if_requested(self, skip_if_populated: bool) -> bool:
+        """
+        Return True when population is skipped because the database already has data.
+
+        With --skip-if-populated, an already seeded or otherwise used database is left
+        untouched so that bringing the dev stack back up doesn't wipe locally created
+        accounts and entities.
+        """
+        if not skip_if_populated:
+            return False
+
+        if not (
+            UserModel.objects.exclude(username="admin").exists()
+            or Organization.objects.exists()
+        ):
+            return False
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                "Database already contains data. Skipping population (--skip-if-populated)."
+            )
+        )
+        return True
+
+    def _load_assigned_org_fields(self, yaml_path: str) -> list:
+        """Load organization field assignments from a YAML file, if provided."""
+        if not yaml_path:
+            return []
+
+        with open(yaml_path, encoding="utf-8") as f:
+            yaml_data_to_assign = yaml.safe_load(f)
+
+        if (
+            isinstance(yaml_data_to_assign, dict)
+            and "organizations" in yaml_data_to_assign
+        ):
+            return yaml_data_to_assign["organizations"]
+
+        return []
+
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
         """
         Handle arguments passed to the parser.
@@ -92,21 +132,7 @@ class Command(BaseCommand):
         **options : Unpack[Options]
             Options that can be used to control the database wait functionality.
         """
-        # MARK: Skip If Populated
-
-        # With --skip-if-populated, an already seeded or otherwise used database
-        # is left untouched so that bringing the dev stack back up doesn't wipe
-        # locally created accounts and entities. Run without the flag (or after
-        # docker compose down -v) for an explicit reseed.
-        if options.get("skip_if_populated") and (
-            UserModel.objects.exclude(username="admin").exists()
-            or Organization.objects.exists()
-        ):
-            self.stdout.write(
-                self.style.SUCCESS(
-                    "Database already contains data. Skipping population (--skip-if-populated)."
-                )
-            )
+        if self._skip_population_if_requested(options.get("skip_if_populated", False)):
             return
 
         # MARK: Load Arguments
@@ -121,16 +147,9 @@ class Command(BaseCommand):
 
         # MARK: Load Data
 
-        assigned_org_fields = []
-        if options["yaml_data_to_assign"]:
-            with open(options["yaml_data_to_assign"], encoding="utf-8") as f:
-                yaml_data_to_assign = yaml.safe_load(f)
-
-            if (
-                isinstance(yaml_data_to_assign, dict)
-                and "organizations" in yaml_data_to_assign
-            ):
-                assigned_org_fields = yaml_data_to_assign["organizations"]
+        assigned_org_fields = self._load_assigned_org_fields(
+            options["yaml_data_to_assign"]
+        )
 
         # MARK: Clear Data
 

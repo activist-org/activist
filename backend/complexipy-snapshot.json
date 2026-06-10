@@ -25,7 +25,7 @@
     "functions": [
       {
         "name": "Command::handle",
-        "complexity": 34
+        "complexity": 31
       }
     ]
   },
