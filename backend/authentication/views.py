@@ -96,7 +96,7 @@ class SignOutView(APIView):
     @extend_schema(
         request=None,
         responses={
-            200: OpenApiResponse(response={"message": "User logged out successfully."}),
+            200: OpenApiResponse(response={"message": "User was logged out successfully."}),
             401: OpenApiResponse(response={"detail": "You are not authenticated."}),
         },
     )
@@ -475,7 +475,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
         responses={
             200: UserFlagSerializers,
             404: OpenApiResponse(
-                response={"detail": "Failed to retrieve the user flag."}
+                response={"detail": "Failed to retrieve the flag."}
             ),
         }
     )
@@ -507,7 +507,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to delete this flag."}
             ),
-            404: OpenApiResponse(response={"detail": "Failed to retrieve flag."}),
+            404: OpenApiResponse(response={"detail": "Failed not found flag."}),
         }
     )
     def delete(self, request: Request, id: str | uuid.UUID) -> Response:
