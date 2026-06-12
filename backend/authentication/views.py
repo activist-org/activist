@@ -56,13 +56,27 @@ class VerifyEmailView(APIView):
     serializer_class = UserSerializer
 
     def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
-        user = UserModel.objects.filter(verification_code=code).first()
-        if not user:
+        # Handle invalid UUIDs gracefully.
+        try:
+            user = UserModel.objects.filter(verification_code=code).first()
+
+        except (ValueError, ValidationError):
+            # Invalid UUID format - treat as user not found.
+            logger.warning(f"Email verification failed: invalid UUID format {code}")
             return Response(
-                {"detail": "Invalid code."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "User does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
             )
+
+        if user is None:
+            logger.warning(f"Email verification failed: invalid code {code}")
+            return Response(
+                {"detail": "User does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
         user.is_confirmed = True
-        user.verification_code = None
+        user.verification_code = None  # None instead of empty string for UUIDField
         user.save()
 
         serializer = self.serializer_class(user)
@@ -118,7 +132,7 @@ class SignUpView(APIView):
 
         logger.info(f"User created successfully: {user.username} (ID: {user.id})")
 
-        if user.email != "":
+        if user.email:
             user.verification_code = uuid.uuid4()
 
             confirmation_link = (
