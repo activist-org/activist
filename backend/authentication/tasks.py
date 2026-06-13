@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Background tasks for authentication-related email workflows."""
+"""
+Background tasks for authentication-related email workflows.
+"""
 
 import logging
 
@@ -24,12 +26,16 @@ def email_user(
     ----------
     from_email : str
         The email address of the sender.
+
     to : str
         The email address of the recipient.
+
     subject : str
         The subject of the email.
+
     message : str
         The body of the email.
+
     cc : list[str], optional
         A list of email addresses to be added as CC recipients.
 
