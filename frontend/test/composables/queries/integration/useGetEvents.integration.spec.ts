@@ -387,7 +387,10 @@ describe("useGetEvents Integration", () => {
       // filter-match condition if the store hadn't been updated yet.
       // After fix: filtersChanged is computed BEFORE the call; if it was true,
       // the append branch is skipped entirely for that invocation.
-      const page2Items = [createMockEvent() as MockEvent, createMockEvent() as MockEvent];
+      const page2Items = [
+        createMockEvent() as MockEvent,
+        createMockEvent() as MockEvent,
+      ];
       const filterPage1Items = [createMockEvent() as MockEvent];
 
       // Simulate: store had no-filter results cached.

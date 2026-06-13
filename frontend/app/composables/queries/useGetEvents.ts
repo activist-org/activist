@@ -32,10 +32,7 @@ export function useGetEvents(
         // resolves with an older generation will be discarded below.
         const currentGeneration = ++fetchGeneration.value;
 
-        if (
-          !filtersChanged &&
-          store.getIsLastPage()
-        ) {
+        if (!filtersChanged && store.getIsLastPage()) {
           return store.getItems();
         }
 

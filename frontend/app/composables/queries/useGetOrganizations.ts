@@ -21,7 +21,8 @@ export function useGetOrganizations(
         // Detect filter change and reset page BEFORE the API call so that
         // the outgoing request always uses the correct page number.
         const filtersChanged =
-          JSON.stringify(store.getFilters()) !== JSON.stringify(orgFilters.value);
+          JSON.stringify(store.getFilters()) !==
+          JSON.stringify(orgFilters.value);
         if (filtersChanged) {
           page.value = 1;
           store.setPage(1);
