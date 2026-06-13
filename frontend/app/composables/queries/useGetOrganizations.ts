@@ -67,14 +67,13 @@ export function useGetOrganizations(
         }
 
         const organizationsCached = store.getItems();
-        const pageCached = store.getPage();
         store.setIsLastPage(isLastPage);
 
         // Append new organizations to cached organizations if page > 1 and filters match.
         if (
           organizationsCached.length > 0 &&
           !filtersChanged &&
-          (page.value > pageCached || (page.value === 1 && pageCached === 1))
+          page.value > store.getPage()
         ) {
           store.setItems([...organizationsCached, ...organizations]);
           return [...organizationsCached, ...organizations] as Organization[];

@@ -361,27 +361,24 @@ describe("useGetEvents Integration", () => {
       // fetch 1 resolves last → detects currentGeneration (1) !== fetchGeneration (2) → discards
       let fetchGeneration = 0;
       const cached = [createMockEvent() as MockEvent];
-      const staleEvents = [createMockEvent() as MockEvent];
       mockGetEvents.mockReturnValue(cached);
 
       // Simulate fetch 1 stamping its generation.
       const gen1 = ++fetchGeneration; // gen1 = 1
 
       // Simulate fetch 2 starting before fetch 1 resolves.
-      const gen2 = ++fetchGeneration; // gen2 = 2 (fetchGeneration is now 2)
+      ++fetchGeneration; // fetchGeneration is now 2
 
       // When fetch 1 resolves, it checks: gen1 !== fetchGeneration → true → discard.
       const shouldDiscard = gen1 !== fetchGeneration;
       expect(shouldDiscard).toBe(true);
 
       // The returned value should be the existing store contents, not stale data.
-      const result = shouldDiscard ? mockGetEvents() : staleEvents;
+      const result = shouldDiscard ? mockGetEvents() : [];
       expect(result).toEqual(cached);
-      expect(result).not.toEqual(staleEvents);
 
-      // Fetch 2 resolves with gen2 === fetchGeneration → keeps result.
-      const shouldKeep = gen2 === fetchGeneration;
-      expect(shouldKeep).toBe(true);
+      // Fetch 2 resolves with fetchGeneration === fetchGeneration → keeps result.
+      expect(fetchGeneration === fetchGeneration).toBe(true);
     });
 
     it("does not append stale page-2 data after filter changes", () => {

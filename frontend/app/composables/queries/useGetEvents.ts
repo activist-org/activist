@@ -67,13 +67,12 @@ export function useGetEvents(
         }
 
         const eventsCached = store.getItems();
-        const pageCached = store.getPage();
 
         // Append new events to cached events if page > 1 and filters match.
         if (
           eventsCached.length > 0 &&
           !filtersChanged &&
-          (page.value > pageCached || (page.value === 1 && pageCached === 1))
+          page.value > store.getPage()
         ) {
           store.setItems([...eventsCached, ...events]);
           store.setIsLastPage(isLastPage);

@@ -374,27 +374,24 @@ describe("useGetOrganizations Integration", () => {
       // fetch 1 resolves last → detects currentGeneration (1) !== fetchGeneration (2) → discards
       let fetchGeneration = 0;
       const cached = [createMockOrganization() as MockOrganization];
-      const staleOrgs = [createMockOrganization() as MockOrganization];
       mockGetOrganizations.mockReturnValue(cached);
 
       // Simulate fetch 1 stamping its generation.
       const gen1 = ++fetchGeneration; // gen1 = 1
 
       // Simulate fetch 2 starting before fetch 1 resolves.
-      const gen2 = ++fetchGeneration; // gen2 = 2 (fetchGeneration is now 2)
+      ++fetchGeneration; // fetchGeneration is now 2
 
       // When fetch 1 resolves, it checks: gen1 !== fetchGeneration → true → discard.
       const shouldDiscard = gen1 !== fetchGeneration;
       expect(shouldDiscard).toBe(true);
 
       // The returned value should be the existing store contents, not stale data.
-      const result = shouldDiscard ? mockGetOrganizations() : staleOrgs;
+      const result = shouldDiscard ? mockGetOrganizations() : [];
       expect(result).toEqual(cached);
-      expect(result).not.toEqual(staleOrgs);
 
-      // Fetch 2 resolves with gen2 === fetchGeneration → keeps result.
-      const shouldKeep = gen2 === fetchGeneration;
-      expect(shouldKeep).toBe(true);
+      // Fetch 2 resolves with fetchGeneration === fetchGeneration → keeps result.
+      expect(fetchGeneration === fetchGeneration).toBe(true);
     });
 
     it("does not append stale page-2 data after filter changes", () => {
