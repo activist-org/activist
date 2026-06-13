@@ -2,13 +2,11 @@
 <template>
   <button
     v-if="canEditEntity"
-    aria-labelledby="icon-edit-label"
+    :aria-label="$t('i18n.components.icon_edit.aria_label_alt_text')"
     class="cursor-pointer text-primary-text focus-brand hover:text-distinct-text"
     data-testid="icon-edit"
   >
     <Icon :name="IconMap.EDIT" size="1.2em" />
-    <!-- Note: Buttons need text for a11y. Adding the following for e2e tests. -->
-    <span id="icon-edit-label" hidden>Edit</span>
   </button>
 </template>
 
