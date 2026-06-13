@@ -4,8 +4,8 @@ import { describe, expect, it } from "vitest";
 
 import PwresetEmail from "../../../../app/pages/auth/pwreset/email.vue";
 import { getEnglishText } from "../../../../shared/utils/i18n";
-import render from "../../../render";
 import { createUseRouterMock } from "../../../mocks/composableMocks";
+import render from "../../../render";
 
 // Provide a router stub so the submit handler can call useRouter().push without throwing.
 globalThis.useRouter = createUseRouterMock();
@@ -35,9 +35,9 @@ describe("pwreset/email", () => {
     await fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByTestId("form-item-email-border").className
-      ).toMatch("border-action-red dark:border-action-red");
+      expect(screen.getByTestId("form-item-email-border").className).toMatch(
+        "border-action-red dark:border-action-red"
+      );
     });
   });
 
@@ -55,9 +55,9 @@ describe("pwreset/email", () => {
     await fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(
-        screen.getByTestId("form-item-email-border").className
-      ).toMatch("border-action-red dark:border-action-red");
+      expect(screen.getByTestId("form-item-email-border").className).toMatch(
+        "border-action-red dark:border-action-red"
+      );
     });
   });
 

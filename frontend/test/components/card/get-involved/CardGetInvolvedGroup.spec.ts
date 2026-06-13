@@ -2,20 +2,26 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { screen } from "@testing-library/vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import CardGetInvolvedGroup from "../../../../app/components/card/get-involved/CardGetInvolvedGroup.vue";
 import { getEnglishText } from "../../../../shared/utils/i18n";
-import {
-  createMockGroup,
-  createMockGroupText,
-} from "../../../mocks/factories";
-import render from "../../../render";
 import { createUseRouteMock } from "../../../mocks/composableMocks";
+import { createMockGroup, createMockGroupText } from "../../../mocks/factories";
+import render from "../../../render";
 
 const stubs = {
   IconEdit: { template: '<span data-testid="icon-edit" />' },
   BtnRouteInternal: {
     template: '<a :data-testid="ariaLabel" />',
-    props: ["ariaLabel", "linkTo", "label", "cta", "fontSize", "iconSize", "rightIcon"],
+    props: [
+      "ariaLabel",
+      "linkTo",
+      "label",
+      "cta",
+      "fontSize",
+      "iconSize",
+      "rightIcon",
+    ],
   },
 };
 
@@ -28,10 +34,7 @@ mockNuxtImport("useGetGroup", async () => {
   const { ref } = await import("vue");
   return () => ({ data: ref(groupData.value) });
 });
-mockNuxtImport(
-  "useModalHandlers",
-  () => () => ({ openModal: vi.fn() })
-);
+mockNuxtImport("useModalHandlers", () => () => ({ openModal: vi.fn() }));
 mockNuxtImport("useUser", async () => {
   const { ref } = await import("vue");
   return () => ({

@@ -7,7 +7,8 @@ import render from "../../render";
 
 const stubs = {
   NuxtLink: {
-    template: '<a :id="$attrs.id" :href="to" :aria-label="$attrs[\'aria-label\']"><slot /></a>',
+    template:
+      '<a :id="$attrs.id" :href="to" :aria-label="$attrs[\'aria-label\']"><slot /></a>',
     props: ["to"],
   },
 };

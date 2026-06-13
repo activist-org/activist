@@ -9,7 +9,15 @@ import render from "../../../render";
 const stubs = {
   BtnAction: {
     template: `<button :id="id" :aria-label="ariaLabel">{{ label }}</button>`,
-    props: ["id", "ariaLabel", "label", "cta", "fontSize", "iconSize", "leftIcon"],
+    props: [
+      "id",
+      "ariaLabel",
+      "label",
+      "cta",
+      "fontSize",
+      "iconSize",
+      "leftIcon",
+    ],
   },
 };
 

@@ -2,21 +2,30 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { screen } from "@testing-library/vue";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import CardGetInvolvedOrganization from "../../../../app/components/card/get-involved/CardGetInvolvedOrganization.vue";
 import { getEnglishText } from "../../../../shared/utils/i18n";
+import { createUseRouteMock } from "../../../mocks/composableMocks";
 import {
   createMockGroup,
   createMockOrganization,
   createMockOrganizationText,
 } from "../../../mocks/factories";
 import render from "../../../render";
-import { createUseRouteMock } from "../../../mocks/composableMocks";
 
 const stubs = {
   IconEdit: { template: '<span data-testid="icon-edit" />' },
   BtnRouteInternal: {
     template: '<a :data-testid="ariaLabel" />',
-    props: ["ariaLabel", "linkTo", "label", "cta", "fontSize", "iconSize", "rightIcon"],
+    props: [
+      "ariaLabel",
+      "linkTo",
+      "label",
+      "cta",
+      "fontSize",
+      "iconSize",
+      "rightIcon",
+    ],
   },
   Feed: true,
 };
@@ -30,10 +39,7 @@ mockNuxtImport("useGetOrganization", async () => {
   const { ref } = await import("vue");
   return () => ({ data: ref(orgData.value) });
 });
-mockNuxtImport(
-  "useModalHandlers",
-  () => () => ({ openModal: vi.fn() })
-);
+mockNuxtImport("useModalHandlers", () => () => ({ openModal: vi.fn() }));
 mockNuxtImport("useUser", async () => {
   const { ref } = await import("vue");
   return () => ({
@@ -78,7 +84,9 @@ describe("CardGetInvolvedOrganization", () => {
     orgData.value = createMockOrganization({
       groups: [createMockGroup()],
       texts: [
-        createMockOrganizationText({ getInvolved: "Help us change the world!" }),
+        createMockOrganizationText({
+          getInvolved: "Help us change the world!",
+        }),
       ],
     });
 
@@ -124,9 +132,7 @@ describe("CardGetInvolvedOrganization", () => {
       screen.queryByTestId("i18n._global.join_organization_aria_label")
     ).toBeNull();
     expect(
-      screen.getByText(
-        "No information provided on joining Acme Org for now."
-      )
+      screen.getByText("No information provided on joining Acme Org for now.")
     ).toBeTruthy();
   });
 
