@@ -5,7 +5,7 @@ Serializers for the content app.
 
 import logging
 from io import BytesIO
-from typing import Any, Dict, Union
+from typing import Any
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
@@ -147,18 +147,18 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
-    def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
+    def validate(self, data: dict[str, UploadedFile]) -> dict[str, UploadedFile]:
         """
         Validate uploaded image files.
 
         Parameters
         ----------
-        data : Dict[str, UploadedFile]
+        data : dict[str, UploadedFile]
             Dictionary containing the file_object.
 
         Returns
         -------
-        Dict[str, UploadedFile]
+        dict[str, UploadedFile]
             Validated data dictionary.
 
         Raises
@@ -189,7 +189,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    def to_representation(self, instance: Image) -> Dict[str, Any]:
+    def to_representation(self, instance: Image) -> dict[str, Any]:
         """
         Customize the output to return the file path (name) instead of the full URL.
 
@@ -200,7 +200,7 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
 
         Returns
         -------
-        Dict[str, Any]
+        dict[str, Any]
             The serialized representation of the image, with 'file_object'
             as a relative path.
         """
@@ -211,13 +211,13 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             representation["file_object"] = instance.file_object.name
         return representation
 
-    def create(self, validated_data: Dict[str, Any]) -> Any:
+    def create(self, validated_data: dict[str, Any]) -> Any:
         """
         Create an Image instance with privacy-enhanced processing.
 
         Parameters
         ----------
-        validated_data : Dict[str, Any]
+        validated_data : dict[str, Any]
             Dictionary containing validated data for creating the image.
 
         Returns
@@ -283,18 +283,18 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
-    def validate(self, data: Dict[str, UploadedFile]) -> Dict[str, UploadedFile]:
+    def validate(self, data: dict[str, UploadedFile]) -> dict[str, UploadedFile]:
         """
         Validate uploaded image files.
 
         Parameters
         ----------
-        data : Dict[str, UploadedFile]
+        data : dict[str, UploadedFile]
             Dictionary containing the file_object.
 
         Returns
         -------
-        Dict[str, UploadedFile]
+        dict[str, UploadedFile]
             Validated data dictionary.
 
         Raises
@@ -325,7 +325,7 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
 
         return data
 
-    def to_representation(self, instance: Image) -> Dict[str, Any]:
+    def to_representation(self, instance: Image) -> dict[str, Any]:
         """
         Customize the output to return the file path (name) instead of the full URL.
 
@@ -336,7 +336,7 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
 
         Returns
         -------
-        Dict[str, Any]
+        dict[str, Any]
             The serialized representation of the image, with 'file_object'
             as a relative path.
         """
@@ -347,13 +347,13 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
 
         return representation
 
-    def create(self, validated_data: Dict[str, Any]) -> Any:
+    def create(self, validated_data: dict[str, Any]) -> Any:
         """
         Create an Image instance with privacy-enhanced processing.
 
         Parameters
         ----------
-        validated_data : Dict[str, Any]
+        validated_data : dict[str, Any]
             Dictionary containing validated data for creating the image.
 
         Returns
@@ -476,18 +476,18 @@ class TopicSerializer(serializers.ModelSerializer[Topic]):
         model = Topic
         fields = "__all__"
 
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+    def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """
         Validate topic data including active status and deprecation date.
 
         Parameters
         ----------
-        data : Dict[str, Union[str, int]]
+        data : dict[str, str | int]]
             Topic data dictionary to validate.
 
         Returns
         -------
-        Dict[str, Union[str, int]]
+        dict[str, str | int]]
             Validated data dictionary.
 
         Raises

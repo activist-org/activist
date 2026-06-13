@@ -6,7 +6,7 @@ Populate the database with events for organization groups.
 # mypy: ignore-errors
 import contextlib
 import random
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from authentication.models import UserModel
 from communities.groups.models import Group
@@ -28,11 +28,11 @@ def create_group_events(
     user_topic_name: str,
     user_org: Organization,
     user_org_group: Group,
-    assigned_group_events: List[Dict[str, Any]],
+    assigned_group_events: list[dict[str, Any]],
     num_events_per_group: int,
     num_faq_entries_per_entity: int,
     num_resources_per_entity: int,
-) -> Tuple[int, int, int]:
+) -> tuple[int, int, int]:
     """
     Create group-level events for `user_org_group` (belonging to `user_org`).
 
@@ -53,7 +53,7 @@ def create_group_events(
     user_org_group : Group
         The group that should be created for the organization.
 
-    assigned_group_events : List[Dict[str, Any]]
+    assigned_group_events : list[dict[str, Any]]
         The data to assign to the generated events.
 
     num_events_per_group : int

@@ -57,9 +57,15 @@ const { t } = useI18n();
 const schema = z.object({
   question: z
     .string()
-    .min(1, t("i18n.components.form_faq_entry.question_required")),
+    .default("")
+    .pipe(
+      z.string().min(1, t("i18n.components.form_faq_entry.question_required"))
+    ),
   answer: z
     .string()
-    .min(1, t("i18n.components.form_faq_entry.answer_required")),
+    .default("")
+    .pipe(
+      z.string().min(1, t("i18n.components.form_faq_entry.answer_required"))
+    ),
 });
 </script>

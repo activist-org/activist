@@ -10,6 +10,10 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
+    volumes:
+      # Persist local data across restarts. Reset explicitly with:
+      # docker compose --env-file .env.dev down -v
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${DATABASE_USER}"]
       interval: 10s
@@ -20,8 +24,10 @@ services:
     env_file:
       - .env.dev
     depends_on:
-      - db
-      - mailhog
+      db:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
     build:
       context: ./backend
     container_name: django_backend
@@ -41,8 +47,9 @@ services:
       uv run manage.py loaddata fixtures/status_types.json &&
       uv run manage.py loaddata fixtures/topics.json &&
       uv run manage.py populate_db \
+      --skip-if-populated \
       --users 10 \
-      --orgs-per-user 1 \
+      --orgs-per-user 2 \
       --groups-per-org 2 \
       --events-per-org 1 \
       --events-per-group 1 \
@@ -146,3 +153,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+volumes:
+  pgdata:

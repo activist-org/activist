@@ -6,7 +6,8 @@ API views for organization management.
 
 import logging
 import os
-from typing import Any, Sequence, Type
+from collections.abc import Sequence
+from typing import Any
 from uuid import UUID
 
 from django.contrib.auth.models import AnonymousUser
@@ -112,7 +113,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
     def get_serializer_class(
         self,
-    ) -> Type[OrganizationPOSTSerializer | OrganizationListSerializer]:
+    ) -> type[OrganizationPOSTSerializer | OrganizationListSerializer]:
         if self.request.method == "POST":
             return OrganizationPOSTSerializer
         return OrganizationListSerializer
@@ -225,11 +226,18 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        orgs = Organization.objects.filter(created_by__user__id=user_id).order_by(
+        orgs = Organization.objects.filter(created_by__id=user_id).order_by(
             "acceptance_date"
         )
-        serializer = OrganizationSerializer(orgs, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            page = self.paginate_queryset(orgs)
+        except NotFound:
+            return Response(
+                {"count": 0, "next": None, "previous": None, "results": []},
+                status=status.HTTP_200_OK,
+            )
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
 
 
 # MARK: Detail API

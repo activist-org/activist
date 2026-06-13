@@ -168,6 +168,32 @@ def test_populate_db_command_with_preexisting_users():
 
 
 @pytest.mark.django_db
+def test_populate_db_command_skip_if_populated() -> None:
+    """
+    Test that skip_if_populated leaves an already used database untouched and that omitting it reseeds.
+    """
+    call_command("flush", "--noinput")
+    call_command("loaddata", "fixtures/topics.json")
+
+    call_command("populate_db", users=2, skip_if_populated=True)
+    assert UserModel.objects.count() == 2
+
+    # Simulate locally created data that a restart must not wipe.
+    local_user = UserModel.objects.create(username="local_dev_user")
+    local_user.set_unusable_password()
+    local_user.save()
+
+    call_command("populate_db", users=2, skip_if_populated=True)
+    assert UserModel.objects.filter(username="local_dev_user").exists()
+    assert UserModel.objects.count() == 3
+
+    # Without the flag the command performs an explicit reseed.
+    call_command("populate_db", users=2)
+    assert not UserModel.objects.filter(username="local_dev_user").exists()
+    assert UserModel.objects.count() == 2
+
+
+@pytest.mark.django_db
 def test_populate_db_command_with_yaml_data_to_assign():
     """
     Test that yaml_data_to_assign assigns org/group/event fields.

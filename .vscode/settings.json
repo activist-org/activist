@@ -9,4 +9,9 @@
   "css.customData": [
     ".vscode/tailwind.json"
   ],
+  "playwright.env": {
+    "SKIP_WEBSERVER": "true",
+    "TEST_ENV": "local"
+  },
+  "playwright.reuseBrowser": true
 }

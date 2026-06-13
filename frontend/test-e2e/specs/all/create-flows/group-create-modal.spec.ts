@@ -33,23 +33,9 @@ const errorToast = (page: Page) =>
 /** Axe scope: open create-group dialog (`ModalCreateGroup` root). */
 const MODAL_A11Y_ROOT = '[data-testid="modal-ModalCreateGroup"]';
 
-const orgsLabel = getEnglishText("i18n._global.organization");
-
-async function selectFirstOrganization(
+const selectFirstOrganization = (
   modal: ReturnType<typeof newCreateGroupModal>
-) {
-  const orgsButton = modal.organizationCombobox.getByRole("button", {
-    name: new RegExp(orgsLabel, "i"),
-  });
-  await orgsButton.click();
-  const firstOption = modal.root.getByRole("option").first();
-  await expect(firstOption).toBeVisible({ timeout: 10000 });
-  await firstOption.click();
-  // Single-select closes the dropdown automatically after an option is chosen.
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
-}
+) => modal.selectFirstOrganization();
 
 test.describe(
   "Group Create Modal",

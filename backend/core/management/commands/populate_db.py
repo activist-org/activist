@@ -6,11 +6,10 @@ Classes controlling the CLI command to populate the database when starting the b
 # mypy: ignore-errors
 import random
 from argparse import ArgumentParser
-from typing import TypedDict
+from typing import TypedDict, Unpack
 
 import yaml
 from django.core.management.base import BaseCommand
-from typing_extensions import Unpack
 
 from authentication.factories import UserFactory
 from authentication.models import UserModel
@@ -40,6 +39,7 @@ class Options(TypedDict):
     resources_per_entity: int
     faq_entries_per_entity: int
     yaml_data_to_assign: str
+    skip_if_populated: bool
 
 
 class Command(BaseCommand):
@@ -74,6 +74,73 @@ class Command(BaseCommand):
             dest="yaml_data_to_assign",
             help="Deprecated alias for --yaml-data-to-assign",
         )
+        parser.add_argument(
+            "--skip-if-populated",
+            action="store_true",
+            help="Leave the database untouched if it already contains data, so restarts don't wipe local work",
+        )
+
+    def _skip_population_if_requested(self, skip_if_populated: bool) -> bool:
+        """
+        Return True when population is skipped because the database already has data.
+
+        With --skip-if-populated, an already seeded or otherwise used database is left
+        untouched so that bringing the dev stack back up doesn't wipe locally created
+        accounts and entities.
+
+        Parameters
+        ----------
+        skip_if_populated : bool
+            Whether to skip database population.
+
+        Returns
+        -------
+        bool
+            Whether database population should be skipped to preserve local data.
+        """
+        if not skip_if_populated:
+            return False
+
+        if not (
+            UserModel.objects.exclude(username="admin").exists()
+            or Organization.objects.exists()
+        ):
+            return False
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                "Database already contains data. Skipping population (--skip-if-populated)."
+            )
+        )
+        return True
+
+    def _load_assigned_org_fields(self, yaml_path: str) -> list:
+        """
+        Load organization field assignments from a YAML file, if provided.
+
+        Parameters
+        ----------
+        yaml_path : str
+            The path to the YAML file where the data to assign is defined.
+
+        Returns
+        -------
+        list
+            The fields to assign within the database as a list.
+        """
+        if not yaml_path:
+            return []
+
+        with open(yaml_path, encoding="utf-8") as f:
+            yaml_data_to_assign = yaml.safe_load(f)
+
+        if (
+            isinstance(yaml_data_to_assign, dict)
+            and "organizations" in yaml_data_to_assign
+        ):
+            return yaml_data_to_assign["organizations"]
+
+        return []
 
     def handle(self, *args: str, **options: Unpack[Options]) -> None:
         """
@@ -87,6 +154,9 @@ class Command(BaseCommand):
         **options : Unpack[Options]
             Options that can be used to control the database wait functionality.
         """
+        if self._skip_population_if_requested(options.get("skip_if_populated", False)):
+            return
+
         # MARK: Load Arguments
 
         num_users = options["users"]
@@ -99,16 +169,9 @@ class Command(BaseCommand):
 
         # MARK: Load Data
 
-        assigned_org_fields = []
-        if options["yaml_data_to_assign"]:
-            with open(options["yaml_data_to_assign"], encoding="utf-8") as f:
-                yaml_data_to_assign = yaml.safe_load(f)
-
-            if (
-                isinstance(yaml_data_to_assign, dict)
-                and "organizations" in yaml_data_to_assign
-            ):
-                assigned_org_fields = yaml_data_to_assign["organizations"]
+        assigned_org_fields = self._load_assigned_org_fields(
+            yaml_path=options["yaml_data_to_assign"]
+        )
 
         # MARK: Clear Data
 
