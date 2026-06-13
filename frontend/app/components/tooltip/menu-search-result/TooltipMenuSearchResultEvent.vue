@@ -2,23 +2,6 @@
 <template>
   <TooltipBase class="rounded-md" data-testid="menu-tooltip">
     <div class="flex-col space-y-2">
-      <!-- <BtnAction
-        @keydown="handleTabPress(false, $event)"
-        class="flex max-h-10 w-full"
-        :cta="true"
-        label="i18n._global.support"
-        leftIcon="IconSupport"
-        fontSize="lg"
-        ariaLabel="i18n._global.support_event_aria_label"
-      /> -->
-      <!-- <BtnAction
-        class="flex max-h-10 w-full items-center"
-        :cta="true"
-        label="i18n.components.tooltip_menu_search_result_event.attend"
-        leftIcon="IconJoin"
-        fontSize="lg"
-        ariaLabel="i18n.components.tooltip_menu_search_result_event.attend_aria_label"
-      /> -->
       <BtnAction
         @click="openModalSharePage({ event: event })"
         @keydown="handleTabPress(true, $event)"
@@ -41,19 +24,47 @@
         label="i18n._global.subscribe"
         :rightIcon="IconMap.DATE"
       />
+      <BtnAction
+        @click="handleSupport"
+        @keydown="handleTabPress(false, $event)"
+        @keydown.enter="handleSupport"
+        class="flex max-h-10 w-full"
+        :cta="true"
+        :label="
+          isSupported
+            ? 'i18n._global.unsupport'
+            : 'i18n._global.support'
+        "
+        :rightIcon="IconMap.SUPPORT"
+        fontSize="lg"
+        :ariaLabel="
+          isSupported
+            ? 'i18n._global.unsupport_event_aria_label'
+            : 'i18n._global.support_event_aria_label'
+        "
+      />
     </div>
   </TooltipBase>
 </template>
-
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   event: CommunityEvent;
 }>();
 
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
-
 const downloadCalendarEntry = () => {};
-
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
+
+const eventStore = useEventStore();
+
+/** Whether the current user supports this event. */
+const isSupported = computed(() =>
+  eventStore.isEventSupported(props.event.id)
+);
+
+/** Handles the support toggle action. */
+async function handleSupport(): Promise<void> {
+  await eventStore.toggleSupport(props.event.id);
+}
 </script>
