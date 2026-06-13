@@ -29,7 +29,7 @@ from events.models import (
     EventFlag,
     EventResource,
     EventSocialLink,
-    EventSupport,
+    EventFavorite,
     EventText,
     EventTime,
     Format,
@@ -623,15 +623,15 @@ class FormatSerializer(serializers.ModelSerializer[Event]):
         return data
 
 
-# MARK: Support
+# MARK: Favorite
 
 
-class EventSupportSerializer(serializers.ModelSerializer[EventSupport]):
+class EventFavoriteSerializer(serializers.ModelSerializer[EventFavorite]):
     """
-    Serializer for EventSupport model data.
+    Serializer for EventFavorite model data.
     """
 
     class Meta:
-        model = EventSupport
+        model = EventFavorite
         fields = ["id", "event", "creation_date"]
         read_only_fields = ["id", "creation_date"]

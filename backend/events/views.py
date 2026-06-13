@@ -40,7 +40,7 @@ from events.models import (
     EventFlag,
     EventResource,
     EventSocialLink,
-    EventSupport,
+    EventFavorite,
     EventText,
 )
 from events.serializers import (
@@ -50,7 +50,7 @@ from events.serializers import (
     EventResourceSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
-    EventSupportSerializer,
+    EventFavoriteSerializer,
     EventTextSerializer,
 )
 
@@ -816,40 +816,40 @@ class EventCalendarAPIView(APIView):
         return response
 
 
-# MARK: Support
+# MARK: Favorite
 
 
-class EventSupportAPIView(APIView):
+class EventFavoriteAPIView(APIView):
     """
-    View to support or unsupport an event.
+    View to favorite or unfavorite an event.
     """
 
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
         responses={
-            201: EventSupportSerializer,
+            201: EventFavoriteSerializer,
             400: OpenApiResponse(
-                response={"detail": "You already support this event."}
+                response={"detail": "You already favorited this event."}
             ),
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
     def post(self, request: Request, id: UUID) -> Response:
         """
-        Add the current user's support to an event.
+        Add the current user's favorite to an event.
 
         Parameters
         ----------
         request : Request
             The HTTP request object.
         id : UUID
-            The ID of the event to support.
+            The ID of the event to favorite.
 
         Returns
         -------
         Response
-            201 if support added, 400 if already supported.
+            201 if favorite added, 400 if already favorited.
         """
         try:
             event = Event.objects.get(id=id)
@@ -858,37 +858,37 @@ class EventSupportAPIView(APIView):
                 {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        support, created = EventSupport.objects.get_or_create(
+        favorite, created = EventFavorite.objects.get_or_create(
             user=request.user, event=event
         )
 
         if not created:
             return Response(
-                {"detail": "You already support this event."},
+                {"detail": "You already favorited this event."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        logger.info(f"User {request.user.id} supported event {event.id}")
+        logger.info(f"User {request.user.id} favorited event {event.id}")
         return Response(
-            EventSupportSerializer(support).data, status=status.HTTP_201_CREATED
+            EventFavoriteSerializer(favorite).data, status=status.HTTP_201_CREATED
         )
 
     @extend_schema(
         responses={
-            204: OpenApiResponse(response={"message": "Support removed successfully."}),
+            204: OpenApiResponse(response={"message": "Favorite removed successfully."}),
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
     def delete(self, request: Request, id: UUID) -> Response:
         """
-        Remove the current user's support from an event.
+        Remove the current user's favorite from an event.
 
         Parameters
         ----------
         request : Request
             The HTTP request object.
         id : UUID
-            The ID of the event to unsupport.
+            The ID of the event to unfavorite.
 
         Returns
         -------
@@ -903,31 +903,31 @@ class EventSupportAPIView(APIView):
             )
 
         try:
-            support = EventSupport.objects.get(user=request.user, event=event)
-        except EventSupport.DoesNotExist:
+            favorite = EventFavorite.objects.get(user=request.user, event=event)
+        except EventFavorite.DoesNotExist:
             return Response(
-                {"detail": "Support not found."}, status=status.HTTP_404_NOT_FOUND
+                {"detail": "Favorite not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        support.delete()
-        logger.info(f"User {request.user.id} unsupported event {event.id}")
+        favorite.delete()
+        logger.info(f"User {request.user.id} unfavorited event {event.id}")
         return Response(
-            {"message": "Support removed successfully."},
+            {"message": "Favorite removed successfully."},
             status=status.HTTP_204_NO_CONTENT,
         )
 
 
-class EventSupportListAPIView(APIView):
+class EventFavoriteListAPIView(APIView):
     """
-    View to list all events supported by the current user.
+    View to list all events favorited by the current user.
     """
 
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(responses={200: EventSupportSerializer(many=True)})
+    @extend_schema(responses={200: EventFavoriteSerializer(many=True)})
     def get(self, request: Request) -> Response:
         """
-        Get all events supported by the current user.
+        Get all events favorited by the current user.
 
         Parameters
         ----------
@@ -937,8 +937,8 @@ class EventSupportListAPIView(APIView):
         Returns
         -------
         Response
-            List of supported events.
+            List of favorited events.
         """
-        supports = EventSupport.objects.filter(user=request.user)
-        serializer = EventSupportSerializer(supports, many=True)
+        favorites = EventFavorite.objects.filter(user=request.user)
+        serializer = EventFavoriteSerializer(favorites, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

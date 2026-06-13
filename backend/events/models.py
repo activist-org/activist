@@ -275,35 +275,35 @@ class EventText(Text):
         return f"{self.event} - {self.iso}"
     
 
-# MARK: Support
+# MARK: Favorite
 
 
-class EventSupport(models.Model):
+class EventFavorite(models.Model):
     """
-    Model representing a user supporting an event.
+    Model representing a user favoriting an event.
 
     Attributes
     ----------
     id : UUIDField
-        Unique identifier for the support record.
+        Unique identifier for the favorite record.
     user : ForeignKey
-        The user who is supporting the event.
+        The user who is favoriting the event.
     event : ForeignKey
-        The event being supported.
+        The event being favorited.
     creation_date : DateTimeField
-        Timestamp when the support was added.
+        Timestamp when the favorite was added.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(
         "authentication.UserModel",
         on_delete=models.CASCADE,
-        related_name="event_supports",
+        related_name="event_favorites",
     )
     event = models.ForeignKey(
         "events.Event",
         on_delete=models.CASCADE,
-        related_name="supporters",
+        related_name="favorites",
     )
     creation_date = models.DateTimeField(auto_now_add=True)
 
@@ -311,4 +311,4 @@ class EventSupport(models.Model):
         unique_together = ("user", "event")
 
     def __str__(self) -> str:
-        return f"{self.user} supports {self.event}"
+        return f"{self.user} favorites {self.event}"

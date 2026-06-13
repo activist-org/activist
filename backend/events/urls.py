@@ -11,12 +11,12 @@ from events.views import (
     EventCalendarAPIView,
     EventDetailAPIView,
     EventFaqViewSet,
+    EventFavoriteAPIView,
+    EventFavoriteListAPIView,
     EventFlagAPIView,
     EventFlagDetailAPIView,
     EventResourceViewSet,
     EventSocialLinkViewSet,
-    EventSupportAPIView,
-    EventSupportListAPIView,
     EventTextViewSet,
 )
 
@@ -47,6 +47,6 @@ urlpatterns = [
     path("event_flags/<uuid:id>", EventFlagDetailAPIView.as_view()),
     path("event_calendar", EventCalendarAPIView.as_view()),
     path("event_texts/<uuid:id>", EventTextViewSet.as_view()),
-    path("events/<uuid:id>/support", EventSupportAPIView.as_view()),
-    path("events/supported", EventSupportListAPIView.as_view()),
+    path("events/<uuid:id>/favorite", EventFavoriteAPIView.as_view()),
+    path("events/favorites", EventFavoriteListAPIView.as_view()),
 ]
