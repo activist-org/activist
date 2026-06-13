@@ -87,6 +87,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = UserModel
         exclude = ("plaintext_password",)
         django_get_or_create = ("username",)
+        skip_postgeneration_save = True
 
     username = factory.Faker("user_name")
     name = factory.Faker("name")
