@@ -390,8 +390,8 @@ describe("useGetOrganizations Integration", () => {
       const result = shouldDiscard ? mockGetOrganizations() : [];
       expect(result).toEqual(cached);
 
-      // Fetch 2 resolves with fetchGeneration === fetchGeneration → keeps result.
-      expect(fetchGeneration === fetchGeneration).toBe(true);
+      // Fetch 2 resolves with fetchGeneration === 2 → keeps result.
+      expect(fetchGeneration).toBe(2);
     });
 
     it("does not append stale page-2 data after filter changes", () => {
