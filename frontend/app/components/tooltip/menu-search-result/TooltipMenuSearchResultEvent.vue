@@ -3,6 +3,25 @@
   <TooltipBase class="rounded-md" data-testid="menu-tooltip">
     <div class="flex-col space-y-2">
       <BtnAction
+        @click="handleFavorite"
+        @keydown="handleTabPress(false, $event)"
+        @keydown.enter="handleFavorite"
+        class="flex max-h-10 w-full"
+        :cta="true"
+        :label="
+          isFavorited
+            ? 'i18n._global.unfavorite'
+            : 'i18n._global.favorite'
+        "
+        :rightIcon="IconMap.HEART"
+        fontSize="lg"
+        :ariaLabel="
+          isFavorited
+            ? 'i18n._global.unfavorite_event_aria_label'
+            : 'i18n._global.favorite_event_aria_label'
+        "
+      />
+      <BtnAction
         @click="openModalSharePage({ event: event })"
         @keydown="handleTabPress(true, $event)"
         @keydown.enter="openModalSharePage({ event: event })"
@@ -24,25 +43,6 @@
         label="i18n._global.subscribe"
         :rightIcon="IconMap.DATE"
       />
-      <BtnAction
-        @click="handleSupport"
-        @keydown="handleTabPress(false, $event)"
-        @keydown.enter="handleSupport"
-        class="flex max-h-10 w-full"
-        :cta="true"
-        :label="
-          isSupported
-            ? 'i18n._global.unsupport'
-            : 'i18n._global.support'
-        "
-        :rightIcon="IconMap.SUPPORT"
-        fontSize="lg"
-        :ariaLabel="
-          isSupported
-            ? 'i18n._global.unsupport_event_aria_label'
-            : 'i18n._global.support_event_aria_label'
-        "
-      />
     </div>
   </TooltipBase>
 </template>
@@ -58,13 +58,13 @@ const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 
 const eventStore = useEventStore();
 
-/** Whether the current user supports this event. */
-const isSupported = computed(() =>
-  eventStore.isEventSupported(props.event.id)
+/** Whether the current user has favorited this event. */
+const isFavorited = computed(() =>
+  eventStore.isEventFavorited(props.event.id)
 );
 
-/** Handles the support toggle action. */
-async function handleSupport(): Promise<void> {
-  await eventStore.toggleSupport(props.event.id);
+/** Handles the favorite toggle action. */
+async function handleFavorite(): Promise<void> {
+  await eventStore.toggleFavorite(props.event.id);
 }
 </script>

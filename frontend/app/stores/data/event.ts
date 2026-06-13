@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { defineStore } from "pinia";
 import { createPaginationStore } from "../factories/pagination";
-import { supportEvent, unsupportEvent } from "~/services/event";
+import { favoriteEvent, unfavoriteEvent } from "~/services/event";
 
 // MARK: List Store
 export const useEventListStore = createPaginationStore<
@@ -13,7 +13,7 @@ export const useEventListStore = createPaginationStore<
 export const useEventStore = defineStore("event", {
   state: () => ({
     event: null as unknown as CommunityEvent,
-    supportedEventIds: [] as string[],
+    favoritedEventIds: [] as string[],
   }),
   actions: {
     getEvent() {
@@ -22,23 +22,23 @@ export const useEventStore = defineStore("event", {
     setEvent(event: CommunityEvent) {
       this.event = event;
     },
-    isEventSupported(eventId: string): boolean {
-      return this.supportedEventIds.includes(eventId);
+    isEventFavorited(eventId: string): boolean {
+      return this.favoritedEventIds.includes(eventId);
     },
-    async toggleSupport(eventId: string): Promise<void> {
-      const isSupported = this.supportedEventIds.includes(eventId);
+    async toggleFavorite(eventId: string): Promise<void> {
+      const isFavorited = this.favoritedEventIds.includes(eventId);
       try {
-        if (isSupported) {
-          await unsupportEvent(eventId);
-          this.supportedEventIds = this.supportedEventIds.filter(
+        if (isFavorited) {
+          await unfavoriteEvent(eventId);
+          this.favoritedEventIds = this.favoritedEventIds.filter(
             (id) => id !== eventId
           );
         } else {
-          await supportEvent(eventId);
-          this.supportedEventIds.push(eventId);
+          await favoriteEvent(eventId);
+          this.favoritedEventIds.push(eventId);
         }
       } catch (e) {
-        console.error("Failed to toggle event support:", e);
+        console.error("Failed to toggle event favorite:", e);
       }
     },
   },
