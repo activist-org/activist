@@ -273,3 +273,42 @@ class EventText(Text):
 
     def __str__(self) -> str:
         return f"{self.event} - {self.iso}"
+    
+
+# MARK: Support
+
+
+class EventSupport(models.Model):
+    """
+    Model representing a user supporting an event.
+
+    Attributes
+    ----------
+    id : UUIDField
+        Unique identifier for the support record.
+    user : ForeignKey
+        The user who is supporting the event.
+    event : ForeignKey
+        The event being supported.
+    creation_date : DateTimeField
+        Timestamp when the support was added.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    user = models.ForeignKey(
+        "authentication.UserModel",
+        on_delete=models.CASCADE,
+        related_name="event_supports",
+    )
+    event = models.ForeignKey(
+        "events.Event",
+        on_delete=models.CASCADE,
+        related_name="supporters",
+    )
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "event")
+
+    def __str__(self) -> str:
+        return f"{self.user} supports {self.event}"

@@ -40,6 +40,7 @@ from events.models import (
     EventFlag,
     EventResource,
     EventSocialLink,
+    EventSupport,
     EventText,
 )
 from events.serializers import (
@@ -49,6 +50,7 @@ from events.serializers import (
     EventResourceSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
+    EventSupportSerializer,
     EventTextSerializer,
 )
 
@@ -812,3 +814,131 @@ class EventCalendarAPIView(APIView):
         )
 
         return response
+
+
+# MARK: Support
+
+
+class EventSupportAPIView(APIView):
+    """
+    View to support or unsupport an event.
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        responses={
+            201: EventSupportSerializer,
+            400: OpenApiResponse(
+                response={"detail": "You already support this event."}
+            ),
+            404: OpenApiResponse(response={"detail": "Event Not Found."}),
+        }
+    )
+    def post(self, request: Request, id: UUID) -> Response:
+        """
+        Add the current user's support to an event.
+
+        Parameters
+        ----------
+        request : Request
+            The HTTP request object.
+        id : UUID
+            The ID of the event to support.
+
+        Returns
+        -------
+        Response
+            201 if support added, 400 if already supported.
+        """
+        try:
+            event = Event.objects.get(id=id)
+        except Event.DoesNotExist:
+            return Response(
+                {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        support, created = EventSupport.objects.get_or_create(
+            user=request.user, event=event
+        )
+
+        if not created:
+            return Response(
+                {"detail": "You already support this event."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        logger.info(f"User {request.user.id} supported event {event.id}")
+        return Response(
+            EventSupportSerializer(support).data, status=status.HTTP_201_CREATED
+        )
+
+    @extend_schema(
+        responses={
+            204: OpenApiResponse(response={"message": "Support removed successfully."}),
+            404: OpenApiResponse(response={"detail": "Event Not Found."}),
+        }
+    )
+    def delete(self, request: Request, id: UUID) -> Response:
+        """
+        Remove the current user's support from an event.
+
+        Parameters
+        ----------
+        request : Request
+            The HTTP request object.
+        id : UUID
+            The ID of the event to unsupport.
+
+        Returns
+        -------
+        Response
+            204 if removed, 404 if not found.
+        """
+        try:
+            event = Event.objects.get(id=id)
+        except Event.DoesNotExist:
+            return Response(
+                {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        try:
+            support = EventSupport.objects.get(user=request.user, event=event)
+        except EventSupport.DoesNotExist:
+            return Response(
+                {"detail": "Support not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        support.delete()
+        logger.info(f"User {request.user.id} unsupported event {event.id}")
+        return Response(
+            {"message": "Support removed successfully."},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
+
+class EventSupportListAPIView(APIView):
+    """
+    View to list all events supported by the current user.
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(responses={200: EventSupportSerializer(many=True)})
+    def get(self, request: Request) -> Response:
+        """
+        Get all events supported by the current user.
+
+        Parameters
+        ----------
+        request : Request
+            The HTTP request object.
+
+        Returns
+        -------
+        Response
+            List of supported events.
+        """
+        supports = EventSupport.objects.filter(user=request.user)
+        serializer = EventSupportSerializer(supports, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

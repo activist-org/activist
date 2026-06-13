@@ -29,6 +29,7 @@ from events.models import (
     EventFlag,
     EventResource,
     EventSocialLink,
+    EventSupport,
     EventText,
     EventTime,
     Format,
@@ -620,3 +621,17 @@ class FormatSerializer(serializers.ModelSerializer[Event]):
         validate_creation_and_deprecation_dates(data)
 
         return data
+
+
+# MARK: Support
+
+
+class EventSupportSerializer(serializers.ModelSerializer[EventSupport]):
+    """
+    Serializer for EventSupport model data.
+    """
+
+    class Meta:
+        model = EventSupport
+        fields = ["id", "event", "creation_date"]
+        read_only_fields = ["id", "creation_date"]
