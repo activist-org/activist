@@ -31,7 +31,7 @@ declare global {
     params: Record<string, unknown>;
     query: Record<string, unknown>;
   };
-  // create a mock for useRouter that includes push and currentRoute
+  // Create a mock for useRouter that includes push and currentRoute.
   var useRouter: () => {
     push: (...args: unknown[]) => unknown;
     currentRoute: { value: { name: string } };
