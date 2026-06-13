@@ -11,10 +11,10 @@
     >
       <div class="col-span-2 items-center space-y-4 text-left font-medium">
         <p>
-          {{ firstParagraph }}
+          {{ props.firstParagraph }}
         </p>
         <p>
-          {{ secondParagraph }}
+          {{ props.secondParagraph }}
         </p>
         <p>
           {{ $t("i18n.components.modal_qr_code.subheader_2") }}
@@ -63,7 +63,7 @@
           <ModalQRCodeImage
             ref="qrcode"
             class="elem-shadow-md select-none rounded-3xl"
-            :codeUrl="BASE_FRONTEND_URL + linkUrl"
+            :codeUrl="BASE_FRONTEND_URL + props.linkUrl"
           />
           <TooltipBase
             v-show="showTooltip"
@@ -95,17 +95,18 @@ import { DialogTitle } from "@headlessui/vue";
 const props = defineProps<{
   firstParagraph?: string;
   secondParagraph?: string;
-  linkUrl: string;
-  fileName: string;
+  reasonForSuggesting?: string;
+  linkUrl?: string;
+  fileName?: string;
 }>();
 
 const aboveMediumBP = useBreakpoint("md");
-const modalName = "ModalsQRCode";
+const modalName = "ModalQRCode";
 
-const qrCodeFileName: string = props.fileName;
+const qrCodeFileName = computed(() => props.fileName);
 
 const { qrcode, showTooltip, availableFormats, downloadQRCode, onImageClick } =
-  useQRCode(qrCodeFileName);
+  useQRCode(qrCodeFileName.value ?? "");
 
 const handleMainBtnClicked = () => {
   downloadQRCode("PNG");

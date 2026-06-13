@@ -20,14 +20,14 @@ on:
 
 jobs:
   frontend_tests:
-    name: Run PR Frontend Tests
+    name: Run CI Frontend Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
 
       - name: Install dependencies via Yarn
         working-directory: ./frontend

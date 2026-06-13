@@ -17,7 +17,9 @@
       :tagline="$t('i18n.pages.organizations.groups.index.tagline')"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <BtnRouteInternal
+        <BtnAction
+          @click="openModal()"
+          @keydown.enter="openModal()"
           ariaLabel="i18n.pages.organizations.groups.index.new_group_aria_label"
           class="w-max"
           :cta="true"
@@ -25,7 +27,6 @@
           iconSize="1.35em"
           label="i18n._global.new_group"
           :leftIcon="IconMap.PLUS"
-          linkTo="/"
         />
       </div>
     </HeaderAppPageOrganization>
@@ -50,4 +51,6 @@
 const { data: organization } = useGetOrganization(
   (useRoute().params.orgId as string) ?? ""
 );
+
+const { openModal } = useModalHandlers("ModalCreateGroup");
 </script>

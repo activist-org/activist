@@ -8,7 +8,7 @@
           :name="IconMap.WARN_OCTAGON"
           size="1.4em"
         />
-        <p>{{ $t(message) }}</p>
+        <p>{{ $t(message || "") }}</p>
       </div>
       <div class="flex gap-2">
         <BtnAction
@@ -31,18 +31,29 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+const props = withDefaults(
+  defineProps<{
+    modalName?: string;
+    confirmBtnLabel?: string;
+    message?: string;
+  }>(),
+  {
+    confirmBtnLabel: "i18n.components.modal_alert.confirm",
+    modalName: "ModalAlert",
+  }
+);
+
+const modalAlertName = computed(() => props.modalName);
+const { handleCloseModal } = useModalHandlers<{
   message: string;
-  onConfirmation?: () => Promise<void> | void;
   confirmBtnLabel?: string;
-  name?: string;
+}>(modalAlertName.value);
+
+const emit = defineEmits<{
+  (e: "confirm"): void;
 }>();
-
-const modalName = props.name ?? "ModalAlert";
-const { handleCloseModal } = useModalHandlers(modalName);
-
 const onConfirm = async () => {
-  await props.onConfirmation?.();
+  emit("confirm");
   handleCloseModal();
 };
 </script>

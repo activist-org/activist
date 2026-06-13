@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 interface Modal {
   isOpen: boolean;
-  data?: unknown;
+  props?: unknown;
+  context?: unknown;
 }
 
 export const useModals = defineStore("modals", {
@@ -10,45 +11,31 @@ export const useModals = defineStore("modals", {
   }),
 
   actions: {
-    openModal(modalName: string) {
-      const { modals } = this;
-      for (const key in modals) {
-        if (modals[key]) {
-          modals[key].isOpen = false;
+    // Add props and context as separate parameters.
+    openModal(modalName: string, props?: unknown, context?: unknown) {
+      // 1. Guarantee only one modal is open at a time.
+      for (const key in this.modals) {
+        if (this.modals[key]) {
+          this.modals[key].isOpen = false;
         }
       }
-      modals[modalName] = { isOpen: true };
+
+      // 2. Open the new modal.
+      this.modals[modalName] = { isOpen: true, props, context };
     },
 
     closeModal(modalName: string) {
       if (this.modals[modalName]) {
         this.modals[modalName].isOpen = false;
+        // Clean up memory to avoid stale data next time it opens.
+        this.modals[modalName].props = undefined;
+        this.modals[modalName].context = undefined;
       }
     },
 
-    // The following are called in useModalHandlers.ts.
-    // They allow for multiple modal handlers on a page / component.
-    // We can rename the modal handlers so that the code is a little more self-documenting and readable.
-    openModalAndUpdateState(modalName: string, params?: unknown) {
-      this.openModal(modalName);
-
+    updateContext(modalName: string, context: unknown = {}) {
       if (this.modals[modalName]) {
-        this.modals[modalName] = {
-          ...this.modals[modalName],
-          data: params,
-        };
-      }
-
-      return this.modals[modalName];
-    },
-
-    closeModalAndUpdateState(modalName: string) {
-      this.closeModal(modalName);
-
-      if (this.modals[modalName]) {
-        return this.modals[modalName].isOpen;
-      } else {
-        return false;
+        this.modals[modalName].context = context;
       }
     },
   },

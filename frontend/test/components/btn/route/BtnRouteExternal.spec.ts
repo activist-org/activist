@@ -9,7 +9,7 @@ describe("BtnRouteExternal", () => {
   const defaultProps = {
     cta: true,
     fontSize: "base" as const,
-    ariaLabel: "i18n.test.external",
+    ariaLabel: "external route aria",
     linkTo: "https://example.com",
   };
 

@@ -11,66 +11,52 @@
 </template>
 
 <script setup lang="ts">
+const modalName = "ModalFaqEntryEvent";
+const { handleCloseModal } = useModalHandlers<{ faqEntry?: FaqEntry }>(
+  modalName
+);
+
 const props = defineProps<{
   faqEntry?: FaqEntry;
+  entityId: string;
 }>();
 
-const isAddMode = !props.faqEntry;
-const modalName = "ModalFaqEntryEvent" + (props.faqEntry?.id ?? "");
-const { handleCloseModal } = useModalHandlers(modalName);
-
-const paramsEventId = useRoute().params.eventId;
-const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
+const eventId = computed(() => props.entityId);
 
 const { data: event } = useGetEvent(eventId);
 const { updateFAQ, createFAQ } = useEventFAQEntryMutations(eventId);
 
-const formData = ref<FaqEntry>(
-  isAddMode
-    ? {
-        id: "",
-        iso: "en",
-        order: (event.value?.faqEntries ?? []).length,
-        question: "",
-        answer: "",
-      }
-    : {
-        id: props.faqEntry!.id,
-        iso: props.faqEntry!.iso,
-        order: props.faqEntry!.order,
-        question: "",
-        answer: "",
-      }
-);
-
-const submitLabel = isAddMode
-  ? "i18n.components.modal.faq_entry._global.add_faq_entry"
-  : "i18n.components.modal._global.update_texts";
-
-const title = isAddMode
-  ? "i18n.components.modal.faq_entry._global.add_faq_entry"
-  : "i18n.components.modal.faq_entry._global.edit_entry";
-
-onMounted(async () => {
-  if (!isAddMode && props.faqEntry) {
-    formData.value.id = props.faqEntry.id;
-    formData.value.question = props.faqEntry.question;
-    formData.value.answer = props.faqEntry.answer;
-  }
+const formData = ref({
+  id: "",
+  iso: "en",
+  order: (event.value?.faqEntries ?? []).length,
+  question: "",
+  answer: "",
 });
 
+let isAddMode = true;
+let submitLabel = "";
+let title = "";
+
 watch(
-  props,
-  (newValues) => {
-    if (!isAddMode && newValues.faqEntry) {
-      formData.value.id = newValues.faqEntry.id;
-      formData.value.question = newValues.faqEntry.question;
-      formData.value.answer = newValues.faqEntry.answer;
+  () => props,
+  (newProps) => {
+    isAddMode = !newProps?.faqEntry;
+    submitLabel = isAddMode
+      ? "i18n.components.modal.faq_entry._global.add_faq_entry"
+      : "i18n.components.modal._global.update_texts";
+
+    title = isAddMode
+      ? "i18n.components.modal.faq_entry._global.add_faq_entry"
+      : "i18n.components.modal.faq_entry._global.edit_entry";
+
+    if (!isAddMode) {
+      formData.value.id = newProps?.faqEntry?.id || "";
+      formData.value.question = newProps?.faqEntry?.question || "";
+      formData.value.answer = newProps?.faqEntry?.answer || "";
     }
   },
-  {
-    deep: true,
-  }
+  { immediate: true }
 );
 
 async function handleSubmit(values: unknown) {

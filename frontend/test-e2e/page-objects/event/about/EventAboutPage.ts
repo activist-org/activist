@@ -29,7 +29,7 @@ export const newEventAboutPage = (page: Page) => ({
     .getByTestId("card-get-involved")
     .getByRole("link", {
       name: new RegExp(
-        getEnglishText("i18n._global.participate_in_event_aria_label"),
+        getEnglishText("i18n._global.offer_to_help_aria_label"),
         "i"
       ),
     }),

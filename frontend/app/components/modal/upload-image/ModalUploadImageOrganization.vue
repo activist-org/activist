@@ -12,6 +12,7 @@
       </DialogTitle>
       <div class="mt-4">
         <ImageMultipleFileDropZone
+          @file-deleted="handleFileDeleted"
           @update:modelValue="(newFiles) => (files = newFiles)"
           :model-value="files"
           :uploadLimit="uploadLimit"
@@ -21,9 +22,11 @@
           @click="handleUpload"
           ariaLabel="i18n.components._global.upvote_application_aria_label"
           :cta="true"
+          data-testid="upload-image-upload-button"
           :disabled="files.length === 0 || files.length > uploadLimit"
           fontSize="sm"
           iconSize="1.25em"
+          :is-loading="loading"
           label="i18n.components._global.upload"
           :leftIcon="IconMap.ARROW_UP"
         />
@@ -38,16 +41,25 @@ import { DialogTitle } from "@headlessui/vue";
 interface Props {
   orgId: string;
   uploadLimit?: number;
-  images: ContentImage[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 const orgId = computed(() => props.orgId);
-const { data: organizationImages } = useGetOrganizationImages(orgId);
-const { updateImage, uploadImages } = useOrganizationImageMutations(orgId);
+const { data: organizationImages, refresh } = useGetOrganizationImages(orgId);
+const { updateImage, uploadImages, loading } =
+  useOrganizationImageMutations(orgId);
 const files = ref<FileUploadMix[]>([]);
+
+// useFileManager.removeFile() deletes on the server but doesn't invalidate
+// the organizationImages cache, so the carousel stays stale until reload
+// (issue #1791). Only server-side images (`type === "file"`) need a refresh.
+const handleFileDeleted = async (file: FileUploadMix) => {
+  if (file?.type === "file") {
+    await refresh();
+  }
+};
 
 watch(
   organizationImages,
@@ -57,7 +69,8 @@ watch(
       data: image,
       sequence: index,
     })) as FileUploadMix[];
-    files.value = images.concat(files.value);
+    const pendingUploads = files.value.filter((f) => f.type === "upload");
+    files.value = images.concat(pendingUploads);
     return;
   },
   { immediate: true, deep: true }

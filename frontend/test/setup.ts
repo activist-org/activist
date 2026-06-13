@@ -57,8 +57,9 @@ const i18n = createI18n({
   locale: "en",
   fallbackLocale: "en",
   messages: Object.assign({ en }),
-  // Suppress missing key warnings in test environment.
-  // Test keys like "i18n.test.button" don't exist in locale files.
+  // Tests often pass plain placeholder strings into props that are translated
+  // at runtime (e.g. ariaLabel). Suppress the resulting missing-key noise so
+  // it does not drown out genuine warnings in test output.
   missingWarn: false,
   fallbackWarn: false,
 });

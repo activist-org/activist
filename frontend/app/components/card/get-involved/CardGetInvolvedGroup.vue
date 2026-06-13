@@ -7,8 +7,18 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        @click="openModalTextGroup"
-        @keydown.enter="openModalTextGroup"
+        @click="
+          () =>
+            openModalTextGroup({
+              entityId: group?.id,
+            })
+        "
+        @keydown.enter="
+          () =>
+            openModalTextGroup({
+              entityId: group?.id,
+            })
+        "
         data-testid="icon-edit"
       />
       <div class="flex space-x-2 pt-2 lg:absolute lg:right-0 lg:pt-0">

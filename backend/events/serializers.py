@@ -6,7 +6,7 @@ Serializers for the events app.
 import logging
 import zoneinfo
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Union
+from typing import Any
 from uuid import UUID
 
 from django.conf import settings
@@ -57,18 +57,18 @@ class EventFaqSerializer(serializers.ModelSerializer[EventFaq]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value
@@ -110,18 +110,18 @@ class EventResourceSerializer(serializers.ModelSerializer[EventResource]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value
@@ -167,18 +167,18 @@ class EventSocialLinkSerializer(serializers.ModelSerializer[EventSocialLink]):
 
         Parameters
         ----------
-        value : Any
-            The value to validate, expected to be a Event instance, UUID or str.
-
-        Raises
-        -------
-        serializers.ValidationError
-            If the event does not exist.
+        value : Event | UUID | str
+            The value to validate: an Event instance, UUID, or string id.
 
         Returns
         -------
         Event
             The validated Event instance.
+
+        Raises
+        ------
+        serializers.ValidationError
+            If the event does not exist.
         """
         if isinstance(value, Event):
             return value
@@ -290,18 +290,18 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
     times = EventPOSTTimesSerializer(required=True, many=True)
     iso = serializers.CharField(required=False, default="en", max_length=3)
 
-    def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def validate(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Validate event creation data.
 
         Parameters
         ----------
-        data : Dict[str, Any]
+        data : dict[str, Any]
             Event creation data dictionary to validate.
 
         Returns
         -------
-        Dict[str, Any]
+        dict[str, Any]
             Validated data dictionary.
 
         Raises
@@ -371,13 +371,13 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
 
         return data
 
-    def create(self, validated_data: Dict[str, Any]) -> Event:
+    def create(self, validated_data: dict[str, Any]) -> Event:
         """
         Create an event from validated data.
 
         Parameters
         ----------
-        validated_data : Dict[str, Any]
+        validated_data : dict[str, Any]
             Validated event creation data.
 
         Returns
@@ -464,18 +464,18 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         fields = "__all__"
 
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+    def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """
         Validate event data including time constraints and terms.
 
         Parameters
         ----------
-        data : Dict[str, Union[str, int]]
+        data : dict[str, str | int]
             Event data dictionary to validate.
 
         Returns
         -------
-        Dict[str, Union[str, int]]
+        dict[str, Union[str, int]]
             Validated data dictionary.
 
         Raises
@@ -543,7 +543,7 @@ class EventSerializer(serializers.ModelSerializer[Event]):
 
         return event
 
-    def _invalid_dates(self, start: Union[int, str], end: Union[int, str]) -> bool:
+    def _invalid_dates(self, start: str | int, end: str | int) -> bool:
         """
         Validate that start date is before end date.
 
@@ -598,18 +598,18 @@ class FormatSerializer(serializers.ModelSerializer[Event]):
         model = Format
         fields = "__all__"
 
-    def validate(self, data: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+    def validate(self, data: dict[str, str | int]) -> dict[str, str | int]:
         """
         Validate format data including date constraints.
 
         Parameters
         ----------
-        data : Dict[str, Union[str, int]]
+        data : dict[str, str | int]
             Format data dictionary to validate with creation and deprecation dates.
 
         Returns
         -------
-        Dict[str, Union[str, int]]
+        dict[str, str | int]
             Validated data dictionary.
 
         Raises

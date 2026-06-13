@@ -18,17 +18,18 @@ on:
 
 jobs:
   backend_static_analysis:
-    name: Run PR Backend Static Check
+    name: Run CI Backend Static Check
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./backend
+
     steps:
       - name: Checkout Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python Environment
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -48,3 +49,15 @@ jobs:
       - name: Run mypy - Static Type Checking
         if: always()
         run: uv run mypy . --config-file ./pyproject.toml
+
+      - name: Run numpydoc Documentation Check
+        if: always()
+        run: uv run numpydoc lint **/*.py
+
+      - name: Run Pytest Structure Validation
+        if: always()
+        run: python utils/validate_pytest_structure.py
+
+      - name: Run complexipy - Cognitive Complexity Check
+        if: always()
+        run: uv run --group complexity complexipy .

@@ -128,20 +128,26 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
     await expect(eventPage.pageHeading).toBeVisible();
     await page.getByRole("listbox").waitFor({ timeout: 3000 });
 
-    // Use original subpage name for i18n lookup.
+    // Exhaustive map of event subpages to their menu entry i18n keys.
+    // Mirrors the entries in `app/composables/useMenuEntriesState.ts`.
+    // Static values keep i18n-check's nonexistent-keys check happy when this
+    // file is included via search-dirs.
     const i18nKeyMap: Record<string, string> = {
+      about: "i18n._global.about",
+      team: "i18n.composables.use_menu_entries_state.team",
       resources: "i18n._global.resources",
       faq: "i18n._global.faq",
-      team: "i18n.composables.use_menu_entries_state.team",
       tasks: "i18n.composables.use_menu_entries_state.tasks",
       discussion: "i18n._global.discussion",
       settings: "i18n._global.settings",
-      about: "i18n._global.about",
     };
 
-    const i18nKey =
-      i18nKeyMap[subpage] ||
-      `i18n.composables.use_menu_entries_state.${subpage}`;
+    const i18nKey = i18nKeyMap[subpage];
+    if (!i18nKey) {
+      throw new Error(
+        `Unknown event subpage "${subpage}". Add it to i18nKeyMap in test-e2e/actions/navigation/events.ts.`
+      );
+    }
 
     const subpageOption = page.getByRole("option", {
       name: new RegExp(getEnglishText(i18nKey), "i"),

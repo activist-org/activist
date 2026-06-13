@@ -1,17 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImageGroup
-      @closeModal="handleCloseModalUploadImage"
-      @upload-complete="handleUploadComplete"
-      :groupId="group?.id || ''"
-      :images="images || []"
-    />
-    <ModalUploadImageIcon
-      @closeModal="handleCloseModalUploadImageIcon"
-      :entityId="group?.id || ''"
-      :entityType="EntityType.GROUP"
-    />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"
@@ -20,12 +9,22 @@
       @mouseover="sidebarHover = true"
       class="block"
     />
-    <div class="flex flex-col md:h-screen md:overflow-y-scroll">
+    <div
+      class="flex grid-rows-none flex-col overflow-x-hidden md:grid md:h-screen md:grid-rows-[1fr_auto] md:overflow-y-hidden"
+    >
       <div
         v-if="group && images"
         class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
+        <EntityIconMobile
+          v-if="showMobileEntityShortcut"
+          @edit="handleEditGroupIcon"
+          :entity="group"
+          :icon="IconMap.GROUP"
+          :imgUrl="groupIconUrl"
+          :tagline="group?.tagline"
+        />
         <NuxtPage />
       </div>
       <FooterWebsite
@@ -44,16 +43,14 @@ const groupId = typeof paramsGroupId === "string" ? paramsGroupId : undefined;
 const { data: group } = useGetGroup(groupId ?? "");
 const { data: images } = useGetGroupImages(groupId ?? "");
 
-const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
-  "ModalUploadImageGroup"
+const groupIconUrl = computed(() =>
+  group.value?.iconUrl?.fileObject
+    ? `/api/${group.value.iconUrl.fileObject}`
+    : ""
 );
-const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
-  "ModalUploadImageIcon"
+const showMobileEntityShortcut = computed(
+  () => !aboveMediumBP.value && !!group.value
 );
-
-const handleUploadComplete = () => {
-  // Note: For future implementation.
-};
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
@@ -65,4 +62,9 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+const { showToastError } = useToaster();
+
+function handleEditGroupIcon(): void {
+  showToastError("THIS FEATURE IS COMING SOON!");
+}
 </script>

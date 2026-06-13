@@ -11,21 +11,34 @@ export const newCreateOrganizationModal = (page: Page) => {
     root,
     closeButton: root.getByTestId("modal-close-button"),
 
-    // MARK: Details
-    detailsForm: root.locator("#event-details"),
+    // MARK: Organization Details
+    detailsForm: root.locator("#organization-details"),
     nameField: root.locator("#form-item-name"),
     taglineField: root.locator("#form-item-tagline"),
     descriptionField: root.locator("#form-item-description"),
 
+    // MARK: Validation Errors (step 1)
+    nameError: root.getByTestId("form-item-name-error"),
+    descriptionError: root.getByTestId("form-item-description-error"),
+
+    // MARK: Validation Errors (step 2 - location)
+    countryError: root.getByTestId("form-item-country-error"),
+    cityError: root.getByTestId("form-item-city-error"),
+
     // MARK: Location
     locationForm: root.locator("#event-location"),
-    countryField: root.locator("#form-item-country"),
+    // Use input[id=...] to avoid matching the <Combobox as="div"> root which shares the same id.
+    countryField: root.locator("input#form-item-country"),
     cityField: root.locator("#form-item-city"),
+    submitLocationButton: root.locator("#event-location-submit"),
 
     // MARK: Step Buttons
     getNextStepButton(): Locator {
       return root.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n._global.next_step"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components.submit_aria_label"),
+          "i"
+        ),
       });
     },
 

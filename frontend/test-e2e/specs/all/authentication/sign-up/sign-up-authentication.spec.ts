@@ -6,7 +6,7 @@ import { expect, test } from "~/test-e2e/global-fixtures";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
 import { newSignUpPage } from "~/test-e2e/page-objects/SignUpPage";
 import { clearEmails, waitAndConfirmEmail } from "~/test-e2e/utils/mailhog";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/auth/sign-up");

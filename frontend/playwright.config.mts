@@ -49,8 +49,8 @@ export default defineConfig({
   tsconfig: "./tsconfig.playwright.json",
   /* Global setup to create authenticated session once */
   globalSetup: "./test-e2e/global-setup",
-  /* Skip flaky tests in CI */
-  testIgnore: process.env.CI ? ["**/*@flaky*"] : [],
+  /* Skip tests tagged @flaky-<issue-number> in CI (e.g. @flaky-1234). */
+  testIgnore: process.env.CI ? ["**/*@flaky-*"] : [],
   /* Run tests in files in parallel. */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -130,6 +130,9 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         // Memory optimization: Add launch options to prevent browser crashes in long test runs
         launchOptions: {
+          slowMo: process.env.PLAYWRIGHT_SLOW_MO
+            ? parseInt(process.env.PLAYWRIGHT_SLOW_MO)
+            : undefined,
           args: [
             "--disable-dev-shm-usage", // Use /tmp instead of /dev/shm for shared memory
             "--disable-background-timer-throttling",

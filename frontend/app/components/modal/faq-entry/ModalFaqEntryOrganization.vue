@@ -11,19 +11,19 @@
 </template>
 
 <script setup lang="ts">
+const modalName = "ModalFaqEntryOrganization";
+const { handleCloseModal } = useModalHandlers<{ faqEntry?: FaqEntry }>(
+  modalName
+);
 const props = defineProps<{
   faqEntry?: FaqEntry;
+  entityId: string;
 }>();
 
-const isAddMode = !props.faqEntry;
-const modalName = "ModalFaqEntryOrganization" + (props.faqEntry?.id ?? "");
-const { handleCloseModal } = useModalHandlers(modalName);
+const orgId = computed(() => props.entityId);
 
-const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
-
-const { data: organization } = useGetOrganization(orgId || "");
-const { createFAQ, updateFAQ } = useOrganizationFAQEntryMutations(orgId || "");
+const { data: organization } = useGetOrganization(orgId);
+const { createFAQ, updateFAQ } = useOrganizationFAQEntryMutations(orgId);
 
 const formData = ref({
   id: "",
@@ -33,43 +33,36 @@ const formData = ref({
   answer: "",
 });
 
-const submitLabel = isAddMode
-  ? "i18n.components.modal.faq_entry._global.add_faq_entry"
-  : "i18n.components.modal._global.update_texts";
+let isAddMode = true;
+let submitLabel = "";
+let title = "";
 
-const title = isAddMode
-  ? "i18n.components.modal.faq_entry._global.add_faq_entry"
-  : "i18n.components.modal.faq_entry._global.edit_entry";
+watch(
+  () => props,
+  (newContext) => {
+    isAddMode = !newContext?.faqEntry;
 
-if (!isAddMode) {
-  onMounted(async () => {
-    if (props.faqEntry) {
-      formData.value.id = props.faqEntry.id;
-      formData.value.question = props.faqEntry.question;
-      formData.value.answer = props.faqEntry.answer;
+    submitLabel = isAddMode
+      ? "i18n.components.modal.faq_entry._global.add_faq_entry"
+      : "i18n.components.modal._global.update_texts";
+
+    title = isAddMode
+      ? "i18n.components.modal.faq_entry._global.add_faq_entry"
+      : "i18n.components.modal.faq_entry._global.edit_entry";
+
+    if (!isAddMode) {
+      formData.value.id = newContext?.faqEntry?.id || "";
+      formData.value.question = newContext?.faqEntry?.question || "";
+      formData.value.answer = newContext?.faqEntry?.answer || "";
     }
-  });
-
-  watch(
-    props,
-    (newValues) => {
-      if (newValues.faqEntry) {
-        formData.value.id = newValues.faqEntry.id;
-        formData.value.question = newValues.faqEntry.question;
-        formData.value.answer = newValues.faqEntry.answer;
-      }
-    },
-    {
-      deep: true,
-    }
-  );
-}
+  },
+  { immediate: true }
+);
 
 async function handleSubmit(values: unknown) {
-  let updateResponse = false;
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
-  updateResponse = isAddMode
+  const updateResponse = isAddMode
     ? await createFAQ(newValues as FaqEntry)
     : await updateFAQ(newValues as FaqEntry);
 

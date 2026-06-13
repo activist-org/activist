@@ -6,7 +6,8 @@ API views for organization management.
 
 import logging
 import os
-from typing import Type
+from collections.abc import Sequence
+from typing import Any
 from uuid import UUID
 
 from django.contrib.auth.models import AnonymousUser
@@ -24,7 +25,11 @@ from drf_spectacular.utils import (
 from rest_framework import status, viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -44,6 +49,7 @@ from communities.organizations.models import (
 from communities.organizations.serializers import (
     OrganizationFaqSerializer,
     OrganizationFlagSerializer,
+    OrganizationListSerializer,
     OrganizationPOSTSerializer,
     OrganizationResourceSerializer,
     OrganizationSerializer,
@@ -92,7 +98,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
                 description="Filter by topic type (e.g. from Topic.model type).",
             ),
         ],
-        responses={200: OrganizationSerializer(many=True)},
+        responses={200: OrganizationListSerializer(many=True)},
     )
     def get(self, request: Request) -> Response:
         queryset = self.filter_queryset(self.get_queryset())
@@ -107,10 +113,10 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
     def get_serializer_class(
         self,
-    ) -> Type[OrganizationPOSTSerializer | OrganizationSerializer]:
+    ) -> type[OrganizationPOSTSerializer | OrganizationListSerializer]:
         if self.request.method == "POST":
             return OrganizationPOSTSerializer
-        return OrganizationSerializer
+        return OrganizationListSerializer
 
     @extend_schema(
         summary="Create a new organization",
@@ -221,7 +227,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
             return self.get_paginated_response(serializer.data)
 
         orgs = Organization.objects.filter(created_by__user__id=user_id).order_by(
-            "creation_date"
+            "acceptance_date"
         )
         serializer = OrganizationSerializer(orgs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -233,6 +239,19 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
 class OrganizationDetailAPIView(APIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
+
+    def get_permissions(self) -> Sequence[Any]:
+        """
+        Return permissions based on the HTTP method.
+
+        Returns
+        -------
+        Sequence[Any]
+            AllowAny for GET requests, IsAuthenticated for PUT and DELETE.
+        """
+        if self.request.method in ("PUT", "DELETE"):
+            return [IsAuthenticated()]
+        return [AllowAny()]
 
     @extend_schema(
         summary="Retrieve a single organization by ID",
@@ -295,6 +314,19 @@ class OrganizationDetailAPIView(APIView):
                     )
                 ],
             ),
+            403: OpenApiResponse(
+                response=OpenApiTypes.OBJECT,
+                description="You are not authorized to update this organization",
+                examples=[
+                    OpenApiExample(
+                        name="Forbidden",
+                        value={
+                            "detail": "You are not authorized to update this organization."
+                        },
+                        media_type="application/json",
+                    )
+                ],
+            ),
             404: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
                 description="Organization not found",
@@ -327,7 +359,7 @@ class OrganizationDetailAPIView(APIView):
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to update this organization."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         serializer = self.serializer_class(org, data=request.data, partial=True)
@@ -339,7 +371,7 @@ class OrganizationDetailAPIView(APIView):
     @extend_schema(
         summary="Delete an organization by ID",
         responses={
-            200: OpenApiResponse(
+            204: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
                 description="Organization deleted successfully",
                 examples=[
@@ -361,12 +393,12 @@ class OrganizationDetailAPIView(APIView):
                     )
                 ],
             ),
-            401: OpenApiResponse(
+            403: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
                 description="You are not authorized to delete this organization",
                 examples=[
                     OpenApiExample(
-                        name="Unauthorized",
+                        name="Forbidden",
                         value={
                             "detail": "You are not authorized to delete this organization."
                         },
@@ -406,7 +438,7 @@ class OrganizationDetailAPIView(APIView):
         if request.user != org.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to delete this organization."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         org.status = StatusType.objects.get(id=3)  # 3 is the id of the deleted status

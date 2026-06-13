@@ -9,26 +9,7 @@ export const PASSWORD_RATING = {
     getEnglishText("i18n.components.indicator_password_strength.invalid"),
     "i"
   ),
-  VERY_WEAK: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.very_weak"),
-    "i"
-  ),
-  WEAK: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.weak"),
-    "i"
-  ),
-  MEDIUM: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.medium"),
-    "i"
-  ),
-  STRONG: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.strong"),
-    "i"
-  ),
-  VERY_STRONG: new RegExp(
-    getEnglishText("i18n.components.indicator_password_strength.very_strong"),
-    "i"
-  ),
+  TIME_TO_CRACK: new RegExp("Time to crack:", "i"),
 };
 
 export const PASSWORD_PROGRESS = {
@@ -64,6 +45,18 @@ export const newPasswordStrength = (parent: Page | Locator) => {
       } else {
         await expect(progressBar).toHaveClass(color);
       }
+    },
+    expectCrackTime: async () => {
+      await expect(
+        parent.locator("#sign-in-password-strength-text")
+      ).toContainText("Time to crack:");
+    },
+    expectInvalid: async () => {
+      await expect(
+        parent.locator("#sign-in-password-strength-text")
+      ).toContainText(
+        getEnglishText("i18n.components.indicator_password_strength.invalid")
+      );
     },
   };
 };

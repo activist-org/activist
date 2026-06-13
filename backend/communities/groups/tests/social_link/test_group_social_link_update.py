@@ -6,13 +6,16 @@ Test cases for the group social link methods.
 from uuid import uuid4
 
 import pytest
+from rest_framework import status
 
 from communities.groups.factories import GroupFactory, GroupSocialLinkFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_group_social_link_update(authenticated_client) -> None:
+def test_group_social_link_update_ok_200_and_not_found_404(
+    authenticated_client,
+) -> None:
     """
     Test Group Social Link updates.
 
@@ -41,7 +44,7 @@ def test_group_social_link_update(authenticated_client) -> None:
     )
     response_body = response.json()
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response_body["message"] == "Social link updated successfully."
 
     # MARK: Update Failure
@@ -59,11 +62,13 @@ def test_group_social_link_update(authenticated_client) -> None:
     )
     response_body = response.json()
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Social link not found."
 
 
-def test_group_social_link_not_creator_or_admin(authenticated_client):
+def test_group_social_link_update_not_creator_or_admin_forbidden_403(
+    authenticated_client,
+):
     client, user = authenticated_client
 
     group = GroupFactory()
@@ -80,7 +85,7 @@ def test_group_social_link_not_creator_or_admin(authenticated_client):
     )
     response_body = response.json()
 
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert (
         response_body["detail"]
         == "You are not authorized to update the social links for this group."

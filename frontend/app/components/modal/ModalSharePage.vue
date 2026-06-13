@@ -220,21 +220,12 @@
       </div>
     </div>
   </ModalBase>
-  <!-- Note: ModalQRCode is intentionally outside ModalBase so it survives when the share modal closes. -->
-  <ModalQRCode
-    v-if="user || organization || group || event || resource"
-    @closeModal="() => modals.closeModal('ModalsQRCode')"
-    :fileName="computedFileName"
-    :firstParagraph="firstParagraph"
-    :link-url="linkUrl.linkUrl.value"
-    :name="getCurrentName()"
-    :second-paragraph="$t('i18n.components._global.section_1_paragraph_1_2')"
-  />
 </template>
 
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
+const modalName = "ModalSharePage";
 const props = defineProps<{
   cta: BtnAction["cta"];
   organization?: Organization;
@@ -244,44 +235,33 @@ const props = defineProps<{
   user?: UserActivist;
 }>();
 
-const linkUrl = useLinkURL(props);
-
-const computedFileName = computed(() => {
-  return (
-    "qr_code_" + (getCurrentName() ?? "").toLowerCase().replaceAll(" ", "_")
-  );
+const organization = computed(() => {
+  return props.organization || null;
 });
 
-const firstParagraph = computed(() => {
-  if (props.organization) {
-    return $t("i18n.components._global.section_1_paragraph_1_organization");
-  }
-  if (props.group) {
-    return $t("i18n.components._global.section_1_paragraph_1_group");
-  }
-  if (props.event) {
-    return $t("i18n.components._global.section_1_paragraph_1_event");
-  }
-  if (props.resource) {
-    return $t(
-      "i18n.components.modal_share_page.section_1_paragraph_1_resource"
-    );
-  }
-  if (props.user) {
-    return $t("i18n.components.modal_share_page.section_1_paragraph_1_user");
-  }
-  return "";
+const group = computed(() => {
+  return props.group || null;
 });
-const modalName = "ModalSharePage";
-const modals = useModals();
+
+const event = computed(() => {
+  return props.event || null;
+});
+
+const resource = computed(() => {
+  return props.resource || null;
+});
+
+const user = computed(() => {
+  return props.user || null;
+});
 
 const getEntityType = () => {
-  if (props.organization) {
-    return setEntityInfo(props.organization);
-  } else if (props.group) {
-    return setEntityInfo(props.group);
-  } else if (props.event) {
-    return setEntityInfo(props.event);
+  if (organization.value) {
+    return setEntityInfo(organization.value);
+  } else if (group.value) {
+    return setEntityInfo(group.value);
+  } else if (event.value) {
+    return setEntityInfo(event.value);
   }
 };
 
@@ -296,25 +276,24 @@ const setEntityInfo = (data: Entity) => {
 };
 
 const getCurrentName = () => {
-  return props?.event?.name
-    ? props?.event?.name
-    : props?.organization?.name
-      ? props?.organization?.name
-      : "";
+  const e = unref(event);
+  const org = unref(organization);
+
+  return e?.name || org?.name || "";
 };
 
 // Function to grab the url to the base id of the entity to share.
 const getCurrentUrl = () => {
-  if (props.organization) {
-    return `${BASE_FRONTEND_URL}/organizations/${props.organization.id}`;
-  } else if (props.group) {
-    return `${BASE_FRONTEND_URL}/organizations/${props.group.org.id}/groups/${props.group.id}`;
-  } else if (props.event) {
-    return `${BASE_FRONTEND_URL}/events/${props.event.id}`;
-  } else if (props.resource) {
-    return props.resource.url;
-  } else if (props.user) {
-    return `${BASE_FRONTEND_URL}/users/${props.user.id}`;
+  if (organization.value) {
+    return `${BASE_FRONTEND_URL}/organizations/${organization.value.id}`;
+  } else if (group.value) {
+    return `${BASE_FRONTEND_URL}/organizations/${group.value.org.id}/groups/${group.value.id}`;
+  } else if (event.value) {
+    return `${BASE_FRONTEND_URL}/events/${event.value.id}`;
+  } else if (resource.value) {
+    return resource.value.url;
+  } else if (user.value) {
+    return `${BASE_FRONTEND_URL}/users/${user.value.id}`;
   }
   const url = window.location.href;
   return url.substring(0, url.lastIndexOf("/"));

@@ -17,7 +17,7 @@
         class="flex"
       >
         <FormTextInput
-          :id="inputId"
+          :id="inputId ?? id"
           ref="formInputRef"
           @update:modelValue="handleInput"
           :disabled="disabled"
@@ -32,11 +32,19 @@
         class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
         type="button"
       >
-        <Icon :name="IconMap.CHEVRON_EXPAND" />
+        <Icon
+          v-if="(isMultiSelect ? true : !internalSelectedOptions) || disabled"
+          :name="IconMap.CHEVRON_EXPAND"
+        />
+        <Icon
+          v-else
+          @click.stop.prevent="internalSelectedOptions = null"
+          :name="IconMap.X_LG"
+        />
       </ComboboxButton>
       <ComboboxOptions
         :id="`${id}-options`"
-        class="elem-shadow-lg absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-layer-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
+        class="elem-shadow-lg z-100 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-layer-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm"
       >
         <ComboboxOption
           v-for="option in filteredOptions"
@@ -274,7 +282,7 @@ const internalSelectedOptions = computed({
       return;
     }
     const option = newOptions as unknown as Option | null;
-    const value = option?.value || null;
+    const value = option?.value ?? "";
     query.value = option?.label || "";
     if (value !== (props.selectedOptions as unknown[])[0]) {
       emit("update:selectedOption", value);

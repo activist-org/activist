@@ -29,16 +29,14 @@ describe("FormResource", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
-        title: "i18n.components.form_resource._global.edit_resource",
+        submitLabel: "i18n.components.modal.resource._global.update_resource",
+        title: "i18n.components.modal.resource._global.edit_resource",
       },
     });
 
-    // Title from `title` prop (in test environment, i18n keys are not translated).
+    // Title from `title` prop, translated via vue-i18n at runtime.
     const heading = screen.getByRole("heading", { level: 2 });
-    expect(heading.textContent).toContain(
-      "i18n.components.form_resource._global.edit_resource"
-    );
+    expect(heading.textContent).toContain("Edit resource");
 
     // Initial form values populated from formData.
     const nameInput = screen.getByRole("textbox", {
@@ -59,7 +57,7 @@ describe("FormResource", () => {
     const submitButton = screen.getByRole("button", {
       name: /submit the form/i,
     });
-    expect(submitButton.textContent).toMatch(/save/i);
+    expect(submitButton.textContent).toMatch(/update resource/i);
 
     // Form associations: labels should be associated with inputs.
     // There are multiple labels (visible and floating), get the first one (visible label).
@@ -77,7 +75,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -122,7 +120,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -171,7 +169,7 @@ describe("FormResource", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -193,7 +191,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -249,7 +247,7 @@ describe("FormResource", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.update",
+        submitLabel: "i18n.components.modal.resource._global.update_resource",
       },
     });
 
@@ -290,7 +288,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -318,7 +316,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -355,7 +353,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -381,7 +379,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -413,7 +411,7 @@ describe("FormResource", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -439,7 +437,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -498,7 +496,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
         // title prop is optional
       },
     });
@@ -522,7 +520,7 @@ describe("FormResource", () => {
     await render(FormResource, {
       props: {
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -567,7 +565,7 @@ describe("FormResource", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -601,7 +599,7 @@ describe("FormResource", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 
@@ -629,7 +627,7 @@ describe("FormResource", () => {
       props: {
         formData,
         handleSubmit,
-        submitLabel: "i18n.components.form_resource._global.save",
+        submitLabel: "i18n.components.modal.resource._global.add_resource",
       },
     });
 

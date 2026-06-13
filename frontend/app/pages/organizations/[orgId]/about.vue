@@ -1,31 +1,25 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <ModalSocialLinksOrganization />
-  <ModalTextOrganization />
-  <ModalSharePage
-    v-if="organization"
-    :cta="true"
-    :organization="organization as unknown as Organization"
-  />
-  <div class="flex flex-col bg-layer-0 px-4 pt-6 md:pt-0 xl:px-8">
+  <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>{{ organization?.name }}</Title>
     </Head>
     <HeaderAppPageOrganization>
-      <div class="flex pb-3 lg:pb-4">
-        <div class="flex flex-col gap-2 sm:flex-row">
-          <BtnRouteExternal
-            v-if="organization?.texts[0]?.getInvolvedUrl"
-            ariaLabel="i18n._global.join_organization_aria_label"
-            class="flex w-full justify-center sm:w-max"
-            :cta="true"
-            fontSize="sm"
-            iconSize="1.45em"
-            label="i18n._global.join_organization"
-            :linkTo="organization.texts[0]?.getInvolvedUrl"
-            :rightIcon="IconMap.ARROW_RIGHT"
-          />
-          <!-- <BtnAction
+      <div
+        class="flex w-full flex-col space-y-2 pb-3 sm:w-auto sm:flex-row sm:space-x-2 sm:space-y-0 lg:space-x-3 lg:pb-4"
+      >
+        <BtnRouteExternal
+          v-if="organization?.texts[0]?.getInvolvedUrl"
+          ariaLabel="i18n._global.join_organization_aria_label"
+          class="flex w-full justify-center sm:w-max"
+          :cta="true"
+          fontSize="sm"
+          iconSize="1.45em"
+          label="i18n._global.join_organization"
+          :linkTo="organization.texts[0]?.getInvolvedUrl"
+          :rightIcon="IconMap.ARROW_RIGHT"
+        />
+        <!-- <BtnAction
           class="flex w-full justify-center sm:w-max"
           :cta="true"
           label="i18n._global.support"
@@ -35,19 +29,26 @@
           :counter="organization.supporters.length"
           ariaLabel="i18n._global.support_organization_aria_label"
         /> -->
-          <BtnAction
-            @click="openModalSharePage()"
-            @keydown.enter="openModalSharePage()"
-            ariaLabel="i18n._global.share_organization_aria_label"
-            class="flex w-full justify-center sm:w-max"
-            :cta="true"
-            fontSize="sm"
-            :hideLabelOnMobile="false"
-            iconSize="1.45em"
-            :label="shareButtonLabel"
-            :rightIcon="IconMap.SHARE"
-          />
-        </div>
+        <BtnAction
+          @click="
+            openModalSharePage({
+              organization: organization as unknown as Organization,
+            })
+          "
+          @keydown.enter="
+            openModalSharePage({
+              organization: organization as unknown as Organization,
+            })
+          "
+          ariaLabel="i18n._global.share_organization_aria_label"
+          class="flex w-full justify-center sm:w-max"
+          :cta="true"
+          fontSize="sm"
+          :hideLabelOnMobile="false"
+          iconSize="1.45em"
+          :label="shareButtonLabel"
+          :rightIcon="IconMap.SHARE"
+        />
       </div>
     </HeaderAppPageOrganization>
     <div class="space-y-6 pb-6">
@@ -68,14 +69,14 @@
         <div class="h-full w-full">
           <MediaImageCarouselFull
             v-if="!textExpanded || !aboveLargeBP"
-            :entityId="organization?.id ?? ''"
-            :entityType="'organization' as EntityType"
+            :entityId="organization?.id || ''"
+            :entityType="EntityType.ORGANIZATION"
             :images="images || []"
           />
         </div>
       </div>
       <CardGetInvolvedOrganization />
-      <CardConnectOrganization />
+      <CardConnectOrganization :organization="organization" />
       <!-- <CardDonate
         v-if="organization.status === 2"
         :userIsAdmin="true"

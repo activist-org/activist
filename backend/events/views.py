@@ -6,7 +6,8 @@ API views for event management.
 import logging
 import os
 import re
-from typing import Any, Sequence, Type
+from collections.abc import Sequence
+from typing import Any
 from uuid import UUID
 
 from django.core.exceptions import ValidationError
@@ -99,7 +100,8 @@ class EventAPIView(GenericAPIView[Event]):
             )
         )
         if e2e_member is not None:
-            return qs.order_by("_e2e_last", "_priority", "id")
+            return qs.order_by("_e2e_last", "_priority", "id")  # type: ignore
+
         return qs.order_by("_priority", "id")
 
     def get_permissions(self) -> Sequence[Any]:
@@ -107,7 +109,7 @@ class EventAPIView(GenericAPIView[Event]):
             return [IsAuthenticated()]
         return [IsAuthenticatedOrReadOnly()]
 
-    def get_serializer_class(self) -> Type[EventPOSTSerializer | EventSerializer]:
+    def get_serializer_class(self) -> type[EventPOSTSerializer | EventSerializer]:
         if self.request.method == "POST":
             return EventPOSTSerializer
 
@@ -174,6 +176,19 @@ class EventDetailAPIView(APIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
+    def get_permissions(self) -> Sequence[Any]:
+        """
+        Return permissions based on the HTTP method.
+
+        Returns
+        -------
+        Sequence[Any]
+            AllowAny for GET requests, IsAuthenticated for PUT and DELETE.
+        """
+        if self.request.method in ("PUT", "DELETE"):
+            return [IsAuthenticated()]
+        return [AllowAny()]
+
     @extend_schema(
         responses={
             200: EventSerializer,
@@ -204,7 +219,7 @@ class EventDetailAPIView(APIView):
         responses={
             200: EventSerializer,
             400: OpenApiResponse(response={"detail": "Event ID is required."}),
-            401: OpenApiResponse(response={"detail": "User not authorized."}),
+            403: OpenApiResponse(response={"detail": "User not authorized."}),
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
@@ -225,10 +240,10 @@ class EventDetailAPIView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        if request.user != event.created_by:
+        if request.user != event.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "User not authorized."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         serializer = self.serializer_class(event, data=request.data, partial=True)
@@ -239,9 +254,9 @@ class EventDetailAPIView(APIView):
 
     @extend_schema(
         responses={
-            200: OpenApiResponse(response={"message": "Event deleted successfully."}),
+            204: OpenApiResponse(response={"message": "Event deleted successfully."}),
             400: OpenApiResponse(response={"detail": "Event ID is required."}),
-            401: OpenApiResponse(response={"detail": "User not authorized."}),
+            403: OpenApiResponse(response={"detail": "User not authorized."}),
             404: OpenApiResponse(response={"detail": "Event Not Found."}),
         }
     )
@@ -261,10 +276,10 @@ class EventDetailAPIView(APIView):
                 {"detail": "Event Not Found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != event.created_by:
+        if request.user != event.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "User not authorized."},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         event.delete()
@@ -459,7 +474,7 @@ class EventFaqViewSet(viewsets.ModelViewSet[EventFaq]):
             creator = event.created_by
 
         else:
-            raise ValueError("Org is None.")
+            raise ValueError("Event is None.")
 
         if request.user != creator and not request.user.is_staff:
             return Response(
@@ -507,7 +522,7 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
 
     def update(self, request: Request, pk: UUID | str) -> Response:
         try:
-            faq = EventResource.objects.get(id=pk)
+            resource = EventResource.objects.get(id=pk)
 
         except EventResource.DoesNotExist as e:
             logger.exception(f"Resource with id {pk} does not exist for update: {e}")
@@ -515,13 +530,13 @@ class EventResourceViewSet(viewsets.ModelViewSet[EventResource]):
                 {"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if request.user != faq.event.created_by and not request.user.is_staff:
+        if request.user != resource.event.created_by and not request.user.is_staff:
             return Response(
                 {"detail": "You are not authorized to update this Resource."},
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.get_serializer(faq, data=request.data, partial=True)
+        serializer = self.get_serializer(resource, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -723,7 +738,7 @@ class EventTextViewSet(GenericAPIView[EventText]):
 # MARK: Calendar
 
 
-class EventCalenderAPIView(APIView):
+class EventCalendarAPIView(APIView):
     queryset = Event.objects.all()
     permission_classes = [AllowAny]
 

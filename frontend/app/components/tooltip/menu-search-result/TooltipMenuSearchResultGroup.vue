@@ -22,9 +22,9 @@
       /> -->
       <BtnAction
         v-if="group"
-        @click="openModal()"
+        @click="openModalSharePage({ group: group })"
         @keydown="handleTabPress(true, $event)"
-        @keydown.enter="openModal()"
+        @keydown.enter="openModalSharePage({ group: group })"
         ariaLabel="i18n._global.share_organization_aria_label"
         class="flex max-h-10 w-full items-center"
         :cta="true"
@@ -32,13 +32,6 @@
         fontSize="lg"
         label="i18n._global.share"
         :rightIcon="IconMap.SHARE"
-      />
-      <ModalSharePage
-        v-if="group"
-        @closeModal="handleCloseModal"
-        :cta="true"
-        :group="group"
-        :isOpen="modalIsOpen"
       />
     </div>
   </TooltipBase>
@@ -52,17 +45,5 @@ defineProps<{
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
-const modals = useModals();
-const modalName = "ModalSharePage";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-};
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 </script>

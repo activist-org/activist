@@ -4,7 +4,7 @@ import { pressControlKey } from "~/test-e2e/actions/keyboard";
 import { newSearchModal } from "~/test-e2e/component-objects/SearchModal";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newHomePage } from "~/test-e2e/page-objects/HomePage";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/home");

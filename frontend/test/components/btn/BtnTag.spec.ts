@@ -9,7 +9,7 @@ describe("BtnTag", () => {
   const defaultProps = {
     cta: true,
     fontSize: "base" as const,
-    ariaLabel: "i18n.test.button",
+    ariaLabel: "tag button aria",
   };
 
   it("renders button with aria-label", async () => {

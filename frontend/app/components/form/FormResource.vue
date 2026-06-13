@@ -89,14 +89,25 @@ defineProps<{
 const { t } = useI18n();
 
 const schema = z.object({
-  name: z.string().min(1, t("i18n.components.form_resource.name_required")),
+  name: z
+    .string()
+    .default("")
+    .pipe(z.string().min(1, t("i18n.components.form_resource.name_required"))),
   description: z
     .string()
-    .min(1, t("i18n.components.form_resource.description_required")),
+    .default("")
+    .pipe(
+      z.string().min(1, t("i18n.components.form_resource.description_required"))
+    ),
   url: z
     .string()
-    .min(1, t("i18n.components.form_resource.link_required"))
-    .url(t("i18n.components.form_resource.url_must_be_valid")),
+    .default("")
+    .pipe(
+      z
+        .string()
+        .min(1, t("i18n.components.form_resource.link_required"))
+        .url(t("i18n.components.form_resource.url_must_be_valid"))
+    ),
   topics: z
     .array(
       z

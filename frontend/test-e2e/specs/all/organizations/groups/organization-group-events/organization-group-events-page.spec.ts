@@ -3,7 +3,7 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
@@ -45,6 +45,27 @@ test.describe(
         }
       });
     });
+
+    // MARK: Create
+
+    test("New event button opens create event modal", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+      const organizationPage = newOrganizationPage(page);
+      const { groupEventsPage } = organizationPage;
+
+      await expect(groupEventsPage.newEventButton).toBeVisible();
+      await groupEventsPage.newEventButton.click();
+
+      const modal = page.getByTestId("modal-ModalCreateEvent");
+      await expect(modal).toBeVisible({ timeout: 10000 });
+
+      await modal.getByTestId("modal-close-button").click();
+      await expect(modal).not.toBeVisible({ timeout: 5000 });
+    });
+
+    // MARK: Display
 
     test("User can view group events", async ({ page }, testInfo) => {
       logTestPath(testInfo);
@@ -112,20 +133,6 @@ test.describe(
         await expect(groupEventsPage.emptyStateMessage).toBeVisible();
       }
       // If neither events nor empty state is visible, that's also valid (handled by early return above).
-    });
-
-    test("User can access new event creation", async ({ page }, testInfo) => {
-      logTestPath(testInfo);
-      const organizationPage = newOrganizationPage(page);
-      const { groupEventsPage } = organizationPage;
-
-      // Verify new event button is visible and functional.
-      await expect(groupEventsPage.newEventButton).toBeVisible();
-      await expect(groupEventsPage.newEventButton).toHaveAttribute(
-        "href",
-        /.+/
-      );
-      // Note: We don't click it as it would navigate away from the current page.
     });
   }
 );

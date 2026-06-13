@@ -20,9 +20,9 @@
         ariaLabel="i18n.components.tooltip_menu_search_result_event.attend_aria_label"
       /> -->
       <BtnAction
-        @click="openModal()"
+        @click="openModalSharePage({ event: event })"
         @keydown="handleTabPress(true, $event)"
-        @keydown.enter="openModal()"
+        @keydown.enter="openModalSharePage({ event: event })"
         ariaLabel="i18n._global.share_event_aria_label"
         class="flex max-h-10 w-full items-center"
         :cta="true"
@@ -41,12 +41,6 @@
         label="i18n._global.subscribe"
         :rightIcon="IconMap.DATE"
       />
-      <ModalSharePage
-        @closeModal="handleCloseModal"
-        :cta="true"
-        :event="event"
-        :isOpen="modalIsOpen"
-      />
     </div>
   </TooltipBase>
 </template>
@@ -61,17 +55,5 @@ const { handleTabPress } = useTabNavigationEmit(emit);
 
 const downloadCalendarEntry = () => {};
 
-const modals = useModals();
-const modalName = "ModalSharePage";
-const modalIsOpen = ref(false);
-
-function openModal() {
-  modals.openModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-}
-
-const handleCloseModal = () => {
-  modals.closeModal(modalName);
-  modalIsOpen.value = modals.modals[modalName]?.isOpen ?? false;
-};
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 </script>

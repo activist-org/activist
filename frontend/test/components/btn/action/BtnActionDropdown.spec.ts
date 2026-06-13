@@ -30,12 +30,12 @@ describe("BtnActionDropdown", () => {
   const defaultProps = {
     cta: true,
     fontSize: "base" as const,
-    ariaLabel: "i18n.test.main",
-    ariaLabelDropdown: "i18n.test.dropdown",
+    ariaLabel: "dropdown main aria",
+    ariaLabelDropdown: "dropdown toggle aria",
     dropdownIcon: "bi:chevron-down",
     dropdownOptions: ["Option 1", "Option 2"],
     dropdownOptionsCallback: mockCallback,
-    label: "i18n.test.label",
+    label: "dropdown label",
     leftIcon: "bi:filter",
     iconSize: "1em",
   };

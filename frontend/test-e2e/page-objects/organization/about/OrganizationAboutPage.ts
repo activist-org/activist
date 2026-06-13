@@ -61,4 +61,9 @@ export const newOrganizationAboutPage = (page: Page) => ({
   // MARK: Media
 
   imageCarousel: page.getByTestId("image-carousel"),
+  imageCarouselEditIcon: page
+    .getByTestId("image-carousel")
+    .getByTestId("icon-edit"),
+  getImageCarouselImages: page.getByTestId("image-carousel-image"),
+  getImageCarouselBullets: page.locator(".swiper-pagination-bullet"),
 });

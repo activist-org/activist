@@ -3,7 +3,7 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { newPasswordStrength } from "~/test-e2e/component-objects/PasswordStrength";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newSignInPage } from "~/test-e2e/page-objects/SignInPage";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 import {
   PASSWORD_STRENGTH_COLOR as COLOR,
   PASSWORD_PROGRESS as PROGRESS,

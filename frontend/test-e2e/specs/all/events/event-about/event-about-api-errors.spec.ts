@@ -7,7 +7,7 @@
 import type { Page } from "@playwright/test";
 
 import { expect, test } from "~/test-e2e/global-fixtures";
-import { logTestPath } from "~/test-e2e/utils/testTraceability";
+import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
 /** Stable UUID; list GET uses `/events/events?…` (no trailing id). */
 const MOCK_EVENT_ID = "00000000-0000-4000-8000-00000000e2e1";

@@ -10,12 +10,16 @@
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
-        <ModalFaqEntryEvent />
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
           :entity="event"
-          :onClick="openModal"
+          :onClick="
+            () =>
+              openModal({
+                entityId: event?.id,
+              })
+          "
         />
       </div>
     </HeaderAppPageEvent>
@@ -61,7 +65,12 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else class="py-4" pageType="faq" :permission="false" />
+    <EmptyState
+      v-else
+      class="py-4"
+      pageType="faq"
+      :permission="canEdit(event)"
+    />
   </div>
 </template>
 

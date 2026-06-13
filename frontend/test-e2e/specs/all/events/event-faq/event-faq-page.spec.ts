@@ -3,8 +3,8 @@ import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTest
 import { navigateToEventSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";
-import { ensureMinimumFAQs } from "~/test-e2e/utils/faqHelpers";
-import { logTestPath, withTestStep } from "~/test-e2e/utils/testTraceability";
+import { ensureMinimumFAQs } from "~/test-e2e/utils/faq-helpers";
+import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
 test.beforeEach(async ({ page }) => {
   // Use shared navigation function that automatically detects platform and uses appropriate navigation.
@@ -56,6 +56,10 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
 
     await page.waitForLoadState("domcontentloaded");
 
+    await expect(faqPage.faqCards.first().or(faqPage.emptyState)).toBeVisible({
+      timeout: 15000,
+    });
+
     // Generate unique content for this test run.
     const timestamp = Date.now();
     const newQuestion = `Test FAQ Question ${timestamp}`;
@@ -94,13 +98,26 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     await expect(questionInput).toHaveValue(newQuestion);
     await expect(answerInput).toHaveValue(newAnswer);
 
+    // Register listener before click so it captures the response even if
+    // the request resolves before the await below.
+    const createFaqResponse = page.waitForResponse(
+      (res) =>
+        res.request().method() === "POST" &&
+        /\/events\/event_faqs/i.test(new URL(res.url()).pathname),
+      { timeout: 20000 }
+    );
+
     // Submit the form.
     await submitButton.click();
 
+    const createRes = await createFaqResponse;
+    expect(
+      [200, 201].includes(createRes.status()),
+      `POST event FAQ expected 200 or 201, got ${createRes.status()}`
+    ).toBe(true);
+
     // Wait for modal to close.
     await expect(faqPage.faqModal).not.toBeVisible();
-    await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
     // Verify the new FAQ appears on the page (don't check exact count as there may be existing FAQs).
     const newFaqCard = faqPage.faqCards.filter({ hasText: newQuestion });
@@ -142,13 +159,28 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     await expect(editQuestionInput).toHaveValue(updatedQuestion);
     await expect(editAnswerInput).toHaveValue(updatedAnswer);
 
+    // Register listener before click so it captures the response even if
+    // the request resolves before the await below.
+    const updateFaqResponse = page.waitForResponse(
+      (res) =>
+        (res.request().method() === "PATCH" ||
+          res.request().method() === "PUT") &&
+        /\/events\/event_faqs\//i.test(new URL(res.url()).pathname),
+      { timeout: 20000 }
+    );
+
     // Submit the edit.
     await editSubmitButton.click();
+
+    const updateRes = await updateFaqResponse;
+    expect(
+      [200, 204].includes(updateRes.status()),
+      `PATCH event FAQ expected 200 or 204, got ${updateRes.status()}`
+    ).toBe(true);
 
     // Wait for modal to close.
     await expect(faqPage.editFAQModal).not.toBeVisible();
     await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
     // Verify the updated FAQ appears on the page.
     const updatedFaqCard = faqPage.faqCards.filter({
@@ -180,6 +212,7 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
 
     // Delete the FAQ we created and edited.
     const deleteButton = updatedFaqCard.getByTestId("faq-delete-button");
+    await expect(deleteButton).toBeVisible({ timeout: 10000 });
     await deleteButton.click();
 
     // Verify confirmation modal opens.
@@ -207,16 +240,11 @@ test.describe("Event FAQ Page", { tag: ["@desktop"] }, () => {
     await expect(confirmationModal).not.toBeVisible();
     await page.waitForLoadState("domcontentloaded");
 
+    // Assert on our specific FAQ only — total count is unreliable under fullyParallel
+    // because the "view and interact" test runs concurrently and may add FAQ cards.
     await expect(
       faqPage.faqCards.filter({ hasText: updatedQuestion })
-    ).not.toBeVisible({ timeout: 15000 });
-
-    await expect
-      .poll(async () => faqPage.getFAQCount(), {
-        timeout: 20000,
-        intervals: [100, 200, 500],
-      })
-      .toBe(initialFaqCount);
+    ).toHaveCount(0, { timeout: 20000 });
   });
 
   // MARK: View and Interact

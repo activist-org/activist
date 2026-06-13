@@ -85,7 +85,8 @@
           pageType="group"
         />
         <div class="mx-14 mt-5 w-full">
-          <CardConnectGroup />
+          <!-- NOTE: The page should be deleted according to the new designs, but leaving this here for now in case we want to an overview of old designs -->
+          <!-- <CardConnectGroup /> -->
         </div>
         <div class="mx-14 mt-5 flex w-full flex-col">
           <div class="flex space-x-2">

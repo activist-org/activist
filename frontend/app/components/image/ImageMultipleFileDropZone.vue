@@ -50,9 +50,13 @@
       ghost-class="opacity-0"
       tag="div"
     >
-      <template #item="{ element: file }">
+      <template #item="{ element: file, index }">
         <span class="pb-4">
-          <button @click="handleRemoveFile(file)" class="text-action-red">
+          <button
+            @click="handleRemoveFile(file)"
+            class="text-action-red"
+            :data-testid="`upload-image-remove-${index}`"
+          >
             <Icon :name="IconMap.X_SM" size="1.5em" />
           </button>
           <img
@@ -97,7 +101,7 @@ function emitFiles() {
 }
 
 watch(
-  props.modelValue,
+  () => props.modelValue,
   (newValue) => {
     localFiles.value = newValue;
   },
@@ -110,8 +114,8 @@ function handleAdd(files: File[]) {
   emit("files-dropped", localFiles.value);
 }
 
-function handleRemoveFile(file: FileUploadMix) {
-  removeFile(localFiles.value, file.data);
+async function handleRemoveFile(file: FileUploadMix) {
+  await removeFile(localFiles.value, file.data);
   emitFiles();
   emit("file-deleted", file);
 }

@@ -1,10 +1,22 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
+"""
+Configuration fixtures for the backend pytest tests.
+"""
+
 import pytest
 from rest_framework.test import APIClient
 
 
 @pytest.fixture
 def api_client() -> APIClient:
+    """
+    Return the Django REST framework APIClient.
+
+    Returns
+    -------
+    APIClient
+        The Django REST framework API client.
+    """
     return APIClient()
 
 

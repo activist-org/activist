@@ -12,10 +12,23 @@
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
-      <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
+      <div
+        v-if="canEdit(group)"
+        class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4"
+      >
         <BtnAction
-          @click.stop="openModal()"
-          @keydown.enter="openModal()"
+          @click.stop="
+            () =>
+              openModalResourceGroup({
+                entityId: group?.id,
+              })
+          "
+          @keydown.enter="
+            () =>
+              openModalResourceGroup({
+                entityId: group?.id,
+              })
+          "
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           class="w-max"
           :cta="true"
@@ -25,7 +38,6 @@
           :leftIcon="IconMap.PLUS"
           linkTo="/"
         />
-        <ModalResourceGroup />
       </div>
     </HeaderAppPageGroup>
     <!-- Draggable list -->
@@ -76,14 +88,15 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else pageType="resources" :permission="false" />
+    <EmptyState v-else pageType="resources" :permission="canEdit(group)" />
   </div>
 </template>
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-const { openModal } = useModalHandlers("ModalResourceGroup");
+const { openModal: openModalResourceGroup } =
+  useModalHandlers("ModalResourceGroup");
 const { canEdit } = useUser();
 const groupId = (useRoute().params.groupId as string) ?? "";
 

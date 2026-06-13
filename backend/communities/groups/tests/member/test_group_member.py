@@ -28,7 +28,7 @@ def test_group_member_role() -> None:
 
     print(group.__dict__)
 
-    # 1. Test owner role.
+    # Test owner role.
     owner = GroupMemberFactory(
         group=group, user=user, is_owner=True, is_admin=False, is_comms=False
     )
@@ -36,7 +36,7 @@ def test_group_member_role() -> None:
     assert owner.is_admin is False
     assert owner.is_comms is False
 
-    # 2. Test admin role.
+    # Test admin role.
     admin = GroupMemberFactory(
         group=group, user=user, is_owner=False, is_admin=True, is_comms=False
     )
@@ -44,7 +44,7 @@ def test_group_member_role() -> None:
     assert admin.is_admin is True
     assert admin.is_comms is False
 
-    # 3. Test comms role.
+    # Test comms role.
     comms = GroupMemberFactory(
         group=group, user=user, is_owner=False, is_admin=False, is_comms=True
     )

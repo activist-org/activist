@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
-Test to check the numbers of entities (groups, organizations and events) and content (faqs, resources and social links)
-created by the populate_db command.
+Test to check the numbers of entities and content (faqs, resources and social links) created by populate_db.
 """
 
 from pathlib import Path

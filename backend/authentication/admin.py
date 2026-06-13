@@ -49,15 +49,15 @@ class UserCreationForm(forms.ModelForm):  # type: ignore[type-arg]
         """
         Validate that the two entered passwords match.
 
-        Raises
-        -------
-        ValidationError
-            If the two passwords do not match.
-
         Returns
         -------
         Any | None
             The second password if valid.
+
+        Raises
+        ------
+        ValidationError
+            If the two passwords do not match.
         """
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
@@ -261,8 +261,9 @@ class UserFlagAdmin(admin.ModelAdmin):  # type: ignore[type-arg]
                 obj.created_by,
                 request.user,
             )
+
         else:
-            logger.warning(
+            logger.info(
                 "Created user flag: %s -> %s (by %s)",
                 obj.user.email,
                 obj.created_by,

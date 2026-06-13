@@ -19,6 +19,7 @@ export default defineNuxtConfig({
       apiBase: process.env.VITE_BACKEND_URL || "http://localhost:8000",
     },
   },
+
   modules: process.env.VITEST ? [] : modules,
   ssr: false,
 
@@ -111,10 +112,10 @@ export default defineNuxtConfig({
     preset: process.env.USE_PREVIEW === "true" ? undefined : "netlify-static",
   },
 
-  plausible: {
-    // Prevent tracking on localhost.
-    ignoredHostnames: ["localhost"],
-  },
+  // plausible: {
+  //   // Prevent tracking on localhost.
+  //   ignoredHostnames: ["localhost"],
+  // },
 
   security: {
     // Cross-Origin Resource Sharing (CORS) not needed for frontend.

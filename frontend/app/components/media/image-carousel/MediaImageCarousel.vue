@@ -4,6 +4,10 @@
     <swiper-container
       ref="swiperRef"
       class="swiper card-style h-full w-full cursor-pointer overflow-clip"
+      :data-slide-count="imageUrls?.length ?? 0"
+      :data-testid="
+        props.fullscreen ? 'image-carousel-fullscreen' : 'image-carousel-main'
+      "
       :keyboard="true"
       :loop="true"
       :pagination="{ clickable: true }"
@@ -22,6 +26,7 @@
             'h-5/6 w-5/6': props.fullscreen,
             'h-70': !props.fullscreen,
           }"
+          data-testid="image-carousel-image"
           :src="img"
         />
       </swiper-slide>
@@ -33,7 +38,8 @@
       {{ $t("i18n.components.media_image_carousel.upload_error") }}
     </p>
     <IconEdit
-      @click="handleOpenModalUploadImage()"
+      v-if="!fullscreen"
+      @click="handleEditUploadImage()"
       :aria-label="
         $t('i18n.components.media_image_carousel.edit_images_aria_label')
       "
@@ -59,16 +65,9 @@ register();
 
 const uploadError = ref(false);
 const currentImageId = ref<string>("");
-const { openModal: openModalUploadImageOrganization } = useModalHandlers(
-  "ModalUploadImageOrganization"
-);
-const { openModal: openModalUploadImageGroup } = useModalHandlers(
-  "ModalUploadImageGroup"
-);
-const handleOpenModalUploadImage = () => {
-  if (props.entityType === EntityType.GROUP) openModalUploadImageGroup();
-  if (props.entityType === EntityType.ORGANIZATION)
-    openModalUploadImageOrganization();
+const emit = defineEmits(["edit-images"]);
+const handleEditUploadImage = () => {
+  emit("edit-images");
 };
 // Get the swiper instance. Use this instance to listen for the slideChange event.
 const swiperRef = ref<{ swiper?: SwiperInstance } | null>(null);

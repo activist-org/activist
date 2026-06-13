@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 9
   cacheKey: 10c0
 
 "@adonisjs/hash@npm:^9.1.1":
@@ -372,13 +372,6 @@ __metadata:
     "@babel/helper-string-parser": "npm:^7.27.1"
     "@babel/helper-validator-identifier": "npm:^7.28.5"
   checksum: 10c0/23cc3466e83bcbfab8b9bd0edaafdb5d4efdb88b82b3be6728bbade5ba2f0996f84f63b1c5f7a8c0d67efded28300898a5f930b171bb40b311bca2029c4e9b4f
-  languageName: node
-  linkType: hard
-
-"@barbapapazes/plausible-tracker@npm:^0.5.6":
-  version: 0.5.6
-  resolution: "@barbapapazes/plausible-tracker@npm:0.5.6"
-  checksum: 10c0/aa237d0671f7ce29cfa77da1513501717710127ecaacc1c471ca30aa72f678c529055cfe0a87fe19e41abea69b2852a9f5e34454777c942ee165258cbe82f953
   languageName: node
   linkType: hard
 
@@ -2056,7 +2049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:^4.0.3, @nuxt/kit@npm:^4.1.2, @nuxt/kit@npm:^4.1.3, @nuxt/kit@npm:^4.2.0, @nuxt/kit@npm:^4.2.1, @nuxt/kit@npm:^4.2.2":
+"@nuxt/kit@npm:^4.1.2, @nuxt/kit@npm:^4.1.3, @nuxt/kit@npm:^4.2.0, @nuxt/kit@npm:^4.2.1, @nuxt/kit@npm:^4.2.2":
   version: 4.3.1
   resolution: "@nuxt/kit@npm:4.3.1"
   dependencies:
@@ -2318,18 +2311,6 @@ __metadata:
     vue-i18n: "npm:^11.1.11"
     vue-router: "npm:^4.6.3"
   checksum: 10c0/2e6bce82be58c3cbe9fe27b5a074edc3f5562fd7bd66e2d7425c0be9a6ff91d0e6a92475a00942d581c77924323a4918f881336ed123e316da383f78dfab9b27
-  languageName: node
-  linkType: hard
-
-"@nuxtjs/plausible@npm:2.0.1":
-  version: 2.0.1
-  resolution: "@nuxtjs/plausible@npm:2.0.1"
-  dependencies:
-    "@barbapapazes/plausible-tracker": "npm:^0.5.6"
-    "@nuxt/kit": "npm:^4.0.3"
-    defu: "npm:^6.1.4"
-    ufo: "npm:^1.6.1"
-  checksum: 10c0/f4a4bc8f5ee00ffc7a2683df4ceff5664ddd6d09c6fd886fa057b9314a8d7a2c3c420d5bb86e0ba77802d0b75695c48812b5707dd788e69d7df5f9017a6dbb7e
   languageName: node
   linkType: hard
 
@@ -5774,7 +5755,6 @@ __metadata:
     "@nuxtjs/color-mode": "npm:4.0.0"
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.2.3"
-    "@nuxtjs/plausible": "npm:2.0.1"
     "@opentelemetry/api": "npm:1.9.0"
     "@pinia/nuxt": "npm:0.11.3"
     "@playwright/test": "npm:1.58.0"

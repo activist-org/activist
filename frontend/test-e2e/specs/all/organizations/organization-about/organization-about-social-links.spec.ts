@@ -2,7 +2,7 @@
 import { navigateToFirstOrganization } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
-import { submitModalWithRetry } from "~/test-e2e/utils/modalHelpers";
+import { submitModalWithRetry } from "~/test-e2e/utils/modal-helpers";
 
 test.beforeEach(async ({ page }) => {
   // Already authenticated via global storageState.
@@ -38,6 +38,14 @@ test.describe(
       const organizationPage = newOrganizationPage(page);
       const { aboutPage, socialLinksModal } = organizationPage;
 
+      const clickConnectCardEdit = async () => {
+        await expect(aboutPage.connectCardEditIcon).toBeVisible({
+          timeout: 15000,
+        });
+        await aboutPage.connectCardEditIcon.scrollIntoViewIfNeeded();
+        await aboutPage.connectCardEditIcon.click();
+      };
+
       // Ensure we're on the About page.
       await expect(page).toHaveURL(/.*\/organizations\/.*\/about/, {});
 
@@ -59,7 +67,7 @@ test.describe(
       // MARK: Create
 
       // Add a new social link.
-      await aboutPage.connectCardEditIcon.click();
+      await clickConnectCardEdit();
       await expect(socialLinksModal.modal).toBeVisible();
 
       // Count existing social link entries using data-testid.
@@ -134,7 +142,7 @@ test.describe(
       // MARK: Update
 
       // Edit the social link we just created.
-      await aboutPage.connectCardEditIcon.click();
+      await clickConnectCardEdit();
       await expect(socialLinksModal.modal).toBeVisible();
 
       // Find the social link we created by looking for our unique label using test IDs.
@@ -219,7 +227,7 @@ test.describe(
       // MARK: Delete
 
       // Remove the social link we updated.
-      await aboutPage.connectCardEditIcon.click();
+      await clickConnectCardEdit();
       await expect(socialLinksModal.modal).toBeVisible();
 
       // Get the current form entries using test IDs.

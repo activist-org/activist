@@ -1,19 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "../shared/utils/i18n";
-
 export const PASSWORD_RATING = {
   INVALID: getEnglishText(
     "i18n.components.indicator_password_strength.invalid"
   ),
-  VERY_WEAK: getEnglishText(
-    "i18n.components.indicator_password_strength.very_weak"
-  ),
-  WEAK: getEnglishText("i18n.components.indicator_password_strength.weak"),
-  MEDIUM: getEnglishText("i18n.components.indicator_password_strength.medium"),
-  STRONG: getEnglishText("i18n.components.indicator_password_strength.strong"),
-  VERY_STRONG: getEnglishText(
-    "i18n.components.indicator_password_strength.very_strong"
-  ),
+  // * Note: This is a placeholder until getEnglishText can receive params for dynamic text.
+  VERY_WEAK: "Time to crack password: less than a second",
+  WEAK: "Time to crack password: 17 minutes",
+  MEDIUM: "Time to crack password: 15 days",
+  STRONG: "Time to crack password: 9 years",
+  VERY_STRONG: "Time to crack password: centuries",
 };
 
 export const PASSWORD_PROGRESS = {

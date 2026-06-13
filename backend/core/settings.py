@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+import sys
 from datetime import timedelta
 from pathlib import Path
 
@@ -25,6 +26,11 @@ if os.getenv("DJANGO_ENV") == "LOCAL_DEV":
 
 else:
     dotenv.load_dotenv()
+
+# Ensure the repository root (which contains ``services``) is importable so that
+# backend code can import helper modules such as ``services.filescan.client``.
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 # MARK: DB
 
@@ -80,14 +86,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "djangorestframework_camel_case.middleware.CamelCaseMiddleWare",
 ]
 
@@ -192,6 +197,15 @@ EMAIL_BACKEND = os.getenv(
     "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
 )
 
+# Security event alerts
+INTERNAL_EVENTS_TOKEN = os.getenv("INTERNAL_EVENTS_TOKEN")
+SECURITY_ALERT_RECIPIENTS = tuple(
+    addr.strip()
+    for addr in os.getenv("SECURITY_ALERT_RECIPIENTS", "").split(",")
+    if addr.strip()
+)
+SECURITY_ALERT_FROM_EMAIL = os.getenv("SECURITY_ALERT_FROM_EMAIL", EMAIL_HOST_USER)
+
 # MARK: REST Framework
 
 REST_FRAMEWORK = {
@@ -245,7 +259,7 @@ SPECTACULAR_SETTINGS = {
 # https://docs.djangoproject.com/en/4.2/topics/logging/
 
 LOGGING = {
-    "version": 1.0,
+    "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {

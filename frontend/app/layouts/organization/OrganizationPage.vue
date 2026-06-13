@@ -1,16 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <ModalUploadImageOrganization
-      @closeModal="handleCloseModalUploadImage"
-      :images="images || []"
-      :orgId="organization?.id || ''"
-    />
-    <ModalUploadImageIcon
-      @closeModal="handleCloseModalUploadImageIcon"
-      :entityId="organization?.id || ''"
-      :entityType="EntityType.ORGANIZATION"
-    />
     <SidebarLeft
       v-if="aboveMediumBP"
       @blur="sidebarHover = false"
@@ -19,11 +9,19 @@
       @mouseover="sidebarHover = true"
       class="fixed top-0 z-20 h-screen"
     />
-    <div class="flex flex-col">
+    <div class="flex grid-rows-none flex-col md:grid md:grid-rows-[1fr_auto]">
       <div
-        class="bg-layer-0 pt-8 transition-[padding] duration-500 md:pt-0"
+        class="bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
         :class="sidebarContentDynamicClass"
       >
+        <EntityIconMobile
+          v-if="showMobileEntityShortcut"
+          @edit="handleEditOrganizationIcon"
+          :entity="organization"
+          :icon="IconMap.ORGANIZATION"
+          :imgUrl="organizationIconUrl"
+          :tagline="organization?.tagline"
+        />
         <NuxtPage :organization="organization" />
       </div>
       <FooterWebsite
@@ -37,18 +35,26 @@
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
 
-const { handleCloseModal: handleCloseModalUploadImage } = useModalHandlers(
-  "ModalUploadImageOrganization"
-);
-const { handleCloseModal: handleCloseModalUploadImageIcon } = useModalHandlers(
-  "ModalUploadImageIcon"
-);
-
-const paramsOrgId = useRoute().params.orgId;
+const route = useRoute();
+const paramsOrgId = route.params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
 
 const { data: organization } = useGetOrganization(orgId || "");
-const { data: images } = useGetOrganizationImages(orgId || "");
+
+const organizationIconUrl = computed(() =>
+  organization.value?.iconUrl?.fileObject
+    ? `/api/${organization.value.iconUrl.fileObject}`
+    : ""
+);
+
+const normalizedRoutePath = computed(() => route.path.replace(/\/$/, ""));
+const showMobileEntityShortcut = computed(
+  () =>
+    !aboveMediumBP.value &&
+    !!organization.value &&
+    !!orgId &&
+    !normalizedRoutePath.value.endsWith(`/organizations/${orgId}`)
+);
 
 const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
@@ -60,4 +66,17 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
+function handleEditOrganizationIcon(): void {
+  if (!organization.value?.id) {
+    return;
+  }
+
+  openModal({
+    entityId: organization.value.id,
+    entityType: EntityType.ORGANIZATION,
+  });
+}
 </script>
