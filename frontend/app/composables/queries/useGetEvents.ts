@@ -9,18 +9,33 @@ export function useGetEvents(
   const page = ref(1);
   const { handleError } = useAppError();
   const eventFilters = computed(() => unref(filters));
+  // Incremented at the start of every handler invocation; used to discard
+  // stale responses that resolve after a newer fetch has already started
+  // (e.g. a page-2 request that resolves after the user changed filters).
+  const fetchGeneration = ref(0);
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<CommunityEvent[]>(
     () => getKeyForGetEvents(),
     async () => {
       try {
-        if (
-          JSON.stringify(store.getFilters()) ===
-            JSON.stringify(eventFilters.value) &&
-          store.getIsLastPage()
-        ) {
+        // Detect filter change and reset page BEFORE the API call so that
+        // the outgoing request always uses the correct page number.
+        const filtersChanged =
+          JSON.stringify(store.getFilters()) !==
+          JSON.stringify(eventFilters.value);
+        if (filtersChanged) {
+          page.value = 1;
+          store.setPage(1);
+        }
+
+        // Stamp this invocation; any concurrent in-flight request that
+        // resolves with an older generation will be discarded below.
+        const currentGeneration = ++fetchGeneration.value;
+
+        if (!filtersChanged && store.getIsLastPage()) {
           return store.getItems();
         }
+
         // SSR hydration skipped this factory; seed the store so page 2 appends correctly.
         if (page.value > 1 && store.getItems().length === 0) {
           const nuxtApp = useNuxtApp();
@@ -34,41 +49,36 @@ export function useGetEvents(
             store.setIsLastPage(false);
           }
         }
+
         const { data: events, isLastPage } = await listEvents({
           ...eventFilters.value,
-          page:
-            JSON.stringify(store.getFilters()) ===
-            JSON.stringify(eventFilters.value)
-              ? page.value
-              : 1,
+          page: page.value,
           page_size: 10,
         });
-        const eventsCached = store.getItems();
-        const pageCached = store.getPage();
 
-        // Append new events to cached events if page > 1.
+        // Discard this response if a newer fetch has already started.
+        // This prevents stale page-N data from being appended after a filter
+        // change races with an in-flight request.
+        if (currentGeneration !== fetchGeneration.value) {
+          return store.getItems();
+        }
+
+        const eventsCached = store.getItems();
+
+        // Append new events to cached events if page > 1 and filters match.
         if (
           eventsCached.length > 0 &&
-          JSON.stringify(store.getFilters()) ===
-            JSON.stringify(eventFilters.value) &&
-          (page.value > pageCached || (page.value === 1 && pageCached === 1))
+          !filtersChanged &&
+          page.value > store.getPage()
         ) {
           store.setItems([...eventsCached, ...events]);
           store.setIsLastPage(isLastPage);
           return [...eventsCached, ...events] as CommunityEvent[];
         }
+
         store.setItems(events);
         store.setIsLastPage(isLastPage);
-        // Reset to page 1 if filters changed.
-        if (
-          JSON.stringify(store.getFilters()) !==
-          JSON.stringify(eventFilters.value)
-        ) {
-          store.setPage(1);
-          page.value = 1;
-        } else {
-          store.setPage(page.value);
-        }
+        store.setPage(page.value);
         store.setFilters(eventFilters.value);
         return events as CommunityEvent[];
       } catch (err) {
