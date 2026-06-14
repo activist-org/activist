@@ -1,7 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, expect, it } from "vitest";
 
-import { getAllDaysInRange } from "../../shared/utils/date";
+import {
+  buildTimesForDateRange,
+  combineDateAndTime,
+  eventTimesToSchedule,
+  formatDate,
+  getAllDaysInRange,
+  isAllDayEventTime,
+  formatScheduleDayLabel,
+  mapScheduleTimesToEventTimeInput,
+  normalizeCalendarRange,
+  parseCalendarDateFromIso,
+  toLocalDateString,
+} from "../../shared/utils/date";
 
 describe("utils/date", () => {
   describe("getAllDaysInRange", () => {
@@ -145,6 +157,174 @@ describe("utils/date", () => {
       const date = new Date("2024-06-15T12:34:56Z");
       const formatted = formatDate(date);
       expect(formatted).toBe("15 / 06 / 2024");
+    });
+  });
+
+  describe("toLocalDateString", () => {
+    it("formats calendar day in local time as YYYY-MM-DD", () => {
+      const date = new Date(2026, 5, 15, 23, 30);
+      expect(toLocalDateString(date)).toBe("2026-06-15");
+    });
+  });
+
+  describe("combineDateAndTime", () => {
+    it("applies time-of-day onto the selected calendar day", () => {
+      const day = new Date(2026, 5, 20);
+      const time = new Date(2020, 0, 1, 14, 30, 0);
+
+      const combined = combineDateAndTime(day, time);
+
+      expect(combined.getFullYear()).toBe(2026);
+      expect(combined.getMonth()).toBe(5);
+      expect(combined.getDate()).toBe(20);
+      expect(combined.getHours()).toBe(14);
+      expect(combined.getMinutes()).toBe(30);
+    });
+  });
+
+  describe("parseCalendarDateFromIso", () => {
+    it("parses the date prefix as local midnight", () => {
+      const date = parseCalendarDateFromIso("2026-09-13T00:00:00Z");
+      expect(date.getFullYear()).toBe(2026);
+      expect(date.getMonth()).toBe(8);
+      expect(date.getDate()).toBe(13);
+    });
+  });
+
+  describe("eventTimesToSchedule", () => {
+    it("maps a single all-day UTC time to one calendar day", () => {
+      const schedule = eventTimesToSchedule([
+        {
+          startTime: "2026-09-13T00:00:00Z",
+          endTime: "2026-09-13T23:59:59Z",
+          allDay: true,
+          date: "2026-09-13",
+        },
+      ]);
+
+      expect(schedule.dates.start.getDate()).toBe(13);
+      expect(schedule.dates.end.getDate()).toBe(13);
+      expect(schedule.dates.start.getMonth()).toBe(8);
+      expect(schedule.times).toHaveLength(1);
+      expect(schedule.times[0].allDayLong).toBe(true);
+    });
+
+    it("detects all-day pattern when allDay flag is missing", () => {
+      expect(
+        isAllDayEventTime({
+          startTime: "2026-09-13T00:00:00Z",
+          endTime: "2026-09-13T23:59:59Z",
+          allDay: false,
+          date: "2026-09-13",
+        })
+      ).toBe(true);
+    });
+
+    it("maps a single timed entry to one calendar day", () => {
+      const schedule = eventTimesToSchedule([
+        {
+          startTime: "2026-06-15T14:00:00Z",
+          endTime: "2026-06-15T18:00:00Z",
+          allDay: false,
+          date: "2026-06-15",
+        },
+      ]);
+
+      expect(schedule.dates.start.getTime()).toBe(schedule.dates.end.getTime());
+      expect(schedule.times[0].date.getTime()).toBe(
+        schedule.dates.start.getTime()
+      );
+    });
+
+    it("maps multiple entries across calendar days", () => {
+      const schedule = eventTimesToSchedule([
+        {
+          startTime: "2026-06-15T10:00:00Z",
+          endTime: "2026-06-15T12:00:00Z",
+          allDay: false,
+          date: "2026-06-15",
+        },
+        {
+          startTime: "2026-06-16T10:00:00Z",
+          endTime: "2026-06-16T12:00:00Z",
+          allDay: false,
+          date: "2026-06-16",
+        },
+      ]);
+
+      expect(schedule.dates.start.getDate()).toBe(15);
+      expect(schedule.dates.end.getDate()).toBe(16);
+      expect(schedule.times).toHaveLength(2);
+    });
+  });
+
+  describe("normalizeCalendarRange", () => {
+    it("collapses v-calendar exclusive end midnight to a single day", () => {
+      const start = new Date(2026, 8, 13);
+      const end = new Date(2026, 8, 14);
+
+      const normalized = normalizeCalendarRange({ start, end });
+
+      expect(normalized.start.getDate()).toBe(13);
+      expect(normalized.end.getDate()).toBe(13);
+    });
+
+    it("collapses a 2-day local UTC all-day hydration range to one day", () => {
+      const start = new Date(2026, 8, 12);
+      const end = new Date(2026, 8, 13);
+      const currentTimes = [
+        {
+          date: new Date(2026, 8, 13),
+          allDayLong: true,
+          startTime: new Date("2026-09-13T00:00:00Z"),
+          endTime: new Date("2026-09-13T23:59:59Z"),
+        },
+      ];
+
+      const normalized = normalizeCalendarRange({ start, end }, currentTimes);
+
+      expect(normalized.start.getDate()).toBe(13);
+      expect(normalized.end.getDate()).toBe(13);
+    });
+  });
+
+  describe("buildTimesForDateRange", () => {
+    it("preserves allDayLong when hydrating a single saved all-day entry", () => {
+      const savedDay = new Date(2026, 8, 13);
+      const currentTimes = [
+        {
+          date: savedDay,
+          startTime: new Date("2026-09-13T00:00:00Z"),
+          endTime: new Date("2026-09-13T23:59:59Z"),
+          allDayLong: true,
+        },
+      ];
+
+      const rebuilt = buildTimesForDateRange(
+        { start: savedDay, end: new Date(2026, 8, 14) },
+        currentTimes
+      );
+
+      expect(rebuilt).toHaveLength(1);
+      expect(rebuilt[0].allDayLong).toBe(true);
+    });
+  });
+
+  describe("mapScheduleTimesToEventTimeInput", () => {
+    it("maps all-day and timed entries for the API", () => {
+      const day = new Date(2026, 5, 15);
+      const startTime = new Date(2026, 5, 15, 10, 0);
+      const endTime = new Date(2026, 5, 15, 12, 0);
+
+      const payload = mapScheduleTimesToEventTimeInput([
+        { date: day, startTime: day, endTime: day, allDayLong: true },
+        { date: day, startTime, endTime, allDayLong: false },
+      ]);
+
+      expect(payload[0]).toEqual({ date: "2026-06-15", all_day: true });
+      expect(payload[1].all_day).toBe(false);
+      expect(payload[1].start_time).toBeTruthy();
+      expect(payload[1].end_time).toBeTruthy();
     });
   });
 });
