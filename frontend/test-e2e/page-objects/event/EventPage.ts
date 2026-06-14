@@ -4,6 +4,7 @@ import type { Page } from "@playwright/test";
 import { getEnglishText } from "#shared/utils/i18n";
 
 import { newEditModal } from "~/test-e2e/component-objects/EditModal";
+import { newEventDetailsEditModal } from "~/test-e2e/component-objects/EventDetailsEditModal";
 import { newEventMenu } from "~/test-e2e/component-objects/EventMenu";
 import { newQRCodeModal } from "~/test-e2e/component-objects/QRCodeModal";
 import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
@@ -40,6 +41,9 @@ export const newEventPage = (page: Page) => ({
   shareModal: newShareModal(page),
   qrCodeModal: newQRCodeModal(page),
   editModal: newEditModal(page),
+  get detailsEditModal() {
+    return newEventDetailsEditModal(page);
+  },
   socialLinksModal: newSocialLinksModal(page),
 
   // MARK: Lazy-loaded Subpages

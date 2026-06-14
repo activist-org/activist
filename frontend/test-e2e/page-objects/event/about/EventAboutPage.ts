@@ -42,6 +42,41 @@ export const newEventAboutPage = (page: Page) => ({
     .getByTestId("icon-edit")
     .first(),
 
+  // MARK: Details Card
+
+  detailsCardHeading: page.getByRole("heading", {
+    name: new RegExp(
+      getEnglishText("i18n.components.card_details.header"),
+      "i"
+    ),
+  }),
+  detailsCardEditIcon: page.getByTestId("edit-event-details"),
+  detailsCard: page
+    .locator(".card-style")
+    .filter({
+      has: page.getByRole("heading", {
+        name: new RegExp(
+          getEnglishText("i18n.components.card_details.header"),
+          "i"
+        ),
+      }),
+    }),
+  detailsCardOrganizationLink: page
+    .locator(".card-style")
+    .filter({
+      has: page.getByRole("heading", {
+        name: new RegExp(
+          getEnglishText("i18n.components.card_details.header"),
+          "i"
+        ),
+      }),
+    })
+    .getByRole("link")
+    .filter({
+      has: page.locator("p"),
+    })
+    .first(),
+
   // MARK: Media
   imageCarousel: page.getByTestId("image-carousel"),
 });
