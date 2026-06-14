@@ -21,13 +21,14 @@
             {{ $t("i18n.components.card_details.header") }}
           </h3>
           <IconEdit
+            data-testid="edit-event-details"
             @click="
-              openModalTextEvent({
+              openModalEventDetails({
                 entityId: event?.id,
               })
             "
             @keydown.enter="
-              openModalTextEvent({
+              openModalEventDetails({
                 entityId: event?.id,
               })
             "
@@ -83,7 +84,8 @@ const props = defineProps<{
   event: CommunityEvent | null;
 }>();
 
-const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
+const { openModal: openModalEventDetails } =
+  useModalHandlers("ModalEventDetails");
 
 const eventForLinkURL = computed(() => props.event);
 const { linkUrl: eventLinkUrl } = useLinkURL({

@@ -7,6 +7,7 @@
           {{ $t("i18n._global.about") }}
         </h3>
         <IconEdit
+          data-testid="edit-event-texts"
           @click="() => openModalTextEvent({ entityId: event?.id })"
           @keydown.enter="() => openModalTextEvent({ entityId: event?.id })"
           :entity="event"
