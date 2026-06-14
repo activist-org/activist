@@ -317,39 +317,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
         orgs = Organization.objects.filter(id__in=orgs)
         data["orgs"] = orgs
 
-        # Get the local timezone from Django settings.
-        local_tz = zoneinfo.ZoneInfo(settings.TIME_ZONE)
-
-        for time in times:
-            if time.get("all_day"):
-                date = time.get("date")
-                # For all-day events, create times in the local timezone
-                # so that 00:00:00 to 23:59:59 stays in that timezone.
-                if date is None:
-                    raise serializers.ValidationError(
-                        "Date must be provided for all-day events."
-                    )
-                time["start_time"] = datetime.combine(
-                    date, datetime.min.time(), tzinfo=local_tz
-                )
-                time["end_time"] = datetime.combine(
-                    date, datetime.min.time(), tzinfo=local_tz
-                ) + timedelta(days=1, seconds=-1)
-
-                continue
-
-            start_time = time.get("start_time")
-            end_time = time.get("end_time")
-
-            if not start_time or not end_time:
-                raise serializers.ValidationError(
-                    "Both start_time and end_time are required for each event time."
-                )
-
-            if start_time >= end_time:
-                raise serializers.ValidationError(
-                    "start_time must be before end_time for each event time."
-                )
+        _prepare_event_times(times)
 
         if topics:
             query_topics = Topic.objects.filter(type__in=topics, active=True)
@@ -433,6 +401,147 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
                 event.times.set(event_times)
 
         return event
+
+
+def _prepare_event_times(times: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """
+    Validate and normalize event time entries for create and update flows.
+
+    Parameters
+    ----------
+    times : list[dict[str, Any]]
+        Raw event time payloads.
+
+    Returns
+    -------
+    list[dict[str, Any]]
+        Normalized event time payloads.
+
+    Raises
+    ------
+    ValidationError
+        If any time entry is invalid.
+    """
+    local_tz = zoneinfo.ZoneInfo(settings.TIME_ZONE)
+
+    for time in times:
+        if time.get("all_day"):
+            date = time.get("date")
+            if date is None:
+                raise serializers.ValidationError(
+                    "Date must be provided for all-day events."
+                )
+            time["start_time"] = datetime.combine(
+                date, datetime.min.time(), tzinfo=local_tz
+            )
+            time["end_time"] = datetime.combine(
+                date, datetime.min.time(), tzinfo=local_tz
+            ) + timedelta(days=1, seconds=-1)
+            continue
+
+        start_time = time.get("start_time")
+        end_time = time.get("end_time")
+
+        if not start_time or not end_time:
+            raise serializers.ValidationError(
+                "Both start_time and end_time are required for each event time."
+            )
+
+        if start_time >= end_time:
+            raise serializers.ValidationError(
+                "start_time must be before end_time for each event time."
+            )
+
+    return times
+
+
+class EventPUTSerializer(serializers.Serializer[Any]):
+    """
+    Serializer for partial event detail updates (orgs, times, location).
+    """
+
+    name = serializers.CharField(required=False, max_length=255)
+    tagline = serializers.CharField(
+        required=False, max_length=255, allow_blank=True
+    )
+    orgs = serializers.ListField(
+        child=serializers.UUIDField(), required=False, allow_empty=False
+    )
+    times = EventPOSTTimesSerializer(required=False, many=True)
+    location_type = serializers.ChoiceField(
+        choices=[("physical", "Physical"), ("online", "Online")], required=False
+    )
+    online_location_link = serializers.URLField(required=False, allow_blank=True)
+    location = EventPOSTLocationSerializer(required=False)
+
+    def validate_times(
+        self, times: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        return _prepare_event_times(times)
+
+    def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        if "orgs" in data:
+            org_ids = data["orgs"]
+            orgs = Organization.objects.filter(id__in=org_ids)
+            if orgs.count() != len(org_ids):
+                raise serializers.ValidationError(
+                    "One or more organizations do not exist."
+                )
+            data["orgs"] = list(orgs)
+
+        return data
+
+    def update(self, instance: Event, validated_data: dict[str, Any]) -> Event:
+        with transaction.atomic():
+            orgs_data = validated_data.pop("orgs", None)
+            times_data = validated_data.pop("times", None)
+            location_type = validated_data.pop("location_type", None)
+            location_data = validated_data.pop("location", None)
+            online_location_link = validated_data.pop("online_location_link", None)
+
+            for field in ("name", "tagline"):
+                if field in validated_data:
+                    setattr(instance, field, validated_data[field])
+
+            if location_type is not None:
+                instance.location_type = location_type
+
+            if online_location_link is not None:
+                instance.online_location_link = online_location_link
+
+            effective_location_type = location_type or instance.location_type
+            if location_data and effective_location_type == "physical":
+                if instance.physical_location:
+                    for attr, value in location_data.items():
+                        setattr(instance.physical_location, attr, value)
+                    instance.physical_location.save()
+                else:
+                    instance.physical_location = Location.objects.create(
+                        **location_data
+                    )
+
+            if orgs_data is not None:
+                instance.orgs.set(orgs_data)
+
+            if times_data is not None:
+                old_time_ids = list(instance.times.values_list("id", flat=True))
+                instance.times.clear()
+                event_times = [
+                    EventTime(
+                        start_time=time_data.get("start_time"),
+                        end_time=time_data.get("end_time"),
+                        all_day=time_data.get("all_day", False),
+                    )
+                    for time_data in times_data
+                ]
+                EventTime.objects.bulk_create(event_times)
+                instance.times.set(event_times)
+                if old_time_ids:
+                    EventTime.objects.filter(id__in=old_time_ids).delete()
+
+            instance.save()
+
+        return instance
 
 
 # MARK: Event
