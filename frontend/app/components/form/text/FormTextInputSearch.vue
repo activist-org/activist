@@ -6,6 +6,7 @@
     iconLocation="left"
     :label="label"
     :modelValue="localValue"
+    v-bind="$attrs"
   >
     <template #icons>
       <slot name="icons"></slot>
@@ -17,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+
 export interface Props {
   id: string;
   label: string;
@@ -48,7 +50,7 @@ watch(
 const { debounce } = useDebounce();
 const emitDebouncedUpdate = debounce((value: unknown) => {
   emit("update:modelValue", value as string);
-}, 300);
+}, 500);
 watch(localValue, (newVal) => {
   emitDebouncedUpdate(newVal);
 });

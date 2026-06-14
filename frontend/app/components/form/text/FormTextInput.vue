@@ -3,7 +3,8 @@
 <!-- See: https://mui.com/material-ui/react-text-field/ -->
 <template>
   <div
-    class="form-text-input-container primary-text relative inline-flex w-full flex-col space-y-2 align-top"
+    class="form-text-input-container primary-text relative inline-flex flex-col space-y-2 align-top"
+    :class="sizeClass"
   >
     <label
       class="form-text-input-label pointer-events-none absolute z-10"
@@ -39,7 +40,7 @@
         @focus="handleFocus"
         @input="handleInput"
         @pointerdown="handlePointerDown"
-        class="form-text-input box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
+        class="form-text-input box-content h-5 bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed w-full"
         :placeholder="shrinkLabel ? '' : label"
         role="textbox"
         :type="type"
@@ -90,6 +91,7 @@ export interface Props {
   hasError?: boolean;
   iconLocation?: "left" | "right";
   type?: string;
+  size?: "sm" | "md" | "lg";
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -190,6 +192,18 @@ watch(
   }
 );
 
+const sizeClass = computed(() => {
+  switch (props.size) {
+    case "sm":
+      return "w-40";
+    case "md":
+      return "w-64";
+    case "lg":
+      return "w-80";
+    default:
+      return "w-full";
+  }
+});
 onMounted(() => {
   // Browser autofill may populate after hydration without emitting input events.
   let autofillDetected = syncShrinkLabelState();

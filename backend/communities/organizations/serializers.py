@@ -283,6 +283,23 @@ class OrganizationListSerializer(serializers.ModelSerializer[Organization]):
         fields = ["id", "name", "tagline", "location", "topics", "texts", "icon_url"]
 
 
+class OrganizationEventListSerializer(serializers.ModelSerializer[Organization]):
+    """
+    Serializer for listing Organization model data with events.
+    """
+
+    events = EventSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Organization
+        extra_kwargs = {
+            "created_by": {"read_only": True},
+            "status_updated": {"read_only": True},
+            "acceptance_date": {"read_only": True},
+        }
+        fields = ["id", "events"]
+
+
 class OrganizationSerializer(serializers.ModelSerializer[Organization]):
     """
     Serializer for Organization model data.
