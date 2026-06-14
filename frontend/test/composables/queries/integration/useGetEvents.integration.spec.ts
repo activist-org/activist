@@ -1,8 +1,5 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-/**
- * Integration tests for useGetEvents composable.
- * Tests paginated list behaviors: pagination, filter handling, append logic.
- */
+/* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any */
+import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -10,6 +7,46 @@ import type { EventFilters } from "../../../../shared/types/event";
 
 import { createMockEvent } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
+
+const { useAsyncDataMock, capturedCalls, hoistedListEvents } = vi.hoisted(
+  () => {
+    const { ref } = require("vue");
+
+    const captured = {
+      lastCall: null,
+      allCalls: [],
+    };
+
+    const useAsyncDataMock = vi.fn((key, handler, options) => {
+      const call = {
+        handler,
+        getCachedData: options?.getCachedData ?? null,
+        watch: options?.watch ?? null,
+        immediate: options?.immediate ?? false,
+        defaultFn: options?.default ?? null,
+      };
+      captured.lastCall = call as any;
+      captured.allCalls.push(call as any);
+
+      return {
+        data: ref(null),
+        pending: ref(false),
+        error: ref(null),
+        refresh: vi.fn().mockResolvedValue(undefined),
+        execute: vi.fn().mockResolvedValue(undefined),
+      };
+    });
+
+    return {
+      useAsyncDataMock,
+      capturedCalls: captured,
+      hoistedListEvents: vi.fn(),
+    };
+  }
+);
+
+mockNuxtImport("useAsyncData", () => useAsyncDataMock);
+mockNuxtImport("listEvents", () => hoistedListEvents);
 
 type MockEvent = ReturnType<typeof createMockEvent> & { id: string };
 
@@ -41,7 +78,7 @@ vi.mock("../../../../app/stores/event", () => ({
   }),
 }));
 
-const mockListEvents = vi.fn();
+const mockListEvents = hoistedListEvents;
 
 vi.mock("../../../../app/services/entities/event", () => ({
   listEvents: (params: unknown) => mockListEvents(params),
@@ -53,6 +90,8 @@ describe("useGetEvents Integration", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
+    capturedCalls.lastCall = null;
+    capturedCalls.allCalls = [];
     mockGetEvents.mockReturnValue([]);
     mockGetFilters.mockReturnValue({});
     mockGetPage.mockReturnValue(1);
@@ -462,6 +501,82 @@ describe("useGetEvents Integration", () => {
 
       const shouldDiscard = currentGeneration !== fetchGeneration;
       expect(shouldDiscard).toBe(false);
+    });
+
+    it("should discard stale page-2 response when filter changes mid-flight (real composable integration test)", async () => {
+      // 1. Setup mock returns for listEvents based on parameters.
+      const page1Events = [
+        createMockEvent({ id: "e1" } as any),
+        createMockEvent({ id: "e2" } as any),
+      ];
+      const page2Events = [
+        createMockEvent({ id: "e3" } as any),
+        createMockEvent({ id: "e4" } as any),
+      ];
+      const filterEvents = [createMockEvent({ id: "ef1" } as any)];
+
+      let resolvePage2: (val: any) => void = () => {};
+      let resolveFilter: (val: any) => void = () => {};
+
+      const page2Promise = new Promise((resolve) => {
+        resolvePage2 = resolve;
+      });
+      const filterPromise = new Promise((resolve) => {
+        resolveFilter = resolve;
+      });
+
+      mockListEvents.mockImplementation((params: any) => {
+        if (params.location === "Berlin") {
+          return filterPromise;
+        } else if (params.page === 2) {
+          return page2Promise;
+        } else {
+          return Promise.resolve({ data: page1Events, isLastPage: false });
+        }
+      });
+
+      const { ref } = await import("vue");
+      const filters = ref<EventFilters>({});
+      const { useGetEvents } =
+        await import("../../../../app/composables/queries/useGetEvents");
+
+      // Initialize composable
+      const { getMore } = useGetEvents(filters);
+
+      // Get the real captured handler.
+      const capturedHandler = capturedCalls.lastCall!.handler;
+
+      // Run initial load (page 1)
+      await capturedHandler();
+
+      // Check the store state using the real store
+      const { useEventListStore } =
+        await import("../../../../app/stores/data/event");
+      const store = useEventListStore();
+      expect(store.getItems().map((e) => e.id)).toEqual(["e1", "e2"]);
+
+      // Trigger getMore() to request page 2
+      getMore();
+      // Manually trigger the handler for page 2 (simulating watch effect)
+      const p2FetchPromise = capturedHandler();
+
+      // Change filter mid-flight.
+      filters.value = { location: "Berlin" };
+      // Manually trigger the handler for the new filter (simulating watch effect)
+      const filterFetchPromise = capturedHandler();
+
+      // Simulate resolution order: filter resolves FIRST, stale page-2 resolves LAST
+      resolveFilter({ data: filterEvents, isLastPage: true });
+      await filterFetchPromise;
+
+      expect(store.getItems().map((e) => e.id)).toEqual(["ef1"]);
+
+      // Now resolve the stale page-2 request
+      resolvePage2({ data: page2Events, isLastPage: false });
+      await p2FetchPromise;
+
+      // Assert that the stale page-2 result was discarded and did not contaminate the store
+      expect(store.getItems().map((e) => e.id)).toEqual(["ef1"]);
     });
   });
 });

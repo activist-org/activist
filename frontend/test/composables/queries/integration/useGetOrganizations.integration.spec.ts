@@ -1,8 +1,5 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-/**
- * Integration tests for useGetOrganizations composable.
- * Tests paginated list behaviors: pagination, filter handling, append logic.
- */
+/* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any */
+import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -10,6 +7,45 @@ import type { OrganizationFilters } from "../../../../shared/types/organization"
 
 import { createMockOrganization } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
+
+const { useAsyncDataMock, capturedCalls, hoistedListOrganizations } =
+  vi.hoisted(() => {
+    const { ref } = require("vue");
+
+    const captured = {
+      lastCall: null,
+      allCalls: [],
+    };
+
+    const useAsyncDataMock = vi.fn((key, handler, options) => {
+      const call = {
+        handler,
+        getCachedData: options?.getCachedData ?? null,
+        watch: options?.watch ?? null,
+        immediate: options?.immediate ?? false,
+        defaultFn: options?.default ?? null,
+      };
+      captured.lastCall = call as any;
+      captured.allCalls.push(call as any);
+
+      return {
+        data: ref(null),
+        pending: ref(false),
+        error: ref(null),
+        refresh: vi.fn().mockResolvedValue(undefined),
+        execute: vi.fn().mockResolvedValue(undefined),
+      };
+    });
+
+    return {
+      useAsyncDataMock,
+      capturedCalls: captured,
+      hoistedListOrganizations: vi.fn(),
+    };
+  });
+
+mockNuxtImport("useAsyncData", () => useAsyncDataMock);
+mockNuxtImport("listOrganizations", () => hoistedListOrganizations);
 
 type MockOrganization = ReturnType<typeof createMockOrganization> & {
   id: string;
@@ -43,7 +79,7 @@ vi.mock("../../../../app/stores/organization", () => ({
   }),
 }));
 
-const mockListOrganizations = vi.fn();
+const mockListOrganizations = hoistedListOrganizations;
 
 vi.mock("../../../../app/services/entities/organization", () => ({
   listOrganizations: (params: unknown) => mockListOrganizations(params),
@@ -55,6 +91,8 @@ describe("useGetOrganizations Integration", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
+    capturedCalls.lastCall = null;
+    capturedCalls.allCalls = [];
     mockGetOrganizations.mockReturnValue([]);
     mockGetFilters.mockReturnValue({});
     mockGetPage.mockReturnValue(1);
@@ -493,6 +531,81 @@ describe("useGetOrganizations Integration", () => {
 
       expect(callCount).toBe(1);
       expect(mockSetPage).toHaveBeenCalledWith(page);
+    });
+
+    it("should discard stale page-2 response when filter changes mid-flight (real composable integration test)", async () => {
+      const page1Orgs = [
+        createMockOrganization({ id: "o1" } as any),
+        createMockOrganization({ id: "o2" } as any),
+      ];
+      const page2Orgs = [
+        createMockOrganization({ id: "o3" } as any),
+        createMockOrganization({ id: "o4" } as any),
+      ];
+      const filterOrgs = [createMockOrganization({ id: "of1" } as any)];
+
+      let resolvePage2: (val: any) => void = () => {};
+      let resolveFilter: (val: any) => void = () => {};
+
+      const page2Promise = new Promise((resolve) => {
+        resolvePage2 = resolve;
+      });
+      const filterPromise = new Promise((resolve) => {
+        resolveFilter = resolve;
+      });
+
+      mockListOrganizations.mockImplementation((params: any) => {
+        if (params.city === "Berlin") {
+          return filterPromise;
+        } else if (params.page === 2) {
+          return page2Promise;
+        } else {
+          return Promise.resolve({ data: page1Orgs, isLastPage: false });
+        }
+      });
+
+      const { ref } = await import("vue");
+      const filters = ref<OrganizationFilters>({});
+      const { useGetOrganizations } =
+        await import("../../../../app/composables/queries/useGetOrganizations");
+
+      // Initialize composable
+      const { getMore } = useGetOrganizations(filters);
+
+      // Get the real captured handler.
+      const capturedHandler = capturedCalls.lastCall!.handler;
+
+      // Run initial load (page 1)
+      await capturedHandler();
+
+      // Check the store state using the real store
+      const { useOrganizationListStore } =
+        await import("../../../../app/stores/data/organization");
+      const store = useOrganizationListStore();
+      expect(store.getItems().map((o) => o.id)).toEqual(["o1", "o2"]);
+
+      // Trigger getMore() to request page 2
+      getMore();
+      // Manually trigger the handler for page 2 (simulating watch effect)
+      const p2FetchPromise = capturedHandler();
+
+      // Change filter mid-flight.
+      filters.value = { city: "Berlin" };
+      // Manually trigger the handler for the new filter (simulating watch effect)
+      const filterFetchPromise = capturedHandler();
+
+      // Simulate resolution order: filter resolves FIRST, stale page-2 resolves LAST
+      resolveFilter({ data: filterOrgs, isLastPage: true });
+      await filterFetchPromise;
+
+      expect(store.getItems().map((o) => o.id)).toEqual(["of1"]);
+
+      // Now resolve the stale page-2 request
+      resolvePage2({ data: page2Orgs, isLastPage: false });
+      await p2FetchPromise;
+
+      // Assert that the stale page-2 result was discarded and did not contaminate the store
+      expect(store.getItems().map((o) => o.id)).toEqual(["of1"]);
     });
   });
 });
