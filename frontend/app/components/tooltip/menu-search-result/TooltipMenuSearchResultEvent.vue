@@ -2,23 +2,25 @@
 <template>
   <TooltipBase class="rounded-md" data-testid="menu-tooltip">
     <div class="flex-col space-y-2">
-      <!-- <BtnAction
+      <BtnAction
+        @click="handleFavorite"
         @keydown="handleTabPress(false, $event)"
+        @keydown.enter="handleFavorite"
         class="flex max-h-10 w-full"
         :cta="true"
-        label="i18n._global.support"
-        leftIcon="IconSupport"
+        :label="
+          isFavorited
+            ? 'i18n._global.unfavorite'
+            : 'i18n._global.favorite'
+        "
+        :rightIcon="IconMap.HEART"
         fontSize="lg"
-        ariaLabel="i18n._global.support_event_aria_label"
-      /> -->
-      <!-- <BtnAction
-        class="flex max-h-10 w-full items-center"
-        :cta="true"
-        label="i18n.components.tooltip_menu_search_result_event.attend"
-        leftIcon="IconJoin"
-        fontSize="lg"
-        ariaLabel="i18n.components.tooltip_menu_search_result_event.attend_aria_label"
-      /> -->
+        :ariaLabel="
+          isFavorited
+            ? 'i18n._global.unfavorite_event_aria_label'
+            : 'i18n._global.favorite_event_aria_label'
+        "
+      />
       <BtnAction
         @click="openModalSharePage({ event: event })"
         @keydown="handleTabPress(true, $event)"
@@ -44,16 +46,25 @@
     </div>
   </TooltipBase>
 </template>
-
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   event: CommunityEvent;
 }>();
 
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
-
 const downloadCalendarEntry = () => {};
-
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
+
+const eventStore = useEventStore();
+
+/** Whether the current user has favorited this event. */
+const isFavorited = computed(() =>
+  eventStore.isEventFavorited(props.event.id)
+);
+
+/** Handles the favorite toggle action. */
+async function handleFavorite(): Promise<void> {
+  await eventStore.toggleFavorite(props.event.id);
+}
 </script>
