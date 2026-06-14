@@ -31,6 +31,11 @@ declare global {
     params: Record<string, unknown>;
     query: Record<string, unknown>;
   };
+  // Create a mock for useRouter that includes push and currentRoute.
+  var useRouter: () => {
+    push: (...args: unknown[]) => unknown;
+    currentRoute: { value: { name: string } };
+  };
   var useDevice: () => {
     isMobile: boolean;
     isTablet: boolean;
