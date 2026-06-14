@@ -51,6 +51,14 @@ const userOptionsSignedIn: MenuSelector[] = [
     },
   },
   {
+    id: "user-options-your-favorites",
+    "data-testid": "user-options-your-favorites",
+    label: "i18n.components.dropdown_user_options.your_favorites",
+    routeUrl: "/events/favorites",
+    iconUrl: `${IconMap.HEART}`,
+    selected: false,
+  },
+  {
     id: "user-options-your-orgs",
     "data-testid": "user-options-your-orgs",
     label: "i18n.components.dropdown_user_options.your_orgs",
