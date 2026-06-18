@@ -95,7 +95,7 @@
           <FormItem
             v-slot="{ handleChange, value, errorMessage }"
             :label="
-              $t('i18n.components.machine_steps_create_event_time.event_schedule')
+              $t('i18n.components._global.event_schedule')
             "
             name="dates"
           >
@@ -117,7 +117,7 @@
           <FormListItem
             v-slot="{ fields, error }"
             :label="
-              $t('i18n.components.machine_steps_create_event_time.daily_times')
+              $t('i18n.components.modal_event_details.daily_times')
             "
             name="times"
           >
@@ -149,7 +149,7 @@
                       :data-testid="`all-day-long-event-${idx}`"
                       :label="
                         $t(
-                          'i18n.components.machine_steps_create_event_time.all_day_long_event'
+                          'i18n.components._global.all_day_long_event'
                         )
                       "
                       :model-value="Boolean(value.value)"
@@ -161,7 +161,7 @@
                     v-slot="{ id, value, handleChange, errorMessage }"
                     :label="
                       $t(
-                        'i18n.components.machine_steps_create_event_time.start_time'
+                        'i18n.components._global.start_time'
                       )
                     "
                     :name="`times.${idx}.startTime`"
@@ -173,7 +173,7 @@
                       is24Hr
                       :label="
                       $t(
-                        'i18n.components.machine_steps_create_event_time.start_time'
+                        'i18n.components._global.start_time'
                       )
                     "
                       mode="time"
@@ -186,7 +186,7 @@
                     v-slot="{ id, value, handleChange, errorMessage }"
                     :label="
                       $t(
-                        'i18n.components.machine_steps_create_event_time.end_time'
+                        'i18n.components._global.end_time'
                       )
                     "
                     :name="`times.${idx}.endTime`"
@@ -197,7 +197,7 @@
                       :hasError="!!errorMessage.value"
                       :label="
                       $t(
-                        'i18n.components.machine_steps_create_event_time.end_time'
+                        'i18n.components._global.end_time'
                       )
                     "
                       mode="time"
@@ -209,7 +209,7 @@
               <p v-else class="text-sm italic">
                 {{
                   $t(
-                    "i18n.components.machine_steps_create_event_time.select_a_date_range"
+                    "i18n.components._global.select_a_date_range"
                   )
                 }}
               </p>
@@ -323,7 +323,7 @@ const eventDetailsSchema = z
             }
             return true;
           }),
-        { message: t("i18n.components.machine_steps_create_event_time.start_before_end") }
+        { message: t("i18n.components.modal_event_details.start_before_end") }
       ),
   })
   .superRefine((data, ctx) => {

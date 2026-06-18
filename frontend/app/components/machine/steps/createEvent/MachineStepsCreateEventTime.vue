@@ -26,7 +26,7 @@
       <FormItem
         v-slot="{ handleChange, value, errorMessage }"
         :label="
-          $t('i18n.components.machine_steps_create_event_time.event_schedule')
+          $t('i18n.components._global.event_schedule')
         "
         name="dates"
       >
@@ -70,7 +70,7 @@
                   :data-testid="`all-day-long-event-${idx}`"
                   :label="
                     $t(
-                      'i18n.components.machine_steps_create_event_time.all_day_long_event'
+                      'i18n.components._global.all_day_long_event'
                     )
                   "
                 />
@@ -81,7 +81,7 @@
                 v-slot="{ id, value, handleChange, errorMessage }"
                 :label="
                   $t(
-                    'i18n.components.machine_steps_create_event_time.start_time'
+                    'i18n.components._global.start_time'
                   )
                 "
                 :name="`times.${idx}.startTime`"
@@ -93,7 +93,7 @@
                   is24Hr
                   :label="
                     $t(
-                      'i18n.components.machine_steps_create_event_time.start_time'
+                      'i18n.components._global.start_time'
                     )
                   "
                   mode="time"
@@ -105,7 +105,7 @@
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
                 :label="
-                  $t('i18n.components.machine_steps_create_event_time.end_time')
+                  $t('i18n.components._global.end_time')
                 "
                 :name="`times.${idx}.endTime`"
               >
@@ -115,7 +115,7 @@
                   :hasError="!!errorMessage.value"
                   :label="
                     $t(
-                      'i18n.components.machine_steps_create_event_time.end_time'
+                      'i18n.components._global.end_time'
                     )
                   "
                   mode="time"
@@ -127,7 +127,7 @@
           <p v-else class="text-sm italic">
             {{
               $t(
-                "i18n.components.machine_steps_create_event_time.select_a_date_range"
+                "i18n.components._global.select_a_date_range"
               )
             }}
           </p>

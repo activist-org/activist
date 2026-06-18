@@ -34,7 +34,7 @@ export const newEventDetailsEditModal = (page: Page) => {
     timesSection: root.getByText(
       new RegExp(
         getEnglishText(
-          "i18n.components.machine_steps_create_event_time.daily_times"
+          "i18n.components.modal_event_details.daily_times"
         ),
         "i"
       )
