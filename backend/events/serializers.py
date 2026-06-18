@@ -406,6 +406,21 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
 def _normalize_all_day_time(
     time: dict[str, Any], local_tz: zoneinfo.ZoneInfo
 ) -> None:
+    """
+    Set start and end times for an all-day event time entry.
+
+    Parameters
+    ----------
+    time : dict[str, Any]
+        Event time payload to normalize in place.
+    local_tz : zoneinfo.ZoneInfo
+        Time zone used for all-day start and end times.
+
+    Raises
+    ------
+    ValidationError
+        If the all-day entry is missing a date.
+    """
     date = time.get("date")
     if date is None:
         raise serializers.ValidationError(
@@ -420,6 +435,19 @@ def _normalize_all_day_time(
 
 
 def _validate_timed_event_time(time: dict[str, Any]) -> None:
+    """
+    Validate a timed (non all-day) event time entry.
+
+    Parameters
+    ----------
+    time : dict[str, Any]
+        Event time payload to validate.
+
+    Raises
+    ------
+    ValidationError
+        If start or end time is missing or out of order.
+    """
     start_time = time.get("start_time")
     end_time = time.get("end_time")
 
@@ -472,6 +500,20 @@ def _apply_event_put_basic_fields(
     location_type: str | None,
     online_location_link: str | None,
 ) -> None:
+    """
+    Apply scalar event detail fields from a PUT payload.
+
+    Parameters
+    ----------
+    instance : Event
+        Event instance to update.
+    validated_data : dict[str, Any]
+        Remaining validated update data after pops.
+    location_type : str | None
+        New location type when provided in the payload.
+    online_location_link : str | None
+        New online location link when provided in the payload.
+    """
     for field in ("name", "tagline"):
         if field in validated_data:
             setattr(instance, field, validated_data[field])
@@ -488,6 +530,18 @@ def _apply_event_put_physical_location(
     location_data: dict[str, Any] | None,
     location_type: str | None,
 ) -> None:
+    """
+    Create or update the physical location for an event PUT.
+
+    Parameters
+    ----------
+    instance : Event
+        Event instance to update.
+    location_data : dict[str, Any] | None
+        Physical location fields from the payload.
+    location_type : str | None
+        New location type when provided in the payload.
+    """
     if not location_data:
         return
 
@@ -505,6 +559,16 @@ def _apply_event_put_physical_location(
 
 
 def _replace_event_times(instance: Event, times_data: list[dict[str, Any]]) -> None:
+    """
+    Replace an event's schedule with new time entries.
+
+    Parameters
+    ----------
+    instance : Event
+        Event instance whose times should be replaced.
+    times_data : list[dict[str, Any]]
+        Normalized event time payloads to persist.
+    """
     old_time_ids = list(instance.times.values_list("id", flat=True))
     instance.times.clear()
     event_times = [
