@@ -18,11 +18,13 @@
 
 <script setup lang="ts">
 const options = computed(() => {
-  const fromList = (organizations.value || []).map((organization: Organization) => ({
-    label: organization.name,
-    id: organization.id,
-    value: organization.id,
-  }));
+  const fromList = (organizations.value || []).map(
+    (organization: Organization) => ({
+      label: organization.name,
+      id: organization.id,
+      value: organization.id,
+    })
+  );
 
   const merged = [...fromList];
   for (const org of props.selectedOrganizations) {

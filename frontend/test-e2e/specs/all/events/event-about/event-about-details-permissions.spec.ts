@@ -27,7 +27,9 @@ test.describe(
   () => {
     test.use({ storageState: { cookies: [], origins: [] } });
 
-    test("Details card edit icon is not visible", async ({ page }, testInfo) => {
+    test("Details card edit icon is not visible", async ({
+      page,
+    }, testInfo) => {
       logTestPath(testInfo);
       const { aboutPage } = newEventPage(page);
       await withTestStep(
@@ -66,7 +68,9 @@ test.describe(
   () => {
     test.use({ storageState: MEMBER_AUTH_STATE_PATH });
 
-    test("Details card edit icon is not visible", async ({ page }, testInfo) => {
+    test("Details card edit icon is not visible", async ({
+      page,
+    }, testInfo) => {
       logTestPath(testInfo);
       const { aboutPage } = newEventPage(page);
       await withTestStep(
@@ -200,7 +204,8 @@ test.describe(
 
       let newOrgName = "";
       for (let index = 0; index < optionCount; index += 1) {
-        const optionText = (await options.nth(index).textContent())?.trim() ?? "";
+        const optionText =
+          (await options.nth(index).textContent())?.trim() ?? "";
         if (optionText && optionText !== currentOrgName) {
           newOrgName = optionText;
           await options.nth(index).click();
@@ -209,18 +214,17 @@ test.describe(
       }
 
       if (!newOrgName) {
-        test.skip(!!newOrgName, "No alternate organization available in dropdown");
+        test.skip(
+          !!newOrgName,
+          "No alternate organization available in dropdown"
+        );
         return;
       }
 
-      await withTestStep(
-        testInfo,
-        "Save updated organization",
-        async () => {
-          await markAllScheduleDaysAllDay(detailsEditModal);
-          await submitDetailsEditForm(page, detailsEditModal, eventId);
-        }
-      );
+      await withTestStep(testInfo, "Save updated organization", async () => {
+        await markAllScheduleDaysAllDay(detailsEditModal);
+        await submitDetailsEditForm(page, detailsEditModal, eventId);
+      });
 
       await expect(aboutPage.detailsCardOrganizationLink).toContainText(
         newOrgName,
@@ -337,7 +341,12 @@ test.describe(
             )
           ).toHaveCount(1);
 
-          await setScheduleTimesForAllDays(detailsEditModal, page, "10:00", "11:00");
+          await setScheduleTimesForAllDays(
+            detailsEditModal,
+            page,
+            "10:00",
+            "11:00"
+          );
 
           await expect(detailsEditModal.allDayCheckbox(0)).not.toBeChecked();
 

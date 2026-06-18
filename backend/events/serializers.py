@@ -6,7 +6,7 @@ Serializers for the events app.
 import logging
 import zoneinfo
 from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, cast
 from uuid import UUID
 
 from django.conf import settings
@@ -573,8 +573,8 @@ def _replace_event_times(instance: Event, times_data: list[dict[str, Any]]) -> N
     instance.times.clear()
     event_times = [
         EventTime(
-            start_time=time_data.get("start_time"),
-            end_time=time_data.get("end_time"),
+            start_time=cast(datetime, time_data["start_time"]),
+            end_time=cast(datetime, time_data["end_time"]),
             all_day=time_data.get("all_day", False),
         )
         for time_data in times_data

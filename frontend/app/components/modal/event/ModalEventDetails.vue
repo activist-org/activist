@@ -7,8 +7,8 @@
       </h2>
       <div class="flex-1 overflow-y-auto pr-2">
         <Form
-          v-if="event"
           id="event-details-edit"
+          v-if="event"
           :key="formScheduleKey"
           v-slot="{ values, setFieldValue }"
           @submit="handleSubmit"
@@ -50,7 +50,7 @@
             <FormSelectorRadio
               :id="id"
               @update:modelValue="handleChange"
-              :modelValue="(value.value as string)"
+              :modelValue="value.value as string"
               :options="optionLocations"
             />
           </FormItem>
@@ -70,7 +70,7 @@
                 :label="
                   $t('i18n.components.modal_event_details.online_location_link')
                 "
-                :modelValue="(value.value as string)"
+                :modelValue="value.value as string"
               />
             </FormItem>
           </template>
@@ -94,9 +94,7 @@
           </template>
           <FormItem
             v-slot="{ handleChange, value, errorMessage }"
-            :label="
-              $t('i18n.components._global.event_schedule')
-            "
+            :label="$t('i18n.components._global.event_schedule')"
             name="dates"
           >
             <FormDateTimeCalendar
@@ -116,9 +114,7 @@
           </FormItem>
           <FormListItem
             v-slot="{ fields, error }"
-            :label="
-              $t('i18n.components.modal_event_details.daily_times')
-            "
+            :label="$t('i18n.components.modal_event_details.daily_times')"
             name="times"
           >
             <div class="mt-4 space-y-3">
@@ -147,11 +143,7 @@
                       @blur="handleBlur"
                       @update:model-value="handleChange"
                       :data-testid="`all-day-long-event-${idx}`"
-                      :label="
-                        $t(
-                          'i18n.components._global.all_day_long_event'
-                        )
-                      "
+                      :label="$t('i18n.components._global.all_day_long_event')"
                       :model-value="Boolean(value.value)"
                     />
                   </FormItem>
@@ -159,11 +151,7 @@
                 <div class="w-full flex-1">
                   <FormItem
                     v-slot="{ id, value, handleChange, errorMessage }"
-                    :label="
-                      $t(
-                        'i18n.components._global.start_time'
-                      )
-                    "
+                    :label="$t('i18n.components._global.start_time')"
                     :name="`times.${idx}.startTime`"
                   >
                     <FormDateTime
@@ -171,11 +159,7 @@
                       @update:modelValue="handleChange"
                       :hasError="!!errorMessage.value"
                       is24Hr
-                      :label="
-                      $t(
-                        'i18n.components._global.start_time'
-                      )
-                    "
+                      :label="$t('i18n.components._global.start_time')"
                       mode="time"
                       :model-value="value.value as Date"
                     />
@@ -184,22 +168,14 @@
                 <div class="w-full flex-1">
                   <FormItem
                     v-slot="{ id, value, handleChange, errorMessage }"
-                    :label="
-                      $t(
-                        'i18n.components._global.end_time'
-                      )
-                    "
+                    :label="$t('i18n.components._global.end_time')"
                     :name="`times.${idx}.endTime`"
                   >
                     <FormDateTime
                       :id="id"
                       @update:modelValue="handleChange"
                       :hasError="!!errorMessage.value"
-                      :label="
-                      $t(
-                        'i18n.components._global.end_time'
-                      )
-                    "
+                      :label="$t('i18n.components._global.end_time')"
                       mode="time"
                       :model-value="value.value as Date"
                     />
@@ -207,11 +183,7 @@
                 </div>
               </div>
               <p v-else class="text-sm italic">
-                {{
-                  $t(
-                    "i18n.components._global.select_a_date_range"
-                  )
-                }}
+                {{ $t("i18n.components._global.select_a_date_range") }}
               </p>
               <FormErrorMessage :message="error" />
             </div>
@@ -224,7 +196,6 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-
 import {
   buildTimesForDateRange,
   eventTimesToSchedule,
@@ -266,7 +237,13 @@ function resolveSelectedOrganizations(
   });
 }
 
-const locationQuery = ref<Record<string, string> | null>(null);
+type LocationQuery = {
+  street: string;
+  city: string;
+  countrycodes: string;
+};
+
+const locationQuery = ref<LocationQuery | null>(null);
 const locationOptions = ref<RadioOption[]>([]);
 
 const optionLocations = [
@@ -471,10 +448,7 @@ const syncTimesArray = (
     return;
   }
 
-  setFieldValue(
-    "times",
-    buildTimesForDateRange(dateRange, currentTimes)
-  );
+  setFieldValue("times", buildTimesForDateRange(dateRange, currentTimes));
 };
 
 async function handleSubmit(values: unknown) {

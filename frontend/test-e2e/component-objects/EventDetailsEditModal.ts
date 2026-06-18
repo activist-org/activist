@@ -12,7 +12,9 @@ export const newEventDetailsEditModal = (page: Page) => {
     closeButton: root.getByTestId("modal-close-button"),
     heading: root.getByRole("heading", {
       name: new RegExp(
-        getEnglishText("i18n.components.modal_event_details.edit_event_details"),
+        getEnglishText(
+          "i18n.components.modal_event_details.edit_event_details"
+        ),
         "i"
       ),
     }),
@@ -33,9 +35,7 @@ export const newEventDetailsEditModal = (page: Page) => {
     scheduleCalendar: root.locator(".vc-container").first(),
     timesSection: root.getByText(
       new RegExp(
-        getEnglishText(
-          "i18n.components.modal_event_details.daily_times"
-        ),
+        getEnglishText("i18n.components.modal_event_details.daily_times"),
         "i"
       )
     ),
@@ -54,9 +54,7 @@ export const newEventDetailsEditModal = (page: Page) => {
     },
 
     calendarDayButtons(): Locator {
-      return root.locator(
-        ".vc-day.in-month .vc-day-content[role='button']"
-      );
+      return root.locator(".vc-day.in-month .vc-day-content[role='button']");
     },
   };
 };

@@ -1,5 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { addDays, differenceInCalendarDays, format, isSameDay, startOfDay } from "date-fns";
+import {
+  addDays,
+  differenceInCalendarDays,
+  format,
+  isSameDay,
+  startOfDay,
+} from "date-fns";
+
+import type { EventTime, EventTimeInput } from "../types/event";
 
 export const getAllDaysInRange = (range: {
   start: Date;
@@ -44,7 +52,7 @@ export const combineDateAndTime = (date: Date, time: Date): Date => {
 /** Calendar day from an ISO datetime's date prefix (YYYY-MM-DD), as local midnight. */
 export const parseCalendarDateFromIso = (iso: string): Date => {
   const datePart = iso.split("T")[0] ?? iso;
-  const [year, month, day] = datePart.split("-").map(Number);
+  const [year = 0, month = 1, day = 1] = datePart.split("-").map(Number);
   return new Date(year, month - 1, day);
 };
 
@@ -83,15 +91,15 @@ export const normalizeCalendarRange = (
 ): { start: Date; end: Date } => {
   const start = startOfDay(range.start);
   let end = startOfDay(range.end);
+  const soleTime = currentTimes?.length === 1 ? currentTimes[0] : undefined;
 
   // A single saved all-day entry can look like a 2-day local range from UTC times.
   if (
-    currentTimes?.length === 1 &&
-    currentTimes[0].allDayLong &&
+    soleTime?.allDayLong &&
     !isSameDay(start, end) &&
     differenceInCalendarDays(end, start) === 1
   ) {
-    const day = startOfDay(new Date(currentTimes[0].date));
+    const day = startOfDay(new Date(soleTime.date));
     return { start: day, end: day };
   }
 
@@ -179,7 +187,10 @@ export const mapScheduleTimesToEventTimeInput = (
       return { date, all_day: true };
     }
 
-    if (!(entry.startTime instanceof Date) || !(entry.endTime instanceof Date)) {
+    if (
+      !(entry.startTime instanceof Date) ||
+      !(entry.endTime instanceof Date)
+    ) {
       return { date, all_day: false };
     }
 

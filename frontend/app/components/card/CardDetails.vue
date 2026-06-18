@@ -21,7 +21,6 @@
             {{ $t("i18n.components.card_details.header") }}
           </h3>
           <IconEdit
-            data-testid="edit-event-details"
             @click="
               openModalEventDetails({
                 entityId: event?.id,
@@ -32,6 +31,7 @@
                 entityId: event?.id,
               })
             "
+            data-testid="edit-event-details"
             :entity="event"
           />
         </div>

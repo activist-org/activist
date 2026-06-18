@@ -97,7 +97,8 @@ export async function updateEvent(
 
     if (data.orgs !== undefined) payload.orgs = data.orgs;
     if (data.times !== undefined) payload.times = data.times;
-    if (data.locationType !== undefined) payload.location_type = data.locationType;
+    if (data.locationType !== undefined)
+      payload.location_type = data.locationType;
     if (data.onlineLocationLink !== undefined) {
       payload.online_location_link = data.onlineLocationLink;
     }

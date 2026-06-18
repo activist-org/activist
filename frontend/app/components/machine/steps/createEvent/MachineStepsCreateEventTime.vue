@@ -25,9 +25,7 @@
     >
       <FormItem
         v-slot="{ handleChange, value, errorMessage }"
-        :label="
-          $t('i18n.components._global.event_schedule')
-        "
+        :label="$t('i18n.components._global.event_schedule')"
         name="dates"
       >
         <FormDateTimeCalendar
@@ -68,22 +66,14 @@
                   @blur="handleBlur"
                   @update:model-value="handleChange"
                   :data-testid="`all-day-long-event-${idx}`"
-                  :label="
-                    $t(
-                      'i18n.components._global.all_day_long_event'
-                    )
-                  "
+                  :label="$t('i18n.components._global.all_day_long_event')"
                 />
               </FormItem>
             </div>
             <div class="w-full flex-1">
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
-                :label="
-                  $t(
-                    'i18n.components._global.start_time'
-                  )
-                "
+                :label="$t('i18n.components._global.start_time')"
                 :name="`times.${idx}.startTime`"
               >
                 <FormDateTime
@@ -91,11 +81,7 @@
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
                   is24Hr
-                  :label="
-                    $t(
-                      'i18n.components._global.start_time'
-                    )
-                  "
+                  :label="$t('i18n.components._global.start_time')"
                   mode="time"
                   :model-value="value.value as Date"
                 />
@@ -104,20 +90,14 @@
             <div class="w-full flex-1">
               <FormItem
                 v-slot="{ id, value, handleChange, errorMessage }"
-                :label="
-                  $t('i18n.components._global.end_time')
-                "
+                :label="$t('i18n.components._global.end_time')"
                 :name="`times.${idx}.endTime`"
               >
                 <FormDateTime
                   :id="id"
                   @update:modelValue="handleChange"
                   :hasError="!!errorMessage.value"
-                  :label="
-                    $t(
-                      'i18n.components._global.end_time'
-                    )
-                  "
+                  :label="$t('i18n.components._global.end_time')"
                   mode="time"
                   :model-value="value.value as Date"
                 />
@@ -125,11 +105,7 @@
             </div>
           </div>
           <p v-else class="text-sm italic">
-            {{
-              $t(
-                "i18n.components._global.select_a_date_range"
-              )
-            }}
+            {{ $t("i18n.components._global.select_a_date_range") }}
           </p>
           <FormErrorMessage :message="error" />
         </div>

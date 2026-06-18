@@ -51,16 +51,14 @@ export const newEventAboutPage = (page: Page) => ({
     ),
   }),
   detailsCardEditIcon: page.getByTestId("edit-event-details"),
-  detailsCard: page
-    .locator(".card-style")
-    .filter({
-      has: page.getByRole("heading", {
-        name: new RegExp(
-          getEnglishText("i18n.components.card_details.header"),
-          "i"
-        ),
-      }),
+  detailsCard: page.locator(".card-style").filter({
+    has: page.getByRole("heading", {
+      name: new RegExp(
+        getEnglishText("i18n.components.card_details.header"),
+        "i"
+      ),
     }),
+  }),
   detailsCardOrganizationLink: page
     .locator(".card-style")
     .filter({

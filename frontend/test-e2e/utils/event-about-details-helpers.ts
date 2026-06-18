@@ -2,6 +2,7 @@
 import type { Page, Response } from "@playwright/test";
 
 import type { EventDetailsEditModal } from "~/test-e2e/component-objects/EventDetailsEditModal";
+
 import { expect } from "~/test-e2e/global-fixtures";
 
 export function isPutEventDetailsResponse(eventId: string) {

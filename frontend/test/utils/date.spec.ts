@@ -8,7 +8,6 @@ import {
   formatDate,
   getAllDaysInRange,
   isAllDayEventTime,
-  formatScheduleDayLabel,
   mapScheduleTimesToEventTimeInput,
   normalizeCalendarRange,
   parseCalendarDateFromIso,
