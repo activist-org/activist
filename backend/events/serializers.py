@@ -477,9 +477,45 @@ class EventPUTSerializer(serializers.Serializer[Any]):
     def validate_times(
         self, times: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
+        """
+        Validate and normalize event time entries.
+
+        Parameters
+        ----------
+        times : list[dict[str, Any]]
+            Event time payloads from the request.
+
+        Returns
+        -------
+        list[dict[str, Any]]
+            Normalized event time payloads.
+
+        Raises
+        ------
+        ValidationError
+            If any time entry is invalid.
+        """
         return _prepare_event_times(times)
 
     def validate(self, data: dict[str, Any]) -> dict[str, Any]:
+        """
+        Validate partial event detail update data.
+
+        Parameters
+        ----------
+        data : dict[str, Any]
+            Event detail update data dictionary to validate.
+
+        Returns
+        -------
+        dict[str, Any]
+            Validated data dictionary.
+
+        Raises
+        ------
+        ValidationError
+            If one or more organizations do not exist.
+        """
         if "orgs" in data:
             org_ids = data["orgs"]
             orgs = Organization.objects.filter(id__in=org_ids)
@@ -492,6 +528,21 @@ class EventPUTSerializer(serializers.Serializer[Any]):
         return data
 
     def update(self, instance: Event, validated_data: dict[str, Any]) -> Event:
+        """
+        Apply partial detail updates to an event.
+
+        Parameters
+        ----------
+        instance : Event
+            Event instance to update.
+        validated_data : dict[str, Any]
+            Validated partial update data.
+
+        Returns
+        -------
+        Event
+            Updated Event instance.
+        """
         with transaction.atomic():
             orgs_data = validated_data.pop("orgs", None)
             times_data = validated_data.pop("times", None)
