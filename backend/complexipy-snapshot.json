@@ -76,10 +76,6 @@
       {
         "name": "EventPOSTSerializer::create",
         "complexity": 11
-      },
-      {
-        "name": "EventPOSTSerializer::validate",
-        "complexity": 18
       }
     ]
   }
