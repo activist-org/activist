@@ -9,8 +9,7 @@ export const newEventAboutPage = (page: Page) => ({
   aboutCard: page.getByTestId("card-about"),
   aboutCardEditIcon: page
     .getByTestId("card-about")
-    .getByTestId("icon-edit")
-    .first(),
+    .getByTestId("edit-event-texts"),
   aboutExpandTextButton: page.getByTestId("expand-text-button"),
   aboutCollapseTextButton: page.getByTestId("collapse-text-button"),
 
