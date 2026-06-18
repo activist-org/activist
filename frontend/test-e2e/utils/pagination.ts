@@ -45,8 +45,7 @@ export const loadSecondPage = async (
   const pageTwoResponse = page
     .waitForResponse(
       (response) =>
-        response.ok() &&
-        isPaginatedListResponse(response.url(), apiPath, "2"),
+        response.ok() && isPaginatedListResponse(response.url(), apiPath, "2"),
       { timeout: 20000 }
     )
     .catch(() => null);

@@ -115,9 +115,9 @@ export const newCreateEventModal = (page: Page) => {
         optionsLocator: root.locator("#form-item-orgs-options [role='option']"),
         multiSelect: true,
         assertSelected: async () => {
-          await expect(root.locator("#form-item-orgs ul li").first()).toBeVisible(
-            { timeout: 5000 }
-          );
+          await expect(
+            root.locator("#form-item-orgs ul li").first()
+          ).toBeVisible({ timeout: 5000 });
         },
       });
     },
@@ -141,36 +141,45 @@ export const newCreateEventModal = (page: Page) => {
 
     async advanceToEventTypeStep(): Promise<void> {
       await clickUntilLocatorVisible(
-        () => root.getByRole("button", {
-          name: new RegExp(
-            getEnglishText("i18n.components.submit_aria_label"),
-            "i"
-          ),
-        }).click(),
+        () =>
+          root
+            .getByRole("button", {
+              name: new RegExp(
+                getEnglishText("i18n.components.submit_aria_label"),
+                "i"
+              ),
+            })
+            .click(),
         root.locator("#event-type-and-roles")
       );
     },
 
     async advanceToLinkOnlineStep(): Promise<void> {
       await clickUntilLocatorVisible(
-        () => root.getByRole("button", {
-          name: new RegExp(
-            getEnglishText("i18n.components.submit_aria_label"),
-            "i"
-          ),
-        }).click(),
+        () =>
+          root
+            .getByRole("button", {
+              name: new RegExp(
+                getEnglishText("i18n.components.submit_aria_label"),
+                "i"
+              ),
+            })
+            .click(),
         root.locator("#event-link-online")
       );
     },
 
     async advanceToLocationStep(): Promise<void> {
       await clickUntilLocatorVisible(
-        () => root.getByRole("button", {
-          name: new RegExp(
-            getEnglishText("i18n.components.submit_aria_label"),
-            "i"
-          ),
-        }).click(),
+        () =>
+          root
+            .getByRole("button", {
+              name: new RegExp(
+                getEnglishText("i18n.components.submit_aria_label"),
+                "i"
+              ),
+            })
+            .click(),
         root.locator("#event-location")
       );
     },

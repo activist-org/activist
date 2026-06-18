@@ -34,7 +34,10 @@ export async function selectFirstComboboxOption({
 
   await firstOption.click();
 
-  if (multiSelect && (await toggleButton.getAttribute("aria-expanded")) === "true") {
+  if (
+    multiSelect &&
+    (await toggleButton.getAttribute("aria-expanded")) === "true"
+  ) {
     await toggleButton.click();
   }
 

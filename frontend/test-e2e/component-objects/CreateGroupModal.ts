@@ -94,12 +94,15 @@ export const newCreateGroupModal = (page: Page) => {
 
     async advanceToLocationStep(): Promise<void> {
       await clickUntilLocatorVisible(
-        () => root.getByRole("button", {
-          name: new RegExp(
-            getEnglishText("i18n.components.submit_aria_label"),
-            "i"
-          ),
-        }).click(),
+        () =>
+          root
+            .getByRole("button", {
+              name: new RegExp(
+                getEnglishText("i18n.components.submit_aria_label"),
+                "i"
+              ),
+            })
+            .click(),
         root.locator("#event-location")
       );
     },
