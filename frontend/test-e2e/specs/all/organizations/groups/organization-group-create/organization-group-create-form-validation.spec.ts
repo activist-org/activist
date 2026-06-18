@@ -152,7 +152,7 @@ test.describe(
       await modal.descriptionField.fill("Corrected description.");
       await selectFirstOrganization(modal);
 
-      await modal.getNextStepButton().click({ force: true });
+      await modal.advanceToLocationStep();
 
       await expect(modal.locationForm).toBeVisible();
       await expect(modal.nameError).not.toBeVisible();
@@ -170,7 +170,7 @@ test.describe(
       await modal.nameField.fill("E2E Country Disabled Group");
       await modal.descriptionField.fill("Country disabled validation.");
       await selectFirstOrganization(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.advanceToLocationStep();
 
       await expect(modal.locationForm).toBeVisible();
       // Wait for the org's country to be auto-filled.
@@ -202,7 +202,7 @@ test.describe(
       await modal.nameField.fill("E2E City Validation Group");
       await modal.descriptionField.fill("City validation test.");
       await selectFirstOrganization(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.advanceToLocationStep();
 
       await expect(modal.locationForm).toBeVisible();
       // Wait for any auto-fill from the selected org to complete.
