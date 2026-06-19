@@ -5,7 +5,7 @@ Models for the content app.
 
 import logging
 import os
-from typing import Any, Type
+from typing import Any
 from uuid import uuid4
 
 from django.contrib.postgres.fields import ArrayField
@@ -133,13 +133,13 @@ class Image(models.Model):
 
 
 @receiver(post_delete, sender=Image)
-def delete_image_file(sender: Type[Image], instance: Image, **kwargs: Any) -> None:
+def delete_image_file(sender: type[Image], instance: Image, **kwargs: Any) -> None:
     """
     Delete the file from the filesystem when the Image instance is deleted.
 
     Parameters
     ----------
-    sender : Type[Image]
+    sender : type[Image]
         The model class that sent the signal.
 
     instance : Image

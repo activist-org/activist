@@ -18,7 +18,7 @@ on:
 
 jobs:
   backend_static_analysis:
-    name: Run PR Backend Static Check
+    name: Run CI Backend Static Check
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -60,4 +60,4 @@ jobs:
 
       - name: Run complexipy - Cognitive Complexity Check
         if: always()
-        run: uv run complexipy .
+        run: uv run --group complexity complexipy .
