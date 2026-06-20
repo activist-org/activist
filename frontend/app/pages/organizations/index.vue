@@ -53,7 +53,7 @@
           :organization="org"
         />
       </div>
-      <div ref="bottomSentinel">
+      <div ref="bottomSentinel" class="h-px">
         <!-- The bottom sentinel for Intersection Observer. -->
         <Loading
           v-if="loadingFetchMore && pending"

@@ -51,5 +51,31 @@ test.describe(
         }
       });
     });
+
+    test("User can navigate to an organization about page", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+
+      await withTestStep(testInfo, "Click on first organization", async () => {
+        const orgLink = page
+          .getByRole("link", {
+            name: getEnglishText(
+              "i18n.components._global.navigate_to_organization_aria_label"
+            ),
+          })
+          .first();
+        await orgLink.click();
+      });
+
+      await withTestStep(
+        testInfo,
+        "Verify navigation to organization about page",
+        async () => {
+          await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
+          await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+        }
+      );
+    });
   }
 );

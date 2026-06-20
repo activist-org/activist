@@ -5,7 +5,7 @@ requires-python = ">=3.12"
 
 dependencies = [
     "httpx>=0.27.0",
-    "django>=6.0.5",
+    "django>=6.0.6",
     "django-cors-headers>=4.9.0",
     "django-filter>=25.2",
     "django-ical>=1.9.2",
@@ -17,7 +17,7 @@ dependencies = [
     "djangorestframework-stubs>=3.17.0",
     "drf-spectacular>=0.29.0",
     "gunicorn>=26.0.0",
-    "icalendar>=7.1.2",
+    "icalendar>=7.1.3",
     "pillow>=12.2.0",
     "psycopg2-binary>=2.9.12",
     "pyyaml>=6.0.3",
@@ -30,19 +30,25 @@ dev = [
     "i18n-check>=1.19.5",
     "mypy>=2.1.0",
     "numpydoc>=1.10.0",
-    "prek>=0.4.3",
-    "pytest>=9.0.3",
+    "prek>=0.4.5",
+    "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "pytest-django>=4.12.0",
-    "ruff>=0.15.15",
-    "ts-backend-check>=1.6.0",
+    "ruff>=0.15.18",
+    "ts-backend-check>=1.6.1",
     "types-icalendar>=6.3.2.20260518",
 ]
 # complexipy is kept out of the default `dev` group because it ships no
 # musllinux wheel, so the Alpine dev container would try (and fail) to build it
 # from source. Install it explicitly with `--group complexity` where needed.
-complexity = ["complexipy>=4.2.0"]
-audit = ["pysentry-rs>=0.4.5"]
+complexity = [
+    # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
+    "complexipy>=5.6.1",
+]
+audit = [
+    # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
+    "pysentry-rs>=0.4.6",
+]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -141,4 +147,3 @@ exclude = [
 
 [tool.complexipy]
 max-complexity-allowed = 10
-sort = "desc"

@@ -27,7 +27,7 @@
         :events="events"
       />
       <!-- The bottom sentinel for Intersection Observer. -->
-      <div ref="bottomSentinel">
+      <div ref="bottomSentinel" class="h-px">
         <Loading
           v-if="loadingFetchMore && pending"
           :loading="loadingFetchMore && pending"

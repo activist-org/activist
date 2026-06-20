@@ -206,6 +206,11 @@ if [ -n "$E2E_FILE" ]; then
   fi
 fi
 
+# E2E specs assume the deterministic populate_db seed, and the database now
+# persists across restarts (see #2198), so explicitly reset it (down -v) before
+# starting. Note: this wipes locally created dev data by design.
+docker compose --env-file .env.dev down -v >/dev/null 2>&1 || true
+
 # Start the backend and database (USE_PREVIEW skips full build inside Docker).
 # Fail fast if Docker itself is unreachable, otherwise we'd waste ~2 minutes
 # on the frontend build only to hit a misleading "frontend did not become ready"
