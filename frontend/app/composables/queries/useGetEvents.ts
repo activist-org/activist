@@ -21,6 +21,19 @@ export function useGetEvents(
         ) {
           return store.getItems();
         }
+        // SSR hydration skipped this factory; seed the store so page 2 appends correctly.
+        if (page.value > 1 && store.getItems().length === 0) {
+          const nuxtApp = useNuxtApp();
+          const ssrItems = nuxtApp.payload.data?.[getKeyForGetEvents()] as
+            | CommunityEvent[]
+            | undefined;
+          if (ssrItems?.length) {
+            store.setItems(ssrItems);
+            store.setPage(1);
+            store.setFilters(eventFilters.value);
+            store.setIsLastPage(false);
+          }
+        }
         const { data: events, isLastPage } = await listEvents({
           ...eventFilters.value,
           page:
