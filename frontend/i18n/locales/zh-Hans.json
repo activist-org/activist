@@ -269,10 +269,13 @@
   "i18n.components.form_social_link.new_link_url": "新建链接URL",
   "i18n.components.form_social_link.social_links": "社交链接",
   "i18n.components.form_text_entity.description_required": "描述是必需的",
+  "i18n.components.form_text_entity.get_involved_text_or_url_required": "必须提供参与文本或网址",
   "i18n.components.form_text_entity.max_text_length": "文本须短于{max_text_length}字。",
   "i18n.components.form_text_input_password.hide_password_aria_label": "隐藏密码",
   "i18n.components.form_text_input_password.show_password_aria_label": "显示密码",
   "i18n.components.friendly_captcha.dev_captcha_disabled": "Captcha 被禁用 -请点击来认证",
+  "i18n.components.grid_app_shields.app_store": "应用商店",
+  "i18n.components.grid_git_hub_shields.fork": "分支",
   "i18n.components.modal.faq_entry.delete._global.message": "您确定要删除此常问问题条目吗？此操作无法撤销。",
   "i18n.components.modal.resource.delete._global.message": "您确定要删除此资源吗？此操作无法撤销。"
 }
