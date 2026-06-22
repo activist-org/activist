@@ -126,10 +126,7 @@ test.describe(
       await expect(modal.locationForm).toBeVisible();
 
       const countryComboboxButton = modal.locationForm.getByRole("button", {
-        name: new RegExp(
-          getEnglishText("i18n.components._global.country"),
-          "i"
-        ),
+        name: new RegExp(getEnglishText("i18n._global.country"), "i"),
       });
       await countryComboboxButton.click();
       const firstCountryOption = modal.root.getByRole("option").first();
