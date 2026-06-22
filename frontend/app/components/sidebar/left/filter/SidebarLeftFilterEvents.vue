@@ -89,7 +89,7 @@
           @update:modelValue="handleChange"
           :ariaLabel="
             $t(
-              'i18n.components.sidebar.left.filter._global.search_button_aria_label'
+              'i18n.components.sidebar_left_filter_events.search_button_aria_label'
             )
           "
           :hasError="!!errorMessage.value"

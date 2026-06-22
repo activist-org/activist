@@ -181,10 +181,7 @@ test.describe(
       // The input is disabled - inherited from the org, not user-editable.
       await expect(modal.countryField).toBeDisabled();
       const countryComboboxButton = modal.locationForm.getByRole("button", {
-        name: new RegExp(
-          getEnglishText("i18n.components._global.country"),
-          "i"
-        ),
+        name: new RegExp(getEnglishText("i18n._global.country"), "i"),
       });
       await countryComboboxButton.click({ force: true });
       await expect(modal.countryField).toHaveValue(countryValue);
