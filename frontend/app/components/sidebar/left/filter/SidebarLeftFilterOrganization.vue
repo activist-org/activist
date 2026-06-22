@@ -36,7 +36,7 @@
         @update:modelValue="handleChange"
         :ariaLabel="
           $t(
-            'i18n.components.sidebar.left.filter._global.search_button_aria_label'
+            'i18n._global.search_city_button_aria_label'
           )
         "
         data-testid="organizations-filter-city"

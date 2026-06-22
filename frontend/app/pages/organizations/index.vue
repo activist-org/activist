@@ -31,7 +31,11 @@
               handleCityUpdate();
             }
           "
-          :ariaLabel="$t('i18n._global.search_button_aria_label')"
+          :ariaLabel="
+            $t(
+              'i18n._global.search_city_button_aria_label'
+            )
+          "
           class="w-32 shrink-0"
           :label="$t('i18n._global.filter_by_city')"
           :modelValue="selectedCity"
