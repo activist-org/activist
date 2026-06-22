@@ -34,11 +34,7 @@
         :id="id"
         @blur="handleBlur"
         @update:modelValue="handleChange"
-        :ariaLabel="
-          $t(
-            'i18n._global.search_city_button_aria_label'
-          )
-        "
+        :ariaLabel="$t('i18n._global.search_city_button_aria_label')"
         data-testid="organizations-filter-city"
         :hasError="!!errorMessage.value"
         :label="$t('i18n._global.filter_by_city')"
