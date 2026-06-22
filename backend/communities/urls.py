@@ -21,6 +21,7 @@ from communities.organizations.views import (
     OrganizationAPIView,
     OrganizationByUserAPIView,
     OrganizationDetailAPIView,
+    OrganizationEventViewSet,
     OrganizationFaqViewSet,
     OrganizationFlagAPIView,
     OrganizationFlagDetailAPIView,
@@ -28,7 +29,6 @@ from communities.organizations.views import (
     OrganizationResourceViewSet,
     OrganizationSocialLinkViewSet,
     OrganizationTextViewSet,
-    OrganizationEventViewSet,
 )
 from communities.views import StatusViewSet
 

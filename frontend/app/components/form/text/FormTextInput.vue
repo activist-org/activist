@@ -40,7 +40,7 @@
         @focus="handleFocus"
         @input="handleInput"
         @pointerdown="handlePointerDown"
-        class="form-text-input box-content h-5 bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed w-full"
+        class="form-text-input box-content h-5 w-full bg-transparent py-3 pl-3 pr-2.5 text-primary-text placeholder-distinct-text outline-none disabled:cursor-not-allowed"
         :placeholder="shrinkLabel ? '' : label"
         role="textbox"
         :type="type"

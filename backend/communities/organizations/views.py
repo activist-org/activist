@@ -36,8 +36,6 @@ from rest_framework.views import APIView
 
 from authentication.models import UserModel
 from communities.models import StatusType
-from events.models import Event
-from events.serializers import EventSerializer
 from communities.organizations.filters import OrganizationFilter
 from communities.organizations.models import (
     Organization,
@@ -62,6 +60,8 @@ from content.models import Image
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
+from events.models import Event
+from events.serializers import EventSerializer
 
 logger = logging.getLogger(__name__)
 

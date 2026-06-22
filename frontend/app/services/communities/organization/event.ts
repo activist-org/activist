@@ -1,8 +1,12 @@
-export const fetchOrganizationEvents = async (organizationId: string, filters: {
-  startDate?: string;
-  endDate?: string;
-  name?: string;
-}) => {
+// SPDX-License-Identifier: AGPL-3.0-or-later
+export const fetchOrganizationEvents = async (
+  organizationId: string,
+  filters: {
+    startDate?: string;
+    endDate?: string;
+    name?: string;
+  }
+) => {
   const query = new URLSearchParams();
   if (filters.startDate) {
     query.append("startDate", filters.startDate);

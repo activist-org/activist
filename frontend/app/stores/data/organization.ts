@@ -42,9 +42,13 @@ export const useOrganizationEventStore = defineStore("organization-events", {
     getFilters() {
       return this.filters;
     },
-    setFilters(filters: { startDate?: string; endDate?: string; name?: string }) {
+    setFilters(filters: {
+      startDate?: string;
+      endDate?: string;
+      name?: string;
+    }) {
       this.filters = filters;
-    }
+    },
   },
 });
 
