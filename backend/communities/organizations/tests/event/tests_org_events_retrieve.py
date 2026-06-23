@@ -1,4 +1,3 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
 from datetime import datetime, timedelta
 
 import pytest
@@ -6,9 +5,10 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APIRequestFactory
 
-# Adjust these imports to your actual app paths if needed.
-from events.models import Event, EventTime
-from events.views import OrganizationEventViewSet
+# Adjust to your real module paths:
+from event.models import Event, EventTime
+from event.views import OrganizationEventViewSet
+
 
 pytestmark = pytest.mark.django_db
 
@@ -32,27 +32,18 @@ def _list(org_id=None, params=None):
     request = factory.get("/fake-url/", data=params or {})
     view = OrganizationEventViewSet.as_view({"get": "list"})
     if org_id is None:
-        # If your URL conf always provides org_id, you can remove this path.
         return view(request)
     return view(request, org_id=org_id)
 
 
-def test_list_returns_400_when_org_id_missing():
-    """
-    Mirrors:
-      if org_id is None -> 400 with detail message
-    """
+def test_organization_event_viewset_org_id_required_bad_request_400():
     response = _list(org_id=None)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
     assert response.data == {"detail": "Organization ID is required."}
 
 
-def test_list_returns_empty_payload_when_org_has_no_events(organization):
-    """
-    Mirrors:
-      if not queryset.exists() -> custom empty paginated-like payload
-    """
+def test_organization_event_viewset_empty_results_when_org_has_no_events_ok_200(organization):
     response = _list(org_id=organization.id)
 
     assert response.status_code == status.HTTP_200_OK
@@ -64,7 +55,7 @@ def test_list_returns_empty_payload_when_org_has_no_events(organization):
     }
 
 
-def test_list_filters_by_name_icontains(organization):
+def test_organization_event_viewset_name_filter_icontains_ok_200(organization):
     keep = _make_event(name="Community Cleanup", org=organization)
     _add_time(
         keep,
@@ -87,12 +78,7 @@ def test_list_filters_by_name_icontains(organization):
     assert str(drop.id) not in returned_ids
 
 
-def test_list_filters_overlap_when_start_and_end_provided(organization):
-    """
-    overlap logic:
-      times.start_date <= end AND times.end_date >= start
-    """
-    # Requested window: 2026-01-10 .. 2026-01-20
+def test_organization_event_viewset_date_overlap_with_start_and_end_ok_200(organization):
     start = "2026-01-10"
     end = "2026-01-20"
 
@@ -121,7 +107,7 @@ def test_list_filters_overlap_when_start_and_end_provided(organization):
     assert str(outside.id) not in returned_ids
 
 
-def test_list_filters_by_start_only_end_time_on_or_after_start(organization):
+def test_organization_event_viewset_start_date_only_filters_by_end_time_ok_200(organization):
     start = "2026-02-01"
 
     keep = _make_event(name="Ends After Start", org=organization)
@@ -146,7 +132,7 @@ def test_list_filters_by_start_only_end_time_on_or_after_start(organization):
     assert str(drop.id) not in returned_ids
 
 
-def test_list_filters_by_end_only_start_time_on_or_before_end(organization):
+def test_organization_event_viewset_end_date_only_filters_by_start_time_ok_200(organization):
     end = "2026-03-15"
 
     keep = _make_event(name="Starts Before End", org=organization)
@@ -171,12 +157,9 @@ def test_list_filters_by_end_only_start_time_on_or_before_end(organization):
     assert str(drop.id) not in returned_ids
 
 
-def test_list_without_date_filters_returns_all_events_for_org(
+def test_organization_event_viewset_no_date_filters_returns_all_org_events_ok_200(
     organization, organization_factory
 ):
-    """
-    Ensures the 'else' branch (no date filters) does not leak other orgs' events.
-    """
     e1 = _make_event(name="Org Event 1", org=organization)
     _add_time(
         e1,
@@ -208,17 +191,13 @@ def test_list_without_date_filters_returns_all_events_for_org(
     assert str(foreign.id) not in returned_ids
 
 
-def test_list_orders_by_times_start_time_and_distinct(organization):
-    """
-    Verifies ordering and distinct when an event has multiple EventTime rows.
-    """
+def test_organization_event_viewset_orders_by_start_time_and_distinct_ok_200(organization):
     early = _make_event(name="Early Event", org=organization)
     _add_time(
         early,
         timezone.make_aware(datetime(2026, 4, 1, 9, 0)),
         timezone.make_aware(datetime(2026, 4, 1, 10, 0)),
     )
-    # extra time row to exercise distinct()
     _add_time(
         early,
         timezone.make_aware(datetime(2026, 4, 2, 9, 0)),
@@ -236,8 +215,5 @@ def test_list_orders_by_times_start_time_and_distinct(organization):
 
     assert response.status_code == status.HTTP_200_OK
     ids_in_order = [str(item["id"]) for item in response.data]
-
-    # distinct: appears only once despite multiple times
     assert ids_in_order.count(str(early.id)) == 1
-    # order by earliest related start_time
     assert ids_in_order.index(str(early.id)) < ids_in_order.index(str(late.id))
