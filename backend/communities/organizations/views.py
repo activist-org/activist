@@ -668,6 +668,7 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
             {"message": "FAQ deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )
 
+
 # MARK: Events
 @extend_schema(
     parameters=[
@@ -682,8 +683,19 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
 class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
     def list(self, request: Request, org_id: UUID) -> Response:
+        if org_id is None:
+            return Response(
+                {"detail": "Organization ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         queryset = Event.objects.filter(orgs__id=org_id)
+        if not queryset.exists():
+            return Response(
+                {"count": 0, "next": None, "previous": None, "results": []},
+                status=status.HTTP_200_OK,
+            )
         start = request.query_params.get("start_date")
         end = request.query_params.get("end_date")
         name = request.query_params.get("name")
@@ -696,17 +708,18 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
                 times__end_time__date__gte=start,
             )
         elif start:
-                # events that end on/after start
+            # events that end on/after start
             queryset = queryset.filter(times__end_time__date__gte=start)
         elif end:
-                # events that start on/before end
+            # events that start on/before end
             queryset = queryset.filter(times__start_time__date__lte=end)
-
+        else:
+            # no date filters, return all events for the org
+            queryset = queryset.filter(orgs__id=org_id)
         queryset = queryset.order_by("times__start_time").distinct()
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
 
 
 # MARK: Social Link
