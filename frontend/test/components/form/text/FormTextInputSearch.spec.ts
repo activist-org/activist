@@ -15,6 +15,8 @@ import render from "../../../../test/render";
  * - Edge cases and incorrect prop usage
  */
 
+const debounceTime = 500; // Debounce time in milliseconds
+
 describe("FormTextInputSearch", () => {
   const defaultProps = {
     id: "test-search",
@@ -85,11 +87,11 @@ describe("FormTextInputSearch", () => {
         () => {
           expect(emitted("update:modelValue")).toBeDefined();
         },
-        { timeout: 500 }
+        { timeout: 600 }
       );
     });
 
-    it("debounces input changes with 300ms delay", async () => {
+    it("debounces input changes with 500ms delay", async () => {
       vi.useFakeTimers();
 
       const { emitted } = await render(FormTextInputSearch, {
@@ -106,8 +108,8 @@ describe("FormTextInputSearch", () => {
       // Should not emit immediately.
       expect(emitted("update:modelValue")).toBeUndefined();
 
-      // Advance timers by 300ms.
-      vi.advanceTimersByTime(300);
+      // Advance timers by debounce time.
+      vi.advanceTimersByTime(debounceTime);
 
       await waitFor(() => {
         const emissions = emitted("update:modelValue");
@@ -142,7 +144,7 @@ describe("FormTextInputSearch", () => {
       await fireEvent.update(input, "test");
 
       // Let debounce complete.
-      vi.advanceTimersByTime(300);
+      vi.advanceTimersByTime(debounceTime);
 
       await waitFor(() => {
         const emissions = emitted("update:modelValue");
@@ -168,7 +170,7 @@ describe("FormTextInputSearch", () => {
 
       await fireEvent.update(input, "");
 
-      vi.advanceTimersByTime(300);
+      vi.advanceTimersByTime(debounceTime);
 
       await waitFor(() => {
         const emissions = emitted("update:modelValue");
@@ -385,7 +387,7 @@ describe("FormTextInputSearch", () => {
       const specialText = "test@#$%^&*()[]{}";
 
       await fireEvent.update(input, specialText);
-      vi.advanceTimersByTime(300);
+      vi.advanceTimersByTime(debounceTime);
 
       await waitFor(() => {
         const emissions = emitted("update:modelValue");
@@ -406,7 +408,7 @@ describe("FormTextInputSearch", () => {
       const longText = "a".repeat(1000);
 
       await fireEvent.update(input, longText);
-      vi.advanceTimersByTime(300);
+      vi.advanceTimersByTime(debounceTime);
 
       await waitFor(() => {
         const emissions = emitted("update:modelValue");
@@ -427,7 +429,7 @@ describe("FormTextInputSearch", () => {
       const unicodeText = "search 🔍 emoji 日本語";
 
       await fireEvent.update(input, unicodeText);
-      vi.advanceTimersByTime(300);
+      vi.advanceTimersByTime(debounceTime);
 
       await waitFor(() => {
         const emissions = emitted("update:modelValue");
