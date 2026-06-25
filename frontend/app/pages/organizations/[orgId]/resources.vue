@@ -15,6 +15,7 @@
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           :element="$t('i18n._global.resources_lower')"
+          :entity="organization"
           :onClick="
             () =>
               openModal({
@@ -71,7 +72,12 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else class="py-4" pageType="resources" :permission="false" />
+    <EmptyState
+      v-else
+      class="py-4"
+      pageType="resources"
+      :permission="canEdit(organization)"
+    />
   </div>
 </template>
 
