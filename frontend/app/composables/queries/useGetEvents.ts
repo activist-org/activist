@@ -9,6 +9,15 @@ export function useGetEvents(
   const page = ref(1);
   const { handleError } = useAppError();
   const eventFilters = computed(() => unref(filters));
+  watch(
+    eventFilters,
+    (newFilters, oldFilters) => {
+      if (JSON.stringify(newFilters) !== JSON.stringify(oldFilters)) {
+        page.value = 1;
+      }
+    },
+    { deep: true }
+  );
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<CommunityEvent[]>(
     () => getKeyForGetEvents(),
@@ -34,13 +43,13 @@ export function useGetEvents(
             store.setIsLastPage(false);
           }
         }
+        const isFilterChanged =
+          JSON.stringify(store.getFilters()) !==
+          JSON.stringify(eventFilters.value);
+
         const { data: events, isLastPage } = await listEvents({
           ...eventFilters.value,
-          page:
-            JSON.stringify(store.getFilters()) ===
-            JSON.stringify(eventFilters.value)
-              ? page.value
-              : 1,
+          page: isFilterChanged ? 1 : page.value,
           page_size: 10,
         });
         const eventsCached = store.getItems();
@@ -48,27 +57,18 @@ export function useGetEvents(
 
         // Append new events to cached events if page > 1.
         if (
+          !isFilterChanged &&
           eventsCached.length > 0 &&
-          JSON.stringify(store.getFilters()) ===
-            JSON.stringify(eventFilters.value) &&
-          (page.value > pageCached || (page.value === 1 && pageCached === 1))
+          page.value > pageCached
         ) {
           store.setItems([...eventsCached, ...events]);
           store.setIsLastPage(isLastPage);
+          store.setPage(page.value);
           return [...eventsCached, ...events] as CommunityEvent[];
         }
         store.setItems(events);
         store.setIsLastPage(isLastPage);
-        // Reset to page 1 if filters changed.
-        if (
-          JSON.stringify(store.getFilters()) !==
-          JSON.stringify(eventFilters.value)
-        ) {
-          store.setPage(1);
-          page.value = 1;
-        } else {
-          store.setPage(page.value);
-        }
+        store.setPage(isFilterChanged ? 1 : page.value);
         store.setFilters(eventFilters.value);
         return events as CommunityEvent[];
       } catch (err) {

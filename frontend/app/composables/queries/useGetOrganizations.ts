@@ -9,6 +9,15 @@ export function useGetOrganizations(
   const page = ref(1);
   const { handleError } = useAppError();
   const orgFilters = computed(() => unref(filters));
+  watch(
+    orgFilters,
+    (newFilters, oldFilters) => {
+      if (JSON.stringify(newFilters) !== JSON.stringify(oldFilters)) {
+        page.value = 1;
+      }
+    },
+    { deep: true }
+  );
   // Use AsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
     () => getKeyForGetOrganizations(),
@@ -35,43 +44,33 @@ export function useGetOrganizations(
             store.setIsLastPage(false);
           }
         }
+        const isFilterChanged =
+          JSON.stringify(store.getFilters()) !==
+          JSON.stringify(orgFilters.value);
+
         const { data: organizations, isLastPage } = await listOrganizations({
           ...orgFilters.value,
-          page:
-            JSON.stringify(store.getFilters()) ===
-            JSON.stringify(orgFilters.value)
-              ? page.value
-              : 1,
+          page: isFilterChanged ? 1 : page.value,
           page_size: 10,
         });
         const organizationsCached = store.getItems();
         const pageCached = store.getPage();
         store.setIsLastPage(isLastPage);
 
-        // Append new events to cached events if page > 1.
+        // Append new organizations to cached organizations if page > 1.
         if (
+          !isFilterChanged &&
           organizationsCached.length > 0 &&
-          JSON.stringify(store.getFilters()) ===
-            JSON.stringify(orgFilters.value) &&
-          (page.value > pageCached || (page.value === 1 && pageCached === 1))
+          page.value > pageCached
         ) {
           store.setItems([...organizationsCached, ...organizations]);
+          store.setPage(page.value);
           return [...organizationsCached, ...organizations] as Organization[];
         }
 
         store.setItems(organizations);
-        if (
-          JSON.stringify(store.getFilters()) !==
-          JSON.stringify(orgFilters.value)
-        ) {
-          store.setPage(1);
-          page.value = 1;
-        } else {
-          store.setPage(page.value);
-        }
-
+        store.setPage(isFilterChanged ? 1 : page.value);
         store.setFilters(orgFilters.value);
-        store.setPage(page.value);
         return organizations as Organization[];
       } catch (error) {
         handleError(error);
