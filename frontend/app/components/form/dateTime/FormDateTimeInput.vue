@@ -11,13 +11,13 @@
         <FormTextInput
           id="start"
           v-on="inputEvents.start"
-          :v-model="inputValue.start"
+          :value="inputValue.start"
         />
         <Icon class="mx-2" :name="IconMap.ARROW_RIGHT" size="1.5em" />
         <FormTextInput
           id="end"
           v-on="inputEvents.end"
-          :v-model="inputValue.end"
+          :value="inputValue.end"
         />
       </div>
     </template>
