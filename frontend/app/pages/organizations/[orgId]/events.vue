@@ -3,9 +3,8 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ organization?.name }}&nbsp;{{
-          $t("i18n.pages.organizations._global.events_lower")
-        }}
+        {{ organization?.name }}
+        {{ $t("i18n.pages.organizations._global.events_lower") }}
       </Title>
     </Head>
     <HeaderAppPageOrganization
@@ -31,6 +30,7 @@
           />
           <div class="flex flex-col justify-end space-x-1">
             <FormLabel
+              id="filter-date-label"
               class="hidden lg:block"
               for="filter-date-range"
               :label="$t('i18n.pages.organizations.events.filter_by_date')"
@@ -38,6 +38,7 @@
             <FormDateTimeInput
               id="filter-date-range"
               v-model="dateRange"
+              aria-labelledby="filter-date-label"
               class="flex items-center"
               :label="$t('i18n.pages.organizations.events.filter_by_date')"
             />
@@ -92,7 +93,7 @@ const organizationId = useRoute().params.orgId as string;
 const name = ref<string>("");
 const dateRange = ref<{ start?: Date; end?: Date }>({});
 
-// Format to YYYY-MM-DD for backend __date filter.
+// format to YYYY-MM-DD for backend __date filter
 const toDateParam = (d?: Date) =>
   d ? d.toISOString().slice(0, 10) : undefined;
 
