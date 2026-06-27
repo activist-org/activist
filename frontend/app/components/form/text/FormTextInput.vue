@@ -57,7 +57,7 @@
       <!-- Using a fieldset allows the label to overlay the border. -->
       <fieldset
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 -top-[5px] bottom-0 rounded border pl-3 pr-2.5"
+        class="-top-1.25 pointer-events-none absolute inset-0 bottom-0 rounded border pl-3 pr-2.5"
         :class="{
           'border-action-red dark:border-action-red': hasError,
           'border-interactive': !hasError,
@@ -86,7 +86,7 @@ defineOptions({
 
 export interface Props {
   id: string;
-  label: string;
+  label?: string;
   modelValue?: string;
   hasError?: boolean;
   iconLocation?: "left" | "right";

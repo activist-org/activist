@@ -2,15 +2,14 @@
 
 import { mount } from "@vue/test-utils";
 import { DatePicker } from "v-calendar";
-// SPDX-License-Identifier: AGPL-3.0-or-later
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import FormDateTimeInput from "../../../../app/components/form/dateTime/FormDateTimeInput.vue";
 import { createUseColorModeSpy } from "../../../mocks/composableMocks";
-// Mock useColorMode composable
+
 globalThis.useColorMode = createUseColorModeSpy("dark", "dark");
 
-// Mock Icon component
+// Mock Icon component.
 vi.mock("#components", () => ({
   Icon: {
     name: "Icon",
@@ -57,7 +56,7 @@ describe("FormDateTimeInput", () => {
 
   it("initializes range with default dates", () => {
     const wrapper = mount(FormDateTimeInput);
-    const vm = wrapper.vm;
+    const { vm } = wrapper;
     expect(vm.range.start).toEqual(new Date(2020, 9, 12));
     expect(vm.range.end).toEqual(new Date(2020, 9, 16));
   });

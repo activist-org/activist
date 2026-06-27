@@ -670,6 +670,8 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
 
 
 # MARK: Events
+
+
 @extend_schema(
     parameters=[
         OpenApiParameter(
@@ -690,32 +692,36 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
                 {"detail": "Organization ID is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         queryset = Event.objects.filter(orgs__id=org_id)
         if not queryset.exists():
             return Response(
                 {"count": 0, "next": None, "previous": None, "results": []},
                 status=status.HTTP_200_OK,
             )
+
         start = request.query_params.get("start_date")
         end = request.query_params.get("end_date")
-        name = request.query_params.get("name")
-        if name:
+        if name := request.query_params.get("name"):
             queryset = queryset.filter(name__icontains=name)
-        # overlap logic: event interval intersects requested interval
+
+        # Overlap logic: event interval intersects requested interval.
         if start and end:
             queryset = queryset.filter(
                 times__start_time__date__lte=end,
                 times__end_time__date__gte=start,
             )
+
         elif start:
-            # events that end on/after start
             queryset = queryset.filter(times__end_time__date__gte=start)
+
         elif end:
-            # events that start on/before end
             queryset = queryset.filter(times__start_time__date__lte=end)
+
         else:
-            # no date filters, return all events for the org
+            # No date filters, return all events for the org.
             queryset = queryset.filter(orgs__id=org_id)
+
         queryset = queryset.order_by("times__start_time").distinct()
 
         serializer = self.get_serializer(queryset, many=True)

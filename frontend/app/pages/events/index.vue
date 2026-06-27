@@ -68,14 +68,14 @@ const listFilters = computed(() => {
         return value.map((v) => ({
           id: `${key}-${v}`,
           label: (getLabelByKey(key, v) ||
-            String(v).replace(/_/g, " ")) as string, // Simple label formatting, can be improved.
+            String(v).replace(/_/g, " ")) as string,
           value: v,
         }));
       }
       return {
         id: key,
         label: (getLabelByKey(key, value) ||
-          String(value).replace(/_/g, " ")) as string, // Simple label formatting, can be improved.
+          String(value).replace(/_/g, " ")) as string,
         value,
       };
     }
@@ -105,7 +105,7 @@ const removeFilter = (option: {
     }
   }
 
-  // remove key without dynamic delete
+  // Remove key without dynamic delete.
   const { [key]: _removed, ...rest } = query;
   router.replace({ query: rest as LocationQueryRaw });
 };

@@ -8,17 +8,26 @@
   >
     <template #default="{ inputValue, inputEvents }">
       <div class="flex items-center justify-center">
-        <FormTextInput v-on="inputEvents.start" :value="inputValue.start" />
+        <FormTextInput
+          id="start"
+          v-on="inputEvents.start"
+          :v-model="inputValue.start"
+        />
         <Icon class="mx-2" :name="IconMap.ARROW_RIGHT" size="1.5em" />
-        <FormTextInput v-on="inputEvents.end" :value="inputValue.end" />
+        <FormTextInput
+          id="end"
+          v-on="inputEvents.end"
+          :v-model="inputValue.end"
+        />
       </div>
     </template>
   </DatePicker>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { DatePicker } from "v-calendar";
 import { ref } from "vue";
+
 const colorMode = useColorMode();
 const colorModePreference = colorMode.preference == "light" ? "light" : "dark";
 const range = ref({

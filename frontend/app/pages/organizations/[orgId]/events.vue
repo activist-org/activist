@@ -92,7 +92,7 @@ const organizationId = useRoute().params.orgId as string;
 const name = ref<string>("");
 const dateRange = ref<{ start?: Date; end?: Date }>({});
 
-// format to YYYY-MM-DD for backend __date filter
+// Format to YYYY-MM-DD for backend __date filter.
 const toDateParam = (d?: Date) =>
   d ? d.toISOString().slice(0, 10) : undefined;
 
