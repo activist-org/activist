@@ -1,5 +1,15 @@
 [
   {
+    "path": "backend/communities/organizations/views.py",
+    "file_name": "views.py",
+    "functions": [
+      {
+        "name": "OrganizationByUserAPIView::get",
+        "complexity": 11
+      }
+    ]
+  },
+  {
     "path": "backend/content/serializers.py",
     "file_name": "serializers.py",
     "functions": [
@@ -15,7 +25,7 @@
     "functions": [
       {
         "name": "main",
-        "complexity": 11
+        "complexity": 16
       }
     ]
   },
@@ -25,7 +35,7 @@
     "functions": [
       {
         "name": "Command::handle",
-        "complexity": 31
+        "complexity": 24
       }
     ]
   },
@@ -35,7 +45,7 @@
     "functions": [
       {
         "name": "create_org_events",
-        "complexity": 37
+        "complexity": 49
       }
     ]
   },
@@ -45,7 +55,7 @@
     "functions": [
       {
         "name": "create_group_events",
-        "complexity": 33
+        "complexity": 45
       }
     ]
   },
@@ -55,7 +65,7 @@
     "functions": [
       {
         "name": "create_org_groups",
-        "complexity": 33
+        "complexity": 45
       }
     ]
   },
@@ -65,7 +75,7 @@
     "functions": [
       {
         "name": "create_organization",
-        "complexity": 13
+        "complexity": 21
       }
     ]
   },
@@ -73,10 +83,6 @@
     "path": "backend/events/serializers.py",
     "file_name": "serializers.py",
     "functions": [
-      {
-        "name": "EventPOSTSerializer::create",
-        "complexity": 11
-      },
       {
         "name": "EventPOSTSerializer::validate",
         "complexity": 18
