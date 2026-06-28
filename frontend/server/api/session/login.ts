@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { User } from "#auth-utils";
-
 import { FetchError } from "ofetch";
 import { z } from "zod";
+
+import type { User } from "#auth-utils";
 
 const bodySchema = z.object({
   username: z.string().min(1),

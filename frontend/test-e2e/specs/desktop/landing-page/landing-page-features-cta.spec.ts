@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
-
 import {
   FOOTER_ABOUT_LINK_NAME,
   FOOTER_DOCUMENTATION_LINK_NAME,
