@@ -15,6 +15,7 @@
   "i18n._global.entity_logo": "{entity_name} logo",
   "i18n._global.events": "活动",
   "i18n._global.faq": "常问问题",
+  "i18n._global.filter_by_city": "按城市过滤",
   "i18n._global.groups": "群组",
   "i18n._global.home": "首页",
   "i18n._global.join_group": "加入群组",
@@ -43,6 +44,7 @@
   "i18n._global.return_home": "返回首页",
   "i18n._global.return_home_aria_label": "返回 activist 首页",
   "i18n._global.search": "搜索",
+  "i18n._global.search_city_button_aria_label": "按城市搜索组织",
   "i18n._global.settings": "设置",
   "i18n._global.share": "分享",
   "i18n._global.share_event": "分享活动",
@@ -275,7 +277,12 @@
   "i18n.components.form_text_input_password.show_password_aria_label": "显示密码",
   "i18n.components.friendly_captcha.dev_captcha_disabled": "Captcha 被禁用 -请点击来认证",
   "i18n.components.grid_app_shields.app_store": "应用商店",
+  "i18n.components.grid_app_shields.f_droid": "F-Droid",
+  "i18n.components.grid_app_shields.google_play": "Google Play",
   "i18n.components.grid_git_hub_shields.fork": "分支",
+  "i18n.components.icon_delete.aria_label_alt_text": "删除。",
+  "i18n.components.image_multiple_file_drop_zone.number_of_files": "文件数",
+  "i18n.components.image_multiple_file_drop_zone.picture_limit_1": "您只能在此上传一张图片。",
   "i18n.components.modal.faq_entry.delete._global.message": "您确定要删除此常问问题条目吗？此操作无法撤销。",
   "i18n.components.modal.resource.delete._global.message": "您确定要删除此资源吗？此操作无法撤销。"
 }
