@@ -11,7 +11,7 @@
     tabindex="0"
   >
     <div class="flex items-center" :class="{ 'max-sm:grow': isSelector }">
-      <Icon class="my-1 h-5 w-5 shrink-0" :name="icon" size="1em" />
+      <Icon v-if="icon" class="my-1 h-5 w-5 shrink-0" :name="icon" size="1em" />
       <p class="select-none pl-2 text-center text-base font-bold">
         {{ $t(label) }}
       </p>
@@ -25,7 +25,7 @@ export interface Props {
   label: string;
   active?: boolean;
   isSelector?: boolean;
-  icon: IconMap;
+  icon?: IconMap;
 }
 
 withDefaults(defineProps<Props>(), {

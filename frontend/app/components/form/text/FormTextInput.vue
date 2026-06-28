@@ -3,7 +3,8 @@
 <!-- See: https://mui.com/material-ui/react-text-field/ -->
 <template>
   <div
-    class="form-text-input-container primary-text relative inline-flex w-full flex-col space-y-2 align-top"
+    class="form-text-input-container primary-text relative inline-flex flex-col space-y-2 align-top"
+    :class="sizeClass"
   >
     <label
       class="form-text-input-label pointer-events-none absolute z-10"
@@ -56,7 +57,7 @@
       <!-- Using a fieldset allows the label to overlay the border. -->
       <fieldset
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 -top-[5px] bottom-0 rounded border pl-3 pr-2.5"
+        class="-top-1.25 pointer-events-none absolute inset-0 bottom-0 rounded border pl-3 pr-2.5"
         :class="{
           'border-action-red dark:border-action-red': hasError,
           'border-interactive': !hasError,
@@ -85,11 +86,12 @@ defineOptions({
 
 export interface Props {
   id: string;
-  label: string;
+  label?: string;
   modelValue?: string;
   hasError?: boolean;
   iconLocation?: "left" | "right";
   type?: string;
+  size?: "sm" | "md" | "lg";
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -190,6 +192,18 @@ watch(
   }
 );
 
+const sizeClass = computed(() => {
+  switch (props.size) {
+    case "sm":
+      return "w-40";
+    case "md":
+      return "w-64";
+    case "lg":
+      return "w-80";
+    default:
+      return "w-full";
+  }
+});
 onMounted(() => {
   // Browser autofill may populate after hydration without emitting input events.
   let autofillDetected = syncShrinkLabelState();

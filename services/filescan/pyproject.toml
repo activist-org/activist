@@ -6,7 +6,7 @@ description = "FastAPI-based file scanning service for activist."
 requires-python = ">=3.12"
 dependencies = [
     "clamav-client>=0.7.2",
-    "fastapi>=0.138.0",
+    "fastapi>=0.138.1",
     "httpx>=0.27.0",
     "python-multipart>=0.0.32",
     "uvicorn[standard]>=0.49.0",
@@ -18,7 +18,7 @@ dev = [
     "prek>=0.4.5",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
-    "ruff>=0.15.18",
+    "ruff>=0.15.20",
 ]
 docs = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
