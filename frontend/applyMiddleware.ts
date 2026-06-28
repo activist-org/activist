@@ -11,9 +11,7 @@ export default function applyMiddleware(pages: NuxtPage[]) {
   function setMiddleware(
     pattern: RegExp,
     middleware:
-      | string
-      | MiddlewareFunction
-      | Array<string | MiddlewareFunction>,
+      string | MiddlewareFunction | Array<string | MiddlewareFunction>,
     pages: NuxtPage[],
     pageKey: "name" | "path" | "file" = "name"
   ) {
