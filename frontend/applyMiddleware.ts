@@ -7,30 +7,29 @@ type MiddlewareFunction = (
   from?: RouteLocationNormalizedGeneric
 ) => unknown;
 
-export default function applyMiddleware(pages: NuxtPage[]) {
-  function setMiddleware(
-    pattern: RegExp,
-    middleware:
-      string | MiddlewareFunction | Array<string | MiddlewareFunction>,
-    pages: NuxtPage[],
-    pageKey: "name" | "path" | "file" = "name"
-  ) {
-    for (const page of pages) {
-      if (page[pageKey] !== undefined && pattern.test(page[pageKey])) {
-        // Options are name, path and file.
-        page.meta ||= {};
-        page.meta.middleware ||= [];
-        if (!Array.isArray(page.meta.middleware)) {
-          page.meta.middleware = [page.meta.middleware];
-        }
-        page.meta.middleware = page.meta.middleware.concat(middleware);
+function setMiddleware(
+  pattern: RegExp,
+  middleware: string | MiddlewareFunction | Array<string | MiddlewareFunction>,
+  pages: NuxtPage[],
+  pageKey: "name" | "path" | "file" = "name"
+) {
+  for (const page of pages) {
+    if (page[pageKey] !== undefined && pattern.test(page[pageKey])) {
+      // Options are name, path and file.
+      page.meta ||= {};
+      page.meta.middleware ||= [];
+      if (!Array.isArray(page.meta.middleware)) {
+        page.meta.middleware = [page.meta.middleware];
       }
-      if (page.children) {
-        setMiddleware(pattern, middleware, page.children, pageKey);
-      }
+      page.meta.middleware = page.meta.middleware.concat(middleware);
+    }
+    if (page.children) {
+      setMiddleware(pattern, middleware, page.children, pageKey);
     }
   }
+}
 
+export default function applyMiddleware(pages: NuxtPage[]) {
   setMiddleware(/events-create/, "user-only", pages, "name");
   setMiddleware(/groups-create/, "user-only", pages, "name");
   setMiddleware(/organizations-create/, "user-only", pages, "name");
