@@ -33,7 +33,7 @@ jobs:
         working-directory: ./frontend
         run: |
           sudo corepack enable
-          sudo yarn install
+          yarn install
 
       - name: Run Prettier - Formatting Check
         working-directory: ./frontend

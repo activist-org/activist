@@ -35,7 +35,7 @@ jobs:
         working-directory: ./frontend
         run: |
           sudo corepack enable
-          sudo yarn install
+          yarn install
 
       - name: Run Vitest - Component Testing
         working-directory: ./frontend
