@@ -102,8 +102,8 @@ jobs:
           PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
         run: |
           sudo mkdir -p /opt/playwright-browsers
-          sudo -E yarn playwright install --with-deps chromium
-          sudo chmod -R 755 /opt/playwright-browsers
+          sudo chown -R $USER:$USER /opt/playwright-browsers
+          yarn playwright install --with-deps chromium
 
       - name: Start Preview Server
         working-directory: ./frontend
@@ -114,7 +114,7 @@ jobs:
           VITE_BACKEND_URL_PROXY: http://localhost:8000
           PORT: 3000
         run: |
-          nohup sudo -E yarn preview --port 3000 > server.log 2>&1 &
+          nohup yarn preview --port 3000 > server.log 2>&1 &
           echo $! > server.pid
           sleep 5
 
@@ -151,7 +151,7 @@ jobs:
           VITE_BACKEND_URL: http://localhost:8000
           VITE_API_URL: http://localhost:8000/v1
           VITE_BACKEND_URL_PROXY: http://localhost:8000
-        run: sudo -E yarn playwright test --project="Mobile Chrome"
+        run: yarn playwright test --project="Mobile Chrome"
 
       - name: Upload Playwright Report
         if: always()
