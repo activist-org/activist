@@ -3,3 +3,4 @@ export * from "./generic";
 export * from "./map";
 export * from "./mutations";
 export * from "./queries";
+export * from "./cache";
