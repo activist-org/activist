@@ -60,6 +60,8 @@ from content.models import Image
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
+from events.models import Event
+from events.serializers import EventSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -665,6 +667,65 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         return Response(
             {"message": "FAQ deleted successfully."}, status=status.HTTP_204_NO_CONTENT
         )
+
+
+# MARK: Events
+
+
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            "org_id",
+            OpenApiTypes.UUID,
+            location=OpenApiParameter.PATH,
+            description="Organization UUID.",
+        ),
+    ],
+)
+class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+    def list(self, request: Request, org_id: UUID) -> Response:
+        if org_id is None:
+            return Response(
+                {"detail": "Organization ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        queryset = Event.objects.filter(orgs__id=org_id)
+        if not queryset.exists():
+            return Response(
+                {"count": 0, "next": None, "previous": None, "results": []},
+                status=status.HTTP_200_OK,
+            )
+
+        start = request.query_params.get("start_date")
+        end = request.query_params.get("end_date")
+        if name := request.query_params.get("name"):
+            queryset = queryset.filter(name__icontains=name)
+
+        # Overlap logic: event interval intersects requested interval.
+        if start and end:
+            queryset = queryset.filter(
+                times__start_time__date__lte=end,
+                times__end_time__date__gte=start,
+            )
+
+        elif start:
+            queryset = queryset.filter(times__end_time__date__gte=start)
+
+        elif end:
+            queryset = queryset.filter(times__start_time__date__lte=end)
+
+        else:
+            # No date filters, return all events for the org.
+            queryset = queryset.filter(orgs__id=org_id)
+
+        queryset = queryset.order_by("times__start_time").distinct()
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 # MARK: Social Link

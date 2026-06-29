@@ -41,7 +41,7 @@ async function selectCountryInOrganizationModal(
   modal: ReturnType<typeof newCreateOrganizationModal>,
   optionNameMatch: RegExp | string
 ) {
-  const countryLabel = getEnglishText("i18n.components._global.country");
+  const countryLabel = getEnglishText("i18n._global.country");
   const countryTrigger = modal.locationForm
     .locator("#form-item-country")
     .getByRole("button", { name: new RegExp(countryLabel, "i") });
