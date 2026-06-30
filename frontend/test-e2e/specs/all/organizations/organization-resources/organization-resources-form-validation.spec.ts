@@ -129,11 +129,23 @@ test.describe(
       await resourcesPage
         .resourceUrlInput(modal)
         .fill("https://example.com/e2e-resource");
+      // Wait on the create request and assert it succeeded.
+      const createResponse = page.waitForResponse(
+        (res) =>
+          res.request().method() === "POST" &&
+          /\/communities\/organization_resources\b/.test(
+            new URL(res.url()).pathname
+          )
+      );
       await resourcesPage.resourceSubmitButton(modal).click();
+      const createRes = await createResponse;
+      expect(
+        [200, 201, 204].includes(createRes.status()),
+        `Resource create failed: HTTP ${createRes.status()}`
+      ).toBe(true);
 
       // Modal closes and the new resource appears in the list.
       await expect(modal).not.toBeVisible();
-      await page.waitForLoadState("domcontentloaded");
       await expect(
         resourcesPage.resourceCards.filter({ hasText: name })
       ).toBeVisible();
