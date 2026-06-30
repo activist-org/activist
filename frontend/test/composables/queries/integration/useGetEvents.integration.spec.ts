@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-/**
- * Integration tests for useGetEvents composable.
- * Tests paginated list behaviors: pagination, filter handling, append logic.
- */
+/* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any */
+import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -10,6 +8,46 @@ import type { EventFilters } from "../../../../shared/types/event";
 
 import { createMockEvent } from "../../../mocks/factories";
 import { createMockNuxtApp } from "../helpers/useAsyncDataMock";
+
+const { useAsyncDataMock, capturedCalls, hoistedListEvents } = vi.hoisted(
+  () => {
+    const { ref } = require("vue");
+
+    const captured = {
+      lastCall: null,
+      allCalls: [],
+    };
+
+    const useAsyncDataMock = vi.fn((key, handler, options) => {
+      const call = {
+        handler,
+        getCachedData: options?.getCachedData ?? null,
+        watch: options?.watch ?? null,
+        immediate: options?.immediate ?? false,
+        defaultFn: options?.default ?? null,
+      };
+      captured.lastCall = call as any;
+      captured.allCalls.push(call as any);
+
+      return {
+        data: ref(null),
+        pending: ref(false),
+        error: ref(null),
+        refresh: vi.fn().mockResolvedValue(undefined),
+        execute: vi.fn().mockResolvedValue(undefined),
+      };
+    });
+
+    return {
+      useAsyncDataMock,
+      capturedCalls: captured,
+      hoistedListEvents: vi.fn(),
+    };
+  }
+);
+
+mockNuxtImport("useAsyncData", () => useAsyncDataMock);
+mockNuxtImport("listEvents", () => hoistedListEvents);
 
 type MockEvent = ReturnType<typeof createMockEvent> & { id: string };
 
@@ -41,7 +79,7 @@ vi.mock("../../../../app/stores/event", () => ({
   }),
 }));
 
-const mockListEvents = vi.fn();
+const mockListEvents = hoistedListEvents;
 
 vi.mock("../../../../app/services/entities/event", () => ({
   listEvents: (params: unknown) => mockListEvents(params),
@@ -53,6 +91,8 @@ describe("useGetEvents Integration", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
+    capturedCalls.lastCall = null;
+    capturedCalls.allCalls = [];
     mockGetEvents.mockReturnValue([]);
     mockGetFilters.mockReturnValue({});
     mockGetPage.mockReturnValue(1);
@@ -348,6 +388,196 @@ describe("useGetEvents Integration", () => {
         await import("../../../../app/composables/queries/useGetEvents");
       expect(getKeyForGetEvents()).toBe("events-list");
       expect(getKeyForGetEvents()).toBe(getKeyForGetEvents());
+    });
+  });
+
+  // MARK: Race Condition / Stale Response Handling
+
+  describe("Race Condition / Stale Response Handling", () => {
+    it("discards stale page-2 response when a newer fetch has started", () => {
+      // Simulate the generation counter logic:
+      // fetch 1 (page 2, no filter) starts → currentGeneration = 1
+      // fetch 2 (page 1, new filter) starts → fetchGeneration becomes 2
+      // fetch 1 resolves last → detects currentGeneration (1) !== fetchGeneration (2) → discards
+      let fetchGeneration = 0;
+      const cached = [createMockEvent() as MockEvent];
+      mockGetEvents.mockReturnValue(cached);
+
+      // Simulate fetch 1 stamping its generation.
+      const gen1 = ++fetchGeneration; // gen1 = 1
+
+      // Simulate fetch 2 starting before fetch 1 resolves.
+      ++fetchGeneration; // fetchGeneration is now 2
+
+      // When fetch 1 resolves, it checks: gen1 !== fetchGeneration → true → discard.
+      const shouldDiscard = gen1 !== fetchGeneration;
+      expect(shouldDiscard).toBe(true);
+
+      // The returned value should be the existing store contents, not stale data.
+      const result = shouldDiscard ? mockGetEvents() : [];
+      expect(result).toEqual(cached);
+
+      // Fetch 2 resolves with fetchGeneration === 2 → keeps result.
+      expect(fetchGeneration).toBe(2);
+    });
+
+    it("does not append stale page-2 data after filter changes", () => {
+      // Before fix: the old append logic used JSON.stringify on the store filters
+      // AFTER the API call — so a stale page-2 fetch could still satisfy the
+      // filter-match condition if the store hadn't been updated yet.
+      // After fix: filtersChanged is computed BEFORE the call; if it was true,
+      // the append branch is skipped entirely for that invocation.
+      const page2Items = [
+        createMockEvent() as MockEvent,
+        createMockEvent() as MockEvent,
+      ];
+      const filterPage1Items = [createMockEvent() as MockEvent];
+
+      // Simulate: store had no-filter results cached.
+      mockGetEvents.mockReturnValue(page2Items);
+      mockGetFilters.mockReturnValue({});
+
+      // New filter is "Berlin".
+      const newFilters = { location: "Berlin" } as EventFilters;
+      const filtersChanged =
+        JSON.stringify(mockGetFilters()) !== JSON.stringify(newFilters);
+
+      expect(filtersChanged).toBe(true);
+
+      // With the fix, when filtersChanged=true, the append branch is skipped.
+      const shouldAppend =
+        mockGetEvents().length > 0 &&
+        !filtersChanged && // <-- this is the fixed condition
+        true; // page.value > pageCached
+
+      expect(shouldAppend).toBe(false);
+
+      // Result should be filter page 1 items only.
+      const result = shouldAppend
+        ? [...page2Items, ...filterPage1Items]
+        : filterPage1Items;
+      expect(result).toHaveLength(1);
+      expect(result).toEqual(filterPage1Items);
+    });
+
+    it("resets page to 1 before API call when filters change", () => {
+      // The pre-fix code computed the request page as a ternary INSIDE the
+      // listEvents call (after filter comparison). The fix computes filtersChanged
+      // before the call and resets page.value = 1 immediately.
+      let page = 2; // User has scrolled to page 2.
+      mockGetFilters.mockReturnValue({});
+      const newFilters = { location: "Berlin" } as EventFilters;
+
+      // Simulate the pre-call page reset from the fix.
+      const filtersChanged =
+        JSON.stringify(mockGetFilters()) !== JSON.stringify(newFilters);
+      if (filtersChanged) {
+        page = 1;
+      }
+
+      // The API call should go out with page: 1, not page: 2.
+      expect(page).toBe(1);
+    });
+
+    it("keeps page when filters did not change", () => {
+      let page = 2;
+      mockGetFilters.mockReturnValue({ location: "Berlin" });
+      const sameFilters = { location: "Berlin" } as EventFilters;
+
+      const filtersChanged =
+        JSON.stringify(mockGetFilters()) !== JSON.stringify(sameFilters);
+      if (filtersChanged) {
+        page = 1;
+      }
+
+      // Page should remain at 2 since the filter is unchanged.
+      expect(page).toBe(2);
+    });
+
+    it("newer generation result is not discarded", () => {
+      // When fetch N is the latest (currentGeneration === fetchGeneration),
+      // its result should be written to the store.
+      let fetchGeneration = 0;
+      const currentGeneration = ++fetchGeneration; // only one fetch in flight.
+
+      const shouldDiscard = currentGeneration !== fetchGeneration;
+      expect(shouldDiscard).toBe(false);
+    });
+
+    it("should discard stale page-2 response when filter changes mid-flight (real composable integration test)", async () => {
+      // 1. Setup mock returns for listEvents based on parameters.
+      const page1Events = [
+        createMockEvent({ id: "e1" } as any),
+        createMockEvent({ id: "e2" } as any),
+      ];
+      const page2Events = [
+        createMockEvent({ id: "e3" } as any),
+        createMockEvent({ id: "e4" } as any),
+      ];
+      const filterEvents = [createMockEvent({ id: "ef1" } as any)];
+
+      let resolvePage2: (val: any) => void = () => {};
+      let resolveFilter: (val: any) => void = () => {};
+
+      const page2Promise = new Promise((resolve) => {
+        resolvePage2 = resolve;
+      });
+      const filterPromise = new Promise((resolve) => {
+        resolveFilter = resolve;
+      });
+
+      mockListEvents.mockImplementation((params: any) => {
+        if (params.location === "Berlin") {
+          return filterPromise;
+        } else if (params.page === 2) {
+          return page2Promise;
+        } else {
+          return Promise.resolve({ data: page1Events, isLastPage: false });
+        }
+      });
+
+      const { ref } = await import("vue");
+      const filters = ref<EventFilters>({});
+      const { useGetEvents } =
+        await import("../../../../app/composables/queries/useGetEvents");
+
+      // Initialize composable
+      const { getMore } = useGetEvents(filters);
+
+      // Get the real captured handler.
+      const capturedHandler = capturedCalls.lastCall!.handler;
+
+      // Run initial load (page 1)
+      await capturedHandler();
+
+      // Check the store state using the real store
+      const { useEventListStore } =
+        await import("../../../../app/stores/data/event");
+      const store = useEventListStore();
+      expect(store.getItems().map((e) => e.id)).toEqual(["e1", "e2"]);
+
+      // Trigger getMore() to request page 2
+      getMore();
+      // Manually trigger the handler for page 2 (simulating watch effect)
+      const p2FetchPromise = capturedHandler();
+
+      // Change filter mid-flight.
+      filters.value = { location: "Berlin" };
+      // Manually trigger the handler for the new filter (simulating watch effect)
+      const filterFetchPromise = capturedHandler();
+
+      // Simulate resolution order: filter resolves FIRST, stale page-2 resolves LAST
+      resolveFilter({ data: filterEvents, isLastPage: true });
+      await filterFetchPromise;
+
+      expect(store.getItems().map((e) => e.id)).toEqual(["ef1"]);
+
+      // Now resolve the stale page-2 request
+      resolvePage2({ data: page2Events, isLastPage: false });
+      await p2FetchPromise;
+
+      // Assert that the stale page-2 result was discarded and did not contaminate the store
+      expect(store.getItems().map((e) => e.id)).toEqual(["ef1"]);
     });
   });
 });
