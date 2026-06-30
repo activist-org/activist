@@ -78,9 +78,7 @@
             <FormSearchLocation :handle-submit="handleSubmitLocation" />
             <FormItem
               v-slot="{ id, handleChange, value }"
-              :label="
-                $t('i18n.components.modal_event_details.physical_location')
-              "
+              :label="$t('i18n._global.physical_location')"
               name="location"
             >
               <FormRadioGroup

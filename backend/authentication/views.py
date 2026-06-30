@@ -480,9 +480,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
     @extend_schema(
         responses={
             200: UserFlagSerializers,
-            404: OpenApiResponse(
-                response={"detail": "Failed to retrieve the flag."}
-            ),
+            404: OpenApiResponse(response={"detail": "Failed to retrieve the flag."}),
         }
     )
     def get(self, request: Request, id: str | uuid.UUID) -> Response:

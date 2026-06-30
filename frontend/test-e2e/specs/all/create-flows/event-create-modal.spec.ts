@@ -637,7 +637,7 @@ test.describe(
 
       await expect(modal.locationForm).toBeVisible();
       const searchLocationForm = modal.root.locator("#search-location");
-      const countryLabel = getEnglishText("i18n.components._global.country");
+      const countryLabel = getEnglishText("i18n._global.country");
       const countryTrigger = searchLocationForm
         .locator("#form-item-country")
         .getByRole("button", { name: new RegExp(countryLabel, "i") });

@@ -73,7 +73,7 @@ async function fillAndSearch(
   { city, street }: { city: string; street: string }
 ) {
   const countryButton = modal.locationSearchForm.getByRole("button", {
-    name: new RegExp(getEnglishText("i18n.components._global.country"), "i"),
+    name: new RegExp(getEnglishText("i18n._global.country"), "i"),
   });
   await countryButton.click();
   const firstCountry = page.getByRole("option").first();
@@ -160,10 +160,7 @@ test.describe(
       await navigateToLocationStep(modal, page);
 
       const countryButton = modal.locationSearchForm.getByRole("button", {
-        name: new RegExp(
-          getEnglishText("i18n.components._global.country"),
-          "i"
-        ),
+        name: new RegExp(getEnglishText("i18n._global.country"), "i"),
       });
       await countryButton.click();
       const firstCountry = page.getByRole("option").first();
