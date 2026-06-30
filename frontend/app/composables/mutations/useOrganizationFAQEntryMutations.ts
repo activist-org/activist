@@ -5,6 +5,8 @@ export function useOrganizationFAQEntryMutations(
   organizationId: MaybeRef<string>
 ) {
   const { showToastError } = useToaster();
+  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
+  const nuxtApp = useNuxtApp();
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
@@ -27,8 +29,7 @@ export function useOrganizationFAQEntryMutations(
         faqData as FaqEntry
       );
 
-      // Refresh the organization data to get the new FAQ.
-      await refreshOrganizationData();
+      scheduleOrganizationRefresh();
 
       return true;
     } catch (err) {
@@ -50,8 +51,7 @@ export function useOrganizationFAQEntryMutations(
       // Direct service call - no useAsyncData needed for mutations.
       await updateOrganizationFaq(faq);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshOrganizationData();
+      scheduleOrganizationRefresh();
 
       return true;
     } catch (err) {
@@ -72,8 +72,7 @@ export function useOrganizationFAQEntryMutations(
     try {
       await reorderOrganizationFaqs(faqs);
 
-      // Refresh to get the updated order.
-      await refreshOrganizationData();
+      scheduleOrganizationRefresh();
 
       return true;
     } catch (err) {
@@ -94,8 +93,7 @@ export function useOrganizationFAQEntryMutations(
     try {
       await deleteOrganizationFaq(faqId);
 
-      // Refresh to get the updated list.
-      await refreshOrganizationData();
+      scheduleOrganizationRefresh();
 
       return true;
     } catch (err) {
@@ -106,6 +104,14 @@ export function useOrganizationFAQEntryMutations(
     } finally {
       loading.value = false;
     }
+  }
+
+  // Defer to a macrotask so the modal closes before the refresh runs.
+  function scheduleOrganizationRefresh() {
+    setTimeout(
+      () => void nuxtApp.runWithContext(() => refreshOrganizationData()),
+      0
+    );
   }
 
   // Helper to refresh organization data after mutations.
