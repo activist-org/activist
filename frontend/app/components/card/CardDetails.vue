@@ -22,15 +22,16 @@
           </h3>
           <IconEdit
             @click="
-              openModalTextEvent({
+              openModalEventDetails({
                 entityId: event?.id,
               })
             "
             @keydown.enter="
-              openModalTextEvent({
+              openModalEventDetails({
                 entityId: event?.id,
               })
             "
+            data-testid="edit-event-details"
             :entity="event"
           />
         </div>
@@ -83,7 +84,8 @@ const props = defineProps<{
   event: CommunityEvent | null;
 }>();
 
-const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
+const { openModal: openModalEventDetails } =
+  useModalHandlers("ModalEventDetails");
 
 const eventForLinkURL = computed(() => props.event);
 const { linkUrl: eventLinkUrl } = useLinkURL({

@@ -4,6 +4,11 @@ import type { Locator, Page } from "playwright";
 import { getEnglishText } from "#shared/utils/i18n";
 import { expect } from "@playwright/test";
 
+import {
+  clickUntilLocatorVisible,
+  selectFirstComboboxOption,
+} from "~/test-e2e/utils/combobox-helpers";
+
 export const newCreateGroupModal = (page: Page) => {
   const root = page.getByTestId("modal-ModalCreateGroup");
   const organizationCombobox = root.locator("#form-item-organization");
@@ -72,24 +77,34 @@ export const newCreateGroupModal = (page: Page) => {
       const orgsButton = organizationCombobox.getByRole("button", {
         name: new RegExp(orgsLabel, "i"),
       });
-      const firstOption = root.getByRole("option").first();
 
-      await expect(async () => {
-        if ((await orgsButton.getAttribute("aria-expanded")) !== "true") {
-          await orgsButton.click();
-        }
-        await expect(firstOption).toBeVisible({ timeout: 2000 });
-      }).toPass({ timeout: 20000 });
-
-      await firstOption.click();
-      // Single-select closes the dropdown automatically after a choice.
-      await expect(firstOption).toBeHidden({ timeout: 5000 });
-      // Ensure the selected value is committed to form state before callers
-      // proceed; the option-click to vee-validate update is slightly async
-      // (notably on mobile) and can otherwise race the next-step click.
-      await expect(organizationCombobox.locator("input")).not.toHaveValue("", {
-        timeout: 5000,
+      await selectFirstComboboxOption({
+        toggleButton: orgsButton,
+        optionsLocator: root.locator(
+          "#form-item-organization-options [role='option']"
+        ),
+        assertSelected: async () => {
+          await expect(organizationCombobox.locator("input")).not.toHaveValue(
+            "",
+            { timeout: 5000 }
+          );
+        },
       });
+    },
+
+    async advanceToLocationStep(): Promise<void> {
+      await clickUntilLocatorVisible(
+        () =>
+          root
+            .getByRole("button", {
+              name: new RegExp(
+                getEnglishText("i18n.components.submit_aria_label"),
+                "i"
+              ),
+            })
+            .click(),
+        root.locator("#event-location")
+      );
     },
   };
 };

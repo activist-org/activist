@@ -60,6 +60,9 @@ const modalRegistry: Record<string, Component> = {
   ModalTextEvent: defineAsyncComponent(
     () => import("./text/ModalTextEvent.vue")
   ),
+  ModalEventDetails: defineAsyncComponent(
+    () => import("./event/ModalEventDetails.vue")
+  ),
   ModalTextGroup: defineAsyncComponent(
     () => import("./text/ModalTextGroup.vue")
   ),

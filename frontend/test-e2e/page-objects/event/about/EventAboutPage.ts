@@ -9,8 +9,7 @@ export const newEventAboutPage = (page: Page) => ({
   aboutCard: page.getByTestId("card-about"),
   aboutCardEditIcon: page
     .getByTestId("card-about")
-    .getByTestId("icon-edit")
-    .first(),
+    .getByTestId("edit-event-texts"),
   aboutExpandTextButton: page.getByTestId("expand-text-button"),
   aboutCollapseTextButton: page.getByTestId("collapse-text-button"),
 
@@ -40,6 +39,39 @@ export const newEventAboutPage = (page: Page) => ({
   connectCardEditIcon: page
     .getByTestId("card-connect")
     .getByTestId("icon-edit")
+    .first(),
+
+  // MARK: Details Card
+
+  detailsCardHeading: page.getByRole("heading", {
+    name: new RegExp(
+      getEnglishText("i18n.components.card_details.header"),
+      "i"
+    ),
+  }),
+  detailsCardEditIcon: page.getByTestId("edit-event-details"),
+  detailsCard: page.locator(".card-style").filter({
+    has: page.getByRole("heading", {
+      name: new RegExp(
+        getEnglishText("i18n.components.card_details.header"),
+        "i"
+      ),
+    }),
+  }),
+  detailsCardOrganizationLink: page
+    .locator(".card-style")
+    .filter({
+      has: page.getByRole("heading", {
+        name: new RegExp(
+          getEnglishText("i18n.components.card_details.header"),
+          "i"
+        ),
+      }),
+    })
+    .getByRole("link")
+    .filter({
+      has: page.locator("p"),
+    })
     .first(),
 
   // MARK: Media
