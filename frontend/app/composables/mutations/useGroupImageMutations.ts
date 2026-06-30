@@ -4,6 +4,8 @@
 export function useGroupImageMutations(groupId: MaybeRef<string>) {
   const loading = ref(false);
   const { error, handleError, clearError } = useAppError();
+  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
+  const nuxtApp = useNuxtApp();
 
   const currentGroupId = computed(() => unref(groupId));
 
@@ -23,8 +25,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
         contentImage as ContentImage
       );
 
-      // Refresh the group data to get the new resource.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -44,8 +45,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await uploadGroupImages(currentGroupId.value, images, sequences);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -56,14 +56,22 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
     }
   }
 
+  // Defer to a macrotask so the modal closes before the refresh runs.
+  function scheduleGroupRefresh() {
+    setTimeout(() => void nuxtApp.runWithContext(() => refreshGroupData()), 0);
+  }
+
   // Helper to refresh group data after mutations.
   async function refreshGroupData() {
     if (!currentGroupId.value) {
       return;
     }
 
-    // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(getKeyForGetGroupImages(currentGroupId.value));
+    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
+    // collision, leaving the data stale after a save.
+    const key = getKeyForGetGroupImages(currentGroupId.value);
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {
