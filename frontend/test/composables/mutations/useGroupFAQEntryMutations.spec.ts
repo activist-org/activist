@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupFAQEntryMutations } from "../../../app/composables/mutations/useGroupFAQEntryMutations";
@@ -48,6 +48,8 @@ describe("useGroupFAQEntryMutations", () => {
   const groupId = ref("group-123");
 
   beforeEach(() => {
+    // Refresh is deferred on a timer; fake timers let tests flush it.
+    vi.useFakeTimers();
     groupId.value = "group-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -56,6 +58,10 @@ describe("useGroupFAQEntryMutations", () => {
       reorderGroupFaqs,
       deleteGroupFaq,
     ]);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   describe("createFAQ", () => {
@@ -75,6 +81,7 @@ describe("useGroupFAQEntryMutations", () => {
       const { createFAQ } = useGroupFAQEntryMutations(groupId);
 
       await createFAQ(sampleFaqData);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -139,6 +146,7 @@ describe("useGroupFAQEntryMutations", () => {
       const { updateFAQ } = useGroupFAQEntryMutations(groupId);
 
       await updateFAQ(sampleFaqEntry);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -173,6 +181,7 @@ describe("useGroupFAQEntryMutations", () => {
       const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
 
       await reorderFAQs([sampleFaqEntry]);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -206,6 +215,7 @@ describe("useGroupFAQEntryMutations", () => {
       const { deleteFAQ } = useGroupFAQEntryMutations(groupId);
 
       await deleteFAQ(sampleFaqEntry.id);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")

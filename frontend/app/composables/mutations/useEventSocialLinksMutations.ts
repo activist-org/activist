@@ -4,6 +4,8 @@
 export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   const loading = ref(false);
   const { error, handleError, clearError } = useAppError();
+  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
+  const nuxtApp = useNuxtApp();
 
   const currentEventId = computed(() => unref(eventId));
 
@@ -22,8 +24,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
         ...data,
       });
 
-      // Refresh the event data to get updated links.
-      await refreshEventData();
+      scheduleEventRefresh();
 
       return true;
     } catch (err) {
@@ -44,8 +45,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await createEventSocialLinks(currentEventId.value, links);
 
-      // Refresh the event data to get updated links.
-      await refreshEventData();
+      scheduleEventRefresh();
 
       return true;
     } catch (err) {
@@ -64,8 +64,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await deleteEventSocialLink(linkId);
 
-      // Refresh the event data to get updated links.
-      await refreshEventData();
+      scheduleEventRefresh();
 
       return true;
     } catch (err) {
@@ -88,8 +87,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await replaceAllEventSocialLinks(currentEventId.value, links);
 
-      // Refresh the event data to get updated links.
-      await refreshEventData();
+      scheduleEventRefresh();
 
       return true;
     } catch (err) {
@@ -100,12 +98,20 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     }
   }
 
+  // Defer to a macrotask so the modal closes before the refresh runs.
+  function scheduleEventRefresh() {
+    setTimeout(() => void nuxtApp.runWithContext(() => refreshEventData()), 0);
+  }
+
   // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
 
-    // Refresh the useAsyncData cache.
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
+    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
+    // collision, leaving the list stale (e.g. a deleted entry lingering).
+    const key = getKeyForGetEvent(currentEventId.value);
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {
