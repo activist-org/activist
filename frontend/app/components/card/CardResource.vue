@@ -89,6 +89,7 @@
       <IconEdit
         @click.stop="openModalEdit()"
         @keydown.enter="openModalEdit()"
+        @pointerdown.stop
         :entity="entity"
       />
       <IconDelete
@@ -104,6 +105,7 @@
             entityId: entity?.id ?? '',
           })
         "
+        @pointerdown.stop
         :entity="entity"
       />
     </div>

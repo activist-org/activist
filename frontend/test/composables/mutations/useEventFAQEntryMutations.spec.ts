@@ -5,7 +5,7 @@
  * @see https://github.com/activist-org/activist/issues/1753 (mock factories)
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useEventFAQEntryMutations } from "../../../app/composables/mutations/useEventFAQEntryMutations";
@@ -49,6 +49,8 @@ describe("useEventFAQEntryMutations", () => {
   const eventId = ref("event-123");
 
   beforeEach(() => {
+    // Refresh is deferred on a timer; fake timers let tests flush it.
+    vi.useFakeTimers();
     eventId.value = "event-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -57,6 +59,10 @@ describe("useEventFAQEntryMutations", () => {
       reorderEventFaqs,
       deleteEventFaq,
     ]);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   describe("createFAQ", () => {
@@ -77,6 +83,7 @@ describe("useEventFAQEntryMutations", () => {
       const { createFAQ } = useEventFAQEntryMutations(eventId);
 
       await createFAQ(sampleFaqData);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledTimes(1);
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
@@ -143,6 +150,7 @@ describe("useEventFAQEntryMutations", () => {
       const { updateFAQ } = useEventFAQEntryMutations(eventId);
 
       await updateFAQ(sampleFaqEntry);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -177,6 +185,7 @@ describe("useEventFAQEntryMutations", () => {
       const { reorderFAQs } = useEventFAQEntryMutations(eventId);
 
       await reorderFAQs([sampleFaqEntry]);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -210,6 +219,7 @@ describe("useEventFAQEntryMutations", () => {
       const { deleteFAQ } = useEventFAQEntryMutations(eventId);
 
       await deleteFAQ(sampleFaqEntry.id);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")

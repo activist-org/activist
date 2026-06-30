@@ -42,10 +42,7 @@
 
 <script setup lang="ts">
 type MetricKeys =
-  | "total events"
-  | "action events"
-  | "learn events"
-  | "new orgs";
+  "total events" | "action events" | "learn events" | "new orgs";
 
 type Metrics = Record<MetricKeys, number>;
 

@@ -3,6 +3,8 @@
 
 export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   const { error, handleError, clearError } = useAppError();
+  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
+  const nuxtApp = useNuxtApp();
 
   const loading = ref(false);
 
@@ -21,8 +23,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createGroupResource(currentGroupId.value, resourceData as Resource);
 
-      // Refresh the group data to get the new resource.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -42,8 +43,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await updateGroupResource(resource);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -62,8 +62,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     try {
       await deleteGroupResource(resourceId);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -82,8 +81,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     try {
       await reorderGroupResources(resources);
 
-      // Refresh to get the updated order.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -94,13 +92,21 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     }
   }
 
+  // Defer to a macrotask so the modal closes before the refresh runs.
+  function scheduleGroupRefresh() {
+    setTimeout(() => void nuxtApp.runWithContext(() => refreshGroupData()), 0);
+  }
+
   // Helper to refresh group data after mutations.
   async function refreshGroupData() {
     if (!currentGroupId.value) {
       return;
     }
-    // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
+    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
+    // collision, leaving the list stale (e.g. a deleted entry lingering).
+    const key = getKeyForGetGroup(currentGroupId.value);
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {

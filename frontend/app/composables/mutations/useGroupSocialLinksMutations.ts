@@ -3,6 +3,8 @@
 
 export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
   const { error, handleError, clearError } = useAppError();
+  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
+  const nuxtApp = useNuxtApp();
 
   const loading = ref(false);
 
@@ -26,8 +28,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
         group: currentGroupId.value,
       });
 
-      // Refresh the group data to get updated links.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -50,8 +51,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await createGroupSocialLinks(currentGroupId.value, links);
 
-      // Refresh the group data to get updated links.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -70,8 +70,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await deleteGroupSocialLink(linkId);
 
-      // Refresh the group data to get updated links.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -96,8 +95,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await replaceAllGroupSocialLinks(currentGroupId.value, links);
 
-      // Refresh the group data to get updated links.
-      await refreshGroupData();
+      scheduleGroupRefresh();
 
       return true;
     } catch (err) {
@@ -108,14 +106,22 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
   }
 
+  // Defer to a macrotask so the modal closes before the refresh runs.
+  function scheduleGroupRefresh() {
+    setTimeout(() => void nuxtApp.runWithContext(() => refreshGroupData()), 0);
+  }
+
   // Helper to refresh group data after mutations.
   async function refreshGroupData() {
     if (!currentGroupId.value) {
       return;
     }
 
-    // Refresh the useAsyncData cache.
-    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
+    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
+    // collision, leaving the list stale (e.g. a deleted entry lingering).
+    const key = getKeyForGetGroup(currentGroupId.value);
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {

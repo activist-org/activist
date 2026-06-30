@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useEventTextsMutations } from "../../../app/composables/mutations/useEventTextsMutations";
@@ -38,8 +38,14 @@ describe("useEventTextsMutations", () => {
   const textId = "text-1";
 
   beforeEach(() => {
+    // Refresh is deferred on a timer; fake timers let tests flush it.
+    vi.useFakeTimers();
     eventId.value = "event-123";
     setupMutationMocks([mockRefreshNuxtData, updateEventTexts]);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   describe("updateTexts", () => {
@@ -60,6 +66,7 @@ describe("useEventTextsMutations", () => {
       const { updateTexts } = useEventTextsMutations(eventId);
 
       await updateTexts(sampleEventTextFormData, textId);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")

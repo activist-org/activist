@@ -4,6 +4,8 @@
 export function useEventTextsMutations(eventId: MaybeRef<string>) {
   const loading = ref(false);
   const { error, handleError, clearError } = useAppError();
+  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
+  const nuxtApp = useNuxtApp();
 
   const currentEventId = computed(() => unref(eventId));
 
@@ -20,8 +22,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await updateEventTexts(currentEventId.value, textId, textsData);
 
-      // Refresh the event data to get the updated texts.
-      await refreshEventData();
+      scheduleEventRefresh();
       return true;
     } catch (err) {
       handleError(err);
@@ -30,12 +31,20 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
       loading.value = false;
     }
   }
+  // Defer to a macrotask so the modal closes before the refresh runs.
+  function scheduleEventRefresh() {
+    setTimeout(() => void nuxtApp.runWithContext(() => refreshEventData()), 0);
+  }
+
   // Helper to refresh event data after mutations.
   async function refreshEventData() {
     if (!currentEventId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
+    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
+    // collision, leaving the data stale after a save.
+    const key = getKeyForGetEvent(currentEventId.value);
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {

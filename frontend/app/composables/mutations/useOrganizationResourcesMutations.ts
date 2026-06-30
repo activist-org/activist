@@ -7,6 +7,8 @@ export function useOrganizationResourcesMutations(
   organizationId: MaybeRef<string>
 ) {
   const { showToastError } = useToaster();
+  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
+  const nuxtApp = useNuxtApp();
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
@@ -29,8 +31,7 @@ export function useOrganizationResourcesMutations(
         resourceData as Resource
       );
 
-      // Refresh the organization data to get the new resource.
-      await refreshOrganizationData();
+      scheduleOrganizationRefresh();
 
       return true;
     } catch (err) {
@@ -52,8 +53,7 @@ export function useOrganizationResourcesMutations(
       // Direct service call - no useAsyncData needed for mutations.
       await updateOrganizationResource(currentOrganizationId.value, resource);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshOrganizationData();
+      scheduleOrganizationRefresh();
 
       return true;
     } catch (err) {
@@ -74,8 +74,7 @@ export function useOrganizationResourcesMutations(
     try {
       await deleteOrganizationResource(resourceId);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshOrganizationData();
+      scheduleOrganizationRefresh();
 
       return true;
     } catch (err) {
@@ -99,8 +98,7 @@ export function useOrganizationResourcesMutations(
         resources
       );
 
-      // Refresh to get the updated order.
-      await refreshOrganizationData();
+      scheduleOrganizationRefresh();
 
       return true;
     } catch (err) {
@@ -113,15 +111,24 @@ export function useOrganizationResourcesMutations(
     }
   }
 
+  // Defer to a macrotask so the modal closes before the refresh runs.
+  function scheduleOrganizationRefresh() {
+    setTimeout(
+      () => void nuxtApp.runWithContext(() => refreshOrganizationData()),
+      0
+    );
+  }
+
   // Helper to refresh organization data after mutations.
   async function refreshOrganizationData() {
     if (!currentOrganizationId.value) {
       return;
     }
-    // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
+    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
+    // collision, leaving the list stale (e.g. a deleted entry lingering).
+    const key = getKeyForGetOrganization(currentOrganizationId.value);
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {

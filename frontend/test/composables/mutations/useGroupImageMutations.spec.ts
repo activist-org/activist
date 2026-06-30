@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupImageMutations } from "../../../app/composables/mutations/useGroupImageMutations";
@@ -49,12 +49,18 @@ describe("useGroupImageMutations", () => {
   const groupId = ref("group-123");
 
   beforeEach(() => {
+    // Refresh is deferred on a timer; fake timers let tests flush it.
+    vi.useFakeTimers();
     groupId.value = "group-123";
     setupMutationMocks([
       mockRefreshNuxtData,
       updateGroupImage,
       uploadGroupImages,
     ]);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   describe("updateImage", () => {
@@ -74,6 +80,7 @@ describe("useGroupImageMutations", () => {
       const { updateImage } = useGroupImageMutations(groupId);
 
       await updateImage(defaultContentImage as never);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroupImages("group-123")
@@ -145,6 +152,7 @@ describe("useGroupImageMutations", () => {
       const { uploadImages } = useGroupImageMutations(groupId);
 
       await uploadImages([createSampleUploadableFile()]);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroupImages("group-123")

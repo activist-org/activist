@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { useNuxtApp } from "#app";
 import DOMPurify from "dompurify";
+
+import { useNuxtApp } from "#app";
 
 interface DirectiveBinding {
   value: {

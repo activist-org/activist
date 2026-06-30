@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useOrganizationSocialLinksMutations } from "../../../app/composables/mutations/useOrganizationSocialLinksMutations";
@@ -52,6 +52,8 @@ describe("useOrganizationSocialLinksMutations", () => {
   const organizationId = ref("org-123");
 
   beforeEach(() => {
+    // Refresh is deferred on a timer; fake timers let tests flush it.
+    vi.useFakeTimers();
     organizationId.value = "org-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -60,6 +62,10 @@ describe("useOrganizationSocialLinksMutations", () => {
       deleteOrganizationSocialLink,
       replaceAllOrganizationSocialLinks,
     ]);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   describe("updateLink", () => {
@@ -84,6 +90,7 @@ describe("useOrganizationSocialLinksMutations", () => {
         useOrganizationSocialLinksMutations(organizationId);
 
       await updateLink("link-1", sampleSocialLinkInput);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -147,6 +154,7 @@ describe("useOrganizationSocialLinksMutations", () => {
         useOrganizationSocialLinksMutations(organizationId);
 
       await createLinks([sampleSocialLinkInput]);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -222,6 +230,7 @@ describe("useOrganizationSocialLinksMutations", () => {
         useOrganizationSocialLinksMutations(organizationId);
 
       await deleteLink("link-1");
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -264,6 +273,7 @@ describe("useOrganizationSocialLinksMutations", () => {
         useOrganizationSocialLinksMutations(organizationId);
 
       await replaceAllLinks([sampleSocialLinkInput]);
+      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
