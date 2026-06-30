@@ -120,10 +120,11 @@ export function useOrganizationFAQEntryMutations(
       return;
     }
 
-    // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
+    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
+    // collision, leaving the list stale (e.g. a deleted entry lingering).
+    const key = getKeyForGetOrganization(currentOrganizationId.value);
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {

@@ -102,8 +102,11 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     if (!currentGroupId.value) {
       return;
     }
-    // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
+    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
+    // collision, leaving the list stale (e.g. a deleted entry lingering).
+    const key = getKeyForGetGroup(currentGroupId.value);
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {
