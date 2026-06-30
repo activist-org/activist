@@ -1,5 +1,6 @@
-import { renderSuspended } from "@nuxt/test-utils/runtime";
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
+import { renderSuspended } from "@nuxt/test-utils/runtime";
 import { config } from "@vue/test-utils";
 import { getActivePinia } from "pinia";
 
