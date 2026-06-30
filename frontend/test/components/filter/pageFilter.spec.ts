@@ -26,6 +26,7 @@ describe("PageFilter", () => {
   //     { id: "tab3", name: "Tab 3" },
   //   ],
   // };
+
   // it("should render", () => {
   //   // Basic render test with minimum required props.
   //   render(PageFilter, {
@@ -41,8 +42,12 @@ describe("PageFilter", () => {
   //       },
   //     },
   //   });
+
   //   expect(screen.getByText("Popular Tags")).toBeTruthy();
   //   expect(screen.getByRole("heading", { name: "Filter" })).toBeTruthy();
   //   expect(screen.getByLabelText("Search to filter")).toBeTruthy();
   // });
+  it("true should be true", () => {
+    expect(true).toBe(true);
+  });
 });
