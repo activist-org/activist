@@ -222,6 +222,17 @@ class UserModel(AbstractUser, PermissionsMixin):
     Extends Django's `AbstractUser` and adds platform-specific fields (default username, password and email used).
     """
 
+    class Roles(models.TextChoices):
+        """
+        Text choices for role option.
+        """
+
+        admin = "admin"
+        coordinator = "co-ordinator"
+        member = "member"
+        allies = "allies"
+        user = "user"
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255, blank=True)
     location = models.CharField(max_length=100, blank=True)
@@ -247,6 +258,8 @@ class UserModel(AbstractUser, PermissionsMixin):
     objects: CustomAccountManager = CustomAccountManager()  # type: ignore
 
     USERNAME_FIELD = "username"
+
+    role = models.CharField(max_length=20, choices=Roles.choices, default=Roles.user)
 
     resources = models.ManyToManyField("content.Resource", blank=True)
     social_links = models.ManyToManyField("content.SocialLink", blank=True)

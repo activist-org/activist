@@ -219,6 +219,7 @@ class UserSerializer(serializers.ModelSerializer[UserModel]):
             "id",
             "username",
             "email",
+            "role",
             "is_admin",
             "is_active",
             "is_staff",
