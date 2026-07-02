@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useEventTextsMutations } from "../../../app/composables/mutations/useEventTextsMutations";
@@ -38,14 +38,8 @@ describe("useEventTextsMutations", () => {
   const textId = "text-1";
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     eventId.value = "event-123";
     setupMutationMocks([mockRefreshNuxtData, updateEventTexts]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("updateTexts", () => {
@@ -66,7 +60,6 @@ describe("useEventTextsMutations", () => {
       const { updateTexts } = useEventTextsMutations(eventId);
 
       await updateTexts(sampleEventTextFormData, textId);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -105,11 +98,12 @@ describe("useEventTextsMutations", () => {
     });
   });
 
-  describe("refreshEventData", () => {
+  describe("invalidateCacheRefreshEventData", () => {
     it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { refreshEventData } = useEventTextsMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventTextsMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -118,9 +112,10 @@ describe("useEventTextsMutations", () => {
 
     it("no-ops when eventId is empty", async () => {
       eventId.value = "";
-      const { refreshEventData } = useEventTextsMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventTextsMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

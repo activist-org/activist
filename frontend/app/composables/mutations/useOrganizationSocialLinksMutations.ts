@@ -5,9 +5,6 @@ export function useOrganizationSocialLinksMutations(
   organizationId: MaybeRef<string>
 ) {
   const { showToastError } = useToaster();
-  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
-  const nuxtApp = useNuxtApp();
-
   const loading = ref(false);
   const error = ref<Error | null>(null);
 
@@ -30,7 +27,7 @@ export function useOrganizationSocialLinksMutations(
         ...data,
       });
 
-      scheduleOrganizationRefresh();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -55,7 +52,7 @@ export function useOrganizationSocialLinksMutations(
     try {
       await createOrganizationSocialLinks(currentOrganizationId.value, links);
 
-      scheduleOrganizationRefresh();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -76,7 +73,7 @@ export function useOrganizationSocialLinksMutations(
     try {
       await deleteOrganizationSocialLink(linkId);
 
-      scheduleOrganizationRefresh();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -106,7 +103,7 @@ export function useOrganizationSocialLinksMutations(
         links
       );
 
-      scheduleOrganizationRefresh();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -119,16 +116,8 @@ export function useOrganizationSocialLinksMutations(
     }
   }
 
-  // Defer to a macrotask so the modal closes before the refresh runs.
-  function scheduleOrganizationRefresh() {
-    setTimeout(
-      () => void nuxtApp.runWithContext(() => refreshOrganizationData()),
-      0
-    );
-  }
-
   // Helper to refresh organization data after mutations.
-  async function refreshOrganizationData() {
+  async function invalidateCacheRefreshOrgData() {
     if (!currentOrganizationId.value) {
       return;
     }
@@ -147,6 +136,6 @@ export function useOrganizationSocialLinksMutations(
     createLinks,
     deleteLink,
     replaceAllLinks,
-    refreshOrganizationData,
+    invalidateCacheRefreshOrgData,
   };
 }

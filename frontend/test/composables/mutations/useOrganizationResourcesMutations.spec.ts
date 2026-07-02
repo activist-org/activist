@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useOrganizationResourcesMutations } from "../../../app/composables/mutations/useOrganizationResourcesMutations";
@@ -52,8 +52,6 @@ describe("useOrganizationResourcesMutations", () => {
   const organizationId = ref("org-123");
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     organizationId.value = "org-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -62,10 +60,6 @@ describe("useOrganizationResourcesMutations", () => {
       deleteOrganizationResource,
       reorderOrganizationResources,
     ]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("createResource", () => {
@@ -87,7 +81,6 @@ describe("useOrganizationResourcesMutations", () => {
         useOrganizationResourcesMutations(organizationId);
 
       await createResource(sampleResourceInput);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -163,7 +156,6 @@ describe("useOrganizationResourcesMutations", () => {
         useOrganizationResourcesMutations(organizationId);
 
       await updateResource(sampleResourceInput);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -202,7 +194,6 @@ describe("useOrganizationResourcesMutations", () => {
         useOrganizationResourcesMutations(organizationId);
 
       await deleteResource(sampleResourceInput.id);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -243,7 +234,6 @@ describe("useOrganizationResourcesMutations", () => {
         useOrganizationResourcesMutations(organizationId);
 
       await reorderResources([sampleResourceInput]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -266,12 +256,12 @@ describe("useOrganizationResourcesMutations", () => {
     });
   });
 
-  describe("refreshOrganizationData", () => {
+  describe("invalidateCacheRefreshOrgData", () => {
     it("calls refreshNuxtData with getKeyForGetOrganization(id)", async () => {
-      const { refreshOrganizationData } =
+      const { invalidateCacheRefreshOrgData } =
         useOrganizationResourcesMutations(organizationId);
 
-      await refreshOrganizationData();
+      await invalidateCacheRefreshOrgData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -280,10 +270,10 @@ describe("useOrganizationResourcesMutations", () => {
 
     it("no-ops when organizationId is empty", async () => {
       organizationId.value = "";
-      const { refreshOrganizationData } =
+      const { invalidateCacheRefreshOrgData } =
         useOrganizationResourcesMutations(organizationId);
 
-      await refreshOrganizationData();
+      await invalidateCacheRefreshOrgData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

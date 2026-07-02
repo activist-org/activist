@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useOrganizationFAQEntryMutations } from "../../../app/composables/mutations/useOrganizationFAQEntryMutations";
@@ -49,8 +49,6 @@ describe("useOrganizationFAQEntryMutations", () => {
   const organizationId = ref("org-123");
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     organizationId.value = "org-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -59,10 +57,6 @@ describe("useOrganizationFAQEntryMutations", () => {
       reorderOrganizationFaqs,
       deleteOrganizationFaq,
     ]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("createFAQ", () => {
@@ -82,7 +76,6 @@ describe("useOrganizationFAQEntryMutations", () => {
       const { createFAQ } = useOrganizationFAQEntryMutations(organizationId);
 
       await createFAQ(sampleFaqData);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -150,7 +143,6 @@ describe("useOrganizationFAQEntryMutations", () => {
       const { updateFAQ } = useOrganizationFAQEntryMutations(organizationId);
 
       await updateFAQ(sampleFaqEntry);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -186,7 +178,6 @@ describe("useOrganizationFAQEntryMutations", () => {
       const { reorderFAQs } = useOrganizationFAQEntryMutations(organizationId);
 
       await reorderFAQs([sampleFaqEntry]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -221,7 +212,6 @@ describe("useOrganizationFAQEntryMutations", () => {
       const { deleteFAQ } = useOrganizationFAQEntryMutations(organizationId);
 
       await deleteFAQ(sampleFaqEntry.id);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -242,12 +232,12 @@ describe("useOrganizationFAQEntryMutations", () => {
     });
   });
 
-  describe("refreshOrganizationData", () => {
+  describe("invalidateCacheRefreshOrgData", () => {
     it("calls refreshNuxtData with getKeyForGetOrganization(id)", async () => {
-      const { refreshOrganizationData } =
+      const { invalidateCacheRefreshOrgData } =
         useOrganizationFAQEntryMutations(organizationId);
 
-      await refreshOrganizationData();
+      await invalidateCacheRefreshOrgData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -256,10 +246,10 @@ describe("useOrganizationFAQEntryMutations", () => {
 
     it("no-ops when organizationId is empty", async () => {
       organizationId.value = "";
-      const { refreshOrganizationData } =
+      const { invalidateCacheRefreshOrgData } =
         useOrganizationFAQEntryMutations(organizationId);
 
-      await refreshOrganizationData();
+      await invalidateCacheRefreshOrgData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

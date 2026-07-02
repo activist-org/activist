@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupTextsMutations } from "../../../app/composables/mutations/useGroupTextsMutations";
@@ -38,14 +38,8 @@ describe("useGroupTextsMutations", () => {
   const textId = "text-1";
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     groupId.value = "group-123";
     setupMutationMocks([mockRefreshNuxtData, updateGroupTexts]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("updateTexts", () => {
@@ -66,7 +60,6 @@ describe("useGroupTextsMutations", () => {
       const { updateTexts } = useGroupTextsMutations(groupId);
 
       await updateTexts(sampleGroupTextFormData, textId);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -105,11 +98,12 @@ describe("useGroupTextsMutations", () => {
     });
   });
 
-  describe("refreshGroupData", () => {
+  describe("invalidateCacheRefreshGroupData", () => {
     it("calls refreshNuxtData with getKeyForGetGroup(id)", async () => {
-      const { refreshGroupData } = useGroupTextsMutations(groupId);
+      const { invalidateCacheRefreshGroupData } =
+        useGroupTextsMutations(groupId);
 
-      await refreshGroupData();
+      await invalidateCacheRefreshGroupData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -118,9 +112,10 @@ describe("useGroupTextsMutations", () => {
 
     it("no-ops when groupId is empty", async () => {
       groupId.value = "";
-      const { refreshGroupData } = useGroupTextsMutations(groupId);
+      const { invalidateCacheRefreshGroupData } =
+        useGroupTextsMutations(groupId);
 
-      await refreshGroupData();
+      await invalidateCacheRefreshGroupData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useEventSocialLinksMutations } from "../../../app/composables/mutations/useEventSocialLinksMutations";
@@ -50,8 +50,6 @@ describe("useEventSocialLinksMutations", () => {
   const eventId = ref("event-123");
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     eventId.value = "event-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -60,10 +58,6 @@ describe("useEventSocialLinksMutations", () => {
       deleteEventSocialLink,
       replaceAllEventSocialLinks,
     ]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("updateLink", () => {
@@ -86,7 +80,6 @@ describe("useEventSocialLinksMutations", () => {
       const { updateLink } = useEventSocialLinksMutations(eventId);
 
       await updateLink("link-1", sampleSocialLinkInput);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -140,7 +133,6 @@ describe("useEventSocialLinksMutations", () => {
       const { createLinks } = useEventSocialLinksMutations(eventId);
 
       await createLinks([sampleSocialLinkInput]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -206,7 +198,6 @@ describe("useEventSocialLinksMutations", () => {
       const { deleteLink } = useEventSocialLinksMutations(eventId);
 
       await deleteLink("link-1");
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -244,7 +235,6 @@ describe("useEventSocialLinksMutations", () => {
       const { replaceAllLinks } = useEventSocialLinksMutations(eventId);
 
       await replaceAllLinks([sampleSocialLinkInput]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -274,11 +264,12 @@ describe("useEventSocialLinksMutations", () => {
     });
   });
 
-  describe("refreshEventData", () => {
+  describe("invalidateCacheRefreshEventData", () => {
     it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { refreshEventData } = useEventSocialLinksMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventSocialLinksMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -287,9 +278,10 @@ describe("useEventSocialLinksMutations", () => {
 
     it("no-ops when eventId is empty", async () => {
       eventId.value = "";
-      const { refreshEventData } = useEventSocialLinksMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventSocialLinksMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

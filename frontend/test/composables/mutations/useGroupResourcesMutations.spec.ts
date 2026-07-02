@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupResourcesMutations } from "../../../app/composables/mutations/useGroupResourcesMutations";
@@ -48,8 +48,6 @@ describe("useGroupResourcesMutations", () => {
   const groupId = ref("group-123");
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     groupId.value = "group-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -58,10 +56,6 @@ describe("useGroupResourcesMutations", () => {
       deleteGroupResource,
       reorderGroupResources,
     ]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("createResource", () => {
@@ -81,7 +75,6 @@ describe("useGroupResourcesMutations", () => {
       const { createResource } = useGroupResourcesMutations(groupId);
 
       await createResource(sampleResourceInput);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -146,7 +139,6 @@ describe("useGroupResourcesMutations", () => {
       const { updateResource } = useGroupResourcesMutations(groupId);
 
       await updateResource(sampleResourceInput);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -180,7 +172,6 @@ describe("useGroupResourcesMutations", () => {
       const { deleteResource } = useGroupResourcesMutations(groupId);
 
       await deleteResource(sampleResourceInput.id);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -215,7 +206,6 @@ describe("useGroupResourcesMutations", () => {
       const { reorderResources } = useGroupResourcesMutations(groupId);
 
       await reorderResources([sampleResourceInput]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -235,11 +225,12 @@ describe("useGroupResourcesMutations", () => {
     });
   });
 
-  describe("refreshGroupData", () => {
+  describe("invalidateCacheRefreshGroupData", () => {
     it("calls refreshNuxtData with getKeyForGetGroup(id)", async () => {
-      const { refreshGroupData } = useGroupResourcesMutations(groupId);
+      const { invalidateCacheRefreshGroupData } =
+        useGroupResourcesMutations(groupId);
 
-      await refreshGroupData();
+      await invalidateCacheRefreshGroupData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -248,9 +239,10 @@ describe("useGroupResourcesMutations", () => {
 
     it("no-ops when groupId is empty", async () => {
       groupId.value = "";
-      const { refreshGroupData } = useGroupResourcesMutations(groupId);
+      const { invalidateCacheRefreshGroupData } =
+        useGroupResourcesMutations(groupId);
 
-      await refreshGroupData();
+      await invalidateCacheRefreshGroupData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

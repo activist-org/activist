@@ -4,8 +4,6 @@
 export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   const loading = ref(false);
   const { error, handleError, clearError } = useAppError();
-  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
-  const nuxtApp = useNuxtApp();
 
   const currentGroupId = computed(() => unref(groupId));
 
@@ -22,7 +20,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createGroupFaq(currentGroupId.value, faqData as FaqEntry);
 
-      scheduleGroupRefresh();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -42,7 +40,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await updateGroupFaq(faq);
 
-      scheduleGroupRefresh();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -61,7 +59,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     try {
       await reorderGroupFaqs(faqs);
 
-      scheduleGroupRefresh();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -80,7 +78,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     try {
       await deleteGroupFaq(faqId);
 
-      scheduleGroupRefresh();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -91,13 +89,8 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Defer to a macrotask so the modal closes before the refresh runs.
-  function scheduleGroupRefresh() {
-    setTimeout(() => void nuxtApp.runWithContext(() => refreshGroupData()), 0);
-  }
-
   // Helper to refresh group data after mutations.
-  async function refreshGroupData() {
+  async function invalidateCacheRefreshGroupData() {
     if (!currentGroupId.value) {
       return;
     }
@@ -116,6 +109,6 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     updateFAQ,
     reorderFAQs,
     deleteFAQ,
-    refreshGroupData,
+    invalidateCacheRefreshGroupData,
   };
 }

@@ -3,8 +3,6 @@
 
 export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
   const { error, handleError, clearError } = useAppError();
-  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
-  const nuxtApp = useNuxtApp();
 
   const loading = ref(false);
 
@@ -28,7 +26,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
         group: currentGroupId.value,
       });
 
-      scheduleGroupRefresh();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -51,7 +49,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await createGroupSocialLinks(currentGroupId.value, links);
 
-      scheduleGroupRefresh();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -70,7 +68,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await deleteGroupSocialLink(linkId);
 
-      scheduleGroupRefresh();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -95,7 +93,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await replaceAllGroupSocialLinks(currentGroupId.value, links);
 
-      scheduleGroupRefresh();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -106,13 +104,8 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     }
   }
 
-  // Defer to a macrotask so the modal closes before the refresh runs.
-  function scheduleGroupRefresh() {
-    setTimeout(() => void nuxtApp.runWithContext(() => refreshGroupData()), 0);
-  }
-
   // Helper to refresh group data after mutations.
-  async function refreshGroupData() {
+  async function invalidateCacheRefreshGroupData() {
     if (!currentGroupId.value) {
       return;
     }
@@ -131,6 +124,6 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     createLinks,
     deleteLink,
     replaceAllLinks,
-    refreshGroupData,
+    invalidateCacheRefreshGroupData,
   };
 }

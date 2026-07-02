@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useOrganizationImageMutations } from "../../../app/composables/mutations/useOrganizationImageMutations";
@@ -56,8 +56,6 @@ describe("useOrganizationImageMutations", () => {
   const organizationId = ref("org-123");
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     organizationId.value = "org-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -65,10 +63,6 @@ describe("useOrganizationImageMutations", () => {
       uploadOrganizationImages,
       uploadOrganizationIconImage,
     ]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("updateImage", () => {
@@ -88,7 +82,6 @@ describe("useOrganizationImageMutations", () => {
       const { updateImage } = useOrganizationImageMutations(organizationId);
 
       await updateImage(defaultContentImage as never);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganizationImages("org-123")
@@ -148,7 +141,6 @@ describe("useOrganizationImageMutations", () => {
       const { uploadImages } = useOrganizationImageMutations(organizationId);
 
       await uploadImages([createSampleUploadableFile()]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganizationImages("org-123")
@@ -187,7 +179,6 @@ describe("useOrganizationImageMutations", () => {
       const { uploadIconImage } = useOrganizationImageMutations(organizationId);
 
       await uploadIconImage(createSampleUploadableFile());
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -208,12 +199,12 @@ describe("useOrganizationImageMutations", () => {
     });
   });
 
-  describe("refreshOrganizationData", () => {
+  describe("invalidateCacheRefreshOrgData", () => {
     it("calls refreshNuxtData with getKeyForGetOrganization(id)", async () => {
-      const { refreshOrganizationData } =
+      const { invalidateCacheRefreshOrgData } =
         useOrganizationImageMutations(organizationId);
 
-      await refreshOrganizationData();
+      await invalidateCacheRefreshOrgData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -222,21 +213,21 @@ describe("useOrganizationImageMutations", () => {
 
     it("no-ops when organizationId is empty", async () => {
       organizationId.value = "";
-      const { refreshOrganizationData } =
+      const { invalidateCacheRefreshOrgData } =
         useOrganizationImageMutations(organizationId);
 
-      await refreshOrganizationData();
+      await invalidateCacheRefreshOrgData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
-  describe("refreshOrganizationImagesData", () => {
+  describe("invalidateCacheRefreshOrgImageData", () => {
     it("calls refreshNuxtData with getKeyForGetOrganizationImages(id)", async () => {
-      const { refreshOrganizationImagesData } =
+      const { invalidateCacheRefreshOrgImageData } =
         useOrganizationImageMutations(organizationId);
 
-      await refreshOrganizationImagesData();
+      await invalidateCacheRefreshOrgImageData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganizationImages("org-123")
@@ -245,10 +236,10 @@ describe("useOrganizationImageMutations", () => {
 
     it("no-ops when organizationId is empty", async () => {
       organizationId.value = "";
-      const { refreshOrganizationImagesData } =
+      const { invalidateCacheRefreshOrgImageData } =
         useOrganizationImageMutations(organizationId);
 
-      await refreshOrganizationImagesData();
+      await invalidateCacheRefreshOrgImageData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

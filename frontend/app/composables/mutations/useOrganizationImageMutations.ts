@@ -5,8 +5,6 @@ export function useOrganizationImageMutations(
   organizationId: MaybeRef<string>
 ) {
   const { showToastError } = useToaster();
-  // Captured at setup; useNuxtApp() would fail inside the deferred callback.
-  const nuxtApp = useNuxtApp();
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
@@ -30,7 +28,7 @@ export function useOrganizationImageMutations(
         contentImage as ContentImage
       );
 
-      scheduleOrganizationImagesRefresh();
+      invalidateCacheRefreshOrgImageData();
 
       return true;
     } catch (err) {
@@ -55,7 +53,7 @@ export function useOrganizationImageMutations(
         sequences
       );
 
-      scheduleOrganizationImagesRefresh();
+      invalidateCacheRefreshOrgImageData();
 
       return true;
     } catch (err) {
@@ -77,7 +75,7 @@ export function useOrganizationImageMutations(
       // Direct service call - no useAsyncData needed for mutations.
       await uploadOrganizationIconImage(currentOrganizationId.value, image);
 
-      scheduleOrganizationRefresh();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -90,16 +88,8 @@ export function useOrganizationImageMutations(
     }
   }
 
-  // Defer to a macrotask so the modal closes before the refresh runs.
-  function scheduleOrganizationRefresh() {
-    setTimeout(
-      () => void nuxtApp.runWithContext(() => refreshOrganizationData()),
-      0
-    );
-  }
-
   // Helper to refresh organization data after mutations.
-  async function refreshOrganizationData() {
+  async function invalidateCacheRefreshOrgData() {
     if (!currentOrganizationId.value) {
       return;
     }
@@ -117,16 +107,8 @@ export function useOrganizationImageMutations(
     await refreshNuxtData(listKey);
   }
 
-  // Defer to a macrotask so the modal closes before the refresh runs.
-  function scheduleOrganizationImagesRefresh() {
-    setTimeout(
-      () => void nuxtApp.runWithContext(() => refreshOrganizationImagesData()),
-      0
-    );
-  }
-
   // Helper to refresh organization images data after mutations.
-  async function refreshOrganizationImagesData() {
+  async function invalidateCacheRefreshOrgImageData() {
     if (!currentOrganizationId.value) {
       return;
     }
@@ -143,8 +125,8 @@ export function useOrganizationImageMutations(
     error: readonly(error),
     updateImage,
     uploadImages,
-    refreshOrganizationData,
-    refreshOrganizationImagesData,
+    invalidateCacheRefreshOrgData,
+    invalidateCacheRefreshOrgImageData,
     uploadIconImage,
   };
 }

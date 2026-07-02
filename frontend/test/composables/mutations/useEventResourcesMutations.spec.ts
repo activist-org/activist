@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useEventResourcesMutations } from "../../../app/composables/mutations/useEventResourcesMutations";
@@ -48,8 +48,6 @@ describe("useEventResourcesMutations", () => {
   const eventId = ref("event-123");
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     eventId.value = "event-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -58,10 +56,6 @@ describe("useEventResourcesMutations", () => {
       deleteEventResource,
       reorderEventResources,
     ]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("createResource", () => {
@@ -81,7 +75,6 @@ describe("useEventResourcesMutations", () => {
       const { createResource } = useEventResourcesMutations(eventId);
 
       await createResource(sampleResourceInput);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -149,7 +142,6 @@ describe("useEventResourcesMutations", () => {
       const { updateResource } = useEventResourcesMutations(eventId);
 
       await updateResource(sampleResourceInput);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -183,7 +175,6 @@ describe("useEventResourcesMutations", () => {
       const { deleteResource } = useEventResourcesMutations(eventId);
 
       await deleteResource(sampleResourceInput.id);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -221,7 +212,6 @@ describe("useEventResourcesMutations", () => {
       const { reorderResources } = useEventResourcesMutations(eventId);
 
       await reorderResources([sampleResourceInput]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -241,11 +231,12 @@ describe("useEventResourcesMutations", () => {
     });
   });
 
-  describe("refreshEventData", () => {
+  describe("invalidateCacheRefreshEventData", () => {
     it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { refreshEventData } = useEventResourcesMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventResourcesMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -254,9 +245,10 @@ describe("useEventResourcesMutations", () => {
 
     it("no-ops when eventId is empty", async () => {
       eventId.value = "";
-      const { refreshEventData } = useEventResourcesMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventResourcesMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

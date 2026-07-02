@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useEventImageIconMutations } from "../../../app/composables/mutations/useEventImageIconMutations";
@@ -36,14 +36,8 @@ describe("useEventImageIconMutations", () => {
   const eventId = ref("event-123");
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     eventId.value = "event-123";
     setupMutationMocks([mockRefreshNuxtData, uploadEventIconImage]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("uploadIconImage", () => {
@@ -62,7 +56,6 @@ describe("useEventImageIconMutations", () => {
       const { uploadIconImage } = useEventImageIconMutations(eventId);
 
       await uploadIconImage(image);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -93,11 +86,12 @@ describe("useEventImageIconMutations", () => {
     });
   });
 
-  describe("refreshEventData", () => {
+  describe("invalidateCacheRefreshEventData", () => {
     it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { refreshEventData } = useEventImageIconMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventImageIconMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -106,9 +100,10 @@ describe("useEventImageIconMutations", () => {
 
     it("no-ops when eventId is empty", async () => {
       eventId.value = "";
-      const { refreshEventData } = useEventImageIconMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventImageIconMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

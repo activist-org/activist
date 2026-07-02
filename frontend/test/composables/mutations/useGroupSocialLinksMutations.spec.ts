@@ -4,7 +4,7 @@
  * @see https://github.com/activist-org/activist/issues/1783
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupSocialLinksMutations } from "../../../app/composables/mutations/useGroupSocialLinksMutations";
@@ -50,8 +50,6 @@ describe("useGroupSocialLinksMutations", () => {
   const groupId = ref("group-123");
 
   beforeEach(() => {
-    // Refresh is deferred on a timer; fake timers let tests flush it.
-    vi.useFakeTimers();
     groupId.value = "group-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -60,10 +58,6 @@ describe("useGroupSocialLinksMutations", () => {
       deleteGroupSocialLink,
       replaceAllGroupSocialLinks,
     ]);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe("updateLink", () => {
@@ -85,7 +79,6 @@ describe("useGroupSocialLinksMutations", () => {
       const { updateLink } = useGroupSocialLinksMutations(groupId);
 
       await updateLink("link-1", sampleSocialLinkInput);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -139,7 +132,6 @@ describe("useGroupSocialLinksMutations", () => {
       const { createLinks } = useGroupSocialLinksMutations(groupId);
 
       await createLinks([sampleSocialLinkInput]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -205,7 +197,6 @@ describe("useGroupSocialLinksMutations", () => {
       const { deleteLink } = useGroupSocialLinksMutations(groupId);
 
       await deleteLink("link-1");
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -243,7 +234,6 @@ describe("useGroupSocialLinksMutations", () => {
       const { replaceAllLinks } = useGroupSocialLinksMutations(groupId);
 
       await replaceAllLinks([sampleSocialLinkInput]);
-      await vi.runAllTimersAsync();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -273,11 +263,12 @@ describe("useGroupSocialLinksMutations", () => {
     });
   });
 
-  describe("refreshGroupData", () => {
+  describe("invalidateCacheRefreshGroupData", () => {
     it("calls refreshNuxtData with getKeyForGetGroup(id)", async () => {
-      const { refreshGroupData } = useGroupSocialLinksMutations(groupId);
+      const { invalidateCacheRefreshGroupData } =
+        useGroupSocialLinksMutations(groupId);
 
-      await refreshGroupData();
+      await invalidateCacheRefreshGroupData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -286,9 +277,10 @@ describe("useGroupSocialLinksMutations", () => {
 
     it("no-ops when groupId is empty", async () => {
       groupId.value = "";
-      const { refreshGroupData } = useGroupSocialLinksMutations(groupId);
+      const { invalidateCacheRefreshGroupData } =
+        useGroupSocialLinksMutations(groupId);
 
-      await refreshGroupData();
+      await invalidateCacheRefreshGroupData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
