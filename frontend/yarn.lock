@@ -6954,7 +6954,7 @@ __metadata:
     pinia: "npm:3.0.4"
     pinia-plugin-persistedstate: "npm:4.7.1"
     playwright-core: "npm:1.61.1"
-    postcss: "npm:8.5.15"
+    postcss: "npm:8.5.16"
     postcss-custom-properties: "npm:15.0.1"
     prettier: "npm:3.9.0"
     prettier-plugin-tailwindcss: "npm:0.8.0"
@@ -13831,7 +13831,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.5.15, postcss@npm:^8.5.15":
+"postcss@npm:8.5.16":
+  version: 8.5.16
+  resolution: "postcss@npm:8.5.16"
+  dependencies:
+    nanoid: "npm:^3.3.12"
+    picocolors: "npm:^1.1.1"
+    source-map-js: "npm:^1.2.1"
+  checksum: 10c0/625de7a02f662f3a340964d14b487bd5097adf16f5f171e257d19005ba37aea8768ee446557500e88e91ca46b4d14d6cb4a0bf033c6ec0c8c0b660d85719f1ef
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.5.15":
   version: 8.5.15
   resolution: "postcss@npm:8.5.15"
   dependencies:
