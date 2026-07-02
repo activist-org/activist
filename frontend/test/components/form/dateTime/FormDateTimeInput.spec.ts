@@ -9,14 +9,6 @@ import { createUseColorModeSpy } from "../../../mocks/composableMocks";
 
 globalThis.useColorMode = createUseColorModeSpy("dark", "dark");
 
-// Mock Icon component.
-vi.mock("#components", () => ({
-  Icon: {
-    name: "Icon",
-    template: "<span />",
-  },
-}));
-
 describe("FormDateTimeInput", () => {
   beforeEach(() => {
     vi.clearAllMocks();

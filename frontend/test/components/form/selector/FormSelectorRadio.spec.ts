@@ -63,11 +63,7 @@ const ICON_OPTIONS: Option[] = [
 const renderRadio = (
   propsOverride: {
     modelValue?:
-      | string
-      | number
-      | boolean
-      | Record<string, unknown>
-      | undefined;
+      string | number | boolean | Record<string, unknown> | undefined;
     options?: Option[];
     toggleable?: boolean;
   } = {}

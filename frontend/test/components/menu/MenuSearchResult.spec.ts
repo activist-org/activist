@@ -9,8 +9,7 @@ const onClickOutsideMock = vi.fn();
 
 declare global {
   var onClickOutside:
-    | ((target: unknown, handler: () => void) => void)
-    | undefined;
+    ((target: unknown, handler: () => void) => void) | undefined;
 }
 
 globalThis.onClickOutside = (target: unknown, handler: () => void) => {

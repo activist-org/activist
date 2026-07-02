@@ -49,6 +49,7 @@ describe("useEventFAQEntryMutations", () => {
   const eventId = ref("event-123");
 
   beforeEach(() => {
+    // Refresh is deferred on a timer; fake timers let tests flush it.
     eventId.value = "event-123";
     setupMutationMocks([
       mockRefreshNuxtData,
@@ -229,11 +230,12 @@ describe("useEventFAQEntryMutations", () => {
     });
   });
 
-  describe("refreshEventData", () => {
+  describe("invalidateCacheRefreshEventData", () => {
     it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { refreshEventData } = useEventFAQEntryMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventFAQEntryMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -242,9 +244,10 @@ describe("useEventFAQEntryMutations", () => {
 
     it("no-ops when eventId is empty", async () => {
       eventId.value = "";
-      const { refreshEventData } = useEventFAQEntryMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventFAQEntryMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

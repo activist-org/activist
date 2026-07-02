@@ -17,8 +17,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await uploadEventIconImage(currentEventId.value, image);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -30,10 +29,9 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   }
 
   // Helper to refresh event data after mutations.
-  async function refreshEventData() {
+  async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
     // Clear cached events to force refetch with new data.
     store.setItems([]);
@@ -43,6 +41,6 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
     loading: readonly(loading),
     error: readonly(error),
     uploadIconImage,
-    refreshEventData,
+    invalidateCacheRefreshEventData,
   };
 }

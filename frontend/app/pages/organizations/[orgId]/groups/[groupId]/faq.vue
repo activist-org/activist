@@ -151,7 +151,6 @@ const handleDeleteFAQ = async (faqId: string) => {
 }
 
 .selected {
-  transform: scale(1.025);
   background: highlight;
 }
 </style>

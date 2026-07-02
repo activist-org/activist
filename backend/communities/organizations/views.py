@@ -160,7 +160,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
 class OrganizationByUserAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
+    serializer_class = OrganizationListSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
     filterset_class = OrganizationFilter
@@ -177,7 +177,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
             ),
         ],
         responses={
-            200: OrganizationSerializer(many=True),
+            200: OrganizationListSerializer(many=True),
             400: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
                 description="User ID is required",
@@ -218,26 +218,32 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
                     {"count": 0, "next": None, "previous": None, "results": []},
                     status=status.HTTP_200_OK,
                 )
+
             try:
                 page = self.paginate_queryset(queryset)
+
             except NotFound:
                 return Response(
                     {"count": 0, "next": None, "previous": None, "results": []},
                     status=status.HTTP_200_OK,
                 )
+
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         orgs = Organization.objects.filter(created_by__id=user_id).order_by(
             "acceptance_date"
         )
+
         try:
             page = self.paginate_queryset(orgs)
+
         except NotFound:
             return Response(
                 {"count": 0, "next": None, "previous": None, "results": []},
                 status=status.HTTP_200_OK,
             )
+
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 

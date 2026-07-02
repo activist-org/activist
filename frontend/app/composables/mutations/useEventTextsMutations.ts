@@ -20,8 +20,8 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await updateEventTexts(currentEventId.value, textId, textsData);
 
-      // Refresh the event data to get the updated texts.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
+
       return true;
     } catch (err) {
       handleError(err);
@@ -30,11 +30,11 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
       loading.value = false;
     }
   }
+
   // Helper to refresh event data after mutations.
-  async function refreshEventData() {
+  async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 
@@ -42,6 +42,6 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
     loading: readonly(loading),
     error: readonly(error),
     updateTexts,
-    refreshEventData,
+    invalidateCacheRefreshEventData,
   };
 }
