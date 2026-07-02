@@ -100,11 +100,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
-    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
-    // collision, leaving the list stale (e.g. a deleted entry lingering).
-    const key = getKeyForGetEvent(currentEventId.value);
-    clearNuxtData(key);
-    await refreshNuxtData(key);
+    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 
   return {

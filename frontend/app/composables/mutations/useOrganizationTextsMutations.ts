@@ -43,15 +43,11 @@ export function useOrganizationTextsMutations(
 
   // Helper to refresh organization data after mutations.
   async function invalidateCacheRefreshOrgData() {
-    if (!currentOrganizationId.value) {
-      return;
-    }
+    if (!currentOrganizationId.value) return;
 
-    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
-    // collision, leaving the data stale after a save.
-    const key = getKeyForGetOrganization(currentOrganizationId.value);
-    clearNuxtData(key);
-    await refreshNuxtData(key);
+    await refreshNuxtData(
+      getKeyForGetOrganization(currentOrganizationId.value)
+    );
   }
 
   return {

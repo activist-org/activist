@@ -35,11 +35,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
   async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
-    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
-    // collision, leaving the data stale after a save.
-    const key = getKeyForGetEvent(currentEventId.value);
-    clearNuxtData(key);
-    await refreshNuxtData(key);
+    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 
   return {

@@ -56,15 +56,9 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
 
   // Helper to refresh group data after mutations.
   async function invalidateCacheRefreshGroupData() {
-    if (!currentGroupId.value) {
-      return;
-    }
+    if (!currentGroupId.value) return;
 
-    // Clear first: with dedupe "defer" a bare refreshNuxtData can be dropped on
-    // collision, leaving the data stale after a save.
-    const key = getKeyForGetGroupImages(currentGroupId.value);
-    clearNuxtData(key);
-    await refreshNuxtData(key);
+    await refreshNuxtData(getKeyForGetGroupImages(currentGroupId.value));
   }
 
   return {

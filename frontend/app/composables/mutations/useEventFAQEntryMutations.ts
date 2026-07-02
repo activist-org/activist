@@ -18,7 +18,6 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createEventFaq(currentEventId.value, faqData as FaqEntry);
 
-      // Invalidate cache and refetch data.
       await invalidateCacheRefreshEventData();
 
       return true;
