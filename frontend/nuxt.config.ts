@@ -34,7 +34,17 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      {
+        name: "vue-docs-block",
+        transform(code: string, id: string) {
+          if (/vue&type=docs/.test(id)) {
+            return "export default {}";
+          }
+        },
+      },
+    ],
     server: {
       watch: {
         usePolling: true,

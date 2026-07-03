@@ -55,3 +55,12 @@ function changeTab(index: number) {
   }
 }
 </script>
+
+<docs>
+This component renders a responsive tab navigation bar.
+
+Usage:
+Provide an array of `TabPage` objects as the `tabs` prop.
+Provide the currently active tab index using `selectedTab`.
+The component uses Nuxt router to navigate to the tab's `routeUrl`.
+</docs>

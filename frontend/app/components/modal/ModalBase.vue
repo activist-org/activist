@@ -122,3 +122,12 @@ watch(route, () => {
   }
 });
 </script>
+
+<docs>
+This is the foundational modal wrapper component.
+
+Usage:
+Provide a `modalName` which matches the name used in the `useModals` store.
+Wrap the content of your modal inside the default slot.
+Use the `imageModal` prop if you are displaying an image (like a QR code or avatar) to adjust the layout.
+</docs>

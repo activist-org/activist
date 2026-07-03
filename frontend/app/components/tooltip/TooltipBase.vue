@@ -25,3 +25,10 @@ defineProps<{
 
 const slots = useSlots();
 </script>
+
+<docs>
+This is the foundational tooltip wrapper component.
+
+Usage:
+Use `header` and `text` props for a simple text tooltip, or provide a default slot for custom content.
+</docs>

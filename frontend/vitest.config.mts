@@ -8,6 +8,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineVitestConfig({
+  plugins: [
+    {
+      name: "vue-docs-block",
+      enforce: "pre",
+      transform(code: string, id: string) {
+        if (/type=docs/.test(id)) {
+          return { code: "export default {}", map: null };
+        }
+      },
+    },
+  ],
   test: {
     env: {
       VITE_FRONTEND_URL: "http://localhost:3000",
