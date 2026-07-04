@@ -23,8 +23,9 @@ export function useGroupTextsMutations(groupId: MaybeRef<string>) {
     try {
       // Service function handles the HTTP call and throws normalized errors.
       await updateGroupTexts(currentGroupId.value, textId, textsData);
-      // Refresh the group data to get the updated texts.
-      await refreshGroupData();
+
+      invalidateCacheRefreshGroupData();
+
       return true;
     } catch (err) {
       const appError = err as AppError;
@@ -35,13 +36,11 @@ export function useGroupTextsMutations(groupId: MaybeRef<string>) {
       loading.value = false;
     }
   }
-  // Helper to refresh group data after mutations.
-  async function refreshGroupData() {
-    if (!currentGroupId.value) {
-      return;
-    }
 
-    // Invalidate the useAsyncData cache so next read will refetch.
+  // Helper to refresh group data after mutations.
+  async function invalidateCacheRefreshGroupData() {
+    if (!currentGroupId.value) return;
+
     await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
@@ -49,6 +48,6 @@ export function useGroupTextsMutations(groupId: MaybeRef<string>) {
     loading: readonly(loading),
     error: readonly(error),
     updateTexts,
-    refreshGroupData,
+    invalidateCacheRefreshGroupData,
   };
 }

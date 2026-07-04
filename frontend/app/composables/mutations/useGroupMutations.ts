@@ -19,6 +19,7 @@ export const useGroupMutations = () => {
       loading.value = false;
     }
   };
+
   const refreshGroupList = async () => {
     // Invalidate and refetch group list data.
     // Invalidate the useAsyncData cache so next read will refetch.

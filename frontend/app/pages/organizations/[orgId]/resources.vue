@@ -15,6 +15,8 @@
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           :element="$t('i18n._global.resources_lower')"
+          :entity="organization"
+          label="i18n.pages._global.resources.add_new_resource"
           :onClick="
             () =>
               openModal({
@@ -71,7 +73,12 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else class="py-4" pageType="resources" :permission="false" />
+    <EmptyState
+      v-else
+      class="py-4"
+      pageType="resources"
+      :permission="canEdit(organization)"
+    />
   </div>
 </template>
 
@@ -144,7 +151,6 @@ watch(
 }
 
 .selected {
-  transform: scale(1.025);
   background: highlight;
 }
 </style>

@@ -125,7 +125,6 @@ test.describe(
 
         // Click the card and edit button for resource.
         await groupResourcesPage.clickResourceEdit(0);
-        await groupResourcesPage.clickResourceEdit(0);
 
         // Wait for modal to open with exact testid (includes resource ID).
         const editResourceModal = page.getByTestId(`modal-ModalResourceGroup`);
@@ -168,9 +167,23 @@ test.describe(
         const submitButton =
           groupResourcesPage.getResourceSubmitButton(editResourceModal);
         await expect(submitButton).toBeVisible();
-        await submitButton.click();
 
-        // Wait for the modal to close after successful save.
+        // Match the specific resource PUT, not a concurrent reorder PUT.
+        const saveResponse = page.waitForResponse(
+          (res) =>
+            res.request().method() === "PUT" &&
+            new URL(res.url()).pathname.includes(
+              `/communities/group_resources/${resourceId}`
+            )
+        );
+        await submitButton.click();
+        const saveRes = await saveResponse;
+        expect(
+          [200, 201, 204].includes(saveRes.status()),
+          `Resource PUT failed: HTTP ${saveRes.status()} for ${saveRes.url()}`
+        ).toBe(true);
+
+        // Wait for the modal to close.
         await expect(editResourceModal).not.toBeVisible();
         // Verify the changes are reflected on the page.
         // The resource name should be visible in the resource card.

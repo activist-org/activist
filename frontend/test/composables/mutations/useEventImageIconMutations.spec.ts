@@ -86,11 +86,12 @@ describe("useEventImageIconMutations", () => {
     });
   });
 
-  describe("refreshEventData", () => {
+  describe("invalidateCacheRefreshEventData", () => {
     it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { refreshEventData } = useEventImageIconMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventImageIconMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -99,9 +100,10 @@ describe("useEventImageIconMutations", () => {
 
     it("no-ops when eventId is empty", async () => {
       eventId.value = "";
-      const { refreshEventData } = useEventImageIconMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventImageIconMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

@@ -4,7 +4,7 @@ import { createPinia, defineStore, setActivePinia } from "pinia";
 import { afterEach, beforeEach, vi } from "vitest";
 import { createI18n } from "vue-i18n";
 
-import en from "../i18n/locales/en-US.json" assert { type: "json" };
+import en from "../i18n/locales/en-US.json" with { type: "json" };
 import { setupAutoImportMocks } from "./auto-imports";
 
 // Set up Pinia.
@@ -77,7 +77,10 @@ URL.createObjectURL = (obj: Blob | MediaSource) => {
   }
   return originalCreateObjectURL.call(URL, obj);
 };
-
+config.global.provide = {
+  [Symbol.for("vue-i18n")]: i18n,
+};
+config.global.$t = (key: string) => i18n.global.t(key);
 // MARK: Component Mocks
 
 // Mock Icon component to resolve accessibility issues in password validation tests.

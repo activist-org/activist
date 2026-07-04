@@ -23,8 +23,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
         contentImage as ContentImage
       );
 
-      // Refresh the group data to get the new resource.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -44,8 +43,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await uploadGroupImages(currentGroupId.value, images, sequences);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -57,12 +55,9 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
   }
 
   // Helper to refresh group data after mutations.
-  async function refreshGroupData() {
-    if (!currentGroupId.value) {
-      return;
-    }
+  async function invalidateCacheRefreshGroupData() {
+    if (!currentGroupId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetGroupImages(currentGroupId.value));
   }
 
@@ -71,6 +66,6 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
     error: readonly(error),
     updateImage,
     uploadImages,
-    refreshGroupData,
+    invalidateCacheRefreshGroupData,
   };
 }

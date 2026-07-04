@@ -4,7 +4,6 @@
  * Mock GET `/api/public/communities/groups/:id` before navigation (client-only fetch; see nuxt `ssr: false`).
  */
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { MEMBER_AUTH_STATE_PATH } from "~/test-e2e/constants/authPaths";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";

@@ -113,7 +113,7 @@ test.describe("Event About Page - Social Links", { tag: ["@desktop"] }, () => {
     const { connectCard } = eventPage.aboutPage;
 
     // Check if social links were created (with flexible timeout).
-    let allSocialLinks = 0;
+    let allSocialLinks: number;
     try {
       await expect(connectCard.getByRole("link").first()).toBeVisible({});
       allSocialLinks = await connectCard.getByRole("link").count();

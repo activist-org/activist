@@ -80,8 +80,7 @@ const initialEventTypeData = computed(() => {
   const ctx = flow?.context?.value;
   if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.EventType) return {};
   const d = (ctx.nodeData as Record<string, unknown>)[ctx.nodeId] as
-    | Record<string, unknown>
-    | undefined;
+    Record<string, unknown> | undefined;
   if (!d) return {};
   return {
     setting: d.location_type ?? d.setting,

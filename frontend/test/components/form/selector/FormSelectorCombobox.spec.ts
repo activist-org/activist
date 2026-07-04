@@ -69,8 +69,7 @@ describe("FormSelectorCombobox", () => {
     await fireEvent.click(chipOne);
 
     const updateEvents = emitted()["update:selectedOptions"] as
-      | unknown[][]
-      | undefined;
+      unknown[][] | undefined;
     expect(updateEvents).toBeTruthy();
 
     const lastEvent = updateEvents![updateEvents!.length - 1] as unknown[];

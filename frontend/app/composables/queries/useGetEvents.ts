@@ -25,8 +25,7 @@ export function useGetEvents(
         if (page.value > 1 && store.getItems().length === 0) {
           const nuxtApp = useNuxtApp();
           const ssrItems = nuxtApp.payload.data?.[getKeyForGetEvents()] as
-            | CommunityEvent[]
-            | undefined;
+            CommunityEvent[] | undefined;
           if (ssrItems?.length) {
             store.setItems(ssrItems);
             store.setPage(1);
