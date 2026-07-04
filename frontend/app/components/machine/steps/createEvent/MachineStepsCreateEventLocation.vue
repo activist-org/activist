@@ -19,7 +19,7 @@
       class="space-y-4"
       :initial-values="initialLocationData"
       :schema="locationSchema"
-      :submit-label="$t('i18n._global.next_step')"
+      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"

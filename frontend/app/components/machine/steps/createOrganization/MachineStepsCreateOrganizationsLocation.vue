@@ -43,7 +43,11 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components._global.city')"
+          :label="
+            $t(
+              'i18n.components.create_organization.machine_steps_create_organizations_location.location_placeholder'
+            )
+          "
           :modelValue="(value.value as string)"
         />
       </FormItem>

@@ -14,7 +14,7 @@ export const newSignUpPage = (page: Page) => ({
     .getByLabel(getEnglishText("i18n._global.enter_password"))
     .first(),
   repeatPasswordInput: page.getByLabel(
-    getEnglishText("i18n._global.repeat_password")
+    getEnglishText("i18n.pages.auth._global.repeat_password")
   ),
   showPasswordToggle: page.getByTestId("form-item-password-show-password"),
   showRepeatPasswordToggle: page.getByTestId(

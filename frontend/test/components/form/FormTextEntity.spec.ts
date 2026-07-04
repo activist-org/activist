@@ -41,7 +41,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       expect(descriptionInput).toBeDefined();
 
@@ -128,7 +128,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Valid description");
 
@@ -151,7 +151,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "   ");
 
@@ -176,7 +176,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         const longDescription = "a".repeat(2501);
         await fireEvent.update(descriptionInput, longDescription);
@@ -205,7 +205,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         const maxLengthDescription = "a".repeat(2500);
         await fireEvent.update(descriptionInput, maxLengthDescription);
@@ -231,7 +231,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Valid description");
 
@@ -260,7 +260,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Valid description");
 
@@ -286,7 +286,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Valid description");
 
@@ -316,7 +316,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Valid description");
 
@@ -343,7 +343,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Valid description");
 
@@ -370,7 +370,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Valid description");
 
@@ -400,7 +400,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Valid description");
 
@@ -432,7 +432,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Test description");
 
@@ -466,7 +466,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Test description");
 
@@ -492,7 +492,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Test description");
 
@@ -520,7 +520,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Test description");
 
@@ -553,7 +553,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Test description");
 
@@ -592,7 +592,7 @@ describe("FormTextEntity component", () => {
         });
 
         const descriptionInput = screen.getByLabelText(
-          getEnglishText("i18n._global.description")
+          getEnglishText("i18n.components._global.description")
         );
         await fireEvent.update(descriptionInput, "Test description");
 
@@ -640,7 +640,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
 
       await fireEvent.update(descriptionInput, "New description");
@@ -691,7 +691,7 @@ describe("FormTextEntity component", () => {
       expect(descriptionError).toBeDefined();
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       await fireEvent.update(descriptionInput, "Valid description");
 
@@ -812,7 +812,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
       expect(descriptionInput.value).toBe("Initial description");
 
@@ -842,7 +842,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
       expect(descriptionInput.value).toBe("");
 
@@ -865,7 +865,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
       expect(descriptionInput.value).toBe("");
 
@@ -897,7 +897,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
       expect(descriptionInput.value).toBe("Only description");
 
@@ -940,7 +940,7 @@ describe("FormTextEntity component", () => {
       await screen.findByTestId("form-item-description-error");
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       // FormTextArea applies border-action-red when hasError is true.
       expect(descriptionInput.className).toContain("border-action-red");
@@ -952,7 +952,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       await fireEvent.update(descriptionInput, "Valid description");
 
@@ -975,7 +975,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       await fireEvent.update(descriptionInput, "Valid description");
 
@@ -1012,7 +1012,7 @@ describe("FormTextEntity component", () => {
       await screen.findByTestId("form-item-description-error");
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       expect(descriptionInput.className).toContain("border-action-red");
 
@@ -1043,7 +1043,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       const label = document.querySelector(
         `label[for="${descriptionInput.id}"]`
@@ -1051,7 +1051,7 @@ describe("FormTextEntity component", () => {
 
       expect(label).toBeDefined();
       expect(label?.textContent).toContain(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
     });
 
@@ -1081,7 +1081,7 @@ describe("FormTextEntity component", () => {
       );
       expect(descriptionLabel?.textContent).not.toContain("*");
       expect(descriptionLabel?.textContent).toBe(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
     });
 
@@ -1146,7 +1146,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       expect(descriptionInput.getAttribute("role")).toBe("textbox");
     });
@@ -1198,7 +1198,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLElement;
       const getInvolvedInput = screen.getByLabelText(
         getEnglishText("i18n.components._global.get_involved")
@@ -1236,7 +1236,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
       const veryLongText = "a".repeat(10000);
       await fireEvent.update(descriptionInput, veryLongText);
@@ -1250,7 +1250,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
       const specialText =
         "Description with special chars: @#$%^&*()[]{}|\\/<>?";
@@ -1265,7 +1265,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
       const unicodeText = "Description with unicode: 🌍 日本語 العربية";
       await fireEvent.update(descriptionInput, unicodeText);
@@ -1279,7 +1279,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       await fireEvent.update(descriptionInput, "Valid description");
 
@@ -1307,7 +1307,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       await fireEvent.update(descriptionInput, "Valid description");
 
@@ -1344,7 +1344,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       ) as HTMLTextAreaElement;
       expect(descriptionInput.value).toBe("");
 
@@ -1362,7 +1362,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       await fireEvent.update(descriptionInput, "Test description");
 
@@ -1401,7 +1401,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       await fireEvent.update(descriptionInput, "Test description");
 
@@ -1434,7 +1434,7 @@ describe("FormTextEntity component", () => {
       });
 
       const descriptionInput = screen.getByLabelText(
-        getEnglishText("i18n._global.description")
+        getEnglishText("i18n.components._global.description")
       );
       await fireEvent.update(descriptionInput, "Test description");
 
