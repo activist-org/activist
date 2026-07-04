@@ -28,8 +28,7 @@ export function useOrganizationImageMutations(
         contentImage as ContentImage
       );
 
-      // Refresh the organization data to get the new resource.
-      await refreshOrganizationImagesData();
+      invalidateCacheRefreshOrgImageData();
 
       return true;
     } catch (err) {
@@ -54,8 +53,7 @@ export function useOrganizationImageMutations(
         sequences
       );
 
-      // Invalidate cache and refetch fresh data.
-      await refreshOrganizationImagesData();
+      invalidateCacheRefreshOrgImageData();
 
       return true;
     } catch (err) {
@@ -77,8 +75,7 @@ export function useOrganizationImageMutations(
       // Direct service call - no useAsyncData needed for mutations.
       await uploadOrganizationIconImage(currentOrganizationId.value, image);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -92,28 +89,23 @@ export function useOrganizationImageMutations(
   }
 
   // Helper to refresh organization data after mutations.
-  async function refreshOrganizationData() {
-    if (!currentOrganizationId.value) {
-      return;
-    }
+  async function invalidateCacheRefreshOrgData() {
+    if (!currentOrganizationId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(
       getKeyForGetOrganization(currentOrganizationId.value)
     );
+
     // Clear the organizations list cache to ensure it refetches with updated data.
     store.setItems([]);
     // Also refresh the list of organizations in case the image is used there.
     await refreshNuxtData(getKeyForGetOrganizations());
   }
 
-  // Helper to refresh organization data after mutations.
-  async function refreshOrganizationImagesData() {
-    if (!currentOrganizationId.value) {
-      return;
-    }
+  // Helper to refresh organization images data after mutations.
+  async function invalidateCacheRefreshOrgImageData() {
+    if (!currentOrganizationId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(
       getKeyForGetOrganizationImages(currentOrganizationId.value)
     );
@@ -124,8 +116,8 @@ export function useOrganizationImageMutations(
     error: readonly(error),
     updateImage,
     uploadImages,
-    refreshOrganizationData,
-    refreshOrganizationImagesData,
+    invalidateCacheRefreshOrgData,
+    invalidateCacheRefreshOrgImageData,
     uploadIconImage,
   };
 }

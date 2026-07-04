@@ -150,7 +150,6 @@ watch(
 }
 
 .selected {
-  transform: scale(1.025);
   background: highlight;
 }
 </style>

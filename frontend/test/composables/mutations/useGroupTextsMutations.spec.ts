@@ -98,11 +98,12 @@ describe("useGroupTextsMutations", () => {
     });
   });
 
-  describe("refreshGroupData", () => {
+  describe("invalidateCacheRefreshGroupData", () => {
     it("calls refreshNuxtData with getKeyForGetGroup(id)", async () => {
-      const { refreshGroupData } = useGroupTextsMutations(groupId);
+      const { invalidateCacheRefreshGroupData } =
+        useGroupTextsMutations(groupId);
 
-      await refreshGroupData();
+      await invalidateCacheRefreshGroupData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetGroup("group-123")
@@ -111,9 +112,10 @@ describe("useGroupTextsMutations", () => {
 
     it("no-ops when groupId is empty", async () => {
       groupId.value = "";
-      const { refreshGroupData } = useGroupTextsMutations(groupId);
+      const { invalidateCacheRefreshGroupData } =
+        useGroupTextsMutations(groupId);
 
-      await refreshGroupData();
+      await invalidateCacheRefreshGroupData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

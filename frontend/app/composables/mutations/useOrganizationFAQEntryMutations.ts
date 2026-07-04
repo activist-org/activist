@@ -27,8 +27,7 @@ export function useOrganizationFAQEntryMutations(
         faqData as FaqEntry
       );
 
-      // Refresh the organization data to get the new FAQ.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -50,8 +49,7 @@ export function useOrganizationFAQEntryMutations(
       // Direct service call - no useAsyncData needed for mutations.
       await updateOrganizationFaq(faq);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -72,8 +70,7 @@ export function useOrganizationFAQEntryMutations(
     try {
       await reorderOrganizationFaqs(faqs);
 
-      // Refresh to get the updated order.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -94,8 +91,7 @@ export function useOrganizationFAQEntryMutations(
     try {
       await deleteOrganizationFaq(faqId);
 
-      // Refresh to get the updated list.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -109,12 +105,9 @@ export function useOrganizationFAQEntryMutations(
   }
 
   // Helper to refresh organization data after mutations.
-  async function refreshOrganizationData() {
-    if (!currentOrganizationId.value) {
-      return;
-    }
+  async function invalidateCacheRefreshOrgData() {
+    if (!currentOrganizationId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(
       getKeyForGetOrganization(currentOrganizationId.value)
     );
@@ -127,6 +120,6 @@ export function useOrganizationFAQEntryMutations(
     updateFAQ,
     reorderFAQs,
     deleteFAQ,
-    refreshOrganizationData,
+    invalidateCacheRefreshOrgData,
   };
 }

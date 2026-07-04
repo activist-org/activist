@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
 import { LOCALE_CODE, LOCALE_NAME } from "#shared/utils/locales";
-
 import {
   ACTIVIST_SECTION_LEARN_MORE_LINK_NAME,
   GET_ACTIVE_LEARN_MORE_LINK_NAME,

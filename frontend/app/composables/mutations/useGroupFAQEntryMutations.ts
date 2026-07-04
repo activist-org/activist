@@ -20,8 +20,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createGroupFaq(currentGroupId.value, faqData as FaqEntry);
 
-      // Refresh the group data to get the new FAQ.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -41,8 +40,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await updateGroupFaq(faq);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -61,8 +59,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     try {
       await reorderGroupFaqs(faqs);
 
-      // Refresh to get the updated order.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -81,8 +78,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     try {
       await deleteGroupFaq(faqId);
 
-      // Refresh to get the updated list.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -94,12 +90,9 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   }
 
   // Helper to refresh group data after mutations.
-  async function refreshGroupData() {
-    if (!currentGroupId.value) {
-      return;
-    }
+  async function invalidateCacheRefreshGroupData() {
+    if (!currentGroupId.value) return;
 
-    // Invalidate the useAsyncData cache so next read will refetch.
     await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
@@ -110,6 +103,6 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
     updateFAQ,
     reorderFAQs,
     deleteFAQ,
-    refreshGroupData,
+    invalidateCacheRefreshGroupData,
   };
 }

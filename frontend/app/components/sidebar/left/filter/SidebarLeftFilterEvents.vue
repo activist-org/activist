@@ -191,14 +191,14 @@ const optionEventTypes = [
   {
     value: "learn",
     key: "LEARN",
-    content: t("i18n.components._global.learn"),
+    content: t("i18n._global.learn"),
     aria_label: "i18n.components._global.event_type_learn_aria_label",
     checkedClass: "style-learn",
   },
   {
     value: "action",
     key: "ACTION",
-    content: t("i18n.components._global.action"),
+    content: t("i18n._global.action"),
     aria_label: "i18n.components._global.event_type_action_aria_label",
     checkedClass: "style-action",
   },
