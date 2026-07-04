@@ -101,7 +101,6 @@
   "i18n.components._global.upload": "上传",
   "i18n.components._global.upload_image": "上传图片",
   "i18n.components._global.upvote_application_aria_label": "投票支持该组织加入activist",
-  "i18n.components.btn_action_add.add_element": "添加新的 {element}",
   "i18n.components.btn_road_map.aria_label": "了解activist路线图",
   "i18n.components.btn_share_icon.opening_instagram": "打开Instagram",
   "i18n.components.btn_share_icon.opening_matrix": "打开Matrix",

@@ -82,7 +82,6 @@
   "i18n.components._global.upload": "Yükle",
   "i18n.components._global.upload_image": "Görsel yükle",
   "i18n.components._global.upvote_application_aria_label": "Kuruluşun aktiviste katılmasını desteklemek için oy ver",
-  "i18n.components.btn_action_add.add_element": "Ekle {element}",
   "i18n.components.btn_road_map.aria_label": "Aktivistin yol haritası hakkında bilgi edin",
   "i18n.components.btn_share_icon.opening_instagram": "Instagram açılıyor",
   "i18n.components.btn_share_icon.opening_matrix": "Matrix açılıyor",
@@ -249,6 +248,5 @@
   "i18n.components.form_text_entity.get_involved_text_or_url_required": "Katılmak için metin veya URL gereklidir",
   "i18n.components.form_text_entity.max_text_length": "Metin {max_text_length} karakterden az olmalıdır.",
   "i18n.components.modal.faq_entry.delete._global.message": "Bu Sıkça Sorulan Sorular Girişini Silmek istediğinden emin misin? Bu işlem geri alınamaz.",
-  "i18n.components.modal.resource.delete._global.message": "Bu kaynağı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
-  "i18n.pages.organizations.groups.resources.new_resource": "Yeni kaynak"
+  "i18n.components.modal.resource.delete._global.message": "Bu kaynağı silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
 }

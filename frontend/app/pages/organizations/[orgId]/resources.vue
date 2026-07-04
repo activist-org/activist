@@ -16,6 +16,7 @@
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
           :element="$t('i18n._global.resources_lower')"
           :entity="organization"
+          label="i18n.pages._global.resources.add_new_resource"
           :onClick="
             () =>
               openModal({

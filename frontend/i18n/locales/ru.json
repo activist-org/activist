@@ -86,7 +86,6 @@
   "i18n.components._global.topics": "Темы",
   "i18n.components._global.upload": "Загрузить",
   "i18n.components._global.upload_image": "Загрузить изображение",
-  "i18n.components.btn_action_add.add_element": "Добавить новый {element}",
   "i18n.components.btn_road_map.aria_label": "Узнать о дорожной карте активиста",
   "i18n.components.btn_share_icon.url_copied": "URL скопирован",
   "i18n.components.card.about._global.members_lower": "участники",
