@@ -2,7 +2,6 @@
 import type { Page } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newEditModal } from "~/test-e2e/component-objects/EditModal";
 import { newEventDetailsEditModal } from "~/test-e2e/component-objects/EventDetailsEditModal";
 import { newEventMenu } from "~/test-e2e/component-objects/EventMenu";

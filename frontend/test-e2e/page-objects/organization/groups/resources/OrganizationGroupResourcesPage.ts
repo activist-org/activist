@@ -2,7 +2,6 @@
 import type { Page } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newShareModal } from "~/test-e2e/component-objects/ShareModal";
 
 import { ResourceCard } from "./features/ResourceCard";

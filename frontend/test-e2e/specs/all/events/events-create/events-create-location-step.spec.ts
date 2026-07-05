@@ -2,7 +2,6 @@
 import type { Page } from "playwright";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateEventModal } from "~/test-e2e/component-objects/CreateEventModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";

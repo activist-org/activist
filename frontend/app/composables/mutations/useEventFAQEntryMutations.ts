@@ -18,8 +18,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createEventFaq(currentEventId.value, faqData as FaqEntry);
 
-      // Refresh the event data to get the new FAQ.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -39,8 +38,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await updateEventFaq(currentEventId.value, faq);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -59,8 +57,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     try {
       await reorderEventFaqs(currentEventId.value, faqs);
 
-      // Refresh to get the updated order.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -79,8 +76,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     try {
       await deleteEventFaq(faqId);
 
-      // Refresh to get the updated list.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -92,7 +88,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   }
 
   // Helper to refresh event data after mutations.
-  async function refreshEventData() {
+  async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
     // Invalidate the useAsyncData cache so next read will refetch.
@@ -106,6 +102,6 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     updateFAQ,
     reorderFAQs,
     deleteFAQ,
-    refreshEventData,
+    invalidateCacheRefreshEventData,
   };
 }

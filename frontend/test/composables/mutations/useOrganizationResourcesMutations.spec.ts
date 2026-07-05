@@ -256,12 +256,12 @@ describe("useOrganizationResourcesMutations", () => {
     });
   });
 
-  describe("refreshOrganizationData", () => {
+  describe("invalidateCacheRefreshOrgData", () => {
     it("calls refreshNuxtData with getKeyForGetOrganization(id)", async () => {
-      const { refreshOrganizationData } =
+      const { invalidateCacheRefreshOrgData } =
         useOrganizationResourcesMutations(organizationId);
 
-      await refreshOrganizationData();
+      await invalidateCacheRefreshOrgData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetOrganization("org-123")
@@ -270,10 +270,10 @@ describe("useOrganizationResourcesMutations", () => {
 
     it("no-ops when organizationId is empty", async () => {
       organizationId.value = "";
-      const { refreshOrganizationData } =
+      const { invalidateCacheRefreshOrgData } =
         useOrganizationResourcesMutations(organizationId);
 
-      await refreshOrganizationData();
+      await invalidateCacheRefreshOrgData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

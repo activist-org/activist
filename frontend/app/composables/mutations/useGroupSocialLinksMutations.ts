@@ -26,8 +26,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
         group: currentGroupId.value,
       });
 
-      // Refresh the group data to get updated links.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -50,8 +49,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await createGroupSocialLinks(currentGroupId.value, links);
 
-      // Refresh the group data to get updated links.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -70,8 +68,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await deleteGroupSocialLink(linkId);
 
-      // Refresh the group data to get updated links.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -96,8 +93,7 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     try {
       await replaceAllGroupSocialLinks(currentGroupId.value, links);
 
-      // Refresh the group data to get updated links.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -109,12 +105,9 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
   }
 
   // Helper to refresh group data after mutations.
-  async function refreshGroupData() {
-    if (!currentGroupId.value) {
-      return;
-    }
+  async function invalidateCacheRefreshGroupData() {
+    if (!currentGroupId.value) return;
 
-    // Refresh the useAsyncData cache.
     await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
@@ -125,6 +118,6 @@ export function useGroupSocialLinksMutations(groupId: MaybeRef<string>) {
     createLinks,
     deleteLink,
     replaceAllLinks,
-    refreshGroupData,
+    invalidateCacheRefreshGroupData,
   };
 }

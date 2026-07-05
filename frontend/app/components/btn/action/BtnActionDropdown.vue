@@ -56,9 +56,9 @@
 </template>
 
 <script setup lang="ts">
-import type { BtnActionDropdown } from "#shared/types/components-props";
-
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+
+import type { BtnActionDropdown } from "#shared/types/components-props";
 
 const props = defineProps<BtnActionDropdown>();
 

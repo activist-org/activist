@@ -157,8 +157,12 @@ services:
       - PREVIEW_CLEAN=${PREVIEW_CLEAN:-false}
       - NUXT_SESSION_PASSWORD=${NUXT_SESSION_PASSWORD}
     healthcheck:
+      # The frontend image ships wget (not curl), so probe with wget.
       test:
-        ["CMD-SHELL", "wget -q -O /dev/null http://localhost:${FRONTEND_PORT}/ || exit 1"]
+        [
+          "CMD-SHELL",
+          "wget -q --spider http://localhost:${FRONTEND_PORT}/ || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5

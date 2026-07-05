@@ -264,11 +264,12 @@ describe("useEventSocialLinksMutations", () => {
     });
   });
 
-  describe("refreshEventData", () => {
+  describe("invalidateCacheRefreshEventData", () => {
     it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { refreshEventData } = useEventSocialLinksMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventSocialLinksMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
@@ -277,9 +278,10 @@ describe("useEventSocialLinksMutations", () => {
 
     it("no-ops when eventId is empty", async () => {
       eventId.value = "";
-      const { refreshEventData } = useEventSocialLinksMutations(eventId);
+      const { invalidateCacheRefreshEventData } =
+        useEventSocialLinksMutations(eventId);
 
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });

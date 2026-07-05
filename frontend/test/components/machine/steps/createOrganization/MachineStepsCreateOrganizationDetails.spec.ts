@@ -115,7 +115,9 @@ describe("MachineStepsCreateOrganizationDetails component", () => {
     it("passes submit label to Form", () => {
       const { wrapper } = createWrapper();
       const form = wrapper.findComponent({ name: "Form" });
-      expect(form.props("submitLabel")).toBe("i18n._global.next_step");
+      expect(form.props("submitLabel")).toBe(
+        "i18n.components.machine.steps._global.next_step"
+      );
     });
   });
 

@@ -22,8 +22,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
         ...data,
       });
 
-      // Refresh the event data to get updated links.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -44,8 +43,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await createEventSocialLinks(currentEventId.value, links);
 
-      // Refresh the event data to get updated links.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -64,8 +62,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await deleteEventSocialLink(linkId);
 
-      // Refresh the event data to get updated links.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -88,8 +85,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await replaceAllEventSocialLinks(currentEventId.value, links);
 
-      // Refresh the event data to get updated links.
-      await refreshEventData();
+      await invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -101,10 +97,9 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   }
 
   // Helper to refresh event data after mutations.
-  async function refreshEventData() {
+  async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
-    // Refresh the useAsyncData cache.
     await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
   }
 
@@ -115,6 +110,6 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     createLinks,
     deleteLink,
     replaceAllLinks,
-    refreshEventData,
+    invalidateCacheRefreshEventData,
   };
 }

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateOrganizationModal } from "~/test-e2e/component-objects/CreateOrganizationModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { navigateToOrganizationGroupSubpage } from "~/test-e2e/actions/navigation";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
@@ -41,7 +40,10 @@ test.describe(
 
       // Verify specific editable text fields.
       const descriptionField = groupAboutPage.textModal.getByRole("textbox", {
-        name: new RegExp(getEnglishText("i18n._global.description"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components._global.description"),
+          "i"
+        ),
       });
       const getInvolvedField = groupAboutPage.textModal.getByRole("textbox", {
         name: new RegExp(

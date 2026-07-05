@@ -10,7 +10,7 @@
     :cta="true"
     fontSize="sm"
     iconSize="1.35em"
-    :label="$t('i18n.components.btn_action_add.add_element', { element })"
+    :label="label"
     :leftIcon="IconMap.PLUS"
   />
 </template>
@@ -19,7 +19,7 @@
 import type { BtnAction } from "#shared/types/components-props";
 
 const { canCreate } = useUser();
-type Props = Omit<BtnAction, "label" | "leftIcon" | "cta" | "fontSize"> & {
+type Props = Omit<BtnAction, "leftIcon" | "cta" | "fontSize"> & {
   element: string;
   entity?: Entity | null;
   onClick?: () => void;

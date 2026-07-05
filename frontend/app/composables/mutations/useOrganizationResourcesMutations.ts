@@ -29,8 +29,7 @@ export function useOrganizationResourcesMutations(
         resourceData as Resource
       );
 
-      // Refresh the organization data to get the new resource.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -52,8 +51,7 @@ export function useOrganizationResourcesMutations(
       // Direct service call - no useAsyncData needed for mutations.
       await updateOrganizationResource(currentOrganizationId.value, resource);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -74,8 +72,7 @@ export function useOrganizationResourcesMutations(
     try {
       await deleteOrganizationResource(resourceId);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -99,8 +96,7 @@ export function useOrganizationResourcesMutations(
         resources
       );
 
-      // Refresh to get the updated order.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -114,11 +110,9 @@ export function useOrganizationResourcesMutations(
   }
 
   // Helper to refresh organization data after mutations.
-  async function refreshOrganizationData() {
-    if (!currentOrganizationId.value) {
-      return;
-    }
-    // Invalidate the useAsyncData cache so next read will refetch.
+  async function invalidateCacheRefreshOrgData() {
+    if (!currentOrganizationId.value) return;
+
     await refreshNuxtData(
       getKeyForGetOrganization(currentOrganizationId.value)
     );
@@ -131,6 +125,6 @@ export function useOrganizationResourcesMutations(
     updateResource,
     deleteResource,
     reorderResources,
-    refreshOrganizationData,
+    invalidateCacheRefreshOrgData,
   };
 }
