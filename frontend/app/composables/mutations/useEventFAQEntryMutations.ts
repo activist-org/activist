@@ -18,7 +18,9 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createEventFaq(currentEventId.value, faqData as FaqEntry);
 
-      await invalidateCacheRefreshEventData();
+      // Don't block the caller (e.g. a modal closing) on the background
+      // refetch; the save has already succeeded at this point.
+      invalidateCacheRefreshEventData().catch((err) => handleError(err));
 
       return true;
     } catch (err) {
@@ -38,7 +40,9 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await updateEventFaq(currentEventId.value, faq);
 
-      await invalidateCacheRefreshEventData();
+      // Don't block the caller (e.g. a modal closing) on the background
+      // refetch; the save has already succeeded at this point.
+      invalidateCacheRefreshEventData().catch((err) => handleError(err));
 
       return true;
     } catch (err) {
@@ -57,7 +61,9 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     try {
       await reorderEventFaqs(currentEventId.value, faqs);
 
-      await invalidateCacheRefreshEventData();
+      // Don't block the caller (e.g. a modal closing) on the background
+      // refetch; the save has already succeeded at this point.
+      invalidateCacheRefreshEventData().catch((err) => handleError(err));
 
       return true;
     } catch (err) {
@@ -76,7 +82,9 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     try {
       await deleteEventFaq(faqId);
 
-      await invalidateCacheRefreshEventData();
+      // Don't block the caller (e.g. a modal closing) on the background
+      // refetch; the save has already succeeded at this point.
+      invalidateCacheRefreshEventData().catch((err) => handleError(err));
 
       return true;
     } catch (err) {

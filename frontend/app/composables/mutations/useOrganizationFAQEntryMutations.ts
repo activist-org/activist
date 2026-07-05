@@ -27,7 +27,14 @@ export function useOrganizationFAQEntryMutations(
         faqData as FaqEntry
       );
 
-      invalidateCacheRefreshOrgData();
+      // Don't block the caller (e.g. a modal closing) on the background
+      // refetch; the save has already succeeded at this point. Catch any
+      // refresh failure so it doesn't surface as an unhandled rejection.
+      invalidateCacheRefreshOrgData().catch((err) => {
+        const appError = errorHandler(err);
+        error.value = appError;
+        showToastError(appError.message);
+      });
 
       return true;
     } catch (err) {
@@ -49,7 +56,14 @@ export function useOrganizationFAQEntryMutations(
       // Direct service call - no useAsyncData needed for mutations.
       await updateOrganizationFaq(faq);
 
-      invalidateCacheRefreshOrgData();
+      // Don't block the caller (e.g. a modal closing) on the background
+      // refetch; the save has already succeeded at this point. Catch any
+      // refresh failure so it doesn't surface as an unhandled rejection.
+      invalidateCacheRefreshOrgData().catch((err) => {
+        const appError = errorHandler(err);
+        error.value = appError;
+        showToastError(appError.message);
+      });
 
       return true;
     } catch (err) {
@@ -70,7 +84,14 @@ export function useOrganizationFAQEntryMutations(
     try {
       await reorderOrganizationFaqs(faqs);
 
-      invalidateCacheRefreshOrgData();
+      // Don't block the caller (e.g. a modal closing) on the background
+      // refetch; the save has already succeeded at this point. Catch any
+      // refresh failure so it doesn't surface as an unhandled rejection.
+      invalidateCacheRefreshOrgData().catch((err) => {
+        const appError = errorHandler(err);
+        error.value = appError;
+        showToastError(appError.message);
+      });
 
       return true;
     } catch (err) {
@@ -91,7 +112,14 @@ export function useOrganizationFAQEntryMutations(
     try {
       await deleteOrganizationFaq(faqId);
 
-      invalidateCacheRefreshOrgData();
+      // Don't block the caller (e.g. a modal closing) on the background
+      // refetch; the save has already succeeded at this point. Catch any
+      // refresh failure so it doesn't surface as an unhandled rejection.
+      invalidateCacheRefreshOrgData().catch((err) => {
+        const appError = errorHandler(err);
+        error.value = appError;
+        showToastError(appError.message);
+      });
 
       return true;
     } catch (err) {
