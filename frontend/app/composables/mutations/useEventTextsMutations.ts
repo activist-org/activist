@@ -20,7 +20,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await updateEventTexts(currentEventId.value, textId, textsData);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {

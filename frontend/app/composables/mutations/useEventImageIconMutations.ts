@@ -17,7 +17,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await uploadEventIconImage(currentEventId.value, image);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {

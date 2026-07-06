@@ -22,7 +22,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
         ...data,
       });
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -43,7 +43,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await createEventSocialLinks(currentEventId.value, links);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -62,7 +62,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await deleteEventSocialLink(linkId);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -85,7 +85,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
     try {
       await replaceAllEventSocialLinks(currentEventId.value, links);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {

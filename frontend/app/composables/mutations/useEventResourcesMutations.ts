@@ -18,7 +18,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createEventResource(currentEventId.value, resourceData as Resource);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -38,7 +38,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await updateEventResource(currentEventId.value, resource);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -57,7 +57,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     try {
       await deleteEventResource(resourceId);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -75,7 +75,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     try {
       await reorderEventResources(currentEventId.value, resources);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {

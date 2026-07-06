@@ -18,7 +18,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createEventFaq(currentEventId.value, faqData as FaqEntry);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -38,7 +38,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await updateEventFaq(currentEventId.value, faq);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -57,7 +57,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     try {
       await reorderEventFaqs(currentEventId.value, faqs);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
@@ -76,7 +76,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
     try {
       await deleteEventFaq(faqId);
 
-      await invalidateCacheRefreshEventData();
+      void invalidateCacheRefreshEventData();
 
       return true;
     } catch (err) {
