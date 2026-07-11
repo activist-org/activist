@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import type { Page, Route } from "@playwright/test";
 
 export const MOCK_ORGANIZATION_EMPTY_STATE_ID =
