@@ -1,14 +1,14 @@
+import { getEnglishText } from "#shared/utils/i18n";
 import { MEMBER_AUTH_STATE_PATH } from "~/test-e2e/constants/authPaths";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationResourcesPage } from "~/test-e2e/page-objects/organization/resources/OrganizationResourcesPage";
-import { getEnglishText } from "~/test-e2e/utils/i18n";
-import { logTestPath } from "~/test-e2e/utils/log-test-path";
 import {
   MOCK_ORGANIZATION_EMPTY_STATE_ID,
   mockOrganizationDetailPayload,
   routeMockPublicOrganizationDetail,
   sampleResourceForMock,
 } from "~/test-e2e/utils/mock-public-organization-detail";
+import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
 test.describe(
   "Organization Resources Empty States",
@@ -21,10 +21,7 @@ test.describe(
     test("Admin sees the empty state with the create button when no resources exist", async ({
       page,
     }) => {
-      const resourcesPage = newOrganizationResourcesPage(
-        page,
-        MOCK_ORGANIZATION_EMPTY_STATE_ID
-      );
+      const resourcesPage = newOrganizationResourcesPage(page);
 
       await routeMockPublicOrganizationDetail(
         page,
@@ -34,7 +31,9 @@ test.describe(
         })
       );
 
-      await resourcesPage.goto();
+      await page.goto(
+        `/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/resources`
+      );
 
       await expect(
         page.getByText(
@@ -53,10 +52,7 @@ test.describe(
           storageState: MEMBER_AUTH_STATE_PATH,
         });
         const page = await context.newPage();
-        const resourcesPage = newOrganizationResourcesPage(
-          page,
-          MOCK_ORGANIZATION_EMPTY_STATE_ID
-        );
+        const resourcesPage = newOrganizationResourcesPage(page);
 
         await routeMockPublicOrganizationDetail(
           page,
@@ -66,7 +62,9 @@ test.describe(
           })
         );
 
-        await resourcesPage.goto();
+        await page.goto(
+          `/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/resources`
+        );
 
         await expect(
           page.getByText(
@@ -83,11 +81,6 @@ test.describe(
     test("List is shown and empty state is hidden when resources exist", async ({
       page,
     }) => {
-      const resourcesPage = newOrganizationResourcesPage(
-        page,
-        MOCK_ORGANIZATION_EMPTY_STATE_ID
-      );
-
       await routeMockPublicOrganizationDetail(
         page,
         MOCK_ORGANIZATION_EMPTY_STATE_ID,
@@ -96,7 +89,9 @@ test.describe(
         })
       );
 
-      await resourcesPage.goto();
+      await page.goto(
+        `/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/resources`
+      );
 
       await expect(
         page.getByText(
@@ -108,6 +103,7 @@ test.describe(
           getEnglishText("i18n.components.empty_state.message_no_permission")
         )
       ).toBeHidden();
+      await expect(page.getByRole("list")).toBeVisible();
     });
   }
 );
