@@ -1,7 +1,7 @@
 import type { Page, Route } from "@playwright/test";
 
 export const MOCK_ORGANIZATION_EMPTY_STATE_ID =
-  "00000000-0000-0000-0000-000000000001";
+  "00000000-0000-4000-8000-000000000001";
 
 export function isPublicOrganizationDetailGet(url: string): boolean {
   return (
@@ -11,7 +11,7 @@ export function isPublicOrganizationDetailGet(url: string): boolean {
 
 export function organizationIdFromDetailUrl(url: string): string | null {
   const match = url.match(/\/organizations\/([^/?]+)/);
-  return match ? match[1] : null;
+  return match?.[1] ?? null;
 }
 
 export function sampleFaqEntryForMock() {
