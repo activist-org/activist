@@ -2,7 +2,6 @@
 import type { Page } from "playwright";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateEventModal } from "~/test-e2e/component-objects/CreateEventModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
@@ -103,7 +102,7 @@ async function fillAndSearch(
   { city, street }: { city: string; street: string }
 ) {
   const countryButton = modal.locationSearchForm.getByRole("button", {
-    name: new RegExp(getEnglishText("i18n.components._global.country"), "i"),
+    name: new RegExp(getEnglishText("i18n._global.country"), "i"),
   });
   await countryButton.click();
   const firstCountry = page.getByRole("option").first();
@@ -190,10 +189,7 @@ test.describe(
       await navigateToLocationStep(modal, page);
 
       const countryButton = modal.locationSearchForm.getByRole("button", {
-        name: new RegExp(
-          getEnglishText("i18n.components._global.country"),
-          "i"
-        ),
+        name: new RegExp(getEnglishText("i18n._global.country"), "i"),
       });
       await countryButton.click();
       const firstCountry = page.getByRole("option").first();

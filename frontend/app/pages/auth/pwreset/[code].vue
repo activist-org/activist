@@ -66,7 +66,7 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n._global.repeat_password')"
+          :label="$t('i18n.pages.auth._global.repeat_password')"
           :modelValue="(confirmPassword.value as string)"
         >
           <template #icons>

@@ -2,7 +2,6 @@
 import type { Page, Response } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { runAccessibilityTestScoped } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateEventModal } from "~/test-e2e/component-objects/CreateEventModal";
@@ -670,7 +669,7 @@ test.describe(
 
       await expect(modal.locationForm).toBeVisible();
       const searchLocationForm = modal.root.locator("#search-location");
-      const countryLabel = getEnglishText("i18n.components._global.country");
+      const countryLabel = getEnglishText("i18n._global.country");
       const countryTrigger = searchLocationForm
         .locator("#form-item-country")
         .getByRole("button", { name: new RegExp(countryLabel, "i") });

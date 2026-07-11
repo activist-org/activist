@@ -10,6 +10,10 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
+    volumes:
+      # Persist local data across restarts. Reset explicitly with:
+      # docker compose --env-file .env.dev down -v
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${DATABASE_USER}"]
       interval: 10s
@@ -20,8 +24,10 @@ services:
     env_file:
       - .env.dev
     depends_on:
-      - db
-      - mailhog
+      db:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
     build:
       context: ./backend
     container_name: django_backend
@@ -41,6 +47,7 @@ services:
       uv run manage.py loaddata fixtures/status_types.json &&
       uv run manage.py loaddata fixtures/topics.json &&
       uv run manage.py populate_db \
+      --skip-if-populated \
       --users 10 \
       --orgs-per-user 2 \
       --groups-per-org 2 \
@@ -140,8 +147,15 @@ services:
       - USE_PREVIEW=${USE_PREVIEW:-false}
       - NUXT_SESSION_PASSWORD=${NUXT_SESSION_PASSWORD}
     healthcheck:
+      # The frontend image ships wget (not curl), so probe with wget.
       test:
-        ["CMD-SHELL", "curl -f http://localhost:${FRONTEND_PORT}/ || exit 1"]
+        [
+          "CMD-SHELL",
+          "wget -q --spider http://localhost:${FRONTEND_PORT}/ || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
+
+volumes:
+  pgdata:

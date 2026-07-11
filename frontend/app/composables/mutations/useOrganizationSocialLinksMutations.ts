@@ -5,7 +5,6 @@ export function useOrganizationSocialLinksMutations(
   organizationId: MaybeRef<string>
 ) {
   const { showToastError } = useToaster();
-
   const loading = ref(false);
   const error = ref<Error | null>(null);
 
@@ -28,8 +27,7 @@ export function useOrganizationSocialLinksMutations(
         ...data,
       });
 
-      // Refresh the organization data to get updated links.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -54,8 +52,7 @@ export function useOrganizationSocialLinksMutations(
     try {
       await createOrganizationSocialLinks(currentOrganizationId.value, links);
 
-      // Refresh the organization data to get updated links.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -76,8 +73,7 @@ export function useOrganizationSocialLinksMutations(
     try {
       await deleteOrganizationSocialLink(linkId);
 
-      // Refresh the organization data to get updated links.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -107,8 +103,7 @@ export function useOrganizationSocialLinksMutations(
         links
       );
 
-      // Refresh the organization data to get updated links.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
 
       return true;
     } catch (err) {
@@ -122,12 +117,9 @@ export function useOrganizationSocialLinksMutations(
   }
 
   // Helper to refresh organization data after mutations.
-  async function refreshOrganizationData() {
-    if (!currentOrganizationId.value) {
-      return;
-    }
+  async function invalidateCacheRefreshOrgData() {
+    if (!currentOrganizationId.value) return;
 
-    // Refresh the useAsyncData cache.
     await refreshNuxtData(
       getKeyForGetOrganization(currentOrganizationId.value)
     );
@@ -140,6 +132,6 @@ export function useOrganizationSocialLinksMutations(
     createLinks,
     deleteLink,
     replaceAllLinks,
-    refreshOrganizationData,
+    invalidateCacheRefreshOrgData,
   };
 }

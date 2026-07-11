@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateOrganizationModal } from "~/test-e2e/component-objects/CreateOrganizationModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
@@ -126,10 +125,7 @@ test.describe(
       await expect(modal.locationForm).toBeVisible();
 
       const countryComboboxButton = modal.locationForm.getByRole("button", {
-        name: new RegExp(
-          getEnglishText("i18n.components._global.country"),
-          "i"
-        ),
+        name: new RegExp(getEnglishText("i18n._global.country"), "i"),
       });
       await countryComboboxButton.click();
       const firstCountryOption = modal.root.getByRole("option").first();

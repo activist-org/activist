@@ -12,31 +12,18 @@
       :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
-      <div
-        v-if="canEdit(group)"
-        class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4"
-      >
-        <BtnAction
-          @click.stop="
-            () =>
-              openModalResourceGroup({
-                entityId: group?.id,
-              })
-          "
-          @keydown.enter="
-            () =>
-              openModalResourceGroup({
-                entityId: group?.id,
-              })
-          "
+      <div class="flex space-x-2 lg:space-x-3">
+        <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          class="w-max"
-          :cta="true"
-          fontSize="sm"
-          iconSize="1.35em"
-          label="i18n.pages.organizations.groups.resources.new_resource"
-          :leftIcon="IconMap.PLUS"
-          linkTo="/"
+          :element="$t('i18n._global.resources_lower')"
+          :entity="group"
+          label="i18n.pages._global.resources.add_new_resource"
+          :onClick="
+            () =>
+              openModal({
+                entityId: group?.id,
+              })
+          "
         />
       </div>
     </HeaderAppPageGroup>
@@ -95,16 +82,17 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-const { openModal: openModalResourceGroup } =
-  useModalHandlers("ModalResourceGroup");
+const { openModal } = useModalHandlers("ModalResourceGroup");
 const { canEdit } = useUser();
-const groupId = (useRoute().params.groupId as string) ?? "";
 
-const { data: group } = useGetGroup(groupId);
+const route = useRoute();
+const paramsGroupId = (route.params.groupId as string | undefined) ?? "";
+
+const { data: group } = useGetGroup(paramsGroupId);
 const resourceList = ref<Resource[]>([...(group.value?.resources || [])]);
 const resourceCardList = ref<(HTMLElement | null)[]>([]);
 const groupTabs = useGetGroupTabs();
-const { reorderResources } = useGroupResourcesMutations(groupId);
+const { reorderResources } = useGroupResourcesMutations(paramsGroupId);
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
@@ -160,7 +148,6 @@ watch(
 }
 
 .selected {
-  transform: scale(1.025);
   background: highlight;
 }
 </style>

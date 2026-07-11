@@ -29,8 +29,7 @@ export function useOrganizationTextsMutations(
         textId,
         textsData
       );
-      // Refresh the organization data to get the updated texts.
-      await refreshOrganizationData();
+      invalidateCacheRefreshOrgData();
       return true;
     } catch (err) {
       const appError = err as AppError;
@@ -41,13 +40,11 @@ export function useOrganizationTextsMutations(
       loading.value = false;
     }
   }
-  // Helper to refresh organization data after mutations.
-  async function refreshOrganizationData() {
-    if (!currentOrganizationId.value) {
-      return;
-    }
 
-    // Invalidate the useAsyncData cache so next read will refetch.
+  // Helper to refresh organization data after mutations.
+  async function invalidateCacheRefreshOrgData() {
+    if (!currentOrganizationId.value) return;
+
     await refreshNuxtData(
       getKeyForGetOrganization(currentOrganizationId.value)
     );
@@ -57,6 +54,6 @@ export function useOrganizationTextsMutations(
     loading: readonly(loading),
     error: readonly(error),
     updateTexts,
-    refreshOrganizationData,
+    invalidateCacheRefreshOrgData,
   };
 }

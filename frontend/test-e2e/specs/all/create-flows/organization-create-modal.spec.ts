@@ -2,7 +2,6 @@
 import type { Page, Response } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { runAccessibilityTestScoped } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateOrganizationModal } from "~/test-e2e/component-objects/CreateOrganizationModal";
@@ -41,7 +40,7 @@ async function selectCountryInOrganizationModal(
   modal: ReturnType<typeof newCreateOrganizationModal>,
   optionNameMatch: RegExp | string
 ) {
-  const countryLabel = getEnglishText("i18n.components._global.country");
+  const countryLabel = getEnglishText("i18n._global.country");
   const countryTrigger = modal.locationForm
     .locator("#form-item-country")
     .getByRole("button", { name: new RegExp(countryLabel, "i") });
