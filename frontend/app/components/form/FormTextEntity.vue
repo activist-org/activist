@@ -12,7 +12,7 @@
     <div class="flex flex-col space-y-7">
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.description')"
+        :label="$t('i18n.components._global.description')"
         name="description"
         :required="true"
       >
