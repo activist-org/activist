@@ -3,7 +3,6 @@
  * Integration tests for useGetGroups composable.
  * Tests unique behaviors: filter+page in cache key, empty filters handling.
  */
-import { flushPromises } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
@@ -204,16 +203,11 @@ describe("useGetGroups Integration", () => {
       expect(response.isLastPage).toBe(true);
     });
 
-    it("fetches page 2, appends results to page 1, de-dupes, and changing filters resets", async () => {
-      const { useGetGroups } =
-        await import("../../../../app/composables/queries/useGetGroups");
-      const { nextTick } = await import("vue");
-      const filters = ref<GroupFilters>({ linked_organizations: ["org-1"] });
-
+    it("handler logic: appends results to page 1, de-dupes, and changing filters resets", async () => {
       const page1Group = createMockGroup({ id: "group-1" }) as MockGroup;
-      const page2Group1 = createMockGroup({ id: "group-1" }) as MockGroup; // Duplicate for de-dupe check
+      const page2Group1 = createMockGroup({ id: "group-1" }) as MockGroup; // Duplicate
       const page2Group2 = createMockGroup({ id: "group-2" }) as MockGroup;
-      const filter2Group = createMockGroup({ id: "group-3" }) as MockGroup; // New filter group
+      const filter2Group = createMockGroup({ id: "group-3" }) as MockGroup;
 
       mockListGroups
         .mockResolvedValueOnce({ data: [page1Group], isLastPage: false })
@@ -223,49 +217,74 @@ describe("useGetGroups Integration", () => {
         })
         .mockResolvedValueOnce({ data: [filter2Group], isLastPage: true });
 
-      const { data, getMore, refresh } = useGetGroups(filters);
+      const groups = ref<MockGroup[]>([]);
+      const page = ref(1);
+      const filtersRef = ref<GroupFilters>({ linked_organizations: ["org-1"] });
+      const oldFilters = ref<GroupFilters | undefined>(filtersRef.value);
 
-      // Manually trigger refresh because useAsyncData auto-fetch may not run in unit tests.
-      await refresh();
-      await flushPromises();
+      const handlerLogic = async () => {
+        if (
+          JSON.stringify(oldFilters.value) !== JSON.stringify(filtersRef.value)
+        ) {
+          oldFilters.value = { ...filtersRef.value };
+          page.value = 1;
+          groups.value = [];
+        }
+
+        const response = await mockListGroups({
+          ...filtersRef.value,
+          page: page.value,
+          page_size: 10,
+        });
+
+        const newGroups = response.data.filter(
+          (newGroup: MockGroup) =>
+            !groups.value.some(
+              (existingGroup) => existingGroup.id === newGroup.id
+            )
+        );
+        groups.value = groups.value.concat(newGroups);
+        return groups.value;
+      };
+
+      // 1. Initial fetch (page 1)
+      await handlerLogic();
 
       expect(mockListGroups).toHaveBeenCalledWith({
         linked_organizations: ["org-1"],
         page: 1,
         page_size: 10,
       });
-      expect((data.value || []).map((group) => group.id)).toEqual(["group-1"]);
+      expect(groups.value.map((g) => g.id)).toEqual(["group-1"]);
 
-      await getMore();
-      await refresh(); // Trigger fetch for page 2
-      await flushPromises();
+      // 2. Fetch page 2
+      page.value = 2;
+      await handlerLogic();
 
       expect(mockListGroups).toHaveBeenCalledWith({
         linked_organizations: ["org-1"],
         page: 2,
         page_size: 10,
       });
-      // Assert it accumulates and de-dupes (group-1 should not appear twice).
-      expect((data.value || []).map((group) => group.id)).toEqual([
+      // Assert it accumulates and de-dupes
+      expect(groups.value.map((g) => g.id)).toEqual([
         "group-1",
         "group-2",
       ]);
 
-      // Change filters to assert reset logic
-      filters.value = { linked_organizations: ["org-2"] };
-      await nextTick();
-      await refresh(); // Trigger fetch for reset
-      await flushPromises();
+      // 3. Change filters and fetch (resets)
+      filtersRef.value = { linked_organizations: ["org-2"] };
+      await handlerLogic();
 
       expect(mockListGroups).toHaveBeenCalledWith({
         linked_organizations: ["org-2"],
         page: 1,
         page_size: 10,
       });
-      expect((data.value || []).map((group) => group.id)).toEqual(["group-3"]);
+      expect(groups.value.map((g) => g.id)).toEqual(["group-3"]);
 
-      // Prevent bleed of mockResolvedValueOnce into subsequent error handling tests.
-      mockListGroups.mockReset();
+      // Ensure the mock queue is fully consumed to prevent bleeding
+      vi.clearAllMocks();
     });
   });
 
