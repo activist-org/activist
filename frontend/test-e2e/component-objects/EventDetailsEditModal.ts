@@ -28,7 +28,9 @@ export const newEventDetailsEditModal = (page: Page) => {
       .getByRole("button", {
         name: new RegExp(getEnglishText("i18n._global.organizations"), "i"),
       }),
-    selectedOrgChips: root.locator("div#form-item-orgs ul li"),
+    selectedOrgChips: root.locator(
+      "div#form-item-orgs ul:not(#form-item-orgs-options) li"
+    ),
     orgDropdownOptions: root.locator("#form-item-orgs-options [role='option']"),
     locationTypeSection: root.locator("#form-item-locationType"),
     onlineLinkField: root.locator("input#form-item-onlineLocationLink"),

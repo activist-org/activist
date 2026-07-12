@@ -14,6 +14,11 @@ import {
 } from "~/test-e2e/utils/event-about-details-helpers";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
 
+// Whole-string match so org names that are substrings of one another can't both match.
+function exactTextRegex(text: string): RegExp {
+  return new RegExp(`^${text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`);
+}
+
 test.beforeEach(async ({ page }) => {
   await navigateToFirstEvent(page);
   await page.waitForLoadState("domcontentloaded");
@@ -162,9 +167,11 @@ test.describe(
         async () => {
           await aboutPage.detailsCardEditIcon.click();
           await expect(detailsEditModal.root).toBeVisible();
-          await expect(detailsEditModal.selectedOrgChips).toContainText(
-            orgNameOnCard
-          );
+          await expect(
+            detailsEditModal.selectedOrgChips.filter({
+              hasText: exactTextRegex(orgNameOnCard),
+            })
+          ).toBeVisible();
 
           await detailsEditModal.closeButton.click({ force: true });
           await expect(detailsEditModal.root).not.toBeVisible();
@@ -191,6 +198,11 @@ test.describe(
       await aboutPage.detailsCardEditIcon.click();
       await expect(detailsEditModal.root).toBeVisible();
 
+      // Clicking an already-selected option in the multi-select combobox deselects it.
+      const alreadySelected = (
+        await detailsEditModal.selectedOrgChips.allTextContents()
+      ).map((text) => text.trim());
+
       await openOrgsDropdown(detailsEditModal);
       const options = detailsEditModal.orgDropdownOptions;
       const optionCount = await options.count();
@@ -206,7 +218,11 @@ test.describe(
       for (let index = 0; index < optionCount; index += 1) {
         const optionText =
           (await options.nth(index).textContent())?.trim() ?? "";
-        if (optionText && optionText !== currentOrgName) {
+        if (
+          optionText &&
+          optionText !== currentOrgName &&
+          !alreadySelected.includes(optionText)
+        ) {
           newOrgName = optionText;
           await options.nth(index).click();
           break;
@@ -237,9 +253,11 @@ test.describe(
         async () => {
           await aboutPage.detailsCardEditIcon.click();
           await expect(detailsEditModal.root).toBeVisible();
-          await expect(detailsEditModal.selectedOrgChips).toContainText(
-            newOrgName
-          );
+          await expect(
+            detailsEditModal.selectedOrgChips.filter({
+              hasText: exactTextRegex(newOrgName),
+            })
+          ).toBeVisible();
           await detailsEditModal.closeButton.click({ force: true });
         }
       );
