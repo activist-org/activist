@@ -1,61 +1,57 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <Form
-      id="search-location"
-      @submit="handleSubmit"
-      class="space-y-4"
-      :schema="locationSchema"
-      :submit-label="$t('i18n.components.form_search_location.search_location')"
+  <Form
+    id="search-location"
+    @submit="handleSubmit"
+    class="space-y-4"
+    :schema="locationSchema"
+    :submit-label="$t('i18n.components.form_search_location.search_location')"
+  >
+    <FormItem
+      v-slot="{ id, handleChange, errorMessage, value }"
+      :label="$t('i18n._global.country')"
+      name="country"
     >
-      <FormItem
-        v-slot="{ id, handleChange, errorMessage, value }"
+      <!-- prettier-ignore-attribute :modelValue -->
+      <FormSelectorComboboxCountry
+        :id="id"
+        @update:selected-country="handleChange"
+        :hasError="!!errorMessage.value"
         :label="$t('i18n._global.country')"
-        name="country"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormSelectorComboboxCountry
-          :id="id"
-          @update:selected-country="handleChange"
-          :hasError="!!errorMessage.value"
-          :label="$t('i18n._global.country')"
-          :selected-country="(value.value as string) || ''"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :selected-country="(value.value as string) || ''"
+      />
+    </FormItem>
+    <FormItem
+      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+      :label="$t('i18n.components._global.city')"
+      name="city"
+    >
+      <!-- prettier-ignore-attribute :modelValue -->
+      <FormTextInput
+        :id="id"
+        @blur="handleBlur"
+        @input="handleChange"
+        :hasError="!!errorMessage.value"
         :label="$t('i18n.components._global.city')"
-        name="city"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          :label="$t('i18n.components._global.city')"
-          :modelValue="(value.value as string)"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :modelValue="(value.value as string)"
+      />
+    </FormItem>
+    <FormItem
+      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+      :label="$t('i18n.components.form_search_location.street_house_number')"
+      name="street"
+    >
+      <!-- prettier-ignore-attribute :modelValue -->
+      <FormTextInput
+        :id="id"
+        @blur="handleBlur"
+        @input="handleChange"
+        :hasError="!!errorMessage.value"
         :label="$t('i18n.components.form_search_location.street_house_number')"
-        name="street"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          :label="
-            $t('i18n.components.form_search_location.street_house_number')
-          "
-          :modelValue="(value.value as string)"
-        />
-      </FormItem>
-    </Form>
-  </div>
+        :modelValue="(value.value as string)"
+      />
+    </FormItem>
+  </Form>
 </template>
 
 <script setup lang="ts">

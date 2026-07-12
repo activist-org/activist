@@ -1,8 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div
-    class="max-h-[calc(100vh-10rem)] overflow-y-scroll px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36"
-  >
+  <div class="overflow-y-hide max-h-[calc(100vh-10rem)]">
     <Form
       id="event-location-and-time"
       ref="timeFormRef"
@@ -19,7 +17,7 @@
           type: 'button',
         },
       ]"
-      class="space-y-4"
+      class="space-y-4 pb-4"
       :isLoading="loading?.value"
       :schema="scheduleSchema"
     >

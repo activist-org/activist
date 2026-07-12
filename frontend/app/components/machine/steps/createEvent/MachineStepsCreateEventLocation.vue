@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="flex flex-col gap-y-6 px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
+  <div class="flex flex-col gap-y-6">
     <FormSearchLocation :handle-submit="handleSubmitLocation" />
     <Form
       id="event-location"

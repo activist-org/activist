@@ -1,73 +1,71 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <Form
-      id="event-type-and-roles"
-      @submit="handleSubmit"
-      :action-buttons="[
-        {
-          onclick: handlePrev,
-          cta: false,
-          fontSize: 'base',
-          ariaLabel:
-            'i18n.components.machine.steps._global.previous_step_aria_label',
-          label: 'i18n.components.machine.steps._global.previous_step',
-          type: 'button',
-        },
-      ]"
-      class="space-y-4"
-      :initial-values="initialEventTypeData"
-      :schema="topicsSettingsSchema"
-      :submit-label="$t('i18n._global.next_step')"
+  <Form
+    id="event-type-and-roles"
+    @submit="handleSubmit"
+    :action-buttons="[
+      {
+        onclick: handlePrev,
+        cta: false,
+        fontSize: 'base',
+        ariaLabel:
+          'i18n.components.machine.steps._global.previous_step_aria_label',
+        label: 'i18n.components.machine.steps._global.previous_step',
+        type: 'button',
+      },
+    ]"
+    class="space-y-4"
+    :initial-values="initialEventTypeData"
+    :schema="topicsSettingsSchema"
+    :submit-label="$t('i18n._global.next_step')"
+  >
+    <FormItem
+      v-slot="{ id, handleChange, value }"
+      data-testid="events-filter-location-type"
+      :label="$t('i18n.components._global.location_type')"
+      name="setting"
+      required
     >
-      <FormItem
-        v-slot="{ id, handleChange, value }"
-        data-testid="events-filter-location-type"
-        :label="$t('i18n.components._global.location_type')"
-        name="setting"
-        required
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormSelectorRadio
-          :id="id"
-          @update:modelValue="handleChange"
-          :modelValue="(value.value as string)"
-          :options="optionLocations"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, value }"
-        data-testid="events-filter-event-type"
-        :label="$t('i18n.components._global.event_type')"
-        name="type"
-        required
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormSelectorRadio
-          :id="id"
-          @update:modelValue="handleChange"
-          :modelValue="(value.value as string)"
-          :options="optionEventTypes"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, value }"
+      <!-- prettier-ignore-attribute :modelValue -->
+      <FormSelectorRadio
+        :id="id"
+        @update:modelValue="handleChange"
+        :modelValue="(value.value as string)"
+        :options="optionLocations"
+      />
+    </FormItem>
+    <FormItem
+      v-slot="{ id, handleChange, value }"
+      data-testid="events-filter-event-type"
+      :label="$t('i18n.components._global.event_type')"
+      name="type"
+      required
+    >
+      <!-- prettier-ignore-attribute :modelValue -->
+      <FormSelectorRadio
+        :id="id"
+        @update:modelValue="handleChange"
+        :modelValue="(value.value as string)"
+        :options="optionEventTypes"
+      />
+    </FormItem>
+    <FormItem
+      v-slot="{ id, handleChange, value }"
+      :label="$t('i18n.components._global.topics')"
+      name="topics"
+      required
+    >
+      <!-- prettier-ignore-attribute :selected-topics -->
+      <FormSelectorComboboxTopics
+        :id="id"
+        @update:selected-topics="
+          (val: unknown) => handleChange(val as TopicEnum[])
+        "
         :label="$t('i18n.components._global.topics')"
-        name="topics"
-        required
-      >
-        <!-- prettier-ignore-attribute :selected-topics -->
-        <FormSelectorComboboxTopics
-          :id="id"
-          @update:selected-topics="
-            (val: unknown) => handleChange(val as TopicEnum[])
-          "
-          :label="$t('i18n.components._global.topics')"
-          :selected-topics="((value.value ?? []) as TopicEnum[])"
-        />
-      </FormItem>
-    </Form>
-  </div>
+        :selected-topics="((value.value ?? []) as TopicEnum[])"
+      />
+    </FormItem>
+  </Form>
 </template>
 
 <script setup lang="ts">
