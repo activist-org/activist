@@ -43,10 +43,24 @@
         @input="handleChange"
         :hasError="!!errorMessage.value"
         :label="$t('i18n.components._global.city')"
-        :modelValue="(value.value as string)"
-      />
-    </FormItem>
-  </Form>
+        name="city"
+      >
+        <!-- prettier-ignore-attribute :modelValue -->
+        <FormTextInput
+          :id="id"
+          @blur="handleBlur"
+          @input="handleChange"
+          :hasError="!!errorMessage.value"
+          :label="
+            $t(
+              'i18n.components.create_organization.machine_steps_create_organizations_location.location_placeholder'
+            )
+          "
+          :modelValue="(value.value as string)"
+        />
+      </FormItem>
+    </Form>
+  </div>
 </template>
 
 <script setup lang="ts">

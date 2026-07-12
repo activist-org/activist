@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # Reset the local development database to a fresh seeded state.
 #
-# Usage: ./reset-dev-db.sh
+# Usage:
+# - macOS: ./reset-dev-db.sh
+# - Linux: ./reset-dev-db.sh
+# - Windows: Run the commands below.
 #
 # Local data persists across docker compose restarts (see issue #2198), so use
 # this script when you explicitly want to start over:

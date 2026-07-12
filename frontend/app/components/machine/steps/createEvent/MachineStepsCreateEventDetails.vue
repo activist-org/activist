@@ -1,19 +1,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Form
-    id="event-details"
-    v-slot="{ values }"
-    @submit="handleSubmit"
-    class="space-y-4"
-    :initial-values="initialDetailsData"
-    :schema="eventDetailsSchema"
-    :submit-label="$t('i18n._global.next_step')"
-  >
-    <FormItem
-      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-      :label="$t('i18n._global.name')"
-      name="name"
-      required
+    <Form
+      id="event-details"
+      v-slot="{ values }"
+      @submit="handleSubmit"
+      class="space-y-4"
+      :initial-values="initialDetailsData"
+      :schema="eventDetailsSchema"
+      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
     >
       <!-- prettier-ignore-attribute :modelValue -->
       <FormTextInput
@@ -22,65 +16,88 @@
         @input="handleChange"
         :hasError="!!errorMessage.value"
         :label="$t('i18n._global.name')"
-        :modelValue="(value.value as string)"
-      />
-    </FormItem>
-    <FormItem
-      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-      :label="$t('i18n._global.tagline')"
-      name="tagline"
-    >
-      <!-- prettier-ignore-attribute :modelValue -->
-      <FormTextInput
-        :id="id"
-        @blur="handleBlur"
-        @input="handleChange"
-        :hasError="!!errorMessage.value"
-        :label="$t('i18n._global.tagline')"
-        :modelValue="(value.value as string)"
-      />
-    </FormItem>
-    <FormItem
-      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-      :label="$t('i18n._global.description')"
-      name="description"
-      required
-    >
-      <FormTextArea
-        :id="id"
-        @blur="handleBlur"
-        @input="handleChange"
-        :hasError="!!errorMessage.value"
-        :value="value.value"
-      />
-    </FormItem>
-    <FormItem
-      v-slot="{ id, handleChange, value }"
-      :label="$t('i18n._global.organizations')"
-      name="orgs"
-      required
-    >
-      <!-- prettier-ignore-attribute :selected-organizations -->
-      <FormSelectorComboboxOrganizations
-        :id="id"
-        @update:selectedOptions="
-          (val: unknown) => handleChange(val as Organization[])
-        "
+        name="name"
+        required
+      >
+        <!-- prettier-ignore-attribute :modelValue -->
+        <FormTextInput
+          :id="id"
+          @blur="handleBlur"
+          @input="handleChange"
+          :hasError="!!errorMessage.value"
+          :label="
+            $t(
+              'i18n.components.machine_steps_create_event_details.events_name_placeholder'
+            )
+          "
+          :modelValue="(value.value as string)"
+        />
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n.components.machine.steps._global.tagline')"
+        name="tagline"
+      >
+        <!-- prettier-ignore-attribute :modelValue -->
+        <FormTextInput
+          :id="id"
+          @blur="handleBlur"
+          @input="handleChange"
+          :hasError="!!errorMessage.value"
+          :label="
+            $t(
+              'i18n.components.machine_steps_create_event_details.tagline_placeholder'
+            )
+          "
+          :modelValue="(value.value as string)"
+        />
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+        :label="$t('i18n.components._global.description')"
+        name="description"
+        required
+      >
+        <FormTextArea
+          :id="id"
+          @blur="handleBlur"
+          @input="handleChange"
+          :hasError="!!errorMessage.value"
+          :placeholder="
+            $t(
+              'i18n.components.machine_steps_create_event_details.description_placeholder'
+            )
+          "
+          :value="value.value"
+        />
+      </FormItem>
+      <FormItem
+        v-slot="{ id, handleChange, value }"
         :label="$t('i18n._global.organizations')"
-        :linked-user-id="user?.id || ''"
-        :selected-organizations="((value.value ?? []) as Organization[])"
-      />
-    </FormItem>
-    <FormItem
-      v-if="values.orgs && values.orgs.length"
-      v-slot="{ id, handleChange, value }"
-      :label="$t('i18n._global.groups')"
-      name="groups"
-    >
-      <!-- prettier-ignore-attribute :selected-groups -->
-      <FormSelectorComboboxGroups
-        :id="id"
-        @update:selectedOptions="(val: unknown) => handleChange(val as Group[])"
+        name="orgs"
+        required
+      >
+        <p>
+          {{
+            $t(
+              "i18n.components.machine_steps_create_event_details.organizer_instructions"
+            )
+          }}
+        </p>
+        <!-- prettier-ignore-attribute :selected-organizations -->
+        <FormSelectorComboboxOrganizations
+          :id="id"
+          @update:selectedOptions="
+            (val: unknown) => handleChange(val as Organization[])
+          "
+          :label="$t('i18n._global.organizations')"
+          :linked-user-id="user?.id || ''"
+          :selected-organizations="((value.value ?? []) as Organization[])"
+        />
+      </FormItem>
+      <FormItem
+        v-if="values.orgs && values.orgs.length"
+        v-slot="{ id, handleChange, value }"
         :label="$t('i18n._global.groups')"
         :linked-organizations="values?.orgs as string[]"
         :selected-groups="((value.value ?? []) as Group[])"

@@ -37,6 +37,9 @@
           @blur="handleBlur"
           @input="handleChange"
           :hasError="!!errorMessage.value"
+          :placeholder="
+            $t('i18n.components.form_resource.description_placeholder')
+          "
           :value="value.value"
         />
       </FormItem>
@@ -52,7 +55,7 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components.form_resource.link')"
+          :label="$t('i18n.components.form_resource.link_placeholder')"
           :modelValue="(value.value as string)"
         />
       </FormItem>

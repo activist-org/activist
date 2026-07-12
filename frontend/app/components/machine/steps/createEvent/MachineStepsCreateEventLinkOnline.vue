@@ -1,32 +1,23 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <Form
-    id="event-link-online"
-    @submit="handleSubmit"
-    :action-buttons="[
-      {
-        onclick: handlePrev,
-        cta: false,
-        fontSize: 'base',
-        ariaLabel:
-          'i18n.components.machine.steps._global.previous_step_aria_label',
-        label: 'i18n.components.machine.steps._global.previous_step',
-        type: 'button',
-      },
-    ]"
-    class="space-y-4"
-    :initial-values="initialLinkOnlineData"
-    :schema="linkSchema"
-    :submit-label="$t('i18n._global.next_step')"
-  >
-    <FormItem
-      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-      :label="
-        $t(
-          'i18n.components.machine_steps_create_event_link_online.link_to_event'
-        )
-      "
-      name="onlineLocationLink"
+    <Form
+      id="event-link-online"
+      @submit="handleSubmit"
+      :action-buttons="[
+        {
+          onclick: handlePrev,
+          cta: false,
+          fontSize: 'base',
+          ariaLabel:
+            'i18n.components.machine.steps._global.previous_step_aria_label',
+          label: 'i18n.components.machine.steps._global.previous_step',
+          type: 'button',
+        },
+      ]"
+      class="space-y-4"
+      :initial-values="initialLinkOnlineData"
+      :schema="linkSchema"
+      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
     >
       <!-- prettier-ignore-attribute :modelValue -->
       <FormTextInput
