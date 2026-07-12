@@ -32,7 +32,10 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
+    const key = getKeyForGetEvent(currentEventId.value);
+
+    clearNuxtData(key);
+    await refreshNuxtData(key);
     // Clear cached events to force refetch with new data.
     store.setItems([]);
   }

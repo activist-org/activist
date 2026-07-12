@@ -90,7 +90,10 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
+    const key = getKeyForGetEvent(currentEventId.value);
+
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {

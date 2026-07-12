@@ -93,7 +93,10 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   async function invalidateCacheRefreshGroupData() {
     if (!currentGroupId.value) return;
 
-    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
+    const key = getKeyForGetGroup(currentGroupId.value);
+
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {

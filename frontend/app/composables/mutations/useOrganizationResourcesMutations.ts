@@ -113,9 +113,10 @@ export function useOrganizationResourcesMutations(
   async function invalidateCacheRefreshOrgData() {
     if (!currentOrganizationId.value) return;
 
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
+    const key = getKeyForGetOrganization(currentOrganizationId.value);
+
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {
