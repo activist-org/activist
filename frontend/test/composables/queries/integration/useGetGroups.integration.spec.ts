@@ -44,7 +44,6 @@ describe("useGetGroups Integration", () => {
     it("composable returns expected structure with getMore", async () => {
       const { useGetGroups } =
         await import("../../../../app/composables/queries/useGetGroups");
-      const { ref } = await import("vue");
 
       const filters = ref<GroupFilters>({ linked_organizations: ["org-1"] });
       const result = useGetGroups(filters);
@@ -204,38 +203,58 @@ describe("useGetGroups Integration", () => {
       expect(response.isLastPage).toBe(true);
     });
 
-    it("fetches page 2 and appends results to page 1", async () => {
+    it("fetches page 2, appends results to page 1, de-dupes, and changing filters resets", async () => {
       const { useGetGroups } =
         await import("../../../../app/composables/queries/useGetGroups");
+      const { nextTick } = await import("vue");
       const filters = ref<GroupFilters>({ linked_organizations: ["org-1"] });
+      
       const page1Group = createMockGroup({ id: "group-1" }) as MockGroup;
-      const page2Group = createMockGroup({ id: "group-2" }) as MockGroup;
+      const page2Group1 = createMockGroup({ id: "group-1" }) as MockGroup; // Duplicate for de-dupe check
+      const page2Group2 = createMockGroup({ id: "group-2" }) as MockGroup;
+      const filter2Group = createMockGroup({ id: "group-3" }) as MockGroup; // New filter group
 
       mockListGroups
         .mockResolvedValueOnce({ data: [page1Group], isLastPage: false })
-        .mockResolvedValueOnce({ data: [page2Group], isLastPage: true });
+        .mockResolvedValueOnce({ data: [page2Group1, page2Group2], isLastPage: true })
+        .mockResolvedValueOnce({ data: [filter2Group], isLastPage: true });
 
       const { data, getMore } = useGetGroups(filters);
 
       await flushPromises();
+      
       expect(mockListGroups).toHaveBeenCalledWith({
         linked_organizations: ["org-1"],
         page: 1,
         page_size: 10,
       });
-      expect(data.value.map((group) => group.id)).toEqual(["group-1"]);
+      expect((data.value || []).map((group) => group.id)).toEqual(["group-1"]);
 
       await getMore();
       await flushPromises();
+      
       expect(mockListGroups).toHaveBeenCalledWith({
         linked_organizations: ["org-1"],
         page: 2,
         page_size: 10,
       });
-      expect(data.value.map((group) => group.id)).toEqual([
+      // Assert it accumulates and de-dupes (group-1 should not appear twice)
+      expect((data.value || []).map((group) => group.id)).toEqual([
         "group-1",
         "group-2",
       ]);
+
+      // Change filters to assert reset logic
+      filters.value = { linked_organizations: ["org-2"] };
+      await nextTick();
+      await flushPromises();
+
+      expect(mockListGroups).toHaveBeenCalledWith({
+        linked_organizations: ["org-2"],
+        page: 1,
+        page_size: 10,
+      });
+      expect((data.value || []).map((group) => group.id)).toEqual(["group-3"]);
     });
   });
 
