@@ -8,7 +8,7 @@ import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { expect, test } from "~/test-e2e/global-fixtures";
 
-// Nominatim fixture - a single deterministic result used across all mocked tests.
+// Nominatim fixture
 // place_id is a number in the real Nominatim API response.
 // The app maps it to value.id; the locationSchema requires id: z.number().
 const nominatimFixture = [
@@ -27,36 +27,6 @@ const nominatimFixture = [
   },
 ];
 
-async function selectFirstOrganization(
-  modal: ReturnType<typeof newCreateEventModal>
-) {
-  const orgsButton = modal.orgsCombobox.getByRole("button", {
-    name: new RegExp(getEnglishText("i18n._global.organizations"), "i"),
-  });
-  await orgsButton.click();
-  const firstOption = modal.root.getByRole("option").first();
-  await expect(firstOption).toBeVisible({ timeout: 10000 });
-  await firstOption.click();
-  await orgsButton.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
-}
-
-async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
-  const topicsButton = modal.topicsCombobox.getByRole("button", {
-    name: new RegExp(getEnglishText("i18n.components._global.topics"), "i"),
-  });
-  await topicsButton.click();
-  const firstOption = modal.root.getByRole("option").first();
-  await expect(firstOption).toBeVisible({ timeout: 10000 });
-  await firstOption.click();
-  await topicsButton.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
-}
-
 /** Navigate steps 1-2 (in-person) to land on the location step (step 3). */
 async function navigateToLocationStep(
   modal: ReturnType<typeof newCreateEventModal>,
@@ -64,8 +34,8 @@ async function navigateToLocationStep(
 ) {
   await modal.nameField.fill("E2E Location Step Event");
   await modal.descriptionField.fill("Location step validation test.");
-  await selectFirstOrganization(modal);
-  await modal.getNextStepButton().click({ force: true });
+  await modal.selectFirstOrganization();
+  await modal.advanceToEventTypeStep();
 
   await expect(modal.eventTypeForm).toBeVisible();
   await modal.locationTypeSection
@@ -77,8 +47,8 @@ async function navigateToLocationStep(
     })
     .click();
   await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
-  await selectFirstTopic(modal);
-  await modal.getNextStepButton().click({ force: true });
+  await modal.selectFirstTopic();
+  await modal.advanceToLocationStep();
 
   await expect(modal.locationForm).toBeVisible();
 }

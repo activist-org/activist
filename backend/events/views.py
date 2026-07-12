@@ -46,6 +46,7 @@ from events.serializers import (
     EventFaqSerializer,
     EventFlagSerializers,
     EventPOSTSerializer,
+    EventPUTSerializer,
     EventResourceSerializer,
     EventSerializer,
     EventSocialLinkSerializer,
@@ -246,11 +247,14 @@ class EventDetailAPIView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = self.serializer_class(event, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        put_serializer = EventPUTSerializer(
+            instance=event, data=request.data, partial=True
+        )
+        put_serializer.is_valid(raise_exception=True)
+        updated_event = put_serializer.save()
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        response_serializer = self.serializer_class(updated_event)
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
 
     @extend_schema(
         responses={

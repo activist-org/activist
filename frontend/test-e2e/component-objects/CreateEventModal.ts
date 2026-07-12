@@ -1,10 +1,18 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 
+import { expect } from "@playwright/test";
+
 import { getEnglishText } from "#shared/utils/i18n";
+import {
+  clickUntilLocatorVisible,
+  selectFirstComboboxOption,
+} from "~/test-e2e/utils/combobox-helpers";
 
 export const newCreateEventModal = (page: Page) => {
   const root = page.getByTestId("modal-ModalCreateEvent");
+  const orgsLabel = getEnglishText("i18n._global.organizations");
+  const topicsLabel = getEnglishText("i18n.components._global.topics");
 
   return {
     // MARK: Public Locators
@@ -97,6 +105,83 @@ export const newCreateEventModal = (page: Page) => {
           "i"
         ),
       });
+    },
+
+    async selectFirstOrganization(): Promise<void> {
+      await selectFirstComboboxOption({
+        toggleButton: root.locator("#form-item-orgs").getByRole("button", {
+          name: new RegExp(orgsLabel, "i"),
+        }),
+        optionsLocator: root.locator("#form-item-orgs-options [role='option']"),
+        multiSelect: true,
+        assertSelected: async () => {
+          await expect(
+            root.locator("#form-item-orgs ul li").first()
+          ).toBeVisible({ timeout: 5000 });
+        },
+      });
+    },
+
+    async selectFirstTopic(): Promise<void> {
+      await selectFirstComboboxOption({
+        toggleButton: root.locator("#form-item-topics").getByRole("button", {
+          name: new RegExp(topicsLabel, "i"),
+        }),
+        optionsLocator: root.locator(
+          "#form-item-topics-options [role='option']"
+        ),
+        multiSelect: true,
+        assertSelected: async () => {
+          await expect(
+            root.locator("#form-item-topics ul li").first()
+          ).toBeVisible({ timeout: 5000 });
+        },
+      });
+    },
+
+    async advanceToEventTypeStep(): Promise<void> {
+      await clickUntilLocatorVisible(
+        () =>
+          root
+            .getByRole("button", {
+              name: new RegExp(
+                getEnglishText("i18n.components.submit_aria_label"),
+                "i"
+              ),
+            })
+            .click(),
+        root.locator("#event-type-and-roles")
+      );
+    },
+
+    async advanceToLinkOnlineStep(): Promise<void> {
+      await clickUntilLocatorVisible(
+        () =>
+          root
+            .getByRole("button", {
+              name: new RegExp(
+                getEnglishText("i18n.components.submit_aria_label"),
+                "i"
+              ),
+            })
+            .click(),
+        root.locator("#event-link-online")
+      );
+    },
+
+    async advanceToLocationStep(): Promise<void> {
+      await clickUntilLocatorVisible(
+        () =>
+          root
+            .getByRole("button", {
+              name: new RegExp(
+                getEnglishText("i18n.components.submit_aria_label"),
+                "i"
+              ),
+            })
+            .click(),
+        root.locator("#event-location")
+      );
     },
   };
 };

@@ -78,15 +78,5 @@
         "complexity": 21
       }
     ]
-  },
-  {
-    "path": "backend/events/serializers.py",
-    "file_name": "serializers.py",
-    "functions": [
-      {
-        "name": "EventPOSTSerializer::validate",
-        "complexity": 18
-      }
-    ]
   }
 ]

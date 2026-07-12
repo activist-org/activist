@@ -197,7 +197,9 @@ type PaginatedEventsResponse = {
 function eventsListNextPath(nextUrl: string): string {
   try {
     const u = new URL(nextUrl, "http://localhost");
-    return `${u.pathname}${u.search}`;
+    // Remap backend-internal /v1/ URLs onto the frontend auth proxy.
+    const path = u.pathname.replace(/^\/v1\//, "/api/auth/");
+    return `${path}${u.search}`;
   } catch {
     return nextUrl;
   }
