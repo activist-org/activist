@@ -441,7 +441,6 @@
   "i18n.components.tooltip_password_requirements.password_failed_rule": "Règle d'échec du mot de passe",
   "i18n.components.tooltip_password_requirements.password_passed_rule": "Règle de succès du mot de passe",
   "i18n.components.tooltip_password_requirements.password_rules_message": "Pour votre sécurité et celle de la communauté, choisissez un mot de passe que vous n’avez jamais utilisé auparavant. Merci !",
-  "i18n.composables.use_get_label_by_key_filter.location_type_physical": "Emplacement physique",
   "i18n.composables.use_map.fullscreen": "Plein écran",
   "i18n.composables.use_map.geolocate": "Géolocaliser",
   "i18n.composables.use_map.reset_north": "Boussole",
