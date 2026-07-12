@@ -3,10 +3,11 @@
  * Integration tests for useGetGroups composable.
  * Tests unique behaviors: filter+page in cache key, empty filters handling.
  */
+import { flushPromises } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
-import { flushPromises } from "@vue/test-utils";
+
 import type { GroupFilters } from "../../../../shared/types/group";
 
 import { createMockGroup } from "../../../mocks/factories";
@@ -219,8 +220,10 @@ describe("useGetGroups Integration", () => {
         .mockResolvedValueOnce({ data: [page2Group1, page2Group2], isLastPage: true })
         .mockResolvedValueOnce({ data: [filter2Group], isLastPage: true });
 
-      const { data, getMore } = useGetGroups(filters);
+      const { data, getMore, refresh } = useGetGroups(filters);
 
+      // Manually trigger refresh because useAsyncData auto-fetch may not run in unit tests
+      await refresh();
       await flushPromises();
       
       expect(mockListGroups).toHaveBeenCalledWith({
@@ -231,6 +234,7 @@ describe("useGetGroups Integration", () => {
       expect((data.value || []).map((group) => group.id)).toEqual(["group-1"]);
 
       await getMore();
+      await refresh(); // Trigger fetch for page 2
       await flushPromises();
       
       expect(mockListGroups).toHaveBeenCalledWith({
@@ -247,6 +251,7 @@ describe("useGetGroups Integration", () => {
       // Change filters to assert reset logic
       filters.value = { linked_organizations: ["org-2"] };
       await nextTick();
+      await refresh(); // Trigger fetch for reset
       await flushPromises();
 
       expect(mockListGroups).toHaveBeenCalledWith({
@@ -255,6 +260,9 @@ describe("useGetGroups Integration", () => {
         page_size: 10,
       });
       expect((data.value || []).map((group) => group.id)).toEqual(["group-3"]);
+      
+      // Prevent bleed of mockResolvedValueOnce into subsequent error handling tests
+      mockListGroups.mockReset();
     });
   });
 
