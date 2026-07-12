@@ -267,10 +267,7 @@ describe("useGetGroups Integration", () => {
         page_size: 10,
       });
       // Assert it accumulates and de-dupes
-      expect(groups.value.map((g) => g.id)).toEqual([
-        "group-1",
-        "group-2",
-      ]);
+      expect(groups.value.map((g) => g.id)).toEqual(["group-1", "group-2"]);
 
       // 3. Change filters and fetch (resets)
       filtersRef.value = { linked_organizations: ["org-2"] };
