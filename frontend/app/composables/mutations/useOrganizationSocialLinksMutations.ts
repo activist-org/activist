@@ -120,10 +120,9 @@ export function useOrganizationSocialLinksMutations(
   async function invalidateCacheRefreshOrgData() {
     if (!currentOrganizationId.value) return;
 
-    const key = getKeyForGetOrganization(currentOrganizationId.value);
-
-    clearNuxtData(key);
-    await refreshNuxtData(key);
+    await refreshNuxtData(
+      getKeyForGetOrganization(currentOrganizationId.value)
+    );
   }
 
   return {
