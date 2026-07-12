@@ -10,7 +10,7 @@
     :label="label"
     :options="options"
     :selectedOptions="selectedGroups || []"
-    :showLoadingSlot="isFetching"
+    :showLoadingSlot="pending"
   />
 </template>
 
@@ -37,7 +37,6 @@ const filters = computed(() => ({
   linked_organizations: props.linkedOrganizations,
 }));
 const { data: groups, getMore, pending } = useGetGroups(filters);
-const isFetching = computed(() => pending.value);
 
 const emit = defineEmits<{
   (e: "update:selectedGroups", value: Group[]): void;

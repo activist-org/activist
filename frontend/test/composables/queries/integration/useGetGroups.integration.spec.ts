@@ -5,7 +5,8 @@
  */
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
+import { ref } from "vue";
+import { flushPromises } from "@vue/test-utils";
 import type { GroupFilters } from "../../../../shared/types/group";
 
 import { createMockGroup } from "../../../mocks/factories";
@@ -201,6 +202,40 @@ describe("useGetGroups Integration", () => {
       });
 
       expect(response.isLastPage).toBe(true);
+    });
+
+    it("fetches page 2 and appends results to page 1", async () => {
+      const { useGetGroups } =
+        await import("../../../../app/composables/queries/useGetGroups");
+      const filters = ref<GroupFilters>({ linked_organizations: ["org-1"] });
+      const page1Group = createMockGroup({ id: "group-1" }) as MockGroup;
+      const page2Group = createMockGroup({ id: "group-2" }) as MockGroup;
+
+      mockListGroups
+        .mockResolvedValueOnce({ data: [page1Group], isLastPage: false })
+        .mockResolvedValueOnce({ data: [page2Group], isLastPage: true });
+
+      const { data, getMore } = useGetGroups(filters);
+
+      await flushPromises();
+      expect(mockListGroups).toHaveBeenCalledWith({
+        linked_organizations: ["org-1"],
+        page: 1,
+        page_size: 10,
+      });
+      expect(data.value.map((group) => group.id)).toEqual(["group-1"]);
+
+      await getMore();
+      await flushPromises();
+      expect(mockListGroups).toHaveBeenCalledWith({
+        linked_organizations: ["org-1"],
+        page: 2,
+        page_size: 10,
+      });
+      expect(data.value.map((group) => group.id)).toEqual([
+        "group-1",
+        "group-2",
+      ]);
     });
   });
 
