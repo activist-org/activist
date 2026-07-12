@@ -209,7 +209,7 @@ describe("useGetGroups Integration", () => {
         await import("../../../../app/composables/queries/useGetGroups");
       const { nextTick } = await import("vue");
       const filters = ref<GroupFilters>({ linked_organizations: ["org-1"] });
-      
+
       const page1Group = createMockGroup({ id: "group-1" }) as MockGroup;
       const page2Group1 = createMockGroup({ id: "group-1" }) as MockGroup; // Duplicate for de-dupe check
       const page2Group2 = createMockGroup({ id: "group-2" }) as MockGroup;
@@ -217,15 +217,18 @@ describe("useGetGroups Integration", () => {
 
       mockListGroups
         .mockResolvedValueOnce({ data: [page1Group], isLastPage: false })
-        .mockResolvedValueOnce({ data: [page2Group1, page2Group2], isLastPage: true })
+        .mockResolvedValueOnce({
+          data: [page2Group1, page2Group2],
+          isLastPage: true,
+        })
         .mockResolvedValueOnce({ data: [filter2Group], isLastPage: true });
 
       const { data, getMore, refresh } = useGetGroups(filters);
 
-      // Manually trigger refresh because useAsyncData auto-fetch may not run in unit tests
+      // Manually trigger refresh because useAsyncData auto-fetch may not run in unit tests.
       await refresh();
       await flushPromises();
-      
+
       expect(mockListGroups).toHaveBeenCalledWith({
         linked_organizations: ["org-1"],
         page: 1,
@@ -236,13 +239,13 @@ describe("useGetGroups Integration", () => {
       await getMore();
       await refresh(); // Trigger fetch for page 2
       await flushPromises();
-      
+
       expect(mockListGroups).toHaveBeenCalledWith({
         linked_organizations: ["org-1"],
         page: 2,
         page_size: 10,
       });
-      // Assert it accumulates and de-dupes (group-1 should not appear twice)
+      // Assert it accumulates and de-dupes (group-1 should not appear twice).
       expect((data.value || []).map((group) => group.id)).toEqual([
         "group-1",
         "group-2",
@@ -260,8 +263,8 @@ describe("useGetGroups Integration", () => {
         page_size: 10,
       });
       expect((data.value || []).map((group) => group.id)).toEqual(["group-3"]);
-      
-      // Prevent bleed of mockResolvedValueOnce into subsequent error handling tests
+
+      // Prevent bleed of mockResolvedValueOnce into subsequent error handling tests.
       mockListGroups.mockReset();
     });
   });
