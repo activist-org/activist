@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Read a single event with Pinia Colada. Store-first, then fetch if missing.
-// After fetch, cache it via store. You can always call refresh() to force refetch.
 
 export const EVENT_KEYS = {
   root: ["event"] as const,
@@ -15,8 +14,13 @@ export function useGetEvent(id: MaybeRef<string>) {
     query: () => getEvent(eventId.value),
     enabled,
   });
-  const { handleError } = useAppError();
-  const err = computed(() => (error.value ? handleError(error.value) : null));
+  const { handleError, error: appError } = useAppError();
 
-  return { data, pending: isLoading, error: err, refresh };
+  watch(error, (err) => {
+    if (err) {
+      handleError(err);
+    }
+  });
+
+  return { data, pending: isLoading, error: appError, refresh };
 }
