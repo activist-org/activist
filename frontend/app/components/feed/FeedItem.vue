@@ -8,8 +8,12 @@
       class="cursor-pointer rounded-md border border-section-div bg-layer-2 p-2 elem-shadow-sm sm:p-3"
     >
       <div class="flex items-center space-x-3 pb-2">
+        <!-- `===`, not `=`: the assignment form always evaluated truthy,
+             which both showed the PEOPLE icon unconditionally and
+             overwrote item.itemType on every render, making the
+             mastodon/facebook/instagram branches below unreachable. -->
         <Icon
-          v-if="item.itemType = 'group'"
+          v-if="item.itemType === 'group'"
           :name="IconMap.PEOPLE"
           size="1.5em"
         />

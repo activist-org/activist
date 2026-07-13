@@ -55,8 +55,13 @@
         </p>
         <div class="mt-1 flex gap-10 sm:mt-0 sm:flex-col sm:gap-0">
           <template v-for="(connect, index) in links.connectLinks">
+            <!-- aria-label uses `connect.ariaLabel`, not `connect.name` (the
+                 visible label): each link defines its own descriptive
+                 `ariaLabel` text, which was previously being shadowed by a
+                 redundant repeat of the visible "GitHub"/"Matrix"/"Instagram"
+                 label. -->
             <a
-              :aria-label="$t(connect.name)"
+              :aria-label="$t(connect.ariaLabel)"
               class="mt-2 flex items-center space-x-2 text-base text-primary-text focus-brand hover:text-distinct-text"
               :class="{ 'mt-3': index === 0 }"
               :href="connect.url"
