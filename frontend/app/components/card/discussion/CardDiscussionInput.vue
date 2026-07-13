@@ -119,7 +119,9 @@
           <Icon class="mx-1" :name="IconMap.MARKDOWN" size="1.25em"></Icon>
         </p>
         <div class="flex items-center space-x-3">
-          <Button
+          <!-- Native button: there is no registered `Button` component, so
+               using it crashed the app with "Failed to resolve component". -->
+          <button
             @blur="showTooltip = false"
             @click="showTooltip = showTooltip == true ? false : true"
             @focus="showTooltip = true"
@@ -130,6 +132,7 @@
               'style-action': discussionInput.highRisk,
               'style-warn': !discussionInput.highRisk,
             }"
+            type="button"
           >
             <Icon
               v-if="discussionInput.highRisk"
@@ -141,7 +144,7 @@
               v-show="showTooltip"
               class="-mt-64 md:-mt-56"
             />
-          </Button>
+          </button>
           <BtnAction
             ariaLabel="i18n.components.card_discussion_input.comment_aria_label"
             class="w-small inline-flex items-center justify-center"
@@ -156,6 +159,7 @@
 </template>
 
 <script setup lang="ts">
+import { TooltipMentionList } from "#components";
 import Link from "@tiptap/extension-link";
 import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -170,6 +174,9 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const markdown = ref("");
+// Drives the @mention autocomplete dropdown below; previously this called
+// an undefined `Suggestion` identifier, which crashed on mount.
+const { getItems, renderer } = useMentionSuggestion(TooltipMentionList);
 
 const isMarkdownPreview = ref("Write");
 const isMarkdown = ref(true);
@@ -189,7 +196,9 @@ watch(markdown, () => {
 });
 
 const writeEditor = useEditor({
-  content: markdown,
+  // `.value`: useEditor expects the initial string content, not the ref itself
+  // (passing the ref threw "Unknown node type" from prosemirror).
+  content: markdown.value,
   editable: !isMarkdownPreview.value,
   extensions: [
     StarterKit,
@@ -204,8 +213,11 @@ const writeEditor = useEditor({
         class:
           "hover:underline font-bold rounded-2xl box-decoration-clone px-1 py-0.5",
       },
-      // @ts-expect-error: Ignore mismatched types.
-      suggestion: Suggestion,
+      suggestion: {
+        items: getItems,
+        // @ts-expect-error: `useMentionSuggestion`'s renderer types are looser than tiptap's.
+        render: renderer,
+      },
     }),
     Markdown,
   ],
