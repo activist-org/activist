@@ -17,7 +17,7 @@
         class="flex"
       >
         <FormTextInput
-          :id="inputId"
+          :id="inputId ?? id"
           ref="formInputRef"
           @update:modelValue="handleInput"
           :disabled="disabled"
@@ -33,7 +33,7 @@
         type="button"
       >
         <Icon
-          v-if="isMultiSelect ? true : !internalSelectedOptions"
+          v-if="(isMultiSelect ? true : !internalSelectedOptions) || disabled"
           :name="IconMap.CHEVRON_EXPAND"
         />
         <Icon
@@ -282,7 +282,7 @@ const internalSelectedOptions = computed({
       return;
     }
     const option = newOptions as unknown as Option | null;
-    const value = option?.value || null;
+    const value = option?.value ?? "";
     query.value = option?.label || "";
     if (value !== (props.selectedOptions as unknown[])[0]) {
       emit("update:selectedOption", value);

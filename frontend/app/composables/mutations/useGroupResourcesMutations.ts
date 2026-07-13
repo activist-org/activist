@@ -21,8 +21,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
       // Service function handles the HTTP call and throws normalized errors.
       await createGroupResource(currentGroupId.value, resourceData as Resource);
 
-      // Refresh the group data to get the new resource.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -42,8 +41,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
       // Direct service call - no useAsyncData needed for mutations.
       await updateGroupResource(resource);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -62,8 +60,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     try {
       await deleteGroupResource(resourceId);
 
-      // Invalidate cache and refetch fresh data.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -82,8 +79,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     try {
       await reorderGroupResources(resources);
 
-      // Refresh to get the updated order.
-      await refreshGroupData();
+      invalidateCacheRefreshGroupData();
 
       return true;
     } catch (err) {
@@ -95,11 +91,9 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   }
 
   // Helper to refresh group data after mutations.
-  async function refreshGroupData() {
-    if (!currentGroupId.value) {
-      return;
-    }
-    // Invalidate the useAsyncData cache so next read will refetch.
+  async function invalidateCacheRefreshGroupData() {
+    if (!currentGroupId.value) return;
+
     await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
   }
 
@@ -110,6 +104,6 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     updateResource,
     deleteResource,
     reorderResources,
-    refreshGroupData,
+    invalidateCacheRefreshGroupData,
   };
 }

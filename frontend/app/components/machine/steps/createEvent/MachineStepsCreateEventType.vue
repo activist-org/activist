@@ -18,7 +18,7 @@
       class="space-y-4"
       :initial-values="initialEventTypeData"
       :schema="topicsSettingsSchema"
-      :submit-label="$t('i18n._global.next_step')"
+      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
@@ -80,8 +80,7 @@ const initialEventTypeData = computed(() => {
   const ctx = flow?.context?.value;
   if (!ctx?.nodeData || ctx.nodeId !== CreateEventSteps.EventType) return {};
   const d = (ctx.nodeData as Record<string, unknown>)[ctx.nodeId] as
-    | Record<string, unknown>
-    | undefined;
+    Record<string, unknown> | undefined;
   if (!d) return {};
   return {
     setting: d.location_type ?? d.setting,
@@ -103,14 +102,14 @@ const optionEventTypes = [
   {
     value: "learn",
     key: "LEARN",
-    content: t("i18n.components._global.learn"),
+    content: t("i18n._global.learn"),
     aria_label: "i18n.components._global.event_type_learn_aria_label",
     checkedClass: "style-learn",
   },
   {
     value: "action",
     key: "ACTION",
-    content: t("i18n.components._global.action"),
+    content: t("i18n._global.action"),
     aria_label: "i18n.components._global.event_type_action_aria_label",
     checkedClass: "style-action",
   },

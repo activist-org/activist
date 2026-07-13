@@ -1,0 +1,92 @@
+[
+  {
+    "path": "backend/communities/organizations/views.py",
+    "file_name": "views.py",
+    "functions": [
+      {
+        "name": "OrganizationByUserAPIView::get",
+        "complexity": 11
+      }
+    ]
+  },
+  {
+    "path": "backend/content/serializers.py",
+    "file_name": "serializers.py",
+    "functions": [
+      {
+        "name": "ImageSerializer::create",
+        "complexity": 11
+      }
+    ]
+  },
+  {
+    "path": "backend/core/management/commands/clear_dev_images.py",
+    "file_name": "clear_dev_images.py",
+    "functions": [
+      {
+        "name": "main",
+        "complexity": 16
+      }
+    ]
+  },
+  {
+    "path": "backend/core/management/commands/populate_db.py",
+    "file_name": "populate_db.py",
+    "functions": [
+      {
+        "name": "Command::handle",
+        "complexity": 24
+      }
+    ]
+  },
+  {
+    "path": "backend/core/management/commands/populate_db_utils/populate_org_events.py",
+    "file_name": "populate_org_events.py",
+    "functions": [
+      {
+        "name": "create_org_events",
+        "complexity": 49
+      }
+    ]
+  },
+  {
+    "path": "backend/core/management/commands/populate_db_utils/populate_org_group_event.py",
+    "file_name": "populate_org_group_event.py",
+    "functions": [
+      {
+        "name": "create_group_events",
+        "complexity": 45
+      }
+    ]
+  },
+  {
+    "path": "backend/core/management/commands/populate_db_utils/populate_org_groups.py",
+    "file_name": "populate_org_groups.py",
+    "functions": [
+      {
+        "name": "create_org_groups",
+        "complexity": 45
+      }
+    ]
+  },
+  {
+    "path": "backend/core/management/commands/populate_db_utils/populate_orgs.py",
+    "file_name": "populate_orgs.py",
+    "functions": [
+      {
+        "name": "create_organization",
+        "complexity": 21
+      }
+    ]
+  },
+  {
+    "path": "backend/events/serializers.py",
+    "file_name": "serializers.py",
+    "functions": [
+      {
+        "name": "EventPOSTSerializer::validate",
+        "complexity": 18
+      }
+    ]
+  }
+]

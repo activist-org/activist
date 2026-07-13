@@ -46,7 +46,7 @@ export const commandPaletteData = [
     category: "organizations",
     path: "organizations",
     iconName: "ORGANIZATION",
-    displayName: "i18n._global.organization_name",
+    displayName: "i18n.constants.command_palette.organization_name",
     action: () => {
       // Note: For future implementation.
     },

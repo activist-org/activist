@@ -14,6 +14,7 @@ on:
       - "!backend/**/tests/**/*.py"
       - "frontend/**"
       - "!frontend/test/**"
+      - "!frontend/vitest.config.mts"
       - "!frontend/i18n/**"
       - ".github/workflows/ci_e2e_playwright_desktop.yaml"
       - ".github/workflows/ci_e2e_playwright_mobile.yaml"
@@ -69,7 +70,7 @@ jobs:
           timeout 180 bash -c 'until curl -s -o /dev/null http://localhost:9101/health; do sleep 3; done'
 
       - name: Setup Node Environment
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 24
 
@@ -87,8 +88,8 @@ jobs:
           VITE_BACKEND_URL_PROXY: http://localhost:8000
         run: |
           sudo corepack enable
-          sudo yarn install
-          sudo -E yarn build
+          yarn install
+          yarn build
 
           if [ ! -d ".output" ]; then
             echo "Build failed: .output directory not found"
@@ -101,8 +102,8 @@ jobs:
           PLAYWRIGHT_BROWSERS_PATH: /opt/playwright-browsers
         run: |
           sudo mkdir -p /opt/playwright-browsers
-          sudo -E yarn playwright install --with-deps chromium
-          sudo chmod -R 755 /opt/playwright-browsers
+          sudo chown -R $USER:$USER /opt/playwright-browsers
+          yarn playwright install --with-deps chromium
 
       - name: Start Preview Server
         working-directory: ./frontend
@@ -113,7 +114,7 @@ jobs:
           VITE_BACKEND_URL_PROXY: http://localhost:8000
           PORT: 3000
         run: |
-          nohup sudo -E yarn preview --port 3000 > server.log 2>&1 &
+          nohup yarn preview --port 3000 > server.log 2>&1 &
           echo $! > server.pid
           sleep 5
 
@@ -150,7 +151,7 @@ jobs:
           VITE_BACKEND_URL: http://localhost:8000
           VITE_API_URL: http://localhost:8000/v1
           VITE_BACKEND_URL_PROXY: http://localhost:8000
-        run: sudo -E yarn playwright test --project="Desktop Chrome"
+        run: yarn playwright test --project="Desktop Chrome"
 
       - name: Upload Playwright Report
         if: always()

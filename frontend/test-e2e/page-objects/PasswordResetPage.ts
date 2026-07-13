@@ -17,7 +17,7 @@ export const newPasswordResetRequestPage = (page: Page) => ({
 export const newPasswordResetCodePage = (page: Page) => ({
   passwordInput: page.getByLabel(getEnglishText("i18n._global.enter_password")),
   repeatPasswordInput: page.getByLabel(
-    getEnglishText("i18n._global.repeat_password")
+    getEnglishText("i18n.pages.auth._global.repeat_password")
   ),
   submitButton: page.locator("#reset-password-submit"),
 });

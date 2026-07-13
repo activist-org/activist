@@ -3,16 +3,17 @@
 Tests for the Swagger endpoints.
 """
 
+from rest_framework import status
 from rest_framework.test import APIClient
 
 
 def test_swagger_download(api_client: APIClient) -> None:
     uri = "/v1/schema/"
     response = api_client.get(uri)
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
 def test_swagger_ui(api_client: APIClient) -> None:
     uri = "/v1/schema/swagger-ui/"
     response = api_client.get(uri)
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK

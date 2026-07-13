@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
@@ -50,6 +49,32 @@ test.describe(
           // Note: For future implementation.
         }
       });
+    });
+
+    test("User can navigate to an organization about page", async ({
+      page,
+    }, testInfo) => {
+      logTestPath(testInfo);
+
+      await withTestStep(testInfo, "Click on first organization", async () => {
+        const orgLink = page
+          .getByRole("link", {
+            name: getEnglishText(
+              "i18n.components._global.navigate_to_organization_aria_label"
+            ),
+          })
+          .first();
+        await orgLink.click();
+      });
+
+      await withTestStep(
+        testInfo,
+        "Verify navigation to organization about page",
+        async () => {
+          await expect(page).toHaveURL(/.*\/organizations\/.*\/about/);
+          await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+        }
+      );
     });
   }
 );

@@ -56,6 +56,8 @@ export default {
       name: "twitter:image",
       content: "/images/activist/activistTwitterOpenGraphImage.png",
     },
+    // For OpenStreetMap via MapLibre.
+    { name: "referrer", content: "strict-origin-when-cross-origin" },
   ],
   link: [
     { rel: "icon", type: "image/x-icon", href: "/icons/favicons/favicon.ico" },

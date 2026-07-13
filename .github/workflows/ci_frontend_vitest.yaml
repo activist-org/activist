@@ -20,20 +20,22 @@ on:
 
 jobs:
   frontend_tests:
-    name: Run PR Frontend Tests
+    name: Run CI Frontend Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
         uses: actions/checkout@v6
 
       - name: Setup Node environment
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
 
       - name: Install dependencies via Yarn
         working-directory: ./frontend
         run: |
-          corepack enable
-          sudo yarn install
+          sudo corepack enable
+          yarn install
 
       - name: Run Vitest - Component Testing
         working-directory: ./frontend

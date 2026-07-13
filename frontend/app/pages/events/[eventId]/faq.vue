@@ -14,6 +14,7 @@
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
           :entity="event"
+          label="i18n.pages._global.new_faq_entry"
           :onClick="
             () =>
               openModal({
@@ -149,7 +150,6 @@ async function handleDeleteFAQ(faqId: string) {
 }
 
 .selected {
-  transform: scale(1.025);
   background: highlight;
 }
 </style>

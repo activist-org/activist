@@ -13,6 +13,8 @@
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
           :element="$t('i18n._global.faq')"
+          :entity="organization"
+          label="i18n.pages._global.new_faq_entry"
           :onClick="
             () =>
               openModal({
@@ -71,7 +73,12 @@
         </template>
       </draggable>
     </div>
-    <EmptyState v-else class="py-4" pageType="faq" :permission="false" />
+    <EmptyState
+      v-else
+      class="py-4"
+      pageType="faq"
+      :permission="canEdit(organization)"
+    />
   </div>
 </template>
 
@@ -151,7 +158,6 @@ const handleDeleteFAQ = async (faqId: string) => {
 }
 
 .selected {
-  transform: scale(1.025);
   background: highlight;
 }
 </style>

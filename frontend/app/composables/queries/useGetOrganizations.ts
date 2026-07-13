@@ -22,6 +22,19 @@ export function useGetOrganizations(
         ) {
           return store.getItems();
         }
+        // SSR hydration skipped this factory; seed the store so page 2 appends correctly.
+        if (page.value > 1 && store.getItems().length === 0) {
+          const nuxtApp = useNuxtApp();
+          const ssrItems = nuxtApp.payload.data?.[
+            getKeyForGetOrganizations()
+          ] as Organization[] | undefined;
+          if (ssrItems?.length) {
+            store.setItems(ssrItems);
+            store.setPage(1);
+            store.setFilters(orgFilters.value);
+            store.setIsLastPage(false);
+          }
+        }
         const { data: organizations, isLastPage } = await listOrganizations({
           ...orgFilters.value,
           page:
@@ -77,6 +90,7 @@ export function useGetOrganizations(
         ) {
           return store.getItems();
         }
+        // Skip SSR payload post-hydration so the factory runs and populates the store.
         return nuxtApp.isHydrating
           ? nuxtApp.payload.data[key]
           : nuxtApp.static.data[key];

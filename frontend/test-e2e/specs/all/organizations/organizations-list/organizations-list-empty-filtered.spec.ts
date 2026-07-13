@@ -6,7 +6,6 @@
 import type { Page } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
