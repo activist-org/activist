@@ -11,13 +11,17 @@ import { useEventTextsMutations } from "../../../app/composables/mutations/useEv
 import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
 import { sampleEventTextFormData, setupMutationMocks } from "./setup";
 
-const { mockRefreshNuxtData, showToastError, updateEventTexts } = vi.hoisted(
-  () => ({
-    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
-    showToastError: vi.fn(),
-    updateEventTexts: vi.fn(),
-  })
-);
+const {
+  mockClearNuxtData,
+  mockRefreshNuxtData,
+  showToastError,
+  updateEventTexts,
+} = vi.hoisted(() => ({
+  mockClearNuxtData: vi.fn(),
+  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+  showToastError: vi.fn(),
+  updateEventTexts: vi.fn(),
+}));
 
 vi.mock("../../../app/services/event/text", () => ({
   updateEventTexts: (...args: unknown[]) => updateEventTexts(...args),
@@ -31,6 +35,7 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
+mockNuxtImport("clearNuxtData", () => mockClearNuxtData);
 mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
 
 describe("useEventTextsMutations", () => {
@@ -39,7 +44,11 @@ describe("useEventTextsMutations", () => {
 
   beforeEach(() => {
     eventId.value = "event-123";
-    setupMutationMocks([mockRefreshNuxtData, updateEventTexts]);
+    setupMutationMocks([
+      mockRefreshNuxtData,
+      mockClearNuxtData,
+      updateEventTexts,
+    ]);
   });
 
   describe("updateTexts", () => {
@@ -99,12 +108,15 @@ describe("useEventTextsMutations", () => {
   });
 
   describe("invalidateCacheRefreshEventData", () => {
-    it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
+    it("clears and refreshes event data by key", async () => {
       const { invalidateCacheRefreshEventData } =
         useEventTextsMutations(eventId);
 
       await invalidateCacheRefreshEventData();
 
+      expect(mockClearNuxtData).toHaveBeenCalledWith(
+        getKeyForGetEvent("event-123")
+      );
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
       );
@@ -118,6 +130,7 @@ describe("useEventTextsMutations", () => {
       await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(mockClearNuxtData).not.toHaveBeenCalled();
     });
   });
 

@@ -11,12 +11,17 @@ import { useEventImageIconMutations } from "../../../app/composables/mutations/u
 import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
 import { createSampleUploadableFile, setupMutationMocks } from "./setup";
 
-const { mockRefreshNuxtData, showToastError, uploadEventIconImage } =
-  vi.hoisted(() => ({
-    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
-    showToastError: vi.fn(),
-    uploadEventIconImage: vi.fn(),
-  }));
+const {
+  mockClearNuxtData,
+  mockRefreshNuxtData,
+  showToastError,
+  uploadEventIconImage,
+} = vi.hoisted(() => ({
+  mockClearNuxtData: vi.fn(),
+  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+  showToastError: vi.fn(),
+  uploadEventIconImage: vi.fn(),
+}));
 
 vi.mock("../../../app/services/event/image", () => ({
   uploadEventIconImage: (...args: unknown[]) => uploadEventIconImage(...args),
@@ -30,6 +35,7 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
+mockNuxtImport("clearNuxtData", () => mockClearNuxtData);
 mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
 
 describe("useEventImageIconMutations", () => {
@@ -37,7 +43,11 @@ describe("useEventImageIconMutations", () => {
 
   beforeEach(() => {
     eventId.value = "event-123";
-    setupMutationMocks([mockRefreshNuxtData, uploadEventIconImage]);
+    setupMutationMocks([
+      mockRefreshNuxtData,
+      mockClearNuxtData,
+      uploadEventIconImage,
+    ]);
   });
 
   describe("uploadIconImage", () => {
@@ -87,12 +97,15 @@ describe("useEventImageIconMutations", () => {
   });
 
   describe("invalidateCacheRefreshEventData", () => {
-    it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
+    it("clears and refreshes event data by key", async () => {
       const { invalidateCacheRefreshEventData } =
         useEventImageIconMutations(eventId);
 
       await invalidateCacheRefreshEventData();
 
+      expect(mockClearNuxtData).toHaveBeenCalledWith(
+        getKeyForGetEvent("event-123")
+      );
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
       );
@@ -106,6 +119,7 @@ describe("useEventImageIconMutations", () => {
       await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(mockClearNuxtData).not.toHaveBeenCalled();
     });
   });
 

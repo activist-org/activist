@@ -13,6 +13,7 @@ import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent"
 import { sampleFaqData, sampleFaqEntry, setupMutationMocks } from "./setup";
 
 const {
+  mockClearNuxtData,
   mockRefreshNuxtData,
   showToastError,
   createEventFaq,
@@ -20,6 +21,7 @@ const {
   reorderEventFaqs,
   deleteEventFaq,
 } = vi.hoisted(() => ({
+  mockClearNuxtData: vi.fn(),
   mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
   showToastError: vi.fn(),
   createEventFaq: vi.fn(),
@@ -43,6 +45,7 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
+mockNuxtImport("clearNuxtData", () => mockClearNuxtData);
 mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
 
 describe("useEventFAQEntryMutations", () => {
@@ -53,6 +56,7 @@ describe("useEventFAQEntryMutations", () => {
     eventId.value = "event-123";
     setupMutationMocks([
       mockRefreshNuxtData,
+      mockClearNuxtData,
       createEventFaq,
       updateEventFaq,
       reorderEventFaqs,
@@ -231,12 +235,15 @@ describe("useEventFAQEntryMutations", () => {
   });
 
   describe("invalidateCacheRefreshEventData", () => {
-    it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
+    it("clears and refreshes event data by key", async () => {
       const { invalidateCacheRefreshEventData } =
         useEventFAQEntryMutations(eventId);
 
       await invalidateCacheRefreshEventData();
 
+      expect(mockClearNuxtData).toHaveBeenCalledWith(
+        getKeyForGetEvent("event-123")
+      );
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
       );
@@ -250,6 +257,7 @@ describe("useEventFAQEntryMutations", () => {
       await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(mockClearNuxtData).not.toHaveBeenCalled();
     });
   });
 

@@ -91,8 +91,11 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   async function invalidateCacheRefreshEventData() {
     if (!currentEventId.value) return;
 
+    const key = getKeyForGetEvent(currentEventId.value);
+
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
+    clearNuxtData(key);
+    await refreshNuxtData(key);
   }
 
   return {

@@ -12,6 +12,7 @@ import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent"
 import { sampleSocialLinkInput, setupMutationMocks } from "./setup";
 
 const {
+  mockClearNuxtData,
   mockRefreshNuxtData,
   showToastError,
   updateEventSocialLink,
@@ -19,6 +20,7 @@ const {
   deleteEventSocialLink,
   replaceAllEventSocialLinks,
 } = vi.hoisted(() => ({
+  mockClearNuxtData: vi.fn(),
   mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
   showToastError: vi.fn(),
   updateEventSocialLink: vi.fn(),
@@ -44,6 +46,7 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
+mockNuxtImport("clearNuxtData", () => mockClearNuxtData);
 mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
 
 describe("useEventSocialLinksMutations", () => {
@@ -53,6 +56,7 @@ describe("useEventSocialLinksMutations", () => {
     eventId.value = "event-123";
     setupMutationMocks([
       mockRefreshNuxtData,
+      mockClearNuxtData,
       updateEventSocialLink,
       createEventSocialLinks,
       deleteEventSocialLink,
@@ -265,12 +269,15 @@ describe("useEventSocialLinksMutations", () => {
   });
 
   describe("invalidateCacheRefreshEventData", () => {
-    it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
+    it("clears and refreshes event data by key", async () => {
       const { invalidateCacheRefreshEventData } =
         useEventSocialLinksMutations(eventId);
 
       await invalidateCacheRefreshEventData();
 
+      expect(mockClearNuxtData).toHaveBeenCalledWith(
+        getKeyForGetEvent("event-123")
+      );
       expect(mockRefreshNuxtData).toHaveBeenCalledWith(
         getKeyForGetEvent("event-123")
       );
@@ -284,6 +291,7 @@ describe("useEventSocialLinksMutations", () => {
       await invalidateCacheRefreshEventData();
 
       expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(mockClearNuxtData).not.toHaveBeenCalled();
     });
   });
 
