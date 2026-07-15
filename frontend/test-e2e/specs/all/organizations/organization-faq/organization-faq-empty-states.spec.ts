@@ -12,65 +12,95 @@ import {
 } from "~/test-e2e/utils/mock-public-organization-detail";
 import { logTestPath } from "~/test-e2e/utils/test-traceability";
 
-test.describe("Organization FAQ Empty States", { tag: ["@desktop", "@mobile"] }, () => {
-  // eslint-disable-next-line no-empty-pattern
-  test.beforeEach(async ({}, testInfo) => {
-    logTestPath(testInfo);
-  });
-
-  test("Admin sees the empty state with the create button when no FAQs exist", async ({ page }) => {
-    const faqPage = newOrganizationFAQPage(page);
-
-    await routeMockPublicOrganizationDetail(
+test.describe(
+  "Organization FAQ Empty States",
+  { tag: ["@desktop", "@mobile"] },
+  () => {
+    test("Admin sees the empty state with the create button when no FAQs exist", async ({
       page,
-      MOCK_ORGANIZATION_EMPTY_STATE_ID,
-      mockOrganizationDetailPayload(MOCK_ORGANIZATION_EMPTY_STATE_ID, {
-        faqEntries: [],
-      }),
+    }, testInfo) => {
+      logTestPath(testInfo);
+      const faqPage = newOrganizationFAQPage(page);
+
+      await routeMockPublicOrganizationDetail(
+        page,
+        MOCK_ORGANIZATION_EMPTY_STATE_ID,
+        mockOrganizationDetailPayload(MOCK_ORGANIZATION_EMPTY_STATE_ID, {
+          faqEntries: [],
+        })
+      );
+
+      await page.goto(`/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/faq`);
+
+      await expect(
+        page.getByText(
+          getEnglishText("i18n.components.empty_state.message_with_permission")
+        )
+      ).toBeVisible();
+      await expect(faqPage.newFAQButton).toBeVisible();
+      await expect(page.getByRole("list")).toBeHidden();
+    });
+
+    test(
+      "Viewer sees the empty state without the create button",
+      { tag: ["@member"] },
+      async ({ browser }, testInfo) => {
+        logTestPath(testInfo);
+        const context = await browser.newContext({
+          storageState: MEMBER_AUTH_STATE_PATH,
+        });
+        const page = await context.newPage();
+        const faqPage = newOrganizationFAQPage(page);
+
+        await routeMockPublicOrganizationDetail(
+          page,
+          MOCK_ORGANIZATION_EMPTY_STATE_ID,
+          mockOrganizationDetailPayload(MOCK_ORGANIZATION_EMPTY_STATE_ID, {
+            faqEntries: [],
+          })
+        );
+
+        await page.goto(
+          `/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/faq`
+        );
+
+        await expect(
+          page.getByText(
+            getEnglishText("i18n.components.empty_state.message_no_permission")
+          )
+        ).toBeVisible();
+        await expect(faqPage.newFAQButton).toBeHidden();
+        await expect(page.getByRole("list")).toBeHidden();
+
+        await context.close();
+      }
     );
 
-    await page.goto(`/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/faq`);
-
-    await expect(page.getByText(getEnglishText("i18n.components.empty_state.message_with_permission"))).toBeVisible();
-    await expect(faqPage.newFAQButton).toBeVisible();
-    await expect(page.getByRole("list")).toBeHidden();
-  });
-
-  test("Viewer sees the empty state without the create button", { tag: ["@member"] }, async ({ browser }) => {
-    const context = await browser.newContext({ storageState: MEMBER_AUTH_STATE_PATH });
-    const page = await context.newPage();
-    const faqPage = newOrganizationFAQPage(page);
-
-    await routeMockPublicOrganizationDetail(
+    test("List is shown and empty state is hidden when FAQs exist", async ({
       page,
-      MOCK_ORGANIZATION_EMPTY_STATE_ID,
-      mockOrganizationDetailPayload(MOCK_ORGANIZATION_EMPTY_STATE_ID, {
-        faqEntries: [],
-      }),
-    );
+    }, testInfo) => {
+      logTestPath(testInfo);
+      await routeMockPublicOrganizationDetail(
+        page,
+        MOCK_ORGANIZATION_EMPTY_STATE_ID,
+        mockOrganizationDetailPayload(MOCK_ORGANIZATION_EMPTY_STATE_ID, {
+          faqEntries: [sampleFaqEntryForMock()],
+        })
+      );
 
-    await page.goto(`/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/faq`);
+      await page.goto(`/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/faq`);
 
-    await expect(page.getByText(getEnglishText("i18n.components.empty_state.message_no_permission"))).toBeVisible();
-    await expect(faqPage.newFAQButton).toBeHidden();
-    await expect(page.getByRole("list")).toBeHidden();
-
-    await context.close();
-  });
-
-  test("List is shown and empty state is hidden when FAQs exist", async ({ page }) => {
-    await routeMockPublicOrganizationDetail(
-      page,
-      MOCK_ORGANIZATION_EMPTY_STATE_ID,
-      mockOrganizationDetailPayload(MOCK_ORGANIZATION_EMPTY_STATE_ID, {
-        faqEntries: [sampleFaqEntryForMock()],
-      }),
-    );
-
-    await page.goto(`/organizations/${MOCK_ORGANIZATION_EMPTY_STATE_ID}/faq`);
-
-    await expect(page.getByText(getEnglishText("i18n.components.empty_state.message_with_permission"))).toBeHidden();
-    await expect(page.getByText(getEnglishText("i18n.components.empty_state.message_no_permission"))).toBeHidden();
-    await expect(page.getByRole("list")).toBeVisible();
-  });
-});
+      await expect(
+        page.getByText(
+          getEnglishText("i18n.components.empty_state.message_with_permission")
+        )
+      ).toBeHidden();
+      await expect(
+        page.getByText(
+          getEnglishText("i18n.components.empty_state.message_no_permission")
+        )
+      ).toBeHidden();
+      await expect(page.getByRole("list")).toBeVisible();
+    });
+  }
+);
