@@ -3,7 +3,7 @@
  * Unit tests for useEventSocialLinksMutations composable.
  * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
+
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 

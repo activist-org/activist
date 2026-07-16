@@ -43,10 +43,16 @@ vi.mock("@sidebase/nuxt-auth", () => ({
 
 // MARK: @pinia/colada Global Mocks (Stable References)
 
+interface MutationOptions<TResult, TVars> {
+  mutation?: (vars: TVars) => Promise<TResult>;
+  onSuccess?: (result: TResult, vars: TVars) => void;
+  onError?: (err: unknown, vars: TVars) => void;
+  onSettled?: (vars: TVars) => void;
+}
+
 const globalMutationLoading = ref(false);
 const globalMutationError = ref<unknown>(null);
 
-// Define stable spies for the cache to ensure test assertions hit the same function
 const globalCacheInvalidate = vi.fn();
 const globalCacheGetEntries = vi.fn();
 const globalCacheSetQueryData = vi.fn();
@@ -58,35 +64,39 @@ globalThis.useQueryCacheMock = vi.fn(() => ({
 }));
 globalThis.useQueryCache = () => globalThis.useQueryCacheMock();
 
-globalThis.useMutationMock = vi.fn((options: any = {}) => {
-  return {
-    mutate: vi.fn(async (vars: any) => {
-      globalMutationLoading.value = true;
-      globalMutationError.value = null;
+globalThis.useMutationMock = vi.fn(
+  <TResult, TVars>(options: MutationOptions<TResult, TVars> = {}) => {
+    return {
+      mutate: vi.fn(async (vars: TVars) => {
+        globalMutationLoading.value = true;
+        globalMutationError.value = null;
 
-      await Promise.resolve();
+        await Promise.resolve();
 
-      try {
-        const result = options.mutation
-          ? await options.mutation(vars)
-          : undefined;
-        if (options.onSuccess) options.onSuccess(result, vars);
-        return result;
-      } catch (err) {
-        globalMutationError.value = err;
-        if (options.onError) options.onError(err, vars);
-        throw err;
-      } finally {
-        globalMutationLoading.value = false;
-        if (options.onSettled) options.onSettled(vars);
-      }
-    }),
-    isLoading: globalMutationLoading,
-    error: globalMutationError,
-  };
-});
+        try {
+          const result = options.mutation
+            ? await options.mutation(vars)
+            : undefined;
+          if (options.onSuccess) options.onSuccess(result as TResult, vars);
+          return result;
+        } catch (err) {
+          globalMutationError.value = err;
+          if (options.onError) options.onError(err, vars);
+          throw err;
+        } finally {
+          globalMutationLoading.value = false;
+          if (options.onSettled) options.onSettled(vars);
+        }
+      }),
+      isLoading: globalMutationLoading,
+      error: globalMutationError,
+    };
+  }
+);
 
-globalThis.useMutation = (options: any) => globalThis.useMutationMock(options);
+globalThis.useMutation = <TResult, TVars>(
+  options: MutationOptions<TResult, TVars>
+) => globalThis.useMutationMock(options);
 
 vi.mock("@pinia/colada", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@pinia/colada")>();
@@ -172,11 +182,13 @@ config.global.components = {
   },
 };
 
-// MARK: Suppress Warnings & Teardown
+// eslint-disable-next-line no-console
 const originalWarn = console.warn;
+// eslint-disable-next-line no-console
 const originalError = console.error;
 
 beforeEach(() => {
+  // eslint-disable-next-line no-console
   console.warn = (...args: unknown[]) => {
     const message = String(args[0] || "");
     if (
@@ -186,6 +198,7 @@ beforeEach(() => {
       return;
     originalWarn(...args);
   };
+  // eslint-disable-next-line no-console
   console.error = (...args: unknown[]) => {
     const message = String(args[0] || "");
     if (
@@ -198,8 +211,11 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  // eslint-disable-next-line no-console
   console.warn = originalWarn;
+  // eslint-disable-next-line no-console
   console.error = originalError;
+
   setActivePinia(createPinia());
 
   globalThis.useColorModeMock.mockReset();
@@ -207,7 +223,6 @@ afterEach(() => {
   globalThis.useMutationMock.mockClear();
   globalThis.useQueryCacheMock.mockClear();
 
-  // Reset Colada Cache Spies
   globalCacheInvalidate.mockClear();
   globalCacheGetEntries.mockClear();
   globalCacheSetQueryData.mockClear();
