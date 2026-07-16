@@ -22,5 +22,10 @@ export function useGetEvent(id: MaybeRef<string>) {
     }
   });
 
-  return { data, pending: isLoading, error: appError, refresh };
+  return {
+    data,
+    pending: isLoading,
+    error: appError,
+    refresh: refresh ?? (() => {}),
+  };
 }

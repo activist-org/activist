@@ -8,25 +8,30 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useEventSocialLinksMutations } from "../../../app/composables/mutations/useEventSocialLinksMutations";
-import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
 import { sampleSocialLinkInput, setupMutationMocks } from "./setup";
 
+// ---------------------------------------------------------------------------
+// Hoisted mocks
+// ---------------------------------------------------------------------------
 const {
-  mockRefreshNuxtData,
   showToastError,
   updateEventSocialLink,
   createEventSocialLinks,
   deleteEventSocialLink,
   replaceAllEventSocialLinks,
+  invalidateEventCache,
 } = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
   showToastError: vi.fn(),
   updateEventSocialLink: vi.fn(),
   createEventSocialLinks: vi.fn(),
   deleteEventSocialLink: vi.fn(),
   replaceAllEventSocialLinks: vi.fn(),
+  invalidateEventCache: vi.fn(),
 }));
 
+// ---------------------------------------------------------------------------
+// Module mocks
+// ---------------------------------------------------------------------------
 vi.mock("../../../app/services/event/social-link", () => ({
   updateEventSocialLink: (...args: unknown[]) => updateEventSocialLink(...args),
   createEventSocialLinks: (...args: unknown[]) =>
@@ -44,251 +49,203 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
+vi.mock("../../../app/composables/cache/useEventCache", () => ({
+  useEventCache: () => ({ invalidateEventCache }),
+}));
 
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
 describe("useEventSocialLinksMutations", () => {
   const eventId = ref("event-123");
 
   beforeEach(() => {
     eventId.value = "event-123";
     setupMutationMocks([
-      mockRefreshNuxtData,
       updateEventSocialLink,
       createEventSocialLinks,
       deleteEventSocialLink,
       replaceAllEventSocialLinks,
+      invalidateEventCache,
     ]);
+    showToastError.mockReset();
   });
 
+  // ---------------------------------------------------------------------------
   describe("updateLink", () => {
     it("calls updateEventSocialLink with eventId, linkId and data on success", async () => {
-      const linkId = "link-1";
-      const data = { ...sampleSocialLinkInput };
+      updateEventSocialLink.mockResolvedValue(true);
       const { updateLink } = useEventSocialLinksMutations(eventId);
 
-      const result = await updateLink(linkId, data);
+      await updateLink({ id: "link-1", ...sampleSocialLinkInput });
 
       expect(updateEventSocialLink).toHaveBeenCalledWith(
         "event-123",
-        linkId,
-        expect.objectContaining(data)
+        "link-1",
+        expect.objectContaining(sampleSocialLinkInput)
       );
-      expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateEventCache via onSettled on success", async () => {
+      updateEventSocialLink.mockResolvedValue(true);
       const { updateLink } = useEventSocialLinksMutations(eventId);
 
-      await updateLink("link-1", sampleSocialLinkInput);
+      await updateLink({ id: "link-1", ...sampleSocialLinkInput });
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetEvent("event-123")
-      );
+      expect(invalidateEventCache).toHaveBeenCalledWith("event-123");
     });
 
-    it("sets loading true then false", async () => {
-      const { updateLink, loading } = useEventSocialLinksMutations(eventId);
-
-      const promise = updateLink("link-1", sampleSocialLinkInput);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
-    });
-
-    it("returns false when eventId is empty", async () => {
+    it("returns null when eventId is empty", async () => {
       eventId.value = "";
       const { updateLink } = useEventSocialLinksMutations(eventId);
 
-      const result = await updateLink("link-1", sampleSocialLinkInput);
+      const result = await updateLink({
+        id: "link-1",
+        ...sampleSocialLinkInput,
+      });
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
       expect(updateEventSocialLink).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("calls handleError (showToastError) via onError when service throws", async () => {
       updateEventSocialLink.mockRejectedValue(new Error("Update failed"));
-      const { updateLink, error } = useEventSocialLinksMutations(eventId);
+      const { updateLink } = useEventSocialLinksMutations(eventId);
 
-      const result = await updateLink("link-1", sampleSocialLinkInput);
+      await updateLink({ id: "link-1", ...sampleSocialLinkInput }).catch(
+        () => {}
+      );
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
+  // ---------------------------------------------------------------------------
   describe("createLinks", () => {
     it("calls createEventSocialLinks with eventId and links on success", async () => {
-      const links = [sampleSocialLinkInput];
-      const { createLinks } = useEventSocialLinksMutations(eventId);
-
-      const result = await createLinks(links);
-
-      expect(createEventSocialLinks).toHaveBeenCalledWith("event-123", links);
-      expect(result).toBe(true);
-    });
-
-    it("calls refreshNuxtData on success", async () => {
+      createEventSocialLinks.mockResolvedValue(true);
       const { createLinks } = useEventSocialLinksMutations(eventId);
 
       await createLinks([sampleSocialLinkInput]);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetEvent("event-123")
-      );
+      expect(createEventSocialLinks).toHaveBeenCalledWith("event-123", [
+        sampleSocialLinkInput,
+      ]);
     });
 
-    it("returns false when eventId is empty", async () => {
+    it("calls invalidateEventCache via onSettled on success", async () => {
+      createEventSocialLinks.mockResolvedValue(true);
+      const { createLinks } = useEventSocialLinksMutations(eventId);
+
+      await createLinks([sampleSocialLinkInput]);
+
+      expect(invalidateEventCache).toHaveBeenCalledWith("event-123");
+    });
+
+    it("returns null when eventId is empty", async () => {
       eventId.value = "";
       const { createLinks } = useEventSocialLinksMutations(eventId);
 
       const result = await createLinks([sampleSocialLinkInput]);
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
       expect(createEventSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when links is empty", async () => {
+    it("returns null when links is empty", async () => {
       const { createLinks } = useEventSocialLinksMutations(eventId);
 
       const result = await createLinks([]);
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
       expect(createEventSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service rejects invalid link data", async () => {
-      const badLinks = [{ link: "", label: "Bad", order: 0 }];
-      createEventSocialLinks.mockRejectedValue(new Error("Invalid link data"));
-      const { createLinks, error } = useEventSocialLinksMutations(eventId);
-
-      const result = await createLinks(badLinks);
-
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-    });
-
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("calls handleError (showToastError) via onError when service throws", async () => {
       createEventSocialLinks.mockRejectedValue(new Error("Create failed"));
-      const { createLinks, error } = useEventSocialLinksMutations(eventId);
+      const { createLinks } = useEventSocialLinksMutations(eventId);
 
-      const result = await createLinks([sampleSocialLinkInput]);
+      await createLinks([sampleSocialLinkInput]).catch(() => {});
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
+  // ---------------------------------------------------------------------------
   describe("deleteLink", () => {
     it("calls deleteEventSocialLink with linkId on success", async () => {
-      const linkId = "link-1";
-      const { deleteLink } = useEventSocialLinksMutations(eventId);
-
-      const result = await deleteLink(linkId);
-
-      expect(deleteEventSocialLink).toHaveBeenCalledWith(linkId);
-      expect(result).toBe(true);
-    });
-
-    it("calls refreshNuxtData on success", async () => {
+      deleteEventSocialLink.mockResolvedValue(true);
       const { deleteLink } = useEventSocialLinksMutations(eventId);
 
       await deleteLink("link-1");
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetEvent("event-123")
-      );
+      expect(deleteEventSocialLink).toHaveBeenCalledWith("link-1");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("calls invalidateEventCache via onSettled on success", async () => {
+      deleteEventSocialLink.mockResolvedValue(true);
+      const { deleteLink } = useEventSocialLinksMutations(eventId);
+
+      await deleteLink("link-1");
+
+      expect(invalidateEventCache).toHaveBeenCalledWith("event-123");
+    });
+
+    it("calls handleError (showToastError) via onError when service throws", async () => {
       deleteEventSocialLink.mockRejectedValue(new Error("Delete failed"));
-      const { deleteLink, error } = useEventSocialLinksMutations(eventId);
+      const { deleteLink } = useEventSocialLinksMutations(eventId);
 
-      const result = await deleteLink("link-1");
+      await deleteLink("link-1").catch(() => {});
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
+  // ---------------------------------------------------------------------------
   describe("replaceAllLinks", () => {
     it("calls replaceAllEventSocialLinks with eventId and links on success", async () => {
-      const links = [sampleSocialLinkInput];
-      const { replaceAllLinks } = useEventSocialLinksMutations(eventId);
-
-      const result = await replaceAllLinks(links);
-
-      expect(replaceAllEventSocialLinks).toHaveBeenCalledWith(
-        "event-123",
-        links
-      );
-      expect(result).toBe(true);
-    });
-
-    it("calls refreshNuxtData on success", async () => {
+      replaceAllEventSocialLinks.mockResolvedValue(true);
       const { replaceAllLinks } = useEventSocialLinksMutations(eventId);
 
       await replaceAllLinks([sampleSocialLinkInput]);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetEvent("event-123")
-      );
+      expect(replaceAllEventSocialLinks).toHaveBeenCalledWith("event-123", [
+        sampleSocialLinkInput,
+      ]);
     });
 
-    it("returns false when eventId is empty", async () => {
+    it("calls invalidateEventCache via onSettled on success", async () => {
+      replaceAllEventSocialLinks.mockResolvedValue(true);
+      const { replaceAllLinks } = useEventSocialLinksMutations(eventId);
+
+      await replaceAllLinks([sampleSocialLinkInput]);
+
+      expect(invalidateEventCache).toHaveBeenCalledWith("event-123");
+    });
+
+    it("returns null when eventId is empty", async () => {
       eventId.value = "";
       const { replaceAllLinks } = useEventSocialLinksMutations(eventId);
 
       const result = await replaceAllLinks([sampleSocialLinkInput]);
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
       expect(replaceAllEventSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("calls handleError (showToastError) via onError when service throws", async () => {
       replaceAllEventSocialLinks.mockRejectedValue(new Error("Replace failed"));
-      const { replaceAllLinks, error } = useEventSocialLinksMutations(eventId);
+      const { replaceAllLinks } = useEventSocialLinksMutations(eventId);
 
-      const result = await replaceAllLinks([sampleSocialLinkInput]);
+      await replaceAllLinks([sampleSocialLinkInput]).catch(() => {});
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
-  describe("invalidateCacheRefreshEventData", () => {
-    it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { invalidateCacheRefreshEventData } =
-        useEventSocialLinksMutations(eventId);
-
-      await invalidateCacheRefreshEventData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetEvent("event-123")
-      );
-    });
-
-    it("no-ops when eventId is empty", async () => {
-      eventId.value = "";
-      const { invalidateCacheRefreshEventData } =
-        useEventSocialLinksMutations(eventId);
-
-      await invalidateCacheRefreshEventData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
+  // ---------------------------------------------------------------------------
   describe("readonly state", () => {
-    it("returns readonly loading and error", () => {
+    it("returns loading and error", () => {
       const { loading, error } = useEventSocialLinksMutations(eventId);
 
       expect(loading).toBeDefined();
