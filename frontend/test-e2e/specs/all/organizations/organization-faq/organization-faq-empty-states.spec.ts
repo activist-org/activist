@@ -38,7 +38,7 @@ test.describe(
         )
       ).toBeVisible();
       await expect(faqPage.newFAQButton).toBeVisible();
-      await expect(page.getByRole("list")).toBeHidden();
+      await expect(faqPage.faqList).toBeHidden();
     });
 
     test(
@@ -70,7 +70,7 @@ test.describe(
           )
         ).toBeVisible();
         await expect(faqPage.newFAQButton).toBeHidden();
-        await expect(page.getByRole("list")).toBeHidden();
+        await expect(faqPage.faqList).toBeHidden();
 
         await context.close();
       }
@@ -80,6 +80,8 @@ test.describe(
       page,
     }, testInfo) => {
       logTestPath(testInfo);
+      const faqPage = newOrganizationFAQPage(page);
+
       await routeMockPublicOrganizationDetail(
         page,
         MOCK_ORGANIZATION_EMPTY_STATE_ID,
@@ -100,7 +102,7 @@ test.describe(
           getEnglishText("i18n.components.empty_state.message_no_permission")
         )
       ).toBeHidden();
-      await expect(page.getByRole("list")).toBeVisible();
+      await expect(faqPage.faqList).toBeVisible();
     });
   }
 );
