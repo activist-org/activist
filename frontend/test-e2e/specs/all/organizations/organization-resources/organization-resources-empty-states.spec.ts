@@ -40,7 +40,7 @@ test.describe(
         )
       ).toBeVisible();
       await expect(resourcesPage.newResourceButton).toBeVisible();
-      await expect(page.getByRole("list")).toBeHidden();
+      await expect(resourcesPage.resourcesList).toBeHidden();
     });
 
     test(
@@ -72,7 +72,7 @@ test.describe(
           )
         ).toBeVisible();
         await expect(resourcesPage.newResourceButton).toBeHidden();
-        await expect(page.getByRole("list")).toBeHidden();
+        await expect(resourcesPage.resourcesList).toBeHidden();
 
         await context.close();
       }
@@ -82,6 +82,8 @@ test.describe(
       page,
     }, testInfo) => {
       logTestPath(testInfo);
+      const resourcesPage = newOrganizationResourcesPage(page);
+
       await routeMockPublicOrganizationDetail(
         page,
         MOCK_ORGANIZATION_EMPTY_STATE_ID,
@@ -104,7 +106,7 @@ test.describe(
           getEnglishText("i18n.components.empty_state.message_no_permission")
         )
       ).toBeHidden();
-      await expect(page.getByRole("list")).toBeVisible();
+      await expect(resourcesPage.resourcesList).toBeVisible();
     });
   }
 );
