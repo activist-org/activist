@@ -4,6 +4,7 @@
     <FormFAQEntry
       :formData="formData"
       :handleSubmit="handleSubmit"
+      :isLoading="loading"
       :submitLabel="submitLabel"
       :title="title"
     />
@@ -24,7 +25,7 @@ const props = defineProps<{
 const eventId = computed(() => props.entityId);
 
 const { data: event } = useGetEvent(eventId);
-const { updateFAQ, createFAQ } = useEventFAQEntryMutations(eventId);
+const { updateFAQ, createFAQ, loading } = useEventFAQEntryMutations(eventId);
 
 const formData = ref({
   id: "",
@@ -62,8 +63,8 @@ watch(
 async function handleSubmit(values: unknown) {
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
-  if (isAddMode) createFAQ(newValues as FaqEntry);
-  else updateFAQ(newValues as FaqEntry);
+  if (isAddMode) await createFAQ(newValues as FaqEntry);
+  else await updateFAQ(newValues as FaqEntry);
 
   handleCloseModal();
 }

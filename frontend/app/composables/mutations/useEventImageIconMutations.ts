@@ -7,7 +7,7 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   const store = useEventListStore();
   const { invalidateEventCache } = useEventCache();
   const {
-    mutate: mutateUploadIconImage,
+    mutateAsync: mutateAsyncAsyncUploadIconImage,
     isLoading: loadingUploadIconImage,
     error,
   } = useMutation({
@@ -30,6 +30,6 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   return {
     loading: readonly(loading),
     error,
-    uploadIconImage: mutateUploadIconImage,
+    uploadIconImage: mutateAsyncAsyncUploadIconImage,
   };
 }

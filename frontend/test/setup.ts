@@ -67,7 +67,7 @@ globalThis.useQueryCache = () => globalThis.useQueryCacheMock();
 globalThis.useMutationMock = vi.fn(
   <TResult, TVars>(options: MutationOptions<TResult, TVars> = {}) => {
     return {
-      mutate: vi.fn(async (vars: TVars) => {
+      mutateAsync: vi.fn(async (vars: TVars) => {
         globalMutationLoading.value = true;
         globalMutationError.value = null;
 

@@ -4,6 +4,7 @@
     <FormResource
       :formData="formData"
       :handleSubmit="handleSubmit"
+      :isLoading="loading"
       :submitLabel="submitLabel"
       :title="title"
     />
@@ -23,7 +24,8 @@ const props = defineProps<{
 const eventId = computed(() => props.entityId);
 
 const { data: event } = useGetEvent(eventId);
-const { updateResource, createResource } = useEventResourcesMutations(eventId);
+const { updateResource, createResource, loading } =
+  useEventResourcesMutations(eventId);
 
 const formData = ref<Resource | undefined>();
 
@@ -63,8 +65,8 @@ async function handleSubmit(values: unknown) {
     ...(values as Resource),
     order: formData.value?.order ?? (event.value?.resources ?? []).length,
   };
-  if (isAddMode) createResource(newValues as ResourceInput);
-  else updateResource(newValues as ResourceInput);
+  if (isAddMode) await createResource(newValues as ResourceInput);
+  else await updateResource(newValues as ResourceInput);
   handleCloseModal();
 }
 </script>

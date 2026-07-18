@@ -8,7 +8,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   const currentEventId = computed(() => unref(eventId));
   const { invalidateEventCache } = useEventCache();
   // Create new resource.
-  const { mutate: createResource, isLoading: loadingCreateResource } =
+  const { mutateAsync: createResource, isLoading: loadingCreateResource } =
     useMutation({
       mutation: (resourceData: ResourceInput) =>
         createEventResource(currentEventId.value, resourceData as Resource),
@@ -21,7 +21,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     });
 
   // Update existing resource.
-  const { mutate: updateResource, isLoading: loadingUpdateResource } =
+  const { mutateAsync: updateResource, isLoading: loadingUpdateResource } =
     useMutation({
       mutation: (resourceData: ResourceInput) =>
         updateEventResource(currentEventId.value, resourceData as Resource),
@@ -34,7 +34,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     });
 
   // Delete existing resource.
-  const { mutate: deleteResource, isLoading: loadingDeleteResource } =
+  const { mutateAsync: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
       mutation: (resourceId: string) => deleteEventResource(resourceId),
       async onSettled() {
@@ -46,7 +46,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     });
 
   // Reorder multiple resource entries.
-  const { mutate: reorderResources, isLoading: loadingReorderResources } =
+  const { mutateAsync: reorderResources, isLoading: loadingReorderResources } =
     useMutation({
       mutation: (orderedResources: Resource[]) =>
         reorderEventResources(currentEventId.value, orderedResources),

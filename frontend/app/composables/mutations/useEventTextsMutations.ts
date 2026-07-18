@@ -8,7 +8,7 @@ export function useEventTextsMutations(eventId: MaybeRef<string>) {
   const { invalidateEventCache } = useEventCache();
 
   // Update event texts.
-  const { mutate: updateTexts, isLoading: loading } = useMutation({
+  const { mutateAsync: updateTexts, isLoading: loading } = useMutation({
     mutation: (vars: { textId: string; data: EventUpdateTextFormData }) =>
       updateEventTexts(currentEventId.value, vars.textId, vars.data),
     onSettled() {
