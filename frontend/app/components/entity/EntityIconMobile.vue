@@ -30,11 +30,12 @@
             <Icon :name="icon" size="2.75em" />
           </div>
         </div>
+        <!-- Edit button always shown, but disabled when not allowed -->
         <button
-          v-if="canEditEntity"
           @click="handleEdit"
           :aria-label="editAriaLabel"
-          class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
+          :disabled="!canEditEntity"
+          class="absolute bottom-1 right-1 z-10 flex rounded-md border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80 disabled:opacity-40 disabled:cursor-not-allowed"
           data-testid="entity-logo-mobile-edit"
           type="button"
         >
