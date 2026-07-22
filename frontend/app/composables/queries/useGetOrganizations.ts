@@ -9,19 +9,37 @@ export function useGetOrganizations(
   const page = ref(1);
   const { handleError } = useAppError();
   const orgFilters = computed(() => unref(filters));
+  // Incremented at the start of every handler invocation; used to discard
+  // stale responses that resolve after a newer fetch has already started
+  // (e.g. a page-2 request that resolves after the user changed filters).
+  const fetchGeneration = ref(0);
   // Use AsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<Organization[]>(
     () => getKeyForGetOrganizations(),
     async () => {
       try {
+        // Detect filter change and reset page BEFORE the API call so that
+        // the outgoing request always uses the correct page number.
+        const filtersChanged =
+          JSON.stringify(store.getFilters()) !==
+          JSON.stringify(orgFilters.value);
+        if (filtersChanged) {
+          page.value = 1;
+          store.setPage(1);
+        }
+
+        // Stamp this invocation; any concurrent in-flight request that
+        // resolves with an older generation will be discarded below.
+        const currentGeneration = ++fetchGeneration.value;
+
         if (
           store.getItems().length > 0 &&
-          JSON.stringify(store.getFilters()) ===
-            JSON.stringify(orgFilters.value) &&
+          !filtersChanged &&
           store.getIsLastPage()
         ) {
           return store.getItems();
         }
+
         // SSR hydration skipped this factory; seed the store so page 2 appends correctly.
         if (page.value > 1 && store.getItems().length === 0) {
           const nuxtApp = useNuxtApp();
@@ -35,43 +53,36 @@ export function useGetOrganizations(
             store.setIsLastPage(false);
           }
         }
+
         const { data: organizations, isLastPage } = await listOrganizations({
           ...orgFilters.value,
-          page:
-            JSON.stringify(store.getFilters()) ===
-            JSON.stringify(orgFilters.value)
-              ? page.value
-              : 1,
+          page: page.value,
           page_size: 10,
         });
+
+        // Discard this response if a newer fetch has already started.
+        // This prevents stale page-N data from being appended after a filter
+        // change races with an in-flight request.
+        if (currentGeneration !== fetchGeneration.value) {
+          return store.getItems();
+        }
+
         const organizationsCached = store.getItems();
-        const pageCached = store.getPage();
         store.setIsLastPage(isLastPage);
 
-        // Append new events to cached events if page > 1.
+        // Append new organizations to cached organizations if page > 1 and filters match.
         if (
           organizationsCached.length > 0 &&
-          JSON.stringify(store.getFilters()) ===
-            JSON.stringify(orgFilters.value) &&
-          (page.value > pageCached || (page.value === 1 && pageCached === 1))
+          !filtersChanged &&
+          page.value > store.getPage()
         ) {
           store.setItems([...organizationsCached, ...organizations]);
           return [...organizationsCached, ...organizations] as Organization[];
         }
 
         store.setItems(organizations);
-        if (
-          JSON.stringify(store.getFilters()) !==
-          JSON.stringify(orgFilters.value)
-        ) {
-          store.setPage(1);
-          page.value = 1;
-        } else {
-          store.setPage(page.value);
-        }
-
-        store.setFilters(orgFilters.value);
         store.setPage(page.value);
+        store.setFilters(orgFilters.value);
         return organizations as Organization[];
       } catch (error) {
         handleError(error);
