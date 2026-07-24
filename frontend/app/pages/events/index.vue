@@ -152,7 +152,7 @@ useCustomInfiniteScroll({
 });
 
 const showEvents = computed(() => {
-  if (events.value.length > 0) {
+  if ((events.value ?? []).length > 0) {
     if (loadingFetchMore.value) {
       return true;
     }
