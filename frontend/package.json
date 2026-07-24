@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "@axe-core/playwright": "4.12.1",
-    "@floating-ui/dom": "1.7.6",
+    "@floating-ui/dom": "1.8.0",
     "@maplibre/maplibre-gl-directions": "0.9.1",
     "@opentelemetry/api": "1.9.1",
     "@pinia/colada": "^1.2.0",
