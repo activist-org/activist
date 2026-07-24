@@ -22,6 +22,7 @@ if (process.env.VITEST) {
   // @pinia/nuxt
   // pinia-plugin-persistedstate/nuxt
   modules.push("@pinia/nuxt", vueUse, "pinia-plugin-persistedstate/nuxt");
+  modules.push("@pinia/colada-nuxt");
 }
 
 export default modules;
