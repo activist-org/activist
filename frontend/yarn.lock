@@ -2359,9 +2359,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/icon@npm:2.2.5":
-  version: 2.2.5
-  resolution: "@nuxt/icon@npm:2.2.5"
+"@nuxt/icon@npm:2.3.1":
+  version: 2.3.1
+  resolution: "@nuxt/icon@npm:2.3.1"
   dependencies:
     "@iconify/collections": "npm:^1.0.702"
     "@iconify/types": "npm:^2.0.0"
@@ -2377,7 +2377,7 @@ __metadata:
     std-env: "npm:^4.1.0"
     tinyglobby: "npm:^0.2.17"
     ufo: "npm:^1.6.4"
-  checksum: 10c0/3bd897274ceeb989fa6e82a7f3b6dbd9801e748803e5d13d18161f9af35c9b797ab8024ceeca09ac4b48b5811245ebb00a16ae01e7fd00465aad0343bdee916f
+  checksum: 10c0/3b98f948ca14df625da4d5d1bb0fe2686e53b03a4387298c4a03daa9547be59dec632a2ad70acd80e1829dd8e5dd08cf2e02c83186b6a71896d53c0d5b796ac6
   languageName: node
   linkType: hard
 
@@ -6889,7 +6889,7 @@ __metadata:
     "@nuxt/devtools": "npm:3.2.4"
     "@nuxt/eslint": "npm:1.16.0"
     "@nuxt/eslint-config": "npm:1.16.0"
-    "@nuxt/icon": "npm:2.2.5"
+    "@nuxt/icon": "npm:2.3.1"
     "@nuxt/test-utils": "npm:4.0.3"
     "@nuxtjs/color-mode": "npm:4.0.1"
     "@nuxtjs/device": "npm:4.0.0"
