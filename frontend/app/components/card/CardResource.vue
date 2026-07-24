@@ -116,7 +116,7 @@
 const props = defineProps<{
   resource: Resource;
   entityType: EntityType;
-  entity: Entity | null;
+  entity?: Entity | null;
   isReduced?: boolean;
 }>();
 
