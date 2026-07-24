@@ -160,18 +160,11 @@ jobs:
         run: |
           source .venv/bin/activate
           echo -e "\n## Test Results" >> ../reports.md
-      - name: Install Python Tools
+      - name: Install Python Dependencies
         working-directory: ./backend
         run: |
           source .venv/bin/activate
-          pip install ruff mypy pytest
-
-      - name: Run Backend Tests
-        id: backend-tests
-        working-directory: ./backend
-        continue-on-error: true
-        run: |
-          # ... rest of the existing code ...
+          uv sync --frozen --all-extras
 
       - name: Run Backend Tests
         id: backend-tests
