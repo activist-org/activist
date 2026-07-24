@@ -6934,7 +6934,7 @@ __metadata:
     qrcode: "npm:1.5.4"
     reduced-motion: "npm:1.0.4"
     rollup: "npm:4.62.2"
-    swiper: "npm:14.0.1"
+    swiper: "npm:14.0.5"
     tailwind-scrollbar: "npm:4.0.2"
     tailwindcss: "npm:4.3.2"
     tippy.js: "npm:6.3.7"
@@ -15450,10 +15450,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swiper@npm:14.0.1":
-  version: 14.0.1
-  resolution: "swiper@npm:14.0.1"
-  checksum: 10c0/3d4f2cdeef9fec9ee3ad2b2dafc883f168a0d5c0909ebb269ef405043162645e94548b81bb6aea5208e632af0cbf09f9d4483956c4a6dd2374f4a89ae074c6ac
+"swiper@npm:14.0.5":
+  version: 14.0.5
+  resolution: "swiper@npm:14.0.5"
+  checksum: 10c0/d0f0fe9fc12e810052cfa378dd7a84da525739ff662cb9a8a27c43025269979c71406427009047733a0b31a9b896687702191936ebb4b3e040e527cda77681ed
   languageName: node
   linkType: hard
 
