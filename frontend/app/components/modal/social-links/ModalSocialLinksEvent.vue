@@ -4,6 +4,7 @@
     <FormSocialLink
       :formData="formData"
       :handleSubmit="handleSubmit"
+      :isLoading="loading"
       :submitLabel="submitLabel"
     />
   </ModalBase>
@@ -18,9 +19,8 @@ const props = defineProps<{
 }>();
 
 const { data: event } = useGetEvent(props.entityId);
-const { updateLink, createLinks, deleteLink } = useEventSocialLinksMutations(
-  props.entityId
-);
+const { updateLink, createLinks, deleteLink, loading } =
+  useEventSocialLinksMutations(props.entityId);
 
 type SocialLinkWithKey = (EventSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
@@ -93,7 +93,8 @@ async function handleSubmit(values: unknown) {
     ) || [];
   await Promise.all(
     toUpdate.map(async (refItem) => {
-      await updateLink(refItem.id, {
+      await updateLink({
+        id: refItem.id,
         link: refItem.link,
         label: refItem.label,
         order: refItem.order,

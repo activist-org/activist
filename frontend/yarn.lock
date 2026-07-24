@@ -3967,6 +3967,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pinia/colada-nuxt@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@pinia/colada-nuxt@npm:1.0.0"
+  dependencies:
+    "@nuxt/kit": "npm:^4.4.2"
+  peerDependencies:
+    "@pinia/colada": ">=1.2.0"
+  checksum: 10c0/f2cb1ee97fcf0247d20d4df6062d29cbf61d6e53ceb10c1971315093148d0ca421b37ca98b5662cad0f7cc1dc935fc60a97ad7ad0874807491d7d32dd539f317
+  languageName: node
+  linkType: hard
+
+"@pinia/colada@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@pinia/colada@npm:1.2.0"
+  peerDependencies:
+    pinia: ^2.2.6 || ^3.0.0
+    vue: ^3.5.17
+  checksum: 10c0/e3f5eec854b1b42e8c0d6c77682e08111f36aa34123cd410424c2ebce2e6a3eb59cd59fd8f5f695fb9db3e181b0368f374e2158eb6413d4df0efc1db065ecbf7
+  languageName: node
+  linkType: hard
+
 "@pinia/nuxt@npm:0.11.3":
   version: 0.11.3
   resolution: "@pinia/nuxt@npm:0.11.3"
@@ -6927,6 +6948,8 @@ __metadata:
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.4.0"
     "@opentelemetry/api": "npm:1.9.1"
+    "@pinia/colada": "npm:^1.2.0"
+    "@pinia/colada-nuxt": "npm:1.0.0"
     "@pinia/nuxt": "npm:0.11.3"
     "@playwright/test": "npm:1.61.1"
     "@popperjs/core": "npm:2.11.8"
@@ -10037,7 +10060,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"giget@npm:^3.2.0, giget@npm:^3.3.0":
+"giget@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "giget@npm:3.2.0"
+  bin:
+    giget: dist/cli.mjs
+  checksum: 10c0/c3d670435e9247e658ab34201f7a944281bdf001d1e10fbb16016926735e8c57f38273a6ef0703feb63551a9628baa8ffa76edbc216118f33abdd42174b0e714
+  languageName: node
+  linkType: hard
+
+"giget@npm:^3.3.0":
   version: 3.3.0
   resolution: "giget@npm:3.3.0"
   bin:
