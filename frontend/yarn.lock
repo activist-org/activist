@@ -6692,18 +6692,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/language-core@npm:3.3.6":
-  version: 3.3.6
-  resolution: "@vue/language-core@npm:3.3.6"
+"@vue/language-core@npm:3.3.7":
+  version: 3.3.7
+  resolution: "@vue/language-core@npm:3.3.7"
   dependencies:
     "@volar/language-core": "npm:2.4.28"
     "@vue/compiler-dom": "npm:^3.5.0"
     "@vue/shared": "npm:^3.5.0"
-    alien-signals: "npm:^3.2.0"
+    alien-signals: "npm:^3.2.1"
     muggle-string: "npm:^0.4.1"
     path-browserify: "npm:^1.0.1"
     picomatch: "npm:^4.0.4"
-  checksum: 10c0/e2db9de78a513c6cf161d88ec79d36ae14a2d2fcb5afd8985a2a2327cd3b28cf4402f2ba8020a81473e66dd4e8a3cd0a539361076bcb351463d57288ccdea135
+  checksum: 10c0/9f8128c2b71f83750af69d240e898fadcbd825c9749fc7b72b1b68e5c7d231462a9482ae469dbaa66104641adb57314678cbc591bb0a931c57e53af19cf938bd
   languageName: node
   linkType: hard
 
@@ -7057,7 +7057,7 @@ __metadata:
     vue-i18n: "npm:11.4.6"
     vue-socials: "npm:2.0.5"
     vue-sonner: "npm:2.0.9"
-    vue-tsc: "npm:3.3.6"
+    vue-tsc: "npm:3.3.7"
     vuedraggable: "npm:4.1.0"
     wait-on: "npm:9.0.10"
     zod: "npm:3.25.76"
@@ -7093,7 +7093,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"alien-signals@npm:^3.2.0":
+"alien-signals@npm:^3.2.1":
   version: 3.2.1
   resolution: "alien-signals@npm:3.2.1"
   checksum: 10c0/4c4064faa208126177224d1ed6a2310687d452dec0771994e276d9af4c72e853fcb969ae4a7fcd034b1d1b9accb9500f4941178326eeea1cb8f64ec612853ef8
@@ -17091,17 +17091,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-tsc@npm:3.3.6":
-  version: 3.3.6
-  resolution: "vue-tsc@npm:3.3.6"
+"vue-tsc@npm:3.3.7":
+  version: 3.3.7
+  resolution: "vue-tsc@npm:3.3.7"
   dependencies:
     "@volar/typescript": "npm:2.4.28"
-    "@vue/language-core": "npm:3.3.6"
+    "@vue/language-core": "npm:3.3.7"
   peerDependencies:
     typescript: ">=5.0.0"
   bin:
     vue-tsc: bin/vue-tsc.js
-  checksum: 10c0/24125ea3596fe14a0b63e77d64fbb48808d06dc3e832808e20e042204b0574349d35d8502f921dd9c9e923c1b2c24138dad1129eae6880c3b63d9f12cebaf514
+  checksum: 10c0/35bbda9142e0b2212826ef77e9cdf49dd90fe82c40e909ea228dc100e9a10b179edda814938b0237c981e5688a419bd2f557f643a05675379c4b05cbde4019e3
   languageName: node
   linkType: hard
 
