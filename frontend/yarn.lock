@@ -6035,10 +6035,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unocss/reset@npm:66.7.4":
-  version: 66.7.4
-  resolution: "@unocss/reset@npm:66.7.4"
-  checksum: 10c0/fcc45b113bdf26f11bb18600fdd44cc85231227052c5cf789a0839dfedf7bce541239ed25da4c3083eae8ca4932f4aea438afa06b54be28183039c3b82a09459
+"@unocss/reset@npm:66.7.5":
+  version: 66.7.5
+  resolution: "@unocss/reset@npm:66.7.5"
+  checksum: 10c0/5d26a0bace41a2b847846ce86c2a580635573b076cce3c712ad61ffadcea147eee4a4755be10813e02466f5ab07702511ff8d824127ba2b4c5b7c29d7402c467
   languageName: node
   linkType: hard
 
@@ -6998,7 +6998,7 @@ __metadata:
     "@types/geojson": "npm:7946.0.16"
     "@types/node": "npm:26.1.1"
     "@types/zxcvbn": "npm:4.4.5"
-    "@unocss/reset": "npm:66.7.4"
+    "@unocss/reset": "npm:66.7.5"
     "@vee-validate/zod": "npm:4.15.1"
     "@vitest/coverage-v8": "npm:4.1.10"
     "@vue/test-utils": "npm:2.4.11"

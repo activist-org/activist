@@ -90,7 +90,7 @@
     "@tiptap/suggestion": "3.27.1",
     "@tiptap/vue-3": "3.27.1",
     "@types/geojson": "7946.0.16",
-    "@unocss/reset": "66.7.4",
+    "@unocss/reset": "66.7.5",
     "@vee-validate/zod": "4.15.1",
     "@vueuse/integrations": "14.3.0",
     "@vueuse/math": "14.3.0",
