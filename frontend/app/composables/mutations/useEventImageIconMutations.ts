@@ -1,46 +1,35 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
+// Mutation composable for event image icon.
 
 export function useEventImageIconMutations(eventId: MaybeRef<string>) {
+  const { handleError } = useAppError();
   const loading = ref(false);
-  const { error, handleError, clearError } = useAppError();
-
-  const currentEventId = computed(() => unref(eventId));
   const store = useEventListStore();
-
-  // Upload new images.
-  async function uploadIconImage(image: UploadableFile) {
-    loading.value = true;
-    clearError();
-
-    try {
-      // Direct service call - no useAsyncData needed for mutations.
-      await uploadEventIconImage(currentEventId.value, image);
-
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
+  const { invalidateEventCache } = useEventCache();
+  const {
+    mutateAsync: mutateAsyncAsyncUploadIconImage,
+    isLoading: loadingUploadIconImage,
+    error,
+  } = useMutation({
+    mutation: (image: UploadableFile) =>
+      uploadEventIconImage(unref(eventId), image),
+    async onSettled() {
+      await invalidateEventCache(unref(eventId));
+      // Clear cached events to force refetch with new data.
+      store.setItems([]);
+    },
+    onError(err) {
       handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+    },
+  });
 
-  // Helper to refresh event data after mutations.
-  async function invalidateCacheRefreshEventData() {
-    if (!currentEventId.value) return;
-
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
-    // Clear cached events to force refetch with new data.
-    store.setItems([]);
-  }
+  watch(loadingUploadIconImage, (val) => {
+    loading.value = val;
+  });
 
   return {
     loading: readonly(loading),
-    error: readonly(error),
-    uploadIconImage,
-    invalidateCacheRefreshEventData,
+    error,
+    uploadIconImage: mutateAsyncAsyncUploadIconImage,
   };
 }

@@ -6,6 +6,7 @@
       getInvolvedLabel="i18n.components._global.participate"
       getInvolvedUrlLabel="i18n.components.modal_text_event.offer_to_help_link"
       :handleSubmit="handleSubmit"
+      :isLoading="loading"
       rememberHttpsLabel="i18n.components.modal_text_event.offer_to_help_link_label"
       submitLabel="i18n.components.modal._global.update_texts"
       title="i18n.components.modal_text_event.edit_event_texts"
@@ -24,7 +25,7 @@ const props = defineProps<{
 const eventId = computed(() => props.entityId);
 
 const { data: event } = useGetEvent(eventId);
-const { updateTexts } = useEventTextsMutations(eventId);
+const { updateTexts, loading } = useEventTextsMutations(eventId);
 
 const formData = ref<EventUpdateTextFormData>({
   description: "",
@@ -51,12 +52,10 @@ watch(
 );
 
 async function handleSubmit(values: unknown) {
-  const response = await updateTexts(
-    values as EventUpdateTextFormData,
-    String(event.value?.texts[0]?.id)
-  );
-  if (response) {
-    handleCloseModal();
-  }
+  updateTexts({
+    textId: String(event.value?.texts[0]?.id),
+    data: values as EventUpdateTextFormData,
+  });
+  handleCloseModal();
 }
 </script>

@@ -1,37 +1,50 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
  * Unit tests for useEventTextsMutations composable.
- * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useEventTextsMutations } from "../../../app/composables/mutations/useEventTextsMutations";
-import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
-import { sampleEventTextFormData, setupMutationMocks } from "./setup";
+import { sampleEventTextFormData } from "./setup";
 
-const { mockRefreshNuxtData, showToastError, updateEventTexts } = vi.hoisted(
+// Hoist specific spies for this test.
+const { updateEventTexts, handleErrorMock, invalidateQueriesMock } = vi.hoisted(
   () => ({
-    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
-    showToastError: vi.fn(),
     updateEventTexts: vi.fn(),
+    handleErrorMock: vi.fn(),
+    invalidateQueriesMock: vi.fn(),
   })
 );
 
+// Mock API service.
 vi.mock("../../../app/services/event/text", () => ({
   updateEventTexts: (...args: unknown[]) => updateEventTexts(...args),
 }));
 
-vi.mock("../../../app/composables/generic/useToaster", () => ({
-  useToaster: () => ({
-    showToastError,
-    showToastInfo: vi.fn(),
-    showToastSuccess: vi.fn(),
-  }),
-}));
+// Mock error handler.
+vi.mock("../../../app/composables/generic/useAppError", async () => {
+  const { ref } = await import("vue");
+  return {
+    useAppError: () => ({
+      error: ref(null),
+      handleError: handleErrorMock,
+    }),
+  };
+});
 
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
+// Intercept the global @pinia/colada mock just to add a spy to useQueryCache.
+vi.mock("@pinia/colada", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@pinia/colada")>();
+  return {
+    ...actual,
+    // useMutation is handled by the global setup file.
+    useQueryCache: () => ({
+      invalidateQueries: invalidateQueriesMock,
+      getEntries: vi.fn(),
+    }),
+  };
+});
 
 describe("useEventTextsMutations", () => {
   const eventId = ref("event-123");
@@ -39,90 +52,66 @@ describe("useEventTextsMutations", () => {
 
   beforeEach(() => {
     eventId.value = "event-123";
-    setupMutationMocks([mockRefreshNuxtData, updateEventTexts]);
+    vi.clearAllMocks();
+
+    // Default success response.
+    updateEventTexts.mockResolvedValue({ success: true });
   });
 
   describe("updateTexts", () => {
-    it("calls updateEventTexts with eventId, textId and textsData on success", async () => {
+    it("calls updateEventTexts with correctly formatted payload on success", async () => {
       const { updateTexts } = useEventTextsMutations(eventId);
 
-      const result = await updateTexts(sampleEventTextFormData, textId);
+      await updateTexts({ textId, data: sampleEventTextFormData });
 
       expect(updateEventTexts).toHaveBeenCalledWith(
         "event-123",
         textId,
         sampleEventTextFormData
       );
-      expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("invalidates event cache queries in onSettled", async () => {
       const { updateTexts } = useEventTextsMutations(eventId);
 
-      await updateTexts(sampleEventTextFormData, textId);
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetEvent("event-123")
-      );
+      await updateTexts({ textId, data: sampleEventTextFormData });
+      const { invalidateQueries } = globalThis.useQueryCache();
+      expect(invalidateQueries).toHaveBeenCalled();
     });
 
     it("sets loading true then false", async () => {
       const { updateTexts, loading } = useEventTextsMutations(eventId);
 
-      const promise = updateTexts(sampleEventTextFormData, textId);
+      // Trigger mutation without awaiting immediately.
+      const promise = updateTexts({ textId, data: sampleEventTextFormData });
+
       expect(loading.value).toBe(true);
+
       await promise;
+
       expect(loading.value).toBe(false);
     });
 
-    it("returns false when eventId is empty", async () => {
-      eventId.value = "";
+    it("calls handleError when the service throws an error", async () => {
+      const errorInstance = new Error("Update failed");
+      updateEventTexts.mockRejectedValue(errorInstance);
+
       const { updateTexts } = useEventTextsMutations(eventId);
 
-      const result = await updateTexts(sampleEventTextFormData, textId);
-
-      expect(result).toBe(false);
-      expect(updateEventTexts).not.toHaveBeenCalled();
-    });
-
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
-      updateEventTexts.mockRejectedValue(new Error("Update failed"));
-      const { updateTexts, error } = useEventTextsMutations(eventId);
-
-      const result = await updateTexts(sampleEventTextFormData, textId);
-
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshEventData", () => {
-    it("calls refreshNuxtData with getKeyForGetEvent(id)", async () => {
-      const { invalidateCacheRefreshEventData } =
-        useEventTextsMutations(eventId);
-
-      await invalidateCacheRefreshEventData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetEvent("event-123")
+      // We catch it here because the global mock re-throws the error.
+      await updateTexts({ textId, data: sampleEventTextFormData }).catch(
+        () => {}
       );
-    });
 
-    it("no-ops when eventId is empty", async () => {
-      eventId.value = "";
-      const { invalidateCacheRefreshEventData } =
-        useEventTextsMutations(eventId);
-
-      await invalidateCacheRefreshEventData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(handleErrorMock).toHaveBeenCalledWith(errorInstance);
+      const { invalidateQueries } = globalThis.useQueryCache();
+      // Verify cache invalidation still fires because it's in onSettled.
+      expect(invalidateQueries).toHaveBeenCalled();
     });
   });
 
   describe("readonly state", () => {
-    it("returns readonly loading and error", () => {
+    it("exposes loading and error as readonly refs", () => {
       const { loading, error } = useEventTextsMutations(eventId);
 
       expect(loading).toBeDefined();
