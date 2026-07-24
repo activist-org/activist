@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for event text entries
+// Mutation composable for event text entries.
 
 export function useEventTextsMutations(eventId: MaybeRef<string>) {
   const { error, handleError } = useAppError();

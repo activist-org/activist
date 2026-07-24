@@ -8,7 +8,7 @@ import { ref } from "vue";
 import { useEventTextsMutations } from "../../../app/composables/mutations/useEventTextsMutations";
 import { sampleEventTextFormData } from "./setup";
 
-// 1. Hoist specific spies for this test
+// Hoist specific spies for this test.
 const { updateEventTexts, handleErrorMock, invalidateQueriesMock } = vi.hoisted(
   () => ({
     updateEventTexts: vi.fn(),
@@ -17,12 +17,12 @@ const { updateEventTexts, handleErrorMock, invalidateQueriesMock } = vi.hoisted(
   })
 );
 
-// 2. Mock API Service
+// Mock API service.
 vi.mock("../../../app/services/event/text", () => ({
   updateEventTexts: (...args: unknown[]) => updateEventTexts(...args),
 }));
 
-// 3. Mock Error Handler
+// Mock error handler.
 vi.mock("../../../app/composables/generic/useAppError", async () => {
   const { ref } = await import("vue");
   return {
@@ -33,12 +33,12 @@ vi.mock("../../../app/composables/generic/useAppError", async () => {
   };
 });
 
-// 4. Intercept the global @pinia/colada mock just to add a spy to useQueryCache
+// Intercept the global @pinia/colada mock just to add a spy to useQueryCache.
 vi.mock("@pinia/colada", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@pinia/colada")>();
   return {
     ...actual,
-    // useMutation is handled by the global setup file!
+    // useMutation is handled by the global setup file.
     useQueryCache: () => ({
       invalidateQueries: invalidateQueriesMock,
       getEntries: vi.fn(),
@@ -54,7 +54,7 @@ describe("useEventTextsMutations", () => {
     eventId.value = "event-123";
     vi.clearAllMocks();
 
-    // Default success response
+    // Default success response.
     updateEventTexts.mockResolvedValue({ success: true });
   });
 
@@ -82,7 +82,7 @@ describe("useEventTextsMutations", () => {
     it("sets loading true then false", async () => {
       const { updateTexts, loading } = useEventTextsMutations(eventId);
 
-      // Trigger mutation without awaiting immediately
+      // Trigger mutation without awaiting immediately.
       const promise = updateTexts({ textId, data: sampleEventTextFormData });
 
       expect(loading.value).toBe(true);
@@ -98,14 +98,14 @@ describe("useEventTextsMutations", () => {
 
       const { updateTexts } = useEventTextsMutations(eventId);
 
-      // We catch it here because the global mock re-throws the error
+      // We catch it here because the global mock re-throws the error.
       await updateTexts({ textId, data: sampleEventTextFormData }).catch(
         () => {}
       );
 
       expect(handleErrorMock).toHaveBeenCalledWith(errorInstance);
       const { invalidateQueries } = globalThis.useQueryCache();
-      // Verify cache invalidation still fires because it's in onSettled
+      // Verify cache invalidation still fires because it's in onSettled.
       expect(invalidateQueries).toHaveBeenCalled();
     });
   });

@@ -10,9 +10,8 @@ import { ref } from "vue";
 import { useEventSocialLinksMutations } from "../../../app/composables/mutations/useEventSocialLinksMutations";
 import { sampleSocialLinkInput, setupMutationMocks } from "./setup";
 
-// ---------------------------------------------------------------------------
-// Hoisted mocks
-// ---------------------------------------------------------------------------
+// MARK: Hoisted Mocks
+
 const {
   showToastError,
   updateEventSocialLink,
@@ -29,9 +28,8 @@ const {
   invalidateEventCache: vi.fn(),
 }));
 
-// ---------------------------------------------------------------------------
-// Module mocks
-// ---------------------------------------------------------------------------
+// MARK: Module Mocks
+
 vi.mock("../../../app/services/event/social-link", () => ({
   updateEventSocialLink: (...args: unknown[]) => updateEventSocialLink(...args),
   createEventSocialLinks: (...args: unknown[]) =>
@@ -53,9 +51,8 @@ vi.mock("../../../app/composables/cache/useEventCache", () => ({
   useEventCache: () => ({ invalidateEventCache }),
 }));
 
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
+// MARK: Tests
+
 describe("useEventSocialLinksMutations", () => {
   const eventId = ref("event-123");
 
@@ -71,7 +68,6 @@ describe("useEventSocialLinksMutations", () => {
     showToastError.mockReset();
   });
 
-  // ---------------------------------------------------------------------------
   describe("updateLink", () => {
     it("calls updateEventSocialLink with eventId, linkId and data on success", async () => {
       updateEventSocialLink.mockResolvedValue(true);
@@ -120,7 +116,6 @@ describe("useEventSocialLinksMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("createLinks", () => {
     it("calls createEventSocialLinks with eventId and links on success", async () => {
       createEventSocialLinks.mockResolvedValue(true);
@@ -171,7 +166,6 @@ describe("useEventSocialLinksMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("deleteLink", () => {
     it("calls deleteEventSocialLink with linkId on success", async () => {
       deleteEventSocialLink.mockResolvedValue(true);
@@ -201,7 +195,6 @@ describe("useEventSocialLinksMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("replaceAllLinks", () => {
     it("calls replaceAllEventSocialLinks with eventId and links on success", async () => {
       replaceAllEventSocialLinks.mockResolvedValue(true);
@@ -243,7 +236,6 @@ describe("useEventSocialLinksMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("readonly state", () => {
     it("returns loading and error", () => {
       const { loading, error } = useEventSocialLinksMutations(eventId);

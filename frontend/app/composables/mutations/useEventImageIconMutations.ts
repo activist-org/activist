@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for event image icon
+// Mutation composable for event image icon.
 
 export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   const { handleError } = useAppError();

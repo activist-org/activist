@@ -9,9 +9,8 @@ import { ref } from "vue";
 import { useEventFAQEntryMutations } from "../../../app/composables/mutations/useEventFAQEntryMutations";
 import { sampleFaqData, sampleFaqEntry, setupMutationMocks } from "./setup";
 
-// ---------------------------------------------------------------------------
-// Hoisted mocks
-// ---------------------------------------------------------------------------
+// MARK: Hoisted Mocks
+
 const {
   showToastError,
   createEventFaq,
@@ -28,9 +27,8 @@ const {
   invalidateEventCache: vi.fn(),
 }));
 
-// ---------------------------------------------------------------------------
-// Module mocks
-// ---------------------------------------------------------------------------
+// MARK: Module Mocks
+
 vi.mock("../../../app/services/event/faq", () => ({
   createEventFaq: (...args: unknown[]) => createEventFaq(...args),
   updateEventFaq: (...args: unknown[]) => updateEventFaq(...args),
@@ -50,9 +48,8 @@ vi.mock("../../../app/composables/cache/useEventCache", () => ({
   useEventCache: () => ({ invalidateEventCache }),
 }));
 
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
+// MARK: Tests
+
 describe("useEventFAQEntryMutations", () => {
   const eventId = ref("event-123");
 
@@ -68,7 +65,6 @@ describe("useEventFAQEntryMutations", () => {
     showToastError.mockReset();
   });
 
-  // ---------------------------------------------------------------------------
   describe("createFAQ", () => {
     it("calls createEventFaq with eventId and faqData on success", async () => {
       createEventFaq.mockResolvedValue(undefined);
@@ -111,7 +107,6 @@ describe("useEventFAQEntryMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("updateFAQ", () => {
     it("calls updateEventFaq with eventId and faq on success", async () => {
       updateEventFaq.mockResolvedValue(undefined);
@@ -141,7 +136,6 @@ describe("useEventFAQEntryMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("reorderFAQs", () => {
     it("calls reorderEventFaqs with eventId and faqs on success", async () => {
       reorderEventFaqs.mockResolvedValue(undefined);
@@ -173,7 +167,6 @@ describe("useEventFAQEntryMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("deleteFAQ", () => {
     it("calls deleteEventFaq with faqId on success", async () => {
       deleteEventFaq.mockResolvedValue(undefined);
@@ -203,7 +196,6 @@ describe("useEventFAQEntryMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("readonly state", () => {
     it("returns loading and error", () => {
       const { loading, error } = useEventFAQEntryMutations(eventId);

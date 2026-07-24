@@ -9,9 +9,8 @@ import { ref } from "vue";
 import { useEventImageIconMutations } from "../../../app/composables/mutations/useEventImageIconMutations";
 import { createSampleUploadableFile, setupMutationMocks } from "./setup";
 
-// ---------------------------------------------------------------------------
-// Hoisted mocks
-// ---------------------------------------------------------------------------
+// MARK: Hoisted Mocks
+
 const { showToastError, uploadEventIconImage, invalidateEventCache } =
   vi.hoisted(() => ({
     showToastError: vi.fn(),
@@ -19,9 +18,8 @@ const { showToastError, uploadEventIconImage, invalidateEventCache } =
     invalidateEventCache: vi.fn(),
   }));
 
-// ---------------------------------------------------------------------------
-// Module mocks
-// ---------------------------------------------------------------------------
+// MARK: Module Mocks
+
 vi.mock("../../../app/services/event/image", () => ({
   uploadEventIconImage: (...args: unknown[]) => uploadEventIconImage(...args),
 }));
@@ -42,9 +40,8 @@ vi.mock("../../../app/stores/eventList", () => ({
   useEventListStore: () => ({ setItems: vi.fn() }),
 }));
 
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
+// MARK: Tests
+
 describe("useEventImageIconMutations", () => {
   const eventId = ref("event-123");
 

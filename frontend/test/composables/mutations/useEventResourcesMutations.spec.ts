@@ -9,9 +9,8 @@ import { ref } from "vue";
 import { useEventResourcesMutations } from "../../../app/composables/mutations/useEventResourcesMutations";
 import { sampleResourceInput, setupMutationMocks } from "./setup";
 
-// ---------------------------------------------------------------------------
-// Hoisted mocks
-// ---------------------------------------------------------------------------
+// MARK: Hoisted Mocks
+
 const {
   showToastError,
   createEventResource,
@@ -28,9 +27,8 @@ const {
   invalidateEventCache: vi.fn(),
 }));
 
-// ---------------------------------------------------------------------------
-// Module mocks
-// ---------------------------------------------------------------------------
+// MARK: Module Mocks
+
 vi.mock("../../../app/services/event/resource", () => ({
   createEventResource: (...args: unknown[]) => createEventResource(...args),
   updateEventResource: (...args: unknown[]) => updateEventResource(...args),
@@ -50,9 +48,8 @@ vi.mock("../../../app/composables/cache/useEventCache", () => ({
   useEventCache: () => ({ invalidateEventCache }),
 }));
 
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
+// MARK: Tests
+
 describe("useEventResourcesMutations", () => {
   const eventId = ref("event-123");
 
@@ -68,7 +65,6 @@ describe("useEventResourcesMutations", () => {
     showToastError.mockReset();
   });
 
-  // ---------------------------------------------------------------------------
   describe("createResource", () => {
     it("calls createEventResource with eventId and resourceData on success", async () => {
       createEventResource.mockResolvedValue(undefined);
@@ -112,7 +108,6 @@ describe("useEventResourcesMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("updateResource", () => {
     it("calls updateEventResource with eventId and resource on success", async () => {
       updateEventResource.mockResolvedValue(undefined);
@@ -145,7 +140,6 @@ describe("useEventResourcesMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("deleteResource", () => {
     it("calls deleteEventResource with resourceId on success", async () => {
       deleteEventResource.mockResolvedValue(undefined);
@@ -175,7 +169,6 @@ describe("useEventResourcesMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("reorderResources", () => {
     it("calls reorderEventResources with eventId and resources on success", async () => {
       reorderEventResources.mockResolvedValue(undefined);
@@ -207,7 +200,6 @@ describe("useEventResourcesMutations", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
   describe("readonly state", () => {
     it("returns loading and error", () => {
       const { loading, error } = useEventResourcesMutations(eventId);
