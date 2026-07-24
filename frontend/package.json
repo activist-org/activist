@@ -97,7 +97,7 @@
     "autoprefixer": "10.5.2",
     "axios": "1.18.1",
     "commander": "15.0.0",
-    "dompurify": "3.4.11",
+    "dompurify": "3.4.12",
     "dotenv": "17.4.2",
     "eslint-config-prettier": "10.1.8",
     "eslint-flat-config-utils": "3.2.0",
@@ -130,7 +130,8 @@
   "resolutions": {
     "chokidar": "3.6.0",
     "playwright-core": "1.61.0",
-    "commander": "15.0.0"
+    "commander": "15.0.0",
+    "glob": "^13.0.6"
   },
   "packageManager": "yarn@4.17.0"
 }

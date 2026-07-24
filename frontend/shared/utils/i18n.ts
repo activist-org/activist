@@ -7,20 +7,22 @@ import fr from "~~/i18n/locales/fr.json" with { type: "json" };
 import id from "~~/i18n/locales/id.json" with { type: "json" };
 import it from "~~/i18n/locales/it.json" with { type: "json" };
 import pt from "~~/i18n/locales/pt.json" with { type: "json" };
+import ru from "~~/i18n/locales/ru.json" with { type: "json" };
 
 import { LOCALE_CODE } from "#shared/utils/locales";
 
 type LocaleFile = Record<string, string>;
 
 const localeFiles: Record<LOCALE_CODE, LocaleFile> = {
-  [LOCALE_CODE.ENGLISH]: enUS,
   [LOCALE_CODE.ARABIC]: ar,
+  [LOCALE_CODE.ENGLISH]: enUS,
   [LOCALE_CODE.GERMAN]: de,
+  [LOCALE_CODE.FRENCH]: fr,
   [LOCALE_CODE.INDONESIAN]: id,
   [LOCALE_CODE.ITALIAN]: it,
   [LOCALE_CODE.SPANISH]: es,
-  [LOCALE_CODE.FRENCH]: fr,
   [LOCALE_CODE.PORTUGUESE]: pt,
+  [LOCALE_CODE.RUSSIAN]: ru,
 };
 
 export function getLocaleText(locale?: LOCALE_CODE): LocaleFile {

@@ -47,10 +47,19 @@ jobs:
 
       - name: First PR Contributor Email Check
         id: first_interaction
-        uses: actions/first-interaction@v1
+        uses: actions/first-interaction@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          pr-message: |
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_message: |
+            ## Thank you for opening your first issue! ❤️
+
+            - If you're not already a member of our [public Matrix community](https://matrix.to/#/#activist_community:matrix.org), please consider joining!
+              - We'd suggest that you use the [Element](https://element.io/) client as well as [Element X](https://element.io/app) for a mobile app
+              - Join the `General` and `Development` rooms once you're in
+            - Also consider attending our bi-weekly Saturday developer syncs!
+              - Details are shared in the `Development` room on Matrix each Wednesday before the sync
+              - It would be great to meet you 😊
+          pr_message: |
             ## First PR Commit Check
 
             - [ ] The commit messages for the remote branch of a new contributor should be checked to make sure their email is set up correctly so that they receive credit for their contribution

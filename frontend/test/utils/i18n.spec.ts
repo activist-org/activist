@@ -85,6 +85,7 @@ describe("utils/i18n", () => {
       LOCALE_CODE.ITALIAN,
       LOCALE_CODE.PORTUGUESE,
       LOCALE_CODE.SPANISH,
+      LOCALE_CODE.RUSSIAN,
     ];
 
     for (const locale of locales) {
