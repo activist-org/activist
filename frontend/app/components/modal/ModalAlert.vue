@@ -16,6 +16,7 @@
           ariaLabel="i18n.components.modal_alert.confirm_action_aria_label"
           :cta="true"
           fontSize="sm"
+          :isLoading="isLoading"
           :label="confirmBtnLabel || 'i18n.components.modal_alert.confirm'"
         />
         <BtnAction
@@ -36,6 +37,7 @@ const props = withDefaults(
     modalName?: string;
     confirmBtnLabel?: string;
     message?: string;
+    isLoading?: boolean;
   }>(),
   {
     confirmBtnLabel: "i18n.components.modal_alert.confirm",

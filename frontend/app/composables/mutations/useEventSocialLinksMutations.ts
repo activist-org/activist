@@ -3,113 +3,106 @@
 
 export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
   const loading = ref(false);
-  const { error, handleError, clearError } = useAppError();
+  const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
+  const { invalidateEventCache } = useEventCache();
 
   // Update a single social link.
-  async function updateLink(
-    linkId: string,
-    data: { link: string; label: string; order: number }
-  ) {
-    if (!currentEventId.value) return false;
-
-    loading.value = true;
-    clearError();
-
-    try {
-      await updateEventSocialLink(currentEventId.value, linkId, {
-        ...data,
-      });
-
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
+  const { mutateAsync: updateLink, isLoading: loadingUpdateLink } = useMutation(
+    {
+      mutation: async (linkData: {
+        id: string;
+        link: string;
+        label: string;
+        order: number;
+      }) => {
+        if (!currentEventId.value) return null;
+        return updateEventSocialLink(
+          currentEventId.value,
+          linkData.id,
+          linkData
+        );
+      },
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
     }
-  }
+  );
 
   // Create multiple social links.
-  async function createLinks(links: SocialLinkInput[]) {
-    if (!currentEventId.value || !links.length) return false;
-
-    loading.value = true;
-    clearError();
-
-    try {
-      await createEventSocialLinks(currentEventId.value, links);
-
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: createLinks, isLoading: loadingCreateLinks } =
+    useMutation({
+      mutation: async (
+        links: { link: string; label: string; order: number }[]
+      ) => {
+        if (!currentEventId.value) return null;
+        if (!links || links.length === 0) return null; // Added defensive check
+        return createEventSocialLinks(currentEventId.value, links);
+      },
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Delete a single social link.
-  async function deleteLink(linkId: string) {
-    loading.value = true;
-    clearError();
-
-    try {
-      await deleteEventSocialLink(linkId);
-
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
+  const { mutateAsync: deleteLink, isLoading: loadingDeleteLink } = useMutation(
+    {
+      mutation: async (linkId: string) => {
+        if (!currentEventId.value) return null;
+        return deleteEventSocialLink(linkId);
+      },
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
     }
-  }
+  );
 
   // Replace all social links (delete all + create new ones).
-  async function replaceAllLinks(
-    links: { link: string; label: string; order: number }[]
-  ) {
-    if (!currentEventId.value) return false;
+  const { mutateAsync: replaceAllLinks, isLoading: loadingReplaceAllLinks } =
+    useMutation({
+      mutation: async (
+        links: { link: string; label: string; order: number }[]
+      ) => {
+        if (!currentEventId.value) return null;
+        if (!links || links.length === 0) return null;
+        return replaceAllEventSocialLinks(currentEventId.value, links);
+      },
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
-    loading.value = true;
-    clearError();
-
-    try {
-      await replaceAllEventSocialLinks(currentEventId.value, links);
-
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
+  watch(
+    [
+      loadingUpdateLink,
+      loadingCreateLinks,
+      loadingDeleteLink,
+      loadingReplaceAllLinks,
+    ],
+    ([update, create, del, replace]) => {
+      loading.value = update || create || del || replace;
     }
-  }
-
-  // Helper to refresh event data after mutations.
-  async function invalidateCacheRefreshEventData() {
-    if (!currentEventId.value) return;
-
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
-  }
+  );
 
   return {
     loading: readonly(loading),
-    error: readonly(error),
+    error,
     updateLink,
     createLinks,
     deleteLink,
     replaceAllLinks,
-    invalidateCacheRefreshEventData,
   };
 }

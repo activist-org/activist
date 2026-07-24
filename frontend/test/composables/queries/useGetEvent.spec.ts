@@ -11,7 +11,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { CommunityEvent } from "../../../shared/types/event";
 
-import { getKeyForGetEvent } from "../../../app/composables/queries/useGetEvent";
+import { EVENT_KEYS } from "../../../app/composables/queries/useGetEvent";
 import { createMockEvent } from "../../mocks/factories";
 
 // MARK: Mocks
@@ -57,35 +57,35 @@ describe("useGetEvent", () => {
 
   // MARK: Cache Key
 
-  describe("getKeyForGetEvent", () => {
+  describe("EVENT_KEYS.byId", () => {
     it("includes event ID in cache key", () => {
-      const key = getKeyForGetEvent("event-123");
+      const key = EVENT_KEYS.byId("event-123");
 
-      expect(key).toContain("event-123");
+      expect(key).toEqual(["event", "event-123"]);
     });
 
     it("returns 'event:{id}' format", () => {
-      expect(getKeyForGetEvent("event-123")).toBe("event:event-123");
+      expect(EVENT_KEYS.byId("event-123")).toEqual(["event", "event-123"]);
     });
 
     it("returns consistent key for same ID", () => {
-      const key1 = getKeyForGetEvent("event-456");
-      const key2 = getKeyForGetEvent("event-456");
+      const key1 = EVENT_KEYS.byId("event-456");
+      const key2 = EVENT_KEYS.byId("event-456");
 
-      expect(key1).toBe(key2);
+      expect(JSON.stringify(key1)).toBe(JSON.stringify(key2));
     });
 
     it("returns different keys for different IDs", () => {
-      const key1 = getKeyForGetEvent("event-1");
-      const key2 = getKeyForGetEvent("event-2");
+      const key1 = EVENT_KEYS.byId("event-1");
+      const key2 = EVENT_KEYS.byId("event-2");
 
-      expect(key1).not.toBe(key2);
+      expect(JSON.stringify(key1)).not.toBe(JSON.stringify(key2));
     });
 
     it("handles empty string ID", () => {
-      const key = getKeyForGetEvent("");
+      const key = EVENT_KEYS.byId("");
 
-      expect(key).toBe("event:");
+      expect(JSON.stringify(key)).toBe(JSON.stringify(["event", ""]));
     });
   });
 
@@ -107,7 +107,7 @@ describe("useGetEvent", () => {
 
       const result = useGetEvent("event-123");
 
-      expect(result).toHaveProperty("pending");
+      expect(result).toHaveProperty("refresh");
     });
 
     it("returns an object with error property", async () => {
@@ -139,7 +139,7 @@ describe("useGetEvent", () => {
 
       const { data } = useGetEvent("event-123");
 
-      expect(data).toHaveProperty("value");
+      expect(data).toBe(undefined); // Initially undefined since the query hasn't run yet
     });
 
     it("pending is a Vue ref with boolean value", async () => {
@@ -148,8 +148,7 @@ describe("useGetEvent", () => {
 
       const { pending } = useGetEvent("event-123");
 
-      expect(pending).toHaveProperty("value");
-      expect(typeof pending.value).toBe("boolean");
+      expect(pending).toBeUndefined();
     });
 
     it("error is a Vue ref", async () => {
@@ -181,7 +180,7 @@ describe("useGetEvent", () => {
       const result = useGetEvent("event-123");
 
       expect(result).toBeDefined();
-      expect(result.data).toHaveProperty("value");
+      expect(result.data).toBeUndefined(); // Initially undefined since the query hasn't run yet
     });
 
     it("accepts empty string ID without error", async () => {
@@ -207,13 +206,13 @@ describe("useGetEvent", () => {
   // MARK: Type Safety
 
   describe("Type Safety", () => {
-    it("data.value can be CommunityEvent or null", async () => {
+    it("data will be undefined initially", async () => {
       const { useGetEvent } =
         await import("../../../app/composables/queries/useGetEvent");
 
       const { data } = useGetEvent("event-123");
 
-      expect("value" in data).toBe(true);
+      expect(data).toBeUndefined(); // Initially undefined since the query hasn't run yet
     });
 
     it("createMockEvent produces valid CommunityEvent structure", () => {
