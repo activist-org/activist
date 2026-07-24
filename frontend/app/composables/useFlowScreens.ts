@@ -72,7 +72,7 @@ export function useFlowScreens(
         await store.next();
       } catch (error) {
         const errorMessage = errorHandler(error);
-        // this is for all errors that are not server related since the mutation or query should handle those
+        // This is for all errors that are not server related since the mutation or query should handle those.
         if (errorMessage.cause === AppErrorCause.UNKNOWN)
           toast.showToastError(errorMessage.message);
         // Optionally handle errors (e.g., toast message) and don't advance.
