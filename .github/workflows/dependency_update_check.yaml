@@ -29,14 +29,15 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Set up Node Environment
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24
 
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
-          echo "> [!NOTE]\n> Please note that all tests should pass for PRs that are updating dependencies. See [the testing section of the contributing guide](./CONTRIBUTING.md#testing) for more information on how to run tests locally." >> reports.md
+          echo "> [!NOTE]" >> reports.md
+          echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#testing) for more information on how to run tests locally." >> reports.md
           echo "## Available Update ⚙️" >> reports.md
 
       - name: Set up Python
@@ -224,11 +225,15 @@ jobs:
           yarn test --silent 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
+      - name: Set date
+        id: date
+        run: echo "REPORT_DATE=$(date '+%B %d, %Y')" >> $GITHUB_ENV
+
       - name: Create GitHub Issue
         if: always()
         uses: peter-evans/create-issue-from-file@v6
         with:
-          title: "Dependency Update Report - $(date '+%B %d, %Y') 🤖📝"
+          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖📝"
           content-filepath: reports.md
           labels: |
             dependencies
