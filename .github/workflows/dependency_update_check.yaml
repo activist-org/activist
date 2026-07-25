@@ -37,7 +37,7 @@ jobs:
         run: |
           echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
           echo "> [!NOTE]" >> reports.md
-          echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#testing) for more information on how to run tests locally." >> reports.md
+          echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
           echo "## Available Update ⚙️" >> reports.md
 
       - name: Set up Python
