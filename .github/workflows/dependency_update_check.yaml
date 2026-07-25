@@ -36,6 +36,7 @@ jobs:
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
+          echo "> [!NOTE]\n> Please note that all tests should pass for PRs that are updating dependencies. See [the testing section of the contributing guide](./CONTRIBUTING.md#testing) for more information on how to run tests locally." > reports.md
           echo "## Available Update ⚙️" >> reports.md
 
       - name: Set up Python
@@ -161,11 +162,14 @@ jobs:
           source .venv/bin/activate
           echo -e "\n## Test Results" >> ../reports.md
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Install Python Dependencies
         working-directory: ./backend
         run: |
           source .venv/bin/activate
-          uv sync --frozen --all-extras
+          uv sync --frozen --all-groups
 
       - name: Run Backend Tests
         id: backend-tests
