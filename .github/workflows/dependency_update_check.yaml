@@ -36,7 +36,7 @@ jobs:
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
-          echo "> [!NOTE]\n> Please note that all tests should pass for PRs that are updating dependencies. See [the testing section of the contributing guide](./CONTRIBUTING.md#testing) for more information on how to run tests locally." > reports.md
+          echo "> [!NOTE]\n> Please note that all tests should pass for PRs that are updating dependencies. See [the testing section of the contributing guide](./CONTRIBUTING.md#testing) for more information on how to run tests locally." >> reports.md
           echo "## Available Update ⚙️" >> reports.md
 
       - name: Set up Python
@@ -224,15 +224,11 @@ jobs:
           yarn test --silent 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-      - name: Set date
-        id: date
-        run: echo "REPORT_DATE=$(date '+%B %d, %Y')" >> $GITHUB_ENV
-
       - name: Create GitHub Issue
         if: always()
-        uses: peter-evans/create-issue-from-file@v4
+        uses: peter-evans/create-issue-from-file@v6
         with:
-          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖"
+          title: "Dependency Update Report - $(date '+%B %d, %Y') 🤖📝"
           content-filepath: reports.md
           labels: |
             dependencies
