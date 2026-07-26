@@ -312,22 +312,22 @@ describe("useGetGroup Integration", () => {
   // MARK: Cache Key
 
   describe("Cache Key", () => {
-    it("getKeyForGetGroup returns ID-based key", async () => {
-      const { getKeyForGetGroup } =
+    it("GROUP_KEYS.byId returns ID-based key", async () => {
+      const { GROUP_KEYS } =
         await import("../../../../app/composables/queries/useGetGroup");
 
-      expect(getKeyForGetGroup("group-123")).toBe("group:group-123");
-      expect(getKeyForGetGroup("abc")).toBe("group:abc");
+      expect(GROUP_KEYS.byId("group-123")).toEqual(["group", "group-123"]);
+      expect(GROUP_KEYS.byId("abc")).toEqual(["group", "abc"]);
     });
 
     it("different IDs produce different keys", async () => {
-      const { getKeyForGetGroup } =
+      const { GROUP_KEYS } =
         await import("../../../../app/composables/queries/useGetGroup");
 
-      const key1 = getKeyForGetGroup("group-1");
-      const key2 = getKeyForGetGroup("group-2");
+      const key1 = GROUP_KEYS.byId("group-1");
+      const key2 = GROUP_KEYS.byId("group-2");
 
-      expect(key1).not.toBe(key2);
+      expect(key1).not.toEqual(key2);
     });
   });
 });

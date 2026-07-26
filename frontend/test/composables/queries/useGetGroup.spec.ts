@@ -11,7 +11,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Group } from "../../../shared/types/group";
 
-import { getKeyForGetGroup } from "../../../app/composables/queries/useGetGroup";
+import { GROUP_KEYS } from "../../../app/composables/queries/useGetGroup";
 import { createMockGroup } from "../../mocks/factories";
 
 // MARK: Mocks
@@ -57,35 +57,35 @@ describe("useGetGroup", () => {
 
   // MARK: Cache Key
 
-  describe("getKeyForGetGroup", () => {
+  describe("GROUP_KEYS.byId", () => {
     it("includes group ID in cache key", () => {
-      const key = getKeyForGetGroup("group-123");
+      const key = GROUP_KEYS.byId("group-123");
 
-      expect(key).toContain("group-123");
+      expect(key).toEqual(["group", "group-123"]);
     });
 
     it("returns 'group:{id}' format", () => {
-      expect(getKeyForGetGroup("group-123")).toBe("group:group-123");
+      expect(GROUP_KEYS.byId("group-123")).toEqual(["group", "group-123"]);
     });
 
     it("returns consistent key for same ID", () => {
-      const key1 = getKeyForGetGroup("group-456");
-      const key2 = getKeyForGetGroup("group-456");
+      const key1 = GROUP_KEYS.byId("group-456");
+      const key2 = GROUP_KEYS.byId("group-456");
 
-      expect(key1).toBe(key2);
+      expect(JSON.stringify(key1)).toBe(JSON.stringify(key2));
     });
 
     it("returns different keys for different IDs", () => {
-      const key1 = getKeyForGetGroup("group-1");
-      const key2 = getKeyForGetGroup("group-2");
+      const key1 = GROUP_KEYS.byId("group-1");
+      const key2 = GROUP_KEYS.byId("group-2");
 
-      expect(key1).not.toBe(key2);
+      expect(JSON.stringify(key1)).not.toBe(JSON.stringify(key2));
     });
 
     it("handles empty string ID", () => {
-      const key = getKeyForGetGroup("");
+      const key = GROUP_KEYS.byId("");
 
-      expect(key).toBe("group:");
+      expect(JSON.stringify(key)).toBe(JSON.stringify(["group", ""]));
     });
   });
 
@@ -133,23 +133,22 @@ describe("useGetGroup", () => {
   // MARK: Reactive Properties
 
   describe("Reactive Properties", () => {
-    it("data is a Vue ref with value property", async () => {
+    it("data is undefined before the query has run", async () => {
       const { useGetGroup } =
         await import("../../../app/composables/queries/useGetGroup");
 
       const { data } = useGetGroup("group-123");
 
-      expect(data).toHaveProperty("value");
+      expect(data).toBe(undefined);
     });
 
-    it("pending is a Vue ref with boolean value", async () => {
+    it("pending is undefined before the query has run", async () => {
       const { useGetGroup } =
         await import("../../../app/composables/queries/useGetGroup");
 
       const { pending } = useGetGroup("group-123");
 
-      expect(pending).toHaveProperty("value");
-      expect(typeof pending.value).toBe("boolean");
+      expect(pending).toBeUndefined();
     });
 
     it("error is a Vue ref", async () => {
@@ -181,7 +180,7 @@ describe("useGetGroup", () => {
       const result = useGetGroup("group-123");
 
       expect(result).toBeDefined();
-      expect(result.data).toHaveProperty("value");
+      expect(result.data).toBeUndefined();
     });
 
     it("accepts empty string ID without error", async () => {
@@ -207,13 +206,13 @@ describe("useGetGroup", () => {
   // MARK: Type Safety
 
   describe("Type Safety", () => {
-    it("data.value can be Group or null", async () => {
+    it("data will be undefined initially", async () => {
       const { useGetGroup } =
         await import("../../../app/composables/queries/useGetGroup");
 
       const { data } = useGetGroup("group-123");
 
-      expect("value" in data).toBe(true);
+      expect(data).toBeUndefined();
     });
 
     it("createMockGroup produces valid Group structure", () => {
