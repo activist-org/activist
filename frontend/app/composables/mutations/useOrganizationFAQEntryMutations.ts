@@ -1,117 +1,108 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
+// Mutation composable for FAQ entries - uses Pinia Colada for cache invalidation.
 
 export function useOrganizationFAQEntryMutations(
   organizationId: MaybeRef<string>
 ) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError } = useAppError();
 
   const currentOrganizationId = computed(() => unref(organizationId));
+  const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Create new FAQ entry.
-  async function createFAQ(faqData: Omit<FaqEntry, "id">) {
-    if (!currentOrganizationId.value) {
-      return false;
-    }
-
-    loading.value = true;
-    error.value = null;
-
-    try {
-      // Service function handles the HTTP call and throws normalized errors.
-      await createOrganizationFaq(
-        currentOrganizationId.value,
-        faqData as FaqEntry
-      );
-
-      invalidateCacheRefreshOrgData();
-
-      return true;
-    } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: createFAQAsync, isLoading: loadingCreateFAQ } =
+    useMutation({
+      mutation: (faqData: Omit<FaqEntry, "id">) =>
+        createOrganizationFaq(currentOrganizationId.value, faqData as FaqEntry),
+      async onSettled() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Update existing FAQ entry.
-  async function updateFAQ(faq: FaqEntry) {
-    loading.value = true;
-    error.value = null;
-
-    try {
-      // Direct service call - no useAsyncData needed for mutations.
-      await updateOrganizationFaq(faq);
-
-      invalidateCacheRefreshOrgData();
-
-      return true;
-    } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: updateFAQAsync, isLoading: loadingUpdateFAQ } =
+    useMutation({
+      mutation: (faq: FaqEntry) => updateOrganizationFaq(faq),
+      async onSettled() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Reorder multiple FAQ entries.
-  async function reorderFAQs(faqs: FaqEntry[]) {
-    loading.value = true;
-    error.value = null;
-
-    try {
-      await reorderOrganizationFaqs(faqs);
-
-      invalidateCacheRefreshOrgData();
-
-      return true;
-    } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: reorderFAQsAsync, isLoading: loadingReorderFAQs } =
+    useMutation({
+      mutation: (faqs: FaqEntry[]) => reorderOrganizationFaqs(faqs),
+      async onSettled() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Delete FAQ entry.
-  async function deleteFAQ(faqId: string) {
-    loading.value = true;
-    error.value = null;
+  const { mutateAsync: deleteFAQAsync, isLoading: loadingDeleteFAQ } =
+    useMutation({
+      mutation: (faqId: string) => deleteOrganizationFaq(faqId),
+      async onSettled() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
+  // Wrappers keep the true/false contract that call sites rely on.
+  const createFAQ = async (faqData: Omit<FaqEntry, "id">) => {
+    if (!currentOrganizationId.value) return false;
     try {
-      await deleteOrganizationFaq(faqId);
-
-      invalidateCacheRefreshOrgData();
-
+      await createFAQAsync(faqData);
       return true;
-    } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+    } catch {
       return false;
-    } finally {
-      loading.value = false;
     }
-  }
+  };
 
-  // Helper to refresh organization data after mutations.
-  async function invalidateCacheRefreshOrgData() {
-    if (!currentOrganizationId.value) return;
+  const updateFAQ = async (faq: FaqEntry) => {
+    try {
+      await updateFAQAsync(faq);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
-  }
+  const reorderFAQs = async (faqs: FaqEntry[]) => {
+    try {
+      await reorderFAQsAsync(faqs);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const deleteFAQ = async (faqId: string) => {
+    try {
+      await deleteFAQAsync(faqId);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  watch(
+    [loadingCreateFAQ, loadingUpdateFAQ, loadingDeleteFAQ, loadingReorderFAQs],
+    ([create, update, del, reorder]) => {
+      loading.value = create || update || del || reorder;
+    }
+  );
 
   return {
     loading: readonly(loading),
@@ -120,6 +111,5 @@ export function useOrganizationFAQEntryMutations(
     updateFAQ,
     reorderFAQs,
     deleteFAQ,
-    invalidateCacheRefreshOrgData,
   };
 }
