@@ -4,6 +4,7 @@
 export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   const loading = ref(false);
   const { error, handleError, clearError } = useAppError();
+  const { invalidateGroupCache } = useGroupCache();
 
   const currentGroupId = computed(() => unref(groupId));
 
@@ -93,7 +94,7 @@ export function useGroupFAQEntryMutations(groupId: MaybeRef<string>) {
   async function invalidateCacheRefreshGroupData() {
     if (!currentGroupId.value) return;
 
-    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
+    await invalidateGroupCache(currentGroupId.value);
   }
 
   return {
