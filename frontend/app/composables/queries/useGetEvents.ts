@@ -9,6 +9,16 @@ export function useGetEvents(
   const page = ref(1);
   const { handleError } = useAppError();
   const eventFilters = computed(() => unref(filters));
+
+  watch(
+    eventFilters,
+    () => {
+      page.value = 1;
+      store.setPage(1);
+    },
+    { deep: true }
+  );
+
   // UseAsyncData for SSR, hydration, and cache.
   const { data, pending, error, refresh } = useAsyncData<CommunityEvent[]>(
     () => getKeyForGetEvents(),
