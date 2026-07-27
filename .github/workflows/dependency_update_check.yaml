@@ -68,6 +68,9 @@ jobs:
           cp package.json package.old.json
           npm install -g npm-check-updates
 
+          chmod +x ../utils/dependency_update_check/compare_frontend_versions.ts
+          ncu -u
+
           echo -e "\n### Dependencies" >> ../reports.md
           echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
           echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
@@ -147,22 +150,22 @@ jobs:
           # Note: Don't check formatting.
           # echo -e "\n### Ruff Format Results" >> ../reports.md
           # echo "\`\`\`" >> ../reports.md
-          # ruff format . 2>&1 | tee -a ../reports.md || true
+          # uv run ruff format . 2>&1 | tee -a ../reports.md || true
           # echo "\`\`\`" >> ../reports.md
 
           echo -e "\n### Ruff Lint Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          ruff check . 2>&1 | tee -a ../reports.md || true
+          uv run ruff check . 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
           echo -e "\n### mypy Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
+          uv run mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
           echo -e "\n### Pytest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
+          uv run pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       # MARK: Create Issue
