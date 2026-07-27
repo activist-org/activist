@@ -144,7 +144,7 @@ jobs:
 
           echo -e "\n### Pytest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          docker exec django_backend pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
+          docker exec django_backend uv run pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Run Frontend Tests
