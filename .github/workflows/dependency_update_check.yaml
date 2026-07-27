@@ -123,22 +123,21 @@ jobs:
           # Note: Don't check formatting.
           # echo -e "\n### Ruff Format Results" >> reports.md
           # echo "\`\`\`" >> reports.md
-          # ruff format ./backend 2>&1 | tee -a reports.md || true
+          # uv run ruff format ./backend 2>&1 | tee -a reports.md || true
           # echo "\`\`\`" >> reports.md
 
           echo -e "\n### Ruff Lint Results" >> reports.md
           echo "\`\`\`" >> reports.md
-          ruff check ./backend 2>&1 | tee -a reports.md || true
+          uv run ruff check ./backend 2>&1 | tee -a reports.md || true
           echo "\`\`\`" >> reports.md
 
           echo -e "\n### mypy Results" >> reports.md
           echo "\`\`\`" >> reports.md
-          mypy ./backend --config-file ./backend/pyproject.toml 2>&1 | tee -a reports.md || true
+          uv run mypy ./backend --config-file ./backend/pyproject.toml 2>&1 | tee -a reports.md || true
           echo "\`\`\`" >> reports.md
 
           # Run backend and enter the container.
           docker compose --env-file .env.dev up backend --build -d
-          docker exec -it django_backend sh
 
           echo -e "\n### Pytest Results" >> reports.md
           echo "\`\`\`" >> reports.md
