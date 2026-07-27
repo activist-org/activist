@@ -66,14 +66,10 @@ jobs:
 
       - name: Update Backend Dependencies
         id: backend-updates
-        working-directory: ./backend
         continue-on-error: true
         run: |
-          source .venv/bin/activate
-          echo PATH=$PATH >> $GITHUB_ENV
-
           # Does uv the upgrade within the script so that we can parse the output.
-          python utils/dependency_update_check/compare_backend_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
+          python utils/dependency_update_check/compare_backend_versions.py >> reports.md || echo "No backend changes found" >> reports.md
 
       # MARK: Frontend
 
@@ -95,7 +91,6 @@ jobs:
 
       - name: Update Frontend Dependencies
         id: frontend-updates
-        working-directory: ./frontend
         continue-on-error: true
         run: |
           cp package.json package.old.json
@@ -105,9 +100,9 @@ jobs:
           ncu -u
 
           echo -e "\n### Dependencies" >> ../reports.md
-          echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
-          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
-          node utils/dependency_update_check/compare_frontend_versions.ts | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
+          echo -e "| Package Name | Old Version | New Available Version | Type |" >> reports.md
+          echo -e "|--------------|-------------|-----------------------|------|" >> reports.md
+          node utils/dependency_update_check/compare_frontend_versions.ts | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> reports.md || echo "No frontend changes found" >> reports.md
 
       # MARK: Run Tests
 
