@@ -120,8 +120,6 @@ jobs:
         id: backend-tests
         continue-on-error: true
         run: |
-          source .venv/bin/activate
-
           # Note: Don't check formatting.
           # echo -e "\n### Ruff Format Results" >> reports.md
           # echo "\`\`\`" >> reports.md
