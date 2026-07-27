@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Ran as a part of the dependency_update_check GitHub Action to derive potential frontend updates.
 
-import newPkg from './../../frontend/package.json';
+import newPkg from './../../frontend/package.json' with { type: 'json' };
 // @ts-expect-error package.old.json is generated dynamically in CI.
-import oldPkg from './../../frontend/package.old.json';
+import oldPkg from './../../frontend/package.old.json' with { type: 'json' };
 
 interface PackageJson {
   dependencies?: Record<string, string>;
