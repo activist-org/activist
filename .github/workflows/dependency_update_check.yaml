@@ -178,7 +178,6 @@ jobs:
         run: echo "REPORT_DATE=$(date '+%B %d, %Y')" >> $GITHUB_ENV
 
       - name: Create GitHub Issue
-        if: always()
         uses: peter-evans/create-issue-from-file@v6
         with:
           title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖📝"
