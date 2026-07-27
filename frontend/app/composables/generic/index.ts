@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+export * from "./useAppAnnouncer";
 export * from "./useAppError";
 export * from "./useBreakpoint";
 export * from "./useCustomInfiniteScroll";
