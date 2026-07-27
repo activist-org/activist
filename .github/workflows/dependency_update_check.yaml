@@ -75,6 +75,7 @@ jobs:
 
           # Does uv the upgrade within the script so that we can parse the output.
           python ../utils/dependency_update_check/compare_backend_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
+          uv sync --frozen --all-groups  # run again for new dependencies
 
       # MARK: Frontend
 
@@ -117,31 +118,34 @@ jobs:
 
       - name: Run Backend Tests
         id: backend-tests
-        working-directory: ./backend
         continue-on-error: true
         run: |
           source .venv/bin/activate
 
           # Note: Don't check formatting.
-          # echo -e "\n### Ruff Format Results" >> ../reports.md
-          # echo "\`\`\`" >> ../reports.md
-          # ruff format . 2>&1 | tee -a ../reports.md || true
-          # echo "\`\`\`" >> ../reports.md
+          # echo -e "\n### Ruff Format Results" >> reports.md
+          # echo "\`\`\`" >> reports.md
+          # ruff format ./backend 2>&1 | tee -a reports.md || true
+          # echo "\`\`\`" >> reports.md
 
-          echo -e "\n### Ruff Lint Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          ruff check . 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
+          echo -e "\n### Ruff Lint Results" >> reports.md
+          echo "\`\`\`" >> reports.md
+          ruff check ./backend 2>&1 | tee -a reports.md || true
+          echo "\`\`\`" >> reports.md
 
-          echo -e "\n### mypy Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
+          echo -e "\n### mypy Results" >> reports.md
+          echo "\`\`\`" >> reports.md
+          mypy ./backend --config-file ./backend/pyproject.toml 2>&1 | tee -a reports.md || true
+          echo "\`\`\`" >> reports.md
 
-          echo -e "\n### Pytest Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
+          # Run backend and enter the container.
+          docker compose --env-file .env.dev up backend --build -d
+          docker exec -it django_backend sh
+
+          echo -e "\n### Pytest Results" >> reports.md
+          echo "\`\`\`" >> reports.md
+          uv run pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a reports.md || true
+          echo "\`\`\`" >> reports.md
 
       - name: Run Frontend Tests
         id: frontend-tests
