@@ -84,7 +84,7 @@ jobs:
         continue-on-error: true
         run: |
           sudo corepack enable
-          corepack prepare yarn@4.6.0 --activate
+          corepack prepare yarn@4.17.0 --activate
 
       - name: Install Frontend Dependencies
         id: install-frontend
@@ -92,7 +92,7 @@ jobs:
         continue-on-error: true
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
-          yarn set version 4.6.0
+          yarn set version 4.17.0
           yarn install --no-immutable
 
       - name: Update Frontend Dependencies
@@ -101,7 +101,7 @@ jobs:
         continue-on-error: true
         run: |
           cp package.json package.old.json
-          npm install -g npm-check-updates
+          yarn add npm-check-updates
 
           chmod +x ../utils/dependency_update_check/compare_frontend_versions.ts
           ncu -u
