@@ -42,6 +42,37 @@ jobs:
           echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
           echo "## Available Updates ⚙️" >> reports.md
 
+      # MARK: Frontend
+
+      - name: Setup Yarn
+        working-directory: ./frontend
+        continue-on-error: true
+        run: |
+          sudo corepack enable
+          corepack prepare yarn@4.6.0 --activate
+
+      - name: Install Frontend Dependencies
+        id: install-frontend
+        working-directory: ./frontend
+        continue-on-error: true
+        run: |
+          rm -rf .yarn .pnp.* yarn.lock node_modules
+          yarn set version 4.6.0
+          yarn install --no-immutable
+
+      - name: Update Frontend Dependencies
+        id: frontend-updates
+        working-directory: ./frontend
+        continue-on-error: true
+        run: |
+          cp package.json package.old.json
+          npm install -g npm-check-updates
+
+          echo -e "\n### Dependencies" >> ../reports.md
+          echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
+          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
+          node ../utils/dependency_update_check/compare_frontend_versions.ts | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
+
       # MARK: Backend
 
       - name: Set up Python
@@ -66,45 +97,40 @@ jobs:
 
       - name: Update Backend Dependencies
         id: backend-updates
+        working-directory: ./backend
         continue-on-error: true
         run: |
           # Does uv the upgrade within the script so that we can parse the output.
-          python utils/dependency_update_check/compare_backend_versions.py >> reports.md || echo "No backend changes found" >> reports.md
-
-      # MARK: Frontend
-
-      - name: Setup Yarn
-        working-directory: ./frontend
-        continue-on-error: true
-        run: |
-          sudo corepack enable
-          corepack prepare yarn@4.6.0 --activate
-
-      - name: Install Frontend Dependencies
-        id: install-frontend
-        working-directory: ./frontend
-        continue-on-error: true
-        run: |
-          rm -rf .yarn .pnp.* yarn.lock node_modules
-          yarn set version 4.6.0
-          yarn install --no-immutable
-
-      - name: Update Frontend Dependencies
-        id: frontend-updates
-        continue-on-error: true
-        run: |
-          cp package.json package.old.json
-          npm install -g npm-check-updates
-
-          chmod +x utils/dependency_update_check/compare_frontend_versions.ts
-          ncu -u
-
-          echo -e "\n### Dependencies" >> ../reports.md
-          echo -e "| Package Name | Old Version | New Available Version | Type |" >> reports.md
-          echo -e "|--------------|-------------|-----------------------|------|" >> reports.md
-          node utils/dependency_update_check/compare_frontend_versions.ts | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> reports.md || echo "No frontend changes found" >> reports.md
+          python ../utils/dependency_update_check/compare_backend_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
 
       # MARK: Run Tests
+
+      - name: Run Frontend Tests
+        id: frontend-tests
+        working-directory: ./frontend
+        continue-on-error: true
+        run: |
+          # Note: Don't check formatting.
+          # echo "compare_versions.js" >> ../.prettierignore
+          # echo -e "\n### Prettier Results" >> ../reports.md
+          # echo "\`\`\`" >> ../reports.md
+          # yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
+          # echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### ESLint Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          yarn lint 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Type Check Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          yarn typecheck 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Vitest Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          yarn test --silent 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
 
       - name: Add Test Results Header
         id: add-test-results-header
@@ -137,33 +163,6 @@ jobs:
           echo -e "\n### Pytest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
-
-      - name: Run Frontend Tests
-        id: frontend-tests
-        working-directory: ./frontend
-        continue-on-error: true
-        run: |
-          # Note: Don't check formatting.
-          # echo "compare_versions.js" >> ../.prettierignore
-          # echo -e "\n### Prettier Results" >> ../reports.md
-          # echo "\`\`\`" >> ../reports.md
-          # yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
-          # echo "\`\`\`" >> ../reports.md
-
-          echo -e "\n### ESLint Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          yarn lint 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
-
-          echo -e "\n### Type Check Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          yarn typecheck 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
-
-          echo -e "\n### Vitest Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          yarn test --silent 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       # MARK: Create Issue
