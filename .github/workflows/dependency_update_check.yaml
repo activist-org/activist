@@ -42,6 +42,40 @@ jobs:
           echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
           echo "## Available Updates ⚙️" >> reports.md
 
+      # MARK: Backend
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Create Python Virtual Environment
+        id: setup-venv
+        working-directory: ./backend
+        continue-on-error: true
+        run: python -m venv .venv
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: |
+          source .venv/bin/activate
+          uv sync --frozen --all-groups
+
+      - name: Update Backend Dependencies
+        id: backend-updates
+        working-directory: ./backend
+        continue-on-error: true
+        run: |
+          echo -e "\n### Dependencies" >> ../reports.md
+          echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
+          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
+
+          # Does uv the upgrade within the script so that we can parse the output.
+          python ../utils/dependency_update_check/compare_backend_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
+
       # MARK: Frontend
 
       - name: Setup Yarn
@@ -71,40 +105,7 @@ jobs:
           chmod +x ../utils/dependency_update_check/compare_frontend_versions.ts
           ncu -u
 
-          echo -e "\n### Dependencies" >> ../reports.md
-          echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
-          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
           node ../utils/dependency_update_check/compare_frontend_versions.ts | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
-
-      # MARK: Backend
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-
-      - name: Create Python Virtual Environment
-        id: setup-venv
-        working-directory: ./backend
-        continue-on-error: true
-        run: python -m venv .venv
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
-
-      - name: Install Backend Dependencies
-        working-directory: ./backend
-        run: |
-          source .venv/bin/activate
-          uv sync --frozen --all-groups
-
-      - name: Update Backend Dependencies
-        id: backend-updates
-        working-directory: ./backend
-        continue-on-error: true
-        run: |
-          # Does uv the upgrade within the script so that we can parse the output.
-          python ../utils/dependency_update_check/compare_backend_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
 
       # MARK: Run Tests
 
@@ -112,8 +113,35 @@ jobs:
         id: add-test-results-header
         continue-on-error: true
         run: |
-          source .venv/bin/activate
           echo -e "\n## Test Results" >> ../reports.md
+
+      - name: Run Backend Tests
+        id: backend-tests
+        working-directory: ./backend
+        continue-on-error: true
+        run: |
+          source .venv/bin/activate
+
+          # Note: Don't check formatting.
+          # echo -e "\n### Ruff Format Results" >> ../reports.md
+          # echo "\`\`\`" >> ../reports.md
+          # ruff format . 2>&1 | tee -a ../reports.md || true
+          # echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Ruff Lint Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          ruff check . 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### mypy Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
+
+          echo -e "\n### Pytest Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
 
       - name: Run Frontend Tests
         id: frontend-tests
@@ -140,32 +168,6 @@ jobs:
           echo -e "\n### Vitest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn test --silent 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
-
-      - name: Run Backend Tests
-        id: backend-tests
-        working-directory: ./backend
-        continue-on-error: true
-        run: |
-          # Note: Don't check formatting.
-          # echo -e "\n### Ruff Format Results" >> ../reports.md
-          # echo "\`\`\`" >> ../reports.md
-          # uv run ruff format . 2>&1 | tee -a ../reports.md || true
-          # echo "\`\`\`" >> ../reports.md
-
-          echo -e "\n### Ruff Lint Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          uv run ruff check . 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
-
-          echo -e "\n### mypy Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          uv run mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
-          echo "\`\`\`" >> ../reports.md
-
-          echo -e "\n### Pytest Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          uv run pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       # MARK: Create Issue
