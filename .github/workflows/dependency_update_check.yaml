@@ -120,29 +120,34 @@ jobs:
         id: backend-tests
         continue-on-error: true
         run: |
+          cd backend
+
           # Note: Don't check formatting.
-          # echo -e "\n### Ruff Format Results" >> reports.md
-          # echo "\`\`\`" >> reports.md
-          # uv run ruff format ./backend 2>&1 | tee -a reports.md || true
-          # echo "\`\`\`" >> reports.md
+          # echo -e "\n### Ruff Format Results" >> ../reports.md
+          # echo "\`\`\`" >> ../reports.md
+          # uv run ruff format . 2>&1 | tee -a ../reports.md || true
+          # echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Ruff Lint Results" >> reports.md
-          echo "\`\`\`" >> reports.md
-          uv run ruff check ./backend 2>&1 | tee -a reports.md || true
-          echo "\`\`\`" >> reports.md
+          echo -e "\n### Ruff Lint Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          uv run ruff check . 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### mypy Results" >> reports.md
-          echo "\`\`\`" >> reports.md
-          uv run mypy ./backend --config-file ./backend/pyproject.toml 2>&1 | tee -a reports.md || true
-          echo "\`\`\`" >> reports.md
+          echo -e "\n### mypy Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          uv run mypy . --config-file ./pyproject.toml 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
 
           # Run backend and enter the container.
+          cd ..
           docker compose --env-file .env.dev up backend --build -d
 
-          echo -e "\n### Pytest Results" >> reports.md
-          echo "\`\`\`" >> reports.md
-          uv run pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a reports.md || true
-          echo "\`\`\`" >> reports.md
+          cd backend
+
+          echo -e "\n### Pytest Results" >> ../reports.md
+          echo "\`\`\`" >> ../reports.md
+          uv run pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
+          echo "\`\`\`" >> ../reports.md
 
       - name: Run Frontend Tests
         id: frontend-tests
