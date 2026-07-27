@@ -108,6 +108,13 @@ jobs:
 
       # MARK: Run Tests
 
+      - name: Add Test Results Header
+        id: add-test-results-header
+        continue-on-error: true
+        run: |
+          source .venv/bin/activate
+          echo -e "\n## Test Results" >> ../reports.md
+
       - name: Run Frontend Tests
         id: frontend-tests
         working-directory: ./frontend
@@ -134,13 +141,6 @@ jobs:
           echo "\`\`\`" >> ../reports.md
           yarn test --silent 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
-
-      - name: Add Test Results Header
-        id: add-test-results-header
-        continue-on-error: true
-        run: |
-          source .venv/bin/activate
-          echo -e "\n## Test Results" >> ../reports.md
 
       - name: Run Backend Tests
         id: backend-tests
