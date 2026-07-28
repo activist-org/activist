@@ -104,7 +104,7 @@ jobs:
           yarn add npm-check-updates
 
           chmod +x ../utils/dependency_update_check/compare_frontend_versions.ts
-          ncu -u
+          yarn ncu -u  # npm-check-updates
 
           # Sync node_modules with the newly updated package.json.
           yarn install --no-immutable
