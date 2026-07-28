@@ -2,6 +2,7 @@
 <template>
   <CardConnect
     :entity="organization"
+    :entityId="entityId"
     pageType="organization"
     :socialLinks="socialLinks"
   />
@@ -9,7 +10,8 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  organization: Organization | null;
+  organization?: Organization;
+  entityId: string;
 }>();
 
 // Use computed to ensure social links are reactive to store changes.

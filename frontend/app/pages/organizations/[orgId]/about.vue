@@ -76,7 +76,7 @@
         </div>
       </div>
       <CardGetInvolvedOrganization />
-      <CardConnectOrganization :organization="organization" />
+      <CardConnectOrganization :entityId="orgId" :organization="organization" />
       <!-- <CardDonate
         v-if="organization.status === 2"
         :userIsAdmin="true"
@@ -87,13 +87,11 @@
 </template>
 
 <script setup lang="ts">
-const { data: organization } = useGetOrganization(
-  (useRoute().params.orgId as string) ?? ""
-);
+const orgId = (useRoute().params.orgId as string) ?? "";
 
-const { data: images } = useGetOrganizationImages(
-  (useRoute().params.orgId as string) ?? ""
-);
+const { data: organization } = useGetOrganization(orgId);
+
+const { data: images } = useGetOrganizationImages(orgId);
 
 const aboveLargeBP = useBreakpoint("lg");
 

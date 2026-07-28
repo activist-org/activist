@@ -72,7 +72,7 @@
         </div>
       </div>
       <CardGetInvolvedGroup :group="group" />
-      <CardConnectGroup :group="group" />
+      <CardConnectGroup :entityId="groupId" :group="group" />
     </div>
   </div>
 </template>
