@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
 
-import { getKeyForGetOrganization } from "../queries/useGetOrganization";
-
 export function useOrganizationResourcesMutations(
   organizationId: MaybeRef<string>
 ) {
@@ -10,6 +8,7 @@ export function useOrganizationResourcesMutations(
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
+  const { invalidateOrganizationCache } = useOrganizationCache();
 
   const currentOrganizationId = computed(() => unref(organizationId));
 
@@ -113,9 +112,7 @@ export function useOrganizationResourcesMutations(
   async function invalidateCacheRefreshOrgData() {
     if (!currentOrganizationId.value) return;
 
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
+    await invalidateOrganizationCache(currentOrganizationId.value);
   }
 
   return {

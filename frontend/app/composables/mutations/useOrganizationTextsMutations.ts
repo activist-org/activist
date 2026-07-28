@@ -8,6 +8,7 @@ export function useOrganizationTextsMutations(
 
   const loading = ref(false);
   const error = ref<Error | null>(null);
+  const { invalidateOrganizationCache } = useOrganizationCache();
 
   const currentOrganizationId = computed(() => unref(organizationId));
 
@@ -45,9 +46,7 @@ export function useOrganizationTextsMutations(
   async function invalidateCacheRefreshOrgData() {
     if (!currentOrganizationId.value) return;
 
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
+    await invalidateOrganizationCache(currentOrganizationId.value);
   }
 
   return {

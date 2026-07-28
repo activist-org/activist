@@ -9,6 +9,7 @@ export function useOrganizationImageMutations(
   const loading = ref(false);
   const error = ref<Error | null>(null);
   const store = useOrganizationListStore();
+  const { invalidateOrganizationCache } = useOrganizationCache();
 
   const currentOrganizationId = computed(() => unref(organizationId));
 
@@ -92,9 +93,7 @@ export function useOrganizationImageMutations(
   async function invalidateCacheRefreshOrgData() {
     if (!currentOrganizationId.value) return;
 
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
+    await invalidateOrganizationCache(currentOrganizationId.value);
 
     // Clear the organizations list cache to ensure it refetches with updated data.
     store.setItems([]);

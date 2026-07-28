@@ -8,7 +8,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useOrganizationImageMutations } from "../../../app/composables/mutations/useOrganizationImageMutations";
-import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
 import { getKeyForGetOrganizationImages } from "../../../app/composables/queries/useGetOrganizationImages";
 import { createSampleUploadableFile, setupMutationMocks } from "./setup";
 
@@ -25,12 +24,14 @@ const {
   updateOrganizationImage,
   uploadOrganizationImages,
   uploadOrganizationIconImage,
+  invalidateOrganizationCache,
 } = vi.hoisted(() => ({
   mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
   showToastError: vi.fn(),
   updateOrganizationImage: vi.fn(),
   uploadOrganizationImages: vi.fn(),
   uploadOrganizationIconImage: vi.fn(),
+  invalidateOrganizationCache: vi.fn(),
 }));
 
 vi.mock("../../../app/services/communities/organization/image", () => ({
@@ -50,6 +51,11 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
+vi.mock("../../../app/composables/cache/useOrganizationCache", () => ({
+  useOrganizationCache: () => ({ invalidateOrganizationCache }),
+}));
+
+// The organizations list refresh still goes through refreshNuxtData.
 mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
 
 describe("useOrganizationImageMutations", () => {
@@ -62,6 +68,7 @@ describe("useOrganizationImageMutations", () => {
       updateOrganizationImage,
       uploadOrganizationImages,
       uploadOrganizationIconImage,
+      invalidateOrganizationCache,
     ]);
   });
 
@@ -175,17 +182,15 @@ describe("useOrganizationImageMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData with getKeyForGetOrganization on success", async () => {
+    it("calls invalidateOrganizationCache on success", async () => {
       const { uploadIconImage } = useOrganizationImageMutations(organizationId);
 
       await uploadIconImage(createSampleUploadableFile());
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and does not call invalidateOrganizationCache when service throws", async () => {
       uploadOrganizationIconImage.mockRejectedValue(new Error("Upload failed"));
       const { uploadIconImage, error } =
         useOrganizationImageMutations(organizationId);
@@ -195,20 +200,18 @@ describe("useOrganizationImageMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
   describe("invalidateCacheRefreshOrgData", () => {
-    it("calls refreshNuxtData with getKeyForGetOrganization(id)", async () => {
+    it("calls invalidateOrganizationCache with organizationId", async () => {
       const { invalidateCacheRefreshOrgData } =
         useOrganizationImageMutations(organizationId);
 
       await invalidateCacheRefreshOrgData();
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
     it("no-ops when organizationId is empty", async () => {
@@ -218,7 +221,7 @@ describe("useOrganizationImageMutations", () => {
 
       await invalidateCacheRefreshOrgData();
 
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
