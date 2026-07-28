@@ -19,7 +19,7 @@ If you have questions or would like to communicate with the team, please [join u
 - [Development environment](#development-environment)
 - [Style guide](#style-guide)
 - [Linting](#linting)
-- [Testing](#testing)
+- [Local Testing](#local-testing)
 - [Issues and projects](#issues-and-projects)
 - [Bug reports](#bug-reports)
 - [Feature requests](#feature-requests)
@@ -369,7 +369,7 @@ For the frontend [eslint](https://eslint.org/), [eslint-vue](https://eslint.vuej
 
 <sub><a href="#top">Back to top.</a></sub>
 
-## Testing
+## Local Testing
 
 ### Backend
 
