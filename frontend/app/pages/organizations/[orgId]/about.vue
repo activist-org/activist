@@ -30,6 +30,7 @@
           ariaLabel="i18n._global.support_organization_aria_label"
         /> -->
         <BtnAction
+          v-if="organization"
           @click="
             openModalSharePage({
               organization: organization as unknown as Organization,
