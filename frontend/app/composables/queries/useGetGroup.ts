@@ -64,7 +64,8 @@ export function useGetGroup(id: MaybeRef<string>) {
       return;
     }
 
-    // Let useAsyncData refetch and update store in the success path above.
+    // Clear cached payload before refetching to prevent silent deduplication of stale data.
+    clearNuxtData(key.value);
     await refreshNuxtData(key.value);
   }
 

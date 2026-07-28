@@ -98,6 +98,7 @@ export function useGetOrganizationEvents(
     if (organizationId.value) {
       store.clearEvents();
     }
+    clearNuxtData(key.value);
     // Let useAsyncData refetch and update store in the success path above.
     await refreshNuxtData(key.value);
   }

@@ -61,7 +61,8 @@ export function useGetOrganization(id: MaybeRef<string>) {
 
   async function refresh() {
     if (!key.value) return;
-    // Let useAsyncData refetch and update store in the success path above.
+    // Clear cached payload before refetching to prevent silent deduplication of stale data.
+    clearNuxtData(key.value);
     await refreshNuxtData(key.value);
   }
 
