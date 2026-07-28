@@ -47,7 +47,9 @@ test.describe(
         .getByRole("link", { name: OUR_SUPPORTERS_BECOME_LINK_NAME })
         .getAttribute("href");
 
-      expect(href).toBe("https://docs.activist.org/activist/welcome/support-us");
+      expect(href).toBe(
+        "https://docs.activist.org/activist/welcome/support-us"
+      );
     });
 
     test("View all Supporters button links to the supporters page", async ({
@@ -64,9 +66,7 @@ test.describe(
 
     // MARK: Footer Links
 
-    test("Roadmap footer link points to the roadmap page", async ({
-      page,
-    }) => {
+    test("Roadmap footer link points to the roadmap page", async ({ page }) => {
       const href = await page
         .getByRole("link", { name: FOOTER_ROADMAP_LINK_NAME })
         .getAttribute("href");
@@ -100,9 +100,7 @@ test.describe(
       );
     });
 
-    test("Imprint footer link points to the imprint page", async ({
-      page,
-    }) => {
+    test("Imprint footer link points to the imprint page", async ({ page }) => {
       const href = await page
         .getByRole("link", { name: FOOTER_IMPRINT_LINK_NAME })
         .getAttribute("href");
@@ -122,9 +120,7 @@ test.describe(
       expect(href).toBe("https://docs.activist.org/activist");
     });
 
-    test("About footer link points to the community page", async ({
-      page,
-    }) => {
+    test("About footer link points to the community page", async ({ page }) => {
       const href = await page
         .getByRole("link", { name: FOOTER_ABOUT_LINK_NAME })
         .getAttribute("href");
