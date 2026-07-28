@@ -46,20 +46,23 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v6
+        continue-on-error: false
         with:
           python-version: "3.12"
 
       - name: Create Python Virtual Environment
         id: setup-venv
         working-directory: ./backend
-        continue-on-error: true
+        continue-on-error: false
         run: python -m venv .venv
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+        continue-on-error: false
 
       - name: Install Backend Dependencies
         working-directory: ./backend
+        continue-on-error: false
         run: |
           source .venv/bin/activate
           uv sync --frozen --all-groups
@@ -67,7 +70,7 @@ jobs:
       - name: Update Backend Dependencies
         id: backend-updates
         working-directory: ./backend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           echo -e "\n### Dependencies" >> ../reports.md
           echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
@@ -81,7 +84,7 @@ jobs:
 
       - name: Setup Yarn
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           sudo corepack enable
           corepack prepare yarn@4.17.0 --activate
@@ -89,7 +92,7 @@ jobs:
       - name: Install Frontend Dependencies
         id: install-frontend
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
           yarn set version 4.17.0
@@ -98,7 +101,7 @@ jobs:
       - name: Update Frontend Dependencies
         id: frontend-updates
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           cp package.json package.old.json
           yarn add npm-check-updates
@@ -115,7 +118,6 @@ jobs:
 
       - name: Add Test Results Header
         id: add-test-results-header
-        continue-on-error: true
         run: |
           echo -e "\n## Test Results" >> ../reports.md
 
