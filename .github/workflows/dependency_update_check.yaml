@@ -26,176 +26,130 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Node Environment
         uses: actions/setup-node@v7
         with:
           node-version: 24
 
+      # MARK: Initialize
+
       - name: Initialize Report
         run: |
           echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
           echo "> [!NOTE]" >> reports.md
           echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
-          echo "## Available Update ⚙️" >> reports.md
+          echo "## Available Updates ⚙️" >> reports.md
+
+      # MARK: Backend
 
       - name: Set up Python
         uses: actions/setup-python@v6
+        continue-on-error: false
         with:
           python-version: "3.12"
 
+      - name: Create Python Virtual Environment
+        id: setup-venv
+        working-directory: ./backend
+        continue-on-error: false
+        run: python -m venv .venv
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        continue-on-error: false
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        continue-on-error: false
+        run: |
+          source .venv/bin/activate
+          uv sync --frozen --all-groups
+
+      - name: Update Backend Dependencies
+        id: backend-updates
+        working-directory: ./backend
+        continue-on-error: false
+        run: |
+          echo -e "\n### Dependencies" >> ../reports.md
+          echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
+          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
+
+          # Does uv the upgrade within the script so that we can parse the output.
+          python ../utils/dependency_update_check/compare_backend_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
+          uv sync --frozen --all-groups  # run again for new dependencies
+
+      # MARK: Frontend
+
       - name: Setup Yarn
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           sudo corepack enable
-          corepack prepare yarn@4.6.0 --activate
+          corepack prepare yarn@4.17.0 --activate
 
       - name: Install Frontend Dependencies
         id: install-frontend
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
-          yarn set version 4.6.0
+          yarn set version 4.17.0
           yarn install --no-immutable
 
       - name: Update Frontend Dependencies
         id: frontend-updates
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           cp package.json package.old.json
-          npm install -g npm-check-updates
-          cat > compare_versions.js << 'EOF'
-          #!/usr/bin/env node
-          const oldPkg = require('./package.old.json');
-          const newPkg = require('./package.json');
+          yarn add npm-check-updates
 
-          const allDeps = new Set([
-            ...Object.keys(oldPkg.dependencies || {}),
-            ...Object.keys(oldPkg.devDependencies || {}),
-            ...Object.keys(newPkg.dependencies || {}),
-            ...Object.keys(newPkg.devDependencies || {})
-          ]);
+          chmod +x ../utils/dependency_update_check/compare_frontend_versions.ts
+          yarn ncu -u  # npm-check-updates
 
-          const getVersion = (pkg, name) => {
-            return (pkg.dependencies && pkg.dependencies[name])
-              || (pkg.devDependencies && pkg.devDependencies[name])
-              || 'not present';
-          };
+          # Sync node_modules with the newly updated package.json.
+          yarn install --no-immutable
 
-          for (const dep of Array.from(allDeps).sort()) {
-            const oldVersion = getVersion(oldPkg, dep);
-            const newVersion = getVersion(newPkg, dep);
+          node ../utils/dependency_update_check/compare_frontend_versions.ts | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
 
-            if (oldVersion !== newVersion) {
-              console.log(`- ${dep}: ${oldVersion} → ${newVersion}`);
-            }
-          }
-          EOF
-
-          chmod +x compare_versions.js
-          ncu -u
-
-          echo -e "\n### Dependencies" >> ../reports.md
-          echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
-          echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
-          node compare_versions.js | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
-
-      - name: Create Python Virtual Environment
-        id: setup-venv
-        working-directory: ./backend
-        continue-on-error: true
-        run: python -m venv .venv
-
-      - name: Install Backend Dependencies
-        id: install-backend
-        working-directory: ./backend
-        continue-on-error: true
-        run: |
-          source .venv/bin/activate
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements-dev.txt
-
-      - name: Update Backend Dependencies
-        id: backend-updates
-        working-directory: ./backend
-        continue-on-error: true
-        run: |
-          source .venv/bin/activate
-          echo PATH=$PATH >> $GITHUB_ENV
-          cp requirements.txt requirements.old.txt
-          pip install -U pip-tools
-          pip-compile --upgrade requirements.in
-
-          cat > compare_versions.py << 'EOF'
-          import re
-          def parse_req_file(filename):
-              deps = {}
-              with open(filename, "r") as f:
-                  for line in f:
-                      line = line.strip()
-                      if line and not line.startswith("#") and "==" in line:
-                          parts = re.split("==|>=|<=", line, 1)
-                          if len(parts) == 2:
-                              name = parts[0].strip()
-                              version = parts[1].strip()
-                              deps[name] = version
-              return deps
-          old_deps = parse_req_file("requirements.old.txt")
-          new_deps = parse_req_file("requirements.txt")
-          all_deps = set(list(old_deps.keys()) + list(new_deps.keys()))
-          for dep in sorted(all_deps):
-              old_ver = old_deps.get(dep, "not present")
-              new_ver = new_deps.get(dep, "not present")
-              if old_ver != new_ver:
-                  print(f"| {dep} | {old_ver} | {new_ver} | Backend |")
-          EOF
-
-          python compare_versions.py >> ../reports.md || echo "No backend changes found" >> ../reports.md
+      # MARK: Run Tests
 
       - name: Add Test Results Header
         id: add-test-results-header
-        continue-on-error: true
         run: |
-          source .venv/bin/activate
           echo -e "\n## Test Results" >> ../reports.md
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
-
-      - name: Install Python Dependencies
-        working-directory: ./backend
-        run: |
-          source .venv/bin/activate
-          uv sync --frozen --all-groups
 
       - name: Run Backend Tests
         id: backend-tests
-        working-directory: ./backend
         continue-on-error: true
         run: |
+          cd backend
+
           # Note: Don't check formatting.
           # echo -e "\n### Ruff Format Results" >> ../reports.md
           # echo "\`\`\`" >> ../reports.md
-          # ruff format . 2>&1 | tee -a ../reports.md || true
+          # uv run ruff format . 2>&1 | tee -a ../reports.md || true
           # echo "\`\`\`" >> ../reports.md
 
           echo -e "\n### Ruff Lint Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          ruff check . 2>&1 | tee -a ../reports.md || true
+          uv run ruff check . 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
           echo -e "\n### mypy Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          mypy . --config-file pyproject.toml 2>&1 | tee -a ../reports.md || true
+          uv run mypy . --config-file ./pyproject.toml 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
+
+          # Run backend and enter the container.
+          cd ..
+          docker compose --env-file .env.dev up backend --build -d
 
           echo -e "\n### Pytest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a ../reports.md || true
+          docker exec django_backend uv run pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Run Frontend Tests
@@ -225,12 +179,13 @@ jobs:
           yarn test --silent 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
+      # MARK: Create Issue
+
       - name: Set date
         id: date
         run: echo "REPORT_DATE=$(date '+%B %d, %Y')" >> $GITHUB_ENV
 
       - name: Create GitHub Issue
-        if: always()
         uses: peter-evans/create-issue-from-file@v6
         with:
           title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖📝"

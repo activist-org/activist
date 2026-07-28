@@ -5,6 +5,8 @@ on:
       - main
     types:
       - opened
+  issues:
+    types: opened
 
 jobs:
   add_pr_checklist:
@@ -48,6 +50,7 @@ jobs:
       - name: First PR Contributor Email Check
         id: first_interaction
         uses: actions/first-interaction@v3
+        if: github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           issue_message: |
