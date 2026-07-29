@@ -12,6 +12,7 @@ from communities.groups.factories import (
     GroupFactory,
     GroupFaqFactory,
 )
+from communities.groups.models import GroupFaq
 
 pytestmark = pytest.mark.django_db
 
@@ -79,14 +80,6 @@ def test_group_faq_create_ok_200() -> None:
 
     assert response.status_code == status.HTTP_201_CREATED
 
-    # MARK: Update Success with Group ID
-
-    # TODO: Test that should be added:
-    # * Test with user that is not a the creator of the group. -> 403
-    # assert response == status.HTTP_403_FORBIDDEN
-    # Test unauthenticated user
-    # assert response == status.HTTP_401_UNAUTHORIZED
-
     # MARK: Update Failure
 
     response = client.post(
@@ -101,3 +94,59 @@ def test_group_faq_create_ok_200() -> None:
     )
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_group_faq_create_forbidden_403(authenticated_client) -> None:
+    """
+    Test that a non-creator, non-staff user cannot create a Group FAQ.
+    """
+    client, user = authenticated_client
+    user.is_staff = False
+    user.save(update_fields=["is_staff"])
+
+    group_owner = UserFactory(username="group_owner")
+    group = GroupFactory(created_by=group_owner)
+    faq = GroupFaqFactory.build(group=group)
+    faq_count_before = GroupFaq.objects.count()
+
+    response = client.post(
+        path="/v1/communities/group_faqs",
+        data={
+            "iso": faq.iso,
+            "primary": faq.primary,
+            "question": faq.question,
+            "answer": faq.answer,
+            "order": faq.order,
+            "group": group.id,
+        },
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert GroupFaq.objects.count() == faq_count_before
+
+
+def test_group_faq_create_unauthenticated_401() -> None:
+    """
+    Test that an unauthenticated user cannot create a Group FAQ.
+    """
+    client = APIClient()
+    group = GroupFactory()
+    faq = GroupFaqFactory.build(group=group)
+    faq_count_before = GroupFaq.objects.count()
+
+    response = client.post(
+        path="/v1/communities/group_faqs",
+        data={
+            "iso": faq.iso,
+            "primary": faq.primary,
+            "question": faq.question,
+            "answer": faq.answer,
+            "order": faq.order,
+            "group": group.id,
+        },
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert GroupFaq.objects.count() == faq_count_before
