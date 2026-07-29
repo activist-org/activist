@@ -79,14 +79,6 @@ def test_group_faq_create_ok_200() -> None:
 
     assert response.status_code == status.HTTP_201_CREATED
 
-    # MARK: Update Success with Group ID
-
-    # TODO: Test that should be added:
-    # * Test with user that is not a the creator of the group. -> 403
-    # assert response == status.HTTP_403_FORBIDDEN
-    # Test unauthenticated user
-    # assert response == status.HTTP_401_UNAUTHORIZED
-
     # MARK: Update Failure
 
     response = client.post(
@@ -101,3 +93,68 @@ def test_group_faq_create_ok_200() -> None:
     )
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_group_faq_create_forbidden_403() -> None:
+    """
+    Test creating a Group FAQ with a user that is not the creator of the group returns 403.
+    """
+    client = APIClient()
+
+    owner = UserFactory()
+    group = GroupFactory(created_by=owner)
+
+    other_user_password = "other_user_password"
+    other_user = UserFactory(plaintext_password=other_user_password)
+    other_user.is_confirmed = True
+    other_user.verified = True
+    other_user.save()
+
+    login_response = client.post(
+        path="/v1/auth/sign_in",
+        data={"username": other_user.username, "password": other_user_password},
+    )
+    assert login_response.status_code == status.HTTP_200_OK
+    token = login_response.json()["access"]
+    client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+
+    faqs = GroupFaqFactory()
+    response = client.post(
+        path="/v1/communities/group_faqs",
+        data={
+            "iso": "en",
+            "primary": True,
+            "question": faqs.question,
+            "answer": faqs.answer,
+            "order": faqs.order,
+            "group": group.id,
+        },
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+def test_group_faq_create_unauthorized_401() -> None:
+    """
+    Test creating a Group FAQ with an unauthenticated client returns 401.
+    """
+    client = APIClient()
+    group = GroupFactory()
+    faqs = GroupFaqFactory()
+
+    response = client.post(
+        path="/v1/communities/group_faqs",
+        data={
+            "iso": "en",
+            "primary": True,
+            "question": faqs.question,
+            "answer": faqs.answer,
+            "order": faqs.order,
+            "group": group.id,
+        },
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
