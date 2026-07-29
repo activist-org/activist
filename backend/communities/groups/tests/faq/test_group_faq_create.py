@@ -126,7 +126,7 @@ def test_group_faq_create_forbidden_403(authenticated_client) -> None:
     assert GroupFaq.objects.count() == faq_count_before
 
 
-def test_group_faq_create_unauthenticated_401() -> None:
+def test_group_faq_create_unauthorized_401() -> None:
     """
     Test that an unauthenticated user cannot create a Group FAQ.
     """
