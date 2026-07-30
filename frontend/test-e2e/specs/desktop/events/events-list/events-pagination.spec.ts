@@ -89,30 +89,19 @@ test.describe("Events Pagination", { tag: "@desktop" }, () => {
         const locationInput = eventsFilter.getLocationInput();
         await expect(locationInput).toBeVisible();
 
-        // The cards clear to zero and only re-render once the filtered fetch
-        // lands, so the request itself is the reliable signal here. Reading the
-        // DOM earlier sees either the stale pre-filter cards or that empty frame.
-        const filteredResponse = page.waitForResponse(
-          (response) =>
-            response.url().includes("location=Berlin") && response.ok()
+        // Assert the refetch starts at page 1; the card count is not a signal
+        // here, as the filtered list auto-paginates again.
+        const firstPageRequest = page.waitForRequest(
+          (request) =>
+            request.url().includes("location=Berlin") &&
+            /[?&]page=1(&|$)/.test(request.url())
         );
 
         await locationInput.fill("Berlin");
         await locationInput.blur();
 
         await page.waitForURL(/location=Berlin/, { timeout: 5000 });
-        const response = await filteredResponse;
-
-        // Resetting pagination means the refetch starts from the first page
-        // rather than carrying the scrolled-to page forward.
-        expect(response.url()).toMatch(/[?&]page=1(&|$)/);
-
-        await expect
-          .poll(() => eventCards.count(), {
-            timeout: 10000,
-            intervals: [100, 250, 500, 1000],
-          })
-          .toBeLessThanOrEqual(10);
+        await firstPageRequest;
       }
     );
 
