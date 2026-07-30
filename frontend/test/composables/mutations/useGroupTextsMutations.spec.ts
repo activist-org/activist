@@ -46,7 +46,10 @@ describe("useGroupTextsMutations", () => {
     it("calls updateGroupTexts with groupId, textId and textsData on success", async () => {
       const { updateTexts } = useGroupTextsMutations(groupId);
 
-      const result = await updateTexts(sampleGroupTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleGroupTextFormData,
+      });
 
       expect(updateGroupTexts).toHaveBeenCalledWith(
         "group-123",
@@ -56,64 +59,40 @@ describe("useGroupTextsMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { updateTexts } = useGroupTextsMutations(groupId);
 
-      await updateTexts(sampleGroupTextFormData, textId);
+      await updateTexts({ textId, data: sampleGroupTextFormData });
 
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
-    });
-
-    it("sets loading true then false", async () => {
-      const { updateTexts, loading } = useGroupTextsMutations(groupId);
-
-      const promise = updateTexts(sampleGroupTextFormData, textId);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
     });
 
     it("returns false when groupId is empty", async () => {
       groupId.value = "";
       const { updateTexts } = useGroupTextsMutations(groupId);
 
-      const result = await updateTexts(sampleGroupTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleGroupTextFormData,
+      });
 
       expect(result).toBe(false);
       expect(updateGroupTexts).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       updateGroupTexts.mockRejectedValue(new Error("Update failed"));
       const { updateTexts, error } = useGroupTextsMutations(groupId);
 
-      const result = await updateTexts(sampleGroupTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleGroupTextFormData,
+      });
 
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshGroupData", () => {
-    it("calls invalidateGroupCache with groupId", async () => {
-      const { invalidateCacheRefreshGroupData } =
-        useGroupTextsMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
-    });
-
-    it("no-ops when groupId is empty", async () => {
-      groupId.value = "";
-      const { invalidateCacheRefreshGroupData } =
-        useGroupTextsMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
   });
 
