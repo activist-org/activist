@@ -76,23 +76,13 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { createResource } =
         useOrganizationResourcesMutations(organizationId);
 
       await createResource(sampleResourceInput);
 
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
-    });
-
-    it("sets loading true then false", async () => {
-      const { createResource, loading } =
-        useOrganizationResourcesMutations(organizationId);
-
-      const promise = createResource(sampleResourceInput);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
     });
 
     it("returns false when organizationId is empty", async () => {
@@ -106,7 +96,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(createOrganizationResource).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call invalidateOrganizationCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       createOrganizationResource.mockRejectedValue(new Error("Create failed"));
       const { createResource, error } =
         useOrganizationResourcesMutations(organizationId);
@@ -116,7 +106,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
     it("returns false when service rejects invalid resource data", async () => {
@@ -149,7 +139,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { updateResource } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -158,7 +148,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and does not call invalidateOrganizationCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       updateOrganizationResource.mockRejectedValue(new Error("Update failed"));
       const { updateResource, error } =
         useOrganizationResourcesMutations(organizationId);
@@ -168,7 +158,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
   });
 
@@ -185,7 +175,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { deleteResource } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -194,7 +184,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and does not call invalidateOrganizationCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       deleteOrganizationResource.mockRejectedValue(new Error("Delete failed"));
       const { deleteResource, error } =
         useOrganizationResourcesMutations(organizationId);
@@ -204,7 +194,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
   });
 
@@ -223,7 +213,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { reorderResources } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -232,7 +222,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and does not call invalidateOrganizationCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       reorderOrganizationResources.mockRejectedValue(
         new Error("Reorder failed")
       );
@@ -244,28 +234,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshOrgData", () => {
-    it("calls invalidateOrganizationCache with organizationId", async () => {
-      const { invalidateCacheRefreshOrgData } =
-        useOrganizationResourcesMutations(organizationId);
-
-      await invalidateCacheRefreshOrgData();
-
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
-    });
-
-    it("no-ops when organizationId is empty", async () => {
-      organizationId.value = "";
-      const { invalidateCacheRefreshOrgData } =
-        useOrganizationResourcesMutations(organizationId);
-
-      await invalidateCacheRefreshOrgData();
-
-      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
