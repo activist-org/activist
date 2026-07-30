@@ -2,6 +2,7 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormTextEntity
+      v-if="texts"
       :formData="formData"
       getInvolvedLabel="i18n.components._global.participate"
       getInvolvedUrlLabel="i18n.components.modal_text_event.offer_to_help_link"
@@ -27,35 +28,44 @@ const eventId = computed(() => props.entityId);
 const { data: event } = useGetEvent(eventId);
 const { updateTexts, loading } = useEventTextsMutations(eventId);
 
+// The query resolves after the modal mounts, so rendering the form before the
+// texts arrive prefills blanks and submits against an undefined text id.
+const texts = computed(() => event.value?.texts[0]);
+
 const formData = ref<EventUpdateTextFormData>({
   description: "",
   getInvolved: "",
   getInvolvedUrl: "",
 });
 
-onMounted(() => {
-  formData.value.description = event.value?.texts[0]?.description || "";
-  formData.value.getInvolved = event.value?.texts[0]?.getInvolved || "";
-  formData.value.getInvolvedUrl = event.value?.texts[0]?.getInvolvedUrl || "";
-});
-
 watch(
-  event,
+  texts,
   (newValues) => {
-    formData.value.description = newValues?.texts[0]?.description || "";
-    formData.value.getInvolved = newValues?.texts[0]?.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.texts[0]?.getInvolvedUrl || "";
+    formData.value.description = newValues?.description || "";
+    formData.value.getInvolved = newValues?.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
   },
   {
     deep: true,
+    immediate: true,
   }
 );
 
 async function handleSubmit(values: unknown) {
-  updateTexts({
-    textId: String(event.value?.texts[0]?.id),
-    data: values as EventUpdateTextFormData,
-  });
-  handleCloseModal();
+  const textId = texts.value?.id;
+  if (!textId) {
+    return;
+  }
+
+  try {
+    await updateTexts({
+      textId: String(textId),
+      data: values as EventUpdateTextFormData,
+    });
+    handleCloseModal();
+  } catch {
+    // updateTexts is Colada's mutateAsync, which rejects rather than returning
+    // false. onError raises the toast, so keep the modal open to preserve edits.
+  }
 }
 </script>
