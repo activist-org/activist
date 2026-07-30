@@ -1,102 +1,114 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for group resources - uses direct service calls, not useAsyncData.
+// Mutation composable for group resources - uses Pinia Colada for cache invalidation.
 
 export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
-  const { error, handleError, clearError } = useAppError();
-
   const loading = ref(false);
-  const { invalidateGroupCache } = useGroupCache();
+  const { error, handleError } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
+  const { invalidateGroupCache } = useGroupCache();
 
   // Create new resource.
-  async function createResource(resourceData: ResourceInput) {
-    if (!currentGroupId.value) {
-      return false;
-    }
-
-    loading.value = true;
-    clearError();
-
-    try {
-      // Service function handles the HTTP call and throws normalized errors.
-      await createGroupResource(currentGroupId.value, resourceData as Resource);
-
-      invalidateCacheRefreshGroupData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: createResourceAsync, isLoading: loadingCreateResource } =
+    useMutation({
+      mutation: (resourceData: ResourceInput) =>
+        createGroupResource(currentGroupId.value, resourceData as Resource),
+      async onSettled() {
+        await invalidateGroupCache(currentGroupId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Update existing resource.
-  async function updateResource(resource: ResourceInput) {
-    loading.value = true;
-    clearError();
-
-    try {
-      // Direct service call - no useAsyncData needed for mutations.
-      await updateGroupResource(resource);
-
-      invalidateCacheRefreshGroupData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: updateResourceAsync, isLoading: loadingUpdateResource } =
+    useMutation({
+      mutation: (resource: ResourceInput) => updateGroupResource(resource),
+      async onSettled() {
+        await invalidateGroupCache(currentGroupId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Delete existing resource.
-  async function deleteResource(resourceId: string) {
-    loading.value = true;
-    clearError();
-
-    try {
-      await deleteGroupResource(resourceId);
-
-      invalidateCacheRefreshGroupData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: deleteResourceAsync, isLoading: loadingDeleteResource } =
+    useMutation({
+      mutation: (resourceId: string) => deleteGroupResource(resourceId),
+      async onSettled() {
+        await invalidateGroupCache(currentGroupId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Reorder multiple resource entries.
-  async function reorderResources(resources: Resource[]) {
-    loading.value = true;
-    clearError();
-
-    try {
-      await reorderGroupResources(resources);
-
-      invalidateCacheRefreshGroupData();
-
-      return true;
-    } catch (err) {
+  const {
+    mutateAsync: reorderResourcesAsync,
+    isLoading: loadingReorderResources,
+  } = useMutation({
+    mutation: (orderedResources: Resource[]) =>
+      reorderGroupResources(orderedResources),
+    async onSettled() {
+      await invalidateGroupCache(currentGroupId.value);
+    },
+    onError(err) {
       handleError(err);
+    },
+  });
+
+  // Wrappers keep the true/false contract that call sites rely on.
+  const createResource = async (resourceData: ResourceInput) => {
+    if (!currentGroupId.value) return false;
+    try {
+      await createResourceAsync(resourceData);
+      return true;
+    } catch {
       return false;
-    } finally {
-      loading.value = false;
     }
-  }
+  };
 
-  // Helper to refresh group data after mutations.
-  async function invalidateCacheRefreshGroupData() {
-    if (!currentGroupId.value) return;
+  const updateResource = async (resource: ResourceInput) => {
+    try {
+      await updateResourceAsync(resource);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
-    await invalidateGroupCache(currentGroupId.value);
-  }
+  const deleteResource = async (resourceId: string) => {
+    try {
+      await deleteResourceAsync(resourceId);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const reorderResources = async (resources: Resource[]) => {
+    try {
+      await reorderResourcesAsync(resources);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  watch(
+    [
+      loadingCreateResource,
+      loadingUpdateResource,
+      loadingDeleteResource,
+      loadingReorderResources,
+    ],
+    ([create, update, del, reorder]) => {
+      loading.value = create || update || del || reorder;
+    }
+  );
 
   return {
     loading: readonly(loading),
@@ -105,6 +117,5 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     updateResource,
     deleteResource,
     reorderResources,
-    invalidateCacheRefreshGroupData,
   };
 }

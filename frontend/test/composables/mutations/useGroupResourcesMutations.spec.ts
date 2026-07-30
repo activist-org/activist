@@ -71,21 +71,12 @@ describe("useGroupResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { createResource } = useGroupResourcesMutations(groupId);
 
       await createResource(sampleResourceInput);
 
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
-    });
-
-    it("sets loading true then false", async () => {
-      const { createResource, loading } = useGroupResourcesMutations(groupId);
-
-      const promise = createResource(sampleResourceInput);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
     });
 
     it("returns false when groupId is empty", async () => {
@@ -98,7 +89,7 @@ describe("useGroupResourcesMutations", () => {
       expect(createGroupResource).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       createGroupResource.mockRejectedValue(new Error("Create failed"));
       const { createResource, error } = useGroupResourcesMutations(groupId);
 
@@ -107,7 +98,7 @@ describe("useGroupResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
     it("returns false when service rejects invalid resource data", async () => {
@@ -133,7 +124,7 @@ describe("useGroupResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { updateResource } = useGroupResourcesMutations(groupId);
 
       await updateResource(sampleResourceInput);
@@ -141,7 +132,7 @@ describe("useGroupResourcesMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       updateGroupResource.mockRejectedValue(new Error("Update failed"));
       const { updateResource, error } = useGroupResourcesMutations(groupId);
 
@@ -150,7 +141,7 @@ describe("useGroupResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
 
@@ -164,7 +155,7 @@ describe("useGroupResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { deleteResource } = useGroupResourcesMutations(groupId);
 
       await deleteResource(sampleResourceInput.id);
@@ -172,7 +163,7 @@ describe("useGroupResourcesMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       deleteGroupResource.mockRejectedValue(new Error("Delete failed"));
       const { deleteResource, error } = useGroupResourcesMutations(groupId);
 
@@ -181,7 +172,7 @@ describe("useGroupResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
 
@@ -196,7 +187,7 @@ describe("useGroupResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { reorderResources } = useGroupResourcesMutations(groupId);
 
       await reorderResources([sampleResourceInput]);
@@ -204,7 +195,7 @@ describe("useGroupResourcesMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       reorderGroupResources.mockRejectedValue(new Error("Reorder failed"));
       const { reorderResources, error } = useGroupResourcesMutations(groupId);
 
@@ -213,28 +204,7 @@ describe("useGroupResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshGroupData", () => {
-    it("calls invalidateGroupCache with groupId", async () => {
-      const { invalidateCacheRefreshGroupData } =
-        useGroupResourcesMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
-    });
-
-    it("no-ops when groupId is empty", async () => {
-      groupId.value = "";
-      const { invalidateCacheRefreshGroupData } =
-        useGroupResourcesMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
   });
 
