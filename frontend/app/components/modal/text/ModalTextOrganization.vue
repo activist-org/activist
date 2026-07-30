@@ -56,10 +56,10 @@ async function handleSubmit(values: unknown) {
     return;
   }
 
-  const response = await updateTexts(
-    values as OrganizationUpdateTextFormData,
-    String(textId)
-  );
+  const response = await updateTexts({
+    textId: String(textId),
+    data: values as OrganizationUpdateTextFormData,
+  });
   if (response) {
     handleCloseModal();
   }

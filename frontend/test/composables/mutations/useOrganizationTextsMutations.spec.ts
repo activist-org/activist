@@ -46,7 +46,10 @@ describe("useOrganizationTextsMutations", () => {
     it("calls updateOrganizationTexts with organizationId, textId and textsData on success", async () => {
       const { updateTexts } = useOrganizationTextsMutations(organizationId);
 
-      const result = await updateTexts(sampleOrganizationTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleOrganizationTextFormData,
+      });
 
       expect(updateOrganizationTexts).toHaveBeenCalledWith(
         "org-123",
@@ -56,66 +59,41 @@ describe("useOrganizationTextsMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { updateTexts } = useOrganizationTextsMutations(organizationId);
 
-      await updateTexts(sampleOrganizationTextFormData, textId);
+      await updateTexts({ textId, data: sampleOrganizationTextFormData });
 
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
-    });
-
-    it("sets loading true then false", async () => {
-      const { updateTexts, loading } =
-        useOrganizationTextsMutations(organizationId);
-
-      const promise = updateTexts(sampleOrganizationTextFormData, textId);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
     });
 
     it("returns false when organizationId is empty", async () => {
       organizationId.value = "";
       const { updateTexts } = useOrganizationTextsMutations(organizationId);
 
-      const result = await updateTexts(sampleOrganizationTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleOrganizationTextFormData,
+      });
 
       expect(result).toBe(false);
       expect(updateOrganizationTexts).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call invalidateOrganizationCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       updateOrganizationTexts.mockRejectedValue(new Error("Update failed"));
       const { updateTexts, error } =
         useOrganizationTextsMutations(organizationId);
 
-      const result = await updateTexts(sampleOrganizationTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleOrganizationTextFormData,
+      });
 
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshOrgData", () => {
-    it("calls invalidateOrganizationCache with organizationId", async () => {
-      const { invalidateCacheRefreshOrgData } =
-        useOrganizationTextsMutations(organizationId);
-
-      await invalidateCacheRefreshOrgData();
-
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
-    });
-
-    it("no-ops when organizationId is empty", async () => {
-      organizationId.value = "";
-      const { invalidateCacheRefreshOrgData } =
-        useOrganizationTextsMutations(organizationId);
-
-      await invalidateCacheRefreshOrgData();
-
-      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
