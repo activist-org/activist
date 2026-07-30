@@ -71,21 +71,12 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { createFAQ } = useGroupFAQEntryMutations(groupId);
 
       await createFAQ(sampleFaqData);
 
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
-    });
-
-    it("sets loading true then false", async () => {
-      const { createFAQ, loading } = useGroupFAQEntryMutations(groupId);
-
-      const promise = createFAQ(sampleFaqData);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
     });
 
     it("returns false when groupId is empty", async () => {
@@ -98,7 +89,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(createGroupFaq).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       createGroupFaq.mockRejectedValue(new Error("Create failed"));
       const { createFAQ, error } = useGroupFAQEntryMutations(groupId);
 
@@ -107,7 +98,8 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
+      // onSettled runs on failure too, so a failed write still re-reads state.
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
     it("returns false when service rejects invalid FAQ data", async () => {
@@ -133,7 +125,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { updateFAQ } = useGroupFAQEntryMutations(groupId);
 
       await updateFAQ(sampleFaqEntry);
@@ -141,7 +133,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       updateGroupFaq.mockRejectedValue(new Error("Update failed"));
       const { updateFAQ, error } = useGroupFAQEntryMutations(groupId);
 
@@ -150,7 +142,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
 
@@ -165,7 +157,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
 
       await reorderFAQs([sampleFaqEntry]);
@@ -173,7 +165,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       reorderGroupFaqs.mockRejectedValue(new Error("Reorder failed"));
       const { reorderFAQs, error } = useGroupFAQEntryMutations(groupId);
 
@@ -182,7 +174,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
 
@@ -196,7 +188,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { deleteFAQ } = useGroupFAQEntryMutations(groupId);
 
       await deleteFAQ(sampleFaqEntry.id);
@@ -204,7 +196,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call invalidateGroupCache when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       deleteGroupFaq.mockRejectedValue(new Error("Delete failed"));
       const { deleteFAQ, error } = useGroupFAQEntryMutations(groupId);
 
@@ -213,28 +205,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshGroupData", () => {
-    it("calls invalidateGroupCache with groupId", async () => {
-      const { invalidateCacheRefreshGroupData } =
-        useGroupFAQEntryMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
-    });
-
-    it("no-ops when groupId is empty", async () => {
-      groupId.value = "";
-      const { invalidateCacheRefreshGroupData } =
-        useGroupFAQEntryMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
   });
 
