@@ -70,6 +70,10 @@ test.describe(
       await clickConnectCardEdit();
       await expect(socialLinksModal.modal).toBeVisible();
 
+      // The form renders once the links have loaded, so count after it appears.
+      const addButton = socialLinksModal.addButton(socialLinksModal.modal);
+      await expect(addButton).toBeVisible();
+
       // Count existing social link entries using data-testid.
       const existingEntries = await socialLinksModal.modal
         .getByTestId(/^social-link-entry-/)
@@ -77,8 +81,6 @@ test.describe(
       const initialCount = existingEntries.length;
 
       // Add a new social link.
-      const addButton = socialLinksModal.addButton(socialLinksModal.modal);
-      await expect(addButton).toBeVisible();
       // Use JavaScript click to bypass viewport restrictions on mobile.
       await addButton.evaluate((btn) => (btn as HTMLElement).click());
 

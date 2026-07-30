@@ -2,9 +2,10 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormSocialLink
+      v-if="socialLinksRef"
       :formData="formData"
       :handleSubmit="handleSubmit"
-      :socialLinksRef="socialLinksRef || []"
+      :socialLinksRef="socialLinksRef"
       :submitLabel="submitLabel"
     />
   </ModalBase>
@@ -26,10 +27,19 @@ const { updateLink, createLinks, deleteLink } =
 type SocialLinkWithKey = (GroupSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
+// The query resolves after the modal mounts, so a late re-sync would overwrite
+// anything already typed.
+const socialLinks = computed(() =>
+  group.value ? (group.value.socialLinks ?? []) : undefined
+);
+
 watch(
-  () => group.value?.socialLinks ?? [],
+  socialLinks,
   (newVal) => {
-    socialLinksRef.value = (newVal || []).map((l, idx) => ({
+    if (!newVal) {
+      return;
+    }
+    socialLinksRef.value = newVal.map((l, idx) => ({
       ...l,
       key: l?.id ?? String(idx),
     }));
