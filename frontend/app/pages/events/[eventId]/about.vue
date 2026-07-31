@@ -121,7 +121,29 @@ function updateShareBtnLabel() {
   }
 }
 
-const downloadCalendarEntry = () => {};
+const config = useRuntimeConfig();
+
+const downloadCalendarEntry = async () => {
+  try {
+    const url = `${config.public.apiBase}/v1/events/event_calendar?event_id=${eventId}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Download failed");
+    const blob = await response.blob();
+    const disposition = response.headers.get("Content-Disposition") || "";
+    const match = disposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+    const filename = match ? match[1].replace(/['"]/g, "") : `event-${eventId}.ics`;
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(blobUrl);
+  } catch (err) {
+    console.error("Failed to download calendar entry:", err);
+  }
+};
 
 onMounted(() => {
   window.addEventListener("resize", updateShareBtnLabel);
