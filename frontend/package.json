@@ -9,7 +9,7 @@
     "generate": "nuxi generate",
     "preview": "nuxi preview",
     "postinstall": "nuxi prepare",
-    "test": "vitest run --run",
+    "test": "vitest run",
     "test:local": "rm -rf blob-report && yarn test:local:desktop || true && yarn test:local:mobile || true && yarn test:local:merge",
     "test:local:desktop": "cross-env TEST_ENV=local PLAYWRIGHT_BLOB_OUTPUT_FILE=./blob-report/desktop.zip playwright test --project='Desktop Chrome' --reporter=blob",
     "test:local:mobile": "cross-env TEST_ENV=local PLAYWRIGHT_BLOB_OUTPUT_FILE=./blob-report/mobile.zip playwright test --project='Mobile Chrome' --reporter=blob",

@@ -177,10 +177,9 @@ jobs:
           yarn typecheck 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          # Note: We pass --run to Vitest so that tests are ran sequentially (terminal interactivity not possible).
           echo -e "\n### Vitest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn test --run --silent=passed-only 2>&1 | tee -a ../reports.md || true
+          yarn test --silent=passed-only 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       # MARK: Create Issue
