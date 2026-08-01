@@ -14,7 +14,7 @@ dependencies = [
     "djangorestframework>=3.17.1",
     "djangorestframework-camel-case>=1.4.2",
     "djangorestframework-simplejwt>=5.5.1",
-    "djangorestframework-stubs>=3.17.0",
+    "djangorestframework-stubs>=3.17.1",
     "drf-spectacular>=0.30.0",
     "gunicorn>=26.0.0",
     "icalendar>=7.2.2",
@@ -34,7 +34,7 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "pytest-django>=4.12.0",
-    "ruff>=0.16.0",
+    "ruff>=0.16.1",
     "ts-backend-check>=1.6.1",
     "types-icalendar>=6.3.2.20260712",
 ]
@@ -97,6 +97,10 @@ line_length = 88
 DJANGO_SETTINGS_MODULE = "core.settings"
 python_files = "test_*.py"
 addopts = "--nomigrations"
+markers = [
+    "enable_throttling: Throttling is disabled for all tests unless it's explicitly enabled",
+    "filescan_integration: Requires integration with the filescan service",
+]
 
 [tool.coverage.run]
 omit = [
