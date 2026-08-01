@@ -107,7 +107,8 @@ jobs:
           yarn add npm-check-updates
 
           chmod +x ../utils/dependency_update_check/compare_frontend_versions.ts
-          yarn ncu -u  # npm-check-updates
+          # Note: We don't install versions that are younger than seven days (three to seven days is conservative age).
+          yarn ncu -u -p yarn -c 7d  # npm-check-updates
 
           # Sync node_modules with the newly updated package.json.
           yarn install --no-immutable
