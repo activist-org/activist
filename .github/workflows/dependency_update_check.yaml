@@ -222,7 +222,7 @@ jobs:
 
           echo -e "\n### Vitest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn test --silent 2>&1 | tee -a ../reports.md || true
+          yarn test 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       - name: Set date
