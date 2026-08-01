@@ -87,7 +87,7 @@ jobs:
         continue-on-error: false
         run: |
           sudo corepack enable
-          corepack prepare yarn@4.17.0 --activate
+          corepack prepare yarn@4.18.0 --activate
 
       - name: Install Frontend Dependencies
         id: install-frontend
@@ -95,7 +95,7 @@ jobs:
         continue-on-error: false
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
-          yarn set version 4.17.0
+          yarn set version 4.18.0
           yarn install --no-immutable
 
       - name: Update Frontend Dependencies
