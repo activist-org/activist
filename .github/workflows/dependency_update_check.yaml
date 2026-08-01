@@ -148,11 +148,12 @@ jobs:
           cd ..
           docker compose --env-file .env.dev up backend --build -d
 
+          # Note: We're in the project root now and will write to reports.md instead of ../reports.md.
           # Note: We run pytest with --quiet --disable-warnings --tb=line to only record the failures in a quiet output.
-          echo -e "\n### Pytest Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
+          echo -e "\n### Pytest Results" >> reports.md
+          echo "\`\`\`" >> reports.md
           docker exec django_backend uv run pytest --quiet --disable-warnings --tb=line --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml 2>&1 | tee -a reports.md || true
-          echo "\`\`\`" >> ../reports.md
+          echo "\`\`\`" >> reports.md
 
       - name: Run Frontend Tests
         id: frontend-tests
@@ -176,9 +177,10 @@ jobs:
           yarn typecheck 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
+          # Note: We pass --run to Vitest so that tests are ran sequentially (terminal interactivity not possible).
           echo -e "\n### Vitest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn test --silent 2>&1 | tee -a ../reports.md || true
+          yarn test --run --silent=passed-only 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       # MARK: Create Issue
