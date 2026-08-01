@@ -48,16 +48,22 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const groupId = computed(() => props.groupId);
-const { data: groupImages, refresh } = useGetGroupImages(groupId);
-const { updateImage, uploadImages, loading } = useGroupImageMutations(groupId);
+const { data: groupImages } = useGetGroupImages(groupId);
+const { updateImage, uploadImages, deleteImage, loading } =
+  useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 
-// useFileManager.removeFile() deletes on the server but doesn't invalidate
-// the groupImages cache, so the carousel stays stale until reload (same
-// class of bug as #1791). Only server-side images need a refresh.
+// The drop zone only drops the entry from its list, so stored images are
+// deleted here. Only server-side images (`type === "file"`) exist to delete.
 const handleFileDeleted = async (file: FileUploadMix) => {
-  if (file?.type === "file") {
-    await refresh();
+  if (file?.type !== "file") {
+    return;
+  }
+
+  try {
+    await deleteImage(file.data.id);
+  } catch {
+    // onError raises the toast.
   }
 };
 

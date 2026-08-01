@@ -47,17 +47,22 @@ const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
 const orgId = computed(() => props.orgId);
-const { data: organizationImages, refresh } = useGetOrganizationImages(orgId);
-const { updateImage, uploadImages, loading } =
+const { data: organizationImages } = useGetOrganizationImages(orgId);
+const { updateImage, uploadImages, deleteImage, loading } =
   useOrganizationImageMutations(orgId);
 const files = ref<FileUploadMix[]>([]);
 
-// useFileManager.removeFile() deletes on the server but doesn't invalidate
-// the organizationImages cache, so the carousel stays stale until reload
-// (issue #1791). Only server-side images (`type === "file"`) need a refresh.
+// The drop zone only drops the entry from its list, so stored images are
+// deleted here. Only server-side images (`type === "file"`) exist to delete.
 const handleFileDeleted = async (file: FileUploadMix) => {
-  if (file?.type === "file") {
-    await refresh();
+  if (file?.type !== "file") {
+    return;
+  }
+
+  try {
+    await deleteImage(file.data.id);
+  } catch {
+    // onError raises the toast.
   }
 };
 

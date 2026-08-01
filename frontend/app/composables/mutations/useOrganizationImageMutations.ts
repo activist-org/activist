@@ -48,6 +48,18 @@ export function useOrganizationImageMutations(
       },
     });
 
+  // Delete existing image.
+  const { mutateAsync: deleteImageAsync, isLoading: loadingDeleteImage } =
+    useMutation({
+      mutation: (imageId: string) => deleteImage(imageId),
+      async onSettled() {
+        await invalidateOrganizationImageCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
+
   // Upload new icon image.
   const { mutateAsync: uploadIconImage, isLoading: loadingUploadIconImage } =
     useMutation({
@@ -66,9 +78,14 @@ export function useOrganizationImageMutations(
     });
 
   watch(
-    [loadingUpdateImage, loadingUploadImages, loadingUploadIconImage],
-    ([update, upload, uploadIcon]) => {
-      loading.value = update || upload || uploadIcon;
+    [
+      loadingUpdateImage,
+      loadingUploadImages,
+      loadingDeleteImage,
+      loadingUploadIconImage,
+    ],
+    ([update, upload, del, uploadIcon]) => {
+      loading.value = update || upload || del || uploadIcon;
     }
   );
 
@@ -77,6 +94,7 @@ export function useOrganizationImageMutations(
     error: readonly(error),
     updateImage,
     uploadImages,
+    deleteImage: deleteImageAsync,
     uploadIconImage,
   };
 }

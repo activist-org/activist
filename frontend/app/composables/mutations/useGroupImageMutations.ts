@@ -39,14 +39,30 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
       },
     });
 
-  watch([loadingUpdateImage, loadingUploadImages], ([update, upload]) => {
-    loading.value = update || upload;
-  });
+  // Delete existing image.
+  const { mutateAsync: deleteImageAsync, isLoading: loadingDeleteImage } =
+    useMutation({
+      mutation: (imageId: string) => deleteImage(imageId),
+      async onSettled() {
+        await invalidateGroupImageCache(currentGroupId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
+
+  watch(
+    [loadingUpdateImage, loadingUploadImages, loadingDeleteImage],
+    ([update, upload, del]) => {
+      loading.value = update || upload || del;
+    }
+  );
 
   return {
     loading: readonly(loading),
     error: readonly(error),
     updateImage,
     uploadImages,
+    deleteImage: deleteImageAsync,
   };
 }
