@@ -121,7 +121,12 @@ function updateShareBtnLabel() {
   }
 }
 
-const downloadCalendarEntry = () => {};
+const { handleDownload } = useDownloadEventCalendar();
+const downloadCalendarEntry = () => {
+  if (event.value?.id) {
+    handleDownload(event.value.id, event.value.name);
+  }
+};
 
 onMounted(() => {
   window.addEventListener("resize", updateShareBtnLabel);

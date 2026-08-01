@@ -94,3 +94,41 @@ export async function deleteEvent(eventId: string): Promise<void> {
     throw errorHandler(e);
   }
 }
+
+// MARK: Download Calendar (.ics)
+
+export async function downloadEventCalendar(
+  eventId: string,
+  eventName?: string
+): Promise<void> {
+  const config = useRuntimeConfig();
+  const res = await fetch(
+    `${config.public.apiBaseUrl}/events/event_calendar?event_id=${eventId}`
+  );
+  if (!res.ok) {
+    throw new Error("Failed to download calendar entry");
+  }
+
+  const blob = await res.blob();
+  const contentDisposition = res.headers.get("content-disposition");
+  let filename = `${eventName ? eventName.replace(/[^a-zA-Z0-9_-]/g, "_") : "event"}.ics`;
+
+  if (contentDisposition) {
+    const filenameMatch = contentDisposition.match(
+      /filename\*?=['"]?(?:UTF-8'')?([^;'"\r\n]+)['"]?/i
+    );
+    if (filenameMatch && filenameMatch[1]) {
+      filename = decodeURIComponent(filenameMatch[1]);
+    }
+  }
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+

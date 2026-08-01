@@ -46,14 +46,19 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   event: CommunityEvent;
 }>();
 
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
 
-const downloadCalendarEntry = () => {};
+const { handleDownload } = useDownloadEventCalendar();
+const downloadCalendarEntry = () => {
+  if (props.event?.id) {
+    handleDownload(props.event.id, props.event.name);
+  }
+};
 
 const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 </script>
