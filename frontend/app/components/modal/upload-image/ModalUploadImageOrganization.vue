@@ -101,10 +101,10 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await uploadImages(
-        uploadFiles.map((file) => file.data as UploadableFile),
-        uploadFiles.map((file) => file.sequence)
-      );
+      await uploadImages({
+        images: uploadFiles.map((file) => file.data as UploadableFile),
+        sequences: uploadFiles.map((file) => file.sequence),
+      });
     }
     files.value = (organizationImages.value || []).map(
       (image: ContentImage, index: number) => ({

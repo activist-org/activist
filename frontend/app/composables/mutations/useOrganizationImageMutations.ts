@@ -1,122 +1,82 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
+// Mutation composable for organization images - uses Pinia Colada for cache invalidation.
 
 export function useOrganizationImageMutations(
   organizationId: MaybeRef<string>
 ) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
-  const store = useOrganizationListStore();
-  const { invalidateOrganizationCache } = useOrganizationCache();
+  const { error, handleError } = useAppError();
 
   const currentOrganizationId = computed(() => unref(organizationId));
+  const store = useOrganizationListStore();
+  const { invalidateOrganizationCache, invalidateOrganizationImageCache } =
+    useOrganizationCache();
 
   // Update existing image.
-  async function updateImage(contentImage: ContentImage) {
-    if (!currentOrganizationId.value) {
-      return false;
-    }
-
-    loading.value = true;
-    error.value = null;
-
-    try {
-      // Service function handles the HTTP call and throws normalized errors.
-      await updateOrganizationImage(
-        currentOrganizationId.value,
-        contentImage as ContentImage
-      );
-
-      invalidateCacheRefreshOrgImageData();
-
-      return true;
-    } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: updateImage, isLoading: loadingUpdateImage } =
+    useMutation({
+      mutation: (contentImage: ContentImage) =>
+        updateOrganizationImage(currentOrganizationId.value, contentImage),
+      async onSettled() {
+        await invalidateOrganizationImageCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Upload new images.
-  async function uploadImages(images: UploadableFile[], sequences?: number[]) {
-    loading.value = true;
-    error.value = null;
-    try {
-      // Direct service call - no useAsyncData needed for mutations.
-      await uploadOrganizationImages(
-        currentOrganizationId.value,
+  const { mutateAsync: uploadImages, isLoading: loadingUploadImages } =
+    useMutation({
+      mutation: ({
         images,
-        sequences
-      );
+        sequences,
+      }: {
+        images: UploadableFile[];
+        sequences?: number[];
+      }) =>
+        uploadOrganizationImages(
+          currentOrganizationId.value,
+          images,
+          sequences
+        ),
+      async onSettled() {
+        await invalidateOrganizationImageCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
-      invalidateCacheRefreshOrgImageData();
+  // Upload new icon image.
+  const { mutateAsync: uploadIconImage, isLoading: loadingUploadIconImage } =
+    useMutation({
+      mutation: (image: UploadableFile) =>
+        uploadOrganizationIconImage(currentOrganizationId.value, image),
+      async onSettled() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+        // Clear cached organizations to force refetch with new data.
+        store.setItems([]);
+        // The organizations list is still a useAsyncData read.
+        await refreshNuxtData(getKeyForGetOrganizations());
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
-      return true;
-    } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
+  watch(
+    [loadingUpdateImage, loadingUploadImages, loadingUploadIconImage],
+    ([update, upload, uploadIcon]) => {
+      loading.value = update || upload || uploadIcon;
     }
-  }
-
-  // Upload new images.
-  async function uploadIconImage(image: UploadableFile) {
-    loading.value = true;
-    error.value = null;
-
-    try {
-      // Direct service call - no useAsyncData needed for mutations.
-      await uploadOrganizationIconImage(currentOrganizationId.value, image);
-
-      invalidateCacheRefreshOrgData();
-
-      return true;
-    } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
-
-  // Helper to refresh organization data after mutations.
-  async function invalidateCacheRefreshOrgData() {
-    if (!currentOrganizationId.value) return;
-
-    await invalidateOrganizationCache(currentOrganizationId.value);
-
-    // Clear the organizations list cache to ensure it refetches with updated data.
-    store.setItems([]);
-    // Also refresh the list of organizations in case the image is used there.
-    await refreshNuxtData(getKeyForGetOrganizations());
-  }
-
-  // Helper to refresh organization images data after mutations.
-  async function invalidateCacheRefreshOrgImageData() {
-    if (!currentOrganizationId.value) return;
-
-    await refreshNuxtData(
-      getKeyForGetOrganizationImages(currentOrganizationId.value)
-    );
-  }
+  );
 
   return {
     loading: readonly(loading),
     error: readonly(error),
     updateImage,
     uploadImages,
-    invalidateCacheRefreshOrgData,
-    invalidateCacheRefreshOrgImageData,
     uploadIconImage,
   };
 }

@@ -7,7 +7,16 @@ export const useOrganizationCache = () => {
       key: ORGANIZATION_KEYS.byId(organizationId),
     });
   };
+  const invalidateOrganizationImageCache = async (organizationId: string) => {
+    await invalidateQueries({
+      key: ORGANIZATION_IMAGE_KEYS.byId(organizationId),
+    });
+  };
   const organizationCacheEntries = (organizationId: string) =>
     getEntries({ key: ORGANIZATION_KEYS.byId(organizationId) });
-  return { invalidateOrganizationCache, organizationCacheEntries };
+  return {
+    invalidateOrganizationCache,
+    invalidateOrganizationImageCache,
+    organizationCacheEntries,
+  };
 };
