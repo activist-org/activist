@@ -7,7 +7,12 @@ export const useGroupCache = () => {
       key: GROUP_KEYS.byId(groupId),
     });
   };
+  const invalidateGroupImageCache = async (groupId: string) => {
+    await invalidateQueries({
+      key: GROUP_IMAGE_KEYS.byId(groupId),
+    });
+  };
   const groupCacheEntries = (groupId: string) =>
     getEntries({ key: GROUP_KEYS.byId(groupId) });
-  return { invalidateGroupCache, groupCacheEntries };
+  return { invalidateGroupCache, invalidateGroupImageCache, groupCacheEntries };
 };

@@ -3,12 +3,10 @@
  * Unit tests for useGroupImageMutations composable.
  * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupImageMutations } from "../../../app/composables/mutations/useGroupImageMutations";
-import { getKeyForGetGroupImages } from "../../../app/composables/queries/useGetGroupImages";
 import { createSampleUploadableFile, setupMutationMocks } from "./setup";
 
 const defaultContentImage = {
@@ -19,15 +17,15 @@ const defaultContentImage = {
 };
 
 const {
-  mockRefreshNuxtData,
   showToastError,
   updateGroupImage,
   uploadGroupImages,
+  invalidateGroupImageCache,
 } = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
   showToastError: vi.fn(),
   updateGroupImage: vi.fn(),
   uploadGroupImages: vi.fn(),
+  invalidateGroupImageCache: vi.fn(),
 }));
 
 vi.mock("../../../app/services/communities/group/image", () => ({
@@ -43,7 +41,9 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
+vi.mock("../../../app/composables/cache/useGroupCache", () => ({
+  useGroupCache: () => ({ invalidateGroupImageCache }),
+}));
 
 describe("useGroupImageMutations", () => {
   const groupId = ref("group-123");
@@ -51,9 +51,9 @@ describe("useGroupImageMutations", () => {
   beforeEach(() => {
     groupId.value = "group-123";
     setupMutationMocks([
-      mockRefreshNuxtData,
       updateGroupImage,
       uploadGroupImages,
+      invalidateGroupImageCache,
     ]);
   });
 
@@ -61,54 +61,33 @@ describe("useGroupImageMutations", () => {
     it("calls updateGroupImage with groupId and contentImage on success", async () => {
       const { updateImage } = useGroupImageMutations(groupId);
 
-      const result = await updateImage(defaultContentImage as never);
+      await updateImage(defaultContentImage as never);
 
       expect(updateGroupImage).toHaveBeenCalledWith(
         "group-123",
         defaultContentImage
       );
-      expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData with getKeyForGetGroupImages(id) on success", async () => {
+    it("calls invalidateGroupImageCache via onSettled on success", async () => {
       const { updateImage } = useGroupImageMutations(groupId);
 
       await updateImage(defaultContentImage as never);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroupImages("group-123")
-      );
+      expect(invalidateGroupImageCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("sets loading true then false", async () => {
-      const { updateImage, loading } = useGroupImageMutations(groupId);
-
-      const promise = updateImage(defaultContentImage as never);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
-    });
-
-    it("returns false when groupId is empty", async () => {
-      groupId.value = "";
-      const { updateImage } = useGroupImageMutations(groupId);
-
-      const result = await updateImage(defaultContentImage as never);
-
-      expect(result).toBe(false);
-      expect(updateGroupImage).not.toHaveBeenCalled();
-    });
-
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("rejects, sets error, and still invalidates when service throws", async () => {
       updateGroupImage.mockRejectedValue(new Error("Update failed"));
       const { updateImage, error } = useGroupImageMutations(groupId);
 
-      const result = await updateImage(defaultContentImage as never);
+      await expect(updateImage(defaultContentImage as never)).rejects.toThrow(
+        "Update failed"
+      );
 
-      expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateGroupImageCache).toHaveBeenCalledWith("group-123");
     });
   });
 
@@ -117,14 +96,13 @@ describe("useGroupImageMutations", () => {
       const images = [createSampleUploadableFile()];
       const { uploadImages } = useGroupImageMutations(groupId);
 
-      const result = await uploadImages(images);
+      await uploadImages({ images });
 
       expect(uploadGroupImages).toHaveBeenCalledWith(
         "group-123",
         images,
         undefined
       );
-      expect(result).toBe(true);
     });
 
     it("calls uploadGroupImages with sequences when provided", async () => {
@@ -132,7 +110,7 @@ describe("useGroupImageMutations", () => {
       const sequences = [1];
       const { uploadImages } = useGroupImageMutations(groupId);
 
-      await uploadImages(images, sequences);
+      await uploadImages({ images, sequences });
 
       expect(uploadGroupImages).toHaveBeenCalledWith(
         "group-123",
@@ -141,49 +119,25 @@ describe("useGroupImageMutations", () => {
       );
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupImageCache via onSettled on success", async () => {
       const { uploadImages } = useGroupImageMutations(groupId);
 
-      await uploadImages([createSampleUploadableFile()]);
+      await uploadImages({ images: [createSampleUploadableFile()] });
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroupImages("group-123")
-      );
+      expect(invalidateGroupImageCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("rejects, sets error, and still invalidates when service throws", async () => {
       uploadGroupImages.mockRejectedValue(new Error("Upload failed"));
       const { uploadImages, error } = useGroupImageMutations(groupId);
 
-      const result = await uploadImages([createSampleUploadableFile()]);
+      await expect(
+        uploadImages({ images: [createSampleUploadableFile()] })
+      ).rejects.toThrow("Upload failed");
 
-      expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshGroupData", () => {
-    it("calls refreshNuxtData with getKeyForGetGroupImages(id)", async () => {
-      const { invalidateCacheRefreshGroupData } =
-        useGroupImageMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroupImages("group-123")
-      );
-    });
-
-    it("no-ops when groupId is empty", async () => {
-      groupId.value = "";
-      const { invalidateCacheRefreshGroupData } =
-        useGroupImageMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateGroupImageCache).toHaveBeenCalledWith("group-123");
     });
   });
 
