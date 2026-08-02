@@ -111,7 +111,6 @@ jobs:
 
           # Sync node_modules with the newly updated package.json.
           yarn install --no-immutable
-          yarn postinstall
 
           node ../utils/dependency_update_check/compare_frontend_versions.ts | sed 's/- \(.*\): \(.*\) → \(.*\)/| \1 | \2 | \3 | Frontend |/' >> ../reports.md || echo "No frontend changes found" >> ../reports.md
 
