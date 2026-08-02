@@ -179,7 +179,7 @@ jobs:
 
           echo -e "\n### Vitest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn test --reporter=dot --silent='passed-only' 2>&1 | tee -a ../reports.md || true
+          yarn test --reporter=dot --silent='passed-only' --no-color 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       # MARK: Create Issue
