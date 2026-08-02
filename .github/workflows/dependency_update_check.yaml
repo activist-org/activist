@@ -37,9 +37,9 @@ jobs:
 
       - name: Initialize Report
         run: |
-          echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
+          echo "# Dependency Update Report - $(date '+%B %d, %Y') 🤖📝" > reports.md
           echo "> [!NOTE]" >> reports.md
-          echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
+          echo "> All tests should pass for PRs that are updating dependencies. See the [local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
           echo "## Available Dependency Updates" >> reports.md
 
       # MARK: Backend
