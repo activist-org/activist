@@ -9,17 +9,28 @@
  */
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { FetchFn, FetchGlobal } from "../vitest-globals";
+import type { FetchFn, FetchGlobal, FetchRawFn } from "../vitest-globals";
 
-import { del, fetchSession, get, post, put } from "../../app/services/http";
+import {
+  del,
+  fetchSession,
+  get,
+  getRaw,
+  post,
+  put,
+} from "../../app/services/http";
 import { expectRequest, getFetchCall } from "./helpers";
 
 describe("services/http", () => {
   let fetchMock: ReturnType<typeof vi.fn<FetchFn>>;
+  let fetchRawMock: ReturnType<typeof vi.fn<FetchRawFn>>;
 
   beforeEach(() => {
     fetchMock = vi.fn<FetchFn>();
-    const combined = fetchMock as FetchGlobal;
+    fetchRawMock = vi.fn<FetchRawFn>();
+    const combined = Object.assign(fetchMock, {
+      raw: fetchRawMock,
+    }) as FetchGlobal;
     globalThis.$fetch = combined;
 
     vi.restoreAllMocks();
@@ -57,6 +68,36 @@ describe("services/http", () => {
     const [, opts] = getFetchCall(fetchMock);
     expect(opts.headers?.Authorization).toBe("Bearer caller");
     expect(opts.headers?.["X-Trace"]).toBe("t");
+  });
+
+  // MARK: Get Raw
+
+  it("getRaw() returns the full public response and respects withoutAuth", async () => {
+    const rawResponse = {
+      _data: new Blob(["calendar"]),
+      headers: new Headers({ "Content-Disposition": "attachment" }),
+      status: 200,
+    };
+    fetchRawMock.mockResolvedValueOnce(rawResponse);
+
+    const result = await getRaw<Blob>("/calendar", {
+      headers: { "X-Trace": "calendar-download" },
+      responseType: "blob",
+      withoutAuth: true,
+    });
+
+    expect(result).toBe(rawResponse);
+    expect(fetchRawMock).toHaveBeenCalledTimes(1);
+    const [url, opts] = fetchRawMock.mock.calls[0] as [
+      string,
+      Record<string, unknown>,
+    ];
+    expect(url).toBe("/calendar");
+    expect(opts.baseURL).toBe("/api/public");
+    expect(opts.method).toBe("GET");
+    expect(opts.responseType).toBe("blob");
+    expect(opts.withoutAuth).toBe(true);
+    expect(opts.headers).toEqual({ "X-Trace": "calendar-download" });
   });
 
   // MARK: Post
