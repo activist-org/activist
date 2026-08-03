@@ -1,4 +1,4 @@
-name: pr_maintainer_checklist
+name: maintenance_messages
 on:
   pull_request_target:
     branches:
@@ -9,13 +9,16 @@ on:
     types: opened
 
 jobs:
-  add_pr_checklist:
+  send_maintenance_messages:
     runs-on: ubuntu-latest
-    name: Add PR Maintainer Checklist
+    name: Send Maintenance Messages
     permissions:
       pull-requests: write
+      issues: write
     steps:
-      - name: Thank You Message
+      - name: PR Comment Thank You Message
+        id: pr_thank_you_message
+        if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
@@ -33,7 +36,9 @@ jobs:
             > [!NOTE]
             > activist uses [Conventional Comments](https://conventionalcomments.org/) in reviews to make sure that communication is as clear as possible.
 
-      - name: Add Checklist
+      - name: PR Comment Maintainer Checklist
+        id: pr_maintainer_checklist
+        if: github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
@@ -47,12 +52,21 @@ jobs:
 
             - [ ] The [changelog](CHANGELOG.md) has been updated with a description of the changes for the upcoming release and the corresponding issue (if necessary)
 
-      - name: First PR Contributor Email Check
-        id: first_interaction
+      - name: First Interaction Comment Message
+        id: first_interaction_message
+        if: >-
+          github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR' ||
+          github.event.issue.author_association == 'FIRST_TIME_CONTRIBUTOR'
         uses: actions/first-interaction@v3
-        if: github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_message: |
+            ## First PR Commit Check
+
+            - [ ] The commit messages for the remote branch of a new contributor should be checked to make sure their email is set up correctly so that they receive credit for their contribution
+              - The contributor's name and icon in remote commits should be the same as what appears in the PR
+              - If there's a mismatch, the contributor needs to make sure that the [email they use for GitHub](https://github.com/settings/emails) matches what they have for `git config user.email` in their local activist repo (can be set with `git config --global user.email "GITHUB_EMAIL"`)
+
           issue_message: |
             ## Thank you for opening your first issue! ❤️
 
@@ -62,9 +76,3 @@ jobs:
             - Also consider attending our bi-weekly Saturday developer syncs!
               - Details are shared in the `Development` room on Matrix each Wednesday before the sync
               - It would be great to meet you 😊
-          pr_message: |
-            ## First PR Commit Check
-
-            - [ ] The commit messages for the remote branch of a new contributor should be checked to make sure their email is set up correctly so that they receive credit for their contribution
-              - The contributor's name and icon in remote commits should be the same as what appears in the PR
-              - If there's a mismatch, the contributor needs to make sure that the [email they use for GitHub](https://github.com/settings/emails) matches what they have for `git config user.email` in their local activist repo (can be set with `git config --global user.email "GITHUB_EMAIL"`)

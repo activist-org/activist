@@ -9,7 +9,7 @@
     "generate": "nuxi generate",
     "preview": "nuxi preview",
     "postinstall": "nuxi prepare",
-    "test": "vitest run --run",
+    "test": "vitest run",
     "test:local": "rm -rf blob-report && yarn test:local:desktop || true && yarn test:local:mobile || true && yarn test:local:merge",
     "test:local:desktop": "cross-env TEST_ENV=local PLAYWRIGHT_BLOB_OUTPUT_FILE=./blob-report/desktop.zip playwright test --project='Desktop Chrome' --reporter=blob",
     "test:local:mobile": "cross-env TEST_ENV=local PLAYWRIGHT_BLOB_OUTPUT_FILE=./blob-report/mobile.zip playwright test --project='Mobile Chrome' --reporter=blob",
@@ -38,7 +38,7 @@
     "@nuxtjs/i18n": "10.4.0",
     "@pinia/colada-nuxt": "1.0.0",
     "@pinia/nuxt": "0.11.3",
-    "@playwright/test": "1.61.1",
+    "@playwright/test": "1.62.1",
     "@testing-library/vue": "8.1.0",
     "@types/node": "26.1.1",
     "@types/zxcvbn": "4.4.5",
@@ -60,7 +60,7 @@
     "nuxt": "4.4.8",
     "nuxt-auth-utils": "0.5.29",
     "nuxt-security": "2.6.0",
-    "playwright-core": "1.61.1",
+    "playwright-core": "1.62.1",
     "prettier": "3.9.5",
     "prettier-plugin-tailwindcss": "0.8.0",
     "rollup": "4.62.2",
@@ -129,9 +129,9 @@
   },
   "resolutions": {
     "chokidar": "3.6.0",
-    "playwright-core": "1.61.0",
+    "playwright-core": "1.62.1",
     "commander": "15.0.0",
     "glob": "^13.0.6"
   },
-  "packageManager": "yarn@4.17.0"
+  "packageManager": "yarn@4.18.0"
 }
