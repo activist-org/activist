@@ -95,7 +95,7 @@ def test_org_faq_update_not_found_404(authenticated_client):
     assert response_body["detail"] == "FAQ not found."
 
 
-def test_org_faq_update_unauthorized_forbidden_403(authenticated_client) -> None:
+def test_org_faq_update_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
     user.is_staff = False
     user.save()
@@ -122,3 +122,23 @@ def test_org_faq_update_unauthorized_forbidden_403(authenticated_client) -> None
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+def test_org_faq_update_unauthorized_401(api_client) -> None:
+    org = OrganizationFactory()
+    faqs = OrganizationFaqFactory(org=org)
+
+    response = api_client.put(
+        path=f"/v1/communities/organization_faqs/{faqs.id}",
+        data={
+            "id": faqs.id,
+            "iso": "en",
+            "primary": True,
+            "question": faqs.question,
+            "answer": faqs.answer,
+            "order": faqs.order,
+        },
+        content_type="application/json",
+    )
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED

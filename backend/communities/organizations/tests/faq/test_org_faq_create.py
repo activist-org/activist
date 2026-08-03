@@ -80,7 +80,7 @@ def test_org_faq_create_bad_request_400(authenticated_client):
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
-def test_org_faq_create_unathorized(authenticated_client) -> None:
+def test_org_faq_create_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
     user.is_staff = False
     user.save()
@@ -91,6 +91,8 @@ def test_org_faq_create_unathorized(authenticated_client) -> None:
     test_question = faqs.question
     test_answer = faqs.answer
     test_order = faqs.order
+
+    initial_count = OrganizationFaqFactory._meta.model.objects.count()
 
     response = client.post(
         path="/v1/communities/organization_faqs",
@@ -106,3 +108,27 @@ def test_org_faq_create_unathorized(authenticated_client) -> None:
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert OrganizationFaqFactory._meta.model.objects.count() == initial_count
+
+
+def test_org_faq_create_unauthorized_401(api_client) -> None:
+    org = OrganizationFactory()
+    faqs = OrganizationFaqFactory()
+
+    initial_count = OrganizationFaqFactory._meta.model.objects.count()
+
+    response = api_client.post(
+        path="/v1/communities/organization_faqs",
+        data={
+            "iso": "en",
+            "primary": True,
+            "question": faqs.question,
+            "answer": faqs.answer,
+            "order": faqs.order,
+            "org": org.id,
+        },
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert OrganizationFaqFactory._meta.model.objects.count() == initial_count
