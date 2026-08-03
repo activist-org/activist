@@ -37,29 +37,32 @@ jobs:
 
       - name: Initialize Report
         run: |
-          echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
+          echo "# Dependency Update Report - $(date '+%B %d, %Y') 🤖📝" > reports.md
           echo "> [!NOTE]" >> reports.md
-          echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
-          echo "## Available Updates ⚙️" >> reports.md
+          echo "> All tests should pass for PRs that are updating dependencies. See the [local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
+          echo "## Available Dependency Updates" >> reports.md
 
       # MARK: Backend
 
       - name: Set up Python
         uses: actions/setup-python@v6
+        continue-on-error: false
         with:
           python-version: "3.12"
 
       - name: Create Python Virtual Environment
         id: setup-venv
         working-directory: ./backend
-        continue-on-error: true
+        continue-on-error: false
         run: python -m venv .venv
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+        continue-on-error: false
 
       - name: Install Backend Dependencies
         working-directory: ./backend
+        continue-on-error: false
         run: |
           source .venv/bin/activate
           uv sync --frozen --all-groups
@@ -67,9 +70,8 @@ jobs:
       - name: Update Backend Dependencies
         id: backend-updates
         working-directory: ./backend
-        continue-on-error: true
+        continue-on-error: false
         run: |
-          echo -e "\n### Dependencies" >> ../reports.md
           echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
           echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
 
@@ -81,30 +83,31 @@ jobs:
 
       - name: Setup Yarn
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           sudo corepack enable
-          corepack prepare yarn@4.17.0 --activate
+          corepack prepare yarn@4.18.0 --activate
 
       - name: Install Frontend Dependencies
         id: install-frontend
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           rm -rf .yarn .pnp.* yarn.lock node_modules
-          yarn set version 4.17.0
+          yarn set version 4.18.0
           yarn install --no-immutable
 
       - name: Update Frontend Dependencies
         id: frontend-updates
         working-directory: ./frontend
-        continue-on-error: true
+        continue-on-error: false
         run: |
           cp package.json package.old.json
           yarn add npm-check-updates
 
           chmod +x ../utils/dependency_update_check/compare_frontend_versions.ts
-          yarn ncu -u  # npm-check-updates
+          # Note: We don't install versions that are younger than seven days (three to seven days is conservative age).
+          yarn ncu -u -p yarn -c 7d  # npm-check-updates
 
           # Sync node_modules with the newly updated package.json.
           yarn install --no-immutable
@@ -113,17 +116,13 @@ jobs:
 
       # MARK: Run Tests
 
-      - name: Add Test Results Header
-        id: add-test-results-header
-        continue-on-error: true
-        run: |
-          echo -e "\n## Test Results" >> ../reports.md
-
       - name: Run Backend Tests
         id: backend-tests
         continue-on-error: true
         run: |
           cd backend
+
+          echo "\n## Backend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
           # echo -e "\n### Ruff Format Results" >> ../reports.md
@@ -145,16 +144,20 @@ jobs:
           cd ..
           docker compose --env-file .env.dev up backend --build -d
 
-          echo -e "\n### Pytest Results" >> ../reports.md
-          echo "\`\`\`" >> ../reports.md
-          docker exec django_backend uv run pytest --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml -vv 2>&1 | tee -a reports.md || true
-          echo "\`\`\`" >> ../reports.md
+          # Note: We're in the project root now and will write to reports.md instead of ../reports.md.
+          # Note: We run pytest with --quiet --disable-warnings --tb=line to only record the failures in a quiet output.
+          echo -e "\n### Pytest Results" >> reports.md
+          echo "\`\`\`" >> reports.md
+          docker exec django_backend uv run pytest --quiet --disable-warnings --tb=line --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml 2>&1 | tee -a reports.md || true
+          echo "\`\`\`" >> reports.md
 
       - name: Run Frontend Tests
         id: frontend-tests
         working-directory: ./frontend
         continue-on-error: true
         run: |
+          echo "\n## Frontend Tests" >> ../reports.md
+
           # Note: Don't check formatting.
           # echo "compare_versions.js" >> ../.prettierignore
           # echo -e "\n### Prettier Results" >> ../reports.md
@@ -174,7 +177,7 @@ jobs:
 
           echo -e "\n### Vitest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn test --silent 2>&1 | tee -a ../reports.md || true
+          yarn test --reporter=dot --silent='passed-only' --no-color 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       # MARK: Create Issue
