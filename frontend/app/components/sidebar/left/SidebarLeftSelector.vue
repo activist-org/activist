@@ -1,6 +1,11 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <MenuLinkWrapper :id="id" :selected="selected" :to="routeUrl">
+  <MenuLinkWrapper
+    :id="id"
+    @click="handleClick"
+    :selected="selected"
+    :to="routeUrl"
+  >
     <div
       class="group relative z-0 flex w-full items-center space-x-2 text-left text-sm font-medium"
     >
@@ -45,6 +50,15 @@ defineProps<{
 }>();
 
 const sidebar = useSidebar();
+const route = useRoute();
+const preserveNextQuery = useState("preserveNextQuery", () => true);
+
+const handleClick = () => {
+  const targetPath = route.fullPath.split("?")[0];
+  if (targetPath !== route.path) {
+    preserveNextQuery.value = false;
+  }
+};
 </script>
 
 <style>

@@ -4,7 +4,8 @@
 const ORGANIZATION_KEYS = {
   root: ["organization"] as const,
   byId: (id: string) => [...ORGANIZATION_KEYS.root, id] as const,
-  list: (filters: any) => [...ORGANIZATION_KEYS.root, "list", filters] as const,
+  list: (filters: unknown) =>
+    [...ORGANIZATION_KEYS.root, "list", filters] as const,
 };
 
 export const useOrganizationCache = () => {
@@ -18,7 +19,7 @@ export const useOrganizationCache = () => {
   };
 
   // Invalidate all organization lists (useful when creating or deleting an organization)
-  const invalidateOrganizationLists = async () => {
+  const invalidateOrganizationList = async () => {
     await invalidateQueries({
       key: [...ORGANIZATION_KEYS.root, "list"],
     });
@@ -27,12 +28,14 @@ export const useOrganizationCache = () => {
   // Get cache entries for a single organization
   const organizationCacheEntries = (organizationId: string) =>
     getEntries({ key: ORGANIZATION_KEYS.byId(organizationId) });
-  const getKeyForGetOrganizations = (filters: any) => ORGANIZATION_KEYS.list(filters);
-  const getKeyForGetOrganization = (organizationId: string) => ORGANIZATION_KEYS.byId(organizationId);
+  const getKeyForGetOrganizations = (filters: unknown) =>
+    ORGANIZATION_KEYS.list(filters);
+  const getKeyForGetOrganization = (organizationId: string) =>
+    ORGANIZATION_KEYS.byId(organizationId);
 
   return {
     invalidateOrganizationCache,
-    invalidateOrganizationLists,
+    invalidateOrganizationList,
     organizationCacheEntries,
     getKeyForGetOrganizations,
     getKeyForGetOrganization,

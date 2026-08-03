@@ -22,11 +22,11 @@
       :loading="pending && !loadingFetchMore"
     />
     <div v-else-if="showEvents">
-      <EventsList v-if="viewType === ViewType.LIST" :events="events" />
-      <EventsMap v-else-if="viewType === ViewType.MAP" :events="events" />
+      <EventsList v-if="viewType === ViewType.LIST" :events="data ?? []" />
+      <EventsMap v-else-if="viewType === ViewType.MAP" :events="data ?? []" />
       <EventsCalendar
         v-else-if="viewType === ViewType.CALENDAR"
-        :events="events"
+        :events="data ?? []"
       />
       <!-- The bottom sentinel for Intersection Observer. -->
       <div ref="bottomSentinel" class="h-px">
@@ -136,7 +136,7 @@ watch(
   },
   { immediate: true, deep: true }
 );
-const { data: events, pending, getMore } = useGetEvents(filters);
+const { data, pending, getMore } = useGetEvents(filters);
 
 const bottomSentinel = ref<HTMLElement | null>(null);
 const canFetchMore = computed(() => viewType.value === ViewType.LIST);
@@ -152,7 +152,7 @@ useCustomInfiniteScroll({
 });
 
 const showEvents = computed(() => {
-  if ((events.value ?? []).length > 0) {
+  if ((data?.value ?? []).length > 0) {
     if (loadingFetchMore.value) {
       return true;
     }

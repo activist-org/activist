@@ -4,7 +4,7 @@
 const EVENT_KEYS = {
   root: ["event"] as const,
   byId: (id: string) => [...EVENT_KEYS.root, id] as const,
-  list: (filters: any) => [...EVENT_KEYS.root, "list", filters] as const,
+  list: (filters: unknown) => [...EVENT_KEYS.root, "list", filters] as const,
 };
 
 export const useEventCache = () => {
@@ -18,7 +18,7 @@ export const useEventCache = () => {
   };
 
   // Invalidate all event lists (useful when creating or deleting an event)
-  const invalidateEventLists = async () => {
+  const invalidateEventList = async () => {
     await invalidateQueries({
       key: [...EVENT_KEYS.root, "list"],
     });
@@ -27,12 +27,12 @@ export const useEventCache = () => {
   // Get cache entries for a single event
   const eventCacheEntries = (eventId: string) =>
     getEntries({ key: EVENT_KEYS.byId(eventId) });
-  const getKeyForGetEvents = (filters: any) => EVENT_KEYS.list(filters);
+  const getKeyForGetEvents = (filters: unknown) => EVENT_KEYS.list(filters);
   const getKeyForGetEvent = (eventId: string) => EVENT_KEYS.byId(eventId);
 
   return {
     invalidateEventCache,
-    invalidateEventLists,
+    invalidateEventList,
     eventCacheEntries,
     getKeyForGetEvents,
     getKeyForGetEvent,

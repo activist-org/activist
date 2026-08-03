@@ -1,54 +1,28 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { computed, unref, watch, ref } from "vue";
-import { useQuery } from "@pinia/colada";
 
 export function useGetOrganizations(
-  filters: MaybeRef<OrganizationFilters> | ComputedRef<OrganizationFilters>
+  filters: Ref<OrganizationFilters> | ComputedRef<OrganizationFilters>
 ) {
-  const store = useOrganizationListStore();
   const { handleError, error: appError } = useAppError();
-  const { getKeyForGetOrganizations } = useOrganizationCache();
+  const { getKeyForGetOrganizations, invalidateOrganizationList } =
+    useOrganizationCache();
 
-  const orgFilters = computed(() => unref(filters));
+  const organizationFilters = computed(() => unref(filters));
 
-  const isSameFilters = computed(
-    () => JSON.stringify(store.getFilters()) === JSON.stringify(orgFilters.value)
-  );
-
-  const page = ref(isSameFilters.value ? store.getPage() : 1);
-
-  const { data, isLoading, error, refetch } = useQuery({
-    key: () => getKeyForGetOrganizations(orgFilters.value),
-    query: async () => {
-      if (!isSameFilters.value) {
-        page.value = 1;
-        store.clear();
-      }
-
-      const targetPage = page.value;
-
-      const { data: organizations, isLastPage } = await listOrganizations({
-        ...orgFilters.value,
-        page: targetPage,
+  const { data, isLoading, error, loadNextPage } = useInfiniteQuery({
+    initialPageParam: 1,
+    key: () => getKeyForGetOrganizations({ ...organizationFilters.value }),
+    getNextPageParam: (lastPage, allPages) => {
+      if ((lastPage as OrganizationPaginatedResponse).isLastPage) return null;
+      return allPages.length + 1; // Or (lastPageParam as number) + 1
+    },
+    query: async ({ pageParam }) => {
+      if (!pageParam) return { organizations: [], isLastPage: true };
+      return await listOrganizations({
+        ...organizationFilters.value,
+        page: pageParam,
         page_size: 10,
       });
-
-      store.setIsLastPage(isLastPage);
-      store.setPage(targetPage);
-      store.setFilters(orgFilters.value);
-
-      const organizationsCached = store.getItems();
-
-      // Append new items if fetching page > 1 with the same filters
-      if (targetPage > 1 && isSameFilters.value) {
-        const combinedOrganizations = [...organizationsCached, ...organizations];
-        store.setItems(combinedOrganizations);
-        return combinedOrganizations;
-      }
-
-      // For page 1, strictly replace the items
-      store.setItems(organizations);
-      return organizations;
     },
   });
 
@@ -58,33 +32,20 @@ export function useGetOrganizations(
     }
   });
 
-  watch(
-    orgFilters,
-    (newFilters, oldFilters) => {
-      if (JSON.stringify(newFilters) !== JSON.stringify(oldFilters)) {
-        page.value = 1;
-      }
-    },
-    { deep: true }
-  );
-
   const refreshList = async () => {
-    page.value = 1;
-    await refetch();
-  };
-
-  const getMore = async () => {
-    if (store.getIsLastPage() || isLoading.value) return;
-    page.value += 1;
-    await refetch();
+    await invalidateOrganizationList();
   };
 
   return {
-    data,
-    pending: isLoading,
+    data: computed(() => {
+      return data.value?.pages.flatMap(
+        (p) => (p as OrganizationPaginatedResponse).data
+      );
+    }),
+    pending: readonly(isLoading),
     error: appError,
     refresh: refreshList,
-    filters: orgFilters.value,
-    getMore,
+    filters: readonly(organizationFilters.value),
+    getMore: loadNextPage,
   };
 }

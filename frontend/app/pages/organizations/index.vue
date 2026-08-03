@@ -178,7 +178,7 @@ useCustomInfiniteScroll({
 });
 
 const showOrganizations = computed(() => {
-  if (organizations.value.length > 0) {
+  if ((organizations?.value ?? []).length > 0) {
     if (loadingFetchMore.value) {
       return true;
     }
