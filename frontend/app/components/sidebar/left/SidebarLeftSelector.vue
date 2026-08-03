@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   label: string;
   routeUrl: string;
   iconUrl: string;
@@ -54,7 +54,7 @@ const route = useRoute();
 const preserveNextQuery = useState("preserveNextQuery", () => true);
 
 const handleClick = () => {
-  const targetPath = route.fullPath.split("?")[0];
+  const targetPath = props.routeUrl.split("?")[0];
   if (targetPath !== route.path) {
     preserveNextQuery.value = false;
   }
