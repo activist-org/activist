@@ -1,87 +1,55 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export const getKeyForGetOrganizationsByUser = (
-  userId: string,
-  page: number,
-  filters?: OrganizationFilters
-) =>
-  `organizations-by-user-${userId}:page:${page}:filters:${JSON.stringify(filters)}`;
 
 export function useGetOrganizationsByUser(
-  userId: string,
-  filters?: MaybeRef<OrganizationFilters>
+  userId: MaybeRef<string>,
+  filters: MaybeRef<OrganizationFilters> = {}
 ) {
-  const { handleError } = useAppError();
-  const isLastPageRef = ref(false);
-  const organizations = ref<Organization[]>([]);
-  const page = ref(1);
-  const userIdRef = computed(() => userId);
-  const filtersRef = computed(() => unref(filters));
-  const oldFilters = ref<OrganizationFilters | undefined>(filtersRef.value);
-  const isFinished = ref(true);
-  // UseAsyncData for SSR, hydration, and cache.
-  const { data, pending, error, refresh } = useAsyncData<Organization[]>(
-    () => getKeyForGetOrganizationsByUser(userId, page.value, filtersRef.value),
-    async () => {
-      try {
-        if (
-          !userIdRef.value ||
-          (userIdRef.value === "" && !isLastPageRef.value)
-        ) {
-          return organizations.value as Organization[];
-        }
-        if (
-          JSON.stringify(oldFilters.value) !== JSON.stringify(filtersRef.value)
-        ) {
-          oldFilters.value = filtersRef.value;
-          page.value = 1;
-          organizations.value = [];
-        }
-        isFinished.value = false;
+  const { handleError, error: appError } = useAppError();
+  const { getKeyForGetOrganizationsByUser, invalidateOrganizationList } =
+    useOrganizationCache();
 
-        const paginatedOrganizations = await listOrganizationsByUserId(
-          userIdRef.value,
-          { ...filtersRef.value, page_size: 10, page: page.value }
-        );
+  const organizationFilters = computed(() => unref(filters));
 
-        isFinished.value = true;
-        isLastPageRef.value = paginatedOrganizations.isLastPage;
-        const newOrgs = paginatedOrganizations.data.filter(
-          (newOrg) =>
-            !organizations.value.some(
-              (existingOrg) => existingOrg.id === newOrg.id
-            )
-        );
-        organizations.value = organizations.value.concat(newOrgs);
-        return organizations.value as Organization[];
-      } catch (error) {
-        handleError(error);
-        throw error;
-      }
+  const { data, isLoading, error, loadNextPage } = useInfiniteQuery({
+    initialPageParam: 1,
+    key: () =>
+      getKeyForGetOrganizationsByUser(unref(userId), {
+        ...organizationFilters.value,
+      }),
+    getNextPageParam: (lastPage, allPages) => {
+      if ((lastPage as OrganizationPaginatedResponse).isLastPage) return null;
+      return allPages.length + 1; // Or (lastPageParam as number) + 1
     },
-    {
-      watch: [userIdRef, filtersRef],
-      default: () => [],
-    }
-  );
+    query: async ({ pageParam }) => {
+      if (!pageParam) return { organizations: [], isLastPage: true };
+      return await listOrganizationsByUserId(unref(userId), {
+        ...organizationFilters.value,
+        page: pageParam,
+        page_size: 10,
+      });
+    },
+  });
 
-  const getMore = async () => {
-    if (
-      isLastPageRef.value ||
-      JSON.stringify(oldFilters.value) !== JSON.stringify(filtersRef.value) ||
-      !isFinished.value
-    ) {
-      return;
+  watch(error, (err) => {
+    if (err) {
+      handleError(err);
     }
-    page.value += 1;
+  });
+
+  const refreshList = async () => {
+    await invalidateOrganizationList();
   };
 
   return {
-    data,
-    pending,
-    error,
-    refresh,
-    getMore,
-    page,
-    organizations,
+    data: computed(() => {
+      return data.value?.pages.flatMap(
+        (p) => (p as OrganizationPaginatedResponse).data
+      );
+    }),
+    pending: readonly(isLoading),
+    error: appError,
+    refresh: refreshList,
+    filters: readonly(unref(organizationFilters)),
+    getMore: loadNextPage,
   };
 }

@@ -5,7 +5,9 @@ const ORGANIZATION_KEYS = {
   root: ["organization"] as const,
   byId: (id: string) => [...ORGANIZATION_KEYS.root, id] as const,
   list: (filters: unknown) =>
-    [...ORGANIZATION_KEYS.root, "list", filters] as const,
+    [...ORGANIZATION_KEYS.root, "list", { filters }] as const,
+  listByUser: (userId: string, filters: unknown) =>
+    [...ORGANIZATION_KEYS.root, "list", "user", userId, { filters }] as const,
 };
 
 export const useOrganizationCache = () => {
@@ -32,6 +34,8 @@ export const useOrganizationCache = () => {
     ORGANIZATION_KEYS.list(filters);
   const getKeyForGetOrganization = (organizationId: string) =>
     ORGANIZATION_KEYS.byId(organizationId);
+  const getKeyForGetOrganizationsByUser = (userId: string, filters: unknown) =>
+    ORGANIZATION_KEYS.listByUser(userId, filters);
 
   return {
     invalidateOrganizationCache,
@@ -39,5 +43,6 @@ export const useOrganizationCache = () => {
     organizationCacheEntries,
     getKeyForGetOrganizations,
     getKeyForGetOrganization,
+    getKeyForGetOrganizationsByUser,
   };
 };

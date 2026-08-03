@@ -4,7 +4,8 @@
 const EVENT_KEYS = {
   root: ["event"] as const,
   byId: (id: string) => [...EVENT_KEYS.root, id] as const,
-  list: (filters: unknown) => [...EVENT_KEYS.root, "list", filters] as const,
+  list: (filters: unknown) =>
+    [...EVENT_KEYS.root, "list", { filters }] as const,
 };
 
 export const useEventCache = () => {

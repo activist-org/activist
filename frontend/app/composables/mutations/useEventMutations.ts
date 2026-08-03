@@ -2,8 +2,7 @@
 
 export const useEventMutations = () => {
   const { error, handleError } = useAppError();
-  const store = useEventListStore();
-  const { invalidateEventLists } = useEventCache();
+  const { invalidateEventList } = useEventCache();
 
   const { mutateAsync: create, isLoading: loading } = useMutation({
     mutation: (eventData: CreateEventInput) => createEvent(eventData),
@@ -11,16 +10,14 @@ export const useEventMutations = () => {
       handleError(err);
     },
     async onSettled() {
-      await invalidateEventLists();
+      await invalidateEventList();
     },
   });
 
   const refreshEventList = async () => {
     // Invalidate and refetch event list data.
     // Invalidate the useAsyncData cache so next read will refetch.
-    await invalidateEventLists();
-    // Clear cached events to force refetch with new data.
-    store.setItems([]);
+    await invalidateEventList();
   };
 
   return {
