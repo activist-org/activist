@@ -42,150 +42,176 @@ export async function getFAQCardOrder(page: Page): Promise<string[]> {
   );
 }
 
+async function getReorderableListOrder(page: Page): Promise<string[]> {
+  return page.evaluate(() => {
+    const resources = Array.from(
+      document.querySelectorAll('[data-testid="resource-card"]')
+    )
+      .map((card) => card.querySelector("h3")?.textContent?.trim() ?? "")
+      .filter(Boolean);
+    if (resources.length) {
+      return resources;
+    }
+
+    return Array.from(document.querySelectorAll('[data-testid="faq-card"]'))
+      .map(
+        (card) =>
+          card
+            .querySelector('[data-testid="faq-question"]')
+            ?.textContent?.trim() ?? ""
+      )
+      .filter(Boolean);
+  });
+}
+
 // MARK: Drag and Drop Actions
+
+async function scrollHandlesClearOfChrome(
+  page: Page,
+  sourceLocator: Locator,
+  targetLocator: Locator
+): Promise<void> {
+  const topChrome = 100;
+  const bottomChrome = 130;
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const sourceBox = await sourceLocator.boundingBox();
+    const targetBox = await targetLocator.boundingBox();
+    if (!sourceBox || !targetBox) {
+      throw new Error(
+        "Could not get bounding boxes for drag and drop elements"
+      );
+    }
+
+    const viewportHeight = page.viewportSize()?.height ?? 0;
+    const top = Math.min(sourceBox.y, targetBox.y);
+    const bottom = Math.max(
+      sourceBox.y + sourceBox.height,
+      targetBox.y + targetBox.height
+    );
+    if (top >= topChrome && bottom <= viewportHeight - bottomChrome) {
+      return;
+    }
+
+    const mid = (top + bottom) / 2;
+    const desired =
+      topChrome + (viewportHeight - topChrome - bottomChrome) / 2;
+    const deltaY = mid - desired;
+    if (Math.abs(deltaY) < 2) {
+      return;
+    }
+
+    await page.evaluate((scrollY) => window.scrollBy(0, scrollY), deltaY);
+    await page.evaluate(
+      () => new Promise<void>((r) => requestAnimationFrame(() => r()))
+    );
+  }
+}
+
+async function mouseDrag(
+  page: Page,
+  startX: number,
+  startY: number,
+  endX: number,
+  endY: number,
+  steps: number
+): Promise<void> {
+  const dx = endX - startX;
+  const dy = endY - startY;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+  await page.mouse.move(startX, startY);
+  await page.mouse.down();
+  await page.evaluate(
+    () =>
+      new Promise<void>((r) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => r()))
+      )
+  );
+  // Nudge past Sortable's `distance` threshold before the main drag.
+  await page.mouse.move(startX + (dx / dist) * 8, startY + (dy / dist) * 8);
+  await page.evaluate(() => new Promise(requestAnimationFrame));
+  for (let i = 1; i <= steps; i++) {
+    const t = i / steps;
+    await page.mouse.move(startX + dx * t, startY + dy * t);
+    await page.evaluate(() => new Promise(requestAnimationFrame));
+  }
+  await page.mouse.up();
+}
 
 /**
  * Performs a drag and drop operation from source to target.
  *
- * @remarks
- * Two strategies are used depending on whether the browser context has touch
- * emulation enabled (`hasTouch`):
- *
- * **Desktop** (`hasTouch: false`): Uses `page.mouse` move/down/up. Sortable.js
- * listens to mouse events in non-touch mode and this is the most reliable path.
- *
- * **Mobile** (`hasTouch: true`): Uses `PointerEvent`s dispatched directly via
- * `page.evaluate`. When `hasTouch` is enabled, Chromium enters touch emulation
- * mode and Sortable.js switches to its pointer/touch event path, ignoring
- * `page.mouse` MouseEvents entirely. Dispatching PointerEvents via
- * `dispatchEvent` bypasses this — Sortable.js listens to `pointerdown`,
- * `pointermove`, and `pointerup` on all platforms.
- *
- * `dragTo()` is not used because it dispatches a single jump with no
- * intermediate moves, which is too fast for Sortable.js to register a swap.
- *
- * @param page - Playwright page object
- * @param sourceLocator - The locator for the element to drag (typically a drag handle)
- * @param targetLocator - The locator for the target position (typically another drag handle)
- * @param steps - Number of intermediate move steps (default: 20)
+ * Uses `page.mouse` on desktop and mobile viewports so vuedraggable `@end`
+ * fires and the reorder API runs. JS `dispatchEvent(PointerEvent)` can reorder
+ * the DOM without calling `@end`. Center-to-center drags often fire `@end`
+ * without swapping, so the drag overshoots the target and retries until the
+ * first two list items actually swap.
  */
 export async function performDragAndDrop(
   page: Page,
   sourceLocator: Locator,
   targetLocator: Locator,
-  steps = 20
+  steps = 30
 ): Promise<void> {
-  const sourceBox = await sourceLocator.boundingBox();
-  const targetBox = await targetLocator.boundingBox();
-
-  if (!sourceBox || !targetBox) {
-    throw new Error("Could not get bounding boxes for drag and drop elements");
+  const maxAttempts = 4;
+  const beforeOrder = await getReorderableListOrder(page);
+  if (beforeOrder.length < 2) {
+    throw new Error("Need at least 2 reorderable items for drag and drop");
   }
 
-  const startX = sourceBox.x + sourceBox.width / 2;
-  const startY = sourceBox.y + sourceBox.height / 2;
-  const endX = targetBox.x + targetBox.width / 2;
-  const endY = targetBox.y + targetBox.height / 2;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    await sourceLocator.scrollIntoViewIfNeeded();
+    await targetLocator.scrollIntoViewIfNeeded();
+    await scrollHandlesClearOfChrome(page, sourceLocator, targetLocator);
 
-  const hasTouch = await page.evaluate(() => navigator.maxTouchPoints > 0);
+    const sourceBox = await sourceLocator.boundingBox();
+    const targetBox = await targetLocator.boundingBox();
+    if (!sourceBox || !targetBox) {
+      throw new Error(
+        "Could not get bounding boxes for drag and drop elements"
+      );
+    }
 
-  if (hasTouch) {
-    await page.evaluate(
-      async ({
-        startX,
-        startY,
-        endX,
-        endY,
-        steps,
-      }: {
-        startX: number;
-        startY: number;
-        endX: number;
-        endY: number;
-        steps: number;
-      }) => {
-        const rAF = () =>
-          new Promise<void>((r) => requestAnimationFrame(() => r()));
-
-        const dispatch = (type: string, x: number, y: number) => {
-          const el = document.elementFromPoint(x, y);
-          if (!el) return;
-          el.dispatchEvent(
-            new PointerEvent(type, {
-              bubbles: true,
-              cancelable: true,
-              pointerId: 1,
-              pointerType: "mouse",
-              clientX: x,
-              clientY: y,
-              screenX: x,
-              screenY: y,
-              buttons: type === "pointerup" ? 0 : 1,
-              pressure: type === "pointerup" ? 0 : 0.5,
-            })
-          );
-        };
-
-        dispatch("pointerdown", startX, startY);
-        await rAF();
-        await rAF();
-
-        const dx = endX - startX;
-        const dy = endY - startY;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        dispatch(
-          "pointermove",
-          startX + (dx / dist) * 8,
-          startY + (dy / dist) * 8
-        );
-        await rAF();
-
-        for (let i = 1; i <= steps; i++) {
-          const t = i / steps;
-          dispatch("pointermove", startX + dx * t, startY + dy * t);
-          await rAF();
-        }
-
-        dispatch("pointerup", endX, endY);
-        await rAF();
-      },
-      { startX, startY, endX, endY, steps }
-    );
-  } else {
-    await page.mouse.move(startX, startY);
-    await page.mouse.down();
-
-    await page.evaluate(
-      () =>
-        new Promise<void>((r) =>
-          requestAnimationFrame(() => requestAnimationFrame(() => r()))
-        )
-    );
-
+    const startX = sourceBox.x + sourceBox.width / 2;
+    const startY = sourceBox.y + sourceBox.height / 2;
+    let endX = targetBox.x + targetBox.width / 2;
+    let endY = targetBox.y + targetBox.height / 2;
     const dx = endX - startX;
     const dy = endY - startY;
     const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-    await page.mouse.move(startX + (dx / dist) * 8, startY + (dy / dist) * 8);
-    await page.evaluate(() => new Promise(requestAnimationFrame));
+    // Tall resource cards need overshoot past center; short FAQ cards do not.
+    // Scale with drag distance so we cross Sortable's swap threshold without
+    // skipping into a third item.
+    const overshootPx = Math.min(80, Math.max(24, dist * 0.35));
+    endX += (dx / dist) * overshootPx;
+    endY += (dy / dist) * overshootPx;
 
-    for (let i = 1; i <= steps; i++) {
-      const t = i / steps;
-      await page.mouse.move(startX + dx * t, startY + dy * t);
-      await page.evaluate(() => new Promise(requestAnimationFrame));
+    await mouseDrag(page, startX, startY, endX, endY, steps);
+
+    await page
+      .waitForFunction(
+        () =>
+          document.querySelectorAll(
+            ".sortable-chosen, .sortable-drag, .sortable-ghost"
+          ).length === 0,
+        { timeout: 5000 }
+      )
+      .catch(() => {});
+
+    const afterOrder = await getReorderableListOrder(page);
+    if (
+      afterOrder[0] === beforeOrder[1] &&
+      afterOrder[1] === beforeOrder[0]
+    ) {
+      return;
     }
 
-    await page.mouse.up();
+    await page.mouse.up().catch(() => {});
   }
 
-  await page
-    .waitForFunction(
-      () =>
-        document.querySelectorAll(
-          ".sortable-chosen, .sortable-drag, .sortable-ghost"
-        ).length === 0,
-      { timeout: 5000 }
-    )
-    .catch(() => {});
+  throw new Error(
+    `Drag and drop did not swap the first two items after ${maxAttempts} attempts`
+  );
 }
 
 // MARK: Verification
