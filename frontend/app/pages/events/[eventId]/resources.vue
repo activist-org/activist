@@ -84,7 +84,7 @@ const eventId = (route.params.eventId as string) ?? "";
 const { openModal } = useModalHandlers("ModalResourceEvent");
 const { canEdit } = useUser();
 const { data: event } = useGetEvent(eventId);
-const { reorderResources } = useEventResourcesMutations(eventId);
+const { reorderResources, loading } = useEventResourcesMutations(eventId);
 
 const resourceList = ref<Resource[]>([...(event?.value?.resources || [])]);
 const resourceCardList = ref<(HTMLElement | null)[]>([]);
@@ -101,16 +101,17 @@ const { selectedIndex, onFocus, moveUp, moveDown } =
 export type CardExpose = {
   root: HTMLElement | null;
 };
-const onDragEnd = () => {
+const onDragEnd = async () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
   });
 
-  reorderResources(resourceList.value);
+  await reorderResources(resourceList.value);
 };
 watch(
   () => event.value?.resources,
   (newResources) => {
+    if (loading.value) return;
     resourceList.value = [...(newResources || [])];
   }
 );
