@@ -7,6 +7,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
 
   const currentEventId = computed(() => unref(eventId));
   const { invalidateEventCache } = useEventCache();
+  const queryCache = useQueryCache();
 
   // Update existing FAQ entry.
   const { mutateAsync: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
@@ -21,15 +22,35 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   });
 
   // Reorder multiple FAQ entries.
+  // Writes the new order into the query cache before the request resolves so
+  // the list never snaps back to the stale server order mid-drag, and rolls
+  // back on failure.
   const { mutateAsync: reorderFAQs, isLoading: loadingReorderFAQs } =
     useMutation({
       mutation: (orderedFaqs: FaqEntry[]) =>
         reorderEventFaqs(currentEventId.value, orderedFaqs),
+      onMutate(orderedFaqs) {
+        const key = EVENT_KEYS.byId(currentEventId.value);
+        const previousEvent = queryCache.getQueryData<EventResponse>(key);
+        if (previousEvent) {
+          queryCache.setQueryData(key, {
+            ...previousEvent,
+            faqEntries: orderedFaqs,
+          });
+        }
+        return { previousEvent };
+      },
+      onError(err, _orderedFaqs, { previousEvent }) {
+        if (previousEvent) {
+          queryCache.setQueryData(
+            EVENT_KEYS.byId(currentEventId.value),
+            previousEvent
+          );
+        }
+        handleError(err);
+      },
       async onSettled() {
         await invalidateEventCache(currentEventId.value);
-      },
-      onError(err) {
-        handleError(err);
       },
     });
 
