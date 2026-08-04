@@ -11,7 +11,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Group } from "../../../shared/types/group";
 
-import { GROUP_KEYS } from "../../../app/composables/queries/useGetGroup";
+import { useGroupCache } from "../../../app/composables/cache/useGroupCache";
 import { createMockGroup } from "../../mocks/factories";
 
 // MARK: Mocks
@@ -57,33 +57,39 @@ describe("useGetGroup", () => {
 
   // MARK: Cache Key
 
-  describe("GROUP_KEYS.byId", () => {
+  describe("useGroupCache", () => {
     it("includes group ID in cache key", () => {
-      const key = GROUP_KEYS.byId("group-123");
+      const { getKeyForGroup } = useGroupCache();
+      const key = getKeyForGroup("group-123");
 
       expect(key).toEqual(["group", "group-123"]);
     });
 
     it("returns 'group:{id}' format", () => {
-      expect(GROUP_KEYS.byId("group-123")).toEqual(["group", "group-123"]);
+      const { getKeyForGroup } = useGroupCache();
+
+      expect(getKeyForGroup("group-123")).toEqual(["group", "group-123"]);
     });
 
     it("returns consistent key for same ID", () => {
-      const key1 = GROUP_KEYS.byId("group-456");
-      const key2 = GROUP_KEYS.byId("group-456");
+      const { getKeyForGroup } = useGroupCache();
+      const key1 = getKeyForGroup("group-456");
+      const key2 = getKeyForGroup("group-456");
 
       expect(JSON.stringify(key1)).toBe(JSON.stringify(key2));
     });
 
     it("returns different keys for different IDs", () => {
-      const key1 = GROUP_KEYS.byId("group-1");
-      const key2 = GROUP_KEYS.byId("group-2");
+      const { getKeyForGroup } = useGroupCache();
+      const key1 = getKeyForGroup("group-1");
+      const key2 = getKeyForGroup("group-2");
 
       expect(JSON.stringify(key1)).not.toBe(JSON.stringify(key2));
     });
 
     it("handles empty string ID", () => {
-      const key = GROUP_KEYS.byId("");
+      const { getKeyForGroup } = useGroupCache();
+      const key = getKeyForGroup("");
 
       expect(JSON.stringify(key)).toBe(JSON.stringify(["group", ""]));
     });

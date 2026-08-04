@@ -1,18 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Read a group's images with Pinia Colada. Store-first, then fetch if missing.
 
-export const GROUP_IMAGE_KEYS = {
-  root: ["groupImages"] as const,
-  byId: (id: string) => [...GROUP_IMAGE_KEYS.root, id] as const,
-};
-
 export function useGetGroupImages(id: MaybeRef<string>) {
   const groupId = computed(() => String(unref(id)));
   const enabled = computed(() => !!groupId.value);
   const store = useGroupImageStore();
+  const { getKeyForGroupListImage } = useGroupCache();
 
   const { data, isLoading, error, refresh } = useQuery({
-    key: () => GROUP_IMAGE_KEYS.byId(groupId.value),
+    key: () => getKeyForGroupListImage(groupId.value),
     query: async () => {
       const images = await fetchGroupImages(groupId.value);
       store.setImages(images);

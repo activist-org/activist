@@ -12,7 +12,7 @@ import { ref } from "vue";
 
 import type { ContentImage } from "../../../shared/types/file-type";
 
-import { GROUP_IMAGE_KEYS } from "../../../app/composables/queries/useGetGroupImages";
+import { useGroupCache } from "../../../app/composables/cache/useGroupCache";
 import { createMockContentImage } from "../../mocks/factories";
 
 // MARK: Mocks
@@ -81,31 +81,37 @@ describe("useGetGroupImages", () => {
 
   // MARK: Cache Key
 
-  describe("GROUP_IMAGE_KEYS.byId", () => {
+  describe("useGroupCache", () => {
     it("includes group ID in cache key", () => {
-      const key = GROUP_IMAGE_KEYS.byId("group-123");
+      const { getKeyForGroupListImage } = useGroupCache();
+      const key = getKeyForGroupListImage("group-123");
 
-      expect(key).toEqual(["groupImages", "group-123"]);
+      expect(key).toEqual(["group", "imageList", "group-123"]);
     });
 
     it("returns consistent key for same ID", () => {
-      const key1 = GROUP_IMAGE_KEYS.byId("group-456");
-      const key2 = GROUP_IMAGE_KEYS.byId("group-456");
+      const { getKeyForGroupListImage } = useGroupCache();
+      const key1 = getKeyForGroupListImage("group-456");
+      const key2 = getKeyForGroupListImage("group-456");
 
       expect(JSON.stringify(key1)).toBe(JSON.stringify(key2));
     });
 
     it("returns different keys for different IDs", () => {
-      const key1 = GROUP_IMAGE_KEYS.byId("group-1");
-      const key2 = GROUP_IMAGE_KEYS.byId("group-2");
+      const { getKeyForGroupListImage } = useGroupCache();
+      const key1 = getKeyForGroupListImage("group-1");
+      const key2 = getKeyForGroupListImage("group-2");
 
       expect(JSON.stringify(key1)).not.toBe(JSON.stringify(key2));
     });
 
     it("handles empty string ID", () => {
-      const key = GROUP_IMAGE_KEYS.byId("");
+      const { getKeyForGroupListImage } = useGroupCache();
+      const key = getKeyForGroupListImage("");
 
-      expect(JSON.stringify(key)).toBe(JSON.stringify(["groupImages", ""]));
+      expect(JSON.stringify(key)).toBe(
+        JSON.stringify(["group", "imageList", ""])
+      );
     });
 
     it("keys the query by the requested group", async () => {
@@ -113,8 +119,9 @@ describe("useGetGroupImages", () => {
         await import("../../../app/composables/queries/useGetGroupImages");
 
       useGetGroupImages("group-123");
+      const { getKeyForGroupListImage } = useGroupCache();
 
-      expect(lastOptions.key()).toEqual(GROUP_IMAGE_KEYS.byId("group-123"));
+      expect(lastOptions.key()).toEqual(getKeyForGroupListImage("group-123"));
     });
   });
 

@@ -315,22 +315,23 @@ describe("useGetOrganization Integration", () => {
 
   describe("Cache Key", () => {
     it("ORGANIZATION_KEYS.byId returns ID-based key", async () => {
-      const { ORGANIZATION_KEYS } =
-        await import("../../../../app/composables/queries/useGetOrganization");
-
-      expect(ORGANIZATION_KEYS.byId("org-123")).toEqual([
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganization } = useOrganizationCache();
+      expect(getKeyForOrganization("org-123")).toEqual([
         "organization",
         "org-123",
       ]);
-      expect(ORGANIZATION_KEYS.byId("abc")).toEqual(["organization", "abc"]);
+      expect(getKeyForOrganization("abc")).toEqual(["organization", "abc"]);
     });
 
     it("different IDs produce different keys", async () => {
-      const { ORGANIZATION_KEYS } =
-        await import("../../../../app/composables/queries/useGetOrganization");
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganization } = useOrganizationCache();
 
-      const key1 = ORGANIZATION_KEYS.byId("org-1");
-      const key2 = ORGANIZATION_KEYS.byId("org-2");
+      const key1 = getKeyForOrganization("org-1");
+      const key2 = getKeyForOrganization("org-2");
 
       expect(key1).not.toEqual(key2);
     });

@@ -1,18 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Read an organization's images with Pinia Colada. Store-first, then fetch if missing.
 
-export const ORGANIZATION_IMAGE_KEYS = {
-  root: ["organizationImages"] as const,
-  byId: (id: string) => [...ORGANIZATION_IMAGE_KEYS.root, id] as const,
-};
-
 export function useGetOrganizationImages(id: MaybeRef<string>) {
   const organizationId = computed(() => String(unref(id)));
   const enabled = computed(() => !!organizationId.value);
   const store = useOrganizationImageStore();
+  const { getKeyForOrganizationListImage } = useOrganizationCache();
 
   const { data, isLoading, error, refresh } = useQuery({
-    key: () => ORGANIZATION_IMAGE_KEYS.byId(organizationId.value),
+    key: () => getKeyForOrganizationListImage(organizationId.value),
     query: async () => {
       const images = await fetchOrganizationImages(organizationId.value);
       store.setImages(images);

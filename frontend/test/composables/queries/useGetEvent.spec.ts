@@ -11,7 +11,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { CommunityEvent } from "../../../shared/types/event";
 
-import { EVENT_KEYS } from "../../../app/composables/queries/useGetEvent";
+import { useEventCache } from "../../../app/composables/cache/useEventCache";
 import { createMockEvent } from "../../mocks/factories";
 
 // MARK: Mocks
@@ -57,33 +57,38 @@ describe("useGetEvent", () => {
 
   // MARK: Cache Key
 
-  describe("EVENT_KEYS.byId", () => {
+  describe("useEventCache", () => {
     it("includes event ID in cache key", () => {
-      const key = EVENT_KEYS.byId("event-123");
+      const { getKeyForEvent } = useEventCache();
+      const key = getKeyForEvent("event-123");
 
       expect(key).toEqual(["event", "event-123"]);
     });
 
     it("returns 'event:{id}' format", () => {
-      expect(EVENT_KEYS.byId("event-123")).toEqual(["event", "event-123"]);
+      const { getKeyForEvent } = useEventCache();
+      expect(getKeyForEvent("event-123")).toEqual(["event", "event-123"]);
     });
 
     it("returns consistent key for same ID", () => {
-      const key1 = EVENT_KEYS.byId("event-456");
-      const key2 = EVENT_KEYS.byId("event-456");
+      const { getKeyForEvent } = useEventCache();
+      const key1 = getKeyForEvent("event-456");
+      const key2 = getKeyForEvent("event-456");
 
       expect(JSON.stringify(key1)).toBe(JSON.stringify(key2));
     });
 
     it("returns different keys for different IDs", () => {
-      const key1 = EVENT_KEYS.byId("event-1");
-      const key2 = EVENT_KEYS.byId("event-2");
+      const { getKeyForEvent } = useEventCache();
+      const key1 = getKeyForEvent("event-1");
+      const key2 = getKeyForEvent("event-2");
 
       expect(JSON.stringify(key1)).not.toBe(JSON.stringify(key2));
     });
 
     it("handles empty string ID", () => {
-      const key = EVENT_KEYS.byId("");
+      const { getKeyForEvent } = useEventCache();
+      const key = getKeyForEvent("");
 
       expect(JSON.stringify(key)).toBe(JSON.stringify(["event", ""]));
     });

@@ -12,7 +12,7 @@ import { ref } from "vue";
 
 import type { ContentImage } from "../../../shared/types/file-type";
 
-import { ORGANIZATION_IMAGE_KEYS } from "../../../app/composables/queries/useGetOrganizationImages";
+import { useOrganizationCache } from "../../../app/composables/cache/useOrganizationCache";
 import { createMockContentImage } from "../../mocks/factories";
 
 // MARK: Mocks
@@ -81,32 +81,36 @@ describe("useGetOrganizationImages", () => {
 
   // MARK: Cache Key
 
-  describe("ORGANIZATION_IMAGE_KEYS.byId", () => {
+  describe("useOrganizationCache", () => {
     it("includes organization ID in cache key", () => {
-      const key = ORGANIZATION_IMAGE_KEYS.byId("org-123");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+      const key = getKeyForOrganizationListImage("org-123");
 
-      expect(key).toEqual(["organizationImages", "org-123"]);
+      expect(key).toEqual(["organization", "imageList", "org-123"]);
     });
 
     it("returns consistent key for same ID", () => {
-      const key1 = ORGANIZATION_IMAGE_KEYS.byId("org-456");
-      const key2 = ORGANIZATION_IMAGE_KEYS.byId("org-456");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+      const key1 = getKeyForOrganizationListImage("org-456");
+      const key2 = getKeyForOrganizationListImage("org-456");
 
       expect(JSON.stringify(key1)).toBe(JSON.stringify(key2));
     });
 
     it("returns different keys for different IDs", () => {
-      const key1 = ORGANIZATION_IMAGE_KEYS.byId("org-1");
-      const key2 = ORGANIZATION_IMAGE_KEYS.byId("org-2");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+      const key1 = getKeyForOrganizationListImage("org-1");
+      const key2 = getKeyForOrganizationListImage("org-2");
 
       expect(JSON.stringify(key1)).not.toBe(JSON.stringify(key2));
     });
 
     it("handles empty string ID", () => {
-      const key = ORGANIZATION_IMAGE_KEYS.byId("");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+      const key = getKeyForOrganizationListImage("");
 
       expect(JSON.stringify(key)).toBe(
-        JSON.stringify(["organizationImages", ""])
+        JSON.stringify(["organization", "imageList", ""])
       );
     });
 
@@ -115,9 +119,10 @@ describe("useGetOrganizationImages", () => {
         await import("../../../app/composables/queries/useGetOrganizationImages");
 
       useGetOrganizationImages("org-123");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
 
       expect(lastOptions.key()).toEqual(
-        ORGANIZATION_IMAGE_KEYS.byId("org-123")
+        getKeyForOrganizationListImage("org-123")
       );
     });
   });

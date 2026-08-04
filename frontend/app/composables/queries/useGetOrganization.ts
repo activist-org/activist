@@ -1,19 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Read a single organization with Pinia Colada. Store-first, then fetch if missing.
 
-export const ORGANIZATION_KEYS = {
-  root: ["organization"] as const,
-  byId: (id: string) => [...ORGANIZATION_KEYS.root, id] as const,
-};
-
 export function useGetOrganization(id: MaybeRef<string>) {
   const organizationId = computed(() => String(unref(id)));
   const enabled = computed(() => !!organizationId.value);
   const store = useOrganizationStore();
   const imageStore = useOrganizationImageStore();
+  const { getKeyForOrganization } = useOrganizationCache();
 
   const { data, isLoading, error, refresh } = useQuery({
-    key: () => ORGANIZATION_KEYS.byId(organizationId.value),
+    key: () => getKeyForOrganization(organizationId.value),
     query: async () => {
       const organization = await getOrganization(organizationId.value);
       store.setOrganization(organization);
