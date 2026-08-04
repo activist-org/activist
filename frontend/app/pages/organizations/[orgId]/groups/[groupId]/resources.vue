@@ -38,7 +38,7 @@
         @end="onDragEnd"
         :animation="150"
         chosen-class="sortable-chosen"
-        class="flex flex-col gap-4"
+        class="flex flex-col gap-4 pb-28 md:pb-0"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -46,8 +46,9 @@
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
+        :fallback-on-body="true"
         :fallback-tolerance="0"
-        :force-fallback="false"
+        :force-fallback="true"
         ghost-class="sortable-ghost"
         handle=".drag-handle"
         :invert-swap="false"
@@ -92,7 +93,7 @@ const { data: group } = useGetGroup(paramsGroupId);
 const resourceList = ref<Resource[]>([...(group.value?.resources || [])]);
 const resourceCardList = ref<(HTMLElement | null)[]>([]);
 const groupTabs = useGetGroupTabs();
-const { reorderResources } = useGroupResourcesMutations(paramsGroupId);
+const { reorderResources, loading } = useGroupResourcesMutations(paramsGroupId);
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
@@ -106,16 +107,17 @@ const { selectedIndex, onFocus, moveUp, moveDown } =
 export type CardExpose = {
   root: HTMLElement | null;
 };
-const onDragEnd = () => {
+const onDragEnd = async () => {
   resourceList.value = resourceList.value.map((resource, index) => ({
     ...resource,
     order: index,
   }));
-  reorderResources(resourceList.value);
+  await reorderResources(resourceList.value);
 };
 watch(
   () => group.value?.resources,
   (newResources) => {
+    if (loading.value) return;
     resourceList.value = [...(newResources || [])];
   },
   { deep: true }
@@ -139,11 +141,12 @@ watch(
 }
 
 .sortable-fallback {
-  display: none;
+  opacity: 0.95;
 }
 
-/* Ensure drag handles work properly. */
+/* Prevent the browser from treating the handle gesture as a page scroll. */
 .drag-handle {
+  touch-action: none;
   user-select: none;
 }
 

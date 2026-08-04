@@ -35,7 +35,7 @@
         @end="onDragEnd"
         :animation="150"
         chosen-class="sortable-chosen"
-        class="space-y-4"
+        class="space-y-4 pb-28 md:pb-0"
         :delay="0"
         :delay-on-touch-start="false"
         direction="vertical"
@@ -43,8 +43,9 @@
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
+        :fallback-on-body="true"
         :fallback-tolerance="0"
-        :force-fallback="false"
+        :force-fallback="true"
         ghost-class="sortable-ghost"
         handle=".drag-handle"
         :invert-swap="false"
@@ -86,7 +87,7 @@ const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
-const { reorderFAQs, deleteFAQ } = useGroupFAQEntryMutations(groupId);
+const { reorderFAQs, deleteFAQ, loading } = useGroupFAQEntryMutations(groupId);
 
 const faqList = ref<FaqEntry[]>([...(group?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
@@ -109,6 +110,7 @@ export type CardExpose = {
 watch(
   () => group?.value?.faqEntries,
   (newVal) => {
+    if (loading.value) return;
     faqList.value = newVal?.slice() ?? [];
   },
   { immediate: true }
@@ -144,11 +146,12 @@ const handleDeleteFAQ = async (faqId: string) => {
 }
 
 .sortable-fallback {
-  display: none;
+  opacity: 0.95;
 }
 
-/* Ensure drag handles work properly. */
+/* Prevent the browser from treating the handle gesture as a page scroll. */
 .drag-handle {
+  touch-action: none;
   user-select: none;
 }
 

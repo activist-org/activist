@@ -9,7 +9,7 @@
   >
     <div class="flex items-center space-x-2">
       <IconDraggableEdit
-        class="drag-handle cursor-grab select-none"
+        class="drag-handle cursor-grab touch-none select-none"
         :class="dragIconSizeClass"
         data-testid="resource-drag-handle"
         :entity="entity"

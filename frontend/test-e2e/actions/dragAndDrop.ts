@@ -137,14 +137,59 @@ async function mouseDrag(
   await page.mouse.up();
 }
 
+async function touchDrag(
+  page: Page,
+  startX: number,
+  startY: number,
+  endX: number,
+  endY: number,
+  steps: number
+): Promise<void> {
+  const dx = endX - startX;
+  const dy = endY - startY;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  const client = await page.context().newCDPSession(page);
+
+  try {
+    await client.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: startX, y: startY }],
+    });
+    await page.evaluate(
+      () =>
+        new Promise<void>((r) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => r()))
+        )
+    );
+    await client.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      touchPoints: [
+        { x: startX + (dx / dist) * 8, y: startY + (dy / dist) * 8 },
+      ],
+    });
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      await client.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: startX + dx * t, y: startY + dy * t }],
+      });
+    }
+    await client.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+  } finally {
+    await client.detach().catch(() => {});
+  }
+}
+
 /**
  * Performs a drag and drop operation from source to target.
  *
- * Uses `page.mouse` on desktop and mobile viewports so vuedraggable `@end`
- * fires and the reorder API runs. JS `dispatchEvent(PointerEvent)` can reorder
- * the DOM without calling `@end`. Center-to-center drags often fire `@end`
- * without swapping, so the drag overshoots the target and retries until the
- * first two list items actually swap.
+ * Desktop uses `page.mouse`. Mobile uses CDP touch so Sortable's touch /
+ * force-fallback path runs and vuedraggable `@end` fires. The drag overshoots
+ * the target by a distance scaled to card size and retries until the first two
+ * list items actually swap.
  */
 export async function performDragAndDrop(
   page: Page,
@@ -157,6 +202,8 @@ export async function performDragAndDrop(
   if (beforeOrder.length < 2) {
     throw new Error("Need at least 2 reorderable items for drag and drop");
   }
+
+  const hasTouch = await page.evaluate(() => navigator.maxTouchPoints > 0);
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     await sourceLocator.scrollIntoViewIfNeeded();
@@ -179,19 +226,21 @@ export async function performDragAndDrop(
     const dy = endY - startY;
     const dist = Math.sqrt(dx * dx + dy * dy) || 1;
     // Tall resource cards need overshoot past center; short FAQ cards do not.
-    // Scale with drag distance so we cross Sortable's swap threshold without
-    // skipping into a third item.
     const overshootPx = Math.min(80, Math.max(24, dist * 0.35));
     endX += (dx / dist) * overshootPx;
     endY += (dy / dist) * overshootPx;
 
-    await mouseDrag(page, startX, startY, endX, endY, steps);
+    if (hasTouch) {
+      await touchDrag(page, startX, startY, endX, endY, steps);
+    } else {
+      await mouseDrag(page, startX, startY, endX, endY, steps);
+    }
 
     await page
       .waitForFunction(
         () =>
           document.querySelectorAll(
-            ".sortable-chosen, .sortable-drag, .sortable-ghost"
+            ".sortable-chosen, .sortable-drag, .sortable-ghost, .sortable-fallback"
           ).length === 0,
         { timeout: 5000 }
       )
@@ -202,7 +251,9 @@ export async function performDragAndDrop(
       return;
     }
 
-    await page.mouse.up().catch(() => {});
+    if (!hasTouch) {
+      await page.mouse.up().catch(() => {});
+    }
   }
 
   throw new Error(
