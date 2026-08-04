@@ -57,15 +57,12 @@ async function handleSubmit(values: unknown) {
     return;
   }
 
-  try {
-    await updateTexts({
-      textId: String(textId),
-      data: values as EventUpdateTextFormData,
-    });
+  const response = await updateTexts({
+    textId: String(textId),
+    data: values as EventUpdateTextFormData,
+  });
+  if (response) {
     handleCloseModal();
-  } catch {
-    // updateTexts is Colada's mutateAsync, which rejects rather than returning
-    // false. onError raises the toast, so keep the modal open to preserve edits.
   }
 }
 </script>

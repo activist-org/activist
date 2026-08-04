@@ -243,6 +243,7 @@
   "i18n.components.form_social_link.label_required": "Требуется подпись",
   "i18n.components.form_social_link.new_link_label": "Подпись новой ссылки",
   "i18n.components.form_social_link.new_link_url": "URL новой ссылки",
+  "i18n.components.form_social_link.social_links": "Ссылки на соцсети",
   "i18n.components.form_text_entity.description_required": "Требуется описание",
   "i18n.components.form_text_entity.get_involved_text_or_url_required": "Требуется либо текст об участии, либо URL",
   "i18n.components.form_text_entity.max_text_length": "Текст должен быть короче {max_text_length} символов.",

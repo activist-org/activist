@@ -7,12 +7,12 @@
     :schema="schema"
     :submit-label="$t(submitLabel)"
   >
-    <h2>
-      {{ $t("i18n.components.form_social_link.edit_social_links") }}
-    </h2>
     <div class="flex flex-col space-y-7">
       <FormListItem v-slot="{ fields, remove, push, move }" name="socialLinks">
         <div class="flex flex-col space-y-3">
+          <h2 for="textarea">
+            {{ $t("i18n.components.form_social_link.social_links") }}
+          </h2>
           <draggable
             v-model="fields.value"
             @end="
