@@ -66,13 +66,47 @@ async function getReorderableListOrder(page: Page): Promise<string[]> {
 
 // MARK: Drag and Drop Actions
 
+/**
+ * Measures the sticky mobile header, submenu dropdown, and bottom nav so drag
+ * targets can be kept clear of real chrome instead of guessing fixed pixel
+ * insets. Falls back to 0 for any element not rendered (e.g. on desktop).
+ */
+async function getStickyChromeInsets(
+  page: Page
+): Promise<{ top: number; bottom: number }> {
+  const [headerBox, submenuBox, bottomNavBox] = await Promise.all([
+    page
+      .locator("#mobile-header")
+      .boundingBox()
+      .catch(() => null),
+    page
+      .locator("#submenu")
+      .boundingBox()
+      .catch(() => null),
+    page
+      .locator('[data-testid="mobile-bottom-nav"]')
+      .boundingBox()
+      .catch(() => null),
+  ]);
+
+  const top = Math.max(
+    headerBox ? headerBox.y + headerBox.height : 0,
+    submenuBox ? submenuBox.y + submenuBox.height : 0
+  );
+
+  return {
+    top,
+    bottom: bottomNavBox ? bottomNavBox.height : 0,
+  };
+}
+
 async function scrollHandlesClearOfChrome(
   page: Page,
   sourceLocator: Locator,
   targetLocator: Locator
 ): Promise<void> {
-  const topChrome = 100;
-  const bottomChrome = 130;
+  const { top: topChrome, bottom: bottomChrome } =
+    await getStickyChromeInsets(page);
   for (let attempt = 0; attempt < 6; attempt++) {
     const sourceBox = await sourceLocator.boundingBox();
     const targetBox = await targetLocator.boundingBox();
