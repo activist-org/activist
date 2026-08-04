@@ -77,7 +77,7 @@
         </div>
       </div>
       <CardGetInvolvedOrganization />
-      <CardConnectOrganization :entityId="orgId" :organization="organization" />
+      <CardConnectOrganization :organization="organization" />
       <!-- <CardDonate
         v-if="organization.status === 2"
         :userIsAdmin="true"

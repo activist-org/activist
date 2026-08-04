@@ -7,8 +7,18 @@
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
-        @click="() => openModalSocialLinks({ entityId })"
-        @keydown.enter="() => openModalSocialLinks({ entityId })"
+        @click="
+          () =>
+            openModalSocialLinks({
+              entityId: entity?.id ?? '',
+            })
+        "
+        @keydown.enter="
+          () =>
+            openModalSocialLinks({
+              entityId: entity?.id ?? '',
+            })
+        "
         class="flex"
         data-testid="icon-edit"
         :entity="entity"
@@ -57,7 +67,6 @@ const props = defineProps<{
     | OrganizationSocialLink[];
   pageType: "organization" | "group" | "event";
   entity?: Entity | null;
-  entityId: string;
 }>();
 
 const { openModal: openModalSocialLinks } = useModalHandlers(
