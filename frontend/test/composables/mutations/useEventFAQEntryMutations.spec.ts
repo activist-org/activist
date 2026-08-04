@@ -176,10 +176,13 @@ describe("useEventFAQEntryMutations", () => {
 
       await reorderFAQs(reordered);
 
-      expect(queryCache.setQueryData).toHaveBeenCalledWith(["event", "event-123"], {
-        ...previousEvent,
-        faqEntries: reordered,
-      });
+      expect(queryCache.setQueryData).toHaveBeenCalledWith(
+        ["event", "event-123"],
+        {
+          ...previousEvent,
+          faqEntries: reordered,
+        }
+      );
     });
 
     it("rolls back the query cache to the previous order when the request fails", async () => {

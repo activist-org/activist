@@ -212,10 +212,13 @@ describe("useEventResourcesMutations", () => {
 
       await reorderResources(reordered);
 
-      expect(queryCache.setQueryData).toHaveBeenCalledWith(["event", "event-123"], {
-        ...previousEvent,
-        resources: reordered,
-      });
+      expect(queryCache.setQueryData).toHaveBeenCalledWith(
+        ["event", "event-123"],
+        {
+          ...previousEvent,
+          resources: reordered,
+        }
+      );
     });
 
     it("rolls back the query cache to the previous order when the request fails", async () => {
