@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
+// MARK: Centralized Query Keys
+
 const ORGANIZATION_KEYS = {
   root: ["organization"] as const,
   byId: (id: string) => [...ORGANIZATION_KEYS.root, id] as const,
