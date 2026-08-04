@@ -5,7 +5,6 @@
       v-if="socialLinksRef"
       :formData="formData"
       :handleSubmit="handleSubmit"
-      :socialLinksRef="socialLinksRef"
       :submitLabel="submitLabel"
     />
   </ModalBase>

@@ -241,7 +241,6 @@
   "i18n.components.form_social_link.label_required": "Un etichetta è richiesta",
   "i18n.components.form_social_link.new_link_label": "Nuova etichetta link",
   "i18n.components.form_social_link.new_link_url": "Nuovo link URL",
-  "i18n.components.form_social_link.social_links": "Link dei social",
   "i18n.components.form_text_entity.description_required": "Una descrizione è obbligatoria",
   "i18n.components.form_text_entity.get_involved_text_or_url_required": "È necessario inserire il messaggio per partecipare o l'URL",
   "i18n.components.form_text_entity.max_text_length": "Il testo deve essere mendo di {max_text_length} caratteri.",
