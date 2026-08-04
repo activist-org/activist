@@ -4,7 +4,9 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
+from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupSocialLinkFactory
+from communities.groups.models import GroupSocialLink
 
 pytestmark = pytest.mark.django_db
 
@@ -36,12 +38,15 @@ def test_group_social_link_delete_not_found_404(authenticated_client):
 
 def test_group_social_link_delete_forbidden_403(authenticated_client):
     client, user = authenticated_client
+    user.is_staff = False
+    user.save(update_fields=["is_staff"])
 
-    group = GroupFactory()
-    social_links = GroupSocialLinkFactory(group=group)
+    group_owner = UserFactory()
+    group = GroupFactory(created_by=group_owner)
+    social_link = GroupSocialLinkFactory(group=group)
 
     response = client.delete(
-        path=f"/v1/communities/group_social_links/{social_links.id}"
+        path=f"/v1/communities/group_social_links/{social_link.id}"
     )
 
     response_body = response.json()
@@ -49,3 +54,4 @@ def test_group_social_link_delete_forbidden_403(authenticated_client):
     assert (
         response_body["detail"] == "You are not authorized to delete this social link."
     )
+    assert GroupSocialLink.objects.filter(id=social_link.id).exists()

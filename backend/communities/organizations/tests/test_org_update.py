@@ -6,9 +6,10 @@ Test cases for updating organizations.
 from uuid import uuid4
 
 import pytest
-from django.test import Client
 from rest_framework import status
+from rest_framework.test import APIClient
 
+from authentication.factories import UserFactory
 from communities.organizations.factories import OrganizationFactory
 
 pytestmark = pytest.mark.django_db
@@ -19,24 +20,24 @@ ORGS_URL = "/v1/communities/organizations"
 # MARK: Unauthenticated
 
 
-def test_org_update_unauthenticated_unauthorized_401(client: Client) -> None:
+def test_org_update_unauthorized_401() -> None:
     """
     Unauthenticated user receives 401 when trying to update an organization.
-
-    Parameters
-    ----------
-    client : Client
-        An unauthenticated Django test client.
     """
+    client = APIClient()
     org = OrganizationFactory()
+    original_name = org.name
 
     response = client.put(
         path=f"{ORGS_URL}/{org.id}",
-        data={"orgName": "new_org", "name": "test_org"},
+        data={"name": "updated_org_name"},
         content_type="application/json",
     )
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.data["detail"] == "Authentication credentials were not provided."
+    org.refresh_from_db()
+    assert org.name == original_name
 
 
 # MARK: Non-Owner
@@ -52,12 +53,16 @@ def test_org_update_forbidden_403(authenticated_client) -> None:
         An authenticated client with a test user.
     """
     client, user = authenticated_client
+    user.is_staff = False
+    user.save(update_fields=["is_staff"])
 
-    org = OrganizationFactory()
+    org_owner = UserFactory()
+    org = OrganizationFactory(created_by=org_owner)
+    original_name = org.name
 
     response = client.put(
         path=f"{ORGS_URL}/{org.id}",
-        data={"orgName": "new_org", "name": "test_org"},
+        data={"name": "updated_org_name"},
         content_type="application/json",
     )
 
@@ -67,6 +72,8 @@ def test_org_update_forbidden_403(authenticated_client) -> None:
     assert (
         response_body["detail"] == "You are not authorized to update this organization."
     )
+    org.refresh_from_db()
+    assert org.name == original_name
 
 
 # MARK: Not Found

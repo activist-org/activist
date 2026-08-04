@@ -4,6 +4,7 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
+from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupResourceFactory
 from content.factories import TopicFactory
 from content.models import Topic
@@ -43,23 +44,27 @@ def test_group_resource_update_ok_200(authenticated_client):
 
 def test_group_resource_update_forbidden_403(authenticated_client):
     client, user = authenticated_client
+    user.is_staff = False
+    user.save(update_fields=["is_staff"])
 
-    group = GroupFactory()
-    resource = GroupResourceFactory(created_by=user, group=group)
+    group_owner = UserFactory()
+    group = GroupFactory(created_by=group_owner)
+    resource = GroupResourceFactory(created_by=group_owner, group=group)
     topic = TopicFactory()
-
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    original_values = (
+        resource.name,
+        resource.description,
+        resource.url,
+        resource.order,
+    )
 
     response = client.put(
         path=f"/v1/communities/group_resources/{resource.id}",
         data={
-            "name": test_name,
-            "description": test_desc,
-            "url": test_url,
-            "order": test_order,
+            "name": "Updated resource name",
+            "description": "Updated resource description",
+            "url": "https://example.com/updated-resource",
+            "order": resource.order + 1,
             "group": group.id,
             "topic": [topic.type],
         },
@@ -69,6 +74,13 @@ def test_group_resource_update_forbidden_403(authenticated_client):
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response_body["detail"] == "You are not authorized to update this resource."
+    resource.refresh_from_db()
+    assert (
+        resource.name,
+        resource.description,
+        resource.url,
+        resource.order,
+    ) == original_values
 
 
 def test_group_resource_update_not_found_404(authenticated_client):

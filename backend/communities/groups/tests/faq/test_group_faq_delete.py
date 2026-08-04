@@ -8,7 +8,9 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
+from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupFaqFactory
+from communities.groups.models import GroupFaq
 
 pytestmark = pytest.mark.django_db
 
@@ -64,7 +66,7 @@ def test_group_faq_delete_not_found_404(authenticated_client):
 
 def test_group_faq_delete_forbidden_403(authenticated_client):
     """
-    Test unauthorized deletion of a group FAQ.
+    Test forbidden deletion of a group FAQ.
 
     Parameters
     ----------
@@ -77,8 +79,11 @@ def test_group_faq_delete_forbidden_403(authenticated_client):
         This test asserts that a user cannot delete an FAQ for a group they didn't create (403).
     """
     client, user = authenticated_client
+    user.is_staff = False
+    user.save(update_fields=["is_staff"])
 
-    group = GroupFactory()
+    group_owner = UserFactory()
+    group = GroupFactory(created_by=group_owner)
     faq = GroupFaqFactory(group=group)
 
     response = client.delete(path=f"/v1/communities/group_faqs/{faq.id}")
@@ -86,3 +91,4 @@ def test_group_faq_delete_forbidden_403(authenticated_client):
     response_body = response.json()
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response_body["detail"] == "You are not authorized to delete this FAQ."
+    assert GroupFaq.objects.filter(id=faq.id).exists()

@@ -2,7 +2,9 @@
 import pytest
 from rest_framework import status
 
+from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupResourceFactory
+from communities.groups.models import GroupResource
 from content.factories import TopicFactory
 from content.models import Topic
 
@@ -41,10 +43,14 @@ def test_group_resource_created_201(authenticated_client):
 
 def test_group_resource_create_forbidden_403(authenticated_client):
     client, user = authenticated_client
+    user.is_staff = False
+    user.save(update_fields=["is_staff"])
 
-    group = GroupFactory()
-    resource = GroupResourceFactory(created_by=user, group=group)
+    group_owner = UserFactory()
+    group = GroupFactory(created_by=group_owner)
+    resource = GroupResourceFactory.build(created_by=user, group=group)
     topic = TopicFactory()
+    resource_count_before = GroupResource.objects.count()
 
     test_name = resource.name
     test_desc = resource.description
@@ -70,3 +76,4 @@ def test_group_resource_create_forbidden_403(authenticated_client):
         response_body["detail"]
         == "You are not authorized to create resource for this group."
     )
+    assert GroupResource.objects.count() == resource_count_before

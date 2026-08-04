@@ -123,6 +123,9 @@ def test_group_faq_create_forbidden_403(authenticated_client) -> None:
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.data["detail"] == (
+        "You are not authorized to create FAQs for this group."
+    )
     assert GroupFaq.objects.count() == faq_count_before
 
 
@@ -149,4 +152,5 @@ def test_group_faq_create_unauthorized_401() -> None:
     )
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.data["detail"] == "Authentication credentials were not provided."
     assert GroupFaq.objects.count() == faq_count_before

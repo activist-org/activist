@@ -6,10 +6,12 @@ Test cases for the organization social link methods.
 import pytest
 from rest_framework import status
 
+from authentication.factories import UserFactory
 from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationFaqFactory,
 )
+from communities.organizations.models import OrganizationFaq
 
 pytestmark = pytest.mark.django_db
 
@@ -80,29 +82,32 @@ def test_org_faq_create_bad_request_400(authenticated_client):
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
-def test_org_faq_create_unathorized(authenticated_client) -> None:
+def test_org_faq_create_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
     user.is_staff = False
-    user.save()
+    user.save(update_fields=["is_staff"])
 
-    org = OrganizationFactory()
+    org_owner = UserFactory()
+    org = OrganizationFactory(created_by=org_owner)
 
-    faqs = OrganizationFaqFactory()
-    test_question = faqs.question
-    test_answer = faqs.answer
-    test_order = faqs.order
+    faq = OrganizationFaqFactory.build(org=org)
+    faq_count_before = OrganizationFaq.objects.count()
 
     response = client.post(
         path="/v1/communities/organization_faqs",
         data={
             "iso": "en",
             "primary": True,
-            "question": test_question,
-            "answer": test_answer,
-            "order": test_order,
+            "question": faq.question,
+            "answer": faq.answer,
+            "order": faq.order,
             "org": org.id,
         },
         format="json",
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.data["detail"] == (
+        "You are not authorized to create FAQs for this organization."
+    )
+    assert OrganizationFaq.objects.count() == faq_count_before

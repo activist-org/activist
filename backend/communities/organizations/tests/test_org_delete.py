@@ -6,9 +6,10 @@ Test cases for deleting organizations.
 from uuid import uuid4
 
 import pytest
-from django.test import Client
 from rest_framework import status
+from rest_framework.test import APIClient
 
+from authentication.factories import UserFactory
 from communities.organizations.factories import OrganizationFactory
 
 pytestmark = pytest.mark.django_db
@@ -19,28 +20,28 @@ ORGS_URL = "/v1/communities/organizations"
 # MARK: Unauthenticated
 
 
-def test_org_delete_unauthenticated_unauthorized_401(client: Client) -> None:
+def test_org_delete_unauthorized_401() -> None:
     """
     Unauthenticated user receives 401 when trying to delete an organization.
-
-    Parameters
-    ----------
-    client : Client
-        An unauthenticated Django test client.
     """
+    client = APIClient()
     org = OrganizationFactory()
+    original_values = (org.status_id, org.deletion_date)
 
     response = client.delete(
         path=f"{ORGS_URL}/{org.id}",
     )
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.data["detail"] == "Authentication credentials were not provided."
+    org.refresh_from_db()
+    assert (org.status_id, org.deletion_date) == original_values
 
 
 # MARK: Non-Owner
 
 
-def test_org_delete_non_owner_forbidden_403(authenticated_client) -> None:
+def test_org_delete_forbidden_403(authenticated_client) -> None:
     """
     Authenticated user who is not the owner receives 403 when trying to delete.
 
@@ -50,8 +51,12 @@ def test_org_delete_non_owner_forbidden_403(authenticated_client) -> None:
         An authenticated client with a test user.
     """
     client, user = authenticated_client
+    user.is_staff = False
+    user.save(update_fields=["is_staff"])
 
-    org = OrganizationFactory()
+    org_owner = UserFactory()
+    org = OrganizationFactory(created_by=org_owner)
+    original_values = (org.status_id, org.deletion_date)
 
     response = client.delete(
         path=f"{ORGS_URL}/{org.id}",
@@ -63,6 +68,8 @@ def test_org_delete_non_owner_forbidden_403(authenticated_client) -> None:
     assert (
         response_body["detail"] == "You are not authorized to delete this organization."
     )
+    org.refresh_from_db()
+    assert (org.status_id, org.deletion_date) == original_values
 
 
 # MARK: Not Found

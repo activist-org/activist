@@ -8,6 +8,7 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
+from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupSocialLinkFactory
 
 pytestmark = pytest.mark.django_db
@@ -66,21 +67,26 @@ def test_group_social_link_update_ok_200_and_not_found_404(
     assert response_body["detail"] == "Social link not found."
 
 
-def test_group_social_link_update_not_creator_or_admin_forbidden_403(
+def test_group_social_link_update_forbidden_403(
     authenticated_client,
 ):
     client, user = authenticated_client
+    user.is_staff = False
+    user.save(update_fields=["is_staff"])
 
-    group = GroupFactory()
+    group_owner = UserFactory()
+    group = GroupFactory(created_by=group_owner)
 
     social_links = GroupSocialLinkFactory(group=group)
-    test_link = social_links.link
-    test_label = social_links.label
-    test_order = social_links.order
+    original_values = (social_links.link, social_links.label, social_links.order)
 
     response = client.put(
         path=f"/v1/communities/group_social_links/{social_links.id}",
-        data={"link": test_link, "label": test_label, "order": test_order},
+        data={
+            "link": "https://example.com/updated-social-link",
+            "label": "Updated label",
+            "order": social_links.order + 1,
+        },
         content_type="application/json",
     )
     response_body = response.json()
@@ -90,3 +96,9 @@ def test_group_social_link_update_not_creator_or_admin_forbidden_403(
         response_body["detail"]
         == "You are not authorized to update the social links for this group."
     )
+    social_links.refresh_from_db()
+    assert (
+        social_links.link,
+        social_links.label,
+        social_links.order,
+    ) == original_values
