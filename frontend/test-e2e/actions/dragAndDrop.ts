@@ -93,8 +93,7 @@ async function scrollHandlesClearOfChrome(
     }
 
     const mid = (top + bottom) / 2;
-    const desired =
-      topChrome + (viewportHeight - topChrome - bottomChrome) / 2;
+    const desired = topChrome + (viewportHeight - topChrome - bottomChrome) / 2;
     const deltaY = mid - desired;
     if (Math.abs(deltaY) < 2) {
       return;
@@ -199,10 +198,7 @@ export async function performDragAndDrop(
       .catch(() => {});
 
     const afterOrder = await getReorderableListOrder(page);
-    if (
-      afterOrder[0] === beforeOrder[1] &&
-      afterOrder[1] === beforeOrder[0]
-    ) {
+    if (afterOrder[0] === beforeOrder[1] && afterOrder[1] === beforeOrder[0]) {
       return;
     }
 
