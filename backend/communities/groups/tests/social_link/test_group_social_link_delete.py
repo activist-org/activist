@@ -37,9 +37,7 @@ def test_group_social_link_delete_not_found_404(authenticated_client):
 
 
 def test_group_social_link_delete_forbidden_403(authenticated_client):
-    client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
+    client, _ = authenticated_client
 
     group_owner = UserFactory()
     group = GroupFactory(created_by=group_owner)
