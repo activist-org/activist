@@ -5,6 +5,8 @@ import { defaultEventText } from "../../../app/constants/event";
 import {
   createEvent,
   deleteEvent,
+  downloadEventCalendar,
+  getCalendarFilename,
   getEvent,
   listEvents,
   mapEvent,
@@ -19,6 +21,45 @@ import {
 
 describe("services/event", () => {
   const getMocks = setupServiceTestMocks();
+
+  describe("downloadEventCalendar", () => {
+    it("downloads the event calendar through the public proxy", async () => {
+      const { fetchRawMock } = getMocks();
+      const calendar = new Blob(["BEGIN:VCALENDAR"], {
+        type: "text/calendar",
+      });
+      const response = {
+        _data: calendar,
+        headers: new Headers({
+          "content-disposition": 'attachment; filename="community-event.ics"',
+        }),
+      };
+      fetchRawMock.mockResolvedValueOnce(response);
+
+      const result = await downloadEventCalendar("evt-calendar");
+
+      expect(fetchRawMock).toHaveBeenCalledTimes(1);
+      expectRequest(fetchRawMock, "/events/event_calendar", "GET");
+      const [, options] = getFetchCall(fetchRawMock);
+      expect(options.headers?.Authorization).toBeUndefined();
+      expect(options.query).toEqual({ event_id: "evt-calendar" });
+      expect(options.responseType).toBe("blob");
+      expect(result).toEqual({
+        calendar,
+        filename: "community-event.ics",
+      });
+    });
+
+    it("uses a safe filename when the response header is missing or invalid", () => {
+      expect(getCalendarFilename(null)).toBe("activist-event.ics");
+      expect(getCalendarFilename('attachment; filename="event.txt"')).toBe(
+        "activist-event.ics"
+      );
+      expect(getCalendarFilename('attachment; filename="../event.ics"')).toBe(
+        ".._event.ics"
+      );
+    });
+  });
 
   // MARK: Get
 

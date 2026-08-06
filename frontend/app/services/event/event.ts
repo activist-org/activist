@@ -2,7 +2,9 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { del, get, post } from "~/services/http";
+import { del, get, getRaw, post } from "~/services/http";
+
+const DEFAULT_CALENDAR_FILENAME = "activist-event.ics";
 
 // MARK: Map API Response to Type
 
@@ -34,6 +36,50 @@ export async function getEvent(id: string): Promise<EventResponse> {
       withoutAuth: true,
     });
     return mapEvent(res);
+  } catch (e) {
+    throw errorHandler(e);
+  }
+}
+
+export function getCalendarFilename(
+  contentDisposition: string | null
+): string {
+  const match = contentDisposition?.match(
+    /filename\*?=(?:UTF-8''|\")?([^\";]+)\"?/i
+  );
+  const encodedFilename = match?.[1]?.trim();
+
+  if (!encodedFilename) return DEFAULT_CALENDAR_FILENAME;
+
+  try {
+    const filename = decodeURIComponent(encodedFilename).replace(/[\\/]/g, "_");
+    return filename.toLowerCase().endsWith(".ics")
+      ? filename
+      : DEFAULT_CALENDAR_FILENAME;
+  } catch {
+    return DEFAULT_CALENDAR_FILENAME;
+  }
+}
+
+export async function downloadEventCalendar(eventId: string): Promise<{
+  calendar: Blob;
+  filename: string;
+}> {
+  try {
+    const response = await getRaw<Blob>("/events/event_calendar", {
+      withoutAuth: true,
+      query: { event_id: eventId },
+      responseType: "blob",
+    });
+
+    if (!response._data) {
+      throw new Error("Calendar response did not contain a file.");
+    }
+
+    return {
+      calendar: response._data,
+      filename: getCalendarFilename(response.headers.get("content-disposition")),
+    };
   } catch (e) {
     throw errorHandler(e);
   }
