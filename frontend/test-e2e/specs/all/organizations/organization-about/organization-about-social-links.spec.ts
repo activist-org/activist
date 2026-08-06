@@ -57,6 +57,15 @@ test.describe(
         timeout: 15000,
       });
 
+      // Wait for the organization entity to finish loading before interacting
+      // with entity-derived controls. The connect card renders before the
+      // organization query resolves, so clicking the edit icon too early can
+      // race the id it depends on. The page heading is populated from the
+      // same entity data, so non-empty text here means it has resolved.
+      await expect(organizationPage.pageHeading).toHaveText(/\S/, {
+        timeout: 15000,
+      });
+
       // Generate unique content for this test run.
       const timestamp = Date.now();
       const newLabel = `Test Social Link ${timestamp}`;
