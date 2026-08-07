@@ -4,7 +4,6 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
-from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupSocialLinkFactory
 from communities.groups.models import GroupSocialLink
 
@@ -15,10 +14,10 @@ def test_group_social_link_delete_no_content_204(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)
-    social_links = GroupSocialLinkFactory(group=group)
+    group_social_links = GroupSocialLinkFactory(group=group)
 
     response = client.delete(
-        path=f"/v1/communities/group_social_links/{social_links.id}"
+        path=f"/v1/communities/group_social_links/{group_social_links.id}"
     )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -27,10 +26,9 @@ def test_group_social_link_delete_no_content_204(authenticated_client):
 def test_group_social_link_delete_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_uuid = uuid4()
-
+    invalid_group_social_links_id = uuid4()
     response = client.delete(
-        path=f"/v1/communities/group_social_links/{bad_uuid}",
+        path=f"/v1/communities/group_social_links/{invalid_group_social_links_id}",
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -39,8 +37,7 @@ def test_group_social_link_delete_not_found_404(authenticated_client):
 def test_group_social_link_delete_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
-    group_owner = UserFactory()
-    group = GroupFactory(created_by=group_owner)
+    group = GroupFactory()
     social_link = GroupSocialLinkFactory(group=group)
 
     response = client.delete(

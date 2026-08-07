@@ -26,13 +26,13 @@ def test_event_social_link_update_ok_200(authenticated_client) -> None:
 
     event = EventFactory(created_by=user)
 
-    social_links = EventSocialLinkFactory(event=event)
-    test_link = social_links.link
-    test_label = social_links.label
-    test_order = social_links.order
+    event_social_link = EventSocialLinkFactory(event=event)
+    test_link = event_social_link.link
+    test_label = event_social_link.label
+    test_order = event_social_link.order
 
     response = client.put(
-        path=f"/v1/events/event_social_links/{social_links.id}",
+        path=f"/v1/events/event_social_links/{event_social_link.id}",
         data={
             "link": test_link,
             "label": test_label,
@@ -52,10 +52,11 @@ def test_event_social_link_update(authenticated_client):
 
     event = EventFactory(created_by=user)
 
-    social_links = EventSocialLinkFactory(event=event)
-    test_link = social_links.link
-    test_label = social_links.label
-    test_order = social_links.order
+    event_social_link = EventSocialLinkFactory(event=event)
+    test_link = event_social_link.link
+    test_label = event_social_link.label
+    test_order = event_social_link.order
+
     response = client.put(
         path=f"/v1/events/event_social_links/{test_uuid}",
         data={

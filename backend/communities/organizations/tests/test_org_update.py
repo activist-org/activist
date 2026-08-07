@@ -9,7 +9,6 @@ import pytest
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import OrganizationFactory
 
 pytestmark = pytest.mark.django_db
@@ -54,9 +53,8 @@ def test_org_update_forbidden_403(authenticated_client) -> None:
     """
     client, user = authenticated_client
 
-    org_owner = UserFactory()
-    org = OrganizationFactory(created_by=org_owner)
-    original_name = org.name
+    org = OrganizationFactory()
+    original_org_name = org.name
 
     response = client.put(
         path=f"{ORGS_URL}/{org.id}",
@@ -71,7 +69,7 @@ def test_org_update_forbidden_403(authenticated_client) -> None:
         response_body["detail"] == "You are not authorized to update this organization."
     )
     org.refresh_from_db()
-    assert org.name == original_name
+    assert org.name == original_org_name
 
 
 # MARK: Not Found
@@ -88,10 +86,10 @@ def test_org_update_not_found_404(authenticated_client) -> None:
     """
     client, user = authenticated_client
 
-    bad_org_id = uuid4()
+    invalid_org_id = uuid4()
 
     response = client.put(
-        path=f"{ORGS_URL}/{bad_org_id}",
+        path=f"{ORGS_URL}/{invalid_org_id}",
         data={"orgName": "new_org", "name": "test_org"},
         content_type="application/json",
     )

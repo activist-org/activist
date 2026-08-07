@@ -4,7 +4,6 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
-from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupResourceFactory
 from content.factories import TopicFactory
 from content.models import Topic
@@ -16,16 +15,16 @@ def test_group_resource_update_ok_200(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)
-    resource = GroupResourceFactory(created_by=user, group=group)
+    group_resource = GroupResourceFactory(created_by=user, group=group)
     topic = Topic.objects.create(type="test_type", active=True)
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    test_name = group_resource.name
+    test_desc = group_resource.description
+    test_url = group_resource.url
+    test_order = group_resource.order
 
     response = client.put(
-        path=f"/v1/communities/group_resources/{resource.id}",
+        path=f"/v1/communities/group_resources/{group_resource.id}",
         data={
             "name": test_name,
             "description": test_desc,
@@ -45,24 +44,24 @@ def test_group_resource_update_ok_200(authenticated_client):
 def test_group_resource_update_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
-    group_owner = UserFactory()
-    group = GroupFactory(created_by=group_owner)
-    resource = GroupResourceFactory(created_by=group_owner, group=group)
+    group = GroupFactory()
+    group_resource = GroupResourceFactory(group=group)
+
     topic = TopicFactory()
     original_values = (
-        resource.name,
-        resource.description,
-        resource.url,
-        resource.order,
+        group_resource.name,
+        group_resource.description,
+        group_resource.url,
+        group_resource.order,
     )
 
     response = client.put(
-        path=f"/v1/communities/group_resources/{resource.id}",
+        path=f"/v1/communities/group_resources/{group_resource.id}",
         data={
             "name": "Updated resource name",
             "description": "Updated resource description",
             "url": "https://example.com/updated-resource",
-            "order": resource.order + 1,
+            "order": group_resource.order + 1,
             "group": group.id,
             "topic": [topic.type],
         },
@@ -72,31 +71,33 @@ def test_group_resource_update_forbidden_403(authenticated_client):
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response_body["detail"] == "You are not authorized to update this resource."
-    resource.refresh_from_db()
+
+    group_resource.refresh_from_db()
     assert (
-        resource.name,
-        resource.description,
-        resource.url,
-        resource.order,
+        group_resource.name,
+        group_resource.description,
+        group_resource.url,
+        group_resource.order,
     ) == original_values
 
 
 def test_group_resource_update_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_resource_id = uuid4()
+    invalid_group_resource_id = uuid4()
 
     group = GroupFactory()
-    resource = GroupResourceFactory(created_by=user, group=group)
+    group_resource = GroupResourceFactory(created_by=user, group=group)
+
     topic = TopicFactory()
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    test_name = group_resource.name
+    test_desc = group_resource.description
+    test_url = group_resource.url
+    test_order = group_resource.order
 
     response = client.put(
-        path=f"/v1/communities/group_resources/{bad_resource_id}",
+        path=f"/v1/communities/group_resources/{invalid_group_resource_id}",
         data={
             "name": test_name,
             "description": test_desc,
@@ -108,6 +109,5 @@ def test_group_resource_update_not_found_404(authenticated_client):
     )
 
     response_body = response.json()
-
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response_body["detail"] == "Resource not found."

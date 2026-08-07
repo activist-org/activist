@@ -6,7 +6,6 @@ Test cases for the organization social link methods.
 import pytest
 from rest_framework import status
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationFaqFactory,
@@ -35,10 +34,10 @@ def test_org_faq_create(authenticated_client) -> None:
 
     org = OrganizationFactory(created_by=user)
 
-    faqs = OrganizationFaqFactory()
-    test_question = faqs.question
-    test_answer = faqs.answer
-    test_order = faqs.order
+    org_faq = OrganizationFaqFactory()
+    test_question = org_faq.question
+    test_answer = org_faq.answer
+    test_order = org_faq.order
 
     response = client.post(
         path="/v1/communities/organization_faqs",
@@ -65,8 +64,8 @@ def test_org_faq_create_bad_request_400(authenticated_client):
 
     org = OrganizationFactory(created_by=user)
 
-    faqs = OrganizationFaqFactory()
-    test_order = faqs.order
+    org_faq = OrganizationFaqFactory()
+    test_order = org_faq.order
 
     response = client.post(
         path="/v1/communities/organization_faqs",
@@ -85,10 +84,9 @@ def test_org_faq_create_bad_request_400(authenticated_client):
 def test_org_faq_create_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
 
-    org_owner = UserFactory()
-    org = OrganizationFactory(created_by=org_owner)
+    org = OrganizationFactory()
 
-    faq = OrganizationFaqFactory.build(org=org)
+    org_faq = OrganizationFaqFactory.build(org=org)
     faq_count_before = OrganizationFaq.objects.count()
 
     response = client.post(
@@ -96,9 +94,9 @@ def test_org_faq_create_forbidden_403(authenticated_client) -> None:
         data={
             "iso": "en",
             "primary": True,
-            "question": faq.question,
-            "answer": faq.answer,
-            "order": faq.order,
+            "question": org_faq.question,
+            "answer": org_faq.answer,
+            "order": org_faq.order,
             "org": org.id,
         },
         format="json",

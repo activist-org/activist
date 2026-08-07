@@ -8,7 +8,6 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationFaqFactory,
@@ -99,32 +98,37 @@ def test_org_faq_update_not_found_404(authenticated_client):
 def test_org_faq_update_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
 
-    org_owner = UserFactory()
-    org = OrganizationFactory(created_by=org_owner)
+    org = OrganizationFactory()
 
-    faq = OrganizationFaqFactory(org=org)
-    original_values = (faq.iso, faq.primary, faq.question, faq.answer, faq.order)
+    org_faq = OrganizationFaqFactory(org=org)
+    original_values = (
+        org_faq.iso,
+        org_faq.primary,
+        org_faq.question,
+        org_faq.answer,
+        org_faq.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/organization_faqs/{faq.id}",
+        path=f"/v1/communities/organization_faqs/{org_faq.id}",
         data={
-            "id": faq.id,
+            "id": org_faq.id,
             "iso": "en",
             "primary": True,
             "question": "Updated question",
             "answer": "Updated answer",
-            "order": faq.order + 1,
+            "order": org_faq.order + 1,
         },
         content_type="application/json",
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response.data["detail"] == "You are not authorized to update this FAQ."
-    faq.refresh_from_db()
+    org_faq.refresh_from_db()
     assert (
-        faq.iso,
-        faq.primary,
-        faq.question,
-        faq.answer,
-        faq.order,
+        org_faq.iso,
+        org_faq.primary,
+        org_faq.question,
+        org_faq.answer,
+        org_faq.order,
     ) == original_values

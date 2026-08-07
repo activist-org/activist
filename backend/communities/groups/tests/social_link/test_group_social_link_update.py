@@ -8,7 +8,6 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
-from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupSocialLinkFactory
 
 pytestmark = pytest.mark.django_db
@@ -29,13 +28,13 @@ def test_group_social_link_update_ok_200_and_not_found_404(
 
     group = GroupFactory(created_by=user)
 
-    social_links = GroupSocialLinkFactory(group=group)
-    test_link = social_links.link
-    test_label = social_links.label
-    test_order = social_links.order
+    group_social_link = GroupSocialLinkFactory(group=group)
+    test_link = group_social_link.link
+    test_label = group_social_link.label
+    test_order = group_social_link.order
 
     response = client.put(
-        path=f"/v1/communities/group_social_links/{social_links.id}",
+        path=f"/v1/communities/group_social_links/{group_social_link.id}",
         data={
             "link": test_link,
             "label": test_label,
@@ -72,18 +71,21 @@ def test_group_social_link_update_forbidden_403(
 ):
     client, user = authenticated_client
 
-    group_owner = UserFactory()
-    group = GroupFactory(created_by=group_owner)
+    group = GroupFactory()
+    group_social_link = GroupSocialLinkFactory(group=group)
 
-    social_links = GroupSocialLinkFactory(group=group)
-    original_values = (social_links.link, social_links.label, social_links.order)
+    original_values = (
+        group_social_link.link,
+        group_social_link.label,
+        group_social_link.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/group_social_links/{social_links.id}",
+        path=f"/v1/communities/group_social_links/{group_social_link.id}",
         data={
             "link": "https://example.com/updated-social-link",
             "label": "Updated label",
-            "order": social_links.order + 1,
+            "order": group_social_link.order + 1,
         },
         content_type="application/json",
     )
@@ -94,9 +96,10 @@ def test_group_social_link_update_forbidden_403(
         response_body["detail"]
         == "You are not authorized to update the social links for this group."
     )
-    social_links.refresh_from_db()
+
+    group_social_link.refresh_from_db()
     assert (
-        social_links.link,
-        social_links.label,
-        social_links.order,
+        group_social_link.link,
+        group_social_link.label,
+        group_social_link.order,
     ) == original_values

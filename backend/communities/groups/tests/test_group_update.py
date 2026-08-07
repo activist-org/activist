@@ -46,8 +46,7 @@ def test_group_update_forbidden_403(authenticated_client) -> None:
     """
     client, user = authenticated_client
 
-    group_owner = UserFactory()
-    group = GroupFactory(created_by=group_owner)
+    group = GroupFactory()
     original_values = (group.name, group.category)
 
     request_body = client.put(

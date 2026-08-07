@@ -50,13 +50,11 @@ def test_group_delete_forbidden_403(authenticated_client) -> None:
     Authenticated non-owner trying to delete a group.
     """
     client, user = authenticated_client
-    group_owner = UserFactory()
-    group = GroupFactory(created_by=group_owner)
+    group = GroupFactory()
 
     delete_response = client.delete(
         path=f"/v1/communities/groups/{group.id}",
     )
-
     assert delete_response.status_code == status.HTTP_403_FORBIDDEN
 
     delete_response_json = delete_response.json()
@@ -85,6 +83,7 @@ def test_group_delete_not_found_404(client: Client) -> None:
 
     delete_response_json = delete_response.json()
     assert delete_response_json["detail"] == "Group not found."
+
     delete_response_json = delete_response.json()
     assert delete_response_json["detail"] == "Group not found."
 

@@ -45,10 +45,10 @@ def test_group_faq_create_ok_200() -> None:
 
     group = GroupFactory(created_by=user)
 
-    faqs = GroupFaqFactory()
-    test_question = faqs.question
-    test_answer = faqs.answer
-    test_order = faqs.order
+    group_faqs = GroupFaqFactory()
+    test_question = group_faqs.question
+    test_answer = group_faqs.answer
+    test_order = group_faqs.order
 
     # Login to get token.
     login_response = client.post(
@@ -104,17 +104,17 @@ def test_group_faq_create_forbidden_403(authenticated_client) -> None:
 
     group_owner = UserFactory(username="group_owner")
     group = GroupFactory(created_by=group_owner)
-    faq = GroupFaqFactory.build(group=group)
+    group_faq = GroupFaqFactory.build(group=group)
     faq_count_before = GroupFaq.objects.count()
 
     response = client.post(
         path="/v1/communities/group_faqs",
         data={
-            "iso": faq.iso,
-            "primary": faq.primary,
-            "question": faq.question,
-            "answer": faq.answer,
-            "order": faq.order,
+            "iso": group_faq.iso,
+            "primary": group_faq.primary,
+            "question": group_faq.question,
+            "answer": group_faq.answer,
+            "order": group_faq.order,
             "group": group.id,
         },
         format="json",
@@ -133,17 +133,17 @@ def test_group_faq_create_unauthorized_401() -> None:
     """
     client = APIClient()
     group = GroupFactory()
-    faq = GroupFaqFactory.build(group=group)
+    group_faq = GroupFaqFactory.build(group=group)
     faq_count_before = GroupFaq.objects.count()
 
     response = client.post(
         path="/v1/communities/group_faqs",
         data={
-            "iso": faq.iso,
-            "primary": faq.primary,
-            "question": faq.question,
-            "answer": faq.answer,
-            "order": faq.order,
+            "iso": group_faq.iso,
+            "primary": group_faq.primary,
+            "question": group_faq.question,
+            "answer": group_faq.answer,
+            "order": group_faq.order,
             "group": group.id,
         },
         format="json",

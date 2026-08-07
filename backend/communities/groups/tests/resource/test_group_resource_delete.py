@@ -16,10 +16,12 @@ def test_group_resource_delete_ok_200(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)
-    resource = GroupResourceFactory(created_by=user, group=group)
+    group_resource = GroupResourceFactory(created_by=user, group=group)
 
     # Delete the resource as the owner.
-    response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
+    response = client.delete(
+        path=f"/v1/communities/group_resources/{group_resource.id}"
+    )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -51,7 +53,7 @@ def test_group_resource_delete_forbidden_403(authenticated_client):
     )
 
     group = GroupFactory(created_by=owner_user)
-    resource = GroupResourceFactory(created_by=owner_user, group=group)
+    group_resource = GroupResourceFactory(created_by=owner_user, group=group)
 
     # Login as non-owner.
     login_response = client.post(
@@ -66,7 +68,9 @@ def test_group_resource_delete_forbidden_403(authenticated_client):
 
     # Try to delete the resource as non-owner.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
+    response = client.delete(
+        path=f"/v1/communities/group_resources/{group_resource.id}"
+    )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
@@ -110,7 +114,7 @@ def test_group_resource_delete_staff_ok_200():
     )
 
     group = GroupFactory(created_by=owner_user)
-    resource = GroupResourceFactory(created_by=owner_user, group=group)
+    group_resource = GroupResourceFactory(created_by=owner_user, group=group)
 
     # Login as staff.
     login_response = client.post(
@@ -125,6 +129,8 @@ def test_group_resource_delete_staff_ok_200():
 
     # Delete the resource as staff.
     client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
-    response = client.delete(path=f"/v1/communities/group_resources/{resource.id}")
+    response = client.delete(
+        path=f"/v1/communities/group_resources/{group_resource.id}"
+    )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT

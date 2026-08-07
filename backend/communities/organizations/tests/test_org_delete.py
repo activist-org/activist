@@ -9,7 +9,6 @@ import pytest
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import OrganizationFactory
 
 pytestmark = pytest.mark.django_db
@@ -52,8 +51,7 @@ def test_org_delete_forbidden_403(authenticated_client) -> None:
     """
     client, user = authenticated_client
 
-    org_owner = UserFactory()
-    org = OrganizationFactory(created_by=org_owner)
+    org = OrganizationFactory()
     original_values = (org.status_id, org.deletion_date)
 
     response = client.delete(
@@ -84,10 +82,10 @@ def test_org_delete_not_found_404(authenticated_client) -> None:
     """
     client, user = authenticated_client
 
-    bad_org_id = uuid4()
+    invalid_org_id = uuid4()
 
     response = client.delete(
-        path=f"{ORGS_URL}/{bad_org_id}",
+        path=f"{ORGS_URL}/{invalid_org_id}",
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND

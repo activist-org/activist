@@ -16,28 +16,27 @@ from communities.organizations.models import OrganizationFaq
 def test_org_faq_delete_unauthorized_401() -> None:
     client = APIClient()
     org = OrganizationFactory()
-    faq = OrganizationFaqFactory(org=org)
+    org_faq = OrganizationFaqFactory(org=org)
 
-    response = client.delete(f"/v1/communities/organization_faqs/{faq.id}")
+    response = client.delete(f"/v1/communities/organization_faqs/{org_faq.id}")
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert response.data["detail"] == "Authentication credentials were not provided."
-    assert OrganizationFaq.objects.filter(id=faq.id).exists()
+    assert OrganizationFaq.objects.filter(id=org_faq.id).exists()
 
 
 @pytest.mark.django_db
 def test_org_faq_delete_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
 
-    org_owner = UserFactory()
-    org = OrganizationFactory(created_by=org_owner)
-    faq = OrganizationFaqFactory(org=org)
+    org = OrganizationFactory()
+    org_faq = OrganizationFaqFactory(org=org)
 
-    response = client.delete(f"/v1/communities/organization_faqs/{faq.id}")
+    response = client.delete(f"/v1/communities/organization_faqs/{org_faq.id}")
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response.data["detail"] == "You are not authorized to delete this FAQ."
-    assert OrganizationFaq.objects.filter(id=faq.id).exists()
+    assert OrganizationFaq.objects.filter(id=org_faq.id).exists()
 
 
 @pytest.mark.django_db
@@ -46,13 +45,13 @@ def test_org_faq_delete_staff_no_content_204() -> None:
     staff_client = APIClient()
     staff_client.force_authenticate(user=staff_user)
     org = OrganizationFactory()
-    faq = OrganizationFaqFactory(org=org)
+    org_faq = OrganizationFaqFactory(org=org)
 
-    response = staff_client.delete(f"/v1/communities/organization_faqs/{faq.id}")
+    response = staff_client.delete(f"/v1/communities/organization_faqs/{org_faq.id}")
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
     assert response.data["message"] == "FAQ deleted successfully."
-    assert not OrganizationFaq.objects.filter(id=faq.id).exists()
+    assert not OrganizationFaq.objects.filter(id=org_faq.id).exists()
 
 
 @pytest.mark.django_db
@@ -61,13 +60,13 @@ def test_org_faq_delete_creator_no_content_204() -> None:
     creator_client = APIClient()
     creator_client.force_authenticate(user=creator)
     org = OrganizationFactory(created_by=creator)
-    faq = OrganizationFaqFactory(org=org)
+    org_faq = OrganizationFaqFactory(org=org)
 
-    response = creator_client.delete(f"/v1/communities/organization_faqs/{faq.id}")
+    response = creator_client.delete(f"/v1/communities/organization_faqs/{org_faq.id}")
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
     assert response.data["message"] == "FAQ deleted successfully."
-    assert not OrganizationFaq.objects.filter(id=faq.id).exists()
+    assert not OrganizationFaq.objects.filter(id=org_faq.id).exists()
 
 
 @pytest.mark.django_db

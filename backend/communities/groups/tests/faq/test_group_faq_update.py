@@ -8,7 +8,6 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
-from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupFaqFactory
 
 pytestmark = pytest.mark.django_db
@@ -78,32 +77,39 @@ def test_group_faq_update_forbidden_403(authenticated_client) -> None:
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
     client, user = authenticated_client
-    group_owner = UserFactory()
-    group = GroupFactory(created_by=group_owner)
 
-    faq = GroupFaqFactory(group=group)
-    original_values = (faq.iso, faq.primary, faq.question, faq.answer, faq.order)
+    group = GroupFactory()
+    group_faq = GroupFaqFactory(group=group)
+
+    original_values = (
+        group_faq.iso,
+        group_faq.primary,
+        group_faq.question,
+        group_faq.answer,
+        group_faq.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/group_faqs/{faq.id}",
+        path=f"/v1/communities/group_faqs/{group_faq.id}",
         data={
-            "id": faq.id,
+            "id": group_faq.id,
             "iso": "en",
             "primary": True,
             "question": "Updated question",
             "answer": "Updated answer",
-            "order": faq.order + 1,
+            "order": group_faq.order + 1,
         },
         format="json",
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
     assert response.data["detail"] == "You are not authorized to update this FAQ."
-    faq.refresh_from_db()
+
+    group_faq.refresh_from_db()
     assert (
-        faq.iso,
-        faq.primary,
-        faq.question,
-        faq.answer,
-        faq.order,
+        group_faq.iso,
+        group_faq.primary,
+        group_faq.question,
+        group_faq.answer,
+        group_faq.order,
     ) == original_values

@@ -4,7 +4,6 @@ from uuid import uuid4
 import pytest
 from rest_framework import status
 
-from authentication.factories import UserFactory
 from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationTextFactory,
@@ -33,8 +32,7 @@ def test_org_text_update_ok_200(authenticated_client):
 def test_org_text_update_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
-    org_owner = UserFactory()
-    org = OrganizationFactory(created_by=org_owner)
+    org = OrganizationFactory()
     texts = OrganizationTextFactory(org=org)
     original_description = texts.description
 
@@ -56,10 +54,10 @@ def test_org_text_update_forbidden_403(authenticated_client):
 def test_org_text_update_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_texts_id = uuid4()
+    invalid_org_texts_id = uuid4()
 
     response = client.put(
-        path=f"/v1/communities/organization_texts/{bad_texts_id}",
+        path=f"/v1/communities/organization_texts/{invalid_org_texts_id}",
         data={"description": "New test description for this organization."},
     )
     response_body = response.json()

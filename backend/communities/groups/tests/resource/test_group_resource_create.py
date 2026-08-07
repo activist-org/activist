@@ -2,7 +2,6 @@
 import pytest
 from rest_framework import status
 
-from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory, GroupResourceFactory
 from communities.groups.models import GroupResource
 from content.factories import TopicFactory
@@ -15,13 +14,13 @@ def test_group_resource_created_201(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)
-    resource = GroupResourceFactory(created_by=user, group=group)
+    group_resource = GroupResourceFactory(created_by=user, group=group)
     topic = Topic.objects.create(type="test_type", active=True)
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    test_name = group_resource.name
+    test_desc = group_resource.description
+    test_url = group_resource.url
+    test_order = group_resource.order
 
     response = client.post(
         path="/v1/communities/group_resources",
@@ -44,16 +43,16 @@ def test_group_resource_created_201(authenticated_client):
 def test_group_resource_create_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
-    group_owner = UserFactory()
-    group = GroupFactory(created_by=group_owner)
-    resource = GroupResourceFactory.build(created_by=user, group=group)
+    group = GroupFactory()
+    group_resource = GroupResourceFactory.build(created_by=user, group=group)
+
     topic = TopicFactory()
     resource_count_before = GroupResource.objects.count()
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    test_name = group_resource.name
+    test_desc = group_resource.description
+    test_url = group_resource.url
+    test_order = group_resource.order
 
     response = client.post(
         path="/v1/communities/group_resources",
