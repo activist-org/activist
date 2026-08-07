@@ -16,10 +16,10 @@ def test_org_social_link_delete_no_content_204(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)
-    social_links = OrganizationSocialLinkFactory(org=org)
+    org_social_link = OrganizationSocialLinkFactory(org=org)
 
     response = client.delete(
-        path=f"/v1/communities/organization_social_links/{social_links.id}"
+        path=f"/v1/communities/organization_social_links/{org_social_link.id}"
     )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT

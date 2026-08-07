@@ -12,14 +12,14 @@ def test_group_social_link_create_ok_200(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)
-    group_social_links = GroupSocialLinkFactory(group=group)
+    group_social_link = GroupSocialLinkFactory(group=group)
 
     response = client.post(
         path="/v1/communities/group_social_links",
         data={
-            "link": group_social_links.link,
-            "label": group_social_links.label,
-            "order": group_social_links.order,
+            "link": group_social_link.link,
+            "label": group_social_link.label,
+            "order": group_social_link.order,
             "group": group.id,
         },
         content_type="application/json",
@@ -35,16 +35,16 @@ def test_group_social_link_create_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory()
-    group_social_links = GroupSocialLinkFactory.build(group=group)
+    group_social_link = GroupSocialLinkFactory.build(group=group)
 
     social_link_count_before = GroupSocialLink.objects.count()
 
     response = client.post(
         path="/v1/communities/group_social_links",
         data={
-            "link": group_social_links.link,
-            "label": group_social_links.label,
-            "order": group_social_links.order,
+            "link": group_social_link.link,
+            "label": group_social_link.label,
+            "order": group_social_link.order,
             "group": group.id,
         },
         content_type="application/json",

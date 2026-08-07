@@ -95,15 +95,19 @@ def test_org_social_link_update_forbidden_403(authenticated_client):
 
     org = OrganizationFactory()
 
-    social_links = OrganizationSocialLinkFactory(org=org)
-    original_values = (social_links.link, social_links.label, social_links.order)
+    org_social_link = OrganizationSocialLinkFactory(org=org)
+    original_values = (
+        org_social_link.link,
+        org_social_link.label,
+        org_social_link.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/organization_social_links/{social_links.id}",
+        path=f"/v1/communities/organization_social_links/{org_social_link.id}",
         data={
             "link": "https://example.com/updated-social-link",
             "label": "Updated label",
-            "order": social_links.order + 1,
+            "order": org_social_link.order + 1,
         },
         content_type="application/json",
     )
@@ -114,9 +118,9 @@ def test_org_social_link_update_forbidden_403(authenticated_client):
         response_body["detail"]
         == "You are not authorized to update the social links for this organization."
     )
-    social_links.refresh_from_db()
+    org_social_link.refresh_from_db()
     assert (
-        social_links.link,
-        social_links.label,
-        social_links.order,
+        org_social_link.link,
+        org_social_link.label,
+        org_social_link.order,
     ) == original_values
