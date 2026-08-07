@@ -25,9 +25,9 @@ def test_group_flag_delete_no_content_204(authenticated_client):
 def test_group_flag_delete_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    invalid_group_flags_id = uuid4()
+    invalid_flagged_group_flags_id = uuid4()
     response = client.delete(
-        path=f"/v1/communities/group_flags/{invalid_group_flags_id}"
+        path=f"/v1/communities/group_flags/{invalid_flagged_group_flags_id}"
     )
     response_body = response.json()
 

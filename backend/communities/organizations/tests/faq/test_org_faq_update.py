@@ -77,9 +77,9 @@ def test_org_faq_update_not_found_404(authenticated_client):
     test_answer = faqs.answer
     test_order = faqs.order
 
-    bad_faq_uuid = uuid4()
+    invalid_org_faq_id = uuid4()
     response = client.put(
-        path=f"/v1/communities/organization_faqs/{bad_faq_uuid}",
+        path=f"/v1/communities/organization_faqs/{invalid_org_faq_id}",
         data={
             "id": test_id,
             "question": test_question,

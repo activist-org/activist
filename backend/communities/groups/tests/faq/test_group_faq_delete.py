@@ -54,10 +54,10 @@ def test_group_faq_delete_not_found_404(authenticated_client):
     """
     client, user = authenticated_client
 
-    bad_uuid = uuid4()
+    invalid_group_faq_id = uuid4()
 
     response = client.delete(
-        path=f"/v1/communities/group_faqs/{bad_uuid}",
+        path=f"/v1/communities/group_faqs/{invalid_group_faq_id}",
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND

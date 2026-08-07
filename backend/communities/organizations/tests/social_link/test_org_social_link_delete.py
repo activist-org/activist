@@ -28,10 +28,10 @@ def test_org_social_link_delete_no_content_204(authenticated_client):
 def test_org_social_link_delete_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_uuid = uuid4()
+    invalid_org_social_link_id = uuid4()
 
     response = client.delete(
-        path=f"/v1/communities/organization_social_links/{bad_uuid}",
+        path=f"/v1/communities/organization_social_links/{invalid_org_social_link_id}",
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND

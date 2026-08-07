@@ -77,9 +77,9 @@ def test_org_social_link_update_not_found_404(client: Client):
 
     assert login_details["status_code"] == status.HTTP_200_OK
 
-    bad_social_link_uuid = uuid4()
+    invalid_org_social_link_id = uuid4()
     response = client.put(
-        path=f"/v1/communities/organization_social_links/{bad_social_link_uuid}",
+        path=f"/v1/communities/organization_social_links/{invalid_org_social_link_id}",
         data={"link": test_link, "label": test_label, "order": test_order},
         headers={"Authorization": f"Token {login_details['access_token']}"},
         content_type="application/json",
