@@ -45,10 +45,10 @@ def test_group_faq_create_ok_200() -> None:
 
     group = GroupFactory(created_by=user)
 
-    group_faqs = GroupFaqFactory()
-    test_question = group_faqs.question
-    test_answer = group_faqs.answer
-    test_order = group_faqs.order
+    group_faq = GroupFaqFactory()
+    test_question = group_faq.question
+    test_answer = group_faq.answer
+    test_order = group_faq.order
 
     # Login to get token.
     login_response = client.post(
