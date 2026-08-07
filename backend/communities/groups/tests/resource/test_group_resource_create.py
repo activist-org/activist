@@ -43,8 +43,6 @@ def test_group_resource_created_201(authenticated_client):
 
 def test_group_resource_create_forbidden_403(authenticated_client):
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
 
     group_owner = UserFactory()
     group = GroupFactory(created_by=group_owner)

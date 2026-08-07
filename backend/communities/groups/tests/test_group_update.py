@@ -45,8 +45,7 @@ def test_group_update_forbidden_403(authenticated_client) -> None:
     Test that an authenticated non-owner cannot update a group.
     """
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
+
     group_owner = UserFactory()
     group = GroupFactory(created_by=group_owner)
     original_values = (group.name, group.category)

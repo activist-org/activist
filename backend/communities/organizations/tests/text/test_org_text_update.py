@@ -32,8 +32,6 @@ def test_org_text_update_ok_200(authenticated_client):
 
 def test_org_text_update_forbidden_403(authenticated_client):
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
 
     org_owner = UserFactory()
     org = OrganizationFactory(created_by=org_owner)

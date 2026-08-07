@@ -28,8 +28,7 @@ def test_org_faq_delete_unauthorized_401() -> None:
 @pytest.mark.django_db
 def test_org_faq_delete_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
+
     org_owner = UserFactory()
     org = OrganizationFactory(created_by=org_owner)
     faq = OrganizationFaqFactory(org=org)
@@ -73,7 +72,7 @@ def test_org_faq_delete_creator_no_content_204() -> None:
 
 @pytest.mark.django_db
 def test_org_faq_delete_not_found_404(authenticated_client) -> None:
-    client, _ = authenticated_client
+    client, user = authenticated_client
     fake_uuid = "00000000-0000-0000-0000-000000000000"
 
     response = client.delete(f"/v1/communities/organization_faqs/{fake_uuid}")

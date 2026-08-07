@@ -50,8 +50,6 @@ def test_group_delete_forbidden_403(authenticated_client) -> None:
     Authenticated non-owner trying to delete a group.
     """
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
     group_owner = UserFactory()
     group = GroupFactory(created_by=group_owner)
 

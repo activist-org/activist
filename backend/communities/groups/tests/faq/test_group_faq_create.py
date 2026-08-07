@@ -101,8 +101,6 @@ def test_group_faq_create_forbidden_403(authenticated_client) -> None:
     Test that a non-creator, non-staff user cannot create a Group FAQ.
     """
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
 
     group_owner = UserFactory(username="group_owner")
     group = GroupFactory(created_by=group_owner)

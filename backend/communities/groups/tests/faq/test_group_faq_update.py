@@ -78,8 +78,6 @@ def test_group_faq_update_forbidden_403(authenticated_client) -> None:
         This test asserts the correctness of status codes (200 for success, 404 for not found).
     """
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
     group_owner = UserFactory()
     group = GroupFactory(created_by=group_owner)
 

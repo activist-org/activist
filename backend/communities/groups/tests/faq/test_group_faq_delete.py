@@ -79,8 +79,6 @@ def test_group_faq_delete_forbidden_403(authenticated_client):
         This test asserts that a user cannot delete an FAQ for a group they didn't create (403).
     """
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
 
     group_owner = UserFactory()
     group = GroupFactory(created_by=group_owner)

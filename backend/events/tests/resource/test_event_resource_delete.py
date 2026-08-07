@@ -73,7 +73,7 @@ def test_event_resource_delete_not_found_404(authenticated_client):
     """
     Test deletion of non-existent event resource returns 404.
     """
-    client, _ = authenticated_client
+    client, user = authenticated_client
 
     # Try to delete non-existent resource.
     fake_uuid = "00000000-0000-0000-0000-000000000000"

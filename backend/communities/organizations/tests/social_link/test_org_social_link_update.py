@@ -92,8 +92,7 @@ def test_org_social_link_update_not_found_404(client: Client):
 
 def test_org_social_link_update_forbidden_403(authenticated_client):
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
+
     org_owner = UserFactory()
     org = OrganizationFactory(created_by=org_owner)
 

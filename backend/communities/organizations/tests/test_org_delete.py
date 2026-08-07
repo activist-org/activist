@@ -51,8 +51,6 @@ def test_org_delete_forbidden_403(authenticated_client) -> None:
         An authenticated client with a test user.
     """
     client, user = authenticated_client
-    user.is_staff = False
-    user.save(update_fields=["is_staff"])
 
     org_owner = UserFactory()
     org = OrganizationFactory(created_by=org_owner)

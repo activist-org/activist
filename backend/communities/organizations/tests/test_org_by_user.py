@@ -86,7 +86,7 @@ def test_org_by_user_non_admin_ok_200() -> None:
 
 
 def test_org_by_user_forbidden_403(authenticated_client):
-    client, _ = authenticated_client
+    client, user = authenticated_client
     other_user = UserFactory()
 
     response = client.get(path=f"/v1/communities/organizations_by_user/{other_user.id}")

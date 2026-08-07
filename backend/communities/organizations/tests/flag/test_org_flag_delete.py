@@ -14,8 +14,6 @@ def test_org_flag_delete_no_content_204(authenticated_client):
     Test to delete a flag of an organization.
     """
     client, user = authenticated_client
-
-    # Set user as staff to have permission to delete flags
     user.is_staff = True
     user.save()
 
