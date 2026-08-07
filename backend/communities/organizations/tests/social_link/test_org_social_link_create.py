@@ -6,6 +6,7 @@ from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationSocialLinkFactory,
 )
+from communities.organizations.models import OrganizationSocialLink
 
 pytestmark = pytest.mark.django_db
 
@@ -15,14 +16,14 @@ def test_org_social_link_create_ok_200(authenticated_client):
 
     org = OrganizationFactory(created_by=user)
 
-    social_links = OrganizationSocialLinkFactory(org=org)
+    org_social_link = OrganizationSocialLinkFactory(org=org)
 
     response = client.post(
         path="/v1/communities/organization_social_links",
         data={
-            "link": social_links.link,
-            "label": social_links.label,
-            "order": social_links.order,
+            "link": org_social_link.link,
+            "label": org_social_link.label,
+            "order": org_social_link.order,
             "org": org.id,
         },
         content_type="application/json",
@@ -39,14 +40,15 @@ def test_org_social_link_create_forbidden_403(authenticated_client):
 
     org = OrganizationFactory()
 
-    social_links = OrganizationSocialLinkFactory(org=org)
+    org_social_link = OrganizationSocialLinkFactory.build(org=org)
+    social_link_count_before = OrganizationSocialLink.objects.count()
 
     response = client.post(
         path="/v1/communities/organization_social_links",
         data={
-            "link": social_links.link,
-            "label": social_links.label,
-            "order": social_links.order,
+            "link": org_social_link.link,
+            "label": org_social_link.label,
+            "order": org_social_link.order,
             "org": org.id,
         },
         content_type="application/json",
@@ -59,3 +61,4 @@ def test_org_social_link_create_forbidden_403(authenticated_client):
         response_body["detail"]
         == "You are not authorized to create social links for this organization."
     )
+    assert OrganizationSocialLink.objects.count() == social_link_count_before

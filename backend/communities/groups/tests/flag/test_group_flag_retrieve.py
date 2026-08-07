@@ -14,9 +14,9 @@ def test_group_flag_retrieve_ok_200(authenticated_client):
     Test to retrieve a flag of a group.
     """
     client, user = authenticated_client
-    flag = GroupFlagFactory()
+    group_flag = GroupFlagFactory()
 
-    response = client.get(path=f"/v1/communities/group_flags/{flag.id}")
+    response = client.get(path=f"/v1/communities/group_flags/{group_flag.id}")
 
     assert response.status_code == status.HTTP_200_OK
 
@@ -24,9 +24,9 @@ def test_group_flag_retrieve_ok_200(authenticated_client):
 def test_group_flag_retrieve_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    flag = uuid4()
+    non_existent_flag_id = uuid4()
 
-    response = client.get(path=f"/v1/communities/group_flags/{flag}")
+    response = client.get(path=f"/v1/communities/group_flags/{non_existent_flag_id}")
     response_body = response.json()
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
