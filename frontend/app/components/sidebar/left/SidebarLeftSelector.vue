@@ -7,9 +7,8 @@
       <span class="pl-1">
         <Icon
           v-if="iconUrl"
-          class="h-5 w-5 shrink-0"
+          class="h-5! w-5! block! shrink-0"
           :class="{
-            'scale-125': iconUrl.startsWith('bi:'),
             'dark:group-hover:fill-cta-orange': !selected,
             'fill-layer-1': selected,
           }"

@@ -6,11 +6,11 @@ import SidebarLeftSelector from "../../../app/components/sidebar/left/SidebarLef
 import render from "../../../test/render";
 import { createUseLocalePathMock } from "../../mocks/composableMocks";
 
-globalThis.useLocalePath = createUseLocalePathMock();
+globalThis.useLocalePath = createUseLocalePathMock("");
 
 const baseProps = {
   label: "i18n._global.about",
-  routeUrl: "/organizations/1/about",
+  routeUrl: "/",
   selected: false,
 };
 
@@ -20,17 +20,16 @@ const renderSelector = (iconUrl: string) =>
   });
 
 describe("SidebarLeftSelector", () => {
-  it("scales Bootstrap icons to match custom icons", async () => {
-    await renderSelector("bi:card-text");
+  it.each([
+    ["Bootstrap", "bi:card-text"],
+    ["custom", "IconGroup"],
+  ])("uses fixed dimensions for %s icons", async (_type, iconUrl) => {
+    await renderSelector(iconUrl);
 
-    const icon = screen.getByRole("img", { name: "bi:card-text" });
-    expect(icon.classList).toContain("scale-125");
-  });
-
-  it("keeps custom icons at their native scale", async () => {
-    await renderSelector("IconGroup");
-
-    const icon = screen.getByRole("img", { name: "IconGroup" });
+    const icon = screen.getByRole("img", { name: iconUrl });
+    expect([...icon.classList]).toEqual(
+      expect.arrayContaining(["block!", "h-5!", "w-5!"])
+    );
     expect(icon.classList).not.toContain("scale-125");
   });
 });
