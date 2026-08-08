@@ -84,6 +84,34 @@ describe("utils/errorHandler", () => {
     expect(withErrorCode.code).toBe("E2");
   });
 
+  it("surfaces DRF-style field-keyed array error messages", () => {
+    // Django REST Framework's serializers.ValidationError("message"), raised
+    // from a whole-serializer validate() (as the image-upload size check
+    // does), produces {"non_field_errors": ["message"]} -- an array value,
+    // not a plain string -- which the old plain-string-only fallback
+    // silently dropped. https://github.com/activist-org/activist/issues/2332
+    const out = errorHandler(
+      makeFetchError(400, {
+        non_field_errors: [
+          "The file size (6291456 bytes) is too large. The maximum file size is 5242880 bytes.",
+        ],
+      })
+    );
+    expect(out.message).toBe(
+      "The file size (6291456 bytes) is too large. The maximum file size is 5242880 bytes."
+    );
+  });
+
+  it("joins multiple field-keyed array errors together", () => {
+    const out = errorHandler(
+      makeFetchError(400, {
+        file_object: ["too large"],
+        name: ["required"],
+      })
+    );
+    expect(out.message).toBe("too large, required");
+  });
+
   it("falls back to UNKNOWN cause when status is missing", () => {
     const out = errorHandler(makeFetchError(undefined, { message: "m" }));
     expect(out.causeTag).toBe(AppErrorCause.UNKNOWN);

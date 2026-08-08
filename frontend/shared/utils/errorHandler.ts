@@ -75,9 +75,23 @@ function extractMessage(data: unknown): string | undefined {
       return errorData.errors.join(", ");
     }
 
-    // Fall back to joining all string values (your current approach).
+    // Django REST Framework validation errors are keyed by field name (or
+    // "non_field_errors" for whole-serializer errors), each holding an array
+    // of message strings, e.g. {"non_field_errors": ["The file size (X
+    // bytes) is too large. The maximum file size is Y bytes."]}. Flatten
+    // those in alongside any plain string values so this shape surfaces its
+    // message instead of being silently dropped (it doesn't match "errors",
+    // and its values aren't themselves strings).
     const values = Object.values(errorData)
-      .filter((v): v is string => typeof v === "string")
+      .flatMap((v) => {
+        if (typeof v === "string") {
+          return [v];
+        }
+        if (Array.isArray(v)) {
+          return v.filter((item): item is string => typeof item === "string");
+        }
+        return [];
+      })
       .filter(Boolean);
 
     return values.length > 0 ? values.join(", ") : undefined;
