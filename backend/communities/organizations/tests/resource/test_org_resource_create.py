@@ -6,6 +6,7 @@ from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationResourceFactory,
 )
+from communities.organizations.models import OrganizationResource
 from content.factories import TopicFactory
 from content.models import Topic
 
@@ -16,13 +17,13 @@ def test_org_resource_create_ok_200(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory(created_by=user)
-    resource = OrganizationResourceFactory(created_by=user, org=org)
+    org_resource = OrganizationResourceFactory(created_by=user, org=org)
     topic = Topic.objects.create(type="test_type", active=True)
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    test_name = org_resource.name
+    test_desc = org_resource.description
+    test_url = org_resource.url
+    test_order = org_resource.order
 
     response = client.post(
         path="/v1/communities/organization_resources",
@@ -46,13 +47,15 @@ def test_org_resource_create_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     org = OrganizationFactory()
-    resource = OrganizationResourceFactory(created_by=user, org=org)
-    topic = TopicFactory()
+    org_resource = OrganizationResourceFactory.build(created_by=user, org=org)
 
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    topic = TopicFactory()
+    resource_count_before = OrganizationResource.objects.count()
+
+    test_name = org_resource.name
+    test_desc = org_resource.description
+    test_url = org_resource.url
+    test_order = org_resource.order
 
     response = client.post(
         path="/v1/communities/organization_resources",
@@ -73,3 +76,4 @@ def test_org_resource_create_forbidden_403(authenticated_client):
         response_body["detail"]
         == "You are not authorized to create resource for this organization."
     )
+    assert OrganizationResource.objects.count() == resource_count_before

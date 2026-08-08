@@ -2,9 +2,9 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormSocialLink
+      v-if="socialLinksRef"
       :formData="formData"
       :handleSubmit="handleSubmit"
-      :isLoading="loading"
       :submitLabel="submitLabel"
     />
   </ModalBase>
@@ -19,16 +19,26 @@ const props = defineProps<{
 }>();
 
 const { data: event } = useGetEvent(props.entityId);
-const { updateLink, createLinks, deleteLink, loading } =
-  useEventSocialLinksMutations(props.entityId);
+const { updateLink, createLinks, deleteLink } = useEventSocialLinksMutations(
+  props.entityId
+);
 
 type SocialLinkWithKey = (EventSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
+// The query resolves after the modal mounts, so a late re-sync would overwrite
+// anything already typed.
+const socialLinks = computed(() =>
+  event.value ? (event.value.socialLinks ?? []) : undefined
+);
+
 watch(
-  () => event.value?.socialLinks ?? [],
+  socialLinks,
   (newVal) => {
-    socialLinksRef.value = (newVal || []).map((l, idx) => ({
+    if (!newVal) {
+      return;
+    }
+    socialLinksRef.value = newVal.map((l, idx) => ({
       ...l,
       key: l?.id ?? String(idx),
     }));

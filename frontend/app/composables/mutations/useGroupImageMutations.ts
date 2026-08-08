@@ -1,71 +1,68 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for images - uses direct service calls, not useAsyncData.
+// Mutation composable for group images - uses Pinia Colada for cache invalidation.
 
 export function useGroupImageMutations(groupId: MaybeRef<string>) {
   const loading = ref(false);
-  const { error, handleError, clearError } = useAppError();
+  const { error, handleError } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
+  const { invalidateGroupImageCache } = useGroupCache();
 
   // Update existing image.
-  async function updateImage(contentImage: ContentImage) {
-    if (!currentGroupId.value) {
-      return false;
-    }
-
-    loading.value = true;
-    clearError();
-
-    try {
-      // Service function handles the HTTP call and throws normalized errors.
-      await updateGroupImage(
-        currentGroupId.value,
-        contentImage as ContentImage
-      );
-
-      invalidateCacheRefreshGroupData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: updateImage, isLoading: loadingUpdateImage } =
+    useMutation({
+      mutation: (contentImage: ContentImage) =>
+        updateGroupImage(currentGroupId.value, contentImage),
+      async onSettled() {
+        await invalidateGroupImageCache(currentGroupId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Upload new images.
-  async function uploadImages(images: UploadableFile[], sequences?: number[]) {
-    loading.value = true;
-    clearError();
+  const { mutateAsync: uploadImages, isLoading: loadingUploadImages } =
+    useMutation({
+      mutation: ({
+        images,
+        sequences,
+      }: {
+        images: UploadableFile[];
+        sequences?: number[];
+      }) => uploadGroupImages(currentGroupId.value, images, sequences),
+      async onSettled() {
+        await invalidateGroupImageCache(currentGroupId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
-    try {
-      // Direct service call - no useAsyncData needed for mutations.
-      await uploadGroupImages(currentGroupId.value, images, sequences);
+  // Delete existing image.
+  const { mutateAsync: deleteImageAsync, isLoading: loadingDeleteImage } =
+    useMutation({
+      mutation: (imageId: string) => deleteImage(imageId),
+      async onSettled() {
+        await invalidateGroupImageCache(currentGroupId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
-      invalidateCacheRefreshGroupData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
+  watch(
+    [loadingUpdateImage, loadingUploadImages, loadingDeleteImage],
+    ([update, upload, del]) => {
+      loading.value = update || upload || del;
     }
-  }
-
-  // Helper to refresh group data after mutations.
-  async function invalidateCacheRefreshGroupData() {
-    if (!currentGroupId.value) return;
-
-    await refreshNuxtData(getKeyForGetGroupImages(currentGroupId.value));
-  }
+  );
 
   return {
     loading: readonly(loading),
     error: readonly(error),
     updateImage,
     uploadImages,
-    invalidateCacheRefreshGroupData,
+    deleteImage: deleteImageAsync,
   };
 }

@@ -314,22 +314,26 @@ describe("useGetOrganization Integration", () => {
   // MARK: Cache Key
 
   describe("Cache Key", () => {
-    it("getKeyForGetOrganization returns ID-based key", async () => {
-      const { getKeyForGetOrganization } =
-        await import("../../../../app/composables/queries/useGetOrganization");
-
-      expect(getKeyForGetOrganization("org-123")).toBe("organization:org-123");
-      expect(getKeyForGetOrganization("abc")).toBe("organization:abc");
+    it("ORGANIZATION_KEYS.byId returns ID-based key", async () => {
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganization } = useOrganizationCache();
+      expect(getKeyForOrganization("org-123")).toEqual([
+        "organization",
+        "org-123",
+      ]);
+      expect(getKeyForOrganization("abc")).toEqual(["organization", "abc"]);
     });
 
     it("different IDs produce different keys", async () => {
-      const { getKeyForGetOrganization } =
-        await import("../../../../app/composables/queries/useGetOrganization");
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganization } = useOrganizationCache();
 
-      const key1 = getKeyForGetOrganization("org-1");
-      const key2 = getKeyForGetOrganization("org-2");
+      const key1 = getKeyForOrganization("org-1");
+      const key2 = getKeyForOrganization("org-2");
 
-      expect(key1).not.toBe(key2);
+      expect(key1).not.toEqual(key2);
     });
   });
 });

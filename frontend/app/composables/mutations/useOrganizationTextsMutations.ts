@@ -1,59 +1,50 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
+// Mutation composable for organization text entries.
 
 export function useOrganizationTextsMutations(
   organizationId: MaybeRef<string>
 ) {
-  const { showToastError } = useToaster();
-
-  const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError } = useAppError();
 
   const currentOrganizationId = computed(() => unref(organizationId));
+  const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Update organization texts.
-  async function updateTexts(
-    textsData: OrganizationUpdateTextFormData,
-    textId: string
-  ) {
-    if (!currentOrganizationId.value) {
-      return false;
-    }
-
-    loading.value = true;
-    error.value = null;
-    try {
-      // Service function handles the HTTP call and throws normalized errors.
-      await updateOrganizationTexts(
+  const { mutateAsync: updateTextsAsync, isLoading: loading } = useMutation({
+    mutation: (vars: {
+      textId: string;
+      data: OrganizationUpdateTextFormData;
+    }) =>
+      updateOrganizationTexts(
         currentOrganizationId.value,
-        textId,
-        textsData
-      );
-      invalidateCacheRefreshOrgData();
+        vars.textId,
+        vars.data
+      ),
+    async onSettled() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+    },
+    onError(err) {
+      handleError(err);
+    },
+  });
+
+  // Wrapper keeps the true/false contract that the text modal relies on.
+  const updateTexts = async (vars: {
+    textId: string;
+    data: OrganizationUpdateTextFormData;
+  }) => {
+    if (!currentOrganizationId.value) return false;
+    try {
+      await updateTextsAsync(vars);
       return true;
-    } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+    } catch {
       return false;
-    } finally {
-      loading.value = false;
     }
-  }
-
-  // Helper to refresh organization data after mutations.
-  async function invalidateCacheRefreshOrgData() {
-    if (!currentOrganizationId.value) return;
-
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
-  }
+  };
 
   return {
     loading: readonly(loading),
     error: readonly(error),
     updateTexts,
-    invalidateCacheRefreshOrgData,
   };
 }

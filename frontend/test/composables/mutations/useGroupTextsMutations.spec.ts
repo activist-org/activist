@@ -3,17 +3,15 @@
  * Unit tests for useGroupTextsMutations composable.
  * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupTextsMutations } from "../../../app/composables/mutations/useGroupTextsMutations";
-import { getKeyForGetGroup } from "../../../app/composables/queries/useGetGroup";
 import { sampleGroupTextFormData, setupMutationMocks } from "./setup";
 
-const { mockRefreshNuxtData, showToastError, updateGroupTexts } = vi.hoisted(
+const { invalidateGroupCache, showToastError, updateGroupTexts } = vi.hoisted(
   () => ({
-    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+    invalidateGroupCache: vi.fn(),
     showToastError: vi.fn(),
     updateGroupTexts: vi.fn(),
   })
@@ -31,7 +29,9 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
+vi.mock("../../../app/composables/cache/useGroupCache", () => ({
+  useGroupCache: () => ({ invalidateGroupCache }),
+}));
 
 describe("useGroupTextsMutations", () => {
   const groupId = ref("group-123");
@@ -39,14 +39,17 @@ describe("useGroupTextsMutations", () => {
 
   beforeEach(() => {
     groupId.value = "group-123";
-    setupMutationMocks([mockRefreshNuxtData, updateGroupTexts]);
+    setupMutationMocks([updateGroupTexts, invalidateGroupCache]);
   });
 
   describe("updateTexts", () => {
     it("calls updateGroupTexts with groupId, textId and textsData on success", async () => {
       const { updateTexts } = useGroupTextsMutations(groupId);
 
-      const result = await updateTexts(sampleGroupTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleGroupTextFormData,
+      });
 
       expect(updateGroupTexts).toHaveBeenCalledWith(
         "group-123",
@@ -56,68 +59,40 @@ describe("useGroupTextsMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { updateTexts } = useGroupTextsMutations(groupId);
 
-      await updateTexts(sampleGroupTextFormData, textId);
+      await updateTexts({ textId, data: sampleGroupTextFormData });
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
-    });
-
-    it("sets loading true then false", async () => {
-      const { updateTexts, loading } = useGroupTextsMutations(groupId);
-
-      const promise = updateTexts(sampleGroupTextFormData, textId);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
     it("returns false when groupId is empty", async () => {
       groupId.value = "";
       const { updateTexts } = useGroupTextsMutations(groupId);
 
-      const result = await updateTexts(sampleGroupTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleGroupTextFormData,
+      });
 
       expect(result).toBe(false);
       expect(updateGroupTexts).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       updateGroupTexts.mockRejectedValue(new Error("Update failed"));
       const { updateTexts, error } = useGroupTextsMutations(groupId);
 
-      const result = await updateTexts(sampleGroupTextFormData, textId);
+      const result = await updateTexts({
+        textId,
+        data: sampleGroupTextFormData,
+      });
 
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshGroupData", () => {
-    it("calls refreshNuxtData with getKeyForGetGroup(id)", async () => {
-      const { invalidateCacheRefreshGroupData } =
-        useGroupTextsMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
-    });
-
-    it("no-ops when groupId is empty", async () => {
-      groupId.value = "";
-      const { invalidateCacheRefreshGroupData } =
-        useGroupTextsMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
 

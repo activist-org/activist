@@ -1,122 +1,123 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
-
-import { getKeyForGetOrganization } from "../queries/useGetOrganization";
+// Mutation composable for Resource entries - uses Pinia Colada for cache invalidation.
 
 export function useOrganizationResourcesMutations(
   organizationId: MaybeRef<string>
 ) {
-  const { showToastError } = useToaster();
-
   const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError } = useAppError();
 
   const currentOrganizationId = computed(() => unref(organizationId));
+  const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Create new resource.
-  async function createResource(resourceData: ResourceInput) {
-    if (!currentOrganizationId.value) {
-      return false;
-    }
-
-    loading.value = true;
-    error.value = null;
-
-    try {
-      // Service function handles the HTTP call and throws normalized errors.
-      await createOrganizationResource(
-        currentOrganizationId.value,
-        resourceData as Resource
-      );
-
-      invalidateCacheRefreshOrgData();
-
-      return true;
-    } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: createResourceAsync, isLoading: loadingCreateResource } =
+    useMutation({
+      mutation: (resourceData: ResourceInput) =>
+        createOrganizationResource(
+          currentOrganizationId.value,
+          resourceData as Resource
+        ),
+      async onSettled() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Update existing resource.
-  async function updateResource(resource: ResourceInput) {
-    loading.value = true;
-    error.value = null;
-
-    try {
-      // Direct service call - no useAsyncData needed for mutations.
-      await updateOrganizationResource(currentOrganizationId.value, resource);
-
-      invalidateCacheRefreshOrgData();
-
-      return true;
-    } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: updateResourceAsync, isLoading: loadingUpdateResource } =
+    useMutation({
+      mutation: (resource: ResourceInput) =>
+        updateOrganizationResource(currentOrganizationId.value, resource),
+      async onSettled() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Delete existing resource.
-  async function deleteResource(resourceId: string) {
-    loading.value = true;
-    error.value = null;
-
-    try {
-      await deleteOrganizationResource(resourceId);
-
-      invalidateCacheRefreshOrgData();
-
-      return true;
-    } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: deleteResourceAsync, isLoading: loadingDeleteResource } =
+    useMutation({
+      mutation: (resourceId: string) => deleteOrganizationResource(resourceId),
+      async onSettled() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Reorder multiple resource entries.
-  async function reorderResources(resources: Resource[]) {
-    loading.value = true;
-    error.value = null;
-
-    try {
-      await reorderOrganizationResources(
+  const {
+    mutateAsync: reorderResourcesAsync,
+    isLoading: loadingReorderResources,
+  } = useMutation({
+    mutation: (orderedResources: Resource[]) =>
+      reorderOrganizationResources(
         currentOrganizationId.value,
-        resources
-      );
+        orderedResources
+      ),
+    async onSettled() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+    },
+    onError(err) {
+      handleError(err);
+    },
+  });
 
-      invalidateCacheRefreshOrgData();
-
+  // Wrappers keep the true/false contract that call sites rely on.
+  const createResource = async (resourceData: ResourceInput) => {
+    if (!currentOrganizationId.value) return false;
+    try {
+      await createResourceAsync(resourceData);
       return true;
-    } catch (err) {
-      const appError = errorHandler(err);
-      error.value = appError;
-      showToastError(appError.message);
+    } catch {
       return false;
-    } finally {
-      loading.value = false;
     }
-  }
+  };
 
-  // Helper to refresh organization data after mutations.
-  async function invalidateCacheRefreshOrgData() {
-    if (!currentOrganizationId.value) return;
+  const updateResource = async (resource: ResourceInput) => {
+    try {
+      await updateResourceAsync(resource);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
-    await refreshNuxtData(
-      getKeyForGetOrganization(currentOrganizationId.value)
-    );
-  }
+  const deleteResource = async (resourceId: string) => {
+    try {
+      await deleteResourceAsync(resourceId);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const reorderResources = async (resources: Resource[]) => {
+    try {
+      await reorderResourcesAsync(resources);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  watch(
+    [
+      loadingCreateResource,
+      loadingUpdateResource,
+      loadingDeleteResource,
+      loadingReorderResources,
+    ],
+    ([create, update, del, reorder]) => {
+      loading.value = create || update || del || reorder;
+    }
+  );
 
   return {
     loading: readonly(loading),
@@ -125,6 +126,5 @@ export function useOrganizationResourcesMutations(
     updateResource,
     deleteResource,
     reorderResources,
-    invalidateCacheRefreshOrgData,
   };
 }
