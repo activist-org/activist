@@ -33,7 +33,7 @@
         @end="onDragEnd"
         :animation="150"
         chosen-class="sortable-chosen"
-        class="flex flex-col gap-4"
+        class="flex flex-col gap-4 pb-28 md:pb-0"
         data-testid="organization-resources-list"
         :delay="0"
         :delay-on-touch-start="false"
@@ -42,8 +42,9 @@
         :distance="5"
         drag-class="sortable-drag"
         fallback-class="sortable-fallback"
+        :fallback-on-body="true"
         :fallback-tolerance="0"
-        :force-fallback="false"
+        :force-fallback="true"
         ghost-class="sortable-ghost"
         handle=".drag-handle"
         :invert-swap="false"
@@ -92,7 +93,8 @@ const route = useRoute();
 const paramsOrgId = (route.params.orgId as string | undefined) ?? "";
 
 const { data: organization } = useGetOrganization(paramsOrgId);
-const { reorderResources } = useOrganizationResourcesMutations(paramsOrgId);
+const { reorderResources, loading } =
+  useOrganizationResourcesMutations(paramsOrgId);
 const resourceList = ref<Resource[]>([
   ...(organization.value?.resources || []),
 ]);
@@ -110,16 +112,17 @@ const { selectedIndex, onFocus, moveUp, moveDown } =
 export type CardExpose = {
   root: HTMLElement | null;
 };
-const onDragEnd = () => {
+const onDragEnd = async () => {
   resourceList.value.forEach((resource, index) => {
     resource.order = index;
   });
 
-  reorderResources(resourceList.value);
+  await reorderResources(resourceList.value);
 };
 watch(
   () => organization.value?.resources,
   (newResources) => {
+    if (loading.value) return;
     resourceList.value = [...(newResources || [])];
   }
 );
@@ -142,11 +145,12 @@ watch(
 }
 
 .sortable-fallback {
-  display: none;
+  opacity: 0.95;
 }
 
-/* Ensure drag handles work properly. */
+/* Prevent the browser from treating the handle gesture as a page scroll. */
 .drag-handle {
+  touch-action: none;
   user-select: none;
 }
 

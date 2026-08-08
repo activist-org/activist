@@ -7,6 +7,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
 
   const currentEventId = computed(() => unref(eventId));
   const { invalidateEventCache } = useEventCache();
+  const queryCache = useQueryCache();
   // Create new resource.
   const { mutateAsync: createResource, isLoading: loadingCreateResource } =
     useMutation({
@@ -46,15 +47,35 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     });
 
   // Reorder multiple resource entries.
+  // Writes the new order into the query cache before the request resolves so
+  // the list never snaps back to the stale server order mid-drag, and rolls
+  // back on failure.
   const { mutateAsync: reorderResources, isLoading: loadingReorderResources } =
     useMutation({
       mutation: (orderedResources: Resource[]) =>
         reorderEventResources(currentEventId.value, orderedResources),
+      onMutate(orderedResources) {
+        const key = EVENT_KEYS.byId(currentEventId.value);
+        const previousEvent = queryCache.getQueryData<EventResponse>(key);
+        if (previousEvent) {
+          queryCache.setQueryData(key, {
+            ...previousEvent,
+            resources: orderedResources,
+          });
+        }
+        return { previousEvent };
+      },
+      onError(err, _orderedResources, { previousEvent }) {
+        if (previousEvent) {
+          queryCache.setQueryData(
+            EVENT_KEYS.byId(currentEventId.value),
+            previousEvent
+          );
+        }
+        handleError(err);
+      },
       async onSettled() {
         await invalidateEventCache(currentEventId.value);
-      },
-      onError(err) {
-        handleError(err);
       },
     });
 
