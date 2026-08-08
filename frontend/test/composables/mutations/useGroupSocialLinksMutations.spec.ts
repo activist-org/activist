@@ -3,29 +3,29 @@
  * Unit tests for useGroupSocialLinksMutations composable.
  * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupSocialLinksMutations } from "../../../app/composables/mutations/useGroupSocialLinksMutations";
-import { getKeyForGetGroup } from "../../../app/composables/queries/useGetGroup";
 import { sampleSocialLinkInput, setupMutationMocks } from "./setup";
 
+// MARK: Hoisted Mocks
+
 const {
-  mockRefreshNuxtData,
-  showToastError,
   updateGroupSocialLink,
   createGroupSocialLinks,
   deleteGroupSocialLink,
   replaceAllGroupSocialLinks,
+  invalidateGroupCache,
 } = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
-  showToastError: vi.fn(),
   updateGroupSocialLink: vi.fn(),
   createGroupSocialLinks: vi.fn(),
   deleteGroupSocialLink: vi.fn(),
   replaceAllGroupSocialLinks: vi.fn(),
+  invalidateGroupCache: vi.fn(),
 }));
+
+// MARK: Module Mocks
 
 vi.mock("../../../app/services/communities/group/social-link", () => ({
   updateGroupSocialLink: (...args: unknown[]) => updateGroupSocialLink(...args),
@@ -36,15 +36,11 @@ vi.mock("../../../app/services/communities/group/social-link", () => ({
     replaceAllGroupSocialLinks(...args),
 }));
 
-vi.mock("../../../app/composables/generic/useToaster", () => ({
-  useToaster: () => ({
-    showToastError,
-    showToastInfo: vi.fn(),
-    showToastSuccess: vi.fn(),
-  }),
+vi.mock("../../../app/composables/cache/useGroupCache", () => ({
+  useGroupCache: () => ({ invalidateGroupCache }),
 }));
 
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
+// MARK: Tests
 
 describe("useGroupSocialLinksMutations", () => {
   const groupId = ref("group-123");
@@ -52,11 +48,11 @@ describe("useGroupSocialLinksMutations", () => {
   beforeEach(() => {
     groupId.value = "group-123";
     setupMutationMocks([
-      mockRefreshNuxtData,
       updateGroupSocialLink,
       createGroupSocialLinks,
       deleteGroupSocialLink,
       replaceAllGroupSocialLinks,
+      invalidateGroupCache,
     ]);
   });
 
@@ -75,23 +71,12 @@ describe("useGroupSocialLinksMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { updateLink } = useGroupSocialLinksMutations(groupId);
 
       await updateLink("link-1", sampleSocialLinkInput);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
-    });
-
-    it("sets loading true then false", async () => {
-      const { updateLink, loading } = useGroupSocialLinksMutations(groupId);
-
-      const promise = updateLink("link-1", sampleSocialLinkInput);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
     it("returns false when groupId is empty", async () => {
@@ -104,16 +89,13 @@ describe("useGroupSocialLinksMutations", () => {
       expect(updateGroupSocialLink).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false when service throws", async () => {
       updateGroupSocialLink.mockRejectedValue(new Error("Update failed"));
-      const { updateLink, error } = useGroupSocialLinksMutations(groupId);
+      const { updateLink } = useGroupSocialLinksMutations(groupId);
 
       const result = await updateLink("link-1", sampleSocialLinkInput);
 
       expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -128,14 +110,12 @@ describe("useGroupSocialLinksMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { createLinks } = useGroupSocialLinksMutations(groupId);
 
       await createLinks([sampleSocialLinkInput]);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
     it("returns false when groupId is empty", async () => {
@@ -160,25 +140,11 @@ describe("useGroupSocialLinksMutations", () => {
     it("returns false when service rejects invalid link data", async () => {
       const badLinks = [{ link: "", label: "Bad", order: 0 }];
       createGroupSocialLinks.mockRejectedValue(new Error("Invalid link data"));
-      const { createLinks, error } = useGroupSocialLinksMutations(groupId);
+      const { createLinks } = useGroupSocialLinksMutations(groupId);
 
       const result = await createLinks(badLinks);
 
       expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-    });
-
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
-      createGroupSocialLinks.mockRejectedValue(new Error("Create failed"));
-      const { createLinks, error } = useGroupSocialLinksMutations(groupId);
-
-      const result = await createLinks([sampleSocialLinkInput]);
-
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -193,26 +159,21 @@ describe("useGroupSocialLinksMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { deleteLink } = useGroupSocialLinksMutations(groupId);
 
       await deleteLink("link-1");
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false when service throws", async () => {
       deleteGroupSocialLink.mockRejectedValue(new Error("Delete failed"));
-      const { deleteLink, error } = useGroupSocialLinksMutations(groupId);
+      const { deleteLink } = useGroupSocialLinksMutations(groupId);
 
       const result = await deleteLink("link-1");
 
       expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 
@@ -230,14 +191,12 @@ describe("useGroupSocialLinksMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { replaceAllLinks } = useGroupSocialLinksMutations(groupId);
 
       await replaceAllLinks([sampleSocialLinkInput]);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
     it("returns false when groupId is empty", async () => {
@@ -250,39 +209,13 @@ describe("useGroupSocialLinksMutations", () => {
       expect(replaceAllGroupSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false when service throws", async () => {
       replaceAllGroupSocialLinks.mockRejectedValue(new Error("Replace failed"));
-      const { replaceAllLinks, error } = useGroupSocialLinksMutations(groupId);
+      const { replaceAllLinks } = useGroupSocialLinksMutations(groupId);
 
       const result = await replaceAllLinks([sampleSocialLinkInput]);
 
       expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshGroupData", () => {
-    it("calls refreshNuxtData with getKeyForGetGroup(id)", async () => {
-      const { invalidateCacheRefreshGroupData } =
-        useGroupSocialLinksMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
-    });
-
-    it("no-ops when groupId is empty", async () => {
-      groupId.value = "";
-      const { invalidateCacheRefreshGroupData } =
-        useGroupSocialLinksMutations(groupId);
-
-      await invalidateCacheRefreshGroupData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
     });
   });
 

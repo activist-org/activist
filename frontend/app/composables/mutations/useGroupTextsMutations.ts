@@ -1,53 +1,41 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mutation composable for FAQ entries - uses direct service calls, not useAsyncData.
+// Mutation composable for group text entries.
 
 export function useGroupTextsMutations(groupId: MaybeRef<string>) {
-  const { showToastError } = useToaster();
-
-  const loading = ref(false);
-  const error = ref<Error | null>(null);
+  const { error, handleError } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
+  const { invalidateGroupCache } = useGroupCache();
 
   // Update group texts.
-  async function updateTexts(
-    textsData: GroupUpdateTextFormData,
-    textId: string
-  ) {
-    if (!currentGroupId.value) {
-      return false;
-    }
+  const { mutateAsync: updateTextsAsync, isLoading: loading } = useMutation({
+    mutation: (vars: { textId: string; data: GroupUpdateTextFormData }) =>
+      updateGroupTexts(currentGroupId.value, vars.textId, vars.data),
+    async onSettled() {
+      await invalidateGroupCache(currentGroupId.value);
+    },
+    onError(err) {
+      handleError(err);
+    },
+  });
 
-    loading.value = true;
-    error.value = null;
+  // Wrapper keeps the true/false contract that the text modal relies on.
+  const updateTexts = async (vars: {
+    textId: string;
+    data: GroupUpdateTextFormData;
+  }) => {
+    if (!currentGroupId.value) return false;
     try {
-      // Service function handles the HTTP call and throws normalized errors.
-      await updateGroupTexts(currentGroupId.value, textId, textsData);
-
-      invalidateCacheRefreshGroupData();
-
+      await updateTextsAsync(vars);
       return true;
-    } catch (err) {
-      const appError = err as AppError;
-      error.value = appError;
-      showToastError(appError.message);
+    } catch {
       return false;
-    } finally {
-      loading.value = false;
     }
-  }
-
-  // Helper to refresh group data after mutations.
-  async function invalidateCacheRefreshGroupData() {
-    if (!currentGroupId.value) return;
-
-    await refreshNuxtData(getKeyForGetGroup(currentGroupId.value));
-  }
+  };
 
   return {
     loading: readonly(loading),
     error: readonly(error),
     updateTexts,
-    invalidateCacheRefreshGroupData,
   };
 }
