@@ -14,6 +14,24 @@
 <script setup lang="ts">
 const modalStore = useModals();
 
+// Announce when a modal opens for screen reader users.
+const { announce } = useAnnouncer();
+
+watch(
+  () => modalStore.modals,
+  (modals) => {
+    for (const [modalName, state] of Object.entries(modals)) {
+      if (state.isOpen) {
+        const readableName = modalName
+          .replace(/^Modal/, "")
+          .replace(/([a-z])([A-Z])/g, "$1 $2");
+        announce(`${readableName} opened`, { priority: "assertive" });
+      }
+    }
+  },
+  { deep: true }
+);
+
 // Map string names to actual Vue components here.
 const modalRegistry: Record<string, Component> = {
   ModalQRCode: defineAsyncComponent(() => import("./qr-code/ModalQRCode.vue")),
