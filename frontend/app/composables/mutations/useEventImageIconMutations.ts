@@ -4,7 +4,6 @@
 export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   const { handleError } = useAppError();
   const loading = ref(false);
-  const store = useEventListStore();
   const { invalidateEventCache } = useEventCache();
   const {
     mutateAsync: mutateAsyncAsyncUploadIconImage,
@@ -16,7 +15,6 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
     async onSettled() {
       await invalidateEventCache(unref(eventId));
       // Clear cached events to force refetch with new data.
-      store.setItems([]);
     },
     onError(err) {
       handleError(err);

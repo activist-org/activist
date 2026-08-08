@@ -2,7 +2,7 @@
 <template>
   <div class="space-y-6 pb-6 pt-3 md:pt-4">
     <MediaMapEvents
-      v-if="events.length"
+      v-if="(events ?? []).length"
       class="h-[calc(50vh-1rem)] w-full"
       :events="events"
     />
@@ -11,6 +11,6 @@
 
 <script setup lang="ts">
 defineProps<{
-  events: CommunityEvent[];
+  events?: CommunityEvent[];
 }>();
 </script>

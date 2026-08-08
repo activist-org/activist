@@ -1,39 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export const getKeyForGetTopics = () => `topics-list`;
+export const KEY_GET_TOPICS = ["get-topics"];
 
 export function useGetTopics() {
-  const store = useTopics();
   const { handleError } = useAppError();
 
-  // UseAsyncData for SSR, hydration, and cache.
-  const { data, pending, error, refresh } = useAsyncData<Topic[]>(
-    () => getKeyForGetTopics(),
-    async () => {
-      try {
-        const topics = await listTopics();
-        store.setTopics(topics);
-        return topics as Topic[];
-      } catch (error) {
-        handleError(error);
-        throw error;
-      }
-    },
-    {
-      immediate: true,
-      getCachedData: (key, nuxtApp) => {
-        if (store.getTopics().length > 0) {
-          return store.getTopics();
-        }
-        return nuxtApp.isHydrating
-          ? nuxtApp.payload.data[key]
-          : nuxtApp.static.data[key];
-      },
-      default: () => [],
+  const { data, isLoading, error, refresh } = useQuery({
+    key: KEY_GET_TOPICS,
+    query: async () => listTopics(),
+  });
+  watch(error, (err) => {
+    if (err) {
+      handleError(err);
     }
-  );
+  });
   return {
     data,
-    pending,
+    pending: readonly(isLoading),
     error,
     refresh,
   };

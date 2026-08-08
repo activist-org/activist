@@ -2,24 +2,22 @@
 
 export const useEventMutations = () => {
   const { error, handleError } = useAppError();
-  const store = useEventListStore();
+  const { invalidateEventList } = useEventCache();
 
   const { mutateAsync: create, isLoading: loading } = useMutation({
     mutation: (eventData: CreateEventInput) => createEvent(eventData),
     onError(err) {
       handleError(err);
     },
-    onSettled() {
-      refreshEventList();
+    async onSettled() {
+      await invalidateEventList();
     },
   });
 
   const refreshEventList = async () => {
     // Invalidate and refetch event list data.
     // Invalidate the useAsyncData cache so next read will refetch.
-    await refreshNuxtData(getKeyForGetEvents());
-    // Clear cached events to force refetch with new data.
-    store.setItems([]);
+    await invalidateEventList();
   };
 
   return {

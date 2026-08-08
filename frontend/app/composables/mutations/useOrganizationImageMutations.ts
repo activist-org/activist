@@ -8,7 +8,6 @@ export function useOrganizationImageMutations(
   const { error, handleError } = useAppError();
 
   const currentOrganizationId = computed(() => unref(organizationId));
-  const store = useOrganizationListStore();
   const { invalidateOrganizationCache, invalidateOrganizationImageCache } =
     useOrganizationCache();
 
@@ -67,10 +66,6 @@ export function useOrganizationImageMutations(
         uploadOrganizationIconImage(currentOrganizationId.value, image),
       async onSettled() {
         await invalidateOrganizationCache(currentOrganizationId.value);
-        // Clear cached organizations to force refetch with new data.
-        store.setItems([]);
-        // The organizations list is still a useAsyncData read.
-        await refreshNuxtData(getKeyForGetOrganizations());
       },
       onError(err) {
         handleError(err);
