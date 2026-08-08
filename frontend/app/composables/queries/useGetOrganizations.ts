@@ -4,14 +4,14 @@ export function useGetOrganizations(
   filters: Ref<OrganizationFilters> | ComputedRef<OrganizationFilters>
 ) {
   const { handleError, error: appError } = useAppError();
-  const { getKeyForGetOrganizations, invalidateOrganizationList } =
+  const { getKeyForOrganizations, invalidateOrganizationList } =
     useOrganizationCache();
 
   const organizationFilters = computed(() => unref(filters));
 
   const { data, isLoading, error, loadNextPage } = useInfiniteQuery({
     initialPageParam: 1,
-    key: () => getKeyForGetOrganizations({ ...organizationFilters.value }),
+    key: () => getKeyForOrganizations({ ...organizationFilters.value }),
     getNextPageParam: (lastPage, allPages) => {
       if ((lastPage as OrganizationPaginatedResponse).isLastPage) return null;
       return allPages.length + 1; // Or (lastPageParam as number) + 1

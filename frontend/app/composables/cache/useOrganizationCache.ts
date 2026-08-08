@@ -10,6 +10,8 @@ const ORGANIZATION_KEYS = {
   byImageId: (id: string) => [...ORGANIZATION_KEYS.root, "image", id] as const,
   imageList: (orgId: string) =>
     [...ORGANIZATION_KEYS.root, "imageList", orgId] as const,
+  listByUser: (userId: string, filters: unknown) =>
+    [...ORGANIZATION_KEYS.root, "list", "user", userId, { filters }] as const,
 };
 
 export const useOrganizationCache = () => {
@@ -28,6 +30,18 @@ export const useOrganizationCache = () => {
     });
   };
 
+  const invalidateOrganizationList = async () => {
+    await invalidateQueries({
+      key: [...ORGANIZATION_KEYS.root, "list"],
+    });
+  };
+
+  const invalidateOrganizationsByUser = async (userId: string) => {
+    await invalidateQueries({
+      key: [...ORGANIZATION_KEYS.root, "list", "user", userId],
+    });
+  };
+
   // Get cache entries for a single event.
   const organizationCacheEntries = (organizationId: string) =>
     getEntries({ key: ORGANIZATION_KEYS.byId(organizationId) });
@@ -35,6 +49,8 @@ export const useOrganizationCache = () => {
     ORGANIZATION_KEYS.list(filters);
   const getKeyForOrganization = (orgId: string) =>
     ORGANIZATION_KEYS.byId(orgId);
+  const getKeyForOrganizationsByUser = (userId: string, filters: unknown) =>
+    ORGANIZATION_KEYS.listByUser(userId, filters);
   const getKeyForOrganizationImage = (orgId: string) =>
     ORGANIZATION_KEYS.byImageId(orgId);
   const getKeyForOrganizationListImage = (orgId: string) =>
@@ -43,9 +59,12 @@ export const useOrganizationCache = () => {
   return {
     invalidateOrganizationCache,
     invalidateOrganizationImageCache,
+    invalidateOrganizationList,
+    invalidateOrganizationsByUser,
     organizationCacheEntries,
     getKeyForOrganizations,
     getKeyForOrganization,
+    getKeyForOrganizationsByUser,
     getKeyForOrganizationImage,
     getKeyForOrganizationListImage,
   };

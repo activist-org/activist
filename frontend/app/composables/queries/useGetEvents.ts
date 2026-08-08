@@ -4,13 +4,13 @@ export function useGetEvents(
   filters: Ref<EventFilters> | ComputedRef<EventFilters>
 ) {
   const { handleError, error: appError } = useAppError();
-  const { getKeyForGetEvents, invalidateEventList } = useEventCache();
+  const { getKeyForEvents, invalidateEventList } = useEventCache();
 
   const eventFilters = computed(() => unref(filters));
 
   const { data, isLoading, error, loadNextPage } = useInfiniteQuery({
     initialPageParam: 1,
-    key: () => getKeyForGetEvents({ ...eventFilters.value }),
+    key: () => getKeyForEvents({ ...eventFilters.value }),
     getNextPageParam: (lastPage, allPages) => {
       if ((lastPage as EventsPaginatedResponse).isLastPage) return null;
       return allPages.length + 1; // Or (lastPageParam as number) + 1

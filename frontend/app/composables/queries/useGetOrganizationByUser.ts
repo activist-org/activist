@@ -5,7 +5,7 @@ export function useGetOrganizationsByUser(
   filters: MaybeRef<OrganizationFilters> = {}
 ) {
   const { handleError, error: appError } = useAppError();
-  const { getKeyForGetOrganizationsByUser, invalidateOrganizationList } =
+  const { getKeyForOrganizationsByUser, invalidateOrganizationsByUser } =
     useOrganizationCache();
 
   const organizationFilters = computed(() => unref(filters));
@@ -13,7 +13,7 @@ export function useGetOrganizationsByUser(
   const { data, isLoading, error, loadNextPage } = useInfiniteQuery({
     initialPageParam: 1,
     key: () =>
-      getKeyForGetOrganizationsByUser(unref(userId), {
+      getKeyForOrganizationsByUser(unref(userId), {
         ...organizationFilters.value,
       }),
     getNextPageParam: (lastPage, allPages) => {
@@ -37,7 +37,7 @@ export function useGetOrganizationsByUser(
   });
 
   const refreshList = async () => {
-    await invalidateOrganizationList();
+    await invalidateOrganizationsByUser(unref(userId));
   };
 
   return {
