@@ -6,9 +6,11 @@
     :canFetchMore="true"
     :fetchMore="getMore"
     :hasColOptions="hasColOptions"
+    :infinite="true"
     :label="label"
     :options="options"
     :selectedOptions="selectedGroups || []"
+    :showLoadingSlot="pending"
   />
 </template>
 
@@ -34,7 +36,7 @@ const props = withDefaults(defineProps<Props>(), {
 const filters = computed(() => ({
   linked_organizations: props.linkedOrganizations,
 }));
-const { data: groups, getMore } = useGetGroups(filters);
+const { data: groups, getMore, pending } = useGetGroups(filters);
 
 const emit = defineEmits<{
   (e: "update:selectedGroups", value: Group[]): void;

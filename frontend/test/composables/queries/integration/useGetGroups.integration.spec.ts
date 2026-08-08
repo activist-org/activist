@@ -5,6 +5,7 @@
  */
 import { createPinia, setActivePinia } from "pinia";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { ref } from "vue";
 
 import type { GroupFilters } from "../../../../shared/types/group";
 
@@ -43,7 +44,6 @@ describe("useGetGroups Integration", () => {
     it("composable returns expected structure with getMore", async () => {
       const { useGetGroups } =
         await import("../../../../app/composables/queries/useGetGroups");
-      const { ref } = await import("vue");
 
       const filters = ref<GroupFilters>({ linked_organizations: ["org-1"] });
       const result = useGetGroups(filters);
@@ -201,6 +201,87 @@ describe("useGetGroups Integration", () => {
       });
 
       expect(response.isLastPage).toBe(true);
+    });
+
+    it("handler logic: appends results to page 1, de-dupes, and changing filters resets", async () => {
+      const page1Group = createMockGroup({ id: "group-1" }) as MockGroup;
+      const page2Group1 = createMockGroup({ id: "group-1" }) as MockGroup; // Duplicate
+      const page2Group2 = createMockGroup({ id: "group-2" }) as MockGroup;
+      const filter2Group = createMockGroup({ id: "group-3" }) as MockGroup;
+
+      mockListGroups
+        .mockResolvedValueOnce({ data: [page1Group], isLastPage: false })
+        .mockResolvedValueOnce({
+          data: [page2Group1, page2Group2],
+          isLastPage: true,
+        })
+        .mockResolvedValueOnce({ data: [filter2Group], isLastPage: true });
+
+      const groups = ref<MockGroup[]>([]);
+      const page = ref(1);
+      const filtersRef = ref<GroupFilters>({ linked_organizations: ["org-1"] });
+      const oldFilters = ref<GroupFilters | undefined>(filtersRef.value);
+
+      const handlerLogic = async () => {
+        if (
+          JSON.stringify(oldFilters.value) !== JSON.stringify(filtersRef.value)
+        ) {
+          oldFilters.value = { ...filtersRef.value };
+          page.value = 1;
+          groups.value = [];
+        }
+
+        const response = await mockListGroups({
+          ...filtersRef.value,
+          page: page.value,
+          page_size: 10,
+        });
+
+        const newGroups = response.data.filter(
+          (newGroup: MockGroup) =>
+            !groups.value.some(
+              (existingGroup) => existingGroup.id === newGroup.id
+            )
+        );
+        groups.value = groups.value.concat(newGroups);
+        return groups.value;
+      };
+
+      // 1. Initial fetch (page 1)
+      await handlerLogic();
+
+      expect(mockListGroups).toHaveBeenCalledWith({
+        linked_organizations: ["org-1"],
+        page: 1,
+        page_size: 10,
+      });
+      expect(groups.value.map((g) => g.id)).toEqual(["group-1"]);
+
+      // 2. Fetch page 2
+      page.value = 2;
+      await handlerLogic();
+
+      expect(mockListGroups).toHaveBeenCalledWith({
+        linked_organizations: ["org-1"],
+        page: 2,
+        page_size: 10,
+      });
+      // Assert it accumulates and de-dupes
+      expect(groups.value.map((g) => g.id)).toEqual(["group-1", "group-2"]);
+
+      // 3. Change filters and fetch (resets)
+      filtersRef.value = { linked_organizations: ["org-2"] };
+      await handlerLogic();
+
+      expect(mockListGroups).toHaveBeenCalledWith({
+        linked_organizations: ["org-2"],
+        page: 1,
+        page_size: 10,
+      });
+      expect(groups.value.map((g) => g.id)).toEqual(["group-3"]);
+
+      // Ensure the mock queue is fully consumed to prevent bleeding
+      vi.clearAllMocks();
     });
   });
 

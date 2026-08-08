@@ -1,81 +1,77 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
-    <Form
-      id="organization-details"
-      @submit="handleSubmit"
-      class="space-y-4"
-      :initial-values="initialDetailsData"
-      :schema="organizationDetailsSchema"
-      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
+  <Form
+    id="organization-details"
+    @submit="handleSubmit"
+    class="space-y-4"
+    :initial-values="initialDetailsData"
+    :schema="organizationDetailsSchema"
+    :submit-label="$t('i18n.components.machine.steps._global.next_step')"
+  >
+    <p>
+      {{
+        $t("i18n.components.machine_steps_create_organization_details.subtext")
+      }}
+    </p>
+    <FormItem
+      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+      :label="$t('i18n._global.name')"
+      name="name"
+      required
     >
-      <p>
-        {{
+      <!-- prettier-ignore-attribute :modelValue -->
+      <FormTextInput
+        :id="id"
+        @blur="handleBlur"
+        @input="handleChange"
+        :hasError="!!errorMessage.value"
+        :label="
           $t(
-            "i18n.components.machine_steps_create_organization_details.subtext"
+            'i18n.components.machine_steps_create_organization_details.organization_name_placeholder'
           )
-        }}
-      </p>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n._global.name')"
-        name="name"
-        required
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          :label="
-            $t(
-              'i18n.components.machine_steps_create_organization_details.organization_name_placeholder'
-            )
-          "
-          :modelValue="(value.value as string)"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.machine.steps._global.tagline')"
-        name="tagline"
-      >
-        <!-- prettier-ignore-attribute :modelValue -->
-        <FormTextInput
-          :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          :label="
-            $t(
-              'i18n.components.machine_steps_create_organization_details.tagline_placeholder'
-            )
-          "
-          :modelValue="(value.value as string)"
-        />
-      </FormItem>
-      <FormItem
-        v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components._global.description')"
-        name="description"
-        required
-      >
-        <FormTextArea
-          :id="id"
-          @blur="handleBlur"
-          @input="handleChange"
-          :hasError="!!errorMessage.value"
-          :placeholder="
-            $t(
-              'i18n.components.machine_steps_create_organization_details.description_placeholder'
-            )
-          "
-          :value="value.value"
-        />
-      </FormItem>
-    </Form>
-  </div>
+        "
+        :modelValue="(value.value as string)"
+      />
+    </FormItem>
+    <FormItem
+      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+      :label="$t('i18n.components.machine.steps._global.tagline')"
+      name="tagline"
+    >
+      <!-- prettier-ignore-attribute :modelValue -->
+      <FormTextInput
+        :id="id"
+        @blur="handleBlur"
+        @input="handleChange"
+        :hasError="!!errorMessage.value"
+        :label="
+          $t(
+            'i18n.components.machine_steps_create_organization_details.tagline_placeholder'
+          )
+        "
+        :modelValue="(value.value as string)"
+      />
+    </FormItem>
+    <FormItem
+      v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
+      :label="$t('i18n.components._global.description')"
+      name="description"
+      required
+    >
+      <FormTextArea
+        :id="id"
+        @blur="handleBlur"
+        @input="handleChange"
+        :hasError="!!errorMessage.value"
+        :placeholder="
+          $t(
+            'i18n.components.machine_steps_create_organization_details.description_placeholder'
+          )
+        "
+        :value="value.value"
+      />
+    </FormItem>
+  </Form>
 </template>
 
 <script setup lang="ts">
