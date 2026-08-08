@@ -32,6 +32,8 @@ export type FetchOptions = {
   baseURL: string;
   headers?: Record<string, string>;
   body?: unknown;
+  query?: Record<string, unknown>;
+  responseType?: string;
 };
 
 export type FetchCall = [string, FetchOptions];
@@ -42,6 +44,13 @@ export function getFetchCall(
   index = 0
 ): FetchCall {
   return fetchMock.mock.calls[index] as FetchCall;
+}
+
+export function getFetchRawCall(
+  fetchRawMock: ReturnType<typeof vi.fn<FetchRawFn>>,
+  index = 0
+): FetchCall {
+  return fetchRawMock.mock.calls[index] as FetchCall;
 }
 
 // Assert common HTTP request properties.
