@@ -56,7 +56,6 @@ services:
       --faq-entries-per-entity 3 \
       --resources-per-entity 2 \
       --yaml-data-to-assign core/management/commands/entity_data_to_assign.yaml || exit 1;
-      uv run manage.py db_worker &
       uv run manage.py runserver 0.0.0.0:${BACKEND_PORT}"
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
@@ -111,6 +110,35 @@ services:
       retries: 5
     volumes:
       - ./quarantine:/var/filescan/quarantine
+
+  db_worker:
+    env_file:
+      - .env.dev
+    depends_on:
+      backend:
+        condition: service_healthy
+    build:
+      context: ./backend
+    container_name: django_db_worker
+    restart: unless-stopped
+    command: sh -c "uv run manage.py wait_for_db && uv run manage.py db_worker"
+    environment:
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - EMAIL_BACKEND=${EMAIL_BACKEND}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
+    volumes:
+      - ./backend/media:/app/media
 
   mailhog:
     image: mailhog/mailhog:latest
