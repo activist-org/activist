@@ -113,67 +113,48 @@ describe("useGetTopics", () => {
 
       expect(result).toHaveProperty("error");
     });
-
-    // it("returns an object with refresh function", async () => {
-    //   const { useGetTopics } =
-    //     await import("../../../app/composables/queries/useGetTopics");
-
-    //   const result = useGetTopics();
-
-    //   expect(result).toHaveProperty("refresh");
-    //   expect(typeof result.refresh).toBe("function");
-    // });
   });
 
   // MARK: Reactive Properties
 
-  // describe("Reactive Properties", () => {
-  //   it("data is a Vue ref with value property", async () => {
-  //   //   const { useGetTopics } =
-  //   //     await import("../../../app/composables/queries/useGetTopics");
+  describe("Reactive Properties", () => {
+    it("data is a Vue ref with value property", async () => {
+      const { useGetTopics } =
+        await import("../../../app/composables/queries/useGetTopics");
 
-  //   //   const { data } = useGetTopics();
+      const { data } = useGetTopics();
 
-  //   //   expect(data).toHaveProperty("value");
-  //   // });
+      expect(data).toHaveProperty("value");
+    });
 
-  //   // it("data defaults to empty array", async () => {
-  //   //   const { useGetTopics } =
-  //   //     await import("../../../app/composables/queries/useGetTopics");
+    it("pending is a Vue ref with boolean value", async () => {
+      const { useGetTopics } =
+        await import("../../../app/composables/queries/useGetTopics");
 
-  //   //   const { data } = useGetTopics();
+      const { pending } = useGetTopics();
 
-  //   //   expect(Array.isArray(data.value)).toBe(true);
-  //   // });
+      expect(pending).toHaveProperty("value");
+      expect(typeof pending.value).toBe("boolean");
+    });
 
-  //   it("pending is a Vue ref with boolean value", async () => {
-  //     const { useGetTopics } =
-  //       await import("../../../app/composables/queries/useGetTopics");
+    it("error is a Vue ref", async () => {
+      const { useGetTopics } =
+        await import("../../../app/composables/queries/useGetTopics");
 
-  //     const { pending } = useGetTopics();
+      const { error } = useGetTopics();
 
-  //     expect(pending).toHaveProperty("value");
-  //     expect(typeof pending.value).toBe("boolean");
-  //   });
+      expect(error).toHaveProperty("value");
+    });
 
-  //   it("error is a Vue ref", async () => {
-  //     const { useGetTopics } =
-  //       await import("../../../app/composables/queries/useGetTopics");
+    it("error is initially falsy (null or undefined)", async () => {
+      const { useGetTopics } =
+        await import("../../../app/composables/queries/useGetTopics");
 
-  //     const { error } = useGetTopics();
+      const { error } = useGetTopics();
 
-  //     expect(error).toHaveProperty("value");
-  //   });
-
-  //   it("error is initially falsy (null or undefined)", async () => {
-  //     const { useGetTopics } =
-  //       await import("../../../app/composables/queries/useGetTopics");
-
-  //     const { error } = useGetTopics();
-
-  //     expect(error.value).toBeFalsy();
-  //   });
-  // });
+      expect(error.value).toBeFalsy();
+    });
+  });
 
   // MARK: Multiple Instances
 
@@ -189,31 +170,21 @@ describe("useGetTopics", () => {
       expect(result2).toBeDefined();
     });
 
-    // it("each instance has its own reactive refs", async () => {
-    //   const { useGetTopics } =
-    //     await import("../../../app/composables/queries/useGetTopics");
+    it("each instance has its own reactive refs", async () => {
+      const { useGetTopics } =
+        await import("../../../app/composables/queries/useGetTopics");
 
-    //   const { data: data1 } = useGetTopics();
-    //   const { data: data2 } = useGetTopics();
+      const { data: data1 } = useGetTopics();
+      const { data: data2 } = useGetTopics();
 
-    //   expect(data1).toHaveProperty("value");
-    //   expect(data2).toHaveProperty("value");
-    // });
+      expect(data1).toHaveProperty("value");
+      expect(data2).toHaveProperty("value");
+    });
   });
 
   // MARK: Type Safety
 
   describe("Type Safety", () => {
-    // it("data.value is typed as Topic array", async () => {
-    //   const { useGetTopics } =
-    //     await import("../../../app/composables/queries/useGetTopics");
-
-    //   const { data } = useGetTopics();
-
-    //   // Runtime check that it's an array (type is Topic[]).
-    //   expect(Array.isArray(data.value)).toBe(true);
-    // });
-
     it("createMockTopic produces valid Topic structure", () => {
       const topic = createMockTopic({ id: "test-topic" });
 

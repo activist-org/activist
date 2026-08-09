@@ -84,11 +84,11 @@ describe("useGetOrganizations", () => {
         await import("../../../app/composables/cache/useOrganizationCache");
       const { getKeyForOrganizations } = useOrganizationCache();
 
-      expect(getKeyForOrganizations()).toStrictEqual([
+      expect(getKeyForOrganizations({})).toStrictEqual([
         "organization",
         "list",
         {
-          filters: undefined,
+          filters: {},
         },
       ]);
     });
@@ -97,8 +97,7 @@ describe("useGetOrganizations", () => {
       const { useOrganizationCache } =
         await import("../../../app/composables/cache/useOrganizationCache");
       const { getKeyForOrganizations } = useOrganizationCache();
-      const key = getKeyForOrganizations();
-
+      const key = getKeyForOrganizations({});
       expect(Array.isArray(key)).toBe(true);
       expect(key.length).toBeGreaterThan(0);
     });
@@ -134,25 +133,25 @@ describe("useGetOrganizations", () => {
       expect(result).toHaveProperty("error");
     });
 
-    // it("returns an object with refresh function", async () => {
-    //   const { useGetOrganizations } =
-    //     await import("../../../app/composables/queries/useGetOrganizations");
+    it("returns an object with refresh function", async () => {
+      const { useGetOrganizations } =
+        await import("../../../app/composables/queries/useGetOrganizations");
 
-    //   const result = useGetOrganizations(ref({}));
+      const result = useGetOrganizations(ref({}));
 
-    //   expect(result).toHaveProperty("refresh");
-    //   expect(typeof result.refresh).toBe("function");
-    // });
+      expect(result).toHaveProperty("refresh");
+      expect(typeof result.refresh).toBe("function");
+    });
 
-    // it("returns an object with getMore function", async () => {
-    //   const { useGetOrganizations } =
-    //     await import("../../../app/composables/queries/useGetOrganizations");
+    it("returns an object with getMore function", async () => {
+      const { useGetOrganizations } =
+        await import("../../../app/composables/queries/useGetOrganizations");
 
-    //   const result = useGetOrganizations(ref({}));
+      const result = useGetOrganizations(ref({}));
 
-    //   expect(result).toHaveProperty("getMore");
-    //   expect(typeof result.getMore).toBe("function");
-    // });
+      expect(result).toHaveProperty("getMore");
+      expect(typeof result.getMore).toBe("function");
+    });
   });
 
   // MARK: Reactive Properties
@@ -176,15 +175,15 @@ describe("useGetOrganizations", () => {
       expect(Array.isArray(data.value)).toBe(true);
     });
 
-    // it("pending is a Vue ref with boolean value", async () => {
-    //   const { useGetOrganizations } =
-    //     await import("../../../app/composables/queries/useGetOrganizations");
+    it("pending is a Vue ref with boolean value", async () => {
+      const { useGetOrganizations } =
+        await import("../../../app/composables/queries/useGetOrganizations");
 
-    //   const { pending } = useGetOrganizations(ref({}));
+      const { pending } = useGetOrganizations(ref({}));
 
-    //   expect(pending).toHaveProperty("value");
-    //   expect(typeof pending.value).toBe("boolean");
-    // });
+      expect(pending).toHaveProperty("value");
+      expect(typeof pending.value).toBe("boolean");
+    });
 
     it("error is a Vue ref", async () => {
       const { useGetOrganizations } =

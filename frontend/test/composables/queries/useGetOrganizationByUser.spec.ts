@@ -6,7 +6,6 @@
  * These unit tests focus on structure, cache keys, and return values.
  */
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
-import { createPinia, setActivePinia } from "pinia";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
@@ -39,7 +38,6 @@ mockNuxtImport(
 
 describe("useGetOrganizationsByUser", () => {
   beforeEach(() => {
-    setActivePinia(createPinia());
     vi.clearAllMocks();
     mockListOrganizationsByUserId.mockResolvedValue({
       data: [],
@@ -58,35 +56,26 @@ describe("useGetOrganizationsByUser", () => {
       const { useOrganizationCache } =
         await import("../../../app/composables/cache/useOrganizationCache");
       const { getKeyForOrganizationsByUser } = useOrganizationCache();
-      const key = getKeyForOrganizationsByUser("user-123");
+      const key = getKeyForOrganizationsByUser("user-123", {});
       expect(key).toContain("user-123");
     });
 
-    // it("includes page number in cache key", async () => {
-    //   const { useOrganizationCache } =
-    //     await import("../../../app/composables/cache/useOrganizationCache");
-    //   const { getKeyForOrganizationsByUser } = useOrganizationCache();
-    //   const key = getKeyForOrganizationsByUser("user-123", 1);
+    it("includes filters in cache key when provided", async () => {
+      const filters = createMockOrganizationFilters();
+      const { useOrganizationCache } =
+        await import("../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationsByUser } = useOrganizationCache();
+      const key = getKeyForOrganizationsByUser("user-123", filters);
 
-    //   expect(key).toContain("page:1");
-    // });
-
-    // it("includes filters in cache key when provided", async () => {
-    //   const filters = createMockOrganizationFilters();
-    //   const { useOrganizationCache } =
-    //     await import("../../../app/composables/cache/useOrganizationCache");
-    //   const { getKeyForOrganizationsByUser } = useOrganizationCache();
-    //   const key = getKeyForOrganizationsByUser("user-123", filters);
-
-    //   expect(key).toContain("filters");
-    // });
+      expect(key).toContainEqual({ filters });
+    });
 
     it("returns consistent key for same parameters", async () => {
       const { useOrganizationCache } =
         await import("../../../app/composables/cache/useOrganizationCache");
       const { getKeyForOrganizationsByUser } = useOrganizationCache();
-      const key1 = getKeyForOrganizationsByUser("user-123");
-      const key2 = getKeyForOrganizationsByUser("user-123");
+      const key1 = getKeyForOrganizationsByUser("user-123", {});
+      const key2 = getKeyForOrganizationsByUser("user-123", {});
 
       expect(key1).toStrictEqual(key2);
     });
@@ -95,21 +84,11 @@ describe("useGetOrganizationsByUser", () => {
       const { useOrganizationCache } =
         await import("../../../app/composables/cache/useOrganizationCache");
       const { getKeyForOrganizationsByUser } = useOrganizationCache();
-      const key1 = getKeyForOrganizationsByUser("user-1");
-      const key2 = getKeyForOrganizationsByUser("user-2");
+      const key1 = getKeyForOrganizationsByUser("user-1", {});
+      const key2 = getKeyForOrganizationsByUser("user-2", {});
 
       expect(key1).not.toStrictEqual(key2);
     });
-
-    // it("returns different keys for different pages", async () => {
-    //   const { useOrganizationCache } =
-    //     await import("../../../app/composables/cache/useOrganizationCache");
-    //   const { getKeyForOrganizationsByUser } = useOrganizationCache();
-    //   const key1 = getKeyForOrganizationsByUser("user-123", 1);
-    //   const key2 = getKeyForOrganizationsByUser("user-123", 2);
-
-    //   expect(key1).not.toStrictEqual(key2);
-    // });
 
     it("returns different keys for different filters", async () => {
       const { useOrganizationCache } =
@@ -198,15 +177,15 @@ describe("useGetOrganizationsByUser", () => {
       expect(Array.isArray(data.value)).toBe(true);
     });
 
-    // it("pending is a Vue ref with boolean value", async () => {
-    //   const { useGetOrganizationsByUser } =
-    //     await import("../../../app/composables/queries/useGetOrganizationByUser");
+    it("pending is a Vue ref with boolean value", async () => {
+      const { useGetOrganizationsByUser } =
+        await import("../../../app/composables/queries/useGetOrganizationByUser");
 
-    //   const { pending } = useGetOrganizationsByUser("user-123");
+      const { pending } = useGetOrganizationsByUser("user-123");
 
-    //   expect(pending).toHaveProperty("value");
-    //   expect(typeof pending.value).toBe("boolean");
-    // });
+      expect(pending).toHaveProperty("value");
+      expect(typeof pending.value).toBe("boolean");
+    });
 
     it("error is a Vue ref", async () => {
       const { useGetOrganizationsByUser } =

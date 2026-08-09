@@ -70,8 +70,8 @@ describe("useGetEvents", () => {
       const { useEventCache } =
         await import("../../../app/composables/cache/useEventCache");
       const { getKeyForEvents } = useEventCache();
-      const key1 = getKeyForEvents();
-      const key2 = getKeyForEvents();
+      const key1 = getKeyForEvents({});
+      const key2 = getKeyForEvents({});
 
       expect(key1).toStrictEqual(key2);
     });
@@ -80,11 +80,11 @@ describe("useGetEvents", () => {
       const { useEventCache } =
         await import("../../../app/composables/cache/useEventCache");
       const { getKeyForEvents } = useEventCache();
-      expect(getKeyForEvents()).toStrictEqual([
+      expect(getKeyForEvents({})).toStrictEqual([
         "event",
         "list",
         {
-          filters: undefined,
+          filters: {},
         },
       ]);
     });
@@ -93,7 +93,7 @@ describe("useGetEvents", () => {
       const { useEventCache } =
         await import("../../../app/composables/cache/useEventCache");
       const { getKeyForEvents } = useEventCache();
-      const key = getKeyForEvents();
+      const key = getKeyForEvents({});
 
       expect(Array.isArray(key)).toBe(true);
       expect(key.length).toBeGreaterThan(0);
@@ -140,15 +140,15 @@ describe("useGetEvents", () => {
       expect(typeof result.refresh).toBe("function");
     });
 
-    // it("returns an object with getMore function", async () => {
-    //   const { useGetEvents } =
-    //     await import("../../../app/composables/queries/useGetEvents");
+    it("returns an object with getMore function", async () => {
+      const { useGetEvents } =
+        await import("../../../app/composables/queries/useGetEvents");
 
-    //   const result = useGetEvents(ref({}));
+      const result = useGetEvents(ref({}));
 
-    //   expect(result).toHaveProperty("getMore");
-    //   expect(typeof result.getMore).toBe("function");
-    // });
+      expect(result).toHaveProperty("getMore");
+      expect(typeof result.getMore).toBe("function");
+    });
   });
 
   // MARK: Reactive Properties
@@ -172,15 +172,15 @@ describe("useGetEvents", () => {
       expect(Array.isArray(data.value)).toBe(true);
     });
 
-    // it("pending is a Vue ref with boolean value", async () => {
-    //   const { useGetEvents } =
-    //     await import("../../../app/composables/queries/useGetEvents");
+    it("pending is a Vue ref with boolean value", async () => {
+      const { useGetEvents } =
+        await import("../../../app/composables/queries/useGetEvents");
 
-    //   const { pending } = useGetEvents(ref({}));
+      const { pending } = useGetEvents(ref({}));
 
-    //   expect(pending).toHaveProperty("value");
-    //   expect(typeof pending.value).toBe("boolean");
-    // });
+      expect(pending).toHaveProperty("value");
+      expect(typeof pending.value).toBe("boolean");
+    });
 
     it("error is a Vue ref", async () => {
       const { useGetEvents } =
