@@ -14,14 +14,14 @@ def test_event_resource_update_ok_200(authenticated_client):
 
     event = EventFactory(created_by=user)
 
-    resource = EventResourceFactory(created_by=user, event_id=event.id)
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    event_resource = EventResourceFactory(created_by=user, event_id=event.id)
+    test_name = event_resource.name
+    test_desc = event_resource.description
+    test_url = event_resource.url
+    test_order = event_resource.order
 
     response = client.put(
-        path=f"/v1/events/event_resources/{resource.id}",
+        path=f"/v1/events/event_resources/{event_resource.id}",
         data={
             "name": test_name,
             "description": test_desc,
@@ -42,14 +42,14 @@ def test_event_resource_update_forbidden_403(authenticated_client):
 
     event = EventFactory()
 
-    resource = EventResourceFactory(created_by=user, event_id=event.id)
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    event_resource = EventResourceFactory(created_by=user, event_id=event.id)
+    test_name = event_resource.name
+    test_desc = event_resource.description
+    test_url = event_resource.url
+    test_order = event_resource.order
 
     response = client.put(
-        path=f"/v1/events/event_resources/{resource.id}",
+        path=f"/v1/events/event_resources/{event_resource.id}",
         data={
             "name": test_name,
             "description": test_desc,
@@ -69,16 +69,16 @@ def test_event_resource_update_not_found_404(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory()
-    bad_resource_id = uuid4()
+    invalid_event_resource_id = uuid4()
 
-    resource = EventResourceFactory(created_by=user, event_id=event.id)
-    test_name = resource.name
-    test_desc = resource.description
-    test_url = resource.url
-    test_order = resource.order
+    event_resource = EventResourceFactory(created_by=user, event_id=event.id)
+    test_name = event_resource.name
+    test_desc = event_resource.description
+    test_url = event_resource.url
+    test_order = event_resource.order
 
     response = client.put(
-        path=f"/v1/events/event_resources/{bad_resource_id}",
+        path=f"/v1/events/event_resources/{invalid_event_resource_id}",
         data={
             "name": test_name,
             "description": test_desc,

@@ -18,7 +18,7 @@
           :onClick="
             () =>
               openModal({
-                entityId: organization?.id,
+                entityId: orgId,
               })
           "
         />

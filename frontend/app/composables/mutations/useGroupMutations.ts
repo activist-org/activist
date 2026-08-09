@@ -4,6 +4,7 @@ export const useGroupMutations = () => {
   const store = useOrganizationStore();
   const loading = ref(false);
   const { error, handleError, clearError } = useAppError();
+  const { invalidateOrganizationCache } = useOrganizationCache();
 
   const create = async (groupData: CreateGroupInput) => {
     loading.value = true;
@@ -25,9 +26,7 @@ export const useGroupMutations = () => {
     // Invalidate the useAsyncData cache so next read will refetch.
     clearNuxtData((key) => key.startsWith("groups-list:"));
     if (store.getOrganization()) {
-      await refreshNuxtData(
-        getKeyForGetOrganization(store.getOrganization().id)
-      );
+      await invalidateOrganizationCache(store.getOrganization().id);
     }
   };
 
