@@ -442,7 +442,6 @@
   "i18n.components.tooltip_password_requirements.password_passed_rule": "La contraseña superó la regla",
   "i18n.components.tooltip_password_requirements.password_rules_message": "Por su seguridad y la de la comunidad, elija una contraseña que nunca haya usado antes. ¡Gracias!",
   "i18n.composables.use_get_label_by_key_filter.location_type_online": "Lugar conectado",
-  "i18n.composables.use_get_label_by_key_filter.location_type_physical": "Lugar físico",
   "i18n.composables.use_get_label_by_key_filter.next_days": "Siguientes {value} días",
   "i18n.composables.use_map.fullscreen": "Pantalla completa",
   "i18n.composables.use_map.geolocate": "Geolocalizar",
