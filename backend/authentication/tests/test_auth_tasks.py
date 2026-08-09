@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import pytest
-from django_tasks import TaskResultStatus, default_task_backend
+from django_tasks import TaskResultStatus
 
 from authentication.tasks import email_user
 
@@ -26,7 +26,6 @@ def test_auth_tasks_email_user() -> None:
     message = "<p>This is a test email.</p>"
 
     result = email_user.enqueue(from_email, to_email, subject, message)
-    default_task_backend.get_result(result.id)
 
     assert result.status == TaskResultStatus.READY
     assert result.args == [from_email, to_email, subject, message]
