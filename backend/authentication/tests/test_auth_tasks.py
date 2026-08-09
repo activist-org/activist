@@ -9,11 +9,16 @@ pytestmark = pytest.mark.django_db
 
 def test_auth_tasks_email_user() -> None:
     """
-    Test the email_user task to ensure it sends an email successfully.
+    Test that the email_user task is enqueued correctly.
 
-    This test checks that the email_user task can be called with valid parameters
-    and that it has the expected status and arguments when executed. It does not verify the actual sending of the email,
-    as that would require integration testing with an email backend.
+    Uses DummyBackend (environment: "development", see settings.py TASK_BACKEND), which never executes enqueued tasks — results stay
+    frozen at READY forever. This test only verifies that email_user can be
+    called with valid parameters and is enqueued with the expected status and
+    arguments.
+
+    It intentionally does not verify that the task body actually
+    sends an email; that would require ImmediateBackend or an integration
+    test against a real email backend.
     """
     from_email = "no-reply@example.com"
     to_email = "user@example.com"
@@ -22,5 +27,6 @@ def test_auth_tasks_email_user() -> None:
 
     result = email_user.enqueue(from_email, to_email, subject, message)
     default_task_backend.get_result(result.id)
+
     assert result.status == TaskResultStatus.READY
     assert result.args == [from_email, to_email, subject, message]
