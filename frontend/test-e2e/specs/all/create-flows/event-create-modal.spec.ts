@@ -2,7 +2,6 @@
 import type { Page, Response } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { runAccessibilityTestScoped } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateEventModal } from "~/test-e2e/component-objects/CreateEventModal";
@@ -670,7 +669,7 @@ test.describe(
 
       await expect(modal.locationForm).toBeVisible();
       const searchLocationForm = modal.root.locator("#search-location");
-      const countryLabel = getEnglishText("i18n.components._global.country");
+      const countryLabel = getEnglishText("i18n._global.country");
       const countryTrigger = searchLocationForm
         .locator("#form-item-country")
         .getByRole("button", { name: new RegExp(countryLabel, "i") });
@@ -812,8 +811,9 @@ test.describe(
         await expect(errorToast(page)).toContainText(
           /E2E: event create failed/i
         );
-        // Flow may close the modal after the failed create attempt; toast is the stable signal.
-        await expect(modal.root).not.toBeVisible({ timeout: 15000 });
+        // A failed create keeps the modal open so the entered data is not lost.
+        await expect(modal.root).toBeVisible({ timeout: 15000 });
+        await expect(page).not.toHaveURL(/\/events\/[^/]+\/about/);
       });
     });
   }

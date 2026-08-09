@@ -37,11 +37,12 @@ export function useGetOrganizationsByUser(
           organizations.value = [];
         }
         isFinished.value = false;
+
         const paginatedOrganizations = await listOrganizationsByUserId(
           userIdRef.value,
-          page.value,
-          filtersRef.value
+          { ...filtersRef.value, page_size: 10, page: page.value }
         );
+
         isFinished.value = true;
         isLastPageRef.value = paginatedOrganizations.isLastPage;
         const newOrgs = paginatedOrganizations.data.filter(

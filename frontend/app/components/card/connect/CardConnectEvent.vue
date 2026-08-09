@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  event: CommunityEvent | null;
+  event?: CommunityEvent;
 }>();
 
 // Use computed to ensure social links are reactive to store changes.

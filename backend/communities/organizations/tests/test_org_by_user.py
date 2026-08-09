@@ -85,54 +85,25 @@ def test_org_by_user_non_admin_ok_200() -> None:
     assert {org["id"] for org in body["results"]} == {str(org.id) for org in own_orgs}
 
 
-def test_org_by_user_forbidden_403():
-    client = APIClient()
+def test_org_by_user_forbidden_403(authenticated_client):
+    client, user = authenticated_client
+    other_user = UserFactory()
 
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.save()
+    response = client.get(path=f"/v1/communities/organizations_by_user/{other_user.id}")
 
-    response = client.get(path=f"/v1/communities/organizations_by_user/{user.id}")
-
-    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.data["detail"] == (
+        "You are not authorized to view these organizations."
+    )
 
 
 def test_org_by_user_unauthorized_401():
     client = APIClient()
-
-    test_username = "test_user"
-    test_password = "test_pass"
-    user = UserFactory(username=test_username, plaintext_password=test_password)
-    user.is_confirmed = True
-    user.verified = True
-    user.is_staff = True
-    user.save()
-
-    non_authenticated_username = "null_user"
-    non_authenticated_password = "null_pass"
-    non_authenticated_user = UserFactory(
-        username=non_authenticated_username,
-        plaintext_password=non_authenticated_password,
-    )
-    non_authenticated_user.verified = True
-    non_authenticated_user.is_confirmed = True
-    non_authenticated_user.save()
-
-    user_login = client.post(
-        path="/v1/auth/sign_in",
-        data={
-            "username": test_username,
-            "password": test_password,
-        },
-    )
-
-    assert user_login.status_code == status.HTTP_200_OK
+    target_user = UserFactory()
 
     response = client.get(
-        path=f"/v1/communities/organizations_by_user/{non_authenticated_user.id}"
+        path=f"/v1/communities/organizations_by_user/{target_user.id}"
     )
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.data["detail"] == "Authentication credentials were not provided."

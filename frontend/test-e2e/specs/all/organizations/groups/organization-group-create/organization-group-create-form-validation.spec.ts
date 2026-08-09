@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newCreateDropdown } from "~/test-e2e/component-objects/CreateDropdown";
 import { newCreateGroupModal } from "~/test-e2e/component-objects/CreateGroupModal";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
@@ -181,10 +180,7 @@ test.describe(
       // The input is disabled - inherited from the org, not user-editable.
       await expect(modal.countryField).toBeDisabled();
       const countryComboboxButton = modal.locationForm.getByRole("button", {
-        name: new RegExp(
-          getEnglishText("i18n.components._global.country"),
-          "i"
-        ),
+        name: new RegExp(getEnglishText("i18n._global.country"), "i"),
       });
       await countryComboboxButton.click({ force: true });
       await expect(modal.countryField).toHaveValue(countryValue);

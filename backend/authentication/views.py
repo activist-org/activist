@@ -58,14 +58,34 @@ class VerifyEmailView(APIView):
     serializer_class = UserSerializer
 
     def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
-        user = UserModel.objects.filter(verification_code=code).first()
-        if not user:
+        logger.info(f"Email verification attempt with code: {code}")
+
+        # Handle invalid UUIDs gracefully.
+        try:
+            user = UserModel.objects.filter(verification_code=code).first()
+
+        except (ValueError, ValidationError):
+            # Invalid UUID format - treat as user not found.
+            logger.warning(f"Email verification failed: invalid UUID format {code}")
             return Response(
-                {"detail": "Invalid code."}, status=status.HTTP_400_BAD_REQUEST
+                {"detail": "User does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
             )
+
+        if user is None:
+            logger.warning(f"Email verification failed: invalid code {code}")
+            return Response(
+                {"detail": "User does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
         user.is_confirmed = True
-        user.verification_code = None
+        user.verification_code = None  # None instead of empty string for UUIDField
         user.save()
+
+        logger.info(
+            f"Email verified successfully for user: {user.username} (ID: {user.id})"
+        )
 
         serializer = self.serializer_class(user)
 
@@ -120,7 +140,7 @@ class SignUpView(APIView):
 
         logger.info(f"User created successfully: {user.username} (ID: {user.id})")
 
-        if user.email != "":
+        if user.email:
             user.verification_code = uuid.uuid4()
             confirmation_link = (
                 f"{FRONTEND_BASE_URL}/auth/confirm/{user.verification_code}"
@@ -262,6 +282,14 @@ class PasswordResetView(APIView):
 
     @extend_schema(parameters=[OpenApiParameter(name="email", type=str, required=True)])
     def post(self, request: Request) -> Response:
+        if not isinstance(request.data, dict):
+            return Response(
+                {
+                    "detail": "Invalid payload format for request. Expected a JSON object."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         email = request.data.get("email")
         logger.info(f"Password reset request for email: {email}")
 
@@ -320,6 +348,14 @@ class VerifyAccountResetPassword(APIView):
         parameters=[OpenApiParameter(name="new_password", type=str, required=True)]
     )
     def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
+        if not isinstance(request.data, dict):
+            return Response(
+                {
+                    "detail": "Invalid payload format for request. Expected a JSON object."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         user = UserModel.objects.filter(verification_code=code).first()
         if user is None:
             logger.warning(
@@ -455,9 +491,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
     @extend_schema(
         responses={
             200: UserFlagSerializers,
-            404: OpenApiResponse(
-                response={"detail": "Failed to retrieve the user flag."}
-            ),
+            404: OpenApiResponse(response={"detail": "Failed to retrieve the flag."}),
         }
     )
     def get(self, request: Request, id: str | uuid.UUID) -> Response:
@@ -488,7 +522,7 @@ class UserFlagDetailAPIView(GenericAPIView[UserFlag]):
             403: OpenApiResponse(
                 response={"detail": "You are not authorized to delete this flag."}
             ),
-            404: OpenApiResponse(response={"detail": "Failed to retrieve flag."}),
+            404: OpenApiResponse(response={"detail": "Flag not found."}),
         }
     )
     def delete(self, request: Request, id: str | uuid.UUID) -> Response:

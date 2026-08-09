@@ -93,13 +93,21 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
     await expect(questionInput).toHaveValue(newQuestion);
     await expect(answerInput).toHaveValue(newAnswer);
 
-    // Submit the form.
+    // Wait on the create request and assert it succeeded.
+    const createResponse = page.waitForResponse(
+      (res) =>
+        res.request().method() === "POST" &&
+        /\/communities\/organization_faqs\b/.test(new URL(res.url()).pathname)
+    );
     await submitButton.click();
+    const createRes = await createResponse;
+    expect(
+      [200, 201, 204].includes(createRes.status()),
+      `FAQ create failed: HTTP ${createRes.status()}`
+    ).toBe(true);
 
-    // Wait for modal to close.
+    // Wait for the modal to close.
     await expect(faqPage.faqModal).not.toBeVisible();
-    await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
     // Verify the new FAQ appears on the page (don't check exact count as there may be existing FAQs).
     const newFaqCard = faqPage.faqCards.filter({ hasText: newQuestion });
@@ -141,13 +149,22 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
     await expect(editQuestionInput).toHaveValue(updatedQuestion);
     await expect(editAnswerInput).toHaveValue(updatedAnswer);
 
-    // Submit the edit.
+    // Wait on the update request and assert it succeeded.
+    const updateFaqResponse = page.waitForResponse(
+      (res) =>
+        (res.request().method() === "PATCH" ||
+          res.request().method() === "PUT") &&
+        /\/communities\/organization_faqs\//i.test(new URL(res.url()).pathname)
+    );
     await editSubmitButton.click();
+    const updateRes = await updateFaqResponse;
+    expect(
+      [200, 201, 204].includes(updateRes.status()),
+      `FAQ update failed: HTTP ${updateRes.status()}`
+    ).toBe(true);
 
-    // Wait for modal to close.
+    // Wait for the modal to close.
     await expect(faqPage.editFAQModal).not.toBeVisible();
-    await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
     // Verify the updated FAQ appears on the page.
     const updatedFaqCard = faqPage.faqCards.filter({
@@ -189,12 +206,22 @@ test.describe("Organization FAQ Page", { tag: ["@desktop", "@mobile"] }, () => {
     const confirmButton = confirmationModal.getByRole("button", {
       name: /confirm|yes|delete/i,
     });
-    await confirmButton.click();
 
-    // Wait for modal to close.
+    // Wait on the delete request and assert it succeeded.
+    const deleteResponse = page.waitForResponse(
+      (res) =>
+        res.request().method() === "DELETE" &&
+        /\/communities\/organization_faqs\//i.test(new URL(res.url()).pathname)
+    );
+    await confirmButton.click();
+    const deleteRes = await deleteResponse;
+    expect(
+      [200, 204].includes(deleteRes.status()),
+      `FAQ delete failed: HTTP ${deleteRes.status()}`
+    ).toBe(true);
+
+    // Wait for the confirmation modal to close.
     await expect(confirmationModal).not.toBeVisible();
-    await page.waitForLoadState("domcontentloaded");
-    await page.waitForTimeout(1000);
 
     // Verify the FAQ is no longer visible.
     await expect(

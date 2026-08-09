@@ -182,8 +182,8 @@ def test_content_image_upload_create_single_file_view(client: APIClient) -> None
     # Assert file exists in filesystem.
     response_data = response.json()
     assert len(response_data) == 1, "Expected one image in response"
-    file_url = response_data[0]["fileObject"]
 
+    file_url = response_data[0]["fileObject"]
     relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
     uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
 

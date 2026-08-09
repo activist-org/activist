@@ -9,7 +9,7 @@ export function useLinkURL(props: {
   user?: UserActivist | null;
 }) {
   const linkUrl = computed<string>(() => {
-    let url: string = "";
+    let url: string;
     if (props.organization) {
       url = `/organizations/${props.organization.id}`;
     } else if (props.group) {

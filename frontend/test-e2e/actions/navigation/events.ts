@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Page } from "playwright";
 
-import { getEnglishText } from "#shared/utils/i18n";
 import { expect } from "playwright/test";
+
+import { getEnglishText } from "#shared/utils/i18n";
 
 // MARK: First Event
 
@@ -214,7 +215,7 @@ export async function fetchLastEventIdFromEventsApi(
   page: Page
 ): Promise<string> {
   let path = "/api/auth/events/events?page_size=100";
-  let lastId = "";
+  let lastId: string;
 
   for (;;) {
     const res = await page.request.get(path);

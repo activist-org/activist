@@ -46,10 +46,10 @@ def test_event_calendar_export_ics_bad_request_400():
 
 def test_event_calendar_export_ics_not_found_404():
     client = APIClient()
-    bad_event_uuid = uuid4()
+    invalid_event_uuid = uuid4()
 
     response = client.get(
-        path="/v1/events/event_calendar", data={"event_id": bad_event_uuid}
+        path="/v1/events/event_calendar", data={"event_id": invalid_event_uuid}
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND

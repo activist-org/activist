@@ -74,7 +74,7 @@ export const newOrganizationEventsPage = (page: Page) => ({
   // MARK: Empty State
 
   emptyState: page.getByTestId("empty-state"),
-  emptyStateMessage: page.getByTestId("empty-state").locator("p").first(),
+  emptyStateMessage: page.getByTestId("empty-state").locator("h2, h4").first(),
 
   // MARK: Event Navigation
 

@@ -1,6 +1,16 @@
 [
   {
-    "path": "backend/content/serializers.py",
+    "path": "communities/organizations/views.py",
+    "file_name": "views.py",
+    "functions": [
+      {
+        "name": "OrganizationByUserAPIView::get",
+        "complexity": 11
+      }
+    ]
+  },
+  {
+    "path": "content/serializers.py",
     "file_name": "serializers.py",
     "functions": [
       {
@@ -10,73 +20,69 @@
     ]
   },
   {
-    "path": "backend/core/management/commands/clear_dev_images.py",
+    "path": "core/management/commands/clear_dev_images.py",
     "file_name": "clear_dev_images.py",
     "functions": [
       {
         "name": "main",
-        "complexity": 11
+        "complexity": 16
       }
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db.py",
+    "path": "core/management/commands/populate_db.py",
     "file_name": "populate_db.py",
     "functions": [
       {
         "name": "Command::handle",
-        "complexity": 31
+        "complexity": 24
       }
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db_utils/populate_org_events.py",
+    "path": "core/management/commands/populate_db_utils/populate_org_events.py",
     "file_name": "populate_org_events.py",
     "functions": [
       {
         "name": "create_org_events",
-        "complexity": 37
+        "complexity": 49
       }
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db_utils/populate_org_group_event.py",
+    "path": "core/management/commands/populate_db_utils/populate_org_group_event.py",
     "file_name": "populate_org_group_event.py",
     "functions": [
       {
         "name": "create_group_events",
-        "complexity": 33
+        "complexity": 45
       }
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db_utils/populate_org_groups.py",
+    "path": "core/management/commands/populate_db_utils/populate_org_groups.py",
     "file_name": "populate_org_groups.py",
     "functions": [
       {
         "name": "create_org_groups",
-        "complexity": 33
+        "complexity": 45
       }
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db_utils/populate_orgs.py",
+    "path": "core/management/commands/populate_db_utils/populate_orgs.py",
     "file_name": "populate_orgs.py",
     "functions": [
       {
         "name": "create_organization",
-        "complexity": 13
+        "complexity": 21
       }
     ]
   },
   {
-    "path": "backend/events/serializers.py",
+    "path": "events/serializers.py",
     "file_name": "serializers.py",
     "functions": [
-      {
-        "name": "EventPOSTSerializer::create",
-        "complexity": 11
-      },
       {
         "name": "EventPOSTSerializer::validate",
         "complexity": 18

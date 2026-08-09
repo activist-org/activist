@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  entity: Entity | null;
+  entity?: Entity | null;
   accentClass?: string;
   icon: string;
   imgUrl?: string;

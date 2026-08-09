@@ -43,8 +43,7 @@ export async function getOrganization(id: string): Promise<Organization> {
 
 export async function listOrganizationsByUserId(
   userId: string,
-  page: number,
-  filters?: OrganizationFilters
+  filters?: OrganizationFilters & Pagination
 ): Promise<OrganizationPaginatedResponse> {
   try {
     const query = new URLSearchParams();
@@ -59,12 +58,13 @@ export async function listOrganizationsByUserId(
       }
       // Add the remaining filters as single query params.
       Object.entries(rest).forEach(([key, value]) => {
-        if (value === undefined || value === null) return;
+        if (!value) return;
+
         query.append(key, String(value));
       });
     }
     const res = await get<OrganizationsResponseBody>(
-      `/communities/organizations_by_user/${userId}?page=${page}${filters ? `&${query.toString()}` : ""}`
+      `/communities/organizations_by_user/${userId}?${filters ? `${query.toString()}` : ""}`
     );
     return { data: res.results.map(mapOrganization), isLastPage: !res.next };
   } catch (e) {

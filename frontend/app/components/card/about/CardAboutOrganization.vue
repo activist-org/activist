@@ -32,13 +32,13 @@
           @click="
             () =>
               openModalTextOrganization({
-                entityId: organization?.id,
+                entityId: orgId,
               })
           "
           @keydown.enter="
             () =>
               openModalTextOrganization({
-                entityId: organization?.id,
+                entityId: orgId,
               })
           "
         />

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import type { Locator, Page } from "playwright";
 
-import { getEnglishText } from "#shared/utils/i18n";
 import { expect } from "@playwright/test";
+
+import { getEnglishText } from "#shared/utils/i18n";
 
 export const newCreateGroupModal = (page: Page) => {
   const root = page.getByTestId("modal-ModalCreateGroup");

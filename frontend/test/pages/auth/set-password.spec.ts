@@ -60,7 +60,7 @@ describe("set-password", () => {
 //     await fireEvent.blur(passwordInput);
 
 //     const repeatPasswordInput = screen.getByLabelText(
-//       getEnglishText("i18n._global.repeat_password")
+//       getEnglishText("i18n.pages.auth._global.repeat_password")
 //     );
 
 //     await fireEvent.update(repeatPasswordInput, "ab");

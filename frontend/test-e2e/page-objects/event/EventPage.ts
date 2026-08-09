@@ -2,7 +2,6 @@
 import type { Page } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newEditModal } from "~/test-e2e/component-objects/EditModal";
 import { newEventMenu } from "~/test-e2e/component-objects/EventMenu";
 import { newQRCodeModal } from "~/test-e2e/component-objects/QRCodeModal";

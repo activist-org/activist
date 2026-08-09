@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { runAccessibilityTest } from "~/test-e2e/accessibility/accessibilityTesting";
 import { newPasswordStrength } from "~/test-e2e/component-objects/PasswordStrength";
 import { expect, test } from "~/test-e2e/global-fixtures";

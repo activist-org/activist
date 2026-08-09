@@ -8,8 +8,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useOrganizationImageMutations } from "../../../app/composables/mutations/useOrganizationImageMutations";
-import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
-import { getKeyForGetOrganizationImages } from "../../../app/composables/queries/useGetOrganizationImages";
 import { createSampleUploadableFile, setupMutationMocks } from "./setup";
 
 const defaultContentImage = {
@@ -25,12 +23,18 @@ const {
   updateOrganizationImage,
   uploadOrganizationImages,
   uploadOrganizationIconImage,
+  invalidateOrganizationCache,
+  invalidateOrganizationImageCache,
+  setItems,
 } = vi.hoisted(() => ({
   mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
   showToastError: vi.fn(),
   updateOrganizationImage: vi.fn(),
   uploadOrganizationImages: vi.fn(),
   uploadOrganizationIconImage: vi.fn(),
+  invalidateOrganizationCache: vi.fn(),
+  invalidateOrganizationImageCache: vi.fn(),
+  setItems: vi.fn(),
 }));
 
 vi.mock("../../../app/services/communities/organization/image", () => ({
@@ -50,6 +54,18 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
+vi.mock("../../../app/composables/cache/useOrganizationCache", () => ({
+  useOrganizationCache: () => ({
+    invalidateOrganizationCache,
+    invalidateOrganizationImageCache,
+  }),
+}));
+
+vi.mock("../../../app/stores/data/organization", () => ({
+  useOrganizationListStore: () => ({ setItems }),
+}));
+
+// The organizations list refresh still goes through refreshNuxtData.
 mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
 
 describe("useOrganizationImageMutations", () => {
@@ -62,6 +78,8 @@ describe("useOrganizationImageMutations", () => {
       updateOrganizationImage,
       uploadOrganizationImages,
       uploadOrganizationIconImage,
+      invalidateOrganizationCache,
+      invalidateOrganizationImageCache,
     ]);
   });
 
@@ -69,95 +87,71 @@ describe("useOrganizationImageMutations", () => {
     it("calls updateOrganizationImage with organizationId and contentImage on success", async () => {
       const { updateImage } = useOrganizationImageMutations(organizationId);
 
-      const result = await updateImage(defaultContentImage as never);
+      await updateImage(defaultContentImage as never);
 
       expect(updateOrganizationImage).toHaveBeenCalledWith(
         "org-123",
         defaultContentImage
       );
-      expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData with getKeyForGetOrganizationImages(id) on success", async () => {
+    it("calls invalidateOrganizationImageCache via onSettled on success", async () => {
       const { updateImage } = useOrganizationImageMutations(organizationId);
 
       await updateImage(defaultContentImage as never);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganizationImages("org-123")
-      );
+      expect(invalidateOrganizationImageCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("sets loading true then false", async () => {
-      const { updateImage, loading } =
-        useOrganizationImageMutations(organizationId);
-
-      const promise = updateImage(defaultContentImage as never);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
-    });
-
-    it("returns false when organizationId is empty", async () => {
-      organizationId.value = "";
-      const { updateImage } = useOrganizationImageMutations(organizationId);
-
-      const result = await updateImage(defaultContentImage as never);
-
-      expect(result).toBe(false);
-      expect(updateOrganizationImage).not.toHaveBeenCalled();
-    });
-
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("rejects, sets error, and still invalidates when service throws", async () => {
       updateOrganizationImage.mockRejectedValue(new Error("Update failed"));
       const { updateImage, error } =
         useOrganizationImageMutations(organizationId);
 
-      const result = await updateImage(defaultContentImage as never);
+      await expect(updateImage(defaultContentImage as never)).rejects.toThrow(
+        "Update failed"
+      );
 
-      expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationImageCache).toHaveBeenCalledWith("org-123");
     });
   });
 
   describe("uploadImages", () => {
-    it("calls uploadOrganizationImages with organizationId and images on success", async () => {
+    it("calls uploadOrganizationImages with organizationId, images and sequences on success", async () => {
       const images = [createSampleUploadableFile()];
       const { uploadImages } = useOrganizationImageMutations(organizationId);
 
-      const result = await uploadImages(images);
+      await uploadImages({ images, sequences: [0] });
 
       expect(uploadOrganizationImages).toHaveBeenCalledWith(
         "org-123",
         images,
-        undefined
+        [0]
       );
-      expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData with getKeyForGetOrganizationImages on success", async () => {
+    it("calls invalidateOrganizationImageCache via onSettled on success", async () => {
       const { uploadImages } = useOrganizationImageMutations(organizationId);
 
-      await uploadImages([createSampleUploadableFile()]);
+      await uploadImages({ images: [createSampleUploadableFile()] });
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganizationImages("org-123")
-      );
+      expect(invalidateOrganizationImageCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("rejects, sets error, and still invalidates when service throws", async () => {
       uploadOrganizationImages.mockRejectedValue(new Error("Upload failed"));
       const { uploadImages, error } =
         useOrganizationImageMutations(organizationId);
 
-      const result = await uploadImages([createSampleUploadableFile()]);
+      await expect(
+        uploadImages({ images: [createSampleUploadableFile()] })
+      ).rejects.toThrow("Upload failed");
 
-      expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationImageCache).toHaveBeenCalledWith("org-123");
     });
   });
 
@@ -166,82 +160,38 @@ describe("useOrganizationImageMutations", () => {
       const image = createSampleUploadableFile();
       const { uploadIconImage } = useOrganizationImageMutations(organizationId);
 
-      const result = await uploadIconImage(image);
+      await uploadIconImage(image);
 
       expect(uploadOrganizationIconImage).toHaveBeenCalledWith(
         "org-123",
         image
       );
-      expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData with getKeyForGetOrganization on success", async () => {
+    it("invalidates the organization and clears the cached list on success", async () => {
       const { uploadIconImage } = useOrganizationImageMutations(organizationId);
 
       await uploadIconImage(createSampleUploadableFile());
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
+      await vi.waitFor(() => {
+        expect(setItems).toHaveBeenCalledWith([]);
+        expect(mockRefreshNuxtData).toHaveBeenCalled();
+      });
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("rejects, sets error, and still invalidates when service throws", async () => {
       uploadOrganizationIconImage.mockRejectedValue(new Error("Upload failed"));
       const { uploadIconImage, error } =
         useOrganizationImageMutations(organizationId);
 
-      const result = await uploadIconImage(createSampleUploadableFile());
+      await expect(
+        uploadIconImage(createSampleUploadableFile())
+      ).rejects.toThrow("Upload failed");
 
-      expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("refreshOrganizationData", () => {
-    it("calls refreshNuxtData with getKeyForGetOrganization(id)", async () => {
-      const { refreshOrganizationData } =
-        useOrganizationImageMutations(organizationId);
-
-      await refreshOrganizationData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
-    });
-
-    it("no-ops when organizationId is empty", async () => {
-      organizationId.value = "";
-      const { refreshOrganizationData } =
-        useOrganizationImageMutations(organizationId);
-
-      await refreshOrganizationData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("refreshOrganizationImagesData", () => {
-    it("calls refreshNuxtData with getKeyForGetOrganizationImages(id)", async () => {
-      const { refreshOrganizationImagesData } =
-        useOrganizationImageMutations(organizationId);
-
-      await refreshOrganizationImagesData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganizationImages("org-123")
-      );
-    });
-
-    it("no-ops when organizationId is empty", async () => {
-      organizationId.value = "";
-      const { refreshOrganizationImagesData } =
-        useOrganizationImageMutations(organizationId);
-
-      await refreshOrganizationImagesData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
   });
 

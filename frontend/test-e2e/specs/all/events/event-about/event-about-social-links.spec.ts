@@ -59,6 +59,10 @@ test.describe("Event About Page - Social Links", { tag: ["@desktop"] }, () => {
     await aboutPage.connectCardEditIcon.click();
     await expect(socialLinksModal.modal).toBeVisible();
 
+    // The form renders once the links have loaded, so count after it appears.
+    const addButton = socialLinksModal.addButton(socialLinksModal.modal);
+    await expect(addButton).toBeVisible();
+
     // Count existing social link entries using data-testid.
     const existingEntries = await socialLinksModal.modal
       .getByTestId(/^social-link-entry-/)
@@ -66,8 +70,6 @@ test.describe("Event About Page - Social Links", { tag: ["@desktop"] }, () => {
     const initialCount = existingEntries.length;
 
     // Add a new social link.
-    const addButton = socialLinksModal.addButton(socialLinksModal.modal);
-    await expect(addButton).toBeVisible();
     // Use JavaScript click to bypass viewport restrictions on mobile.
     await addButton.evaluate((btn) => (btn as HTMLElement).click());
 
@@ -113,7 +115,7 @@ test.describe("Event About Page - Social Links", { tag: ["@desktop"] }, () => {
     const { connectCard } = eventPage.aboutPage;
 
     // Check if social links were created (with flexible timeout).
-    let allSocialLinks = 0;
+    let allSocialLinks: number;
     try {
       await expect(connectCard.getByRole("link").first()).toBeVisible({});
       allSocialLinks = await connectCard.getByRole("link").count();

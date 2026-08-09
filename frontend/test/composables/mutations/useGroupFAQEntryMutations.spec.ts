@@ -3,28 +3,26 @@
  * Unit tests for useGroupFAQEntryMutations composable.
  * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useGroupFAQEntryMutations } from "../../../app/composables/mutations/useGroupFAQEntryMutations";
-import { getKeyForGetGroup } from "../../../app/composables/queries/useGetGroup";
 import { sampleFaqData, sampleFaqEntry, setupMutationMocks } from "./setup";
 
 const {
-  mockRefreshNuxtData,
   showToastError,
   createGroupFaq,
   updateGroupFaq,
   reorderGroupFaqs,
   deleteGroupFaq,
+  invalidateGroupCache,
 } = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
   showToastError: vi.fn(),
   createGroupFaq: vi.fn(),
   updateGroupFaq: vi.fn(),
   reorderGroupFaqs: vi.fn(),
   deleteGroupFaq: vi.fn(),
+  invalidateGroupCache: vi.fn(),
 }));
 
 vi.mock("../../../app/services/communities/group/faq", () => ({
@@ -42,7 +40,9 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
+vi.mock("../../../app/composables/cache/useGroupCache", () => ({
+  useGroupCache: () => ({ invalidateGroupCache }),
+}));
 
 describe("useGroupFAQEntryMutations", () => {
   const groupId = ref("group-123");
@@ -50,11 +50,11 @@ describe("useGroupFAQEntryMutations", () => {
   beforeEach(() => {
     groupId.value = "group-123";
     setupMutationMocks([
-      mockRefreshNuxtData,
       createGroupFaq,
       updateGroupFaq,
       reorderGroupFaqs,
       deleteGroupFaq,
+      invalidateGroupCache,
     ]);
   });
 
@@ -71,23 +71,12 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData with getKeyForGetGroup(id) on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { createFAQ } = useGroupFAQEntryMutations(groupId);
 
       await createFAQ(sampleFaqData);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
-    });
-
-    it("sets loading true then false", async () => {
-      const { createFAQ, loading } = useGroupFAQEntryMutations(groupId);
-
-      const promise = createFAQ(sampleFaqData);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
     it("returns false when groupId is empty", async () => {
@@ -100,7 +89,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(createGroupFaq).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       createGroupFaq.mockRejectedValue(new Error("Create failed"));
       const { createFAQ, error } = useGroupFAQEntryMutations(groupId);
 
@@ -109,7 +98,8 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      // onSettled runs on failure too, so a failed write still re-reads state.
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
     it("returns false when service rejects invalid FAQ data", async () => {
@@ -135,17 +125,15 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { updateFAQ } = useGroupFAQEntryMutations(groupId);
 
       await updateFAQ(sampleFaqEntry);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       updateGroupFaq.mockRejectedValue(new Error("Update failed"));
       const { updateFAQ, error } = useGroupFAQEntryMutations(groupId);
 
@@ -154,7 +142,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
 
@@ -169,17 +157,15 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
 
       await reorderFAQs([sampleFaqEntry]);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       reorderGroupFaqs.mockRejectedValue(new Error("Reorder failed"));
       const { reorderFAQs, error } = useGroupFAQEntryMutations(groupId);
 
@@ -188,7 +174,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
 
@@ -202,17 +188,15 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateGroupCache via onSettled on success", async () => {
       const { deleteFAQ } = useGroupFAQEntryMutations(groupId);
 
       await deleteFAQ(sampleFaqEntry.id);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       deleteGroupFaq.mockRejectedValue(new Error("Delete failed"));
       const { deleteFAQ, error } = useGroupFAQEntryMutations(groupId);
 
@@ -221,28 +205,7 @@ describe("useGroupFAQEntryMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("refreshGroupData", () => {
-    it("calls refreshNuxtData with getKeyForGetGroup(id)", async () => {
-      const { refreshGroupData } = useGroupFAQEntryMutations(groupId);
-
-      await refreshGroupData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetGroup("group-123")
-      );
-    });
-
-    it("no-ops when groupId is empty", async () => {
-      groupId.value = "";
-      const { refreshGroupData } = useGroupFAQEntryMutations(groupId);
-
-      await refreshGroupData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
 
