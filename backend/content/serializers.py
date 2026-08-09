@@ -10,6 +10,7 @@ from typing import Any
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
 from PIL import Image as PILImage
+from PIL import ImageOps  # New Import
 from rest_framework import serializers
 
 from communities.groups.models import GroupImage
@@ -96,6 +97,9 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
     """
     try:
         img: PILImage.Image = PILImage.open(image_file)
+        img = (
+            ImageOps.exif_transpose(img) or img
+        )  # physically apply the orientation before stripping EXIF
         output_format = img.format
 
         if output_format == "JPEG":
