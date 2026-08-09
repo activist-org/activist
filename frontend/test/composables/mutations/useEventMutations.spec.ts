@@ -34,7 +34,7 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
 }));
 
 const mockInvalidateEventList = vi.fn();
-// The events list is refreshed
+// The events list is refreshed.
 vi.mock("../../../app/composables/cache/useEventCache", () => ({
   useEventCache: () => ({
     invalidateEventList: mockInvalidateEventList,

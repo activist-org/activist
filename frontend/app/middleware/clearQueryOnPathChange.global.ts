@@ -18,6 +18,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     return;
   }
   preserveNextQuery.value = true;
+
   // Path changed and destination has query - clear to prevent cross-route pollution.
   // Must check to.query (not from.query) to avoid infinite redirect.
   // After we redirect, the next run has to.query empty, so we stop.
