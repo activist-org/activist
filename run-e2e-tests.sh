@@ -211,6 +211,14 @@ fi
 # starting. Note: this wipes locally created dev data by design.
 docker compose --env-file .env.dev down -v >/dev/null 2>&1 || true
 
+# The DB reset above gives every seeded user a new UUID, but Playwright's auth
+# setup (frontend/test-e2e/global-setup.ts) only re-authenticates when the
+# cached .auth/*.json is missing or older than its age limit, not when the DB
+# has been reset underneath it. A cached session from a previous run points at
+# now-deleted users, so token refresh starts failing with 500s mid-suite.
+# Always start from a clean auth cache since we just reset the DB it belongs to.
+rm -f "$REPO_ROOT"/frontend/test-e2e/.auth/*.json
+
 # Start the backend and database (USE_PREVIEW skips full build inside Docker).
 # Fail fast if Docker itself is unreachable, otherwise we'd waste ~2 minutes
 # on the frontend build only to hit a misleading "frontend did not become ready"
