@@ -778,8 +778,9 @@ test.describe(
         await expect(errorToast(page)).toContainText(
           /E2E: event create failed/i
         );
-        // Flow may close the modal after the failed create attempt; toast is the stable signal.
-        await expect(modal.root).not.toBeVisible({ timeout: 15000 });
+        // A failed create keeps the modal open so the entered data is not lost.
+        await expect(modal.root).toBeVisible({ timeout: 15000 });
+        await expect(page).not.toHaveURL(/\/events\/[^/]+\/about/);
       });
     });
   }

@@ -46,32 +46,6 @@ describe("useFileManager", () => {
     vi.unstubAllGlobals();
     vi.clearAllMocks();
   });
-  it("does nothing in deleteImage when imageId is empty", async () => {
-    const { deleteImage } = useFileManager();
-
-    await deleteImage("");
-
-    expect(mockFetch).not.toHaveBeenCalled();
-  });
-
-  it("calls backend DELETE when deleteImage is called with an id", async () => {
-    const { deleteImage } = useFileManager();
-
-    mockFetch.mockResolvedValueOnce({ ok: true });
-
-    await deleteImage("image-123");
-
-    expect(mockFetch).toHaveBeenCalledTimes(1);
-    const [url, opts] = mockFetch.mock.calls[0] as [
-      string,
-      { method: string; baseURL: string },
-    ];
-    expect(url).toBe("/content/images/image-123");
-    expect(opts.method).toBe("DELETE");
-    // Authorization is now added by server-side middleware, not the client.
-    expect(opts.baseURL).toBe("/api/auth");
-  });
-
   it("computes defaultImageUrls for light color mode", () => {
     // Make sure useColorMode returns "light" for this call.
     vi.stubGlobal(
@@ -149,7 +123,7 @@ describe("useFileManager", () => {
     });
   });
 
-  it("removeFile removes an UploadableFile from the list without calling backend", async () => {
+  it("removeFile removes an UploadableFile from the list without calling backend", () => {
     const { removeFile } = useFileManager();
 
     const uploadFile = new UploadableFile(
@@ -168,14 +142,14 @@ describe("useFileManager", () => {
 
     expect(files).toHaveLength(2);
 
-    await removeFile(files, uploadFile);
+    removeFile(files, uploadFile);
 
     expect(files).toHaveLength(1);
     expect(files[0].data).not.toBe(uploadFile);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
-  it("removeFile removes a ContentImage and calls deleteImage (backend)", async () => {
+  it("removeFile removes a ContentImage without deleting it on the backend", () => {
     const { removeFile } = useFileManager();
 
     const contentImage = {
@@ -196,29 +170,12 @@ describe("useFileManager", () => {
       ),
     ];
 
-    mockFetch.mockResolvedValueOnce({ ok: true });
-
     expect(files).toHaveLength(2);
 
-    await removeFile(files, contentImage);
+    removeFile(files, contentImage);
 
-    expect(mockFetch).toHaveBeenCalledTimes(1);
-    const [url, opts] = mockFetch.mock.calls[0] as [
-      string,
-      { method: string; baseURL: string },
-    ];
-    expect(url).toBe("/content/images/backend-image-1");
-    expect(opts.method).toBe("DELETE");
-    // Authorization is now added by server-side middleware, not the client.
-    expect(opts.baseURL).toBe("/api/auth");
-
+    expect(mockFetch).not.toHaveBeenCalled();
     expect(files).toHaveLength(1);
     expect((files[0].data as ContentImage).id).toBe("backend-image-2");
-  });
-
-  it("exposes uploadError ref and initializes it to false", () => {
-    const { uploadError } = useFileManager();
-
-    expect(uploadError.value).toBe(false);
   });
 });

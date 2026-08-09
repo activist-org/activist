@@ -156,7 +156,7 @@ const scheduleSchema = z.object({
         return times.every((t) => {
           if (t.allDayLong) return true;
           if (t.startTime && t.endTime) {
-            return t.startTime <= t.endTime;
+            return t.startTime.getTime() <= t.endTime.getTime();
           }
           return true; // skip validation if times are null/undefined.
         });

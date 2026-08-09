@@ -81,7 +81,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  event: CommunityEvent | null;
+  event?: CommunityEvent;
 }>();
 
 const { openModal: openModalEventDetails } =

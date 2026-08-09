@@ -326,22 +326,26 @@ describe("useGetGroupImages Integration", () => {
   // MARK: Cache Key
 
   describe("Cache Key", () => {
-    it("getKeyForGetGroupImages returns ID-based key", async () => {
-      const { getKeyForGetGroupImages } =
-        await import("../../../../app/composables/queries/useGetGroupImages");
+    it("GROUP_IMAGE_KEYS.byId returns ID-based key", async () => {
+      const { useGroupCache } =
+        await import("../../../../app/composables/cache/useGroupCache");
+      const { getKeyForGroupListImage } = useGroupCache();
 
-      expect(getKeyForGetGroupImages("group-123")).toBe(
-        "groupImages:group-123"
-      );
+      expect(getKeyForGroupListImage("group-123")).toEqual([
+        "group",
+        "imageList",
+        "group-123",
+      ]);
     });
 
     it("different IDs produce different keys", async () => {
-      const { getKeyForGetGroupImages } =
-        await import("../../../../app/composables/queries/useGetGroupImages");
+      const { useGroupCache } =
+        await import("../../../../app/composables/cache/useGroupCache");
+      const { getKeyForGroupListImage } = useGroupCache();
 
-      const key1 = getKeyForGetGroupImages("group-1");
-      const key2 = getKeyForGetGroupImages("group-2");
-      expect(key1).not.toBe(key2);
+      const key1 = getKeyForGroupListImage("group-1");
+      const key2 = getKeyForGroupListImage("group-2");
+      expect(key1).not.toEqual(key2);
     });
   });
 });

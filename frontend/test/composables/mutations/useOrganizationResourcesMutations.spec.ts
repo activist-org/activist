@@ -3,23 +3,21 @@
  * Unit tests for useOrganizationResourcesMutations composable.
  * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import { useOrganizationResourcesMutations } from "../../../app/composables/mutations/useOrganizationResourcesMutations";
-import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
 import { sampleResourceInput, setupMutationMocks } from "./setup";
 
 const {
-  mockRefreshNuxtData,
   showToastError,
   createOrganizationResource,
   updateOrganizationResource,
   deleteOrganizationResource,
   reorderOrganizationResources,
+  invalidateOrganizationCache,
 } = vi.hoisted(() => ({
-  mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+  invalidateOrganizationCache: vi.fn(),
   showToastError: vi.fn(),
   createOrganizationResource: vi.fn(),
   updateOrganizationResource: vi.fn(),
@@ -46,7 +44,9 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
+vi.mock("../../../app/composables/cache/useOrganizationCache", () => ({
+  useOrganizationCache: () => ({ invalidateOrganizationCache }),
+}));
 
 describe("useOrganizationResourcesMutations", () => {
   const organizationId = ref("org-123");
@@ -54,11 +54,11 @@ describe("useOrganizationResourcesMutations", () => {
   beforeEach(() => {
     organizationId.value = "org-123";
     setupMutationMocks([
-      mockRefreshNuxtData,
       createOrganizationResource,
       updateOrganizationResource,
       deleteOrganizationResource,
       reorderOrganizationResources,
+      invalidateOrganizationCache,
     ]);
   });
 
@@ -76,25 +76,13 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { createResource } =
         useOrganizationResourcesMutations(organizationId);
 
       await createResource(sampleResourceInput);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
-    });
-
-    it("sets loading true then false", async () => {
-      const { createResource, loading } =
-        useOrganizationResourcesMutations(organizationId);
-
-      const promise = createResource(sampleResourceInput);
-      expect(loading.value).toBe(true);
-      await promise;
-      expect(loading.value).toBe(false);
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
     it("returns false when organizationId is empty", async () => {
@@ -108,7 +96,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(createOrganizationResource).not.toHaveBeenCalled();
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       createOrganizationResource.mockRejectedValue(new Error("Create failed"));
       const { createResource, error } =
         useOrganizationResourcesMutations(organizationId);
@@ -118,7 +106,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
     it("returns false when service rejects invalid resource data", async () => {
@@ -151,18 +139,16 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { updateResource } =
         useOrganizationResourcesMutations(organizationId);
 
       await updateResource(sampleResourceInput);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       updateOrganizationResource.mockRejectedValue(new Error("Update failed"));
       const { updateResource, error } =
         useOrganizationResourcesMutations(organizationId);
@@ -172,7 +158,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
   });
 
@@ -189,18 +175,16 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { deleteResource } =
         useOrganizationResourcesMutations(organizationId);
 
       await deleteResource(sampleResourceInput.id);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       deleteOrganizationResource.mockRejectedValue(new Error("Delete failed"));
       const { deleteResource, error } =
         useOrganizationResourcesMutations(organizationId);
@@ -210,7 +194,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
   });
 
@@ -229,18 +213,16 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(true);
     });
 
-    it("calls refreshNuxtData on success", async () => {
+    it("calls invalidateOrganizationCache via onSettled on success", async () => {
       const { reorderResources } =
         useOrganizationResourcesMutations(organizationId);
 
       await reorderResources([sampleResourceInput]);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and does not call refreshNuxtData when service throws", async () => {
+    it("returns false, sets error, and still invalidates when service throws", async () => {
       reorderOrganizationResources.mockRejectedValue(
         new Error("Reorder failed")
       );
@@ -252,30 +234,7 @@ describe("useOrganizationResourcesMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("invalidateCacheRefreshOrgData", () => {
-    it("calls refreshNuxtData with getKeyForGetOrganization(id)", async () => {
-      const { invalidateCacheRefreshOrgData } =
-        useOrganizationResourcesMutations(organizationId);
-
-      await invalidateCacheRefreshOrgData();
-
-      expect(mockRefreshNuxtData).toHaveBeenCalledWith(
-        getKeyForGetOrganization("org-123")
-      );
-    });
-
-    it("no-ops when organizationId is empty", async () => {
-      organizationId.value = "";
-      const { invalidateCacheRefreshOrgData } =
-        useOrganizationResourcesMutations(organizationId);
-
-      await invalidateCacheRefreshOrgData();
-
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
   });
 

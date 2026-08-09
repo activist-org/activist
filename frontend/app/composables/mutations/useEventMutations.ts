@@ -1,24 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 export const useEventMutations = () => {
-  const loading = ref(false);
-  const { error, handleError, clearError } = useAppError();
+  const { error, handleError } = useAppError();
   const store = useEventListStore();
 
-  const create = async (eventData: CreateEventInput) => {
-    loading.value = true;
-    clearError();
-    try {
-      const event = await createEvent(eventData);
-      await refreshEventList();
-      return event;
-    } catch (e) {
-      handleError(e);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  };
+  const { mutateAsync: create, isLoading: loading } = useMutation({
+    mutation: (eventData: CreateEventInput) => createEvent(eventData),
+    onError(err) {
+      handleError(err);
+    },
+    onSettled() {
+      refreshEventList();
+    },
+  });
+
   const refreshEventList = async () => {
     // Invalidate and refetch event list data.
     // Invalidate the useAsyncData cache so next read will refetch.
@@ -28,8 +23,8 @@ export const useEventMutations = () => {
   };
 
   return {
-    loading: readonly(loading),
-    error: readonly(error),
+    loading,
+    error,
     create,
     refreshEventList,
   };

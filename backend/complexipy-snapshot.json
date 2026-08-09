@@ -1,6 +1,6 @@
 [
   {
-    "path": "backend/communities/organizations/views.py",
+    "path": "communities/organizations/views.py",
     "file_name": "views.py",
     "functions": [
       {
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "path": "backend/content/serializers.py",
+    "path": "content/serializers.py",
     "file_name": "serializers.py",
     "functions": [
       {
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "path": "backend/core/management/commands/clear_dev_images.py",
+    "path": "core/management/commands/clear_dev_images.py",
     "file_name": "clear_dev_images.py",
     "functions": [
       {
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db.py",
+    "path": "core/management/commands/populate_db.py",
     "file_name": "populate_db.py",
     "functions": [
       {
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db_utils/populate_org_events.py",
+    "path": "core/management/commands/populate_db_utils/populate_org_events.py",
     "file_name": "populate_org_events.py",
     "functions": [
       {
@@ -50,7 +50,7 @@
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db_utils/populate_org_group_event.py",
+    "path": "core/management/commands/populate_db_utils/populate_org_group_event.py",
     "file_name": "populate_org_group_event.py",
     "functions": [
       {
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db_utils/populate_org_groups.py",
+    "path": "core/management/commands/populate_db_utils/populate_org_groups.py",
     "file_name": "populate_org_groups.py",
     "functions": [
       {
@@ -70,7 +70,7 @@
     ]
   },
   {
-    "path": "backend/core/management/commands/populate_db_utils/populate_orgs.py",
+    "path": "core/management/commands/populate_db_utils/populate_orgs.py",
     "file_name": "populate_orgs.py",
     "functions": [
       {

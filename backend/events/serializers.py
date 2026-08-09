@@ -403,9 +403,7 @@ class EventPOSTSerializer(serializers.Serializer[Any]):
         return event
 
 
-def _normalize_all_day_time(
-    time: dict[str, Any], local_tz: zoneinfo.ZoneInfo
-) -> None:
+def _normalize_all_day_time(time: dict[str, Any], local_tz: zoneinfo.ZoneInfo) -> None:
     """
     Set start and end times for an all-day event time entry.
 
@@ -423,12 +421,8 @@ def _normalize_all_day_time(
     """
     date = time.get("date")
     if date is None:
-        raise serializers.ValidationError(
-            "Date must be provided for all-day events."
-        )
-    time["start_time"] = datetime.combine(
-        date, datetime.min.time(), tzinfo=local_tz
-    )
+        raise serializers.ValidationError("Date must be provided for all-day events.")
+    time["start_time"] = datetime.combine(date, datetime.min.time(), tzinfo=local_tz)
     time["end_time"] = datetime.combine(
         date, datetime.min.time(), tzinfo=local_tz
     ) + timedelta(days=1, seconds=-1)
@@ -591,9 +585,7 @@ class EventPUTSerializer(serializers.Serializer[Any]):
     """
 
     name = serializers.CharField(required=False, max_length=255)
-    tagline = serializers.CharField(
-        required=False, max_length=255, allow_blank=True
-    )
+    tagline = serializers.CharField(required=False, max_length=255, allow_blank=True)
     orgs = serializers.ListField(
         child=serializers.UUIDField(), required=False, allow_empty=False
     )
@@ -604,9 +596,7 @@ class EventPUTSerializer(serializers.Serializer[Any]):
     online_location_link = serializers.URLField(required=False, allow_blank=True)
     location = EventPOSTLocationSerializer(required=False)
 
-    def validate_times(
-        self, times: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def validate_times(self, times: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Validate and normalize event time entries.
 
@@ -686,9 +676,7 @@ class EventPUTSerializer(serializers.Serializer[Any]):
                 location_type=location_type,
                 online_location_link=online_location_link,
             )
-            _apply_event_put_physical_location(
-                instance, location_data, location_type
-            )
+            _apply_event_put_physical_location(instance, location_data, location_type)
 
             if orgs_data is not None:
                 instance.orgs.set(orgs_data)

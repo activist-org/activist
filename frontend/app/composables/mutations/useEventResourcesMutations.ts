@@ -3,103 +3,79 @@
 
 export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   const loading = ref(false);
-  const { error, handleError, clearError } = useAppError();
+  const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
-
+  const { invalidateEventCache } = useEventCache();
   // Create new resource.
-  async function createResource(resourceData: ResourceInput) {
-    if (!currentEventId.value) return false;
-
-    loading.value = true;
-    clearError();
-
-    try {
-      // Service function handles the HTTP call and throws normalized errors.
-      await createEventResource(currentEventId.value, resourceData as Resource);
-
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: createResource, isLoading: loadingCreateResource } =
+    useMutation({
+      mutation: (resourceData: ResourceInput) =>
+        createEventResource(currentEventId.value, resourceData as Resource),
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Update existing resource.
-  async function updateResource(resource: ResourceInput) {
-    loading.value = true;
-    clearError();
-
-    try {
-      // Direct service call - no useAsyncData needed for mutations.
-      await updateEventResource(currentEventId.value, resource);
-
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: updateResource, isLoading: loadingUpdateResource } =
+    useMutation({
+      mutation: (resourceData: ResourceInput) =>
+        updateEventResource(currentEventId.value, resourceData as Resource),
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Delete existing resource.
-  async function deleteResource(resourceId: string) {
-    loading.value = true;
-    clearError();
-
-    try {
-      await deleteEventResource(resourceId);
-
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  }
+  const { mutateAsync: deleteResource, isLoading: loadingDeleteResource } =
+    useMutation({
+      mutation: (resourceId: string) => deleteEventResource(resourceId),
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   // Reorder multiple resource entries.
-  async function reorderResources(resources: Resource[]) {
-    loading.value = true;
-    clearError();
-    try {
-      await reorderEventResources(currentEventId.value, resources);
+  const { mutateAsync: reorderResources, isLoading: loadingReorderResources } =
+    useMutation({
+      mutation: (orderedResources: Resource[]) =>
+        reorderEventResources(currentEventId.value, orderedResources),
+      async onSettled() {
+        await invalidateEventCache(currentEventId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
-      await invalidateCacheRefreshEventData();
-
-      return true;
-    } catch (err) {
-      handleError(err);
-      return false;
-    } finally {
-      loading.value = false;
+  watch(
+    [
+      loadingCreateResource,
+      loadingUpdateResource,
+      loadingDeleteResource,
+      loadingReorderResources,
+    ],
+    ([create, update, del, reorder]) => {
+      loading.value = create || update || del || reorder;
     }
-  }
-
-  // Helper to refresh event data after mutations.
-  async function invalidateCacheRefreshEventData() {
-    if (!currentEventId.value) return;
-
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
-  }
+  );
 
   return {
     loading: readonly(loading),
-    error: readonly(error),
+    error,
     createResource,
     updateResource,
     deleteResource,
     reorderResources,
-    invalidateCacheRefreshEventData,
   };
 }

@@ -8,10 +8,11 @@
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { createPinia, setActivePinia } from "pinia";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { ref } from "vue";
 
 import type { ContentImage } from "../../../shared/types/file-type";
 
-import { getKeyForGetOrganizationImages } from "../../../app/composables/queries/useGetOrganizationImages";
+import { useOrganizationCache } from "../../../app/composables/cache/useOrganizationCache";
 import { createMockContentImage } from "../../mocks/factories";
 
 // MARK: Mocks
@@ -26,14 +27,10 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
 }));
 
 const mockSetImages = vi.fn();
-const mockGetImages = vi.fn((): ContentImage[] => []);
-const mockClearImages = vi.fn();
 
-vi.mock("../../../app/stores/organization", () => ({
-  useOrganizationStore: () => ({
+vi.mock("../../../app/stores/data/organization", () => ({
+  useOrganizationImageStore: () => ({
     setImages: mockSetImages,
-    getImages: mockGetImages,
-    clearImages: mockClearImages,
   }),
 }));
 
@@ -43,14 +40,39 @@ const { mockFetchOrganizationImages } = vi.hoisted(() => ({
 
 mockNuxtImport("fetchOrganizationImages", () => mockFetchOrganizationImages);
 
+// The shared auto-import mock returns an empty object, which is enough for the
+// entity queries but not here, since this composable reads the query's data.
+interface QueryOptions {
+  key: () => readonly string[];
+  query: () => Promise<ContentImage[]>;
+}
+
+const globalWithQuery = globalThis as typeof globalThis & {
+  useQuery: (options: QueryOptions) => unknown;
+};
+
+let queryData = ref<ContentImage[] | undefined>(undefined);
+let lastOptions: QueryOptions;
+const mockRefresh = vi.fn();
+
 // MARK: Tests
 
 describe("useGetOrganizationImages", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
-    mockGetImages.mockReturnValue([]);
     mockFetchOrganizationImages.mockResolvedValue([]);
+
+    queryData = ref<ContentImage[] | undefined>(undefined);
+    globalWithQuery.useQuery = (options: QueryOptions) => {
+      lastOptions = options;
+      return {
+        data: queryData,
+        isLoading: ref(false),
+        error: ref(null),
+        refresh: mockRefresh,
+      };
+    };
   });
 
   afterEach(() => {
@@ -59,37 +81,49 @@ describe("useGetOrganizationImages", () => {
 
   // MARK: Cache Key
 
-  describe("getKeyForGetOrganizationImages", () => {
+  describe("useOrganizationCache", () => {
     it("includes organization ID in cache key", () => {
-      const key = getKeyForGetOrganizationImages("org-123");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+      const key = getKeyForOrganizationListImage("org-123");
 
-      expect(key).toContain("org-123");
-    });
-
-    it("returns 'organizationImages:{id}' format", () => {
-      expect(getKeyForGetOrganizationImages("org-123")).toBe(
-        "organizationImages:org-123"
-      );
+      expect(key).toEqual(["organization", "imageList", "org-123"]);
     });
 
     it("returns consistent key for same ID", () => {
-      const key1 = getKeyForGetOrganizationImages("org-456");
-      const key2 = getKeyForGetOrganizationImages("org-456");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+      const key1 = getKeyForOrganizationListImage("org-456");
+      const key2 = getKeyForOrganizationListImage("org-456");
 
-      expect(key1).toBe(key2);
+      expect(JSON.stringify(key1)).toBe(JSON.stringify(key2));
     });
 
     it("returns different keys for different IDs", () => {
-      const key1 = getKeyForGetOrganizationImages("org-1");
-      const key2 = getKeyForGetOrganizationImages("org-2");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+      const key1 = getKeyForOrganizationListImage("org-1");
+      const key2 = getKeyForOrganizationListImage("org-2");
 
-      expect(key1).not.toBe(key2);
+      expect(JSON.stringify(key1)).not.toBe(JSON.stringify(key2));
     });
 
     it("handles empty string ID", () => {
-      const key = getKeyForGetOrganizationImages("");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+      const key = getKeyForOrganizationListImage("");
 
-      expect(key).toBe("organizationImages:");
+      expect(JSON.stringify(key)).toBe(
+        JSON.stringify(["organization", "imageList", ""])
+      );
+    });
+
+    it("keys the query by the requested organization", async () => {
+      const { useGetOrganizationImages } =
+        await import("../../../app/composables/queries/useGetOrganizationImages");
+
+      useGetOrganizationImages("org-123");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
+
+      expect(lastOptions.key()).toEqual(
+        getKeyForOrganizationListImage("org-123")
+      );
     });
   });
 
@@ -137,32 +171,24 @@ describe("useGetOrganizationImages", () => {
   // MARK: Reactive Properties
 
   describe("Reactive Properties", () => {
-    it("data is a Vue ref with value property", async () => {
+    it("data defaults to an empty array before the query resolves", async () => {
       const { useGetOrganizationImages } =
         await import("../../../app/composables/queries/useGetOrganizationImages");
 
       const { data } = useGetOrganizationImages("org-123");
 
-      expect(data).toHaveProperty("value");
+      expect(data.value).toEqual([]);
     });
 
-    it("data defaults to empty array", async () => {
+    it("data exposes the images once the query resolves", async () => {
       const { useGetOrganizationImages } =
         await import("../../../app/composables/queries/useGetOrganizationImages");
 
       const { data } = useGetOrganizationImages("org-123");
+      queryData.value = [createMockContentImage({ id: "img-1" })];
 
-      expect(Array.isArray(data.value)).toBe(true);
-    });
-
-    it("pending is a Vue ref with boolean value", async () => {
-      const { useGetOrganizationImages } =
-        await import("../../../app/composables/queries/useGetOrganizationImages");
-
-      const { pending } = useGetOrganizationImages("org-123");
-
-      expect(pending).toHaveProperty("value");
-      expect(typeof pending.value).toBe("boolean");
+      expect(data.value).toHaveLength(1);
+      expect(data.value[0]).toHaveProperty("id", "img-1");
     });
 
     it("error is a Vue ref", async () => {
@@ -181,6 +207,33 @@ describe("useGetOrganizationImages", () => {
       const { error } = useGetOrganizationImages("org-123");
 
       expect(error.value).toBeFalsy();
+    });
+  });
+
+  // MARK: Query Function
+
+  describe("Query Function", () => {
+    it("fetches the images for the requested organization", async () => {
+      const { useGetOrganizationImages } =
+        await import("../../../app/composables/queries/useGetOrganizationImages");
+
+      useGetOrganizationImages("org-123");
+      await lastOptions.query();
+
+      expect(mockFetchOrganizationImages).toHaveBeenCalledWith("org-123");
+    });
+
+    it("caches the fetched images in the store", async () => {
+      const images = [createMockContentImage({ id: "img-1" })];
+      mockFetchOrganizationImages.mockResolvedValue(images);
+
+      const { useGetOrganizationImages } =
+        await import("../../../app/composables/queries/useGetOrganizationImages");
+
+      useGetOrganizationImages("org-123");
+      await lastOptions.query();
+
+      expect(mockSetImages).toHaveBeenCalledWith(images);
     });
   });
 

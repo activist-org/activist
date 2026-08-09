@@ -3,6 +3,7 @@
 export function useEventDetailMutations(eventId: MaybeRef<string>) {
   const loading = ref(false);
   const { error, handleError, clearError } = useAppError();
+  const { invalidateEventCache } = useEventCache();
 
   const currentEventId = computed(() => unref(eventId));
 
@@ -26,7 +27,7 @@ export function useEventDetailMutations(eventId: MaybeRef<string>) {
   async function refreshEventData() {
     if (!currentEventId.value) return;
 
-    await refreshNuxtData(getKeyForGetEvent(currentEventId.value));
+    await invalidateEventCache(currentEventId.value);
   }
 
   return {

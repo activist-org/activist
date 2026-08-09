@@ -1,20 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// TODO: This file should be refactored to decouple the file management logic from the API calls, and to handle errors more robustly.
 export function useFileManager() {
-  const uploadError = ref(false);
-
-  async function deleteImage(imageId: string) {
-    if (!imageId) {
-      return;
-    }
-
-    try {
-      return del(`/content/images/${imageId}`, { withoutAuth: false });
-    } catch (error) {
-      void error;
-    }
-  }
-
   const defaultImageUrls = computed(() => {
     const colorMode = useColorMode();
     const imageColor = colorMode.value === "light" ? "light" : "dark";
@@ -52,32 +37,24 @@ export function useFileManager() {
     return files.some((file: FileUploadMix) => file.data.id === otherId);
   }
 
-  async function removeFile(
+  // Removing a stored image from the list does not delete it: callers own that,
+  // so the delete goes through the entity's image mutations and invalidates.
+  function removeFile(
     files: FileUploadMix[],
     file: UploadableFile | ContentImage
   ) {
-    if (file instanceof UploadableFile) {
-      const index = files.findIndex(
-        (f) => f.type === "upload" && f.data === file
-      );
-      if (index > -1) {
-        files.splice(index, 1);
-      }
-    } else {
-      const index = files.findIndex(
-        (f) => f.type === "file" && f.data.id === file.id
-      );
-      await deleteImage(file.id);
-      if (index > -1) {
-        files.splice(index, 1);
-      }
+    const index =
+      file instanceof UploadableFile
+        ? files.findIndex((f) => f.type === "upload" && f.data === file)
+        : files.findIndex((f) => f.type === "file" && f.data.id === file.id);
+
+    if (index > -1) {
+      files.splice(index, 1);
     }
   }
 
   return {
-    uploadError,
     defaultImageUrls,
-    deleteImage,
     handleAddFiles,
     removeFile,
     getIconImage,
