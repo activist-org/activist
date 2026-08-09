@@ -6,6 +6,7 @@ import { expect } from "playwright/test";
 import { getEnglishText } from "#shared/utils/i18n";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
+import { selectMobileSubmenuOption } from "~/test-e2e/utils/combobox-helpers";
 
 // MARK: First Organization
 
@@ -96,26 +97,10 @@ export async function navigateToOrganizationSubpage(
 
   const viewportSize = page.viewportSize();
   const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
-  const submenu = page.locator("#submenu");
 
   if (isMobileLayout) {
-    await submenu.waitFor({ timeout: 5000 });
-
-    const listboxButton = submenu.getByRole("button");
-    await listboxButton.waitFor({ state: "attached", timeout: 5000 });
-
-    const isAlreadyOpen =
-      (await listboxButton.getAttribute("aria-expanded")) === "true";
-    if (!isAlreadyOpen) {
-      await listboxButton.click();
-      await page.getByRole("listbox").waitFor({ timeout: 5000 });
-    }
-
     await page.waitForLoadState("domcontentloaded");
-
     await expect(organizationPage.pageHeading).toBeVisible();
-
-    await page.getByRole("listbox").waitFor({ timeout: 5000 });
 
     // Exhaustive map of organization subpages to their menu entry i18n keys.
     // Mirrors the entries in `app/composables/useMenuEntriesState.ts`.
@@ -140,11 +125,10 @@ export async function navigateToOrganizationSubpage(
       );
     }
 
-    const subpageOption = page.getByRole("option", {
-      name: new RegExp(getEnglishText(i18nKey), "i"),
-    });
-
-    await subpageOption.click({ force: true });
+    await selectMobileSubmenuOption(
+      page,
+      new RegExp(getEnglishText(i18nKey), "i")
+    );
   } else {
     // Desktop layout: uses direct tab navigation.
     await page.waitForLoadState("domcontentloaded");

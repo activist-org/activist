@@ -5,6 +5,7 @@ import { expect, test } from "playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
+import { selectMobileSubmenuOption } from "~/test-e2e/utils/combobox-helpers";
 
 import { navigateToFirstOrganization } from "./organizations";
 
@@ -36,31 +37,13 @@ export async function navigateToOrganizationGroupSubpage(
   const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
 
   if (isMobileLayout) {
-    const submenu = page.locator("#submenu");
-    await submenu.waitFor({ timeout: 5000 });
-
-    const listboxButton = submenu.getByRole("button");
-    await listboxButton.waitFor({ state: "attached", timeout: 5000 });
-
-    const isAlreadyOpen =
-      (await listboxButton.getAttribute("aria-expanded")) === "true";
-    if (!isAlreadyOpen) {
-      await listboxButton.click();
-      await page.getByRole("listbox").waitFor({ timeout: 5000 });
-    }
-
     await page.waitForLoadState("domcontentloaded");
     await expect(organizationPage.pageHeading).toBeVisible();
-    await page.getByRole("listbox").waitFor({ timeout: 10000 });
 
-    await expect(organizationPage.menu.groupsOption).toBeVisible();
-    await page.waitForLoadState("domcontentloaded");
-
-    const groupsOption = page.getByRole("option", {
-      name: new RegExp(getEnglishText("i18n._global.groups"), "i"),
-    });
-
-    await groupsOption.click({ force: true });
+    await selectMobileSubmenuOption(
+      page,
+      new RegExp(getEnglishText("i18n._global.groups"), "i")
+    );
   } else {
     await expect(organizationPage.menu.groupsOption).toBeVisible();
     await organizationPage.menu.groupsOption.click();

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Locator } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 
 import { expect } from "~/test-e2e/global-fixtures";
 
@@ -60,4 +60,29 @@ export async function clickUntilLocatorVisible(
     }
     await expect(target).toBeVisible({ timeout: 2000 });
   }).toPass({ timeout });
+}
+
+/** Open the mobile #submenu listbox and click an option by accessible name. */
+export async function selectMobileSubmenuOption(
+  page: Page,
+  optionName: RegExp
+): Promise<void> {
+  const submenu = page.locator("#submenu");
+  await submenu.waitFor({ timeout: 5000 });
+
+  const listboxButton = submenu.getByRole("button");
+  await listboxButton.waitFor({ state: "attached", timeout: 5000 });
+
+  const listbox = page.getByRole("listbox");
+  const option = page.getByRole("option", { name: optionName });
+
+  await expect(async () => {
+    if ((await listboxButton.getAttribute("aria-expanded")) !== "true") {
+      await listboxButton.click();
+    }
+    await expect(listbox).toBeVisible({ timeout: 2000 });
+    await expect(option).toBeVisible({ timeout: 2000 });
+  }).toPass({ timeout: 15000 });
+
+  await option.click({ force: true });
 }

@@ -4,6 +4,7 @@ import type { Page } from "playwright";
 import { expect } from "playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
+import { selectMobileSubmenuOption } from "~/test-e2e/utils/combobox-helpers";
 
 // MARK: First Event
 
@@ -111,23 +112,8 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
       );
     }
 
-    const listboxButton = submenu.getByRole("button");
-    await listboxButton.waitFor({ state: "attached", timeout: 3000 });
-
-    // Check if the dropdown is already open before clicking.
-    const isAlreadyOpen =
-      (await listboxButton.getAttribute("aria-expanded")) === "true";
-    if (!isAlreadyOpen) {
-      await listboxButton.click();
-      await page.getByRole("listbox").waitFor({ timeout: 3000 });
-    }
-
-    // Wait for the page to be fully loaded and menu entries to be initialized.
     await page.waitForLoadState("domcontentloaded");
-
-    // Wait for the event page heading and dropdown to be visible (ensures page is loaded).
     await expect(eventPage.pageHeading).toBeVisible();
-    await page.getByRole("listbox").waitFor({ timeout: 3000 });
 
     // Exhaustive map of event subpages to their menu entry i18n keys.
     // Mirrors the entries in `app/composables/useMenuEntriesState.ts`.
@@ -150,13 +136,10 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
       );
     }
 
-    const subpageOption = page.getByRole("option", {
-      name: new RegExp(getEnglishText(i18nKey), "i"),
-    });
-
-    // Verify option exists before clicking (fail fast if not available).
-    await expect(subpageOption).toBeVisible({ timeout: 5000 });
-    await subpageOption.click();
+    await selectMobileSubmenuOption(
+      page,
+      new RegExp(getEnglishText(i18nKey), "i")
+    );
   } else {
     // Desktop layout: uses direct tab navigation.
     await page.waitForLoadState("domcontentloaded");
