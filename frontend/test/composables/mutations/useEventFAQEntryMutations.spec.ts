@@ -45,7 +45,10 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
 }));
 
 vi.mock("../../../app/composables/cache/useEventCache", () => ({
-  useEventCache: () => ({ invalidateEventCache }),
+  useEventCache: () => ({
+    invalidateEventCache,
+    getKeyForEvent: (id: string) => ["event", id],
+  }),
 }));
 
 // MARK: Tests

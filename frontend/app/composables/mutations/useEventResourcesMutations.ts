@@ -6,7 +6,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
-  const { invalidateEventCache } = useEventCache();
+  const { invalidateEventCache, getKeyForEvent } = useEventCache();
   const queryCache = useQueryCache();
   // Create new resource.
   const { mutateAsync: createResource, isLoading: loadingCreateResource } =
@@ -55,7 +55,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
       mutation: (orderedResources: Resource[]) =>
         reorderEventResources(currentEventId.value, orderedResources),
       onMutate(orderedResources) {
-        const key = EVENT_KEYS.byId(currentEventId.value);
+        const key = getKeyForEvent(currentEventId.value);
         const previousEvent = queryCache.getQueryData<EventResponse>(key);
         if (previousEvent) {
           queryCache.setQueryData(key, {
@@ -68,7 +68,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
       onError(err, _orderedResources, { previousEvent }) {
         if (previousEvent) {
           queryCache.setQueryData(
-            EVENT_KEYS.byId(currentEventId.value),
+            getKeyForEvent(currentEventId.value),
             previousEvent
           );
         }

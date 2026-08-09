@@ -6,7 +6,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
   const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
-  const { invalidateEventCache } = useEventCache();
+  const { invalidateEventCache, getKeyForEvent } = useEventCache();
   const queryCache = useQueryCache();
 
   // Update existing FAQ entry.
@@ -30,7 +30,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       mutation: (orderedFaqs: FaqEntry[]) =>
         reorderEventFaqs(currentEventId.value, orderedFaqs),
       onMutate(orderedFaqs) {
-        const key = EVENT_KEYS.byId(currentEventId.value);
+        const key = getKeyForEvent(currentEventId.value);
         const previousEvent = queryCache.getQueryData<EventResponse>(key);
         if (previousEvent) {
           queryCache.setQueryData(key, {
@@ -43,7 +43,7 @@ export function useEventFAQEntryMutations(eventId: MaybeRef<string>) {
       onError(err, _orderedFaqs, { previousEvent }) {
         if (previousEvent) {
           queryCache.setQueryData(
-            EVENT_KEYS.byId(currentEventId.value),
+            getKeyForEvent(currentEventId.value),
             previousEvent
           );
         }
