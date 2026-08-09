@@ -255,6 +255,56 @@ describe("utils/date", () => {
       expect(schedule.dates.end.getDate()).toBe(16);
       expect(schedule.times).toHaveLength(2);
     });
+
+    it("fills every day in the calendar range for sparse times", () => {
+      const schedule = eventTimesToSchedule([
+        {
+          startTime: "2026-06-15T10:00:00Z",
+          endTime: "2026-06-15T12:00:00Z",
+          allDay: false,
+          date: "2026-06-15",
+        },
+        {
+          startTime: "2026-06-18T10:00:00Z",
+          endTime: "2026-06-18T12:00:00Z",
+          allDay: false,
+          date: "2026-06-18",
+        },
+      ]);
+
+      expect(schedule.dates.start.getDate()).toBe(15);
+      expect(schedule.dates.end.getDate()).toBe(18);
+      expect(schedule.times).toHaveLength(4);
+      expect(schedule.times.map((entry) => entry.date.getDate())).toEqual([
+        15, 16, 17, 18,
+      ]);
+      expect(schedule.times[1]?.startTime.getHours()).toBe(10);
+      expect(schedule.times[1]?.endTime.getHours()).toBe(11);
+      expect(
+        schedule.times[1]!.startTime.getTime() <
+          schedule.times[1]!.endTime.getTime()
+      ).toBe(true);
+    });
+
+    it("keeps overnight end times after start when hydrating", () => {
+      const day = new Date(2026, 7, 9);
+      const rebuilt = buildTimesForDateRange(
+        { start: day, end: day },
+        [
+          {
+            date: day,
+            startTime: new Date(2026, 7, 9, 20, 31),
+            endTime: new Date(2026, 7, 9, 4, 31),
+            allDayLong: false,
+          },
+        ]
+      );
+
+      expect(rebuilt[0]!.startTime.getTime() < rebuilt[0]!.endTime.getTime()).toBe(
+        true
+      );
+      expect(rebuilt[0]!.endTime.getDate()).toBe(10);
+    });
   });
 
   describe("normalizeCalendarRange", () => {
@@ -299,13 +349,46 @@ describe("utils/date", () => {
         },
       ];
 
-      const rebuilt = buildTimesForDateRange(
+      const normalized = normalizeCalendarRange(
         { start: savedDay, end: new Date(2026, 8, 14) },
         currentTimes
       );
+      const rebuilt = buildTimesForDateRange(normalized, currentTimes);
 
       expect(rebuilt).toHaveLength(1);
       expect(rebuilt[0].allDayLong).toBe(true);
+    });
+
+    it("keeps inclusive multi-day ranges intact", () => {
+      const start = new Date(2026, 5, 15);
+      const end = new Date(2026, 5, 16);
+      const rebuilt = buildTimesForDateRange({ start, end }, []);
+
+      expect(rebuilt).toHaveLength(2);
+      expect(rebuilt[0]?.date.getDate()).toBe(15);
+      expect(rebuilt[1]?.date.getDate()).toBe(16);
+      expect(rebuilt[0]!.startTime.getHours()).toBe(10);
+      expect(rebuilt[0]!.endTime.getHours()).toBe(11);
+    });
+
+    it("moves overnight end times to the next day", () => {
+      const day = new Date(2026, 7, 9);
+      const rebuilt = buildTimesForDateRange({ start: day, end: day }, [
+        {
+          date: day,
+          startTime: new Date(2026, 7, 9, 20, 31),
+          endTime: new Date(2026, 7, 10, 4, 31),
+          allDayLong: false,
+        },
+      ]);
+
+      expect(rebuilt).toHaveLength(1);
+      expect(rebuilt[0]!.startTime.getHours()).toBe(20);
+      expect(rebuilt[0]!.endTime.getDate()).toBe(10);
+      expect(rebuilt[0]!.endTime.getHours()).toBe(4);
+      expect(
+        rebuilt[0]!.startTime.getTime() < rebuilt[0]!.endTime.getTime()
+      ).toBe(true);
     });
   });
 

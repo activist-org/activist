@@ -49,6 +49,34 @@ export const combineDateAndTime = (date: Date, time: Date): Date => {
   return combined;
 };
 
+/**
+ * Apply start/end clock times to a calendar day.
+ * Overnight ends (end before start) roll to the next day.
+ */
+export const combineStartAndEndOnDay = (
+  date: Date,
+  startTime: Date,
+  endTime: Date
+): { startTime: Date; endTime: Date } => {
+  const start = combineDateAndTime(date, startTime);
+  let end = combineDateAndTime(date, endTime);
+  if (end.getTime() < start.getTime()) {
+    end = addDays(end, 1);
+  }
+  return { startTime: start, endTime: end };
+};
+
+/** Default 10:00–11:00 window for a new schedule day. */
+export const defaultScheduleDayTimes = (
+  date: Date
+): { startTime: Date; endTime: Date } => {
+  const startTime = new Date(date);
+  startTime.setHours(10, 0, 0, 0);
+  const endTime = new Date(date);
+  endTime.setHours(11, 0, 0, 0);
+  return { startTime, endTime };
+};
+
 /** Calendar day from an ISO datetime's date prefix (YYYY-MM-DD), as local midnight. */
 export const parseCalendarDateFromIso = (iso: string): Date => {
   const datePart = iso.split("T")[0] ?? iso;
@@ -131,7 +159,9 @@ export const buildTimesForDateRange = (
     allDayLong?: boolean;
   }[]
 ) => {
-  const { start, end } = normalizeCalendarRange(dateRange);
+  // Inclusive local calendar range (normalize v-calendar values first).
+  const start = startOfDay(dateRange.start);
+  const end = startOfDay(dateRange.end);
   const daysCount = differenceInCalendarDays(end, start) + 1;
   const newTimes = [];
 
@@ -142,23 +172,36 @@ export const buildTimesForDateRange = (
     );
 
     if (existing) {
-      newTimes.push({
-        ...existing,
-        date: currentDate,
-        startTime:
-          existing.startTime instanceof Date
-            ? combineDateAndTime(currentDate, existing.startTime)
-            : currentDate,
-        endTime:
-          existing.endTime instanceof Date
-            ? combineDateAndTime(currentDate, existing.endTime)
-            : currentDate,
-      });
+      if (
+        existing.startTime instanceof Date &&
+        existing.endTime instanceof Date
+      ) {
+        const { startTime, endTime } = combineStartAndEndOnDay(
+          currentDate,
+          existing.startTime,
+          existing.endTime
+        );
+        newTimes.push({
+          ...existing,
+          date: currentDate,
+          startTime,
+          endTime,
+        });
+      } else {
+        const defaults = defaultScheduleDayTimes(currentDate);
+        newTimes.push({
+          ...existing,
+          date: currentDate,
+          startTime: defaults.startTime,
+          endTime: defaults.endTime,
+        });
+      }
     } else {
+      const defaults = defaultScheduleDayTimes(currentDate);
       newTimes.push({
         date: currentDate,
-        startTime: currentDate,
-        endTime: currentDate,
+        startTime: defaults.startTime,
+        endTime: defaults.endTime,
         allDayLong: false,
       });
     }
@@ -194,41 +237,53 @@ export const mapScheduleTimesToEventTimeInput = (
       return { date, all_day: false };
     }
 
+    const { startTime, endTime } = combineStartAndEndOnDay(
+      entry.date,
+      entry.startTime,
+      entry.endTime
+    );
+
     return {
       date,
       all_day: false,
-      start_time: combineDateAndTime(entry.date, entry.startTime).toISOString(),
-      end_time: combineDateAndTime(entry.date, entry.endTime).toISOString(),
+      start_time: startTime.toISOString(),
+      end_time: endTime.toISOString(),
     };
   });
 
 export function eventTimesToSchedule(times: EventTime[]) {
   if (!times.length) {
     const today = startOfDay(new Date());
+    const defaults = defaultScheduleDayTimes(today);
     return {
       dates: { start: today, end: today },
       times: [
         {
           date: today,
-          startTime: today,
-          endTime: today,
+          startTime: defaults.startTime,
+          endTime: defaults.endTime,
           allDayLong: false,
         },
       ],
     };
   }
 
-  const calendarDays = times.map(getEventTimeCalendarDay);
-  const minTime = Math.min(...calendarDays.map((day) => day.getTime()));
-  const maxTime = Math.max(...calendarDays.map((day) => day.getTime()));
+  const scheduleTimes = times.map((entry) => ({
+    date: getEventTimeCalendarDay(entry),
+    startTime: new Date(entry.startTime),
+    endTime: new Date(entry.endTime),
+    allDayLong: isAllDayEventTime(entry),
+  }));
+  const minTime = Math.min(
+    ...scheduleTimes.map((entry) => entry.date.getTime())
+  );
+  const maxTime = Math.max(
+    ...scheduleTimes.map((entry) => entry.date.getTime())
+  );
+  const dates = { start: new Date(minTime), end: new Date(maxTime) };
 
   return {
-    dates: { start: new Date(minTime), end: new Date(maxTime) },
-    times: times.map((entry) => ({
-      date: getEventTimeCalendarDay(entry),
-      startTime: new Date(entry.startTime),
-      endTime: new Date(entry.endTime),
-      allDayLong: isAllDayEventTime(entry),
-    })),
+    dates,
+    times: buildTimesForDateRange(dates, scheduleTimes),
   };
 }

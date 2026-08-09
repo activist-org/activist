@@ -144,30 +144,40 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
                 "13.377703399031432",
                 ["52.5161170", "52.5164328", "13.3775798", "13.3778251"],
                 "Brandenburg Gate, 1, Pariser Platz, Dorotheenstadt, Mitte, Berlin, 10117, Germany",
+                "DE",
+                "Berlin",
             ],
             [
                 "48.8582599",
                 "2.2945006358633115",
                 ["48.8574753", "48.8590453", "2.2933119", "2.2956897"],
                 "Eiffel Tower, 5, Avenue Anatole France, Quartier du Gros-Caillou, 7th Arrondissement, Paris, Ile-de-France, Metropolitan France, 75007, France",
+                "FR",
+                "Paris",
             ],
             [
                 "38.889212150000006",
                 "-77.05017197314066",
                 ["38.8890125", "38.8895317", "-77.0503866", "-77.0499568"],
                 "Lincoln Memorial, Lincoln Steps, Ward 2, Washington, District of Columbia, 20418, United States",
+                "US",
+                "Washington, D.C.",
             ],
             [
                 "55.7535924",
                 "37.62148945731688",
                 ["55.7519945", "55.7552072", "37.6179275", "37.6234106"],
                 "Red Square, 4, Kitay-gorod, Tverskoy District, Moscow, Central Federal District, Russia",
+                "RU",
+                "Moscow",
             ],
             [
                 "39.90272175",
                 "116.39144087676334",
                 ["39.8988884", "39.9058312", "116.3896532", "116.3932766"],
                 "Tian'anmen Square, Donghuamen Subdistrict, 首都功能核心区, Dongcheng District, Beijing, 100010, China",
+                "CN",
+                "Beijing",
             ],
         ]
 
@@ -176,6 +186,8 @@ class EventLocationFactory(factory.django.DjangoModelFactory):
         self.lon = random_locations[self.location_idx][1]
         self.bbox = random_locations[self.location_idx][2]
         self.address_or_name = random_locations[self.location_idx][3]
+        self.country_code = random_locations[self.location_idx][4]
+        self.city = random_locations[self.location_idx][5]
 
 
 # MARK: Discussion

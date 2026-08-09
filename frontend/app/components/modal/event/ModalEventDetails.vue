@@ -75,7 +75,12 @@
             </FormItem>
           </template>
           <template v-else-if="values.locationType === 'physical'">
-            <FormSearchLocation :handle-submit="handleSubmitLocation" />
+            <FormSearchLocation
+              :key="event?.physicalLocation?.id ?? 'physical-location-search'"
+              embedded
+              :handle-submit="handleSubmitLocation"
+              :initial-values="locationSearchInitialValues"
+            />
             <FormItem
               v-slot="{ id, handleChange, value }"
               :label="$t('i18n._global.physical_location')"
@@ -244,6 +249,18 @@ type LocationQuery = {
 const locationQuery = ref<LocationQuery | null>(null);
 const locationOptions = ref<RadioOption[]>([]);
 
+const locationSearchInitialValues = computed(() => {
+  const physicalLocation = event.value?.physicalLocation;
+  if (!physicalLocation) {
+    return {};
+  }
+  return {
+    country: (physicalLocation.countryCode ?? "").toUpperCase(),
+    city: physicalLocation.city ?? "",
+    street: physicalLocation.addressOrName ?? "",
+  };
+});
+
 const optionLocations = [
   {
     value: "physical",
@@ -294,7 +311,7 @@ const eventDetailsSchema = z
           times.every((entry) => {
             if (entry.allDayLong) return true;
             if (entry.startTime && entry.endTime) {
-              return entry.startTime <= entry.endTime;
+              return entry.startTime.getTime() <= entry.endTime.getTime();
             }
             return true;
           }),
@@ -362,7 +379,6 @@ watch(
   event,
   (currentEvent) => {
     if (!currentEvent) {
-      locationQuery.value = null;
       locationOptions.value = [];
       return;
     }
@@ -372,12 +388,8 @@ watch(
       (currentEvent.onlineLocationLink ? "online" : "physical");
     const physicalLocation = currentEvent.physicalLocation;
 
+    // Keep the saved location selected without triggering a Nominatim search.
     if (physicalLocation && locationType === "physical") {
-      locationQuery.value = {
-        street: physicalLocation.addressOrName,
-        city: physicalLocation.city,
-        countrycodes: physicalLocation.countryCode,
-      };
       locationOptions.value = [
         {
           label: physicalLocation.addressOrName,
@@ -392,7 +404,6 @@ watch(
       return;
     }
 
-    locationQuery.value = null;
     locationOptions.value = [];
   },
   { immediate: true }
@@ -403,10 +414,7 @@ const { data: potentialLocations } = useLocation(locationQuery);
 watch(
   potentialLocations,
   () => {
-    if (!potentialLocations.value) {
-      if (!locationQuery.value) {
-        locationOptions.value = [];
-      }
+    if (!locationQuery.value || !potentialLocations.value) {
       return;
     }
     locationOptions.value = (potentialLocations.value ?? []).map((loc) => ({
