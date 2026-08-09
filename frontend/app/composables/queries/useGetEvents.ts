@@ -37,7 +37,7 @@ export function useGetEvents(
 
   return {
     data: computed(() => {
-      return data.value?.pages.flatMap(
+      return (data?.value?.pages ?? []).flatMap(
         (p) => (p as EventsPaginatedResponse).data
       );
     }),

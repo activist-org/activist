@@ -38,7 +38,7 @@ export function useGetOrganizations(
 
   return {
     data: computed(() => {
-      return data.value?.pages.flatMap(
+      return (data?.value?.pages ?? []).flatMap(
         (p) => (p as OrganizationPaginatedResponse).data
       );
     }),

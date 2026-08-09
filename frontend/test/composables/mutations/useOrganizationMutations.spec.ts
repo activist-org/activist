@@ -3,7 +3,6 @@
  * Unit tests for useOrganizationMutations composable.
  * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useOrganizationMutations } from "../../../app/composables/mutations/useOrganizationMutations";
@@ -18,12 +17,11 @@ const sampleOrganizationInput = {
   social_accounts: [],
 } as never;
 
-const { mockRefreshNuxtData, showToastError, createOrganization, setItems } =
+const { invalidateOrganizationList, showToastError, createOrganization } =
   vi.hoisted(() => ({
-    mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
+    invalidateOrganizationList: vi.fn(),
     showToastError: vi.fn(),
     createOrganization: vi.fn(),
-    setItems: vi.fn(),
   }));
 
 vi.mock("../../../app/services/communities/organization/organization", () => ({
@@ -38,16 +36,15 @@ vi.mock("../../../app/composables/generic/useToaster", () => ({
   }),
 }));
 
-vi.mock("../../../app/stores/data/organization", () => ({
-  useOrganizationListStore: () => ({ setItems }),
+vi.mock("../../../app/composables/cache/useOrganizationCache", () => ({
+  useOrganizationCache: () => ({
+    invalidateOrganizationList,
+  }),
 }));
-
-// The organizations list is still a useAsyncData read.
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
 
 describe("useOrganizationMutations", () => {
   beforeEach(() => {
-    setupMutationMocks([mockRefreshNuxtData, createOrganization]);
+    setupMutationMocks([invalidateOrganizationList, createOrganization]);
     createOrganization.mockResolvedValue({ id: "org-123" });
   });
 
@@ -66,8 +63,7 @@ describe("useOrganizationMutations", () => {
 
       await create(sampleOrganizationInput);
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledTimes(1);
-      expect(setItems).toHaveBeenCalledWith([]);
+      expect(invalidateOrganizationList).toHaveBeenCalledTimes(1);
     });
 
     it("returns false rather than throwing when the service fails", async () => {
@@ -81,7 +77,7 @@ describe("useOrganizationMutations", () => {
       expect(result).toBe(false);
       expect(error.value).not.toBeNull();
       expect(showToastError).toHaveBeenCalled();
-      expect(mockRefreshNuxtData).not.toHaveBeenCalled();
+      expect(invalidateOrganizationList).not.toHaveBeenCalled();
     });
   });
 
@@ -91,8 +87,7 @@ describe("useOrganizationMutations", () => {
 
       await refreshOrganizationList();
 
-      expect(mockRefreshNuxtData).toHaveBeenCalledTimes(1);
-      expect(setItems).toHaveBeenCalledWith([]);
+      expect(invalidateOrganizationList).toHaveBeenCalledTimes(1);
     });
   });
 

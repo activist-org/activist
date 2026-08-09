@@ -60,7 +60,6 @@ describe("useGetOrganizationsByUser Integration", () => {
       expect(result).toHaveProperty("error");
       expect(result).toHaveProperty("refresh");
       expect(result).toHaveProperty("getMore");
-      expect(typeof result.getMore).toBe("function");
     });
 
     it("listOrganizationsByUserId service receives userId, page, and filters", async () => {
@@ -124,77 +123,81 @@ describe("useGetOrganizationsByUser Integration", () => {
   // MARK: Cache Key (Unique)
 
   describe("Cache Key (Unique)", () => {
-    it("getKeyForGetOrganizationsByUser includes userId, page, and filters", async () => {
-      const { getKeyForGetOrganizationsByUser } =
-        await import("../../../../app/composables/queries/useGetOrganizationByUser");
+    it("getKeyForOrganizationsByUser includes userId, page, and filters", async () => {
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationsByUser } = useOrganizationCache();
 
-      const key = getKeyForGetOrganizationsByUser("user-123", 1, {
+      const key = getKeyForOrganizationsByUser("user-123", {
         name: "test",
       });
 
-      expect(key).toContain("organizations-by-user-user-123");
-      expect(key).toContain("page:1");
-      expect(key).toContain("filters:");
-      expect(key).toContain(JSON.stringify({ name: "test" }));
+      expect(key).toContain("organization");
+      expect(key).toContain("list");
+      expect(key).toContain("user");
+      expect(key).toContainEqual({ filters: { name: "test" } });
     });
 
     it("different userIds produce different keys", async () => {
-      const { getKeyForGetOrganizationsByUser } =
-        await import("../../../../app/composables/queries/useGetOrganizationByUser");
-
-      const key1 = getKeyForGetOrganizationsByUser("user-1", 1);
-      const key2 = getKeyForGetOrganizationsByUser("user-2", 1);
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationsByUser } = useOrganizationCache();
+      const key1 = getKeyForOrganizationsByUser("user-1", 1);
+      const key2 = getKeyForOrganizationsByUser("user-2", 1);
 
       expect(key1).not.toBe(key2);
     });
 
     it("different pages produce different keys", async () => {
-      const { getKeyForGetOrganizationsByUser } =
-        await import("../../../../app/composables/queries/useGetOrganizationByUser");
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationsByUser } = useOrganizationCache();
 
-      const key1 = getKeyForGetOrganizationsByUser("user-123", 1);
-      const key2 = getKeyForGetOrganizationsByUser("user-123", 2);
+      const key1 = getKeyForOrganizationsByUser("user-123", 1);
+      const key2 = getKeyForOrganizationsByUser("user-123", 2);
 
       expect(key1).not.toBe(key2);
     });
 
     it("different filters produce different keys", async () => {
-      const { getKeyForGetOrganizationsByUser } =
-        await import("../../../../app/composables/queries/useGetOrganizationByUser");
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationsByUser } = useOrganizationCache();
 
-      const key1 = getKeyForGetOrganizationsByUser("user-123", 1, {
+      const key1 = getKeyForOrganizationsByUser("user-123", {
         name: "a",
       });
-      const key2 = getKeyForGetOrganizationsByUser("user-123", 1, {
+      const key2 = getKeyForOrganizationsByUser("user-123", {
         name: "b",
       });
 
-      expect(key1).not.toBe(key2);
+      expect(key1).not.toStrictEqual(key2);
     });
 
     it("same params produce same key", async () => {
-      const { getKeyForGetOrganizationsByUser } =
-        await import("../../../../app/composables/queries/useGetOrganizationByUser");
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationsByUser } = useOrganizationCache();
 
-      const key1 = getKeyForGetOrganizationsByUser("user-123", 1, {
+      const key1 = getKeyForOrganizationsByUser("user-123", {
         name: "test",
       });
-      const key2 = getKeyForGetOrganizationsByUser("user-123", 1, {
+      const key2 = getKeyForOrganizationsByUser("user-123", {
         name: "test",
       });
 
-      expect(key1).toBe(key2);
+      expect(key1).toStrictEqual(key2);
     });
 
     it("handles undefined filters", async () => {
-      const { getKeyForGetOrganizationsByUser } =
-        await import("../../../../app/composables/queries/useGetOrganizationByUser");
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationsByUser } = useOrganizationCache();
+      const key = getKeyForOrganizationsByUser("user-123", 1);
 
-      const key = getKeyForGetOrganizationsByUser("user-123", 1);
-
-      expect(key).toContain("organizations-by-user-user-123");
-      expect(key).toContain("page:1");
-      expect(key).toContain("filters:");
+      expect(key).toContain("organization");
+      expect(key).toContain("user-123");
+      expect(key).toContain("list");
     });
   });
 

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export const KEY_GET_TOPICS = ["get-topics"];
 
 export function useGetTopics() {
   const { handleError } = useAppError();
+  const { getKeyForTopics } = useTopicCache();
 
   const { data, isLoading, error, refresh } = useQuery({
-    key: KEY_GET_TOPICS,
+    key: getKeyForTopics(),
     query: async () => listTopics(),
   });
   watch(error, (err) => {

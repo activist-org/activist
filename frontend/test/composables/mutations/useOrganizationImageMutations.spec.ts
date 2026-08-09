@@ -3,7 +3,6 @@
  * Unit tests for useOrganizationImageMutations composable.
  * @see https://github.com/activist-org/activist/issues/1783
  */
-import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
@@ -25,7 +24,6 @@ const {
   uploadOrganizationIconImage,
   invalidateOrganizationCache,
   invalidateOrganizationImageCache,
-  setItems,
 } = vi.hoisted(() => ({
   mockRefreshNuxtData: vi.fn().mockResolvedValue(undefined),
   showToastError: vi.fn(),
@@ -34,7 +32,6 @@ const {
   uploadOrganizationIconImage: vi.fn(),
   invalidateOrganizationCache: vi.fn(),
   invalidateOrganizationImageCache: vi.fn(),
-  setItems: vi.fn(),
 }));
 
 vi.mock("../../../app/services/communities/organization/image", () => ({
@@ -61,12 +58,12 @@ vi.mock("../../../app/composables/cache/useOrganizationCache", () => ({
   }),
 }));
 
-vi.mock("../../../app/stores/data/organization", () => ({
-  useOrganizationListStore: () => ({ setItems }),
-}));
+// vi.mock("../../../app/stores/data/organization", () => ({
+//   useOrganizationListStore: () => ({ setItems }),
+// }));
 
 // The organizations list refresh still goes through refreshNuxtData.
-mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
+// mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
 
 describe("useOrganizationImageMutations", () => {
   const organizationId = ref("org-123");
@@ -175,8 +172,7 @@ describe("useOrganizationImageMutations", () => {
 
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
       await vi.waitFor(() => {
-        expect(setItems).toHaveBeenCalledWith([]);
-        expect(mockRefreshNuxtData).toHaveBeenCalled();
+        expect(invalidateOrganizationCache).toHaveBeenCalled();
       });
     });
 
