@@ -78,7 +78,10 @@ export const newOrganizationFAQPage = (page: Page) => ({
     }),
   faqSubmitButton: (modal: Locator) =>
     modal.getByRole("button", {
-      name: new RegExp(getEnglishText("i18n.components.form._global.submit"), "i"),
+      name: new RegExp(
+        getEnglishText("i18n.components.form._global.submit"),
+        "i"
+      ),
     }),
 
   // MARK: Utility

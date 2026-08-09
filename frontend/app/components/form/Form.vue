@@ -66,7 +66,8 @@ const props = withDefaults(
   }
 );
 
-const labelForSubmit = props.submitLabel ?? "i18n.components.form._global.submit";
+const labelForSubmit =
+  props.submitLabel ?? "i18n.components.form._global.submit";
 
 const id = props.id || "form-id";
 const submitId = props.id ? `${props.id}-submit` : "form-submit-id";

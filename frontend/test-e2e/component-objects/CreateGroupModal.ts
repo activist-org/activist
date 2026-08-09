@@ -98,7 +98,9 @@ export const newCreateGroupModal = (page: Page) => {
           root
             .getByRole("button", {
               name: new RegExp(
-                getEnglishText("i18n.components.form._global.submit_aria_label"),
+                getEnglishText(
+                  "i18n.components.form._global.submit_aria_label"
+                ),
                 "i"
               ),
             })

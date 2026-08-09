@@ -56,8 +56,8 @@
       </div>
     </div>
     <Form
-      v-else
       id="search-location"
+      v-else
       @submit="handleSubmit"
       class="space-y-4"
       :initial-values="searchInitialValues"

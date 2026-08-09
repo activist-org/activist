@@ -288,21 +288,18 @@ describe("utils/date", () => {
 
     it("keeps overnight end times after start when hydrating", () => {
       const day = new Date(2026, 7, 9);
-      const rebuilt = buildTimesForDateRange(
-        { start: day, end: day },
-        [
-          {
-            date: day,
-            startTime: new Date(2026, 7, 9, 20, 31),
-            endTime: new Date(2026, 7, 9, 4, 31),
-            allDayLong: false,
-          },
-        ]
-      );
+      const rebuilt = buildTimesForDateRange({ start: day, end: day }, [
+        {
+          date: day,
+          startTime: new Date(2026, 7, 9, 20, 31),
+          endTime: new Date(2026, 7, 9, 4, 31),
+          allDayLong: false,
+        },
+      ]);
 
-      expect(rebuilt[0]!.startTime.getTime() < rebuilt[0]!.endTime.getTime()).toBe(
-        true
-      );
+      expect(
+        rebuilt[0]!.startTime.getTime() < rebuilt[0]!.endTime.getTime()
+      ).toBe(true);
       expect(rebuilt[0]!.endTime.getDate()).toBe(10);
     });
   });
