@@ -26,7 +26,7 @@
           <BtnAction
             :id="submitId"
             v-if="props.isThereSubmitButton"
-            ariaLabel="i18n.components.submit_aria_label"
+            ariaLabel="i18n.components.form._global.submit_aria_label"
             class="flex items-center justify-center"
             :class="props.classButton"
             :cta="true"
@@ -66,7 +66,7 @@ const props = withDefaults(
   }
 );
 
-const labelForSubmit = props.submitLabel ?? "i18n.components.submit";
+const labelForSubmit = props.submitLabel ?? "i18n.components.form._global.submit";
 
 const id = props.id || "form-id";
 const submitId = props.id ? `${props.id}-submit` : "form-submit-id";

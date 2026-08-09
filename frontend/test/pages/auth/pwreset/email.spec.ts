@@ -30,7 +30,7 @@ describe("pwreset/email", () => {
     await render(PwresetEmail);
 
     const submitButton = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
     await fireEvent.click(submitButton);
 
@@ -50,7 +50,7 @@ describe("pwreset/email", () => {
     await fireEvent.update(emailInput, "not-an-email");
 
     const submitButton = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
     await fireEvent.click(submitButton);
 
@@ -70,7 +70,7 @@ describe("pwreset/email", () => {
     await fireEvent.update(emailInput, "not-an-email");
 
     const submitButton = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
     await fireEvent.click(submitButton);
 

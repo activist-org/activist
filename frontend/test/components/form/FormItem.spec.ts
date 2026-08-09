@@ -43,7 +43,7 @@ describe("FormItem component", () => {
     await render(FormTemplate);
 
     const submitBtn = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitBtn);
@@ -56,7 +56,7 @@ describe("FormItem component", () => {
     await render(FormTemplate);
 
     const submitBtn = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitBtn);
@@ -114,7 +114,7 @@ describe("FormItem component", () => {
     await render(FormTemplate);
 
     const submitBtn = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitBtn);
@@ -135,7 +135,7 @@ describe("FormItem component", () => {
     await fireEvent.click(addMemberBtn);
 
     const submitBtn = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitBtn);
@@ -151,7 +151,7 @@ describe("FormItem component", () => {
     await render(FormTemplate);
 
     const submitBtn = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitBtn);

@@ -36,7 +36,7 @@ export const newCreateOrganizationModal = (page: Page) => {
     getNextStepButton(): Locator {
       return root.getByRole("button", {
         name: new RegExp(
-          getEnglishText("i18n.components.submit_aria_label"),
+          getEnglishText("i18n.components.form._global.submit_aria_label"),
           "i"
         ),
       });

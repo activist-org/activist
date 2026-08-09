@@ -61,7 +61,7 @@ describe("sign-in", () => {
 //     await fireEvent.update(passwordInput, "password");
 //
 //     const submitButton = screen.getByRole("button", {
-//       name: getEnglishText("i18n.components.submit_aria_label"),
+//       name: getEnglishText("i18n.components.form._global.submit_aria_label"),
 //     });
 //
 //     await fireEvent.click(submitButton);
@@ -96,7 +96,7 @@ describe("sign-in", () => {
 //     await fireEvent.update(passwordInput, "password");
 //
 //     const submitButton = screen.getByRole("button", {
-//       name: getEnglishText("i18n.components.submit_aria_label"),
+//       name: getEnglishText("i18n.components.form._global.submit_aria_label"),
 //     });
 //     await fireEvent.click(submitButton);
 //

@@ -24,7 +24,7 @@ describe("sign-up", () => {
     expect(inputBorder.className).toMatch("border-interactive");
 
     const submitButton = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitButton);

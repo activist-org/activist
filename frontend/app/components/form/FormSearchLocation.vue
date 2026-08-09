@@ -46,7 +46,7 @@
         <BtnAction
           id="search-location-submit"
           @click="submitEmbeddedSearch"
-          ariaLabel="i18n.components.submit_aria_label"
+          ariaLabel="i18n.components.form._global.submit_aria_label"
           class="flex items-center justify-center"
           :cta="true"
           fontSize="lg"

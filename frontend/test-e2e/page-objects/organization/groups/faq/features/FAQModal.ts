@@ -49,7 +49,7 @@ export const FAQModal = (page: Page) => {
 
     getFaqSubmitButton(modal: Locator) {
       return modal.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
+        name: new RegExp(getEnglishText("i18n.components.form._global.submit"), "i"),
       });
     },
 
