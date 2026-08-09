@@ -90,7 +90,9 @@ export async function submitDetailsEditForm(
   const response = await updateResponse;
   expect(
     response.ok(),
-    `PUT event details expected success, got ${response.status()}`
+    `PUT event details expected success, got ${response.status()}: ${await response
+      .text()
+      .catch(() => "")}`
   ).toBe(true);
   await expect(modal.root).not.toBeVisible({ timeout: 15000 });
 }

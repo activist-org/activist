@@ -73,16 +73,17 @@ export async function selectMobileSubmenuOption(
   const listboxButton = submenu.getByRole("button");
   await listboxButton.waitFor({ state: "attached", timeout: 5000 });
 
-  const listbox = page.getByRole("listbox");
-  const option = page.getByRole("option", { name: optionName });
-
+  // Open + click must share one retry loop: Headless UI can remount options
+  // between visibility and click, which detaches the locator.
   await expect(async () => {
+    const listbox = page.getByRole("listbox");
+    const option = page.getByRole("option", { name: optionName });
+
     if ((await listboxButton.getAttribute("aria-expanded")) !== "true") {
       await listboxButton.click();
     }
     await expect(listbox).toBeVisible({ timeout: 2000 });
     await expect(option).toBeVisible({ timeout: 2000 });
+    await option.click({ force: true });
   }).toPass({ timeout: 15000 });
-
-  await option.click({ force: true });
 }

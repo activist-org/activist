@@ -199,6 +199,7 @@ test.describe(
       await expect(detailsEditModal.root).toBeVisible();
 
       // Clicking an already-selected option in the multi-select combobox deselects it.
+      // Replace the current org so the Details card update is deterministic.
       const alreadySelected = (
         await detailsEditModal.selectedOrgChips.allTextContents()
       ).map((text) => text.trim());
@@ -215,6 +216,7 @@ test.describe(
       }
 
       let newOrgName = "";
+      let newOrgIndex = -1;
       for (let index = 0; index < optionCount; index += 1) {
         const optionText =
           (await options.nth(index).textContent())?.trim() ?? "";
@@ -224,12 +226,12 @@ test.describe(
           !alreadySelected.includes(optionText)
         ) {
           newOrgName = optionText;
-          await options.nth(index).click();
+          newOrgIndex = index;
           break;
         }
       }
 
-      if (!newOrgName) {
+      if (!newOrgName || newOrgIndex < 0) {
         test.skip(
           !!newOrgName,
           "No alternate organization available in dropdown"
@@ -237,15 +239,35 @@ test.describe(
         return;
       }
 
+      for (const selectedName of alreadySelected) {
+        for (let index = 0; index < (await options.count()); index += 1) {
+          const optionText =
+            (await options.nth(index).textContent())?.trim() ?? "";
+          if (optionText === selectedName) {
+            await options.nth(index).click();
+            break;
+          }
+        }
+      }
+      await options.nth(newOrgIndex).click();
+      await expect(
+        detailsEditModal.selectedOrgChips.filter({
+          hasText: exactTextRegex(newOrgName),
+        })
+      ).toBeVisible();
+      await expect(detailsEditModal.selectedOrgChips).toHaveCount(1);
+
       await withTestStep(testInfo, "Save updated organization", async () => {
         await markAllScheduleDaysAllDay(detailsEditModal);
         await submitDetailsEditForm(page, detailsEditModal, eventId);
       });
 
-      await expect(aboutPage.detailsCardOrganizationLink).toContainText(
-        newOrgName,
-        { timeout: 15000 }
-      );
+      await expect(
+        aboutPage.detailsCard
+          .getByRole("link")
+          .filter({ has: page.locator("p") })
+          .filter({ hasText: newOrgName })
+      ).toBeVisible({ timeout: 15000 });
 
       await withTestStep(
         testInfo,
