@@ -97,7 +97,7 @@ def test_event_faq_delete_not_found_404(authenticated_client) -> None:
         This test asserts that attempting to delete a non-existent FAQ
         returns a 404 status code with appropriate error message.
     """
-    client, _ = authenticated_client
+    client, user = authenticated_client
 
     test_uuid = uuid4()
 

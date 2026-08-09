@@ -313,19 +313,21 @@ describe("useGetEvent Integration", () => {
 
   describe("Cache Key", () => {
     it("getKeyForGetEvent returns ID-based key", async () => {
-      const { getKeyForGetEvent } =
-        await import("../../../../app/composables/queries/useGetEvent");
+      const { useEventCache } =
+        await import("../../../../app/composables/cache/useEventCache");
+      const { getKeyForEvent } = useEventCache();
 
-      expect(getKeyForGetEvent("event-123")).toBe("event:event-123");
-      expect(getKeyForGetEvent("abc")).toBe("event:abc");
+      expect(getKeyForEvent("event-123")).toEqual(["event", "event-123"]);
+      expect(getKeyForEvent("abc")).toEqual(["event", "abc"]);
     });
 
     it("different IDs produce different keys", async () => {
-      const { getKeyForGetEvent } =
-        await import("../../../../app/composables/queries/useGetEvent");
+      const { useEventCache } =
+        await import("../../../../app/composables/cache/useEventCache");
+      const { getKeyForEvent } = useEventCache();
 
-      const key1 = getKeyForGetEvent("event-1");
-      const key2 = getKeyForGetEvent("event-2");
+      const key1 = getKeyForEvent("event-1");
+      const key2 = getKeyForEvent("event-2");
 
       expect(key1).not.toBe(key2);
     });

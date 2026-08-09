@@ -2,6 +2,7 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormSocialLink
+      v-if="socialLinksRef"
       :formData="formData"
       :handleSubmit="handleSubmit"
       :submitLabel="submitLabel"
@@ -25,10 +26,19 @@ const { updateLink, createLinks, deleteLink } = useEventSocialLinksMutations(
 type SocialLinkWithKey = (EventSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
+// The query resolves after the modal mounts, so a late re-sync would overwrite
+// anything already typed.
+const socialLinks = computed(() =>
+  event.value ? (event.value.socialLinks ?? []) : undefined
+);
+
 watch(
-  () => event.value?.socialLinks ?? [],
+  socialLinks,
   (newVal) => {
-    socialLinksRef.value = (newVal || []).map((l, idx) => ({
+    if (!newVal) {
+      return;
+    }
+    socialLinksRef.value = newVal.map((l, idx) => ({
       ...l,
       key: l?.id ?? String(idx),
     }));
@@ -93,7 +103,8 @@ async function handleSubmit(values: unknown) {
     ) || [];
   await Promise.all(
     toUpdate.map(async (refItem) => {
-      await updateLink(refItem.id, {
+      await updateLink({
+        id: refItem.id,
         link: refItem.link,
         label: refItem.label,
         order: refItem.order,

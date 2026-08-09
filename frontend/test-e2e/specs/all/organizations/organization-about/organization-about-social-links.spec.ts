@@ -57,6 +57,15 @@ test.describe(
         timeout: 15000,
       });
 
+      // Wait for the organization entity to finish loading before interacting
+      // with entity-derived controls. The connect card renders before the
+      // organization query resolves, so clicking the edit icon too early can
+      // race the id it depends on. The page heading is populated from the
+      // same entity data, so non-empty text here means it has resolved.
+      await expect(organizationPage.pageHeading).toHaveText(/\S/, {
+        timeout: 15000,
+      });
+
       // Generate unique content for this test run.
       const timestamp = Date.now();
       const newLabel = `Test Social Link ${timestamp}`;
@@ -70,6 +79,10 @@ test.describe(
       await clickConnectCardEdit();
       await expect(socialLinksModal.modal).toBeVisible();
 
+      // The form renders once the links have loaded, so count after it appears.
+      const addButton = socialLinksModal.addButton(socialLinksModal.modal);
+      await expect(addButton).toBeVisible();
+
       // Count existing social link entries using data-testid.
       const existingEntries = await socialLinksModal.modal
         .getByTestId(/^social-link-entry-/)
@@ -77,8 +90,6 @@ test.describe(
       const initialCount = existingEntries.length;
 
       // Add a new social link.
-      const addButton = socialLinksModal.addButton(socialLinksModal.modal);
-      await expect(addButton).toBeVisible();
       // Use JavaScript click to bypass viewport restrictions on mobile.
       await addButton.evaluate((btn) => (btn as HTMLElement).click());
 
@@ -126,7 +137,7 @@ test.describe(
       const { connectCard } = organizationPage.aboutPage;
 
       // Check if social links were created (with flexible timeout).
-      let allSocialLinks = 0;
+      let allSocialLinks: number;
       try {
         await expect(connectCard.getByRole("link").first()).toBeVisible({});
         allSocialLinks = await connectCard.getByRole("link").count();

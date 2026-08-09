@@ -77,7 +77,7 @@
               class="w-full"
               :cta="true"
               fontSize="lg"
-              label="i18n._global.create_group"
+              label="i18n.components.empty_state.create_group"
               linkTo="/groups/create"
             />
             <BtnRouteInternal
@@ -95,7 +95,7 @@
               class="w-full"
               :cta="true"
               fontSize="lg"
-              label="i18n._global.create_resource"
+              label="i18n.components.empty_state.create_resource"
               linkTo="/resources/create"
             />
           </div>

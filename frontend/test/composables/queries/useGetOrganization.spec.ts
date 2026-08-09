@@ -11,7 +11,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { Organization } from "../../../shared/types/organization";
 
-import { getKeyForGetOrganization } from "../../../app/composables/queries/useGetOrganization";
+import { useOrganizationCache } from "../../../app/composables/cache/useOrganizationCache";
 import { createMockOrganization } from "../../mocks/factories";
 
 // MARK: Mocks
@@ -57,35 +57,43 @@ describe("useGetOrganization", () => {
 
   // MARK: Cache Key
 
-  describe("getKeyForGetOrganization", () => {
+  describe("useOrganizationCache", () => {
     it("includes organization ID in cache key", () => {
-      const key = getKeyForGetOrganization("org-123");
+      const { getKeyForOrganization } = useOrganizationCache();
+      const key = getKeyForOrganization("org-123");
 
-      expect(key).toContain("org-123");
+      expect(key).toEqual(["organization", "org-123"]);
     });
 
     it("returns 'organization:{id}' format", () => {
-      expect(getKeyForGetOrganization("org-123")).toBe("organization:org-123");
+      const { getKeyForOrganization } = useOrganizationCache();
+      expect(getKeyForOrganization("org-123")).toEqual([
+        "organization",
+        "org-123",
+      ]);
     });
 
     it("returns consistent key for same ID", () => {
-      const key1 = getKeyForGetOrganization("org-456");
-      const key2 = getKeyForGetOrganization("org-456");
+      const { getKeyForOrganization } = useOrganizationCache();
+      const key1 = getKeyForOrganization("org-456");
+      const key2 = getKeyForOrganization("org-456");
 
-      expect(key1).toBe(key2);
+      expect(JSON.stringify(key1)).toBe(JSON.stringify(key2));
     });
 
     it("returns different keys for different IDs", () => {
-      const key1 = getKeyForGetOrganization("org-1");
-      const key2 = getKeyForGetOrganization("org-2");
+      const { getKeyForOrganization } = useOrganizationCache();
+      const key1 = getKeyForOrganization("org-1");
+      const key2 = getKeyForOrganization("org-2");
 
-      expect(key1).not.toBe(key2);
+      expect(JSON.stringify(key1)).not.toBe(JSON.stringify(key2));
     });
 
     it("handles empty string ID", () => {
-      const key = getKeyForGetOrganization("");
+      const { getKeyForOrganization } = useOrganizationCache();
+      const key = getKeyForOrganization("");
 
-      expect(key).toBe("organization:");
+      expect(JSON.stringify(key)).toBe(JSON.stringify(["organization", ""]));
     });
   });
 
@@ -133,23 +141,22 @@ describe("useGetOrganization", () => {
   // MARK: Reactive Properties
 
   describe("Reactive Properties", () => {
-    it("data is a Vue ref with value property", async () => {
+    it("data is undefined before the query has run", async () => {
       const { useGetOrganization } =
         await import("../../../app/composables/queries/useGetOrganization");
 
       const { data } = useGetOrganization("org-123");
 
-      expect(data).toHaveProperty("value");
+      expect(data).toBe(undefined);
     });
 
-    it("pending is a Vue ref with boolean value", async () => {
+    it("pending is undefined before the query has run", async () => {
       const { useGetOrganization } =
         await import("../../../app/composables/queries/useGetOrganization");
 
       const { pending } = useGetOrganization("org-123");
 
-      expect(pending).toHaveProperty("value");
-      expect(typeof pending.value).toBe("boolean");
+      expect(pending).toBeUndefined();
     });
 
     it("error is a Vue ref", async () => {
@@ -181,7 +188,7 @@ describe("useGetOrganization", () => {
       const result = useGetOrganization("org-123");
 
       expect(result).toBeDefined();
-      expect(result.data).toHaveProperty("value");
+      expect(result.data).toBeUndefined();
     });
 
     it("accepts empty string ID without error", async () => {
@@ -207,14 +214,13 @@ describe("useGetOrganization", () => {
   // MARK: Type Safety
 
   describe("Type Safety", () => {
-    it("data.value can be Organization or null", async () => {
+    it("data will be undefined initially", async () => {
       const { useGetOrganization } =
         await import("../../../app/composables/queries/useGetOrganization");
 
       const { data } = useGetOrganization("org-123");
 
-      // Runtime check that value exists (type is Organization | null).
-      expect("value" in data).toBe(true);
+      expect(data).toBeUndefined();
     });
 
     it("createMockOrganization produces valid Organization structure", () => {

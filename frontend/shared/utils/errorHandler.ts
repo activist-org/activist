@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { AppErrorCause } from "#shared/types/error";
 import { FetchError } from "ofetch";
+
+import { AppErrorCause } from "#shared/types/error";
 
 export class AppError extends Error {
   status?: number;

@@ -2,7 +2,7 @@
 // Helper to check JWT expiration without external libraries.
 function isTokenExpired(token: string): boolean {
   try {
-    const payloadBase64 = token.split(".")[1];
+    const payloadBase64 = token.split(".")[1] ?? "";
     const decodedJson = JSON.parse(
       Buffer.from(payloadBase64, "base64").toString()
     );

@@ -4,7 +4,6 @@
  * Mock GET `/api/public/events/events/:id` before navigation (client-only fetch; see nuxt `ssr: false`).
  */
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { MEMBER_AUTH_STATE_PATH } from "~/test-e2e/constants/authPaths";
 import { expect, test } from "~/test-e2e/global-fixtures";
 import { newEventPage } from "~/test-e2e/page-objects/event/EventPage";

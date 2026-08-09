@@ -8,12 +8,7 @@ export type ServiceOptionsWithBody = Omit<FetchOptions, "method" | "body"> & {
   withoutAuth?: boolean;
 };
 export type AcceptedBody =
-  | Record<string, unknown>
-  | FormData
-  | BodyInit
-  | null
-  | undefined
-  | object;
+  Record<string, unknown> | FormData | BodyInit | null | undefined | object;
 export interface Pagination {
   page: number;
   page_size: number;

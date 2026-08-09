@@ -333,22 +333,27 @@ describe("useGetOrganizationImages Integration", () => {
   // MARK: Cache Key
 
   describe("Cache Key", () => {
-    it("getKeyForGetOrganizationImages returns ID-based key", async () => {
-      const { getKeyForGetOrganizationImages } =
-        await import("../../../../app/composables/queries/useGetOrganizationImages");
+    it("ORGANIZATION_IMAGE_KEYS.byId returns ID-based key", async () => {
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
 
-      expect(getKeyForGetOrganizationImages("org-123")).toBe(
-        "organizationImages:org-123"
-      );
+      expect(getKeyForOrganizationListImage("org-123")).toEqual([
+        "organization",
+        "imageList",
+        "org-123",
+      ]);
     });
 
     it("different IDs produce different keys", async () => {
-      const { getKeyForGetOrganizationImages } =
-        await import("../../../../app/composables/queries/useGetOrganizationImages");
-      const key1 = getKeyForGetOrganizationImages("org-1");
-      const key2 = getKeyForGetOrganizationImages("org-2");
+      const { useOrganizationCache } =
+        await import("../../../../app/composables/cache/useOrganizationCache");
+      const { getKeyForOrganizationListImage } = useOrganizationCache();
 
-      expect(key1).not.toBe(key2);
+      const key1 = getKeyForOrganizationListImage("org-1");
+      const key2 = getKeyForOrganizationListImage("org-2");
+
+      expect(key1).not.toEqual(key2);
     });
   });
 });

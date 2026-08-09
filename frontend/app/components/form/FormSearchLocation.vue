@@ -10,7 +10,7 @@
     >
       <FormItem
         v-slot="{ id, handleChange, errorMessage, value }"
-        :label="$t('i18n.components._global.country')"
+        :label="$t('i18n._global.country')"
         name="country"
       >
         <!-- prettier-ignore-attribute :modelValue -->
@@ -18,7 +18,7 @@
           :id="id"
           @update:selected-country="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.components._global.country')"
+          :label="$t('i18n._global.country')"
           :selected-country="(value.value as string) || ''"
         />
       </FormItem>

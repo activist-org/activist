@@ -60,6 +60,8 @@ from content.models import Image
 from content.serializers import ImageSerializer
 from core.paginator import CustomPagination
 from core.permissions import IsAdminStaffCreatorOrReadOnly
+from events.models import Event
+from events.serializers import EventSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -158,7 +160,7 @@ class OrganizationAPIView(GenericAPIView[Organization]):
 
 class OrganizationByUserAPIView(GenericAPIView[Organization]):
     queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
+    serializer_class = OrganizationListSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = CustomPagination
     filterset_class = OrganizationFilter
@@ -175,7 +177,7 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
             ),
         ],
         responses={
-            200: OrganizationSerializer(many=True),
+            200: OrganizationListSerializer(many=True),
             400: OpenApiResponse(
                 response=OpenApiTypes.OBJECT,
                 description="User ID is required",
@@ -216,26 +218,32 @@ class OrganizationByUserAPIView(GenericAPIView[Organization]):
                     {"count": 0, "next": None, "previous": None, "results": []},
                     status=status.HTTP_200_OK,
                 )
+
             try:
                 page = self.paginate_queryset(queryset)
+
             except NotFound:
                 return Response(
                     {"count": 0, "next": None, "previous": None, "results": []},
                     status=status.HTTP_200_OK,
                 )
+
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         orgs = Organization.objects.filter(created_by__id=user_id).order_by(
             "acceptance_date"
         )
+
         try:
             page = self.paginate_queryset(orgs)
+
         except NotFound:
             return Response(
                 {"count": 0, "next": None, "previous": None, "results": []},
                 status=status.HTTP_200_OK,
             )
+
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
@@ -667,6 +675,65 @@ class OrganizationFaqViewSet(viewsets.ModelViewSet[OrganizationFaq]):
         )
 
 
+# MARK: Events
+
+
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            "org_id",
+            OpenApiTypes.UUID,
+            location=OpenApiParameter.PATH,
+            description="Organization UUID.",
+        ),
+    ],
+)
+class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+    def list(self, request: Request, org_id: UUID) -> Response:
+        if org_id is None:
+            return Response(
+                {"detail": "Organization ID is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        queryset = Event.objects.filter(orgs__id=org_id)
+        if not queryset.exists():
+            return Response(
+                {"count": 0, "next": None, "previous": None, "results": []},
+                status=status.HTTP_200_OK,
+            )
+
+        start = request.query_params.get("start_date")
+        end = request.query_params.get("end_date")
+        if name := request.query_params.get("name"):
+            queryset = queryset.filter(name__icontains=name)
+
+        # Overlap logic: event interval intersects requested interval.
+        if start and end:
+            queryset = queryset.filter(
+                times__start_time__date__lte=end,
+                times__end_time__date__gte=start,
+            )
+
+        elif start:
+            queryset = queryset.filter(times__end_time__date__gte=start)
+
+        elif end:
+            queryset = queryset.filter(times__start_time__date__lte=end)
+
+        else:
+            # No date filters, return all events for the org.
+            queryset = queryset.filter(orgs__id=org_id)
+
+        queryset = queryset.order_by("times__start_time").distinct()
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 # MARK: Social Link
 
 
@@ -942,6 +1009,14 @@ class OrganizationImageViewSet(viewsets.ModelViewSet[Image]):
         return Response(serializer.data)
 
     def update(self, request: Request, org_id: UUID, pk: UUID | str) -> Response:
+        if not isinstance(request.data, dict):
+            return Response(
+                {
+                    "detail": "Invalid payload format for request. Expected a JSON object."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         sequence_index = request.data.get("sequence_index", None)
         if sequence_index is not None:
             # Update OrganizationImage, not the Image itself.

@@ -4,17 +4,42 @@
     <Head>
       <Title>{{ $t("i18n.pages.organizations.index.header_title") }}</Title>
     </Head>
-    <HeaderAppPage
+    <HeaderAppPageList
+      @filter-click="removeFilter"
+      :filters="listFilters"
       :header="$t('i18n.pages.organizations.index.header_title')"
       :tagline="$t('i18n.pages.organizations.index.subheader')"
     >
-      <div class="flex flex-col space-x-3 sm:flex-row">
+      <div class="flex flex-col gap-3 sm:flex-row md:hidden">
         <ComboboxTopics
           @update:selectedTopics="handleSelectedTopicsUpdate"
+          class="flex-1"
           :receivedSelectedTopics="selectedTopics"
         />
+
+        <FormSelectorComboboxCountry
+          id="mobile-country-filter"
+          @update:selectedCountry="handleSelectedCountryUpdate"
+          class="w-32 shrink-0"
+          :label="$t('i18n._global.country')"
+          :selectedCountry="selectedCountry"
+        />
+
+        <FormTextInputSearch
+          id="mobile-city-filter"
+          @update:modelValue="
+            (value: string) => {
+              selectedCity = value;
+              handleCityUpdate();
+            }
+          "
+          :ariaLabel="$t('i18n._global.search_city_button_aria_label')"
+          class="w-32 shrink-0"
+          :label="$t('i18n._global.filter_by_city')"
+          :modelValue="selectedCity"
+        />
       </div>
-    </HeaderAppPage>
+    </HeaderAppPageList>
     <Loading
       v-if="pending && !loadingFetchMore"
       :loading="pending && !loadingFetchMore"
@@ -43,9 +68,13 @@
 </template>
 
 <script setup lang="ts">
+import type { LocationQueryRaw } from "vue-router";
+
 const route = useRoute();
 const router = useRouter();
 const loadingFetchMore = ref(false);
+
+const { getLabelByKey } = useGetLabelByKeyFilter();
 
 const filters = computed<OrganizationFilters>(() => {
   // Note: We do not have a view filter for organizations.
@@ -59,6 +88,55 @@ const filters = computed<OrganizationFilters>(() => {
   return normalizedFilters;
 });
 const selectedTopics = ref<TopicEnum[]>([]);
+
+const listFilters = computed(() => {
+  const mappedFilters = Object.entries(filters.value).flatMap(
+    ([key, value]) => {
+      if (Array.isArray(value)) {
+        return value.map((v) => ({
+          id: `${key}-${v}`,
+          label: (getLabelByKey(key, v) ||
+            String(v).replace(/_/g, " ")) as string,
+          value: v,
+        }));
+      }
+      return {
+        id: key,
+        label: (getLabelByKey(key, value) ||
+          String(value).replace(/_/g, " ")) as string,
+        value,
+      };
+    }
+  );
+  return mappedFilters;
+});
+const removeFilter = (option: {
+  id: number | string;
+  label: string;
+  value: unknown;
+}) => {
+  const key = option.id.toString().split("-")[0];
+  if (!key) return;
+
+  const query = { ...route.query } as OrganizationFilters &
+    Record<string, unknown>;
+  const current = query[key];
+
+  if (Array.isArray(current)) {
+    const next = current.filter((v) => String(v) !== String(option.value));
+    if (next.length > 0) {
+      router.replace({
+        query: { ...query, [key]: next } as LocationQueryRaw,
+      });
+      return;
+    }
+  }
+
+  // Remove key without dynamic delete.
+  const { [key]: _removed, ...rest } = query;
+  router.replace({ query: rest as LocationQueryRaw });
+};
+
 watch(
   () => route.query.topics,
   (newVal) => {
@@ -108,4 +186,46 @@ const showOrganizations = computed(() => {
   }
   return false;
 });
+const selectedCountry = ref<string>("");
+const selectedCity = ref<string>("");
+
+watch(
+  () => route.query.country,
+  (newVal) => {
+    selectedCountry.value = (newVal as string) || "";
+  },
+  { immediate: true }
+);
+
+watch(
+  () => route.query.city,
+  (newVal) => {
+    selectedCity.value = (newVal as string) || "";
+  },
+  { immediate: true }
+);
+
+const handleSelectedCountryUpdate = (country: string) => {
+  const query = { ...route.query };
+
+  if (country) {
+    query.country = country;
+  } else {
+    delete query.country;
+  }
+
+  router.replace({ query });
+};
+
+const handleCityUpdate = () => {
+  const query = { ...route.query };
+
+  if (selectedCity.value) {
+    query.city = selectedCity.value;
+  } else {
+    delete query.city;
+  }
+
+  router.replace({ query });
+};
 </script>

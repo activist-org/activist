@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import { getEnglishText } from "#shared/utils/i18n";
-
 import { newOrganizationsFilter } from "~/test-e2e/component-objects/OrganizationsFilter";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { expect, test } from "~/test-e2e/global-fixtures";

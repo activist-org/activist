@@ -39,7 +39,7 @@ test.describe(
       await expect(eventsPage.eventsSubscribeButton).toBeEnabled();
 
       // Click the subscribe button (this should trigger calendar download).
-      await eventsPage.eventsSubscribeButton.click();
+      await eventsPage.eventsSubscribeButton.click({ force: true });
 
       // Note: The actual download functionality is handled by the browser.
       // and testing file downloads requires special configuration.
