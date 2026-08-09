@@ -3967,7 +3967,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/colada-nuxt@npm:^1.0.2":
+"@pinia/colada-nuxt@npm:1.0.2":
   version: 1.0.2
   resolution: "@pinia/colada-nuxt@npm:1.0.2"
   dependencies:
@@ -3978,7 +3978,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/colada@npm:^1.4.2":
+"@pinia/colada@npm:1.4.2":
   version: 1.4.2
   resolution: "@pinia/colada@npm:1.4.2"
   dependencies:
@@ -6897,8 +6897,8 @@ __metadata:
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.4.0"
     "@opentelemetry/api": "npm:1.9.1"
-    "@pinia/colada": "npm:^1.4.2"
-    "@pinia/colada-nuxt": "npm:^1.0.2"
+    "@pinia/colada": "npm:1.4.2"
+    "@pinia/colada-nuxt": "npm:1.0.2"
     "@pinia/nuxt": "npm:0.11.3"
     "@playwright/test": "npm:1.62.1"
     "@popperjs/core": "npm:2.11.8"
