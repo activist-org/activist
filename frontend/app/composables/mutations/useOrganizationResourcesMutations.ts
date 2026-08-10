@@ -11,14 +11,14 @@ export function useOrganizationResourcesMutations(
   const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Create new resource.
-  const { mutateAsync: createResourceAsync, isLoading: loadingCreateResource } =
+  const { mutateAsync: createResource, isLoading: loadingCreateResource } =
     useMutation({
       mutation: (resourceData: ResourceInput) =>
         createOrganizationResource(
           currentOrganizationId.value,
           resourceData as Resource
         ),
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
       },
       onError(err) {
@@ -27,11 +27,11 @@ export function useOrganizationResourcesMutations(
     });
 
   // Update existing resource.
-  const { mutateAsync: updateResourceAsync, isLoading: loadingUpdateResource } =
+  const { mutateAsync: updateResource, isLoading: loadingUpdateResource } =
     useMutation({
       mutation: (resource: ResourceInput) =>
         updateOrganizationResource(currentOrganizationId.value, resource),
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
       },
       onError(err) {
@@ -40,10 +40,10 @@ export function useOrganizationResourcesMutations(
     });
 
   // Delete existing resource.
-  const { mutateAsync: deleteResourceAsync, isLoading: loadingDeleteResource } =
+  const { mutateAsync: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
       mutation: (resourceId: string) => deleteOrganizationResource(resourceId),
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
       },
       onError(err) {
@@ -52,60 +52,20 @@ export function useOrganizationResourcesMutations(
     });
 
   // Reorder multiple resource entries.
-  const {
-    mutateAsync: reorderResourcesAsync,
-    isLoading: loadingReorderResources,
-  } = useMutation({
-    mutation: (orderedResources: Resource[]) =>
-      reorderOrganizationResources(
-        currentOrganizationId.value,
-        orderedResources
-      ),
-    async onSettled() {
-      await invalidateOrganizationCache(currentOrganizationId.value);
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
-
-  // Wrappers keep the true/false contract that call sites rely on.
-  const createResource = async (resourceData: ResourceInput) => {
-    if (!currentOrganizationId.value) return false;
-    try {
-      await createResourceAsync(resourceData);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const updateResource = async (resource: ResourceInput) => {
-    try {
-      await updateResourceAsync(resource);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const deleteResource = async (resourceId: string) => {
-    try {
-      await deleteResourceAsync(resourceId);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const reorderResources = async (resources: Resource[]) => {
-    try {
-      await reorderResourcesAsync(resources);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+  const { mutateAsync: reorderResources, isLoading: loadingReorderResources } =
+    useMutation({
+      mutation: (orderedResources: Resource[]) =>
+        reorderOrganizationResources(
+          currentOrganizationId.value,
+          orderedResources
+        ),
+      async onSuccess() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   watch(
     [

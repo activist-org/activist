@@ -20,17 +20,23 @@ const {
   showToastError,
   updateGroupImage,
   uploadGroupImages,
+  deleteImage,
   invalidateGroupImageCache,
 } = vi.hoisted(() => ({
   showToastError: vi.fn(),
   updateGroupImage: vi.fn(),
   uploadGroupImages: vi.fn(),
+  deleteImage: vi.fn(),
   invalidateGroupImageCache: vi.fn(),
 }));
 
 vi.mock("../../../app/services/communities/group/image", () => ({
   updateGroupImage: (...args: unknown[]) => updateGroupImage(...args),
   uploadGroupImages: (...args: unknown[]) => uploadGroupImages(...args),
+}));
+
+vi.mock("../../../app/services/content/image", () => ({
+  deleteImage: (...args: unknown[]) => deleteImage(...args),
 }));
 
 vi.mock("../../../app/composables/generic/useToaster", () => ({
@@ -53,6 +59,7 @@ describe("useGroupImageMutations", () => {
     setupMutationMocks([
       updateGroupImage,
       uploadGroupImages,
+      deleteImage,
       invalidateGroupImageCache,
     ]);
   });
@@ -69,7 +76,7 @@ describe("useGroupImageMutations", () => {
       );
     });
 
-    it("calls invalidateGroupImageCache via onSettled on success", async () => {
+    it("calls invalidateGroupImageCache via onSuccess on success", async () => {
       const { updateImage } = useGroupImageMutations(groupId);
 
       await updateImage(defaultContentImage as never);
@@ -77,17 +84,15 @@ describe("useGroupImageMutations", () => {
       expect(invalidateGroupImageCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("rejects, sets error, and still invalidates when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       updateGroupImage.mockRejectedValue(new Error("Update failed"));
-      const { updateImage, error } = useGroupImageMutations(groupId);
+      const { updateImage } = useGroupImageMutations(groupId);
 
       await expect(updateImage(defaultContentImage as never)).rejects.toThrow(
         "Update failed"
       );
 
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupImageCache).toHaveBeenCalledWith("group-123");
+      expect(invalidateGroupImageCache).not.toHaveBeenCalled();
     });
   });
 
@@ -119,7 +124,7 @@ describe("useGroupImageMutations", () => {
       );
     });
 
-    it("calls invalidateGroupImageCache via onSettled on success", async () => {
+    it("calls invalidateGroupImageCache via onSuccess on success", async () => {
       const { uploadImages } = useGroupImageMutations(groupId);
 
       await uploadImages({ images: [createSampleUploadableFile()] });
@@ -127,17 +132,47 @@ describe("useGroupImageMutations", () => {
       expect(invalidateGroupImageCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("rejects, sets error, and still invalidates when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       uploadGroupImages.mockRejectedValue(new Error("Upload failed"));
-      const { uploadImages, error } = useGroupImageMutations(groupId);
+      const { uploadImages } = useGroupImageMutations(groupId);
 
       await expect(
         uploadImages({ images: [createSampleUploadableFile()] })
       ).rejects.toThrow("Upload failed");
 
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
+      expect(invalidateGroupImageCache).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("deleteImage", () => {
+    it("calls deleteImage service with imageId on success", async () => {
+      const { deleteImage: deleteImageMutation } =
+        useGroupImageMutations(groupId);
+
+      await deleteImageMutation("img-1");
+
+      expect(deleteImage).toHaveBeenCalledWith("img-1");
+    });
+
+    it("calls invalidateGroupImageCache via onSuccess on success", async () => {
+      const { deleteImage: deleteImageMutation } =
+        useGroupImageMutations(groupId);
+
+      await deleteImageMutation("img-1");
+
       expect(invalidateGroupImageCache).toHaveBeenCalledWith("group-123");
+    });
+
+    it("rejects and does not invalidate cache when service throws", async () => {
+      deleteImage.mockRejectedValue(new Error("Delete failed"));
+      const { deleteImage: deleteImageMutation } =
+        useGroupImageMutations(groupId);
+
+      await expect(deleteImageMutation("img-1")).rejects.toThrow(
+        "Delete failed"
+      );
+
+      expect(invalidateGroupImageCache).not.toHaveBeenCalled();
     });
   });
 

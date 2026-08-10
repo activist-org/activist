@@ -6,13 +6,13 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   const loading = ref(false);
   const { invalidateEventCache } = useEventCache();
   const {
-    mutateAsync: mutateAsyncAsyncUploadIconImage,
+    mutateAsync: uploadIconImage,
     isLoading: loadingUploadIconImage,
     error,
   } = useMutation({
     mutation: (image: UploadableFile) =>
       uploadEventIconImage(unref(eventId), image),
-    async onSettled() {
+    async onSuccess() {
       await invalidateEventCache(unref(eventId));
       // Clear cached events to force refetch with new data.
     },
@@ -28,6 +28,6 @@ export function useEventImageIconMutations(eventId: MaybeRef<string>) {
   return {
     loading: readonly(loading),
     error,
-    uploadIconImage: mutateAsyncAsyncUploadIconImage,
+    uploadIconImage,
   };
 }

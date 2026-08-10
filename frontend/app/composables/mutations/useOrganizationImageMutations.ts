@@ -16,7 +16,7 @@ export function useOrganizationImageMutations(
     useMutation({
       mutation: (contentImage: ContentImage) =>
         updateOrganizationImage(currentOrganizationId.value, contentImage),
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationImageCache(currentOrganizationId.value);
       },
       onError(err) {
@@ -39,7 +39,7 @@ export function useOrganizationImageMutations(
           images,
           sequences
         ),
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationImageCache(currentOrganizationId.value);
       },
       onError(err) {
@@ -51,7 +51,7 @@ export function useOrganizationImageMutations(
   const { mutateAsync: deleteImageAsync, isLoading: loadingDeleteImage } =
     useMutation({
       mutation: (imageId: string) => deleteImage(imageId),
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationImageCache(currentOrganizationId.value);
       },
       onError(err) {
@@ -64,7 +64,7 @@ export function useOrganizationImageMutations(
     useMutation({
       mutation: (image: UploadableFile) =>
         uploadOrganizationIconImage(currentOrganizationId.value, image),
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
       },
       onError(err) {

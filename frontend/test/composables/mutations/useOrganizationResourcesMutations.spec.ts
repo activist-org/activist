@@ -67,16 +67,15 @@ describe("useOrganizationResourcesMutations", () => {
       const { createResource } =
         useOrganizationResourcesMutations(organizationId);
 
-      const result = await createResource(sampleResourceInput);
+      await createResource(sampleResourceInput);
 
       expect(createOrganizationResource).toHaveBeenCalledWith(
         "org-123",
         expect.objectContaining(sampleResourceInput)
       );
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache via onSettled on success", async () => {
+    it("calls invalidateOrganizationCache via onSuccess on success", async () => {
       const { createResource } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -85,43 +84,16 @@ describe("useOrganizationResourcesMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false when organizationId is empty", async () => {
-      organizationId.value = "";
+    it("rejects and does not invalidate cache when service throws", async () => {
+      createOrganizationResource.mockRejectedValue(new Error("Create failed"));
       const { createResource } =
         useOrganizationResourcesMutations(organizationId);
 
-      const result = await createResource(sampleResourceInput);
-
-      expect(result).toBe(false);
-      expect(createOrganizationResource).not.toHaveBeenCalled();
-    });
-
-    it("returns false, sets error, and still invalidates when service throws", async () => {
-      createOrganizationResource.mockRejectedValue(new Error("Create failed"));
-      const { createResource, error } =
-        useOrganizationResourcesMutations(organizationId);
-
-      const result = await createResource(sampleResourceInput);
-
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
-    });
-
-    it("returns false when service rejects invalid resource data", async () => {
-      const badResource = { ...sampleResourceInput, name: "" };
-      createOrganizationResource.mockRejectedValue(
-        new Error("Invalid resource data")
+      await expect(createResource(sampleResourceInput)).rejects.toThrow(
+        "Create failed"
       );
-      const { createResource, error } =
-        useOrganizationResourcesMutations(organizationId);
 
-      const result = await createResource(badResource);
-
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
@@ -130,16 +102,15 @@ describe("useOrganizationResourcesMutations", () => {
       const { updateResource } =
         useOrganizationResourcesMutations(organizationId);
 
-      const result = await updateResource(sampleResourceInput);
+      await updateResource(sampleResourceInput);
 
       expect(updateOrganizationResource).toHaveBeenCalledWith(
         "org-123",
         sampleResourceInput
       );
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache via onSettled on success", async () => {
+    it("calls invalidateOrganizationCache via onSuccess on success", async () => {
       const { updateResource } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -148,17 +119,16 @@ describe("useOrganizationResourcesMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and still invalidates when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       updateOrganizationResource.mockRejectedValue(new Error("Update failed"));
-      const { updateResource, error } =
+      const { updateResource } =
         useOrganizationResourcesMutations(organizationId);
 
-      const result = await updateResource(sampleResourceInput);
+      await expect(updateResource(sampleResourceInput)).rejects.toThrow(
+        "Update failed"
+      );
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
@@ -167,15 +137,14 @@ describe("useOrganizationResourcesMutations", () => {
       const { deleteResource } =
         useOrganizationResourcesMutations(organizationId);
 
-      const result = await deleteResource(sampleResourceInput.id);
+      await deleteResource(sampleResourceInput.id);
 
       expect(deleteOrganizationResource).toHaveBeenCalledWith(
         sampleResourceInput.id
       );
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache via onSettled on success", async () => {
+    it("calls invalidateOrganizationCache via onSuccess on success", async () => {
       const { deleteResource } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -184,17 +153,16 @@ describe("useOrganizationResourcesMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and still invalidates when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       deleteOrganizationResource.mockRejectedValue(new Error("Delete failed"));
-      const { deleteResource, error } =
+      const { deleteResource } =
         useOrganizationResourcesMutations(organizationId);
 
-      const result = await deleteResource(sampleResourceInput.id);
+      await expect(deleteResource(sampleResourceInput.id)).rejects.toThrow(
+        "Delete failed"
+      );
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
@@ -204,16 +172,15 @@ describe("useOrganizationResourcesMutations", () => {
       const { reorderResources } =
         useOrganizationResourcesMutations(organizationId);
 
-      const result = await reorderResources(resources);
+      await reorderResources(resources);
 
       expect(reorderOrganizationResources).toHaveBeenCalledWith(
         "org-123",
         resources
       );
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateOrganizationCache via onSettled on success", async () => {
+    it("calls invalidateOrganizationCache via onSuccess on success", async () => {
       const { reorderResources } =
         useOrganizationResourcesMutations(organizationId);
 
@@ -222,19 +189,18 @@ describe("useOrganizationResourcesMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false, sets error, and still invalidates when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       reorderOrganizationResources.mockRejectedValue(
         new Error("Reorder failed")
       );
-      const { reorderResources, error } =
+      const { reorderResources } =
         useOrganizationResourcesMutations(organizationId);
 
-      const result = await reorderResources([sampleResourceInput]);
+      await expect(reorderResources([sampleResourceInput])).rejects.toThrow(
+        "Reorder failed"
+      );
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 

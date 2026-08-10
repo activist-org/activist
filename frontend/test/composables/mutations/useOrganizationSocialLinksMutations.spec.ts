@@ -65,14 +65,13 @@ describe("useOrganizationSocialLinksMutations", () => {
       const { updateLink } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await updateLink(linkId, data);
+      await updateLink({ id: linkId, ...data });
 
       expect(updateOrganizationSocialLink).toHaveBeenCalledWith(
         "org-123",
         linkId,
         expect.objectContaining(data)
       );
-      expect(result).toBe(true);
     });
 
     it("calls invalidateOrganizationCache via onSettled on success", async () => {
@@ -84,27 +83,28 @@ describe("useOrganizationSocialLinksMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false when organizationId is empty", async () => {
+    it("does not call updateOrganizationSocialLink when organizationId is empty", async () => {
       organizationId.value = "";
       const { updateLink } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await updateLink("link-1", sampleSocialLinkInput);
+      await updateLink("link-1", sampleSocialLinkInput);
 
-      expect(result).toBe(false);
       expect(updateOrganizationSocialLink).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("throws error and does not invalidate cache when service throws", async () => {
       updateOrganizationSocialLink.mockRejectedValue(
         new Error("Update failed")
       );
       const { updateLink } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await updateLink("link-1", sampleSocialLinkInput);
+      await expect(updateLink("link-1", sampleSocialLinkInput)).rejects.toThrow(
+        "Update failed"
+      );
 
-      expect(result).toBe(false);
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
@@ -114,13 +114,12 @@ describe("useOrganizationSocialLinksMutations", () => {
       const { createLinks } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await createLinks(links);
+      await createLinks(links);
 
       expect(createOrganizationSocialLinks).toHaveBeenCalledWith(
         "org-123",
         links
       );
-      expect(result).toBe(true);
     });
 
     it("calls invalidateOrganizationCache via onSettled on success", async () => {
@@ -132,28 +131,26 @@ describe("useOrganizationSocialLinksMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false when organizationId is empty", async () => {
+    it("does not call createOrganizationSocialLinks when organizationId is empty", async () => {
       organizationId.value = "";
       const { createLinks } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await createLinks([sampleSocialLinkInput]);
+      await createLinks([sampleSocialLinkInput]);
 
-      expect(result).toBe(false);
       expect(createOrganizationSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when links is empty", async () => {
+    it("does not call createOrganizationSocialLinks with empty links array", async () => {
       const { createLinks } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await createLinks([]);
+      await createLinks([]);
 
-      expect(result).toBe(false);
       expect(createOrganizationSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service rejects invalid link data", async () => {
+    it("throws error when service rejects invalid link data", async () => {
       const badLinks = [{ link: "", label: "Bad", order: 0 }];
       createOrganizationSocialLinks.mockRejectedValue(
         new Error("Invalid link data")
@@ -161,9 +158,9 @@ describe("useOrganizationSocialLinksMutations", () => {
       const { createLinks } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await createLinks(badLinks);
-
-      expect(result).toBe(false);
+      await expect(createLinks(badLinks)).rejects.toThrow(
+        "Invalid link data"
+      );
     });
   });
 
@@ -173,10 +170,9 @@ describe("useOrganizationSocialLinksMutations", () => {
       const { deleteLink } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await deleteLink(linkId);
+      await deleteLink(linkId);
 
       expect(deleteOrganizationSocialLink).toHaveBeenCalledWith(linkId);
-      expect(result).toBe(true);
     });
 
     it("calls invalidateOrganizationCache via onSettled on success", async () => {
@@ -188,16 +184,16 @@ describe("useOrganizationSocialLinksMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false when service throws", async () => {
+    it("throws error and does not invalidate cache when service throws", async () => {
       deleteOrganizationSocialLink.mockRejectedValue(
         new Error("Delete failed")
       );
       const { deleteLink } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await deleteLink("link-1");
+      await expect(deleteLink("link-1")).rejects.toThrow("Delete failed");
 
-      expect(result).toBe(false);
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 
@@ -207,13 +203,12 @@ describe("useOrganizationSocialLinksMutations", () => {
       const { replaceAllLinks } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await replaceAllLinks(links);
+      await replaceAllLinks(links);
 
       expect(replaceAllOrganizationSocialLinks).toHaveBeenCalledWith(
         "org-123",
         links
       );
-      expect(result).toBe(true);
     });
 
     it("calls invalidateOrganizationCache via onSettled on success", async () => {
@@ -225,27 +220,28 @@ describe("useOrganizationSocialLinksMutations", () => {
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("returns false when organizationId is empty", async () => {
+    it("does not call replaceAllOrganizationSocialLinks when organizationId is empty", async () => {
       organizationId.value = "";
       const { replaceAllLinks } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await replaceAllLinks([sampleSocialLinkInput]);
+      await replaceAllLinks([sampleSocialLinkInput]);
 
-      expect(result).toBe(false);
       expect(replaceAllOrganizationSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("throws error and does not invalidate cache when service throws", async () => {
       replaceAllOrganizationSocialLinks.mockRejectedValue(
         new Error("Replace failed")
       );
       const { replaceAllLinks } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      const result = await replaceAllLinks([sampleSocialLinkInput]);
+      await expect(replaceAllLinks([sampleSocialLinkInput])).rejects.toThrow(
+        "Replace failed"
+      );
 
-      expect(result).toBe(false);
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 

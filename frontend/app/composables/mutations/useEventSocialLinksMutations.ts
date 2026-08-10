@@ -24,7 +24,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
           linkData
         );
       },
-      async onSettled() {
+      async onSuccess() {
         await invalidateEventCache(currentEventId.value);
       },
       onError(err) {
@@ -43,7 +43,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
         if (!links || links.length === 0) return null; // Added defensive check
         return createEventSocialLinks(currentEventId.value, links);
       },
-      async onSettled() {
+      async onSuccess() {
         await invalidateEventCache(currentEventId.value);
       },
       onError(err) {
@@ -58,7 +58,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
         if (!currentEventId.value) return null;
         return deleteEventSocialLink(linkId);
       },
-      async onSettled() {
+      async onSuccess() {
         await invalidateEventCache(currentEventId.value);
       },
       onError(err) {
@@ -77,7 +77,7 @@ export function useEventSocialLinksMutations(eventId: MaybeRef<string>) {
         if (!links || links.length === 0) return null;
         return replaceAllEventSocialLinks(currentEventId.value, links);
       },
-      async onSettled() {
+      async onSuccess() {
         await invalidateEventCache(currentEventId.value);
       },
       onError(err) {

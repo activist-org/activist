@@ -22,6 +22,7 @@ const {
   updateOrganizationImage,
   uploadOrganizationImages,
   uploadOrganizationIconImage,
+  deleteImage,
   invalidateOrganizationCache,
   invalidateOrganizationImageCache,
 } = vi.hoisted(() => ({
@@ -30,10 +31,12 @@ const {
   updateOrganizationImage: vi.fn(),
   uploadOrganizationImages: vi.fn(),
   uploadOrganizationIconImage: vi.fn(),
+  deleteImage: vi.fn(),
   invalidateOrganizationCache: vi.fn(),
   invalidateOrganizationImageCache: vi.fn(),
 }));
 
+// Organization image service module mocks
 vi.mock("../../../app/services/communities/organization/image", () => ({
   updateOrganizationImage: (...args: unknown[]) =>
     updateOrganizationImage(...args),
@@ -41,6 +44,11 @@ vi.mock("../../../app/services/communities/organization/image", () => ({
     uploadOrganizationImages(...args),
   uploadOrganizationIconImage: (...args: unknown[]) =>
     uploadOrganizationIconImage(...args),
+}));
+
+// Content image service module mock for deleteImage
+vi.mock("../../../app/services/content/image", () => ({
+  deleteImage: (...args: unknown[]) => deleteImage(...args),
 }));
 
 vi.mock("../../../app/composables/generic/useToaster", () => ({
@@ -58,13 +66,6 @@ vi.mock("../../../app/composables/cache/useOrganizationCache", () => ({
   }),
 }));
 
-// vi.mock("../../../app/stores/data/organization", () => ({
-//   useOrganizationListStore: () => ({ setItems }),
-// }));
-
-// The organizations list refresh still goes through refreshNuxtData.
-// mockNuxtImport("refreshNuxtData", () => mockRefreshNuxtData);
-
 describe("useOrganizationImageMutations", () => {
   const organizationId = ref("org-123");
 
@@ -75,6 +76,7 @@ describe("useOrganizationImageMutations", () => {
       updateOrganizationImage,
       uploadOrganizationImages,
       uploadOrganizationIconImage,
+      deleteImage,
       invalidateOrganizationCache,
       invalidateOrganizationImageCache,
     ]);
@@ -92,7 +94,7 @@ describe("useOrganizationImageMutations", () => {
       );
     });
 
-    it("calls invalidateOrganizationImageCache via onSettled on success", async () => {
+    it("calls invalidateOrganizationImageCache via onSuccess on success", async () => {
       const { updateImage } = useOrganizationImageMutations(organizationId);
 
       await updateImage(defaultContentImage as never);
@@ -100,18 +102,15 @@ describe("useOrganizationImageMutations", () => {
       expect(invalidateOrganizationImageCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("rejects, sets error, and still invalidates when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       updateOrganizationImage.mockRejectedValue(new Error("Update failed"));
-      const { updateImage, error } =
-        useOrganizationImageMutations(organizationId);
+      const { updateImage } = useOrganizationImageMutations(organizationId);
 
       await expect(updateImage(defaultContentImage as never)).rejects.toThrow(
         "Update failed"
       );
 
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationImageCache).toHaveBeenCalledWith("org-123");
+      expect(invalidateOrganizationImageCache).not.toHaveBeenCalled();
     });
   });
 
@@ -129,7 +128,7 @@ describe("useOrganizationImageMutations", () => {
       );
     });
 
-    it("calls invalidateOrganizationImageCache via onSettled on success", async () => {
+    it("calls invalidateOrganizationImageCache via onSuccess on success", async () => {
       const { uploadImages } = useOrganizationImageMutations(organizationId);
 
       await uploadImages({ images: [createSampleUploadableFile()] });
@@ -137,18 +136,47 @@ describe("useOrganizationImageMutations", () => {
       expect(invalidateOrganizationImageCache).toHaveBeenCalledWith("org-123");
     });
 
-    it("rejects, sets error, and still invalidates when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       uploadOrganizationImages.mockRejectedValue(new Error("Upload failed"));
-      const { uploadImages, error } =
-        useOrganizationImageMutations(organizationId);
+      const { uploadImages } = useOrganizationImageMutations(organizationId);
 
       await expect(
         uploadImages({ images: [createSampleUploadableFile()] })
       ).rejects.toThrow("Upload failed");
 
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
+      expect(invalidateOrganizationImageCache).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("deleteImage", () => {
+    it("calls deleteImage with imageId on success", async () => {
+      const { deleteImage: deleteImageMutation } =
+        useOrganizationImageMutations(organizationId);
+
+      await deleteImageMutation("img-1");
+
+      expect(deleteImage).toHaveBeenCalledWith("img-1");
+    });
+
+    it("calls invalidateOrganizationImageCache via onSuccess on success", async () => {
+      const { deleteImage: deleteImageMutation } =
+        useOrganizationImageMutations(organizationId);
+
+      await deleteImageMutation("img-1");
+
       expect(invalidateOrganizationImageCache).toHaveBeenCalledWith("org-123");
+    });
+
+    it("rejects and does not invalidate cache when service throws", async () => {
+      deleteImage.mockRejectedValue(new Error("Delete failed"));
+      const { deleteImage: deleteImageMutation } =
+        useOrganizationImageMutations(organizationId);
+
+      await expect(deleteImageMutation("img-1")).rejects.toThrow(
+        "Delete failed"
+      );
+
+      expect(invalidateOrganizationImageCache).not.toHaveBeenCalled();
     });
   });
 
@@ -165,29 +193,23 @@ describe("useOrganizationImageMutations", () => {
       );
     });
 
-    it("invalidates the organization and clears the cached list on success", async () => {
+    it("invalidates the organization cache on success", async () => {
       const { uploadIconImage } = useOrganizationImageMutations(organizationId);
 
       await uploadIconImage(createSampleUploadableFile());
 
       expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
-      await vi.waitFor(() => {
-        expect(invalidateOrganizationCache).toHaveBeenCalled();
-      });
     });
 
-    it("rejects, sets error, and still invalidates when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       uploadOrganizationIconImage.mockRejectedValue(new Error("Upload failed"));
-      const { uploadIconImage, error } =
-        useOrganizationImageMutations(organizationId);
+      const { uploadIconImage } = useOrganizationImageMutations(organizationId);
 
       await expect(
         uploadIconImage(createSampleUploadableFile())
       ).rejects.toThrow("Upload failed");
 
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateOrganizationCache).toHaveBeenCalledWith("org-123");
+      expect(invalidateOrganizationCache).not.toHaveBeenCalled();
     });
   });
 

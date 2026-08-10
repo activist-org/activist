@@ -62,16 +62,15 @@ describe("useGroupResourcesMutations", () => {
     it("calls createGroupResource with groupId and resourceData on success", async () => {
       const { createResource } = useGroupResourcesMutations(groupId);
 
-      const result = await createResource(sampleResourceInput);
+      await createResource(sampleResourceInput);
 
       expect(createGroupResource).toHaveBeenCalledWith(
         "group-123",
         expect.objectContaining(sampleResourceInput)
       );
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache via onSettled on success", async () => {
+    it("calls invalidateGroupCache via onSuccess on success", async () => {
       const { createResource } = useGroupResourcesMutations(groupId);
 
       await createResource(sampleResourceInput);
@@ -79,38 +78,38 @@ describe("useGroupResourcesMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false when groupId is empty", async () => {
+    it("calls createGroupResource even when groupId is empty", async () => {
       groupId.value = "";
       const { createResource } = useGroupResourcesMutations(groupId);
 
-      const result = await createResource(sampleResourceInput);
+      await createResource(sampleResourceInput);
 
-      expect(result).toBe(false);
-      expect(createGroupResource).not.toHaveBeenCalled();
+      expect(createGroupResource).toHaveBeenCalledWith(
+        "",
+        expect.objectContaining(sampleResourceInput)
+      );
     });
 
-    it("returns false, sets error, and still invalidates when service throws", async () => {
+    it("throws error and does not invalidate when service throws", async () => {
       createGroupResource.mockRejectedValue(new Error("Create failed"));
-      const { createResource, error } = useGroupResourcesMutations(groupId);
+      const { createResource } = useGroupResourcesMutations(groupId);
 
-      const result = await createResource(sampleResourceInput);
+      await expect(createResource(sampleResourceInput)).rejects.toThrow(
+        "Create failed"
+      );
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
+      // Composable uses `onSuccess` for creation, so it does not invalidate on error
+      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
 
-    it("returns false when service rejects invalid resource data", async () => {
+    it("throws when service rejects invalid resource data", async () => {
       const badResource = { ...sampleResourceInput, name: "" };
       createGroupResource.mockRejectedValue(new Error("Invalid resource data"));
-      const { createResource, error } = useGroupResourcesMutations(groupId);
+      const { createResource } = useGroupResourcesMutations(groupId);
 
-      const result = await createResource(badResource);
-
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
+      await expect(createResource(badResource)).rejects.toThrow(
+        "Invalid resource data"
+      );
     });
   });
 
@@ -118,13 +117,12 @@ describe("useGroupResourcesMutations", () => {
     it("calls updateGroupResource with resource on success", async () => {
       const { updateResource } = useGroupResourcesMutations(groupId);
 
-      const result = await updateResource(sampleResourceInput);
+      await updateResource(sampleResourceInput);
 
       expect(updateGroupResource).toHaveBeenCalledWith(sampleResourceInput);
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache via onSettled on success", async () => {
+    it("calls invalidateGroupCache via onSuccess on success", async () => {
       const { updateResource } = useGroupResourcesMutations(groupId);
 
       await updateResource(sampleResourceInput);
@@ -132,16 +130,16 @@ describe("useGroupResourcesMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and still invalidates when service throws", async () => {
+    it("throws error and does not invalidate when service throws", async () => {
       updateGroupResource.mockRejectedValue(new Error("Update failed"));
-      const { updateResource, error } = useGroupResourcesMutations(groupId);
+      const { updateResource } = useGroupResourcesMutations(groupId);
 
-      const result = await updateResource(sampleResourceInput);
+      await expect(updateResource(sampleResourceInput)).rejects.toThrow(
+        "Update failed"
+      );
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
-      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
+      // Composable uses `onSuccess` for updates, so it does not invalidate on error
+      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
   });
 
@@ -149,10 +147,9 @@ describe("useGroupResourcesMutations", () => {
     it("calls deleteGroupResource with resourceId on success", async () => {
       const { deleteResource } = useGroupResourcesMutations(groupId);
 
-      const result = await deleteResource(sampleResourceInput.id);
+      await deleteResource(sampleResourceInput.id);
 
       expect(deleteGroupResource).toHaveBeenCalledWith(sampleResourceInput.id);
-      expect(result).toBe(true);
     });
 
     it("calls invalidateGroupCache via onSettled on success", async () => {
@@ -163,15 +160,15 @@ describe("useGroupResourcesMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and still invalidates when service throws", async () => {
+    it("throws error and still invalidates when service throws", async () => {
       deleteGroupResource.mockRejectedValue(new Error("Delete failed"));
-      const { deleteResource, error } = useGroupResourcesMutations(groupId);
+      const { deleteResource } = useGroupResourcesMutations(groupId);
 
-      const result = await deleteResource(sampleResourceInput.id);
+      await expect(deleteResource(sampleResourceInput.id)).rejects.toThrow(
+        "Delete failed"
+      );
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
+      // Composable uses `onSettled` for deletion, so it WILL invalidate cache
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });
@@ -181,10 +178,9 @@ describe("useGroupResourcesMutations", () => {
       const resources = [sampleResourceInput];
       const { reorderResources } = useGroupResourcesMutations(groupId);
 
-      const result = await reorderResources(resources);
+      await reorderResources(resources);
 
       expect(reorderGroupResources).toHaveBeenCalledWith(resources);
-      expect(result).toBe(true);
     });
 
     it("calls invalidateGroupCache via onSettled on success", async () => {
@@ -195,15 +191,15 @@ describe("useGroupResourcesMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false, sets error, and still invalidates when service throws", async () => {
+    it("throws error and still invalidates when service throws", async () => {
       reorderGroupResources.mockRejectedValue(new Error("Reorder failed"));
-      const { reorderResources, error } = useGroupResourcesMutations(groupId);
+      const { reorderResources } = useGroupResourcesMutations(groupId);
 
-      const result = await reorderResources([sampleResourceInput]);
+      await expect(reorderResources([sampleResourceInput])).rejects.toThrow(
+        "Reorder failed"
+      );
 
-      expect(result).toBe(false);
-      expect(error.value).not.toBeNull();
-      expect(showToastError).toHaveBeenCalled();
+      // Composable uses `onSettled` for reordering, so it WILL invalidate cache
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
   });

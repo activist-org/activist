@@ -9,13 +9,12 @@ import { useEventTextsMutations } from "../../../app/composables/mutations/useEv
 import { sampleEventTextFormData } from "./setup";
 
 // Hoist specific spies for this test.
-const { updateEventTexts, handleErrorMock, invalidateQueriesMock } = vi.hoisted(
-  () => ({
+const { updateEventTexts, handleErrorMock, invalidateEventCacheMock } =
+  vi.hoisted(() => ({
     updateEventTexts: vi.fn(),
     handleErrorMock: vi.fn(),
-    invalidateQueriesMock: vi.fn(),
-  })
-);
+    invalidateEventCacheMock: vi.fn(),
+  }));
 
 // Mock API service.
 vi.mock("../../../app/services/event/text", () => ({
@@ -33,18 +32,11 @@ vi.mock("../../../app/composables/generic/useAppError", async () => {
   };
 });
 
-// Intercept the global @pinia/colada mock just to add a spy to useQueryCache.
-vi.mock("@pinia/colada", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@pinia/colada")>();
-  return {
-    ...actual,
-    // useMutation is handled by the global setup file.
-    useQueryCache: () => ({
-      invalidateQueries: invalidateQueriesMock,
-      getEntries: vi.fn(),
-    }),
-  };
-});
+vi.mock("../../../app/composables/cache/useEventCache", () => ({
+  useEventCache: () => ({
+    invalidateEventCache: invalidateEventCacheMock,
+  }),
+}));
 
 describe("useEventTextsMutations", () => {
   const eventId = ref("event-123");
@@ -75,8 +67,7 @@ describe("useEventTextsMutations", () => {
       const { updateTexts } = useEventTextsMutations(eventId);
 
       await updateTexts({ textId, data: sampleEventTextFormData });
-      const { invalidateQueries } = globalThis.useQueryCache();
-      expect(invalidateQueries).toHaveBeenCalled();
+      expect(invalidateEventCacheMock).toHaveBeenCalled();
     });
 
     it("sets loading true then false", async () => {
@@ -104,9 +95,8 @@ describe("useEventTextsMutations", () => {
       );
 
       expect(handleErrorMock).toHaveBeenCalledWith(errorInstance);
-      const { invalidateQueries } = globalThis.useQueryCache();
-      // Verify cache invalidation still fires because it's in onSettled.
-      expect(invalidateQueries).toHaveBeenCalled();
+      // Verify that cache invalidation is not called when the service throws an error.
+      expect(invalidateEventCacheMock).not.toHaveBeenCalled();
     });
   });
 

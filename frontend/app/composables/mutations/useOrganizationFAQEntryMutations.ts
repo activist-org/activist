@@ -11,32 +11,30 @@ export function useOrganizationFAQEntryMutations(
   const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Create new FAQ entry.
-  const { mutateAsync: createFAQAsync, isLoading: loadingCreateFAQ } =
-    useMutation({
-      mutation: (faqData: Omit<FaqEntry, "id">) =>
-        createOrganizationFaq(currentOrganizationId.value, faqData as FaqEntry),
-      async onSettled() {
-        await invalidateOrganizationCache(currentOrganizationId.value);
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
+  const { mutateAsync: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
+    mutation: (faqData: Omit<FaqEntry, "id">) =>
+      createOrganizationFaq(currentOrganizationId.value, faqData as FaqEntry),
+    async onSettled() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+    },
+    onError(err) {
+      handleError(err);
+    },
+  });
 
   // Update existing FAQ entry.
-  const { mutateAsync: updateFAQAsync, isLoading: loadingUpdateFAQ } =
-    useMutation({
-      mutation: (faq: FaqEntry) => updateOrganizationFaq(faq),
-      async onSettled() {
-        await invalidateOrganizationCache(currentOrganizationId.value);
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
+  const { mutateAsync: updateFAQ, isLoading: loadingUpdateFAQ } = useMutation({
+    mutation: (faq: FaqEntry) => updateOrganizationFaq(faq),
+    async onSettled() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+    },
+    onError(err) {
+      handleError(err);
+    },
+  });
 
   // Reorder multiple FAQ entries.
-  const { mutateAsync: reorderFAQsAsync, isLoading: loadingReorderFAQs } =
+  const { mutateAsync: reorderFAQs, isLoading: loadingReorderFAQs } =
     useMutation({
       mutation: (faqs: FaqEntry[]) => reorderOrganizationFaqs(faqs),
       async onSettled() {
@@ -48,54 +46,15 @@ export function useOrganizationFAQEntryMutations(
     });
 
   // Delete FAQ entry.
-  const { mutateAsync: deleteFAQAsync, isLoading: loadingDeleteFAQ } =
-    useMutation({
-      mutation: (faqId: string) => deleteOrganizationFaq(faqId),
-      async onSettled() {
-        await invalidateOrganizationCache(currentOrganizationId.value);
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
-
-  // Wrappers keep the true/false contract that call sites rely on.
-  const createFAQ = async (faqData: Omit<FaqEntry, "id">) => {
-    if (!currentOrganizationId.value) return false;
-    try {
-      await createFAQAsync(faqData);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const updateFAQ = async (faq: FaqEntry) => {
-    try {
-      await updateFAQAsync(faq);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const reorderFAQs = async (faqs: FaqEntry[]) => {
-    try {
-      await reorderFAQsAsync(faqs);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const deleteFAQ = async (faqId: string) => {
-    try {
-      await deleteFAQAsync(faqId);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+  const { mutateAsync: deleteFAQ, isLoading: loadingDeleteFAQ } = useMutation({
+    mutation: (faqId: string) => deleteOrganizationFaq(faqId),
+    async onSuccess() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+    },
+    onError(err) {
+      handleError(err);
+    },
+  });
 
   watch(
     [loadingCreateFAQ, loadingUpdateFAQ, loadingDeleteFAQ, loadingReorderFAQs],

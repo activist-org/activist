@@ -139,22 +139,25 @@ describe("useGetGroup", () => {
   // MARK: Reactive Properties
 
   describe("Reactive Properties", () => {
-    it("data is undefined before the query has run", async () => {
+    it("data is defined before the query has run", async () => {
       const { useGetGroup } =
         await import("../../../app/composables/queries/useGetGroup");
 
       const { data } = useGetGroup("group-123");
 
-      expect(data).toBe(undefined);
+      expect(data).toBeDefined();
+      expect(data).toHaveProperty("value");
     });
 
-    it("pending is undefined before the query has run", async () => {
+    it("pending is a boolean before the query has run", async () => {
       const { useGetGroup } =
         await import("../../../app/composables/queries/useGetGroup");
 
       const { pending } = useGetGroup("group-123");
 
-      expect(pending).toBeUndefined();
+      expect(pending).toBeDefined();
+      expect(pending).toHaveProperty("value");
+      expect(typeof pending.value).toBe("boolean");
     });
 
     it("error is a Vue ref", async () => {
@@ -186,7 +189,8 @@ describe("useGetGroup", () => {
       const result = useGetGroup("group-123");
 
       expect(result).toBeDefined();
-      expect(result.data).toBeUndefined();
+      expect(result.data).toBeDefined();
+      expect(result.data).toHaveProperty("value");
     });
 
     it("accepts empty string ID without error", async () => {
@@ -212,13 +216,14 @@ describe("useGetGroup", () => {
   // MARK: Type Safety
 
   describe("Type Safety", () => {
-    it("data will be undefined initially", async () => {
+    it("data will be defined initially", async () => {
       const { useGetGroup } =
         await import("../../../app/composables/queries/useGetGroup");
 
       const { data } = useGetGroup("group-123");
 
-      expect(data).toBeUndefined();
+      expect(data).toBeDefined();
+      expect(data).toHaveProperty("value");
     });
 
     it("createMockGroup produces valid Group structure", () => {

@@ -9,11 +9,11 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
   const { invalidateGroupCache } = useGroupCache();
 
   // Create new resource.
-  const { mutateAsync: createResourceAsync, isLoading: loadingCreateResource } =
+  const { mutateAsync: createResource, isLoading: loadingCreateResource } =
     useMutation({
       mutation: (resourceData: ResourceInput) =>
         createGroupResource(currentGroupId.value, resourceData as Resource),
-      async onSettled() {
+      async onSuccess() {
         await invalidateGroupCache(currentGroupId.value);
       },
       onError(err) {
@@ -22,10 +22,10 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     });
 
   // Update existing resource.
-  const { mutateAsync: updateResourceAsync, isLoading: loadingUpdateResource } =
+  const { mutateAsync: updateResource, isLoading: loadingUpdateResource } =
     useMutation({
       mutation: (resource: ResourceInput) => updateGroupResource(resource),
-      async onSettled() {
+      async onSuccess() {
         await invalidateGroupCache(currentGroupId.value);
       },
       onError(err) {
@@ -34,7 +34,7 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     });
 
   // Delete existing resource.
-  const { mutateAsync: deleteResourceAsync, isLoading: loadingDeleteResource } =
+  const { mutateAsync: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
       mutation: (resourceId: string) => deleteGroupResource(resourceId),
       async onSettled() {
@@ -46,57 +46,17 @@ export function useGroupResourcesMutations(groupId: MaybeRef<string>) {
     });
 
   // Reorder multiple resource entries.
-  const {
-    mutateAsync: reorderResourcesAsync,
-    isLoading: loadingReorderResources,
-  } = useMutation({
-    mutation: (orderedResources: Resource[]) =>
-      reorderGroupResources(orderedResources),
-    async onSettled() {
-      await invalidateGroupCache(currentGroupId.value);
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
-
-  // Wrappers keep the true/false contract that call sites rely on.
-  const createResource = async (resourceData: ResourceInput) => {
-    if (!currentGroupId.value) return false;
-    try {
-      await createResourceAsync(resourceData);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const updateResource = async (resource: ResourceInput) => {
-    try {
-      await updateResourceAsync(resource);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const deleteResource = async (resourceId: string) => {
-    try {
-      await deleteResourceAsync(resourceId);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const reorderResources = async (resources: Resource[]) => {
-    try {
-      await reorderResourcesAsync(resources);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+  const { mutateAsync: reorderResources, isLoading: loadingReorderResources } =
+    useMutation({
+      mutation: (orderedResources: Resource[]) =>
+        reorderGroupResources(orderedResources),
+      async onSettled() {
+        await invalidateGroupCache(currentGroupId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    });
 
   watch(
     [

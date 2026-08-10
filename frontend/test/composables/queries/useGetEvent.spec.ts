@@ -144,7 +144,8 @@ describe("useGetEvent", () => {
 
       const { data } = useGetEvent("event-123");
 
-      expect(data).toBe(undefined); // Initially undefined since the query hasn't run yet
+      expect(data).toBeDefined();
+      expect(data).toHaveProperty("value");
     });
 
     it("pending is a Vue ref with boolean value", async () => {
@@ -153,7 +154,9 @@ describe("useGetEvent", () => {
 
       const { pending } = useGetEvent("event-123");
 
-      expect(pending).toBeUndefined();
+      expect(pending).toBeDefined();
+      expect(pending).toHaveProperty("value");
+      expect(typeof pending.value).toBe("boolean");
     });
 
     it("error is a Vue ref", async () => {
@@ -185,7 +188,7 @@ describe("useGetEvent", () => {
       const result = useGetEvent("event-123");
 
       expect(result).toBeDefined();
-      expect(result.data).toBeUndefined(); // Initially undefined since the query hasn't run yet
+      expect(result.data).toBeDefined();
     });
 
     it("accepts empty string ID without error", async () => {
@@ -211,13 +214,13 @@ describe("useGetEvent", () => {
   // MARK: Type Safety
 
   describe("Type Safety", () => {
-    it("data will be undefined initially", async () => {
+    it("data will be defined initially", async () => {
       const { useGetEvent } =
         await import("../../../app/composables/queries/useGetEvent");
 
       const { data } = useGetEvent("event-123");
 
-      expect(data).toBeUndefined(); // Initially undefined since the query hasn't run yet
+      expect(data).toBeDefined(); // Initially defined as a ref since the query hasn't run yet
     });
 
     it("createMockEvent produces valid CommunityEvent structure", () => {

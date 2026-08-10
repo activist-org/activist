@@ -11,8 +11,8 @@ export function useOrganizationSocialLinksMutations(
   const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Update a single social link.
-  const { mutateAsync: updateLinkAsync, isLoading: loadingUpdateLink } =
-    useMutation({
+  const { mutateAsync: updateLink, isLoading: loadingUpdateLink } = useMutation(
+    {
       mutation: async (linkData: {
         id: string;
         link: string;
@@ -26,16 +26,17 @@ export function useOrganizationSocialLinksMutations(
           linkData
         );
       },
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
       },
       onError(err) {
         handleError(err);
       },
-    });
+    }
+  );
 
   // Create multiple social links.
-  const { mutateAsync: createLinksAsync, isLoading: loadingCreateLinks } =
+  const { mutateAsync: createLinks, isLoading: loadingCreateLinks } =
     useMutation({
       mutation: async (links: SocialLinkInput[]) => {
         if (!currentOrganizationId.value || !links.length) return null;
@@ -44,7 +45,7 @@ export function useOrganizationSocialLinksMutations(
           links
         );
       },
-      async onSettled() {
+      async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
       },
       onError(err) {
@@ -53,83 +54,37 @@ export function useOrganizationSocialLinksMutations(
     });
 
   // Delete a single social link.
-  const { mutateAsync: deleteLinkAsync, isLoading: loadingDeleteLink } =
-    useMutation({
+  const { mutateAsync: deleteLink, isLoading: loadingDeleteLink } = useMutation(
+    {
       mutation: (linkId: string) => deleteOrganizationSocialLink(linkId),
-      async onSettled() {
+      async onSuccess() {
+        await invalidateOrganizationCache(currentOrganizationId.value);
+      },
+      onError(err) {
+        handleError(err);
+      },
+    }
+  );
+
+  // Replace all social links (delete all + create new ones).
+  const { mutateAsync: replaceAllLinks, isLoading: loadingReplaceAllLinks } =
+    useMutation({
+      mutation: async (
+        links: { link: string; label: string; order: number }[]
+      ) => {
+        if (!currentOrganizationId.value) return null;
+        return replaceAllOrganizationSocialLinks(
+          currentOrganizationId.value,
+          links
+        );
+      },
+      async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
       },
       onError(err) {
         handleError(err);
       },
     });
-
-  // Replace all social links (delete all + create new ones).
-  const {
-    mutateAsync: replaceAllLinksAsync,
-    isLoading: loadingReplaceAllLinks,
-  } = useMutation({
-    mutation: async (
-      links: { link: string; label: string; order: number }[]
-    ) => {
-      if (!currentOrganizationId.value) return null;
-      return replaceAllOrganizationSocialLinks(
-        currentOrganizationId.value,
-        links
-      );
-    },
-    async onSettled() {
-      await invalidateOrganizationCache(currentOrganizationId.value);
-    },
-    onError(err) {
-      handleError(err);
-    },
-  });
-
-  // Wrappers keep the true/false contract that call sites rely on.
-  const updateLink = async (
-    linkId: string,
-    data: { link: string; label: string; order: number }
-  ) => {
-    if (!currentOrganizationId.value) return false;
-    try {
-      await updateLinkAsync({ id: linkId, ...data });
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const createLinks = async (links: SocialLinkInput[]) => {
-    if (!currentOrganizationId.value || !links.length) return false;
-    try {
-      await createLinksAsync(links);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const deleteLink = async (linkId: string) => {
-    try {
-      await deleteLinkAsync(linkId);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const replaceAllLinks = async (
-    links: { link: string; label: string; order: number }[]
-  ) => {
-    if (!currentOrganizationId.value) return false;
-    try {
-      await replaceAllLinksAsync(links);
-      return true;
-    } catch {
-      return false;
-    }
-  };
 
   watch(
     [

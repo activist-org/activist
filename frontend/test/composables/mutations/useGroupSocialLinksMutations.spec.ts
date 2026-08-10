@@ -58,44 +58,52 @@ describe("useGroupSocialLinksMutations", () => {
 
   describe("updateLink", () => {
     it("calls updateGroupSocialLink with linkId and data including group on success", async () => {
-      const linkId = "link-1";
-      const data = { ...sampleSocialLinkInput };
+      const linkData = { id: "link-1", ...sampleSocialLinkInput };
       const { updateLink } = useGroupSocialLinksMutations(groupId);
 
-      const result = await updateLink(linkId, data);
+      await updateLink(linkData);
 
       expect(updateGroupSocialLink).toHaveBeenCalledWith(
-        linkId,
-        expect.objectContaining({ ...data, group: "group-123" })
+        "link-1",
+        expect.objectContaining({
+          link: sampleSocialLinkInput.link,
+          label: sampleSocialLinkInput.label,
+          order: sampleSocialLinkInput.order,
+          group: "group-123",
+        })
       );
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache via onSettled on success", async () => {
+    it("calls invalidateGroupCache via onSuccess on success", async () => {
       const { updateLink } = useGroupSocialLinksMutations(groupId);
 
-      await updateLink("link-1", sampleSocialLinkInput);
+      await updateLink({ id: "link-1", ...sampleSocialLinkInput });
 
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false when groupId is empty", async () => {
+    it("returns null and does not call updateGroupSocialLink when groupId is empty", async () => {
       groupId.value = "";
       const { updateLink } = useGroupSocialLinksMutations(groupId);
 
-      const result = await updateLink("link-1", sampleSocialLinkInput);
+      const result = await updateLink({
+        id: "link-1",
+        ...sampleSocialLinkInput,
+      });
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
       expect(updateGroupSocialLink).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       updateGroupSocialLink.mockRejectedValue(new Error("Update failed"));
       const { updateLink } = useGroupSocialLinksMutations(groupId);
 
-      const result = await updateLink("link-1", sampleSocialLinkInput);
+      await expect(
+        updateLink({ id: "link-1", ...sampleSocialLinkInput })
+      ).rejects.toThrow("Update failed");
 
-      expect(result).toBe(false);
+      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
   });
 
@@ -104,13 +112,12 @@ describe("useGroupSocialLinksMutations", () => {
       const links = [sampleSocialLinkInput];
       const { createLinks } = useGroupSocialLinksMutations(groupId);
 
-      const result = await createLinks(links);
+      await createLinks(links);
 
       expect(createGroupSocialLinks).toHaveBeenCalledWith("group-123", links);
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache via onSettled on success", async () => {
+    it("calls invalidateGroupCache via onSuccess on success", async () => {
       const { createLinks } = useGroupSocialLinksMutations(groupId);
 
       await createLinks([sampleSocialLinkInput]);
@@ -118,33 +125,34 @@ describe("useGroupSocialLinksMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false when groupId is empty", async () => {
+    it("returns null and does not call createGroupSocialLinks when groupId is empty", async () => {
       groupId.value = "";
       const { createLinks } = useGroupSocialLinksMutations(groupId);
 
       const result = await createLinks([sampleSocialLinkInput]);
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
       expect(createGroupSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when links is empty", async () => {
+    it("returns null and does not call createGroupSocialLinks when links array is empty", async () => {
       const { createLinks } = useGroupSocialLinksMutations(groupId);
 
       const result = await createLinks([]);
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
       expect(createGroupSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service rejects invalid link data", async () => {
-      const badLinks = [{ link: "", label: "Bad", order: 0 }];
+    it("rejects and does not invalidate cache when service throws", async () => {
       createGroupSocialLinks.mockRejectedValue(new Error("Invalid link data"));
       const { createLinks } = useGroupSocialLinksMutations(groupId);
 
-      const result = await createLinks(badLinks);
+      await expect(
+        createLinks([{ link: "", label: "Bad", order: 0 } as never])
+      ).rejects.toThrow("Invalid link data");
 
-      expect(result).toBe(false);
+      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
   });
 
@@ -153,13 +161,12 @@ describe("useGroupSocialLinksMutations", () => {
       const linkId = "link-1";
       const { deleteLink } = useGroupSocialLinksMutations(groupId);
 
-      const result = await deleteLink(linkId);
+      await deleteLink(linkId);
 
       expect(deleteGroupSocialLink).toHaveBeenCalledWith(linkId);
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache via onSettled on success", async () => {
+    it("calls invalidateGroupCache via onSuccess on success", async () => {
       const { deleteLink } = useGroupSocialLinksMutations(groupId);
 
       await deleteLink("link-1");
@@ -167,13 +174,13 @@ describe("useGroupSocialLinksMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       deleteGroupSocialLink.mockRejectedValue(new Error("Delete failed"));
       const { deleteLink } = useGroupSocialLinksMutations(groupId);
 
-      const result = await deleteLink("link-1");
+      await expect(deleteLink("link-1")).rejects.toThrow("Delete failed");
 
-      expect(result).toBe(false);
+      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
   });
 
@@ -182,16 +189,15 @@ describe("useGroupSocialLinksMutations", () => {
       const links = [sampleSocialLinkInput];
       const { replaceAllLinks } = useGroupSocialLinksMutations(groupId);
 
-      const result = await replaceAllLinks(links);
+      await replaceAllLinks(links);
 
       expect(replaceAllGroupSocialLinks).toHaveBeenCalledWith(
         "group-123",
         links
       );
-      expect(result).toBe(true);
     });
 
-    it("calls invalidateGroupCache via onSettled on success", async () => {
+    it("calls invalidateGroupCache via onSuccess on success", async () => {
       const { replaceAllLinks } = useGroupSocialLinksMutations(groupId);
 
       await replaceAllLinks([sampleSocialLinkInput]);
@@ -199,23 +205,25 @@ describe("useGroupSocialLinksMutations", () => {
       expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
     });
 
-    it("returns false when groupId is empty", async () => {
+    it("returns null and does not call replaceAllGroupSocialLinks when groupId is empty", async () => {
       groupId.value = "";
       const { replaceAllLinks } = useGroupSocialLinksMutations(groupId);
 
       const result = await replaceAllLinks([sampleSocialLinkInput]);
 
-      expect(result).toBe(false);
+      expect(result).toBeNull();
       expect(replaceAllGroupSocialLinks).not.toHaveBeenCalled();
     });
 
-    it("returns false when service throws", async () => {
+    it("rejects and does not invalidate cache when service throws", async () => {
       replaceAllGroupSocialLinks.mockRejectedValue(new Error("Replace failed"));
       const { replaceAllLinks } = useGroupSocialLinksMutations(groupId);
 
-      const result = await replaceAllLinks([sampleSocialLinkInput]);
+      await expect(replaceAllLinks([sampleSocialLinkInput])).rejects.toThrow(
+        "Replace failed"
+      );
 
-      expect(result).toBe(false);
+      expect(invalidateGroupCache).not.toHaveBeenCalled();
     });
   });
 

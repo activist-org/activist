@@ -1,39 +1,23 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 export const useGroupMutations = () => {
-  const store = useOrganizationStore();
-  const loading = ref(false);
-  const { error, handleError, clearError } = useAppError();
-  const { invalidateOrganizationCache } = useOrganizationCache();
+  const { error, handleError } = useAppError();
 
-  const create = async (groupData: CreateGroupInput) => {
-    loading.value = true;
-    clearError();
-    try {
-      const group = await createGroup(groupData);
-      await refreshGroupList();
-      return group;
-    } catch (e) {
-      handleError(e);
-      return false;
-    } finally {
-      loading.value = false;
-    }
-  };
+  const { invalidateGroupList } = useGroupCache();
 
-  const refreshGroupList = async () => {
-    // Invalidate and refetch group list data.
-    // Invalidate the useAsyncData cache so next read will refetch.
-    clearNuxtData((key) => key.startsWith("groups-list:"));
-    if (store.getOrganization()) {
-      await invalidateOrganizationCache(store.getOrganization().id);
-    }
-  };
+  const { mutateAsync: create, isLoading } = useMutation({
+    mutation: (groupData: CreateGroupInput) => createGroup(groupData),
+    async onSuccess() {
+      await invalidateGroupList();
+    },
+    onError(err) {
+      handleError(err);
+    },
+  });
 
   return {
-    loading,
+    loading: isLoading,
     error,
     create,
-    refreshGroupList,
   };
 };

@@ -13,7 +13,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
     useMutation({
       mutation: (contentImage: ContentImage) =>
         updateGroupImage(currentGroupId.value, contentImage),
-      async onSettled() {
+      async onSuccess() {
         await invalidateGroupImageCache(currentGroupId.value);
       },
       onError(err) {
@@ -31,7 +31,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
         images: UploadableFile[];
         sequences?: number[];
       }) => uploadGroupImages(currentGroupId.value, images, sequences),
-      async onSettled() {
+      async onSuccess() {
         await invalidateGroupImageCache(currentGroupId.value);
       },
       onError(err) {
@@ -43,7 +43,7 @@ export function useGroupImageMutations(groupId: MaybeRef<string>) {
   const { mutateAsync: deleteImageAsync, isLoading: loadingDeleteImage } =
     useMutation({
       mutation: (imageId: string) => deleteImage(imageId),
-      async onSettled() {
+      async onSuccess() {
         await invalidateGroupImageCache(currentGroupId.value);
       },
       onError(err) {

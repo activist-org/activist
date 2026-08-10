@@ -10,7 +10,7 @@ export function useOrganizationTextsMutations(
   const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Update organization texts.
-  const { mutateAsync: updateTextsAsync, isLoading: loading } = useMutation({
+  const { mutateAsync: updateTexts, isLoading: loading } = useMutation({
     mutation: (vars: {
       textId: string;
       data: OrganizationUpdateTextFormData;
@@ -20,27 +20,13 @@ export function useOrganizationTextsMutations(
         vars.textId,
         vars.data
       ),
-    async onSettled() {
+    async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
     },
     onError(err) {
       handleError(err);
     },
   });
-
-  // Wrapper keeps the true/false contract that the text modal relies on.
-  const updateTexts = async (vars: {
-    textId: string;
-    data: OrganizationUpdateTextFormData;
-  }) => {
-    if (!currentOrganizationId.value) return false;
-    try {
-      await updateTextsAsync(vars);
-      return true;
-    } catch {
-      return false;
-    }
-  };
 
   return {
     loading: readonly(loading),

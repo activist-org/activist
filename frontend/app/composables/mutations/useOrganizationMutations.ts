@@ -8,7 +8,7 @@ export const useOrganizationMutations = () => {
   const { mutateAsync: create, isLoading } = useMutation({
     mutation: (organizationData: CreateOrganizationInput) =>
       createOrganization(organizationData),
-    async onSettled() {
+    async onSuccess() {
       await invalidateOrganizationList();
     },
     onError(err) {

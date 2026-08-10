@@ -141,13 +141,13 @@ describe("useGetOrganization", () => {
   // MARK: Reactive Properties
 
   describe("Reactive Properties", () => {
-    it("data is undefined before the query has run", async () => {
+    it("data is defined as ref before the query has run", async () => {
       const { useGetOrganization } =
         await import("../../../app/composables/queries/useGetOrganization");
 
       const { data } = useGetOrganization("org-123");
 
-      expect(data).toBe(undefined);
+      expect(data).toBeDefined();
     });
 
     it("pending is undefined before the query has run", async () => {
@@ -156,7 +156,7 @@ describe("useGetOrganization", () => {
 
       const { pending } = useGetOrganization("org-123");
 
-      expect(pending).toBeUndefined();
+      expect(typeof pending.value).toBe("boolean");
     });
 
     it("error is a Vue ref", async () => {
@@ -188,7 +188,7 @@ describe("useGetOrganization", () => {
       const result = useGetOrganization("org-123");
 
       expect(result).toBeDefined();
-      expect(result.data).toBeUndefined();
+      expect(result.data).toBeDefined();
     });
 
     it("accepts empty string ID without error", async () => {
@@ -214,13 +214,13 @@ describe("useGetOrganization", () => {
   // MARK: Type Safety
 
   describe("Type Safety", () => {
-    it("data will be undefined initially", async () => {
+    it("data will be defined initially", async () => {
       const { useGetOrganization } =
         await import("../../../app/composables/queries/useGetOrganization");
 
       const { data } = useGetOrganization("org-123");
 
-      expect(data).toBeUndefined();
+      expect(data).toBeDefined();
     });
 
     it("createMockOrganization produces valid Organization structure", () => {

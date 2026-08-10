@@ -25,7 +25,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     useMutation({
       mutation: (resourceData: ResourceInput) =>
         updateEventResource(currentEventId.value, resourceData as Resource),
-      async onSettled() {
+      async onSuccess() {
         await invalidateEventCache(currentEventId.value);
       },
       onError(err) {
@@ -37,7 +37,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
   const { mutateAsync: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
       mutation: (resourceId: string) => deleteEventResource(resourceId),
-      async onSettled() {
+      async onSuccess() {
         await invalidateEventCache(currentEventId.value);
       },
       onError(err) {
@@ -50,7 +50,7 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
     useMutation({
       mutation: (orderedResources: Resource[]) =>
         reorderEventResources(currentEventId.value, orderedResources),
-      async onSettled() {
+      async onSuccess() {
         await invalidateEventCache(currentEventId.value);
       },
       onError(err) {

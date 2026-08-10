@@ -9,7 +9,7 @@ export const useEventMutations = () => {
     onError(err) {
       handleError(err);
     },
-    async onSettled() {
+    async onSuccess() {
       await invalidateEventList();
     },
   });
