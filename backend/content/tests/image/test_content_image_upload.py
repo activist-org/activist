@@ -348,9 +348,10 @@ def test_content_image_upload_create_large_file(client: APIClient) -> None:
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-    max_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // (1024 * 1024)
+    # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
+    max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // 1000000
     assert (
-        f"The file size ({file.size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes ({max_mb}MB)."
+        f"The file size ({file.size} bytes) is too large. The maximum file size is {max_image_size_mb}MB."
         in response.json()["nonFieldErrors"]
     )
 

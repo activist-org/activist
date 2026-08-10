@@ -178,14 +178,13 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             )
 
         # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
-        # The file size limit is not being enforced. We're checking the file size here.
         if (
             data["file_object"].size is not None
             and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
         ):
-            max_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // (1024 * 1024)
+            max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE / 1000000
             raise serializers.ValidationError(
-                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes ({max_mb}MB)."
+                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {max_image_size_mb}MB."
             )
 
         return data
