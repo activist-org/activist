@@ -183,7 +183,8 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             data["file_object"].size is not None
             and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
         ):
-            max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // 1000000
+            # Use the base-2 (binary) conversion of bytes to MB.
+            max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // (1024 * 1024)
             raise serializers.ValidationError(
                 f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {max_image_size_mb}MB."
             )
@@ -320,7 +321,8 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
             data["file_object"].size is not None
             and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
         ):
-            max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // 1000000
+            # Use the base-2 (binary) conversion of bytes to MB.
+            max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // (1024 * 1024)
             raise serializers.ValidationError(
                 f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {max_image_size_mb}MB."
             )
