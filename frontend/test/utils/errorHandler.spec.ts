@@ -89,17 +89,45 @@ describe("utils/errorHandler", () => {
     // from a whole-serializer validate() (as the image-upload size check
     // does), produces {"non_field_errors": ["message"]} -- an array value,
     // not a plain string -- which the old plain-string-only fallback
-    // silently dropped. https://github.com/activist-org/activist/issues/2332
+    // silently dropped. djangorestframework-camel-case renames the key on the
+    // way out, so this is the shape that reaches the browser.
+    // https://github.com/activist-org/activist/issues/2332
     const out = errorHandler(
       makeFetchError(400, {
-        non_field_errors: [
-          "The file size (6291456 bytes) is too large. The maximum file size is 5242880 bytes.",
+        nonFieldErrors: [
+          "The file size (6291456 bytes) is too large. The maximum file size is 5MB.",
         ],
       })
     );
     expect(out.message).toBe(
-      "The file size (6291456 bytes) is too large. The maximum file size is 5242880 bytes."
+      "The file size (6291456 bytes) is too large. The maximum file size is 5MB."
     );
+  });
+
+  it("surfaces the snake_case form of the same shape", () => {
+    // Endpoints that bypass the camel-case renderer still send non_field_errors.
+    const out = errorHandler(
+      makeFetchError(400, { non_field_errors: ["No file was submitted."] })
+    );
+    expect(out.message).toBe("No file was submitted.");
+  });
+
+  it("reports a 413 from the edge guard rather than a backend message", () => {
+    // nuxt-security's requestSizeLimiter answers oversized uploads on the Nuxt
+    // server, before the request reaches the backend, so there is no validation
+    // message to surface -- only h3's own error body. Seeing this toast for an
+    // upload means the request never got to the size check, which is why
+    // maxUploadFileRequestInBytes has to stay above what the backend accepts.
+    const out = errorHandler(
+      makeFetchError(413, {
+        url: "/api/auth/content/images",
+        statusCode: 413,
+        statusMessage: "Payload Too Large",
+        message: "Payload Too Large",
+      })
+    );
+    expect(out.message).toBe("Payload Too Large");
+    expect(out.status).toBe(413);
   });
 
   it("joins multiple field-keyed array errors together", () => {
