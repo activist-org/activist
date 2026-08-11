@@ -10,6 +10,7 @@ from typing import Any
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile, UploadedFile
 from PIL import Image as PILImage
+from PIL import ImageOps
 from rest_framework import serializers
 
 from communities.groups.models import GroupImage
@@ -96,6 +97,8 @@ def scrub_exif(image_file: InMemoryUploadedFile) -> InMemoryUploadedFile:
     """
     try:
         img: PILImage.Image = PILImage.open(image_file)
+        # Apply the orientation before stripping EXIF.
+        img = ImageOps.exif_transpose(img) or img
         output_format = img.format
 
         if output_format == "JPEG":
@@ -183,8 +186,10 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
             data["file_object"].size is not None
             and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
         ):
+            # Use the base-2 (binary) conversion of bytes to MB.
+            max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // (1024 * 1024)
             raise serializers.ValidationError(
-                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {max_image_size_mb}MB."
             )
 
         return data
@@ -319,8 +324,10 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
             data["file_object"].size is not None
             and data["file_object"].size > settings.IMAGE_UPLOAD_MAX_FILE_SIZE
         ):
+            # Use the base-2 (binary) conversion of bytes to MB.
+            max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // (1024 * 1024)
             raise serializers.ValidationError(
-                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+                f"The file size ({data['file_object'].size} bytes) is too large. The maximum file size is {max_image_size_mb}MB."
             )
 
         return data
