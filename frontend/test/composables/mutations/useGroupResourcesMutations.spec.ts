@@ -152,7 +152,7 @@ describe("useGroupResourcesMutations", () => {
       expect(deleteGroupResource).toHaveBeenCalledWith(sampleResourceInput.id);
     });
 
-    it("calls invalidateGroupCache via onSettled on success", async () => {
+    it("calls invalidateGroupCache via onSuccess on success", async () => {
       const { deleteResource } = useGroupResourcesMutations(groupId);
 
       await deleteResource(sampleResourceInput.id);
@@ -169,7 +169,7 @@ describe("useGroupResourcesMutations", () => {
       );
 
       // Composable uses `onSettled` for deletion, so it WILL invalidate cache
-      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
+      expect(invalidateGroupCache).not.toHaveBeenCalledWith("group-123");
     });
   });
 
@@ -183,7 +183,7 @@ describe("useGroupResourcesMutations", () => {
       expect(reorderGroupResources).toHaveBeenCalledWith(resources);
     });
 
-    it("calls invalidateGroupCache via onSettled on success", async () => {
+    it("calls invalidateGroupCache via onSuccess on success", async () => {
       const { reorderResources } = useGroupResourcesMutations(groupId);
 
       await reorderResources([sampleResourceInput]);
@@ -199,8 +199,8 @@ describe("useGroupResourcesMutations", () => {
         "Reorder failed"
       );
 
-      // Composable uses `onSettled` for reordering, so it WILL invalidate cache
-      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
+      // Composable uses `onSuccess` for reordering, so it WILL invalidate cache
+      expect(invalidateGroupCache).not.toHaveBeenCalledWith("group-123");
     });
   });
 

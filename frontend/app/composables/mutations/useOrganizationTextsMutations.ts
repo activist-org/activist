@@ -2,7 +2,8 @@
 // Mutation composable for organization text entries.
 
 export function useOrganizationTextsMutations(
-  organizationId: MaybeRef<string>
+  organizationId: MaybeRef<string>,
+  options: OptionMutation = {}
 ) {
   const { error, handleError } = useAppError();
 
@@ -10,7 +11,7 @@ export function useOrganizationTextsMutations(
   const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Update organization texts.
-  const { mutateAsync: updateTexts, isLoading: loading } = useMutation({
+  const { mutate: updateTexts, isLoading: loading } = useMutation({
     mutation: (vars: {
       textId: string;
       data: OrganizationUpdateTextFormData;
@@ -22,10 +23,12 @@ export function useOrganizationTextsMutations(
       ),
     async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
+      options.update?.onSuccess?.();
     },
     onError(err) {
       handleError(err);
     },
+    ...options.update,
   });
 
   return {

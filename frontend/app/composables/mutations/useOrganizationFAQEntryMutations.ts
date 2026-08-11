@@ -2,7 +2,8 @@
 // Mutation composable for FAQ entries - uses Pinia Colada for cache invalidation.
 
 export function useOrganizationFAQEntryMutations(
-  organizationId: MaybeRef<string>
+  organizationId: MaybeRef<string>,
+  options: OptionMutation = {}
 ) {
   const loading = ref(false);
   const { error, handleError } = useAppError();
@@ -11,49 +12,55 @@ export function useOrganizationFAQEntryMutations(
   const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Create new FAQ entry.
-  const { mutateAsync: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
+  const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
     mutation: (faqData: Omit<FaqEntry, "id">) =>
       createOrganizationFaq(currentOrganizationId.value, faqData as FaqEntry),
-    async onSettled() {
+    async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
+      options.create?.onSuccess?.();
     },
     onError(err) {
       handleError(err);
     },
+    ...options.create,
   });
 
   // Update existing FAQ entry.
-  const { mutateAsync: updateFAQ, isLoading: loadingUpdateFAQ } = useMutation({
+  const { mutate: updateFAQ, isLoading: loadingUpdateFAQ } = useMutation({
     mutation: (faq: FaqEntry) => updateOrganizationFaq(faq),
-    async onSettled() {
+    async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
+      options.update?.onSuccess?.();
+    },
+    onError(err) {
+      handleError(err);
+    },
+    ...options.update,
+  });
+
+  // Reorder multiple FAQ entries.
+  const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
+    mutation: (faqs: FaqEntry[]) => reorderOrganizationFaqs(faqs),
+    async onSuccess() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+      options.reorder?.onSuccess?.();
     },
     onError(err) {
       handleError(err);
     },
   });
 
-  // Reorder multiple FAQ entries.
-  const { mutateAsync: reorderFAQs, isLoading: loadingReorderFAQs } =
-    useMutation({
-      mutation: (faqs: FaqEntry[]) => reorderOrganizationFaqs(faqs),
-      async onSettled() {
-        await invalidateOrganizationCache(currentOrganizationId.value);
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
-
   // Delete FAQ entry.
-  const { mutateAsync: deleteFAQ, isLoading: loadingDeleteFAQ } = useMutation({
+  const { mutate: deleteFAQ, isLoading: loadingDeleteFAQ } = useMutation({
     mutation: (faqId: string) => deleteOrganizationFaq(faqId),
     async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
+      options.delete?.onSuccess?.();
     },
     onError(err) {
       handleError(err);
     },
+    ...options.delete,
   });
 
   watch(

@@ -14,7 +14,16 @@
 const modalName = "ModalCreateGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const { create } = useGroupMutations();
+const { create } = useGroupMutations({
+  create: {
+    onSuccess: (data: unknown) => {
+      // Navigate to the newly created group page
+      router.push(
+        `/groups/${(data as Group).org.id}/groups/${(data as Group).id}/about`
+      );
+    },
+  },
+});
 
 const router = useRouter();
 
@@ -23,9 +32,7 @@ const router = useRouter();
  * @param {any} finalData The consolidated data from all steps.
  */
 async function handleSubmission(value: unknown) {
-  const group = await create(value as CreateGroupInput);
-  if (group)
-    router.push(`/organizations/${group.org.id}/groups/${group.id}/about`);
+  create(value as CreateGroupInput);
 }
 
 // Pass the handler to the machine via its options.

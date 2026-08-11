@@ -158,9 +158,7 @@ describe("useOrganizationSocialLinksMutations", () => {
       const { createLinks } =
         useOrganizationSocialLinksMutations(organizationId);
 
-      await expect(createLinks(badLinks)).rejects.toThrow(
-        "Invalid link data"
-      );
+      await expect(createLinks(badLinks)).rejects.toThrow("Invalid link data");
     });
   });
 

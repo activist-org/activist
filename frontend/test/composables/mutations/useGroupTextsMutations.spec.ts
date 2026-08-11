@@ -77,7 +77,7 @@ describe("useGroupTextsMutations", () => {
         })
       ).rejects.toThrow("Update failed");
 
-      expect(invalidateGroupCache).toHaveBeenCalledWith("group-123");
+      expect(invalidateGroupCache).not.toHaveBeenCalledWith("group-123");
     });
   });
 

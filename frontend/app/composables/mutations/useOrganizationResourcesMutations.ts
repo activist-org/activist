@@ -2,7 +2,8 @@
 // Mutation composable for Resource entries - uses Pinia Colada for cache invalidation.
 
 export function useOrganizationResourcesMutations(
-  organizationId: MaybeRef<string>
+  organizationId: MaybeRef<string>,
+  options: OptionMutation = {}
 ) {
   const loading = ref(false);
   const { error, handleError } = useAppError();
@@ -11,7 +12,7 @@ export function useOrganizationResourcesMutations(
   const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Create new resource.
-  const { mutateAsync: createResource, isLoading: loadingCreateResource } =
+  const { mutate: createResource, isLoading: loadingCreateResource } =
     useMutation({
       mutation: (resourceData: ResourceInput) =>
         createOrganizationResource(
@@ -20,39 +21,45 @@ export function useOrganizationResourcesMutations(
         ),
       async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
+        options.create?.onSuccess?.();
       },
       onError(err) {
         handleError(err);
       },
+      ...options.create,
     });
 
   // Update existing resource.
-  const { mutateAsync: updateResource, isLoading: loadingUpdateResource } =
+  const { mutate: updateResource, isLoading: loadingUpdateResource } =
     useMutation({
       mutation: (resource: ResourceInput) =>
         updateOrganizationResource(currentOrganizationId.value, resource),
       async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
+        options.update?.onSuccess?.();
       },
       onError(err) {
         handleError(err);
       },
+      ...options.update,
     });
 
   // Delete existing resource.
-  const { mutateAsync: deleteResource, isLoading: loadingDeleteResource } =
+  const { mutate: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
       mutation: (resourceId: string) => deleteOrganizationResource(resourceId),
       async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
+        options.delete?.onSuccess?.();
       },
       onError(err) {
         handleError(err);
       },
+      ...options.delete,
     });
 
   // Reorder multiple resource entries.
-  const { mutateAsync: reorderResources, isLoading: loadingReorderResources } =
+  const { mutate: reorderResources, isLoading: loadingReorderResources } =
     useMutation({
       mutation: (orderedResources: Resource[]) =>
         reorderOrganizationResources(
@@ -61,10 +68,12 @@ export function useOrganizationResourcesMutations(
         ),
       async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
+        options.reorder?.onSuccess?.();
       },
       onError(err) {
         handleError(err);
       },
+      ...options.reorder,
     });
 
   watch(

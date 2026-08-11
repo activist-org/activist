@@ -17,9 +17,12 @@ const modalName = "ModalResourceDeleteOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const organizationId = computed(() => props.entityId);
-const { deleteResource } = useOrganizationResourcesMutations(organizationId);
+const { deleteResource } = useOrganizationResourcesMutations(organizationId, {
+  delete: {
+    onSuccess: () => handleCloseModal(),
+  },
+});
 const handleDelete = async () => {
-  await deleteResource(props.resourceId);
-  handleCloseModal();
+  deleteResource(props.resourceId);
 };
 </script>

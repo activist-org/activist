@@ -19,9 +19,11 @@ const props = defineProps<{
 }>();
 
 const { data: event } = useGetEvent(props.entityId);
-const { updateLink, createLinks, deleteLink } = useEventSocialLinksMutations(
-  props.entityId
-);
+const {
+  updateLinkAsync: updateLink,
+  createLinksAsync: createLinks,
+  deleteLinkAsync: deleteLink,
+} = useEventSocialLinksMutations(props.entityId);
 
 type SocialLinkWithKey = (EventSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();

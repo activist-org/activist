@@ -21,8 +21,11 @@ const props = defineProps<{
 const orgId = computed(() => props.entityId);
 
 const { data: organization } = useGetOrganization(orgId);
-const { updateLink, createLinks, deleteLink } =
-  useOrganizationSocialLinksMutations(orgId);
+const {
+  updateLinkAsync: updateLink,
+  createLinksAsync: createLinks,
+  deleteLinkAsync: deleteLink,
+} = useOrganizationSocialLinksMutations(orgId);
 
 type SocialLinkWithKey = (OrganizationSocialLink | SocialLink) & {
   key: string;
@@ -106,7 +109,8 @@ async function handleSubmit(values: unknown) {
     ) || [];
   await Promise.all(
     toUpdate.map(async (refItem) => {
-      await updateLink(refItem.id, {
+      await updateLink({
+        id: refItem.id,
         link: refItem.link,
         label: refItem.label,
         order: refItem.order,

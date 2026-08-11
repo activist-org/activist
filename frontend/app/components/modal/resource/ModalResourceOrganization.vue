@@ -20,8 +20,21 @@ const props = defineProps<{
 const organizationId = computed(() => props.entityId);
 
 const { data: organization } = useGetOrganization(organizationId);
-const { createResource, updateResource } =
-  useOrganizationResourcesMutations(organizationId);
+const { createResource, updateResource } = useOrganizationResourcesMutations(
+  organizationId,
+  {
+    update: {
+      onSuccess() {
+        handleCloseModal();
+      },
+    },
+    create: {
+      onSuccess() {
+        handleCloseModal();
+      },
+    },
+  }
+);
 
 const formData = ref<Resource | undefined>();
 
@@ -62,11 +75,7 @@ async function handleSubmit(values: unknown) {
     order:
       formData.value?.order ?? (organization.value?.resources ?? []).length,
   };
-  const success = isAddMode
-    ? await createResource(newValues as ResourceInput)
-    : await updateResource(newValues as ResourceInput);
-  if (success) {
-    handleCloseModal();
-  }
+  if (isAddMode) createResource(newValues as ResourceInput);
+  else updateResource(newValues as ResourceInput);
 }
 </script>

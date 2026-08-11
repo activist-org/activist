@@ -20,8 +20,11 @@ const props = defineProps<{
 
 const groupId = computed(() => props.entityId);
 const { data: group } = useGetGroup(groupId);
-const { updateLink, createLinks, deleteLink } =
-  useGroupSocialLinksMutations(groupId);
+const {
+  updateLinkAsync: updateLink,
+  createLinksAsync: createLinks,
+  deleteLinkAsync: deleteLink,
+} = useGroupSocialLinksMutations(groupId);
 
 type SocialLinkWithKey = (GroupSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
@@ -102,7 +105,8 @@ async function handleSubmit(values: unknown) {
     ) || [];
   await Promise.all(
     toUpdate.map(async (refItem) => {
-      await updateLink(refItem.id, {
+      await updateLink({
+        id: refItem.id,
         link: refItem.link,
         label: refItem.label,
         order: refItem.order,

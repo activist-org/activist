@@ -1,14 +1,17 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Mutation composable for Resource entries - uses direct service calls, not useAsyncData.
 
-export function useEventResourcesMutations(eventId: MaybeRef<string>) {
+export function useEventResourcesMutations(
+  eventId: MaybeRef<string>,
+  options: OptionMutation = {}
+) {
   const loading = ref(false);
   const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
   const { invalidateEventCache } = useEventCache();
   // Create new resource.
-  const { mutateAsync: createResource, isLoading: loadingCreateResource } =
+  const { mutate: createResource, isLoading: loadingCreateResource } =
     useMutation({
       mutation: (resourceData: ResourceInput) =>
         createEventResource(currentEventId.value, resourceData as Resource),
@@ -18,10 +21,11 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
       onError(err) {
         handleError(err);
       },
+      ...options.create,
     });
 
   // Update existing resource.
-  const { mutateAsync: updateResource, isLoading: loadingUpdateResource } =
+  const { mutate: updateResource, isLoading: loadingUpdateResource } =
     useMutation({
       mutation: (resourceData: ResourceInput) =>
         updateEventResource(currentEventId.value, resourceData as Resource),
@@ -31,10 +35,11 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
       onError(err) {
         handleError(err);
       },
+      ...options.update,
     });
 
   // Delete existing resource.
-  const { mutateAsync: deleteResource, isLoading: loadingDeleteResource } =
+  const { mutate: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
       mutation: (resourceId: string) => deleteEventResource(resourceId),
       async onSuccess() {
@@ -43,19 +48,22 @@ export function useEventResourcesMutations(eventId: MaybeRef<string>) {
       onError(err) {
         handleError(err);
       },
+      ...options.delete,
     });
 
   // Reorder multiple resource entries.
-  const { mutateAsync: reorderResources, isLoading: loadingReorderResources } =
+  const { mutate: reorderResources, isLoading: loadingReorderResources } =
     useMutation({
       mutation: (orderedResources: Resource[]) =>
         reorderEventResources(currentEventId.value, orderedResources),
       async onSuccess() {
         await invalidateEventCache(currentEventId.value);
+        options.reorder?.onSuccess?.();
       },
       onError(err) {
         handleError(err);
       },
+      ...options.reorder,
     });
 
   watch(

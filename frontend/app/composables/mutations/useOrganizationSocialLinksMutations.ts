@@ -2,7 +2,8 @@
 // Update organization social links with Pinia Colada for cache invalidation.
 
 export function useOrganizationSocialLinksMutations(
-  organizationId: MaybeRef<string>
+  organizationId: MaybeRef<string>,
+  options: OptionMutation = {}
 ) {
   const loading = ref(false);
   const { error, handleError } = useAppError();
@@ -11,80 +12,95 @@ export function useOrganizationSocialLinksMutations(
   const { invalidateOrganizationCache } = useOrganizationCache();
 
   // Update a single social link.
-  const { mutateAsync: updateLink, isLoading: loadingUpdateLink } = useMutation(
-    {
-      mutation: async (linkData: {
-        id: string;
-        link: string;
-        label: string;
-        order: number;
-      }) => {
-        if (!currentOrganizationId.value) return null;
-        return updateOrganizationSocialLink(
-          currentOrganizationId.value,
-          linkData.id,
-          linkData
-        );
-      },
-      async onSuccess() {
-        await invalidateOrganizationCache(currentOrganizationId.value);
-      },
-      onError(err) {
-        handleError(err);
-      },
-    }
-  );
+  const {
+    mutate: updateLink,
+    isLoading: loadingUpdateLink,
+    mutateAsync: updateLinkAsync,
+  } = useMutation({
+    mutation: async (linkData: {
+      id: string;
+      link: string;
+      label: string;
+      order: number;
+    }) => {
+      if (!currentOrganizationId.value) return null;
+      return updateOrganizationSocialLink(
+        currentOrganizationId.value,
+        linkData.id,
+        linkData
+      );
+    },
+    async onSuccess() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+      options.update?.onSuccess?.();
+    },
+    onError(err) {
+      handleError(err);
+    },
+    ...options.update,
+  });
 
   // Create multiple social links.
-  const { mutateAsync: createLinks, isLoading: loadingCreateLinks } =
-    useMutation({
-      mutation: async (links: SocialLinkInput[]) => {
-        if (!currentOrganizationId.value || !links.length) return null;
-        return createOrganizationSocialLinks(
-          currentOrganizationId.value,
-          links
-        );
-      },
-      async onSuccess() {
-        await invalidateOrganizationCache(currentOrganizationId.value);
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
+  const {
+    mutate: createLinks,
+    isLoading: loadingCreateLinks,
+    mutateAsync: createLinksAsync,
+  } = useMutation({
+    mutation: async (links: SocialLinkInput[]) => {
+      if (!currentOrganizationId.value || !links.length) return null;
+      return createOrganizationSocialLinks(currentOrganizationId.value, links);
+    },
+    async onSuccess() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+      options.create?.onSuccess?.();
+    },
+    onError(err) {
+      handleError(err);
+    },
+    ...options.create,
+  });
 
   // Delete a single social link.
-  const { mutateAsync: deleteLink, isLoading: loadingDeleteLink } = useMutation(
-    {
-      mutation: (linkId: string) => deleteOrganizationSocialLink(linkId),
-      async onSuccess() {
-        await invalidateOrganizationCache(currentOrganizationId.value);
-      },
-      onError(err) {
-        handleError(err);
-      },
-    }
-  );
+  const {
+    mutate: deleteLink,
+    isLoading: loadingDeleteLink,
+    mutateAsync: deleteLinkAsync,
+  } = useMutation({
+    mutation: (linkId: string) => deleteOrganizationSocialLink(linkId),
+    async onSuccess() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+      options.delete?.onSuccess?.();
+    },
+    onError(err) {
+      handleError(err);
+    },
+    ...options.delete,
+  });
 
   // Replace all social links (delete all + create new ones).
-  const { mutateAsync: replaceAllLinks, isLoading: loadingReplaceAllLinks } =
-    useMutation({
-      mutation: async (
-        links: { link: string; label: string; order: number }[]
-      ) => {
-        if (!currentOrganizationId.value) return null;
-        return replaceAllOrganizationSocialLinks(
-          currentOrganizationId.value,
-          links
-        );
-      },
-      async onSuccess() {
-        await invalidateOrganizationCache(currentOrganizationId.value);
-      },
-      onError(err) {
-        handleError(err);
-      },
-    });
+  const {
+    mutate: replaceAllLinks,
+    isLoading: loadingReplaceAllLinks,
+    mutateAsync: replaceAllLinksAsync,
+  } = useMutation({
+    mutation: async (
+      links: { link: string; label: string; order: number }[]
+    ) => {
+      if (!currentOrganizationId.value) return null;
+      return replaceAllOrganizationSocialLinks(
+        currentOrganizationId.value,
+        links
+      );
+    },
+    async onSuccess() {
+      await invalidateOrganizationCache(currentOrganizationId.value);
+      options.replaceAll?.onSuccess?.();
+    },
+    onError(err) {
+      handleError(err);
+    },
+    ...options.replaceAll,
+  });
 
   watch(
     [
@@ -105,5 +121,9 @@ export function useOrganizationSocialLinksMutations(
     createLinks,
     deleteLink,
     replaceAllLinks,
+    updateLinkAsync,
+    createLinksAsync,
+    deleteLinkAsync,
+    replaceAllLinksAsync,
   };
 }

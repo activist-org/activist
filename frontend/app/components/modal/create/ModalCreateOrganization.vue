@@ -18,18 +18,20 @@
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const { create } = useOrganizationMutations();
 const router = useRouter();
+const { create } = useOrganizationMutations({
+  create: {
+    onSuccess: (data: unknown) => {
+      router.push(`/organizations/${(data as Organization).id}/about`);
+    },
+  },
+});
 /**
  * This function will be called by the machine when the flow completes.
  * @param {unknown} finalData The consolidated data from all steps.
  */
 async function handleSubmission(values: unknown) {
-  const organization = await create(values as CreateOrganizationInput);
-  // handleCloseModal();
-  if (organization) {
-    router.push(`/organizations/${organization.id}/about`);
-  }
+  create(values as CreateOrganizationInput);
 }
 
 // Pass the handler to the machine via its options.

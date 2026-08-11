@@ -72,7 +72,7 @@ describe("useEventMutations", () => {
       createEvent.mockRejectedValue(new Error("Create failed"));
       const { create, error } = useEventMutations();
 
-      // Unlike the organization and group create, this one is a raw mutateAsync
+      // Unlike the organization and group create, this one is a raw mutate
       // and rejects, so ModalCreateEvent has to catch rather than branch.
       await expect(create(sampleEventInput)).rejects.toThrow("Create failed");
 

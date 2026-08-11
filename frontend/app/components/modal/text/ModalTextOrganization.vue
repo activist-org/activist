@@ -25,7 +25,13 @@ const props = defineProps<{
 const organizationId = computed(() => props.entityId);
 
 const { data: organization } = useGetOrganization(organizationId);
-const { updateTexts } = useOrganizationTextsMutations(organizationId);
+const { updateTexts } = useOrganizationTextsMutations(organizationId, {
+  update: {
+    onSuccess: () => {
+      handleCloseModal();
+    },
+  },
+});
 
 // The query resolves after the modal mounts, so rendering the form before the
 // texts arrive prefills blanks and submits against an undefined text id.
@@ -56,12 +62,9 @@ async function handleSubmit(values: unknown) {
     return;
   }
 
-  const response = await updateTexts({
+  updateTexts({
     textId: String(textId),
     data: values as OrganizationUpdateTextFormData,
   });
-  if (response) {
-    handleCloseModal();
-  }
 }
 </script>

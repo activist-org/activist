@@ -49,8 +49,12 @@ const props = withDefaults(defineProps<Props>(), {
 
 const groupId = computed(() => props.groupId);
 const { data: groupImages } = useGetGroupImages(groupId);
-const { updateImage, uploadImages, deleteImage, loading } =
-  useGroupImageMutations(groupId);
+const {
+  updateImageAsync: updateImage,
+  uploadImagesAsync: uploadImages,
+  deleteImage,
+  loading,
+} = useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 
 // The drop zone only drops the entry from its list, so stored images are
@@ -59,12 +63,7 @@ const handleFileDeleted = async (file: FileUploadMix) => {
   if (file?.type !== "file") {
     return;
   }
-
-  try {
-    await deleteImage(file.data.id);
-  } catch {
-    // onError raises the toast.
-  }
+  deleteImage(file.data.id);
 };
 
 watch(

@@ -13,7 +13,7 @@
 <script setup lang="ts">
 const modalName = "ModalCreateEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
-const { create } = useEventMutations();
+const { createAsync } = useEventMutations();
 
 const route = useRoute();
 const router = useRouter();
@@ -23,7 +23,7 @@ async function handleLoopSubmit(iterationData: unknown) {
   const dataToSubmit = Object.values(
     iterationData as ContextCreateEventData
   ).reduce((acc, d) => ({ ...acc, ...(d as Record<string, unknown>) }), {});
-  return create(dataToSubmit as unknown as CreateEventInput); // Returns to useFlowScreens
+  return createAsync(dataToSubmit as unknown as CreateEventInput); // Returns to useFlowScreens
 }
 
 /**
@@ -38,8 +38,6 @@ async function handleSubmission(finalData: unknown) {
   // Combine all IDs.
   const allIds = [...loopedEventIds];
   await handleCreatedEventRouting(allIds);
-  // Close the modal.
-  handleCloseModal();
 }
 
 // Pass the handler to the machine via its options.
@@ -61,10 +59,6 @@ async function handleCreatedEventRouting(createdEventIds: string[]) {
   }
 
   const viewQueryValue = route.query.view || ViewType.LIST; // default to 'list' if no view query param is present
-
-  // Preserve the next query in case we are navigating to a new path.
-  const preserveNextQuery = useState("preserveNextQuery", () => false);
-  preserveNextQuery.value = true;
   await router.push({
     path: "/events",
     query: {

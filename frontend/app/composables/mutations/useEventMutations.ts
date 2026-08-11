@@ -1,17 +1,23 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-export const useEventMutations = () => {
+export const useEventMutations = (options: OptionMutation = {}) => {
   const { error, handleError } = useAppError();
   const { invalidateEventList } = useEventCache();
 
-  const { mutateAsync: create, isLoading: loading } = useMutation({
+  const {
+    mutate: create,
+    mutateAsync: createAsync,
+    isLoading: loading,
+  } = useMutation({
     mutation: (eventData: CreateEventInput) => createEvent(eventData),
     onError(err) {
       handleError(err);
     },
     async onSuccess() {
       await invalidateEventList();
+      options.create?.onSuccess?.();
     },
+    ...options.create,
   });
 
   const refreshEventList = async () => {
@@ -24,6 +30,7 @@ export const useEventMutations = () => {
     loading,
     error,
     create,
+    createAsync,
     refreshEventList,
   };
 };

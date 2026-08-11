@@ -17,9 +17,12 @@ const modalName = "ModalFaqEntryDeleteOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const organizationId = computed(() => props.entityId);
-const { deleteFAQ } = useOrganizationFAQEntryMutations(organizationId);
+const { deleteFAQ } = useOrganizationFAQEntryMutations(organizationId, {
+  delete: {
+    onSuccess: () => handleCloseModal(),
+  },
+});
 const handleDelete = async () => {
-  await deleteFAQ(props.faqEntryId);
-  handleCloseModal();
+  deleteFAQ(props.faqEntryId);
 };
 </script>
