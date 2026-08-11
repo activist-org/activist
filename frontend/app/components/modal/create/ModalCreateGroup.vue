@@ -19,7 +19,7 @@ const { create } = useGroupMutations({
     onSuccess: (data: unknown) => {
       // Navigate to the newly created group page
       router.push(
-        `/groups/${(data as Group).org.id}/groups/${(data as Group).id}/about`
+        `/organizations/${(data as Group).org.id}/groups/${(data as Group).id}/about`
       );
     },
   },
