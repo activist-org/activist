@@ -18,6 +18,7 @@ export function useGroupResourcesMutations(
         createGroupResource(currentGroupId.value, resourceData as Resource),
       async onSuccess() {
         await invalidateGroupCache(currentGroupId.value);
+        options?.create?.onSuccess?.();
       },
       onError(err) {
         handleError(err);

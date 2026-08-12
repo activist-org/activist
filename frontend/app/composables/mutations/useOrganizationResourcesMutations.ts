@@ -14,6 +14,7 @@ export function useOrganizationResourcesMutations(
   // Create new resource.
   const { mutate: createResource, isLoading: loadingCreateResource } =
     useMutation({
+      ...options.create,
       mutation: (resourceData: ResourceInput) =>
         createOrganizationResource(
           currentOrganizationId.value,
@@ -26,12 +27,12 @@ export function useOrganizationResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.create,
     });
 
   // Update existing resource.
   const { mutate: updateResource, isLoading: loadingUpdateResource } =
     useMutation({
+      ...options.update,
       mutation: (resource: ResourceInput) =>
         updateOrganizationResource(currentOrganizationId.value, resource),
       async onSuccess() {
@@ -41,7 +42,6 @@ export function useOrganizationResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.update,
     });
 
   // Delete existing resource.
