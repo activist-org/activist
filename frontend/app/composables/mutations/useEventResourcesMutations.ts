@@ -16,8 +16,9 @@ export function useEventResourcesMutations(
       ...options.create,
       mutation: (resourceData: ResourceInput) =>
         createEventResource(currentEventId.value, resourceData as Resource),
-      async onSettled() {
+      async onSuccess() {
         await invalidateEventCache(currentEventId.value);
+        options.create?.onSuccess?.();
       },
       onError(err) {
         handleError(err);
@@ -32,6 +33,7 @@ export function useEventResourcesMutations(
         updateEventResource(currentEventId.value, resourceData as Resource),
       async onSuccess() {
         await invalidateEventCache(currentEventId.value);
+        options.update?.onSuccess?.();
       },
       onError(err) {
         handleError(err);
@@ -45,6 +47,7 @@ export function useEventResourcesMutations(
       mutation: (resourceId: string) => deleteEventResource(resourceId),
       async onSuccess() {
         await invalidateEventCache(currentEventId.value);
+        options.delete?.onSuccess?.();
       },
       onError(err) {
         handleError(err);
