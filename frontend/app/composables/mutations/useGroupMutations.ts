@@ -8,9 +8,9 @@ export const useGroupMutations = (options: OptionMutation = {}) => {
   const { mutate: create, isLoading } = useMutation({
     ...options.create,
     mutation: (groupData: CreateGroupInput) => createGroup(groupData),
-    async onSuccess() {
+    async onSuccess(data) {
       await invalidateGroupList();
-      options.create?.onSuccess?.();
+      options.create?.onSuccess?.(data);
     },
     onError(err) {
       handleError(err);
