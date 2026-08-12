@@ -44,7 +44,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  uploadLimit: 10,
+  uploadLimit: MAX_IMAGES_PER_UPLOAD,
 });
 
 const groupId = computed(() => props.groupId);

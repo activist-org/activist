@@ -5,9 +5,9 @@
  *
  * The backend decides what a valid upload is: it rejects any image over
  * IMAGE_UPLOAD_MAX_FILE_SIZE (backend/core/settings.py) with a message naming
- * the limit. nuxt-security's requestSizeLimiter runs before that, on the Nuxt
- * server, and measures the whole multipart request rather than each file in it,
- * so its ceiling has to stay above the largest batch the backend would accept.
+ * the limit. nuxt-security's requestSizeLimiter runs before that on the Nuxt
+ * server and measures the whole multipart request rather than each file in it.
+ * The ceiling has to stay above the largest batch the backend would accept.
  * Below that, uploads are cut off at the edge with a generic 413 "Payload Too
  * Large" and the backend's message never reaches the user.
  */
