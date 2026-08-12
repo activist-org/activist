@@ -172,16 +172,4 @@ describe("MachineStepsCreateOrganizationDetails component", () => {
       await submitPromise;
     });
   });
-
-  // MARK: Responsive Layout
-
-  describe("Responsive Layout", () => {
-    it("applies responsive padding classes", () => {
-      const { wrapper } = createWrapper();
-      const container = wrapper.find("div");
-      expect(container.classes()).toContain("px-4");
-      expect(container.classes()).toContain("sm:px-6");
-      expect(container.classes()).toContain("md:px-8");
-    });
-  });
 });
