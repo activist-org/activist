@@ -12,6 +12,7 @@ export function useEventTextsMutations(
 
   // Update event texts.
   const { mutate: updateTexts, isLoading: loading } = useMutation({
+    ...options.update,
     mutation: (vars: { textId: string; data: EventUpdateTextFormData }) =>
       updateEventTexts(currentEventId.value, vars.textId, vars.data),
     onSuccess() {
@@ -21,7 +22,6 @@ export function useEventTextsMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   return {

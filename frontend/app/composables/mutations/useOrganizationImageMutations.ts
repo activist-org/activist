@@ -18,6 +18,7 @@ export function useOrganizationImageMutations(
     mutateAsync: updateImageAsync,
     isLoading: loadingUpdateImage,
   } = useMutation({
+    ...options.update,
     mutation: (contentImage: ContentImage) =>
       updateOrganizationImage(currentOrganizationId.value, contentImage),
     async onSuccess() {
@@ -27,7 +28,6 @@ export function useOrganizationImageMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   // Upload new images.
@@ -36,6 +36,7 @@ export function useOrganizationImageMutations(
     mutateAsync: uploadImagesAsync,
     isLoading: loadingUploadImages,
   } = useMutation({
+    ...options.create,
     mutation: ({
       images,
       sequences,
@@ -51,7 +52,6 @@ export function useOrganizationImageMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   // Delete existing image.
@@ -60,6 +60,7 @@ export function useOrganizationImageMutations(
     mutateAsync: deleteImageAsync,
     isLoading: loadingDeleteImage,
   } = useMutation({
+    ...options.delete,
     mutation: (imageId: string) => deleteImage(imageId),
     async onSuccess() {
       await invalidateOrganizationImageCache(currentOrganizationId.value);
@@ -68,12 +69,12 @@ export function useOrganizationImageMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.delete,
   });
 
   // Upload new icon image.
   const { mutate: uploadIconImage, isLoading: loadingUploadIconImage } =
     useMutation({
+      ...options.update,
       mutation: (image: UploadableFile) =>
         uploadOrganizationIconImage(currentOrganizationId.value, image),
       async onSuccess() {
@@ -83,7 +84,6 @@ export function useOrganizationImageMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.update,
     });
 
   watch(

@@ -17,6 +17,7 @@ export function useOrganizationSocialLinksMutations(
     isLoading: loadingUpdateLink,
     mutateAsync: updateLinkAsync,
   } = useMutation({
+    ...options.update,
     mutation: async (linkData: {
       id: string;
       link: string;
@@ -37,7 +38,6 @@ export function useOrganizationSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   // Create multiple social links.
@@ -46,6 +46,7 @@ export function useOrganizationSocialLinksMutations(
     isLoading: loadingCreateLinks,
     mutateAsync: createLinksAsync,
   } = useMutation({
+    ...options.create,
     mutation: async (links: SocialLinkInput[]) => {
       if (!currentOrganizationId.value || !links.length) return null;
       return createOrganizationSocialLinks(currentOrganizationId.value, links);
@@ -57,7 +58,6 @@ export function useOrganizationSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   // Delete a single social link.
@@ -66,6 +66,7 @@ export function useOrganizationSocialLinksMutations(
     isLoading: loadingDeleteLink,
     mutateAsync: deleteLinkAsync,
   } = useMutation({
+    ...options.delete,
     mutation: (linkId: string) => deleteOrganizationSocialLink(linkId),
     async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
@@ -74,7 +75,6 @@ export function useOrganizationSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.delete,
   });
 
   // Replace all social links (delete all + create new ones).
@@ -83,6 +83,7 @@ export function useOrganizationSocialLinksMutations(
     isLoading: loadingReplaceAllLinks,
     mutateAsync: replaceAllLinksAsync,
   } = useMutation({
+    ...options.replaceAll,
     mutation: async (
       links: { link: string; label: string; order: number }[]
     ) => {
@@ -99,7 +100,6 @@ export function useOrganizationSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.replaceAll,
   });
 
   watch(

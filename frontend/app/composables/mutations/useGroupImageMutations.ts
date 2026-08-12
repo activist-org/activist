@@ -17,6 +17,7 @@ export function useGroupImageMutations(
     mutateAsync: updateImageAsync,
     isLoading: loadingUpdateImage,
   } = useMutation({
+    ...options.update,
     mutation: (contentImage: ContentImage) =>
       updateGroupImage(currentGroupId.value, contentImage),
     async onSuccess() {
@@ -26,7 +27,6 @@ export function useGroupImageMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   // Upload new images.
@@ -35,6 +35,7 @@ export function useGroupImageMutations(
     mutateAsync: uploadImagesAsync,
     isLoading: loadingUploadImages,
   } = useMutation({
+    ...options.create,
     mutation: ({
       images,
       sequences,
@@ -49,7 +50,6 @@ export function useGroupImageMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   // Delete existing image.
@@ -58,6 +58,7 @@ export function useGroupImageMutations(
     mutateAsync: deleteImageAsync,
     isLoading: loadingDeleteImage,
   } = useMutation({
+    ...options.delete,
     mutation: (imageId: string) => deleteImage(imageId),
     async onSuccess() {
       await invalidateGroupImageCache(currentGroupId.value);
@@ -66,7 +67,6 @@ export function useGroupImageMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.delete,
   });
 
   watch(

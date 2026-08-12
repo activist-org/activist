@@ -13,6 +13,7 @@ export function useEventFAQEntryMutations(
 
   // Update existing FAQ entry.
   const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
+    ...options.create,
     mutation: (faqData: Omit<FaqEntry, "id">) =>
       createEventFaq(currentEventId.value, faqData as FaqEntry),
     async onSuccess() {
@@ -22,11 +23,11 @@ export function useEventFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   // Reorder multiple FAQ entries.
   const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
+    ...options.reorder,
     mutation: (orderedFaqs: FaqEntry[]) =>
       reorderEventFaqs(currentEventId.value, orderedFaqs),
     async onSuccess() {
@@ -36,11 +37,11 @@ export function useEventFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.reorder,
   });
 
   // Delete FAQ entry.
   const { mutate: deleteFAQ, isLoading: loadingDeleteFAQ } = useMutation({
+    ...options.delete,
     mutation: (faqId: string) => deleteEventFaq(faqId),
     async onSuccess() {
       await invalidateEventCache(currentEventId.value);
@@ -49,11 +50,11 @@ export function useEventFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.delete,
   });
 
   // Update existing FAQ entry.
   const { mutate: updateFAQ, isLoading: loadingUpdateFAQ } = useMutation({
+    ...options.update,
     mutation: (faqData: FaqEntry) =>
       updateEventFaq(currentEventId.value, faqData),
     async onSuccess() {
@@ -63,7 +64,6 @@ export function useEventFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
   watch(
     [loadingCreateFAQ, loadingUpdateFAQ, loadingDeleteFAQ, loadingReorderFAQs],

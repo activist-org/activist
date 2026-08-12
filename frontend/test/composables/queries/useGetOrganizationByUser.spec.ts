@@ -135,25 +135,25 @@ describe("useGetOrganizationsByUser", () => {
       expect(result).toHaveProperty("error");
     });
 
-    // it("returns an object with refresh function", async () => {
-    //   const { useGetOrganizationsByUser } =
-    //     await import("../../../app/composables/queries/useGetOrganizationByUser");
+    it("returns an object with refresh function", async () => {
+      const { useGetOrganizationsByUser } =
+        await import("../../../app/composables/queries/useGetOrganizationByUser");
 
-    //   const result = useGetOrganizationsByUser("user-123");
+      const result = useGetOrganizationsByUser("user-123");
 
-    //   expect(result).toHaveProperty("refresh");
-    //   expect(typeof result.refresh).toBe("function");
-    // });
+      expect(result).toHaveProperty("refresh");
+      expect(typeof result.refresh).toBe("function");
+    });
 
-    //   it("returns an object with getMore function", async () => {
-    //     const { useGetOrganizationsByUser } =
-    //       await import("../../../app/composables/queries/useGetOrganizationByUser");
+    it("returns an object with getMore function", async () => {
+      const { useGetOrganizationsByUser } =
+        await import("../../../app/composables/queries/useGetOrganizationByUser");
 
-    //     const result = useGetOrganizationsByUser("user-123");
+      const result = useGetOrganizationsByUser("user-123");
 
-    //     expect(result).toHaveProperty("getMore");
-    //     expect(typeof result.getMore).toBe("function");
-    //   });
+      expect(result).toHaveProperty("getMore");
+      expect(typeof result.getMore).toBe("function");
+    });
   });
 
   // MARK: Reactive Properties

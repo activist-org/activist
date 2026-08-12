@@ -41,6 +41,7 @@ export function useEventSocialLinksMutations(
     mutateAsync: createLinksAsync,
     isLoading: loadingCreateLinks,
   } = useMutation({
+    ...options.create,
     mutation: async (
       links: { link: string; label: string; order: number }[]
     ) => {
@@ -54,7 +55,6 @@ export function useEventSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   // Delete a single social link.
@@ -63,6 +63,7 @@ export function useEventSocialLinksMutations(
     mutateAsync: deleteLinkAsync,
     isLoading: loadingDeleteLink,
   } = useMutation({
+    ...options.delete,
     mutation: async (linkId: string) => {
       if (!currentEventId.value) return null;
       return deleteEventSocialLink(linkId);
@@ -73,7 +74,6 @@ export function useEventSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.delete,
   });
 
   // Replace all social links (delete all + create new ones).
@@ -82,6 +82,7 @@ export function useEventSocialLinksMutations(
     mutateAsync: replaceAllLinksAsync,
     isLoading: loadingReplaceAllLinks,
   } = useMutation({
+    ...options.reorder,
     mutation: async (
       links: { link: string; label: string; order: number }[]
     ) => {
@@ -96,7 +97,6 @@ export function useEventSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.reorder,
   });
 
   watch(

@@ -13,6 +13,7 @@ export function useEventImageIconMutations(
     isLoading: loadingUploadIconImage,
     error,
   } = useMutation({
+    ...options.upload,
     mutation: (image: UploadableFile) =>
       uploadEventIconImage(unref(eventId), image),
     async onSuccess() {
@@ -22,7 +23,6 @@ export function useEventImageIconMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.upload,
   });
 
   watch(loadingUploadIconImage, (val) => {

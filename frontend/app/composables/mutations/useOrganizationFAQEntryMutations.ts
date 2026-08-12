@@ -13,6 +13,7 @@ export function useOrganizationFAQEntryMutations(
 
   // Create new FAQ entry.
   const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
+    ...options.create,
     mutation: (faqData: Omit<FaqEntry, "id">) =>
       createOrganizationFaq(currentOrganizationId.value, faqData as FaqEntry),
     async onSuccess() {
@@ -22,11 +23,11 @@ export function useOrganizationFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   // Update existing FAQ entry.
   const { mutate: updateFAQ, isLoading: loadingUpdateFAQ } = useMutation({
+    ...options.update,
     mutation: (faq: FaqEntry) => updateOrganizationFaq(faq),
     async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
@@ -35,11 +36,11 @@ export function useOrganizationFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   // Reorder multiple FAQ entries.
   const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
+    ...options.reorder,
     mutation: (faqs: FaqEntry[]) => reorderOrganizationFaqs(faqs),
     async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
@@ -52,6 +53,7 @@ export function useOrganizationFAQEntryMutations(
 
   // Delete FAQ entry.
   const { mutate: deleteFAQ, isLoading: loadingDeleteFAQ } = useMutation({
+    ...options.delete,
     mutation: (faqId: string) => deleteOrganizationFaq(faqId),
     async onSuccess() {
       await invalidateOrganizationCache(currentOrganizationId.value);
@@ -60,7 +62,6 @@ export function useOrganizationFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.delete,
   });
 
   watch(

@@ -13,6 +13,7 @@ export function useEventResourcesMutations(
   // Create new resource.
   const { mutate: createResource, isLoading: loadingCreateResource } =
     useMutation({
+      ...options.create,
       mutation: (resourceData: ResourceInput) =>
         createEventResource(currentEventId.value, resourceData as Resource),
       async onSettled() {
@@ -21,12 +22,12 @@ export function useEventResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.create,
     });
 
   // Update existing resource.
   const { mutate: updateResource, isLoading: loadingUpdateResource } =
     useMutation({
+      ...options.update,
       mutation: (resourceData: ResourceInput) =>
         updateEventResource(currentEventId.value, resourceData as Resource),
       async onSuccess() {
@@ -35,12 +36,12 @@ export function useEventResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.update,
     });
 
   // Delete existing resource.
   const { mutate: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
+      ...options.delete,
       mutation: (resourceId: string) => deleteEventResource(resourceId),
       async onSuccess() {
         await invalidateEventCache(currentEventId.value);
@@ -48,7 +49,6 @@ export function useEventResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.delete,
     });
 
   // Reorder multiple resource entries.

@@ -13,6 +13,7 @@ export function useGroupResourcesMutations(
   // Create new resource.
   const { mutate: createResource, isLoading: loadingCreateResource } =
     useMutation({
+      ...options.create,
       mutation: (resourceData: ResourceInput) =>
         createGroupResource(currentGroupId.value, resourceData as Resource),
       async onSuccess() {
@@ -21,12 +22,12 @@ export function useGroupResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.create,
     });
 
   // Update existing resource.
   const { mutate: updateResource, isLoading: loadingUpdateResource } =
     useMutation({
+      ...options.update,
       mutation: (resource: ResourceInput) => updateGroupResource(resource),
       async onSuccess() {
         await invalidateGroupCache(currentGroupId.value);
@@ -35,12 +36,12 @@ export function useGroupResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.update,
     });
 
   // Delete existing resource.
   const { mutate: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
+      ...options.delete,
       mutation: (resourceId: string) => deleteGroupResource(resourceId),
       async onSuccess() {
         await invalidateGroupCache(currentGroupId.value);
@@ -49,12 +50,12 @@ export function useGroupResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.delete,
     });
 
   // Reorder multiple resource entries.
   const { mutate: reorderResources, isLoading: loadingReorderResources } =
     useMutation({
+      ...options.reorder,
       mutation: (orderedResources: Resource[]) =>
         reorderGroupResources(orderedResources),
       async onSuccess() {
@@ -64,7 +65,6 @@ export function useGroupResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.reorder,
     });
 
   watch(

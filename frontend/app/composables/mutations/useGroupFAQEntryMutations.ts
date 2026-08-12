@@ -13,6 +13,7 @@ export function useGroupFAQEntryMutations(
 
   // Create new FAQ entry.
   const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
+    ...options.create,
     mutation: (faqData: Omit<FaqEntry, "id">) =>
       createGroupFaq(currentGroupId.value, faqData as FaqEntry),
     async onSuccess() {
@@ -22,11 +23,11 @@ export function useGroupFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   // Update existing FAQ entry.
   const { mutate: updateFAQ, isLoading: loadingUpdateFAQ } = useMutation({
+    ...options.update,
     mutation: (faq: FaqEntry) => updateGroupFaq(faq),
     async onSuccess() {
       await invalidateGroupCache(currentGroupId.value);
@@ -35,11 +36,11 @@ export function useGroupFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   // Reorder multiple FAQ entries.
   const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
+    ...options.reorder,
     mutation: (faqs: FaqEntry[]) => reorderGroupFaqs(faqs),
     async onSuccess() {
       await invalidateGroupCache(currentGroupId.value);
@@ -48,11 +49,11 @@ export function useGroupFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.reorder,
   });
 
   // Delete FAQ entry.
   const { mutate: deleteFAQ, isLoading: loadingDeleteFAQ } = useMutation({
+    ...options.delete,
     mutation: (faqId: string) => deleteGroupFaq(faqId),
     async onSuccess() {
       await invalidateGroupCache(currentGroupId.value);
@@ -61,7 +62,6 @@ export function useGroupFAQEntryMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.delete,
   });
 
   watch(

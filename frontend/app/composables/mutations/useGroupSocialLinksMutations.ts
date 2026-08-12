@@ -17,6 +17,7 @@ export function useGroupSocialLinksMutations(
     mutateAsync: updateLinkAsync,
     isLoading: loadingUpdateLink,
   } = useMutation({
+    ...options.update,
     mutation: async (linkData: {
       id: string;
       link: string;
@@ -38,7 +39,6 @@ export function useGroupSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   // Create multiple social links.
@@ -47,6 +47,7 @@ export function useGroupSocialLinksMutations(
     mutateAsync: createLinksAsync,
     isLoading: loadingCreateLinks,
   } = useMutation({
+    ...options.create,
     mutation: async (links: SocialLinkInput[]) => {
       if (!currentGroupId.value || !links.length) return null;
       return createGroupSocialLinks(currentGroupId.value, links);
@@ -58,7 +59,6 @@ export function useGroupSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   // Delete a single social link.
@@ -67,6 +67,7 @@ export function useGroupSocialLinksMutations(
     mutateAsync: deleteLinkAsync,
     isLoading: loadingDeleteLink,
   } = useMutation({
+    ...options.delete,
     mutation: (linkId: string) => deleteGroupSocialLink(linkId),
     async onSuccess() {
       await invalidateGroupCache(currentGroupId.value);
@@ -75,7 +76,6 @@ export function useGroupSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.delete,
   });
 
   // Replace all social links (delete all + create new ones).
@@ -84,6 +84,7 @@ export function useGroupSocialLinksMutations(
     mutateAsync: replaceAllLinksAsync,
     isLoading: loadingReplaceAllLinks,
   } = useMutation({
+    ...options.replaceAll,
     mutation: async (
       links: { link: string; label: string; order: number }[]
     ) => {
@@ -97,7 +98,6 @@ export function useGroupSocialLinksMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.replaceAll,
   });
 
   watch(

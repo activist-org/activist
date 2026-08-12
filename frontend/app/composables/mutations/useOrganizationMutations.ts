@@ -10,6 +10,7 @@ export const useOrganizationMutations = (options: OptionMutation = {}) => {
     mutateAsync: createAsync,
     isLoading,
   } = useMutation({
+    ...options.create,
     mutation: (organizationData: CreateOrganizationInput) =>
       createOrganization(organizationData),
     async onSuccess(data: Organization) {
@@ -19,7 +20,6 @@ export const useOrganizationMutations = (options: OptionMutation = {}) => {
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   return {

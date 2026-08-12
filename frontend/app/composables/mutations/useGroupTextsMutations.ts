@@ -12,6 +12,7 @@ export function useGroupTextsMutations(
 
   // Update group texts.
   const { mutate: updateTexts, isLoading: loading } = useMutation({
+    ...options.update,
     mutation: (vars: { textId: string; data: GroupUpdateTextFormData }) =>
       updateGroupTexts(currentGroupId.value, vars.textId, vars.data),
     async onSuccess() {
@@ -21,7 +22,6 @@ export function useGroupTextsMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   return {

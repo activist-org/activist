@@ -6,6 +6,7 @@ export const useGroupMutations = (options: OptionMutation = {}) => {
   const { invalidateGroupList } = useGroupCache();
 
   const { mutate: create, isLoading } = useMutation({
+    ...options.create,
     mutation: (groupData: CreateGroupInput) => createGroup(groupData),
     async onSuccess() {
       await invalidateGroupList();
@@ -14,7 +15,6 @@ export const useGroupMutations = (options: OptionMutation = {}) => {
     onError(err) {
       handleError(err);
     },
-    ...options.create,
   });
 
   return {

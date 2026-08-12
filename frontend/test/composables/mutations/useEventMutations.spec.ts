@@ -60,12 +60,11 @@ describe("useEventMutations", () => {
     it("refreshes the event list via onSettled on success", async () => {
       const { create } = useEventMutations();
 
-      await create(sampleEventInput);
+      create(sampleEventInput);
 
-      // await vi.waitFor(() => {
-      //   expect(mockInvalidateEventList).toHaveBeenCalled();
-      //   expect(setItems).toHaveBeenCalledWith([]);
-      // });
+      await vi.waitFor(() => {
+        expect(mockInvalidateEventList).toHaveBeenCalled();
+      });
     });
 
     it("rejects when the service fails", async () => {
@@ -80,15 +79,4 @@ describe("useEventMutations", () => {
       expect(showToastError).toHaveBeenCalled();
     });
   });
-
-  // describe("refreshEventList", () => {
-  //   it("refreshes the list read and clears the cached items", async () => {
-  //     const { refreshEventList } = useEventMutations();
-
-  //     await refreshEventList();
-
-  //     expect(mockInvalidateEventList).toHaveBeenCalled();
-  //     expect(setItems).toHaveBeenCalledWith([]);
-  //   });
-  // });
 });

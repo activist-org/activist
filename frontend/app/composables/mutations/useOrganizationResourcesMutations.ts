@@ -47,6 +47,7 @@ export function useOrganizationResourcesMutations(
   // Delete existing resource.
   const { mutate: deleteResource, isLoading: loadingDeleteResource } =
     useMutation({
+      ...options.delete,
       mutation: (resourceId: string) => deleteOrganizationResource(resourceId),
       async onSuccess() {
         await invalidateOrganizationCache(currentOrganizationId.value);
@@ -55,12 +56,12 @@ export function useOrganizationResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.delete,
     });
 
   // Reorder multiple resource entries.
   const { mutate: reorderResources, isLoading: loadingReorderResources } =
     useMutation({
+      ...options.reorder,
       mutation: (orderedResources: Resource[]) =>
         reorderOrganizationResources(
           currentOrganizationId.value,
@@ -73,7 +74,6 @@ export function useOrganizationResourcesMutations(
       onError(err) {
         handleError(err);
       },
-      ...options.reorder,
     });
 
   watch(

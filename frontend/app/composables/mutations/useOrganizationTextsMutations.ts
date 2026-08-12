@@ -12,6 +12,7 @@ export function useOrganizationTextsMutations(
 
   // Update organization texts.
   const { mutate: updateTexts, isLoading: loading } = useMutation({
+    ...options.update,
     mutation: (vars: {
       textId: string;
       data: OrganizationUpdateTextFormData;
@@ -28,7 +29,6 @@ export function useOrganizationTextsMutations(
     onError(err) {
       handleError(err);
     },
-    ...options.update,
   });
 
   return {

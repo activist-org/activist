@@ -9,6 +9,7 @@ export const useEventMutations = (options: OptionMutation = {}) => {
     mutateAsync: createAsync,
     isLoading: loading,
   } = useMutation({
+    ...options.create,
     mutation: (eventData: CreateEventInput) => createEvent(eventData),
     onError(err) {
       handleError(err);
@@ -17,7 +18,6 @@ export const useEventMutations = (options: OptionMutation = {}) => {
       await invalidateEventList();
       options.create?.onSuccess?.();
     },
-    ...options.create,
   });
 
   const refreshEventList = async () => {
