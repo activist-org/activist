@@ -28,6 +28,12 @@ export const useGroupCache = () => {
     });
   };
 
+  const invalidateGroupList = async () => {
+    await invalidateQueries({
+      key: [...GROUP_KEYS.root, "list"],
+    });
+  };
+
   // Get cache entries for a single event.
   const groupCacheEntries = (groupId: string) =>
     getEntries({ key: GROUP_KEYS.byId(groupId) });
@@ -40,6 +46,7 @@ export const useGroupCache = () => {
   return {
     invalidateGroupCache,
     invalidateGroupImageCache,
+    invalidateGroupList,
     groupCacheEntries,
     getKeyForGroups,
     getKeyForGroup,

@@ -14,7 +14,7 @@ import { navigateToFirstOrganization } from "./organizations";
  * Navigate to a group subpage within an organization
  * @param page - Playwright page object
  * @param subpage - The group subpage to navigate to (e.g., 'about', 'events', 'faq', 'resources')
- * @returns Object containing organizationId, groupId, and organizationPage
+ * @returns Object containing orgId, groupId, and organizationPage
  */
 export async function navigateToOrganizationGroupSubpage(
   page: Page,
@@ -26,11 +26,10 @@ export async function navigateToOrganizationGroupSubpage(
     currentUrl.includes(`/groups/`) &&
     currentUrl.includes(`/${subpage}`)
   ) {
-    return { organizationId: "", organizationPage: newOrganizationPage(page) };
+    return { orgId: "", organizationPage: newOrganizationPage(page) };
   }
 
-  const { organizationId, organizationPage } =
-    await navigateToFirstOrganization(page);
+  const { orgId, organizationPage } = await navigateToFirstOrganization(page);
 
   const viewportSize = page.viewportSize();
   const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
@@ -100,7 +99,7 @@ export async function navigateToOrganizationGroupSubpage(
       "No groups available to navigate to - skipping group subpage tests"
     );
     return {
-      organizationId,
+      orgId,
       groupId: null,
       organizationPage,
       groupsPage,
@@ -138,7 +137,7 @@ export async function navigateToOrganizationGroupSubpage(
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
   return {
-    organizationId,
+    orgId,
     groupId,
     organizationPage,
     groupsPage,
