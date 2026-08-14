@@ -3967,24 +3967,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/colada-nuxt@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@pinia/colada-nuxt@npm:1.0.0"
+"@pinia/colada-nuxt@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@pinia/colada-nuxt@npm:1.0.2"
   dependencies:
-    "@nuxt/kit": "npm:^4.4.2"
+    "@nuxt/kit": "npm:^4.4.8"
   peerDependencies:
-    "@pinia/colada": ">=1.2.0"
-  checksum: 10c0/f2cb1ee97fcf0247d20d4df6062d29cbf61d6e53ceb10c1971315093148d0ca421b37ca98b5662cad0f7cc1dc935fc60a97ad7ad0874807491d7d32dd539f317
+    "@pinia/colada": ">=1.4.0"
+  checksum: 10c0/e18efb952cd201eff53eb6987b7de1c34481c39c015e53750fc1f23265bac54d401a147f1c6ce5df94a1d0ef00dfc4bcb4cc799877952532327b2b9f23456d2f
   languageName: node
   linkType: hard
 
-"@pinia/colada@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@pinia/colada@npm:1.2.0"
+"@pinia/colada@npm:1.4.2":
+  version: 1.4.2
+  resolution: "@pinia/colada@npm:1.4.2"
+  dependencies:
+    nostics: "npm:^1.1.4"
   peerDependencies:
-    pinia: ^2.2.6 || ^3.0.0
+    pinia: ^2.2.6 || ^3.0.0 || ^4.0.2
     vue: ^3.5.17
-  checksum: 10c0/e3f5eec854b1b42e8c0d6c77682e08111f36aa34123cd410424c2ebce2e6a3eb59cd59fd8f5f695fb9db3e181b0368f374e2158eb6413d4df0efc1db065ecbf7
+  checksum: 10c0/bf5e4f4ddc87f42aaeb1a604e8a655e4c9ecc3e79aa53b12247e002de96bbfc0f77affa5aa668e61690aaf14fe6c58884c266cf5166dd25a18df9a26aeb5b58e
   languageName: node
   linkType: hard
 
@@ -6895,8 +6897,8 @@ __metadata:
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.4.0"
     "@opentelemetry/api": "npm:1.9.1"
-    "@pinia/colada": "npm:^1.2.0"
-    "@pinia/colada-nuxt": "npm:1.0.0"
+    "@pinia/colada": "npm:1.4.2"
+    "@pinia/colada-nuxt": "npm:1.0.2"
     "@pinia/nuxt": "npm:0.11.3"
     "@playwright/test": "npm:1.62.1"
     "@popperjs/core": "npm:2.11.8"
@@ -12181,6 +12183,13 @@ __metadata:
     oxc-parser: "npm:^0.132.0"
     unplugin: "npm:^3.0.0"
   checksum: 10c0/38139224fb95258dcf393508beb9064783f176e834c7d8ec45f823da8b4d447afb3c3783aa00e70c7b97dd1896e2fdb4e730569ac79615b65ce6194cd54444c1
+  languageName: node
+  linkType: hard
+
+"nostics@npm:^1.1.4":
+  version: 1.2.0
+  resolution: "nostics@npm:1.2.0"
+  checksum: 10c0/fae2da4abce570a55837957a95dd93b75e3c36987015dfb6c96158844fedbc3f53421486dde3bce5d26209abc1d4250703d2166f639553204187f7209cc56cae
   languageName: node
   linkType: hard
 
