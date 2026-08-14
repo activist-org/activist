@@ -17,8 +17,8 @@ def test_org_text_str() -> None:
     """
     Test string representation of OrganizationText model.
     """
-    org_text = OrganizationTextFactory.build()
-    assert hasattr(org_text, "description")
+    org_texts = OrganizationTextFactory.build()
+    assert hasattr(org_texts, "description")
 
 
 def test_org_text_languages() -> None:
@@ -28,7 +28,7 @@ def test_org_text_languages() -> None:
     org = OrganizationFactory()
 
     # Test primary language text.
-    primary_text = OrganizationTextFactory(
+    primary_org_texts = OrganizationTextFactory(
         org=org,
         iso="eng",
         primary=True,
@@ -36,12 +36,12 @@ def test_org_text_languages() -> None:
         get_involved="Get involved text",
         donate_prompt="Donation prompt",
     )
-    assert primary_text.primary is True
-    assert primary_text.iso == "eng"
-    assert primary_text.description == "Primary description"
+    assert primary_org_texts.primary is True
+    assert primary_org_texts.iso == "eng"
+    assert primary_org_texts.description == "Primary description"
 
     # Test secondary language text.
-    secondary_text = OrganizationTextFactory(
+    secondary_org_texts = OrganizationTextFactory(
         org=org,
         iso="spa",
         primary=False,
@@ -49,6 +49,6 @@ def test_org_text_languages() -> None:
         get_involved="How to participate",
         donate_prompt="Donation prompt",
     )
-    assert secondary_text.primary is False
-    assert secondary_text.iso == "spa"
-    assert secondary_text.description == "Description"
+    assert secondary_org_texts.primary is False
+    assert secondary_org_texts.iso == "spa"
+    assert secondary_org_texts.description == "Description"

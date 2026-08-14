@@ -17,15 +17,15 @@ def test_group_resource_retrieve_ok_200():
 
     user = UserFactory()
     group = GroupFactory(created_by=user)
-    resource = GroupResourceFactory(created_by=user, group=group)
+    group_resource = GroupResourceFactory(created_by=user, group=group)
 
-    response = client.get(path=f"/v1/communities/group_resources/{resource.id}")
+    response = client.get(path=f"/v1/communities/group_resources/{group_resource.id}")
     assert response.status_code == status.HTTP_200_OK
 
     response_body = response.json()
-    assert response_body["id"] == str(resource.id)
-    assert response_body["name"] == resource.name
-    assert response_body["description"] == resource.description
+    assert response_body["id"] == str(group_resource.id)
+    assert response_body["name"] == group_resource.name
+    assert response_body["description"] == group_resource.description
 
 
 def test_group_resource_retrieve_not_found_404():

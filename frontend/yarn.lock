@@ -3967,24 +3967,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pinia/colada-nuxt@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@pinia/colada-nuxt@npm:1.0.0"
+"@pinia/colada-nuxt@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@pinia/colada-nuxt@npm:1.0.2"
   dependencies:
-    "@nuxt/kit": "npm:^4.4.2"
+    "@nuxt/kit": "npm:^4.4.8"
   peerDependencies:
-    "@pinia/colada": ">=1.2.0"
-  checksum: 10c0/f2cb1ee97fcf0247d20d4df6062d29cbf61d6e53ceb10c1971315093148d0ca421b37ca98b5662cad0f7cc1dc935fc60a97ad7ad0874807491d7d32dd539f317
+    "@pinia/colada": ">=1.4.0"
+  checksum: 10c0/e18efb952cd201eff53eb6987b7de1c34481c39c015e53750fc1f23265bac54d401a147f1c6ce5df94a1d0ef00dfc4bcb4cc799877952532327b2b9f23456d2f
   languageName: node
   linkType: hard
 
-"@pinia/colada@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@pinia/colada@npm:1.2.0"
+"@pinia/colada@npm:1.4.2":
+  version: 1.4.2
+  resolution: "@pinia/colada@npm:1.4.2"
+  dependencies:
+    nostics: "npm:^1.1.4"
   peerDependencies:
-    pinia: ^2.2.6 || ^3.0.0
+    pinia: ^2.2.6 || ^3.0.0 || ^4.0.2
     vue: ^3.5.17
-  checksum: 10c0/e3f5eec854b1b42e8c0d6c77682e08111f36aa34123cd410424c2ebce2e6a3eb59cd59fd8f5f695fb9db3e181b0368f374e2158eb6413d4df0efc1db065ecbf7
+  checksum: 10c0/bf5e4f4ddc87f42aaeb1a604e8a655e4c9ecc3e79aa53b12247e002de96bbfc0f77affa5aa668e61690aaf14fe6c58884c266cf5166dd25a18df9a26aeb5b58e
   languageName: node
   linkType: hard
 
@@ -4010,14 +4012,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.61.1":
-  version: 1.61.1
-  resolution: "@playwright/test@npm:1.61.1"
+"@playwright/test@npm:1.62.1":
+  version: 1.62.1
+  resolution: "@playwright/test@npm:1.62.1"
   dependencies:
-    playwright: "npm:1.61.1"
+    playwright: "npm:1.62.1"
   bin:
     playwright: cli.js
-  checksum: 10c0/45004139eaa7c7ec8129e4ed77a9d734aa09ed40b69162b871e4123f1d70217b7b73651431a9343ed5090d5fed11c6df1bff2a56ff4b87dc7b0371b5da87cf9c
+  checksum: 10c0/4b76f2f717723f84a73601f74fde97f5d92e4b5c869cf87c0f5628bf247fa1d18c9dc6c8e136463303233239e8ce58f902513d4281a9fabc3c426e911ded2c83
   languageName: node
   linkType: hard
 
@@ -6978,10 +6980,10 @@ __metadata:
     "@nuxtjs/device": "npm:4.0.0"
     "@nuxtjs/i18n": "npm:10.4.1"
     "@opentelemetry/api": "npm:1.9.1"
-    "@pinia/colada": "npm:^1.2.0"
-    "@pinia/colada-nuxt": "npm:1.0.0"
+    "@pinia/colada": "npm:1.4.2"
+    "@pinia/colada-nuxt": "npm:1.0.2"
     "@pinia/nuxt": "npm:0.11.3"
-    "@playwright/test": "npm:1.61.1"
+    "@playwright/test": "npm:1.62.1"
     "@popperjs/core": "npm:2.11.8"
     "@somushq/vue3-friendly-captcha": "npm:1.0.2"
     "@tailwindcss/vite": "npm:4.3.2"
@@ -7012,7 +7014,7 @@ __metadata:
     axios: "npm:1.18.1"
     commander: "npm:15.0.0"
     cross-env: "npm:10.1.0"
-    dompurify: "npm:3.4.12"
+    dompurify: "npm:3.4.13"
     dotenv: "npm:17.4.2"
     env-cmd: "npm:11.0.0"
     eslint: "npm:10.7.0"
@@ -7032,15 +7034,15 @@ __metadata:
     nuxt-security: "npm:2.6.0"
     pinia: "npm:3.0.4"
     pinia-plugin-persistedstate: "npm:4.7.1"
-    playwright-core: "npm:1.61.1"
-    postcss: "npm:8.5.22"
+    playwright-core: "npm:1.62.1"
+    postcss: "npm:8.5.23"
     postcss-custom-properties: "npm:15.0.1"
     prettier: "npm:3.9.5"
     prettier-plugin-tailwindcss: "npm:0.8.0"
     qrcode: "npm:1.5.4"
     reduced-motion: "npm:1.0.4"
     rollup: "npm:4.62.2"
-    swiper: "npm:14.0.1"
+    swiper: "npm:14.0.5"
     tailwind-scrollbar: "npm:4.0.2"
     tailwindcss: "npm:4.3.2"
     tippy.js: "npm:6.3.7"
@@ -8595,15 +8597,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:3.4.12":
-  version: 3.4.12
-  resolution: "dompurify@npm:3.4.12"
+"dompurify@npm:3.4.13":
+  version: 3.4.13
+  resolution: "dompurify@npm:3.4.13"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10c0/127a13817353d4e20e75a991a9022a04c3af12af7479f68e2b8bee6dbc7330a96edfb8f4ebff96f4f0f24cd43e8dbba46214131f510c3aa87a843bd8b610d0ab
+  checksum: 10c0/9c2a1a71e1a1d8b77953db7a39ffc935ef4ed4f10fe40770232128c2cbfd4c3dc677d3d7bae51eb24cc52d9ff3548612dc540ecb4343e89b26e809d2be2e0cfe
   languageName: node
   linkType: hard
 
@@ -10635,9 +10637,9 @@ __metadata:
   linkType: hard
 
 "ip-address@npm:^10.0.1":
-  version: 10.2.0
-  resolution: "ip-address@npm:10.2.0"
-  checksum: 10c0/5a00aada6e922c9c69dfc800ed5d0fa3348675ebdeed0e1575f503f27ca385b5f534363c9af7ad1daf64c1f1409388cdd3cc2e9b9b0fe1c924a431378d55075a
+  version: 10.4.0
+  resolution: "ip-address@npm:10.4.0"
+  checksum: 10c0/d7b0bd2624fd861afbae6e49036a9b56f9506eaff7ff38592b7b4492dd5c272b53f5356dc8cc019e318acf29a96c90a3d1af1df761960267d23efa96858270fa
   languageName: node
   linkType: hard
 
@@ -12329,6 +12331,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nostics@npm:^1.1.4":
+  version: 1.2.0
+  resolution: "nostics@npm:1.2.0"
+  checksum: 10c0/fae2da4abce570a55837957a95dd93b75e3c36987015dfb6c96158844fedbc3f53421486dde3bce5d26209abc1d4250703d2166f639553204187f7209cc56cae
+  languageName: node
+  linkType: hard
+
 "npm-run-path@npm:^5.1.0":
   version: 5.3.0
   resolution: "npm-run-path@npm:5.3.0"
@@ -13503,27 +13512,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.61.0":
-  version: 1.61.0
-  resolution: "playwright-core@npm:1.61.0"
+"playwright-core@npm:1.62.1":
+  version: 1.62.1
+  resolution: "playwright-core@npm:1.62.1"
   bin:
     playwright-core: cli.js
-  checksum: 10c0/64cbf5e9f4ad81cbb005d59417e96435e324a6e3801f1c79b36850ad99f6bb90853c4b569a32c49b9eca1e07925bbb2a5a864babdba2178c3c395e0c589d5941
+  checksum: 10c0/a37d0f03bb73364cfd0eba704c4b3359b609c4779ae2649a88d8e2b3a29c7357dfcc58bdcf0cb68ddffdef7687abf78902c8356e89f189682c7e19be38e108f0
   languageName: node
   linkType: hard
 
-"playwright@npm:1.61.1":
-  version: 1.61.1
-  resolution: "playwright@npm:1.61.1"
+"playwright@npm:1.62.1":
+  version: 1.62.1
+  resolution: "playwright@npm:1.62.1"
   dependencies:
     fsevents: "npm:2.3.2"
-    playwright-core: "npm:1.61.1"
+    playwright-core: "npm:1.62.1"
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 10c0/cea1bc4d2a64ec3ef683891606774029da7b8a8036ed98332565cec2f8e89549ca1fab9a89fbfba4e08e27e0d7e7d148031e965af66d5ff97bb3c34058cfcad0
+  checksum: 10c0/4d3522cd46325f50c46f8874d31f70d036f6983228a9f8b9d68fc249e4c17464edcd97cc4adfbb24e712d1829c1386d3bc24e17f58a1ced94e7c423300c21845
   languageName: node
   linkType: hard
 
@@ -13899,14 +13908,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.5.22":
-  version: 8.5.22
-  resolution: "postcss@npm:8.5.22"
+"postcss@npm:8.5.23":
+  version: 8.5.23
+  resolution: "postcss@npm:8.5.23"
   dependencies:
     nanoid: "npm:^3.3.16"
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
-  checksum: 10c0/9e143ee457988049d5f187116fd37f2750ae9d8d71cc99eae690b776e549e134b34086cbaa2f0360ecd1729b15d918227bd0fc3a2ffbe341f7212d0827080793
+  checksum: 10c0/ed714e635b330bb42666ecdd0c0b4f30224ded15b0b0052d6bc2b92832f2cf17d1c1141359453f96f0a84f8fbf4c405a74df187f559163b8f31131b2535455aa
   languageName: node
   linkType: hard
 
@@ -14586,14 +14595,14 @@ __metadata:
 
 "resolve@patch:resolve@npm%3A^1.22.1#optional!builtin<compat/resolve>":
   version: 1.22.11
-  resolution: "resolve@patch:resolve@npm%3A1.22.11#optional!builtin<compat/resolve>::version=1.22.11&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.11#optional!builtin<compat/resolve>::version=1.22.11&hash=9bd1a5"
   dependencies:
     is-core-module: "npm:^2.16.1"
     path-parse: "npm:^1.0.7"
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 10c0/ee5b182f2e37cb1165465e58c6abc797fec0a80b5ba3231607beb4677db0c9291ac010c47cf092b6daa2b7f518d69a0e21888e7e2b633f68d501a874212a8c63
+  checksum: 10c0/55f7a298977b1aacf6dbec6dcfc81100ba98675bced193b57d3ac58ced65acc40c3a38927853cea86b7f75edb3c20e1f099a09d48b0d8ceccc25d466993eec47
   languageName: node
   linkType: hard
 
@@ -15636,10 +15645,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swiper@npm:14.0.1":
-  version: 14.0.1
-  resolution: "swiper@npm:14.0.1"
-  checksum: 10c0/3d4f2cdeef9fec9ee3ad2b2dafc883f168a0d5c0909ebb269ef405043162645e94548b81bb6aea5208e632af0cbf09f9d4483956c4a6dd2374f4a89ae074c6ac
+"swiper@npm:14.0.5":
+  version: 14.0.5
+  resolution: "swiper@npm:14.0.5"
+  checksum: 10c0/d0f0fe9fc12e810052cfa378dd7a84da525739ff662cb9a8a27c43025269979c71406427009047733a0b31a9b896687702191936ebb4b3e040e527cda77681ed
   languageName: node
   linkType: hard
 
