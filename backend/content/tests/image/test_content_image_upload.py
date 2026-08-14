@@ -182,8 +182,8 @@ def test_content_image_upload_create_single_file_view(client: APIClient) -> None
     # Assert file exists in filesystem.
     response_data = response.json()
     assert len(response_data) == 1, "Expected one image in response"
-    file_url = response_data[0]["fileObject"]
 
+    file_url = response_data[0]["fileObject"]
     relative_path = file_url.replace("http://testserver/media/", "").lstrip("/")
     uploaded_file = os.path.join(settings.MEDIA_ROOT, relative_path)
 
@@ -349,9 +349,11 @@ def test_content_image_upload_create_large_file(client: APIClient) -> None:
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     # DATA_UPLOAD_MAX_MEMORY_SIZE and IMAGE_UPLOAD_MAX_FILE_SIZE are set in core/settings.py.
-    # The file size limit is not being enforced. We're checking the file size in the serializer validation.
+    # Use the base-2 (binary) conversion of bytes to MB.
+    image_size_mb = round(file.size / (1024 * 1024), 3)
+    max_image_size_mb = settings.IMAGE_UPLOAD_MAX_FILE_SIZE // (1024 * 1024)
     assert (
-        f"The file size ({file.size} bytes) is too large. The maximum file size is {settings.IMAGE_UPLOAD_MAX_FILE_SIZE} bytes."
+        f"The file size ({image_size_mb}MB) is too large. The maximum file size is {max_image_size_mb}MB."
         in response.json()["nonFieldErrors"]
     )
 

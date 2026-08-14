@@ -323,6 +323,8 @@ SIMPLE_JWT = {
 }
 
 # MARK: Image / Data Upload size limits
+
+# Use the base-2 (binary) conversion of bytes to MB.
 IMAGE_UPLOAD_MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # 5MB
 

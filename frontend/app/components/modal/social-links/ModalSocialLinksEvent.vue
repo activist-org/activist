@@ -2,9 +2,9 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormSocialLink
+      v-if="socialLinksRef"
       :formData="formData"
       :handleSubmit="handleSubmit"
-      :isLoading="loading"
       :submitLabel="submitLabel"
     />
   </ModalBase>
@@ -19,16 +19,25 @@ const props = defineProps<{
 }>();
 
 const { data: event } = useGetEvent(props.entityId);
-const { updateLink, createLinks, deleteLink, loading } =
+const { updateLinkAsync, createLinksAsync, deleteLinkAsync } =
   useEventSocialLinksMutations(props.entityId);
 
 type SocialLinkWithKey = (EventSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
+// The query resolves after the modal mounts, so a late re-sync would overwrite
+// anything already typed.
+const socialLinks = computed(() =>
+  event.value ? (event.value.socialLinks ?? []) : undefined
+);
+
 watch(
-  () => event.value?.socialLinks ?? [],
+  socialLinks,
   (newVal) => {
-    socialLinksRef.value = (newVal || []).map((l, idx) => ({
+    if (!newVal) {
+      return;
+    }
+    socialLinksRef.value = newVal.map((l, idx) => ({
       ...l,
       key: l?.id ?? String(idx),
     }));
@@ -75,7 +84,7 @@ async function handleSubmit(values: unknown) {
       (link) =>
         link.id && !formValues?.some((existing) => existing.id === link.id)
     ) ?? [];
-  await Promise.all(toDelete.map((link) => deleteLink(link.id!)));
+  await Promise.all(toDelete.map((link) => deleteLinkAsync(link.id!)));
 
   // MARK: Update
 
@@ -93,7 +102,7 @@ async function handleSubmit(values: unknown) {
     ) || [];
   await Promise.all(
     toUpdate.map(async (refItem) => {
-      await updateLink({
+      await updateLinkAsync({
         id: refItem.id,
         link: refItem.link,
         label: refItem.label,
@@ -106,7 +115,7 @@ async function handleSubmit(values: unknown) {
 
   const toCreate = formValues?.filter((link) => link.id === "") || [];
   if (toCreate.length > 0) {
-    await createLinks(
+    await createLinksAsync(
       toCreate.map((link) => ({
         link: link.link,
         label: link.label,

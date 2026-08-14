@@ -56,41 +56,50 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const modals = useModals();
-const modalName = "ModalUploadImageIcon";
-const uploadError = ref(false);
-
 interface Props {
   entityId: string;
   entityType: EntityType;
 }
-
 const props = defineProps<Props>();
+
 const entityId = computed(() => props.entityId);
+
+const modalName = "ModalUploadImageIcon";
+const uploadError = ref(false);
+const { handleCloseModal } = useModalHandlers(modalName);
+
+const emit = defineEmits(["upload-complete", "upload-error"]);
 const {
   uploadIconImage: uploadOrganizationIconImage,
   loading: loadingOrganization,
-} = useOrganizationImageMutations(entityId);
+} = useOrganizationImageMutations(entityId, {
+  upload: {
+    onSuccess() {
+      uploadError.value = false;
+      emit("upload-complete");
+      handleCloseModal();
+    },
+    onError() {
+      uploadError.value = true;
+      emit("upload-error");
+    },
+  },
+});
+
 const { uploadIconImage: uploadEventIconImage, loading: loadingEvent } =
   useEventImageIconMutations(entityId);
-const emit = defineEmits(["upload-complete", "upload-error"]);
 const fileImageIcon = ref();
 const { getIconImage } = useFileManager();
 const handleUpload = async () => {
   try {
     // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
     if (props.entityType === EntityType.ORGANIZATION) {
-      await uploadOrganizationIconImage(fileImageIcon.value as UploadableFile);
+      uploadOrganizationIconImage(fileImageIcon.value as UploadableFile);
     } else if (props.entityType === EntityType.EVENT) {
-      await uploadEventIconImage(fileImageIcon.value as UploadableFile);
+      uploadEventIconImage(fileImageIcon.value as UploadableFile);
     } else {
       throw new Error("Unsupported entity type");
     }
-
-    modals.closeModal(modalName);
-
-    emit("upload-complete", props.entityId);
-    uploadError.value = false;
   } catch (error) {
     emit("upload-error");
     void error;
