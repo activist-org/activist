@@ -1,20 +1,14 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
+  <!-- prettier-ignore-attribute :initial-values -->
   <Form
     @submit="handleSubmit"
-    :initial-values="formData as unknown as Record<string, unknown>"
+    :initial-values="(formData as unknown as Record<string, unknown>)"
     :schema="schema"
     :submit-label="$t(submitLabel)"
   >
-    <h2 v-if="title">
-      {{ $t(title) }}
-    </h2>
     <div class="flex flex-col space-y-7">
-      <FormListItem
-        v-slot="{ fields, remove, push, move }"
-        :label="$t('i18n.components.form_social_link.social_links')"
-        name="socialLinks"
-      >
+      <FormListItem v-slot="{ fields, remove, push, move }" name="socialLinks">
         <div class="flex flex-col space-y-3">
           <h2 for="textarea">
             {{ $t("i18n.components.form_social_link.social_links") }}

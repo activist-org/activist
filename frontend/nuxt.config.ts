@@ -8,6 +8,7 @@ import applyMiddleware from "./applyMiddleware";
 import head from "./head";
 import modules from "./modules";
 import locales from "./shared/utils/locales";
+import { MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES } from "./shared/utils/uploadLimits";
 
 export default defineNuxtConfig({
   app: {
@@ -154,8 +155,12 @@ export default defineNuxtConfig({
           },
     // When true, turns off console.log output? Also look at unplugin-remove Vite Plugin by Talljack.
     removeLoggers: false,
+    // This guard measures a request's whole Content-Length, so it has to stay
+    // above the largest image batch the backend accepts. At or below that, an
+    // oversized upload is rejected here with a generic 413 "Payload Too Large"
+    // and never reaches the size check that can tell the user the actual limit.
     requestSizeLimiter: {
-      maxUploadFileRequestInBytes: 5000000,
+      maxUploadFileRequestInBytes: MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES,
     },
   },
 } as unknown as Parameters<typeof defineNuxtConfig>[0]);
