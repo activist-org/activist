@@ -13,15 +13,17 @@ const props = defineProps<{
   entityId: string;
 }>();
 
+const groupId = computed(() => props.entityId);
+
 const modalName = "ModalResourceDeleteGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const groupId = computed(() => props.entityId);
 const { deleteResource } = useGroupResourcesMutations(groupId, {
   delete: {
     onSuccess: () => handleCloseModal(),
   },
 });
+
 const handleDelete = async () => {
   deleteResource(props.resourceId);
 };

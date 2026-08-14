@@ -83,7 +83,7 @@ const handlePrev = () => {
   flow.prev();
 };
 
-const { data: potentialLocations } = useLocation(query);
+const { data: potentialLocations } = useGetLocation(query);
 watch(
   potentialLocations,
   () => {

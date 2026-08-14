@@ -14,18 +14,17 @@
 const modalName = "ModalCreateGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
+const router = useRouter();
+
 const { create } = useGroupMutations({
   create: {
     onSuccess: (data: unknown) => {
-      // Navigate to the newly created group page
       router.push(
         `/organizations/${(data as Group).org.id}/groups/${(data as Group).id}/about`
       );
     },
   },
 });
-
-const router = useRouter();
 
 /**
  * This function will be called by the machine when the flow completes.

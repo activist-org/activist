@@ -56,16 +56,18 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const modalName = "ModalUploadImageIcon";
-const uploadError = ref(false);
-
 interface Props {
   entityId: string;
   entityType: EntityType;
 }
-const { handleCloseModal } = useModalHandlers(modalName);
 const props = defineProps<Props>();
+
 const entityId = computed(() => props.entityId);
+
+const modalName = "ModalUploadImageIcon";
+const uploadError = ref(false);
+const { handleCloseModal } = useModalHandlers(modalName);
+
 const emit = defineEmits(["upload-complete", "upload-error"]);
 const {
   uploadIconImage: uploadOrganizationIconImage,
@@ -83,6 +85,7 @@ const {
     },
   },
 });
+
 const { uploadIconImage: uploadEventIconImage, loading: loadingEvent } =
   useEventImageIconMutations(entityId);
 const fileImageIcon = ref();

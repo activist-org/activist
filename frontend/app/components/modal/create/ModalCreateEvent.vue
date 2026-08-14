@@ -38,6 +38,8 @@ async function handleSubmission(finalData: unknown) {
   // Combine all IDs.
   const allIds = [...loopedEventIds];
   await handleCreatedEventRouting(allIds);
+
+  handleCloseModal();
 }
 
 // Pass the handler to the machine via its options.

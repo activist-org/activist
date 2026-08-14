@@ -13,15 +13,17 @@ const props = defineProps<{
   entityId: string;
 }>();
 
+const orgId = computed(() => props.entityId);
+
 const modalName = "ModalFaqEntryDeleteOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const organizationId = computed(() => props.entityId);
-const { deleteFAQ } = useOrganizationFAQEntryMutations(organizationId, {
+const { deleteFAQ } = useOrganizationFAQEntryMutations(orgId, {
   delete: {
     onSuccess: () => handleCloseModal(),
   },
 });
+
 const handleDelete = async () => {
   deleteFAQ(props.faqEntryId);
 };

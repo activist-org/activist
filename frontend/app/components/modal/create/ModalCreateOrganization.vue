@@ -19,6 +19,7 @@ const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
 
 const router = useRouter();
+
 const { create } = useOrganizationMutations({
   create: {
     onSuccess: (data: unknown) => {
@@ -26,6 +27,7 @@ const { create } = useOrganizationMutations({
     },
   },
 });
+
 /**
  * This function will be called by the machine when the flow completes.
  * @param {unknown} finalData The consolidated data from all steps.

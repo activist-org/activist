@@ -11,14 +11,16 @@
 </template>
 
 <script setup lang="ts">
-const modalName = "ModalResourceGroup";
-const { handleCloseModal } = useModalHandlers(modalName);
 const props = defineProps<{
   resource?: Resource;
   entityId: string;
 }>();
 
 const groupId = computed(() => props.entityId);
+
+const modalName = "ModalResourceGroup";
+const { handleCloseModal } = useModalHandlers(modalName);
+
 const { data: group } = useGetGroup(groupId);
 const { updateResource, createResource } = useGroupResourcesMutations(groupId, {
   update: {
@@ -70,7 +72,11 @@ async function handleSubmit(values: unknown) {
     ...(values as Resource),
     order: formData.value?.order ?? (group.value?.resources ?? []).length,
   };
-  if (isAddMode) createResource(newValues as ResourceInput);
-  else updateResource(newValues as ResourceInput);
+
+  if (isAddMode) {
+    createResource(newValues as ResourceInput);
+  } else {
+    updateResource(newValues as ResourceInput);
+  }
 }
 </script>

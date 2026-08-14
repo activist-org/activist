@@ -18,15 +18,15 @@ export const useOrganizationCache = () => {
   const { invalidateQueries, getEntries } = useQueryCache();
 
   // Invalidate a single organization by ID.
-  const invalidateOrganizationCache = async (organizationId: string) => {
+  const invalidateOrganizationCache = async (orgId: string) => {
     await invalidateQueries({
-      key: ORGANIZATION_KEYS.byId(organizationId),
+      key: ORGANIZATION_KEYS.byId(orgId),
     });
   };
 
-  const invalidateOrganizationImageCache = async (organizationId: string) => {
+  const invalidateOrganizationImageCache = async (orgId: string) => {
     await invalidateQueries({
-      key: ORGANIZATION_KEYS.imageList(organizationId),
+      key: ORGANIZATION_KEYS.imageList(orgId),
     });
   };
 
@@ -43,8 +43,8 @@ export const useOrganizationCache = () => {
   };
 
   // Get cache entries for a single event.
-  const organizationCacheEntries = (organizationId: string) =>
-    getEntries({ key: ORGANIZATION_KEYS.byId(organizationId) });
+  const organizationCacheEntries = (orgId: string) =>
+    getEntries({ key: ORGANIZATION_KEYS.byId(orgId) });
   const getKeyForOrganizations = (filters: unknown) =>
     ORGANIZATION_KEYS.list(filters);
   const getKeyForOrganization = (orgId: string) =>

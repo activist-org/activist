@@ -15,17 +15,17 @@
 </template>
 
 <script setup lang="ts">
-const modalName = "ModalTextOrganization";
-const { handleCloseModal } = useModalHandlers(modalName);
-
 const props = defineProps<{
   entityId: string;
 }>();
 
-const organizationId = computed(() => props.entityId);
+const orgId = computed(() => props.entityId);
 
-const { data: organization } = useGetOrganization(organizationId);
-const { updateTexts } = useOrganizationTextsMutations(organizationId, {
+const modalName = "ModalTextOrganization";
+const { handleCloseModal } = useModalHandlers(modalName);
+
+const { data: organization } = useGetOrganization(orgId);
+const { updateTexts } = useOrganizationTextsMutations(orgId, {
   update: {
     onSuccess: () => {
       handleCloseModal();

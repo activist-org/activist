@@ -11,17 +11,19 @@
 </template>
 
 <script setup lang="ts">
-const modalName = "ModalResourceOrganization";
-const { handleCloseModal } = useModalHandlers(modalName);
 const props = defineProps<{
   resource?: Resource;
   entityId: string;
 }>();
-const organizationId = computed(() => props.entityId);
 
-const { data: organization } = useGetOrganization(organizationId);
+const orgId = computed(() => props.entityId);
+
+const modalName = "ModalResourceOrganization";
+const { handleCloseModal } = useModalHandlers(modalName);
+
+const { data: organization } = useGetOrganization(orgId);
 const { createResource, updateResource } = useOrganizationResourcesMutations(
-  organizationId,
+  orgId,
   {
     update: {
       onSuccess() {
@@ -75,7 +77,11 @@ async function handleSubmit(values: unknown) {
     order:
       formData.value?.order ?? (organization.value?.resources ?? []).length,
   };
-  if (isAddMode) createResource(newValues as ResourceInput);
-  else updateResource(newValues as ResourceInput);
+
+  if (isAddMode) {
+    createResource(newValues as ResourceInput);
+  } else {
+    updateResource(newValues as ResourceInput);
+  }
 }
 </script>

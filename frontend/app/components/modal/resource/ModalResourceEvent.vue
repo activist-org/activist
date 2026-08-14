@@ -12,16 +12,17 @@
 </template>
 
 <script setup lang="ts">
-const modalName = "ModalResourceEvent";
-const { handleCloseModal } = useModalHandlers<{ resource?: Resource }>(
-  modalName
-);
 const props = defineProps<{
   resource?: Resource;
   entityId: string;
 }>();
 
 const eventId = computed(() => props.entityId);
+
+const modalName = "ModalResourceEvent";
+const { handleCloseModal } = useModalHandlers<{ resource?: Resource }>(
+  modalName
+);
 
 const { data: event } = useGetEvent(eventId);
 const { updateResource, createResource, loading } = useEventResourcesMutations(
@@ -78,7 +79,11 @@ async function handleSubmit(values: unknown) {
     ...(values as Resource),
     order: formData.value?.order ?? (event.value?.resources ?? []).length,
   };
-  if (isAddMode) createResource(newValues as ResourceInput);
-  updateResource(newValues as ResourceInput);
+
+  if (isAddMode) {
+    createResource(newValues as ResourceInput);
+  } else {
+    updateResource(newValues as ResourceInput);
+  }
 }
 </script>

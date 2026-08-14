@@ -74,7 +74,9 @@ watch(
 async function handleSubmit(values: unknown) {
   const newValues = { ...formData.value, ...(values as FaqEntry) };
 
-  if (isAddMode) return createFAQ(newValues as FaqEntry);
+  if (isAddMode) {
+    return createFAQ(newValues as FaqEntry);
+  }
   updateFAQ(newValues as FaqEntry);
 }
 </script>
