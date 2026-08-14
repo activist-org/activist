@@ -30,6 +30,7 @@
           ariaLabel="i18n._global.support_organization_aria_label"
         /> -->
         <BtnAction
+          v-if="organization"
           @click="
             openModalSharePage({
               organization: organization as unknown as Organization,
@@ -87,13 +88,11 @@
 </template>
 
 <script setup lang="ts">
-const { data: organization } = useGetOrganization(
-  (useRoute().params.orgId as string) ?? ""
-);
+const orgId = (useRoute().params.orgId as string) ?? "";
 
-const { data: images } = useGetOrganizationImages(
-  (useRoute().params.orgId as string) ?? ""
-);
+const { data: organization } = useGetOrganization(orgId);
+
+const { data: images } = useGetOrganizationImages(orgId);
 
 const aboveLargeBP = useBreakpoint("lg");
 

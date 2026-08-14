@@ -2,6 +2,7 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormTextEntity
+      v-if="texts"
       :formData="formData"
       getInvolvedLabel="i18n.components._global.get_involved"
       getInvolvedUrlLabel="i18n.components.modal_text_organization.join_organization_link"
@@ -14,17 +15,27 @@
 </template>
 
 <script setup lang="ts">
-const modalName = "ModalTextOrganization";
-const { handleCloseModal } = useModalHandlers(modalName);
-
 const props = defineProps<{
   entityId: string;
 }>();
 
-const organizationId = computed(() => props.entityId);
+const orgId = computed(() => props.entityId);
 
-const { data: organization } = useGetOrganization(organizationId);
-const { updateTexts } = useOrganizationTextsMutations(organizationId);
+const modalName = "ModalTextOrganization";
+const { handleCloseModal } = useModalHandlers(modalName);
+
+const { data: organization } = useGetOrganization(orgId);
+const { updateTexts } = useOrganizationTextsMutations(orgId, {
+  update: {
+    onSuccess: () => {
+      handleCloseModal();
+    },
+  },
+});
+
+// The query resolves after the modal mounts, so rendering the form before the
+// texts arrive prefills blanks and submits against an undefined text id.
+const texts = computed(() => organization.value?.texts?.[0]);
 
 const formData = ref<OrganizationUpdateTextFormData>({
   description: "",
@@ -32,32 +43,28 @@ const formData = ref<OrganizationUpdateTextFormData>({
   getInvolvedUrl: "",
 });
 
-onMounted(() => {
-  formData.value.description = organization.value?.texts[0]?.description || "";
-  formData.value.getInvolved = organization.value?.texts[0]?.getInvolved || "";
-  formData.value.getInvolvedUrl =
-    organization.value?.texts[0]?.getInvolvedUrl || "";
-});
-
 watch(
-  organization,
+  texts,
   (newValues) => {
-    formData.value.description = newValues?.texts[0]?.description || "";
-    formData.value.getInvolved = newValues?.texts[0]?.getInvolved || "";
-    formData.value.getInvolvedUrl = newValues?.texts[0]?.getInvolvedUrl || "";
+    formData.value.description = newValues?.description || "";
+    formData.value.getInvolved = newValues?.getInvolved || "";
+    formData.value.getInvolvedUrl = newValues?.getInvolvedUrl || "";
   },
   {
     deep: true,
+    immediate: true,
   }
 );
 
 async function handleSubmit(values: unknown) {
-  const response = await updateTexts(
-    values as OrganizationUpdateTextFormData,
-    String(organization.value?.texts[0]?.id)
-  );
-  if (response) {
-    handleCloseModal();
+  const textId = texts.value?.id;
+  if (!textId) {
+    return;
   }
+
+  updateTexts({
+    textId: String(textId),
+    data: values as OrganizationUpdateTextFormData,
+  });
 }
 </script>
