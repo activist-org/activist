@@ -12,7 +12,7 @@ import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsH
 /**
  * Navigate to the first organization page from the organizations list
  * @param page - Playwright page object
- * @returns Object containing the organizationId and organizationPage object
+ * @returns Object containing the orgId and organizationPage object
  */
 export async function navigateToFirstOrganization(page: Page) {
   await page.goto("/organizations", { waitUntil: "domcontentloaded" });
@@ -34,20 +34,20 @@ export async function navigateToFirstOrganization(page: Page) {
 
   const href =
     await organizationsHomePage.organizationLink.getAttribute("href");
-  const organizationId = href?.match(/\/organizations\/([a-f0-9-]{36})/)?.[1];
+  const orgId = href?.match(/\/organizations\/([a-f0-9-]{36})/)?.[1];
 
-  if (!organizationId) {
+  if (!orgId) {
     throw new Error(`Could not extract organization ID from href: ${href}`);
   }
 
   await organizationsHomePage.organizationLink.click();
-  await page.waitForURL(`**/organizations/${organizationId}/**`);
+  await page.waitForURL(`**/organizations/${orgId}/**`);
 
   const organizationPage = newOrganizationPage(page);
   await expect(organizationPage.pageHeading).toBeVisible();
 
   return {
-    organizationId,
+    orgId,
     organizationPage,
   };
 }
@@ -57,15 +57,12 @@ export async function navigateToFirstOrganization(page: Page) {
 /**
  * Navigate directly to a specific organization page by ID
  * @param page - Playwright page object
- * @param organizationId - The UUID of the organization
+ * @param orgId - The UUID of the organization
  * @returns OrganizationPage object
  */
-export async function navigateToOrganization(
-  page: Page,
-  organizationId: string
-) {
-  await page.goto(`/organizations/${organizationId}`);
-  await page.waitForURL(`**/organizations/${organizationId}/**`);
+export async function navigateToOrganization(page: Page, orgId: string) {
+  await page.goto(`/organizations/${orgId}`);
+  await page.waitForURL(`**/organizations/${orgId}/**`);
 
   const organizationPage = newOrganizationPage(page);
   await expect(organizationPage.pageHeading).toBeVisible();
@@ -79,7 +76,7 @@ export async function navigateToOrganization(
  * Navigate to organization subpage using the appropriate navigation pattern for the platform
  * @param page - Playwright page object
  * @param subpage - The subpage to navigate to (e.g., 'events', 'resources', 'groups')
- * @returns Object containing organizationId and organizationPage
+ * @returns Object containing orgId and organizationPage
  */
 export async function navigateToOrganizationSubpage(
   page: Page,
@@ -91,8 +88,7 @@ export async function navigateToOrganizationSubpage(
 
   const menuSubpage = subpageMapping[subpage] || subpage;
 
-  const { organizationId, organizationPage } =
-    await navigateToFirstOrganization(page);
+  const { orgId, organizationPage } = await navigateToFirstOrganization(page);
 
   const viewportSize = page.viewportSize();
   const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
@@ -171,7 +167,7 @@ export async function navigateToOrganizationSubpage(
     new RegExp(`.*\\/organizations\\/.*\\/${subpage}`)
   );
 
-  return { organizationId, organizationPage };
+  return { orgId, organizationPage };
 }
 
 // MARK: First Org Event
@@ -179,11 +175,10 @@ export async function navigateToOrganizationSubpage(
 /**
  * Navigate to the first event from the first organization's events page
  * @param page - Playwright page object
- * @returns Object containing organizationId, eventId (if available), and page objects
+ * @returns Object containing orgId, eventId (if available), and page objects
  */
 export async function navigateToFirstOrganizationEvent(page: Page) {
-  const { organizationId, organizationPage } =
-    await navigateToFirstOrganization(page);
+  const { orgId, organizationPage } = await navigateToFirstOrganization(page);
 
   await organizationPage.menu.eventsOption.click();
   await expect(page).toHaveURL(/.*\/organizations\/.*\/events/);
@@ -213,7 +208,7 @@ export async function navigateToFirstOrganizationEvent(page: Page) {
 
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   return {
-    organizationId,
+    orgId,
     eventId,
     organizationPage,
     eventsPage,

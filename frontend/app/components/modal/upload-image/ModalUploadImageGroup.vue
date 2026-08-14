@@ -42,14 +42,18 @@ interface Props {
   uploadLimit?: number;
   images: ContentImage[];
 }
-
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: MAX_IMAGES_PER_UPLOAD,
 });
 
 const groupId = computed(() => props.groupId);
+
+const modals = useModals();
+const modalName = "ModalUploadImageGroup";
+const uploadError = ref(false);
+
 const { data: groupImages } = useGetGroupImages(groupId);
-const { updateImage, uploadImages, deleteImage, loading } =
+const { updateImageAsync, uploadImagesAsync, deleteImage, loading } =
   useGroupImageMutations(groupId);
 const files = ref<FileUploadMix[]>([]);
 
@@ -59,12 +63,7 @@ const handleFileDeleted = async (file: FileUploadMix) => {
   if (file?.type !== "file") {
     return;
   }
-
-  try {
-    await deleteImage(file.data.id);
-  } catch {
-    // onError raises the toast.
-  }
+  deleteImage(file.data.id);
 };
 
 watch(
@@ -82,10 +81,6 @@ watch(
   { immediate: true, deep: true }
 );
 
-const modals = useModals();
-const modalName = "ModalUploadImageGroup";
-const uploadError = ref(false);
-
 const emit = defineEmits(["upload-complete", "upload-error"]);
 // TODO: This is a lot of code, and it should be in a composable.
 const handleUpload = async () => {
@@ -99,7 +94,7 @@ const handleUpload = async () => {
     if (imageFiles && imageFiles.length > 0) {
       await Promise.all(
         imageFiles.map((image) =>
-          updateImage({
+          updateImageAsync({
             ...image.data,
             sequence_index: image.sequence,
           } as ContentImage)
@@ -107,7 +102,7 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await uploadImages({
+      await uploadImagesAsync({
         images: uploadFiles.map((file) => file.data as UploadableFile),
         sequences: uploadFiles.map((file) => file.sequence),
       });

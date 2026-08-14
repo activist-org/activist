@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export const fetchOrganizationEvents = async (
-  organizationId: string,
+  orgId: string,
   filters: {
     startDate?: string;
     endDate?: string;
@@ -20,7 +20,7 @@ export const fetchOrganizationEvents = async (
 
   try {
     const res = await get(
-      `/communities/organizations/${organizationId}/events?${query.toString()}`,
+      `/communities/organizations/${orgId}/events?${query.toString()}`,
       { withoutAuth: true }
     );
     return res.map(mapEvent);

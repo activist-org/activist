@@ -3,12 +3,12 @@
 // MARK: Upload
 
 export async function uploadOrganizationIconImage(
-  organizationId: string,
+  orgId: string,
   file: UploadableFile
 ): Promise<void> {
   try {
     const fd = new FormData();
-    fd.append("entity_id", organizationId);
+    fd.append("entity_id", orgId);
     fd.append("entity_type", EntityType.ORGANIZATION);
     fd.append("file_object", file.file);
     await post(`/content/image_icon`, fd);
@@ -43,10 +43,9 @@ export async function fetchOrganizationImages(
   entityId: string
 ): Promise<ContentImage[]> {
   try {
-    const images = (await get(`/communities/organization/${entityId}/images`, {
+    return (await get(`/communities/organization/${entityId}/images`, {
       withoutAuth: true,
     })) as ContentImage[];
-    return images;
   } catch (e) {
     const err = errorHandler(e);
     throw err;
@@ -54,13 +53,13 @@ export async function fetchOrganizationImages(
 }
 
 export async function uploadOrganizationImages(
-  organizationId: string,
+  orgId: string,
   files: UploadableFile[],
   sequences: number[] = []
 ): Promise<ContentImage[]> {
   try {
     const fd = new FormData();
-    fd.append("entity_id", organizationId);
+    fd.append("entity_id", orgId);
     fd.append("entity_type", EntityType.ORGANIZATION); // backend expects EntityType.ORGANIZATION; if you have enum, adjust
     for (const s of sequences) fd.append("sequences", String(s));
     for (const f of files) fd.append("file_object", f.file);
