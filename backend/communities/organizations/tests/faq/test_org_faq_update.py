@@ -77,9 +77,9 @@ def test_org_faq_update_not_found_404(authenticated_client):
     test_answer = faqs.answer
     test_order = faqs.order
 
-    bad_faq_uuid = uuid4()
+    invalid_org_faq_id = uuid4()
     response = client.put(
-        path=f"/v1/communities/organization_faqs/{bad_faq_uuid}",
+        path=f"/v1/communities/organization_faqs/{invalid_org_faq_id}",
         data={
             "id": test_id,
             "question": test_question,
@@ -95,30 +95,40 @@ def test_org_faq_update_not_found_404(authenticated_client):
     assert response_body["detail"] == "FAQ not found."
 
 
-def test_org_faq_update_unauthorized_forbidden_403(authenticated_client) -> None:
+def test_org_faq_update_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
-    user.is_staff = False
-    user.save()
 
     org = OrganizationFactory()
 
-    faqs = OrganizationFaqFactory(org=org)
-    test_id = faqs.id
-    test_question = faqs.question
-    test_answer = faqs.answer
-    test_order = faqs.order
+    org_faq = OrganizationFaqFactory(org=org)
+    original_values = (
+        org_faq.iso,
+        org_faq.primary,
+        org_faq.question,
+        org_faq.answer,
+        org_faq.order,
+    )
 
     response = client.put(
-        path=f"/v1/communities/organization_faqs/{test_id}",
+        path=f"/v1/communities/organization_faqs/{org_faq.id}",
         data={
-            "id": test_id,
+            "id": org_faq.id,
             "iso": "en",
             "primary": True,
-            "question": test_question,
-            "answer": test_answer,
-            "order": test_order,
+            "question": "Updated question",
+            "answer": "Updated answer",
+            "order": org_faq.order + 1,
         },
         content_type="application/json",
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.data["detail"] == "You are not authorized to update this FAQ."
+    org_faq.refresh_from_db()
+    assert (
+        org_faq.iso,
+        org_faq.primary,
+        org_faq.question,
+        org_faq.answer,
+        org_faq.order,
+    ) == original_values

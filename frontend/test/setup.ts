@@ -57,6 +57,14 @@ const globalCacheInvalidate = vi.fn();
 const globalCacheGetEntries = vi.fn();
 const globalCacheSetQueryData = vi.fn();
 
+globalThis.useQueryMock = vi.fn(() => ({
+  isLoading: ref(false),
+  error: ref(null),
+  data: ref(null),
+}));
+
+globalThis.useQuery = () => globalThis.useQueryMock();
+
 globalThis.useQueryCacheMock = vi.fn(() => ({
   invalidateQueries: globalCacheInvalidate,
   getEntries: globalCacheGetEntries,
@@ -67,7 +75,7 @@ globalThis.useQueryCache = () => globalThis.useQueryCacheMock();
 globalThis.useMutationMock = vi.fn(
   <TResult, TVars>(options: MutationOptions<TResult, TVars> = {}) => {
     return {
-      mutateAsync: vi.fn(async (vars: TVars) => {
+      mutate: vi.fn(async (vars: TVars) => {
         globalMutationLoading.value = true;
         globalMutationError.value = null;
 
@@ -98,12 +106,24 @@ globalThis.useMutation = <TResult, TVars>(
   options: MutationOptions<TResult, TVars>
 ) => globalThis.useMutationMock(options);
 
+globalThis.useInfiniteQueryMock = vi.fn(() => ({
+  isLoading: ref(false),
+  error: ref(null),
+  data: ref(null),
+  loadNextPage: vi.fn(async () => {
+    await Promise.resolve();
+  }),
+}));
+globalThis.useInfiniteQuery = () => globalThis.useInfiniteQueryMock();
+
 vi.mock("@pinia/colada", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@pinia/colada")>();
   return {
     ...actual,
     useMutation: globalThis.useMutation,
     useQueryCache: globalThis.useQueryCache,
+    useQuery: globalThis.useQuery,
+    useInfiniteQuery: globalThis.useInfiniteQuery,
   };
 });
 

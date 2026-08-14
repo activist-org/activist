@@ -3,6 +3,7 @@ import pytest
 from rest_framework import status
 
 from communities.groups.factories import GroupFactory, GroupSocialLinkFactory
+from communities.groups.models import GroupSocialLink
 
 pytestmark = pytest.mark.django_db
 
@@ -11,15 +12,14 @@ def test_group_social_link_create_ok_200(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory(created_by=user)
-
-    social_links = GroupSocialLinkFactory(group=group)
+    group_social_link = GroupSocialLinkFactory(group=group)
 
     response = client.post(
         path="/v1/communities/group_social_links",
         data={
-            "link": social_links.link,
-            "label": social_links.label,
-            "order": social_links.order,
+            "link": group_social_link.link,
+            "label": group_social_link.label,
+            "order": group_social_link.order,
             "group": group.id,
         },
         content_type="application/json",
@@ -35,15 +35,16 @@ def test_group_social_link_create_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     group = GroupFactory()
+    group_social_link = GroupSocialLinkFactory.build(group=group)
 
-    social_links = GroupSocialLinkFactory(group=group)
+    social_link_count_before = GroupSocialLink.objects.count()
 
     response = client.post(
         path="/v1/communities/group_social_links",
         data={
-            "link": social_links.link,
-            "label": social_links.label,
-            "order": social_links.order,
+            "link": group_social_link.link,
+            "label": group_social_link.label,
+            "order": group_social_link.order,
             "group": group.id,
         },
         content_type="application/json",
@@ -56,3 +57,4 @@ def test_group_social_link_create_forbidden_403(authenticated_client):
         response_body["detail"]
         == "You are not authorized to create social links for this group."
     )
+    assert GroupSocialLink.objects.count() == social_link_count_before

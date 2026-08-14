@@ -14,13 +14,18 @@ const props = defineProps<{
   entityId: string;
 }>();
 
+const eventId = computed(() => props.entityId);
+
 const modalName = "ModalResourceDeleteEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const eventId = computed(() => props.entityId);
-const { deleteResource, loading } = useEventResourcesMutations(eventId);
+const { deleteResource, loading } = useEventResourcesMutations(eventId, {
+  delete: {
+    onSuccess: () => handleCloseModal(),
+  },
+});
+
 const handleDelete = async () => {
-  await deleteResource(props.resourceId);
-  handleCloseModal();
+  deleteResource(props.resourceId);
 };
 </script>

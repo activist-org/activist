@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-const organizationId = useRoute().params.orgId as string;
+const orgId = useRoute().params.orgId as string;
 
 const name = ref<string>("");
 const dateRange = ref<{ start?: Date; end?: Date }>({});
@@ -103,11 +103,8 @@ const filters = computed(() => ({
   endDate: toDateParam(dateRange.value.end),
 }));
 
-const { data: organization } = useGetOrganization(organizationId);
-const { data: events, pending } = useGetOrganizationEvents(
-  organizationId,
-  filters
-);
+const { data: organization } = useGetOrganization(orgId);
+const { data: events, pending } = useGetOrganizationEvents(orgId, filters);
 
 const { openModal } = useModalHandlers("ModalCreateEvent");
 const downloadCalendarEntries = () => {};

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+export const useGroupMutations = (options: OptionMutation = {}) => {
+  const { error, handleError } = useAppError();
+
+  const { invalidateGroupList } = useGroupCache();
+
+  const { mutate: create, isLoading } = useMutation({
+    ...options.create,
+    mutation: (groupData: CreateGroupInput) => createGroup(groupData),
+    async onSuccess(data) {
+      await invalidateGroupList();
+      options.create?.onSuccess?.(data);
+    },
+    onError(err) {
+      handleError(err);
+    },
+  });
+
+  return {
+    loading: isLoading,
+    error,
+    create,
+  };
+};

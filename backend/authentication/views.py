@@ -287,6 +287,14 @@ class PasswordResetView(APIView):
 
     @extend_schema(parameters=[OpenApiParameter(name="email", type=str, required=True)])
     def post(self, request: Request) -> Response:
+        if not isinstance(request.data, dict):
+            return Response(
+                {
+                    "detail": "Invalid payload format for request. Expected a JSON object."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         email = request.data.get("email")
         logger.info(f"Password reset request for email: {email}")
 
@@ -345,6 +353,14 @@ class VerifyAccountResetPassword(APIView):
         parameters=[OpenApiParameter(name="new_password", type=str, required=True)]
     )
     def post(self, request: Request, code: None | uuid.UUID = None) -> Response:
+        if not isinstance(request.data, dict):
+            return Response(
+                {
+                    "detail": "Invalid payload format for request. Expected a JSON object."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         user = UserModel.objects.filter(verification_code=code).first()
         if user is None:
             logger.warning(

@@ -13,13 +13,18 @@ const props = defineProps<{
   entityId: string;
 }>();
 
+const groupId = computed(() => props.entityId);
+
 const modalName = "ModalFaqEntryDeleteGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const groupId = computed(() => props.entityId);
-const { deleteFAQ } = useGroupFAQEntryMutations(groupId);
+const { deleteFAQ } = useGroupFAQEntryMutations(groupId, {
+  delete: {
+    onSuccess: () => handleCloseModal(),
+  },
+});
+
 const handleDelete = async () => {
-  await deleteFAQ(props.faqEntryId);
-  handleCloseModal();
+  deleteFAQ(props.faqEntryId);
 };
 </script>

@@ -10,6 +10,7 @@ from communities.organizations.factories import (
     OrganizationFactory,
     OrganizationFaqFactory,
 )
+from communities.organizations.models import OrganizationFaq
 
 pytestmark = pytest.mark.django_db
 
@@ -33,10 +34,10 @@ def test_org_faq_create(authenticated_client) -> None:
 
     org = OrganizationFactory(created_by=user)
 
-    faqs = OrganizationFaqFactory()
-    test_question = faqs.question
-    test_answer = faqs.answer
-    test_order = faqs.order
+    org_faq = OrganizationFaqFactory()
+    test_question = org_faq.question
+    test_answer = org_faq.answer
+    test_order = org_faq.order
 
     response = client.post(
         path="/v1/communities/organization_faqs",
@@ -63,8 +64,8 @@ def test_org_faq_create_bad_request_400(authenticated_client):
 
     org = OrganizationFactory(created_by=user)
 
-    faqs = OrganizationFaqFactory()
-    test_order = faqs.order
+    org_faq = OrganizationFaqFactory()
+    test_order = org_faq.order
 
     response = client.post(
         path="/v1/communities/organization_faqs",
@@ -80,29 +81,29 @@ def test_org_faq_create_bad_request_400(authenticated_client):
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
-def test_org_faq_create_unathorized(authenticated_client) -> None:
+def test_org_faq_create_forbidden_403(authenticated_client) -> None:
     client, user = authenticated_client
-    user.is_staff = False
-    user.save()
 
     org = OrganizationFactory()
 
-    faqs = OrganizationFaqFactory()
-    test_question = faqs.question
-    test_answer = faqs.answer
-    test_order = faqs.order
+    org_faq = OrganizationFaqFactory.build(org=org)
+    faq_count_before = OrganizationFaq.objects.count()
 
     response = client.post(
         path="/v1/communities/organization_faqs",
         data={
             "iso": "en",
             "primary": True,
-            "question": test_question,
-            "answer": test_answer,
-            "order": test_order,
+            "question": org_faq.question,
+            "answer": org_faq.answer,
+            "order": org_faq.order,
             "org": org.id,
         },
         format="json",
     )
 
     assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.data["detail"] == (
+        "You are not authorized to create FAQs for this organization."
+    )
+    assert OrganizationFaq.objects.count() == faq_count_before
