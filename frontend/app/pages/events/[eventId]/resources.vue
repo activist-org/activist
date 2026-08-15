@@ -85,13 +85,14 @@ const eventId = (route.params.eventId as string) ?? "";
 const { openModal } = useModalHandlers("ModalResourceEvent");
 const { canEdit } = useUser();
 
-function hasSameEntryIds<T extends { id?: string }>(
+function isStaleReorderRefetch<T extends { id?: string }>(
   current: T[],
   incoming: T[]
 ) {
   if (current.length !== incoming.length) return false;
   const ids = new Set(current.map((item) => item.id));
-  return incoming.every((item) => ids.has(item.id));
+  if (!incoming.every((item) => ids.has(item.id))) return false;
+  return current.some((item, index) => item.id !== incoming[index]?.id);
 }
 const { data: event } = useGetEvent(eventId);
 const { reorderResources } = useEventResourcesMutations(eventId);
@@ -122,7 +123,7 @@ watch(
   () => event.value?.resources,
   (newResources) => {
     const incoming = [...(newResources || [])];
-    if (hasSameEntryIds(resourceList.value, incoming)) return;
+    if (isStaleReorderRefetch(resourceList.value, incoming)) return;
     resourceList.value = incoming;
   }
 );

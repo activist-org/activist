@@ -92,13 +92,14 @@ const faqCardList = ref<(HTMLElement | null)[]>([]);
 
 const { canEdit } = useUser();
 
-function hasSameEntryIds<T extends { id?: string }>(
+function isStaleReorderRefetch<T extends { id?: string }>(
   current: T[],
   incoming: T[]
 ) {
   if (current.length !== incoming.length) return false;
   const ids = new Set(current.map((item) => item.id));
-  return incoming.every((item) => ids.has(item.id));
+  if (!incoming.every((item) => ids.has(item.id))) return false;
+  return current.some((item, index) => item.id !== incoming[index]?.id);
 }
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
@@ -118,7 +119,7 @@ watch(
   () => event?.value?.faqEntries,
   (newVal) => {
     const incoming = newVal?.slice() ?? [];
-    if (hasSameEntryIds(faqList.value, incoming)) return;
+    if (isStaleReorderRefetch(faqList.value, incoming)) return;
     faqList.value = incoming;
   }
 );
