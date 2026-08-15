@@ -14,7 +14,7 @@
 import type { GeoJsonProperties } from "geojson";
 
 const props = defineProps<{
-  events: CommunityEvent[];
+  events?: CommunityEvent[];
 }>();
 
 const { t } = useI18n();
@@ -23,7 +23,7 @@ const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;
 
-const { events } = props;
+const { events = [] } = props;
 const { getEventColorByType } = useColor();
 
 const buildExpandedTooltipPointer = (pointer: unknown) => {
