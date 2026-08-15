@@ -109,7 +109,7 @@ const isSyncingFromProps = ref(false);
 
 const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
   () => {
-    const topicsOptions = topics.value
+    const topicsOptions = (topics.value || [])
       .map((topic: Topic) => ({
         label: t(
           GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""

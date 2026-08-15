@@ -117,6 +117,7 @@ def test_content_filescan_integration_clean_image_upload_passes_filescan(
 
     assert last_response is not None
     assert last_response.status_code == status.HTTP_201_CREATED
+
     body = last_response.json()
     assert len(body) == 1
     assert Image.objects.count() == 1

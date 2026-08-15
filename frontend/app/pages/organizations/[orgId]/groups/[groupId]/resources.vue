@@ -21,7 +21,7 @@
           :onClick="
             () =>
               openModal({
-                entityId: group?.id,
+                entityId: paramsGroupId,
               })
           "
         />

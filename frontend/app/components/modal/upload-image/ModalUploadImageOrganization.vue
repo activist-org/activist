@@ -42,23 +42,28 @@ interface Props {
   orgId: string;
   uploadLimit?: number;
 }
-
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
+
 const orgId = computed(() => props.orgId);
-const { data: organizationImages, refresh } = useGetOrganizationImages(orgId);
-const { updateImage, uploadImages, loading } =
+
+const modals = useModals();
+const modalName = "ModalUploadImageOrganization";
+const uploadError = ref(false);
+
+const { data: organizationImages } = useGetOrganizationImages(orgId);
+const { updateImageAsync, uploadImagesAsync, deleteImage, loading } =
   useOrganizationImageMutations(orgId);
 const files = ref<FileUploadMix[]>([]);
 
-// useFileManager.removeFile() deletes on the server but doesn't invalidate
-// the organizationImages cache, so the carousel stays stale until reload
-// (issue #1791). Only server-side images (`type === "file"`) need a refresh.
+// The drop zone only drops the entry from its list, so stored images are
+// deleted here. Only server-side images (`type === "file"`) exist to delete.
 const handleFileDeleted = async (file: FileUploadMix) => {
-  if (file?.type === "file") {
-    await refresh();
+  if (file?.type !== "file") {
+    return;
   }
+  deleteImage(file.data.id);
 };
 
 watch(
@@ -76,10 +81,6 @@ watch(
   { immediate: true, deep: true }
 );
 
-const modals = useModals();
-const modalName = "ModalUploadImageOrganization";
-const uploadError = ref(false);
-
 const emit = defineEmits(["upload-complete", "upload-error"]);
 // TODO: This is a lot of code, and it should be in a composable.
 const handleUpload = async () => {
@@ -93,7 +94,7 @@ const handleUpload = async () => {
     if (imageFiles && imageFiles.length > 0) {
       await Promise.all(
         imageFiles.map((image) =>
-          updateImage({
+          updateImageAsync({
             ...image.data,
             sequence_index: image.sequence,
           } as ContentImage)
@@ -101,10 +102,10 @@ const handleUpload = async () => {
       );
     }
     if (uploadFiles && uploadFiles.length > 0) {
-      await uploadImages(
-        uploadFiles.map((file) => file.data as UploadableFile),
-        uploadFiles.map((file) => file.sequence)
-      );
+      await uploadImagesAsync({
+        images: uploadFiles.map((file) => file.data as UploadableFile),
+        sequences: uploadFiles.map((file) => file.sequence),
+      });
     }
     files.value = (organizationImages.value || []).map(
       (image: ContentImage, index: number) => ({

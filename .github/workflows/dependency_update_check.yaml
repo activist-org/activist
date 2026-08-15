@@ -37,10 +37,10 @@ jobs:
 
       - name: Initialize Report
         run: |
-          echo "# Dependency Update Report $(date '+%B %d, %Y') 🤖📝" > reports.md
+          echo "# Dependency Update Report - $(date '+%B %d, %Y') 🤖⬆️" > reports.md
           echo "> [!NOTE]" >> reports.md
-          echo "> Please note that all tests should pass for PRs that are updating dependencies. See [the local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
-          echo "## Available Updates ⚙️" >> reports.md
+          echo "> All tests should pass for PRs that are updating dependencies. See the [local testing section of the contributing guide](https://github.com/activist-org/activist/blob/main/CONTRIBUTING.md#local-testing) for more information on how to run tests before your PR." >> reports.md
+          echo "## Available Dependency Updates" >> reports.md
 
       # MARK: Backend
 
@@ -72,7 +72,6 @@ jobs:
         working-directory: ./backend
         continue-on-error: false
         run: |
-          echo -e "\n### Dependencies" >> ../reports.md
           echo -e "| Package Name | Old Version | New Available Version | Type |" >> ../reports.md
           echo -e "|--------------|-------------|-----------------------|------|" >> ../reports.md
 
@@ -117,16 +116,13 @@ jobs:
 
       # MARK: Run Tests
 
-      - name: Add Test Results Header
-        id: add-test-results-header
-        run: |
-          echo -e "\n## Test Results" >> ../reports.md
-
       - name: Run Backend Tests
         id: backend-tests
         continue-on-error: true
         run: |
           cd backend
+
+          echo "\n## Backend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
           # echo -e "\n### Ruff Format Results" >> ../reports.md
@@ -160,6 +156,8 @@ jobs:
         working-directory: ./frontend
         continue-on-error: true
         run: |
+          echo "\n## Frontend Tests" >> ../reports.md
+
           # Note: Don't check formatting.
           # echo "compare_versions.js" >> ../.prettierignore
           # echo -e "\n### Prettier Results" >> ../reports.md
@@ -179,7 +177,7 @@ jobs:
 
           echo -e "\n### Vitest Results" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
-          yarn test --reporter=dot --silent=passed-only 2>&1 | tee -a ../reports.md || true
+          yarn test --reporter=dot --silent='passed-only' --no-color 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
       # MARK: Create Issue
@@ -191,7 +189,7 @@ jobs:
       - name: Create GitHub Issue
         uses: peter-evans/create-issue-from-file@v6
         with:
-          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖📝"
+          title: "Dependency Update Report - ${{ env.REPORT_DATE }} 🤖⬆️"
           content-filepath: reports.md
           labels: |
             dependencies

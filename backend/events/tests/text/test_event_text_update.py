@@ -13,10 +13,10 @@ def test_event_text_update_ok_200(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory(created_by=user)
-    texts = EventTextFactory(event=event)
+    event_texts = EventTextFactory(event=event)
 
     response = client.put(
-        path=f"/v1/events/event_texts/{texts.id}",
+        path=f"/v1/events/event_texts/{event_texts.id}",
         data={"description": "New test description for this event."},
     )
 
@@ -27,10 +27,10 @@ def test_event_text_update_forbidden_403(authenticated_client):
     client, user = authenticated_client
 
     event = EventFactory()
-    texts = EventTextFactory(event=event)
+    event_texts = EventTextFactory(event=event)
 
     response = client.put(
-        path=f"/v1/events/event_texts/{texts.id}",
+        path=f"/v1/events/event_texts/{event_texts.id}",
         data={"description": "New test description for this event."},
     )
     response_body = response.json()
@@ -45,10 +45,10 @@ def test_event_text_update_forbidden_403(authenticated_client):
 def test_event_text_update_not_found_404(authenticated_client):
     client, user = authenticated_client
 
-    bad_texts_id = uuid4()
+    invalid_event_texts_id = uuid4()
 
     response = client.put(
-        path=f"/v1/events/event_texts/{bad_texts_id}",
+        path=f"/v1/events/event_texts/{invalid_event_texts_id}",
         data={"description": "New test description for this event."},
     )
     response_body = response.json()

@@ -33,13 +33,13 @@
           @click="
             () =>
               openModalTextGroup({
-                entityId: group?.id,
+                entityId: groupId,
               })
           "
           @keydown.enter="
             () =>
               openModalTextGroup({
-                entityId: group?.id,
+                entityId: groupId,
               })
           "
           data-testid="icon-edit"

@@ -11,13 +11,13 @@
           @click="
             () =>
               openModalTextOrganization({
-                entityId: organization?.id,
+                entityId: orgId,
               })
           "
           @keydown.enter="
             () =>
               openModalTextOrganization({
-                entityId: organization?.id,
+                entityId: orgId,
               })
           "
         />
@@ -99,7 +99,7 @@ const { openModal: openModalTextOrganization } = useModalHandlers(
 const { userIsSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
-const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
+const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";
 
-const { data: organization } = useGetOrganization(orgId || "");
+const { data: organization } = useGetOrganization(orgId);
 </script>
