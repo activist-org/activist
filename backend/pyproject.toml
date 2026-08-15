@@ -5,16 +5,16 @@ requires-python = ">=3.12"
 
 dependencies = [
     "httpx>=0.27.0",
-    "django>=6.0.8",
+    "django>=6.1",
     "django-cors-headers>=4.9.0",
     "django-filter>=26.1",
     "django-ical>=1.9.2",
-    "django-stubs>=6.0.7",
-    "django-stubs-ext>=6.0.7",
-    "djangorestframework>=3.17.1",
+    "django-stubs>=6.1.0",
+    "django-stubs-ext>=6.1.0",
+    "djangorestframework>=3.18.0",
     "djangorestframework-camel-case>=1.4.2",
     "djangorestframework-simplejwt>=5.5.1",
-    "djangorestframework-stubs>=3.17.1",
+    "djangorestframework-stubs>=3.18.0",
     "drf-spectacular>=0.30.0",
     "gunicorn>=26.0.0",
     "icalendar>=7.2.2",
@@ -28,13 +28,13 @@ dependencies = [
 dev = [
     "factory-boy>=3.3.3",
     "i18n-check>=1.20.2",
-    "mypy>=2.3.0",
+    "mypy>=2.3.1",
     "numpydoc>=1.10.0",
-    "prek>=0.4.12",
+    "prek>=0.4.13",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
-    "pytest-django>=4.12.0",
-    "ruff>=0.16.1",
+    "pytest-django>=4.14.0",
+    "ruff>=0.16.3",
     "ts-backend-check>=1.6.1",
     "types-icalendar>=6.3.2.20260712",
 ]
@@ -43,11 +43,11 @@ dev = [
 # from source. Install it explicitly with `--group complexity` where needed.
 complexity = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
-    "complexipy>=6.2.0",
+    "complexipy>=7.0.1",
 ]
 audit = [
     # Keep docs dependencies formatted in this way with ruff to allow for upgrades via VS Code extension.
-    "pysentry-rs>=0.4.7",
+    "pysentry-rs>=0.4.9",
 ]
 
 [tool.ruff]
