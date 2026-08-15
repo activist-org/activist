@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import FormResource from "../../../app/components/form/FormResource.vue";
 import { TopicEnum } from "../../../shared/types/topics";
+import { FormSelectorComboboxTopicsStub } from "../../mocks/componentStubs";
 import { createResource } from "../../mocks/factories";
 import render from "../../render";
 
@@ -31,6 +32,11 @@ describe("FormResource", () => {
         handleSubmit,
         submitLabel: "i18n.components.modal.resource._global.update_resource",
         title: "i18n.components.modal.resource._global.edit_resource",
+      },
+      global: {
+        components: {
+          FormSelectorComboboxTopics: FormSelectorComboboxTopicsStub,
+        },
       },
     });
 
