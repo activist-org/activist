@@ -85,6 +85,14 @@ class SecurityEventIngestView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
+        if not isinstance(request.data, dict):
+            return Response(
+                {
+                    "detail": "Invalid payload format for request. Expected a JSON object."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         body: dict[str, Any] = request.data
 
         event_type = body.get("type")

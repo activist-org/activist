@@ -2,9 +2,9 @@
 <template>
   <ModalBase :modalName="modalName">
     <FormSocialLink
+      v-if="socialLinksRef"
       :formData="formData"
       :handleSubmit="handleSubmit"
-      :socialLinksRef="socialLinksRef || []"
       :submitLabel="submitLabel"
     />
   </ModalBase>
@@ -20,16 +20,25 @@ const props = defineProps<{
 
 const groupId = computed(() => props.entityId);
 const { data: group } = useGetGroup(groupId);
-const { updateLink, createLinks, deleteLink } =
+const { updateLinkAsync, createLinksAsync, deleteLinkAsync } =
   useGroupSocialLinksMutations(groupId);
 
 type SocialLinkWithKey = (GroupSocialLink | SocialLink) & { key: string };
 const socialLinksRef = ref<SocialLinkWithKey[]>();
 
+// The query resolves after the modal mounts, so a late re-sync would overwrite
+// anything already typed.
+const socialLinks = computed(() =>
+  group.value ? (group.value.socialLinks ?? []) : undefined
+);
+
 watch(
-  () => group.value?.socialLinks ?? [],
+  socialLinks,
   (newVal) => {
-    socialLinksRef.value = (newVal || []).map((l, idx) => ({
+    if (!newVal) {
+      return;
+    }
+    socialLinksRef.value = newVal.map((l, idx) => ({
       ...l,
       key: l?.id ?? String(idx),
     }));
@@ -75,7 +84,7 @@ async function handleSubmit(values: unknown) {
       (link) =>
         link.id && !formValues?.some((existing) => existing.id === link.id)
     ) ?? [];
-  await Promise.all(toDelete.map((link) => deleteLink(link.id!)));
+  await Promise.all(toDelete.map((link) => deleteLinkAsync(link.id!)));
 
   // MARK: Update
 
@@ -93,7 +102,8 @@ async function handleSubmit(values: unknown) {
     ) || [];
   await Promise.all(
     toUpdate.map(async (refItem) => {
-      await updateLink(refItem.id, {
+      await updateLinkAsync({
+        id: refItem.id,
         link: refItem.link,
         label: refItem.label,
         order: refItem.order,
@@ -105,7 +115,7 @@ async function handleSubmit(values: unknown) {
 
   const toCreate = formValues?.filter((link) => link.id === "") || [];
   if (toCreate.length > 0) {
-    await createLinks(
+    await createLinksAsync(
       toCreate.map((link) => ({
         link: link.link,
         label: link.label,

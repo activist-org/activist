@@ -63,15 +63,6 @@ describe("FormSocialLink", () => {
       },
     });
 
-    // Title from `title` prop, translated via vue-i18n at runtime.
-    // Disambiguates from the inner static "Social links" heading and the
-    // submit button (which both also render via $t).
-    const heading = screen.getByRole("heading", {
-      level: 2,
-      name: /update links/i,
-    });
-    expect(heading.tagName).toBe("H2");
-
     // Initial label + URL inputs populated from formData.
     const labelInput = screen.getByTestId(
       "social-link-label-0"

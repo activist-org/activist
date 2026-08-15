@@ -2,14 +2,6 @@
 import { defineStore } from "pinia";
 
 import { createImageStore } from "../factories/images";
-import { createPaginationStore } from "../factories/pagination";
-
-// MARK: List Store
-
-export const useOrganizationListStore = createPaginationStore<
-  Organization,
-  OrganizationFilters
->("organization-list");
 
 // MARK: Image Store
 

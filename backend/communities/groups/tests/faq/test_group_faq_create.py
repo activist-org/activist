@@ -12,6 +12,7 @@ from communities.groups.factories import (
     GroupFactory,
     GroupFaqFactory,
 )
+from communities.groups.models import GroupFaq
 
 pytestmark = pytest.mark.django_db
 
@@ -44,10 +45,10 @@ def test_group_faq_create_ok_200() -> None:
 
     group = GroupFactory(created_by=user)
 
-    faqs = GroupFaqFactory()
-    test_question = faqs.question
-    test_answer = faqs.answer
-    test_order = faqs.order
+    group_faq = GroupFaqFactory()
+    test_question = group_faq.question
+    test_answer = group_faq.answer
+    test_order = group_faq.order
 
     # Login to get token.
     login_response = client.post(
@@ -79,14 +80,6 @@ def test_group_faq_create_ok_200() -> None:
 
     assert response.status_code == status.HTTP_201_CREATED
 
-    # MARK: Update Success with Group ID
-
-    # TODO: Test that should be added:
-    # * Test with user that is not a the creator of the group. -> 403
-    # assert response == status.HTTP_403_FORBIDDEN
-    # Test unauthenticated user
-    # assert response == status.HTTP_401_UNAUTHORIZED
-
     # MARK: Update Failure
 
     response = client.post(
@@ -101,3 +94,61 @@ def test_group_faq_create_ok_200() -> None:
     )
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_group_faq_create_forbidden_403(authenticated_client) -> None:
+    """
+    Test that a non-creator, non-staff user cannot create a Group FAQ.
+    """
+    client, user = authenticated_client
+
+    group_owner = UserFactory(username="group_owner")
+    group = GroupFactory(created_by=group_owner)
+    group_faq = GroupFaqFactory.build(group=group)
+    faq_count_before = GroupFaq.objects.count()
+
+    response = client.post(
+        path="/v1/communities/group_faqs",
+        data={
+            "iso": group_faq.iso,
+            "primary": group_faq.primary,
+            "question": group_faq.question,
+            "answer": group_faq.answer,
+            "order": group_faq.order,
+            "group": group.id,
+        },
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert response.data["detail"] == (
+        "You are not authorized to create FAQs for this group."
+    )
+    assert GroupFaq.objects.count() == faq_count_before
+
+
+def test_group_faq_create_unauthorized_401() -> None:
+    """
+    Test that an unauthenticated user cannot create a Group FAQ.
+    """
+    client = APIClient()
+    group = GroupFactory()
+    group_faq = GroupFaqFactory.build(group=group)
+    faq_count_before = GroupFaq.objects.count()
+
+    response = client.post(
+        path="/v1/communities/group_faqs",
+        data={
+            "iso": group_faq.iso,
+            "primary": group_faq.primary,
+            "question": group_faq.question,
+            "answer": group_faq.answer,
+            "order": group_faq.order,
+            "group": group.id,
+        },
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert response.data["detail"] == "Authentication credentials were not provided."
+    assert GroupFaq.objects.count() == faq_count_before
