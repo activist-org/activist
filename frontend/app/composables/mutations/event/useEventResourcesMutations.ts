@@ -9,8 +9,7 @@ export function useEventResourcesMutations(
   const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
-  const { invalidateEventCache, getKeyForEvent } = useEventCache();
-  const queryCache = useQueryCache();
+  const { invalidateEventCache } = useEventCache();
   // Create new resource.
   const { mutate: createResource, isLoading: loadingCreateResource } =
     useMutation({
@@ -55,39 +54,17 @@ export function useEventResourcesMutations(
       },
     });
 
-  // Writes the new order into the query cache before the request resolves so
-  // the list never snaps back to the stale server order mid-drag, and rolls
-  // back on failure.
   const { mutate: reorderResources, isLoading: loadingReorderResources } =
     useMutation({
       ...options.reorder,
       mutation: (orderedResources: Resource[]) =>
         reorderEventResources(currentEventId.value, orderedResources),
-      onMutate(orderedResources) {
-        const key = getKeyForEvent(currentEventId.value);
-        const previousEvent = queryCache.getQueryData<EventResponse>(key);
-        if (previousEvent) {
-          queryCache.setQueryData(key, {
-            ...previousEvent,
-            resources: orderedResources,
-          });
-        }
-        return { previousEvent };
-      },
-      onError(err, _orderedResources, { previousEvent }) {
-        if (previousEvent) {
-          queryCache.setQueryData(
-            getKeyForEvent(currentEventId.value),
-            previousEvent
-          );
-        }
-        handleError(err);
-      },
       async onSuccess() {
+        await invalidateEventCache(currentEventId.value);
         options.reorder?.onSuccess?.();
       },
-      async onSettled() {
-        await invalidateEventCache(currentEventId.value);
+      onError(err) {
+        handleError(err);
       },
     });
 

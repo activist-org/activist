@@ -84,8 +84,17 @@ const eventId = (route.params.eventId as string) ?? "";
 
 const { openModal } = useModalHandlers("ModalResourceEvent");
 const { canEdit } = useUser();
+
+function hasSameEntryIds<T extends { id?: string }>(
+  current: T[],
+  incoming: T[]
+) {
+  if (current.length !== incoming.length) return false;
+  const ids = new Set(current.map((item) => item.id));
+  return incoming.every((item) => ids.has(item.id));
+}
 const { data: event } = useGetEvent(eventId);
-const { reorderResources, loading } = useEventResourcesMutations(eventId);
+const { reorderResources } = useEventResourcesMutations(eventId);
 
 const resourceList = ref<Resource[]>([...(event?.value?.resources || [])]);
 const resourceCardList = ref<(HTMLElement | null)[]>([]);
@@ -112,8 +121,9 @@ const onDragEnd = async () => {
 watch(
   () => event.value?.resources,
   (newResources) => {
-    if (loading.value) return;
-    resourceList.value = [...(newResources || [])];
+    const incoming = [...(newResources || [])];
+    if (hasSameEntryIds(resourceList.value, incoming)) return;
+    resourceList.value = incoming;
   }
 );
 </script>

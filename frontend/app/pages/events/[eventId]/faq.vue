@@ -85,12 +85,21 @@ const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
-const { reorderFAQs, deleteFAQ, loading } = useEventFAQEntryMutations(eventId);
+const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
 
 const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
 
 const { canEdit } = useUser();
+
+function hasSameEntryIds<T extends { id?: string }>(
+  current: T[],
+  incoming: T[]
+) {
+  if (current.length !== incoming.length) return false;
+  const ids = new Set(current.map((item) => item.id));
+  return incoming.every((item) => ids.has(item.id));
+}
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
@@ -108,8 +117,9 @@ export type CardExpose = {
 watch(
   () => event?.value?.faqEntries,
   (newVal) => {
-    if (loading.value) return;
-    faqList.value = newVal?.slice() ?? [];
+    const incoming = newVal?.slice() ?? [];
+    if (hasSameEntryIds(faqList.value, incoming)) return;
+    faqList.value = incoming;
   }
 );
 

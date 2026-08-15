@@ -9,8 +9,7 @@ export function useEventFAQEntryMutations(
   const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
-  const { invalidateEventCache, getKeyForEvent } = useEventCache();
-  const queryCache = useQueryCache();
+  const { invalidateEventCache } = useEventCache();
 
   // Update existing FAQ entry.
   const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
@@ -26,38 +25,16 @@ export function useEventFAQEntryMutations(
     },
   });
 
-  // Writes the new order into the query cache before the request resolves so
-  // the list never snaps back to the stale server order mid-drag, and rolls
-  // back on failure.
   const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
     ...options.reorder,
     mutation: (orderedFaqs: FaqEntry[]) =>
       reorderEventFaqs(currentEventId.value, orderedFaqs),
-    onMutate(orderedFaqs) {
-      const key = getKeyForEvent(currentEventId.value);
-      const previousEvent = queryCache.getQueryData<EventResponse>(key);
-      if (previousEvent) {
-        queryCache.setQueryData(key, {
-          ...previousEvent,
-          faqEntries: orderedFaqs,
-        });
-      }
-      return { previousEvent };
-    },
-    onError(err, _orderedFaqs, { previousEvent }) {
-      if (previousEvent) {
-        queryCache.setQueryData(
-          getKeyForEvent(currentEventId.value),
-          previousEvent
-        );
-      }
-      handleError(err);
-    },
     async onSuccess() {
+      await invalidateEventCache(currentEventId.value);
       options.reorder?.onSuccess?.();
     },
-    async onSettled() {
-      await invalidateEventCache(currentEventId.value);
+    onError(err) {
+      handleError(err);
     },
   });
 
