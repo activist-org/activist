@@ -56,13 +56,12 @@
         :name="placeholderName ? placeholderName : 'Name'"
         :sidebarType="sidebarType"
       />
-      <!-- TODO: We need to edit the v-else-if once more filters are enabled. -->
+      <!-- FIX: Remove collapse condition so filter always shows on mobile -->
       <SidebarLeftFilter
         v-else-if="
-          (sidebarType === SidebarType.ORGANIZATIONS_PAGE ||
-            sidebarType === SidebarType.EVENTS_PAGE ||
-            sidebarType === SidebarType.RESOURCES_PAGE) &&
-          (!sidebar.collapsed || !sidebar.collapsedSwitch)
+          sidebarType === SidebarType.ORGANIZATIONS_PAGE ||
+          sidebarType === SidebarType.EVENTS_PAGE ||
+          sidebarType === SidebarType.RESOURCES_PAGE
         "
         class="my-3"
         :sidebarType="sidebarType"
