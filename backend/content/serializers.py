@@ -150,7 +150,9 @@ class ImageSerializer(serializers.ModelSerializer[Image]):
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
-    def validate(self, data: dict[str, UploadedFile]) -> dict[str, UploadedFile]:
+    def validate(
+        self, data: dict[str, UploadedFile[bytes]]
+    ) -> dict[str, UploadedFile[bytes]]:
         """
         Validate uploaded image files.
 
@@ -289,7 +291,9 @@ class ImageIconSerializer(serializers.ModelSerializer[Image]):
         fields = ["id", "file_object", "creation_date"]
         read_only_fields = ["id", "creation_date"]
 
-    def validate(self, data: dict[str, UploadedFile]) -> dict[str, UploadedFile]:
+    def validate(
+        self, data: dict[str, UploadedFile[bytes]]
+    ) -> dict[str, UploadedFile[bytes]]:
         """
         Validate uploaded image files.
 
