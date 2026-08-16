@@ -7,6 +7,7 @@ interface EventBase extends Entity {
   tagline?: string;
   iconUrl?: ContentImage;
   type: EventType;
+  locationType?: "physical" | "online";
   onlineLocationLink?: string;
   physicalLocation?: PhysicalLocation;
   socialLinks: EventSocialLink[];
@@ -111,6 +112,21 @@ export interface EventUpdateTextFormData {
   description: string;
   getInvolved: string;
   getInvolvedUrl?: string;
+}
+
+export interface UpdateEventDetailsInput {
+  orgs?: string[];
+  times?: EventTimeInput[];
+  locationType?: "physical" | "online";
+  onlineLocationLink?: string;
+  location?: {
+    address_or_name: string;
+    city: string;
+    country_code: string;
+    lat: string;
+    lon: string;
+    bbox: string[];
+  };
 }
 
 export interface EventTimeInput {

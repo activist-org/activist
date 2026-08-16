@@ -32,10 +32,29 @@ const emit = defineEmits<{
   (e: "update:modelValue", value: { start: Date; end: Date }): void;
 }>();
 
+const isSyncingFromParent = ref(false);
+let syncFromParentTimer: ReturnType<typeof setTimeout> | null = null;
+
+watch(
+  () => props.modelValue,
+  () => {
+    isSyncingFromParent.value = true;
+    if (syncFromParentTimer) clearTimeout(syncFromParentTimer);
+    syncFromParentTimer = setTimeout(() => {
+      isSyncingFromParent.value = false;
+      syncFromParentTimer = null;
+    }, 100);
+  },
+  { deep: true }
+);
+
 // Use a computed proxy to handle the v-model sync safely.
 const rangeProxy = computed({
   get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
+  set: (val) => {
+    if (isSyncingFromParent.value) return;
+    emit("update:modelValue", val);
+  },
 });
 
 const colorMode = useColorMode();

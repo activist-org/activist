@@ -9,6 +9,7 @@
         <IconEdit
           @click="() => openModalTextEvent({ entityId: event?.id })"
           @keydown.enter="() => openModalTextEvent({ entityId: event?.id })"
+          data-testid="edit-event-texts"
           :entity="event"
         />
       </div>

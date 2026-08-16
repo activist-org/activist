@@ -30,7 +30,7 @@ export const newSignUpPage = (page: Page) => ({
   }),
   termsCheckbox: page.getByRole("checkbox"),
   submitButton: page.getByRole("button", {
-    name: getEnglishText("i18n.components.submit_aria_label"),
+    name: getEnglishText("i18n.components.form._global.submit_aria_label"),
   }),
   signInLink: page.getByRole("link", {
     name: getEnglishText("i18n._global.sign_in"),

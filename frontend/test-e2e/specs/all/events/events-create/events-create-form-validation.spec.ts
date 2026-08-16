@@ -6,57 +6,22 @@ import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { newSidebarRight } from "~/test-e2e/component-objects/SidebarRight";
 import { expect, test } from "~/test-e2e/global-fixtures";
 
-// Event orgs field is a multi-select combobox (plural label).
-const orgsLabel = getEnglishText("i18n._global.organizations");
-const topicsLabel = getEnglishText("i18n.components._global.topics");
-
-async function selectFirstOrganization(
-  modal: ReturnType<typeof newCreateEventModal>
-) {
-  const orgsButton = modal.orgsCombobox.getByRole("button", {
-    name: new RegExp(orgsLabel, "i"),
-  });
-  await orgsButton.click();
-  const firstOption = modal.root.getByRole("option").first();
-  await expect(firstOption).toBeVisible({ timeout: 10000 });
-  await firstOption.click();
-  // Multi-select keeps the dropdown open; close it by clicking the button again.
-  await orgsButton.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
-}
-
-async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
-  const topicsButton = modal.topicsCombobox.getByRole("button", {
-    name: new RegExp(topicsLabel, "i"),
-  });
-  await topicsButton.click();
-  const firstOption = modal.root.getByRole("option").first();
-  await expect(firstOption).toBeVisible({ timeout: 10000 });
-  await firstOption.click();
-  await topicsButton.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
-}
-
 /** Navigate through steps 1-3 to land on the time step (step 4, online path). */
 async function navigateToTimeStep(
   modal: ReturnType<typeof newCreateEventModal>
 ) {
   await modal.nameField.fill("E2E Time Validation Event");
   await modal.descriptionField.fill("Time step validation test.");
-  await selectFirstOrganization(modal);
-  await modal.getNextStepButton().click({ force: true });
+  await modal.selectFirstOrganization();
+  await modal.advanceToEventTypeStep();
 
   await expect(modal.eventTypeForm).toBeVisible();
   await modal.locationTypeSection
     .getByRole("radio", { name: /online/i })
     .click();
   await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
-  await selectFirstTopic(modal);
-  await modal.getNextStepButton().click({ force: true });
+  await modal.selectFirstTopic();
+  await modal.advanceToLinkOnlineStep();
 
   await expect(modal.linkOnlineForm).toBeVisible();
   await modal.onlineLinkField.fill("https://example.com/time-validation");
@@ -143,7 +108,7 @@ test.describe(
 
       await modal.nameField.fill("E2E Event Type Validation");
       await modal.descriptionField.fill("Event type step validation test.");
-      await selectFirstOrganization(modal);
+      await modal.selectFirstOrganization();
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.eventTypeForm).toBeVisible();
@@ -169,7 +134,7 @@ test.describe(
 
       await modal.nameField.fill("E2E Event Type Partial");
       await modal.descriptionField.fill("Event type partial validation.");
-      await selectFirstOrganization(modal);
+      await modal.selectFirstOrganization();
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.eventTypeForm).toBeVisible();
@@ -193,7 +158,7 @@ test.describe(
 
       await modal.nameField.fill("E2E Topics Partial");
       await modal.descriptionField.fill("Topics partial validation.");
-      await selectFirstOrganization(modal);
+      await modal.selectFirstOrganization();
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.eventTypeForm).toBeVisible();
@@ -227,7 +192,7 @@ test.describe(
 
       await modal.nameField.fill("E2E URL Validation Event");
       await modal.descriptionField.fill("URL format validation test.");
-      await selectFirstOrganization(modal);
+      await modal.selectFirstOrganization();
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.eventTypeForm).toBeVisible();
@@ -237,7 +202,7 @@ test.describe(
       await modal.eventTypeSection
         .getByRole("radio", { name: /learn/i })
         .click();
-      await selectFirstTopic(modal);
+      await modal.selectFirstTopic();
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.linkOnlineForm).toBeVisible();
@@ -318,7 +283,7 @@ test.describe(
 
       await modal.nameField.fill("E2E Corrected Event");
       await modal.descriptionField.fill("Corrected description.");
-      await selectFirstOrganization(modal);
+      await modal.selectFirstOrganization();
 
       await modal.getNextStepButton().click({ force: true });
 

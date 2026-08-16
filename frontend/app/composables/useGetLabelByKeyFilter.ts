@@ -21,9 +21,7 @@ export const useGetLabelByKeyFilter = () => {
     locationType: (value: unknown) =>
       String(value) === "online"
         ? t("i18n.composables.use_get_label_by_key_filter.location_type_online")
-        : t(
-            "i18n.composables.use_get_label_by_key_filter.location_type_physical"
-          ),
+        : t("i18n._global.physical_location"),
     days_ahead: (value: unknown) =>
       t("i18n.composables.use_get_label_by_key_filter.next_days", {
         value: Number(value),

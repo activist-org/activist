@@ -4,6 +4,7 @@ import type { Page } from "playwright";
 import { expect } from "playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
+import { selectMobileSubmenuOption } from "~/test-e2e/utils/combobox-helpers";
 
 // MARK: First Event
 
@@ -108,10 +109,6 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
       );
     }
 
-    const listboxButton = submenu.getByRole("button");
-    await listboxButton.waitFor({ state: "attached", timeout: 3000 });
-
-    // Wait for the page to be fully loaded and menu entries to be initialized.
     await page.waitForLoadState("domcontentloaded");
     await expect(eventPage.pageHeading).toBeVisible();
 
@@ -136,17 +133,10 @@ export async function navigateToEventSubpage(page: Page, subpage: string) {
       );
     }
 
-    const subpageOption = page.getByRole("option", {
-      name: new RegExp(getEnglishText(i18nKey), "i"),
-    });
-
-    // Retry open/select: submenu can re-render while event data loads.
-    await expect(async () => {
-      if ((await listboxButton.getAttribute("aria-expanded")) !== "true") {
-        await listboxButton.click();
-      }
-      await subpageOption.click({ timeout: 2000 });
-    }).toPass({ timeout: 15000, intervals: [100, 250, 500] });
+    await selectMobileSubmenuOption(
+      page,
+      new RegExp(getEnglishText(i18nKey), "i")
+    );
   } else {
     // Desktop layout: uses direct tab navigation.
     await page.waitForLoadState("domcontentloaded");
@@ -187,7 +177,9 @@ type PaginatedEventsResponse = {
 function eventsListNextPath(nextUrl: string): string {
   try {
     const u = new URL(nextUrl, "http://localhost");
-    return `${u.pathname}${u.search}`;
+    // Remap backend-internal /v1/ URLs onto the frontend auth proxy.
+    const path = u.pathname.replace(/^\/v1\//, "/api/auth/");
+    return `${path}${u.search}`;
   } catch {
     return nextUrl;
   }

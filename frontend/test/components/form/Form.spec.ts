@@ -11,7 +11,7 @@ describe("Form component", () => {
     await render(FormTemplate);
 
     const submitBtn = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitBtn);
@@ -44,7 +44,7 @@ describe("Form component", () => {
     await fireEvent.update(familyMemberNameInput, "Bob");
 
     const submitBtn = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitBtn);
@@ -63,7 +63,7 @@ describe("Form component", () => {
 
     // Try to submit with incomplete family member.
     const submitBtn = screen.getByRole("button", {
-      name: getEnglishText("i18n.components.submit_aria_label"),
+      name: getEnglishText("i18n.components.form._global.submit_aria_label"),
     });
 
     await fireEvent.click(submitBtn);

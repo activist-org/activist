@@ -140,8 +140,21 @@ class EventFactory(factory.django.DjangoModelFactory):
             return
 
         if extracted is None:
-            # Create 1-3 event times by default.
-            event_times = [EventTimeFactory() for _ in range(random.randint(1, 3))]
+            # Create 1-3 contiguous daily event times.
+            num_days = random.randint(1, 3)
+            base_start = datetime.datetime.now(tz=datetime.timezone.utc).replace(
+                hour=10,
+                minute=0,
+                second=0,
+                microsecond=0,
+            ) + datetime.timedelta(days=random.randint(0, 7))
+            event_times = []
+            for day_offset in range(num_days):
+                start_time = base_start + datetime.timedelta(days=day_offset)
+                end_time = start_time + datetime.timedelta(hours=2)
+                event_times.append(
+                    EventTimeFactory(start_time=start_time, end_time=end_time)
+                )
 
         elif isinstance(extracted, Iterable) and not isinstance(
             extracted, (str, bytes)

@@ -87,7 +87,10 @@ test.describe(
 
       // Submit the form to save changes.
       const submitButton = groupAboutPage.textModal.getByRole("button", {
-        name: new RegExp(getEnglishText("i18n.components.submit"), "i"),
+        name: new RegExp(
+          getEnglishText("i18n.components.form._global.submit"),
+          "i"
+        ),
       });
       await expect(submitButton).toBeVisible();
       await expect(submitButton).toContainText("Update texts");

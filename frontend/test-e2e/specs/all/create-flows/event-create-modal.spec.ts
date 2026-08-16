@@ -21,39 +21,6 @@ function isPostCreateEventResponse(res: Response): boolean {
   return path.endsWith("/events/events");
 }
 
-const orgsLabel = getEnglishText("i18n._global.organizations");
-const topicsLabel = getEnglishText("i18n.components._global.topics");
-
-async function selectFirstOrganization(
-  modal: ReturnType<typeof newCreateEventModal>
-) {
-  const orgsButton = modal.orgsCombobox.getByRole("button", {
-    name: new RegExp(orgsLabel, "i"),
-  });
-  await orgsButton.click();
-  const firstOption = modal.root.getByRole("option").first();
-  await expect(firstOption).toBeVisible({ timeout: 10000 });
-  await firstOption.click();
-  await orgsButton.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
-}
-
-async function selectFirstTopic(modal: ReturnType<typeof newCreateEventModal>) {
-  const topicsButton = modal.topicsCombobox.getByRole("button", {
-    name: new RegExp(topicsLabel, "i"),
-  });
-  await topicsButton.click();
-  const firstOption = modal.root.getByRole("option").first();
-  await expect(firstOption).toBeVisible({ timeout: 10000 });
-  await firstOption.click();
-  await topicsButton.click();
-  await expect(modal.root.getByRole("option").first()).toBeHidden({
-    timeout: 5000,
-  });
-}
-
 // Set each day's start time to 10:00 and end time to 11:00.
 // Backend receives start_time < end_time for every entry.
 async function setFirstDayEndTimeToFuture(
@@ -105,8 +72,8 @@ async function goToEventTypeStep(
 ) {
   await modal.nameField.fill("A11y navigate step 2");
   await modal.descriptionField.fill("Accessibility scan step navigation.");
-  await selectFirstOrganization(modal);
-  await modal.getNextStepButton().click({ force: true });
+  await modal.selectFirstOrganization();
+  await modal.advanceToEventTypeStep();
   await expect(modal.eventTypeForm).toBeVisible();
 }
 
@@ -118,8 +85,8 @@ async function goToLinkOnlineStep(
     .getByRole("radio", { name: /online/i })
     .click();
   await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
-  await selectFirstTopic(modal);
-  await modal.getNextStepButton().click({ force: true });
+  await modal.selectFirstTopic();
+  await modal.advanceToLinkOnlineStep();
   await expect(modal.linkOnlineForm).toBeVisible();
 }
 
@@ -135,14 +102,14 @@ async function goToPhysicalLocationStep(
 ) {
   await modal.nameField.fill("A11y physical location step");
   await modal.descriptionField.fill("Accessibility scan physical path.");
-  await selectFirstOrganization(modal);
-  await modal.getNextStepButton().click({ force: true });
+  await modal.selectFirstOrganization();
+  await modal.advanceToEventTypeStep();
   await modal.locationTypeSection
     .getByRole("radio", { name: /physical/i })
     .click();
   await modal.eventTypeSection.getByRole("radio", { name: /learn/i }).click();
-  await selectFirstTopic(modal);
-  await modal.getNextStepButton().click({ force: true });
+  await modal.selectFirstTopic();
+  await modal.advanceToLocationStep();
   await expect(modal.locationForm).toBeVisible();
 }
 
@@ -347,7 +314,7 @@ test.describe(
       await modal.nameField.fill("E2E Test Event");
       await modal.descriptionField.fill("Description for E2E test.");
 
-      await selectFirstOrganization(modal);
+      await modal.selectFirstOrganization();
 
       await modal.getNextStepButton().click({ force: true });
 
@@ -363,7 +330,7 @@ test.describe(
       const modal = newCreateEventModal(page);
       await modal.nameField.fill("Retained Event Name");
       await modal.descriptionField.fill("Retained description.");
-      await selectFirstOrganization(modal);
+      await modal.selectFirstOrganization();
       await modal.getNextStepButton().click({ force: true });
       await expect(modal.eventTypeForm).toBeVisible();
 
@@ -380,8 +347,8 @@ test.describe(
       const modal = newCreateEventModal(page);
       await modal.nameField.fill("Rehydration Test Event");
       await modal.descriptionField.fill("Testing step rehydration.");
-      await selectFirstOrganization(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstOrganization();
+      await modal.advanceToEventTypeStep();
 
       await expect(modal.eventTypeForm).toBeVisible();
       await modal.locationTypeSection
@@ -390,8 +357,8 @@ test.describe(
       await modal.eventTypeSection
         .getByRole("radio", { name: /learn/i })
         .click();
-      await selectFirstTopic(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstTopic();
+      await modal.advanceToLinkOnlineStep();
 
       await expect(modal.linkOnlineForm).toBeVisible();
       await modal.onlineLinkField.fill("https://example.com/rehydration-test");
@@ -421,8 +388,8 @@ test.describe(
       const modal = newCreateEventModal(page);
       await modal.nameField.fill("Time Persist Event");
       await modal.descriptionField.fill("Testing time step rehydration.");
-      await selectFirstOrganization(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstOrganization();
+      await modal.advanceToEventTypeStep();
 
       await expect(modal.eventTypeForm).toBeVisible();
       await modal.locationTypeSection
@@ -431,8 +398,8 @@ test.describe(
       await modal.eventTypeSection
         .getByRole("radio", { name: /learn/i })
         .click();
-      await selectFirstTopic(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstTopic();
+      await modal.advanceToLinkOnlineStep();
 
       await expect(modal.linkOnlineForm).toBeVisible();
       await modal.onlineLinkField.fill("https://example.com/time-persist-test");
@@ -479,8 +446,8 @@ test.describe(
 
       await modal.nameField.fill("E2E Online Event");
       await modal.descriptionField.fill("Online event description.");
-      await selectFirstOrganization(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstOrganization();
+      await modal.advanceToEventTypeStep();
 
       await expect(modal.eventTypeForm).toBeVisible();
       await modal.locationTypeSection
@@ -489,8 +456,8 @@ test.describe(
       await modal.eventTypeSection
         .getByRole("radio", { name: /learn/i })
         .click();
-      await selectFirstTopic(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstTopic();
+      await modal.advanceToLinkOnlineStep();
 
       await expect(modal.linkOnlineForm).toBeVisible();
       await modal.onlineLinkField.fill("https://example.com/event");
@@ -530,8 +497,8 @@ test.describe(
 
       await modal.nameField.fill("E2E All Day Event");
       await modal.descriptionField.fill("All day event description.");
-      await selectFirstOrganization(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstOrganization();
+      await modal.advanceToEventTypeStep();
 
       await expect(modal.eventTypeForm).toBeVisible();
       await modal.locationTypeSection
@@ -540,8 +507,8 @@ test.describe(
       await modal.eventTypeSection
         .getByRole("radio", { name: /learn/i })
         .click();
-      await selectFirstTopic(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstTopic();
+      await modal.advanceToLinkOnlineStep();
 
       await expect(modal.linkOnlineForm).toBeVisible();
       await modal.onlineLinkField.fill("https://example.com/all-day-event");
@@ -587,8 +554,8 @@ test.describe(
 
       await modal.nameField.fill("E2E First Event");
       await modal.descriptionField.fill("First event description.");
-      await selectFirstOrganization(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstOrganization();
+      await modal.advanceToEventTypeStep();
 
       await expect(modal.eventTypeForm).toBeVisible();
       await modal.locationTypeSection
@@ -597,8 +564,8 @@ test.describe(
       await modal.eventTypeSection
         .getByRole("radio", { name: /learn/i })
         .click();
-      await selectFirstTopic(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstTopic();
+      await modal.advanceToLinkOnlineStep();
 
       await expect(modal.linkOnlineForm).toBeVisible();
       await modal.onlineLinkField.fill(
@@ -654,8 +621,8 @@ test.describe(
 
       await modal.nameField.fill("E2E Physical Event");
       await modal.descriptionField.fill("Physical event description.");
-      await selectFirstOrganization(modal);
-      await modal.getNextStepButton().click({ force: true });
+      await modal.selectFirstOrganization();
+      await modal.advanceToEventTypeStep();
 
       await expect(modal.eventTypeForm).toBeVisible();
       await modal.locationTypeSection
@@ -664,7 +631,7 @@ test.describe(
       await modal.eventTypeSection
         .getByRole("radio", { name: /learn/i })
         .click();
-      await selectFirstTopic(modal);
+      await modal.selectFirstTopic();
       await modal.getNextStepButton().click({ force: true });
 
       await expect(modal.locationForm).toBeVisible();
@@ -771,7 +738,7 @@ test.describe(
         await modal.descriptionField.fill(
           "Should not persist after failed create."
         );
-        await selectFirstOrganization(modal);
+        await modal.selectFirstOrganization();
         await modal.getNextStepButton().click({ force: true });
 
         await expect(modal.eventTypeForm).toBeVisible();
@@ -781,7 +748,7 @@ test.describe(
         await modal.eventTypeSection
           .getByRole("radio", { name: /learn/i })
           .click();
-        await selectFirstTopic(modal);
+        await modal.selectFirstTopic();
         await modal.getNextStepButton().click({ force: true });
 
         await expect(modal.linkOnlineForm).toBeVisible();

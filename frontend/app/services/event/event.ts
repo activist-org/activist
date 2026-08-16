@@ -2,7 +2,7 @@
 // Events service: plain exported functions (no composables, no state).
 // Uses services/http.ts helpers and centralizes error handling + normalization.
 
-import { del, get, post } from "~/services/http";
+import { del, get, post, put } from "~/services/http";
 
 // MARK: Map API Response to Type
 
@@ -20,6 +20,7 @@ export function mapEvent(res: EventResponse): EventResponse {
     resources: res.resources ?? [],
     faqEntries: res.faqEntries ?? [],
     times: res.times ?? [],
+    locationType: res.locationType,
     creationDate: res.creationDate,
     orgs: res.orgs,
     texts: res.texts ?? [],
@@ -80,6 +81,35 @@ export async function createEvent(
       headers: { "Content-Type": "application/json" },
     });
     return res;
+  } catch (e) {
+    throw errorHandler(e);
+  }
+}
+
+// MARK: Update
+
+export async function updateEvent(
+  eventId: string,
+  data: UpdateEventDetailsInput
+): Promise<EventResponse> {
+  try {
+    const payload: Record<string, unknown> = {};
+
+    if (data.orgs !== undefined) payload.orgs = data.orgs;
+    if (data.times !== undefined) payload.times = data.times;
+    if (data.locationType !== undefined)
+      payload.location_type = data.locationType;
+    if (data.onlineLocationLink !== undefined) {
+      payload.online_location_link = data.onlineLocationLink;
+    }
+    if (data.location !== undefined) payload.location = data.location;
+
+    const res = await put<EventResponse, AcceptedBody>(
+      `/events/events/${eventId}`,
+      payload as AcceptedBody,
+      { headers: { "Content-Type": "application/json" } }
+    );
+    return mapEvent(res);
   } catch (e) {
     throw errorHandler(e);
   }

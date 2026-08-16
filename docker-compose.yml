@@ -127,11 +127,20 @@ services:
       nuxt_frontend
       # Use USE_PREVIEW=true to run pre-built version (faster for E2E tests).
       # Use USE_PREVIEW=false or unset for dev mode (default).
+      # Use PREVIEW_CLEAN=true to wipe .output/.nuxt before build (fixes stale bundles).
     command: sh -c "
       corepack enable && yarn install &&
       if [ \"$${USE_PREVIEW}\" = \"true\" ]; then
+      if [ \"$${PREVIEW_CLEAN}\" = \"true\" ]; then
+      echo '🧹 Cleaning previous preview build (.output, .nuxt)...' &&
+      rm -rf .output .nuxt;
+      fi &&
+      if [ -f .output/server/index.mjs ] && [ \"$${PREVIEW_CLEAN}\" != \"true\" ]; then
+      echo '♻️  Reusing existing preview build (set PREVIEW_CLEAN=true to rebuild)...';
+      else
       echo '🏗️  Building frontend for preview mode...' &&
-      yarn build &&
+      yarn build;
+      fi &&
       echo '▶️  Starting preview server on port ${FRONTEND_PORT}...' &&
       yarn preview --port ${FRONTEND_PORT};
       else
@@ -145,6 +154,7 @@ services:
       - "24678:24678"
     environment:
       - USE_PREVIEW=${USE_PREVIEW:-false}
+      - PREVIEW_CLEAN=${PREVIEW_CLEAN:-false}
       - NUXT_SESSION_PASSWORD=${NUXT_SESSION_PASSWORD}
     healthcheck:
       # The frontend image ships wget (not curl), so probe with wget.

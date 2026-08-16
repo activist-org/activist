@@ -1,34 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import type { Locator, Page } from "@playwright/test";
 
 import { getEnglishText } from "#shared/utils/i18n";
 import { newOrganizationsFilter } from "~/test-e2e/component-objects/OrganizationsFilter";
 import { newSidebarLeft } from "~/test-e2e/component-objects/SidebarLeft";
 import { expect, test } from "~/test-e2e/global-fixtures";
+import { loadSecondPage } from "~/test-e2e/utils/pagination";
 import { logTestPath, withTestStep } from "~/test-e2e/utils/test-traceability";
-
-/**
- * Scroll the list container until pagination loads a second page. A single
- * scroll can fire before the layout settles or land the 1px sentinel exactly on
- * the viewport edge (below the IntersectionObserver threshold), so re-scroll on
- * each poll until the rendered card count grows past one page.
- */
-const loadSecondPage = async (page: Page, cards: Locator): Promise<void> => {
-  await expect
-    .poll(
-      async () => {
-        await page.evaluate(() => {
-          const container = document.querySelector(
-            "[class*='overflow-y-scroll']"
-          ) as HTMLElement | null;
-          if (container) container.scrollTo(0, container.scrollHeight);
-        });
-        return cards.count();
-      },
-      { timeout: 15000, intervals: [300, 700, 1000, 1500, 2000] }
-    )
-    .toBeGreaterThan(10);
-};
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/organizations");
@@ -49,7 +26,9 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
       testInfo,
       "Scroll the layout container to trigger loading more organizations",
       async () => {
-        await loadSecondPage(page, orgCards);
+        await loadSecondPage(page, orgCards, {
+          apiPath: "/communities/organizations",
+        });
       }
     );
 
@@ -77,7 +56,9 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
       testInfo,
       "Scroll container to trigger all organizations to load via pagination",
       async () => {
-        await loadSecondPage(page, orgCards);
+        await loadSecondPage(page, orgCards, {
+          apiPath: "/communities/organizations",
+        });
       }
     );
 
@@ -110,7 +91,9 @@ test.describe("Organizations Pagination", { tag: "@desktop" }, () => {
         await page.goto("/organizations");
         await page.waitForLoadState("networkidle");
 
-        await loadSecondPage(page, orgCards);
+        await loadSecondPage(page, orgCards, {
+          apiPath: "/communities/organizations",
+        });
 
         const titles = await orgCards.evaluateAll((nodes) =>
           nodes.map((item) => item.textContent?.trim())

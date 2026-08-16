@@ -8,6 +8,7 @@ import {
   getEvent,
   listEvents,
   mapEvent,
+  updateEvent,
 } from "../../../app/services/event/event";
 import { AppError } from "../../../shared/utils/errorHandler";
 import {
@@ -113,8 +114,8 @@ describe("services/event", () => {
       organizations: ["org-id-123"],
       groups: ["group-id-456"],
       location_type: "offline",
-      event_type: "learn", // or "action"
-      topics: ["sustainability", "community"], // replace with actual TopicEnum values
+      event_type: "learn",
+      topics: ["sustainability", "community"],
       location: {
         address_or_name: "Central Park Community Garden",
         city: "New York",
@@ -138,7 +139,6 @@ describe("services/event", () => {
     const id = await createEvent({ ...newEventInput });
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    // The service constructs a specific payload subset.
     expectJsonRequest(fetchMock, "/events/events", "POST", {
       name: newEventInput.name,
       location: newEventInput.location,
@@ -147,6 +147,52 @@ describe("services/event", () => {
       topics: newEventInput.topics,
     });
     expect(id).toBe("evt-3");
+  });
+
+  // MARK: Update
+
+  it("updateEvent() PUTs detail fields to the event endpoint", async () => {
+    const { fetchMock } = getMocks();
+    const response = {
+      id: "evt-update",
+      name: "Updated Event",
+      type: "action",
+      orgs: [],
+      texts: [],
+      socialLinks: [],
+      times: [],
+    };
+    fetchMock.mockResolvedValueOnce(response);
+
+    const result = await updateEvent("evt-update", {
+      orgs: ["org-1"],
+      locationType: "online",
+      onlineLocationLink: "https://example.com/meet",
+      times: [
+        {
+          date: "2026-06-10",
+          all_day: false,
+          start_time: "2026-06-10T10:00:00Z",
+          end_time: "2026-06-10T12:00:00Z",
+        },
+      ],
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expectJsonRequest(fetchMock, "/events/events/evt-update", "PUT", {
+      orgs: ["org-1"],
+      location_type: "online",
+      online_location_link: "https://example.com/meet",
+      times: [
+        {
+          date: "2026-06-10",
+          all_day: false,
+          start_time: "2026-06-10T10:00:00Z",
+          end_time: "2026-06-10T12:00:00Z",
+        },
+      ],
+    });
+    expect(result.id).toBe("evt-update");
   });
 
   // MARK: Delete

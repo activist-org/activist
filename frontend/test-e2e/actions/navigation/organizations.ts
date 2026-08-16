@@ -6,6 +6,7 @@ import { expect } from "playwright/test";
 import { getEnglishText } from "#shared/utils/i18n";
 import { newOrganizationPage } from "~/test-e2e/page-objects/organization/OrganizationPage";
 import { newOrganizationsHomePage } from "~/test-e2e/page-objects/OrganizationsHomePage";
+import { selectMobileSubmenuOption } from "~/test-e2e/utils/combobox-helpers";
 
 // MARK: First Organization
 
@@ -92,14 +93,8 @@ export async function navigateToOrganizationSubpage(
 
   const viewportSize = page.viewportSize();
   const isMobileLayout = viewportSize ? viewportSize.width < 768 : false;
-  const submenu = page.locator("#submenu");
 
   if (isMobileLayout) {
-    await submenu.waitFor({ timeout: 5000 });
-
-    const listboxButton = submenu.getByRole("button");
-    await listboxButton.waitFor({ state: "attached", timeout: 5000 });
-
     await page.waitForLoadState("domcontentloaded");
     await expect(organizationPage.pageHeading).toBeVisible();
 
@@ -126,17 +121,10 @@ export async function navigateToOrganizationSubpage(
       );
     }
 
-    const subpageOption = page.getByRole("option", {
-      name: new RegExp(getEnglishText(i18nKey), "i"),
-    });
-
-    // Retry open/select: Headless UI can close/remount options between waits.
-    await expect(async () => {
-      if ((await listboxButton.getAttribute("aria-expanded")) !== "true") {
-        await listboxButton.click();
-      }
-      await subpageOption.click({ timeout: 2000 });
-    }).toPass({ timeout: 15000, intervals: [100, 250, 500] });
+    await selectMobileSubmenuOption(
+      page,
+      new RegExp(getEnglishText(i18nKey), "i")
+    );
   } else {
     // Desktop layout: uses direct tab navigation.
     await page.waitForLoadState("domcontentloaded");
