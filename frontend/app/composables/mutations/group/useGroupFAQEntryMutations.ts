@@ -9,7 +9,8 @@ export function useGroupFAQEntryMutations(
   const { error, handleError } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
-  const { invalidateGroupCache } = useGroupCache();
+  const { invalidateGroupCache, getKeyForGroup } = useGroupCache();
+  const queryCache = useQueryCache();
 
   // Create new FAQ entry.
   const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
@@ -42,11 +43,28 @@ export function useGroupFAQEntryMutations(
   const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
     ...options.reorder,
     mutation: (faqs: FaqEntry[]) => reorderGroupFaqs(faqs),
+    onMutate(faqs) {
+      const key = getKeyForGroup(currentGroupId.value);
+      const previousGroup = queryCache.getQueryData<Group>(key);
+      if (previousGroup) {
+        queryCache.setQueryData(key, {
+          ...previousGroup,
+          faqEntries: faqs,
+        });
+      }
+      return { previousGroup };
+    },
     async onSuccess() {
       await invalidateGroupCache(currentGroupId.value);
       options.reorder?.onSuccess?.();
     },
-    onError(err) {
+    onError(err, _faqs, context) {
+      if (context?.previousGroup) {
+        queryCache.setQueryData(
+          getKeyForGroup(currentGroupId.value),
+          context.previousGroup
+        );
+      }
       handleError(err);
     },
   });

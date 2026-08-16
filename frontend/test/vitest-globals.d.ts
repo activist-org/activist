@@ -84,6 +84,14 @@ declare global {
   var useAuthStateMock: Mock<() => { data: { value: AuthUser } }>;
   var $fetch: FetchGlobal;
   var BASE_BACKEND_URL: string;
+  interface QueryCacheMockShape {
+    invalidateQueries: Mock;
+    getEntries: Mock;
+    setQueryData: Mock;
+    getQueryData: Mock;
+  }
+  var useQueryCacheMock: Mock<() => QueryCacheMockShape>;
+  var useQueryCache: () => QueryCacheMockShape;
 }
 
 export {};

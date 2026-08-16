@@ -27,7 +27,7 @@
         </NuxtLink>
       </div>
       <div class="flex-col space-y-2 pt-3 md:grow md:pl-4 md:pt-0 lg:pl-6">
-        <div class="-mb-2 flex flex-col justify-between md:flex-row">
+        <div class="flex flex-col justify-between md:flex-row">
           <div class="flex items-center justify-center space-x-2 md:space-x-4">
             <NuxtLink :aria-label="$t(ariaLabel)" :to="localePath(linkUrl)">
               <h3 class="font-bold" data-testid="group-title">

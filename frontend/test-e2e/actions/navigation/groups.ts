@@ -41,25 +41,20 @@ export async function navigateToOrganizationGroupSubpage(
     const listboxButton = submenu.getByRole("button");
     await listboxButton.waitFor({ state: "attached", timeout: 5000 });
 
-    const isAlreadyOpen =
-      (await listboxButton.getAttribute("aria-expanded")) === "true";
-    if (!isAlreadyOpen) {
-      await listboxButton.click();
-      await page.getByRole("listbox").waitFor({ timeout: 5000 });
-    }
-
     await page.waitForLoadState("domcontentloaded");
     await expect(organizationPage.pageHeading).toBeVisible();
-    await page.getByRole("listbox").waitFor({ timeout: 10000 });
-
-    await expect(organizationPage.menu.groupsOption).toBeVisible();
-    await page.waitForLoadState("domcontentloaded");
 
     const groupsOption = page.getByRole("option", {
       name: new RegExp(getEnglishText("i18n._global.groups"), "i"),
     });
 
-    await groupsOption.click({ force: true });
+    // Retry open/select: Headless UI can close/remount options between waits.
+    await expect(async () => {
+      if ((await listboxButton.getAttribute("aria-expanded")) !== "true") {
+        await listboxButton.click();
+      }
+      await groupsOption.click({ timeout: 2000 });
+    }).toPass({ timeout: 15000, intervals: [100, 250, 500] });
   } else {
     await expect(organizationPage.menu.groupsOption).toBeVisible();
     await organizationPage.menu.groupsOption.click();

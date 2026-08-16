@@ -36,7 +36,10 @@ vi.mock("../../../../app/services/communities/organization/faq", () => ({
 }));
 
 vi.mock("../../../../app/composables/cache/useOrganizationCache", () => ({
-  useOrganizationCache: () => ({ invalidateOrganizationCache }),
+  useOrganizationCache: () => ({
+    invalidateOrganizationCache,
+    getKeyForOrganization: (id: string) => ["organization", id],
+  }),
 }));
 
 // MARK: Tests
@@ -141,6 +144,39 @@ describe("useOrganizationFAQEntryMutations", () => {
 
       await expect(reorderFAQs([sampleFaqEntry])).rejects.toThrow(
         "Reorder failed"
+      );
+    });
+
+    it("optimistically writes the new order to the query cache before the request settles", async () => {
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousOrg = { id: "org-123", faqEntries: [sampleFaqEntry] };
+      queryCache.getQueryData.mockReturnValueOnce(previousOrg);
+      const reordered = [{ ...sampleFaqEntry, id: "second" }];
+      const { reorderFAQs } = useOrganizationFAQEntryMutations(orgId);
+
+      await reorderFAQs(reordered);
+
+      expect(queryCache.setQueryData).toHaveBeenCalledWith(
+        ["organization", "org-123"],
+        {
+          ...previousOrg,
+          faqEntries: reordered,
+        }
+      );
+    });
+
+    it("rolls back the query cache to the previous order when the request fails", async () => {
+      reorderOrganizationFaqs.mockRejectedValue(new Error("Reorder failed"));
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousOrg = { id: "org-123", faqEntries: [sampleFaqEntry] };
+      queryCache.getQueryData.mockReturnValueOnce(previousOrg);
+      const { reorderFAQs } = useOrganizationFAQEntryMutations(orgId);
+
+      await reorderFAQs([{ ...sampleFaqEntry, id: "second" }]).catch(() => {});
+
+      expect(queryCache.setQueryData).toHaveBeenLastCalledWith(
+        ["organization", "org-123"],
+        previousOrg
       );
     });
   });
