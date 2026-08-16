@@ -18,18 +18,15 @@ export async function navigateToFirstEvent(page: Page) {
   // Navigate to events home page.
   await page.goto("/events", { waitUntil: "load" });
 
-  // Switch to list view (default is map view) if available.
-  // On mobile, view switcher is not visible (known issue).
+  // Switch to list view if the switcher is present (absent on mobile).
   const listViewButton = page.getByRole("radio", { name: /list view/i });
 
-  // Wait for view switcher to be available.
-  await listViewButton
+  const hasViewSwitcher = await listViewButton
     .waitFor({ state: "visible", timeout: 3000 })
-    .catch(() => {});
+    .then(() => true)
+    .catch(() => false);
 
-  const isChecked = await listViewButton.isChecked().catch(() => false);
-
-  if (!isChecked) {
+  if (hasViewSwitcher && !(await listViewButton.isChecked())) {
     await listViewButton.click();
   }
 

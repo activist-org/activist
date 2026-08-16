@@ -409,7 +409,7 @@ watch(
   { immediate: true }
 );
 
-const { data: potentialLocations } = useLocation(locationQuery);
+const { data: potentialLocations } = useGetLocation(locationQuery);
 
 watch(
   potentialLocations,

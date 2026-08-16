@@ -43,11 +43,12 @@ vi.mock("@sidebase/nuxt-auth", () => ({
 
 // MARK: @pinia/colada Global Mocks (Stable References)
 
-interface MutationOptions<TResult, TVars> {
-  mutation?: (vars: TVars) => Promise<TResult>;
-  onSuccess?: (result: TResult, vars: TVars) => void;
-  onError?: (err: unknown, vars: TVars) => void;
-  onSettled?: (vars: TVars) => void;
+interface MutationOptions<TResult, TVars, TContext = unknown> {
+  mutation?: (vars: TVars, context?: TContext) => Promise<TResult>;
+  onMutate?: (vars: TVars) => TContext | undefined;
+  onSuccess?: (result: TResult, vars: TVars, context?: TContext) => void;
+  onError?: (err: unknown, vars: TVars, context?: TContext) => void;
+  onSettled?: (vars: TVars, context?: TContext) => void;
 }
 
 const globalMutationLoading = ref(false);
@@ -56,36 +57,54 @@ const globalMutationError = ref<unknown>(null);
 const globalCacheInvalidate = vi.fn();
 const globalCacheGetEntries = vi.fn();
 const globalCacheSetQueryData = vi.fn();
+const globalCacheGetQueryData = vi.fn();
+
+globalThis.useQueryMock = vi.fn(() => ({
+  isLoading: ref(false),
+  error: ref(null),
+  data: ref(null),
+}));
+
+globalThis.useQuery = () => globalThis.useQueryMock();
 
 globalThis.useQueryCacheMock = vi.fn(() => ({
   invalidateQueries: globalCacheInvalidate,
   getEntries: globalCacheGetEntries,
   setQueryData: globalCacheSetQueryData,
+  getQueryData: globalCacheGetQueryData,
 }));
 globalThis.useQueryCache = () => globalThis.useQueryCacheMock();
 
 globalThis.useMutationMock = vi.fn(
-  <TResult, TVars>(options: MutationOptions<TResult, TVars> = {}) => {
+  <TResult, TVars, TContext>(
+    options: MutationOptions<TResult, TVars, TContext> = {}
+  ) => {
     return {
-      mutateAsync: vi.fn(async (vars: TVars) => {
+      mutate: vi.fn(async (vars: TVars) => {
         globalMutationLoading.value = true;
         globalMutationError.value = null;
 
         await Promise.resolve();
 
+        // Mirrors @pinia/colada: runs onMutate first and threads its
+        // returned context into mutation/onSuccess/onError/onSettled so
+        // optimistic-update mutations can be exercised in tests.
+        const context = (await options.onMutate?.(vars)) ?? undefined;
+
         try {
           const result = options.mutation
-            ? await options.mutation(vars)
+            ? await options.mutation(vars, context)
             : undefined;
-          if (options.onSuccess) options.onSuccess(result as TResult, vars);
+          if (options.onSuccess)
+            options.onSuccess(result as TResult, vars, context);
           return result;
         } catch (err) {
           globalMutationError.value = err;
-          if (options.onError) options.onError(err, vars);
+          if (options.onError) options.onError(err, vars, context);
           throw err;
         } finally {
           globalMutationLoading.value = false;
-          if (options.onSettled) options.onSettled(vars);
+          if (options.onSettled) options.onSettled(vars, context);
         }
       }),
       isLoading: globalMutationLoading,
@@ -98,12 +117,24 @@ globalThis.useMutation = <TResult, TVars>(
   options: MutationOptions<TResult, TVars>
 ) => globalThis.useMutationMock(options);
 
+globalThis.useInfiniteQueryMock = vi.fn(() => ({
+  isLoading: ref(false),
+  error: ref(null),
+  data: ref(null),
+  loadNextPage: vi.fn(async () => {
+    await Promise.resolve();
+  }),
+}));
+globalThis.useInfiniteQuery = () => globalThis.useInfiniteQueryMock();
+
 vi.mock("@pinia/colada", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@pinia/colada")>();
   return {
     ...actual,
     useMutation: globalThis.useMutation,
     useQueryCache: globalThis.useQueryCache,
+    useQuery: globalThis.useQuery,
+    useInfiniteQuery: globalThis.useInfiniteQuery,
   };
 });
 
