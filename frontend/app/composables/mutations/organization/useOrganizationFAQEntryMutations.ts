@@ -9,7 +9,9 @@ export function useOrganizationFAQEntryMutations(
   const { error, handleError } = useAppError();
 
   const currentOrgId = computed(() => unref(orgId));
-  const { invalidateOrganizationCache } = useOrganizationCache();
+  const { invalidateOrganizationCache, getKeyForOrganization } =
+    useOrganizationCache();
+  const queryCache = useQueryCache();
 
   // Create new FAQ entry.
   const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
@@ -42,11 +44,28 @@ export function useOrganizationFAQEntryMutations(
   const { mutate: reorderFAQs, isLoading: loadingReorderFAQs } = useMutation({
     ...options.reorder,
     mutation: (faqs: FaqEntry[]) => reorderOrganizationFaqs(faqs),
+    onMutate(faqs) {
+      const key = getKeyForOrganization(currentOrgId.value);
+      const previousOrg = queryCache.getQueryData<Organization>(key);
+      if (previousOrg) {
+        queryCache.setQueryData(key, {
+          ...previousOrg,
+          faqEntries: faqs,
+        });
+      }
+      return { previousOrg };
+    },
     async onSuccess() {
       await invalidateOrganizationCache(currentOrgId.value);
       options.reorder?.onSuccess?.();
     },
-    onError(err) {
+    onError(err, _faqs, context) {
+      if (context?.previousOrg) {
+        queryCache.setQueryData(
+          getKeyForOrganization(currentOrgId.value),
+          context.previousOrg
+        );
+      }
       handleError(err);
     },
   });

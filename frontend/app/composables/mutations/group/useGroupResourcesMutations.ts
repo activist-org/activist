@@ -8,7 +8,8 @@ export function useGroupResourcesMutations(
   const { error, handleError } = useAppError();
 
   const currentGroupId = computed(() => unref(groupId));
-  const { invalidateGroupCache } = useGroupCache();
+  const { invalidateGroupCache, getKeyForGroup } = useGroupCache();
+  const queryCache = useQueryCache();
 
   // Create new resource.
   const { mutate: createResource, isLoading: loadingCreateResource } =
@@ -59,11 +60,28 @@ export function useGroupResourcesMutations(
       ...options.reorder,
       mutation: (orderedResources: Resource[]) =>
         reorderGroupResources(orderedResources),
+      onMutate(orderedResources) {
+        const key = getKeyForGroup(currentGroupId.value);
+        const previousGroup = queryCache.getQueryData<Group>(key);
+        if (previousGroup) {
+          queryCache.setQueryData(key, {
+            ...previousGroup,
+            resources: orderedResources,
+          });
+        }
+        return { previousGroup };
+      },
       async onSuccess() {
         await invalidateGroupCache(currentGroupId.value);
         options.reorder?.onSuccess?.();
       },
-      onError(err) {
+      onError(err, _orderedResources, context) {
+        if (context?.previousGroup) {
+          queryCache.setQueryData(
+            getKeyForGroup(currentGroupId.value),
+            context.previousGroup
+          );
+        }
         handleError(err);
       },
     });

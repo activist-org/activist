@@ -9,7 +9,8 @@ export function useEventFAQEntryMutations(
   const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
-  const { invalidateEventCache } = useEventCache();
+  const { invalidateEventCache, getKeyForEvent } = useEventCache();
+  const queryCache = useQueryCache();
 
   // Update existing FAQ entry.
   const { mutate: createFAQ, isLoading: loadingCreateFAQ } = useMutation({
@@ -29,11 +30,28 @@ export function useEventFAQEntryMutations(
     ...options.reorder,
     mutation: (orderedFaqs: FaqEntry[]) =>
       reorderEventFaqs(currentEventId.value, orderedFaqs),
+    onMutate(orderedFaqs) {
+      const key = getKeyForEvent(currentEventId.value);
+      const previousEvent = queryCache.getQueryData<CommunityEvent>(key);
+      if (previousEvent) {
+        queryCache.setQueryData(key, {
+          ...previousEvent,
+          faqEntries: orderedFaqs,
+        });
+      }
+      return { previousEvent };
+    },
     async onSuccess() {
       await invalidateEventCache(currentEventId.value);
       options.reorder?.onSuccess?.();
     },
-    onError(err) {
+    onError(err, _orderedFaqs, context) {
+      if (context?.previousEvent) {
+        queryCache.setQueryData(
+          getKeyForEvent(currentEventId.value),
+          context.previousEvent
+        );
+      }
       handleError(err);
     },
   });

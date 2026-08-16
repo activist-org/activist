@@ -9,7 +9,8 @@ export function useEventResourcesMutations(
   const { error, handleError } = useAppError();
 
   const currentEventId = computed(() => unref(eventId));
-  const { invalidateEventCache } = useEventCache();
+  const { invalidateEventCache, getKeyForEvent } = useEventCache();
+  const queryCache = useQueryCache();
   // Create new resource.
   const { mutate: createResource, isLoading: loadingCreateResource } =
     useMutation({
@@ -59,11 +60,28 @@ export function useEventResourcesMutations(
       ...options.reorder,
       mutation: (orderedResources: Resource[]) =>
         reorderEventResources(currentEventId.value, orderedResources),
+      onMutate(orderedResources) {
+        const key = getKeyForEvent(currentEventId.value);
+        const previousEvent = queryCache.getQueryData<CommunityEvent>(key);
+        if (previousEvent) {
+          queryCache.setQueryData(key, {
+            ...previousEvent,
+            resources: orderedResources,
+          });
+        }
+        return { previousEvent };
+      },
       async onSuccess() {
         await invalidateEventCache(currentEventId.value);
         options.reorder?.onSuccess?.();
       },
-      onError(err) {
+      onError(err, _orderedResources, context) {
+        if (context?.previousEvent) {
+          queryCache.setQueryData(
+            getKeyForEvent(currentEventId.value),
+            context.previousEvent
+          );
+        }
         handleError(err);
       },
     });

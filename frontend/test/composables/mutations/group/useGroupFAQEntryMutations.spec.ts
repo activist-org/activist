@@ -41,7 +41,10 @@ vi.mock("../../../../app/composables/generic/useToaster", () => ({
 }));
 
 vi.mock("../../../../app/composables/cache/useGroupCache", () => ({
-  useGroupCache: () => ({ invalidateGroupCache }),
+  useGroupCache: () => ({
+    invalidateGroupCache,
+    getKeyForGroup: (id: string) => ["group", id],
+  }),
 }));
 
 describe("useGroupFAQEntryMutations", () => {
@@ -142,6 +145,39 @@ describe("useGroupFAQEntryMutations", () => {
       );
 
       expect(invalidateGroupCache).not.toHaveBeenCalled();
+    });
+
+    it("optimistically writes the new order to the query cache before the request settles", async () => {
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousGroup = { id: "group-123", faqEntries: [sampleFaqEntry] };
+      queryCache.getQueryData.mockReturnValueOnce(previousGroup);
+      const reordered = [{ ...sampleFaqEntry, id: "second" }];
+      const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
+
+      await reorderFAQs(reordered);
+
+      expect(queryCache.setQueryData).toHaveBeenCalledWith(
+        ["group", "group-123"],
+        {
+          ...previousGroup,
+          faqEntries: reordered,
+        }
+      );
+    });
+
+    it("rolls back the query cache to the previous order when the request fails", async () => {
+      reorderGroupFaqs.mockRejectedValue(new Error("Reorder failed"));
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousGroup = { id: "group-123", faqEntries: [sampleFaqEntry] };
+      queryCache.getQueryData.mockReturnValueOnce(previousGroup);
+      const { reorderFAQs } = useGroupFAQEntryMutations(groupId);
+
+      await reorderFAQs([{ ...sampleFaqEntry, id: "second" }]).catch(() => {});
+
+      expect(queryCache.setQueryData).toHaveBeenLastCalledWith(
+        ["group", "group-123"],
+        previousGroup
+      );
     });
   });
 

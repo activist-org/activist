@@ -85,17 +85,8 @@ const eventId = (route.params.eventId as string) ?? "";
 const { openModal } = useModalHandlers("ModalResourceEvent");
 const { canEdit } = useUser();
 
-function isStaleReorderRefetch<T extends { id?: string }>(
-  current: T[],
-  incoming: T[]
-) {
-  if (current.length !== incoming.length) return false;
-  const ids = new Set(current.map((item) => item.id));
-  if (!incoming.every((item) => ids.has(item.id))) return false;
-  return current.some((item, index) => item.id !== incoming[index]?.id);
-}
 const { data: event } = useGetEvent(eventId);
-const { reorderResources } = useEventResourcesMutations(eventId);
+const { reorderResources, loading } = useEventResourcesMutations(eventId);
 
 const resourceList = ref<Resource[]>([...(event?.value?.resources || [])]);
 const resourceCardList = ref<(HTMLElement | null)[]>([]);
@@ -122,9 +113,8 @@ const onDragEnd = async () => {
 watch(
   () => event.value?.resources,
   (newResources) => {
-    const incoming = [...(newResources || [])];
-    if (isStaleReorderRefetch(resourceList.value, incoming)) return;
-    resourceList.value = incoming;
+    if (loading.value) return;
+    resourceList.value = [...(newResources || [])];
   }
 );
 </script>

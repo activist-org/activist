@@ -85,22 +85,12 @@ const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";
 
 const { data: event } = useGetEvent(eventId);
-const { reorderFAQs, deleteFAQ } = useEventFAQEntryMutations(eventId);
+const { reorderFAQs, deleteFAQ, loading } = useEventFAQEntryMutations(eventId);
 
 const faqList = ref<FaqEntry[]>([...(event?.value?.faqEntries || [])]);
 const faqCardList = ref<(HTMLElement | null)[]>([]);
 
 const { canEdit } = useUser();
-
-function isStaleReorderRefetch<T extends { id?: string }>(
-  current: T[],
-  incoming: T[]
-) {
-  if (current.length !== incoming.length) return false;
-  const ids = new Set(current.map((item) => item.id));
-  if (!incoming.every((item) => ids.has(item.id))) return false;
-  return current.some((item, index) => item.id !== incoming[index]?.id);
-}
 
 const { selectedIndex, onFocus, moveUp, moveDown } =
   useDraggableKeyboardNavigation(
@@ -118,9 +108,8 @@ export type CardExpose = {
 watch(
   () => event?.value?.faqEntries,
   (newVal) => {
-    const incoming = newVal?.slice() ?? [];
-    if (isStaleReorderRefetch(faqList.value, incoming)) return;
-    faqList.value = incoming;
+    if (loading.value) return;
+    faqList.value = newVal?.slice() ?? [];
   }
 );
 

@@ -9,7 +9,9 @@ export function useOrganizationResourcesMutations(
   const { error, handleError } = useAppError();
 
   const currentOrgId = computed(() => unref(orgId));
-  const { invalidateOrganizationCache } = useOrganizationCache();
+  const { invalidateOrganizationCache, getKeyForOrganization } =
+    useOrganizationCache();
+  const queryCache = useQueryCache();
 
   // Create new resource.
   const { mutate: createResource, isLoading: loadingCreateResource } =
@@ -64,11 +66,28 @@ export function useOrganizationResourcesMutations(
       ...options.reorder,
       mutation: (orderedResources: Resource[]) =>
         reorderOrganizationResources(currentOrgId.value, orderedResources),
+      onMutate(orderedResources) {
+        const key = getKeyForOrganization(currentOrgId.value);
+        const previousOrg = queryCache.getQueryData<Organization>(key);
+        if (previousOrg) {
+          queryCache.setQueryData(key, {
+            ...previousOrg,
+            resources: orderedResources,
+          });
+        }
+        return { previousOrg };
+      },
       async onSuccess() {
         await invalidateOrganizationCache(currentOrgId.value);
         options.reorder?.onSuccess?.();
       },
-      onError(err) {
+      onError(err, _orderedResources, context) {
+        if (context?.previousOrg) {
+          queryCache.setQueryData(
+            getKeyForOrganization(currentOrgId.value),
+            context.previousOrg
+          );
+        }
         handleError(err);
       },
     });
