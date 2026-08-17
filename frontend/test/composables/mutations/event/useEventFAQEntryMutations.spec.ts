@@ -45,7 +45,10 @@ vi.mock("../../../../app/composables/generic/useToaster", () => ({
 }));
 
 vi.mock("../../../../app/composables/cache/useEventCache", () => ({
-  useEventCache: () => ({ invalidateEventCache }),
+  useEventCache: () => ({
+    invalidateEventCache,
+    getKeyForEvent: (id: string) => ["event", id],
+  }),
 }));
 
 // MARK: Tests
@@ -164,6 +167,40 @@ describe("useEventFAQEntryMutations", () => {
       await reorderFAQs([sampleFaqEntry]).catch(() => {});
 
       expect(showToastError).toHaveBeenCalled();
+    });
+
+    it("optimistically writes the new order to the query cache before the request settles", async () => {
+      reorderEventFaqs.mockResolvedValue(undefined);
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousEvent = { id: "event-123", faqEntries: [sampleFaqEntry] };
+      queryCache.getQueryData.mockReturnValueOnce(previousEvent);
+      const reordered = [{ ...sampleFaqEntry, id: "second" }];
+      const { reorderFAQs } = useEventFAQEntryMutations(eventId);
+
+      await reorderFAQs(reordered);
+
+      expect(queryCache.setQueryData).toHaveBeenCalledWith(
+        ["event", "event-123"],
+        {
+          ...previousEvent,
+          faqEntries: reordered,
+        }
+      );
+    });
+
+    it("rolls back the query cache to the previous order when the request fails", async () => {
+      reorderEventFaqs.mockRejectedValue(new Error("Reorder failed"));
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousEvent = { id: "event-123", faqEntries: [sampleFaqEntry] };
+      queryCache.getQueryData.mockReturnValueOnce(previousEvent);
+      const { reorderFAQs } = useEventFAQEntryMutations(eventId);
+
+      await reorderFAQs([{ ...sampleFaqEntry, id: "second" }]).catch(() => {});
+
+      expect(queryCache.setQueryData).toHaveBeenLastCalledWith(
+        ["event", "event-123"],
+        previousEvent
+      );
     });
   });
 

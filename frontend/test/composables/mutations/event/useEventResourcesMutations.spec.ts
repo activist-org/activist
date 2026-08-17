@@ -45,7 +45,10 @@ vi.mock("../../../../app/composables/generic/useToaster", () => ({
 }));
 
 vi.mock("../../../../app/composables/cache/useEventCache", () => ({
-  useEventCache: () => ({ invalidateEventCache }),
+  useEventCache: () => ({
+    invalidateEventCache,
+    getKeyForEvent: (id: string) => ["event", id],
+  }),
 }));
 
 // MARK: Tests
@@ -197,6 +200,48 @@ describe("useEventResourcesMutations", () => {
       await reorderResources([sampleResourceInput]).catch(() => {});
 
       expect(showToastError).toHaveBeenCalled();
+    });
+
+    it("optimistically writes the new order to the query cache before the request settles", async () => {
+      reorderEventResources.mockResolvedValue(undefined);
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousEvent = {
+        id: "event-123",
+        resources: [sampleResourceInput],
+      };
+      queryCache.getQueryData.mockReturnValueOnce(previousEvent);
+      const reordered = [{ ...sampleResourceInput, id: "second" }];
+      const { reorderResources } = useEventResourcesMutations(eventId);
+
+      await reorderResources(reordered);
+
+      expect(queryCache.setQueryData).toHaveBeenCalledWith(
+        ["event", "event-123"],
+        {
+          ...previousEvent,
+          resources: reordered,
+        }
+      );
+    });
+
+    it("rolls back the query cache to the previous order when the request fails", async () => {
+      reorderEventResources.mockRejectedValue(new Error("Reorder failed"));
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousEvent = {
+        id: "event-123",
+        resources: [sampleResourceInput],
+      };
+      queryCache.getQueryData.mockReturnValueOnce(previousEvent);
+      const { reorderResources } = useEventResourcesMutations(eventId);
+
+      await reorderResources([{ ...sampleResourceInput, id: "second" }]).catch(
+        () => {}
+      );
+
+      expect(queryCache.setQueryData).toHaveBeenLastCalledWith(
+        ["event", "event-123"],
+        previousEvent
+      );
     });
   });
 

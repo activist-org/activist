@@ -45,7 +45,10 @@ vi.mock("../../../../app/composables/generic/useToaster", () => ({
 }));
 
 vi.mock("../../../../app/composables/cache/useOrganizationCache", () => ({
-  useOrganizationCache: () => ({ invalidateOrganizationCache }),
+  useOrganizationCache: () => ({
+    invalidateOrganizationCache,
+    getKeyForOrganization: (id: string) => ["organization", id],
+  }),
 }));
 
 describe("useOrganizationResourcesMutations", () => {
@@ -189,6 +192,43 @@ describe("useOrganizationResourcesMutations", () => {
       );
 
       expect(invalidateOrganizationCache).not.toHaveBeenCalled();
+    });
+
+    it("optimistically writes the new order to the query cache before the request settles", async () => {
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousOrg = { id: "org-123", resources: [sampleResourceInput] };
+      queryCache.getQueryData.mockReturnValueOnce(previousOrg);
+      const reordered = [{ ...sampleResourceInput, id: "second" }];
+      const { reorderResources } = useOrganizationResourcesMutations(orgId);
+
+      await reorderResources(reordered);
+
+      expect(queryCache.setQueryData).toHaveBeenCalledWith(
+        ["organization", "org-123"],
+        {
+          ...previousOrg,
+          resources: reordered,
+        }
+      );
+    });
+
+    it("rolls back the query cache to the previous order when the request fails", async () => {
+      reorderOrganizationResources.mockRejectedValue(
+        new Error("Reorder failed")
+      );
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousOrg = { id: "org-123", resources: [sampleResourceInput] };
+      queryCache.getQueryData.mockReturnValueOnce(previousOrg);
+      const { reorderResources } = useOrganizationResourcesMutations(orgId);
+
+      await reorderResources([{ ...sampleResourceInput, id: "second" }]).catch(
+        () => {}
+      );
+
+      expect(queryCache.setQueryData).toHaveBeenLastCalledWith(
+        ["organization", "org-123"],
+        previousOrg
+      );
     });
   });
 

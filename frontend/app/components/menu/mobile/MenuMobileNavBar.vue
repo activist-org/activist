@@ -2,6 +2,7 @@
 <template>
   <div
     class="fixed bottom-0 z-20 w-full border-t border-section-div bg-layer-2"
+    data-testid="mobile-bottom-nav"
   >
     <nav>
       <ul class="flex">

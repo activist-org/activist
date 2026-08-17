@@ -41,7 +41,10 @@ vi.mock("../../../../app/composables/generic/useToaster", () => ({
 }));
 
 vi.mock("../../../../app/composables/cache/useGroupCache", () => ({
-  useGroupCache: () => ({ invalidateGroupCache }),
+  useGroupCache: () => ({
+    invalidateGroupCache,
+    getKeyForGroup: (id: string) => ["group", id],
+  }),
 }));
 
 describe("useGroupResourcesMutations", () => {
@@ -201,6 +204,47 @@ describe("useGroupResourcesMutations", () => {
 
       // Composable uses `onSuccess` for reordering, so it WILL invalidate cache
       expect(invalidateGroupCache).not.toHaveBeenCalledWith("group-123");
+    });
+
+    it("optimistically writes the new order to the query cache before the request settles", async () => {
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousGroup = {
+        id: "group-123",
+        resources: [sampleResourceInput],
+      };
+      queryCache.getQueryData.mockReturnValueOnce(previousGroup);
+      const reordered = [{ ...sampleResourceInput, id: "second" }];
+      const { reorderResources } = useGroupResourcesMutations(groupId);
+
+      await reorderResources(reordered);
+
+      expect(queryCache.setQueryData).toHaveBeenCalledWith(
+        ["group", "group-123"],
+        {
+          ...previousGroup,
+          resources: reordered,
+        }
+      );
+    });
+
+    it("rolls back the query cache to the previous order when the request fails", async () => {
+      reorderGroupResources.mockRejectedValue(new Error("Reorder failed"));
+      const queryCache = globalThis.useQueryCacheMock();
+      const previousGroup = {
+        id: "group-123",
+        resources: [sampleResourceInput],
+      };
+      queryCache.getQueryData.mockReturnValueOnce(previousGroup);
+      const { reorderResources } = useGroupResourcesMutations(groupId);
+
+      await reorderResources([{ ...sampleResourceInput, id: "second" }]).catch(
+        () => {}
+      );
+
+      expect(queryCache.setQueryData).toHaveBeenLastCalledWith(
+        ["group", "group-123"],
+        previousGroup
+      );
     });
   });
 
