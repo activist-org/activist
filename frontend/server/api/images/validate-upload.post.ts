@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   if (!result.valid) {
     throw createError({
       statusCode: 400,
-      statusMessage: IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE,
+      statusMessage: "Bad Request",
       data: {
         valid: false,
         code: IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE,

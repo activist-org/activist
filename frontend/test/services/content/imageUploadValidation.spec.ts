@@ -4,7 +4,10 @@ import { describe, expect, it } from "vitest";
 
 import { AppErrorCause } from "../../../shared/types/error";
 import { IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE } from "../../../shared/utils/uploadLimits";
-import { validateImageUploadBatch } from "../../../app/services/content/imageUploadValidation";
+import {
+  IMAGE_UPLOAD_BATCH_TOO_LARGE_MESSAGE,
+  validateImageUploadBatch,
+} from "../../../app/services/content/imageUploadValidation";
 import { AppError } from "../../../shared/utils/errorHandler";
 import { setupServiceTestMocks } from "../helpers";
 
@@ -33,7 +36,32 @@ describe("services/content/imageUploadValidation", () => {
     });
   });
 
-  it("maps batch-too-large failures to the i18n validation message", async () => {
+  it("maps batch-too-large failures to the user-facing validation message", async () => {
+    const { fetchMock } = getMocks();
+    fetchMock.mockRejectedValueOnce(
+      makeFetchError(400, {
+        statusCode: 400,
+        statusMessage: "Bad Request",
+        message: "Bad Request",
+        data: {
+          code: IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE,
+          valid: false,
+          totalFileBytes: 55_000_000,
+          maxFileBytes: 52_428_800,
+        },
+      })
+    );
+
+    await expect(validateImageUploadBatch([55_000_000])).rejects.toMatchObject({
+      name: "AppError",
+      message: IMAGE_UPLOAD_BATCH_TOO_LARGE_MESSAGE,
+      causeTag: AppErrorCause.VALIDATION,
+      status: 400,
+      code: IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE,
+    } satisfies Partial<AppError>);
+  });
+
+  it("maps legacy flat batch-too-large payloads to the user-facing validation message", async () => {
     const { fetchMock } = getMocks();
     fetchMock.mockRejectedValueOnce(
       makeFetchError(400, {
@@ -45,12 +73,7 @@ describe("services/content/imageUploadValidation", () => {
     );
 
     await expect(validateImageUploadBatch([55_000_000])).rejects.toMatchObject({
-      name: "AppError",
-      message:
-        "The selected images are too large to upload together. Please remove some images and try again.",
-      causeTag: AppErrorCause.VALIDATION,
-      status: 400,
-      code: IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE,
+      message: IMAGE_UPLOAD_BATCH_TOO_LARGE_MESSAGE,
     } satisfies Partial<AppError>);
   });
 });

@@ -126,7 +126,12 @@ export function errorHandler(e: unknown): AppError {
   const errorData = (
     data && typeof data === "object" ? data : {}
   ) as ServerErrorData;
-  const code = errorData.code ?? errorData.error_code;
+  const nestedData =
+    errorData.data && typeof errorData.data === "object"
+      ? (errorData.data as ServerErrorData)
+      : undefined;
+  const code =
+    errorData.code ?? errorData.error_code ?? nestedData?.code ?? nestedData?.error_code;
 
   const cause =
     getCauseFromStatus(status) ||
