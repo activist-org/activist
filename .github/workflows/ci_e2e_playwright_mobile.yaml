@@ -41,7 +41,7 @@ jobs:
         run: chmod +w -R ${GITHUB_WORKSPACE}; rm -rf ${GITHUB_WORKSPACE}/*;
 
       - name: Checkout Project
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Clean Any Existing Containers
         run: |
@@ -55,7 +55,7 @@ jobs:
           ! nc -z localhost 5432
 
       - name: Run Docker Compose
-        run: docker compose --env-file .env.dev up --build -d backend db filescan
+        run: docker compose --env-file .env.dev up --build -d backend db filescan db_worker
 
       - name: Wait for Database
         run: |
@@ -65,12 +65,16 @@ jobs:
         run: |
           timeout 180 bash -c 'until curl -s http://localhost:8000/v1/auth/sign_in -o /dev/null -w "%{http_code}" | grep -qE "^(200|405)"; do sleep 3; done'
 
+      - name: Wait for DB Worker
+        run: |
+          timeout 60 bash -c 'until docker compose --env-file .env.dev ps --status running --services | grep -qx db_worker; do sleep 2; done'
+
       - name: Wait for Filescan
         run: |
           timeout 180 bash -c 'until curl -s -o /dev/null http://localhost:9101/health; do sleep 3; done'
 
       - name: Setup Node Environment
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24
 

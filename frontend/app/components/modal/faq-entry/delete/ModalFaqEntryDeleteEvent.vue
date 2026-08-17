@@ -2,6 +2,7 @@
 <template>
   <ModalAlert
     @confirm="handleDelete"
+    :isLoading="loading"
     :message="$t('i18n.components.modal.faq_entry.delete._global.message')"
     :modalName="modalName"
   />
@@ -13,13 +14,18 @@ const props = defineProps<{
   entityId: string;
 }>();
 
+const eventId = computed(() => props.entityId);
+
 const modalName = "ModalFaqEntryDeleteEvent";
 const { handleCloseModal } = useModalHandlers(modalName);
 
-const eventId = computed(() => props.entityId);
-const { deleteFAQ } = useEventFAQEntryMutations(eventId);
+const { deleteFAQ, loading } = useEventFAQEntryMutations(eventId, {
+  delete: {
+    onSuccess: () => handleCloseModal(),
+  },
+});
+
 const handleDelete = async () => {
-  await deleteFAQ(props.faqEntryId);
-  handleCloseModal();
+  deleteFAQ(props.faqEntryId);
 };
 </script>

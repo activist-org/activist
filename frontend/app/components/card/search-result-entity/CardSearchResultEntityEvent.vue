@@ -54,7 +54,6 @@
     <template #organizations>
       <MetaTagOrganization
         v-if="!isReduced && event.orgs"
-        class="pt-2"
         :organization="event.orgs"
       />
     </template>

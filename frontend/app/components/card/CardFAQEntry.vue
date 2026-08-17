@@ -11,7 +11,7 @@
             <div class="flex items-center gap-3">
               <IconDraggableEdit
                 :aria-label="$t('i18n.components._global.draggable_element')"
-                class="drag-handle -mr-2 cursor-grab select-none"
+                class="drag-handle -mr-2 cursor-grab touch-none select-none"
                 data-testid="faq-drag-handle"
                 :entity="entity"
                 size="1em"

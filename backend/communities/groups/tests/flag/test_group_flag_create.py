@@ -5,6 +5,7 @@ from rest_framework.test import APIClient
 
 from authentication.factories import UserFactory
 from communities.groups.factories import GroupFactory
+from communities.groups.models import GroupFlag
 
 pytestmark = pytest.mark.django_db
 
@@ -39,6 +40,7 @@ def test_group_flag_create_unauthorized_401():
     user.save()
 
     group = GroupFactory()
+    flag_count_before = GroupFlag.objects.count()
 
     response = client.post(
         path="/v1/communities/group_flags",
@@ -48,3 +50,4 @@ def test_group_flag_create_unauthorized_401():
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert response_body["detail"] == "Authentication credentials were not provided."
+    assert GroupFlag.objects.count() == flag_count_before

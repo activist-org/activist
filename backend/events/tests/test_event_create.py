@@ -14,7 +14,7 @@ def test_event_created_201(authenticated_client) -> None:
     """
     Test event creation.
     """
-    client, _ = authenticated_client
+    client, user = authenticated_client
 
     org: Organization = OrganizationFactory.create()
     topic: Topic = TopicFactory.create()

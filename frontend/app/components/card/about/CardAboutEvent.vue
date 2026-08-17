@@ -63,7 +63,7 @@
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 defineProps<{
-  event: CommunityEvent | null;
+  event?: CommunityEvent;
 }>();
 
 const description = ref();
