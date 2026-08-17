@@ -119,7 +119,7 @@ class SecurityEventIngestView(APIView):
         if event_type == "malware_quarantined":
             return self._handle_malware_quarantined(body, payload)
 
-        logger.warning("Received unsupported security event type=%s", event_type)
+        logger.warning(f"Received unsupported security event type={event_type}")
         return Response(
             {"detail": "Unsupported event type."},
             status=status.HTTP_400_BAD_REQUEST,
@@ -201,15 +201,13 @@ class SecurityEventIngestView(APIView):
                 fail_silently=False,
             )
         except Exception as exc:
-            logger.error("Failed to send malware_quarantined alert email: %s", exc)
+            logger.error(f"Failed to send malware_quarantined alert email: {exc}")
             return Response(
                 {"detail": "Failed to dispatch security alert."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
         logger.info(
-            "Dispatched malware_quarantined alert email for filename=%s quarantine_id=%s",
-            filename,
-            quarantine_id,
+            f"Dispatched malware_quarantined alert email for filename={filename} quarantine_id={quarantine_id}"
         )
         return Response(status=status.HTTP_204_NO_CONTENT)
