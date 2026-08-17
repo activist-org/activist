@@ -10,7 +10,6 @@ import uuid
 import dotenv
 from django.contrib.auth import login, logout
 from django.core.exceptions import ValidationError
-from django.core.mail import send_mail
 from django.db.utils import IntegrityError, OperationalError
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
@@ -280,7 +279,6 @@ class PasswordResetView(APIView):
     permission_classes = [AllowAny]
     queryset = UserModel.objects.all()
 
-    @extend_schema(parameters=[OpenApiParameter(name="email", type=str, required=True)])
     def post(self, request: Request) -> Response:
         if not isinstance(request.data, dict):
             return Response(
@@ -290,43 +288,38 @@ class PasswordResetView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        email = request.data.get("email")
+        email: str = request.data.get("email", "user@example.com")
         logger.info(f"Password reset request for email: {email}")
 
         user = UserModel.objects.filter(email=email).first()
+        verification_code = uuid.uuid4()
 
-        if user is not None:
-            user.verification_code = uuid.uuid4()
+        pwreset_link = f"{FRONTEND_BASE_URL}/auth/pwreset/{verification_code}"
+        html_message = render_to_string(
+            template_name="pwreset_email.html",
+            context={"pwreset_link": pwreset_link},
+        )
 
-            pwreset_link = f"{FRONTEND_BASE_URL}/auth/pwreset/{user.verification_code}"
-            message = "Reset your password at activist.org"
-            html_message = render_to_string(
-                template_name="pwreset_email.html",
-                context={"username": user.username, "pwreset_link": pwreset_link},
-            )
+        email_user.enqueue(
+            from_email=ACTIVIST_EMAIL,
+            to=email,
+            subject="Reset your password at activist.org",
+            message=html_message,
+        )
 
-            try:
-                send_mail(
-                    subject="Reset your password at activist.org",
-                    message=message,
-                    from_email=ACTIVIST_EMAIL,
-                    recipient_list=[user.email],
-                    html_message=html_message,
-                    fail_silently=False,
-                )
-                logger.info(f"Password reset email sent to {user.email}")
-                user.save()
+        logger.info(f"Password reset email sent to {email}")
 
-            except Exception as e:
-                logger.error(f"Failed to send password reset email to {user.email}: {e}")
-        else:
-            # Don't reveal if email exists - log silently
-            logger.warning(f"Password reset attempt for non-existent email: {email}")
+        if user:
+            user.verification_code = verification_code
+            user.save()
 
-        # Always return the same success message to prevent timing attacks
-        # This prevents attackers from enumerating valid email addresses
+        # Attn: Always return the same success message to prevent timing attacks.
+        # This prevents attackers from enumerating valid email addresses.
+        # If we were to respond more quickly on not existing, they would know it's not in the DB.
         return Response(
-            {"message": "If the email exists, you will receive password reset instructions."},
+            {
+                "message": "If the email exists, you will receive password reset instructions."
+            },
             status=status.HTTP_200_OK,
         )
 
