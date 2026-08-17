@@ -10,7 +10,19 @@ import { UploadableFile } from "../../shared/types/file";
 import { createUseColorModeSpy } from "../mocks/composableMocks";
 
 const mockFetch = vi.fn();
-const showToastError = vi.fn();
+const { toastError, toastInfo, toastSuccess } = vi.hoisted(() => ({
+  toastError: vi.fn(),
+  toastInfo: vi.fn(),
+  toastSuccess: vi.fn(),
+}));
+
+vi.mock("vue-sonner", () => ({
+  toast: {
+    error: toastError,
+    info: toastInfo,
+    success: toastSuccess,
+  },
+}));
 
 const createUploadEntry = (
   file: UploadableFile,
@@ -37,20 +49,14 @@ describe("useFileManager", () => {
   beforeEach(() => {
     // Stub global $fetch (used by http.ts del() helper).
     vi.stubGlobal("$fetch", mockFetch);
-    vi.stubGlobal(
-      "useToaster",
-      vi.fn(() => ({
-        showToastError,
-        showToastInfo: vi.fn(),
-        showToastSuccess: vi.fn(),
-      }))
-    );
 
     // Use factories to create mocks.
     globalThis.useColorMode = createUseColorModeSpy("light", "light");
 
     mockFetch.mockReset();
-    showToastError.mockReset();
+    toastError.mockReset();
+    toastInfo.mockReset();
+    toastSuccess.mockReset();
   });
 
   afterEach(() => {
@@ -95,7 +101,7 @@ describe("useFileManager", () => {
     const result = getIconImage([file]);
 
     expect(result).toBeInstanceOf(UploadableFile);
-    expect(showToastError).not.toHaveBeenCalled();
+    expect(toastError).not.toHaveBeenCalled();
   });
 
   it("accepts a file exactly at the limit", () => {
@@ -109,7 +115,7 @@ describe("useFileManager", () => {
     const result = getIconImage([file]);
 
     expect(result).toBeInstanceOf(UploadableFile);
-    expect(showToastError).not.toHaveBeenCalled();
+    expect(toastError).not.toHaveBeenCalled();
   });
 
   it("rejects a file larger than the limit", () => {
@@ -123,8 +129,8 @@ describe("useFileManager", () => {
     const result = getIconImage([file]);
 
     expect(result).toBeNull();
-    expect(showToastError).toHaveBeenCalledTimes(1);
-    expect(showToastError).toHaveBeenCalledWith(
+    expect(toastError).toHaveBeenCalledTimes(1);
+    expect(toastError).toHaveBeenCalledWith(
       "The file 'too-large.png' is too large. The maximum allowed size is 5 MB."
     );
   });
@@ -144,7 +150,7 @@ describe("useFileManager", () => {
       "photo-1.png",
       "photo-2.jpg",
     ]);
-    expect(showToastError).not.toHaveBeenCalled();
+    expect(toastError).not.toHaveBeenCalled();
   });
 
   it("accepts valid images and rejects oversized ones in a mixed selection", () => {
@@ -177,8 +183,8 @@ describe("useFileManager", () => {
       "image1.jpg",
       "image3.jpg",
     ]);
-    expect(showToastError).toHaveBeenCalledTimes(1);
-    expect(showToastError).toHaveBeenCalledWith(
+    expect(toastError).toHaveBeenCalledTimes(1);
+    expect(toastError).toHaveBeenCalledWith(
       "The files image2.jpg and image4.jpg are too large. The maximum allowed size is 5 MB."
     );
   });
@@ -200,8 +206,8 @@ describe("useFileManager", () => {
     const result = handleAddFiles([oversizedOne, oversizedTwo], []);
 
     expect(result).toHaveLength(0);
-    expect(showToastError).toHaveBeenCalledTimes(1);
-    expect(showToastError).toHaveBeenCalledWith(
+    expect(toastError).toHaveBeenCalledTimes(1);
+    expect(toastError).toHaveBeenCalledWith(
       "The files image2.jpg and image4.jpg are too large. The maximum allowed size is 5 MB."
     );
   });
@@ -232,8 +238,8 @@ describe("useFileManager", () => {
     expect(result.slice(1).map((entry) => entry.data.name)).toEqual([
       "photo.jpeg",
       "photo.png",
-    });
-    expect(showToastError).toHaveBeenCalledTimes(1);
+    ]);
+    expect(toastError).toHaveBeenCalledTimes(1);
   });
 
   it("removeFile removes an UploadableFile from the list without calling backend", () => {

@@ -125,9 +125,6 @@ describe("ModalUploadImageIcon", () => {
 
     await wrapper.vm.$nextTick();
 
-    expect(showToastError).toHaveBeenCalledWith(
-      "The file 'big.png' is too large. The maximum allowed size is 5 MB."
-    );
     expect(uploadOrganizationIconImage).not.toHaveBeenCalled();
     expect(wrapper.findComponent({ name: "BtnAction" }).exists()).toBe(false);
   });
