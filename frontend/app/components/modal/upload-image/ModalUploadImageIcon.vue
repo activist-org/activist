@@ -9,8 +9,15 @@
       </DialogTitle>
       <div class="mt-4">
         <ImageFileDropZone
-          v-if="fileImageIcon ? false : true"
-          @files-dropped="(file) => (fileImageIcon = getIconImage(file))"
+          v-if="!fileImageIcon"
+          @files-dropped="
+            (file) => {
+              const icon = getIconImage(file);
+              if (icon) {
+                fileImageIcon = icon;
+              }
+            }
+          "
         >
           <span>{{ $t("i18n.components._global.drop_image") }}</span>
         </ImageFileDropZone>
@@ -88,11 +95,10 @@ const {
 
 const { uploadIconImage: uploadEventIconImage, loading: loadingEvent } =
   useEventImageIconMutations(entityId);
-const fileImageIcon = ref();
+const fileImageIcon = ref<UploadableFile | null>(null);
 const { getIconImage } = useFileManager();
 const handleUpload = async () => {
   try {
-    // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
     if (props.entityType === EntityType.ORGANIZATION) {
       uploadOrganizationIconImage(fileImageIcon.value as UploadableFile);
     } else if (props.entityType === EntityType.EVENT) {

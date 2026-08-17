@@ -338,6 +338,8 @@
   "i18n.components.modal.text._global.remember_https": "This is the full URL including https that the join button will link to",
   "i18n.components.modal.upload_image._global.upload_an_image": "Upload an image",
   "i18n.components.modal.upload_image._global.upload_images": "Upload images",
+  "i18n.components.use_file_manager.file_too_large": "The file '{file_name}' is too large. The maximum allowed size is {max_size}.",
+  "i18n.components.use_file_manager.files_too_large": "The files {file_names} are too large. The maximum allowed size is {max_size}.",
   "i18n.components.modal_alert.cancel": "Cancel",
   "i18n.components.modal_alert.cancel_action_aria_label": "Cancel the action you're taking",
   "i18n.components.modal_alert.confirm": "Confirm",
