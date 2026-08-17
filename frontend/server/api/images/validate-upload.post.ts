@@ -1,5 +1,5 @@
-import { validateUploadBodySchema } from "#shared/utils/imageUploadBatchValidation";
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { validateUploadBodySchema } from "#shared/utils/imageUploadBatchValidation";
 import {
   IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE,
   validateImageUploadBatchSize,
