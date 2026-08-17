@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     "events",
     "rest_framework_simplejwt",
     "django_filters",
+    "django_tasks_db",
 ]
 
 # MARK: Middleware
@@ -196,6 +197,22 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
 EMAIL_BACKEND = os.getenv(
     "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
 )
+
+# MARK: Tasks
+# https://docs.djangoproject.com/en/6.0/topics/tasks/
+# In development: https://docs.djangoproject.com/en/6.0/topics/tasks/#dummy-backend
+# In Production: https://djangopackages.org/packages/p/django-tasks-db/
+TASK_BACKEND = (
+    "django_tasks_db.DatabaseBackend"
+    if os.getenv("ENVIRONMENT") == "development"
+    else "django.tasks.backends.dummy.DummyBackend"
+)
+TASKS = {
+    "default": {
+        "BACKEND": TASK_BACKEND,
+        "QUEUES": ["default"],
+    }
+}
 
 # Security event alerts
 INTERNAL_EVENTS_TOKEN = os.getenv("INTERNAL_EVENTS_TOKEN")

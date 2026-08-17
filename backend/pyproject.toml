@@ -9,6 +9,7 @@ dependencies = [
     "django-cors-headers>=4.9.0",
     "django-filter>=26.1",
     "django-ical>=1.9.2",
+    "django-tasks-db>=0.12.0",
     "django-stubs>=6.1.0",
     "django-stubs-ext>=6.1.0",
     "djangorestframework>=3.18.0",
