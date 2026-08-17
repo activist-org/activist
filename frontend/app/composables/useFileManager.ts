@@ -38,8 +38,8 @@ export function useFileManager() {
     const fileNames = files.map((file) => file.name);
     const messageKey =
       files.length === 1
-        ? "i18n.components.use_file_manager.file_too_large"
-        : "i18n.components.use_file_manager.files_too_large";
+        ? "i18n.composables.use_file_manager.file_too_large"
+        : "i18n.composables.use_file_manager.files_too_large";
 
     showToastError(
       t(messageKey, {
