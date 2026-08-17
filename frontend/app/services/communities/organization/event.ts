@@ -23,7 +23,8 @@ export const fetchOrganizationEvents = async (
       `/communities/organizations/${organizationId}/events?${query.toString()}`,
       { withoutAuth: true }
     );
-    return res.map(mapEvent);
+    const events = Array.isArray(res) ? res : res?.results || [];
+    return events.map(mapEvent);
   } catch (e) {
     throw errorHandler(e);
   }

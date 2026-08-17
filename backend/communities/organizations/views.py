@@ -700,11 +700,6 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
             )
 
         queryset = Event.objects.filter(orgs__id=org_id)
-        if not queryset.exists():
-            return Response(
-                {"count": 0, "next": None, "previous": None, "results": []},
-                status=status.HTTP_200_OK,
-            )
 
         start = request.query_params.get("start_date")
         end = request.query_params.get("end_date")
@@ -723,10 +718,6 @@ class OrganizationEventViewSet(viewsets.ModelViewSet[Event]):
 
         elif end:
             queryset = queryset.filter(times__start_time__date__lte=end)
-
-        else:
-            # No date filters, return all events for the org.
-            queryset = queryset.filter(orgs__id=org_id)
 
         queryset = queryset.order_by("times__start_time").distinct()
 
