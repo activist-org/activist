@@ -131,7 +131,10 @@ export function errorHandler(e: unknown): AppError {
       ? (errorData.data as ServerErrorData)
       : undefined;
   const code =
-    errorData.code ?? errorData.error_code ?? nestedData?.code ?? nestedData?.error_code;
+    errorData.code ??
+    errorData.error_code ??
+    nestedData?.code ??
+    nestedData?.error_code;
 
   const cause =
     getCauseFromStatus(status) ||

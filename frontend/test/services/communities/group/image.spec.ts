@@ -66,7 +66,10 @@ describe("services/communities/group/image", () => {
     const files = [new File(["a"], "a.png")];
 
     await expect(
-      uploadGroupImages("grp-1", files.map((f) => ({ file: f })))
+      uploadGroupImages(
+        "grp-1",
+        files.map((f) => ({ file: f }))
+      )
     ).rejects.toBeInstanceOf(AppError);
 
     expect(validateImageUploadBatch).toHaveBeenCalledTimes(1);

@@ -119,7 +119,10 @@ describe("services/communities/organization/image", () => {
     const files = [new File(["a"], "a.png")];
 
     await expect(
-      uploadOrganizationImages("org-3", files.map((f) => ({ file: f })))
+      uploadOrganizationImages(
+        "org-3",
+        files.map((f) => ({ file: f }))
+      )
     ).rejects.toBeInstanceOf(AppError);
 
     expect(validateImageUploadBatch).toHaveBeenCalledTimes(1);
