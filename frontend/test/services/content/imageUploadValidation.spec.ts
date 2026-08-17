@@ -2,13 +2,14 @@
 import { FetchError } from "ofetch";
 import { describe, expect, it } from "vitest";
 
-import { AppErrorCause } from "../../../shared/types/error";
-import { IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE } from "../../../shared/utils/uploadLimits";
+import type { AppError } from "../../../shared/utils/errorHandler";
+
 import {
   IMAGE_UPLOAD_BATCH_TOO_LARGE_MESSAGE,
   validateImageUploadBatch,
 } from "../../../app/services/content/imageUploadValidation";
-import { AppError } from "../../../shared/utils/errorHandler";
+import { AppErrorCause } from "../../../shared/types/error";
+import { IMAGE_UPLOAD_BATCH_TOO_LARGE_CODE } from "../../../shared/utils/uploadLimits";
 import { setupServiceTestMocks } from "../helpers";
 
 function makeFetchError(

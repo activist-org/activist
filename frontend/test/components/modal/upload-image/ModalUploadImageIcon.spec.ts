@@ -3,10 +3,10 @@ import { mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
+import ModalUploadImageIcon from "../../../../app/components/modal/upload-image/ModalUploadImageIcon.vue";
 import { useFileManager } from "../../../../app/composables/useFileManager";
 import { EntityType } from "../../../../shared/types/entity";
 import { MAX_IMAGE_SIZE_IN_BYTES } from "../../../../shared/utils/uploadLimits";
-import ModalUploadImageIcon from "../../../../app/components/modal/upload-image/ModalUploadImageIcon.vue";
 
 const showToastError = vi.fn();
 const uploadOrganizationIconImage = vi.fn();

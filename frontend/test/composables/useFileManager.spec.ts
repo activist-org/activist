@@ -3,10 +3,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ref } from "vue";
 
 import type { ContentImage, FileUploadMix } from "../../shared/types/file-type";
-import { MAX_IMAGE_SIZE_IN_BYTES } from "../../shared/utils/uploadLimits";
 
 import { useFileManager } from "../../app/composables/useFileManager";
 import { UploadableFile } from "../../shared/types/file";
+import { MAX_IMAGE_SIZE_IN_BYTES } from "../../shared/utils/uploadLimits";
 import { createUseColorModeSpy } from "../mocks/composableMocks";
 
 const mockFetch = vi.fn();
