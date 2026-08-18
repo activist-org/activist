@@ -41,12 +41,7 @@ def test_org_event_retrieve_no_events_returns_empty_payload_ok_200():
     response = _test_org_event_retrieve_list(org_id=org.id)
 
     assert response.status_code == status.HTTP_200_OK
-    assert response.data == {
-        "count": 0,
-        "next": None,
-        "previous": None,
-        "results": [],
-    }
+    assert response.data == []
 
 
 def test_org_event_retrieve_name_filter_icontains_ok_200():
