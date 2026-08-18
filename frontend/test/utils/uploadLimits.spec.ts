@@ -5,6 +5,8 @@ import {
   MAX_IMAGE_SIZE_IN_BYTES,
   MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES,
   MAX_IMAGES_PER_UPLOAD,
+  getMaxImageBatchFileBytesInBytes,
+  validateImageUploadBatchSize,
 } from "../../shared/utils/uploadLimits";
 
 describe("utils/uploadLimits", () => {
@@ -28,5 +30,71 @@ describe("utils/uploadLimits", () => {
     expect(MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES).toBeGreaterThan(
       MAX_IMAGES_PER_UPLOAD * MAX_IMAGE_SIZE_IN_BYTES
     );
+  });
+
+  describe("validateImageUploadBatchSize", () => {
+    const maxFileBytes = getMaxImageBatchFileBytesInBytes();
+
+    it("accepts a single valid file size", () => {
+      expect(validateImageUploadBatchSize([1024])).toEqual({
+        valid: true,
+        totalFileBytes: 1024,
+        maxFileBytes,
+      });
+    });
+
+    it("accepts an empty array", () => {
+      expect(validateImageUploadBatchSize([])).toEqual({
+        valid: true,
+        totalFileBytes: 0,
+        maxFileBytes,
+      });
+    });
+
+    it("accepts a full batch at the maximum individual size", () => {
+      const fileSizes = Array.from(
+        { length: MAX_IMAGES_PER_UPLOAD },
+        () => MAX_IMAGE_SIZE_IN_BYTES
+      );
+
+      expect(validateImageUploadBatchSize(fileSizes)).toEqual({
+        valid: true,
+        totalFileBytes: maxFileBytes,
+        maxFileBytes,
+      });
+    });
+
+    it("accepts a batch whose total equals the file-byte budget", () => {
+      const fileSizes = [maxFileBytes];
+
+      expect(validateImageUploadBatchSize(fileSizes)).toEqual({
+        valid: true,
+        totalFileBytes: maxFileBytes,
+        maxFileBytes,
+      });
+    });
+
+    it("rejects a batch whose total exceeds the file-byte budget", () => {
+      const result = validateImageUploadBatchSize([maxFileBytes + 1]);
+
+      expect(result).toEqual({
+        valid: false,
+        totalFileBytes: maxFileBytes + 1,
+        maxFileBytes,
+      });
+    });
+
+    it("rejects more than MAX_IMAGES_PER_UPLOAD files", () => {
+      const fileSizes = Array.from(
+        { length: MAX_IMAGES_PER_UPLOAD + 1 },
+        () => 1
+      );
+
+      expect(validateImageUploadBatchSize(fileSizes)).toEqual({
+        valid: false,
+        totalFileBytes: MAX_IMAGES_PER_UPLOAD + 1,
+        maxFileBytes,
+      });
+    });
   });
 });

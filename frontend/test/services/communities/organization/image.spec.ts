@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { ContentImage } from "../../../../shared/types/file-type";
 
@@ -9,6 +9,7 @@ import {
   uploadOrganizationIconImage,
   uploadOrganizationImages,
 } from "../../../../app/services/communities/organization/image";
+import { AppErrorCause } from "../../../../shared/types/error";
 import { AppError } from "../../../../shared/utils/errorHandler";
 import {
   expectJsonRequest,
@@ -17,12 +18,24 @@ import {
   setupServiceTestMocks,
 } from "../../helpers";
 
+const validateImageUploadBatch = vi.fn();
+
+vi.mock("../../../../app/services/content/imageUploadValidation", () => ({
+  validateImageUploadBatch: (...args: unknown[]) =>
+    validateImageUploadBatch(...args),
+}));
+
 function isFormData(value: unknown): value is FormData {
   return typeof FormData !== "undefined" && value instanceof FormData;
 }
 
 describe("services/communities/organization/image", () => {
   const getMocks = setupServiceTestMocks();
+
+  beforeEach(() => {
+    validateImageUploadBatch.mockReset();
+    validateImageUploadBatch.mockResolvedValue(undefined);
+  });
 
   it("uploadOrganizationIconImage() posts FormData to image_icon", async () => {
     const { fetchMock } = getMocks();
@@ -76,7 +89,7 @@ describe("services/communities/organization/image", () => {
     expect(opts.baseURL).toBe("/api/public");
   });
 
-  it("uploadOrganizationImages() posts FormData with sequences and files", async () => {
+  it("uploadOrganizationImages() validates the batch before posting FormData", async () => {
     const { fetchMock } = getMocks();
     const files = [new File(["a"], "a.png"), new File(["b"], "b.png")];
     fetchMock.mockResolvedValueOnce([]);
@@ -87,11 +100,33 @@ describe("services/communities/organization/image", () => {
       [0, 1]
     );
 
+    expect(validateImageUploadBatch).toHaveBeenCalledWith([
+      files[0].size,
+      files[1].size,
+    ]);
     const [url, opts] = getFetchCall(fetchMock);
     expect(url).toBe("/content/images");
     expect(opts.method).toBe("POST");
     expect(typeof opts.baseURL).toBe("string");
     expect(isFormData(opts.body)).toBe(true);
+  });
+
+  it("uploadOrganizationImages() does not upload when batch validation fails", async () => {
+    const { fetchMock } = getMocks();
+    validateImageUploadBatch.mockRejectedValueOnce(
+      new AppError("batch too large", AppErrorCause.VALIDATION)
+    );
+    const files = [new File(["a"], "a.png")];
+
+    await expect(
+      uploadOrganizationImages(
+        "org-3",
+        files.map((f) => ({ file: f }))
+      )
+    ).rejects.toBeInstanceOf(AppError);
+
+    expect(validateImageUploadBatch).toHaveBeenCalledTimes(1);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   // MARK: Error Handling

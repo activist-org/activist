@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+import { validateImageUploadBatch } from "~/services/content/imageUploadValidation";
 
 // MARK: Upload
 
@@ -58,6 +59,10 @@ export async function uploadOrganizationImages(
   sequences: number[] = []
 ): Promise<ContentImage[]> {
   try {
+    if (files.length > 0) {
+      await validateImageUploadBatch(files.map((file) => file.file.size));
+    }
+
     const fd = new FormData();
     fd.append("entity_id", orgId);
     fd.append("entity_type", EntityType.ORGANIZATION); // backend expects EntityType.ORGANIZATION; if you have enum, adjust
