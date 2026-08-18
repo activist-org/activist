@@ -38,8 +38,8 @@ const t = useI18n().t;
 const emailResetPasswordSchema = z.object({
   email: z
     .string()
-    .email("i18n.pages.auth._global.invalid_email")
-    .min(1, "i18n._global.required"),
+    .email(t("i18n.pages.auth._global.invalid_email"))
+    .min(1, t("i18n._global.required")),
 });
 
 const submit = async (values: unknown) => {
