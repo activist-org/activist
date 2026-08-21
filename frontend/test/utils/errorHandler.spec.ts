@@ -2,7 +2,7 @@
 import { FetchError } from "ofetch";
 import { describe, it, expect } from "vitest";
 
-import { AppErrorCause } from "../../shared/types/error";
+import { AppErrorCause } from "../../shared/constants/error";
 import { AppError, errorHandler } from "../../shared/utils/errorHandler";
 
 describe("utils/errorHandler", () => {

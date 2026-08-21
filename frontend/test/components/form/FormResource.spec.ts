@@ -3,7 +3,7 @@ import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import { describe, expect, it, vi } from "vitest";
 
 import FormResource from "../../../app/components/form/FormResource.vue";
-import { TopicEnum } from "../../../shared/types/topics";
+import { TopicType } from "../../../shared/constants/topics";
 import { FormSelectorComboboxTopicsStub } from "../../mocks/componentStubs";
 import { createResource } from "../../mocks/factories";
 import render from "../../render";
@@ -23,7 +23,7 @@ describe("FormResource", () => {
       name: "Activist Platform",
       description: "An open-source activism platform",
       url: "https://activist.org",
-      topics: [TopicEnum.TECHNOLOGY_AND_PRIVACY],
+      topics: [TopicType.TECHNOLOGY_AND_PRIVACY],
     });
 
     await render(FormResource, {
@@ -168,7 +168,7 @@ describe("FormResource", () => {
       name: "Test Resource",
       description: "A test description",
       url: "https://example.com",
-      topics: ["INVALID_TOPIC" as TopicEnum],
+      topics: ["INVALID_TOPIC" as TopicType],
     });
 
     await render(FormResource, {
@@ -228,7 +228,7 @@ describe("FormResource", () => {
       name: string;
       description: string;
       url: string;
-      topics?: TopicEnum[];
+      topics?: TopicType[];
     };
 
     expect(submittedData.name).toBe("New Resource");
@@ -246,7 +246,7 @@ describe("FormResource", () => {
       name: "Existing Resource",
       description: "An existing resource",
       url: "https://existing.com",
-      topics: [TopicEnum.ENVIRONMENT, TopicEnum.HEALTH],
+      topics: [TopicType.ENVIRONMENT, TopicType.HEALTH],
     });
 
     await render(FormResource, {
@@ -554,16 +554,16 @@ describe("FormResource", () => {
     );
   });
 
-  it("handles topics array with multiple valid TopicEnum values", async () => {
+  it("handles topics array with multiple valid TopicType values", async () => {
     const handleSubmit = vi.fn().mockResolvedValue(undefined);
     const formData = createResource({
       name: "Multi-topic Resource",
       description: "Resource with multiple topics",
       url: "https://example.com",
       topics: [
-        TopicEnum.ENVIRONMENT,
-        TopicEnum.HEALTH,
-        TopicEnum.TECHNOLOGY_AND_PRIVACY,
+        TopicType.ENVIRONMENT,
+        TopicType.HEALTH,
+        TopicType.TECHNOLOGY_AND_PRIVACY,
       ],
     });
 

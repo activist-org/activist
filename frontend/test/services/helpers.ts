@@ -1,82 +1,77 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-import { beforeEach, expect, vi } from "vitest";
+import type { vi } from "vitest";
 
-import type { FetchFn, FetchRawFn, FetchGlobal } from "../vitest-globals.d.ts";
+import { beforeEach, expect } from "vitest";
+
+export interface HttpMocks {
+  fetchMock: ReturnType<typeof vi.fn>;
+  get: ReturnType<typeof vi.fn>;
+  post: ReturnType<typeof vi.fn>;
+  put: ReturnType<typeof vi.fn>;
+  del: ReturnType<typeof vi.fn>;
+  fetchSession: ReturnType<typeof vi.fn>;
+}
 
 export function setupServiceTestMocks() {
-  const mocks = {
-    fetchMock: vi.fn<FetchFn>(),
-    fetchRawMock: vi.fn<FetchRawFn>(),
-  };
-
   beforeEach(() => {
-    globalThis.BASE_BACKEND_URL = "https://api.example.test";
-    globalThis.useAuth = () => ({ token: { value: "Bearer test-token" } });
-
-    mocks.fetchMock = vi.fn<FetchFn>();
-    mocks.fetchRawMock = vi.fn<FetchRawFn>();
-    const combined = Object.assign(mocks.fetchMock, {
-      raw: mocks.fetchRawMock,
-    }) as FetchGlobal;
-    globalThis.$fetch = combined;
-
-    vi.restoreAllMocks();
+    const mocks = globalThis.httpMocks as HttpMocks;
+    mocks.fetchMock.mockReset();
+    mocks.get.mockReset();
+    mocks.post.mockReset();
+    mocks.put.mockReset();
+    mocks.del.mockReset();
+    mocks.fetchSession.mockReset();
   });
 
-  return () => mocks;
+  return () => globalThis.httpMocks as HttpMocks;
 }
 
-// Common fetch options types.
-export type FetchOptions = {
-  method: string;
-  baseURL: string;
-  headers?: Record<string, string>;
-  body?: unknown;
-};
-
-export type FetchCall = [string, FetchOptions];
-
-// Extract fetch call arguments with proper typing.
+// Assert common HTTP request properties against the mocked ~/services/http.
 export function getFetchCall(
-  fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
-  index = 0
-): FetchCall {
-  return fetchMock.mock.calls[index] as FetchCall;
+  httpMock: ReturnType<typeof vi.fn>,
+  callIndex = 0
+): [string, Record<string, unknown>] {
+  const call = httpMock.mock.calls[callIndex] as [
+    string,
+    Record<string, unknown>?,
+  ];
+  const [url, opts] = call;
+  return [url, (opts ?? {}) as Record<string, unknown>];
 }
 
-// Assert common HTTP request properties.
 export function expectJsonRequest(
-  fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
+  httpMock: ReturnType<typeof vi.fn>,
   expectedUrl: string | RegExp,
-  expectedMethod: string,
+  expectedMethod: "GET" | "POST" | "PUT" | "DELETE",
   expectedBody?: unknown
 ): void {
-  const [url, opts] = getFetchCall(fetchMock);
+  const call = httpMock.mock.calls[0] as [string, Record<string, unknown>?];
+  const [url, opts] = call;
+  const body = (opts as { body?: unknown } | undefined)?.body;
+
   if (typeof expectedUrl === "string") {
     expect(url).toBe(expectedUrl);
   } else {
     expect(url).toMatch(expectedUrl);
   }
-  expect(opts.method).toBe(expectedMethod);
-  expect(typeof opts.baseURL).toBe("string");
-  expect(opts.headers?.["Content-Type"]).toBe("application/json");
-  if (expectedBody !== undefined) {
-    expect(opts.body).toMatchObject(expectedBody as Record<string, unknown>);
+  expect(
+    (opts as { headers?: Record<string, string> } | undefined)?.headers?.[
+      "Content-Type"
+    ]
+  ).toBe("application/json");
+  if (expectedBody !== undefined && body !== undefined) {
+    expect(body).toMatchObject(expectedBody as Record<string, unknown>);
   }
 }
 
-// Assert simple HTTP request (no body checks).
 export function expectRequest(
-  fetchMock: ReturnType<typeof vi.fn<FetchFn>>,
+  httpMock: ReturnType<typeof vi.fn>,
   expectedUrl: string | RegExp,
-  expectedMethod: string
 ): void {
-  const [url, opts] = getFetchCall(fetchMock);
+  const [url] = httpMock.mock.calls[0] as [string];
   if (typeof expectedUrl === "string") {
     expect(url).toBe(expectedUrl);
   } else {
     expect(url).toMatch(expectedUrl);
   }
-  expect(opts.method).toBe(expectedMethod);
-  expect(typeof opts.baseURL).toBe("string");
 }

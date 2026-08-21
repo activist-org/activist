@@ -3,7 +3,7 @@
  * Default mock data constants for test factories.
  * These values are used as defaults when creating mock entities in tests.
  */
-import { TopicEnum } from "../../shared/types/topics";
+import { TopicType } from "../../shared/constants/topics";
 
 // MARK: Resource
 
@@ -12,7 +12,7 @@ export const defaultResourceData = {
   name: "Test Resource",
   description: "A test resource description",
   url: "https://example.com/resource",
-  topics: [TopicEnum.ENVIRONMENT],
+  topics: [TopicType.ENVIRONMENT],
   order: 0,
   createdBy: {
     id: "user-1",
@@ -93,7 +93,7 @@ export const defaultResourceInputData = {
   name: "Test Resource",
   description: "A test resource description",
   url: "https://example.com/resource",
-  topics: [TopicEnum.ENVIRONMENT],
+  topics: [TopicType.ENVIRONMENT],
   order: 0,
 } as const;
 
@@ -201,7 +201,7 @@ export const defaultGroupFiltersData = {
 
 export const defaultTopicData = {
   id: "topic-1",
-  type: TopicEnum.ENVIRONMENT,
+  type: TopicType.ENVIRONMENT,
   active: true,
   // Dates stored as strings to avoid sharing Date instances.
   creation_date: "2024-01-01",

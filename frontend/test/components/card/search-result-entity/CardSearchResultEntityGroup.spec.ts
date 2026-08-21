@@ -34,7 +34,7 @@ const createWrapper = (props: Record<string, unknown> = {}) => {
     props: { group: {}, ...props },
     global: {
       mocks: {
-        $t: (key: string, params?: Record<string, unknown>) => {
+        t: (key: string, params?: Record<string, unknown>) => {
           if (key === "i18n.components._global.navigate_to_group_aria_label") {
             return "Navigate to the page for this group";
           }
