@@ -64,7 +64,7 @@
             >
               <MetaTagSocialMedia
                 class="text-2xl sm:text-base"
-                :iconName="IconMap.APPLE"
+                :iconName="connect.iconName"
                 :text="t(connect.name)"
                 textUtilityClasses="sr-only sm:not-sr-only"
               />
