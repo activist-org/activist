@@ -66,7 +66,7 @@ export function expectJsonRequest(
 
 export function expectRequest(
   httpMock: ReturnType<typeof vi.fn>,
-  expectedUrl: string | RegExp,
+  expectedUrl: string | RegExp
 ): void {
   const [url] = httpMock.mock.calls[0] as [string];
   if (typeof expectedUrl === "string") {
