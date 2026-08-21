@@ -14,8 +14,9 @@ describe("useSidebarClass", () => {
     const sidebarHover = ref(false);
     const classes = getSidebarContentDynamicClass(false, sidebarHover).value;
 
-    expect(classes["md:pl-16 xl:pl-56"]).toBe(true);
-    expect(classes["md:pl-20 xl:pl-60"]).toBe(false);
+    expect(classes["md:pl-56"]).toBe(true);
+    expect(classes["md:pl-16"]).toBe(false);
+    expect(classes["md:pl-60"]).toBe(false);
     expect(classes["blur-sm xl:blur-none"]).toBe(false);
   });
 
@@ -25,8 +26,8 @@ describe("useSidebarClass", () => {
     const sidebarHover = ref(false);
     const classes = getSidebarContentDynamicClass(true, sidebarHover).value;
 
-    expect(classes["md:pl-20 xl:pl-60"]).toBe(true);
-    expect(classes["md:pl-16 xl:pl-56"]).toBe(true);
+    expect(classes["md:pl-60"]).toBe(true);
+    expect(classes["md:pl-56"]).toBe(false);
   });
 
   it("getSidebarContentDynamicClass returns blur when collapsedSwitch true, not collapsed and hovered", () => {
@@ -50,7 +51,8 @@ describe("useSidebarClass", () => {
     const { getSidebarFooterDynamicClass: getSidebarFooterDynamicClass1 } =
       useSidebarClass();
     const classes = getSidebarFooterDynamicClass1(sidebarHover).value;
-    expect(classes["md:pl-24 xl:pl-64"]).toBe(true);
+    expect(classes["md:pl-64"]).toBe(true);
+    expect(classes["md:pl-24"]).toBe(false);
     expect(classes["blur-sm xl:blur-none"]).toBe(false);
 
     // Simulate hovered state with collapsedSwitch true and not collapsed.

@@ -11,7 +11,7 @@
     @mouseleave="collapseSidebar(true)"
     @mouseover="collapseSidebar(false)"
     :aria-label="$t('i18n.components.sidebar_left.sidebar_left_aria_label')"
-    class="absolute z-40 block h-full flex-col border-r border-section-div bg-layer-1 transition-all duration-500 elem-shadow-sm focus-brand md:flex"
+    class="fixed left-0 top-0 z-40 block h-screen flex-col border-r border-section-div bg-layer-1 transition-all duration-500 elem-shadow-sm focus-brand md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
       'w-16': sidebar.collapsed && sidebar.collapsedSwitch == true,

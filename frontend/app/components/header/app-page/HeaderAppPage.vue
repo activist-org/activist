@@ -52,7 +52,7 @@
     /> -->
   </div>
   <div
-    class="flex w-full grow flex-col items-start justify-between space-y-4 pt-2 lg:flex-row lg:items-center lg:space-y-0 xl:pt-4"
+    class="flex w-full grow flex-col justify-between space-y-4 pt-2 lg:flex-row lg:items-center lg:space-y-0 xl:pt-4"
   >
     <h4 v-if="statusPending" class="warn-text">
       {{ $t("i18n.components.header_app_page.status_pending") }}

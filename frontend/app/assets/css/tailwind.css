@@ -5,6 +5,19 @@
 
 @config "~~/tailwind.config.ts";
 
+@source "../../composables/**/*.ts";
+
+@source inline(
+  "md:pl-16",
+  "md:pl-20",
+  "md:pl-56",
+  "md:pl-60",
+  "md:pl-24",
+  "md:pl-64",
+  "blur-sm",
+  "xl:blur-none"
+);
+
 @plugin "tailwind-scrollbar" {
   nocompatible: true;
 }
