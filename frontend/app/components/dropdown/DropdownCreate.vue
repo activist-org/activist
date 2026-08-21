@@ -4,7 +4,7 @@
     :isMenuButtonUppercase="false"
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_PLUS"
-    :menuButtonLabel="$t('i18n.components.dropdown_create.create')"
+    :menuButtonLabel="t('i18n.components.dropdown_create.create')"
     menuButtonAriaLabel="i18n.components.dropdown_create.create_aria_label"
   >
     <DropdownItemsLayout :location="location" :options="createOptions" />
@@ -12,8 +12,10 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
-  location?: DropdownLocation;
+  location?: DropdownLocationType;
 }>();
 const { openModal: openModalCreateEvent } =
   useModalHandlers("ModalCreateEvent");

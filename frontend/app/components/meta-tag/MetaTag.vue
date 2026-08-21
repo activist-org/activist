@@ -18,7 +18,7 @@
     />
     {{ value }}
     <span v-if="label">
-      {{ $t(label) }}
+      {{ t(label) }}
     </span>
   </p>
   <p v-else class="flex items-center gap-1" data-testid="meta-tag">
@@ -32,12 +32,14 @@
       {{ value }}
     </span>
     <span v-if="label">
-      {{ $t(label) }}
+      {{ t(label) }}
     </span>
   </p>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   iconName: string;
   value: string;

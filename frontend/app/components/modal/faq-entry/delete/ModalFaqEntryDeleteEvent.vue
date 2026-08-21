@@ -3,12 +3,14 @@
   <ModalAlert
     @confirm="handleDelete"
     :isLoading="loading"
-    :message="$t('i18n.components.modal.faq_entry.delete._global.message')"
+    :message="t('i18n.components.modal.faq_entry.delete._global.message')"
     :modalName="modalName"
   />
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const props = defineProps<{
   faqEntryId: string;
   entityId: string;

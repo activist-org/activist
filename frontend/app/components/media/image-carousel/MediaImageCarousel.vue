@@ -20,7 +20,7 @@
         class="swiper-zoom-container flex items-center justify-center bg-layer-2"
       >
         <img
-          :alt="$t('i18n.components.media_image_carousel.img_alt_text')"
+          :alt="t('i18n.components.media_image_carousel.img_alt_text')"
           class="object-cover object-center"
           :class="{
             'h-5/6 w-5/6': props.fullscreen,
@@ -35,13 +35,13 @@
       v-if="uploadError"
       class="absolute bottom-2 right-12 z-10 rounded bg-layer-0/80 p-1 text-sm text-action-red"
     >
-      {{ $t("i18n.components.media_image_carousel.upload_error") }}
+      {{ t("i18n.components.media_image_carousel.upload_error") }}
     </p>
     <IconEdit
       v-if="!fullscreen"
       @click="handleEditUploadImage()"
       :aria-label="
-        $t('i18n.components.media_image_carousel.edit_images_aria_label')
+        t('i18n.components.media_image_carousel.edit_images_aria_label')
       "
       class="absolute bottom-2 right-2 z-10 flex rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80"
     />
@@ -53,10 +53,12 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
+const { t } = useI18n();
+
 interface Props {
   fullscreen: boolean;
   imageUrls: string[];
-  entityType: EntityType;
+  entityType: EntityTypeType;
 }
 
 const props = defineProps<Props>();

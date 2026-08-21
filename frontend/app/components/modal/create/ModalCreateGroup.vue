@@ -1,19 +1,21 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <ModalBase :modalName="modalName">
-    <h2>{{ $t("i18n.components.modal_create_group.create_new_group") }}</h2>
+    <h2>{{ t("i18n.components.modal_create_group.create_new_group") }}</h2>
     <Machine
       @close="handleCloseModal"
-      :machine-type="MachineCreateType.CreateGroup"
+      :machine-type="createGroup"
       :options="flowOptions"
     />
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const modalName = "ModalCreateGroup";
 const { handleCloseModal } = useModalHandlers(modalName);
-
+const createGroup = MachineCreateType.CreateGroup;
 const router = useRouter();
 
 const { create } = useGroupMutations({

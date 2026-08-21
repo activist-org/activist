@@ -5,20 +5,18 @@
       <ModalQRCodeBtn
         v-if="event"
         :firstParagraph="
-          $t('i18n.components._global.section_1_paragraph_1_event')
+          t('i18n.components._global.section_1_paragraph_1_event')
         "
         :linkUrl="eventLinkUrl"
         :name="event.name"
         reason-for-suggesting=""
-        :second-paragraph="
-          $t('i18n.components._global.section_1_paragraph_1_2')
-        "
+        :second-paragraph="t('i18n.components._global.section_1_paragraph_1_2')"
         type="icon"
       />
       <div class="flex-col space-y-3">
         <div class="flex items-center gap-5">
           <h3 class="text-left font-display">
-            {{ $t("i18n.components.card_details.header") }}
+            {{ t("i18n.components.card_details.header") }}
           </h3>
           <IconEdit
             @click="
@@ -54,7 +52,7 @@
           </div>
           <!-- <MetaTagAttendance
             :numAttending="event.attendees ? event.attendees.length : 0"
-            :label="$t('i18n.components.card_details.attending')"
+            :label="t('i18n.components.card_details.attending')"
           /> -->
           <a
             v-if="event.onlineLocationLink"
@@ -79,6 +77,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const props = defineProps<{
   event?: CommunityEvent;
 }>();

@@ -10,7 +10,7 @@
     "
     @mouseleave="collapseSidebar(true)"
     @mouseover="collapseSidebar(false)"
-    :aria-label="$t('i18n.components.sidebar_left.sidebar_left_aria_label')"
+    :aria-label="t('i18n.components.sidebar_left.sidebar_left_aria_label')"
     class="absolute z-40 block h-full flex-col border-r border-section-div bg-layer-1 transition-all duration-500 elem-shadow-sm focus-brand md:flex"
     :class="{
       'w-56': !sidebar.collapsed || sidebar.collapsedSwitch == false,
@@ -41,15 +41,14 @@
       <SearchBar
         @update:model-value="handleChange"
         class="mt-1"
-        :location="SearchBarLocation.SIDEBAR"
+        :location="searchBarLocation"
         :model-value="modelValue"
       />
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftContent
         v-if="
-          sidebarType === SidebarType.ORGANIZATION_PAGE ||
-          sidebarType === SidebarType.EVENT_PAGE ||
-          sidebarType === SidebarType.GROUP_PAGE
+          sidebarType === sidebarOrganizationPage ||
+          sidebarType === sidebarEventPage
         "
         class="my-3"
         :logoUrl="placeholderLogo"
@@ -59,9 +58,8 @@
       <!-- TODO: We need to edit the v-else-if once more filters are enabled. -->
       <SidebarLeftFilter
         v-else-if="
-          (sidebarType === SidebarType.ORGANIZATIONS_PAGE ||
-            sidebarType === SidebarType.EVENTS_PAGE ||
-            sidebarType === SidebarType.RESOURCES_PAGE) &&
+          (sidebarType === sidebarOrganizationsPage ||
+            sidebarType === sidebarEventsPage) &&
           (!sidebar.collapsed || !sidebar.collapsedSwitch)
         "
         class="my-3"
@@ -81,10 +79,15 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+const searchBarLocation = SearchBarLocation.SIDEBAR;
 const sidebar = useSidebar();
 const route = useRoute();
 const { currentRoute } = useRouter();
-
+const sidebarEventPage = SidebarType.EVENT_PAGE;
+const sidebarOrganizationPage = SidebarType.ORGANIZATION_PAGE;
+const sidebarOrganizationsPage = SidebarType.ORGANIZATIONS_PAGE;
+const sidebarEventsPage = SidebarType.EVENTS_PAGE;
 const routeName = computed(() => {
   if (currentRoute.value.name) {
     return currentRoute.value.name;
@@ -120,8 +123,8 @@ const isEventPage = computed(() =>
 );
 
 const pathToSidebarTypeMap = [
-  { path: "search", type: SidebarType.SEARCH },
-  { path: "home", type: SidebarType.HOME },
+  // { path: "search", type: SidebarType.SEARCH },
+  // { path: "home", type: SidebarType.HOME },
   {
     path: "organizations",
     type: isOrgPage.value
@@ -135,15 +138,11 @@ const pathToSidebarTypeMap = [
 ];
 
 watch([isOrgPage, isEventPage], () => {
-  if (pathToSidebarTypeMap[2]) {
-    pathToSidebarTypeMap[2]["type"] = isOrgPage.value
-      ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.ORGANIZATIONS_PAGE;
+  if (pathToSidebarTypeMap[0]) {
+    pathToSidebarTypeMap[0]["type"] = SidebarType.ORGANIZATION_PAGE;
   }
-  if (pathToSidebarTypeMap[3]) {
-    pathToSidebarTypeMap[3]["type"] = isEventPage.value
-      ? SidebarType.EVENT_PAGE
-      : SidebarType.EVENTS_PAGE;
+  if (pathToSidebarTypeMap[1]) {
+    pathToSidebarTypeMap[1]["type"] = SidebarType.EVENT_PAGE;
   }
 });
 

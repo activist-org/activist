@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
-  <MediaMap class="h-70 w-full" :pointer="pointer" :type="MapType.POINT" />
+  <MediaMap class="h-70 w-full" :pointer="pointer" :type="pointType" />
 </template>
 
 <script setup lang="ts">
@@ -10,6 +10,7 @@ const props = defineProps<{
 
 const { event } = props;
 
+const pointType = MapType.POINT;
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;

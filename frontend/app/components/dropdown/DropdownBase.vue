@@ -5,7 +5,7 @@
       <MenuButton
         v-slot="{ open }"
         @focus="expandOnFocus"
-        :aria-label="$t(`${menuButtonAriaLabel}`)"
+        :aria-label="t(`${menuButtonAriaLabel}`)"
         class="selected-option style-btn inline-flex w-full select-none whitespace-nowrap rounded-md border-none px-4 py-2 font-semibold"
         :class="{
           'pl-6': isSideMenu,
@@ -89,8 +89,10 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
 
+const { t } = useI18n();
+
 const props = defineProps<{
-  location?: DropdownLocation;
+  location?: DropdownLocationType;
   menuButtonAriaLabel: string;
   menuButtonIcon: string;
   isMenuButtonUppercase?: boolean;

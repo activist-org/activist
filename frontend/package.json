@@ -57,7 +57,7 @@
     "happy-dom": "20.10.6",
     "kill-port": "2.0.1",
     "lint-staged": "17.0.8",
-    "nuxt": "4.4.8",
+    "nuxt": "4.5.0",
     "nuxt-auth-utils": "0.5.29",
     "nuxt-security": "2.6.0",
     "playwright-core": "1.62.1",

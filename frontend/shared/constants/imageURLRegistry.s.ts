@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // MARK: activist
-
+// REVIEW: THIS FILE SHOULD IT BE IN GLOBAL CONSTANTS OR JUST CONSTANTS?
+// NOTE: GLOBAL CONSTANTS THAT ARE ADDED TO BUNDLE AND CAN BE AVAILABLE IN TEMPLATE.
 export const FAVICON_URL = "/icons/favicons/favicon.svg";
 
 export const ACTIVIST_ICON_LIGHT_URL =

@@ -21,7 +21,7 @@
         })
       "
       :aria-label="
-        $t('i18n.components.media_image_carousel_full.open_modal_aria_label')
+        t('i18n.components.media_image_carousel_full.open_modal_aria_label')
       "
       class="absolute right-2 top-2 z-10 hidden rounded-lg border border-black/80 bg-white/80 p-1 text-black/80 focus-brand dark:border-white/80 dark:bg-black/80 dark:text-white/80 md:block"
     >
@@ -31,8 +31,10 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const props = defineProps<{
-  entityType: EntityType;
+  entityType: EntityTypeType;
   entityId: string;
   images: ContentImage[];
 }>();

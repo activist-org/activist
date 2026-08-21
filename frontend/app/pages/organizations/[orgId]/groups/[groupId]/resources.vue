@@ -4,18 +4,18 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ group?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ group?.name }}&nbsp;{{ t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageGroup
-      :header="group?.name + ' ' + $t('i18n._global.resources_lower')"
-      :tagline="$t('i18n.pages.organizations._global.resources_tagline')"
+      :header="group?.name + ' ' + t('i18n._global.resources_lower')"
+      :tagline="t('i18n.pages.organizations._global.resources_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          :element="$t('i18n._global.resources_lower')"
+          :element="t('i18n._global.resources_lower')"
           :entity="group"
           label="i18n.pages._global.resources.add_new_resource"
           :onClick="
@@ -82,6 +82,8 @@
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
+
+const { t } = useI18n();
 
 const { openModal } = useModalHandlers("ModalResourceGroup");
 const { canEdit } = useUser();

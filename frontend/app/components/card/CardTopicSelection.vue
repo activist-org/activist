@@ -2,16 +2,16 @@
 <template>
   <div class="flex-col space-y-3">
     <h3 class="font-medium">
-      {{ $t("i18n.components._global.topics") }}
+      {{ t("i18n.components._global.topics") }}
     </h3>
     <p v-if="pageType == 'organization'">
-      {{ $t("i18n.components.card_topic_selection.subtext_organization") }}
+      {{ t("i18n.components.card_topic_selection.subtext_organization") }}
     </p>
     <p v-if="pageType == 'group'">
-      {{ $t("i18n.components.card_topic_selection.subtext_group") }}
+      {{ t("i18n.components.card_topic_selection.subtext_group") }}
     </p>
     <p v-if="pageType == 'resource'">
-      {{ $t("i18n.components.card_topic_selection.subtext_resource") }}
+      {{ t("i18n.components.card_topic_selection.subtext_resource") }}
     </p>
     <input
       id="inputValue"
@@ -28,21 +28,21 @@
       class="topicInput w-full rounded-md bg-layer-0 py-2 pl-4 text-distinct-text elem-shadow-sm focus-brand"
       :display-value="() => inputValue"
       :placeholder="
-        $t('i18n.components.card_topic_selection.selector_placeholder')
+        t('i18n.components.card_topic_selection.selector_placeholder')
       "
     />
     <ul class="hidden gap-2 sm:flex sm:flex-wrap">
       <Shield
-        v-for="t of filteredTopics"
-        :key="t.topic"
-        @click="selectTopic(t)"
+        v-for="topic of filteredTopics"
+        :key="topic.topic"
+        @click="selectTopic(topic)"
         @keydown="keydownEvent($event)"
-        @keydown.enter.prevent="selectTopic(t)"
-        :active="isActiveTopic(t.topic)"
+        @keydown.enter.prevent="selectTopic(topic)"
+        :active="isActiveTopic(topic.topic)"
         class="topic max-sm:w-full"
         :icon="IconMap.GLOBE"
         :isSelector="true"
-        :label="t.label"
+        :label="topic.label"
       />
     </ul>
     <ul
@@ -53,31 +53,31 @@
     >
       <Shield
         v-if="moreOptionsShown || inputFocus"
-        v-for="t of filteredTopics"
-        :key="t.topic + '-selected-only'"
-        @click="selectTopic(t)"
+        v-for="topic of filteredTopics"
+        :key="topic.topic + '-selected-only'"
+        @click="selectTopic(topic)"
         @keydown="mobileKeyboardEvent($event)"
-        @keydown.enter.prevent="selectTopic(t)"
-        :active="isActiveTopic(t.topic)"
+        @keydown.enter.prevent="selectTopic(topic)"
+        :active="isActiveTopic(topic.topic)"
         class="mobileTopic max-sm:w-full"
         :icon="IconMap.GLOBE"
         :isSelector="true"
-        :label="t.label"
+        :label="topic.label"
       />
       <Shield
         v-else
-        v-for="t of selectedTopicTags.sort((a, b) =>
+        v-for="topic of selectedTopicTags.sort((a, b) =>
           a.topic.localeCompare(b.topic)
         )"
-        :key="t.topic"
-        @click="selectTopic(t)"
+        :key="topic.topic"
+        @click="selectTopic(topic)"
         @keydown="mobileKeyboardEvent($event)"
-        @keydown.enter.prevent="selectTopic(t)"
-        :active="isActiveTopic(t.topic)"
+        @keydown.enter.prevent="selectTopic(topic)"
+        :active="isActiveTopic(topic.topic)"
         class="mobileTopic max-sm:w-full"
         :icon="IconMap.GLOBE"
         :isSelector="true"
-        :label="t.label"
+        :label="topic.label"
       />
     </ul>
     <button
@@ -89,20 +89,22 @@
       class="link-text cursor-pointer sm:hidden"
     >
       <div v-if="!moreOptionsShown && !inputFocus">
-        {{ $t("i18n.components.card_topic_selection.view_all_topics") }}
+        {{ t("i18n.components.card_topic_selection.view_all_topics") }}
       </div>
       <div v-else>
-        {{ $t("i18n.components.card_topic_selection.hide_all_topics") }}
+        {{ t("i18n.components.card_topic_selection.hide_all_topics") }}
       </div>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {
-    type: Array as PropType<TopicEnum[]>,
+    type: Array as PropType<TopicTypeType[]>,
     required: false,
     default: () => [],
   },
@@ -223,11 +225,11 @@ const mobileKeyboardEvent = (e: KeyboardEvent) => {
   topics[index]?.focus();
 };
 
-const value = computed<TopicEnum[]>({
+const value = computed<TopicTypeType[]>({
   get() {
     return props.modelValue;
   },
-  set(value: TopicEnum[]) {
+  set(value: TopicTypeType[]) {
     emit("update:modelValue", value);
   },
 });
@@ -249,7 +251,7 @@ const selectTopic = (topic: TopicTag) => {
   }
 };
 
-function isActiveTopic(topic: TopicEnum) {
+function isActiveTopic(topic: TopicTypeType) {
   return value.value.includes(topic);
 }
 

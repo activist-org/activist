@@ -2,7 +2,9 @@
 <template>
   <FormSelectorCombobox
     :id="id"
-    @update:selectedOptions="(val: unknown) => handleChange(val as TopicEnum[])"
+    @update:selectedOptions="
+      (val: unknown) => handleChange(val as TopicTypeType[])
+    "
     :hasColOptions="hasColOptions"
     :label="label"
     :options="options"
@@ -14,16 +16,16 @@
 const { t } = useI18n();
 const { data: topics } = useGetTopics();
 
-const options = ref<{ label: string; value: TopicEnum; id: string }[]>([]);
+const options = ref<{ label: string; value: TopicTypeType; id: string }[]>([]);
 options.value = (topics?.value || []).map((topic: Topic) => ({
   label: t(GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""),
-  value: topic.type as TopicEnum,
+  value: topic.type as TopicTypeType,
   id: topic.id,
 }));
 
 interface Props {
   id: string;
-  selectedTopics: TopicEnum[];
+  selectedTopics: TopicTypeType[];
   label: string;
   hasColOptions?: boolean;
 }
@@ -32,9 +34,9 @@ withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  (e: "update:selectedTopics", value: TopicEnum[]): void;
+  (e: "update:selectedTopics", value: TopicTypeType[]): void;
 }>();
-const handleChange = (newValue: TopicEnum[]) => {
+const handleChange = (newValue: TopicTypeType[]) => {
   emit("update:selectedTopics", newValue);
 };
 </script>

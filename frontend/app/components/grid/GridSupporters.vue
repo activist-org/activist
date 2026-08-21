@@ -5,26 +5,27 @@
   >
     <ImageLogo
       :aria-label="
-        $t('i18n.components.grid_supporters.wikimedia_de_logo_aria_label')
+        t('i18n.components.grid_supporters.wikimedia_de_logo_aria_label')
       "
       imageLink="https://www.wikimedia.de"
       imageName="WikimediaDE"
     />
     <ImageLogo
       :aria-label="
-        $t('i18n.components.grid_supporters.wikimedia_rs_logo_aria_label')
+        t('i18n.components.grid_supporters.wikimedia_rs_logo_aria_label')
       "
       imageLink="https://wikimedia.rs"
       imageName="WikimediaRS"
     />
     <ImageLogo
       :aria-label="
-        $t(
-          'i18n.components.grid_supporters.impact_hub_belgrade_logo_aria_label'
-        )
+        t('i18n.components.grid_supporters.impact_hub_belgrade_logo_aria_label')
       "
       imageLink="https://belgrade.impacthub.net"
       imageName="ImpactHub"
     />
   </div>
 </template>
+<script setup lang="ts">
+const { t } = useI18n();
+</script>

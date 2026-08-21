@@ -14,7 +14,7 @@
           class="mr-4 h-5 w-5 align-middle"
           :name="selectedMenuItem.iconUrl"
         />
-        <span>{{ $t(selectedMenuItem.label) }}</span>
+        <span>{{ t(selectedMenuItem.label) }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
@@ -31,7 +31,7 @@
       >
         <ListboxOptions class="bg-menu-selection focus-brand">
           <ListboxOption
-            v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
+            v-for="menuEntry in sidebarType === sidebarTypeOrganizationPage
               ? menuEntryState.organizationEntry.value
               : menuEntryState.eventEntry.value"
             :key="menuEntry.id"
@@ -41,7 +41,7 @@
             <NuxtLink @click="handleItemClick(menuEntry)">
               <li
                 :id="
-                  (sidebarType === SidebarType.ORGANIZATION_PAGE
+                  (sidebarType === sidebarTypeOrganizationPage
                     ? 'org-'
                     : 'event-') + menuEntry.label.split('.').pop()
                 "
@@ -61,7 +61,7 @@
                   class="block truncate"
                   :class="{ 'font-medium': selected, 'font-normal': !selected }"
                 >
-                  {{ $t(menuEntry.label) }}
+                  {{ t(menuEntry.label) }}
                 </span>
               </li>
             </NuxtLink>
@@ -80,6 +80,8 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 
+const { t } = useI18n();
+const sidebarTypeOrganizationPage = SidebarType.ORGANIZATION_PAGE;
 const { currentRoute } = useRouter();
 
 const routeName = computed(() => {

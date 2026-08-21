@@ -4,30 +4,32 @@
     class="mx-1 rounded-md bg-layer-2 pb-1 pt-2 transition-all duration-500 elem-shadow-sm"
   >
     <SidebarLeftContentOrganization
-      v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATION_PAGE"
+      v-if="sidebarTypeToDisplay === sidebarOrganizationPage"
       :logo-url="logoUrl"
       :name="props.name"
     />
     <SidebarLeftContentEvent
-      v-else-if="sidebarTypeToDisplay === SidebarType.EVENT_PAGE"
+      v-else-if="sidebarTypeToDisplay === sidebarEventPage"
       :logo-url="logoUrl"
       :name="props.name"
     />
-    <SidebarLeftContentGroupPage
-      v-else-if="sidebarTypeToDisplay === SidebarType.GROUP_PAGE"
+    <!-- <SidebarLeftContentGroupPage
+      v-else-if="sidebarTypeToDisplay === sidebarGroupPage"
       :logo-url="logoUrl"
       :name="props.name"
-    />
+    /> -->
   </div>
 </template>
 
 <script setup lang="ts">
+// const sidebarGroupPage = SidebarType.GROUP_PAGE
+const sidebarOrganizationPage = SidebarType.ORGANIZATION_PAGE;
+const sidebarEventPage = SidebarType.EVENT_PAGE;
 const props = defineProps<{
   name: string;
   sidebarType:
-    | SidebarType.ORGANIZATION_PAGE
-    | SidebarType.EVENT_PAGE
-    | SidebarType.GROUP_PAGE;
+    typeof SidebarType.ORGANIZATION_PAGE | typeof SidebarType.EVENT_PAGE;
+  // | typeof SidebarType.GROUP_PAGE;
   logoUrl?: string;
 }>();
 

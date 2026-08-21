@@ -4,7 +4,7 @@
     <Head>
       <Title>
         {{ organization?.name }}&nbsp;{{
-          $t("i18n.pages.organizations.groups.index.groups_lower")
+          t("i18n.pages.organizations.groups.index.groups_lower")
         }}
       </Title>
     </Head>
@@ -12,9 +12,9 @@
       :header="
         organization?.name +
         ' ' +
-        $t('i18n.pages.organizations.groups.index.groups_lower')
+        t('i18n.pages.organizations.groups.index.groups_lower')
       "
-      :tagline="$t('i18n.pages.organizations.groups.index.tagline')"
+      :tagline="t('i18n.pages.organizations.groups.index.tagline')"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnAction
@@ -48,6 +48,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const { data: organization } = useGetOrganization(
   (useRoute().params.orgId as string) ?? ""
 );

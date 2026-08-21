@@ -2,17 +2,17 @@
 <template>
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ event?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ event?.name }}&nbsp;{{ t("i18n._global.faq") }}</Title>
     </Head>
     <HeaderAppPageEvent
-      :header="event?.name + ' ' + $t('i18n._global.faq')"
-      :tagline="$t('i18n.pages._global.faq_tagline')"
+      :header="event?.name + ' ' + t('i18n._global.faq')"
+      :tagline="t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
-          :element="$t('i18n._global.faq')"
+          :element="t('i18n._global.faq')"
           :entity="event"
           label="i18n.pages._global.new_faq_entry"
           :onClick="
@@ -78,6 +78,8 @@
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
+
+const { t } = useI18n();
 
 const { openModal } = useModalHandlers("ModalFaqEntryEvent");
 

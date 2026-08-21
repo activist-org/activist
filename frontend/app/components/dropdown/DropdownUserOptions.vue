@@ -8,8 +8,8 @@
     :menuButtonIcon="IconMap.CIRCLE_PERSON"
     :menuButtonLabel="
       userIsSignedIn
-        ? $t('i18n.components.dropdown_user_options.username')
-        : $t('i18n.components.dropdown_user_options.join_activist')
+        ? t('i18n.components.dropdown_user_options.username')
+        : t('i18n.components.dropdown_user_options.join_activist')
     "
     menuButtonAriaLabel="i18n.components.dropdown_user_options.username_aria_label"
   >
@@ -21,8 +21,10 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
-  location?: DropdownLocation;
+  location?: DropdownLocationType;
 }>();
 
 const { clear } = useUserSession();

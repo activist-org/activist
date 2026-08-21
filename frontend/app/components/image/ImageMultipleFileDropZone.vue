@@ -6,34 +6,34 @@
     @files-dropped="handleAdd"
   >
     <span v-if="isDropZoneActive && uploadLimit > 1">
-      {{ $t("i18n.components.image_multiple_file_drop_zone.drop_images") }}
+      {{ t("i18n.components.image_multiple_file_drop_zone.drop_images") }}
     </span>
     <span v-else-if="isDropZoneActive && uploadLimit === 1">
-      {{ $t("i18n.components._global.drop_image") }}
+      {{ t("i18n.components._global.drop_image") }}
     </span>
     <span v-else-if="!isDropZoneActive && uploadLimit > 1">
-      {{ $t("i18n.components.image_multiple_file_drop_zone.drag_images") }}
+      {{ t("i18n.components.image_multiple_file_drop_zone.drag_images") }}
     </span>
     <span v-else-if="!isDropZoneActive && uploadLimit === 1">
-      {{ $t("i18n.components.image_multiple_file_drop_zone.drag_image") }}
+      {{ t("i18n.components.image_multiple_file_drop_zone.drag_image") }}
     </span>
   </ImageFileDropZone>
   <p class="py-2">
-    {{ $t("i18n.components.image_multiple_file_drop_zone.number_of_files") }}:
+    {{ t("i18n.components.image_multiple_file_drop_zone.number_of_files") }}:
     {{ localFiles.length }}
   </p>
   <p
     v-if="uploadLimit === 1 && localFiles.length > uploadLimit"
     class="text-action-red"
   >
-    {{ $t("i18n.components.image_multiple_file_drop_zone.picture_limit_1") }}
+    {{ t("i18n.components.image_multiple_file_drop_zone.picture_limit_1") }}
   </p>
   <p
     v-if="uploadLimit !== 1 && localFiles.length >= uploadLimit"
     class="text-action-red"
   >
     {{
-      $t(
+      t(
         "i18n.components.image_multiple_file_drop_zone.picture_limit_multiple",
         {
           limit: uploadLimit,
@@ -62,7 +62,7 @@
           <img
             :key="file?.type === 'upload' ? file?.data?.name : file?.data?.id"
             :alt="
-              $t('i18n.components._global.upload_image') + ' ' + file.data.name
+              t('i18n.components._global.upload_image') + ' ' + file.data.name
             "
             class="h-20 w-20 object-contain"
             :src="
@@ -79,6 +79,8 @@
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
+
+const { t } = useI18n();
 
 interface Props {
   modelValue: FileUploadMix[];

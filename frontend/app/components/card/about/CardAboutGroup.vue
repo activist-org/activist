@@ -3,13 +3,11 @@
   <CardAbout>
     <ModalQRCodeBtn
       v-if="group && !expandText"
-      :firstParagraph="
-        $t('i18n.components._global.section_1_paragraph_1_group')
-      "
+      :firstParagraph="t('i18n.components._global.section_1_paragraph_1_group')"
       :linkUrl="groupLinkUrl"
       :name="group.name"
       reason-for-suggesting=""
-      :second-paragraph="$t('i18n.components._global.section_1_paragraph_1_2')"
+      :second-paragraph="t('i18n.components._global.section_1_paragraph_1_2')"
       type="icon"
     />
     <button
@@ -26,7 +24,7 @@
     <div class="flex-col space-y-3">
       <div class="flex items-center gap-5">
         <h3 class="text-left font-display">
-          {{ $t("i18n._global.about") }}
+          {{ t("i18n._global.about") }}
         </h3>
         <IconEdit
           v-if="userIsSignedIn"
@@ -60,7 +58,7 @@
           />
           <!-- <MetaTagMembers
               :members="group.members.length"
-              :label="$t('i18n.components.card.about._global.members_lower')"
+              :label="t('i18n.components.card.about._global.members_lower')"
             /> -->
         </div>
         <div>
@@ -80,12 +78,12 @@
                 expand_reduce_text();
               "
               :aria-label="
-                $t('i18n.components.card.about._global.full_text_aria_label')
+                t('i18n.components.card.about._global.full_text_aria_label')
               "
               class="mt-1 font-semibold text-link-text focus-brand"
               data-testid="expand-text-button"
             >
-              {{ $t("i18n.components.card.about._global.full_text") }}
+              {{ t("i18n.components.card.about._global.full_text") }}
             </button>
             <button
               v-else-if="descriptionExpandable"
@@ -94,12 +92,12 @@
                 expand_reduce_text();
               "
               :aria-label="
-                $t('i18n.components.card.about._global.reduce_text_aria_label')
+                t('i18n.components.card.about._global.reduce_text_aria_label')
               "
               class="mt-1 font-semibold text-link-text focus-brand"
               data-testid="collapse-text-button"
             >
-              {{ $t("i18n.components.card.about._global.reduce_text") }}
+              {{ t("i18n.components.card.about._global.reduce_text") }}
             </button>
           </div>
         </div>
@@ -109,6 +107,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const { userIsSignedIn } = useUser();

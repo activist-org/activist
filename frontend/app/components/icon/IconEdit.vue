@@ -8,12 +8,14 @@
   >
     <Icon :name="IconMap.EDIT" size="1.2em" />
     <span id="icon-edit-label" hidden>{{
-      $t("i18n.components.icon_edit.aria_label_alt_text")
+      t("i18n.components.icon_edit.aria_label_alt_text")
     }}</span>
   </button>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const props = defineProps<{
   entity?: Entity | null;
 }>();

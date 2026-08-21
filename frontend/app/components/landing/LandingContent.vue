@@ -9,31 +9,31 @@
     >
       <!-- Note: image on top of content. -->
       <img
-        v-if="$colorMode.value == 'light'"
-        :alt="$t(imageAltText)"
+        v-if="colorMode.value == 'light'"
+        :alt="t(imageAltText)"
         class="mb-4 h-36 sm:h-44 lg:hidden"
         :src="imgUrl + '_light.png'"
       />
       <img
-        v-else-if="$colorMode.value == 'dark'"
-        :alt="$t(imageAltText)"
+        v-else-if="colorMode.value == 'dark'"
+        :alt="t(imageAltText)"
         class="mb-4 h-36 sm:h-44 lg:hidden"
         :src="imgUrl + '_dark.png'"
       />
       <h2
         class="w-10/12 text-center text-2xl font-semibold sm:w-full sm:text-left sm:text-3xl xl:text-4xl"
       >
-        {{ $t(header) }}
+        {{ t(header) }}
       </h2>
       <p
         class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-distinct-text sm:w-full sm:text-left sm:text-lg xl:text-xl"
       >
-        {{ $t(tagline) }}
+        {{ t(tagline) }}
       </p>
       <p
         class="w-10/12 pb-2 text-center text-sm sm:w-full sm:text-left sm:text-base md:text-lg"
       >
-        {{ $t(text) }}
+        {{ t(text) }}
       </p>
       <BtnRouteInternal
         :id="btnId1"
@@ -47,13 +47,13 @@
     <!-- Note: image right of content. -->
     <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
       <img
-        v-if="$colorMode.value == 'light'"
-        :alt="$t(imageAltText)"
+        v-if="colorMode.value == 'light'"
+        :alt="t(imageAltText)"
         :src="imgUrl + '_light.png'"
       />
       <img
-        v-else-if="$colorMode.value == 'dark'"
-        :alt="$t(imageAltText)"
+        v-else-if="colorMode.value == 'dark'"
+        :alt="t(imageAltText)"
         :src="imgUrl + '_dark.png'"
       />
     </div>
@@ -65,13 +65,13 @@
     <!-- Note: image left of content. -->
     <div class="hidden h-60 w-60 lg:block xl:h-72 xl:w-72">
       <img
-        v-if="$colorMode.value == 'light'"
-        :alt="$t(imageAltText)"
+        v-if="colorMode.value == 'light'"
+        :alt="t(imageAltText)"
         :src="imgUrl + '_light.png'"
       />
       <img
-        v-else-if="$colorMode.value == 'dark'"
-        :alt="$t(imageAltText)"
+        v-else-if="colorMode.value == 'dark'"
+        :alt="t(imageAltText)"
         :src="imgUrl + '_dark.png'"
       />
     </div>
@@ -80,31 +80,31 @@
     >
       <!-- Note: image on top of content. -->
       <img
-        v-if="$colorMode.value == 'light'"
-        :alt="$t(imageAltText)"
+        v-if="colorMode.value == 'light'"
+        :alt="t(imageAltText)"
         class="mb-4 h-36 sm:h-44 lg:hidden"
         :src="imgUrl + '_light.png'"
       />
       <img
-        v-else-if="$colorMode.value == 'dark'"
-        :alt="$t(imageAltText)"
+        v-else-if="colorMode.value == 'dark'"
+        :alt="t(imageAltText)"
         class="mb-4 h-36 sm:h-44 lg:hidden"
         :src="imgUrl + '_dark.png'"
       />
       <h2
         class="w-10/12 text-center text-2xl font-semibold sm:w-full sm:text-left sm:text-3xl xl:text-4xl"
       >
-        {{ $t(header) }}
+        {{ t(header) }}
       </h2>
       <p
         class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-distinct-text sm:w-full sm:text-left sm:text-lg xl:text-xl"
       >
-        {{ $t(tagline) }}
+        {{ t(tagline) }}
       </p>
       <p
         class="w-10/12 pb-2 text-center text-sm sm:w-full sm:text-left sm:text-base md:text-lg"
       >
-        {{ $t(text) }}
+        {{ t(text) }}
       </p>
       <BtnRouteInternal
         :id="btnId1"
@@ -124,17 +124,17 @@
       <h2
         class="w-10/12 text-center text-2xl font-semibold sm:w-full sm:text-3xl xl:text-4xl"
       >
-        {{ $t(header) }}
+        {{ t(header) }}
       </h2>
       <p
         class="text-transform: w-10/12 text-center text-base uppercase tracking-wider text-distinct-text sm:w-full sm:text-lg xl:text-xl"
       >
-        {{ $t(tagline) }}
+        {{ t(tagline) }}
       </p>
       <p
         class="mx-12 w-10/12 pb-2 text-center text-sm sm:text-base md:w-full md:max-w-lg md:text-lg lg:max-w-xl"
       >
-        {{ $t(text) }}
+        {{ t(text) }}
       </p>
       <div class="style-btns-next-to-one-another">
         <BtnRouteInternal
@@ -163,13 +163,15 @@
         v-if="subText"
         class="mx-12 pt-8 text-center text-distinct-text md:max-w-md lg:max-w-lg xl:pt-12"
       >
-        {{ $t(subText) }}
+        {{ t(subText) }}
       </p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+const colorMode = useColorMode();
 defineProps<{
   contentPosition: "left" | "right" | "top";
   header: string;

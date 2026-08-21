@@ -13,7 +13,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
   pointer?: Pointer;
-  type: MapType;
+  type: MapTypeType;
   pointers?: PointerCluster[];
   clusterProperties?: ClusterProperties;
   clusterTooltipCreate?: (pointer: unknown) => PopupContent;
