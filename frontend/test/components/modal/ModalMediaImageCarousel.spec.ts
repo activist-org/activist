@@ -5,7 +5,7 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 
 import ModalMediaImageCarousel from "../../../app/components/modal/ModalMediaImage.vue";
-import { EntityType } from "../../../shared/constants/entity";
+import { EntityMap } from "../../../shared/constants/entityMap";
 
 // MARK: Stubs
 
@@ -26,7 +26,7 @@ const MediaImageCarouselStub = {
 // MARK: Helper
 
 const createWrapper = (
-  props: { imageUrls?: string[]; entityType?: EntityType } = {}
+  props: { imageUrls?: string[]; entityType?: EntityMap } = {}
 ): VueWrapper =>
   mount(ModalMediaImageCarousel, {
     props: {
@@ -34,7 +34,7 @@ const createWrapper = (
         "https://example.com/img1.jpg",
         "https://example.com/img2.jpg",
       ],
-      entityType: EntityType.ORGANIZATION,
+      entityType: EntityMap.ORGANIZATION,
       ...props,
     },
     global: {
@@ -69,9 +69,9 @@ describe("ModalMediaImageCarousel component", () => {
 
   describe("Props Forwarding", () => {
     it("passes entityType to MediaImageCarousel", () => {
-      const wrapper = createWrapper({ entityType: EntityType.EVENT });
+      const wrapper = createWrapper({ entityType: EntityMap.EVENT });
       const carousel = wrapper.findComponent({ name: "MediaImageCarousel" });
-      expect(carousel.props("entityType")).toBe(EntityType.EVENT);
+      expect(carousel.props("entityType")).toBe(EntityMap.EVENT);
     });
 
     it("passes imageUrls to MediaImageCarousel", () => {
@@ -91,7 +91,7 @@ describe("ModalMediaImageCarousel component", () => {
       const wrapper = mount(ModalMediaImageCarousel, {
         props: {
           imageUrls: undefined as unknown as string[],
-          entityType: EntityType.ORGANIZATION,
+          entityType: EntityMap.ORGANIZATION,
         },
         global: {
           stubs: {
