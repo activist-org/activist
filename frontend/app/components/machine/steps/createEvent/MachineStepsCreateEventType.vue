@@ -60,10 +60,10 @@
         <FormSelectorComboboxTopics
           :id="id"
           @update:selected-topics="
-            (val: unknown) => handleChange(val as TopicTypeType[])
+            (val: unknown) => handleChange(val as TopicMapType[])
           "
           :label="t('i18n.components._global.topics')"
-          :selected-topics="((value.value ?? []) as TopicTypeType[])"
+          :selected-topics="((value.value ?? []) as TopicMapType[])"
         />
       </FormItem>
     </Form>

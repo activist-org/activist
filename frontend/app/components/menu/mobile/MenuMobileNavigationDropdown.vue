@@ -81,7 +81,7 @@ import {
 } from "@headlessui/vue";
 
 const { t } = useI18n();
-const sidebarTypeOrganizationPage = SidebarType.ORGANIZATION_PAGE;
+const sidebarTypeOrganizationPage = SidebarMap.ORGANIZATION_PAGE;
 const { currentRoute } = useRouter();
 
 const routeName = computed(() => {
@@ -98,39 +98,39 @@ const isEventPage = computed(() =>
   isCurrentRoutePathSubpageOf("events", routeName.value.toString())
 );
 
-const pathToSidebarTypeMap = [
-  { path: "search", type: SidebarType.SEARCH },
-  { path: "home", type: SidebarType.HOME },
+const pathToSidebarMap = [
+  { path: "search", type: SidebarMap.SEARCH },
+  { path: "home", type: SidebarMap.HOME },
   {
     path: "organizations",
     type: isOrgPage.value
-      ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.ORGANIZATIONS_PAGE,
+      ? SidebarMap.ORGANIZATION_PAGE
+      : SidebarMap.ORGANIZATIONS_PAGE,
   },
   {
     path: "events",
-    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENTS_PAGE,
+    type: isEventPage.value ? SidebarMap.EVENT_PAGE : SidebarMap.EVENTS_PAGE,
   },
 ];
 
 watch([isOrgPage, isEventPage], () => {
-  if (pathToSidebarTypeMap[2]) {
-    pathToSidebarTypeMap[2]["type"] = isOrgPage.value
-      ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.ORGANIZATIONS_PAGE;
+  if (pathToSidebarMap[2]) {
+    pathToSidebarMap[2]["type"] = isOrgPage.value
+      ? SidebarMap.ORGANIZATION_PAGE
+      : SidebarMap.ORGANIZATIONS_PAGE;
   }
-  if (pathToSidebarTypeMap[3]) {
-    pathToSidebarTypeMap[3]["type"] = isEventPage.value
-      ? SidebarType.EVENT_PAGE
-      : SidebarType.EVENTS_PAGE;
+  if (pathToSidebarMap[3]) {
+    pathToSidebarMap[3]["type"] = isEventPage.value
+      ? SidebarMap.EVENT_PAGE
+      : SidebarMap.EVENTS_PAGE;
   }
 });
 
 const sidebarType = computed(() => {
-  const matchingPath = pathToSidebarTypeMap.find((item) =>
+  const matchingPath = pathToSidebarMap.find((item) =>
     currentRoutePathIncludes(item.path, routeName.value.toString())
   );
-  return matchingPath?.type || SidebarType.MISC;
+  return matchingPath?.type || SidebarMap.MISC;
 });
 
 const menuEntryState = useMenuEntriesState();

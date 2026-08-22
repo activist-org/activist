@@ -61,7 +61,7 @@
             }"
             :entity="event"
             :faqEntry="element"
-            :pageType="EntityType.EVENT"
+            :pageType="EntityMap.EVENT"
             :tabindex="canEdit(event) ? 0 : -1"
           />
         </template>

@@ -64,7 +64,7 @@
               selectedResource: selectedIndex === index,
             }"
             :entity="event"
-            :entityType="EntityType.EVENT"
+            :entityType="EntityMap.EVENT"
             :isReduced="true"
             :resource="element"
             :tabindex="canEdit(event) ? 0 : -1"

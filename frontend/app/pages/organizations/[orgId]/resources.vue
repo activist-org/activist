@@ -66,7 +66,7 @@
               selectedResource: selectedIndex === index,
             }"
             :entity="organization"
-            :entityType="EntityType.ORGANIZATION"
+            :entityType="EntityMap.ORGANIZATION"
             :isReduced="true"
             :resource="element"
             :tabindex="canEdit(organization) ? 0 : -1"

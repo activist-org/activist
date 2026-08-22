@@ -15,12 +15,12 @@
 </template>
 
 <script setup lang="ts">
-const sidebarOrganizationPage = SidebarType.ORGANIZATIONS_PAGE;
-const sidebarEventPage = SidebarType.EVENTS_PAGE;
+const sidebarOrganizationPage = SidebarMap.ORGANIZATIONS_PAGE;
+const sidebarEventPage = SidebarMap.EVENTS_PAGE;
 
 const props = defineProps<{
   sidebarType:
-    typeof SidebarType.EVENTS_PAGE | typeof SidebarType.ORGANIZATIONS_PAGE;
+    typeof SidebarMap.EVENTS_PAGE | typeof SidebarMap.ORGANIZATIONS_PAGE;
   logoUrl?: string;
 }>();
 

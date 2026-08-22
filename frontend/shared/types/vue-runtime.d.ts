@@ -6,13 +6,11 @@ type IconMapType = typeof IconMap;
 type BreakpointMapType = typeof BreakpointMap;
 type Entity = typeof EntityType;
 type ColorByEventTypeAndThemeType = typeof ColorByEventTypeAndTheme;
-type ColorByEventTypeType = typeof ColorByEventType;
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     IconMap: IconMapType;
     BreakpointMap: BreakpointMapType;
-    EntityType: Entity;
+    EntityMap: Entity;
     ColorByEventTypeAndTheme: ColorByEventTypeAndThemeType;
-    ColorByEventType: ColorByEventTypeType;
   }
 }

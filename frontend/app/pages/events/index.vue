@@ -63,7 +63,7 @@ const filters = computed<EventFilters>(() => {
   // Normalize topics to always be an array (Vue Router returns string for single value).
   normalizedFilters.topics = normalizeArrayFromURLQuery(
     topics
-  ) as TopicTypeType[];
+  ) as TopicMapType[];
 
   if (normalizedFilters.days_ahead) {
     normalizedFilters.days_ahead = +normalizedFilters.days_ahead;
@@ -120,17 +120,15 @@ const removeFilter = (option: {
   router.replace({ query: rest as LocationQueryRaw });
 };
 
-const selectedTopics = ref<TopicTypeType[]>([]);
+const selectedTopics = ref<TopicMapType[]>([]);
 watch(
   () => route.query.topics,
   (newVal) => {
-    selectedTopics.value = normalizeArrayFromURLQuery(
-      newVal
-    ) as TopicTypeType[];
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicMapType[];
   },
   { immediate: true }
 );
-const handleSelectedTopicsUpdate = (selectedTopics: TopicTypeType[]) => {
+const handleSelectedTopicsUpdate = (selectedTopics: TopicMapType[]) => {
   const query = { ...route.query };
   if (selectedTopics.length > 0) {
     query.topics = selectedTopics;

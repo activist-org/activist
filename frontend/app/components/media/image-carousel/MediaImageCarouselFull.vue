@@ -34,7 +34,7 @@
 const { t } = useI18n();
 
 const props = defineProps<{
-  entityType: EntityTypeType;
+  entityType: EntityMapType;
   entityId: string;
   images: ContentImage[];
 }>();
@@ -48,11 +48,11 @@ const { openModal: openModalUploadImageGroup } = useModalHandlers(
   "ModalUploadImageGroup"
 );
 const handleEditUploadImage = () => {
-  if (props.entityType === EntityType.GROUP)
+  if (props.entityType === EntityMap.GROUP)
     openModalUploadImageGroup({
       groupId: props.entityId as unknown as Group,
     });
-  if (props.entityType === EntityType.ORGANIZATION)
+  if (props.entityType === EntityMap.ORGANIZATION)
     openModalUploadImageOrganization({
       orgId: props.entityId as unknown as Organization,
     });

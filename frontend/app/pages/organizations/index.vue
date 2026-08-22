@@ -87,11 +87,11 @@ const filters = computed<OrganizationFilters>(() => {
   // Normalize topics to always be an array (Vue Router returns string for single value).
   normalizedFilters.topics = normalizeArrayFromURLQuery(
     topics
-  ) as TopicTypeType[];
+  ) as TopicMapType[];
 
   return normalizedFilters;
 });
-const selectedTopics = ref<TopicTypeType[]>([]);
+const selectedTopics = ref<TopicMapType[]>([]);
 
 const listFilters = computed(() => {
   const mappedFilters = Object.entries(filters.value).flatMap(
@@ -144,13 +144,11 @@ const removeFilter = (option: {
 watch(
   () => route.query.topics,
   (newVal) => {
-    selectedTopics.value = normalizeArrayFromURLQuery(
-      newVal
-    ) as TopicTypeType[];
+    selectedTopics.value = normalizeArrayFromURLQuery(newVal) as TopicMapType[];
   },
   { immediate: true }
 );
-const handleSelectedTopicsUpdate = (selectedTopics: TopicTypeType[]) => {
+const handleSelectedTopicsUpdate = (selectedTopics: TopicMapType[]) => {
   const query = { ...route.query };
   if (selectedTopics.length > 0) {
     query.topics = selectedTopics;

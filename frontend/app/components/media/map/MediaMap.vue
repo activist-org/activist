@@ -13,7 +13,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
   pointer?: Pointer;
-  type: MapTypeType;
+  type: MapViewMapType;
   pointers?: PointerCluster[];
   clusterProperties?: ClusterProperties;
   clusterTooltipCreate?: (pointer: unknown) => PopupContent;
@@ -79,14 +79,14 @@ onMounted(() => {
     setMapLayers(mapLayers);
     setMap(map);
 
-    if (props.type === MapType.POINT) {
+    if (props.type === MapViewMap.POINT) {
       if (!props.pointer) {
         return;
       }
       const pointer: Pointer = props.pointer;
       createMapForPointerTypeMap(map, pointer, isTouchDevice);
     }
-    if (props.type === MapType.CLUSTER) {
+    if (props.type === MapViewMap.CLUSTER) {
       if (!props.pointers || props.pointers.length === 0) {
         return;
       }

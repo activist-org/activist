@@ -93,37 +93,37 @@ import {
 } from "@headlessui/vue";
 
 const props = defineProps<{
-  receivedSelectedTopics?: TopicTypeType[];
+  receivedSelectedTopics?: TopicMapType[];
 }>();
 const { t } = useI18n();
 
 const { data: topics } = useGetTopics();
 
 const emit = defineEmits<{
-  (e: "update:selectedTopics", value: TopicTypeType[]): void;
+  (e: "update:selectedTopics", value: TopicMapType[]): void;
 }>();
 
-const selectedTopics = ref<TopicTypeType[]>([]);
+const selectedTopics = ref<TopicMapType[]>([]);
 // Flag to prevent emitting when updating from props (prevents infinite loop).
 const isSyncingFromProps = ref(false);
 
-const options = computed<{ label: string; value: TopicTypeType; id: string }[]>(
+const options = computed<{ label: string; value: TopicMapType; id: string }[]>(
   () => {
     const topicsOptions = (topics.value || [])
       .map((topic: Topic) => ({
         label: t(
           GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""
         ),
-        value: topic.type as TopicTypeType,
+        value: topic.type as TopicMapType,
         id: topic.id,
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
     return topicsOptions.sort((a, b) => {
       const aSelected = selectedTopics.value.some(
-        (selected: TopicTypeType) => selected === a.value
+        (selected: TopicMapType) => selected === a.value
       );
       const bSelected = selectedTopics.value.some(
-        (selected: TopicTypeType) => selected === b.value
+        (selected: TopicMapType) => selected === b.value
       );
 
       if (aSelected && !bSelected) {
@@ -138,7 +138,7 @@ const options = computed<{ label: string; value: TopicTypeType; id: string }[]>(
 );
 watch(
   () => props.receivedSelectedTopics,
-  (newValReceived: TopicTypeType[] | undefined) => {
+  (newValReceived: TopicMapType[] | undefined) => {
     // Set flag to prevent emission during prop update.
     isSyncingFromProps.value = true;
 

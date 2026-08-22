@@ -8,4 +8,4 @@ export interface Entity {
   creationDate?: string;
 }
 
-export type EntityTypeType = (typeof EntityType)[keyof typeof EntityType];
+export type EntityMapType = (typeof EntityMap)[keyof typeof EntityMap];

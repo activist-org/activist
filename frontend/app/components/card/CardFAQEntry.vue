@@ -88,7 +88,7 @@ defineOptions({
 
 const props = defineProps<{
   faqEntry: FaqEntry;
-  pageType: EntityTypeType;
+  pageType: EntityMapType;
   entity?: Entity | null;
   tabindex?: number;
 }>();

@@ -68,7 +68,7 @@
             }"
             :entity="organization"
             :faqEntry="element"
-            :pageType="EntityType.ORGANIZATION"
+            :pageType="EntityMap.ORGANIZATION"
             :tabindex="canEdit(organization) ? 0 : -1"
           />
         </template>

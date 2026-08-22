@@ -66,7 +66,7 @@
             }"
             :entity="group"
             :faqEntry="element"
-            :pageType="EntityType.GROUP"
+            :pageType="EntityMap.GROUP"
             :tabindex="canEdit(group) ? 0 : -1"
           />
         </template>

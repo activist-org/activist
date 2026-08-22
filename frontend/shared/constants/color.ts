@@ -5,8 +5,3 @@ export const ColorByEventTypeAndTheme = {
   ACTION_DARK: "#EE5A58",
   LEARN_DARK: "#3E92CC",
 };
-
-export const ColorByEventType = {
-  ACTION: "#BA3D3B",
-  LEARN: "#2176AE",
-};

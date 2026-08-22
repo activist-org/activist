@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-export const SidebarType = {
+export const SidebarMap = {
   HOME: "home",
   EVENTS_PAGE: "events page",
   EVENT_PAGE: "event page",

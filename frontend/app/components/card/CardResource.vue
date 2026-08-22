@@ -114,7 +114,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   resource: Resource;
-  entityType: EntityTypeType;
+  entityType: EntityMapType;
   entity?: Entity | null;
   isReduced?: boolean;
 }>();

@@ -47,23 +47,23 @@
       <SidebarLeftMainSectionSelectors class="mt-2" />
       <SidebarLeftContent
         v-if="
-          sidebarType === sidebarOrganizationPage ||
-          sidebarType === sidebarEventPage
+          sidebarMap === sidebarOrganizationPage ||
+          sidebarMap === sidebarEventPage
         "
         class="my-3"
         :logoUrl="placeholderLogo"
         :name="placeholderName ? placeholderName : 'Name'"
-        :sidebarType="sidebarType"
+        :sidebarType="sidebarMap"
       />
       <!-- TODO: We need to edit the v-else-if once more filters are enabled. -->
       <SidebarLeftFilter
         v-else-if="
-          (sidebarType === sidebarOrganizationsPage ||
-            sidebarType === sidebarEventsPage) &&
+          (sidebarMap === sidebarOrganizationsPage ||
+            sidebarMap === sidebarEventsPage) &&
           (!sidebar.collapsed || !sidebar.collapsedSwitch)
         "
         class="my-3"
-        :sidebarType="sidebarType"
+        :sidebarType="sidebarMap"
       />
       <div v-else class="w-full px-1 pt-2">
         <div
@@ -84,10 +84,10 @@ const searchBarLocation = SearchBarLocation.SIDEBAR;
 const sidebar = useSidebar();
 const route = useRoute();
 const { currentRoute } = useRouter();
-const sidebarEventPage = SidebarType.EVENT_PAGE;
-const sidebarOrganizationPage = SidebarType.ORGANIZATION_PAGE;
-const sidebarOrganizationsPage = SidebarType.ORGANIZATIONS_PAGE;
-const sidebarEventsPage = SidebarType.EVENTS_PAGE;
+const sidebarEventPage = SidebarMap.EVENT_PAGE;
+const sidebarOrganizationPage = SidebarMap.ORGANIZATION_PAGE;
+const sidebarOrganizationsPage = SidebarMap.ORGANIZATIONS_PAGE;
+const sidebarEventsPage = SidebarMap.EVENTS_PAGE;
 const routeName = computed(() => {
   if (currentRoute.value.name) {
     return currentRoute.value.name;
@@ -122,35 +122,35 @@ const isEventPage = computed(() =>
   isCurrentRoutePathSubpageOf("events", routeName.value.toString())
 );
 
-const pathToSidebarTypeMap = [
-  // { path: "search", type: SidebarType.SEARCH },
-  // { path: "home", type: SidebarType.HOME },
+const pathToSidebarMap = [
+  // { path: "search", type: SidebarMap.SEARCH },
+  // { path: "home", type: SidebarMap.HOME },
   {
     path: "organizations",
     type: isOrgPage.value
-      ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.ORGANIZATIONS_PAGE,
+      ? SidebarMap.ORGANIZATION_PAGE
+      : SidebarMap.ORGANIZATIONS_PAGE,
   },
   {
     path: "events",
-    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENTS_PAGE,
+    type: isEventPage.value ? SidebarMap.EVENT_PAGE : SidebarMap.EVENTS_PAGE,
   },
 ];
 
 watch([isOrgPage, isEventPage], () => {
-  if (pathToSidebarTypeMap[0]) {
-    pathToSidebarTypeMap[0]["type"] = SidebarType.ORGANIZATION_PAGE;
+  if (pathToSidebarMap[0]) {
+    pathToSidebarMap[0]["type"] = SidebarMap.ORGANIZATION_PAGE;
   }
-  if (pathToSidebarTypeMap[1]) {
-    pathToSidebarTypeMap[1]["type"] = SidebarType.EVENT_PAGE;
+  if (pathToSidebarMap[1]) {
+    pathToSidebarMap[1]["type"] = SidebarMap.EVENT_PAGE;
   }
 });
 
-const sidebarType = computed(() => {
-  const matchingPath = pathToSidebarTypeMap.find((item) =>
+const sidebarMap = computed(() => {
+  const matchingPath = pathToSidebarMap.find((item) =>
     currentRoutePathIncludes(item.path, routeName.value.toString())
   );
-  return matchingPath?.type || SidebarType.MISC;
+  return matchingPath?.type || SidebarMap.MISC;
 });
 
 // TODO: Use real name of organization / event when available from backend.

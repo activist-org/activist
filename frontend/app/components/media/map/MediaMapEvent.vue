@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const { event } = props;
 
-const pointType = MapType.POINT;
+const pointType = MapViewMap.POINT;
 const organizationIcon = `/icons/map/tooltip_organization.png`;
 const calendarIcon = `/icons/map/tooltip_datetime.png`;
 const locationIcon = `/icons/map/tooltip_location.png`;

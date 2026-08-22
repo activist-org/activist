@@ -58,7 +58,7 @@ const { t } = useI18n();
 interface Props {
   fullscreen: boolean;
   imageUrls: string[];
-  entityType: EntityTypeType;
+  entityType: EntityMapType;
 }
 
 const props = defineProps<Props>();

@@ -60,7 +60,7 @@ const { t } = useI18n();
 
 interface Props {
   entityId: string;
-  entityType: EntityTypeType;
+  entityType: EntityMapType;
 }
 const props = defineProps<Props>();
 
@@ -94,11 +94,11 @@ const fileImageIcon = ref();
 const { getIconImage } = useFileManager();
 const handleUpload = async () => {
   try {
-    const entityType = props.entityType as EntityTypeType;
+    const entityType = props.entityType as EntityMapType;
     // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
-    if (entityType === EntityType.ORGANIZATION) {
+    if (entityType === EntityMap.ORGANIZATION) {
       uploadOrganizationIconImage(fileImageIcon.value as UploadableFile);
-    } else if (entityType === EntityType.EVENT) {
+    } else if (entityType === EntityMap.EVENT) {
       uploadEventIconImage(fileImageIcon.value as UploadableFile);
     } else {
       throw new Error("Unsupported entity type");

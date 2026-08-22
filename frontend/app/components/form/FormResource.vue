@@ -68,11 +68,11 @@
         <FormSelectorComboboxTopics
           :id="id"
           @update:selectedOptions="
-            (val: unknown) => handleChange(val as TopicTypeType[])
+            (val: unknown) => handleChange(val as TopicMapType[])
           "
           :hasColOptions="false"
           :label="t('i18n.components._global.topics')"
-          :selected-topics="(value.value as TopicTypeType[])"
+          :selected-topics="(value.value as TopicMapType[])"
         />
       </FormItem>
     </div>
@@ -116,7 +116,7 @@ const schema = z.object({
       z
         .string()
         .refine(
-          (val) => Object.values(TopicType).includes(val as TopicTypeType),
+          (val) => Object.values(TopicMap).includes(val as TopicMapType),
           {
             message: t("i18n.components.form_resource.invalid_topic"),
           }

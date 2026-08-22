@@ -13,7 +13,7 @@
 withDefaults(
   defineProps<{
     imageUrls?: string[];
-    entityType: EntityTypeType;
+    entityType: EntityMapType;
   }>(),
   {
     imageUrls: () => [],

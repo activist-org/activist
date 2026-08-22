@@ -2,8 +2,7 @@
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.config.globalProperties.IconMap = IconMap;
   nuxtApp.vueApp.config.globalProperties.BreakpointMap = BreakpointMap;
-  nuxtApp.vueApp.config.globalProperties.EntityType = EntityType;
+  nuxtApp.vueApp.config.globalProperties.EntityMap = EntityMap;
   nuxtApp.vueApp.config.globalProperties.ColorByEventTypeAndTheme =
     ColorByEventTypeAndTheme;
-  nuxtApp.vueApp.config.globalProperties.ColorByEventType = ColorByEventType;
 });

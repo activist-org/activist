@@ -104,7 +104,7 @@ const { t } = useI18n();
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {
-    type: Array as PropType<TopicTypeType[]>,
+    type: Array as PropType<TopicMapType[]>,
     required: false,
     default: () => [],
   },
@@ -225,11 +225,11 @@ const mobileKeyboardEvent = (e: KeyboardEvent) => {
   topics[index]?.focus();
 };
 
-const value = computed<TopicTypeType[]>({
+const value = computed<TopicMapType[]>({
   get() {
     return props.modelValue;
   },
-  set(value: TopicTypeType[]) {
+  set(value: TopicMapType[]) {
     emit("update:modelValue", value);
   },
 });
@@ -251,7 +251,7 @@ const selectTopic = (topic: TopicTag) => {
   }
 };
 
-function isActiveTopic(topic: TopicTypeType) {
+function isActiveTopic(topic: TopicMapType) {
   return value.value.includes(topic);
 }
 

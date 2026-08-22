@@ -68,7 +68,7 @@
               selectedResource: selectedIndex === index,
             }"
             :entity="group"
-            :entityType="EntityType.GROUP"
+            :entityType="EntityMap.GROUP"
             :isReduced="true"
             :resource="element"
             :tabindex="canEdit(group) ? 0 : -1"

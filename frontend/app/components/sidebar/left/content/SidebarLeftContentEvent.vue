@@ -32,7 +32,7 @@
         @click="
           openModal({
             entityId: event?.id,
-            entityType: EntityType.EVENT,
+            entityType: EntityMap.EVENT,
           })
         "
         :aria-label="t('i18n.components._global.edit_aria_label')"
