@@ -21,6 +21,7 @@
     "test:auth": "cross-env TEST_ENV=local playwright test --user-data-dir=./test-results/user-data",
     "test:auth:prod": "cross-env TEST_ENV=prod playwright test --user-data-dir=./test-results/user-data",
     "test:clean": "rm -rf ./test-results/user-data && cross-env TEST_ENV=local playwright test",
+    "test:e2e:coverage": "node test-e2e/scripts/e2e-coverage.mjs",
     "typecheck": "nuxi typecheck",
     "format": "yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore",
     "lint": "eslint .",
