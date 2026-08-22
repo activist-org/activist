@@ -202,9 +202,9 @@ Read it as: "We require a test that the landing title and hero show. Find a spec
 
 | Result | What happened |
 |--------|----------------|
-| **covered** | That spec exists and has a real (not skipped) test |
+| **covered** | That spec exists and has a real (not skipped) test. The report also shows which `test()` title counted, so you can spot a loose match. |
 | **partial** | A matching spec exists, but every matching test is `skip` or `fixme` |
-| **missing** | No spec path contains that fragment |
+| **missing** | No spec path contains that fragment, or a spec matches but no `test()` title matches. The report says which, and shows the spec fragment (and title) to look for. |
 
 Sometimes one spec file covers several behaviors. Then the row also names a `title` so the script looks at the `test("...")` name, not just the file. Example: `EF-CRUD-01` points at `event-faq-page`, then requires a title matching `CREATE`, `UPDATE`, or `DELETE`, so a "page loads" test in the same file does not count as CRUD.
 
@@ -232,7 +232,7 @@ node test-e2e/scripts/e2e-coverage.mjs --uncovered
 node test-e2e/scripts/e2e-coverage.mjs --json
 ```
 
-`--full` prints the scenario checklist. Without it you still get the headline percentage, but not each id.
+`--full` prints the scenario checklist, coverage by category (for example how many `PERM` cases are missing), and which `test()` title counted for each covered row. Without `--full` you still get the headline percentage, but not each id.
 
 The script also still reports routes:
 

@@ -506,12 +506,22 @@ function shortSpec(file) {
   return file.replace(/^test-e2e\/specs\//, "");
 }
 
+function testTitlesOf(tests) {
+  return [...new Set(tests.map((t) => t.title))];
+}
+
 function evaluateCase(testcase, specFiles) {
   const matched = specFiles.filter((s) =>
     testcase.spec.some((frag) => s.file.includes(frag))
   );
   if (matched.length === 0) {
-    return { ...testcase, status: "missing", specs: [] };
+    return {
+      ...testcase,
+      status: "missing",
+      reason: "no_spec",
+      specs: [],
+      testTitles: [],
+    };
   }
 
   if (testcase.title) {
@@ -525,7 +535,9 @@ function evaluateCase(testcase, specFiles) {
       return {
         ...testcase,
         status: "missing",
+        reason: "title_miss",
         specs: matched.map((s) => s.file),
+        testTitles: [],
       };
     }
     const active = tests.filter((t) => !t.skipped);
@@ -533,16 +545,22 @@ function evaluateCase(testcase, specFiles) {
       ...testcase,
       status: active.length === 0 ? "partial" : "covered",
       specs: [...new Set(tests.map((t) => t.file))],
+      testTitles: testTitlesOf(active.length ? active : tests),
     };
   }
 
+  const tests = matched.flatMap((s) =>
+    s.tests.map((t) => ({ ...t, file: s.file }))
+  );
   const allSkipped = matched.every(
     (s) => s.testCount > 0 && s.skippedCount === s.testCount
   );
+  const active = tests.filter((t) => !t.skipped);
   return {
     ...testcase,
     status: allSkipped ? "partial" : "covered",
     specs: matched.map((s) => s.file),
+    testTitles: testTitlesOf(active.length ? active : tests),
   };
 }
 
@@ -578,7 +596,37 @@ function evaluateScenarioMatrix(specFiles) {
     partial,
     missing,
     pct: required ? Math.round((covered / required) * 100) : 0,
+    categories: categoryStats(flows),
   };
+}
+
+function categoryStats(flows) {
+  const byCat = Object.fromEntries(
+    Object.keys(CATEGORIES).map((code) => [
+      code,
+      { required: 0, covered: 0, partial: 0, missing: 0 },
+    ])
+  );
+  for (const flow of flows) {
+    for (const item of flow.cases) {
+      if (item.required === false) continue;
+      const bucket = byCat[item.category];
+      if (!bucket) continue;
+      bucket.required += 1;
+      if (bucket[item.status] !== undefined) bucket[item.status] += 1;
+    }
+  }
+  return Object.entries(CATEGORIES).map(([code, meaning]) => {
+    const stats = byCat[code];
+    return {
+      code,
+      meaning,
+      ...stats,
+      pct: stats.required
+        ? Math.round((stats.covered / stats.required) * 100)
+        : 0,
+    };
+  });
 }
 
 // MARK: Report data
@@ -730,10 +778,28 @@ function renderSimpleMarkdown(report) {
   return lines.join("\n");
 }
 
-function caseIcon(status) {
-  if (status === "covered") return "✅";
-  if (status === "partial") return "⚠️";
-  return "❌";
+function missWhy(item) {
+  if (item.reason === "title_miss") return "spec found, title did not match";
+  return "no spec file matches";
+}
+
+function caseStatusLabel(item) {
+  if (item.status === "covered") return "✅";
+  if (item.status === "partial") return "⚠️ skipped";
+  if (item.reason === "title_miss") return "❌ title";
+  return "❌ no spec";
+}
+
+function formatMatchedTests(item) {
+  if (item.status === "missing") return "-";
+  const titles = item.testTitles ?? [];
+  if (titles.length === 0) return "-";
+  const shown = titles.slice(0, 3).map((title) =>
+    `\`${title.replace(/\|/g, "/")}\``
+  );
+  const extra =
+    titles.length > 3 ? `, +${titles.length - 3} more` : "";
+  return `${shown.join(", ")}${extra}`;
 }
 
 function renderFullMarkdown(report) {
@@ -773,12 +839,19 @@ function renderFullMarkdown(report) {
     `| Testable routes covered (secondary) | ${report.coveredTestable} / ${report.testableRoutes} (${report.coveragePercentTestable}%) |`
   );
   lines.push("");
-  lines.push("### Categories");
+  lines.push("### Coverage by category");
   lines.push("");
-  lines.push("| Code | Meaning |");
-  lines.push("|------|---------|");
-  for (const [code, meaning] of Object.entries(CATEGORIES)) {
-    lines.push(`| **${code}** | ${meaning} |`);
+  lines.push(
+    "This is the same id middle part (`PERM` in `EF-PERM-01`). Use it to see which kind of test is thin, not only which page."
+  );
+  lines.push("");
+  lines.push("| Code | Meaning | Covered | Missing | Coverage |");
+  lines.push("|------|---------|--------:|--------:|---------:|");
+  for (const cat of matrix.categories) {
+    if (cat.required === 0) continue;
+    lines.push(
+      `| **${cat.code}** | ${cat.meaning} | ${cat.covered}/${cat.required} | ${cat.missing} | ${cat.pct}% |`
+    );
   }
   lines.push("");
   lines.push(
@@ -809,15 +882,20 @@ function renderFullMarkdown(report) {
   );
   lines.push(`## Missing scenarios (${missing.length})`);
   lines.push("");
+  lines.push(
+    "`Spec` is the path fragment the catalog looks for. `Title` is an optional `test()` name filter. **no spec file matches** means no file path contains that fragment. **spec found, title did not match** means a file exists but no test title matches."
+  );
+  lines.push("");
   if (missing.length === 0) {
     lines.push("_None._");
     lines.push("");
   } else {
-    lines.push("| ID | Flow | Cat | Scenario |");
-    lines.push("|----|------|-----|----------|");
+    lines.push("| ID | Flow | Cat | Scenario | Spec | Title | Why |");
+    lines.push("|----|------|-----|----------|------|-------|-----|");
     for (const { flow, item } of missing) {
+      const title = item.title ? `\`${item.title}\`` : "-";
       lines.push(
-        `| ${item.id} | ${flow.name} | ${item.category} | ${item.name} |`
+        `| ${item.id} | ${flow.name} | ${item.category} | ${item.name} | \`${item.spec.join(", ")}\` | ${title} | ${missWhy(item)} |`
       );
     }
     lines.push("");
@@ -830,15 +908,15 @@ function renderFullMarkdown(report) {
     lines.push("");
     lines.push(`**${flow.covered}/${flow.required}** covered (${flow.pct}%).`);
     lines.push("");
-    lines.push("| ID | Cat | Scenario | Status | Spec |");
-    lines.push("|----|-----|----------|--------|------|");
+    lines.push("| ID | Cat | Scenario | Status | Spec | Matched test |");
+    lines.push("|----|-----|----------|--------|------|--------------|");
     for (const item of flow.cases) {
       const spec =
         item.specs && item.specs.length
           ? item.specs.map(shortSpec).join(", ")
-          : "—";
+          : "-";
       lines.push(
-        `| ${item.id} | ${item.category} | ${item.name} | ${caseIcon(item.status)} | \`${spec}\` |`
+        `| ${item.id} | ${item.category} | ${item.name} | ${caseStatusLabel(item)} | \`${spec}\` | ${formatMatchedTests(item)} |`
       );
     }
     lines.push("");
