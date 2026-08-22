@@ -5,7 +5,7 @@ import {
   MAX_IMAGE_SIZE_IN_BYTES,
   MAX_IMAGE_UPLOAD_REQUEST_SIZE_IN_BYTES,
   MAX_IMAGES_PER_UPLOAD,
-} from "../../shared/utils/uploadLimits";
+} from "../../shared/constants/uploadLimits";
 
 describe("utils/uploadLimits", () => {
   it("mirrors the backend's per-image limit", () => {

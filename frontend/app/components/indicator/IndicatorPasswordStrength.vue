@@ -21,13 +21,13 @@
     >
       {{
         !!(password || []).length
-          ? $t(
+          ? t(
               "i18n.components.indicator_password_strength.time_to_crack_password",
               {
                 time: crackTimeDisplay,
               }
             )
-          : $t("i18n.components.indicator_password_strength.invalid")
+          : t("i18n.components.indicator_password_strength.invalid")
       }}
     </div>
   </div>
@@ -35,6 +35,8 @@
 
 <script setup lang="ts">
 import zxcvbn from "zxcvbn";
+
+const { t } = useI18n();
 
 const props = defineProps<{
   passwordValue?: string | Ref<string | undefined>;

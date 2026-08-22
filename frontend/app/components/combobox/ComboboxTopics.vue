@@ -12,13 +12,13 @@
             @click="inputFocussed = true"
             @focus="handleInputFocus"
             @keyup.enter="inputFocussed = false"
-            :aria-label="$t('i18n.components.combobox_topics.filter_by_topic')"
+            :aria-label="t('i18n.components.combobox_topics.filter_by_topic')"
             class="style-cta rounded-lg border py-2 pl-4 selection:bg-highlight dark:selection:bg-white/20"
             :displayValue="displayValueHandler"
-            :placeholder="$t('i18n.components.combobox_topics.filter_by_topic')"
+            :placeholder="t('i18n.components.combobox_topics.filter_by_topic')"
           />
           <ComboboxButton
-            :aria-label="$t('i18n.components.combobox_topics.toggle_dropdown')"
+            :aria-label="t('i18n.components.combobox_topics.toggle_dropdown')"
             class="absolute inset-y-0 right-0 flex items-center pr-3 text-primary-text dark:text-cta-orange"
           >
             <Icon :name="IconMap.CHEVRON_EXPAND" />
@@ -40,7 +40,7 @@
               v-if="filteredTopics.length === 0 && query !== ''"
               class="relative cursor-default select-none px-4 py-2 text-distinct-text"
             >
-              {{ $t("i18n.components.combobox_topics.no_matching_topics") }}
+              {{ t("i18n.components.combobox_topics.no_matching_topics") }}
             </div>
             <ComboboxOption
               v-for="topic in filteredTopics"
@@ -61,7 +61,7 @@
                 role="option"
               >
                 <span class="block truncate">
-                  {{ $t(topic.label) }}
+                  {{ t(topic.label) }}
                 </span>
                 <span
                   v-if="selected"
@@ -93,37 +93,37 @@ import {
 } from "@headlessui/vue";
 
 const props = defineProps<{
-  receivedSelectedTopics?: TopicEnum[];
+  receivedSelectedTopics?: TopicMapType[];
 }>();
 const { t } = useI18n();
 
 const { data: topics } = useGetTopics();
 
 const emit = defineEmits<{
-  (e: "update:selectedTopics", value: TopicEnum[]): void;
+  (e: "update:selectedTopics", value: TopicMapType[]): void;
 }>();
 
-const selectedTopics = ref<TopicEnum[]>([]);
+const selectedTopics = ref<TopicMapType[]>([]);
 // Flag to prevent emitting when updating from props (prevents infinite loop).
 const isSyncingFromProps = ref(false);
 
-const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
+const options = computed<{ label: string; value: TopicMapType; id: string }[]>(
   () => {
     const topicsOptions = (topics.value || [])
       .map((topic: Topic) => ({
         label: t(
           GLOBAL_TOPICS.find((t) => t.topic === topic.type)?.label || ""
         ),
-        value: topic.type as TopicEnum,
+        value: topic.type as TopicMapType,
         id: topic.id,
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
     return topicsOptions.sort((a, b) => {
       const aSelected = selectedTopics.value.some(
-        (selected: TopicEnum) => selected === a.value
+        (selected: TopicMapType) => selected === a.value
       );
       const bSelected = selectedTopics.value.some(
-        (selected: TopicEnum) => selected === b.value
+        (selected: TopicMapType) => selected === b.value
       );
 
       if (aSelected && !bSelected) {
@@ -138,7 +138,7 @@ const options = computed<{ label: string; value: TopicEnum; id: string }[]>(
 );
 watch(
   () => props.receivedSelectedTopics,
-  (newValReceived: TopicEnum[] | undefined) => {
+  (newValReceived: TopicMapType[] | undefined) => {
     // Set flag to prevent emission during prop update.
     isSyncingFromProps.value = true;
 

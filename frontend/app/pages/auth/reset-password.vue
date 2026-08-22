@@ -3,12 +3,12 @@
   <div class="px-4 sm:px-6 md:px-8 xl:px-24 2xl:px-36">
     <form class="space-y-4">
       <p>
-        {{ $t("i18n.pages.auth.reset_password.index.reset_password_info") }}
+        {{ t("i18n.pages.auth.reset_password.index.reset_password_info") }}
       </p>
       <FormTextInput
         id="reset-password-username"
         @input="input = $event.target.value"
-        :label="$t('i18n.pages.auth.reset_password.enter_username_mail')"
+        :label="t('i18n.pages.auth.reset_password.enter_username_mail')"
         :value="input"
       />
       <div class="pt-4">
@@ -22,7 +22,7 @@
       </div>
       <div class="link-text pt-16 text-center text-xl font-extrabold">
         <NuxtLink :to="localePath('/auth/sign-in')">
-          {{ $t("i18n.pages.auth.reset_password.index.back_to_sign_in") }}
+          {{ t("i18n.pages.auth.reset_password.index.back_to_sign_in") }}
         </NuxtLink>
       </div>
     </form>
@@ -30,6 +30,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const localePath = useLocalePath();
 
 const input = ref("");

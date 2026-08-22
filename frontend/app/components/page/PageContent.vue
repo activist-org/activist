@@ -3,9 +3,9 @@
   <!-- Note: image on top of content. -->
   <img
     v-if="!aboveMediumBP"
-    :alt="$t(imgAltText)"
+    :alt="t(imgAltText)"
     class="mb-4 h-40 sm:h-52"
-    :src="imgUrl + '_' + $colorMode.value + '.png'"
+    :src="imgUrl + '_' + colorMode.value + '.png'"
   />
   <div
     class="grid grid-cols-1 md:w-full 2xl:grid-cols-2"
@@ -17,9 +17,9 @@
       <!-- Note: image floating right of content. -->
       <img
         v-if="aboveMediumBP && !above2xlBP"
-        :alt="$t(imgAltText)"
+        :alt="t(imgAltText)"
         class="float-right block h-52 p-4 lg:h-64"
-        :src="imgUrl + '_' + $colorMode.value + '.png'"
+        :src="imgUrl + '_' + colorMode.value + '.png'"
       />
       <slot />
     </div>
@@ -27,15 +27,18 @@
       <!-- Note: image right of content. -->
       <img
         v-if="above2xlBP"
-        :alt="$t(imgAltText)"
+        :alt="t(imgAltText)"
         class="block h-72"
-        :src="imgUrl + '_' + $colorMode.value + '.png'"
+        :src="imgUrl + '_' + colorMode.value + '.png'"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+const colorMode = useColorMode();
+
 export interface Props {
   imgUrl: string;
   imgAltText: string;

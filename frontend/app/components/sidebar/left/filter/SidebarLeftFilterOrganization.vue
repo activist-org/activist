@@ -11,7 +11,7 @@
   >
     <FormItem
       v-slot="{ id, handleChange, errorMessage, value }"
-      :label="$t('i18n._global.country')"
+      :label="t('i18n._global.country')"
       name="country"
     >
       <!-- prettier-ignore-attribute :modelValue -->
@@ -20,13 +20,13 @@
         @update:selected-country="handleChange"
         data-testid="organizations-filter-country"
         :hasError="!!errorMessage.value"
-        :label="$t('i18n._global.country')"
+        :label="t('i18n._global.country')"
         :selected-country="(value.value as string) || ''"
       />
     </FormItem>
     <FormItem
       v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-      :label="$t('i18n.components._global.city')"
+      :label="t('i18n.components._global.city')"
       name="city"
     >
       <!-- prettier-ignore-attribute :modelValue -->
@@ -34,27 +34,27 @@
         :id="id"
         @blur="handleBlur"
         @update:modelValue="handleChange"
-        :ariaLabel="$t('i18n._global.search_city_button_aria_label')"
+        :ariaLabel="t('i18n._global.search_city_button_aria_label')"
         data-testid="organizations-filter-city"
         :hasError="!!errorMessage.value"
-        :label="$t('i18n._global.filter_by_city')"
+        :label="t('i18n._global.filter_by_city')"
         :modelValue="(value.value as string)"
       />
     </FormItem>
     <FormItem
       v-slot="{ id, handleChange, value }"
-      :label="$t('i18n.components._global.topics')"
+      :label="t('i18n.components._global.topics')"
       name="topics"
     >
       <!-- prettier-ignore-attribute :selected-topics -->
       <FormSelectorComboboxTopics
         :id="id"
         @update:selectedOptions="
-          (val: unknown) => handleChange(val as TopicEnum[])
+          (val: unknown) => handleChange(val as TopicMapType[])
         "
         data-testid="organizations-filter-topics"
-        :label="$t('i18n.components._global.topics')"
-        :selected-topics="((value.value ?? []) as TopicEnum[])"
+        :label="t('i18n.components._global.topics')"
+        :selected-topics="((value.value ?? []) as TopicMapType[])"
       />
     </FormItem>
   </Form>
@@ -64,6 +64,8 @@
 import type { LocationQueryRaw } from "vue-router";
 
 import { z } from "zod";
+
+const { t } = useI18n();
 
 const schema = z.object({
   city: z.string().optional(),

@@ -3,7 +3,7 @@ import { screen } from "@testing-library/vue";
 import { describe, expect, it } from "vitest";
 
 import Shield from "../../../app/components/shield/Shield.vue";
-import { IconMap } from "../../../shared/types/icon-map";
+import { IconMap } from "../../../shared/constants/iconMap";
 import render from "../../../test/render";
 
 type ShieldProps = {

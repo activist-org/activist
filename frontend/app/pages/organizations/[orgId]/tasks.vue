@@ -4,15 +4,15 @@
     <Head>
       <Title>
         {{ organization.name }}&nbsp;{{
-          $t("i18n.pages._global.tasks.tasks_lower")
+          t("i18n.pages._global.tasks.tasks_lower")
         }}
       </Title>
     </Head>
     <HeaderAppPageOrganization
       :header="
-        organization.name + ' ' + $t('i18n.pages._global.tasks.tasks_lower')
+        organization.name + ' ' + t('i18n.pages._global.tasks.tasks_lower')
       "
-      :tagline="$t('i18n.pages._global.tasks.tasks_page_tagline')"
+      :tagline="t('i18n.pages._global.tasks.tasks_page_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -34,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   organization: Organization;
 }>();

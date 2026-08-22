@@ -4,16 +4,16 @@
     <Head>
       <Title>
         {{ organization?.name }}
-        {{ $t("i18n.pages.organizations._global.events_lower") }}
+        {{ t("i18n.pages.organizations._global.events_lower") }}
       </Title>
     </Head>
     <HeaderAppPageOrganization
       :header="
         organization?.name +
         ' ' +
-        $t('i18n.pages.organizations._global.events_lower')
+        t('i18n.pages.organizations._global.events_lower')
       "
-      :tagline="$t('i18n.pages.organizations._global.events_tagline')"
+      :tagline="t('i18n.pages.organizations._global.events_tagline')"
     >
       <div
         class="flex w-[75%] items-center space-x-2 lg:flex-row lg:items-center lg:justify-around lg:space-y-0"
@@ -23,9 +23,9 @@
             id="organization-events-search"
             v-model="name"
             :ariaLabel="
-              $t('i18n.pages.organizations.events.search_events_aria_label')
+              t('i18n.pages.organizations.events.search_events_aria_label')
             "
-            :label="$t('i18n._global.search')"
+            :label="t('i18n._global.search')"
             size="lg"
           />
           <div class="flex flex-col justify-end space-x-1">
@@ -33,14 +33,14 @@
               id="filter-date-label"
               class="hidden lg:block"
               for="filter-date-range"
-              :label="$t('i18n.pages.organizations.events.filter_by_date')"
+              :label="t('i18n.pages.organizations.events.filter_by_date')"
             />
             <FormDateTimeInput
               id="filter-date-range"
               v-model="dateRange"
               aria-labelledby="filter-date-label"
               class="flex items-center"
-              :label="$t('i18n.pages.organizations.events.filter_by_date')"
+              :label="t('i18n.pages.organizations.events.filter_by_date')"
             />
           </div>
         </div>
@@ -88,6 +88,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const orgId = useRoute().params.orgId as string;
 
 const name = ref<string>("");

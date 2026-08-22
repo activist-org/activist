@@ -8,7 +8,7 @@
       v-if="!devMode.active"
       @done="verifyCaptcha"
       class="rounded-md"
-      :dark="$colorMode.value === 'dark'"
+      :dark="colorMode.value === 'dark'"
       :language="locale"
       :sitekey="`${FRIENDLY_CAPTCHA_KEY}`"
       startMode="auto"
@@ -17,7 +17,7 @@
       v-else
       @click="verifyCaptcha(true)"
       :aria-label="
-        $t('i18n.components.friendly_captcha.dev_captcha_disabled_aria_label')
+        t('i18n.components.friendly_captcha.dev_captcha_disabled_aria_label')
       "
       class="style-btn flex w-full cursor-pointer items-center space-x-4 rounded-md p-1 px-3 text-left text-lg shadow-none"
       :class="{
@@ -28,10 +28,10 @@
     >
       <Icon :name="IconMap.SHIELD" size="28px" />
       <p v-if="!localeValue" class="font-bold">
-        {{ $t("i18n.components.friendly_captcha.dev_captcha_disabled") }}
+        {{ t("i18n.components.friendly_captcha.dev_captcha_disabled") }}
       </p>
       <p v-else class="font-bold dark:text-accepted-green">
-        {{ $t("i18n.components.friendly_captcha.dev_captcha_verified") }}
+        {{ t("i18n.components.friendly_captcha.dev_captcha_verified") }}
       </p>
     </button>
   </div>
@@ -40,6 +40,9 @@
 <script setup lang="ts">
 import VueFriendlyCaptcha from "@somushq/vue3-friendly-captcha";
 
+const { t } = useI18n();
+const colorMode = useColorMode();
+const { FRIENDLY_CAPTCHA_KEY } = useGetBaseURLs();
 const devMode = useDevMode();
 devMode.check();
 const localeValue = ref(false);

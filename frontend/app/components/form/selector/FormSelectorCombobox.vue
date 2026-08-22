@@ -82,7 +82,7 @@
           class="flex justify-center py-2 pl-10 pr-4 text-sm text-gray-500"
         >
           <slot v-if="showLoadingSlot" name="loading">
-            {{ $t("i18n.components.form_selector_combobox.loading") }}
+            {{ t("i18n.components.form_selector_combobox.loading") }}
           </slot>
         </li>
       </ComboboxOptions>
@@ -123,6 +123,8 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/vue";
+
+const { t } = useI18n();
 
 interface Option {
   id: number | string;

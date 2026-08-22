@@ -3,7 +3,7 @@
   <CardGetInvolved>
     <div class="flex items-center gap-5">
       <h3 class="text-left font-display">
-        {{ $t("i18n.components._global.participate") }}
+        {{ t("i18n.components._global.participate") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
@@ -27,10 +27,10 @@
         {{ event.texts[0]?.getInvolved }}
       </p>
       <p v-else>
-        {{ $t("i18n.components.card_get_involved_event.participate_subtext") }}
+        {{ t("i18n.components.card_get_involved_event.participate_subtext") }}
       </p>
       <!-- <p>
-        {{ $t("i18n.components.card_get_involved_event.legal_disclaimer_subtext") }}
+        {{ t("i18n.components.card_get_involved_event.legal_disclaimer_subtext") }}
       </p> -->
       <!-- <CardDisclosure
         v-if="false"
@@ -55,6 +55,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const { userIsSignedIn } = useUser();

@@ -80,7 +80,7 @@ function handleEditEventIcon(): void {
 
   openModal({
     entityId: event.value.id,
-    entityType: EntityType.EVENT,
+    entityType: EntityMap.EVENT,
   });
 }
 </script>

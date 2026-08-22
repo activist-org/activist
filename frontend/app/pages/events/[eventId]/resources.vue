@@ -3,18 +3,18 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ event?.name }}&nbsp;{{ $t("i18n._global.resources_lower") }}
+        {{ event?.name }}&nbsp;{{ t("i18n._global.resources_lower") }}
       </Title>
     </Head>
     <HeaderAppPageEvent
-      :header="event?.name + ' ' + $t('i18n._global.resources_lower')"
-      :tagline="$t('i18n.pages.events.resources.tagline')"
+      :header="event?.name + ' ' + t('i18n._global.resources_lower')"
+      :tagline="t('i18n.pages.events.resources.tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 lg:space-x-3">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.resources.new_resource_aria_label"
-          :element="$t('i18n._global.resources_lower')"
+          :element="t('i18n._global.resources_lower')"
           :entity="event"
           label="i18n.pages._global.resources.add_new_resource"
           :onClick="
@@ -64,7 +64,7 @@
               selectedResource: selectedIndex === index,
             }"
             :entity="event"
-            :entityType="EntityType.EVENT"
+            :entityType="EntityMap.EVENT"
             :isReduced="true"
             :resource="element"
             :tabindex="canEdit(event) ? 0 : -1"
@@ -78,6 +78,8 @@
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
+
+const { t } = useI18n();
 
 const route = useRoute();
 const eventId = (route.params.eventId as string) ?? "";

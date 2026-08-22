@@ -48,7 +48,7 @@ describe("SidebarLeftFilterEvents", () => {
             Icon: true,
           },
           mocks: {
-            $t: (key: string) => key,
+            t: (key: string) => key,
             $te: () => true,
           },
         },
@@ -75,7 +75,7 @@ describe("SidebarLeftFilterEvents", () => {
             Icon: true,
           },
           mocks: {
-            $t: (key: string) => key,
+            t: (key: string) => key,
             $te: () => true,
           },
         },

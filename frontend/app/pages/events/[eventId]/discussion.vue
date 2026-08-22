@@ -3,14 +3,14 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ event.name }}&nbsp;{{ $t("i18n.pages._global.discussions_lower") }}
+        {{ event.name }}&nbsp;{{ t("i18n.pages._global.discussions_lower") }}
       </Title>
     </Head>
     <HeaderAppPageEvent
       :header="
-        event.name + ' ' + $t('i18n.pages.events.discussion.discussion_lower')
+        event.name + ' ' + t('i18n.pages.events.discussion.discussion_lower')
       "
-      :tagline="$t('i18n.pages.events.discussion.tagline')"
+      :tagline="t('i18n.pages.events.discussion.tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -39,6 +39,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   event: CommunityEvent;
 }>();

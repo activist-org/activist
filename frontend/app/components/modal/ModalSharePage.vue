@@ -4,12 +4,12 @@
     <div class="px-2 pb-2 pt-1 lg:px-4 lg:pb-4 lg:pt-2">
       <DialogTitle class="font-display">
         <h2 class="font-bold">
-          {{ $t("i18n.components.modal_share_page.header") }}
+          {{ t("i18n.components.modal_share_page.header") }}
         </h2>
       </DialogTitle>
       <div class="pt-6">
         <h4 class="font-bold">
-          {{ $t("i18n.components.modal_share_page.suggested") }}
+          {{ t("i18n.components.modal_share_page.suggested") }}
         </h4>
         <div
           class="grid w-full grid-cols-3 grid-rows-2 content-start gap-4 pt-4 lg:gap-8"
@@ -20,11 +20,11 @@
             :name="getCurrentName()"
             :native-behavior-options="nativeBehaviorOptions"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_signal')
+              t('i18n.components.modal_share_page.suggested_signal')
             "
             redirect-link="https://signal.me/#p"
             :share-options="shareOptions"
-            :text="$t('i18n.components.modal_share_page.signal')"
+            :text="t('i18n.components.modal_share_page.signal')"
             type="redirect"
             :urlLink="getCurrentUrl()"
             :use-native-behavior="useNativeBehavior"
@@ -36,11 +36,11 @@
             iconSize="1.5em"
             :native-behavior-options="nativeBehaviorOptions"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_mastodon')
+              t('i18n.components.modal_share_page.suggested_mastodon')
             "
             :share-options="shareOptions"
             social-component="SMastodon"
-            :text="$t('i18n.components.modal_share_page.mastodon')"
+            :text="t('i18n.components.modal_share_page.mastodon')"
             type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
@@ -52,11 +52,11 @@
             :name="getCurrentName()"
             :native-behavior-options="nativeBehaviorOptions"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_matrix')
+              t('i18n.components.modal_share_page.suggested_matrix')
             "
             redirect-link="https://matrix.to/#/#activist_community:matrix.org"
             :share-options="shareOptions"
-            :text="$t('i18n.components._global.matrix')"
+            :text="t('i18n.components._global.matrix')"
             type="redirect"
             :urlLink="getCurrentUrl()"
             :use-native-behavior="useNativeBehavior"
@@ -65,51 +65,51 @@
 
           <ModalQRCodeBtn
             v-if="organization"
-            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_organization')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :firstParagraph="`${t('i18n.components._global.section_1_paragraph_1_organization')} ${t('i18n.components._global.section_1_paragraph_1_2')}`"
             :linkUrl="getCurrentUrl()"
             :name="organization.name"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_qr_code')
+              t('i18n.components.modal_share_page.suggested_qr_code')
             "
             type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="group"
-            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_group')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :firstParagraph="`${t('i18n.components._global.section_1_paragraph_1_group')} ${t('i18n.components._global.section_1_paragraph_1_2')}`"
             :linkUrl="getCurrentUrl()"
             :name="group.name"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_qr_code')
+              t('i18n.components.modal_share_page.suggested_qr_code')
             "
             type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="event"
-            :firstParagraph="`${$t('i18n.components._global.section_1_paragraph_1_event')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :firstParagraph="`${t('i18n.components._global.section_1_paragraph_1_event')} ${t('i18n.components._global.section_1_paragraph_1_2')}`"
             :linkUrl="getCurrentUrl()"
             :name="event.name"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_qr_code')
+              t('i18n.components.modal_share_page.suggested_qr_code')
             "
             type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="resource"
-            :firstParagraph="`${$t('i18n.components.modal_share_page.section_1_paragraph_1_resource')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :firstParagraph="`${t('i18n.components.modal_share_page.section_1_paragraph_1_resource')} ${t('i18n.components._global.section_1_paragraph_1_2')}`"
             :linkUrl="getCurrentUrl()"
             :name="resource.name"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_qr_code')
+              t('i18n.components.modal_share_page.suggested_qr_code')
             "
             type="meta-tag"
           />
           <ModalQRCodeBtn
             v-if="user"
-            :firstParagraph="`${$t('i18n.components.modal_share_page.section_1_paragraph_1_user')} ${$t('i18n.components._global.section_1_paragraph_1_2')}`"
+            :firstParagraph="`${t('i18n.components.modal_share_page.section_1_paragraph_1_user')} ${t('i18n.components._global.section_1_paragraph_1_2')}`"
             :linkUrl="getCurrentUrl()"
             :name="user.name"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_qr_code')
+              t('i18n.components.modal_share_page.suggested_qr_code')
             "
             type="meta-tag"
           />
@@ -118,7 +118,7 @@
             :iconName="IconMap.ENVELOPE"
             iconSize="1.5em"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_email')
+              t('i18n.components.modal_share_page.suggested_email')
             "
             :share-options="shareOptions"
             social-component="SEmail"
@@ -132,10 +132,10 @@
             :name="getCurrentName()"
             :native-behavior-options="nativeBehaviorOptions"
             :reason-for-suggesting="
-              $t('i18n.components.modal_share_page.suggested_link')
+              t('i18n.components.modal_share_page.suggested_link')
             "
             :share-options="shareOptions"
-            :text="$t('i18n.components.modal_share_page.copy_link')"
+            :text="t('i18n.components.modal_share_page.copy_link')"
             type="redirect"
             :urlLink="getCurrentUrl()"
             :use-native-behavior="useNativeBehavior"
@@ -145,7 +145,7 @@
       </div>
       <div class="pt-12">
         <h4 class="font-bold">
-          {{ $t("i18n.components.modal_share_page.other") }}
+          {{ t("i18n.components.modal_share_page.other") }}
         </h4>
         <div
           class="grid w-full grid-cols-3 grid-rows-1 content-start gap-4 pt-4 lg:gap-8 lg:pt-6"
@@ -157,7 +157,7 @@
             reason-for-suggesting=""
             :share-options="shareOptions"
             social-component="STelegram"
-            :text="$t('i18n.components.modal_share_page.telegram')"
+            :text="t('i18n.components.modal_share_page.telegram')"
             type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
@@ -171,7 +171,7 @@
             reason-for-suggesting=""
             redirect-link="https://instagram.com"
             :share-options="shareOptions"
-            :text="$t('i18n.components._global.instagram')"
+            :text="t('i18n.components._global.instagram')"
             type="redirect"
             :urlLink="getCurrentUrl()"
             :use-native-behavior="useNativeBehavior"
@@ -185,7 +185,7 @@
             reason-for-suggesting=""
             :share-options="shareOptions"
             social-component="SFacebookMessenger"
-            :text="$t('i18n.components.modal_share_page.messenger')"
+            :text="t('i18n.components.modal_share_page.messenger')"
             type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
@@ -198,7 +198,7 @@
             reason-for-suggesting=""
             :share-options="shareOptions"
             social-component="SFacebook"
-            :text="$t('i18n.components.modal_share_page.facebook')"
+            :text="t('i18n.components.modal_share_page.facebook')"
             type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
@@ -211,7 +211,7 @@
             reason-for-suggesting=""
             :share-options="shareOptions"
             social-component="STwitter"
-            :text="$t('i18n.components.modal_share_page.twitter')"
+            :text="t('i18n.components.modal_share_page.twitter')"
             type="vueSocials"
             :use-native-behavior="useNativeBehavior"
             :window-features="windowFeatures"
@@ -235,6 +235,8 @@ const props = defineProps<{
   user?: UserActivist;
 }>();
 
+const { t } = useI18n();
+const { BASE_FRONTEND_URL } = useGetBaseURLs();
 const organization = computed(() => {
   return props.organization || null;
 });

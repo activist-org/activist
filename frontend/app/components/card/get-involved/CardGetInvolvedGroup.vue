@@ -3,7 +3,7 @@
   <CardGetInvolved>
     <div class="flex items-center gap-5">
       <h3 class="text-left font-display">
-        {{ $t("i18n.components._global.get_involved") }}
+        {{ t("i18n.components._global.get_involved") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
@@ -41,7 +41,7 @@
       </p>
       <p v-else>
         {{
-          $t("i18n.components.card_get_involved_group.join_group_subtext", {
+          t("i18n.components.card_get_involved_group.join_group_subtext", {
             entity_name: group?.name,
           })
         }}.
@@ -51,6 +51,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const { userIsSignedIn } = useUser();

@@ -76,7 +76,7 @@ function handleEditOrganizationIcon(): void {
 
   openModal({
     entityId: organization.value.id,
-    entityType: EntityType.ORGANIZATION,
+    entityType: EntityMap.ORGANIZATION,
   });
 }
 </script>

@@ -24,9 +24,9 @@ describe("services/communities/group/image", () => {
   const getMocks = setupServiceTestMocks();
 
   it("uploadGroupImages() posts FormData with sequences and files", async () => {
-    const { fetchMock } = getMocks();
+    const { post } = getMocks();
     const files = [new File(["a"], "a.png"), new File(["b"], "b.png")];
-    fetchMock.mockResolvedValueOnce([]);
+    post.mockResolvedValueOnce([]);
 
     await uploadGroupImages(
       "grp-1",
@@ -34,7 +34,7 @@ describe("services/communities/group/image", () => {
       [0, 1]
     );
 
-    const [url, opts] = getFetchCall(fetchMock);
+    const [url, opts] = getFetchCall(post);
     expect(url).toBe("/content/images");
     expect(opts.method).toBe("POST");
     expect(typeof opts.baseURL).toBe("string");
@@ -44,8 +44,8 @@ describe("services/communities/group/image", () => {
   // MARK: Update
 
   it("updateGroupImage() puts JSON with content-type header", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
     const img: ContentImage = {
       id: "img-1",
       url: "u",
@@ -56,24 +56,19 @@ describe("services/communities/group/image", () => {
 
     await updateGroupImage("grp-2", img);
 
-    expectJsonRequest(
-      fetchMock,
-      "/communities/group/grp-2/images/img-1",
-      "PUT",
-      img
-    );
+    expectJsonRequest(put, "/communities/group/grp-2/images/img-1", "PUT", img);
   });
 
   it("fetchGroupImages() gets images using authenticated client", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const returned: ContentImage[] = [];
-    fetchMock.mockResolvedValueOnce(returned);
+    get.mockResolvedValueOnce(returned);
 
     const res = await fetchGroupImages("grp-3");
     expect(res).toBe(returned);
 
-    expectRequest(fetchMock, "/communities/group/grp-3/images", "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expectRequest(get, "/communities/group/grp-3/images", "GET");
+    const [, opts] = getFetchCall(get);
     // Authorization is now added by server-side middleware, not the client helper.
     expect(opts.baseURL).toBe("/api/public");
   });
@@ -81,8 +76,8 @@ describe("services/communities/group/image", () => {
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { post } = getMocks();
+    post.mockRejectedValueOnce(new Error("boom"));
     await expect(uploadGroupImages("grp-err", [])).rejects.toBeInstanceOf(
       AppError
     );

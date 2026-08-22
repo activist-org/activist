@@ -78,7 +78,7 @@ const createWrapper = (
     global: {
       plugins: [createPinia()],
       mocks: {
-        $t: (key: string, params?: Record<string, string>) => {
+        t: (key: string, params?: Record<string, string>) => {
           if (params) {
             return Object.entries(params).reduce(
               (str, [k, v]) => str.replace(`{${k}}`, v),
@@ -190,7 +190,7 @@ describe("ModalOrganizationStatus component", () => {
         props: { organization: testOrganization, isOpen: true },
         global: {
           plugins: [pinia],
-          mocks: { $t: (key: string) => key },
+          mocks: { t: (key: string) => key },
           stubs: {
             ModalBase: ModalBaseStub,
             DialogTitle: DialogTitleStub,

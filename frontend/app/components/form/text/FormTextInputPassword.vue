@@ -15,10 +15,10 @@
         @click="changeInputType"
         :aria-label="
           isPassword
-            ? $t(
+            ? t(
                 'i18n.components.form_text_input_password.show_password_aria_label'
               )
-            : $t(
+            : t(
                 'i18n.components.form_text_input_password.hide_password_aria_label'
               )
         "
@@ -35,6 +35,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 export interface Props {
   id: string;
   label: string;

@@ -4,7 +4,7 @@
     <div>
       <DialogTitle>
         <h2 class="font-bold">
-          {{ $t("i18n.components.modal.upload_image._global.upload_an_image") }}
+          {{ t("i18n.components.modal.upload_image._global.upload_an_image") }}
         </h2>
       </DialogTitle>
       <div class="mt-4">
@@ -12,7 +12,7 @@
           v-if="fileImageIcon ? false : true"
           @files-dropped="(file) => (fileImageIcon = getIconImage(file))"
         >
-          <span>{{ $t("i18n.components._global.drop_image") }}</span>
+          <span>{{ t("i18n.components._global.drop_image") }}</span>
         </ImageFileDropZone>
         <div class="mb-4">
           <span v-if="fileImageIcon" class="relative block pb-4">
@@ -25,7 +25,7 @@
             <img
               :key="fileImageIcon.name"
               :alt="
-                $t('i18n.components._global.upload_image') +
+                t('i18n.components._global.upload_image') +
                 ' ' +
                 fileImageIcon.name
               "
@@ -56,9 +56,11 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
+const { t } = useI18n();
+
 interface Props {
   entityId: string;
-  entityType: EntityType;
+  entityType: EntityMapType;
 }
 const props = defineProps<Props>();
 
@@ -92,10 +94,11 @@ const fileImageIcon = ref();
 const { getIconImage } = useFileManager();
 const handleUpload = async () => {
   try {
+    const entityType = props.entityType as EntityMapType;
     // uploadFiles adds file/s to imageUrls.value, which is a ref that can be used in the parent component from useFileManager().
-    if (props.entityType === EntityType.ORGANIZATION) {
+    if (entityType === EntityMap.ORGANIZATION) {
       uploadOrganizationIconImage(fileImageIcon.value as UploadableFile);
-    } else if (props.entityType === EntityType.EVENT) {
+    } else if (entityType === EntityMap.EVENT) {
       uploadEventIconImage(fileImageIcon.value as UploadableFile);
     } else {
       throw new Error("Unsupported entity type");

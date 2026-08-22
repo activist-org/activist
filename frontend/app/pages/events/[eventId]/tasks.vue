@@ -3,12 +3,12 @@
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
       <Title>
-        {{ event?.name }}&nbsp;{{ $t("i18n.pages._global.tasks.tasks_lower") }}
+        {{ event?.name }}&nbsp;{{ t("i18n.pages._global.tasks.tasks_lower") }}
       </Title>
     </Head>
     <HeaderAppPageEvent
-      :header="event?.name + ' ' + $t('i18n.pages._global.tasks.tasks_lower')"
-      :tagline="$t('i18n.pages._global.tasks.tasks_page_tagline')"
+      :header="event?.name + ' ' + t('i18n.pages._global.tasks.tasks_lower')"
+      :tagline="t('i18n.pages._global.tasks.tasks_page_tagline')"
       :underDevelopment="true"
     >
       <div class="flex space-x-2 lg:space-x-3">
@@ -29,6 +29,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   event: CommunityEvent;
 }>();

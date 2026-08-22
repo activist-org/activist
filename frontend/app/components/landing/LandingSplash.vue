@@ -8,18 +8,18 @@
         id="landing-splash-header"
         class="w-10/12 text-center font-display text-3xl font-bold leading-snug sm:text-4xl sm:leading-snug md:max-w-lg md:text-5xl md:leading-snug lg:font-bold xl:max-w-2xl xl:text-6xl xl:leading-snug"
       >
-        {{ $t("i18n.components.landing_splash.header") }}
+        {{ t("i18n.components.landing_splash.header") }}
       </h1>
     </div>
     <div class="flex justify-center">
       <div class="w-10/12 text-center">
         <div v-if="aboveMediumBP" class="block flex-col space-y-1 xl:space-y-2">
-          <h4>{{ $t("i18n.components.landing_splash.message_1") }}</h4>
-          <h4>{{ $t("i18n.components.landing_splash.message_2") }}</h4>
+          <h4>{{ t("i18n.components.landing_splash.message_1") }}</h4>
+          <h4>{{ t("i18n.components.landing_splash.message_2") }}</h4>
         </div>
         <h4 v-else>
-          {{ $t("i18n.components.landing_splash.message_1") }}&nbsp;{{
-            $t("i18n.components.landing_splash.message_2")
+          {{ t("i18n.components.landing_splash.message_1") }}&nbsp;{{
+            t("i18n.components.landing_splash.message_2")
           }}
         </h4>
       </div>
@@ -59,6 +59,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+const { REQUEST_ACCESS_URL } = useGetBaseURLs();
 const aboveMediumBP = useBreakpoint("md");
 const devMode = useDevMode();
 devMode.check();

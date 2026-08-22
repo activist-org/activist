@@ -13,7 +13,7 @@
       class="mx-auto"
       :class="{ 'hidden md:block': hideLabelOnMobile }"
     >
-      {{ $t(label) }}
+      {{ t(label) }}
     </span>
     <div v-else class="-mx-1"></div>
     <Icon v-if="rightIcon" class="ml-2" :name="rightIcon" :size="iconSize" />
@@ -27,6 +27,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   label?: string;
   hideLabelOnMobile?: boolean;

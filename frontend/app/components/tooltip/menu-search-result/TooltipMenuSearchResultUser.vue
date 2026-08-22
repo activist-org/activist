@@ -16,7 +16,7 @@
         @keydown="handleTabPress(true, $event)"
         @keydown.enter="openModalSharePage({ user: user })"
         :ariaLabel="
-          $t(
+          t(
             'i18n.components.tooltip_menu_search_result_user.share_user_aria_label'
           )
         "
@@ -31,6 +31,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   user: UserActivist;
 }>();

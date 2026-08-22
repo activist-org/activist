@@ -8,7 +8,7 @@
           :name="IconMap.WARN_OCTAGON"
           size="1.4em"
         />
-        <p>{{ $t(message || "") }}</p>
+        <p>{{ t(message || "") }}</p>
       </div>
       <div class="flex gap-2">
         <BtnAction
@@ -32,6 +32,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const props = withDefaults(
   defineProps<{
     modalName?: string;

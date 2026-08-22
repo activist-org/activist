@@ -3,17 +3,17 @@
   <Tabs class="pt-2 md:pt-0" :selectedTab="3" :tabs="groupTabs" />
   <div class="flex flex-col bg-layer-0 px-4 xl:px-8">
     <Head>
-      <Title>{{ group?.name }}&nbsp;{{ $t("i18n._global.faq") }}</Title>
+      <Title>{{ group?.name }}&nbsp;{{ t("i18n._global.faq") }}</Title>
     </Head>
     <HeaderAppPageGroup
-      :header="group?.name + ' ' + $t('i18n._global.faq')"
-      :tagline="$t('i18n.pages._global.faq_tagline')"
+      :header="group?.name + ' ' + t('i18n._global.faq')"
+      :tagline="t('i18n.pages._global.faq_tagline')"
       :underDevelopment="false"
     >
       <div class="flex space-x-2 pb-3 lg:space-x-3 lg:pb-4">
         <BtnActionAdd
           ariaLabel="i18n.pages._global.new_faq_aria_label"
-          :element="$t('i18n._global.faq')"
+          :element="t('i18n._global.faq')"
           :entity="group"
           label="i18n.pages._global.new_faq_entry"
           :onClick="
@@ -66,7 +66,7 @@
             }"
             :entity="group"
             :faqEntry="element"
-            :pageType="EntityType.GROUP"
+            :pageType="EntityMap.GROUP"
             :tabindex="canEdit(group) ? 0 : -1"
           />
         </template>
@@ -78,6 +78,8 @@
 
 <script setup lang="ts">
 import draggable from "vuedraggable";
+
+const { t } = useI18n();
 
 const groupTabs = useGetGroupTabs();
 

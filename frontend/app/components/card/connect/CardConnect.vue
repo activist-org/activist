@@ -3,7 +3,7 @@
   <div class="card-style px-5 py-5" data-testid="card-connect">
     <div class="flex items-center gap-5">
       <h3 class="text-left font-display">
-        {{ $t("i18n.components._global.connect") }}
+        {{ t("i18n.components._global.connect") }}
       </h3>
       <IconEdit
         v-if="userIsSignedIn"
@@ -59,6 +59,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const props = defineProps<{
   socialLinks:
     | SocialLink[]

@@ -14,7 +14,7 @@
           class="mr-4 h-5 w-5 align-middle"
           :name="selectedMenuItem.iconUrl"
         />
-        <span>{{ $t(selectedMenuItem.label) }}</span>
+        <span>{{ t(selectedMenuItem.label) }}</span>
         <span
           class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
         >
@@ -31,7 +31,7 @@
       >
         <ListboxOptions class="bg-menu-selection focus-brand">
           <ListboxOption
-            v-for="menuEntry in sidebarType === SidebarType.ORGANIZATION_PAGE
+            v-for="menuEntry in sidebarType === sidebarTypeOrganizationPage
               ? menuEntryState.organizationEntry.value
               : menuEntryState.eventEntry.value"
             :key="menuEntry.id"
@@ -41,7 +41,7 @@
             <NuxtLink @click="handleItemClick(menuEntry)">
               <li
                 :id="
-                  (sidebarType === SidebarType.ORGANIZATION_PAGE
+                  (sidebarType === sidebarTypeOrganizationPage
                     ? 'org-'
                     : 'event-') + menuEntry.label.split('.').pop()
                 "
@@ -61,7 +61,7 @@
                   class="block truncate"
                   :class="{ 'font-medium': selected, 'font-normal': !selected }"
                 >
-                  {{ $t(menuEntry.label) }}
+                  {{ t(menuEntry.label) }}
                 </span>
               </li>
             </NuxtLink>
@@ -80,6 +80,8 @@ import {
   ListboxOptions,
 } from "@headlessui/vue";
 
+const { t } = useI18n();
+const sidebarTypeOrganizationPage = SidebarMap.ORGANIZATION_PAGE;
 const { currentRoute } = useRouter();
 
 const routeName = computed(() => {
@@ -96,39 +98,39 @@ const isEventPage = computed(() =>
   isCurrentRoutePathSubpageOf("events", routeName.value.toString())
 );
 
-const pathToSidebarTypeMap = [
-  { path: "search", type: SidebarType.SEARCH },
-  { path: "home", type: SidebarType.HOME },
+const pathToSidebarMap = [
+  { path: "search", type: SidebarMap.SEARCH },
+  { path: "home", type: SidebarMap.HOME },
   {
     path: "organizations",
     type: isOrgPage.value
-      ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.ORGANIZATIONS_PAGE,
+      ? SidebarMap.ORGANIZATION_PAGE
+      : SidebarMap.ORGANIZATIONS_PAGE,
   },
   {
     path: "events",
-    type: isEventPage.value ? SidebarType.EVENT_PAGE : SidebarType.EVENTS_PAGE,
+    type: isEventPage.value ? SidebarMap.EVENT_PAGE : SidebarMap.EVENTS_PAGE,
   },
 ];
 
 watch([isOrgPage, isEventPage], () => {
-  if (pathToSidebarTypeMap[2]) {
-    pathToSidebarTypeMap[2]["type"] = isOrgPage.value
-      ? SidebarType.ORGANIZATION_PAGE
-      : SidebarType.ORGANIZATIONS_PAGE;
+  if (pathToSidebarMap[2]) {
+    pathToSidebarMap[2]["type"] = isOrgPage.value
+      ? SidebarMap.ORGANIZATION_PAGE
+      : SidebarMap.ORGANIZATIONS_PAGE;
   }
-  if (pathToSidebarTypeMap[3]) {
-    pathToSidebarTypeMap[3]["type"] = isEventPage.value
-      ? SidebarType.EVENT_PAGE
-      : SidebarType.EVENTS_PAGE;
+  if (pathToSidebarMap[3]) {
+    pathToSidebarMap[3]["type"] = isEventPage.value
+      ? SidebarMap.EVENT_PAGE
+      : SidebarMap.EVENTS_PAGE;
   }
 });
 
 const sidebarType = computed(() => {
-  const matchingPath = pathToSidebarTypeMap.find((item) =>
+  const matchingPath = pathToSidebarMap.find((item) =>
     currentRoutePathIncludes(item.path, routeName.value.toString())
   );
-  return matchingPath?.type || SidebarType.MISC;
+  return matchingPath?.type || SidebarMap.MISC;
 });
 
 const menuEntryState = useMenuEntriesState();

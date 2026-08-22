@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <a
-    :aria-label="$t('i18n.components.media_url.visit_url_aria_label')"
+    :aria-label="t('i18n.components.media_url.visit_url_aria_label')"
     class="card-style h-70 flex w-full items-center justify-center bg-layer-2"
     :href="link"
     rel="noopener noreferrer"
@@ -11,7 +11,7 @@
       class="rounded-full bg-distinct-text p-6 dark:bg-menu-selection md:p-8"
     >
       <Icon
-        :color="$colorMode.value === 'dark' ? 'white' : 'black'"
+        :color="colorMode.value === 'dark' ? 'white' : 'black'"
         :name="IconMap.GLOBE"
         size="75px"
       />
@@ -20,5 +20,7 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+const colorMode = useColorMode();
 defineProps<{ link: string }>();
 </script>

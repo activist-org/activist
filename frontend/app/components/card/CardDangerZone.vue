@@ -5,7 +5,7 @@
   >
     <div class="flex flex-col gap-5">
       <h3 class="text-left font-display font-bold">
-        {{ $t("i18n.components.card_danger_zone.header") }}
+        {{ t("i18n.components.card_danger_zone.header") }}
       </h3>
       <p>{{ description }}</p>
       <form method="post">
@@ -17,10 +17,10 @@
               class="font-bold text-primary-text"
               for="username"
               :placeholder="
-                $t('i18n.components.card_danger_zone.username_placeholder')
+                t('i18n.components.card_danger_zone.username_placeholder')
               "
             >
-              {{ $t("i18n.components.card_danger_zone.username_label") }} *
+              {{ t("i18n.components.card_danger_zone.username_label") }} *
             </h4>
             <input
               id="username"
@@ -31,9 +31,9 @@
             <h4
               class="font-bold text-primary-text"
               for="password"
-              :placeholder="$t('i18n._global.enter_password')"
+              :placeholder="t('i18n._global.enter_password')"
             >
-              {{ $t("i18n.components.card_danger_zone.password_label") }} *
+              {{ t("i18n.components.card_danger_zone.password_label") }} *
             </h4>
             <input
               id="password"
@@ -57,6 +57,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 defineProps<{
   description: string;
   ctaBtnText: string;

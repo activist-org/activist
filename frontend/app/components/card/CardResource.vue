@@ -17,7 +17,7 @@
       />
       <div class="flex flex-col md:flex-row">
         <NuxtLink
-          :aria-label="$t(ariaLabel)"
+          :aria-label="t(ariaLabel)"
           data-testid="resource-link"
           target="_blank"
           :to="localePath(linkUrl)"
@@ -37,7 +37,7 @@
       <div class="flex flex-col justify-between md:flex-row">
         <div class="flex items-center justify-center space-x-2 md:space-x-4">
           <NuxtLink
-            :aria-label="$t(ariaLabel)"
+            :aria-label="t(ariaLabel)"
             target="_blank"
             :to="localePath(linkUrl)"
           >
@@ -114,7 +114,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   resource: Resource;
-  entityType: EntityType;
+  entityType: EntityMapType;
   entity?: Entity | null;
   isReduced?: boolean;
 }>();

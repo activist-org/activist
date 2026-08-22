@@ -2,7 +2,7 @@
 <template>
   <div
     id="search"
-    v-if="location == SearchBarLocation.SIDEBAR"
+    v-if="location == searchBarLocation"
     class="mx-2 flex grow select-none items-center justify-between rounded-md bg-layer-2 py-1 pl-3 text-left text-distinct-text transition duration-200 elem-shadow-sm focus-within:mb-[-3px] focus-within:border-2 focus-within:border-link-text"
   >
     <div class="flex items-center space-x-2 pl-1">
@@ -14,7 +14,7 @@
           "
         >
           <label class="sr-only" for="input-search">
-            {{ $t("i18n._global.search") }}
+            {{ t("i18n._global.search") }}
           </label>
           <input
             id="input-search"
@@ -24,7 +24,7 @@
             @input="handleChange"
             class="h-5 w-16 bg-transparent outline-none"
             :class="{ 'focus:w-5/6': isInputFocused }"
-            :placeholder="$t('i18n._global.search')"
+            :placeholder="t('i18n._global.search')"
             type="text"
             :value="localValue"
           />
@@ -38,7 +38,7 @@
         class="transition-duration-200 flex space-x-1 pr-1 transition-opacity"
       >
         <div
-          v-tooltip="$t('i18n.components.search_bar.slash_tooltip_label')"
+          v-tooltip="t('i18n.components.search_bar.slash_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->
@@ -48,7 +48,7 @@
         </div>
         <div
           v-if="isMacOS"
-          v-tooltip="$t('i18n.components.search_bar.command_tooltip_label')"
+          v-tooltip="t('i18n.components.search_bar.command_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->
@@ -58,7 +58,7 @@
         </div>
         <div
           v-else
-          v-tooltip="$t('i18n.components.search_bar.control_tooltip_label')"
+          v-tooltip="t('i18n.components.search_bar.control_tooltip_label')"
           class="flex rounded-md bg-highlight px-2 py-0.5"
         >
           <!-- prettier-ignore -->
@@ -82,14 +82,14 @@
       size="1em"
     />
     <label class="hidden md:block" for="input-search">
-      {{ $t("i18n._global.search") }}
+      {{ t("i18n._global.search") }}
     </label>
     <input
       id="input-search"
       @input="handleChange"
       class="bg-transparent focus:outline-none"
       :class="{ hidden: !expanded }"
-      :placeholder="$t('i18n._global.search')"
+      :placeholder="t('i18n._global.search')"
       type="text"
       :value="localValue"
     />
@@ -100,8 +100,10 @@
 <script setup lang="ts">
 import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
 
+const { t } = useI18n();
+
 export interface Props {
-  location: SearchBarLocation;
+  location: SearchBarLocationType;
   expanded?: boolean;
   modelValue?: string;
 }
@@ -109,7 +111,7 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   expanded: false,
 });
-
+const searchBarLocation = SearchBarLocation.SIDEBAR;
 const localValue = ref(props.modelValue || "");
 watch(
   props,
