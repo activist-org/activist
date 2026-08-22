@@ -10,6 +10,9 @@
   - [Best Practices](#best-practices)
   - [Flaky Tests](#flaky-tests)
   - [Checking E2E coverage](#checking-e2e-coverage)
+    - [How to read an id](#how-to-read-an-id)
+    - [What covered, partial, and missing mean](#what-covered-partial-and-missing-mean)
+    - [How to run the report](#how-to-run-the-report)
     - [Editing the scenario catalog](#editing-the-scenario-catalog)
 - [Component and Unit Tests](#component-and-unit-tests)
 
@@ -157,41 +160,113 @@ await expect(myCard).not.toBeVisible();
 
 ### Checking E2E coverage
 
-To see E2E coverage, run the script from the `frontend/` directory (`yarn test:e2e:coverage` is the same as the first command):
+Coverage answers two different questions:
+
+1. **Did a test open this URL?** That is route coverage. Opening `/events/123/faq` once is enough.
+2. **Did we test the behaviors we care about?** That is scenario coverage. Opening the FAQ page does not prove we tested "a member cannot delete a question."
+
+The checklist of behaviors lives in [`frontend/test-e2e/scenario-matrix.mjs`](frontend/test-e2e/scenario-matrix.mjs). Each row is one promise, such as "the landing hero is visible" or "event FAQ hides edit buttons from a member."
+
+#### How to read an id
+
+Ids are a short label, not a secret code. `EF-PERM-01` means:
+
+| Part | Value | Meaning |
+|------|-------|---------|
+| Area | `EF` | Event FAQ |
+| Kind of test | `PERM` | Permissions (who can see or click what) |
+| Number | `01` | First permissions case on that page |
+
+So `EF-PERM-01` is "event FAQ, permissions, case 1." `L-DISP-01` is "landing page, content is visible, case 1."
+
+The full name of each area and kind of test is in `ID_PREFIXES` and `CATEGORIES` at the top of the catalog. Common kinds:
+
+| Code | In plain words |
+|------|----------------|
+| `DISP` | The page loads and you can see the main content |
+| `NAV` | Clicking a tab or link takes you to the right place |
+| `CRUD` | Create, edit, and delete work |
+| `VAL` | Bad form input shows an error |
+| `PERM` | The right roles see the right buttons |
+| `A11Y` | Accessibility scan (axe) |
+
+#### What covered, partial, and missing mean
+
+Take this catalog row:
+
+```js
+c("L-DISP-01", "DISP", "Page title and hero visible", "landing-page/landing-page.spec")
+```
+
+Read it as: "We require a test that the landing title and hero show. Find a spec file whose path contains `landing-page/landing-page.spec`."
+
+| Result | What happened |
+|--------|----------------|
+| **covered** | That spec exists and has a real (not skipped) test |
+| **partial** | A matching spec exists, but every matching test is `skip` or `fixme` |
+| **missing** | No spec path contains that fragment |
+
+Sometimes one spec file covers several behaviors. Then the row also names a `title` so the script looks at the `test("...")` name, not just the file. Example: `EF-CRUD-01` points at `event-faq-page`, then requires a title matching `CREATE`, `UPDATE`, or `DELETE`, so a "page loads" test in the same file does not count as CRUD.
+
+#### How to run the report
+
+From `frontend/` (`yarn test:e2e:coverage` is the first command):
 
 ```bash
-# Terminal summary (scenario % + uncovered routes):
+# Short terminal summary (scenario % plus uncovered URLs):
 node test-e2e/scripts/e2e-coverage.mjs
+
+# Full report: every id, covered or not (use this when you want the matrix):
+node test-e2e/scripts/e2e-coverage.mjs --full --markdown
+
+# Same report, saved to test-results/e2e-coverage-latest.md:
+node test-e2e/scripts/e2e-coverage.mjs --full --markdown --out
 
 # Route table only (for pasting into issues):
 node test-e2e/scripts/e2e-coverage.mjs --markdown
 
-# Scenario report (behaviors per flow: DISP, CRUD, VAL, PERM, …):
-node test-e2e/scripts/e2e-coverage.mjs --full --markdown
-
-# Write the scenario report to test-results/e2e-coverage-latest.md:
-node test-e2e/scripts/e2e-coverage.mjs --full --markdown --out
-
-# Only show uncovered testable routes:
+# Only URLs that no test visits:
 node test-e2e/scripts/e2e-coverage.mjs --uncovered
 
-# Machine-readable JSON (includes scenarioMatrix):
+# JSON (includes the scenario scores):
 node test-e2e/scripts/e2e-coverage.mjs --json
 ```
 
-`--full` scores **required scenarios** from [`frontend/test-e2e/scenario-matrix.mjs`](frontend/test-e2e/scenario-matrix.mjs). A cell is covered when a current spec path matches, and a `test()` title matches when the catalog requires one. How to read and edit that file is documented in its header and in [Editing the scenario catalog](#editing-the-scenario-catalog).
+`--full` prints the scenario checklist. Without it you still get the headline percentage, but not each id.
 
-The script also still reports:
+The script also still reports routes:
 
-- **Covered routes** — routes with at least one `goto`, `waitForURL`, or `toHaveURL` assertion in specs, actions, or page objects
-- **Stub routes** — pages marked `:underDevelopment="true"` or with an empty template (excluded from the testable route %)
-- **Uncovered testable routes** — implemented routes that have no E2E URL evidence yet
+- **Covered routes:** some test visits that URL (`goto`, `waitForURL`, or `toHaveURL`)
+- **Stub routes:** pages not built yet (`:underDevelopment="true"` or an empty template). They do not lower the testable-route percentage.
+- **Uncovered testable routes:** real pages that no test visits yet
 
-A route marked covered means some E2E file hits that URL. It does not mean every scenario on that page is tested. Create-event / create-organization / create-group are modal workflows in the scenario catalog, not Nuxt routes.
+A covered route only means "we opened the page." Create-event, create-organization, and create-group are modal flows in the catalog, not their own Nuxt URLs.
 
 ### Editing the scenario catalog
 
-Add a `c(...)` row in [`scenario-matrix.mjs`](frontend/test-e2e/scenario-matrix.mjs). Ids are `PREFIX-CATEGORY-NN` (example: `EF-PERM-01` is event FAQ, permissions, first case). Prefixes and categories are the `ID_PREFIXES` and `CATEGORIES` maps at the top of that file. Then run `node test-e2e/scripts/e2e-coverage.mjs --full --markdown`.
+When a new user-facing behavior should count toward coverage, add one row to [`scenario-matrix.mjs`](frontend/test-e2e/scenario-matrix.mjs).
+
+Example: you want a test that the landing page hero is visible.
+
+1. Pick the area prefix (`L` for landing) and the kind of test (`DISP` for "content is visible").
+2. Use the next number in that flow (`01` if it is the first).
+3. Point `spec` at a unique bit of the spec file path.
+
+```js
+c("L-DISP-01", "DISP", "Page title and hero visible", "landing-page/landing-page.spec")
+```
+
+If that file also has other tests, add a title filter so the right `test("...")` counts:
+
+```js
+c("EF-CRUD-01", "CRUD", "Full FAQ CRUD happy path", "event-faq-page", {
+  title: "CREATE|UPDATE|DELETE|manage FAQ",
+})
+```
+
+Then from `frontend/` run `node test-e2e/scripts/e2e-coverage.mjs --full --markdown` and search the report for your id. It stays **missing** until a spec matches, then **covered**.
+
+Set `required: false` if you want the row to stay in the list without lowering the percentage (not ready yet). Remove the row if the product no longer has that behavior.
 
 <sub><a href="#top">Back to top.</a></sub>
 

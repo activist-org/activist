@@ -2,14 +2,15 @@
 /**
  * Required E2E scenarios. Scored by `e2e-coverage.mjs --full`.
  *
- * Case ids look like EF-PERM-01:
+ * Case ids look like EF-PERM-01 (event FAQ, permissions, first case):
  *   EF   = area (see ID_PREFIXES)
  *   PERM = kind of test (see CATEGORIES)
  *   01   = sequence in that flow
  *
- * Add a case with c("ID", "CAT", "what to prove", "spec-file-stem").
+ * Example: c("L-DISP-01", "DISP", "Page title and hero visible", "landing-page/landing-page.spec")
  * Pass { title: "regex" } when one spec file covers more than one case.
  * Then run: node test-e2e/scripts/e2e-coverage.mjs --full --markdown
+ * See FRONTEND_TESTING.md (Checking E2E coverage) for a longer walkthrough.
  */
 
 function c(id, category, name, spec, extra = {}) {
