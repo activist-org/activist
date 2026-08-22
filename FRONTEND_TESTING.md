@@ -10,6 +10,7 @@
   - [Best Practices](#best-practices)
   - [Flaky Tests](#flaky-tests)
   - [Checking E2E coverage](#checking-e2e-coverage)
+    - [Editing the scenario catalog](#editing-the-scenario-catalog)
 - [Component and Unit Tests](#component-and-unit-tests)
 
 ## End to End Tests
@@ -156,27 +157,41 @@ await expect(myCard).not.toBeVisible();
 
 ### Checking E2E coverage
 
-To see which application routes are covered by the E2E test suite, run the coverage script from the `frontend/` directory:
+To see E2E coverage, run the script from the `frontend/` directory (`yarn test:e2e:coverage` is the same as the first command):
 
 ```bash
-# Terminal output (colored, with coverage summary):
+# Terminal summary (scenario % + uncovered routes):
 node test-e2e/scripts/e2e-coverage.mjs
 
-# GitHub-flavored markdown (for pasting into issues or PRs):
+# Route table only (for pasting into issues):
 node test-e2e/scripts/e2e-coverage.mjs --markdown
+
+# Scenario report (behaviors per flow: DISP, CRUD, VAL, PERM, …):
+node test-e2e/scripts/e2e-coverage.mjs --full --markdown
+
+# Write the scenario report to test-results/e2e-coverage-latest.md:
+node test-e2e/scripts/e2e-coverage.mjs --full --markdown --out
 
 # Only show uncovered testable routes:
 node test-e2e/scripts/e2e-coverage.mjs --uncovered
 
-# Machine-readable JSON output:
+# Machine-readable JSON (includes scenarioMatrix):
 node test-e2e/scripts/e2e-coverage.mjs --json
 ```
 
-The script distinguishes between:
+`--full` scores **required scenarios** from [`frontend/test-e2e/scenario-matrix.mjs`](frontend/test-e2e/scenario-matrix.mjs). A cell is covered when a current spec path matches, and a `test()` title matches when the catalog requires one. How to read and edit that file is documented in its header and in [Editing the scenario catalog](#editing-the-scenario-catalog).
+
+The script also still reports:
 
 - **Covered routes** — routes with at least one `goto`, `waitForURL`, or `toHaveURL` assertion in specs, actions, or page objects
-- **Stub routes** — pages marked `:underDevelopment="true"` with no implemented UI (excluded from the testable coverage calculation)
-- **Uncovered testable routes** — implemented routes that have no E2E coverage yet
+- **Stub routes** — pages marked `:underDevelopment="true"` or with an empty template (excluded from the testable route %)
+- **Uncovered testable routes** — implemented routes that have no E2E URL evidence yet
+
+A route marked covered means some E2E file hits that URL. It does not mean every scenario on that page is tested. Create-event / create-organization / create-group are modal workflows in the scenario catalog, not Nuxt routes.
+
+### Editing the scenario catalog
+
+Add a `c(...)` row in [`scenario-matrix.mjs`](frontend/test-e2e/scenario-matrix.mjs). Ids are `PREFIX-CATEGORY-NN` (example: `EF-PERM-01` is event FAQ, permissions, first case). Prefixes and categories are the `ID_PREFIXES` and `CATEGORIES` maps at the top of that file. Then run `node test-e2e/scripts/e2e-coverage.mjs --full --markdown`.
 
 <sub><a href="#top">Back to top.</a></sub>
 
