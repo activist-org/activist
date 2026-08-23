@@ -119,8 +119,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   pageType:
     | "organizations"
@@ -134,5 +132,8 @@ defineProps<{
     | "discussions";
   permission: boolean;
 }>();
+
+const { t } = useI18n();
+
 const bootstrap = BOOTSTRAP_CLOUD_MOON_URL;
 </script>

@@ -77,6 +77,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 const { t } = useI18n();
 const getActiveImageUrl = GET_ACTIVE_IMAGE_URL;

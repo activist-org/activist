@@ -9,6 +9,7 @@
     {{ t("i18n.components._global.roadmap") }}
   </NuxtLink>
 </template>
+
 <script setup lang="ts">
 const { t } = useI18n();
 </script>
