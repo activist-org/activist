@@ -5,7 +5,7 @@
   >
     <button
       @click.stop="emit('main-btn-clicked')"
-      :aria-label="$t(ariaLabel)"
+      :aria-label="t(ariaLabel)"
       class="btn-base-class rounded-l-md rounded-r-none shadow-none xl:rounded-l-lg"
       :class="btnDynamicClass"
     >
@@ -18,7 +18,7 @@
     </button>
     <Menu as="div" class="relative">
       <MenuButton
-        :aria-label="$t(ariaLabelDropdown)"
+        :aria-label="t(ariaLabelDropdown)"
         class="btn-base-class rounded-l-none rounded-r-md border-l-0 shadow-none xl:rounded-r-lg"
         :class="btnDynamicClass"
       >
@@ -65,4 +65,6 @@ const props = defineProps<BtnActionDropdown>();
 const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
 
 const emit = defineEmits(["main-btn-clicked"]);
+
+const { t } = useI18n();
 </script>

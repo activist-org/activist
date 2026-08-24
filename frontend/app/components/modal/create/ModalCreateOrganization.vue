@@ -3,21 +3,23 @@
   <ModalBase :modalName="modalName">
     <h2>
       {{
-        $t("i18n.components.modal_create_organization.create_new_organization")
+        t("i18n.components.modal_create_organization.create_new_organization")
       }}
     </h2>
     <Machine
       @close="handleCloseModal"
-      :machine-type="MachineCreateType.CreateOrganization"
+      :machine-type="createOrganization"
       :options="flowOptions"
     />
   </ModalBase>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
+const createOrganization = MachineCreateType.CreateOrganization;
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
-
 const router = useRouter();
 
 const { create } = useOrganizationMutations({

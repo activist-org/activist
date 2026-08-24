@@ -6,7 +6,7 @@
   >
     <nav>
       <ul class="flex">
-        <li v-for="(item, index) in menuItems" :key="index" class="flex-1">
+        <li v-for="(item, index) in menu" :key="index" class="flex-1">
           <MenuMobileSelector
             :id="getSelectorId(item.label)"
             :active="true"
@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 const route = useRoute();
+const menu = menuItems;
 const isActive = (routeUrl: string) => {
   return isTopLevelRouteActive(routeUrl, route.path);
 };

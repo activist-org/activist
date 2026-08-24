@@ -5,10 +5,10 @@
     :isMenuButtonUppercase="false"
     :location="location"
     :menuButtonAriaLabel="
-      $t('i18n.components.dropdown_theme.open_dropdown_aria_label')
+      t('i18n.components.dropdown_theme.open_dropdown_aria_label')
     "
     :menuButtonIcon="menuButtonIcon"
-    :menuButtonLabel="$t('i18n.components.dropdown_theme.label')"
+    :menuButtonLabel="t('i18n.components.dropdown_theme.label')"
   >
     <div class="px-2 py-2">
       <MenuItem
@@ -18,11 +18,11 @@
       >
         <MenuItemLabel
           :active="active"
-          :ariaLabel="$t(opt.ariaLabel)"
+          :ariaLabel="t(opt.ariaLabel)"
           :handlerClick="() => handlerClick(opt.optColorMode)"
           :iconName="opt.iconName"
           :isButton="true"
-          :label="$t(opt.label)"
+          :label="t(opt.label)"
         />
       </MenuItem>
     </div>
@@ -33,8 +33,10 @@
 import { MenuItem } from "@headlessui/vue";
 
 defineProps<{
-  location?: DropdownLocation;
+  location?: DropdownLocationType;
 }>();
+
+const { t } = useI18n();
 
 const colorMode = useColorMode();
 

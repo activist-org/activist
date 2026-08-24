@@ -2,10 +2,10 @@
 <template>
   <div class="bg-layer-0">
     <Head>
-      <Title>{{ $t("i18n._global.contact") }}</Title>
+      <Title>{{ t("i18n._global.contact") }}</Title>
     </Head>
     <PageDocs
-      :imgUrl="BOOTSTRAP_ENVELOPE_URL"
+      :imgUrl="bootstrapEnvelopeUrl"
       imgAltText="i18n.pages.contact.contact_img_alt_text"
     >
       <div
@@ -13,7 +13,7 @@
         class="items-center space-y-4 text-left md:items-start"
       >
         <h1 class="pb-2 font-bold">
-          {{ $t("i18n.pages.contact.header") }}
+          {{ t("i18n.pages.contact.header") }}
         </h1>
         <div class="flex flex-row space-x-3 py-2">
           <Icon
@@ -22,13 +22,13 @@
             size="1.25em"
           />
           <p>
-            {{ $t("i18n.pages.contact.subheader_1") }}
+            {{ t("i18n.pages.contact.subheader_1") }}
             <a
               class="link-text items-center focus-brand"
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("i18n._global.public_matrix_chat_rooms") }}
+              {{ t("i18n._global.public_matrix_chat_rooms") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -40,34 +40,34 @@
         </div>
         <div class="flex flex-col space-y-4 lg:space-y-6">
           <p>
-            {{ $t("i18n.pages.contact.section_1_paragraph_1_1") }}
+            {{ t("i18n.pages.contact.section_1_paragraph_1_1") }}
             <a
               class="link-text items-center focus-brand"
               href="https://matrix.to/#/#activist_community:matrix.org"
             >
-              {{ $t("i18n._global.public_matrix_chat_rooms") }}
+              {{ t("i18n._global.public_matrix_chat_rooms") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("i18n.pages.contact.section_1_paragraph_1_3") }}
+            {{ t("i18n.pages.contact.section_1_paragraph_1_3") }}
             <a
               class="link-text items-center focus-brand"
               href="https://github.com/activist-org/activist"
             >
-              {{ $t("i18n._global.on_github") }}
+              {{ t("i18n._global.on_github") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
                 style="vertical-align: baseline"
               />
             </a>
-            {{ $t("i18n.pages.contact.section_1_paragraph_1_5") }}
+            {{ t("i18n.pages.contact.section_1_paragraph_1_5") }}
           </p>
           <p>
-            {{ $t("i18n.pages.contact.section_1_paragraph_2_1") }}
+            {{ t("i18n.pages.contact.section_1_paragraph_2_1") }}
             <a class="link-text focus-brand" href="mailto:team@activist.org">
               team@activist.org
               <Icon
@@ -76,13 +76,13 @@
                 style="vertical-align: baseline"
             /></a>
             .
-            {{ $t("i18n.pages.contact.section_1_paragraph_2_2") }}
+            {{ t("i18n.pages.contact.section_1_paragraph_2_2") }}
             <a
               class="link-text items-center focus-brand"
               href="https://github.com/activist-org/activist/blob/main/.github/CODE_OF_CONDUCT.md"
               target="_blank"
             >
-              {{ $t("i18n.pages.contact.section_1_paragraph_2_3") }}
+              {{ t("i18n.pages.contact.section_1_paragraph_2_3") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -101,9 +101,9 @@
                 }"
                 for="name"
               >
-                {{ $t("i18n._global.name") }}
+                {{ t("i18n._global.name") }}
                 <span v-if="!nameValidated">
-                  {{ $t("i18n.pages.contact.error_empty") }}
+                  {{ t("i18n.pages.contact.error_empty") }}
                 </span>
               </label>
               <input
@@ -116,7 +116,7 @@
                   'outline-2 outline-action-red': !nameValidated,
                   'outline-none focus:outline-none': nameValidated,
                 }"
-                :placeholder="$t('i18n.pages.contact.name_placeholder')"
+                :placeholder="t('i18n.pages.contact.name_placeholder')"
                 spellcheck="false"
               />
             </div>
@@ -127,9 +127,9 @@
                   '': emailValidated,
                 }"
                 for="email"
-                >{{ $t("i18n.pages.contact.email_label") }}
+                >{{ t("i18n.pages.contact.email_label") }}
                 <span v-if="!emailValidated">
-                  {{ $t("i18n.pages.contact.valid") }}
+                  {{ t("i18n.pages.contact.valid") }}
                   (example@mail.com).
                 </span>
               </label>
@@ -143,7 +143,7 @@
                   'outline-2 outline-action-red': !emailValidated,
                   'outline-none focus:outline-none': emailValidated,
                 }"
-                :placeholder="$t('i18n.pages.contact.email_placeholder')"
+                :placeholder="t('i18n.pages.contact.email_placeholder')"
                 spellcheck="false"
               />
             </div>
@@ -155,9 +155,9 @@
                 }"
                 for="subject"
               >
-                {{ $t("i18n.pages.contact.subject_label") }}
+                {{ t("i18n.pages.contact.subject_label") }}
                 <span v-if="!subjectValidated">
-                  {{ $t("i18n.pages.contact.error_empty") }}
+                  {{ t("i18n.pages.contact.error_empty") }}
                 </span>
               </label>
               <input
@@ -170,7 +170,7 @@
                   'outline-2 outline-action-red': !subjectValidated,
                   'outline-none focus:outline-none': subjectValidated,
                 }"
-                :placeholder="$t('i18n.pages.contact.subject_placeholder')"
+                :placeholder="t('i18n.pages.contact.subject_placeholder')"
                 spellcheck="false"
               />
             </div>
@@ -182,7 +182,7 @@
                 }"
                 for="message"
               >
-                {{ $t("i18n.pages.contact.message_label") }}
+                {{ t("i18n.pages.contact.message_label") }}
                 <span v-if="!messageValidated">cannot be empty.</span>
               </label>
               <textarea
@@ -195,7 +195,7 @@
                   'outline-2 outline-action-red': !messageValidated,
                   'outline-none focus:outline-none': messageValidated,
                 }"
-                :placeholder="$t('i18n.pages.contact.message_placeholder')"
+                :placeholder="t('i18n.pages.contact.message_placeholder')"
                 rows="6"
                 spellcheck="false"
               ></textarea>
@@ -204,7 +204,7 @@
               <!-- <FriendlyCaptcha /> -->
             </div>
             <button
-              :aria-label="$t('i18n.pages.contact.send_form_aria_label')"
+              :aria-label="t('i18n.pages.contact.send_form_aria_label')"
               class="flex w-fit select-none items-center rounded-md border border-primary-text bg-cta-orange fill-primary-text px-4 py-2 text-center font-semibold elem-shadow-sm focus-brand dark:border-cta-orange dark:bg-cta-orange/10 dark:fill-cta-orange dark:text-cta-orange xl:rounded-lg"
               :class="{
                 'cursor-not-allowed': buttonDisabled,
@@ -214,7 +214,7 @@
               :disabled="buttonDisabled"
               type="submit"
             >
-              {{ $t("i18n.pages.contact.send") }}
+              {{ t("i18n.pages.contact.send") }}
             </button>
           </form>
         </div>
@@ -224,7 +224,7 @@
         class="flex flex-col items-center justify-center space-y-4 pb-8 text-center md:items-start md:space-y-6 md:text-start"
       >
         <h1 class="pb-2 font-bold">
-          {{ $t("i18n.pages.contact.thanks_1") }}
+          {{ t("i18n.pages.contact.thanks_1") }}
         </h1>
         <div class="flex flex-row space-x-3 py-2 text-start">
           <Icon
@@ -233,13 +233,13 @@
             size="1.25em"
           />
           <p>
-            {{ $t("i18n.pages.contact.subheader_1") }}
+            {{ t("i18n.pages.contact.subheader_1") }}
             <a
               class="link-text items-center focus-brand"
               href="https://matrix.to/#/#activist_community:matrix.org"
               target="_blank"
             >
-              {{ $t("i18n._global.public_matrix_chat_rooms") }}
+              {{ t("i18n._global.public_matrix_chat_rooms") }}
               <Icon
                 :name="IconMap.EXTERNAL_LINK"
                 size="1em"
@@ -250,7 +250,7 @@
           </p>
         </div>
         <p>
-          {{ $t("i18n.pages.contact.thanks_2") }}
+          {{ t("i18n.pages.contact.thanks_2") }}
         </p>
         <BtnRouteInternal
           ariaLabel="i18n._global.return_home_aria_label"
@@ -265,6 +265,10 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
+const bootstrapEnvelopeUrl = BOOTSTRAP_ENVELOPE_URL;
+
 const name = ref("");
 const email = ref("");
 const message = ref("");

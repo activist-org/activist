@@ -20,9 +20,9 @@
           autocapitalize="none"
           autocomplete="off"
           autocorrect="off"
-          :data-testid="$t('i18n.pages.auth._global.enter_a_user_name')"
+          :data-testid="t('i18n.pages.auth._global.enter_a_user_name')"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.pages.auth._global.enter_a_user_name')"
+          :label="t('i18n.pages.auth._global.enter_a_user_name')"
           :modelValue="(value.value as string)"
           :spellcheck="false"
         />
@@ -39,9 +39,9 @@
           autocapitalize="none"
           autocomplete="off"
           autocorrect="off"
-          :data-testid="$t('i18n.pages.auth._global.enter_email')"
+          :data-testid="t('i18n.pages.auth._global.enter_email')"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.pages.auth._global.enter_email')"
+          :label="t('i18n.pages.auth._global.enter_email')"
           :modelValue="(value.value as string)"
           :spellcheck="false"
         />
@@ -69,7 +69,7 @@
           @focus="isPasswordFieldFocused = true"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n._global.enter_password')"
+          :label="t('i18n._global.enter_password')"
           :modelValue="(passwordRef.value as string)"
         />
         <div class="flex flex-col space-y-4">
@@ -105,7 +105,7 @@
           @blur="handleBlur"
           @update:modelValue="handleChange"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.pages.auth._global.repeat_password')"
+          :label="t('i18n.pages.auth._global.repeat_password')"
           :modelValue="(confirmPassword.value as string)"
         >
           <template #icons>
@@ -116,14 +116,14 @@
                 :color="
                   confirmPassword.value &&
                   errorMessage.value !==
-                    $t('i18n.pages.auth._global.password_not_matched')
+                    t('i18n.pages.auth._global.password_not_matched')
                     ? '#3BA55C'
                     : '#BA3D3B'
                 "
                 :name="
                   confirmPassword.value &&
                   errorMessage.value !==
-                    $t('i18n.pages.auth._global.password_not_matched')
+                    t('i18n.pages.auth._global.password_not_matched')
                     ? IconMap.CHECK
                     : IconMap.X_LG
                 "
@@ -133,9 +133,9 @@
               <title id="sign-up-confirm-password-match" class="sr-only">
                 {{
                   errorMessage.value ===
-                  $t("i18n.pages.auth._global.password_not_matched")
-                    ? $t("i18n.pages.auth._global.passwords_do_not_match")
-                    : $t("i18n.pages.auth._global.passwords_match")
+                  t("i18n.pages.auth._global.password_not_matched")
+                    ? t("i18n.pages.auth._global.passwords_do_not_match")
+                    : t("i18n.pages.auth._global.passwords_match")
                 }}
               </title>
             </span>
@@ -165,24 +165,24 @@
           />
         </FormItem>
         <p id="sign-up-terms-label" class="pl-2">
-          {{ $t("i18n.pages.auth.sign_up.terms_of_service_pt_1") }}
+          {{ t("i18n.pages.auth.sign_up.terms_of_service_pt_1") }}
           <NuxtLink
             class="link-text inline-link-underline ml-0.5"
             target="_blank"
             :to="localePath('/legal/privacy-policy')"
           >
-            {{ $t("i18n.pages.auth.sign_up.terms_of_service_pt_2") }}
+            {{ t("i18n.pages.auth.sign_up.terms_of_service_pt_2") }}
           </NuxtLink>
         </p>
       </div>
     </Form>
     <div class="flex items-center pt-4 md:justify-center md:pt-6 lg:pt-8">
-      <h6>{{ $t("i18n.pages.auth.sign_up.have_account") }}</h6>
+      <h6>{{ t("i18n.pages.auth.sign_up.have_account") }}</h6>
       <NuxtLink
         class="link-text inline-link-underline ml-2 font-extrabold"
         :to="localePath('/auth/sign-in')"
       >
-        {{ $t("i18n._global.sign_in") }}
+        {{ t("i18n._global.sign_in") }}
       </NuxtLink>
     </div>
   </div>
@@ -192,10 +192,9 @@
 import { FetchError } from "ofetch";
 import { z } from "zod";
 
+const { t } = useI18n();
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
-
-const { t } = useI18n();
 
 const signUpSchema = z
   .object({

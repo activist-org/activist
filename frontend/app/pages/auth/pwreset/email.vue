@@ -2,7 +2,7 @@
 <template>
   <div class="px-12 text-center">
     <h3 class="mb-4 p-4">
-      {{ $t("i18n.pages.auth.pwreset.email.title") }}
+      {{ t("i18n.pages.auth.pwreset.email.title") }}
     </h3>
     <Form
       id="sign-in"
@@ -20,9 +20,9 @@
           :id="id"
           @blur="handleBlur"
           @input="handleChange"
-          :data-testid="$t('i18n.pages.auth._global.enter_email')"
+          :data-testid="t('i18n.pages.auth._global.enter_email')"
           :hasError="!!errorMessage.value"
-          :label="$t('i18n.pages.auth._global.enter_email')"
+          :label="t('i18n.pages.auth._global.enter_email')"
           :modelValue="(value.value as string)"
         />
       </FormItem>

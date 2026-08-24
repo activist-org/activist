@@ -4,22 +4,23 @@
     class="mx-1 rounded-md bg-layer-2 pb-1 pt-1 transition-all duration-500 elem-shadow-sm"
   >
     <SidebarLeftFilterEvents
-      v-if="sidebarTypeToDisplay === SidebarType.EVENTS_PAGE"
+      v-if="sidebarTypeToDisplay === sidebarEventPage"
       :logo-url="logoUrl"
     />
     <SidebarLeftFilterOrganization
-      v-if="sidebarTypeToDisplay === SidebarType.ORGANIZATIONS_PAGE"
+      v-if="sidebarTypeToDisplay === sidebarOrganizationPage"
       :logo-url="logoUrl"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+const sidebarOrganizationPage = SidebarMap.ORGANIZATIONS_PAGE;
+const sidebarEventPage = SidebarMap.EVENTS_PAGE;
+
 const props = defineProps<{
   sidebarType:
-    | SidebarType.ORGANIZATIONS_PAGE
-    | SidebarType.EVENTS_PAGE
-    | SidebarType.RESOURCES_PAGE;
+    typeof SidebarMap.EVENTS_PAGE | typeof SidebarMap.ORGANIZATIONS_PAGE;
   logoUrl?: string;
 }>();
 
