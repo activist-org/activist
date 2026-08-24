@@ -74,11 +74,11 @@ import {
 } from "@headlessui/vue";
 import { useRouter } from "vue-router";
 
-const { t } = useI18n();
-
 const props = defineProps<{
   paletteData: Command[];
 }>();
+
+const { t } = useI18n();
 
 interface Command {
   id: number;

@@ -53,8 +53,6 @@ import type { Swiper as SwiperInstance } from "swiper";
 
 import { register } from "swiper/element/bundle";
 
-const { t } = useI18n();
-
 interface Props {
   fullscreen: boolean;
   imageUrls: string[];
@@ -62,6 +60,8 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const { t } = useI18n();
 
 register();
 

@@ -87,9 +87,9 @@
 import draggable from "vuedraggable";
 
 const { t } = useI18n();
+const { canEdit } = useUser();
 
 const { openModal } = useModalHandlers("ModalResourceOrganization");
-const { canEdit } = useUser();
 
 const route = useRoute();
 const paramsOrgId = (route.params.orgId as string | undefined) ?? "";

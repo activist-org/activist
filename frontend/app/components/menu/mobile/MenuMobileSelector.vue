@@ -15,8 +15,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   label: string;
   routeUrl: string;
@@ -24,4 +22,6 @@ defineProps<{
   selected: boolean;
   active: boolean;
 }>();
+
+const { t } = useI18n();
 </script>

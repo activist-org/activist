@@ -123,6 +123,10 @@ const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 
+const { openModal } = useModalHandlers(
+  `ModalResource${props.entityType.charAt(0).toUpperCase() + props.entityType.slice(1)}`
+);
+
 const description = computed(() => {
   return props.resource.description || "";
 });
@@ -143,9 +147,7 @@ const dragIconSizeClass = computed(() => ({
   "h-[25px] w-[25px]": props.isReduced,
   "h-[50px] w-[50px]": !props.isReduced,
 }));
-const { openModal } = useModalHandlers(
-  `ModalResource${props.entityType.charAt(0).toUpperCase() + props.entityType.slice(1)}`
-);
+
 const openModalEdit = () => {
   openModal({
     resource: props.resource,

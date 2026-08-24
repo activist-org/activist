@@ -80,6 +80,7 @@
 import { z } from "zod";
 
 const { t } = useI18n();
+
 const flow = inject<FlowControls>("flow");
 
 const organizationDetailsSchema = z.object({

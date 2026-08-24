@@ -99,8 +99,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 // TODO: Refactor this component for readability and maintainability + move logic to composables.
 const props = defineProps({
   modelValue: {
@@ -113,6 +111,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const { t } = useI18n();
 
 const moreOptionsShown = ref(false);
 const inputFocus = ref(false);

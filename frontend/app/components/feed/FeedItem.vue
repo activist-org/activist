@@ -53,13 +53,12 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   name: string;
   url: string;
 }>();
 
+const { t } = useI18n();
 const localePath = useLocalePath();
 
 let itemType: string = "";

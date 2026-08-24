@@ -8,12 +8,12 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   faqEntryId: string;
   entityId: string;
 }>();
+
+const { t } = useI18n();
 
 const orgId = computed(() => props.entityId);
 

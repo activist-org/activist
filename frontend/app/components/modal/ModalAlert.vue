@@ -32,8 +32,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = withDefaults(
   defineProps<{
     modalName?: string;
@@ -46,6 +44,8 @@ const props = withDefaults(
     modalName: "ModalAlert",
   }
 );
+
+const { t } = useI18n();
 
 const modalAlertName = computed(() => props.modalName);
 const { handleCloseModal } = useModalHandlers<{

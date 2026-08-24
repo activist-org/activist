@@ -37,8 +37,6 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 interface Props {
   groupId: string;
   uploadLimit?: number;
@@ -47,6 +45,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: MAX_IMAGES_PER_UPLOAD,
 });
+
+const { t } = useI18n();
 
 const groupId = computed(() => props.groupId);
 

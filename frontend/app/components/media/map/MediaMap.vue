@@ -20,18 +20,17 @@ const props = defineProps<{
   pointerTooltipCreate?: (pointer: Pointer) => PopupContent;
 }>();
 
-const { createMap, isWebglSupported, addDefaultControls } = useMap();
+const { t } = useI18n();
+const colorMode = useColorMode();
+const { setMapLayers, setMap } = useRouting();
 
+const { createMap, isWebglSupported, addDefaultControls } = useMap();
 const { createMapForClusterTypeMap } = useClusterMap();
 const { createMapForPointerTypeMap } = usePointerMap();
 
 // MARK: Map Tooltip Helper
 
 // Returns a <div> containing the whole card so we can pass it to popup.setDOMContent().
-
-const { t } = useI18n();
-const colorMode = useColorMode();
-const { setMapLayers, setMap } = useRouting();
 
 const isTouchDevice =
   // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.

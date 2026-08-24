@@ -89,8 +89,6 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 const props = defineProps<{
   location?: DropdownLocationType;
   menuButtonAriaLabel: string;
@@ -100,6 +98,8 @@ const props = defineProps<{
   menuButtonLabel: string;
   dataTestId?: string;
 }>();
+
+const { t } = useI18n();
 
 const sidebar = useSidebar();
 

@@ -26,11 +26,11 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 defineProps<{
   title: string;
   text: string;
   icon?: string;
 }>();
+
+const { t } = useI18n();
 </script>

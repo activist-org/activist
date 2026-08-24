@@ -38,12 +38,12 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   iconName: string;
   value: string;
   label?: string;
   iconSize?: string;
 }>();
+
+const { t } = useI18n();
 </script>

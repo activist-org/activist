@@ -119,8 +119,10 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const contentCopied = ref(false);
 const { showToastInfo } = useToaster();
+
+const contentCopied = ref(false);
+
 type ShareKeys = "signal" | "matrix" | "instagram";
 
 const getCurrentI18n: Record<ShareKeys, string> = {

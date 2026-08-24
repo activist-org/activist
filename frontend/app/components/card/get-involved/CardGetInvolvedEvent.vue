@@ -56,10 +56,9 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+const { userIsSignedIn } = useUser();
 
 const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
-
-const { userIsSignedIn } = useUser();
 
 const paramsEventId = useRoute().params.eventId;
 const eventId = typeof paramsEventId === "string" ? paramsEventId : "";

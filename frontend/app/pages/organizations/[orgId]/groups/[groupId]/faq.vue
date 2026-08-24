@@ -81,9 +81,9 @@ import draggable from "vuedraggable";
 
 const { t } = useI18n();
 
-const groupTabs = useGetGroupTabs();
-
 const { openModal } = useModalHandlers("ModalFaqEntryGroup");
+
+const groupTabs = useGetGroupTabs();
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";

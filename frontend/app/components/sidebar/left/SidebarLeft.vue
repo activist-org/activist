@@ -80,14 +80,16 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
-const searchBarLocation = SearchBarLocation.SIDEBAR;
 const sidebar = useSidebar();
 const route = useRoute();
 const { currentRoute } = useRouter();
+
+const searchBarLocation = SearchBarLocation.SIDEBAR;
 const sidebarEventPage = SidebarMap.EVENT_PAGE;
 const sidebarOrganizationPage = SidebarMap.ORGANIZATION_PAGE;
 const sidebarOrganizationsPage = SidebarMap.ORGANIZATIONS_PAGE;
 const sidebarEventsPage = SidebarMap.EVENTS_PAGE;
+
 const routeName = computed(() => {
   if (currentRoute.value.name) {
     return currentRoute.value.name;

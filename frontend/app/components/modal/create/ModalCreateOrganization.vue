@@ -16,10 +16,10 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+
 const createOrganization = MachineCreateType.CreateOrganization;
 const modalName = "ModalCreateOrganization";
 const { handleCloseModal } = useModalHandlers(modalName);
-
 const router = useRouter();
 
 const { create } = useOrganizationMutations({

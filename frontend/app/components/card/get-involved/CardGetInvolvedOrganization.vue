@@ -92,12 +92,11 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const { openModal: openModalTextOrganization } = useModalHandlers(
   "ModalTextOrganization"
 );
 
+const { t } = useI18n();
 const { userIsSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;

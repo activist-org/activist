@@ -39,12 +39,12 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   organization: Organization;
   isOpen: boolean;
 }>();
+
+const { t } = useI18n();
 
 const modals = useModals();
 const modalName = "ModalOrganizationStatus";

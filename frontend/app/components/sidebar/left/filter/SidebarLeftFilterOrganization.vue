@@ -72,6 +72,7 @@ const schema = z.object({
   topics: z.array(z.string()).optional(),
   country: z.string().optional().nullable(),
 });
+
 const route = useRoute();
 const router = useRouter();
 const formData = ref({});

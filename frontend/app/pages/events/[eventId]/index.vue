@@ -66,14 +66,12 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   event: CommunityEvent;
 }>();
 
+const { t } = useI18n();
 const localPath = useLocalePath();
-
 const { eventEntry } = useMenuEntriesState();
 
 const eventButtons: MenuSelector[] = [];

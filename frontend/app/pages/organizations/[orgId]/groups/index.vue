@@ -50,9 +50,9 @@
 <script setup lang="ts">
 const { t } = useI18n();
 
+const { openModal } = useModalHandlers("ModalCreateGroup");
+
 const { data: organization } = useGetOrganization(
   (useRoute().params.orgId as string) ?? ""
 );
-
-const { openModal } = useModalHandlers("ModalCreateGroup");
 </script>

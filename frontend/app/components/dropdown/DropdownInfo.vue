@@ -12,11 +12,11 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   location?: DropdownLocationType;
 }>();
+
+const { t } = useI18n();
 
 const infoOptions: MenuSelector[] = [
   {

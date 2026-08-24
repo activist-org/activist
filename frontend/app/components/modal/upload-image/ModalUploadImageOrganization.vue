@@ -38,8 +38,6 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 interface Props {
   orgId: string;
   uploadLimit?: number;
@@ -47,6 +45,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
+
+const { t } = useI18n();
 
 const orgId = computed(() => props.orgId);
 

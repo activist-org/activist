@@ -61,14 +61,14 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   name: string;
   logoUrl?: string;
 }>();
 
+const { t } = useI18n();
 const sidebar = useSidebar();
+
 const { openModal } = useModalHandlers("ModalUploadImageIcon");
 
 const logoUrl = ref(props.logoUrl);

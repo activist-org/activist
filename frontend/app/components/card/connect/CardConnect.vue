@@ -59,8 +59,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   socialLinks:
     | SocialLink[]
@@ -70,6 +68,8 @@ const props = defineProps<{
   pageType: "organization" | "group" | "event";
   entity?: Entity | null;
 }>();
+
+const { t } = useI18n();
 
 const { openModal: openModalSocialLinks } = useModalHandlers(
   `ModalSocialLinks${props.pageType.charAt(0).toUpperCase() + props.pageType.slice(1)}`

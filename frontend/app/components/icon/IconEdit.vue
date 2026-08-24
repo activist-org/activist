@@ -14,12 +14,11 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   entity?: Entity | null;
 }>();
 
+const { t } = useI18n();
 const { canEdit } = useUser();
 const canEditEntity = computed(() => canEdit(props?.entity));
 </script>

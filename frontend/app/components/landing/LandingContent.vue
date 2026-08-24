@@ -170,8 +170,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-const colorMode = useColorMode();
 defineProps<{
   contentPosition: "left" | "right" | "top";
   header: string;
@@ -189,4 +187,7 @@ defineProps<{
   btnAriaLabel2?: string;
   subText?: string;
 }>();
+
+const { t } = useI18n();
+const colorMode = useColorMode();
 </script>

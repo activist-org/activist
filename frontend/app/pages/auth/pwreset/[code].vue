@@ -109,10 +109,9 @@
 <script setup lang="ts">
 import { z } from "zod";
 
+const { t } = useI18n();
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
-
-const { t } = useI18n();
 
 const resetPasswordSchema = z
   .object({

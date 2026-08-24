@@ -35,17 +35,17 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
-const { showToastError } = useToaster();
 const props = defineProps<{
   name: string;
   logoUrl?: string;
 }>();
 
+const { t } = useI18n();
+const { showToastError } = useToaster();
+const sidebar = useSidebar();
+
 const { name } = toRefs(props);
 
-const sidebar = useSidebar();
 // const { openModal: openModalUploadImage } = useModalHandlers(
 //   "ModalUploadImageIcon"
 // );

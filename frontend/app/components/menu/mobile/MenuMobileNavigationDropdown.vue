@@ -81,8 +81,8 @@ import {
 } from "@headlessui/vue";
 
 const { t } = useI18n();
-const sidebarTypeOrganizationPage = SidebarMap.ORGANIZATION_PAGE;
 const { currentRoute } = useRouter();
+const sidebarTypeOrganizationPage = SidebarMap.ORGANIZATION_PAGE;
 
 const routeName = computed(() => {
   if (currentRoute.value.name) {

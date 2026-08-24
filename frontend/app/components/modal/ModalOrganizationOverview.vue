@@ -27,11 +27,11 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 const modalName = "ModalOrganizationOverview";
 defineProps<{
   event?: CommunityEvent;
   group?: Group;
 }>();
+
+const { t } = useI18n();
 </script>

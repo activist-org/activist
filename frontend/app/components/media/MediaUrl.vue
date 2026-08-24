@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
+defineProps<{ link: string }>();
+
 const { t } = useI18n();
 const colorMode = useColorMode();
-defineProps<{ link: string }>();
 </script>

@@ -27,8 +27,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   label?: string;
   hideLabelOnMobile?: boolean;
@@ -37,4 +35,6 @@ defineProps<{
   iconSize?: string;
   counter?: number;
 }>();
+
+const { t } = useI18n();
 </script>

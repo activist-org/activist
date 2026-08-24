@@ -42,11 +42,10 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
-const aboveMediumBP = useBreakpoint("md");
-
 defineProps<{
   organization: Organization;
 }>();
+
+const { t } = useI18n();
+const aboveMediumBP = useBreakpoint("md");
 </script>

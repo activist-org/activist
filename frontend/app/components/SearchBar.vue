@@ -100,13 +100,16 @@
 <script setup lang="ts">
 import { useActiveElement, useMagicKeys, whenever } from "@vueuse/core";
 
-const { t } = useI18n();
-
 export interface Props {
   location: SearchBarLocationType;
   expanded?: boolean;
   modelValue?: string;
 }
+
+const { t } = useI18n();
+const sidebar = useSidebar();
+const { isMacOS } = useDevice();
+const activeElement = useActiveElement();
 
 const props = withDefaults(defineProps<Props>(), {
   expanded: false,
@@ -120,11 +123,8 @@ watch(
   },
   { immediate: true }
 );
-const sidebar = useSidebar();
-const { isMacOS } = useDevice();
 
 const input = ref();
-const activeElement = useActiveElement();
 const hotkeyIndicators = ref();
 const isInputFocused = ref(false);
 const notUsingTextEditor = computed(

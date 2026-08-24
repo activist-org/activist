@@ -62,6 +62,7 @@
 const { t } = useI18n();
 const { REQUEST_ACCESS_URL } = useGetBaseURLs();
 const aboveMediumBP = useBreakpoint("md");
+
 const devMode = useDevMode();
 devMode.check();
 </script>

@@ -109,13 +109,12 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
-
 const { $countryName } = useNuxtApp();
+const { userIsSignedIn } = useUser();
+
 const { openModal: openModalTextOrganization } = useModalHandlers(
   "ModalTextOrganization"
 );
-
-const { userIsSignedIn } = useUser();
 
 const paramsOrgId = useRoute().params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : "";

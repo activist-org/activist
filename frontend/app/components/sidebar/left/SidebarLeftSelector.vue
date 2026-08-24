@@ -41,8 +41,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   label: string;
   routeUrl: string;
@@ -51,6 +49,7 @@ const props = defineProps<{
   id?: string;
 }>();
 
+const { t } = useI18n();
 const sidebar = useSidebar();
 const route = useRoute();
 const preserveNextQuery = useState("preserveNextQuery", () => true);

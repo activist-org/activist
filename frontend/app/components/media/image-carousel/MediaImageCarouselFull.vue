@@ -31,13 +31,13 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   entityType: EntityMapType;
   entityId: string;
   images: ContentImage[];
 }>();
+
+const { t } = useI18n();
 
 const { openModal: openMediaImageCarousel } =
   useModalHandlers("ModalMediaImage");

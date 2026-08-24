@@ -56,13 +56,13 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 interface Props {
   entityId: string;
   entityType: EntityMapType;
 }
 const props = defineProps<Props>();
+
+const { t } = useI18n();
 
 const entityId = computed(() => props.entityId);
 

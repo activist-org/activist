@@ -44,12 +44,12 @@
 import type { LocationQueryRaw } from "vue-router";
 
 const { t } = useI18n();
+const route = useRoute();
 
 const LIST_VIEW = ViewType.LIST;
 const MAP_VIEW = ViewType.MAP;
 const CALENDAR_VIEW = ViewType.CALENDAR;
 
-const route = useRoute();
 const viewType = ref<ViewTypeValueType>(
   (route.query.view as ViewTypeValueType) || ViewType.LIST
 );

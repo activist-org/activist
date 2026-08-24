@@ -52,10 +52,9 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+const { userIsSignedIn } = useUser();
 
 const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
-
-const { userIsSignedIn } = useUser();
 
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";

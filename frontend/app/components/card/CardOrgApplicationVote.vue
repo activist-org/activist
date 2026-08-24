@@ -55,11 +55,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
-/**
- * The component public properties.
- */
 export interface Props {
   /**
    * The card title.
@@ -86,6 +81,8 @@ export interface Props {
    */
   downVotes: number;
 }
+
+const { t } = useI18n();
 
 /**
  * The available component events.

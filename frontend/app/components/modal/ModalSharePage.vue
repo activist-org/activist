@@ -237,6 +237,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { BASE_FRONTEND_URL } = useGetBaseURLs();
+
 const organization = computed(() => {
   return props.organization || null;
 });

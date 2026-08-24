@@ -36,11 +36,11 @@
 <script setup lang="ts">
 import zxcvbn from "zxcvbn";
 
-const { t } = useI18n();
-
 const props = defineProps<{
   passwordValue?: string | Ref<string | undefined>;
 }>();
+
+const { t } = useI18n();
 
 const password = computed(() => unref(props.passwordValue));
 type PasswordIndexKey = 0 | 1 | 2 | 3 | 4;

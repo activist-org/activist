@@ -57,13 +57,13 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   atTopShadow: boolean;
 }>();
 
+const { t } = useI18n();
 const sidebar = useSidebar();
+
 const emit = defineEmits(["toggle-pressed"]);
 </script>
 

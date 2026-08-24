@@ -39,12 +39,11 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   event: CommunityEvent;
 }>();
 
+const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 
 // const event = {

@@ -57,11 +57,11 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   description: string;
   ctaBtnText: string;
   ctaBtnAriaLabel: string;
 }>();
+
+const { t } = useI18n();
 </script>

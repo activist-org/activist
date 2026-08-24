@@ -26,12 +26,13 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   machineType: MachineType;
   options?: UseFlowScreensOptions;
 }>();
+
+const { t } = useI18n();
+
 const emit = defineEmits(["close", "submit"]);
 
 const {

@@ -32,11 +32,11 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 defineProps<{
   location?: DropdownLocationType;
 }>();
+
+const { t } = useI18n();
 
 const colorMode = useColorMode();
 

@@ -192,10 +192,9 @@
 import { FetchError } from "ofetch";
 import { z } from "zod";
 
+const { t } = useI18n();
 const localePath = useLocalePath();
 const { checkRules } = usePasswordRules();
-
-const { t } = useI18n();
 
 const signUpSchema = z
   .object({

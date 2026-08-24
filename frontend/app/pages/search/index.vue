@@ -15,6 +15,7 @@
     <GridFilterTags class="mt-3" :tags="['Berlin', 'Activism', 'Eco']" />
   </div>
 </template>
+
 <script setup lang="ts">
 const { t } = useI18n();
 </script>

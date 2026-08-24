@@ -29,9 +29,9 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   event: CommunityEvent;
 }>();
+
+const { t } = useI18n();
 </script>

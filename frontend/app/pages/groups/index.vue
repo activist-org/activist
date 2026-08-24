@@ -22,9 +22,9 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   groups: Group[];
 }>();
+
+const { t } = useI18n();
 </script>

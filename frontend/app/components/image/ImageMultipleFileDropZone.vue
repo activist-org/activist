@@ -80,13 +80,14 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
 
-const { t } = useI18n();
-
 interface Props {
   modelValue: FileUploadMix[];
   uploadLimit: number;
 }
 const props = defineProps<Props>();
+
+const { t } = useI18n();
+
 const emit = defineEmits([
   "update:modelValue",
   "files-dropped",

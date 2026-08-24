@@ -51,6 +51,8 @@ import { z } from "zod";
 
 const { t } = useI18n();
 
+const flow = inject<FlowControls>("flow");
+
 const query = ref<Record<string, string> | null>(null);
 const options = ref<RadioOption[]>([]);
 const handleSubmitLocation = (values: unknown) => {
@@ -62,7 +64,6 @@ const handleSubmitLocation = (values: unknown) => {
     city: valuesTyped.city,
   };
 };
-const flow = inject<FlowControls>("flow");
 
 const initialLocationData = computed(() => {
   const ctx = flow?.context?.value;

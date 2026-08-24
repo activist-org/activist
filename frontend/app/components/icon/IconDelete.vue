@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
-
 const { canDelete } = useUser();
 const canDeleteEntity = computed(() => canDelete());
 </script>

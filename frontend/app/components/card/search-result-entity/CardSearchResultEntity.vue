@@ -85,8 +85,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   title: string;
   description: string;
@@ -99,6 +97,7 @@ const props = defineProps<{
   isReduced?: boolean;
 }>();
 
+const { t } = useI18n();
 const aboveMediumBP = useBreakpoint("md");
 const localePath = useLocalePath();
 

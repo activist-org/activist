@@ -23,11 +23,11 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
-const localePath = useLocalePath();
-
 defineProps<{
   color?: string;
 }>();
+
+const { t } = useI18n();
+
+const localePath = useLocalePath();
 </script>

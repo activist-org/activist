@@ -34,13 +34,14 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 export interface Props {
   menuOpen?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   menuOpen: false,
 });
+
+const { t } = useI18n();
+
 defineEmits(["toggle"]);
 </script>

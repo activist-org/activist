@@ -46,8 +46,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   type: "icon" | "meta-tag";
   reasonForSuggesting: string;
@@ -57,6 +55,8 @@ const props = defineProps<{
   secondParagraph?: string;
   fileName?: string;
 }>();
+
+const { t } = useI18n();
 
 const { openModal } = useModalHandlers("ModalQRCode");
 

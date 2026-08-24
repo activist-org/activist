@@ -70,13 +70,13 @@
 <script setup lang="ts">
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 const props = defineProps<{
   imageModal?: boolean;
   onClose?: () => void;
   modalName: string;
 }>();
+
+const { t } = useI18n();
 
 const emit = defineEmits(["closeModal"]);
 

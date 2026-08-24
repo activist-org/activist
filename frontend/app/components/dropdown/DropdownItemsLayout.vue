@@ -33,12 +33,12 @@
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 const props = defineProps<{
   location?: DropdownLocationType;
   options: MenuSelector[];
 }>();
+
+const { t } = useI18n();
 
 const isSidebarLeftMenu = computed(() => {
   return props.location === DropdownLocation.SIDE_LEFT_MENU;

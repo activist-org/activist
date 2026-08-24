@@ -80,12 +80,12 @@
 import draggable from "vuedraggable";
 
 const { t } = useI18n();
-
 const route = useRoute();
-const eventId = (route.params.eventId as string) ?? "";
+const { canEdit } = useUser();
 
 const { openModal } = useModalHandlers("ModalResourceEvent");
-const { canEdit } = useUser();
+
+const eventId = (route.params.eventId as string) ?? "";
 
 const { data: event } = useGetEvent(eventId);
 const { reorderResources, loading } = useEventResourcesMutations(eventId);

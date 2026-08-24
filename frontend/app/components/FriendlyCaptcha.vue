@@ -40,13 +40,6 @@
 <script setup lang="ts">
 import VueFriendlyCaptcha from "@somushq/vue3-friendly-captcha";
 
-const { t } = useI18n();
-const colorMode = useColorMode();
-const { FRIENDLY_CAPTCHA_KEY } = useGetBaseURLs();
-const devMode = useDevMode();
-devMode.check();
-const localeValue = ref(false);
-
 interface Props {
   modelValue: boolean;
 }
@@ -59,7 +52,13 @@ const verifyCaptcha = (_response: boolean) => {
   localeValue.value = true;
 };
 
-const { locale } = useI18n();
+const { t, locale } = useI18n();
+const colorMode = useColorMode();
+const { FRIENDLY_CAPTCHA_KEY } = useGetBaseURLs();
+const devMode = useDevMode();
+devMode.check();
+
+const localeValue = ref(false);
 </script>
 
 <style>

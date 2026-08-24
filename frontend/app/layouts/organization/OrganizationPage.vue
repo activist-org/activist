@@ -35,6 +35,8 @@
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
 
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
 const route = useRoute();
 const paramsOrgId = route.params.orgId;
 const orgId = typeof paramsOrgId === "string" ? paramsOrgId : undefined;
@@ -66,8 +68,6 @@ const sidebarContentDynamicClass = getSidebarContentDynamicClass(
 );
 
 const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
-
-const { openModal } = useModalHandlers("ModalUploadImageIcon");
 
 function handleEditOrganizationIcon(): void {
   if (!organization.value?.id) {

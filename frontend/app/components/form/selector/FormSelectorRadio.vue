@@ -42,8 +42,6 @@
 <script setup lang="ts">
 import { RadioGroup, RadioGroupOption } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 type Option = {
   value: string | number | boolean | Record<string, unknown> | undefined;
   key: string;
@@ -60,6 +58,8 @@ const props = defineProps<{
   options: Option[];
   toggleable?: boolean;
 }>();
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: typeof props.modelValue): void;

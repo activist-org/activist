@@ -90,6 +90,8 @@
 <script setup lang="ts">
 const { t } = useI18n();
 
+const { openModal } = useModalHandlers("ModalCreateEvent");
+
 const orgId = useRoute().params.orgId as string;
 
 const name = ref<string>("");
@@ -108,6 +110,5 @@ const filters = computed(() => ({
 const { data: organization } = useGetOrganization(orgId);
 const { data: events, pending } = useGetOrganizationEvents(orgId, filters);
 
-const { openModal } = useModalHandlers("ModalCreateEvent");
 const downloadCalendarEntries = () => {};
 </script>

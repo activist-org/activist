@@ -21,9 +21,9 @@
 <script setup lang="ts">
 import type { BtnRoute } from "#shared/types/components-props";
 
-const { t } = useI18n();
-
 const props = defineProps<BtnRoute>();
 
 const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
+
+const { t } = useI18n();
 </script>

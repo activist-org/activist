@@ -124,8 +124,6 @@ import {
   ComboboxOptions,
 } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 interface Option {
   id: number | string;
   label: string;
@@ -157,6 +155,8 @@ const props = withDefaults(defineProps<Props>(), {
   showLoadingSlot: true,
   isMultiSelect: true,
 });
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   (e: "update:selectedOptions", value: unknown[]): void;

@@ -172,11 +172,11 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+const localePath = useLocalePath();
 
 const currentWidth = ref(window.innerWidth);
 const isMobileDevice = ref(false);
 let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
-const localePath = useLocalePath();
 
 const updateWidth = () => {
   currentWidth.value = window.innerWidth;

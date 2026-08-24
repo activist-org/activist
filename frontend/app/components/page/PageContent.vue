@@ -36,14 +36,14 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-const colorMode = useColorMode();
-
 export interface Props {
   imgUrl: string;
   imgAltText: string;
   includeBreadcrumbs?: boolean;
 }
+
+const { t } = useI18n();
+const colorMode = useColorMode();
 
 const aboveMediumBP = useBreakpoint("md");
 const above2xlBP = useBreakpoint("2xl");

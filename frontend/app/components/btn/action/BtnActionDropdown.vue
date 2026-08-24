@@ -60,11 +60,11 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
 import type { BtnActionDropdown } from "#shared/types/components-props";
 
-const { t } = useI18n();
-
 const props = defineProps<BtnActionDropdown>();
 
 const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
 
 const emit = defineEmits(["main-btn-clicked"]);
+
+const { t } = useI18n();
 </script>

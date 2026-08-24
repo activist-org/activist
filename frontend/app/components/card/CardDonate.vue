@@ -42,12 +42,12 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   userIsAdmin: boolean;
   donationPrompt?: string;
 }>();
+
+const { t } = useI18n();
 
 const editModeEnabled = ref(false);
 const toggleEditMode = () => {

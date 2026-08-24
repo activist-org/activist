@@ -80,8 +80,6 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
-const { t } = useI18n();
-
 defineOptions({
   inheritAttrs: false,
 });
@@ -92,6 +90,8 @@ const props = defineProps<{
   entity?: Entity | null;
   tabindex?: number;
 }>();
+
+const { t } = useI18n();
 
 const modalName = computed(
   () =>

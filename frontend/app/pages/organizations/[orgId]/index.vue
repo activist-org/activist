@@ -66,13 +66,11 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+const localePath = useLocalePath();
 
 const { data: organization } = useGetOrganization(
   useRoute().params.orgId as string
 );
-
-const localePath = useLocalePath();
-
 const { organizationEntry } = useMenuEntriesState();
 
 const organizationButtons: MenuSelector[] = [];

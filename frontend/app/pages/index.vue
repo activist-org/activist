@@ -80,6 +80,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+
 const getActiveImageUrl = GET_ACTIVE_IMAGE_URL;
 const getOrganizedImageUrl = GET_ORGANIZED_IMAGE_URL;
 const growOrganizationImageUrl = GROW_ORGANIZATION_IMAGE_URL;

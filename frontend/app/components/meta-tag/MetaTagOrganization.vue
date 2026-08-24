@@ -13,10 +13,11 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-const localePath = useLocalePath();
 defineProps<{
   organization: Organization[];
   iconSize?: string;
 }>();
+
+const { t } = useI18n();
+const localePath = useLocalePath();
 </script>

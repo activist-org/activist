@@ -114,8 +114,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 export interface Props {
   header?: string;
   helpNeeded?: boolean;
@@ -124,6 +122,8 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   header: "i18n.components.page_community_footer.invite_text_1",
 });
+
+const { t } = useI18n();
 
 const headerText = ref(props.header);
 

@@ -57,8 +57,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   organization?: Organization;
   group?: Group;
@@ -66,6 +64,8 @@ defineProps<{
   resource?: Resource;
   user?: UserActivist;
 }>();
+
+const { t } = useI18n();
 
 const showTooltip = ref(false);
 

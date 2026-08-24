@@ -57,13 +57,13 @@
 <script setup lang="ts">
 const { t } = useI18n();
 
+const { openModal } = useModalHandlers("ModalCreateEvent");
+
 const paramsGroupId = useRoute().params.groupId;
 const groupId = typeof paramsGroupId === "string" ? paramsGroupId : "";
 
 const { data: group } = useGetGroup(groupId);
 const groupTabs = useGetGroupTabs();
-
-const { openModal } = useModalHandlers("ModalCreateEvent");
 
 const downloadCalendarEntries = () => {};
 </script>

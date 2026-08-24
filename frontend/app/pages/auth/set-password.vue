@@ -65,13 +65,12 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
+const { isPasswordMatch } = usePasswordRules();
 
 const userName = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const isPasswordFocused = ref(false);
-
-const { isPasswordMatch } = usePasswordRules();
 
 const doPasswordsMatch = computed<boolean>(() =>
   isPasswordMatch(password.value, confirmPassword.value)

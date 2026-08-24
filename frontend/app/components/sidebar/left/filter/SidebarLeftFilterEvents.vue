@@ -126,12 +126,14 @@ import type { LocationQueryRaw } from "vue-router";
 import { z } from "zod";
 
 const { t } = useI18n();
+const sidebar = useSidebar();
 
 const optionsTopics = GLOBAL_TOPICS.map((topic, index) => ({
   label: t(topic.label),
   value: topic.topic,
   id: index,
 }));
+
 const schema = z.object({
   days_ahead: z.string().optional(),
   location: z.string().optional(),
@@ -140,7 +142,6 @@ const schema = z.object({
   locationType: z.string().optional(),
   viewType: z.string().optional(),
 });
-const sidebar = useSidebar();
 
 const optionViews = [
   {

@@ -60,13 +60,12 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
-const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
-
 defineProps<{
   event?: CommunityEvent;
 }>();
+
+const { t } = useI18n();
+const { openModal: openModalTextEvent } = useModalHandlers("ModalTextEvent");
 
 const description = ref();
 const descriptionExpandable = ref(false);

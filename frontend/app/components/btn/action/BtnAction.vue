@@ -26,8 +26,6 @@
 <script setup lang="ts">
 import type { BtnAction } from "#shared/types/components-props";
 
-const { t } = useI18n();
-
 const props = defineProps<BtnAction>();
 
 function loadBtnDynamicClass() {
@@ -35,8 +33,9 @@ function loadBtnDynamicClass() {
 }
 
 let btnDynamicClass = loadBtnDynamicClass();
-
 watchEffect(() => {
   btnDynamicClass = loadBtnDynamicClass();
 });
+
+const { t } = useI18n();
 </script>

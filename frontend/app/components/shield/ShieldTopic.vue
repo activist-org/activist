@@ -21,8 +21,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 export interface Props {
   topic: string;
   active?: boolean;
@@ -33,4 +31,6 @@ withDefaults(defineProps<Props>(), {
   active: true,
   isSelector: false,
 });
+
+const { t } = useI18n();
 </script>

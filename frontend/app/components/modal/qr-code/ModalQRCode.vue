@@ -92,10 +92,6 @@
 <script setup lang="ts">
 import { DialogTitle } from "@headlessui/vue";
 
-const { t } = useI18n();
-
-const { BASE_FRONTEND_URL } = useGetBaseURLs();
-
 const props = defineProps<{
   firstParagraph?: string;
   secondParagraph?: string;
@@ -103,6 +99,9 @@ const props = defineProps<{
   linkUrl?: string;
   fileName?: string;
 }>();
+
+const { t } = useI18n();
+const { BASE_FRONTEND_URL } = useGetBaseURLs();
 
 const aboveMediumBP = useBreakpoint("md");
 const modalName = "ModalQRCode";

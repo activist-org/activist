@@ -108,11 +108,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n();
-
-const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
-
 const { userIsSignedIn } = useUser();
-
 const { $countryName } = useNuxtApp();
 
 const paramsGroupId = useRoute().params.groupId;
@@ -123,6 +119,8 @@ const { data: group } = useGetGroup(groupId);
 const { linkUrl: groupLinkUrl } = useLinkURL({
   group: group.value,
 });
+
+const { openModal: openModalTextGroup } = useModalHandlers("ModalTextGroup");
 
 const description = ref();
 const descriptionExpandable = ref(false);

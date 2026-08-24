@@ -63,6 +63,7 @@ import { z } from "zod";
 const { t } = useI18n();
 
 const flow = inject<FlowControls>("flow");
+
 type groupDetails = typeof CreateGroupSteps.GroupDetails;
 const { data: organization } = useGetOrganization(
   (

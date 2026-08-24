@@ -95,6 +95,7 @@ import {
 const props = defineProps<{
   receivedSelectedTopics?: TopicMapType[];
 }>();
+
 const { t } = useI18n();
 
 const { data: topics } = useGetTopics();

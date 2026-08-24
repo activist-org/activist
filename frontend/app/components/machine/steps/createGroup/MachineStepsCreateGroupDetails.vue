@@ -98,6 +98,7 @@ import { z } from "zod";
 const { t } = useI18n();
 const { user } = useUser();
 const flow = inject<FlowControls>("flow");
+
 const organizationDetailsSchema = z.object({
   name: z.string().min(1, t("i18n._global.required")),
   tagline: z.string().optional(),

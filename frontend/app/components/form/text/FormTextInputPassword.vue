@@ -35,8 +35,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 export interface Props {
   id: string;
   label: string;
@@ -48,6 +46,8 @@ withDefaults(defineProps<Props>(), {
   hasError: false,
   modelValue: "",
 });
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;

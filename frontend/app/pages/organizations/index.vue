@@ -71,12 +71,11 @@
 import type { LocationQueryRaw } from "vue-router";
 
 const { t } = useI18n();
-
 const route = useRoute();
 const router = useRouter();
-const loadingFetchMore = ref(false);
-
 const { getLabelByKey } = useGetLabelByKeyFilter();
+
+const loadingFetchMore = ref(false);
 
 const filters = computed<OrganizationFilters>(() => {
   // Note: We do not have a view filter for organizations.

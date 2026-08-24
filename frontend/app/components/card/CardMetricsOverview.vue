@@ -41,8 +41,6 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 type MetricKeys =
   "total events" | "action events" | "learn events" | "new orgs";
 
@@ -51,4 +49,6 @@ type Metrics = Record<MetricKeys, number>;
 defineProps<{
   metrics: Metrics;
 }>();
+
+const { t } = useI18n();
 </script>

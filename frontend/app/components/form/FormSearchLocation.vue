@@ -58,11 +58,13 @@
 
 <script setup lang="ts">
 import { z } from "zod";
-const { t } = useI18n();
 
 defineProps<{
   handleSubmit: (values: unknown) => Promise<void> | void;
 }>();
+
+const { t } = useI18n();
+
 const locationSchema = z.object({
   country: z
     .string({

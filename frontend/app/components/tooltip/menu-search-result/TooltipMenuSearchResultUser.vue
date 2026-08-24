@@ -31,14 +31,13 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 defineProps<{
   user: UserActivist;
 }>();
 
+const { t } = useI18n();
+const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
+
 const emit = defineEmits(["tab"]);
 const { handleTabPress } = useTabNavigationEmit(emit);
-
-const { openModal: openModalSharePage } = useModalHandlers("ModalSharePage");
 </script>

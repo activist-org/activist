@@ -61,18 +61,18 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
-
 const props = defineProps<{
   name: string;
   logoUrl?: string;
 }>();
 
-const logoUrl = ref(props.logoUrl);
-
-const { openModal } = useModalHandlers("ModalUploadImageIcon");
+const { t } = useI18n();
 const sidebar = useSidebar();
 const menuEntriesState = useMenuEntriesState();
+
+const { openModal } = useModalHandlers("ModalUploadImageIcon");
+
+const logoUrl = ref(props.logoUrl);
 
 const { data: organization } = useGetOrganization(
   (useRoute().params.orgId as string) ?? ""
