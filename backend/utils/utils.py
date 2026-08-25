@@ -31,9 +31,7 @@ def validate_creation_and_deletion_dates(data: Any) -> None:
 
     if data.get("deletion_date") and data.get("deletion_date") < data["creation_date"]:
         logger.error(
-            "deletion_date (%s) is before creation_date (%s)",
-            data.get("deletion_date"),
-            data["creation_date"],
+            f"deletion_date ({data.get('deletion_date')}) is before creation_date ({data['creation_date']})"
         )
         raise serializers.ValidationError(
             ("The field deletion_date cannot be before creation_date."),
@@ -64,9 +62,7 @@ def validate_creation_and_deprecation_dates(data: Any) -> None:
         and data.get("deprecation_date") < data.get("creation_date")
     ):
         logger.error(
-            "deprecation_date (%s) is before creation_date (%s)",
-            data.get("deprecation_date"),
-            data["creation_date"],
+            f"deprecation_date ({data.get('deprecation_date')}) is before creation_date ({data['creation_date']})"
         )
         raise serializers.ValidationError(
             ("The field deprecation_date cannot be before creation_date."),

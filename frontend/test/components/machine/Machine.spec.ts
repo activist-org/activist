@@ -17,9 +17,9 @@ vi.mock("../../../app/components/Loading.vue", () => ({
   }),
 }));
 
-// Mock translation function $t.
+// Mock translation function t.
 const globalMocks = {
-  $t: (key: string, params: { current_step: number; total_steps: number }) =>
+  t: (key: string, params: { current_step: number; total_steps: number }) =>
     `Step ${params.current_step} of ${params.total_steps}`,
 };
 

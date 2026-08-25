@@ -19,7 +19,7 @@
       </button>
     </template>
     <div v-else class="item">
-      {{ $t("i18n.components.tooltip_mention_list.no_result") }}
+      {{ t("i18n.components.tooltip_mention_list.no_result") }}
     </div>
   </div>
 </template>

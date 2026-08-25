@@ -7,7 +7,7 @@ import {
   MAX_IMAGES_PER_UPLOAD,
   getMaxImageBatchFileBytesInBytes,
   validateImageUploadBatchSize,
-} from "../../shared/utils/uploadLimits";
+} from "../../shared/constants/uploadLimits";
 
 describe("utils/uploadLimits", () => {
   it("mirrors the backend's per-image limit", () => {

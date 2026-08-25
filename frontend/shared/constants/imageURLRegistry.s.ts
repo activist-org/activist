@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+
 // MARK: activist
 
 export const FAVICON_URL = "/icons/favicons/favicon.svg";

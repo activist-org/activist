@@ -10,7 +10,7 @@ export async function uploadOrganizationIconImage(
   try {
     const fd = new FormData();
     fd.append("entity_id", orgId);
-    fd.append("entity_type", EntityType.ORGANIZATION);
+    fd.append("entity_type", EntityMap.ORGANIZATION);
     fd.append("file_object", file.file);
     await post(`/content/image_icon`, fd);
   } catch (e) {
@@ -65,7 +65,7 @@ export async function uploadOrganizationImages(
 
     const fd = new FormData();
     fd.append("entity_id", orgId);
-    fd.append("entity_type", EntityType.ORGANIZATION); // backend expects EntityType.ORGANIZATION; if you have enum, adjust
+    fd.append("entity_type", EntityMap.ORGANIZATION);
     for (const s of sequences) fd.append("sequences", String(s));
     for (const f of files) fd.append("file_object", f.file);
 

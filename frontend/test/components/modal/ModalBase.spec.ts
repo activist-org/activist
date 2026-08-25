@@ -36,7 +36,7 @@ const createWrapper = (props: Partial<ModalProps> = {}, slots = {}) =>
     props: { modalName: "testModal", ...props },
     slots,
     global: {
-      mocks: { $t: (key: string) => key },
+      mocks: { t: (key: string) => key },
       stubs: {
         // Stub teleport to render content inline so wrapper.find() still works.
         teleport: true,

@@ -13,25 +13,24 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
   pointer?: Pointer;
-  type: MapType;
+  type: MapViewMapType;
   pointers?: PointerCluster[];
   clusterProperties?: ClusterProperties;
   clusterTooltipCreate?: (pointer: unknown) => PopupContent;
   pointerTooltipCreate?: (pointer: Pointer) => PopupContent;
 }>();
 
-const { createMap, isWebglSupported, addDefaultControls } = useMap();
+const { t } = useI18n();
+const colorMode = useColorMode();
+const { setMapLayers, setMap } = useRouting();
 
+const { createMap, isWebglSupported, addDefaultControls } = useMap();
 const { createMapForClusterTypeMap } = useClusterMap();
 const { createMapForPointerTypeMap } = usePointerMap();
 
 // MARK: Map Tooltip Helper
 
 // Returns a <div> containing the whole card so we can pass it to popup.setDOMContent().
-
-const { t } = useI18n();
-const colorMode = useColorMode();
-const { setMapLayers, setMap } = useRouting();
 
 const isTouchDevice =
   // Note: `maxTouchPoints` isn't recognized by TS. Safe to ignore.
@@ -79,14 +78,14 @@ onMounted(() => {
     setMapLayers(mapLayers);
     setMap(map);
 
-    if (props.type === MapType.POINT) {
+    if (props.type === MapViewMap.POINT) {
       if (!props.pointer) {
         return;
       }
       const pointer: Pointer = props.pointer;
       createMapForPointerTypeMap(map, pointer, isTouchDevice);
     }
-    if (props.type === MapType.CLUSTER) {
+    if (props.type === MapViewMap.CLUSTER) {
       if (!props.pointers || props.pointers.length === 0) {
         return;
       }

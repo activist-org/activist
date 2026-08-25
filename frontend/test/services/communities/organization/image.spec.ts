@@ -38,14 +38,14 @@ describe("services/communities/organization/image", () => {
   });
 
   it("uploadOrganizationIconImage() posts FormData to image_icon", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { post } = getMocks();
+    post.mockResolvedValueOnce({ ok: true });
 
     const file = new File(["abc"], "x.png", { type: "image/png" });
     await uploadOrganizationIconImage("org-1", { file });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url, opts] = getFetchCall(fetchMock);
+    expect(post).toHaveBeenCalledTimes(1);
+    const [url, opts] = getFetchCall(post);
     expect(url).toBe("/content/image_icon");
     expect(opts.method).toBe("POST");
     expect(typeof opts.baseURL).toBe("string");
@@ -55,8 +55,8 @@ describe("services/communities/organization/image", () => {
   // MARK: Update
 
   it("updateOrganizationImage() puts JSON with content-type header", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce({ ok: true });
+    const { put } = getMocks();
+    put.mockResolvedValueOnce({ ok: true });
     const img: ContentImage = {
       id: "img-1",
       url: "u",
@@ -68,7 +68,7 @@ describe("services/communities/organization/image", () => {
     await updateOrganizationImage("org-1", img);
 
     expectJsonRequest(
-      fetchMock,
+      put,
       "/communities/organization/org-1/images/img-1",
       "PUT",
       img
@@ -76,23 +76,23 @@ describe("services/communities/organization/image", () => {
   });
 
   it("fetchOrganizationImages() gets images using authenticated client", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const returned: ContentImage[] = [];
-    fetchMock.mockResolvedValueOnce(returned);
+    get.mockResolvedValueOnce(returned);
 
     const res = await fetchOrganizationImages("org-2");
     expect(res).toBe(returned);
 
-    expectRequest(fetchMock, "/communities/organization/org-2/images", "GET");
-    const [, opts] = getFetchCall(fetchMock);
+    expectRequest(get, "/communities/organization/org-2/images", "GET");
+    const [, opts] = getFetchCall(get);
     // Authorization is now added by server-side middleware, not the client helper.
     expect(opts.baseURL).toBe("/api/public");
   });
 
   it("uploadOrganizationImages() validates the batch before posting FormData", async () => {
-    const { fetchMock } = getMocks();
+    const { post } = getMocks();
     const files = [new File(["a"], "a.png"), new File(["b"], "b.png")];
-    fetchMock.mockResolvedValueOnce([]);
+    post.mockResolvedValueOnce([]);
 
     await uploadOrganizationImages(
       "org-3",
@@ -104,7 +104,7 @@ describe("services/communities/organization/image", () => {
       files[0].size,
       files[1].size,
     ]);
-    const [url, opts] = getFetchCall(fetchMock);
+    const [url, opts] = getFetchCall(post);
     expect(url).toBe("/content/images");
     expect(opts.method).toBe("POST");
     expect(typeof opts.baseURL).toBe("string");
@@ -132,8 +132,8 @@ describe("services/communities/organization/image", () => {
   // MARK: Error Handling
 
   it("propagates AppError on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { post } = getMocks();
+    post.mockRejectedValueOnce(new Error("boom"));
     await expect(
       uploadOrganizationIconImage("org-err", { file: new File(["x"], "x.png") })
     ).rejects.toBeInstanceOf(AppError);

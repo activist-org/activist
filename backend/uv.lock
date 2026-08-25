@@ -116,6 +116,7 @@ dependencies = [
     { name = "django-ical" },
     { name = "django-stubs" },
     { name = "django-stubs-ext" },
+    { name = "django-tasks-db" },
     { name = "djangorestframework" },
     { name = "djangorestframework-camel-case" },
     { name = "djangorestframework-simplejwt" },
@@ -159,6 +160,7 @@ requires-dist = [
     { name = "django-ical", specifier = ">=1.9.2" },
     { name = "django-stubs", specifier = ">=6.1.0" },
     { name = "django-stubs-ext", specifier = ">=6.1.0" },
+    { name = "django-tasks-db", specifier = ">=0.12.0" },
     { name = "djangorestframework", specifier = ">=3.18.0" },
     { name = "djangorestframework-camel-case", specifier = ">=1.4.2" },
     { name = "djangorestframework-simplejwt", specifier = ">=5.5.1" },
@@ -178,7 +180,7 @@ audit = [{ name = "pysentry-rs", specifier = ">=0.4.9" }]
 complexity = [{ name = "complexipy", specifier = ">=7.0.1" }]
 dev = [
     { name = "factory-boy", specifier = ">=3.3.3" },
-    { name = "i18n-check", specifier = ">=1.20.2" },
+    { name = "i18n-check", specifier = ">=1.21.0" },
     { name = "mypy", specifier = ">=2.3.1" },
     { name = "numpydoc", specifier = ">=1.10.0" },
     { name = "prek", specifier = ">=0.4.13" },
@@ -504,6 +506,35 @@ wheels = [
 ]
 
 [[package]]
+name = "django-tasks"
+version = "0.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "django-stubs-ext" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1d/6e/34d4e77bb7951e5a5acbd846f43240f062c68bb04d9c246cb446a55d4cbc/django_tasks-0.12.0.tar.gz", hash = "sha256:58be66c1e487da32a3ce7320bd1949d0d1dc381b9004819f92591eb37fb2c1b8", size = 15445, upload-time = "2026-02-06T16:15:33.593Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/07/e7/40c45768e84efd77e3ae6ffdcd2b5540011036cbb00c6df6ef2a2ad69551/django_tasks-0.12.0-py3-none-any.whl", hash = "sha256:ffcc1d7bdfad3bc5ef9c2d498596c6546484c9ec6b182fb9709c691eb66a8709", size = 15758, upload-time = "2026-02-06T16:15:32.168Z" },
+]
+
+[[package]]
+name = "django-tasks-db"
+version = "0.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "django-stubs-ext" },
+    { name = "django-tasks" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f4/25/bc21ad4a610634f0a66f4faea4522eed26b55dbd50c4ac853128d24091d3/django_tasks_db-0.12.0.tar.gz", hash = "sha256:314d486b8c1786705b4afaf03dadaf0b1b104163acce9c5d9c9bb2aef205c501", size = 26724, upload-time = "2026-02-06T16:54:33.021Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/09/1c/e14198615e22df28b333540f2e506d6ddef7aff16d510818e94ebc01440c/django_tasks_db-0.12.0-py3-none-any.whl", hash = "sha256:69e3a1edcbf1efeeb1268da465e8ea5296ddd80834719769acc719b82da2d62e", size = 28832, upload-time = "2026-02-06T16:54:31.564Z" },
+]
+
+[[package]]
 name = "djangorestframework"
 version = "3.18.0"
 source = { registry = "https://pypi.org/simple" }
@@ -650,7 +681,7 @@ wheels = [
 
 [[package]]
 name = "i18n-check"
-version = "1.20.2"
+version = "1.21.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "packaging" },
@@ -658,9 +689,9 @@ dependencies = [
     { name = "requests" },
     { name = "rich" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1e/2b/9bcef79b56b21b7c99c03a167f305c60c2a1606ebd2d117801635a955d86/i18n_check-1.20.2.tar.gz", hash = "sha256:0fafa0bc8a5e7e03892d6cf918ecfc13d8cf4fdda6801ff92c80278001101155", size = 153068, upload-time = "2026-08-04T19:35:12.737Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3b/b9/d5fd86fc92ded4691d795f08d386fcbeabebcf9bf588b020e4fb490def56/i18n_check-1.21.0.tar.gz", hash = "sha256:f9b8da7cb1e1906ffa13dd85c81c8a7c06cecafd97758585a573622f0bd5e69d", size = 154084, upload-time = "2026-08-22T20:52:11.083Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/80/bc/a1e30da718e6a59f89b55e1b186408ea59a09b42655137c4c0d16c210140/i18n_check-1.20.2-py3-none-any.whl", hash = "sha256:554c511fe4d89e3d61e43af73e01d404440604222f5e95ef2582e33e4de92fb8", size = 77076, upload-time = "2026-08-04T19:35:13.806Z" },
+    { url = "https://files.pythonhosted.org/packages/5c/0a/fbccaa25254b44f45c0747cfc55a798e2653ce4e5f43105c2e6d7f645007/i18n_check-1.21.0-py3-none-any.whl", hash = "sha256:fba49cbea23060ffad404295ed051d19cda0af98b50372ca81a28adb019b4648", size = 77630, upload-time = "2026-08-22T20:52:09.75Z" },
 ]
 
 [[package]]
@@ -975,11 +1006,11 @@ wheels = [
 
 [[package]]
 name = "packaging"
-version = "26.2"
+version = "26.3"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/d7/f1/e7a6dd94a8d4a5626c03e4e99c87f241ba9e350cd9e6d75123f992427270/packaging-26.2.tar.gz", hash = "sha256:ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661", size = 228134, upload-time = "2026-04-24T20:15:23.917Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7d/fa/3944b40b07da9ce895c0e6303a5ab7d53da063554f534556b134a54d6093/packaging-26.3.tar.gz", hash = "sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79", size = 313412, upload-time = "2026-08-04T18:15:28.737Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/df/b2/87e62e8c3e2f4b32e5fe99e0b86d576da1312593b39f47d8ceef365e95ed/packaging-26.2-py3-none-any.whl", hash = "sha256:5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e", size = 100195, upload-time = "2026-04-24T20:15:22.081Z" },
+    { url = "https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl", hash = "sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c", size = 129956, upload-time = "2026-08-04T18:15:27.159Z" },
 ]
 
 [[package]]
@@ -1559,11 +1590,11 @@ wheels = [
 
 [[package]]
 name = "sqlparse"
-version = "0.5.5"
+version = "0.6.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/90/76/437d71068094df0726366574cf3432a4ed754217b436eb7429415cf2d480/sqlparse-0.5.5.tar.gz", hash = "sha256:e20d4a9b0b8585fdf63b10d30066c7c94c5d7a7ec47c889a2d83a3caa93ff28e", size = 120815, upload-time = "2025-12-19T07:17:45.073Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5f/d3/3f06a1006f2261d1342aefb3c71eed02f5d4ca5bdbecd86ebc12ad38306e/sqlparse-0.6.0.tar.gz", hash = "sha256:113c35c75365ab9cc9c7231d68c6428fb11c085fc8e9eb1ad659b7ddbf6cd2b9", size = 178477, upload-time = "2026-08-13T19:16:06.396Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/49/4b/359f28a903c13438ef59ebeee215fb25da53066db67b305c125f1c6d2a25/sqlparse-0.5.5-py3-none-any.whl", hash = "sha256:12a08b3bf3eec877c519589833aed092e2444e68240a3577e8e26148acc7b1ba", size = 46138, upload-time = "2025-12-19T07:17:46.573Z" },
+    { url = "https://files.pythonhosted.org/packages/d9/50/f00935da0ec7cbf325f8dc4f772ae46fbc7b672dd62876e73f0a94adda57/sqlparse-0.6.0-py3-none-any.whl", hash = "sha256:b861c0288ce2fa56209a9a6412d2e066ac664b3873b89c26c9d8415e8e32996f", size = 50070, upload-time = "2026-08-13T19:16:04.062Z" },
 ]
 
 [[package]]

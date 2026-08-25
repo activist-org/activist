@@ -15,7 +15,7 @@ describe("services/communities/organization/event", () => {
   // MARK: No Filters
 
   it("fetchOrganizationEvents() requests correct URL with no filters and maps response", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const apiItem = {
       id: "evt-1",
       name: "Event One",
@@ -33,17 +33,13 @@ describe("services/communities/organization/event", () => {
       orgs: { id: "org-1", name: "Org" },
       texts: [],
     };
-    fetchMock.mockResolvedValueOnce([apiItem]);
+    get.mockResolvedValueOnce([apiItem]);
 
     const result = await fetchOrganizationEvents("org-1", {});
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expectRequest(
-      fetchMock,
-      /\/communities\/organizations\/org-1\/events\?$/,
-      "GET"
-    );
-    const [, opts] = getFetchCall(fetchMock);
+    expect(get).toHaveBeenCalledTimes(1);
+    expectRequest(get, /\/communities\/organizations\/org-1\/events\?$/, "GET");
+    const [, opts] = getFetchCall(get);
     expect(opts.headers?.Authorization).toBeUndefined();
 
     expect(result).toHaveLength(1);
@@ -53,14 +49,14 @@ describe("services/communities/organization/event", () => {
   // MARK: Name Filter
 
   it("fetchOrganizationEvents() appends name filter to query", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce([]);
+    const { get } = getMocks();
+    get.mockResolvedValueOnce([]);
 
     await fetchOrganizationEvents("org-2", { name: "cleanup" });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(get).toHaveBeenCalledTimes(1);
     expectRequest(
-      fetchMock,
+      get,
       /\/communities\/organizations\/org-2\/events\?.*name=cleanup/,
       "GET"
     );
@@ -69,14 +65,14 @@ describe("services/communities/organization/event", () => {
   // MARK: Start Date Filter
 
   it("fetchOrganizationEvents() appends startDate filter to query", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce([]);
+    const { get } = getMocks();
+    get.mockResolvedValueOnce([]);
 
     await fetchOrganizationEvents("org-3", { startDate: "2026-01-01" });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(get).toHaveBeenCalledTimes(1);
     expectRequest(
-      fetchMock,
+      get,
       /\/communities\/organizations\/org-3\/events\?.*startDate=2026-01-01/,
       "GET"
     );
@@ -85,14 +81,14 @@ describe("services/communities/organization/event", () => {
   // MARK: End Date Filter
 
   it("fetchOrganizationEvents() appends endDate filter to query", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce([]);
+    const { get } = getMocks();
+    get.mockResolvedValueOnce([]);
 
     await fetchOrganizationEvents("org-4", { endDate: "2026-12-31" });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(get).toHaveBeenCalledTimes(1);
     expectRequest(
-      fetchMock,
+      get,
       /\/communities\/organizations\/org-4\/events\?.*endDate=2026-12-31/,
       "GET"
     );
@@ -101,8 +97,8 @@ describe("services/communities/organization/event", () => {
   // MARK: All Filters
 
   it("fetchOrganizationEvents() appends all filters to query", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockResolvedValueOnce([]);
+    const { get } = getMocks();
+    get.mockResolvedValueOnce([]);
 
     await fetchOrganizationEvents("org-5", {
       startDate: "2026-01-01",
@@ -110,8 +106,8 @@ describe("services/communities/organization/event", () => {
       name: "march",
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    const [url] = getFetchCall(fetchMock);
+    expect(get).toHaveBeenCalledTimes(1);
+    const [url] = getFetchCall(get);
     expect(url).toMatch(/startDate=2026-01-01/);
     expect(url).toMatch(/endDate=2026-12-31/);
     expect(url).toMatch(/name=march/);
@@ -120,7 +116,7 @@ describe("services/communities/organization/event", () => {
   // MARK: Mapping
 
   it("fetchOrganizationEvents() maps each item in the response via mapEvent", async () => {
-    const { fetchMock } = getMocks();
+    const { get } = getMocks();
     const apiItems = [
       {
         id: "evt-10",
@@ -157,7 +153,7 @@ describe("services/communities/organization/event", () => {
         texts: undefined,
       },
     ];
-    fetchMock.mockResolvedValueOnce(apiItems);
+    get.mockResolvedValueOnce(apiItems);
 
     const result = await fetchOrganizationEvents("org-5", {});
 
@@ -174,8 +170,8 @@ describe("services/communities/organization/event", () => {
   // MARK: Error Handling
 
   it("fetchOrganizationEvents() propagates AppError via errorHandler on failure", async () => {
-    const { fetchMock } = getMocks();
-    fetchMock.mockRejectedValueOnce(new Error("boom"));
+    const { get } = getMocks();
+    get.mockRejectedValueOnce(new Error("boom"));
 
     await expect(fetchOrganizationEvents("org-err", {})).rejects.toBeInstanceOf(
       AppError

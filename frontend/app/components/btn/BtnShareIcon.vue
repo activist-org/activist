@@ -47,7 +47,7 @@
       class="text-accepted-green hover:text-accepted-green dark:text-accepted-green dark:hover:text-accepted-green"
       :iconName="IconMap.SQUARE_CHECK"
       :iconSize="iconSize"
-      :text="$t('i18n.components.btn_share_icon.url_copied')"
+      :text="t('i18n.components.btn_share_icon.url_copied')"
     />
     <p
       v-if="reasonForSuggesting"
@@ -119,8 +119,10 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const contentCopied = ref(false);
 const { showToastInfo } = useToaster();
+
+const contentCopied = ref(false);
+
 type ShareKeys = "signal" | "matrix" | "instagram";
 
 const getCurrentI18n: Record<ShareKeys, string> = {

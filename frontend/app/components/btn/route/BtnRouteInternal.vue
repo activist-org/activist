@@ -2,7 +2,7 @@
 <template>
   <NuxtLink
     :id="id"
-    :aria-label="$t(ariaLabel)"
+    :aria-label="t(ariaLabel)"
     class="btn-base-class rounded-md xl:rounded-lg"
     :class="btnDynamicClass"
     :to="localePath(`${linkTo}`)"
@@ -25,4 +25,6 @@ const props = defineProps<BtnRoute>();
 const localePath = useLocalePath();
 
 const btnDynamicClass = getBtnDynamicClass(props.cta, props.fontSize);
+
+const { t } = useI18n();
 </script>

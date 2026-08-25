@@ -10,7 +10,7 @@
     <div class="mx-auto h-[260px] w-3/4">
       <ImageEvent
         :alt="
-          $t('i18n._global.entity_logo', {
+          t('i18n._global.entity_logo', {
             entity_name: event?.name,
           })
         "
@@ -46,8 +46,8 @@
           <p
             class="width-5/6 hover:menu-selection select-none whitespace-nowrap text-lg font-bold"
           >
-            <span class="sr-only">{{ $t("i18n._global.navigate_to") }}</span>
-            {{ $t(button.label) }}
+            <span class="sr-only">{{ t("i18n._global.navigate_to") }}</span>
+            {{ t(button.label) }}
           </p>
         </div>
       </MenuLinkWrapper>
@@ -70,8 +70,8 @@ const props = defineProps<{
   event: CommunityEvent;
 }>();
 
+const { t } = useI18n();
 const localPath = useLocalePath();
-
 const { eventEntry } = useMenuEntriesState();
 
 const eventButtons: MenuSelector[] = [];

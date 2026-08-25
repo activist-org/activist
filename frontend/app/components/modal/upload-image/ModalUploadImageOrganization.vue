@@ -4,10 +4,10 @@
     <div>
       <DialogTitle>
         <h2 v-if="uploadLimit > 1" class="font-bold">
-          {{ $t("i18n.components.modal.upload_image._global.upload_images") }}
+          {{ t("i18n.components.modal.upload_image._global.upload_images") }}
         </h2>
         <h2 v-else class="font-bold">
-          {{ $t("i18n.components.modal.upload_image._global.upload_an_image") }}
+          {{ t("i18n.components.modal.upload_image._global.upload_an_image") }}
         </h2>
       </DialogTitle>
       <div class="mt-4">
@@ -45,6 +45,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   uploadLimit: 10,
 });
+
+const { t } = useI18n();
 
 const orgId = computed(() => props.orgId);
 

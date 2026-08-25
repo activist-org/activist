@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 export const useGetLabelByKeyFilter = () => {
-  const { $countryName } = useNuxtApp();
   const { t } = useI18n();
+  const { $countryName } = useNuxtApp();
 
   const keyLabel: Record<string, (value: unknown) => string> = {
     topics: (value: unknown) => {

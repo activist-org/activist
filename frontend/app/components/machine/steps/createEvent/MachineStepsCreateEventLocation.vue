@@ -19,12 +19,12 @@
       class="space-y-4"
       :initial-values="initialLocationData"
       :schema="locationSchema"
-      :submit-label="$t('i18n.components.machine.steps._global.next_step')"
+      :submit-label="t('i18n.components.machine.steps._global.next_step')"
     >
       <FormItem
         v-slot="{ id, handleChange, value }"
         :label="
-          $t(
+          t(
             'i18n.components.machine_steps_create_event_location.select_location'
           )
         "
@@ -49,6 +49,10 @@
 <script setup lang="ts">
 import { z } from "zod";
 
+const { t } = useI18n();
+
+const flow = inject<FlowControls>("flow");
+
 const query = ref<Record<string, string> | null>(null);
 const options = ref<RadioOption[]>([]);
 const handleSubmitLocation = (values: unknown) => {
@@ -60,7 +64,6 @@ const handleSubmitLocation = (values: unknown) => {
     city: valuesTyped.city,
   };
 };
-const flow = inject<FlowControls>("flow");
 
 const initialLocationData = computed(() => {
   const ctx = flow?.context?.value;
