@@ -2,19 +2,19 @@
 <template>
   <div class="flex-col">
     <h4 class="font-bold">
-      {{ $t(headerText) }}
+      {{ t(headerText) }}
     </h4>
     <ul v-if="!helpNeeded" class="list-disc space-y-1 pb-1 pl-4 pt-3">
       <li class="space-x-1">
         <span>
-          {{ $t("i18n.components.page_community_footer.invite_text_2_1") }}
+          {{ t("i18n.components.page_community_footer.invite_text_2_1") }}
         </span>
         <a
           class="link-text inline-link-underline items-center focus-brand"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
-          {{ $t("i18n._global.on_github") }}
+          {{ t("i18n._global.on_github") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
@@ -22,19 +22,19 @@
           />
         </a>
         <span>
-          {{ $t("i18n.components.page_community_footer.invite_text_2_3") }}
+          {{ t("i18n.components.page_community_footer.invite_text_2_3") }}
         </span>
       </li>
       <li class="space-x-1">
         <span>
-          {{ $t("i18n.components.page_community_footer.invite_text_3_1") }}
+          {{ t("i18n.components.page_community_footer.invite_text_3_1") }}
         </span>
         <a
           class="link-text inline-link-underline items-center focus-brand"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
-          {{ $t("i18n._global.public_matrix_chat_rooms") }}
+          {{ t("i18n._global.public_matrix_chat_rooms") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
@@ -42,17 +42,17 @@
           />
         </a>
         <span>
-          {{ $t("i18n.components.page_community_footer.invite_text_3_3") }}
+          {{ t("i18n.components.page_community_footer.invite_text_3_3") }}
         </span>
       </li>
       <li class="space-x-1">
-        <span>{{ $t("i18n.components.page_community_footer.visit_our") }}</span>
+        <span>{{ t("i18n.components.page_community_footer.visit_our") }}</span>
         <a
           class="link-text inline-link-underline items-center focus-brand"
           href="https://hosted.weblate.org/projects/activist/activist"
           target="_blank"
         >
-          {{ $t("i18n.components.page_community_footer.invite_text_4_2") }}
+          {{ t("i18n.components.page_community_footer.invite_text_4_2") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
@@ -60,21 +60,21 @@
           />
         </a>
         <span>
-          {{ $t("i18n.components.page_community_footer.invite_text_4_3") }}
+          {{ t("i18n.components.page_community_footer.invite_text_4_3") }}
         </span>
       </li>
     </ul>
     <ul v-else class="list-disc space-y-1 pb-1 pl-4 pt-3">
       <li>
         <span>
-          {{ $t("i18n.components.page_community_footer.need_help_text_1_1") }}
+          {{ t("i18n.components.page_community_footer.need_help_text_1_1") }}
         </span>
         <a
           class="link-text inline-link-underline items-center focus-brand"
           href="https://matrix.to/#/#activist_community:matrix.org"
           target="_blank"
         >
-          {{ $t("i18n._global.public_matrix_chat_rooms") }}
+          {{ t("i18n._global.public_matrix_chat_rooms") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
@@ -82,19 +82,19 @@
           />
         </a>
         <span>
-          {{ $t("i18n.components.page_community_footer.need_help_text_1_3") }}
+          {{ t("i18n.components.page_community_footer.need_help_text_1_3") }}
         </span>
       </li>
       <li>
         <span>
-          {{ $t("i18n.components.page_community_footer.need_help_text_2_1") }}
+          {{ t("i18n.components.page_community_footer.need_help_text_2_1") }}
         </span>
         <a
           class="link-text inline-link-underline items-center focus-brand"
           href="https://github.com/orgs/activist-org"
           target="_blank"
         >
-          {{ $t("i18n.components._global.github") }}
+          {{ t("i18n.components._global.github") }}
           <Icon
             :name="IconMap.EXTERNAL_LINK"
             size="1em"
@@ -102,7 +102,7 @@
           />
         </a>
         <span>
-          {{ $t("i18n.components.page_community_footer.need_help_text_2_3") }}
+          {{ t("i18n.components.page_community_footer.need_help_text_2_3") }}
         </span>
       </li>
     </ul>
@@ -122,6 +122,8 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   header: "i18n.components.page_community_footer.invite_text_1",
 });
+
+const { t } = useI18n();
 
 const headerText = ref(props.header);
 

@@ -29,11 +29,11 @@
             'text-layer-1': selected,
           }"
         >
-          <span class="sr-only">{{ $t("i18n._global.navigate_to") }}</span>
-          {{ $t(label) }}
+          <span class="sr-only">{{ t("i18n._global.navigate_to") }}</span>
+          {{ t(label) }}
         </p>
         <p v-else class="sr-only">
-          {{ $t("i18n._global.navigate_to") }} {{ $t(label) }}
+          {{ t("i18n._global.navigate_to") }} {{ t(label) }}
         </p>
       </Transition>
     </div>
@@ -49,6 +49,7 @@ const props = defineProps<{
   id?: string;
 }>();
 
+const { t } = useI18n();
 const sidebar = useSidebar();
 const route = useRoute();
 const preserveNextQuery = useState("preserveNextQuery", () => true);

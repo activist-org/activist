@@ -13,7 +13,7 @@
     <div class="flex items-center" :class="{ 'max-sm:grow': isSelector }">
       <Icon v-if="icon" class="my-1 h-5 w-5 shrink-0" :name="icon" size="1em" />
       <p class="select-none pl-2 text-center text-base font-bold">
-        {{ $t(label) }}
+        {{ t(label) }}
       </p>
     </div>
     <Icon v-if="active && isSelector" :name="IconMap.X_LG" size="20" />
@@ -25,11 +25,13 @@ export interface Props {
   label: string;
   active?: boolean;
   isSelector?: boolean;
-  icon?: IconMap;
+  icon?: IconMapType;
 }
 
 withDefaults(defineProps<Props>(), {
   active: true,
   isSelector: false,
 });
+
+const { t } = useI18n();
 </script>

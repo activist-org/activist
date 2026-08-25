@@ -122,20 +122,21 @@ jobs:
         run: |
           cd backend
 
+          echo "\n" >> ../reports.md
           echo "\n## Backend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
-          # echo -e "\n### Ruff Format Results" >> ../reports.md
+          # echo -e "\n### Ruff Format Results\n" >> ../reports.md
           # echo "\`\`\`" >> ../reports.md
           # uv run ruff format . 2>&1 | tee -a ../reports.md || true
           # echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Ruff Lint Results" >> ../reports.md
+          echo -e "\n### Ruff Lint Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           uv run ruff check . 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### mypy Results" >> ../reports.md
+          echo -e "\n### mypy Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           uv run mypy . --config-file ./pyproject.toml 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
@@ -146,7 +147,7 @@ jobs:
 
           # Note: We're in the project root now and will write to reports.md instead of ../reports.md.
           # Note: We run pytest with --quiet --disable-warnings --tb=line to only record the failures in a quiet output.
-          echo -e "\n### Pytest Results" >> reports.md
+          echo -e "\n### Pytest Results\n" >> reports.md
           echo "\`\`\`" >> reports.md
           docker exec django_backend uv run pytest --quiet --disable-warnings --tb=line --cov=. --cov-report=term-missing --cov-fail-under=85 --cov-config=pyproject.toml 2>&1 | tee -a reports.md || true
           echo "\`\`\`" >> reports.md
@@ -156,26 +157,27 @@ jobs:
         working-directory: ./frontend
         continue-on-error: true
         run: |
+          echo "\n" >> ../reports.md
           echo "\n## Frontend Tests" >> ../reports.md
 
           # Note: Don't check formatting.
           # echo "compare_versions.js" >> ../.prettierignore
-          # echo -e "\n### Prettier Results" >> ../reports.md
+          # echo -e "\n### Prettier Results\n" >> ../reports.md
           # echo "\`\`\`" >> ../reports.md
           # yarn prettier . --check --config ../.prettierrc --ignore-path ../.prettierignore 2>&1 | tee -a ../reports.md || true
           # echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### ESLint Results" >> ../reports.md
+          echo -e "\n### ESLint Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn lint 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Type Check Results" >> ../reports.md
+          echo -e "\n### Type Check Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn typecheck 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md
 
-          echo -e "\n### Vitest Results" >> ../reports.md
+          echo -e "\n### Vitest Results\n" >> ../reports.md
           echo "\`\`\`" >> ../reports.md
           yarn test --reporter=dot --silent='passed-only' --no-color 2>&1 | tee -a ../reports.md || true
           echo "\`\`\`" >> ../reports.md

@@ -4,7 +4,7 @@
     :isMenuButtonUppercase="false"
     :location="location"
     :menuButtonIcon="IconMap.CIRCLE_INFO"
-    :menuButtonLabel="$t('i18n.components.dropdown_info.info')"
+    :menuButtonLabel="t('i18n.components.dropdown_info.info')"
     menuButtonAriaLabel="i18n.components.dropdown_info.info_aria_label"
   >
     <DropdownItemsLayout :location="location" :options="infoOptions" />
@@ -13,8 +13,10 @@
 
 <script setup lang="ts">
 defineProps<{
-  location?: DropdownLocation;
+  location?: DropdownLocationType;
 }>();
+
+const { t } = useI18n();
 
 const infoOptions: MenuSelector[] = [
   {

@@ -8,14 +8,14 @@
     <div class="flex space-x-3">
       <p>🚧</p>
       <div class="flex flex-col space-y-1">
-        <p>{{ $t("i18n.components.header_app_page.under_development") }}</p>
+        <p>{{ t("i18n.components.header_app_page.under_development") }}</p>
         <div class="flex space-x-3">
           <a
             class="link-text flex items-center space-x-1 focus-brand"
             href="https://github.com/activist-org/activist"
             target="_blank"
           >
-            <p>{{ $t("i18n.components._global.github") }}</p>
+            <p>{{ t("i18n.components._global.github") }}</p>
             <Icon
               class="mb-1"
               :name="IconMap.EXTERNAL_LINK"
@@ -29,7 +29,7 @@
             href="https://matrix.to/#/#activist_community:matrix.org"
             target="_blank"
           >
-            <p>{{ $t("i18n.components._global.matrix") }}</p>
+            <p>{{ t("i18n.components._global.matrix") }}</p>
             <Icon
               class="mb-1"
               :name="IconMap.EXTERNAL_LINK"
@@ -55,7 +55,7 @@
     class="flex w-full grow flex-col justify-between space-y-4 pt-2 lg:flex-row lg:items-center lg:space-y-0 xl:pt-4"
   >
     <h4 v-if="statusPending" class="warn-text">
-      {{ $t("i18n.components.header_app_page.status_pending") }}
+      {{ t("i18n.components.header_app_page.status_pending") }}
     </h4>
     <h4 v-else-if="headerTagline" class="distinct-text">
       {{ headerTagline }}
@@ -66,6 +66,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const props = defineProps<{
   header?: string;
   tagline?: string;

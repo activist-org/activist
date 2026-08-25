@@ -10,7 +10,7 @@ export async function uploadEventIconImage(
   try {
     const fd = new FormData();
     fd.append("entity_id", eventId);
-    fd.append("entity_type", EntityType.EVENT);
+    fd.append("entity_type", EntityMap.EVENT);
     fd.append("file_object", file.file);
     await post(`/content/image_icon`, fd);
   } catch (e) {

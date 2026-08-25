@@ -4,15 +4,15 @@
     @submit="handleSubmit"
     :initial-values="formData as undefined"
     :schema="schema"
-    :submit-label="$t(submitLabel)"
+    :submit-label="t(submitLabel)"
   >
     <h2 v-if="title">
-      {{ $t(title) }}
+      {{ t(title) }}
     </h2>
     <div class="flex flex-col space-y-7">
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.form_faq_entry.question')"
+        :label="t('i18n.components.form_faq_entry.question')"
         name="question"
         :required="true"
       >
@@ -26,7 +26,7 @@
       </FormItem>
       <FormItem
         v-slot="{ id, handleChange, handleBlur, errorMessage, value }"
-        :label="$t('i18n.components.form_faq_entry.answer')"
+        :label="t('i18n.components.form_faq_entry.answer')"
         name="answer"
         :required="true"
       >

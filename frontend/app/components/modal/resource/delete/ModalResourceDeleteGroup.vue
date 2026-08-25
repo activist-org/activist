@@ -2,7 +2,7 @@
 <template>
   <ModalAlert
     @confirm="handleDelete"
-    :message="$t('i18n.components.modal.resource.delete._global.message')"
+    :message="t('i18n.components.modal.resource.delete._global.message')"
     :modalName="modalName"
   />
 </template>
@@ -12,6 +12,8 @@ const props = defineProps<{
   resourceId: string;
   entityId: string;
 }>();
+
+const { t } = useI18n();
 
 const groupId = computed(() => props.entityId);
 

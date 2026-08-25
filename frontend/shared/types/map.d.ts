@@ -40,3 +40,5 @@ export interface ClusterProperties {
     };
   };
 }
+
+export type MapViewMapType = (typeof MapViewMap)[keyof typeof MapViewMap];

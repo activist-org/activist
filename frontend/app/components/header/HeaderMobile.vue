@@ -13,7 +13,7 @@
           class="my-1.5"
           :class="{ 'w-full': isSearchExpanded }"
           :expanded="isSearchExpanded"
-          :location="SearchBarLocation.HEADER"
+          :location="searchBarLocation"
         />
         <IconActivist
           v-if="!isSearchExpanded"
@@ -25,25 +25,19 @@
               id="create"
               v-if="userIsSignedIn"
               class="w-full"
-              :location="DropdownLocation.SIDE_MENU"
+              :location="dropdownLocation"
             />
             <DropdownInfo
               id="info"
               class="w-full"
-              :location="DropdownLocation.SIDE_MENU"
+              :location="dropdownLocation"
             />
-            <DropdownTheme
-              class="w-full"
-              :location="DropdownLocation.SIDE_MENU"
-            />
-            <DropdownLanguage
-              class="w-full"
-              :location="DropdownLocation.SIDE_MENU"
-            />
+            <DropdownTheme class="w-full" :location="dropdownLocation" />
+            <DropdownLanguage class="w-full" :location="dropdownLocation" />
             <DropdownUserOptions
               id="user-options"
               class="w-full"
-              :location="DropdownLocation.SIDE_MENU"
+              :location="dropdownLocation"
               :userIsSignedIn="userIsSignedIn"
             />
           </div>
@@ -55,6 +49,9 @@
 
 <script setup lang="ts">
 const aboveMediumBP = useBreakpoint("md");
+
+const dropdownLocation = DropdownLocation.SIDE_MENU;
+const searchBarLocation = SearchBarLocation.HEADER;
 
 const { userIsSignedIn } = useUser();
 
