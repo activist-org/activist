@@ -7,8 +7,6 @@
 
 @source "../../composables/**/*.ts";
 
-
-
 @plugin "tailwind-scrollbar" {
   nocompatible: true;
 }
