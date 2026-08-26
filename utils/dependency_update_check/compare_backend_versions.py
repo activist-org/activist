@@ -3,8 +3,37 @@
 Ran as a part of the dependency_update_check GitHub Action to derive potential backend updates.
 """
 
+import json
+import os
 import re
 import subprocess
+from pathlib import Path
+
+PYPROJECT_PATH = Path("pyproject.toml")
+
+
+def apply_constraints(max_versions: dict[str, str]) -> str | None:
+    if not max_versions:
+        return None
+
+    original = PYPROJECT_PATH.read_text()
+    constraints = ", ".join(f'"{pkg}<={ver}"' for pkg, ver in max_versions.items())
+    constraint_line = f"constraint-dependencies = [{constraints}]\n"
+
+    if match := re.search(r"^\[tool\.uv\]\n", original, flags=re.MULTILINE):
+        insert_at = match.end()
+        updated = original[:insert_at] + constraint_line + original[insert_at:]
+    else:
+        updated = original + f"\n[tool.uv]\n{constraint_line}"
+
+    PYPROJECT_PATH.write_text(updated)
+
+    return original
+
+
+def restore_pyproject(original: str | None) -> None:
+    if original is not None:
+        PYPROJECT_PATH.write_text(original)
 
 
 def capture_and_pint_uv_upgrades() -> None:
@@ -33,4 +62,10 @@ def capture_and_pint_uv_upgrades() -> None:
 
 
 if __name__ == "__main__":
-    capture_and_pint_uv_upgrades()
+    max_versions = json.loads(os.environ.get("BACKEND_MAX_VERSIONS", "{}"))
+    original_pyproject = apply_constraints(max_versions)
+
+    try:
+        capture_and_pint_uv_upgrades()
+    finally:
+        restore_pyproject(original_pyproject)
