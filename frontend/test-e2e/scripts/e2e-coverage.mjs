@@ -26,7 +26,11 @@ import {
 import { dirname, join, relative } from "path";
 import { fileURLToPath } from "url";
 
-import { CATEGORIES, ID_PREFIXES, SCENARIO_FLOWS } from "../scenario-matrix.mjs";
+import {
+  CATEGORIES,
+  ID_PREFIXES,
+  SCENARIO_FLOWS,
+} from "../scenario-matrix.mjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const ROOT = join(__dirname, "../..");
@@ -793,11 +797,10 @@ function formatMatchedTests(item) {
   if (item.status === "missing") return "-";
   const titles = item.testTitles ?? [];
   if (titles.length === 0) return "-";
-  const shown = titles.slice(0, 3).map((title) =>
-    `\`${title.replace(/\|/g, "/")}\``
-  );
-  const extra =
-    titles.length > 3 ? `, +${titles.length - 3} more` : "";
+  const shown = titles
+    .slice(0, 3)
+    .map((title) => `\`${title.replace(/\|/g, "/")}\``);
+  const extra = titles.length > 3 ? `, +${titles.length - 3} more` : "";
   return `${shown.join(", ")}${extra}`;
 }
 
@@ -910,7 +913,9 @@ function renderScenarioMarkdown(report) {
     for (const flow of matrix.flows) {
       lines.push(`### ${flow.id} ${flow.name}`);
       lines.push("");
-      lines.push(`**${flow.covered}/${flow.required}** covered (${flow.pct}%).`);
+      lines.push(
+        `**${flow.covered}/${flow.required}** covered (${flow.pct}%).`
+      );
       lines.push("");
       lines.push("| ID | Cat | Scenario | Status | Spec | Matched test |");
       lines.push("|----|-----|----------|--------|------|--------------|");
