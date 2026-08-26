@@ -210,20 +210,20 @@ Sometimes one spec file covers several behaviors. Then the row also names a `tit
 
 #### How to run the report
 
-From `frontend/` (`yarn test:e2e:coverage` is the first command):
+From `frontend/` (`yarn test:e2e:coverage` is the same as the first command):
 
 ```bash
-# Short terminal summary (scenario % plus uncovered URLs):
+# Summary, category table, and missing rows (start here):
 node test-e2e/scripts/e2e-coverage.mjs
 
-# Full report: every id, covered or not (use this when you want the matrix):
-node test-e2e/scripts/e2e-coverage.mjs --full --markdown
-
 # Same report, saved to test-results/e2e-coverage-latest.md:
-node test-e2e/scripts/e2e-coverage.mjs --full --markdown --out
+node test-e2e/scripts/e2e-coverage.mjs --out
 
-# Route table only (for pasting into issues):
-node test-e2e/scripts/e2e-coverage.mjs --markdown
+# Every catalog row, plus which test() title counted:
+node test-e2e/scripts/e2e-coverage.mjs --verbose
+
+# Route table only (URLs a spec opens):
+node test-e2e/scripts/e2e-coverage.mjs --routes
 
 # Only URLs that no test visits:
 node test-e2e/scripts/e2e-coverage.mjs --uncovered
@@ -232,7 +232,7 @@ node test-e2e/scripts/e2e-coverage.mjs --uncovered
 node test-e2e/scripts/e2e-coverage.mjs --json
 ```
 
-`--full` prints the scenario checklist, coverage by category (for example how many `PERM` cases are missing), and which `test()` title counted for each covered row. Without `--full` you still get the headline percentage, but not each id.
+The default report is the scenario checklist. `--verbose` adds every id and the `test()` title that counted, so you can spot a loose match.
 
 The script also still reports routes:
 
@@ -264,7 +264,7 @@ c("EF-CRUD-01", "CRUD", "Full FAQ CRUD happy path", "event-faq-page", {
 })
 ```
 
-Then from `frontend/` run `node test-e2e/scripts/e2e-coverage.mjs --full --markdown` and search the report for your id. It stays **missing** until a spec matches, then **covered**.
+Then from `frontend/` run `node test-e2e/scripts/e2e-coverage.mjs` and search the report for your id. It stays **missing** until a spec matches, then **covered**. Use `--verbose` if you want the matched test title.
 
 Set `required: false` if you want the row to stay in the list without lowering the percentage (not ready yet). Remove the row if the product no longer has that behavior.
 

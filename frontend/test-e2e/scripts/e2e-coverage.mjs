@@ -8,11 +8,11 @@
  *
  * Usage (from frontend/):
  *   node test-e2e/scripts/e2e-coverage.mjs
- *   node test-e2e/scripts/e2e-coverage.mjs --json
- *   node test-e2e/scripts/e2e-coverage.mjs --markdown
+ *   node test-e2e/scripts/e2e-coverage.mjs --out
+ *   node test-e2e/scripts/e2e-coverage.mjs --verbose
+ *   node test-e2e/scripts/e2e-coverage.mjs --routes
  *   node test-e2e/scripts/e2e-coverage.mjs --uncovered
- *   node test-e2e/scripts/e2e-coverage.mjs --full --markdown
- *   node test-e2e/scripts/e2e-coverage.mjs --full --markdown --out
+ *   node test-e2e/scripts/e2e-coverage.mjs --json
  */
 
 import { execSync } from "child_process";
@@ -40,20 +40,19 @@ const args = parseArgs(process.argv.slice(2));
 function parseArgs(argv) {
   const parsed = {
     json: false,
-    markdown: false,
+    routes: false,
     uncovered: false,
-    full: false,
+    verbose: false,
     out: false,
   };
-  for (let i = 0; i < argv.length; i++) {
-    const a = argv[i];
+  for (const a of argv) {
     if (a === "--json") parsed.json = true;
-    else if (a === "--markdown" || a === "--md") parsed.markdown = true;
-    else if (a === "--uncovered") parsed.uncovered = true;
-    else if (a === "--full") parsed.full = true;
+    else if (a === "--routes" || a === "--markdown" || a === "--md") {
+      parsed.routes = true;
+    } else if (a === "--uncovered") parsed.uncovered = true;
+    else if (a === "--verbose" || a === "--full") parsed.verbose = true;
     else if (a === "--out") parsed.out = true;
   }
-  if (parsed.full) parsed.markdown = true;
   return parsed;
 }
 
@@ -802,7 +801,7 @@ function formatMatchedTests(item) {
   return `${shown.join(", ")}${extra}`;
 }
 
-function renderFullMarkdown(report) {
+function renderScenarioMarkdown(report) {
   const matrix = report.scenarioMatrix;
   const lines = [];
   lines.push(`# E2E scenario coverage report`);
@@ -818,7 +817,11 @@ function renderFullMarkdown(report) {
   lines.push("Regenerate from `frontend/`:");
   lines.push("");
   lines.push("```bash");
-  lines.push("node test-e2e/scripts/e2e-coverage.mjs --full --markdown --out");
+  lines.push(
+    args.verbose
+      ? "node test-e2e/scripts/e2e-coverage.mjs --verbose --out"
+      : "node test-e2e/scripts/e2e-coverage.mjs --out"
+  );
   lines.push("```");
   lines.push("");
   lines.push("## Executive summary");
@@ -901,24 +904,31 @@ function renderFullMarkdown(report) {
     lines.push("");
   }
 
-  lines.push("## Flow details");
-  lines.push("");
-  for (const flow of matrix.flows) {
-    lines.push(`### ${flow.id} ${flow.name}`);
+  if (args.verbose) {
+    lines.push("## Flow details");
     lines.push("");
-    lines.push(`**${flow.covered}/${flow.required}** covered (${flow.pct}%).`);
-    lines.push("");
-    lines.push("| ID | Cat | Scenario | Status | Spec | Matched test |");
-    lines.push("|----|-----|----------|--------|------|--------------|");
-    for (const item of flow.cases) {
-      const spec =
-        item.specs && item.specs.length
-          ? item.specs.map(shortSpec).join(", ")
-          : "-";
-      lines.push(
-        `| ${item.id} | ${item.category} | ${item.name} | ${caseStatusLabel(item)} | \`${spec}\` | ${formatMatchedTests(item)} |`
-      );
+    for (const flow of matrix.flows) {
+      lines.push(`### ${flow.id} ${flow.name}`);
+      lines.push("");
+      lines.push(`**${flow.covered}/${flow.required}** covered (${flow.pct}%).`);
+      lines.push("");
+      lines.push("| ID | Cat | Scenario | Status | Spec | Matched test |");
+      lines.push("|----|-----|----------|--------|------|--------------|");
+      for (const item of flow.cases) {
+        const spec =
+          item.specs && item.specs.length
+            ? item.specs.map(shortSpec).join(", ")
+            : "-";
+        lines.push(
+          `| ${item.id} | ${item.category} | ${item.name} | ${caseStatusLabel(item)} | \`${spec}\` | ${formatMatchedTests(item)} |`
+        );
+      }
+      lines.push("");
     }
+  } else {
+    lines.push(
+      "Every row (matched spec and `test()` title): `node test-e2e/scripts/e2e-coverage.mjs --verbose`."
+    );
     lines.push("");
   }
 
@@ -1006,7 +1016,7 @@ function renderTerminal(report) {
   }
   lines.push("");
   lines.push(
-    `${DIM}Full flow report: node test-e2e/scripts/e2e-coverage.mjs --full --markdown${RESET}`
+    `${DIM}Scenario report: node test-e2e/scripts/e2e-coverage.mjs${RESET}`
   );
   lines.push("");
   return lines.join("\n");
@@ -1030,10 +1040,10 @@ const report = buildReport();
 
 if (args.json) {
   emit(JSON.stringify(report, null, 2));
-} else if (args.full) {
-  emit(renderFullMarkdown(report));
-} else if (args.markdown) {
+} else if (args.uncovered) {
+  emit(renderTerminal(report));
+} else if (args.routes) {
   emit(renderSimpleMarkdown(report));
 } else {
-  emit(renderTerminal(report));
+  emit(renderScenarioMarkdown(report));
 }

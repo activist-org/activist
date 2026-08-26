@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 /**
- * Required E2E scenarios. Scored by `e2e-coverage.mjs --full`.
+ * Required E2E scenarios. Scored by `e2e-coverage.mjs`.
  *
  * Case ids look like EF-PERM-01 (event FAQ, permissions, first case):
  *   EF   = area (see ID_PREFIXES)
@@ -9,7 +9,7 @@
  *
  * Example: c("L-DISP-01", "DISP", "Page title and hero visible", "landing-page/landing-page.spec")
  * Pass { title: "regex" } when one spec file covers more than one case.
- * Then run: node test-e2e/scripts/e2e-coverage.mjs --full --markdown
+ * Then run: node test-e2e/scripts/e2e-coverage.mjs
  * See FRONTEND_TESTING.md (Checking E2E coverage) for a longer walkthrough.
  */
 
