@@ -1,14 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
 <template>
   <NuxtLayout name="app">
-    <SidebarLeft
-      v-if="aboveMediumBP"
-      @blur="sidebarHover = false"
-      @focus="sidebarHover = true"
-      @mouseleave="sidebarHover = false"
-      @mouseover="sidebarHover = true"
-      class="fixed top-0 z-20 h-screen"
-    />
+    <SidebarLeft v-if="aboveMediumBP" class="fixed top-0 z-20 h-screen" />
     <div class="flex grid-rows-none flex-col md:grid md:grid-rows-[1fr_auto]">
       <div
         class="w-full min-w-0 bg-layer-0 pt-14 transition-[padding] duration-500 md:pt-0"
@@ -58,16 +51,14 @@ const showMobileEntityShortcut = computed(
     !normalizedRoutePath.value.endsWith(`/organizations/${orgId}`)
 );
 
-const sidebarHover = ref(false);
 const sidebarContentScrollable = useState<boolean>("sidebarContentScrollable");
 const { getSidebarContentDynamicClass, getSidebarFooterDynamicClass } =
   useSidebarClass();
 const sidebarContentDynamicClass = getSidebarContentDynamicClass(
-  sidebarContentScrollable.value,
-  sidebarHover
+  sidebarContentScrollable.value
 );
 
-const sidebarFooterDynamicClass = getSidebarFooterDynamicClass(sidebarHover);
+const sidebarFooterDynamicClass = getSidebarFooterDynamicClass();
 
 function handleEditOrganizationIcon(): void {
   if (!organization.value?.id) {

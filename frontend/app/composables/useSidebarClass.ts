@@ -2,10 +2,7 @@
 export const useSidebarClass = () => {
   const sidebar = useSidebar();
 
-  function getSidebarContentDynamicClass(
-    sidebarContentScrollable: boolean,
-    sidebarHover: Ref<boolean>
-  ) {
+  function getSidebarContentDynamicClass(sidebarContentScrollable: boolean) {
     return computed(() => {
       const collapsed = sidebar.collapsed && sidebar.collapsedSwitch;
       const expanded = !sidebar.collapsed || !sidebar.collapsedSwitch;
@@ -15,13 +12,11 @@ export const useSidebarClass = () => {
         "md:pl-20": collapsed && sidebarContentScrollable,
         "md:pl-56": expanded && !sidebarContentScrollable,
         "md:pl-60": expanded && sidebarContentScrollable,
-        "blur-sm xl:blur-none":
-          sidebar.collapsedSwitch && !sidebar.collapsed && sidebarHover.value,
       };
     });
   }
 
-  function getSidebarFooterDynamicClass(sidebarHover: Ref<boolean>) {
+  function getSidebarFooterDynamicClass() {
     return computed(() => {
       const collapsed = sidebar.collapsed && sidebar.collapsedSwitch;
       const expanded = !sidebar.collapsed || !sidebar.collapsedSwitch;
@@ -29,8 +24,6 @@ export const useSidebarClass = () => {
       return {
         "md:pl-24": collapsed,
         "md:pl-64": expanded,
-        "blur-sm xl:blur-none":
-          sidebar.collapsedSwitch && !sidebar.collapsed && sidebarHover.value,
       };
     });
   }
