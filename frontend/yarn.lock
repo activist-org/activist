@@ -1756,6 +1756,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nuxt/a11y@npm:1.0.0-alpha.1":
+  version: 1.0.0-alpha.1
+  resolution: "@nuxt/a11y@npm:1.0.0-alpha.1"
+  dependencies:
+    "@nuxt/devtools-kit": "npm:^3.1.1"
+    "@nuxt/kit": "npm:^4.2.2"
+    axe-core: "npm:^4.11.0"
+    sirv: "npm:^3.0.2"
+  checksum: 10c0/41fd4d4d06a3a0ba55a8b94b144e2006f21b72e81c5b76785d298b4fa4964624ada4f7f79d9c5cf1d61fcf8948109c1b5824ab895a2b4032ee9bedda64d02df8
+  languageName: node
+  linkType: hard
+
 "@nuxt/cli@npm:^3.37.0":
   version: 3.37.0
   resolution: "@nuxt/cli@npm:3.37.0"
@@ -1842,6 +1854,18 @@ __metadata:
   peerDependencies:
     vite: ">=6.0"
   checksum: 10c0/13fd0fd18cf450ea00790a85801b763975e41cabcc4d9e582903307dbf70b7eadf957daa63f24628a01254c203e5de893ad313a8e3d61132f5074e32fe45eb8f
+  languageName: node
+  linkType: hard
+
+"@nuxt/devtools-kit@npm:^3.1.1":
+  version: 3.4.2
+  resolution: "@nuxt/devtools-kit@npm:3.4.2"
+  dependencies:
+    "@nuxt/kit": "npm:^4.5.1"
+    execa: "npm:^8.0.1"
+  peerDependencies:
+    vite: ">=6.0"
+  checksum: 10c0/4c70f42162ef5947ea38bf43fda3b4940bddcb900f8cccfd9e6c974eac2b4f5847e2930cb9df0f69466b78f45653ecae19edbc484f72a004a27f035fb6ea663d
   languageName: node
   linkType: hard
 
@@ -2078,7 +2102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nuxt/kit@npm:4.5.2, @nuxt/kit@npm:^4.2.1, @nuxt/kit@npm:^4.3.1, @nuxt/kit@npm:^4.4.4, @nuxt/kit@npm:^4.4.6, @nuxt/kit@npm:^4.4.8, @nuxt/kit@npm:^4.5.1, @nuxt/kit@npm:^4.5.2":
+"@nuxt/kit@npm:4.5.2, @nuxt/kit@npm:^4.2.1, @nuxt/kit@npm:^4.2.2, @nuxt/kit@npm:^4.3.1, @nuxt/kit@npm:^4.4.4, @nuxt/kit@npm:^4.4.6, @nuxt/kit@npm:^4.4.8, @nuxt/kit@npm:^4.5.1, @nuxt/kit@npm:^4.5.2":
   version: 4.5.2
   resolution: "@nuxt/kit@npm:4.5.2"
   dependencies:
@@ -6121,6 +6145,7 @@ __metadata:
     "@floating-ui/dom": "npm:1.8.0"
     "@headlessui/vue": "npm:1.7.23"
     "@maplibre/maplibre-gl-directions": "npm:0.9.1"
+    "@nuxt/a11y": "npm:1.0.0-alpha.1"
     "@nuxt/devtools": "npm:3.3.1"
     "@nuxt/eslint": "npm:1.16.0"
     "@nuxt/eslint-config": "npm:1.16.0"
@@ -6507,6 +6532,13 @@ __metadata:
   version: 4.12.1
   resolution: "axe-core@npm:4.12.1"
   checksum: 10c0/03438bd98cef38ad57554feea0d8de21705001db2655c27e0c33ff55e16dd7d6f49c28fb420dc93f7532e68ff363c0953056a5836e6f47068f193eb1765c7db7
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:^4.11.0":
+  version: 4.13.0
+  resolution: "axe-core@npm:4.13.0"
+  checksum: 10c0/0e3be8be10eea64beddefd3007e1425424ff60c26c5f4d5f748ec48c2825356839c02ad4167fc1f03a6d84ecd82108f49fb2846ab7fe949273787391745561ca
   languageName: node
   linkType: hard
 
